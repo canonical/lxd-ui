@@ -55,6 +55,6 @@
     "stylelint-scss": "4.3.0",
     "watch-cli": "0.2.3",
     "webpack": "5.74.0",
-    "webpack-cli": "3.3.12"
+    "webpack-cli": "4.10.0"
   }
 }
