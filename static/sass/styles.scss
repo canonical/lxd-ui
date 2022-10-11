@@ -1,0 +1,20 @@
+@charset 'UTF-8';
+
+@import "settings";
+
+// import vanilla-framework
+@import "vanilla-framework/scss/build";
+
+@import "pattern_icon";
+@include lxdui-p-icon;
+@include vf-p-icon-applications;
+@include vf-p-icon-edit;
+@include vf-p-icon-switcher-dashboard;
+@include vf-p-icon-video-play;
+@include vf-p-icon-power-off;
+
+@import "pattern_navigation";
+@include lxd-ui-p-navigation;
+
+@import "pattern_table";
+@include table-images;

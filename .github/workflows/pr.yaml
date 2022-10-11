@@ -1,0 +1,57 @@
+name: PR checks
+on: pull_request
+
+jobs:
+  lint-scss:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint scss
+        run: yarn lint-scss
+
+  lint-js:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install node dependencies
+        run: yarn install --immutable
+
+      - name: Lint JS
+        run: yarn lint-js
+
+  lint-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install node dependencies
+        run: yarn install --immutable
+
+      - name: Install python dependencies
+        run: | 
+          python3 -m pip install --upgrade pip
+          sudo pip3 install flake8==3.7.9 black
+      - name: Lint python
+        run: yarn lint-python
+        
+  check-inclusive-naming:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check inclusive naming
+        uses: canonical-web-and-design/inclusive-naming@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          fail-on-error: true

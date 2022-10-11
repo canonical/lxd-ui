@@ -1,0 +1,16 @@
+@mixin table-images {
+  .p-table--images {
+    th,
+    td {
+      &:nth-child(3) {
+        width: 5rem;
+      }
+      &:nth-child(4) {
+        width: 14rem;
+      }
+      &:nth-child(5) {
+        width: 5rem;
+      }
+    }
+  }
+}

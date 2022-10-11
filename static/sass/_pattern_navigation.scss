@@ -1,0 +1,19 @@
+@mixin lxd-ui-p-navigation {
+  .p-panel__logo-image {
+    height: 1.5rem;
+  }
+
+  @media screen and (min-width: $breakpoint-small) {
+    .l-navigation:focus-within,
+    .l-navigation:hover {
+      grid-area: nav;
+      position: static;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-large) {
+    .p-panel__logo-image {
+      height: 11rem;
+    }
+  }
+}
