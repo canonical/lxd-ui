@@ -42,7 +42,7 @@
     "eslint-plugin-react": "7.28.0",
     "postcss": "8.4.17",
     "postcss-cli": "8.3.1",
-    "prettier": "2.5.1",
+    "prettier": "2.7.1",
     "prop-types": "15.8.1",
     "sass": "1.49.7",
     "sass-loader": "10.2.1",
