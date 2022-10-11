@@ -51,7 +51,7 @@
     "stylelint-config-prettier": "9.0.3",
     "stylelint-config-standard": "20.0.0",
     "stylelint-order": "4.1.0",
-    "stylelint-prettier": "1.2.0",
+    "stylelint-prettier": "2.0.0",
     "stylelint-scss": "3.21.0",
     "watch-cli": "0.2.3",
     "webpack": "5.74.0",
