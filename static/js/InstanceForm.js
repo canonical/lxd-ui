@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Col,
@@ -22,7 +22,7 @@ function InstanceForm() {
     },
   ]);
 
-  let history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchImageList().then((data) => {
@@ -56,7 +56,7 @@ function InstanceForm() {
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
       createInstance(values.name, values.image).then(() =>
-        history.push("/instances")
+        navigate("/instances")
       );
     },
   });

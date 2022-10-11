@@ -8,7 +8,9 @@ function ImageList() {
   const [images, setImages] = useState([]);
 
   const loadImages = () => fetchImageList().then(setImages);
-  useEffect(loadImages, []);
+  useEffect(() => {
+    loadImages();
+  }, []);
 
   const headers = [
     { content: "Alias" },

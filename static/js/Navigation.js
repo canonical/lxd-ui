@@ -66,7 +66,6 @@ function Navigation() {
                       <NavLink
                         className="p-side-navigation__link"
                         to="/instances"
-                        activeClassName="is-active"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--switcher-dashboard is-light p-side-navigation__icon"></i>{" "}
@@ -77,7 +76,6 @@ function Navigation() {
                       <NavLink
                         className="p-side-navigation__link"
                         to="/images"
-                        activeClassName="is-active"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--applications is-light p-side-navigation__icon"></i>{" "}
