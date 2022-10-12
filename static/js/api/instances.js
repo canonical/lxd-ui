@@ -1,11 +1,10 @@
 import { watchOperation } from "./operations";
+import { handleResponse } from "../helpers";
 
 const fetchInstanceState = (instanceName) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/instances/" + instanceName + "/state")
-      .then((response) => {
-        return response.json();
-      })
+    return fetch("/1.0/instances/" + instanceName + "/state")
+      .then(handleResponse)
       .then((data) => {
         resolve(data.metadata);
       })
@@ -15,15 +14,15 @@ const fetchInstanceState = (instanceName) => {
 
 const fetchInstance = (instanceUrl) => {
   return new Promise((resolve, reject) => {
-    fetch(instanceUrl)
-      .then((response) => {
-        return response.json();
-      })
+    return fetch(instanceUrl)
+      .then(handleResponse)
       .then((data) => {
-        fetchInstanceState(data.metadata.name).then((stateDate) => {
-          data.metadata.state = stateDate;
-          resolve(data.metadata);
-        });
+        fetchInstanceState(data.metadata.name)
+          .then((stateData) => {
+            data.metadata.state = stateData;
+            resolve(data.metadata);
+          })
+          .catch(reject);
       })
       .catch(reject);
   });
@@ -31,14 +30,17 @@ const fetchInstance = (instanceUrl) => {
 
 export const fetchInstances = () => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/instances")
-      .then((response) => {
-        return response.json();
-      })
+    return fetch("/1.0/instances")
+      .then(handleResponse)
       .then((data) => {
-        Promise.allSettled(data.metadata.map(fetchInstance)).then((details) => {
-          resolve(details.map((item) => item.value));
-        });
+        Promise.allSettled(data.metadata.map(fetchInstance))
+          .then((details) => {
+            if (details.filter((p) => p.status !== "fulfilled").length > 0) {
+              reject('Could not fetch image details.');
+            }
+            resolve(details.map((item) => item.value));
+          })
+          .catch(reject);
       })
       .catch(reject);
   });
@@ -46,7 +48,7 @@ export const fetchInstances = () => {
 
 export const createInstance = (name, imageFingerprint) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/instances", {
+    return fetch("/1.0/instances", {
       method: "POST",
       body: JSON.stringify({
         instance: {
@@ -58,11 +60,9 @@ export const createInstance = (name, imageFingerprint) => {
         },
       }),
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(handleResponse)
       .then((data) => {
-        watchOperation(data.operation).then(resolve);
+        return watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -74,11 +74,9 @@ export const startInstance = (instance) => {
       method: "PUT",
       body: '{"action": "start"}',
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(handleResponse)
       .then((data) => {
-        watchOperation(data.operation).then(resolve);
+        watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -90,11 +88,9 @@ export const stopInstance = (instance) => {
       method: "PUT",
       body: '{"action": "stop"}',
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(handleResponse)
       .then((data) => {
-        watchOperation(data.operation).then(resolve);
+        watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -105,11 +101,9 @@ export const deleteInstance = (instance) => {
     fetch("/1.0/instances/" + instance.name, {
       method: "DELETE",
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(handleResponse)
       .then((data) => {
-        watchOperation(data.operation).then(resolve);
+        watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
   });

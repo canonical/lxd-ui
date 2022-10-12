@@ -1,20 +1,16 @@
+import { handleResponse } from "../helpers";
+
 export const watchOperation = (operationUrl) => {
   return new Promise((resolve, reject) => {
     fetch(operationUrl + "/wait?timeout=10")
-      .then((response) => {
-        return response.json();
-      })
+      .then(handleResponse)
       .then((data) => {
-        switch (data.metadata.status) {
-          case "Running":
-            reject(data);
-            break;
-          case "Success":
-            resolve(data);
-            break;
-          default:
-            reject(data);
+        if (data.metadata.status === "Success") {
+          resolve(data);
+        } else {
+          throw Error("Operation did not succeed");
         }
-      });
+      })
+      .catch(reject);
   });
 };

@@ -12,8 +12,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { fetchImageList } from "./api/images";
 import { createInstance } from "./api/instances";
+import NotificationRow from "./NotificationRow";
 
 function InstanceForm() {
+  const [notification, setNotification] = useState(null);
   const [images, setImages] = useState([
     {
       label: "Select option",
@@ -25,20 +27,25 @@ function InstanceForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchImageList().then((data) => {
-      const options = data.map((imageRaw) => {
-        return {
-          label: imageRaw.properties.description,
-          value: imageRaw.fingerprint,
-        };
-      });
-      options.unshift({
-        label: options.length === 0 ? "No image available" : "Select option",
-        value: "",
-        disabled: "disabled",
-      });
-      setImages(options);
-    });
+    fetchImageList()
+      .then((data) => {
+        const options = data.map((imageRaw) => {
+          return {
+            label: imageRaw.properties.description,
+            value: imageRaw.fingerprint,
+          };
+        });
+        options.unshift({
+          label: options.length === 0 ? "No image available" : "Select option",
+          value: "",
+          disabled: "disabled",
+        });
+        setImages(options);
+      })
+      .catch(() => setNotification({
+        message: "Could not load images.",
+        type: "negative"
+      }));
   }, []);
 
   const InstanceSchema = Yup.object().shape({
@@ -55,9 +62,16 @@ function InstanceForm() {
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
-      createInstance(values.name, values.image).then(() =>
-        navigate("/instances")
-      );
+      createInstance(values.name, values.image)
+        .then(() =>
+          navigate("/instances")
+        )
+        .catch(() => {
+          setNotification({
+            message: "Error on instance creation.",
+            type: "negative"
+          });
+        });
     },
   });
 
@@ -89,6 +103,12 @@ function InstanceForm() {
         <h4 className="p-panel__title">Create instance</h4>
       </div>
       <div className="p-panel__content">
+        <NotificationRow
+          notification={notification}
+          close={() => {
+            setNotification(null);
+          }}
+        />
         <Row>
           <strong className="p-heading--5">Required</strong>
         </Row>

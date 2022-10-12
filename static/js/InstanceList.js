@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
-import {
-  deleteInstance,
-  fetchInstances,
-  startInstance,
-  stopInstance,
-} from "./api/instances";
+import { fetchInstances } from "./api/instances";
+import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
+import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
+import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
+import NotificationRow from "./NotificationRow";
 
 function InstanceList() {
   const [instances, setInstances] = useState([]);
+  const [notification, setNotification] = useState(null);
 
-  const loadInstances = () => fetchInstances().then(setInstances);
+  const setFailure = (message) => {
+    setNotification({
+      message,
+      type: "negative"
+    });
+  };
+
+  const loadInstances = () => fetchInstances()
+    .then(setInstances)
+    .catch(() => setFailure("Could not load instances"));
+
   useEffect(() => {
     loadInstances();
     let timer = setInterval(loadInstances, 5000);
@@ -51,32 +61,14 @@ function InstanceList() {
 
     const actions = (
       <div>
-        <Tooltip message="Start instance" position="left">
-          <button
-            onClick={() => startInstance(instance).then(loadInstances)}
-            className="is-dense"
-            disabled={instance.status !== "Stopped"}
-          >
-            <i className="p-icon--video-play">Start</i>
-          </button>
+        <Tooltip message="Start instance" position="btm-center">
+          <StartInstanceBtn instance={instance} onSuccess={loadInstances} onFailure={setFailure} />
         </Tooltip>
-        <Tooltip message="Stop instance" position="left">
-          <button
-            onClick={() => stopInstance(instance).then(loadInstances)}
-            className="is-dense"
-            disabled={instance.status !== "Running"}
-          >
-            <i className="p-icon--power-off">Stop</i>
-          </button>
+        <Tooltip message="Stop instance" position="btm-center">
+          <StopInstanceBtn instance={instance} onSuccess={loadInstances} onFailure={setFailure} />
         </Tooltip>
-        <Tooltip message="Delete instance" position="left">
-          <button
-            onClick={() => deleteInstance(instance).then(loadInstances)}
-            className="is-dense"
-            disabled={instance.status !== "Stopped"}
-          >
-            <i className="p-icon--delete">Delete</i>
-          </button>
+        <Tooltip message="Delete instance" position="btm-center">
+          <DeleteInstanceBtn instance={instance} onSuccess={loadInstances} onFailure={setFailure} />
         </Tooltip>
       </div>
     );
@@ -148,6 +140,12 @@ function InstanceList() {
         </div>
       </div>
       <div className="p-panel__content">
+        <NotificationRow
+          notification={notification}
+          close={() => {
+            setNotification(null);
+          }}
+        />
         <MainTable
           headers={headers}
           rows={rows}

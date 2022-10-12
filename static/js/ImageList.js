@@ -2,12 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
 import { isoTimeToString } from "./helpers";
-import { deleteImage, fetchImageList } from "./api/images";
+import { fetchImageList } from "./api/images";
+import NotificationRow from "./NotificationRow";
+import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 
 function ImageList() {
   const [images, setImages] = useState([]);
+  const [notification, setNotification] = useState(null);
 
-  const loadImages = () => fetchImageList().then(setImages);
+  const setFailure = (message) => {
+    setNotification({
+      message,
+      type: "negative"
+    });
+  };
+
+  const loadImages = () => fetchImageList()
+    .then(setImages)
+    .catch(() => setFailure("Could not load images."));
+
   useEffect(() => {
     loadImages();
   }, []);
@@ -28,12 +41,7 @@ function ImageList() {
     const actions = (
       <div>
         <Tooltip message="Delete Image" position="left">
-          <button
-            onClick={() => deleteImage(image).then(loadImages)}
-            className="is-dense"
-          >
-            <i className="p-icon--delete">Delete</i>
-          </button>
+          <DeleteImageBtn image={image} onFailure={setFailure} onSuccess={loadImages} />
         </Tooltip>
       </div>
     );
@@ -113,6 +121,12 @@ function ImageList() {
         </div>
       </div>
       <div className="p-panel__content">
+        <NotificationRow
+          notification={notification}
+          close={() => {
+            setNotification(null);
+          }}
+        />
         <MainTable
           headers={headers}
           rows={rows}

@@ -9,4 +9,11 @@ const isoTimeToString = (isoTime) => {
   });
 };
 
-export { isoTimeToString };
+function handleResponse(response) {
+  if (!response.ok) {
+    throw Error(response.status);
+  }
+  return response.json();
+}
+
+export { handleResponse, isoTimeToString };
