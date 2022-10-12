@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { OptionHTMLAttributes, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -12,15 +12,17 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { fetchImageList } from "./api/images";
 import { createInstance } from "./api/instances";
-import NotificationRow from "./NotificationRow";
+import NotificationRow, { Notification } from "./NotificationRow";
+
+type Option = OptionHTMLAttributes<HTMLOptionElement>;
 
 function InstanceForm() {
-  const [notification, setNotification] = useState(null);
-  const [images, setImages] = useState([
+  const [notification, setNotification] = useState<Notification>(null);
+  const [images, setImages] = useState<Option[]>([
     {
       label: "Select option",
       value: "",
-      disabled: "disabled",
+      disabled: true,
     },
   ]);
 
@@ -28,30 +30,33 @@ function InstanceForm() {
 
   useEffect(() => {
     fetchImageList()
-      .then((data) => {
-        const options = data.map((imageRaw) => {
+      .then((result) => {
+        const options = result.map((imageRaw) => {
           return {
             label: imageRaw.properties.description,
             value: imageRaw.fingerprint,
+            disabled: false,
           };
         });
         options.unshift({
           label: options.length === 0 ? "No image available" : "Select option",
           value: "",
-          disabled: "disabled",
+          disabled: true,
         });
         setImages(options);
       })
-      .catch(() => setNotification({
-        message: "Could not load images.",
-        type: "negative"
-      }));
+      .catch(() =>
+        setNotification({
+          message: "Could not load images.",
+          type: "negative",
+        })
+      );
   }, []);
 
   const InstanceSchema = Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
-      .matches('^[^<>:"/\\|?*\\s]*$', "This is not a valid name"),
+      .matches(/^[a-z0-9]+$/i, "This is not a valid name"),
     image: Yup.string().required("This field is required"),
   });
 
@@ -63,13 +68,11 @@ function InstanceForm() {
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
       createInstance(values.name, values.image)
-        .then(() =>
-          navigate("/instances")
-        )
+        .then(() => navigate("/instances"))
         .catch(() => {
           setNotification({
             message: "Error on instance creation.",
-            type: "negative"
+            type: "negative",
           });
         });
     },

@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
-import { fetchInstances } from "./api/instances";
+import { fetchInstances, LxdInstance } from "./api/instances";
 import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
-import NotificationRow from "./NotificationRow";
+import NotificationRow, { Notification } from "./NotificationRow";
 
 function InstanceList() {
-  const [instances, setInstances] = useState([]);
-  const [notification, setNotification] = useState(null);
+  const [instances, setInstances] = useState<LxdInstance[]>([]);
+  const [notification, setNotification] = useState<Notification>(null);
 
-  const setFailure = (message) => {
+  const setFailure = (message: string) => {
     setNotification({
       message,
-      type: "negative"
+      type: "negative",
     });
   };
 
-  const loadInstances = () => fetchInstances()
-    .then(setInstances)
-    .catch(() => setFailure("Could not load instances"));
+  const loadInstances = async () => {
+    try {
+      const instances = await fetchInstances();
+      setInstances(instances);
+    } catch (e) {
+      setFailure("Could not load instances");
+    }
+  };
 
   useEffect(() => {
     loadInstances();
@@ -41,7 +46,7 @@ function InstanceList() {
   ];
 
   // todo: which states are used - can error/unknown/init be removed?
-  const getIconClassForStatus = (status) => {
+  const getIconClassForStatus = (status: string) => {
     return {
       error: "p-icon--oval-red",
       unknown: "p-icon--oval-yellow",
@@ -62,13 +67,25 @@ function InstanceList() {
     const actions = (
       <div>
         <Tooltip message="Start instance" position="btm-center">
-          <StartInstanceBtn instance={instance} onSuccess={loadInstances} onFailure={setFailure} />
+          <StartInstanceBtn
+            instance={instance}
+            onSuccess={loadInstances}
+            onFailure={setFailure}
+          />
         </Tooltip>
         <Tooltip message="Stop instance" position="btm-center">
-          <StopInstanceBtn instance={instance} onSuccess={loadInstances} onFailure={setFailure} />
+          <StopInstanceBtn
+            instance={instance}
+            onSuccess={loadInstances}
+            onFailure={setFailure}
+          />
         </Tooltip>
         <Tooltip message="Delete instance" position="btm-center">
-          <DeleteInstanceBtn instance={instance} onSuccess={loadInstances} onFailure={setFailure} />
+          <DeleteInstanceBtn
+            instance={instance}
+            onSuccess={loadInstances}
+            onFailure={setFailure}
+          />
         </Tooltip>
       </div>
     );

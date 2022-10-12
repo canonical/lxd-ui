@@ -3,7 +3,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const config = {
   entry: {
-    app: "./static/js/App.js",
+    app: "./static/js/App.tsx",
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -22,6 +22,10 @@ const config = {
         test: /\.s[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.tsx?/,
+        use: ["ts-loader"],
+      },
     ],
   },
   plugins: [
@@ -38,7 +42,9 @@ const config = {
       ],
     }),
   ],
-
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"],
+  },
 };
 
 module.exports = (env) => {

@@ -1,16 +1,17 @@
 module.exports = {
-  parser: "@babel/eslint-parser",
-  plugins: ["react"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint", "react"],
   globals: {},
   env: {
     browser: true,
     es6: true,
+    es2020: true,
     jest: true,
   },
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-    "eslint-config-prettier",
+    "plugin:prettier/recommended",
   ],
   settings: {
     react: {

@@ -1,4 +1,4 @@
-const isoTimeToString = (isoTime) => {
+const isoTimeToString = (isoTime: string) => {
   return new Date(isoTime).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -9,9 +9,9 @@ const isoTimeToString = (isoTime) => {
   });
 };
 
-function handleResponse(response) {
+function handleResponse(response: Response) {
   if (!response.ok) {
-    throw Error(response.status);
+    throw Error();
   }
   return response.json();
 }

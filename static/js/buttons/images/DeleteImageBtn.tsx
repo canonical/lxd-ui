@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { deleteImage } from "../../api/images";
+import { deleteImage, LxdImage } from "../../api/images";
 
-function DeleteImageBtn({ image, onSuccess, onFailure }) {
+type Props = {
+  image: LxdImage;
+  onSuccess: Function;
+  onFailure: Function;
+};
+
+function DeleteImageBtn({ image, onSuccess, onFailure }: Props) {
   const [isLoading, setLoading] = useState(false);
 
   const handleDelete = () => {
@@ -20,15 +25,15 @@ function DeleteImageBtn({ image, onSuccess, onFailure }) {
 
   return (
     <button onClick={handleDelete} className="is-dense" disabled={isLoading}>
-      <i className={isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--delete"}>Delete</i>
+      <i
+        className={
+          isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--delete"
+        }
+      >
+        Delete
+      </i>
     </button>
   );
 }
-
-DeleteImageBtn.propTypes = {
-  image: PropTypes.object.isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  onFailure: PropTypes.func.isRequired,
-};
 
 export default DeleteImageBtn;

@@ -15,11 +15,11 @@ const App = () => {
         <main className="l-main">
           <div className="p-panel">
             <Routes>
-              <Route exact path="/" element={<InstanceList />} />
-              <Route exact path="/instances" element={<InstanceList />} />
-              <Route exact path="/instances/add" element={<InstanceForm />} />
-              <Route exact path="/images" element={<ImageList />} />
-              <Route element={NoMatch} />
+              <Route path="/" element={<InstanceList />} />
+              <Route path="/instances" element={<InstanceList />} />
+              <Route path="/instances/add" element={<InstanceForm />} />
+              <Route path="/images" element={<ImageList />} />
+              <Route path="*" element={<NoMatch />} />
             </Routes>
           </div>
         </main>
@@ -28,5 +28,7 @@ const App = () => {
   );
 };
 
-const root = createRoot(document.getElementById("app"));
+const rootElement = document.getElementById("app");
+if (!rootElement) throw new Error("Failed to find the root element");
+const root = createRoot(rootElement);
 root.render(<App />);

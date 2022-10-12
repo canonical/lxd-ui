@@ -2,24 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
 import { isoTimeToString } from "./helpers";
-import { fetchImageList } from "./api/images";
-import NotificationRow from "./NotificationRow";
+import { fetchImageList, LxdImage } from "./api/images";
+import NotificationRow, { Notification } from "./NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 
 function ImageList() {
-  const [images, setImages] = useState([]);
-  const [notification, setNotification] = useState(null);
+  const [images, setImages] = useState<LxdImage[]>([]);
+  const [notification, setNotification] = useState<Notification>(null);
 
-  const setFailure = (message) => {
+  const setFailure = (message: string) => {
     setNotification({
       message,
-      type: "negative"
+      type: "negative",
     });
   };
 
-  const loadImages = () => fetchImageList()
-    .then(setImages)
-    .catch(() => setFailure("Could not load images."));
+  const loadImages = async () => {
+    try {
+      const images = await fetchImageList();
+      setImages(images);
+    } catch (e) {
+      setFailure("Could not load images.");
+    }
+  };
 
   useEffect(() => {
     loadImages();
@@ -41,7 +46,11 @@ function ImageList() {
     const actions = (
       <div>
         <Tooltip message="Delete Image" position="left">
-          <DeleteImageBtn image={image} onFailure={setFailure} onSuccess={loadImages} />
+          <DeleteImageBtn
+            image={image}
+            onFailure={setFailure}
+            onSuccess={loadImages}
+          />
         </Tooltip>
       </div>
     );

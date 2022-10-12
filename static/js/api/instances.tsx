@@ -1,7 +1,25 @@
 import { watchOperation } from "./operations";
 import { handleResponse } from "../helpers";
 
-const fetchInstanceState = (instanceName) => {
+type LxdInstanceState = {
+  network: {
+    eth0: {
+      addresses: {
+        family: string;
+        address: string;
+      }[];
+    };
+  };
+};
+
+export type LxdInstance = {
+  name: string;
+  status: string;
+  type: string;
+  state: LxdInstanceState;
+};
+
+const fetchInstanceState = (instanceName: string) => {
   return new Promise((resolve, reject) => {
     return fetch("/1.0/instances/" + instanceName + "/state")
       .then(handleResponse)
@@ -12,7 +30,7 @@ const fetchInstanceState = (instanceName) => {
   });
 };
 
-const fetchInstance = (instanceUrl) => {
+const fetchInstance = (instanceUrl: string) => {
   return new Promise((resolve, reject) => {
     return fetch(instanceUrl)
       .then(handleResponse)
@@ -28,7 +46,7 @@ const fetchInstance = (instanceUrl) => {
   });
 };
 
-export const fetchInstances = () => {
+export const fetchInstances = (): Promise<LxdInstance[]> => {
   return new Promise((resolve, reject) => {
     return fetch("/1.0/instances")
       .then(handleResponse)
@@ -36,9 +54,13 @@ export const fetchInstances = () => {
         Promise.allSettled(data.metadata.map(fetchInstance))
           .then((details) => {
             if (details.filter((p) => p.status !== "fulfilled").length > 0) {
-              reject('Could not fetch image details.');
+              reject("Could not fetch image details.");
             }
-            resolve(details.map((item) => item.value));
+            resolve(
+              (details as PromiseFulfilledResult<any>[]).map(
+                (item) => item.value
+              )
+            );
           })
           .catch(reject);
       })
@@ -46,7 +68,7 @@ export const fetchInstances = () => {
   });
 };
 
-export const createInstance = (name, imageFingerprint) => {
+export const createInstance = (name: string, imageFingerprint: string) => {
   return new Promise((resolve, reject) => {
     return fetch("/1.0/instances", {
       method: "POST",
@@ -68,7 +90,7 @@ export const createInstance = (name, imageFingerprint) => {
   });
 };
 
-export const startInstance = (instance) => {
+export const startInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/instances/" + instance.name + "/state", {
       method: "PUT",
@@ -82,7 +104,7 @@ export const startInstance = (instance) => {
   });
 };
 
-export const stopInstance = (instance) => {
+export const stopInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/instances/" + instance.name + "/state", {
       method: "PUT",
@@ -96,7 +118,7 @@ export const stopInstance = (instance) => {
   });
 };
 
-export const deleteInstance = (instance) => {
+export const deleteInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/instances/" + instance.name, {
       method: "DELETE",
