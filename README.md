@@ -8,11 +8,11 @@ Install lxd
 
     todo
 
-Install haproxy
+Install HAProxy
 
     apt install haproxy
 
-Configure Haproxy with below content in /etc/haproxy/haproxy.cfg
+Configure HAProxy with below content in /etc/haproxy/haproxy.cfg
 
     global
       user haproxy
@@ -25,17 +25,17 @@ Configure Haproxy with below content in /etc/haproxy/haproxy.cfg
     frontend lxd_frontend
       bind *:9000
       mode http
-      use_backend lxd_socat if { path /1.0 } || { path_beg /1.0/ }
+      use_backend lxd_core if { path /1.0 } || { path_beg /1.0/ }
       default_backend lxd_ui
 
     backend lxd_ui
       mode http
-      server yarn_watcher 0.0.0.0:3000
+      server yarn_serve_port 0.0.0.0:3000
 
-    backend lxd_socat
-      server socat_port /var/snap/lxd/common/lxd/unix.socket
+    backend lxd_core
+      server lxd_socket /var/snap/lxd/common/lxd/unix.socket
 
-Restart HaProxy
+Restart HAProxy
 
     sudo service haproxy restart
 
@@ -43,4 +43,4 @@ Start dotrun in the head of this repo
 
     dotrun
 
-Browse through http://0.0.0.0:9000/ **avoid** the port 3000 listed by dotrun. Otherwise same origin policy will block requests to the lxd core socket.
+Browse through http://0.0.0.0:9000/ and **avoid** querying port 3000 directly. Requests to the lxd core won't reach HAProxy on the port 3000.

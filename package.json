@@ -13,7 +13,7 @@
     "lint-scss": "stylelint 'static/**/*.scss'",
     "lint-js": "eslint 'static/js/**/*.{js,json,jsx,tsx}' && prettier 'static/js/**/*.{js,json,jsx,tsx}' --check",
     "start": "yarn run build && concurrently --kill-others --raw 'yarn run watch' 'yarn serve'",
-    "serve": "serve -s build"
+    "serve": "serve --single --no-clipboard build && echo 'available on to http://0.0.0.0:9000'"
   },
   "dependencies": {
     "@canonical/react-components": "0.37.6",
