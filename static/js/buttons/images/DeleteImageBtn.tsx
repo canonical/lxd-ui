@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { deleteImage, LxdImage } from "../../api/images";
+import React, { FC, useState } from "react";
+import { deleteImage } from "../../api/images";
+import { LxdImage } from "../../types/image";
 
 type Props = {
   image: LxdImage;
@@ -7,7 +8,7 @@ type Props = {
   onFailure: Function;
 };
 
-function DeleteImageBtn({ image, onSuccess, onFailure }: Props) {
+const DeleteImageBtn: FC<Props> = ({ image, onSuccess, onFailure }) => {
   const [isLoading, setLoading] = useState(false);
 
   const handleDelete = () => {
@@ -34,6 +35,6 @@ function DeleteImageBtn({ image, onSuccess, onFailure }: Props) {
       </i>
     </button>
   );
-}
+};
 
 export default DeleteImageBtn;

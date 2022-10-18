@@ -1,22 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import {
   Row,
   Notification as NotificationComponent,
 } from "@canonical/react-components";
-import { ValueOf } from "@canonical/react-components/dist/types";
-import { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
-
-export type Notification = {
-  message: string;
-  type: ValueOf<typeof NotificationSeverity>;
-} | null;
+import { Notification } from "./types/notification";
 
 type Props = {
-  notification: Notification;
+  notification: Notification | null;
   close: () => void;
 };
 
-const NotificationRow = ({ notification, close }: Props) => {
+const NotificationRow: FC<Props> = ({ notification, close }) => {
   if (!notification) {
     return null;
   }

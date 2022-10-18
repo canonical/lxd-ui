@@ -1,18 +1,6 @@
 import { watchOperation } from "./operations";
 import { handleResponse } from "../helpers";
-
-export type LxdImage = {
-  fingerprint: string;
-  public: boolean;
-  properties: {
-    description: string;
-  };
-  architecture: string;
-  type: string;
-  size: number;
-  uploaded_at: string;
-  aliases: string[];
-};
+import { LxdImage } from "../types/image";
 
 export const fetchImageList = (): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { deleteInstance, LxdInstance } from "../../api/instances";
+import React, { FC, useState } from "react";
+import { deleteInstance } from "../../api/instances";
+import { LxdInstance } from "../../types/instance";
 
 type Props = {
   instance: LxdInstance;
@@ -7,7 +8,7 @@ type Props = {
   onFailure: Function;
 };
 
-function DeleteInstanceBtn({ instance, onSuccess, onFailure }: Props) {
+const DeleteInstanceBtn: FC<Props> = ({ instance, onSuccess, onFailure }) => {
   const [isLoading, setLoading] = useState(false);
 
   const handleDelete = () => {
@@ -38,6 +39,6 @@ function DeleteInstanceBtn({ instance, onSuccess, onFailure }: Props) {
       </i>
     </button>
   );
-}
+};
 
 export default DeleteInstanceBtn;

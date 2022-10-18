@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable } from "@canonical/react-components";
-import NotificationRow, { Notification } from "./NotificationRow";
-import { fetchNetworkList, LxdNetwork } from "./api/networks";
+import NotificationRow from "./NotificationRow";
+import { fetchNetworkList } from "./api/networks";
+import { LxdNetwork } from "./types/network";
+import { Notification } from "./types/notification";
 
-function NetworkList() {
+const NetworkList: FC = () => {
   const [networks, setNetworks] = useState<LxdNetwork[]>([]);
-  const [notification, setNotification] = useState<Notification>(null);
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const setFailure = (message: string) => {
     setNotification({
@@ -134,6 +136,6 @@ function NetworkList() {
       </div>
     </>
   );
-}
+};
 
 export default NetworkList;

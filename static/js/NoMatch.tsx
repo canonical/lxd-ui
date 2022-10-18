@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import { Strip } from "@canonical/react-components";
 
-const NoMatch = () => {
+const NoMatch: FC = () => {
   return (
     <Strip>
       <h1>Page not found</h1>

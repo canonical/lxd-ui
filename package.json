@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "serve": "14.0.1",
     "vanilla-framework": "3.8.0",
+    "xterm": "5.0.0",
     "yup": "0.32.11"
   },
   "devDependencies": {

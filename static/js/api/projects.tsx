@@ -1,16 +1,5 @@
 import { handleResponse } from "../helpers";
-
-export type LxdProject = {
-  name: string;
-  config: {
-    "features.images": boolean;
-    "features.networks": boolean;
-    "features.profiles": boolean;
-    "features.storage.volumes": boolean;
-  };
-  description: string;
-  used_by?: string[];
-};
+import { LxdProject } from "../types/project";
 
 export const fetchProjectList = (): Promise<LxdProject[]> => {
   return new Promise((resolve, reject) => {

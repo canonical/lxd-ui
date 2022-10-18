@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Icon } from "@canonical/react-components";
 
-function Navigation() {
+const Navigation: FC = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
   const toggleMenu = () => setMenuCollapsed(!menuCollapsed);
@@ -156,6 +156,6 @@ function Navigation() {
       </header>
     </>
   );
-}
+};
 
 export default Navigation;

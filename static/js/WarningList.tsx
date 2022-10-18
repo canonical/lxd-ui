@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MainTable } from "@canonical/react-components";
-import NotificationRow, { Notification } from "./NotificationRow";
-import { fetchWarningList, LxdWarning } from "./api/warnings";
+import NotificationRow from "./NotificationRow";
+import { fetchWarningList } from "./api/warnings";
 import { isoTimeToString } from "./helpers";
+import { Notification } from "./types/notification";
+import { LxdWarning } from "./types/warning";
 
-function WarningList() {
+const WarningList: FC = () => {
   const [warnings, setWarnings] = useState<LxdWarning[]>([]);
-  const [notification, setNotification] = useState<Notification>(null);
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const setFailure = (message: string) => {
     setNotification({
@@ -53,7 +55,6 @@ function WarningList() {
         {
           content: warning.type,
           role: "rowheader",
-          className: "u-align--center",
           "aria-label": "Type",
         },
         {
@@ -121,6 +122,6 @@ function WarningList() {
       </div>
     </>
   );
-}
+};
 
 export default WarningList;

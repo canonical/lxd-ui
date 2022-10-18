@@ -1,4 +1,4 @@
-import React, { OptionHTMLAttributes, useEffect, useState } from "react";
+import React, { FC, OptionHTMLAttributes, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -12,12 +12,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { fetchImageList } from "./api/images";
 import { createInstance } from "./api/instances";
-import NotificationRow, { Notification } from "./NotificationRow";
+import NotificationRow from "./NotificationRow";
+import { Notification } from "./types/notification";
 
 type Option = OptionHTMLAttributes<HTMLOptionElement>;
 
-function InstanceForm() {
-  const [notification, setNotification] = useState<Notification>(null);
+const InstanceForm: FC = () => {
+  const [notification, setNotification] = useState<Notification | null>(null);
   const [images, setImages] = useState<Option[]>([
     {
       label: "Select option",
@@ -153,6 +154,6 @@ function InstanceForm() {
       </div>
     </>
   );
-}
+};
 
 export default InstanceForm;

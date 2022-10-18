@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable } from "@canonical/react-components";
-import NotificationRow, { Notification } from "./NotificationRow";
-import { fetchProjectList, LxdProject } from "./api/projects";
+import NotificationRow from "./NotificationRow";
+import { fetchProjectList } from "./api/projects";
+import { Notification } from "./types/notification";
+import { LxdProject } from "./types/project";
 
-function ProjectList() {
+const ProjectList: FC = () => {
   const [projects, setProjects] = useState<LxdProject[]>([]);
-  const [notification, setNotification] = useState<Notification>(null);
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const setFailure = (message: string) => {
     setNotification({
@@ -136,6 +138,6 @@ function ProjectList() {
       </div>
     </>
   );
-}
+};
 
 export default ProjectList;

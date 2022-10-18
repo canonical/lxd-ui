@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import InstanceList from "./InstanceList";
 import Navigation from "./Navigation";
@@ -9,8 +9,9 @@ import { createRoot } from "react-dom/client";
 import NetworkList from "./NetworkList";
 import ProjectList from "./ProjectList";
 import WarningList from "./WarningList";
+import InstanceTerminal from "./InstanceTerminal";
 
-const App = () => {
+const App: FC = () => {
   return (
     <Router>
       <div className="l-application" role="presentation">
@@ -21,6 +22,10 @@ const App = () => {
               <Route path="/" element={<InstanceList />} />
               <Route path="/instances" element={<InstanceList />} />
               <Route path="/instances/add" element={<InstanceForm />} />
+              <Route
+                path="/instances/:name/terminal"
+                element={<InstanceTerminal />}
+              />
               <Route path="/images" element={<ImageList />} />
               <Route path="/networks" element={<NetworkList />} />
               <Route path="/projects" element={<ProjectList />} />

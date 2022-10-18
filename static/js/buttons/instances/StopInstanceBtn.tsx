@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { LxdInstance, stopInstance } from "../../api/instances";
+import React, { FC, useState } from "react";
+import { stopInstance } from "../../api/instances";
+import { LxdInstance } from "../../types/instance";
 
 type Props = {
   instance: LxdInstance;
@@ -7,7 +8,7 @@ type Props = {
   onFailure: Function;
 };
 
-function StopInstanceBtn({ instance, onSuccess, onFailure }: Props) {
+const StopInstanceBtn: FC<Props> = ({ instance, onSuccess, onFailure }) => {
   const [isLoading, setLoading] = useState(false);
 
   const handleStop = () => {
@@ -38,6 +39,6 @@ function StopInstanceBtn({ instance, onSuccess, onFailure }: Props) {
       </i>
     </button>
   );
-}
+};
 
 export default StopInstanceBtn;

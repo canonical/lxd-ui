@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "./helpers";
-import { fetchImageList, LxdImage } from "./api/images";
-import NotificationRow, { Notification } from "./NotificationRow";
+import { fetchImageList } from "./api/images";
+import NotificationRow from "./NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
+import { LxdImage } from "./types/image";
+import { Notification } from "./types/notification";
 
-function ImageList() {
+const ImageList: FC = () => {
   const [images, setImages] = useState<LxdImage[]>([]);
-  const [notification, setNotification] = useState<Notification>(null);
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const setFailure = (message: string) => {
     setNotification({
@@ -151,6 +153,6 @@ function ImageList() {
       </div>
     </>
   );
-}
+};
 
 export default ImageList;

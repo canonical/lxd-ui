@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
-import { fetchInstances, LxdInstance } from "./api/instances";
+import { fetchInstances } from "./api/instances";
 import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
-import NotificationRow, { Notification } from "./NotificationRow";
+import NotificationRow from "./NotificationRow";
+import OpenTerminalBtn from "./buttons/instances/OpenTerminalBtn";
+import { LxdInstance } from "./types/instance";
+import { Notification } from "./types/notification";
 
-function InstanceList() {
+const InstanceList: FC = () => {
   const [instances, setInstances] = useState<LxdInstance[]>([]);
-  const [notification, setNotification] = useState<Notification>(null);
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const setFailure = (message: string) => {
     setNotification({
@@ -90,6 +93,9 @@ function InstanceList() {
             onSuccess={loadInstances}
             onFailure={setFailure}
           />
+        </Tooltip>
+        <Tooltip message="Start console" position="btm-center">
+          <OpenTerminalBtn instance={instance} />
         </Tooltip>
       </div>
     );
@@ -182,6 +188,6 @@ function InstanceList() {
       </div>
     </>
   );
-}
+};
 
 export default InstanceList;
