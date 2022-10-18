@@ -14,35 +14,11 @@ export type LxdImage = {
   aliases: string[];
 };
 
-const fetchImageDetails = (imageUrl: string) => {
-  return new Promise((resolve, reject) => {
-    fetch(imageUrl)
-      .then(handleResponse)
-      .then((data) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
-};
-
 export const fetchImageList = (): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/images")
+    fetch("/1.0/images?recursion=1")
       .then(handleResponse)
-      .then((data) => {
-        Promise.allSettled(data.metadata.map(fetchImageDetails))
-          .then((details) => {
-            if (details.filter((p) => p.status !== "fulfilled").length > 0) {
-              reject("Could not fetch image details.");
-            }
-            resolve(
-              (details as PromiseFulfilledResult<LxdImage>[]).map(
-                (item) => item.value
-              )
-            );
-          })
-          .catch(reject);
-      })
+      .then((data) => resolve(data.metadata))
       .catch(reject);
   });
 };

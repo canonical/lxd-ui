@@ -68,7 +68,7 @@ function Navigation() {
                         to="/instances"
                         onClick={toggleMenu}
                       >
-                        <i className="p-icon--switcher-dashboard is-light p-side-navigation__icon"></i>{" "}
+                        <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
                         Instances
                       </NavLink>
                     </li>
@@ -80,6 +80,36 @@ function Navigation() {
                       >
                         <i className="p-icon--applications is-light p-side-navigation__icon"></i>{" "}
                         Images
+                      </NavLink>
+                    </li>
+                    <li className="p-side-navigation__item--title">
+                      <NavLink
+                        className="p-side-navigation__link"
+                        to="/networks"
+                        onClick={toggleMenu}
+                      >
+                        <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
+                        Networks
+                      </NavLink>
+                    </li>
+                    <li className="p-side-navigation__item--title">
+                      <NavLink
+                        className="p-side-navigation__link"
+                        to="/projects"
+                        onClick={toggleMenu}
+                      >
+                        <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
+                        Projects
+                      </NavLink>
+                    </li>
+                    <li className="p-side-navigation__item--title">
+                      <NavLink
+                        className="p-side-navigation__link"
+                        to="/warnings"
+                        onClick={toggleMenu}
+                      >
+                        <i className="p-icon--warning-grey is-light p-side-navigation__icon"></i>{" "}
+                        Warnings
                       </NavLink>
                     </li>
                   </ul>

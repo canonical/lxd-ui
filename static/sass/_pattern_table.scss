@@ -1,9 +1,32 @@
+@mixin table-instances {
+  .p-table--instances {
+    th,
+    td {
+      &:nth-child(1) {
+        width: 8rem;
+      }
+
+      &:nth-child(2) {
+        width: 6rem;
+      }
+
+      &:nth-child(5) {
+        width: 6rem;
+      }
+
+      &:nth-child(6) {
+        width: 6rem;
+      }
+    }
+  }
+}
+
 @mixin table-images {
   .p-table--images {
     th,
     td {
       &:nth-child(3) {
-        width: 5rem;
+        width: 6rem;
       }
 
       &:nth-child(4) {
@@ -11,7 +34,96 @@
       }
 
       &:nth-child(5) {
-        width: 5rem;
+        width: 6rem;
+      }
+
+      &:nth-child(6) {
+        width: 6rem;
+      }
+
+      &:nth-child(7) {
+        width: 6rem;
+      }
+    }
+  }
+}
+
+@mixin table-networks {
+  .p-table--networks {
+    th,
+    td {
+      &:nth-child(1) {
+        width: 6rem;
+      }
+
+      &:nth-child(2) {
+        width: 6rem;
+      }
+
+      &:nth-child(3) {
+        width: 6rem;
+      }
+
+      &:nth-child(7) {
+        width: 6rem;
+      }
+
+      &:nth-child(8) {
+        width: 6rem;
+      }
+
+      &:nth-child(9) {
+        width: 6rem;
+      }
+    }
+  }
+}
+
+@mixin table-projects {
+  .p-table--projects {
+    th,
+    td {
+      &:nth-child(2) {
+        width: 6rem;
+      }
+
+      &:nth-child(3) {
+        width: 6rem;
+      }
+
+      &:nth-child(4) {
+        width: 9rem;
+      }
+
+      &:nth-child(5) {
+        width: 6rem;
+      }
+
+      &:nth-child(7) {
+        width: 6rem;
+      }
+    }
+  }
+}
+
+@mixin table-warnings {
+  .p-table--warnings {
+    th,
+    td {
+      &:nth-child(3) {
+        width: 6rem;
+      }
+
+      &:nth-child(4) {
+        width: 6rem;
+      }
+
+      &:nth-child(5) {
+        width: 6rem;
+      }
+
+      &:nth-child(6) {
+        width: 6rem;
       }
     }
   }

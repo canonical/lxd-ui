@@ -28,29 +28,4 @@
 
     background-image: url("/static/img/status/status-failed.svg");
   }
-
-  .p-icon--close--light {
-    @extend %icon;
-    @include vf-icon-close($color-light);
-  }
-
-  .p-icon--delete--light {
-    @extend %icon;
-    @include vf-icon-delete($color-light);
-  }
-
-  .p-icon--submit-bug--light {
-    @extend %icon;
-    @include vf-icon-submit-bug($color-light);
-  }
-
-  .p-icon--switcher-dashboard--light {
-    @extend %icon;
-    @include vf-icon-switcher-dashboard($color-light);
-  }
-
-  .p-icon--applications--light {
-    @extend %icon;
-    @include vf-icon-switcher-dashboard($color-light);
-  }
 }

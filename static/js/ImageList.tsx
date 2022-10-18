@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MainTable, Tooltip } from "@canonical/react-components";
-import { isoTimeToString } from "./helpers";
+import { humanFileSize, isoTimeToString } from "./helpers";
 import { fetchImageList, LxdImage } from "./api/images";
 import NotificationRow, { Notification } from "./NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
@@ -33,11 +33,11 @@ function ImageList() {
   const headers = [
     { content: "Alias" },
     { content: "Fingerprint", sortKey: "fingerprint" },
-    { content: "Public", sortKey: "public" },
+    { content: "Public", sortKey: "public", className: "u-align--center" },
     { content: "Description", sortKey: "description" },
-    { content: "Arch", sortKey: "architecture" },
-    { content: "Type", sortKey: "type" },
-    { content: "Size", sortKey: "size" },
+    { content: "Arch", sortKey: "architecture", className: "u-align--center" },
+    { content: "Type", sortKey: "type", className: "u-align--center" },
+    { content: "Size", sortKey: "size", className: "u-align--center" },
     { content: "Upload date", sortKey: "uploaded_at" },
     { content: "Actions", className: "u-align--center" },
   ];
@@ -70,6 +70,7 @@ function ImageList() {
         {
           content: image.public ? "yes" : "no",
           role: "rowheader",
+          className: "u-align--center",
           "aria-label": "Public",
         },
         {
@@ -80,16 +81,19 @@ function ImageList() {
         {
           content: image.architecture,
           role: "rowheader",
+          className: "u-align--center",
           "aria-label": "Architecture",
         },
         {
           content: image.type,
           role: "rowheader",
+          className: "u-align--center",
           "aria-label": "Type",
         },
         {
-          content: image.size,
+          content: humanFileSize(image.size),
           role: "rowheader",
+          className: "u-align--center",
           "aria-label": "Size",
         },
         {

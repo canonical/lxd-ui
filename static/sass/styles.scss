@@ -7,12 +7,19 @@
 @include lxdui-p-icon;
 @include vf-p-icon-applications;
 @include vf-p-icon-edit;
-@include vf-p-icon-switcher-dashboard;
 @include vf-p-icon-video-play;
 @include vf-p-icon-power-off;
+@include vf-p-icon-connected;
+@include vf-p-icon-containers;
+@include vf-p-icon-switcher-environments;
+@include vf-p-icon-warning-grey;
 
 @import "pattern_navigation";
 @include lxd-ui-p-navigation;
 
 @import "pattern_table";
 @include table-images;
+@include table-instances;
+@include table-networks;
+@include table-projects;
+@include table-warnings;

@@ -1,4 +1,4 @@
-const isoTimeToString = (isoTime: string) => {
+export const isoTimeToString = (isoTime: string) => {
   return new Date(isoTime).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -9,11 +9,28 @@ const isoTimeToString = (isoTime: string) => {
   });
 };
 
-function handleResponse(response: Response) {
+export const handleResponse = (response: Response) => {
   if (!response.ok) {
     throw Error();
   }
   return response.json();
-}
+};
 
-export { handleResponse, isoTimeToString };
+export const humanFileSize = (bytes: number) => {
+  if (Math.abs(bytes) < 1000) {
+    return bytes + " B";
+  }
+
+  const units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  let u = -1;
+
+  do {
+    bytes /= 1000;
+    ++u;
+  } while (
+    Math.round(Math.abs(bytes) * 10) / 10 >= 1000 &&
+    u < units.length - 1
+  );
+
+  return bytes.toFixed(1) + " " + units[u];
+};

@@ -12,58 +12,23 @@ type LxdInstanceState = {
   };
 };
 
+type LxdSnapshots = {
+  name: string;
+};
+
 export type LxdInstance = {
   name: string;
   status: string;
   type: string;
   state: LxdInstanceState;
-};
-
-const fetchInstanceState = (instanceName: string) => {
-  return new Promise((resolve, reject) => {
-    return fetch("/1.0/instances/" + instanceName + "/state")
-      .then(handleResponse)
-      .then((data) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
-};
-
-const fetchInstance = (instanceUrl: string) => {
-  return new Promise((resolve, reject) => {
-    return fetch(instanceUrl)
-      .then(handleResponse)
-      .then((data) => {
-        fetchInstanceState(data.metadata.name)
-          .then((stateData) => {
-            data.metadata.state = stateData;
-            resolve(data.metadata);
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+  snapshots: LxdSnapshots[] | null;
 };
 
 export const fetchInstances = (): Promise<LxdInstance[]> => {
   return new Promise((resolve, reject) => {
-    return fetch("/1.0/instances")
+    return fetch("/1.0/instances?recursion=2")
       .then(handleResponse)
-      .then((data) => {
-        Promise.allSettled(data.metadata.map(fetchInstance))
-          .then((details) => {
-            if (details.filter((p) => p.status !== "fulfilled").length > 0) {
-              reject("Could not fetch image details.");
-            }
-            resolve(
-              (details as PromiseFulfilledResult<any>[]).map(
-                (item) => item.value
-              )
-            );
-          })
-          .catch(reject);
-      })
+      .then((data) => resolve(data.metadata))
       .catch(reject);
   });
 };

@@ -37,11 +37,15 @@ function InstanceList() {
 
   const headers = [
     { content: "Name", sortKey: "name" },
-    { content: "State", sortKey: "state" },
+    { content: "State", sortKey: "state", className: "u-align--center" },
     { content: "IPv4" },
     { content: "IPv6" },
-    { content: "Type", sortKey: "type" },
-    { content: "Snapshots" },
+    { content: "Type", sortKey: "type", className: "u-align--center" },
+    {
+      content: "Snapshots",
+      sortKey: "snapshots",
+      className: "u-align--center",
+    },
     { content: "Actions", className: "u-align--center" },
   ];
 
@@ -100,6 +104,7 @@ function InstanceList() {
         {
           content: status,
           role: "rowheader",
+          className: "u-align--center",
           "aria-label": "Status",
         },
         {
@@ -121,12 +126,14 @@ function InstanceList() {
         {
           content: instance.type,
           role: "rowheader",
+          className: "u-align--center",
           "aria-label": "Type",
         },
         {
-          content: "snapshots todo",
+          content: instance.snapshots?.length || "0",
           role: "rowheader",
-          "aria-label": "Type",
+          className: "u-align--center",
+          "aria-label": "Snapshots",
         },
         {
           content: actions,
@@ -139,6 +146,7 @@ function InstanceList() {
         name: instance.name,
         state: instance.status,
         type: instance.type,
+        snapshots: instance.snapshots?.length || 0,
       },
     };
   });
@@ -169,6 +177,7 @@ function InstanceList() {
           paginate={30}
           responsive
           sortable
+          className="p-table--instances"
         />
       </div>
     </>

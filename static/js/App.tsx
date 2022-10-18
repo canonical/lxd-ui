@@ -6,6 +6,9 @@ import NoMatch from "./NoMatch";
 import InstanceForm from "./InstanceForm";
 import ImageList from "./ImageList";
 import { createRoot } from "react-dom/client";
+import NetworkList from "./NetworkList";
+import ProjectList from "./ProjectList";
+import WarningList from "./WarningList";
 
 const App = () => {
   return (
@@ -19,6 +22,9 @@ const App = () => {
               <Route path="/instances" element={<InstanceList />} />
               <Route path="/instances/add" element={<InstanceForm />} />
               <Route path="/images" element={<ImageList />} />
+              <Route path="/networks" element={<NetworkList />} />
+              <Route path="/projects" element={<ProjectList />} />
+              <Route path="/warnings" element={<WarningList />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>
           </div>
