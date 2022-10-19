@@ -6,7 +6,9 @@ Web UI on top of LXD. Make container and VM management easy and accessible. Targ
 
 Install lxd
 
-    todo
+    snap install lxd
+    lxd init # can accept all defaults
+    lxc config set core.https_address "[::]:8443"
 
 Install HAProxy
 
