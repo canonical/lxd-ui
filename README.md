@@ -27,11 +27,15 @@ Configure HAProxy with below content in /etc/haproxy/haproxy.cfg
     frontend lxd_frontend
       bind *:9000
       mode http
-      use_backend lxd_core if { path /1.0 } || { path_beg /1.0/ }
+      acl is_upgrade hdr(Connection) -i upgrade
+      acl is_websocket hdr(Upgrade) -i websocket
+      acl is_lxd_core path_beg /1.0
+      use_backend lxd_core if is_lxd_core
+      use_backend lxd_core if is_upgrade
+      use_backend lxd_core if is_websocket
       default_backend lxd_ui
 
     backend lxd_ui
-      mode http
       server yarn_serve_port 0.0.0.0:3000
 
     backend lxd_core
