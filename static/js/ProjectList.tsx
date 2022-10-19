@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./NotificationRow";
 import { fetchProjectList } from "./api/projects";
 import { Notification } from "./types/notification";
@@ -127,14 +127,16 @@ const ProjectList: FC = () => {
             setNotification(null);
           }}
         />
-        <MainTable
-          headers={headers}
-          rows={rows}
-          paginate={30}
-          responsive
-          sortable
-          className="p-table--projects"
-        />
+        <Row>
+          <MainTable
+            headers={headers}
+            rows={rows}
+            paginate={30}
+            responsive
+            sortable
+            className="p-table--projects"
+          />
+        </Row>
       </div>
     </>
   );

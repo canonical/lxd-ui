@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./NotificationRow";
 import { fetchNetworkList } from "./api/networks";
 import { LxdNetwork } from "./types/network";
@@ -125,14 +125,16 @@ const NetworkList: FC = () => {
             setNotification(null);
           }}
         />
-        <MainTable
-          headers={headers}
-          rows={rows}
-          paginate={30}
-          responsive
-          sortable
-          className="p-table--networks"
-        />
+        <Row>
+          <MainTable
+            headers={headers}
+            rows={rows}
+            paginate={30}
+            responsive
+            sortable
+            className="p-table--networks"
+          />
+        </Row>
       </div>
     </>
   );

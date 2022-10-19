@@ -24,3 +24,7 @@
 @include table-networks;
 @include table-projects;
 @include table-warnings;
+
+.l-main .row {
+  max-width: none;
+}

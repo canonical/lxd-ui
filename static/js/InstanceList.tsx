@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MainTable, Tooltip } from "@canonical/react-components";
+import { MainTable, Row, Tooltip } from "@canonical/react-components";
 import { fetchInstances } from "./api/instances";
 import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
@@ -177,14 +177,16 @@ const InstanceList: FC = () => {
             setNotification(null);
           }}
         />
-        <MainTable
-          headers={headers}
-          rows={rows}
-          paginate={30}
-          responsive
-          sortable
-          className="p-table--instances"
-        />
+        <Row>
+          <MainTable
+            headers={headers}
+            rows={rows}
+            paginate={30}
+            responsive
+            sortable
+            className="p-table--instances"
+          />
+        </Row>
       </div>
     </>
   );

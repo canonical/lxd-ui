@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./NotificationRow";
 import { fetchWarningList } from "./api/warnings";
 import { isoTimeToString } from "./helpers";
@@ -111,14 +111,16 @@ const WarningList: FC = () => {
             setNotification(null);
           }}
         />
-        <MainTable
-          headers={headers}
-          rows={rows}
-          paginate={30}
-          responsive
-          sortable
-          className="p-table--warnings"
-        />
+        <Row>
+          <MainTable
+            headers={headers}
+            rows={rows}
+            paginate={30}
+            responsive
+            sortable
+            className="p-table--warnings"
+          />
+        </Row>
       </div>
     </>
   );
