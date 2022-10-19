@@ -73,3 +73,54 @@ export const deleteInstance = (instance: LxdInstance) => {
       .catch(reject);
   });
 };
+
+export const fetchInstanceConsole = (
+  name: string
+): Promise<LxdInstanceExec> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/console`, {
+      method: "POST",
+      body: JSON.stringify({
+        height: 24,
+        type: "console",
+        width: 80,
+      }),
+    })
+      .then(handleResponse)
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
+
+type LxdInstanceExec = {
+  operation: string;
+  metadata: {
+    metadata: {
+      fds: {
+        0: string;
+        control: string;
+      };
+    };
+  };
+};
+
+export const fetchInstanceExec = (name: string): Promise<LxdInstanceExec> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/exec?wait=10`, {
+      method: "POST",
+      body: JSON.stringify({
+        command: ["bash"],
+        "record-output": true,
+        "wait-for-websocket": true,
+        interactive: true,
+        group: 1000,
+        height: 24,
+        user: 1000,
+        width: 80,
+      }),
+    })
+      .then(handleResponse)
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+};

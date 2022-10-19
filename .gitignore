@@ -68,3 +68,6 @@ bower_components/
 
 build/
 dist/
+
+*.crt
+*.key
