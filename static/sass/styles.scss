@@ -25,6 +25,9 @@
 @include table-projects;
 @include table-warnings;
 
+@import "pattern_terminal";
+@include pattern-terminal;
+
 .l-main .row {
   max-width: none;
 }

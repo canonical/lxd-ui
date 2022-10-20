@@ -1,0 +1,17 @@
+@mixin pattern-terminal {
+  .p-terminal {
+    height: calc(100vh - 170px);
+  }
+
+  @media screen and (min-width: $breakpoint-small) {
+    .p-terminal {
+      height: calc(100vh - 105px);
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-large) {
+    .p-terminal {
+      height: calc(100vh - 130px);
+    }
+  }
+}

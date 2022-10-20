@@ -96,24 +96,23 @@ const InstanceTerminal: FC = () => {
       xtermRef.current.terminal.options = {};
     }
     fitAddon.fit();
-  };
 
-  const registerResize = () => {
-    if (xtermRef.current && controlWs) {
-      const terminal = xtermRef.current.terminal;
-      terminal.onResize((event) => {
-        controlWs.send(
-          JSON.stringify({
-            width: event.cols,
-            height: event.rows,
-          })
-        );
-      });
-    }
+    const dimensions = fitAddon.proposeDimensions();
+    controlWs?.send(
+      textEncoder.encode(
+        JSON.stringify({
+          command: "window-resize",
+          args: {
+            height: dimensions?.rows.toString(),
+            width: dimensions?.cols.toString(),
+          },
+        })
+      )
+    );
   };
 
   useLayoutEffect(() => {
-    registerResize();
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [controlWs, fitAddon, xtermRef]);
@@ -131,10 +130,11 @@ const InstanceTerminal: FC = () => {
         <Row>
           <XTerm
             ref={xtermRef}
+            addons={[fitAddon]}
+            className="p-terminal"
             onData={(data) => {
               dataWs?.send(textEncoder.encode(data));
             }}
-            addons={[fitAddon]}
           />
         </Row>
       </div>

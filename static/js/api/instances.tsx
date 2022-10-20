@@ -112,11 +112,12 @@ export const fetchInstanceExec = (name: string): Promise<LxdInstanceExec> => {
         command: ["bash"],
         "record-output": true,
         "wait-for-websocket": true,
+        environment: {
+          TERM: "xterm-256color",
+        },
         interactive: true,
         group: 1000,
-        height: 24,
         user: 1000,
-        width: 80,
       }),
     })
       .then(handleResponse)
