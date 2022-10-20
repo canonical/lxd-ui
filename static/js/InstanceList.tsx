@@ -173,9 +173,7 @@ const InstanceList: FC = () => {
       <div className="p-panel__content">
         <NotificationRow
           notification={notification}
-          close={() => {
-            setNotification(null);
-          }}
+          close={() => setNotification(null)}
         />
         <Row>
           <MainTable

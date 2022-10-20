@@ -109,9 +109,7 @@ const InstanceForm: FC = () => {
       <div className="p-panel__content">
         <NotificationRow
           notification={notification}
-          close={() => {
-            setNotification(null);
-          }}
+          close={() => setNotification(null)}
         />
         <Row>
           <strong className="p-heading--5">Required</strong>
