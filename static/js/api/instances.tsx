@@ -1,6 +1,7 @@
 import { watchOperation } from "./operations";
 import { handleResponse } from "../helpers";
 import { LxdInstance } from "../types/instance";
+import { LxdConsole } from "../types/console";
 
 export const fetchInstances = (): Promise<LxdInstance[]> => {
   return new Promise((resolve, reject) => {
@@ -74,16 +75,18 @@ export const deleteInstance = (instance: LxdInstance) => {
   });
 };
 
-export const fetchInstanceConsole = (
-  name: string
-): Promise<LxdInstanceExec> => {
+export const fetchInstanceConsole = (name: string): Promise<LxdConsole> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console`, {
       method: "POST",
       body: JSON.stringify({
-        height: 24,
         type: "console",
-        width: 80,
+        "record-output": true,
+        "wait-for-websocket": true,
+        environment: {
+          TERM: "xterm-256color",
+        },
+        interactive: true,
       }),
     })
       .then(handleResponse)
@@ -92,19 +95,7 @@ export const fetchInstanceConsole = (
   });
 };
 
-type LxdInstanceExec = {
-  operation: string;
-  metadata: {
-    metadata: {
-      fds: {
-        0: string;
-        control: string;
-      };
-    };
-  };
-};
-
-export const fetchInstanceExec = (name: string): Promise<LxdInstanceExec> => {
+export const fetchInstanceExec = (name: string): Promise<LxdConsole> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/exec?wait=10`, {
       method: "POST",
