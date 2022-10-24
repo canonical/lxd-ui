@@ -80,7 +80,7 @@ const InstanceTerminal: FC = () => {
     };
 
     data.onmessage = (message) => {
-      message.data.text().then((text: string) => {
+      message.data?.text().then((text: string) => {
         xtermRef.current?.terminal.write(text);
       });
     };
