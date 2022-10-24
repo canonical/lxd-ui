@@ -10,6 +10,7 @@ import NetworkList from "./NetworkList";
 import ProjectList from "./ProjectList";
 import WarningList from "./WarningList";
 import InstanceTerminal from "./InstanceTerminal";
+import ClusterList from "./ClusterList";
 
 const App: FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: FC = () => {
               <Route path="/images" element={<ImageList />} />
               <Route path="/networks" element={<NetworkList />} />
               <Route path="/projects" element={<ProjectList />} />
+              <Route path="/cluster" element={<ClusterList />} />
               <Route path="/warnings" element={<WarningList />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>

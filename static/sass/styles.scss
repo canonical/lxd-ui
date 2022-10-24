@@ -7,13 +7,14 @@
 @include lxdui-p-icon;
 @include vf-p-icon-applications;
 @include vf-p-icon-edit;
-@include vf-p-icon-video-play;
-@include vf-p-icon-power-off;
 @include vf-p-icon-connected;
 @include vf-p-icon-containers;
+@include vf-p-icon-machines;
+@include vf-p-icon-open-terminal;
+@include vf-p-icon-power-off;
 @include vf-p-icon-switcher-environments;
 @include vf-p-icon-warning-grey;
-@include vf-p-icon-open-terminal;
+@include vf-p-icon-video-play;
 
 @import "pattern_navigation";
 @include lxd-ui-p-navigation;

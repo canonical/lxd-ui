@@ -105,6 +105,16 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
+                        to="/cluster"
+                        onClick={toggleMenu}
+                      >
+                        <i className="p-icon--machines is-light p-side-navigation__icon"></i>{" "}
+                        Cluster
+                      </NavLink>
+                    </li>
+                    <li className="p-side-navigation__item--title">
+                      <NavLink
+                        className="p-side-navigation__link"
                         to="/warnings"
                         onClick={toggleMenu}
                       >
