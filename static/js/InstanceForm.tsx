@@ -55,9 +55,6 @@ const InstanceForm: FC = () => {
   }, []);
 
   const InstanceSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("This field is required")
-      .matches(/^[a-z0-9]+$/i, "This is not a valid name"),
     image: Yup.string().required("This field is required"),
   });
 
