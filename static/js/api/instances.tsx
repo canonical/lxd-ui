@@ -3,6 +3,15 @@ import { handleResponse } from "../helpers";
 import { LxdInstance } from "../types/instance";
 import { LxdConsole } from "../types/console";
 
+export const fetchInstance = (name: string): Promise<LxdInstance> => {
+  return new Promise((resolve, reject) => {
+    return fetch(`/1.0/instances/${name}?recursion=2`)
+      .then(handleResponse)
+      .then((data) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
 export const fetchInstances = (): Promise<LxdInstance[]> => {
   return new Promise((resolve, reject) => {
     return fetch("/1.0/instances?recursion=2")
@@ -34,7 +43,7 @@ export const createInstance = (name: string, imageFingerprint: string) => {
 
 export const startInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/instances/" + instance.name + "/state", {
+    fetch(`/1.0/instances/${instance.name}/state`, {
       method: "PUT",
       body: '{"action": "start"}',
     })
@@ -48,7 +57,7 @@ export const startInstance = (instance: LxdInstance) => {
 
 export const stopInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/instances/" + instance.name + "/state", {
+    fetch(`/1.0/instances/${instance.name}/state`, {
       method: "PUT",
       body: '{"action": "stop"}',
     })
@@ -62,7 +71,7 @@ export const stopInstance = (instance: LxdInstance) => {
 
 export const deleteInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/instances/" + instance.name, {
+    fetch(`/1.0/instances/${instance.name}`, {
       method: "DELETE",
     })
       .then(handleResponse)

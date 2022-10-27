@@ -9,12 +9,14 @@
 @include vf-p-icon-edit;
 @include vf-p-icon-connected;
 @include vf-p-icon-containers;
+@include vf-p-icon-export;
 @include vf-p-icon-machines;
 @include vf-p-icon-open-terminal;
 @include vf-p-icon-power-off;
 @include vf-p-icon-switcher-environments;
 @include vf-p-icon-warning-grey;
 @include vf-p-icon-video-play;
+@include vf-p-icon-settings;
 
 @import "pattern_navigation";
 @include lxd-ui-p-navigation;
@@ -25,6 +27,7 @@
 @include table-networks;
 @include table-projects;
 @include table-warnings;
+@include table-snapshots;
 
 @import "pattern_terminal";
 @include pattern-terminal;

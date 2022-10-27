@@ -9,10 +9,12 @@ import NotificationRow from "./NotificationRow";
 import OpenTerminalBtn from "./buttons/instances/OpenTerminalBtn";
 import { LxdInstance } from "./types/instance";
 import { Notification } from "./types/notification";
+import SnapshotModal from "./modals/SnapshotModal";
 
 const InstanceList: FC = () => {
   const [instances, setInstances] = useState<LxdInstance[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
+  const [snapshotInstanceName, setSnapshotInstanceName] = useState("");
 
   const setFailure = (message: string) => {
     setNotification({
@@ -66,7 +68,7 @@ const InstanceList: FC = () => {
   const rows = instances.map((instance) => {
     const status = (
       <>
-        <i className={getIconClassForStatus(instance.status)} />
+        <i className={getIconClassForStatus(instance.status)}></i>
         {instance.status}
       </>
     );
@@ -98,6 +100,16 @@ const InstanceList: FC = () => {
           <OpenTerminalBtn instance={instance} />
         </Tooltip>
       </div>
+    );
+
+    const snapshots = (
+      <button
+        onClick={() => setSnapshotInstanceName(instance.name)}
+        className="p-button--base has-icon"
+      >
+        <span>{instance.snapshots?.length || "0"}</span>
+        <i className="p-icon--settings">snapshots</i>
+      </button>
     );
 
     return {
@@ -136,7 +148,7 @@ const InstanceList: FC = () => {
           "aria-label": "Type",
         },
         {
-          content: instance.snapshots?.length || "0",
+          content: snapshots,
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Snapshots",
@@ -185,6 +197,15 @@ const InstanceList: FC = () => {
             className="p-table--instances"
           />
         </Row>
+        {snapshotInstanceName && (
+          <SnapshotModal
+            onCancel={() => setSnapshotInstanceName("")}
+            onChange={loadInstances}
+            instance={
+              instances.filter((item) => item.name === snapshotInstanceName)[0]
+            }
+          />
+        )}
       </div>
     </>
   );

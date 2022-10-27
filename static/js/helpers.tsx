@@ -1,4 +1,8 @@
 export const isoTimeToString = (isoTime: string) => {
+  if (isoTime.startsWith("0001-01-01T00")) {
+    return "";
+  }
+
   return new Date(isoTime).toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -7,6 +11,11 @@ export const isoTimeToString = (isoTime: string) => {
     minute: "2-digit",
     second: "2-digit",
   });
+};
+
+export const stringToIsoTime = (dateTime: string) => {
+  const date = new Date(dateTime);
+  return date.toISOString();
 };
 
 export const handleResponse = (response: Response) => {
