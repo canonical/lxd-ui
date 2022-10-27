@@ -123,3 +123,19 @@ export const fetchInstanceExec = (name: string): Promise<LxdConsole> => {
       .catch(reject);
   });
 };
+
+export const fetchInstanceVga = (name: string): Promise<LxdConsole> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/console?wait=10`, {
+      method: "POST",
+      body: JSON.stringify({
+        type: "vga",
+        width: 0,
+        height: 0,
+      }),
+    })
+      .then(handleResponse)
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
