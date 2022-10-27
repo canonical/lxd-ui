@@ -17,9 +17,7 @@ export const createInstance = (name: string, imageFingerprint: string) => {
     return fetch("/1.0/instances", {
       method: "POST",
       body: JSON.stringify({
-        instance: {
-          name: name,
-        },
+        name: name,
         source: {
           fingerprint: imageFingerprint,
           type: "image",
