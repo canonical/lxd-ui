@@ -40,7 +40,7 @@
     "@typescript-eslint/eslint-plugin": "5.40.1",
     "@typescript-eslint/parser": "5.40.1",
     "autoprefixer": "10.4.12",
-    "babel-loader": "8.2.5",
+    "babel-loader": "9.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
     "concurrently": "7.4.0",
     "copy-webpack-plugin": "11.0.0",
