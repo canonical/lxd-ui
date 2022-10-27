@@ -128,3 +128,26 @@
     }
   }
 }
+
+@mixin table-snapshots {
+  .p-table--snapshots {
+    th,
+    td {
+      &:nth-child(2) {
+        width: 13rem;
+      }
+
+      &:nth-child(3) {
+        width: 13rem;
+      }
+
+      &:nth-child(4) {
+        width: 6rem;
+      }
+
+      &:nth-child(5) {
+        width: 10rem;
+      }
+    }
+  }
+}

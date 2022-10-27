@@ -13,7 +13,7 @@ export const fetchImageList = (): Promise<LxdImage[]> => {
 
 export const deleteImage = (image: LxdImage) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/images/" + image.fingerprint, {
+    fetch(`/1.0/images/${image.fingerprint}`, {
       method: "DELETE",
     })
       .then(handleResponse)
