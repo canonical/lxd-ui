@@ -1,6 +1,6 @@
 # LXD-UI
 
-Web UI on top of LXD. Make container and VM management easy and accessible. Target small and large scale private clouds.
+Web UI on top of LXD. Make container and VM management easy and accessible. Targets small and large scale private clouds.
 
 # Setting up for development
 
@@ -9,6 +9,8 @@ Install lxd
     snap install lxd
     lxd init # can accept all defaults
     lxc config set core.https_address "[::]:8443"
+
+You might want to enable a firewall as the last step exposes an api to start or interact with unprivileged containers on your public ip.
 
 Install HAProxy
 
@@ -45,7 +47,7 @@ Restart HAProxy
 
     sudo service haproxy restart
 
-Start dotrun in the head of this repo
+Install dotrun and launch it from the head of this repo
 
     sudo snap install dotrun
     dotrun
