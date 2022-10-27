@@ -1,5 +1,5 @@
 import React, { FC, useLayoutEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { XTerm } from "xterm-for-react";
 import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
@@ -121,6 +121,11 @@ const InstanceTerminal: FC = () => {
     <>
       <div className="p-panel__header">
         <h4 className="p-panel__title">Terminal for {name}</h4>
+        <div className="p-panel__controls">
+          <Link className="p-button u-no-margin--bottom" to="/instances">
+            Back
+          </Link>
+        </div>
       </div>
       <div className="p-panel__content">
         <NotificationRow

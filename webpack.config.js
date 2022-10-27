@@ -43,6 +43,10 @@ const config = {
           from: "static/fonts",
           to: "static/fonts",
         },
+        {
+          from: "static/lib",
+          to: "static/lib",
+        },
       ],
     }),
   ],

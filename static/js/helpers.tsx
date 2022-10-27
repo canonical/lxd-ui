@@ -18,9 +18,10 @@ export const stringToIsoTime = (dateTime: string) => {
   return date.toISOString();
 };
 
-export const handleResponse = (response: Response) => {
+export const handleResponse = async (response: Response) => {
   if (!response.ok) {
-    throw Error();
+    const result = await response.json();
+    throw Error(result.error);
   }
   return response.json();
 };

@@ -7,6 +7,7 @@ import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
 import NotificationRow from "./NotificationRow";
 import OpenTerminalBtn from "./buttons/instances/OpenTerminalBtn";
+import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
 import { LxdInstance } from "./types/instance";
 import { Notification } from "./types/notification";
 import SnapshotModal from "./modals/SnapshotModal";
@@ -98,6 +99,9 @@ const InstanceList: FC = () => {
         </Tooltip>
         <Tooltip message="Start console" position="btm-center">
           <OpenTerminalBtn instance={instance} />
+        </Tooltip>
+        <Tooltip message="Start VGA session" position="btm-center">
+          <OpenVgaBtn instance={instance} />
         </Tooltip>
       </div>
     );
