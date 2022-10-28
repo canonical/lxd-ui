@@ -16,14 +16,14 @@
     "serve": "serve --single --no-clipboard build && echo 'available on to http://0.0.0.0:9000'"
   },
   "dependencies": {
-    "@canonical/react-components": "0.37.6",
+    "@canonical/react-components": "0.37.7",
     "formik": "2.2.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.2",
     "react-scripts": "5.0.1",
     "serve": "14.0.1",
-    "vanilla-framework": "3.8.0",
+    "vanilla-framework": "3.8.1",
     "xterm-addon-fit": "0.6.0",
     "xterm-for-react": "1.0.4",
     "yup": "0.32.11"

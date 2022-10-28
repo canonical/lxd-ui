@@ -1300,10 +1300,10 @@
   resolved "https://registry.yarnpkg.com/@canonical/latest-news/-/latest-news-1.4.1.tgz#dcdd445ac2268a54cf60f2f8c725b6bdeb285d71"
   integrity sha512-lwrikCj0Y11X8Ln8D+elp6Ri3mYjMjsAOJtadNEFzhBrgmg8TVGYJjOdwy8TvRaxy7fHnvVajIKAYWX44Tfj6w==
 
-"@canonical/react-components@0.37.6":
-  version "0.37.6"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.37.6.tgz#5ae875d9737f1da0b28f3e33828f5464e2d522fa"
-  integrity sha512-0Z/7EoiDV06+B8V5E4A5JeLELK2eYrKb+AyqqGoEMI6oZ+9z6BBN9U//TMCmGtrwVkeMNk1V5//Owp/IZhd6tA==
+"@canonical/react-components@0.37.7":
+  version "0.37.7"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.37.7.tgz#476bc1cec13a15dfaa8608f599e3746ce081659b"
+  integrity sha512-EEbA8xjNMZakX8Ti8LWq1xfzx8yRjf5RCwZ2h/Do6yoyA7ou7BOnDCsjPsKyGP2i5TuQY5T4feHEtY2ntuZgkw==
   dependencies:
     "@types/jest" "27.5.2"
     "@types/node" "16.11.47"
@@ -10179,10 +10179,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vanilla-framework@3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.8.0.tgz#7fe17cad5be598fda59659472d8e22b721614391"
-  integrity sha512-WDbROdn3HyL5BQ5nwkG89WULrIWYX8LiIhxgOUxITLcEXfBPw3hEGwnWbqlpcz9uN5sMS/7n9xOUt1LfTq6+KA==
+vanilla-framework@3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.8.1.tgz#9534f89a3120b95b0d3ece022ceabf10812fecdc"
+  integrity sha512-rtG4ipxyHWOlA2cwUzskGZY1NieVt57uDq2TidY8Fk1+jQDo9wbe5N3M7S9e4oI+UhTXUKTKRvLYDP6s4TMsqQ==
   dependencies:
     "@canonical/cookie-policy" "3.4.0"
     "@canonical/latest-news" "1.4.1"
