@@ -29,6 +29,8 @@
 @import "pattern_terminal";
 @include pattern-terminal;
 
+@import "font";
+
 .l-main .row {
   max-width: none;
 }
