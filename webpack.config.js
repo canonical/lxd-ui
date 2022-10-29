@@ -33,11 +33,15 @@ const config = {
       patterns: [
         {
           from: "static/html/index.html",
-          to: "index.html"
+          to: "index.html",
         },
         {
           from: "static/img",
-          to: "static/img"
+          to: "static/img",
+        },
+        {
+          from: "static/fonts",
+          to: "static/fonts",
         },
       ],
     }),
