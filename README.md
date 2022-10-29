@@ -49,7 +49,7 @@ Restart HAProxy
 
 Install dotrun and launch it from the head of this repo
 
-    sudo snap install dotrun
+    sudo pip3 install dotrun
     dotrun
 
 Browse through http://0.0.0.0:9000/ and **avoid** querying port 3000 directly. Requests to the lxd core won't reach HAProxy on the port 3000.
