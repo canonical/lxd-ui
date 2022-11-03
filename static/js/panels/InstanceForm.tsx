@@ -1,5 +1,3 @@
-import React, { FC, OptionHTMLAttributes, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Col,
@@ -9,11 +7,15 @@ import {
   Select,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
+import React, { FC, OptionHTMLAttributes, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { fetchImageList } from "./api/images";
-import { createInstance } from "./api/instances";
-import NotificationRow from "./NotificationRow";
-import { Notification } from "./types/notification";
+import { fetchImageList } from "../api/images";
+import { createInstance } from "../api/instances";
+import Aside from "../components/Aside";
+import NotificationRow from "../components/NotificationRow";
+import PanelHeader from "../components/PanelHeader";
+import { Notification } from "../types/notification";
 
 type Option = OptionHTMLAttributes<HTMLOptionElement>;
 
@@ -68,6 +70,7 @@ const InstanceForm: FC = () => {
       createInstance(values.name, values.image)
         .then(() => navigate("/instances"))
         .catch(() => {
+          formik.setSubmitting(false);
           setNotification({
             message: "Error on instance creation.",
             type: "negative",
@@ -99,55 +102,50 @@ const InstanceForm: FC = () => {
   );
 
   return (
-    <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Create instance</h4>
+    <Aside>
+      <div className="p-panel">
+        <PanelHeader title={<h4>Create instance</h4>} />
+        <div className="p-panel__content">
+          <NotificationRow
+            notification={notification}
+            close={() => setNotification(null)}
+          />
+          <Row>
+            <strong className="p-heading--5">Required</strong>
+          </Row>
+          <Row>
+            <Form onSubmit={formik.handleSubmit} stacked>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                label="Instance name"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+                error={formik.touched.name ? formik.errors.name : null}
+                stacked
+              />
+              <Select
+                id="image"
+                name="image"
+                label="Image"
+                options={images}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.image}
+                error={formik.touched.image ? formik.errors.image : null}
+                stacked
+              />
+              <hr />
+              <Row className="u-align--right">
+                <Col size={12}>{submitButton}</Col>
+              </Row>
+            </Form>
+          </Row>
+        </div>
       </div>
-      <div className="p-panel__content">
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
-        <Row>
-          <strong className="p-heading--5">Required</strong>
-        </Row>
-        <Row>
-          <Form onSubmit={formik.handleSubmit} stacked>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              label="Instance name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-              error={formik.touched.name ? formik.errors.name : null}
-              stacked
-            />
-            <Select
-              id="image"
-              name="image"
-              label="Image"
-              options={images}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.image}
-              error={formik.touched.image ? formik.errors.image : null}
-              stacked
-            />
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                {submitButton}
-                <Link to="/instances">
-                  <Button>Cancel</Button>
-                </Link>
-              </Col>
-            </Row>
-          </Form>
-        </Row>
-      </div>
-    </>
+    </Aside>
   );
 };
 

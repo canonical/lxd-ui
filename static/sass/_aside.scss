@@ -1,0 +1,43 @@
+@import "vanilla-framework/scss/vanilla";
+@import "./breakpoints";
+
+.l-aside {
+  .loading {
+    align-items: center;
+    background-color: $color-x-light;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &.is-split {
+    @include desktop {
+      max-width: 768px;
+      width: 66%;
+    }
+
+    .aside-split-wrapper {
+      padding-bottom: 4rem;
+
+      @include desktop {
+        display: flex;
+        padding-bottom: 1rem;
+      }
+
+      .aside-split-col {
+        width: 100%;
+
+        @include desktop {
+          width: calc(50% - 1rem);
+
+          &:first-child {
+            border-right: 1px solid #ccc;
+            margin-right: 2rem;
+            padding-right: 2rem;
+          }
+        }
+      }
+    }
+  }
+}

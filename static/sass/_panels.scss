@@ -1,0 +1,99 @@
+@import "vanilla-framework/scss/vanilla";
+@import "./functions/z-index";
+@import "./breakpoints";
+
+.panel-container {
+  min-height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: z("infinity");
+}
+
+.panel {
+  &-header {
+    margin: 3.5rem 2rem 2rem 0.5rem;
+
+    @include desktop {
+      margin-top: 0.5rem;
+      padding-top: 2.85rem;
+    }
+
+    .row {
+      padding: 0;
+    }
+
+    .entity-name {
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .entity-status {
+      left: -3px;
+      position: relative;
+    }
+
+    i[class*="p-icon"] {
+      margin-right: 0.5rem;
+    }
+
+    [class*="panel__id"] {
+      text-transform: capitalize;
+    }
+
+    @include mobile {
+      [class*="col"] {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &__label {
+    color: $color-mid-dark;
+    display: inline-block;
+
+    @include desktop {
+      text-align: right;
+    }
+  }
+
+  &__value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__kv {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 100px 1fr;
+    margin-bottom: 0.25rem;
+
+    @include desktop {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__table {
+    width: 100%;
+  }
+
+  &__tr {
+    border-top: 0 !important;
+    display: flex;
+    width: 100%;
+  }
+
+  &__td {
+    flex: 1;
+  }
+
+  &__th {
+    color: $color-mid-dark;
+    text-align: right;
+  }
+
+  .p-accordion__panel {
+    padding: 0;
+  }
+}

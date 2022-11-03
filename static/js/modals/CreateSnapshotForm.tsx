@@ -2,8 +2,8 @@ import React, { FC } from "react";
 import { Button, Form, Input, Modal } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { LxdInstance } from "./types/instance";
-import { stringToIsoTime } from "./helpers";
+import { LxdInstance } from "../types/instance";
+import { stringToIsoTime } from "../helpers/helpers";
 
 type Props = {
   instance: LxdInstance;

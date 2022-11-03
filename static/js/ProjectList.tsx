@@ -1,14 +1,18 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "./NotificationRow";
+import NotificationRow from "./components/NotificationRow";
 import { fetchProjectList } from "./api/projects";
 import { Notification } from "./types/notification";
 import { LxdProject } from "./types/project";
+import { useQueryParam, StringParam } from "use-query-params";
+import BaseLayout from "./components/BaseLayout";
+import { panelQueryParams } from "./panels/queryparams";
 
 const ProjectList: FC = () => {
   const [projects, setProjects] = useState<LxdProject[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
+
+  const setPanelQs = useQueryParam("panel", StringParam)[1];
 
   const setFailure = (message: string) => {
     setNotification({
@@ -109,18 +113,17 @@ const ProjectList: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Projects</h4>
-        <div className="p-panel__controls">
-          <Link
+      <BaseLayout
+        title="Projects"
+        controls={
+          <button
             className="p-button--positive u-no-margin--bottom"
-            to="/projects/add"
+            onClick={() => setPanelQs(panelQueryParams.projectForm)}
           >
             Add project
-          </Link>
-        </div>
-      </div>
-      <div className="p-panel__content">
+          </button>
+        }
+      >
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -135,7 +138,7 @@ const ProjectList: FC = () => {
             className="p-table--projects"
           />
         </Row>
-      </div>
+      </BaseLayout>
     </>
   );
 };

@@ -1,0 +1,36 @@
+@import "settings";
+
+// 0px -> mobile
+@mixin mobile {
+  @media screen and (max-width: $breakpoint-small) {
+    @content;
+  }
+}
+
+// mobile -> inf
+@mixin desktop {
+  @media screen and (min-width: $breakpoint-small) {
+    @content;
+  }
+}
+
+// mobile -> large
+@mixin medium {
+  @media screen and (min-width: $breakpoint-small) and (max-width: $breakpoint-large - 1px) {
+    @content;
+  }
+}
+
+// large -> inf
+@mixin large {
+  @media screen and (min-width: $breakpoint-large) {
+    @content;
+  }
+}
+
+// extra-large -> inf
+@mixin extra-large {
+  @media screen and (min-width: $breakpoint-x-large) {
+    @content;
+  }
+}

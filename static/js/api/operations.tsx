@@ -1,4 +1,4 @@
-import { handleResponse } from "../helpers";
+import { handleResponse } from "../helpers/helpers";
 
 export const watchOperation = (operationUrl: string) => {
   return new Promise((resolve, reject) => {

@@ -1,21 +1,27 @@
-import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { MainTable, Row, Tooltip } from "@canonical/react-components";
+import React, { FC, useEffect, useState } from "react";
 import { fetchInstances } from "./api/instances";
+import BaseLayout from "./components/BaseLayout";
+import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
+import OpenTerminalBtn from "./buttons/instances/OpenTerminalBtn";
 import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
-import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
-import NotificationRow from "./NotificationRow";
-import OpenTerminalBtn from "./buttons/instances/OpenTerminalBtn";
+import NotificationRow from "./components/NotificationRow";
 import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
 import { LxdInstance } from "./types/instance";
 import { Notification } from "./types/notification";
 import SnapshotModal from "./modals/SnapshotModal";
 
+import { StringParam, useQueryParam } from "use-query-params";
+import Panels from "./panels/panels";
+import { panelQueryParams } from "./panels/queryparams";
+
 const InstanceList: FC = () => {
   const [instances, setInstances] = useState<LxdInstance[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
   const [snapshotInstanceName, setSnapshotInstanceName] = useState("");
+
+  const setPanelQs = useQueryParam("panel", StringParam)[1];
 
   const setFailure = (message: string) => {
     setNotification({
@@ -175,18 +181,17 @@ const InstanceList: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Instances</h4>
-        <div className="p-panel__controls">
-          <Link
+      <BaseLayout
+        title="Instances"
+        controls={
+          <button
             className="p-button--positive u-no-margin--bottom"
-            to="/instances/add"
+            onClick={() => setPanelQs(panelQueryParams.instanceForm)}
           >
             Add instance
-          </Link>
-        </div>
-      </div>
-      <div className="p-panel__content">
+          </button>
+        }
+      >
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -210,7 +215,8 @@ const InstanceList: FC = () => {
             }
           />
         )}
-      </div>
+      </BaseLayout>
+      <Panels />
     </>
   );
 };

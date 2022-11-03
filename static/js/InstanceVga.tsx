@@ -1,11 +1,12 @@
 import React, { FC, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Icon, Row } from "@canonical/react-components";
-import NotificationRow from "./NotificationRow";
+import NotificationRow from "./components/NotificationRow";
 import { Notification } from "./types/notification";
 import * as SpiceHtml5 from "../lib/spice/src/main";
 import { fetchInstanceVga } from "./api/instances";
-import { getWsErrorMsg } from "./helpers";
+import { getWsErrorMsg } from "./helpers/helpers";
+import BaseLayout from "./components/BaseLayout";
 
 type Params = {
   name: string;
@@ -113,23 +114,24 @@ const InstanceVga: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">VGA Terminal for {name}</h4>
-        <div className="p-panel__controls">
-          <Button
-            hasIcon={true}
-            appearance="neutral"
-            onClick={handleFullScreen}
-          >
-            <Icon name="fullscreen" />
-            <span>Fullscreen</span>
-          </Button>
-          <Link className="p-button u-no-margin--bottom" to="/instances">
-            Back
-          </Link>
-        </div>
-      </div>
-      <div className="p-panel__content">
+      <BaseLayout
+        title={`VGA Terminal for ${name}`}
+        controls={
+          <>
+            <Button
+              hasIcon={true}
+              appearance="neutral"
+              onClick={handleFullScreen}
+            >
+              <Icon name="fullscreen" />
+              <span>Fullscreen</span>
+            </Button>
+            <Link className="p-button u-no-margin--bottom" to="/instances">
+              Back
+            </Link>
+          </>
+        }
+      >
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -139,7 +141,7 @@ const InstanceVga: FC = () => {
             <div id="spice-screen" className="spice-screen" />
           </div>
         </Row>
-      </div>
+      </BaseLayout>
     </>
   );
 };
