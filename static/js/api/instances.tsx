@@ -1,5 +1,5 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../helpers";
+import { handleResponse } from "../helpers/helpers";
 import { LxdInstance } from "../types/instance";
 import { LxdConsole } from "../types/console";
 

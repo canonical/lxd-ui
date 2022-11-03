@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import { MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "./NotificationRow";
+import NotificationRow from "./components/NotificationRow";
 import { Notification } from "./types/notification";
 import { LxdClusterMember } from "./types/cluster";
 import { fetchClusterMembers } from "./api/cluster";
+import BaseLayout from "./components/BaseLayout";
 
 const ClusterList: FC = () => {
   const [members, setMembers] = useState<LxdClusterMember[]>([]);
@@ -99,10 +100,7 @@ const ClusterList: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Cluster</h4>
-      </div>
-      <div className="p-panel__content">
+      <BaseLayout title="Cluster">
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -117,7 +115,7 @@ const ClusterList: FC = () => {
             className="p-table--cluster"
           />
         </Row>
-      </div>
+      </BaseLayout>
     </>
   );
 };

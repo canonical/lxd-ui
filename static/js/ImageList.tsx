@@ -1,16 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { MainTable, Row, Tooltip } from "@canonical/react-components";
-import { humanFileSize, isoTimeToString } from "./helpers";
+import { humanFileSize, isoTimeToString } from "./helpers/helpers";
 import { fetchImageList } from "./api/images";
-import NotificationRow from "./NotificationRow";
+import NotificationRow from "./components/NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 import { LxdImage } from "./types/image";
 import { Notification } from "./types/notification";
+import { StringParam, useQueryParam } from "use-query-params";
+import BaseLayout from "./components/BaseLayout";
+import { panelQueryParams } from "./panels/queryparams";
 
 const ImageList: FC = () => {
   const [images, setImages] = useState<LxdImage[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
+
+  const setPanelQs = useQueryParam("panel", StringParam)[1];
 
   const setFailure = (message: string) => {
     setNotification({
@@ -124,18 +128,17 @@ const ImageList: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Images</h4>
-        <div className="p-panel__controls">
-          <Link
+      <BaseLayout
+        title="Images"
+        controls={
+          <button
             className="p-button--positive u-no-margin--bottom"
-            to="/images/add"
+            onClick={() => setPanelQs(panelQueryParams.imageForm)}
           >
             Add image
-          </Link>
-        </div>
-      </div>
-      <div className="p-panel__content">
+          </button>
+        }
+      >
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -150,7 +153,7 @@ const ImageList: FC = () => {
             className="p-table--images"
           />
         </Row>
-      </div>
+      </BaseLayout>
     </>
   );
 };

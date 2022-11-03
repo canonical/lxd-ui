@@ -1,13 +1,13 @@
 import { Button, MainTable, Modal, Tooltip } from "@canonical/react-components";
 import React, { FC, useState } from "react";
 import { LxdInstance } from "../types/instance";
-import { isoTimeToString } from "../helpers";
+import { isoTimeToString } from "../helpers/helpers";
 import DeleteSnapshotBtn from "../buttons/snapshots/DeleteSnapshotBtn";
 import { Notification } from "../types/notification";
-import NotificationRow from "../NotificationRow";
 import { createSnapshot } from "../api/snapshots";
-import CreateSnapshotForm from "../CreateSnapshotForm";
+import CreateSnapshotForm from "./CreateSnapshotForm";
 import RestoreSnapshotBtn from "../buttons/snapshots/RestoreSnapshotBtn";
+import NotificationRow from "../components/NotificationRow";
 
 type Props = {
   onCancel: () => void;

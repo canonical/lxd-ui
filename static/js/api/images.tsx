@@ -1,5 +1,5 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../helpers";
+import { handleResponse } from "../helpers/helpers";
 import { LxdImage } from "../types/image";
 
 export const fetchImageList = (): Promise<LxdImage[]> => {

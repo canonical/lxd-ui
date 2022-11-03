@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
 import { MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "./NotificationRow";
+import NotificationRow from "./components/NotificationRow";
 import { fetchWarningList } from "./api/warnings";
-import { isoTimeToString } from "./helpers";
+import { isoTimeToString } from "./helpers/helpers";
 import { Notification } from "./types/notification";
 import { LxdWarning } from "./types/warning";
+import BaseLayout from "./components/BaseLayout";
 
 const WarningList: FC = () => {
   const [warnings, setWarnings] = useState<LxdWarning[]>([]);
@@ -101,10 +102,7 @@ const WarningList: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Warnings</h4>
-      </div>
-      <div className="p-panel__content">
+      <BaseLayout title="Warnings">
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -119,7 +117,7 @@ const WarningList: FC = () => {
             className="p-table--warnings"
           />
         </Row>
-      </div>
+      </BaseLayout>
     </>
   );
 };

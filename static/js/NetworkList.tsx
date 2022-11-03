@@ -1,14 +1,18 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "./NotificationRow";
+import NotificationRow from "./components/NotificationRow";
 import { fetchNetworkList } from "./api/networks";
 import { LxdNetwork } from "./types/network";
 import { Notification } from "./types/notification";
+import { useQueryParam, StringParam } from "use-query-params";
+import BaseLayout from "./components/BaseLayout";
+import { panelQueryParams } from "./panels/queryparams";
 
 const NetworkList: FC = () => {
   const [networks, setNetworks] = useState<LxdNetwork[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
+
+  const setPanelQs = useQueryParam("panel", StringParam)[1];
 
   const setFailure = (message: string) => {
     setNotification({
@@ -107,18 +111,17 @@ const NetworkList: FC = () => {
 
   return (
     <>
-      <div className="p-panel__header">
-        <h4 className="p-panel__title">Networks</h4>
-        <div className="p-panel__controls">
-          <Link
+      <BaseLayout
+        title="Networks"
+        controls={
+          <button
             className="p-button--positive u-no-margin--bottom"
-            to="/networks/add"
+            onClick={() => setPanelQs(panelQueryParams.networkForm)}
           >
             Add network
-          </Link>
-        </div>
-      </div>
-      <div className="p-panel__content">
+          </button>
+        }
+      >
         <NotificationRow
           notification={notification}
           close={() => setNotification(null)}
@@ -133,7 +136,7 @@ const NetworkList: FC = () => {
             className="p-table--networks"
           />
         </Row>
-      </div>
+      </BaseLayout>
     </>
   );
 };
