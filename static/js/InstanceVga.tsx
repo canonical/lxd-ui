@@ -5,7 +5,7 @@ import NotificationRow from "./components/NotificationRow";
 import { Notification } from "./types/notification";
 import * as SpiceHtml5 from "../assets/lib/spice/src/main";
 import { fetchInstanceVga } from "./api/instances";
-import { getWsErrorMsg } from "./helpers/helpers";
+import { getWsErrorMsg } from "./util/helpers";
 import BaseLayout from "./components/BaseLayout";
 import useEventListener from "@use-it/event-listener";
 

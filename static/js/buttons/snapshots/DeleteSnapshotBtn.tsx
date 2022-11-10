@@ -1,6 +1,8 @@
 import React, { FC, useState } from "react";
 import { LxdInstance, LxdSnapshot } from "../../types/instance";
 import { deleteSnapshot } from "../../api/snapshots";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../../util/queryKeys";
 
 type Props = {
   instance: LxdInstance;
@@ -16,12 +18,16 @@ const DeleteSnapshotBtn: FC<Props> = ({
   onFailure,
 }) => {
   const [isLoading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
     deleteSnapshot(instance, snapshot)
       .then(() => {
         setLoading(false);
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances],
+        });
         onSuccess();
       })
       .catch(() => {

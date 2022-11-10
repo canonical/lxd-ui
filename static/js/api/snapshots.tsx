@@ -1,5 +1,5 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../helpers/helpers";
+import { handleResponse } from "../util/helpers";
 import { LxdInstance, LxdSnapshot } from "../types/instance";
 
 export const createSnapshot = (

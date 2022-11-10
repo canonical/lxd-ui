@@ -1,4 +1,4 @@
-import { handleResponse } from "../helpers/helpers";
+import { handleResponse } from "../util/helpers";
 import { LxdProject } from "../types/project";
 
 export const fetchProjectList = (): Promise<LxdProject[]> => {

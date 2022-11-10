@@ -7,7 +7,7 @@ import { fetchInstanceExec } from "./api/instances";
 import { Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { Notification } from "./types/notification";
-import { getWsErrorMsg } from "./helpers/helpers";
+import { getWsErrorMsg } from "./util/helpers";
 import BaseLayout from "./components/BaseLayout";
 import useEventListener from "@use-it/event-listener";
 

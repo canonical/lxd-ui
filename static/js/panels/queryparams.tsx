@@ -1,6 +1,6 @@
 export const panelQueryParams = {
   instanceForm: "instance-form",
-  imageForm: "image-form",
+  imageImport: "image-import",
   networkForm: "network-form",
   projectForm: "project-form",
 };

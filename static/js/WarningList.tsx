@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { fetchWarningList } from "./api/warnings";
-import { isoTimeToString } from "./helpers/helpers";
+import { isoTimeToString } from "./util/helpers";
 import { Notification } from "./types/notification";
 import { LxdWarning } from "./types/warning";
 import BaseLayout from "./components/BaseLayout";

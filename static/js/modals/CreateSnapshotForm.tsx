@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { LxdInstance } from "../types/instance";
-import { stringToIsoTime } from "../helpers/helpers";
+import { stringToIsoTime } from "../util/helpers";
 
 type Props = {
   instance: LxdInstance;

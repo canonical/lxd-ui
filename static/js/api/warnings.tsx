@@ -1,4 +1,4 @@
-import { handleResponse } from "../helpers/helpers";
+import { handleResponse } from "../util/helpers";
 import { LxdWarning } from "../types/warning";
 
 export const fetchWarningList = (): Promise<LxdWarning[]> => {
