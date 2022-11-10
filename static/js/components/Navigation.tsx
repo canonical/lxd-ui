@@ -127,7 +127,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <a
                         className="p-side-navigation__link"
-                        href="https://linuxcontainers.org/lxd/docs/master/"
+                        href="https://linuxcontainers.org/lxd/docs/latest/"
                         target="_blank"
                         rel="noreferrer"
                       >

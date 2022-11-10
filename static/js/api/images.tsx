@@ -1,6 +1,6 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../helpers/helpers";
-import { LxdImage } from "../types/image";
+import { handleResponse } from "../util/helpers";
+import { ImportImage, LxdImage } from "../types/image";
 
 export const fetchImageList = (): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {
@@ -19,6 +19,29 @@ export const deleteImage = (image: LxdImage) => {
       .then(handleResponse)
       .then((data) => {
         watchOperation(data.operation).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const importImage = (remoteImage: ImportImage) => {
+  return new Promise((resolve, reject) => {
+    fetch("/1.0/images", {
+      method: "POST",
+      body: JSON.stringify({
+        auto_update: true,
+        source: {
+          alias: remoteImage.aliases.split(",")[0],
+          mode: "pull",
+          protocol: "simplestreams",
+          type: "image",
+          server: remoteImage.server,
+        },
+      }),
+    })
+      .then(handleResponse)
+      .then((data) => {
+        watchOperation(data.operation, 300).then(resolve).catch(reject);
       })
       .catch(reject);
   });

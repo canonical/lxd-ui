@@ -1,6 +1,8 @@
 import React, { FC, useState } from "react";
 import { LxdInstance, LxdSnapshot } from "../../types/instance";
 import { restoreSnapshot } from "../../api/snapshots";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../../util/queryKeys";
 
 type Props = {
   instance: LxdInstance;
@@ -16,12 +18,16 @@ const RestoreSnapshotBtn: FC<Props> = ({
   onFailure,
 }) => {
   const [isLoading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleRestore = () => {
     setLoading(true);
     restoreSnapshot(instance, snapshot)
       .then(() => {
         setLoading(false);
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances],
+        });
         onSuccess();
       })
       .catch(() => {

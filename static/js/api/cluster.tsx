@@ -1,4 +1,4 @@
-import { handleResponse } from "../helpers/helpers";
+import { handleResponse } from "../util/helpers";
 import { LxdClusterMember } from "../types/cluster";
 
 export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {

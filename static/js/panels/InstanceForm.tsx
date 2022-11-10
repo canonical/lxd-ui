@@ -1,3 +1,5 @@
+import React, { FC, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Button,
   Col,
@@ -7,8 +9,6 @@ import {
   Select,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
-import React, { FC, OptionHTMLAttributes, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { fetchImageList } from "../api/images";
 import { createInstance } from "../api/instances";
@@ -16,45 +16,50 @@ import Aside from "../components/Aside";
 import NotificationRow from "../components/NotificationRow";
 import PanelHeader from "../components/PanelHeader";
 import { Notification } from "../types/notification";
-
-type Option = OptionHTMLAttributes<HTMLOptionElement>;
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../util/queryKeys";
 
 const InstanceForm: FC = () => {
   const [notification, setNotification] = useState<Notification | null>(null);
-  const [images, setImages] = useState<Option[]>([
-    {
-      label: "Select option",
-      value: "",
-      disabled: true,
-    },
-  ]);
 
   const navigate = useNavigate();
+  const [queryParams] = useSearchParams();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchImageList()
-      .then((result) => {
-        const options = result.map((imageRaw) => {
-          return {
-            label: imageRaw.properties.description,
-            value: imageRaw.fingerprint,
-            disabled: false,
-          };
-        });
-        options.unshift({
-          label: options.length === 0 ? "No image available" : "Select option",
-          value: "",
-          disabled: true,
-        });
-        setImages(options);
-      })
-      .catch(() =>
-        setNotification({
-          message: "Could not load images.",
-          type: "negative",
-        })
-      );
-  }, []);
+  const { data: images = [], isError } = useQuery({
+    queryKey: [queryKeys.images],
+    queryFn: fetchImageList,
+  });
+
+  if (isError) {
+    setNotification({
+      message: "Could not load imageOptions.",
+      type: "negative",
+    });
+  }
+
+  const getImageOptions = () => {
+    const options = images.map((image) => {
+      return {
+        label: image.properties.description,
+        value: image.fingerprint,
+        disabled: false,
+      };
+    });
+    options.unshift({
+      label: images.length === 0 ? "No image available" : "Select option",
+      value: "",
+      disabled: true,
+    });
+    return options;
+  };
+
+  const getInstanceType = (fingerprint: string) => {
+    return images.find((item) => item.fingerprint === fingerprint)?.type ===
+      "container"
+      ? "container"
+      : "virtual-machine";
+  };
 
   const InstanceSchema = Yup.object().shape({
     image: Yup.string().required("This field is required"),
@@ -63,16 +68,22 @@ const InstanceForm: FC = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      image: "",
+      image: queryParams.get("image") || "",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
-      createInstance(values.name, values.image)
-        .then(() => navigate("/instances"))
-        .catch(() => {
+      const instanceType = getInstanceType(values.image);
+      createInstance(values.name, values.image, instanceType)
+        .then(() => {
+          queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances],
+          });
+          navigate("/instances");
+        })
+        .catch((e) => {
           formik.setSubmitting(false);
           setNotification({
-            message: "Error on instance creation.",
+            message: `Error on instance creation. ${e.toString()}`,
             type: "negative",
           });
         });
@@ -94,7 +105,7 @@ const InstanceForm: FC = () => {
     <Button
       appearance="positive"
       type="submit"
-      disabled={!formik.dirty || !formik.isValid}
+      disabled={!formik.isValid}
       style={{ marginRight: "1rem" }}
     >
       Create instance
@@ -111,17 +122,14 @@ const InstanceForm: FC = () => {
             close={() => setNotification(null)}
           />
           <Row>
-            <strong className="p-heading--5">Required</strong>
-          </Row>
-          <Row>
             <Form onSubmit={formik.handleSubmit} stacked>
               <Input
                 id="name"
                 name="name"
                 type="text"
                 label="Instance name"
-                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 value={formik.values.name}
                 error={formik.touched.name ? formik.errors.name : null}
                 stacked
@@ -130,11 +138,12 @@ const InstanceForm: FC = () => {
                 id="image"
                 name="image"
                 label="Image"
-                options={images}
-                onChange={formik.handleChange}
+                options={getImageOptions()}
                 onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 value={formik.values.image}
                 error={formik.touched.image ? formik.errors.image : null}
+                required
                 stacked
               />
               <hr />

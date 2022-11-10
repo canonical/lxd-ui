@@ -1,5 +1,5 @@
 import { MainTable, Row, Tooltip } from "@canonical/react-components";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { fetchInstances } from "./api/instances";
 import BaseLayout from "./components/BaseLayout";
 import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
@@ -8,20 +8,23 @@ import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
-import { LxdInstance } from "./types/instance";
 import { Notification } from "./types/notification";
 import SnapshotModal from "./modals/SnapshotModal";
-
 import { StringParam, useQueryParam } from "use-query-params";
-import Panels from "./panels/panels";
 import { panelQueryParams } from "./panels/queryparams";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "./util/queryKeys";
 
 const InstanceList: FC = () => {
-  const [instances, setInstances] = useState<LxdInstance[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
   const [snapshotInstanceName, setSnapshotInstanceName] = useState("");
 
   const setPanelQs = useQueryParam("panel", StringParam)[1];
+
+  const { data: instances = [], isError } = useQuery({
+    queryKey: [queryKeys.instances],
+    queryFn: fetchInstances,
+  });
 
   const setFailure = (message: string) => {
     setNotification({
@@ -30,22 +33,13 @@ const InstanceList: FC = () => {
     });
   };
 
-  const loadInstances = async () => {
-    try {
-      const instances = await fetchInstances();
-      setInstances(instances);
-    } catch (e) {
-      setFailure("Could not load instances");
-    }
-  };
+  if (isError) {
+    setFailure("Could not load instances");
+  }
 
-  useEffect(() => {
-    loadInstances();
-    let timer = setInterval(loadInstances, 5000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const snapshotInstance = instances.find(
+    (item) => item.name === snapshotInstanceName
+  );
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -75,7 +69,7 @@ const InstanceList: FC = () => {
   const rows = instances.map((instance) => {
     const status = (
       <>
-        <i className={getIconClassForStatus(instance.status)}></i>
+        <i className={getIconClassForStatus(instance.status)}></i>{" "}
         {instance.status}
       </>
     );
@@ -83,25 +77,13 @@ const InstanceList: FC = () => {
     const actions = (
       <div>
         <Tooltip message="Start instance" position="btm-center">
-          <StartInstanceBtn
-            instance={instance}
-            onSuccess={loadInstances}
-            onFailure={setFailure}
-          />
+          <StartInstanceBtn instance={instance} onFailure={setFailure} />
         </Tooltip>
         <Tooltip message="Stop instance" position="btm-center">
-          <StopInstanceBtn
-            instance={instance}
-            onSuccess={loadInstances}
-            onFailure={setFailure}
-          />
+          <StopInstanceBtn instance={instance} onFailure={setFailure} />
         </Tooltip>
         <Tooltip message="Delete instance" position="btm-center">
-          <DeleteInstanceBtn
-            instance={instance}
-            onSuccess={loadInstances}
-            onFailure={setFailure}
-          />
+          <DeleteInstanceBtn instance={instance} onFailure={setFailure} />
         </Tooltip>
         <Tooltip message="Start console" position="btm-center">
           <OpenTerminalBtn instance={instance} />
@@ -206,17 +188,13 @@ const InstanceList: FC = () => {
             className="p-table--instances"
           />
         </Row>
-        {snapshotInstanceName && (
+        {snapshotInstance && (
           <SnapshotModal
             onCancel={() => setSnapshotInstanceName("")}
-            onChange={loadInstances}
-            instance={
-              instances.filter((item) => item.name === snapshotInstanceName)[0]
-            }
+            instance={snapshotInstance}
           />
         )}
       </BaseLayout>
-      <Panels />
     </>
   );
 };

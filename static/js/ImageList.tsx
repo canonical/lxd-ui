@@ -1,20 +1,26 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { MainTable, Row, Tooltip } from "@canonical/react-components";
-import { humanFileSize, isoTimeToString } from "./helpers/helpers";
+import { humanFileSize, isoTimeToString } from "./util/helpers";
+import { queryKeys } from "./util/queryKeys";
 import { fetchImageList } from "./api/images";
 import NotificationRow from "./components/NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
-import { LxdImage } from "./types/image";
 import { Notification } from "./types/notification";
 import { StringParam, useQueryParam } from "use-query-params";
 import BaseLayout from "./components/BaseLayout";
 import { panelQueryParams } from "./panels/queryparams";
+import CreateInstanceBtn from "./buttons/instances/CreateInstanceBtn";
+import { useQuery } from "@tanstack/react-query";
 
 const ImageList: FC = () => {
-  const [images, setImages] = useState<LxdImage[]>([]);
   const [notification, setNotification] = useState<Notification | null>(null);
 
   const setPanelQs = useQueryParam("panel", StringParam)[1];
+
+  const { data: images = [], isError } = useQuery({
+    queryKey: [queryKeys.images],
+    queryFn: fetchImageList,
+  });
 
   const setFailure = (message: string) => {
     setNotification({
@@ -23,18 +29,9 @@ const ImageList: FC = () => {
     });
   };
 
-  const loadImages = async () => {
-    try {
-      const images = await fetchImageList();
-      setImages(images);
-    } catch (e) {
-      setFailure("Could not load images.");
-    }
-  };
-
-  useEffect(() => {
-    loadImages();
-  }, []);
+  if (isError) {
+    setFailure("Could not load images");
+  }
 
   const headers = [
     { content: "Alias" },
@@ -51,12 +48,11 @@ const ImageList: FC = () => {
   const rows = images.map((image) => {
     const actions = (
       <div>
-        <Tooltip message="Delete Image" position="left">
-          <DeleteImageBtn
-            image={image}
-            onFailure={setFailure}
-            onSuccess={loadImages}
-          />
+        <Tooltip message="Create instance" position="left">
+          <CreateInstanceBtn image={image} />
+        </Tooltip>
+        <Tooltip message="Delete image" position="left">
+          <DeleteImageBtn image={image} onFailure={setFailure} />
         </Tooltip>
       </div>
     );
@@ -64,7 +60,7 @@ const ImageList: FC = () => {
     return {
       columns: [
         {
-          content: image.aliases.join(", "),
+          content: image.aliases.map((data) => data.name).join(", "),
           role: "rowheader",
           "aria-label": "Alias",
         },
@@ -133,9 +129,9 @@ const ImageList: FC = () => {
         controls={
           <button
             className="p-button--positive u-no-margin--bottom"
-            onClick={() => setPanelQs(panelQueryParams.imageForm)}
+            onClick={() => setPanelQs(panelQueryParams.imageImport)}
           >
-            Add image
+            Import image
           </button>
         }
       >

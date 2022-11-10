@@ -1,5 +1,5 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../helpers/helpers";
+import { handleResponse } from "../util/helpers";
 import { LxdInstance } from "../types/instance";
 import { LxdConsole } from "../types/console";
 
@@ -12,7 +12,11 @@ export const fetchInstances = (): Promise<LxdInstance[]> => {
   });
 };
 
-export const createInstance = (name: string, imageFingerprint: string) => {
+export const createInstance = (
+  name: string,
+  imageFingerprint: string,
+  instanceType: string
+) => {
   return new Promise((resolve, reject) => {
     return fetch("/1.0/instances", {
       method: "POST",
@@ -22,11 +26,12 @@ export const createInstance = (name: string, imageFingerprint: string) => {
           fingerprint: imageFingerprint,
           type: "image",
         },
+        type: instanceType,
       }),
     })
       .then(handleResponse)
       .then((data) => {
-        return watchOperation(data.operation).then(resolve).catch(reject);
+        return watchOperation(data.operation, 120).then(resolve).catch(reject);
       })
       .catch(reject);
   });

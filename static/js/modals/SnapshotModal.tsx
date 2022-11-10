@@ -1,23 +1,25 @@
 import { Button, MainTable, Modal, Tooltip } from "@canonical/react-components";
 import React, { FC, useState } from "react";
 import { LxdInstance } from "../types/instance";
-import { isoTimeToString } from "../helpers/helpers";
+import { isoTimeToString } from "../util/helpers";
+import { queryKeys } from "../util/queryKeys";
 import DeleteSnapshotBtn from "../buttons/snapshots/DeleteSnapshotBtn";
 import { Notification } from "../types/notification";
 import { createSnapshot } from "../api/snapshots";
 import CreateSnapshotForm from "./CreateSnapshotForm";
 import RestoreSnapshotBtn from "../buttons/snapshots/RestoreSnapshotBtn";
 import NotificationRow from "../components/NotificationRow";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   onCancel: () => void;
-  onChange: () => void;
   instance: LxdInstance;
 };
 
-const SnapshotModal: FC<Props> = ({ onCancel, instance, onChange }: Props) => {
+const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
   const [notification, setNotification] = useState<Notification | null>(null);
   const [isCreating, setCreating] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleCreate = (
     instance: LxdInstance,
@@ -32,11 +34,12 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance, onChange }: Props) => {
           message: `Snapshot ${snapshotName} created.`,
           type: "positive",
         });
-        onChange();
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances],
+        });
       })
       .catch((e) => {
         setCreating(false);
-        console.log(e, e.toString());
         setNotification({
           message: `Error on snapshot create. ${e.toString()}`,
           type: "negative",
@@ -80,7 +83,6 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance, onChange }: Props) => {
                 message: `Snapshot restored.`,
                 type: "positive",
               });
-              onChange();
             }}
           />
         </Tooltip>
@@ -99,7 +101,6 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance, onChange }: Props) => {
                 message: `Snapshot deleted.`,
                 type: "positive",
               });
-              onChange();
             }}
           />
         </Tooltip>
