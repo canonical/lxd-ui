@@ -16,6 +16,11 @@ Install HAProxy
 
     apt install haproxy
 
+Generate a certificate for the proxy
+
+    sudo openssl req -nodes -x509 -newkey rsa:2048 -keyout /etc/ssl/private/lxd-ui.key -out /etc/ssl/private/lxd-ui.crt -days 3000
+    sudo cat /etc/ssl/private/lxd-ui.key /etc/ssl/private/lxd-ui.crt | sudo tee -a /etc/ssl/private/lxd-ui.pem
+
 Configure HAProxy with below content in /etc/haproxy/haproxy.cfg
 
     global
@@ -27,8 +32,7 @@ Configure HAProxy with below content in /etc/haproxy/haproxy.cfg
       mode  http
 
     frontend lxd_frontend
-      bind *:9000
-      mode http
+      bind *:9443 ssl crt /etc/ssl/private/lxd-ui.pem
       acl is_upgrade hdr(Connection) -i upgrade
       acl is_websocket hdr(Upgrade) -i websocket
       acl is_lxd_core path_beg /1.0

@@ -40,9 +40,6 @@ const InstanceVga: FC = () => {
       return;
     }
 
-    // todo: need to open https://0.0.0.0:8443/ once per browser session,
-    // todo: so the secure websockets connect with the self-signed certificate
-
     const result = await fetchInstanceVga(name).catch((e) => {
       setNotification({
         message: e.message,
@@ -53,8 +50,8 @@ const InstanceVga: FC = () => {
       return;
     }
 
-    const dataUrl = `wss://0.0.0.0:8443${result.operation}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `wss://0.0.0.0:8443${result.operation}/websocket?secret=${result.metadata.metadata.fds.control}`;
+    const dataUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds.control}`;
 
     const control = new WebSocket(controlUrl);
 

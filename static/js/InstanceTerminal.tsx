@@ -28,13 +28,10 @@ const InstanceTerminal: FC = () => {
       return;
     }
 
-    // todo: need to open https://0.0.0.0:8443/ once per browser session,
-    // todo: so the secure websockets connect with the self-signed certificate
-
     const result = await fetchInstanceExec(name);
 
-    const dataUrl = `wss://0.0.0.0:8443${result.operation}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `wss://0.0.0.0:8443${result.operation}/websocket?secret=${result.metadata.metadata.fds["control"]}`;
+    const dataUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds["control"]}`;
 
     const data = new WebSocket(dataUrl);
     const control = new WebSocket(controlUrl);
