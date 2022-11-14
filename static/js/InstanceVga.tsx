@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Button, Icon, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { Notification } from "./types/notification";
-import * as SpiceHtml5 from "../lib/spice/src/main";
+import * as SpiceHtml5 from "../assets/lib/spice/src/main";
 import { fetchInstanceVga } from "./api/instances";
 import { getWsErrorMsg } from "./helpers/helpers";
 import BaseLayout from "./components/BaseLayout";
