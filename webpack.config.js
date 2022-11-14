@@ -34,18 +34,12 @@ const config = {
         {
           from: "static/html/index.html",
           to: "index.html",
+          toType: "file",
         },
         {
-          from: "static/img",
-          to: "static/img",
-        },
-        {
-          from: "static/fonts",
-          to: "static/fonts",
-        },
-        {
-          from: "static/lib",
-          to: "static/lib",
+          from: "static/assets",
+          to: "static/assets",
+          toType: "dir",
         },
       ],
     }),
