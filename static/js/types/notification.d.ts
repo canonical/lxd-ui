@@ -4,4 +4,4 @@ import { ValueOf } from "@canonical/react-components/dist/types";
 export interface Notification {
   message: string;
   type: ValueOf<typeof NotificationSeverity>;
-};
+}
