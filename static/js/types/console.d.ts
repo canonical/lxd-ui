@@ -1,4 +1,4 @@
-export type LxdConsole = {
+export interface LxdConsole {
   operation: string;
   metadata: {
     metadata: {
@@ -8,4 +8,4 @@ export type LxdConsole = {
       };
     };
   };
-};
+}

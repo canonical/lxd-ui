@@ -3,15 +3,6 @@ import { handleResponse } from "../helpers/helpers";
 import { LxdInstance } from "../types/instance";
 import { LxdConsole } from "../types/console";
 
-export const fetchInstance = (name: string): Promise<LxdInstance> => {
-  return new Promise((resolve, reject) => {
-    return fetch(`/1.0/instances/${name}?recursion=2`)
-      .then(handleResponse)
-      .then((data) => resolve(data.metadata))
-      .catch(reject);
-  });
-};
-
 export const fetchInstances = (): Promise<LxdInstance[]> => {
   return new Promise((resolve, reject) => {
     return fetch("/1.0/instances?recursion=2")
@@ -78,26 +69,6 @@ export const deleteInstance = (instance: LxdInstance) => {
       .then((data) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
-      .catch(reject);
-  });
-};
-
-export const fetchInstanceConsole = (name: string): Promise<LxdConsole> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${name}/console`, {
-      method: "POST",
-      body: JSON.stringify({
-        type: "console",
-        "record-output": true,
-        "wait-for-websocket": true,
-        environment: {
-          TERM: "xterm-256color",
-        },
-        interactive: true,
-      }),
-    })
-      .then(handleResponse)
-      .then((data) => resolve(data))
       .catch(reject);
   });
 };
