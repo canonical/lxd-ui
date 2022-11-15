@@ -45,10 +45,14 @@ function resize_helper(sc)
     /* Resize vertically; basically we leave a 27 pixel margin
          at the bottom, and use the position of the wrapper
          to figure out how to resize */
-    var h = window.innerHeight - wrapper.getBoundingClientRect().top;
+    var h = window.innerHeight - wrapper.offsetTop;
     if (!isFullScreen && wrapper?.parentElement?.parentElement) {
         var paddingBottom = parseInt(window.getComputedStyle(wrapper.parentElement.parentElement).paddingBottom);
         h = h - paddingBottom;
+    }
+
+    if (h < 400) {
+        h = 400;
     }
 
     /* Xorg requires height be a multiple of 8; round down */
