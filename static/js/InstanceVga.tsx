@@ -7,6 +7,7 @@ import * as SpiceHtml5 from "../assets/lib/spice/src/main";
 import { fetchInstanceVga } from "./api/instances";
 import { getWsErrorMsg } from "./helpers/helpers";
 import BaseLayout from "./components/BaseLayout";
+import useEventListener from "@use-it/event-listener";
 
 type Params = {
   name: string;
@@ -80,7 +81,6 @@ const InstanceVga: FC = () => {
         screen_id: "spice-screen",
         onerror: handleError,
         onsuccess: () => {
-          window.addEventListener("resize", SpiceHtml5.handle_resize);
           SpiceHtml5.handle_resize();
         },
       });
@@ -92,6 +92,7 @@ const InstanceVga: FC = () => {
     }
   };
 
+  useEventListener("resize", SpiceHtml5.handle_resize);
   React.useEffect(() => {
     openVgaConsole();
   }, []);

@@ -9,6 +9,7 @@ import NotificationRow from "./components/NotificationRow";
 import { Notification } from "./types/notification";
 import { getWsErrorMsg } from "./helpers/helpers";
 import BaseLayout from "./components/BaseLayout";
+import useEventListener from "@use-it/event-listener";
 
 type Params = {
   name: string;
@@ -53,6 +54,7 @@ const InstanceTerminal: FC = () => {
         message: getWsErrorMsg(event.code),
         type: "negative",
       });
+      setControlWs(null);
     };
 
     control.onmessage = (message) => {
@@ -75,6 +77,7 @@ const InstanceTerminal: FC = () => {
         message: getWsErrorMsg(event.code),
         type: "negative",
       });
+      setDataWs(null);
     };
 
     data.onmessage = (message) => {
@@ -109,10 +112,9 @@ const InstanceTerminal: FC = () => {
     );
   };
 
+  useEventListener("resize", handleResize);
   useLayoutEffect(() => {
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, [controlWs, fitAddon, xtermRef]);
 
   return (
