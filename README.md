@@ -32,7 +32,7 @@ Configure HAProxy with below content in /etc/haproxy/haproxy.cfg
       mode  http
 
     frontend lxd_frontend
-      bind *:9443 ssl crt /etc/ssl/private/lxd-ui.pem
+      bind 127.0.0.1:9443 ssl crt /etc/ssl/private/lxd-ui.pem
       acl is_upgrade hdr(Connection) -i upgrade
       acl is_websocket hdr(Upgrade) -i websocket
       acl is_lxd_core path_beg /1.0
@@ -42,7 +42,7 @@ Configure HAProxy with below content in /etc/haproxy/haproxy.cfg
       default_backend lxd_ui
 
     backend lxd_ui
-      server yarn_serve_port 0.0.0.0:3000
+      server yarn_serve_port 127.0.0.1:3000
 
     backend lxd_core
       server lxd_socket /var/snap/lxd/common/lxd/unix.socket
@@ -51,9 +51,8 @@ Restart HAProxy
 
     sudo service haproxy restart
 
-Install dotrun and launch it from the head of this repo
+Install dotrun as described in https://github.com/canonical/dotrun#installation Launch it from the head of this repo
 
-    sudo pip3 install dotrun
     dotrun
 
-Browse through http://0.0.0.0:9000/ and **avoid** querying port 3000 directly. Requests to the lxd core won't reach HAProxy on the port 3000.
+Browse through https://localhost:9443/ and **avoid** querying port 3000 directly. Requests to the lxd core won't reach HAProxy on the port 3000.
