@@ -12,7 +12,7 @@ type QueryString = {
 const PanelHeader: FC<Props> = ({ title }: Props) => {
   const [panelQs, setPanelQs] = useQueryParams({
     panel: StringParam,
-    model: StringParam,
+    instance: StringParam,
   });
 
   // Remove all query strings when close button is clicked

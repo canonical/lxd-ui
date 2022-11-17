@@ -9,17 +9,19 @@ import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
 import { Notification } from "./types/notification";
-import SnapshotModal from "./modals/SnapshotModal";
-import { StringParam, useQueryParam } from "use-query-params";
-import { panelQueryParams } from "./panels/queryparams";
+import { StringParam, useQueryParam, useQueryParams, withDefault } from "use-query-params";
+import { panelQueryParams } from "./util/panelQueryParams";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 
 const InstanceList: FC = () => {
   const [notification, setNotification] = useState<Notification | null>(null);
-  const [snapshotInstanceName, setSnapshotInstanceName] = useState("");
 
   const setPanelQs = useQueryParam("panel", StringParam)[1];
+  const setSnapshotPanelQs = useQueryParams({
+    instance: StringParam,
+    panel: withDefault(StringParam, panelQueryParams.snapshots),
+  })[1];
 
   const { data: instances = [], isError } = useQuery({
     queryKey: [queryKeys.instances],
@@ -36,10 +38,6 @@ const InstanceList: FC = () => {
   if (isError) {
     setFailure("Could not load instances");
   }
-
-  const snapshotInstance = instances.find(
-    (item) => item.name === snapshotInstanceName
-  );
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -96,7 +94,12 @@ const InstanceList: FC = () => {
 
     const snapshots = (
       <button
-        onClick={() => setSnapshotInstanceName(instance.name)}
+        onClick={() => {
+          setSnapshotPanelQs({
+            panel: panelQueryParams.snapshots,
+            instance: instance.name,
+          });
+        }}
         className="p-button--base has-icon"
       >
         <span>{instance.snapshots?.length || "0"}</span>
@@ -188,12 +191,6 @@ const InstanceList: FC = () => {
             className="p-table--instances"
           />
         </Row>
-        {snapshotInstance && (
-          <SnapshotModal
-            onCancel={() => setSnapshotInstanceName("")}
-            instance={snapshotInstance}
-          />
-        )}
       </BaseLayout>
     </>
   );

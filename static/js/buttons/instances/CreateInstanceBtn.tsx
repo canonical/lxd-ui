@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { LxdImage } from "../../types/image";
 import { StringParam, useQueryParam } from "use-query-params";
-import { panelQueryParams } from "../../panels/queryparams";
+import { panelQueryParams } from "../../util/panelQueryParams";
 
 type Props = {
   image: LxdImage;

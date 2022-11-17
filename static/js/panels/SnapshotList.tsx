@@ -1,33 +1,54 @@
-import { Button, MainTable, Modal, Tooltip } from "@canonical/react-components";
+import { Button, Col, MainTable, Modal, Row, Tooltip } from "@canonical/react-components";
 import React, { FC, useState } from "react";
-import { LxdInstance } from "../types/instance";
+import { LxdInstance, LxdSnapshot } from "../types/instance";
 import { isoTimeToString } from "../util/helpers";
 import { queryKeys } from "../util/queryKeys";
 import DeleteSnapshotBtn from "../buttons/snapshots/DeleteSnapshotBtn";
 import { Notification } from "../types/notification";
 import { createSnapshot } from "../api/snapshots";
-import CreateSnapshotForm from "./CreateSnapshotForm";
+import CreateSnapshotForm from "../modals/CreateSnapshotForm";
 import RestoreSnapshotBtn from "../buttons/snapshots/RestoreSnapshotBtn";
 import NotificationRow from "../components/NotificationRow";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryParams, StringParam } from "use-query-params";
+import { fetchSnapshots } from "../api/snapshots";
+import Aside from "../components/Aside";
+import PanelHeader from "../components/PanelHeader";
 
-type Props = {
-  onCancel: () => void;
-  instance: LxdInstance;
-};
-
-const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
+const SnapshotList: FC = () => {
   const [notification, setNotification] = useState<Notification | null>(null);
   const [isCreating, setCreating] = useState(false);
   const queryClient = useQueryClient();
 
+  const queryParams = useQueryParams({
+    instance: StringParam,
+  });
+
+  const instanceName = queryParams[0].instance || "";
+
+  const { data: snapshots = [], isError } = useQuery({
+    queryKey: [queryKeys.instances, instanceName, queryKeys.snapshots],
+    queryFn: async () => fetchSnapshots(instanceName),
+  });
+
+  const setFailure = (message: string) => {
+    setNotification({
+      message,
+      type: "negative",
+    });
+  };
+
+  if (isError) {
+    setFailure("Could not load instances");
+  }
+
   const handleCreate = (
-    instance: LxdInstance,
+    snapshots: LxdSnapshot[],
     snapshotName: string,
     expiresAt: string | null,
     stateful: boolean
   ) => {
-    createSnapshot(instance, snapshotName, expiresAt, stateful)
+    createSnapshot(instanceName, snapshotName, expiresAt, stateful)
       .then(() => {
         setCreating(false);
         setNotification({
@@ -35,7 +56,7 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
           type: "positive",
         });
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
+          predicate: query => query.queryKey[0] === queryKeys.instances,
         });
       })
       .catch((e) => {
@@ -50,7 +71,8 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
   if (isCreating) {
     return (
       <CreateSnapshotForm
-        instance={instance}
+        instanceName={instanceName}
+        snapshots={snapshots}
         onSuccess={handleCreate}
         onCancel={() => setCreating(false)}
       />
@@ -65,12 +87,12 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
     { content: "Actions", className: "u-align--center" },
   ];
 
-  const rows = instance.snapshots?.map((snapshot) => {
+  const rows = snapshots?.map((snapshot) => {
     const actions = (
       <div>
         <Tooltip message="Restore snapshot" position="btm-center">
           <RestoreSnapshotBtn
-            instance={instance}
+            instanceName={instanceName}
             snapshot={snapshot}
             onFailure={() =>
               setNotification({
@@ -88,7 +110,7 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
         </Tooltip>
         <Tooltip message="Delete snapshot" position="btm-center">
           <DeleteSnapshotBtn
-            instance={instance}
+            instanceName={instanceName}
             snapshot={snapshot}
             onFailure={() =>
               setNotification({
@@ -144,43 +166,45 @@ const SnapshotModal: FC<Props> = ({ onCancel, instance }: Props) => {
   });
 
   return (
-    <Modal
-      close={onCancel}
-      title={`Snapshots for ${instance.name}`}
-      buttonRow={
-        <>
-          <Button
-            onClick={() => setCreating(true)}
-            className="p-button has-icon"
-            appearance="positive"
-          >
-            <i className="p-icon--plus is-light" />
-            <span>Create snapshot</span>
-          </Button>
-          <Button className="u-no-margin--bottom" onClick={onCancel}>
-            Close
-          </Button>
-        </>
-      }
-    >
-      <NotificationRow
-        notification={notification}
-        close={() => setNotification(null)}
-      />
-      {instance.snapshots ? (
-        <MainTable
-          headers={headers}
-          rows={rows}
-          paginate={30}
-          responsive
-          sortable
-          className="p-table--snapshots"
-        />
-      ) : (
-        <p>No snapshots found</p>
-      )}
-    </Modal>
+    <Aside width="wide">
+      <div className="p-panel">
+        <PanelHeader title={`Snapshots for ${instanceName}`} />
+        <div className="p-panel__content">
+          <NotificationRow
+            notification={notification}
+            close={() => setNotification(null)}
+          />
+          <Row>
+            {snapshots.length ? (
+              <MainTable
+                headers={headers}
+                rows={rows}
+                paginate={30}
+                responsive
+                sortable
+                className="p-table--snapshots"
+              />
+            ) : (
+              <p>No snapshots found</p>
+            )}
+            <hr />
+          </Row>
+          <Row className="u-align--right">
+            <Col size={12}>
+              <Button
+                onClick={() => setCreating(true)}
+                className="p-button has-icon"
+                appearance="positive"
+              >
+                <i className="p-icon--plus is-light" />
+                <span>Create snapshot</span>
+              </Button>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </Aside>
   );
 };
 
-export default SnapshotModal;
+export default SnapshotList;

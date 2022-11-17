@@ -6,7 +6,7 @@ import { LxdNetwork } from "./types/network";
 import { Notification } from "./types/notification";
 import { useQueryParam, StringParam } from "use-query-params";
 import BaseLayout from "./components/BaseLayout";
-import { panelQueryParams } from "./panels/queryparams";
+import { panelQueryParams } from "./util/panelQueryParams";
 
 const NetworkList: FC = () => {
   const [networks, setNetworks] = useState<LxdNetwork[]>([]);

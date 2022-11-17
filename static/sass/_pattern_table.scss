@@ -133,6 +133,9 @@
   .p-table--snapshots {
     th,
     td {
+      &:nth-child(1) {
+        width: 13rem;
+      }
       &:nth-child(2) {
         width: 13rem;
       }
