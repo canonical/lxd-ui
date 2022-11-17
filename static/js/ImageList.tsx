@@ -8,7 +8,7 @@ import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 import { Notification } from "./types/notification";
 import { StringParam, useQueryParam } from "use-query-params";
 import BaseLayout from "./components/BaseLayout";
-import { panelQueryParams } from "./panels/queryparams";
+import { panelQueryParams } from "./util/panelQueryParams";
 import CreateInstanceBtn from "./buttons/instances/CreateInstanceBtn";
 import { useQuery } from "@tanstack/react-query";
 

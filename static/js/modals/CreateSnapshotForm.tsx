@@ -2,21 +2,22 @@ import React, { FC } from "react";
 import { Button, Form, Input, Modal } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { LxdInstance } from "../types/instance";
 import { stringToIsoTime } from "../util/helpers";
+import { createSnapshot } from "../api/snapshots";
 
 type Props = {
-  instance: LxdInstance;
+  instanceName: string;
   onCancel: () => void;
-  onSuccess: (
-    instance: LxdInstance,
-    name: string,
-    expiresAt: string | null,
-    stateful: boolean
-  ) => void;
+  onCreateSuccess: (snapshotName: string) => void;
+  onCreateError: (e: any) => void;
 };
 
-const CreateSnapshotForm: FC<Props> = ({ instance, onCancel, onSuccess }) => {
+const CreateSnapshotForm: FC<Props> = ({
+  instanceName,
+  onCancel,
+  onCreateSuccess,
+  onCreateError,
+}) => {
   const SnapshotSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
     stateful: Yup.boolean(),
@@ -33,7 +34,9 @@ const CreateSnapshotForm: FC<Props> = ({ instance, onCancel, onSuccess }) => {
       const expiresAt = values.expiresAt
         ? stringToIsoTime(values.expiresAt)
         : null;
-      onSuccess(instance, values.name, expiresAt, values.stateful);
+      createSnapshot(instanceName, values.name, expiresAt, values.stateful)
+        .then(() => onCreateSuccess(values.name))
+        .catch((e) => onCreateError(e));
     },
   });
 
@@ -63,7 +66,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, onCancel, onSuccess }) => {
     <Form onSubmit={formik.handleSubmit}>
       <Modal
         close={onCancel}
-        title={`Snapshots for ${instance.name}`}
+        title={`Snapshots for ${instanceName}`}
         buttonRow={
           <>
             {submitButton}
