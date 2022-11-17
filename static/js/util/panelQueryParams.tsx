@@ -3,4 +3,5 @@ export const panelQueryParams = {
   imageImport: "image-import",
   networkForm: "network-form",
   projectForm: "project-form",
+  snapshots: "snapshots",
 };
