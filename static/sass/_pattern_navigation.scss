@@ -1,19 +1,29 @@
 @mixin lxd-ui-p-navigation {
   .p-panel__logo-image {
-    height: 1.5rem;
+    height: 2rem;
   }
 
   @media screen and (min-width: $breakpoint-small) {
+    /* switch out the image in the collapsed view to hide partially visibly text */
+    .p-panel__logo-image {
+      content: url("/static/assets/img/logo/containers-no-text.svg");
+      height: 3rem;
+    }
+
     .l-navigation:focus-within,
     .l-navigation:hover {
       grid-area: nav;
       position: static;
+
+      .p-panel__logo-image {
+        content: url("/static/assets/img/logo/containers.svg");
+      }
     }
   }
 
   @media screen and (min-width: $breakpoint-large) {
     .p-panel__logo-image {
-      height: 11rem;
+      content: url("/static/assets/img/logo/containers.svg");
     }
   }
 }
