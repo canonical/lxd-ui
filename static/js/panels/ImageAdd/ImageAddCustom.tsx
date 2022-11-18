@@ -99,6 +99,7 @@ const ImageAdd: FC<Props> = ({ setNotification }) => {
         <Input
           id="otherServer"
           label="Other server"
+          help="Url to a custom image server"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.server ? formik.errors.server : null}
@@ -110,6 +111,7 @@ const ImageAdd: FC<Props> = ({ setNotification }) => {
       <Input
         id="name"
         label="Name"
+        help="Alias of an image available on the chosen server i.e. ubuntu/22.04/desktop"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={formik.touched.name ? formik.errors.name : null}
