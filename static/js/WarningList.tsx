@@ -1,39 +1,24 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
-import { fetchWarningList } from "./api/warnings";
+import { fetchWarnings } from "./api/warnings";
 import { isoTimeToString } from "./util/helpers";
-import { Notification } from "./types/notification";
-import { LxdWarning } from "./types/warning";
 import BaseLayout from "./components/BaseLayout";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "./util/queryKeys";
+import useNotification from "./util/useNotification";
 
 const WarningList: FC = () => {
-  const [warnings, setWarnings] = useState<LxdWarning[]>([]);
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
+  const { data: warnings = [], error } = useQuery({
+    queryKey: [queryKeys.warnings],
+    queryFn: fetchWarnings,
+  });
 
-  const loadWarnings = async () => {
-    try {
-      const warnings = await fetchWarningList();
-      setWarnings(warnings);
-    } catch (e) {
-      setFailure("Could not load warnings");
-    }
-  };
-
-  useEffect(() => {
-    loadWarnings();
-    let timer = setInterval(loadWarnings, 5000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  if (error) {
+    notify.failure("Could not load warnings.", error);
+  }
 
   const headers = [
     { content: "UUID", sortKey: "uuid" },
@@ -103,10 +88,7 @@ const WarningList: FC = () => {
   return (
     <>
       <BaseLayout title="Warnings">
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+        <NotificationRow notify={notify} />
         <Row>
           <MainTable
             headers={headers}

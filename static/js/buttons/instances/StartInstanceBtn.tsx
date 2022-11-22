@@ -3,13 +3,14 @@ import { startInstance } from "../../api/instances";
 import { LxdInstance } from "../../types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
+import { NotificationHelper } from "../../types/notification";
 
 type Props = {
   instance: LxdInstance;
-  onFailure: Function;
+  notify: NotificationHelper;
 };
 
-const StartInstanceBtn: FC<Props> = ({ instance, onFailure }) => {
+const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -21,10 +22,11 @@ const StartInstanceBtn: FC<Props> = ({ instance, onFailure }) => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
+        notify.success(`Instance ${instance.name} started.`);
       })
       .catch((e) => {
         setLoading(false);
-        onFailure(`Error on instance start. ${e.toString()}`);
+        notify.failure("Error on instance start.", e);
       });
   };
 

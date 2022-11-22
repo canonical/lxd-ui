@@ -5,3 +5,11 @@ export interface Notification {
   message: string;
   type: ValueOf<typeof NotificationSeverity>;
 }
+
+export interface NotificationHelper {
+  notification: Notification | null;
+  clear: () => void;
+  failure: (message: string, error: any) => void;
+  info: (message: string) => void;
+  success: (message: string) => void;
+}

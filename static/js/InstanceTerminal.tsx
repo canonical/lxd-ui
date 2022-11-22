@@ -6,10 +6,10 @@ import { FitAddon } from "xterm-addon-fit";
 import { fetchInstanceExec } from "./api/instances";
 import { Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
-import { Notification } from "./types/notification";
 import { getWsErrorMsg } from "./util/helpers";
 import BaseLayout from "./components/BaseLayout";
 import useEventListener from "@use-it/event-listener";
+import useNotification from "./util/useNotification";
 
 type Params = {
   name: string;
@@ -21,7 +21,7 @@ const InstanceTerminal: FC = () => {
   const textEncoder = new TextEncoder();
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
   const [fitAddon] = useState<FitAddon>(new FitAddon());
 
@@ -42,18 +42,12 @@ const InstanceTerminal: FC = () => {
       setControlWs(control);
     };
 
-    control.onerror = () => {
-      setNotification({
-        message: "There was an error with control websocket",
-        type: "negative",
-      });
+    control.onerror = (e) => {
+      notify.failure("There was an error with control websocket", e);
     };
 
     control.onclose = (event) => {
-      setNotification({
-        message: getWsErrorMsg(event.code),
-        type: "negative",
-      });
+      notify.failure(getWsErrorMsg(event.code), event);
       setControlWs(null);
     };
 
@@ -65,18 +59,12 @@ const InstanceTerminal: FC = () => {
       setDataWs(data);
     };
 
-    data.onerror = () => {
-      setNotification({
-        message: "There was an error with data websocket",
-        type: "negative",
-      });
+    data.onerror = (e) => {
+      notify.failure("There was an error with data websocket", e);
     };
 
     data.onclose = (event) => {
-      setNotification({
-        message: getWsErrorMsg(event.code),
-        type: "negative",
-      });
+      notify.failure(getWsErrorMsg(event.code), event);
       setDataWs(null);
     };
 
@@ -127,10 +115,7 @@ const InstanceTerminal: FC = () => {
           </Link>
         }
       >
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+        <NotificationRow notify={notify} />
         <Row>
           <XTerm
             ref={xtermRef}

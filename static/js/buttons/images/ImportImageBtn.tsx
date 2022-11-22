@@ -1,42 +1,35 @@
 import React, { FC, useState } from "react";
 import { importImage } from "../../api/images";
 import { RemoteImage } from "../../types/image";
-import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
+import { NotificationHelper } from "../../types/notification";
 
 type Props = {
-  remoteImage: RemoteImage;
-  onStartImport: Function;
-  onSuccess: Function;
-  onFailure: Function;
+  image: RemoteImage;
+  notify: NotificationHelper;
 };
 
-const ImportImageBtn: FC<Props> = ({
-  remoteImage,
-  onSuccess,
-  onFailure,
-  onStartImport,
-}) => {
+const ImportImageBtn: FC<Props> = ({ image, notify }) => {
   const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const handleImport = () => {
     setLoading(true);
-    onStartImport();
-    importImage(remoteImage)
+    notify.info("Import started, this can take several minutes.");
+    importImage(image)
       .then(() => {
         setLoading(false);
-        onSuccess(remoteImage);
         queryClient.invalidateQueries({
           queryKey: [queryKeys.images],
         });
-        navigate("/images");
+        notify.success(
+          `Image imported: ${image.os} ${image.arch} ${image.release} ${image.aliases}`
+        );
       })
       .catch((e) => {
         setLoading(false);
-        onFailure(`Error on image import. ${e.toString()}`);
+        notify.failure("Error on image import.", e);
       });
   };
 

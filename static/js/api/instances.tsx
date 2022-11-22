@@ -53,7 +53,7 @@ export const startInstance = (instance: LxdInstance) => {
 
 export const stopInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance?.name}/state`, {
+    fetch(`/1.0/instances/${instance.name}/state`, {
       method: "PUT",
       body: '{"action": "stop"}',
     })
@@ -67,7 +67,7 @@ export const stopInstance = (instance: LxdInstance) => {
 
 export const deleteInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance?.name}`, {
+    fetch(`/1.0/instances/${instance.name}`, {
       method: "DELETE",
     })
       .then(handleResponse)

@@ -1,38 +1,23 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
-import { fetchProjectList } from "./api/projects";
-import { Notification } from "./types/notification";
-import { LxdProject } from "./types/project";
-import { useQueryParam, StringParam } from "use-query-params";
+import { fetchProjects } from "./api/projects";
 import BaseLayout from "./components/BaseLayout";
-import { panelQueryParams } from "./util/panelQueryParams";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "./util/queryKeys";
+import useNotification from "./util/useNotification";
 
 const ProjectList: FC = () => {
-  const [projects, setProjects] = useState<LxdProject[]>([]);
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
-  const setPanelQs = useQueryParam("panel", StringParam)[1];
+  const { data: projects = [], error } = useQuery({
+    queryKey: [queryKeys.projects],
+    queryFn: fetchProjects,
+  });
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
-
-  const loadProjects = async () => {
-    try {
-      const projects = await fetchProjectList();
-      setProjects(projects);
-    } catch (e) {
-      setFailure("Could not load projects.");
-    }
-  };
-
-  useEffect(() => {
-    loadProjects();
-  }, []);
+  if (error) {
+    notify.failure("Could not load projects.", error);
+  }
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -113,21 +98,8 @@ const ProjectList: FC = () => {
 
   return (
     <>
-      <BaseLayout
-        title="Projects"
-        controls={
-          <button
-            className="p-button--positive u-no-margin--bottom"
-            onClick={() => setPanelQs(panelQueryParams.projectForm)}
-          >
-            Add project
-          </button>
-        }
-      >
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+      <BaseLayout title="Projects">
+        <NotificationRow notify={notify} />
         <Row>
           <MainTable
             headers={headers}

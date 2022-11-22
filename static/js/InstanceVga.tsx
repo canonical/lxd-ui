@@ -1,13 +1,13 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Icon, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
-import { Notification } from "./types/notification";
 import * as SpiceHtml5 from "../assets/lib/spice/src/main";
 import { fetchInstanceVga } from "./api/instances";
 import { getWsErrorMsg } from "./util/helpers";
 import BaseLayout from "./components/BaseLayout";
 import useEventListener from "@use-it/event-listener";
+import useNotification from "./util/useNotification";
 
 type Params = {
   name: string;
@@ -22,31 +22,22 @@ declare global {
 
 const InstanceVga: FC = () => {
   const { name } = useParams<Params>();
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
   const spiceRef = useRef<HTMLDivElement>(null);
 
-  const handleError = () => {
-    setNotification({
-      message: "spice error",
-      type: "negative",
-    });
+  const handleError = (e: object) => {
+    notify.failure("spice error", e);
   };
 
   const openVgaConsole = async () => {
     if (!name) {
-      setNotification({
-        message: "Missing name",
-        type: "negative",
-      });
+      notify.failure("Missing name", new Error());
 
       return;
     }
 
     const result = await fetchInstanceVga(name).catch((e) => {
-      setNotification({
-        message: e.message,
-        type: "negative",
-      });
+      notify.failure("Could not open vga session.", e);
     });
     if (!result) {
       return;
@@ -57,18 +48,12 @@ const InstanceVga: FC = () => {
 
     const control = new WebSocket(controlUrl);
 
-    control.onerror = () => {
-      setNotification({
-        message: "There was an error with control websocket",
-        type: "negative",
-      });
+    control.onerror = (e) => {
+      notify.failure("Error on the control websocket.", e);
     };
 
     control.onclose = (event) => {
-      setNotification({
-        message: getWsErrorMsg(event.code),
-        type: "negative",
-      });
+      notify.failure(getWsErrorMsg(event.code), event);
     };
 
     control.onmessage = (message) => {
@@ -85,10 +70,7 @@ const InstanceVga: FC = () => {
         },
       });
     } catch (e) {
-      setNotification({
-        message: "error connecting",
-        type: "negative",
-      });
+      notify.failure("error connecting", e);
     }
   };
 
@@ -106,10 +88,7 @@ const InstanceVga: FC = () => {
       .requestFullscreen()
       .then(SpiceHtml5.handle_resize)
       .catch((err) => {
-        setNotification({
-          message: `Failed to enter full-screen mode: ${err.message} (${err.name})`,
-          type: "negative",
-        });
+        notify.failure("Failed to enter full-screen mode.", err);
       });
   };
 
@@ -133,10 +112,7 @@ const InstanceVga: FC = () => {
           </>
         }
       >
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+        <NotificationRow notify={notify} />
         <Row>
           <div id="spice-area" ref={spiceRef}>
             <div id="spice-screen" className="spice-screen" />

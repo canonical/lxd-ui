@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Button,
@@ -15,27 +15,24 @@ import { createInstance } from "../api/instances";
 import Aside from "../components/Aside";
 import NotificationRow from "../components/NotificationRow";
 import PanelHeader from "../components/PanelHeader";
-import { Notification } from "../types/notification";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
+import useNotification from "../util/useNotification";
 
 const InstanceForm: FC = () => {
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
   const queryClient = useQueryClient();
 
-  const { data: images = [], isError } = useQuery({
+  const { data: images = [], error } = useQuery({
     queryKey: [queryKeys.images],
     queryFn: fetchImageList,
   });
 
-  if (isError) {
-    setNotification({
-      message: "Could not load imageOptions.",
-      type: "negative",
-    });
+  if (error) {
+    notify.failure("Could not load images.", error);
   }
 
   const getImageOptions = () => {
@@ -82,10 +79,7 @@ const InstanceForm: FC = () => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          setNotification({
-            message: `Error on instance creation. ${e.toString()}`,
-            type: "negative",
-          });
+          notify.failure("Error on instance creation.", e);
         });
     },
   });
@@ -117,10 +111,7 @@ const InstanceForm: FC = () => {
       <div className="p-panel">
         <PanelHeader title={<h4>Create instance</h4>} />
         <div className="p-panel__content">
-          <NotificationRow
-            notification={notification}
-            close={() => setNotification(null)}
-          />
+          <NotificationRow notify={notify} />
           <Row>
             <Form onSubmit={formik.handleSubmit} stacked>
               <Input

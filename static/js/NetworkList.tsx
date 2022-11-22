@@ -1,38 +1,23 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
-import { fetchNetworkList } from "./api/networks";
-import { LxdNetwork } from "./types/network";
-import { Notification } from "./types/notification";
-import { useQueryParam, StringParam } from "use-query-params";
+import { fetchNetworks } from "./api/networks";
 import BaseLayout from "./components/BaseLayout";
-import { panelQueryParams } from "./util/panelQueryParams";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "./util/queryKeys";
+import useNotification from "./util/useNotification";
 
 const NetworkList: FC = () => {
-  const [networks, setNetworks] = useState<LxdNetwork[]>([]);
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
-  const setPanelQs = useQueryParam("panel", StringParam)[1];
+  const { data: networks = [], error } = useQuery({
+    queryKey: [queryKeys.networks],
+    queryFn: fetchNetworks,
+  });
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
-
-  const loadNetworks = async () => {
-    try {
-      const networks = await fetchNetworkList();
-      setNetworks(networks);
-    } catch (e) {
-      setFailure("Could not load networks.");
-    }
-  };
-
-  useEffect(() => {
-    loadNetworks();
-  }, []);
+  if (error) {
+    notify.failure("Could not load networks.", error);
+  }
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -111,21 +96,8 @@ const NetworkList: FC = () => {
 
   return (
     <>
-      <BaseLayout
-        title="Networks"
-        controls={
-          <button
-            className="p-button--positive u-no-margin--bottom"
-            onClick={() => setPanelQs(panelQueryParams.networkForm)}
-          >
-            Add network
-          </button>
-        }
-      >
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+      <BaseLayout title="Networks">
+        <NotificationRow notify={notify} />
         <Row>
           <MainTable
             headers={headers}
