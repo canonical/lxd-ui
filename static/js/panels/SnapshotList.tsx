@@ -21,7 +21,6 @@ import Aside from "../components/Aside";
 import PanelHeader from "../components/PanelHeader";
 
 const SnapshotList: FC = () => {
-  const [snapshotsLoaded, setSnapshotsLoaded] = useState(false);
   const [notification, setNotification] = useState<Notification | null>(null);
   const [isCreating, setCreating] = useState(false);
   const queryClient = useQueryClient();
@@ -32,10 +31,13 @@ const SnapshotList: FC = () => {
 
   const [instanceName] = useState(queryParams[0].instance || "");
 
-  const { data: snapshots = [], isError } = useQuery({
+  const {
+    data: snapshots = [],
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.instances, instanceName, queryKeys.snapshots],
-    queryFn: async () =>
-      fetchSnapshots(instanceName, () => setSnapshotsLoaded(true)),
+    queryFn: async () => fetchSnapshots(instanceName),
   });
 
   const setFailure = (message: string) => {
@@ -70,9 +72,9 @@ const SnapshotList: FC = () => {
 
   const headers = [
     { content: "Name", sortKey: "name" },
-    { content: "Created at" },
-    { content: "Expires at" },
-    { content: "Stateful", className: "u-align--center" },
+    { content: "Created at", sortKey: "created_at" },
+    { content: "Expires at", sortKey: "expires_at" },
+    { content: "Stateful", sortKey: "stateful", className: "u-align--center" },
     { content: "Actions", className: "u-align--center" },
   ];
 
@@ -150,6 +152,9 @@ const SnapshotList: FC = () => {
       ],
       sortData: {
         name: snapshot.name,
+        created_at: snapshot.created_at,
+        expires_at: snapshot.expires_at,
+        stateful: snapshot.stateful,
       },
     };
   });
@@ -173,7 +178,7 @@ const SnapshotList: FC = () => {
                 sortable
                 className="p-table--snapshots"
               />
-              {snapshotsLoaded && !snapshots.length && (
+              {!isLoading && !snapshots.length && (
                 <Row className="empty-state-message">
                   <Col size={2} />
                   <Col size={8}>

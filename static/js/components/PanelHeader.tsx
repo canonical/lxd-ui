@@ -1,13 +1,13 @@
 import React, { FC, ReactNode } from "react";
 import { useQueryParams } from "use-query-params";
-import { getPanelQsRemovalObj, panelQueryMap } from "../panels/panels";
+import { getPanelQsRemovalObj, panelQueryMap } from "../panels/Panels";
 
 type Props = {
   title: ReactNode;
 };
 
 const PanelHeader: FC<Props> = ({ title }: Props) => {
-  const [, setPanelQs] = useQueryParams(panelQueryMap);
+  const setPanelQs = useQueryParams(panelQueryMap)[1];
 
   return (
     <div className="p-panel__header">
