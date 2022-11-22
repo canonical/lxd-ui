@@ -22,9 +22,9 @@ const DeleteImageBtn: FC<Props> = ({ image, onFailure }) => {
           queryKey: [queryKeys.images],
         });
       })
-      .catch(() => {
+      .catch((e) => {
         setLoading(false);
-        onFailure("Error on image delete.");
+        onFailure(`Error on image delete. ${e.toString()}`);
       });
   };
 
