@@ -13,7 +13,7 @@ import WarningList from "./WarningList";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import InstanceVga from "./InstanceVga";
-import Panels from "./panels/panels";
+import Panels from "./panels/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
