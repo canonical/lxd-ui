@@ -1,5 +1,5 @@
 import { MainTable, Row, Tooltip } from "@canonical/react-components";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { fetchInstances } from "./api/instances";
 import BaseLayout from "./components/BaseLayout";
 import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
@@ -8,7 +8,6 @@ import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
-import { Notification } from "./types/notification";
 import {
   StringParam,
   useQueryParam,
@@ -18,9 +17,10 @@ import {
 import { panelQueryParams } from "./util/panelQueryParams";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
+import useNotification from "./util/useNotification";
 
 const InstanceList: FC = () => {
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
   const setPanelQs = useQueryParam("panel", StringParam)[1];
   const setSnapshotPanelQs = useQueryParams({
@@ -28,20 +28,13 @@ const InstanceList: FC = () => {
     panel: withDefault(StringParam, panelQueryParams.snapshots),
   })[1];
 
-  const { data: instances = [], isError } = useQuery({
+  const { data: instances = [], error } = useQuery({
     queryKey: [queryKeys.instances],
     queryFn: fetchInstances,
   });
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
-
-  if (isError) {
-    setFailure("Could not load instances");
+  if (error) {
+    notify.failure("Could not load instances.", error);
   }
 
   const headers = [
@@ -80,13 +73,13 @@ const InstanceList: FC = () => {
     const actions = (
       <div>
         <Tooltip message="Start instance" position="btm-center">
-          <StartInstanceBtn instance={instance} onFailure={setFailure} />
+          <StartInstanceBtn instance={instance} notify={notify} />
         </Tooltip>
         <Tooltip message="Stop instance" position="btm-center">
-          <StopInstanceBtn instance={instance} onFailure={setFailure} />
+          <StopInstanceBtn instance={instance} notify={notify} />
         </Tooltip>
         <Tooltip message="Delete instance" position="btm-center">
-          <DeleteInstanceBtn instance={instance} onFailure={setFailure} />
+          <DeleteInstanceBtn instance={instance} notify={notify} />
         </Tooltip>
         <Tooltip message="Start console" position="btm-center">
           <OpenTerminalBtn instance={instance} />
@@ -182,10 +175,7 @@ const InstanceList: FC = () => {
           </button>
         }
       >
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+        <NotificationRow notify={notify} />
         <Row>
           <MainTable
             headers={headers}

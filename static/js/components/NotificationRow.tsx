@@ -3,21 +3,21 @@ import {
   Row,
   Notification as NotificationComponent,
 } from "@canonical/react-components";
-import { Notification } from "../types/notification";
+import { NotificationHelper } from "../types/notification";
 
 type Props = {
-  notification: Notification | null;
-  close: () => void;
+  notify: NotificationHelper;
 };
 
-const NotificationRow: FC<Props> = ({ notification, close }) => {
-  if (!notification) {
+const NotificationRow: FC<Props> = ({ notify }) => {
+  if (!notify.notification) {
     return null;
   }
+  const { type, message } = notify.notification;
   return (
     <Row>
-      <NotificationComponent severity={notification.type} onDismiss={close}>
-        {notification.message}
+      <NotificationComponent severity={type} onDismiss={notify.clear}>
+        {message}
       </NotificationComponent>
     </Row>
   );

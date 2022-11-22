@@ -4,20 +4,19 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { stringToIsoTime } from "../util/helpers";
 import { createSnapshot } from "../api/snapshots";
+import { NotificationHelper } from "../types/notification";
+import { queryKeys } from "../util/queryKeys";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   instanceName: string;
-  onCancel: () => void;
-  onCreateSuccess: (snapshotName: string) => void;
-  onCreateError: (e: any) => void;
+  close: () => void;
+  notify: NotificationHelper;
 };
 
-const CreateSnapshotForm: FC<Props> = ({
-  instanceName,
-  onCancel,
-  onCreateSuccess,
-  onCreateError,
-}) => {
+const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
+  const queryClient = useQueryClient();
+
   const SnapshotSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
     stateful: Yup.boolean(),
@@ -35,8 +34,17 @@ const CreateSnapshotForm: FC<Props> = ({
         ? stringToIsoTime(values.expiresAt)
         : null;
       createSnapshot(instanceName, values.name, expiresAt, values.stateful)
-        .then(() => onCreateSuccess(values.name))
-        .catch((e) => onCreateError(e));
+        .then(() => {
+          queryClient.invalidateQueries({
+            predicate: (query) => query.queryKey[0] === queryKeys.instances,
+          });
+          notify.success(`Snapshot ${values.name} created.`);
+          close();
+        })
+        .catch((e) => {
+          notify.failure("Error on snapshot create.", e);
+          close();
+        });
     },
   });
 
@@ -65,12 +73,12 @@ const CreateSnapshotForm: FC<Props> = ({
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Modal
-        close={onCancel}
+        close={close}
         title={`Snapshots for ${instanceName}`}
         buttonRow={
           <>
             {submitButton}
-            <Button className="u-no-margin--bottom" onClick={onCancel}>
+            <Button className="u-no-margin--bottom" onClick={close}>
               Cancel
             </Button>
           </>

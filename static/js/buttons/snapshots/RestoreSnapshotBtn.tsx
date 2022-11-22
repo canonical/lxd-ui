@@ -3,20 +3,15 @@ import { LxdSnapshot } from "../../types/instance";
 import { restoreSnapshot } from "../../api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
+import { NotificationHelper } from "../../types/notification";
 
 type Props = {
   instanceName: string;
   snapshot: LxdSnapshot;
-  onSuccess: Function;
-  onFailure: Function;
+  notify: NotificationHelper;
 };
 
-const RestoreSnapshotBtn: FC<Props> = ({
-  instanceName,
-  snapshot,
-  onSuccess,
-  onFailure,
-}) => {
+const RestoreSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -28,11 +23,11 @@ const RestoreSnapshotBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
-        onSuccess();
+        notify.success("Snapshot restored.");
       })
       .catch((e) => {
         setLoading(false);
-        onFailure(`Error on snapshot restore. ${e.toString()}`);
+        notify.failure("Error on snapshot restore.", e);
       });
   };
 

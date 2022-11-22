@@ -1,34 +1,23 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
-import { Notification } from "./types/notification";
-import { LxdClusterMember } from "./types/cluster";
 import { fetchClusterMembers } from "./api/cluster";
 import BaseLayout from "./components/BaseLayout";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "./util/queryKeys";
+import useNotification from "./util/useNotification";
 
 const ClusterList: FC = () => {
-  const [members, setMembers] = useState<LxdClusterMember[]>([]);
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
+  const { data: members = [], error } = useQuery({
+    queryKey: [queryKeys.cluster, queryKeys.members],
+    queryFn: fetchClusterMembers,
+  });
 
-  const loadClusterMembers = async () => {
-    try {
-      const clusterMembers = await fetchClusterMembers();
-      setMembers(clusterMembers);
-    } catch (e) {
-      setFailure("Could not load images.");
-    }
-  };
-
-  useEffect(() => {
-    loadClusterMembers();
-  }, []);
+  if (error) {
+    notify.failure("Could not load cluster members.", error);
+  }
 
   const headers = [
     { content: "Name" },
@@ -101,10 +90,7 @@ const ClusterList: FC = () => {
   return (
     <>
       <BaseLayout title="Cluster">
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+        <NotificationRow notify={notify} />
         <Row>
           <MainTable
             headers={headers}

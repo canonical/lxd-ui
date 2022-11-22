@@ -1,36 +1,29 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { MainTable, Row, Tooltip } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "./util/helpers";
 import { queryKeys } from "./util/queryKeys";
 import { fetchImageList } from "./api/images";
 import NotificationRow from "./components/NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
-import { Notification } from "./types/notification";
 import { StringParam, useQueryParam } from "use-query-params";
 import BaseLayout from "./components/BaseLayout";
 import { panelQueryParams } from "./util/panelQueryParams";
 import CreateInstanceBtn from "./buttons/instances/CreateInstanceBtn";
 import { useQuery } from "@tanstack/react-query";
+import useNotification from "./util/useNotification";
 
 const ImageList: FC = () => {
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const notify = useNotification();
 
   const setPanelQs = useQueryParam("panel", StringParam)[1];
 
-  const { data: images = [], isError } = useQuery({
+  const { data: images = [], error } = useQuery({
     queryKey: [queryKeys.images],
     queryFn: fetchImageList,
   });
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
-
-  if (isError) {
-    setFailure("Could not load images");
+  if (error) {
+    notify.failure("Could not load images.", error);
   }
 
   const headers = [
@@ -52,7 +45,7 @@ const ImageList: FC = () => {
           <CreateInstanceBtn image={image} />
         </Tooltip>
         <Tooltip message="Delete image" position="left">
-          <DeleteImageBtn image={image} onFailure={setFailure} />
+          <DeleteImageBtn image={image} notify={notify} />
         </Tooltip>
       </div>
     );
@@ -135,10 +128,7 @@ const ImageList: FC = () => {
           </button>
         }
       >
-        <NotificationRow
-          notification={notification}
-          close={() => setNotification(null)}
-        />
+        <NotificationRow notify={notify} />
         <Row>
           <MainTable
             headers={headers}

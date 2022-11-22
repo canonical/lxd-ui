@@ -10,65 +10,34 @@ import React, { FC, useState } from "react";
 import { isoTimeToString } from "../util/helpers";
 import { queryKeys } from "../util/queryKeys";
 import DeleteSnapshotBtn from "../buttons/snapshots/DeleteSnapshotBtn";
-import { Notification } from "../types/notification";
 import CreateSnapshotForm from "../modals/CreateSnapshotForm";
 import RestoreSnapshotBtn from "../buttons/snapshots/RestoreSnapshotBtn";
 import NotificationRow from "../components/NotificationRow";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useQueryParams, StringParam } from "use-query-params";
+import { useQuery } from "@tanstack/react-query";
 import { fetchSnapshots } from "../api/snapshots";
 import Aside from "../components/Aside";
 import PanelHeader from "../components/PanelHeader";
+import useNotification from "../util/useNotification";
+import usePanelParams from "../util/usePanelParams";
 
 const SnapshotList: FC = () => {
-  const [notification, setNotification] = useState<Notification | null>(null);
-  const [isCreating, setCreating] = useState(false);
-  const queryClient = useQueryClient();
-
-  const queryParams = useQueryParams({
-    instance: StringParam,
-  });
-
-  const [instanceName] = useState(queryParams[0].instance || "");
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const notify = useNotification();
+  const panelParams = usePanelParams();
+  const [instanceName] = useState(panelParams.instance || "");
 
   const {
     data: snapshots = [],
-    isError,
+    error,
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.instances, instanceName, queryKeys.snapshots],
     queryFn: async () => fetchSnapshots(instanceName),
   });
 
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
-
-  if (isError) {
-    setFailure("Could not load snapshots");
+  if (error) {
+    notify.failure("Could not load snapshots", error);
   }
-
-  const onCreateSuccess = (snapshotName: string) => {
-    setCreating(false);
-    setNotification({
-      message: `Snapshot ${snapshotName} created.`,
-      type: "positive",
-    });
-    queryClient.invalidateQueries({
-      predicate: (query) => query.queryKey[0] === queryKeys.instances,
-    });
-  };
-
-  const onCreateError = (e: any) => {
-    setCreating(false);
-    setNotification({
-      message: `Error on snapshot create. ${e.toString()}`,
-      type: "negative",
-    });
-  };
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -85,36 +54,14 @@ const SnapshotList: FC = () => {
           <RestoreSnapshotBtn
             instanceName={instanceName}
             snapshot={snapshot}
-            onFailure={() =>
-              setNotification({
-                message: "Error on snapshot restore.",
-                type: "negative",
-              })
-            }
-            onSuccess={() => {
-              setNotification({
-                message: `Snapshot restored.`,
-                type: "positive",
-              });
-            }}
+            notify={notify}
           />
         </Tooltip>
         <Tooltip message="Delete snapshot" position="btm-center">
           <DeleteSnapshotBtn
             instanceName={instanceName}
             snapshot={snapshot}
-            onFailure={() =>
-              setNotification({
-                message: "Error on snapshot delete.",
-                type: "negative",
-              })
-            }
-            onSuccess={() => {
-              setNotification({
-                message: `Snapshot deleted.`,
-                type: "positive",
-              });
-            }}
+            notify={notify}
           />
         </Tooltip>
       </div>
@@ -165,10 +112,7 @@ const SnapshotList: FC = () => {
         <div className="p-panel">
           <PanelHeader title={`Snapshots for ${instanceName}`} />
           <div className="p-panel__content">
-            <NotificationRow
-              notification={notification}
-              close={() => setNotification(null)}
-            />
+            <NotificationRow notify={notify} />
             <Row>
               <MainTable
                 headers={headers}
@@ -212,7 +156,7 @@ const SnapshotList: FC = () => {
             <Row className="u-align--right">
               <Col size={12}>
                 <Button
-                  onClick={() => setCreating(true)}
+                  onClick={() => setCreateModalOpen(true)}
                   className="p-button has-icon"
                   appearance="positive"
                 >
@@ -224,12 +168,11 @@ const SnapshotList: FC = () => {
           </div>
         </div>
       </Aside>
-      {isCreating && (
+      {isCreateModalOpen && (
         <CreateSnapshotForm
           instanceName={instanceName}
-          onCreateSuccess={onCreateSuccess}
-          onCreateError={onCreateError}
-          onCancel={() => setCreating(false)}
+          close={() => setCreateModalOpen(false)}
+          notify={notify}
         />
       )}
     </>

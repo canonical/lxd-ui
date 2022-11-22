@@ -3,13 +3,14 @@ import { deleteInstance } from "../../api/instances";
 import { LxdInstance } from "../../types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
+import { NotificationHelper } from "../../types/notification";
 
 type Props = {
   instance: LxdInstance;
-  onFailure: Function;
+  notify: NotificationHelper;
 };
 
-const DeleteInstanceBtn: FC<Props> = ({ instance, onFailure }) => {
+const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -21,10 +22,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, onFailure }) => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
+        notify.success(`Instance ${instance.name} deleted.`);
       })
       .catch((e) => {
         setLoading(false);
-        onFailure(`Error on instance delete. ${e.toString()}`);
+        notify.failure("Error on instance delete.", e);
       });
   };
 

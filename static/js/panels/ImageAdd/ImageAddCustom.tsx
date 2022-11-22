@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { FC } from "react";
 import {
   Button,
   Col,
@@ -7,20 +7,18 @@ import {
   Row,
   Select,
 } from "@canonical/react-components";
-import { Notification } from "../../types/notification";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { importImage } from "../../api/images";
-import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
+import { NotificationHelper } from "../../types/notification";
 
 type Props = {
-  setNotification: Dispatch<SetStateAction<Notification | null>>;
+  notify: NotificationHelper;
 };
 
-const ImageAdd: FC<Props> = ({ setNotification }) => {
-  const navigate = useNavigate();
+const ImageAdd: FC<Props> = ({ notify }) => {
   const queryClient = useQueryClient();
 
   const ImageSchema = Yup.object().shape({
@@ -36,27 +34,18 @@ const ImageAdd: FC<Props> = ({ setNotification }) => {
     },
     validationSchema: ImageSchema,
     onSubmit: (values) => {
-      setNotification({
-        message: "Import started, this can take several minutes.",
-        type: "information",
-      });
+      notify.info("Import started, this can take several minutes.");
       importImage({ aliases: values.name, server: values.server })
         .then(() => {
-          setNotification({
-            message: `Image import finished.`,
-            type: "positive",
-          });
+          formik.setSubmitting(false);
           queryClient.invalidateQueries({
             queryKey: [queryKeys.images],
           });
-          navigate("/images");
+          notify.success("Image import finished.");
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          setNotification({
-            message: `Error on image import. ${e.toString()}`,
-            type: "negative",
-          });
+          notify.failure("Error on image import.", e);
         });
     },
   });

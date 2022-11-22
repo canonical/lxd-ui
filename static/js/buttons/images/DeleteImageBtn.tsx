@@ -3,13 +3,14 @@ import { deleteImage } from "../../api/images";
 import { LxdImage } from "../../types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
+import { NotificationHelper } from "../../types/notification";
 
 type Props = {
   image: LxdImage;
-  onFailure: Function;
+  notify: NotificationHelper;
 };
 
-const DeleteImageBtn: FC<Props> = ({ image, onFailure }) => {
+const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -21,10 +22,11 @@ const DeleteImageBtn: FC<Props> = ({ image, onFailure }) => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.images],
         });
+        notify.success("Image deleted.");
       })
       .catch((e) => {
         setLoading(false);
-        onFailure(`Error on image delete. ${e.toString()}`);
+        notify.failure("Error on image delete.", e);
       });
   };
 

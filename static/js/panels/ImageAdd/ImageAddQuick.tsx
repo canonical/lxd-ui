@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  OptionHTMLAttributes,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { FC, OptionHTMLAttributes, useEffect, useState } from "react";
 import {
   Col,
   MainTable,
@@ -14,32 +7,25 @@ import {
   Select,
   Tooltip,
 } from "@canonical/react-components";
-import { Notification } from "../../types/notification";
 import { handleResponse } from "../../util/helpers";
 import ImportImageBtn from "../../buttons/images/ImportImageBtn";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { RemoteImage, RemoteImageList } from "../../types/image";
+import { NotificationHelper } from "../../types/notification";
 
 const canonicalJson = "/static/assets/data/canonical-images.json";
 const linuxContainersJson = "/static/assets/data/linuxcontainers-images.json";
 
 type Props = {
-  setNotification: Dispatch<SetStateAction<Notification | null>>;
+  notify: NotificationHelper;
 };
 
-const ImageAddQuick: FC<Props> = ({ setNotification }) => {
+const ImageAddQuick: FC<Props> = ({ notify }) => {
   const [images, setImages] = useState<RemoteImage[]>([]);
   const [query, setQuery] = useState<string>("");
   const [distribution, setDistribution] = useState<string>("Ubuntu");
   const [architecture, setArchitecture] = useState<string>("amd64");
   const [release, setRelease] = useState<string>("jammy");
-
-  const setFailure = (message: string) => {
-    setNotification({
-      message,
-      type: "negative",
-    });
-  };
 
   const loadImagesFromJson = (file: string, server: string) => {
     fetch(file)
@@ -135,22 +121,7 @@ const ImageAddQuick: FC<Props> = ({ setNotification }) => {
           {
             content: (
               <Tooltip message="Import image" position="left">
-                <ImportImageBtn
-                  remoteImage={item}
-                  onStartImport={() => {
-                    setNotification({
-                      message: "Import started, this can take several minutes.",
-                      type: "information",
-                    });
-                  }}
-                  onSuccess={(image: RemoteImage) => {
-                    setNotification({
-                      message: `Image imported: ${image.os} ${image.arch} ${image.release} ${image.aliases}`,
-                      type: "positive",
-                    });
-                  }}
-                  onFailure={setFailure}
-                />
+                <ImportImageBtn image={item} notify={notify} />
               </Tooltip>
             ),
           },
