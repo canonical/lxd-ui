@@ -30,9 +30,9 @@ const RestoreSnapshotBtn: FC<Props> = ({
         });
         onSuccess();
       })
-      .catch(() => {
+      .catch((e) => {
         setLoading(false);
-        onFailure("Error on snapshot restore.");
+        onFailure(`Error on snapshot restore. ${e.toString()}`);
       });
   };
 

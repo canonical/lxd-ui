@@ -30,9 +30,9 @@ const DeleteSnapshotBtn: FC<Props> = ({
         });
         onSuccess();
       })
-      .catch(() => {
+      .catch((e) => {
         setLoading(false);
-        onFailure("Error on snapshot delete.");
+        onFailure(`Error on snapshot delete. ${e.toString()}`);
       });
   };
 
