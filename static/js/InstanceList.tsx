@@ -8,25 +8,14 @@ import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
-import {
-  StringParam,
-  useQueryParam,
-  useQueryParams,
-  withDefault,
-} from "use-query-params";
-import { panelQueryParams } from "./util/panelQueryParams";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
+import usePanelParams from "./util/usePanelParams";
 
 const InstanceList: FC = () => {
   const notify = useNotification();
-
-  const setPanelQs = useQueryParam("panel", StringParam)[1];
-  const setSnapshotPanelQs = useQueryParams({
-    instance: StringParam,
-    panel: withDefault(StringParam, panelQueryParams.snapshots),
-  })[1];
+  const panelParams = usePanelParams();
 
   const { data: instances = [], error } = useQuery({
     queryKey: [queryKeys.instances],
@@ -93,10 +82,7 @@ const InstanceList: FC = () => {
     const snapshots = (
       <button
         onClick={() => {
-          setSnapshotPanelQs({
-            panel: panelQueryParams.snapshots,
-            instance: instance.name,
-          });
+          panelParams.openSnapshots(instance.name);
         }}
         className="p-button--base has-icon"
       >
@@ -169,7 +155,7 @@ const InstanceList: FC = () => {
         controls={
           <button
             className="p-button--positive u-no-margin--bottom"
-            onClick={() => setPanelQs(panelQueryParams.instanceForm)}
+            onClick={() => panelParams.openInstanceForm()}
           >
             Add instance
           </button>

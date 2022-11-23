@@ -1,49 +1,33 @@
 import React from "react";
 import { AnimatePresence } from "framer-motion";
-import { StringParam, useQueryParams } from "use-query-params";
 import useEventListener from "@use-it/event-listener";
 import InstanceForm from "./InstanceForm";
 import "../../sass/_panels.scss";
-import { panelQueryParams } from "../util/panelQueryParams";
 import ImageAdd from "./ImageAdd/ImageAdd";
 import SnapshotList from "./SnapshotList";
-
-type QueryString = {
-  [key: string]: string | undefined;
-};
-
-export const panelQueryMap = {
-  panel: StringParam,
-  instance: StringParam,
-};
-
-export const getPanelQsRemovalObj = () => {
-  const removalObj: QueryString = {};
-  Object.keys(panelQueryMap).forEach((queryString: string) => {
-    removalObj[queryString] = undefined;
-  });
-  return removalObj;
-};
+import usePanelParams, { panels } from "../util/usePanelParams";
 
 export default function Panels() {
-  const [panelQs, setPanelQs] = useQueryParams(panelQueryMap);
+  const panelParams = usePanelParams();
 
   useEventListener("keydown", (e: KeyboardEvent) => {
-    // Close panel if Escape key is pressed when panel active
-    if (e.code === "Escape") setPanelQs(getPanelQsRemovalObj());
+    // Close panel if Escape key is pressed
+    if (e.code === "Escape") panelParams.clear();
   });
 
   const generatePanel = () => {
-    switch (panelQs.panel) {
-      case panelQueryParams.instanceForm:
+    switch (panelParams.panel) {
+      case panels.instanceForm:
         return <InstanceForm />;
-      case panelQueryParams.imageImport:
+      case panels.imageImport:
         return <ImageAdd />;
-      case panelQueryParams.snapshots:
+      case panels.snapshots:
         return <SnapshotList />;
       default:
         return null;
     }
   };
-  return <AnimatePresence>{panelQs && generatePanel()}</AnimatePresence>;
+  return (
+    <AnimatePresence>{panelParams.panel && generatePanel()}</AnimatePresence>
+  );
 }

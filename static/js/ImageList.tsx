@@ -5,17 +5,15 @@ import { queryKeys } from "./util/queryKeys";
 import { fetchImageList } from "./api/images";
 import NotificationRow from "./components/NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
-import { StringParam, useQueryParam } from "use-query-params";
 import BaseLayout from "./components/BaseLayout";
-import { panelQueryParams } from "./util/panelQueryParams";
 import CreateInstanceBtn from "./buttons/instances/CreateInstanceBtn";
 import { useQuery } from "@tanstack/react-query";
 import useNotification from "./util/useNotification";
+import usePanelParams from "./util/usePanelParams";
 
 const ImageList: FC = () => {
   const notify = useNotification();
-
-  const setPanelQs = useQueryParam("panel", StringParam)[1];
+  const panelParams = usePanelParams();
 
   const { data: images = [], error } = useQuery({
     queryKey: [queryKeys.images],
@@ -122,7 +120,7 @@ const ImageList: FC = () => {
         controls={
           <button
             className="p-button--positive u-no-margin--bottom"
-            onClick={() => setPanelQs(panelQueryParams.imageImport)}
+            onClick={panelParams.openImageImport}
           >
             Import image
           </button>
