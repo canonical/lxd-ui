@@ -14,6 +14,7 @@ import WarningList from "./WarningList";
 import InstanceVga from "./InstanceVga";
 import Panels from "./panels/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Settings from "./Settings";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App: FC = () => {
             <Route path="/projects" element={<ProjectList />} />
             <Route path="/cluster" element={<ClusterList />} />
             <Route path="/warnings" element={<WarningList />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
           <Panels />

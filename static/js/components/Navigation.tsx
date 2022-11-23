@@ -132,6 +132,16 @@ const Navigation: FC = () => {
                         Warnings
                       </NavLink>
                     </li>
+                    <li className="p-side-navigation__item--title">
+                      <NavLink
+                        className="p-side-navigation__link"
+                        to="/settings"
+                        onClick={toggleMenu}
+                      >
+                        <i className="p-icon--settings is-light p-side-navigation__icon"></i>{" "}
+                        Settings
+                      </NavLink>
+                    </li>
                   </ul>
                   <ul className="p-side-navigation__list">
                     <li className="p-side-navigation__item--title">

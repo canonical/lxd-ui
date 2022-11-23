@@ -6,5 +6,6 @@ export const queryKeys = {
   networks: "networks",
   profiles: "profiles",
   projects: "projects",
+  settings: "settings",
   warnings: "warnings",
 };
