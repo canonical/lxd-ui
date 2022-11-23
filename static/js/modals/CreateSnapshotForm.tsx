@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Button, Form, Input, Modal } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { stringToIsoTime } from "../util/helpers";
+import { getMinSnapshotExpiry, stringToIsoTime } from "../util/helpers";
 import { createSnapshot } from "../api/snapshots";
 import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
@@ -101,6 +101,7 @@ const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
           name="expiresAt"
           type="datetime-local"
           label="Expires at"
+          min={getMinSnapshotExpiry()}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           stacked
