@@ -1,20 +1,19 @@
 import React, { FC, ReactNode } from "react";
-import { useQueryParams } from "use-query-params";
-import { getPanelQsRemovalObj, panelQueryMap } from "../panels/Panels";
+import usePanelParams from "../util/usePanelParams";
 
 type Props = {
   title: ReactNode;
 };
 
 const PanelHeader: FC<Props> = ({ title }: Props) => {
-  const setPanelQs = useQueryParams(panelQueryMap)[1];
+  const panelParams = usePanelParams();
 
   return (
     <div className="p-panel__header">
       <div className="p-panel__title">{title}</div>
       <div className="p-panel__controls">
         <button
-          onClick={() => setPanelQs(getPanelQsRemovalObj())}
+          onClick={panelParams.clear}
           className="p-button--base js-aside-close u-no-margin--bottom has-icon"
         >
           <i className="p-icon--close"></i>

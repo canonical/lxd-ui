@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Col,
@@ -18,12 +18,12 @@ import PanelHeader from "../components/PanelHeader";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
+import usePanelParams from "../util/usePanelParams";
 
 const InstanceForm: FC = () => {
-  const notify = useNotification();
-
   const navigate = useNavigate();
-  const [queryParams] = useSearchParams();
+  const notify = useNotification();
+  const panelParams = usePanelParams();
   const queryClient = useQueryClient();
 
   const { data: images = [], error } = useQuery({
@@ -65,7 +65,7 @@ const InstanceForm: FC = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      image: queryParams.get("image") || "",
+      image: panelParams.image || "",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
