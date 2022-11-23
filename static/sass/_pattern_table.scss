@@ -193,3 +193,30 @@
     }
   }
 }
+
+@mixin table-settings {
+  .p-table--settings {
+    th,
+    td {
+      &:nth-child(1) {
+        width: 6rem;
+      }
+
+      &:nth-child(2) {
+        width: 12rem;
+      }
+
+      @media screen and (min-width: $breakpoint-large) {
+        &:nth-child(2) {
+          width: 18rem;
+        }
+      }
+
+      @media screen and (min-width: $breakpoint-x-large) {
+        &:nth-child(2) {
+          width: 36rem;
+        }
+      }
+    }
+  }
+}
