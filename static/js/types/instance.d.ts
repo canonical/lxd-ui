@@ -11,6 +11,16 @@ interface LxdInstanceState {
       }[];
     };
   };
+  cpu: { usage: number };
+  disk: {
+    root: { usage: number };
+  };
+  memory: {
+    usage: number;
+    usage_peak: number;
+    swap_usage: number;
+    swap_usage_peak: number;
+  };
 }
 
 interface LxdSnapshot {

@@ -3,6 +3,7 @@ export const queryKeys = {
   images: "images",
   instances: "instances",
   members: "members",
+  metrics: "metrics",
   networks: "networks",
   profiles: "profiles",
   projects: "projects",
