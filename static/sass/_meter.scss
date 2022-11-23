@@ -1,0 +1,14 @@
+.p-meter {
+  background-color: #d3e4ed;
+  border-radius: 0.75rem;
+  height: 0.75rem;
+  margin-bottom: 0.375rem;
+  width: 100%;
+
+  div {
+    background-color: #06c;
+    border-radius: 0.75rem;
+    border-right: 1px solid #f7f7f7;
+    height: 100%;
+  }
+}

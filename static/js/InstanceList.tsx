@@ -12,6 +12,10 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
+import { fetchMetrics } from "./api/metrics";
+import { humanFileSize } from "./util/helpers";
+import { getInstanceMetrics } from "./util/metricSelectors";
+import Meter from "./components/Meter";
 
 const InstanceList: FC = () => {
   const notify = useNotification();
@@ -26,12 +30,19 @@ const InstanceList: FC = () => {
     notify.failure("Could not load instances.", error);
   }
 
+  const { data: metrics = [] } = useQuery({
+    queryKey: [queryKeys.metrics],
+    queryFn: fetchMetrics,
+    refetchInterval: 15 * 1000, // 15 seconds
+  });
+
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "State", sortKey: "state", className: "u-align--center" },
     { content: "IPv4" },
     { content: "IPv6" },
     { content: "Type", sortKey: "type", className: "u-align--center" },
+    { content: "Memory and Disk" },
     {
       content: "Snapshots",
       sortKey: "snapshots",
@@ -92,6 +103,8 @@ const InstanceList: FC = () => {
       </Button>
     );
 
+    const instanceMetrics = getInstanceMetrics(metrics, instance);
+
     return {
       columns: [
         {
@@ -126,6 +139,52 @@ const InstanceList: FC = () => {
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Type",
+        },
+        {
+          content: (
+            <>
+              {instance.status === "Running" && instanceMetrics.memory && (
+                <div>
+                  <Meter
+                    percentage={
+                      (100 / instanceMetrics.memory.total) *
+                      (instanceMetrics.memory.total -
+                        instanceMetrics.memory.free)
+                    }
+                    text={
+                      humanFileSize(
+                        instanceMetrics.memory.total -
+                          instanceMetrics.memory.free
+                      ) +
+                      " of " +
+                      humanFileSize(instanceMetrics.memory.total) +
+                      " memory used"
+                    }
+                  />
+                </div>
+              )}
+              {instance.status === "Running" && instanceMetrics.disk && (
+                <div>
+                  <Meter
+                    percentage={
+                      (100 / instanceMetrics.disk.total) *
+                      (instanceMetrics.disk.total - instanceMetrics.disk.free)
+                    }
+                    text={
+                      humanFileSize(
+                        instanceMetrics.disk.total - instanceMetrics.disk.free
+                      ) +
+                      " of " +
+                      humanFileSize(instanceMetrics.disk.total) +
+                      " disk used"
+                    }
+                  />
+                </div>
+              )}
+            </>
+          ),
+          role: "rowheader",
+          "aria-label": "Memory and Disk",
         },
         {
           content: snapshots,
