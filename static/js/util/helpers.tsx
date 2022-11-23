@@ -17,6 +17,17 @@ export const stringToIsoTime = (dateTime: string) => {
   return date.toISOString();
 };
 
+export const getMinSnapshotExpiry = (date: Date = new Date()) => {
+  // set date as next day
+  date.setDate(date.getDate() + 1);
+  // set time to midnight
+  date.setHours(0, 0, 0, 0);
+  // compute timezone offset
+  const tzOffset = date.getTimezoneOffset() * 60000;
+  // return ISO string w/o tzOffset, seconds and milliseconds
+  return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
+};
+
 export const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const result = await response.json();
