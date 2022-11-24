@@ -84,3 +84,21 @@ export const getWsErrorMsg = (code: number) => {
     return "The connection was closed due to a failure to perform a TLS handshake (e.g., the server certificate can't be verified).";
   else return "Unknown reason";
 };
+
+export const handleModifierClick = (
+  e: any,
+  modifier: string,
+  onModifierClick: Function,
+  onClick: Function
+) => {
+  if (e[modifier]) onModifierClick();
+  else onClick();
+};
+
+export const handleShiftClick = (
+  e: any,
+  onShiftClick: Function,
+  onClick: Function
+) => {
+  handleModifierClick(e, "shiftKey", onShiftClick, onClick);
+};
