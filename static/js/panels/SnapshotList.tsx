@@ -14,11 +14,11 @@ import CreateSnapshotForm from "../modals/CreateSnapshotForm";
 import RestoreSnapshotBtn from "../buttons/snapshots/RestoreSnapshotBtn";
 import NotificationRow from "../components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSnapshots } from "../api/snapshots";
 import Aside from "../components/Aside";
 import PanelHeader from "../components/PanelHeader";
 import useNotification from "../util/useNotification";
 import usePanelParams from "../util/usePanelParams";
+import { fetchInstance } from "../api/instances";
 
 const SnapshotList: FC = () => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
@@ -27,12 +27,12 @@ const SnapshotList: FC = () => {
   const [instanceName] = useState(panelParams.instance || "");
 
   const {
-    data: snapshots = [],
+    data: instance,
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.instances, instanceName, queryKeys.snapshots],
-    queryFn: async () => fetchSnapshots(instanceName),
+    queryKey: [queryKeys.instances, instanceName],
+    queryFn: async () => fetchInstance(instanceName),
   });
 
   if (error) {
@@ -47,7 +47,7 @@ const SnapshotList: FC = () => {
     { content: "Actions", className: "u-align--center" },
   ];
 
-  const rows = snapshots?.map((snapshot) => {
+  const rows = instance?.snapshots?.map((snapshot) => {
     const actions = (
       <div>
         <Tooltip message="Restore snapshot" position="btm-center">
@@ -122,7 +122,7 @@ const SnapshotList: FC = () => {
                 sortable
                 className="p-table--snapshots"
               />
-              {!isLoading && !snapshots.length && (
+              {!isLoading && !instance?.snapshots?.length && (
                 <Row className="empty-state-message">
                   <Col size={2} />
                   <Col size={8}>
@@ -168,9 +168,9 @@ const SnapshotList: FC = () => {
           </div>
         </div>
       </Aside>
-      {isCreateModalOpen && (
+      {instance && isCreateModalOpen && (
         <CreateSnapshotForm
-          instanceName={instanceName}
+          instance={instance}
           close={() => setCreateModalOpen(false)}
           notify={notify}
         />

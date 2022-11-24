@@ -2,17 +2,6 @@ import { watchOperation } from "./operations";
 import { handleResponse } from "../util/helpers";
 import { LxdSnapshot } from "../types/instance";
 
-export const fetchSnapshots = (
-  instanceName: string | null | undefined
-): Promise<LxdSnapshot[]> => {
-  return new Promise((resolve, reject) => {
-    return fetch(`/1.0/instances/${instanceName}/snapshots?recursion=1`)
-      .then(handleResponse)
-      .then((data) => resolve(data.metadata))
-      .catch(reject);
-  });
-};
-
 export const createSnapshot = (
   instanceName: string,
   name: string,
@@ -30,7 +19,7 @@ export const createSnapshot = (
     })
       .then(handleResponse)
       .then((data) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
       })
       .catch(reject);
   });

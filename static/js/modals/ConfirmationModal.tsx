@@ -5,7 +5,7 @@ type Props = {
   title: string;
   onClose: () => void;
   confirmationMessage: string;
-  negButtonLabel: string;
+  negButtonLabel?: string;
   posButtonLabel: string;
   onPositive: () => void;
 };
@@ -14,7 +14,7 @@ const ConfirmationModal: FC<Props> = ({
   title,
   onClose,
   confirmationMessage,
-  negButtonLabel,
+  negButtonLabel = "Cancel",
   posButtonLabel,
   onPositive,
 }) => {

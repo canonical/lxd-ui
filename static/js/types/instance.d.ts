@@ -1,3 +1,7 @@
+interface LxdInstanceConfig {
+  "migration.stateful"?: boolean;
+}
+
 interface LxdInstanceState {
   network: {
     eth0: {
@@ -20,6 +24,7 @@ export interface LxdInstance {
   name: string;
   status: string;
   type: string;
+  config: LxdInstanceConfig;
   state: LxdInstanceState;
   snapshots: LxdSnapshot[] | null;
 }

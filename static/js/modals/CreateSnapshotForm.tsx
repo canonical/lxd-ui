@@ -2,20 +2,31 @@ import React, { FC } from "react";
 import { Button, Form, Input, Modal } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getMinSnapshotExpiry, stringToIsoTime } from "../util/helpers";
+import { getTomorrowMidnight, stringToIsoTime } from "../util/helpers";
 import { createSnapshot } from "../api/snapshots";
 import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import { LxdInstance } from "../types/instance";
 
 type Props = {
-  instanceName: string;
+  instance: LxdInstance;
   close: () => void;
   notify: NotificationHelper;
 };
 
-const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
+const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
   const queryClient = useQueryClient();
+
+  const statefulHelp = (
+    <p>
+      To create a stateful snapshot, the instance must be running and needs the
+      &nbsp;<code>migration.stateful</code> config set to true
+    </p>
+  );
+
+  const canBeStateful =
+    instance.config["migration.stateful"] && instance.status === "Running";
 
   const SnapshotSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
@@ -33,7 +44,7 @@ const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
       const expiresAt = values.expiresAt
         ? stringToIsoTime(values.expiresAt)
         : null;
-      createSnapshot(instanceName, values.name, expiresAt, values.stateful)
+      createSnapshot(instance.name, values.name, expiresAt, values.stateful)
         .then(() => {
           queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.instances,
@@ -74,13 +85,13 @@ const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
     <Form onSubmit={formik.handleSubmit}>
       <Modal
         close={close}
-        title={`Snapshots for ${instanceName}`}
+        title={`Snapshots for ${instance.name}`}
         buttonRow={
           <>
-            {submitButton}
             <Button className="u-no-margin--bottom" onClick={close}>
               Cancel
             </Button>
+            {submitButton}
           </>
         }
       >
@@ -101,7 +112,7 @@ const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
           name="expiresAt"
           type="datetime-local"
           label="Expires at"
-          min={getMinSnapshotExpiry()}
+          min={getTomorrowMidnight()}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           stacked
@@ -111,9 +122,11 @@ const CreateSnapshotForm: FC<Props> = ({ instanceName, close, notify }) => {
           name="stateful"
           type="checkbox"
           label="Stateful"
+          wrapperClassName="row"
+          help={canBeStateful ? "" : statefulHelp}
+          disabled={!canBeStateful}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          stacked
         />
       </Modal>
     </Form>
