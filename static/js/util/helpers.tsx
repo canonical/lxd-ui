@@ -17,7 +17,7 @@ export const stringToIsoTime = (dateTime: string) => {
   return date.toISOString();
 };
 
-export const getMinSnapshotExpiry = (date: Date = new Date()) => {
+export const getTomorrowMidnight = (date: Date = new Date()) => {
   // set date as next day
   date.setDate(date.getDate() + 1);
   // set time to midnight
@@ -83,22 +83,4 @@ export const getWsErrorMsg = (code: number) => {
   if (code == 1015)
     return "The connection was closed due to a failure to perform a TLS handshake (e.g., the server certificate can't be verified).";
   else return "Unknown reason";
-};
-
-export const handleModifierClick = (
-  e: any,
-  modifier: string,
-  onModifierClick: Function,
-  onClick: Function
-) => {
-  if (e[modifier]) onModifierClick();
-  else onClick();
-};
-
-export const handleShiftClick = (
-  e: any,
-  onShiftClick: Function,
-  onClick: Function
-) => {
-  handleModifierClick(e, "shiftKey", onShiftClick, onClick);
 };

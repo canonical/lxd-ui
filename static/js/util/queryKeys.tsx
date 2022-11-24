@@ -5,6 +5,5 @@ export const queryKeys = {
   members: "members",
   networks: "networks",
   projects: "projects",
-  snapshots: "snapshots",
   warnings: "warnings",
 };
