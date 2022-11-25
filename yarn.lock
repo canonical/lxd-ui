@@ -1300,10 +1300,10 @@
   resolved "https://registry.yarnpkg.com/@canonical/latest-news/-/latest-news-1.4.1.tgz#dcdd445ac2268a54cf60f2f8c725b6bdeb285d71"
   integrity sha512-lwrikCj0Y11X8Ln8D+elp6Ri3mYjMjsAOJtadNEFzhBrgmg8TVGYJjOdwy8TvRaxy7fHnvVajIKAYWX44Tfj6w==
 
-"@canonical/react-components@0.37.7":
-  version "0.37.7"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.37.7.tgz#476bc1cec13a15dfaa8608f599e3746ce081659b"
-  integrity sha512-EEbA8xjNMZakX8Ti8LWq1xfzx8yRjf5RCwZ2h/Do6yoyA7ou7BOnDCsjPsKyGP2i5TuQY5T4feHEtY2ntuZgkw==
+"@canonical/react-components@0.37.8":
+  version "0.37.8"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.37.8.tgz#69fceb80a299737dbe864a5b50eeee766f78717b"
+  integrity sha512-Uvggt0aYro0Ymp/4SdPxpGYjE3i7ZfB6cs6/y4Ktx+9gyLxkxd0qaMkRlRA68lUMkSk4+0daElMQq7+ohEq+Pw==
   dependencies:
     "@types/jest" "27.5.2"
     "@types/node" "16.11.47"
@@ -3075,18 +3075,6 @@ autoprefixer@10.4.13:
     picocolors "^1.0.0"
     postcss-value-parser "^4.2.0"
 
-autoprefixer@10.4.8:
-  version "10.4.8"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.8.tgz#92c7a0199e1cfb2ad5d9427bd585a3d75895b9e5"
-  integrity sha512-75Jr6Q/XpTqEf6D2ltS5uMewJIx5irCU1oBYJrWjFenq/m12WRRrz6g15L1EIoYvPLXTbEry7rDOwrcYNj77xw==
-  dependencies:
-    browserslist "^4.21.3"
-    caniuse-lite "^1.0.30001373"
-    fraction.js "^4.2.0"
-    normalize-range "^0.1.2"
-    picocolors "^1.0.0"
-    postcss-value-parser "^4.2.0"
-
 autoprefixer@^10.4.11:
   version "10.4.12"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.12.tgz#183f30bf0b0722af54ee5ef257f7d4320bb33129"
@@ -3554,7 +3542,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001373, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001407:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001407:
   version "1.0.30001415"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001415.tgz#fd7ea96e9e94c181a7f56e7571efb43d92b860cc"
   integrity sha512-ER+PfgCJUe8BqunLGWd/1EY4g8AzQcsDAVzdtMGKVtQEmKAwaFfU6vb7EAVIqTMYsqxBorYZi2+22Iouj/y7GQ==
@@ -8219,12 +8207,7 @@ postcss-safe-parser@^6.0.0:
   resolved "https://registry.yarnpkg.com/postcss-safe-parser/-/postcss-safe-parser-6.0.0.tgz#bb4c29894171a94bc5c996b9a30317ef402adaa1"
   integrity sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==
 
-postcss-scss@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-4.0.4.tgz#aa8f60e19ee18259bc193db9e4b96edfce3f3b1f"
-  integrity sha512-aBBbVyzA8b3hUL0MGrpydxxXKXFZc5Eqva0Q3V9qsBOLEMsjb6w49WfpsoWzpEgcqJGW4t7Rio8WXVU9Gd8vWg==
-
-postcss-scss@^4.0.2:
+postcss-scss@4.0.5, postcss-scss@^4.0.2:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-4.0.5.tgz#8ee33c1dda8d9d4753b565ec79014803dc6edabf"
   integrity sha512-F7xpB6TrXyqUh3GKdyB4Gkp3QL3DDW1+uI+gxx/oJnUt/qXI4trj5OGlp9rOKdoABGULuqtqeG+3HEVQk4DjmA==
@@ -8268,15 +8251,6 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.1.0, postcss-value-parser@^
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
-
-postcss@8.4.14:
-  version "8.4.14"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.14.tgz#ee9274d5622b4858c1007a74d76e42e56fd21caf"
-  integrity sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==
-  dependencies:
-    nanoid "^3.3.4"
-    picocolors "^1.0.0"
-    source-map-js "^1.0.2"
 
 postcss@8.4.18, postcss@^8.4.17:
   version "8.4.18"
@@ -9004,19 +8978,19 @@ sass-loader@^12.3.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@1.54.0:
-  version "1.54.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.54.0.tgz#24873673265e2a4fe3d3a997f714971db2fba1f4"
-  integrity sha512-C4zp79GCXZfK0yoHZg+GxF818/aclhp9F48XBu/+bm9vXEVAYov9iU3FBVRMq3Hx3OA4jfKL+p2K9180mEh0xQ==
+sass@1.55.0:
+  version "1.55.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.55.0.tgz#0c4d3c293cfe8f8a2e8d3b666e1cf1bff8065d1c"
+  integrity sha512-Pk+PMy7OGLs9WaxZGJMn7S96dvlyVBwwtToX895WmCpAOr5YiJYEUJfiJidMuKb613z2xNWcXCHEuOvjZbqC6A==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
     source-map-js ">=0.6.2 <2.0.0"
 
-sass@1.55.0:
-  version "1.55.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.55.0.tgz#0c4d3c293cfe8f8a2e8d3b666e1cf1bff8065d1c"
-  integrity sha512-Pk+PMy7OGLs9WaxZGJMn7S96dvlyVBwwtToX895WmCpAOr5YiJYEUJfiJidMuKb613z2xNWcXCHEuOvjZbqC6A==
+sass@1.56.0:
+  version "1.56.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.56.0.tgz#134032075a3223c8d49cb5c35e091e5ba1de8e0a"
+  integrity sha512-WFJ9XrpkcnqZcYuLRJh5qiV6ibQOR4AezleeEjTjMsCocYW59dEG19U3fwTTXxzi2Ed3yjPBp727hbbj53pHFw==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
@@ -10262,18 +10236,18 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vanilla-framework@3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.8.1.tgz#9534f89a3120b95b0d3ece022ceabf10812fecdc"
-  integrity sha512-rtG4ipxyHWOlA2cwUzskGZY1NieVt57uDq2TidY8Fk1+jQDo9wbe5N3M7S9e4oI+UhTXUKTKRvLYDP6s4TMsqQ==
+vanilla-framework@3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.8.2.tgz#fce498fecf06d67a0eeb31571dd21e3e73eb539a"
+  integrity sha512-5WxnmXoJYbocTZF3ypCkuzuWING0/ilmB7C5XP8xMP3dHShVnXxtNTjlYEc/bx3et6BwyqXMlBKkIwyzkoYqxw==
   dependencies:
     "@canonical/cookie-policy" "3.4.0"
     "@canonical/latest-news" "1.4.1"
-    autoprefixer "10.4.8"
-    postcss "8.4.14"
+    autoprefixer "10.4.13"
+    postcss "8.4.18"
     postcss-cli "9.1.0"
-    postcss-scss "4.0.4"
-    sass "1.54.0"
+    postcss-scss "4.0.5"
+    sass "1.56.0"
     yaml "1.10.2"
 
 vary@~1.1.2:
