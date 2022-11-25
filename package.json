@@ -16,7 +16,7 @@
     "serve": "serve --single --no-clipboard build && echo 'available on to https://localhost:9443'"
   },
   "dependencies": {
-    "@canonical/react-components": "0.37.7",
+    "@canonical/react-components": "0.37.8",
     "@tanstack/react-query": "^4.14.5",
     "@use-it/event-listener": "^0.1.7",
     "formik": "2.2.9",
@@ -27,7 +27,7 @@
     "react-router-dom": "6.4.2",
     "react-scripts": "5.0.1",
     "serve": "14.0.1",
-    "vanilla-framework": "3.8.1",
+    "vanilla-framework": "3.8.2",
     "xterm-addon-fit": "0.6.0",
     "xterm-for-react": "1.0.4",
     "yup": "0.32.11"
