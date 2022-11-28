@@ -178,3 +178,18 @@
     }
   }
 }
+
+@mixin table-profiles {
+  .p-table--profiles {
+    th,
+    td {
+      &:nth-child(1) {
+        width: 16rem;
+      }
+
+      &:nth-child(3) {
+        width: 6rem;
+      }
+    }
+  }
+}

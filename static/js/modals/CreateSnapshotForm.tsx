@@ -20,8 +20,8 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
 
   const statefulHelp = (
     <p>
-      To create a stateful snapshot, the instance must be running and needs the
-      &nbsp;<code>migration.stateful</code> config set to true
+      To create a stateful snapshot, the instance must be running and needs the{" "}
+      <code>migration.stateful</code> config set to true
     </p>
   );
 
