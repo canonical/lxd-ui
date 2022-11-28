@@ -6,6 +6,7 @@ import ImageList from "./ImageList";
 import InstanceList from "./InstanceList";
 import InstanceTerminal from "./InstanceTerminal";
 import Navigation from "./components/Navigation";
+import ProfileList from "./ProfileList";
 import NetworkList from "./NetworkList";
 import NoMatch from "./components/NoMatch";
 import ProjectList from "./ProjectList";
@@ -31,6 +32,7 @@ const App: FC = () => {
             />
             <Route path="/instances/:name/vga" element={<InstanceVga />} />
             <Route path="/images" element={<ImageList />} />
+            <Route path="/profiles" element={<ProfileList />} />
             <Route path="/networks" element={<NetworkList />} />
             <Route path="/projects" element={<ProjectList />} />
             <Route path="/cluster" element={<ClusterList />} />

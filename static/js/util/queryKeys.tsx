@@ -4,6 +4,7 @@ export const queryKeys = {
   instances: "instances",
   members: "members",
   networks: "networks",
+  profiles: "profiles",
   projects: "projects",
   warnings: "warnings",
 };
