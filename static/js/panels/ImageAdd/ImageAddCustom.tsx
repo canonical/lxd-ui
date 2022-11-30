@@ -1,18 +1,12 @@
 import React, { FC } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-} from "@canonical/react-components";
+import { Col, Form, Input, Row, Select } from "@canonical/react-components";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { importImage } from "../../api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
+import SubmissionButton from "../../buttons/SubmissionButton";
 
 type Props = {
   notify: NotificationHelper;
@@ -49,17 +43,6 @@ const ImageAdd: FC<Props> = ({ notify }) => {
         });
     },
   });
-
-  const submitButton = formik.isSubmitting ? (
-    <Button appearance="positive" type="submit" hasIcon disabled>
-      <i className="p-icon--spinner is-light u-animation--spin"></i>{" "}
-      <span>Processing...</span>
-    </Button>
-  ) : (
-    <Button appearance="positive" type="submit" disabled={!formik.isValid}>
-      <i className="p-icon--import is-light"></i> <span>Import image</span>
-    </Button>
-  );
 
   return (
     <Form onSubmit={formik.handleSubmit} stacked>
@@ -110,7 +93,9 @@ const ImageAdd: FC<Props> = ({ notify }) => {
       />
       <hr />
       <Row className="u-align--right">
-        <Col size={12}>{submitButton}</Col>
+        <Col size={12}>
+          <SubmissionButton formik={formik} buttonLabel="Import image" />
+        </Col>
       </Row>
     </Form>
   );

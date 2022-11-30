@@ -8,6 +8,7 @@ import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "../types/instance";
+import SubmissionButton from "../buttons/SubmissionButton";
 
 type Props = {
   instance: LxdInstance;
@@ -59,28 +60,6 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
     },
   });
 
-  const submitButton = formik.isSubmitting ? (
-    <Button
-      appearance="positive"
-      type="submit"
-      hasIcon
-      disabled
-      style={{ marginRight: "1rem" }}
-    >
-      <i className="p-icon--spinner is-light u-animation--spin"></i>{" "}
-      <span>Processing...</span>
-    </Button>
-  ) : (
-    <Button
-      appearance="positive"
-      type="submit"
-      disabled={!formik.dirty || !formik.isValid}
-      style={{ marginRight: "1rem" }}
-    >
-      Create Snapshot
-    </Button>
-  );
-
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Modal
@@ -91,7 +70,11 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
             <Button className="u-no-margin--bottom" onClick={close}>
               Cancel
             </Button>
-            {submitButton}
+            <SubmissionButton
+              formik={formik}
+              buttonLabel="Create snapshot"
+              checkDirty={true}
+            />
           </>
         }
       >
