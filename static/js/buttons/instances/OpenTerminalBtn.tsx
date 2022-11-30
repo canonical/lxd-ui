@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { LxdInstance } from "../../types/instance";
+import { Button } from "@canonical/react-components";
 
 type Props = {
   instance: LxdInstance;
@@ -14,13 +15,9 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
   };
 
   return (
-    <button
-      onClick={handleOpen}
-      className="is-dense"
-      disabled={instance.status !== "Running"}
-    >
+    <Button dense onClick={handleOpen} disabled={instance.status !== "Running"}>
       <i className="p-icon--open-terminal">Open terminal</i>
-    </button>
+    </Button>
   );
 };
 

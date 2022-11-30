@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Icon } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 
 const Navigation: FC = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
@@ -28,12 +28,9 @@ const Navigation: FC = () => {
               />
             </NavLink>
             <div className="p-panel__controls">
-              <button
-                className="p-panel__toggle p-button--neutral is-dense"
-                onClick={toggleMenu}
-              >
+              <Button dense className="p-panel__toggle" onClick={toggleMenu}>
                 Menu
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -50,12 +47,14 @@ const Navigation: FC = () => {
                 />
               </NavLink>
               <div className="p-panel__controls u-hide--large">
-                <button
-                  className="p-button--base has-icon u-no-margin u-hide--medium"
+                <Button
+                  appearance="base"
+                  hasIcon
+                  className="u-no-margin u-hide--medium"
                   onClick={toggleMenu}
                 >
                   <Icon name="close" />
-                </button>
+                </Button>
               </div>
             </div>
             <div className="p-panel__content">

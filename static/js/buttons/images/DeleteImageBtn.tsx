@@ -4,6 +4,7 @@ import { LxdImage } from "../../types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
+import { Button } from "@canonical/react-components";
 
 type Props = {
   image: LxdImage;
@@ -31,11 +32,7 @@ const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className="p-button is-dense"
-      disabled={isLoading}
-    >
+    <Button dense onClick={handleDelete} disabled={isLoading}>
       <i
         className={
           isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--delete"
@@ -43,7 +40,7 @@ const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
       >
         Delete
       </i>
-    </button>
+    </Button>
   );
 };
 

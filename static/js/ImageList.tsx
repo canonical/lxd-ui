@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { MainTable, Row, Tooltip } from "@canonical/react-components";
+import { Button, MainTable, Row, Tooltip } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "./util/helpers";
 import { queryKeys } from "./util/queryKeys";
 import { fetchImageList } from "./api/images";
@@ -118,12 +118,9 @@ const ImageList: FC = () => {
       <BaseLayout
         title="Images"
         controls={
-          <button
-            className="p-button--positive u-no-margin--bottom"
-            onClick={panelParams.openImageImport}
-          >
+          <Button appearance="positive" onClick={panelParams.openImageImport}>
             Import image
-          </button>
+          </Button>
         }
       >
         <NotificationRow notify={notify} />

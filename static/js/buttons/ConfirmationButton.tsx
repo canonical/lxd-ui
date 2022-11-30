@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import ConfirmationModal from "../modals/ConfirmationModal";
+import { Button } from "@canonical/react-components";
 
 type Props = {
   isLoading: boolean;
@@ -25,40 +26,16 @@ const ConfirmationButton: FC<Props> = ({
     onPositive();
   };
 
-  const handleModifierClick = (
-    e: any,
-    modifier: string,
-    onModifierClick: Function,
-    onClick: Function
-  ) => {
-    if (e[modifier]) onModifierClick();
-    else onClick();
-  };
-
-  const handleShiftClick = (
-    e: any,
-    onShiftClick: Function,
-    onClick: Function
-  ) => {
-    handleModifierClick(e, "shiftKey", onShiftClick, onClick);
+  const handleShiftClick = (e: any) => {
+    if (e["shiftKey"]) {
+      onPositive();
+    } else {
+      setOpen(true);
+    }
   };
 
   return (
     <>
-      <button
-        onClick={(e) =>
-          handleShiftClick(e, onPositiveCloseModal, () => setOpen(true))
-        }
-        className="is-dense fix-button-with-modal"
-      >
-        <i
-          className={
-            isLoading ? "p-icon--spinner u-animation--spin" : iconClass
-          }
-        >
-          Delete
-        </i>
-      </button>
       {isOpen && (
         <ConfirmationModal
           title={title}
@@ -68,6 +45,15 @@ const ConfirmationButton: FC<Props> = ({
           onPositive={onPositiveCloseModal}
         />
       )}
+      <Button dense onClick={handleShiftClick}>
+        <i
+          className={
+            isLoading ? "p-icon--spinner u-animation--spin" : iconClass
+          }
+        >
+          Delete
+        </i>
+      </Button>
     </>
   );
 };

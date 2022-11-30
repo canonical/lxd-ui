@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { LxdImage } from "../../types/image";
 import usePanelParams from "../../util/usePanelParams";
+import { Button } from "@canonical/react-components";
 
 type Props = {
   image: LxdImage;
@@ -14,9 +15,9 @@ const CreateInstanceBtn: FC<Props> = ({ image }) => {
   };
 
   return (
-    <button onClick={handleCreate} className="p-button is-dense">
+    <Button dense onClick={handleCreate}>
       <i className="p-icon--add-canvas">Create instance</i>
-    </button>
+    </Button>
   );
 };
 
