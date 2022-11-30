@@ -6,6 +6,7 @@ import "../../sass/_panels.scss";
 import ImageAdd from "./ImageAdd/ImageAdd";
 import SnapshotList from "./SnapshotList";
 import usePanelParams, { panels } from "../util/usePanelParams";
+import ProfileForm from "./ProfileForm";
 
 export default function Panels() {
   const panelParams = usePanelParams();
@@ -23,6 +24,8 @@ export default function Panels() {
         return <ImageAdd />;
       case panels.snapshots:
         return <SnapshotList />;
+      case panels.profileForm:
+        return <ProfileForm />;
       default:
         return null;
     }

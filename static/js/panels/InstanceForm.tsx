@@ -12,7 +12,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
 import usePanelParams from "../util/usePanelParams";
-import SubmissionButton from "../buttons/SubmissionButton";
+import SubmitButton from "../buttons/SubmitButton";
 
 const InstanceForm: FC = () => {
   const navigate = useNavigate();
@@ -112,8 +112,9 @@ const InstanceForm: FC = () => {
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>
-                  <SubmissionButton
-                    formik={formik}
+                  <SubmitButton
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={!formik.isValid}
                     buttonLabel="Create instance"
                   />
                 </Col>

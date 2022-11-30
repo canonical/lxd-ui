@@ -6,7 +6,7 @@ import { importImage } from "../../api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
-import SubmissionButton from "../../buttons/SubmissionButton";
+import SubmitButton from "../../buttons/SubmitButton";
 
 type Props = {
   notify: NotificationHelper;
@@ -94,7 +94,11 @@ const ImageAdd: FC<Props> = ({ notify }) => {
       <hr />
       <Row className="u-align--right">
         <Col size={12}>
-          <SubmissionButton formik={formik} buttonLabel="Import image" />
+          <SubmitButton
+            isSubmitting={formik.isSubmitting}
+            isDisabled={!formik.isValid}
+            buttonLabel="Import image"
+          />
         </Col>
       </Row>
     </Form>

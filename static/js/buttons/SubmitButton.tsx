@@ -1,34 +1,29 @@
 import React, { FC } from "react";
 import { Button } from "@canonical/react-components";
-import { FormikValues } from "formik";
 
 type Props = {
-  formik: FormikValues;
+  isSubmitting: boolean;
+  isDisabled: boolean;
   buttonLabel: string;
   processingText?: string;
-  checkDirty?: boolean;
 };
 
-const SubmissionButton: FC<Props> = ({
-  formik,
+const SubmitButton: FC<Props> = ({
+  isSubmitting,
+  isDisabled,
   buttonLabel,
   processingText = "Processing...",
-  checkDirty = false,
 }) => {
-  return formik.isSubmitting ? (
+  return isSubmitting ? (
     <Button appearance="positive" type="submit" hasIcon disabled>
       <i className="p-icon--spinner is-light u-animation--spin"></i>{" "}
       <span>{processingText}</span>
     </Button>
   ) : (
-    <Button
-      appearance="positive"
-      type="submit"
-      disabled={checkDirty ? !formik.dirty || !formik.isValid : !formik.isValid}
-    >
+    <Button appearance="positive" type="submit" disabled={isDisabled}>
       {buttonLabel}
     </Button>
   );
 };
 
-export default SubmissionButton;
+export default SubmitButton;

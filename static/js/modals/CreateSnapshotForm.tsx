@@ -8,7 +8,7 @@ import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "../types/instance";
-import SubmissionButton from "../buttons/SubmissionButton";
+import SubmitButton from "../buttons/SubmitButton";
 
 type Props = {
   instance: LxdInstance;
@@ -70,10 +70,10 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
             <Button className="u-no-margin--bottom" onClick={close}>
               Cancel
             </Button>
-            <SubmissionButton
-              formik={formik}
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid}
               buttonLabel="Create snapshot"
-              checkDirty={true}
             />
           </>
         }
