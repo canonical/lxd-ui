@@ -4,6 +4,7 @@ import { RemoteImage } from "../../types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
+import { Button } from "@canonical/react-components";
 
 type Props = {
   image: RemoteImage;
@@ -34,7 +35,7 @@ const ImportImageBtn: FC<Props> = ({ image, notify }) => {
   };
 
   return (
-    <button onClick={handleImport} className="is-dense" disabled={isLoading}>
+    <Button dense onClick={handleImport} disabled={isLoading}>
       <i
         className={
           isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--import"
@@ -42,7 +43,7 @@ const ImportImageBtn: FC<Props> = ({ image, notify }) => {
       >
         Delete
       </i>
-    </button>
+    </Button>
   );
 };
 

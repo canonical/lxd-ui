@@ -4,6 +4,7 @@ import { LxdInstance } from "../../types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
+import { Button } from "@canonical/react-components";
 
 type Props = {
   instance: LxdInstance;
@@ -31,9 +32,9 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
   };
 
   return (
-    <button
+    <Button
+      dense
       onClick={handleStart}
-      className="is-dense"
       disabled={isLoading || instance.status !== "Stopped"}
     >
       <i
@@ -43,7 +44,7 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
       >
         Start
       </i>
-    </button>
+    </Button>
   );
 };
 

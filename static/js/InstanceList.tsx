@@ -1,4 +1,4 @@
-import { MainTable, Row, Tooltip } from "@canonical/react-components";
+import { Button, MainTable, Row, Tooltip } from "@canonical/react-components";
 import React, { FC } from "react";
 import { fetchInstances } from "./api/instances";
 import BaseLayout from "./components/BaseLayout";
@@ -80,15 +80,16 @@ const InstanceList: FC = () => {
     );
 
     const snapshots = (
-      <button
+      <Button
+        appearance="base"
+        hasIcon
         onClick={() => {
           panelParams.openSnapshots(instance.name);
         }}
-        className="p-button--base has-icon"
       >
         <span>{instance.snapshots?.length || "0"}</span>
         <i className="p-icon--settings">snapshots</i>
-      </button>
+      </Button>
     );
 
     return {
@@ -153,12 +154,12 @@ const InstanceList: FC = () => {
       <BaseLayout
         title="Instances"
         controls={
-          <button
-            className="p-button--positive u-no-margin--bottom"
+          <Button
+            appearance="positive"
             onClick={() => panelParams.openInstanceForm()}
           >
             Add instance
-          </button>
+          </Button>
         }
       >
         <NotificationRow notify={notify} />
