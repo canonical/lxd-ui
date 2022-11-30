@@ -1,13 +1,6 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-} from "@canonical/react-components";
+import { Col, Form, Input, Row, Select } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { fetchImageList } from "../api/images";
@@ -19,6 +12,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
 import usePanelParams from "../util/usePanelParams";
+import SubmissionButton from "../buttons/SubmissionButton";
 
 const InstanceForm: FC = () => {
   const navigate = useNavigate();
@@ -84,28 +78,6 @@ const InstanceForm: FC = () => {
     },
   });
 
-  const submitButton = formik.isSubmitting ? (
-    <Button
-      appearance="positive"
-      type="submit"
-      hasIcon
-      disabled
-      style={{ marginRight: "1rem" }}
-    >
-      <i className="p-icon--spinner is-light u-animation--spin"></i>{" "}
-      <span>Processing...</span>
-    </Button>
-  ) : (
-    <Button
-      appearance="positive"
-      type="submit"
-      disabled={!formik.isValid}
-      style={{ marginRight: "1rem" }}
-    >
-      Create instance
-    </Button>
-  );
-
   return (
     <Aside>
       <div className="p-panel">
@@ -139,7 +111,12 @@ const InstanceForm: FC = () => {
               />
               <hr />
               <Row className="u-align--right">
-                <Col size={12}>{submitButton}</Col>
+                <Col size={12}>
+                  <SubmissionButton
+                    formik={formik}
+                    buttonLabel="Create instance"
+                  />
+                </Col>
               </Row>
             </Form>
           </Row>
