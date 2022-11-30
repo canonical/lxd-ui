@@ -9,3 +9,18 @@ export const fetchProfiles = (): Promise<LxdProfile[]> => {
       .catch(reject);
   });
 };
+
+export const createProfile = (name: string, description: string) => {
+  return new Promise((resolve, reject) => {
+    return fetch("/1.0/profiles", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        description: description,
+      }),
+    })
+      .then(handleResponse)
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+};

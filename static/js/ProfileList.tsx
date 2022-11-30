@@ -1,14 +1,16 @@
 import React, { FC } from "react";
-import { MainTable, Row } from "@canonical/react-components";
+import { Button, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { fetchProfiles } from "./api/profiles";
 import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
+import usePanelParams from "./util/usePanelParams";
 
 const ProfileList: FC = () => {
   const notify = useNotification();
+  const panelParams = usePanelParams();
 
   const { data: profiles = [], error } = useQuery({
     queryKey: [queryKeys.profiles],
@@ -60,7 +62,17 @@ const ProfileList: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Profiles">
+      <BaseLayout
+        title="Profiles"
+        controls={
+          <Button
+            appearance="positive"
+            onClick={() => panelParams.openProfileForm()}
+          >
+            Add profile
+          </Button>
+        }
+      >
         <NotificationRow notify={notify} />
         <Row>
           <MainTable

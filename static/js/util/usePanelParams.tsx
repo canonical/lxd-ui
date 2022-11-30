@@ -8,12 +8,14 @@ export interface PanelHelper {
   openInstanceForm: (image?: string) => void;
   openImageImport: () => void;
   openSnapshots: (instanceName: string) => void;
+  openProfileForm: () => void;
 }
 
 export const panels = {
   instanceForm: "instance-form",
   imageImport: "image-import",
   snapshots: "snapshots",
+  profileForm: "profile-form",
 };
 
 type ParamMap = {
@@ -51,6 +53,10 @@ const usePanelParams = (): PanelHelper => {
 
     openSnapshots: (instanceName) => {
       setPanelParams(panels.snapshots, { instance: instanceName });
+    },
+
+    openProfileForm: () => {
+      setPanelParams(panels.profileForm);
     },
   };
 };
