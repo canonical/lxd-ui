@@ -24,3 +24,14 @@ export const createProfile = (name: string, description: string) => {
       .catch(reject);
   });
 };
+
+export const deleteProfile = (name: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/profiles/${name}`, {
+      method: "DELETE",
+    })
+      .then(handleResponse)
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
