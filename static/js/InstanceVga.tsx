@@ -1,16 +1,26 @@
-import React, { FC, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Button, Icon, Row } from "@canonical/react-components";
+import React, {
+  Dispatch,
+  FC,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useRef,
+} from "react";
+import { useParams } from "react-router-dom";
+import { Button, Icon } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import * as SpiceHtml5 from "../assets/lib/spice/src/main";
 import { fetchInstanceVga } from "./api/instances";
 import { getWsErrorMsg } from "./util/helpers";
-import BaseLayout from "./components/BaseLayout";
 import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
 
 type Params = {
   name: string;
+};
+
+type Props = {
+  setControls: Dispatch<SetStateAction<ReactNode>>;
 };
 
 declare global {
@@ -20,10 +30,19 @@ declare global {
   }
 }
 
-const InstanceVga: FC = () => {
+const InstanceVga: FC<Props> = ({ setControls }) => {
   const { name } = useParams<Params>();
   const notify = useNotification();
   const spiceRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setControls(
+      <Button hasIcon={true} appearance="neutral" onClick={handleFullScreen}>
+        <Icon name="fullscreen" />
+        <span>Fullscreen</span>
+      </Button>
+    );
+  }, []);
 
   const handleError = (e: object) => {
     notify.failure("spice error", e);
@@ -94,31 +113,10 @@ const InstanceVga: FC = () => {
 
   return (
     <>
-      <BaseLayout
-        title={`VGA Terminal for ${name}`}
-        controls={
-          <>
-            <Button
-              hasIcon={true}
-              appearance="neutral"
-              onClick={handleFullScreen}
-            >
-              <Icon name="fullscreen" />
-              <span>Fullscreen</span>
-            </Button>
-            <Link className="p-button u-no-margin--bottom" to="/instances">
-              Back
-            </Link>
-          </>
-        }
-      >
-        <NotificationRow notify={notify} />
-        <Row>
-          <div id="spice-area" ref={spiceRef}>
-            <div id="spice-screen" className="spice-screen" />
-          </div>
-        </Row>
-      </BaseLayout>
+      <NotificationRow notify={notify} />
+      <div id="spice-area" ref={spiceRef}>
+        <div id="spice-screen" className="spice-screen" />
+      </div>
     </>
   );
 };

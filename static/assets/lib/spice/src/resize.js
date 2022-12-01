@@ -47,7 +47,7 @@ function resize_helper(sc)
          to figure out how to resize */
     var h = window.innerHeight - wrapper.offsetTop;
     if (!isFullScreen && wrapper?.parentElement?.parentElement) {
-        var paddingBottom = parseInt(window.getComputedStyle(wrapper.parentElement.parentElement).paddingBottom);
+        var paddingBottom = parseInt(window.getComputedStyle(wrapper.parentElement.parentElement.parentElement).paddingBottom);
         h = h - paddingBottom;
     }
 
