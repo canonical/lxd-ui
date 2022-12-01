@@ -8,7 +8,7 @@ type Props = {
   title: string;
   confirmationMessage: string;
   posButtonLabel: string;
-  onPositive: () => void;
+  onConfirm: () => void;
   isDisabled?: boolean;
 };
 
@@ -18,19 +18,19 @@ const ConfirmationButton: FC<Props> = ({
   title,
   confirmationMessage,
   posButtonLabel,
-  onPositive,
+  onConfirm,
   isDisabled = false,
 }) => {
   const [isOpen, setOpen] = useState(false);
 
-  const onPositiveCloseModal = () => {
+  const handleConfirmModal = () => {
     setOpen(false);
-    onPositive();
+    onConfirm();
   };
 
   const handleShiftClick = (e: any) => {
     if (e["shiftKey"]) {
-      onPositive();
+      onConfirm();
     } else {
       setOpen(true);
     }
@@ -44,7 +44,7 @@ const ConfirmationButton: FC<Props> = ({
           onClose={() => setOpen(false)}
           confirmationMessage={confirmationMessage}
           posButtonLabel={posButtonLabel}
-          onPositive={onPositiveCloseModal}
+          onConfirm={handleConfirmModal}
         />
       )}
       <Button dense disabled={isDisabled} onClick={handleShiftClick}>
