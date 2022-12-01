@@ -38,7 +38,7 @@ const DeleteProfileBtn: FC<Props> = ({ name, notify }) => {
       confirmationMessage={`Are you sure you want to delete profile "${name}"?
                             This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
-      onPositive={handleDelete}
+      onConfirm={handleDelete}
     />
   );
 };

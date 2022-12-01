@@ -39,7 +39,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
       confirmationMessage={`Are you sure you want to delete instance "${instance.name}"?
                             This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
-      onPositive={handleDelete}
+      onConfirm={handleDelete}
       isDisabled={isLoading || instance.status !== "Stopped"}
     />
   );

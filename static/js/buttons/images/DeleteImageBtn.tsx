@@ -39,7 +39,7 @@ const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
       confirmationMessage={`Are you sure you want to delete image "${image.properties.description}"?
                             This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
-      onPositive={handleDelete}
+      onConfirm={handleDelete}
       isDisabled={isLoading}
     />
   );

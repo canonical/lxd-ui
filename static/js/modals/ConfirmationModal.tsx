@@ -7,7 +7,7 @@ type Props = {
   confirmationMessage: string;
   negButtonLabel?: string;
   posButtonLabel: string;
-  onPositive: () => void;
+  onConfirm: () => void;
 };
 
 const ConfirmationModal: FC<Props> = ({
@@ -16,7 +16,7 @@ const ConfirmationModal: FC<Props> = ({
   confirmationMessage,
   negButtonLabel = "Cancel",
   posButtonLabel,
-  onPositive,
+  onConfirm,
 }) => {
   return (
     <Modal
@@ -27,7 +27,11 @@ const ConfirmationModal: FC<Props> = ({
           <Button className="u-no-margin--bottom" onClick={onClose}>
             {negButtonLabel}
           </Button>
-          <Button appearance="positive" onClick={onPositive}>
+          <Button
+            appearance="negative"
+            className="u-no-margin--bottom"
+            onClick={onConfirm}
+          >
             {posButtonLabel}
           </Button>
         </>
