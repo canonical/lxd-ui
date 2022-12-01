@@ -131,7 +131,7 @@ const ImageList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="p-table--images"
+            className="u-table-layout--auto"
           />
         </Row>
       </BaseLayout>

@@ -170,7 +170,7 @@ const InstanceList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="p-table--instances"
+            className="u-table-layout--auto"
           />
         </Row>
       </BaseLayout>

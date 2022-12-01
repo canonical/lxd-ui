@@ -120,7 +120,7 @@ const SnapshotList: FC = () => {
                 paginate={30}
                 responsive
                 sortable
-                className="p-table--snapshots"
+                className="u-table-layout--auto"
               />
               {!isLoading && !instance?.snapshots?.length && (
                 <Row className="empty-state-message">

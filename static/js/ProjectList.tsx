@@ -107,7 +107,7 @@ const ProjectList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="p-table--projects"
+            className="u-table-layout--auto"
           />
         </Row>
       </BaseLayout>

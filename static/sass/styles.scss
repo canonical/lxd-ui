@@ -26,17 +26,6 @@
 @import "pattern_navigation";
 @include lxd-ui-p-navigation;
 
-@import "pattern_table";
-@include table-images;
-@include table-image-imports;
-@include table-instances;
-@include table-networks;
-@include table-profiles;
-@include table-projects;
-@include table-warnings;
-@include table-snapshots;
-@include table-settings;
-
 @import "pattern_terminal";
 @include pattern-terminal;
 

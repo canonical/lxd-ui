@@ -81,7 +81,7 @@ const ProfileList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="p-table--profiles"
+            className="u-table-layout--auto"
           />
         </Row>
       </BaseLayout>

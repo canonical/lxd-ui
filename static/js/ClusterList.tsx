@@ -98,7 +98,7 @@ const ClusterList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="p-table--cluster"
+            className="u-table-layout--auto"
           />
         </Row>
       </BaseLayout>
