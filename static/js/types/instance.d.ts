@@ -31,10 +31,19 @@ interface LxdSnapshot {
 }
 
 export interface LxdInstance {
+  architecture: string;
+  config: LxdInstanceConfig;
+  created_at: string;
+  description: string;
+  ephemeral: boolean;
+  last_used_at: string;
+  location: string;
   name: string;
+  profiles: string[];
+  project: string;
+  snapshots: LxdSnapshot[] | null;
+  state: LxdInstanceState;
+  stateful: boolean;
   status: string;
   type: string;
-  config: LxdInstanceConfig;
-  state: LxdInstanceState;
-  snapshots: LxdSnapshot[] | null;
 }

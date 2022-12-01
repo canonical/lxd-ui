@@ -1,13 +1,18 @@
-import React, { FC, useLayoutEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, {
+  Dispatch,
+  FC,
+  ReactNode,
+  SetStateAction,
+  useLayoutEffect,
+  useState,
+} from "react";
+import { useParams } from "react-router-dom";
 import { XTerm } from "xterm-for-react";
 import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
 import { fetchInstanceExec } from "./api/instances";
-import { Row } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { getWsErrorMsg } from "./util/helpers";
-import BaseLayout from "./components/BaseLayout";
 import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
 
@@ -15,7 +20,11 @@ type Params = {
   name: string;
 };
 
-const InstanceTerminal: FC = () => {
+type Props = {
+  setControls: Dispatch<SetStateAction<ReactNode>>;
+};
+
+const InstanceTerminal: FC<Props> = ({ setControls }) => {
   const { name } = useParams<Params>();
   const xtermRef = React.useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
@@ -105,28 +114,19 @@ const InstanceTerminal: FC = () => {
     handleResize();
   }, [controlWs, fitAddon, xtermRef]);
 
+  setControls(null);
+
   return (
     <>
-      <BaseLayout
-        title={`Terminal for ${name}`}
-        controls={
-          <Link className="p-button u-no-margin--bottom" to="/instances">
-            Back
-          </Link>
-        }
-      >
-        <NotificationRow notify={notify} />
-        <Row>
-          <XTerm
-            ref={xtermRef}
-            addons={[fitAddon]}
-            className="p-terminal"
-            onData={(data) => {
-              dataWs?.send(textEncoder.encode(data));
-            }}
-          />
-        </Row>
-      </BaseLayout>
+      <NotificationRow notify={notify} />
+      <XTerm
+        ref={xtermRef}
+        addons={[fitAddon]}
+        className="p-terminal"
+        onData={(data) => {
+          dataWs?.send(textEncoder.encode(data));
+        }}
+      />
     </>
   );
 };

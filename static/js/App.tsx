@@ -4,17 +4,16 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ClusterList from "./ClusterList";
 import ImageList from "./ImageList";
 import InstanceList from "./InstanceList";
-import InstanceTerminal from "./InstanceTerminal";
 import Navigation from "./components/Navigation";
 import ProfileList from "./ProfileList";
 import NetworkList from "./NetworkList";
 import NoMatch from "./components/NoMatch";
 import ProjectList from "./ProjectList";
 import WarningList from "./WarningList";
-import InstanceVga from "./InstanceVga";
 import Panels from "./panels/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Settings from "./Settings";
+import InstanceDetail from "./InstanceDetail";
 
 const queryClient = new QueryClient();
 
@@ -27,11 +26,11 @@ const App: FC = () => {
           <Routes>
             <Route path="/" element={<InstanceList />} />
             <Route path="/instances" element={<InstanceList />} />
+            <Route path="/instances/:name" element={<InstanceDetail />} />
             <Route
-              path="/instances/:name/terminal"
-              element={<InstanceTerminal />}
+              path="/instances/:name/:activeTab"
+              element={<InstanceDetail />}
             />
-            <Route path="/instances/:name/vga" element={<InstanceVga />} />
             <Route path="/images" element={<ImageList />} />
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/networks" element={<NetworkList />} />
