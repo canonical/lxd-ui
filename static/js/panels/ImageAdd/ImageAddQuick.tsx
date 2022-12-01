@@ -212,7 +212,7 @@ const ImageAddQuick: FC<Props> = ({ notify }) => {
         paginate={15}
         responsive
         sortable
-        className="p-table--image-imports"
+        className="u-table-layout--auto"
       />
     </>
   );

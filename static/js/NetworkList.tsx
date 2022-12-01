@@ -105,7 +105,7 @@ const NetworkList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="p-table--networks"
+            className="u-table-layout--auto"
           />
         </Row>
       </BaseLayout>

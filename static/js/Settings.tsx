@@ -125,7 +125,7 @@ const Settings: FC = () => {
         </Row>
         <Row>
           <MainTable
-            className="p-table--settings"
+            className="u-table-layout--auto"
             headers={headers}
             rows={rows}
             sortable
