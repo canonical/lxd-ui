@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, MainTable, Row } from "@canonical/react-components";
+import { Button, MainTable, Row, Tooltip } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { fetchProfiles } from "./api/profiles";
 import BaseLayout from "./components/BaseLayout";
@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
+import DeleteProfileBtn from "./buttons/profiles/DeleteProfileBtn";
 
 const ProfileList: FC = () => {
   const notify = useNotification();
@@ -24,15 +25,21 @@ const ProfileList: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
-    {
-      content: "Used by",
-      sortKey: "used_by",
-      className: "u-align--center",
-    },
+    { content: "Used by", sortKey: "used_by", className: "u-align--center" },
+    { content: "Actions", className: "u-align--center" },
   ];
 
   const rows = profiles.map((profile) => {
+    const actions = (
+      <div>
+        <Tooltip message="Delete profile" position="btm-center">
+          <DeleteProfileBtn name={profile.name} notify={notify} />
+        </Tooltip>
+      </div>
+    );
+
     const usedBy = <span>{profile.used_by.length || "0"}</span>;
+
     return {
       columns: [
         {
@@ -50,6 +57,12 @@ const ProfileList: FC = () => {
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Used by",
+        },
+        {
+          content: actions,
+          role: "rowheader",
+          "aria-label": "Actions",
+          className: "u-align--center",
         },
       ],
       sortData: {
