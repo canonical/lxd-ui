@@ -19,15 +19,23 @@ type Props = {
 const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
   const queryClient = useQueryClient();
 
-  const statefulHelp = (
-    <p>
-      To create a stateful snapshot, the instance must be running and needs the{" "}
-      <code>migration.stateful</code> config set to true
-    </p>
-  );
+  const isRunning = instance.status === "Running";
+  const isStateful = instance.config["migration.stateful"];
 
-  const canBeStateful =
-    instance.config["migration.stateful"] && instance.status === "Running";
+  const getStatefulHelp = () => {
+    if (isStateful && isRunning) {
+      return "";
+    }
+    if (isStateful) {
+      return <p>To create a stateful snapshot, the instance must be running</p>;
+    }
+    return (
+      <p>
+        To create a stateful snapshot, the instance needs the{" "}
+        <code>migration.stateful</code> config set to true
+      </p>
+    );
+  };
 
   const SnapshotSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
@@ -106,8 +114,8 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
           type="checkbox"
           label="Stateful"
           wrapperClassName="row"
-          help={canBeStateful ? "" : statefulHelp}
-          disabled={!canBeStateful}
+          help={getStatefulHelp()}
+          disabled={!isStateful || !isRunning}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
