@@ -4,7 +4,7 @@ import { LxdImage } from "../../types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
-import { Button } from "@canonical/react-components";
+import ConfirmationButton from "../ConfirmationButton";
 
 type Props = {
   image: LxdImage;
@@ -32,15 +32,16 @@ const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
   };
 
   return (
-    <Button dense onClick={handleDelete} disabled={isLoading}>
-      <i
-        className={
-          isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--delete"
-        }
-      >
-        Delete
-      </i>
-    </Button>
+    <ConfirmationButton
+      isLoading={isLoading}
+      iconClass="p-icon--delete"
+      title="Confirm delete"
+      confirmationMessage={`Are you sure you want to delete image "${image.properties.description}"?
+                            This action cannot be undone, and can result in data loss.`}
+      posButtonLabel="Delete"
+      onPositive={handleDelete}
+      isDisabled={isLoading}
+    />
   );
 };
 

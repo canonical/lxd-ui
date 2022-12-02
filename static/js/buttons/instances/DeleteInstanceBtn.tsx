@@ -4,7 +4,7 @@ import { LxdInstance } from "../../types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
-import { Button } from "@canonical/react-components";
+import ConfirmationButton from "../ConfirmationButton";
 
 type Props = {
   instance: LxdInstance;
@@ -32,19 +32,16 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
   };
 
   return (
-    <Button
-      dense
-      onClick={handleDelete}
-      disabled={isLoading || instance.status !== "Stopped"}
-    >
-      <i
-        className={
-          isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--delete"
-        }
-      >
-        Delete
-      </i>
-    </Button>
+    <ConfirmationButton
+      isLoading={isLoading}
+      iconClass="p-icon--delete"
+      title="Confirm delete"
+      confirmationMessage={`Are you sure you want to delete instance "${instance.name}"?
+                            This action cannot be undone, and can result in data loss.`}
+      posButtonLabel="Delete"
+      onPositive={handleDelete}
+      isDisabled={isLoading || instance.status !== "Stopped"}
+    />
   );
 };
 

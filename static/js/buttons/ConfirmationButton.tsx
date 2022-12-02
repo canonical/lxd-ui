@@ -9,6 +9,7 @@ type Props = {
   confirmationMessage: string;
   posButtonLabel: string;
   onPositive: () => void;
+  isDisabled?: boolean;
 };
 
 const ConfirmationButton: FC<Props> = ({
@@ -18,6 +19,7 @@ const ConfirmationButton: FC<Props> = ({
   confirmationMessage,
   posButtonLabel,
   onPositive,
+  isDisabled = false,
 }) => {
   const [isOpen, setOpen] = useState(false);
 
@@ -45,7 +47,7 @@ const ConfirmationButton: FC<Props> = ({
           onPositive={onPositiveCloseModal}
         />
       )}
-      <Button dense onClick={handleShiftClick}>
+      <Button dense disabled={isDisabled} onClick={handleShiftClick}>
         <i
           className={
             isLoading ? "p-icon--spinner u-animation--spin" : iconClass
