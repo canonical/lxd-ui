@@ -71,11 +71,14 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Modal
-        close={close}
         title={`Snapshots for ${instance.name}`}
         buttonRow={
           <>
-            <Button className="u-no-margin--bottom" onClick={close}>
+            <Button
+              className="u-no-margin--bottom"
+              type="button"
+              onClick={close}
+            >
               Cancel
             </Button>
             <SubmitButton
@@ -97,6 +100,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
           value={formik.values.name}
           error={formik.touched.name ? formik.errors.name : null}
           stacked
+          takeFocus
         />
         <Input
           id="expiresAt"
