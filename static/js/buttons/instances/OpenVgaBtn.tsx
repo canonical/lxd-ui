@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { LxdInstance } from "../../types/instance";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   instance: LxdInstance;
-};
+}
 
 const OpenVgaBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();

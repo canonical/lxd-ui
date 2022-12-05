@@ -87,7 +87,7 @@ const InstanceList: FC = () => {
           panelParams.openSnapshots(instance.name);
         }}
       >
-        <span>{instance.snapshots?.length || "0"}</span>
+        <span>{instance.snapshots?.length ?? "0"}</span>
         <i className="p-icon--settings">snapshots</i>
       </Button>
     );
@@ -144,7 +144,7 @@ const InstanceList: FC = () => {
         name: instance.name,
         state: instance.status,
         type: instance.type,
-        snapshots: instance.snapshots?.length || 0,
+        snapshots: instance.snapshots?.length ?? 0,
       },
     };
   });

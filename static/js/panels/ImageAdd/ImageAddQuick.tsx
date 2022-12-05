@@ -16,9 +16,9 @@ import { NotificationHelper } from "../../types/notification";
 const canonicalJson = "/static/assets/data/canonical-images.json";
 const linuxContainersJson = "/static/assets/data/linuxcontainers-images.json";
 
-type Props = {
+interface Props {
   notify: NotificationHelper;
-};
+}
 
 const ImageAddQuick: FC<Props> = ({ notify }) => {
   const [images, setImages] = useState<RemoteImage[]>([]);
@@ -28,7 +28,7 @@ const ImageAddQuick: FC<Props> = ({ notify }) => {
   const [release, setRelease] = useState<string>("jammy");
 
   const loadImagesFromJson = (file: string, server: string) => {
-    fetch(file)
+    void fetch(file)
       .then(handleResponse)
       .then((data: RemoteImageList) => {
         const images = Object.entries(data.products).map((product) => {
@@ -202,7 +202,7 @@ const ImageAddQuick: FC<Props> = ({ notify }) => {
               setRelease("");
             }}
             placeholder="Search for distribution, release, alias, etc. "
-            value={query ?? ""}
+            value={query}
           />
         </Col>
       </Row>

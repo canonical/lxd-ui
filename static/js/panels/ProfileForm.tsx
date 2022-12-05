@@ -30,7 +30,7 @@ const ProfileForm: FC = () => {
     onSubmit: (values) => {
       createProfile(values.name, values.description)
         .then(() => {
-          queryClient.invalidateQueries({
+          void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });
           navigate("/profiles");

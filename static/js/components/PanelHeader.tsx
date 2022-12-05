@@ -2,9 +2,9 @@ import React, { FC, ReactNode } from "react";
 import usePanelParams from "../util/usePanelParams";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   title: ReactNode;
-};
+}
 
 const PanelHeader: FC<Props> = ({ title }: Props) => {
   const panelParams = usePanelParams();

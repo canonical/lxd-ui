@@ -6,10 +6,10 @@ import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   image: RemoteImage;
   notify: NotificationHelper;
-};
+}
 
 const ImportImageBtn: FC<Props> = ({ image, notify }) => {
   const [isLoading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const ImportImageBtn: FC<Props> = ({ image, notify }) => {
     importImage(image)
       .then(() => {
         setLoading(false);
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: [queryKeys.images],
         });
         notify.success(

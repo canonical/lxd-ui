@@ -28,9 +28,14 @@ export const getTomorrowMidnight = (date: Date = new Date()) => {
   return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
 };
 
+interface ErrorResponse {
+  error: string;
+}
+
 export const handleResponse = async (response: Response) => {
   if (!response.ok) {
-    const result = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const result: ErrorResponse = await response.json();
     throw Error(result.error);
   }
   return response.json();
@@ -38,7 +43,7 @@ export const handleResponse = async (response: Response) => {
 
 export const humanFileSize = (bytes: number) => {
   if (Math.abs(bytes) < 1000) {
-    return bytes + " B";
+    return `${bytes} B`;
   }
 
   const units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];

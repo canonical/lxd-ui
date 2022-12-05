@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Notification, NotificationHelper } from "../types/notification";
+import isEqual from "lodash/isEqual";
 
 const useNotification = (): NotificationHelper => {
   const [notification, setNotification] = useState<Notification | null>(null);
 
   const setDeduplicated = (newValue: Notification | null) => {
-    const isEqual = require("lodash.isequal");
     if (!isEqual(newValue, notification)) {
       setNotification(newValue);
     }
@@ -16,6 +16,7 @@ const useNotification = (): NotificationHelper => {
 
     failure: (message, error) =>
       setDeduplicated({
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         message: error ? `${message} ${error.toString()}` : message,
         type: "negative",
       }),

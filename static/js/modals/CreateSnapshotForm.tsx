@@ -10,11 +10,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "../types/instance";
 import SubmitButton from "../buttons/SubmitButton";
 
-type Props = {
+interface Props {
   instance: LxdInstance;
   close: () => void;
   notify: NotificationHelper;
-};
+}
 
 const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
   const queryClient = useQueryClient();
@@ -42,7 +42,11 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
     stateful: Yup.boolean(),
   });
 
-  const formik = useFormik({
+  const formik = useFormik<{
+    name: string;
+    stateful: boolean;
+    expiresAt: string | null;
+  }>({
     initialValues: {
       name: "",
       stateful: false,
@@ -55,7 +59,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
         : null;
       createSnapshot(instance.name, values.name, expiresAt, values.stateful)
         .then(() => {
-          queryClient.invalidateQueries({
+          void queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.instances,
           });
           notify.success(`Snapshot ${values.name} created.`);

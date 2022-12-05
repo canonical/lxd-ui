@@ -59,14 +59,14 @@ const InstanceForm: FC = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      image: panelParams.image || "",
+      image: panelParams.image ?? "",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
       const instanceType = getInstanceType(values.image);
       createInstance(values.name, values.image, instanceType)
         .then(() => {
-          queryClient.invalidateQueries({
+          void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
           });
           navigate("/instances");

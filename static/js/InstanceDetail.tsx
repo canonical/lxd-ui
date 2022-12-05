@@ -6,11 +6,6 @@ import InstanceTerminal from "./InstanceTerminal";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import InstanceVga from "./InstanceVga";
 
-type Params = {
-  name: string;
-  activeTab?: string;
-};
-
 const TABS: string[] = ["Overview", "Terminal", "VGA"];
 const getTab = (activeTab?: string) => {
   switch (activeTab) {
@@ -25,11 +20,19 @@ const getTab = (activeTab?: string) => {
 
 const InstanceDetail: FC = () => {
   const navigate = useNavigate();
-  const { name, activeTab } = useParams<Params>();
+  const { name, activeTab } = useParams<{
+    name: string;
+    activeTab?: string;
+  }>();
   const [controls, setControls] = useState<ReactNode | null>(null);
   const [currentTab, setCurrentTab] = useState(getTab(activeTab));
 
+  if (!name) {
+    return <>Missing name</>;
+  }
+
   const handleTabChange = (newTab: number) => {
+    setControls(null);
     setCurrentTab(newTab);
     switch (newTab) {
       case 1:
@@ -66,16 +69,13 @@ const InstanceDetail: FC = () => {
 
         {currentTab === 0 && (
           <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
-            <InstanceOverview
-              instanceName={name || ""}
-              setControls={setControls}
-            />
+            <InstanceOverview instanceName={name} />
           </div>
         )}
 
         {currentTab === 1 && (
           <div tabIndex={1} role="tabpanel" aria-labelledby="terminal">
-            <InstanceTerminal setControls={setControls} />
+            <InstanceTerminal />
           </div>
         )}
 

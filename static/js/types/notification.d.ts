@@ -9,7 +9,7 @@ export interface Notification {
 export interface NotificationHelper {
   notification: Notification | null;
   clear: () => void;
-  failure: (message: string, error: any) => void;
+  failure: (message: string, error: unknown) => void;
   info: (message: string) => void;
   success: (message: string) => void;
 }

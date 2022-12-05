@@ -3,7 +3,7 @@ import { LxdMetricGroup } from "../types/metrics";
 
 export const fetchMetrics = (): Promise<LxdMetricGroup[]> => {
   return new Promise((resolve, reject) => {
-    return fetch("/1.0/metrics")
+    fetch("/1.0/metrics")
       .then((response) => {
         return response.text();
       })

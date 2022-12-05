@@ -18,7 +18,7 @@ const Settings: FC = () => {
   const notify = useNotification();
 
   const loadConfigOptions = () => {
-    fetch(configOptionsUrl)
+    void fetch(configOptionsUrl)
       .then(handleResponse)
       .then((data: LxdConfigOption[]) => {
         setConfigOptions(data);
@@ -39,7 +39,7 @@ const Settings: FC = () => {
   }
 
   const getValue = (option: LxdConfigOption): string | undefined => {
-    for (const [key, value] of Object.entries(settings?.config || {})) {
+    for (const [key, value] of Object.entries(settings?.config ?? {})) {
       if (key === option.key) {
         return value;
       }
@@ -68,7 +68,7 @@ const Settings: FC = () => {
       return option.key.toLowerCase().includes(query.toLowerCase());
     })
     .map((option) => {
-      const isDefault = !Object.keys(settings?.config || {}).some(
+      const isDefault = !Object.keys(settings?.config ?? {}).some(
         (key) => key === option.key
       );
       const value = getValue(option);
@@ -119,7 +119,7 @@ const Settings: FC = () => {
                 setQuery(value);
               }}
               placeholder="Search for group or key"
-              value={query ?? ""}
+              value={query}
             />
           </Col>
         </Row>

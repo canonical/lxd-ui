@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   isSubmitting: boolean;
   isDisabled: boolean;
   buttonLabel: string;
   processingText?: string;
-};
+}
 
 const SubmitButton: FC<Props> = ({
   isSubmitting,

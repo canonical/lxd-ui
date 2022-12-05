@@ -1,7 +1,7 @@
 import { LxdMetricGroup } from "../types/metrics";
 import { LxdInstance } from "../types/instance";
 
-type MemoryReport = {
+interface MemoryReport {
   memory:
     | {
         free: number;
@@ -14,7 +14,7 @@ type MemoryReport = {
         total: number;
       }
     | undefined;
-};
+}
 
 export const getInstanceMetrics = (
   metrics: LxdMetricGroup[],

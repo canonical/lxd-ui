@@ -12,6 +12,9 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict"
   ],
   settings: {
     react: {
@@ -19,11 +22,13 @@ module.exports = {
     },
   },
   parserOptions: {
+    project: "./tsconfig.json",
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,
     },
   },
+  root: true,
   rules: {
     "linebreak-style": ["error", "unix"],
     semi: ["error", "always"],

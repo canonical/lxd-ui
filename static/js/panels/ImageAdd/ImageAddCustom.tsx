@@ -8,9 +8,9 @@ import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
 import SubmitButton from "../../buttons/SubmitButton";
 
-type Props = {
+interface Props {
   notify: NotificationHelper;
-};
+}
 
 const ImageAdd: FC<Props> = ({ notify }) => {
   const queryClient = useQueryClient();
@@ -32,7 +32,7 @@ const ImageAdd: FC<Props> = ({ notify }) => {
       importImage({ aliases: values.name, server: values.server })
         .then(() => {
           formik.setSubmitting(false);
-          queryClient.invalidateQueries({
+          void queryClient.invalidateQueries({
             queryKey: [queryKeys.images],
           });
           notify.success("Image import finished.");
