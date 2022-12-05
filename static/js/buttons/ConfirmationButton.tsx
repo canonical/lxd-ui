@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import ConfirmationModal from "../modals/ConfirmationModal";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   isLoading: boolean;
   iconClass: string;
   title: string;
@@ -10,7 +10,7 @@ type Props = {
   posButtonLabel: string;
   onConfirm: () => void;
   isDisabled?: boolean;
-};
+}
 
 const ConfirmationButton: FC<Props> = ({
   isLoading,
@@ -28,8 +28,8 @@ const ConfirmationButton: FC<Props> = ({
     onConfirm();
   };
 
-  const handleShiftClick = (e: any) => {
-    if (e["shiftKey"]) {
+  const handleShiftClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.shiftKey) {
       onConfirm();
     } else {
       setOpen(true);

@@ -5,10 +5,10 @@ import { NotificationHelper } from "../../types/notification";
 import ConfirmationButton from "../ConfirmationButton";
 import { deleteProfile } from "../../api/profiles";
 
-type Props = {
+interface Props {
   name: string;
   notify: NotificationHelper;
-};
+}
 
 const DeleteProfileBtn: FC<Props> = ({ name, notify }) => {
   const [isLoading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const DeleteProfileBtn: FC<Props> = ({ name, notify }) => {
     deleteProfile(name)
       .then(() => {
         setLoading(false);
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: [queryKeys.profiles],
         });
         notify.success("Profile deleted.");

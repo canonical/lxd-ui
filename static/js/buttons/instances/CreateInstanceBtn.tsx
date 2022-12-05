@@ -3,9 +3,9 @@ import { LxdImage } from "../../types/image";
 import usePanelParams from "../../util/usePanelParams";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   image: LxdImage;
-};
+}
 
 const CreateInstanceBtn: FC<Props> = ({ image }) => {
   const panelParams = usePanelParams();

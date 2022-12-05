@@ -24,7 +24,7 @@ const SnapshotList: FC = () => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const notify = useNotification();
   const panelParams = usePanelParams();
-  const [instanceName] = useState(panelParams.instance || "");
+  const [instanceName] = useState(panelParams.instance ?? "");
 
   const {
     data: instance,

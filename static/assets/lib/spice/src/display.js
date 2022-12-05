@@ -703,7 +703,7 @@ SpiceDisplayConn.prototype.delete_surface = function(surface_id)
     {
         this.unhook_events();
         this.primary_surface = undefined;
-        document.getElementById(this.parent.screen_id).removeChild(canvas);
+        document.getElementById(this.parent.screen_id)?.removeChild(canvas);
     }
 
     delete this.surfaces[surface_id];

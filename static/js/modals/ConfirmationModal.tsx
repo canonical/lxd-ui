@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { Button, Modal } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   title: string;
   onClose: () => void;
   confirmationMessage: string;
   negButtonLabel?: string;
   posButtonLabel: string;
   onConfirm: () => void;
-};
+}
 
 const ConfirmationModal: FC<Props> = ({
   title,

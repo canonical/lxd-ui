@@ -66,7 +66,7 @@ const NetworkList: FC = () => {
           "aria-label": "Description",
         },
         {
-          content: network.used_by?.length || "0",
+          content: network.used_by?.length ?? "0",
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Used by",
@@ -89,7 +89,7 @@ const NetworkList: FC = () => {
         managed: network.managed,
         description: network.description,
         state: network.status,
-        usedBy: network.used_by?.length || 0,
+        usedBy: network.used_by?.length ?? 0,
       },
     };
   });

@@ -6,13 +6,13 @@ import { Spinner } from "@canonical/react-components";
 import SlideInOut from "./SlideInOut";
 import "../../sass/_aside.scss";
 
-type Props = {
+interface Props {
   children: ReactNode;
   width?: "wide" | "narrow";
   pinned?: boolean;
   loading?: boolean;
   isSplit?: boolean;
-};
+}
 
 const Aside: FC<Props> = ({
   children,
@@ -27,8 +27,8 @@ const Aside: FC<Props> = ({
       className={classnames("l-aside", {
         "is-narrow": width === "narrow",
         "is-wide": width === "wide",
-        "is-pinned": pinned === true,
-        "is-split": isSplit === true,
+        "is-pinned": pinned,
+        "is-split": isSplit,
       })}
     >
       {loading ? (

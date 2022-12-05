@@ -1,12 +1,14 @@
 import { watchOperation } from "./operations";
 import { handleResponse } from "../util/helpers";
 import { ImportImage, LxdImage } from "../types/image";
+import { LxdApiResponse } from "../types/apiResponse";
+import { LxdOperation } from "../types/operation";
 
 export const fetchImageList = (): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/images?recursion=1")
       .then(handleResponse)
-      .then((data) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
       .catch(reject);
   });
 };
@@ -17,7 +19,7 @@ export const deleteImage = (image: LxdImage) => {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -40,7 +42,7 @@ export const importImage = (remoteImage: ImportImage) => {
       }),
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation, 300).then(resolve).catch(reject);
       })
       .catch(reject);

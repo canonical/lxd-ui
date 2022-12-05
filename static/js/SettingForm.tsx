@@ -8,10 +8,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import NotificationRow from "./components/NotificationRow";
 import useNotification from "./util/useNotification";
 
-type Props = {
+interface Props {
   option: LxdConfigOption;
   value: string | undefined;
-};
+}
 
 const SettingForm: FC<Props> = ({ option, value }) => {
   const [isEditMode, setEditMode] = useState(false);
@@ -52,7 +52,7 @@ const SettingForm: FC<Props> = ({ option, value }) => {
       updateSettings(config)
         .then(() => {
           formik.setSubmitting(false);
-          queryClient.invalidateQueries({
+          void queryClient.invalidateQueries({
             queryKey: [queryKeys.settings],
           });
           notify.success("Setting saved.");

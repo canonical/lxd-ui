@@ -3,8 +3,8 @@ interface LxdInstanceConfig {
 }
 
 interface LxdInstanceState {
-  network: {
-    eth0: {
+  network?: {
+    eth0?: {
       addresses: {
         family: string;
         address: string;
@@ -42,7 +42,7 @@ export interface LxdInstance {
   profiles: string[];
   project: string;
   snapshots: LxdSnapshot[] | null;
-  state: LxdInstanceState;
+  state?: LxdInstanceState;
   stateful: boolean;
   status: string;
   type: string;

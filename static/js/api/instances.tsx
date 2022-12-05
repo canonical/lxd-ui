@@ -2,21 +2,23 @@ import { watchOperation } from "./operations";
 import { handleResponse } from "../util/helpers";
 import { LxdInstance } from "../types/instance";
 import { LxdConsole } from "../types/console";
+import { LxdApiResponse } from "../types/apiResponse";
+import { LxdOperation } from "../types/operation";
 
 export const fetchInstance = (instanceName: string): Promise<LxdInstance> => {
   return new Promise((resolve, reject) => {
-    return fetch(`/1.0/instances/${instanceName}?recursion=2`)
+    fetch(`/1.0/instances/${instanceName}?recursion=2`)
       .then(handleResponse)
-      .then((data) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdInstance>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
 export const fetchInstances = (): Promise<LxdInstance[]> => {
   return new Promise((resolve, reject) => {
-    return fetch("/1.0/instances?recursion=2")
+    fetch("/1.0/instances?recursion=2")
       .then(handleResponse)
-      .then((data) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdInstance[]>) => resolve(data.metadata))
       .catch(reject);
   });
 };
@@ -27,7 +29,7 @@ export const createInstance = (
   instanceType: string
 ) => {
   return new Promise((resolve, reject) => {
-    return fetch("/1.0/instances", {
+    fetch("/1.0/instances", {
       method: "POST",
       body: JSON.stringify({
         name: name,
@@ -39,7 +41,7 @@ export const createInstance = (
       }),
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation, 120).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -53,7 +55,7 @@ export const startInstance = (instance: LxdInstance) => {
       body: '{"action": "start"}',
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -67,7 +69,7 @@ export const stopInstance = (instance: LxdInstance) => {
       body: '{"action": "stop"}',
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -80,7 +82,7 @@ export const deleteInstance = (instance: LxdInstance) => {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -104,7 +106,7 @@ export const fetchInstanceExec = (name: string): Promise<LxdConsole> => {
       }),
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then((data: LxdConsole) => resolve(data))
       .catch(reject);
   });
 };
@@ -120,7 +122,7 @@ export const fetchInstanceVga = (name: string): Promise<LxdConsole> => {
       }),
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then((data: LxdConsole) => resolve(data))
       .catch(reject);
   });
 };

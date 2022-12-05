@@ -1,11 +1,11 @@
 import React, { FC, ReactNode } from "react";
 import { motion } from "framer-motion";
 
-type Props = {
+interface Props {
   isActive: boolean;
   children: ReactNode;
   className: string;
-};
+}
 
 const SlideInOut: FC<Props> = ({
   isActive = true,

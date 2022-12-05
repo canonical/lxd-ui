@@ -72,7 +72,7 @@ const ProjectList: FC = () => {
           "aria-label": "Description",
         },
         {
-          content: project.used_by?.length || "0",
+          content: project.used_by?.length ?? "0",
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Used by",
@@ -91,7 +91,7 @@ const ProjectList: FC = () => {
         storageVolumes: project.config["features.storage.volumes"],
         networks: project.config["features.networks"],
         description: project.description,
-        usedBy: project.used_by?.length || 0,
+        usedBy: project.used_by?.length ?? 0,
       },
     };
   });

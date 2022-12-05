@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, ReactNode, SetStateAction } from "react";
+import React, { FC } from "react";
 import { fetchInstance } from "./api/instances";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
@@ -8,12 +8,11 @@ import { humanFileSize, isoTimeToString } from "./util/helpers";
 import { getInstanceMetrics } from "./util/metricSelectors";
 import Meter from "./components/Meter";
 
-type Props = {
+interface Props {
   instanceName: string;
-  setControls: Dispatch<SetStateAction<ReactNode>>;
-};
+}
 
-const InstanceOverview: FC<Props> = ({ instanceName, setControls }) => {
+const InstanceOverview: FC<Props> = ({ instanceName }) => {
   const notify = useNotification();
 
   const { data: instance, error } = useQuery({
@@ -39,8 +38,6 @@ const InstanceOverview: FC<Props> = ({ instanceName, setControls }) => {
     return <>Could not load instance details.</>;
   }
   const instanceMetrics = getInstanceMetrics(metrics, instance);
-
-  setControls(null);
 
   return (
     <table>

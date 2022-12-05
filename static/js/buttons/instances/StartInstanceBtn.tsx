@@ -6,10 +6,10 @@ import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
 import { Button } from "@canonical/react-components";
 
-type Props = {
+interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
-};
+}
 
 const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
   const [isLoading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
     startInstance(instance)
       .then(() => {
         setLoading(false);
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} started.`);

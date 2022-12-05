@@ -1,10 +1,10 @@
 import React, { FC, ReactNode } from "react";
 
-type Props = {
+interface Props {
   title: string;
   controls?: ReactNode | null;
   children: ReactNode;
-};
+}
 
 const BaseLayout: FC<Props> = ({ title, controls = null, children }: Props) => {
   return (

@@ -1,6 +1,7 @@
 import { watchOperation } from "./operations";
 import { handleResponse } from "../util/helpers";
 import { LxdSnapshot } from "../types/instance";
+import { LxdOperation } from "../types/operation";
 
 export const createSnapshot = (
   instanceName: string,
@@ -18,7 +19,7 @@ export const createSnapshot = (
       }),
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation, 60).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -31,7 +32,7 @@ export const deleteSnapshot = (instanceName: string, snapshot: LxdSnapshot) => {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -50,7 +51,7 @@ export const restoreSnapshot = (
       }),
     })
       .then(handleResponse)
-      .then((data) => {
+      .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);

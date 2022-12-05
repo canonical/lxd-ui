@@ -6,10 +6,10 @@ import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
 import ConfirmationButton from "../ConfirmationButton";
 
-type Props = {
+interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
-};
+}
 
 const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
   const [isLoading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
     deleteInstance(instance)
       .then(() => {
         setLoading(false);
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} deleted.`);

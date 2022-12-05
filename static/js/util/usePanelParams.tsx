@@ -18,9 +18,7 @@ export const panels = {
   profileForm: "profile-form",
 };
 
-type ParamMap = {
-  [key: string]: string;
-};
+type ParamMap = Record<string, string>;
 
 const usePanelParams = (): PanelHelper => {
   const [params, setParams] = useSearchParams();

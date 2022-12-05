@@ -6,10 +6,10 @@ import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
 import ConfirmationButton from "../ConfirmationButton";
 
-type Props = {
+interface Props {
   image: LxdImage;
   notify: NotificationHelper;
-};
+}
 
 const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
   const [isLoading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
     deleteImage(image)
       .then(() => {
         setLoading(false);
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: [queryKeys.images],
         });
         notify.success("Image deleted.");

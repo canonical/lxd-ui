@@ -15,23 +15,21 @@ import { getWsErrorMsg } from "./util/helpers";
 import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
 
-type Params = {
-  name: string;
-};
-
-type Props = {
+interface Props {
   setControls: Dispatch<SetStateAction<ReactNode>>;
-};
+}
 
 declare global {
   // eslint-disable-next-line no-unused-vars
   interface Window {
-    spice_connection?: any;
+    spice_connection?: SpiceHtml5.SpiceMainConn;
   }
 }
 
 const InstanceVga: FC<Props> = ({ setControls }) => {
-  const { name } = useParams<Params>();
+  const { name } = useParams<{
+    name: string;
+  }>();
   const notify = useNotification();
   const spiceRef = useRef<HTMLDivElement>(null);
 
@@ -91,11 +89,21 @@ const InstanceVga: FC<Props> = ({ setControls }) => {
     } catch (e) {
       notify.failure("error connecting", e);
     }
+
+    return control;
   };
 
   useEventListener("resize", SpiceHtml5.handle_resize);
-  React.useEffect(() => {
-    openVgaConsole();
+  useEffect(() => {
+    const websocketPromise = openVgaConsole();
+    return () => {
+      try {
+        window.spice_connection?.stop();
+      } catch (e) {
+        console.error(e);
+      }
+      void websocketPromise.then((websocket) => websocket?.close());
+    };
   }, []);
 
   const handleFullScreen = () => {
@@ -106,8 +114,8 @@ const InstanceVga: FC<Props> = ({ setControls }) => {
     container
       .requestFullscreen()
       .then(SpiceHtml5.handle_resize)
-      .catch((err) => {
-        notify.failure("Failed to enter full-screen mode.", err);
+      .catch((e) => {
+        notify.failure("Failed to enter full-screen mode.", e);
       });
   };
 

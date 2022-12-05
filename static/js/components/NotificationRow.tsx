@@ -5,9 +5,9 @@ import {
 } from "@canonical/react-components";
 import { NotificationHelper } from "../types/notification";
 
-type Props = {
+interface Props {
   notify: NotificationHelper;
-};
+}
 
 const NotificationRow: FC<Props> = ({ notify }) => {
   if (!notify.notification) {

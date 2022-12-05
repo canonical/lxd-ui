@@ -6,11 +6,11 @@ import { queryKeys } from "../../util/queryKeys";
 import { NotificationHelper } from "../../types/notification";
 import ConfirmationButton from "../ConfirmationButton";
 
-type Props = {
+interface Props {
   instanceName: string;
   snapshot: LxdSnapshot;
   notify: NotificationHelper;
-};
+}
 
 const RestoreSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
   const [isLoading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const RestoreSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
     restoreSnapshot(instanceName, snapshot)
       .then(() => {
         setLoading(false);
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
         notify.success("Snapshot restored.");
