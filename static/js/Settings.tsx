@@ -100,7 +100,7 @@ const Settings: FC = () => {
             content: <SettingForm option={option} value={value} />,
             role: "rowheader",
             "aria-label": "Value",
-            class: "u-vertical-align-middle",
+            className: "u-vertical-align-middle",
           },
         ],
       };
