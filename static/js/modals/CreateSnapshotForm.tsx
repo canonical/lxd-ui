@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, KeyboardEvent } from "react";
 import { Button, Form, Input, Modal } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -35,6 +35,12 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
         <code>migration.stateful</code> config set to true
       </>
     );
+  };
+  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      close();
+    }
   };
 
   const SnapshotSchema = Yup.object().shape({
@@ -92,6 +98,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
             />
           </>
         }
+        onKeyDown={handleEscKey}
       >
         <Input
           id="name"

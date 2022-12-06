@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import ConfirmationModal from "../modals/ConfirmationModal";
 import { Button } from "@canonical/react-components";
 
@@ -28,7 +28,7 @@ const ConfirmationButton: FC<Props> = ({
     onConfirm();
   };
 
-  const handleShiftClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleShiftClick = (e: MouseEvent<HTMLElement>) => {
     if (e.shiftKey) {
       onConfirm();
     } else {
