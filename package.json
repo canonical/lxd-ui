@@ -27,6 +27,7 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.2",
     "react-scripts": "5.0.1",
+    "react-useportal": "^1.0.17",
     "serve": "14.0.1",
     "vanilla-framework": "3.8.2",
     "xterm-addon-fit": "0.6.0",

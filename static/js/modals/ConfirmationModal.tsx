@@ -29,6 +29,7 @@ const ConfirmationModal: FC<Props> = ({
     <Modal
       close={onClose}
       title={title}
+      className="modal-above-navigation"
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" onClick={onClose}>
