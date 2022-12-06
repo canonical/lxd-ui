@@ -1,6 +1,7 @@
-import React, { FC, MouseEvent, useState } from "react";
+import React, { FC, MouseEvent } from "react";
 import ConfirmationModal from "../modals/ConfirmationModal";
 import { Button } from "@canonical/react-components";
+import usePortal from "react-useportal";
 
 interface Props {
   isLoading: boolean;
@@ -21,10 +22,10 @@ const ConfirmationButton: FC<Props> = ({
   onConfirm,
   isDisabled = false,
 }) => {
-  const [isOpen, setOpen] = useState(false);
+  const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
   const handleConfirmModal = () => {
-    setOpen(false);
+    closePortal();
     onConfirm();
   };
 
@@ -32,20 +33,22 @@ const ConfirmationButton: FC<Props> = ({
     if (e.shiftKey) {
       onConfirm();
     } else {
-      setOpen(true);
+      openPortal();
     }
   };
 
   return (
     <>
       {isOpen && (
-        <ConfirmationModal
-          title={title}
-          onClose={() => setOpen(false)}
-          confirmationMessage={confirmationMessage}
-          posButtonLabel={posButtonLabel}
-          onConfirm={handleConfirmModal}
-        />
+        <Portal>
+          <ConfirmationModal
+            title={title}
+            onClose={closePortal}
+            confirmationMessage={confirmationMessage}
+            posButtonLabel={posButtonLabel}
+            onConfirm={handleConfirmModal}
+          />
+        </Portal>
       )}
       <Button dense disabled={isDisabled} onClick={handleShiftClick}>
         <i
