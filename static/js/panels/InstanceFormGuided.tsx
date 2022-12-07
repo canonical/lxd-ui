@@ -1,6 +1,13 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Col, Form, Input, Row, Select } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { fetchImageList } from "../api/images";
@@ -14,7 +21,7 @@ import useNotification from "../util/useNotification";
 import usePanelParams from "../util/usePanelParams";
 import SubmitButton from "../buttons/SubmitButton";
 
-const InstanceForm: FC = () => {
+const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
@@ -81,7 +88,7 @@ const InstanceForm: FC = () => {
   return (
     <Aside>
       <div className="p-panel">
-        <PanelHeader title={<h4>Create instance</h4>} />
+        <PanelHeader title={<h4>Quick create instance</h4>} />
         <div className="p-panel__content">
           <NotificationRow notify={notify} />
           <Row>
@@ -112,6 +119,7 @@ const InstanceForm: FC = () => {
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>
+                  <Button onClick={() => navigate("/instances")}>Cancel</Button>
                   <SubmitButton
                     isSubmitting={formik.isSubmitting}
                     isDisabled={!formik.isValid}
@@ -127,4 +135,4 @@ const InstanceForm: FC = () => {
   );
 };
 
-export default InstanceForm;
+export default InstanceFormGuided;

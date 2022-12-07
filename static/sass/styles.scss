@@ -47,3 +47,9 @@
 .u-vertical-align-middle {
   vertical-align: middle;
 }
+
+.p-instance-yaml {
+  margin-bottom: $sp-large;
+  max-height: calc(100vh - 200px);
+  overflow-y: scroll;
+}

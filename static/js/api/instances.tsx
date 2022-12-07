@@ -48,6 +48,20 @@ export const createInstance = (
   });
 };
 
+export const createInstanceFromJson = (instanceConfiguration: string) => {
+  return new Promise((resolve, reject) => {
+    fetch("/1.0/instances", {
+      method: "POST",
+      body: instanceConfiguration,
+    })
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation, 120).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
 export const startInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}/state`, {
