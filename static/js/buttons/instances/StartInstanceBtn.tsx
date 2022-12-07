@@ -24,16 +24,20 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} started.`);
+        window.dispatchEvent(new Event("resize"));
       })
       .catch((e) => {
         setLoading(false);
         notify.failure("Error on instance start.", e);
+        window.dispatchEvent(new Event("resize"));
       });
   };
 
   return (
     <Button
+      appearance="base"
       dense
+      hasIcon
       onClick={handleStart}
       disabled={isLoading || instance.status !== "Stopped"}
     >
@@ -41,9 +45,8 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
         className={
           isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--video-play"
         }
-      >
-        Start
-      </i>
+      />
+      <span>Start instance</span>
     </Button>
   );
 };

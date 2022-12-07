@@ -7,6 +7,8 @@ interface Props {
   isLoading: boolean;
   iconClass: string;
   title: string;
+  toggleAppearance?: string;
+  toggleCaption?: string;
   confirmationMessage: string;
   posButtonLabel: string;
   onConfirm: () => void;
@@ -17,6 +19,8 @@ const ConfirmationButton: FC<Props> = ({
   isLoading,
   iconClass,
   title,
+  toggleAppearance = "",
+  toggleCaption,
   confirmationMessage,
   posButtonLabel,
   onConfirm,
@@ -50,14 +54,21 @@ const ConfirmationButton: FC<Props> = ({
           />
         </Portal>
       )}
-      <Button dense disabled={isDisabled} onClick={handleShiftClick}>
+      <Button
+        appearance={toggleAppearance}
+        hasIcon={toggleCaption !== undefined}
+        dense
+        disabled={isDisabled}
+        onClick={handleShiftClick}
+      >
         <i
           className={
             isLoading ? "p-icon--spinner u-animation--spin" : iconClass
           }
         >
-          Delete
+          {toggleCaption ?? "Delete"}
         </i>
+        {toggleCaption && <span>{toggleCaption}</span>}
       </Button>
     </>
   );

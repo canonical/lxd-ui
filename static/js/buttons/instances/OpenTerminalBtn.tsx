@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { LxdInstance } from "../../types/instance";
-import { Button } from "@canonical/react-components";
+import { Button, Tooltip } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
@@ -14,10 +14,24 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
     navigate(`/instances/${instance.name}/terminal`);
   };
 
+  const isDisabled = instance.status !== "Running";
+
   return (
-    <Button dense onClick={handleOpen} disabled={instance.status !== "Running"}>
-      <i className="p-icon--open-terminal">Open terminal</i>
-    </Button>
+    <Tooltip
+      message={isDisabled ? "Instance must be running" : undefined}
+      position="left"
+    >
+      <Button
+        appearance="base"
+        dense
+        hasIcon
+        onClick={handleOpen}
+        disabled={isDisabled}
+      >
+        <i className="p-icon--open-terminal" />
+        <span>Open terminal</span>
+      </Button>
+    </Tooltip>
   );
 };
 
