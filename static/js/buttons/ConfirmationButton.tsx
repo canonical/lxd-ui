@@ -6,6 +6,7 @@ import usePortal from "react-useportal";
 interface Props {
   isLoading: boolean;
   iconClass: string;
+  iconDescription: string;
   title: string;
   toggleAppearance?: string;
   toggleCaption?: string;
@@ -18,6 +19,7 @@ interface Props {
 const ConfirmationButton: FC<Props> = ({
   isLoading,
   iconClass,
+  iconDescription,
   title,
   toggleAppearance = "",
   toggleCaption,
@@ -66,7 +68,7 @@ const ConfirmationButton: FC<Props> = ({
             isLoading ? "p-icon--spinner u-animation--spin" : iconClass
           }
         >
-          {toggleCaption ?? "Delete"}
+          {iconDescription}
         </i>
         {toggleCaption && <span>{toggleCaption}</span>}
       </Button>

@@ -17,7 +17,7 @@ const SnapshotsBtn: FC<Props> = ({ instance }) => {
   return (
     <Button appearance="base" dense hasIcon onClick={handleOpen}>
       <i className="p-icon--settings" />
-      <span>Open snapshots</span>
+      <span>Manage snapshots</span>
     </Button>
   );
 };

@@ -36,6 +36,7 @@ const RestoreSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
     <ConfirmationButton
       isLoading={isLoading}
       iconClass="p-icon--export"
+      iconDescription="Restore"
       title="Confirm restore"
       toggleAppearance="base"
       toggleCaption="Restore snapshot"

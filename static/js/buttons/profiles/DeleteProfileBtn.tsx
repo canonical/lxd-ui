@@ -34,6 +34,7 @@ const DeleteProfileBtn: FC<Props> = ({ name, notify }) => {
     <ConfirmationButton
       isLoading={isLoading}
       iconClass="p-icon--delete"
+      iconDescription="Delete"
       title="Confirm delete"
       confirmationMessage={`Are you sure you want to delete profile "${name}"?
                             This action cannot be undone, and can result in data loss.`}
