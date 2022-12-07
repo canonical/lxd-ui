@@ -82,7 +82,6 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
     <Form onSubmit={formik.handleSubmit}>
       <Modal
         title={`Snapshots for ${instance.name}`}
-        className="modal-above-navigation"
         buttonRow={
           <>
             <Button
