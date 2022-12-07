@@ -44,6 +44,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
       <ConfirmationButton
         isLoading={isLoading}
         iconClass="p-icon--delete"
+        iconDescription="Delete"
         title="Confirm delete"
         toggleAppearance="base"
         toggleCaption="Delete instance"

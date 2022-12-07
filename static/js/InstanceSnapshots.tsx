@@ -165,7 +165,7 @@ const InstanceSnapshots: FC<Props> = ({ instanceName, setControls }) => {
                     A snapshot is the state of an instance at a particular point
                     in time. It can be used to restore the instance to that
                     state. Create a new snapshot with the &quot;Create
-                    snapshot&quot; button below.
+                    snapshot&quot; button above.
                   </p>
                   <p>
                     <a

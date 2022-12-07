@@ -36,6 +36,7 @@ const DeleteSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
     <ConfirmationButton
       isLoading={isLoading}
       iconClass="p-icon--delete"
+      iconDescription="Delete"
       title="Confirm delete"
       toggleAppearance="base"
       toggleCaption="Delete snapshot"
