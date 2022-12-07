@@ -74,16 +74,6 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/images"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--applications is-light p-side-navigation__icon"></i>{" "}
-                        Images
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
                         to="/profiles"
                         onClick={toggleMenu}
                       >
