@@ -8,7 +8,6 @@ export interface PanelHelper {
   openInstanceFormGuided: (image?: string) => void;
   openInstanceFormYaml: (image?: string) => void;
   openImageImport: () => void;
-  openSnapshots: (instanceName: string) => void;
   openProfileForm: () => void;
 }
 
@@ -16,7 +15,6 @@ export const panels = {
   instanceFormGuided: "instance-form-guided",
   instanceFormYaml: "instance-form-yaml",
   imageImport: "image-import",
-  snapshots: "snapshots",
   profileForm: "profile-form",
 };
 
@@ -53,10 +51,6 @@ const usePanelParams = (): PanelHelper => {
 
     openImageImport: () => {
       setPanelParams(panels.imageImport);
-    },
-
-    openSnapshots: (instanceName) => {
-      setPanelParams(panels.snapshots, { instance: instanceName });
     },
 
     openProfileForm: () => {

@@ -3,7 +3,6 @@ import { AnimatePresence } from "framer-motion";
 import useEventListener from "@use-it/event-listener";
 import "../../sass/_panels.scss";
 import ImageAdd from "./ImageAdd/ImageAdd";
-import SnapshotList from "./SnapshotList";
 import usePanelParams, { panels } from "../util/usePanelParams";
 import ProfileForm from "./ProfileForm";
 import InstanceFormYaml from "./InstanceFormYaml";
@@ -25,8 +24,6 @@ export default function Panels() {
         return <InstanceFormYaml />;
       case panels.imageImport:
         return <ImageAdd />;
-      case panels.snapshots:
-        return <SnapshotList />;
       case panels.profileForm:
         return <ProfileForm />;
       default:
