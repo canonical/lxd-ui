@@ -17,10 +17,12 @@
   },
   "dependencies": {
     "@canonical/react-components": "0.37.8",
+    "@focus-reactive/react-yaml": "1.1.2",
     "@tanstack/react-query": "^4.14.5",
     "@use-it/event-listener": "^0.1.7",
     "formik": "2.2.9",
     "framer-motion": "4.1.17",
+    "js-yaml": "4.1.0",
     "lodash.isequal": "4.5.0",
     "parse-prometheus-text-format": "1.1.1",
     "react": "18.2.0",

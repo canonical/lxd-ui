@@ -6,7 +6,6 @@ import { fetchImageList } from "./api/images";
 import NotificationRow from "./components/NotificationRow";
 import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 import BaseLayout from "./components/BaseLayout";
-import CreateInstanceBtn from "./buttons/instances/CreateInstanceBtn";
 import { useQuery } from "@tanstack/react-query";
 import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
@@ -39,9 +38,6 @@ const ImageList: FC = () => {
   const rows = images.map((image) => {
     const actions = (
       <div>
-        <Tooltip message="Create instance" position="left">
-          <CreateInstanceBtn image={image} />
-        </Tooltip>
         <Tooltip message="Delete image" position="left">
           <DeleteImageBtn image={image} notify={notify} />
         </Tooltip>

@@ -1,12 +1,13 @@
 import React from "react";
 import { AnimatePresence } from "framer-motion";
 import useEventListener from "@use-it/event-listener";
-import InstanceForm from "./InstanceForm";
 import "../../sass/_panels.scss";
 import ImageAdd from "./ImageAdd/ImageAdd";
 import SnapshotList from "./SnapshotList";
 import usePanelParams, { panels } from "../util/usePanelParams";
 import ProfileForm from "./ProfileForm";
+import InstanceFormYaml from "./InstanceFormYaml";
+import InstanceFormGuided from "./InstanceFormGuided";
 
 export default function Panels() {
   const panelParams = usePanelParams();
@@ -18,8 +19,10 @@ export default function Panels() {
 
   const generatePanel = () => {
     switch (panelParams.panel) {
-      case panels.instanceForm:
-        return <InstanceForm />;
+      case panels.instanceFormGuided:
+        return <InstanceFormGuided />;
+      case panels.instanceFormYaml:
+        return <InstanceFormYaml />;
       case panels.imageImport:
         return <ImageAdd />;
       case panels.snapshots:

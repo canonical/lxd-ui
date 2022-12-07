@@ -1,4 +1,10 @@
-import { Button, MainTable, Row, Tooltip } from "@canonical/react-components";
+import {
+  Button,
+  ContextualMenu,
+  MainTable,
+  Row,
+  Tooltip,
+} from "@canonical/react-components";
 import React, { FC } from "react";
 import { fetchInstances } from "./api/instances";
 import BaseLayout from "./components/BaseLayout";
@@ -154,12 +160,22 @@ const InstanceList: FC = () => {
       <BaseLayout
         title="Instances"
         controls={
-          <Button
-            appearance="positive"
-            onClick={() => panelParams.openInstanceForm()}
-          >
-            Add instance
-          </Button>
+          <ContextualMenu
+            hasToggleIcon
+            links={[
+              {
+                children: "Quick create instance",
+                onClick: () => panelParams.openInstanceFormGuided(),
+              },
+              {
+                children: "Custom create instance (YAML)",
+                onClick: () => panelParams.openInstanceFormYaml(),
+              },
+            ]}
+            position="right"
+            toggleAppearance="positive"
+            toggleLabel="Add instance"
+          />
         }
       >
         <NotificationRow notify={notify} />

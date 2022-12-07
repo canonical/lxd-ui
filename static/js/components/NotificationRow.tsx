@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import {
   Row,
   Notification as NotificationComponent,
@@ -10,16 +10,28 @@ interface Props {
 }
 
 const NotificationRow: FC<Props> = ({ notify }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "start",
+    });
+  }, [notify.notification]);
+
   if (!notify.notification) {
     return null;
   }
   const { type, message } = notify.notification;
   return (
-    <Row>
-      <NotificationComponent severity={type} onDismiss={notify.clear}>
-        {message}
-      </NotificationComponent>
-    </Row>
+    <div ref={ref}>
+      <Row>
+        <NotificationComponent severity={type} onDismiss={notify.clear}>
+          {message}
+        </NotificationComponent>
+      </Row>
+    </div>
   );
 };
 
