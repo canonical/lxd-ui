@@ -3,7 +3,6 @@ import {
   ContextualMenu,
   MainTable,
   Row,
-  Tooltip,
 } from "@canonical/react-components";
 import React, { FC } from "react";
 import { fetchInstances } from "./api/instances";
@@ -43,7 +42,7 @@ const InstanceList: FC = () => {
       sortKey: "snapshots",
       className: "u-align--center",
     },
-    { content: "Actions", className: "u-align--center" },
+    { content: "" },
   ];
 
   // todo: which states are used - can error/unknown/init be removed?
@@ -66,23 +65,30 @@ const InstanceList: FC = () => {
     );
 
     const actions = (
-      <div>
-        <Tooltip message="Start instance" position="btm-center">
-          <StartInstanceBtn instance={instance} notify={notify} />
-        </Tooltip>
-        <Tooltip message="Stop instance" position="btm-center">
-          <StopInstanceBtn instance={instance} notify={notify} />
-        </Tooltip>
-        <Tooltip message="Delete instance" position="btm-center">
-          <DeleteInstanceBtn instance={instance} notify={notify} />
-        </Tooltip>
-        <Tooltip message="Start console" position="btm-center">
-          <OpenTerminalBtn instance={instance} />
-        </Tooltip>
-        <Tooltip message="Start VGA session" position="btm-center">
-          <OpenVgaBtn instance={instance} />
-        </Tooltip>
-      </div>
+      <ContextualMenu
+        key={`actions-${instance.name}`}
+        hasToggleIcon
+        links={[
+          {
+            children: <StartInstanceBtn instance={instance} notify={notify} />,
+          },
+          {
+            children: <StopInstanceBtn instance={instance} notify={notify} />,
+          },
+          {
+            children: <DeleteInstanceBtn instance={instance} notify={notify} />,
+          },
+          {
+            children: <OpenTerminalBtn instance={instance} />,
+          },
+          {
+            children: <OpenVgaBtn instance={instance} />,
+          },
+        ]}
+        position="right"
+        toggleAppearance="base"
+        toggleLabel="Actions"
+      />
     );
 
     const snapshots = (

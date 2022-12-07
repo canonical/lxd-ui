@@ -24,16 +24,20 @@ const StopInstanceBtn: FC<Props> = ({ instance, notify }) => {
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} stopped.`);
+        window.dispatchEvent(new Event("resize"));
       })
       .catch((e) => {
         setLoading(false);
         notify.failure("Error on instance stop.", e);
+        window.dispatchEvent(new Event("resize"));
       });
   };
 
   return (
     <Button
+      appearance="base"
       dense
+      hasIcon
       onClick={handleStop}
       disabled={isLoading || instance.status !== "Running"}
     >
@@ -41,9 +45,8 @@ const StopInstanceBtn: FC<Props> = ({ instance, notify }) => {
         className={
           isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--power-off"
         }
-      >
-        Stop
-      </i>
+      />
+      <span>Stop instance</span>
     </Button>
   );
 };
