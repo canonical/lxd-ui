@@ -17,8 +17,11 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
+import SnapshotsBtn from "./buttons/instances/SnapshotsBtn";
+import { useNavigate } from "react-router-dom";
 
 const InstanceList: FC = () => {
+  const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
 
@@ -79,6 +82,9 @@ const InstanceList: FC = () => {
             children: <DeleteInstanceBtn instance={instance} notify={notify} />,
           },
           {
+            children: <SnapshotsBtn instance={instance} />,
+          },
+          {
             children: <OpenTerminalBtn instance={instance} />,
           },
           {
@@ -89,19 +95,6 @@ const InstanceList: FC = () => {
         toggleAppearance="base"
         toggleLabel="Actions"
       />
-    );
-
-    const snapshots = (
-      <Button
-        appearance="base"
-        hasIcon
-        onClick={() => {
-          panelParams.openSnapshots(instance.name);
-        }}
-      >
-        <span>{instance.snapshots?.length ?? "0"}</span>
-        <i className="p-icon--settings">snapshots</i>
-      </Button>
     );
 
     return {
@@ -140,7 +133,14 @@ const InstanceList: FC = () => {
           "aria-label": "Type",
         },
         {
-          content: snapshots,
+          content: (
+            <Button
+              appearance="base"
+              onClick={() => navigate(`/instances/${instance.name}/snapshots`)}
+            >
+              {instance.snapshots?.length ?? "0"}
+            </Button>
+          ),
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Snapshots",

@@ -5,14 +5,17 @@ import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import InstanceVga from "./InstanceVga";
+import InstanceSnapshots from "./InstanceSnapshots";
 
-const TABS: string[] = ["Overview", "Terminal", "VGA"];
+const TABS: string[] = ["Overview", "Snapshots", "Terminal", "VGA"];
 const getTab = (activeTab?: string) => {
   switch (activeTab) {
-    case "terminal":
+    case "snapshots":
       return 1;
-    case "vga":
+    case "terminal":
       return 2;
+    case "vga":
+      return 3;
     default:
       return 0;
   }
@@ -36,9 +39,12 @@ const InstanceDetail: FC = () => {
     setCurrentTab(newTab);
     switch (newTab) {
       case 1:
-        navigate(`/instances/${name}/terminal`);
+        navigate(`/instances/${name}/snapshots`);
         break;
       case 2:
+        navigate(`/instances/${name}/terminal`);
+        break;
+      case 3:
         navigate(`/instances/${name}/vga`);
         break;
       default:
@@ -74,13 +80,19 @@ const InstanceDetail: FC = () => {
         )}
 
         {currentTab === 1 && (
-          <div tabIndex={1} role="tabpanel" aria-labelledby="terminal">
-            <InstanceTerminal />
+          <div tabIndex={1} role="tabpanel" aria-labelledby="snapshots">
+            <InstanceSnapshots instanceName={name} setControls={setControls} />
           </div>
         )}
 
         {currentTab === 2 && (
-          <div tabIndex={1} role="tabpanel" aria-labelledby="vga">
+          <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
+            <InstanceTerminal />
+          </div>
+        )}
+
+        {currentTab === 3 && (
+          <div tabIndex={3} role="tabpanel" aria-labelledby="vga">
             <InstanceVga setControls={setControls} />
           </div>
         )}

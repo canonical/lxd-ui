@@ -35,7 +35,11 @@ const InstanceVga: FC<Props> = ({ setControls }) => {
 
   useEffect(() => {
     setControls(
-      <Button hasIcon={true} appearance="neutral" onClick={handleFullScreen}>
+      <Button
+        className="u-no-margin--bottom"
+        hasIcon
+        onClick={handleFullScreen}
+      >
         <Icon name="fullscreen" />
         <span>Fullscreen</span>
       </Button>
