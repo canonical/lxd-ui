@@ -1,8 +1,8 @@
-import { ComponentClass } from "react";
+import { BaseSyntheticEvent, ComponentClass } from "react";
 
 declare module "react-useportal" {
   export interface returnType {
-    openPortal: () => void;
+    openPortal: (e: BaseSyntheticEvent) => void;
     closePortal: () => void;
     isOpen: boolean;
     Portal: ComponentClass;

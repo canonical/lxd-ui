@@ -39,7 +39,7 @@ const ConfirmationButton: FC<Props> = ({
     if (e.shiftKey) {
       onConfirm();
     } else {
-      openPortal();
+      openPortal(e);
     }
   };
 
