@@ -4,6 +4,7 @@ import { Button } from "@canonical/react-components";
 import usePortal from "react-useportal";
 
 interface Props {
+  className?: string;
   isLoading: boolean;
   iconClass: string;
   iconDescription: string;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const ConfirmationButton: FC<Props> = ({
+  className,
   isLoading,
   iconClass,
   iconDescription,
@@ -59,6 +61,7 @@ const ConfirmationButton: FC<Props> = ({
       <Button
         appearance={toggleAppearance}
         hasIcon={toggleCaption !== undefined}
+        className={className}
         dense
         disabled={isDisabled}
         onClick={handleShiftClick}

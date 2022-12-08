@@ -21,6 +21,7 @@ import useNotification from "../util/useNotification";
 import SubmitButton from "../buttons/SubmitButton";
 import SelectImageBtn from "../buttons/images/SelectImageBtn";
 import { RemoteImage } from "../types/image";
+import { isContainerOnlyImage, isVmOnlyImage } from "../util/images";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
@@ -62,21 +63,6 @@ const InstanceFormGuided: FC = () => {
         });
     },
   });
-
-  const isVmOnlyImage = (image: RemoteImage) => {
-    return image.variant?.includes("desktop");
-  };
-
-  const isContainerOnlyImage = (image: RemoteImage) => {
-    const vmFiles = ["disk1.img", "disk-kvm.img", "uefi1.img"];
-    return (
-      Object.entries(image.versions ?? {}).find((version) =>
-        Object.entries(version[1].items).find((item) =>
-          vmFiles.includes(item[1].ftype)
-        )
-      ) === undefined
-    );
-  };
 
   const handleSelectImage = (image: RemoteImage) => {
     void formik.setFieldValue("image", image);
@@ -168,11 +154,11 @@ const InstanceFormGuided: FC = () => {
               ) : (
                 <>
                   <Col size={4}>
-                    <Label>* Base Image</Label>
+                    <Label required>Base Image</Label>
                   </Col>
                   <Col size={8}>
                     <SelectImageBtn
-                      appearance="bare"
+                      appearance=""
                       caption="Select image"
                       onSelect={handleSelectImage}
                     />

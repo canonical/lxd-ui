@@ -10,9 +10,10 @@ import { Tooltip } from "@canonical/react-components";
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
+  onFinish: () => void;
 }
 
-const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
+const DeleteInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -25,12 +26,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} deleted.`);
-        window.dispatchEvent(new Event("resize"));
+        onFinish();
       })
       .catch((e) => {
         setLoading(false);
         notify.failure("Error on instance delete.", e);
-        window.dispatchEvent(new Event("resize"));
       });
   };
 
@@ -42,6 +42,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
       position="left"
     >
       <ConfirmationButton
+        className="p-contextual-menu__link"
         isLoading={isLoading}
         iconClass="p-icon--delete"
         iconDescription="Delete"

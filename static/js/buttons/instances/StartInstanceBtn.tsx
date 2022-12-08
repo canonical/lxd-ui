@@ -12,7 +12,7 @@ interface Props {
   onFinish?: () => void;
 }
 
-const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
+const StartInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -26,18 +26,17 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
         });
         notify.success(`Instance ${instance.name} started.`);
         onFinish?.();
-        window.dispatchEvent(new Event("resize"));
       })
       .catch((e) => {
         setLoading(false);
         notify.failure("Error on instance start.", e);
-        window.dispatchEvent(new Event("resize"));
       });
   };
 
   return (
     <Button
       appearance="base"
+      className="p-contextual-menu__link"
       dense
       hasIcon
       onClick={handleStart}
