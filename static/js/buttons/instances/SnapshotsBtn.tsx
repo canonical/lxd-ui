@@ -15,7 +15,13 @@ const SnapshotsBtn: FC<Props> = ({ instance }) => {
   };
 
   return (
-    <Button appearance="base" dense hasIcon onClick={handleOpen}>
+    <Button
+      appearance="base"
+      className="p-contextual-menu__link"
+      dense
+      hasIcon
+      onClick={handleOpen}
+    >
       <i className="p-icon--settings" />
       <span>Manage snapshots</span>
     </Button>

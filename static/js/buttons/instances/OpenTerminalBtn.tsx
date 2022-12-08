@@ -23,6 +23,7 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
     >
       <Button
         appearance="base"
+        className="p-contextual-menu__link"
         dense
         hasIcon
         onClick={handleOpen}

@@ -7,6 +7,7 @@ import {
   Label,
   MainTable,
   Modal,
+  RadioInput,
   Row,
   SearchBox,
   Select,
@@ -16,6 +17,7 @@ import { handleResponse } from "../util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { isContainerOnlyImage, isVmOnlyImage } from "../util/images";
 
 interface Props {
   onClose: () => void;
@@ -26,6 +28,10 @@ const canonicalJson = "/static/assets/data/canonical-images.json";
 const canonicalServer = "https://cloud-images.ubuntu.com/releases";
 const linuxContainersJson = "/static/assets/data/linuxcontainers-images.json";
 const linuxContainersServer = "https://images.linuxcontainers.org";
+
+const ANY = "any";
+const CONTAINER = "container";
+const VM = "vm";
 
 const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
   const [query, setQuery] = useState<string>("");
@@ -106,7 +112,13 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
 
   const rows: MainTableRow[] = images
     .filter((item) => {
-      if (architectures.length > 0 && !arch.includes(item.arch)) {
+      if (type === VM && isContainerOnlyImage(item)) {
+        return false;
+      }
+      if (type === CONTAINER && isVmOnlyImage(item)) {
+        return false;
+      }
+      if (!arch.includes(item.arch)) {
         return false;
       }
       if (os && item.os !== os) {
@@ -146,7 +158,7 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
           {
             content: item.aliases.replaceAll(",", " "),
             role: "rowheader",
-            "aria-label": "Architecture",
+            "aria-label": "Alias",
           },
           {
             content: (
@@ -185,9 +197,9 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
       title="Image selection"
       className="p-image-select-modal"
     >
-      <Row>
+      <Row className="u-no-padding--left u-no-padding--right">
         <Col size={4}>
-          <Card title="Filters">
+          <Card title="Filters" style={{ height: "100%" }}>
             <Select
               label="Distribution"
               name="distribution"
@@ -213,37 +225,6 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
               value={release}
               stacked
             />
-            <Row>
-              <Col size={2}>
-                <Label>Architecture</Label>
-              </Col>
-              <Col size={2} className="u-align-text--right">
-                {architectures.length !== allArchitectures.length ? (
-                  <Button
-                    appearance="link"
-                    onClick={() => setArchitectures(allArchitectures)}
-                  >
-                    select all
-                  </Button>
-                ) : (
-                  <Button
-                    appearance="link"
-                    onClick={() => setArchitectures([])}
-                  >
-                    unselect all
-                  </Button>
-                )}
-              </Col>
-            </Row>
-            {allArchitectures.map((item) => (
-              <CheckboxInput
-                key={item}
-                label={item}
-                value={item}
-                checked={architectures.includes(item)}
-                onChange={() => toggleArchitecture(item)}
-              />
-            ))}
             <Label>Type</Label>
             <RadioInput
               label="Any"

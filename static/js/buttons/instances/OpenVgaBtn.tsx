@@ -28,6 +28,7 @@ const OpenVgaBtn: FC<Props> = ({ instance }) => {
     <Tooltip message={getTooltipMessage()} position="left">
       <Button
         appearance="base"
+        className="p-contextual-menu__link"
         dense
         hasIcon
         onClick={handleOpen}
