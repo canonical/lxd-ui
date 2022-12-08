@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent } from "react";
+import React, { FC } from "react";
 import { Button, Modal } from "@canonical/react-components";
 
 interface Props {
@@ -18,13 +18,6 @@ const ConfirmationModal: FC<Props> = ({
   posButtonLabel,
   onConfirm,
 }) => {
-  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Escape") {
-      e.stopPropagation();
-      onClose();
-    }
-  };
-
   return (
     <Modal
       close={onClose}
@@ -43,7 +36,6 @@ const ConfirmationModal: FC<Props> = ({
           </Button>
         </>
       }
-      onKeyDown={handleEscKey}
     >
       <p style={{ textAlign: "start", whiteSpace: "pre-line" }}>
         {confirmationMessage}
