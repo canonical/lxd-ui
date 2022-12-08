@@ -9,9 +9,10 @@ import { Button } from "@canonical/react-components";
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
+  onFinish: () => void;
 }
 
-const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
+const StartInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -24,18 +25,18 @@ const StartInstanceBtn: FC<Props> = ({ instance, notify }) => {
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} started.`);
-        window.dispatchEvent(new Event("resize"));
+        onFinish();
       })
       .catch((e) => {
         setLoading(false);
         notify.failure("Error on instance start.", e);
-        window.dispatchEvent(new Event("resize"));
       });
   };
 
   return (
     <Button
       appearance="base"
+      className="p-contextual-menu__link"
       dense
       hasIcon
       onClick={handleStart}

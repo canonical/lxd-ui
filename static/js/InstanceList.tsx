@@ -7,18 +7,13 @@ import {
 import React, { FC } from "react";
 import { fetchInstances } from "./api/instances";
 import BaseLayout from "./components/BaseLayout";
-import DeleteInstanceBtn from "./buttons/instances/DeleteInstanceBtn";
-import OpenTerminalBtn from "./buttons/instances/OpenTerminalBtn";
-import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
-import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
-import OpenVgaBtn from "./buttons/instances/OpenVgaBtn";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
-import SnapshotsBtn from "./buttons/instances/SnapshotsBtn";
 import { useNavigate } from "react-router-dom";
+import InstanceActionsBtn from "./buttons/instances/InstanceActionsBtn";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -65,37 +60,6 @@ const InstanceList: FC = () => {
         <i className={getIconClassForStatus(instance.status)}></i>{" "}
         {instance.status}
       </>
-    );
-
-    const actions = (
-      <ContextualMenu
-        closeOnOutsideClick={false}
-        key={`actions-${instance.name}`}
-        hasToggleIcon
-        links={[
-          {
-            children: <StartInstanceBtn instance={instance} notify={notify} />,
-          },
-          {
-            children: <StopInstanceBtn instance={instance} notify={notify} />,
-          },
-          {
-            children: <DeleteInstanceBtn instance={instance} notify={notify} />,
-          },
-          {
-            children: <SnapshotsBtn instance={instance} />,
-          },
-          {
-            children: <OpenTerminalBtn instance={instance} />,
-          },
-          {
-            children: <OpenVgaBtn instance={instance} />,
-          },
-        ]}
-        position="right"
-        toggleAppearance="base"
-        toggleLabel="Actions"
-      />
     );
 
     return {
@@ -147,7 +111,13 @@ const InstanceList: FC = () => {
           "aria-label": "Snapshots",
         },
         {
-          content: actions,
+          content: (
+            <InstanceActionsBtn
+              instance={instance}
+              key={`actions-${instance.name}`}
+              notify={notify}
+            />
+          ),
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Actions",

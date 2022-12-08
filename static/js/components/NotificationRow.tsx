@@ -18,6 +18,7 @@ const NotificationRow: FC<Props> = ({ notify }) => {
       block: "center",
       inline: "start",
     });
+    window.dispatchEvent(new Event("resize"));
   }, [notify.notification]);
 
   if (!notify.notification) {
