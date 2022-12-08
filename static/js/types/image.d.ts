@@ -24,15 +24,23 @@ export interface ImportImage {
 export interface RemoteImage {
   aliases: string;
   arch: string;
-  lxd_requirements: {
+  lxd_requirements?: {
     secureboot: boolean;
   };
   os: string;
   release: string;
-  release_title: string;
-  variant: string;
-  versions: {};
-  server: string;
+  release_title?: string;
+  variant?: string;
+  versions?: {
+    [key: string]: {
+      items: {
+        [key: string]: {
+          ftype: string;
+        };
+      };
+    };
+  };
+  server?: string;
 }
 
 export interface RemoteImageList {

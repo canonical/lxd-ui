@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, MainTable, Row, Tooltip } from "@canonical/react-components";
+import { MainTable, Row, Tooltip } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "./util/helpers";
 import { queryKeys } from "./util/queryKeys";
 import { fetchImageList } from "./api/images";
@@ -8,11 +8,9 @@ import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import useNotification from "./util/useNotification";
-import usePanelParams from "./util/usePanelParams";
 
 const ImageList: FC = () => {
   const notify = useNotification();
-  const panelParams = usePanelParams();
 
   const { data: images = [], error } = useQuery({
     queryKey: [queryKeys.images],
@@ -111,14 +109,7 @@ const ImageList: FC = () => {
 
   return (
     <>
-      <BaseLayout
-        title="Images"
-        controls={
-          <Button appearance="positive" onClick={panelParams.openImageImport}>
-            Import image
-          </Button>
-        }
-      >
+      <BaseLayout title="Images">
         <NotificationRow notify={notify} />
         <Row>
           <MainTable

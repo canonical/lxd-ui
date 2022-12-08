@@ -48,8 +48,22 @@
   vertical-align: middle;
 }
 
+.u-align-self-end {
+  align-self: end;
+}
+
 .p-instance-yaml {
   margin-bottom: $sp-large;
   max-height: calc(100vh - 200px);
   overflow-y: scroll;
+}
+
+.p-image-select-modal > section {
+  min-height: 100%;
+  min-width: 1300px;
+}
+
+.p-image-list {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
