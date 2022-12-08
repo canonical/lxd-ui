@@ -7,7 +7,7 @@ import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
 import { fetchSettings } from "./api/server";
 import { handleResponse } from "./util/helpers";
-import { LxdConfigOption } from "./types/server";
+import { LxdConfigOption } from "./types/common";
 import SettingForm from "./SettingForm";
 
 const configOptionsUrl = "/static/assets/data/config-options.json";

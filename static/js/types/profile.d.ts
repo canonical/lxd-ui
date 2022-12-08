@@ -1,5 +1,9 @@
+import { LxdConfigPair, LxdDevices } from "./common";
+
 export interface LxdProfile {
-    name: string;
-    description: string;
-    used_by: string[];
+  config: LxdConfigPair;
+  devices: LxdDevices;
+  description: string;
+  name: string;
+  used_by: string[];
 }
