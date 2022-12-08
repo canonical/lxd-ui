@@ -13,6 +13,7 @@ const EditInstanceBtn: FC<Props> = ({ instance }) => {
   return (
     <Button
       appearance="base"
+      className="p-contextual-menu__link"
       dense
       hasIcon
       onClick={() => panelParams.openInstanceFormYaml(instance.name)}

@@ -9,6 +9,7 @@ import { Button } from "@canonical/react-components";
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
+  onFinish?: () => void;
 }
 
 const StopInstanceBtn: FC<Props> = ({ instance, notify }) => {
@@ -24,6 +25,7 @@ const StopInstanceBtn: FC<Props> = ({ instance, notify }) => {
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} stopped.`);
+        onFinish?.();
         window.dispatchEvent(new Event("resize"));
       })
       .catch((e) => {
