@@ -18,13 +18,11 @@ import PanelHeader from "../components/PanelHeader";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
-import usePanelParams from "../util/usePanelParams";
 import SubmitButton from "../buttons/SubmitButton";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
-  const panelParams = usePanelParams();
   const queryClient = useQueryClient();
 
   const { data: images = [], error } = useQuery({
@@ -66,7 +64,7 @@ const InstanceFormGuided: FC = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      image: panelParams.image ?? "",
+      image: "",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {

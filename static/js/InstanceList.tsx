@@ -19,6 +19,7 @@ import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
 import SnapshotsBtn from "./buttons/instances/SnapshotsBtn";
 import { useNavigate } from "react-router-dom";
+import EditInstanceBtn from "./buttons/instances/EditInstanceBtn";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -78,6 +79,9 @@ const InstanceList: FC = () => {
           },
           {
             children: <StopInstanceBtn instance={instance} notify={notify} />,
+          },
+          {
+            children: <EditInstanceBtn instance={instance} />,
           },
           {
             children: <DeleteInstanceBtn instance={instance} notify={notify} />,
