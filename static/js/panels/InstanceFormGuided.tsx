@@ -5,73 +5,50 @@ import {
   Col,
   Form,
   Input,
+  Label,
   Row,
   Select,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { fetchImageList } from "../api/images";
 import { createInstance } from "../api/instances";
 import Aside from "../components/Aside";
 import NotificationRow from "../components/NotificationRow";
 import PanelHeader from "../components/PanelHeader";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
-import usePanelParams from "../util/usePanelParams";
 import SubmitButton from "../buttons/SubmitButton";
+import SelectImageBtn from "../buttons/images/SelectImageBtn";
+import { RemoteImage } from "../types/image";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
-  const panelParams = usePanelParams();
   const queryClient = useQueryClient();
 
-  const { data: images = [], error } = useQuery({
-    queryKey: [queryKeys.images],
-    queryFn: fetchImageList,
-  });
-
-  if (error) {
-    notify.failure("Could not load images.", error);
-  }
-
-  const getImageOptions = () => {
-    const options = images.map((image) => {
-      return {
-        label: image.properties.description,
-        value: image.fingerprint,
-        disabled: false,
-      };
-    });
-    options.unshift({
-      label: images.length === 0 ? "No image available" : "Select option",
-      value: "",
-      disabled: true,
-    });
-    return options;
-  };
-
-  const getInstanceType = (fingerprint: string) => {
-    return images.find((item) => item.fingerprint === fingerprint)?.type ===
-      "container"
-      ? "container"
-      : "virtual-machine";
-  };
-
   const InstanceSchema = Yup.object().shape({
-    image: Yup.string().required("This field is required"),
+    name: Yup.string().optional(),
   });
 
-  const formik = useFormik({
+  const formik = useFormik<{
+    name: string;
+    image: RemoteImage | undefined;
+    instanceType: string;
+  }>({
     initialValues: {
       name: "",
-      image: panelParams.image ?? "",
+      image: undefined,
+      instanceType: "container",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
-      const instanceType = getInstanceType(values.image);
-      createInstance(values.name, values.image, instanceType)
+      if (!values.image) {
+        formik.setSubmitting(false);
+        notify.failure("", new Error("No image selected"));
+        return;
+      }
+      createInstance(values.name, values.image, values.instanceType)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
@@ -84,6 +61,31 @@ const InstanceFormGuided: FC = () => {
         });
     },
   });
+
+  const isVmOnlyImage = (image: RemoteImage) => {
+    return image.variant?.includes("desktop");
+  };
+
+  const isContainerOnlyImage = (image: RemoteImage) => {
+    const vmFiles = ["disk1.img", "disk-kvm.img", "uefi1.img"];
+    return (
+      Object.entries(image.versions ?? {}).find((version) =>
+        Object.entries(version[1].items).find((item) =>
+          vmFiles.includes(item[1].ftype)
+        )
+      ) === undefined
+    );
+  };
+
+  const handleSelectImage = (image: RemoteImage) => {
+    void formik.setFieldValue("image", image);
+    if (isVmOnlyImage(image)) {
+      void formik.setFieldValue("instanceType", "virtual-machine");
+    }
+    if (isContainerOnlyImage(image)) {
+      void formik.setFieldValue("instanceType", "container");
+    }
+  };
 
   return (
     <Aside>
@@ -102,20 +104,80 @@ const InstanceFormGuided: FC = () => {
                 onChange={formik.handleChange}
                 value={formik.values.name}
                 error={formik.touched.name ? formik.errors.name : null}
-                stacked
               />
-              <Select
-                id="image"
-                name="image"
-                label="Image"
-                options={getImageOptions()}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.image}
-                error={formik.touched.image ? formik.errors.image : null}
-                required
-                stacked
-              />
+              {formik.values.image ? (
+                <>
+                  <Row>
+                    <Col size={8}>
+                      <Input
+                        id="baseImage"
+                        name="baseImage"
+                        label="Base Image"
+                        type="text"
+                        value={
+                          formik.values.image.os +
+                          " " +
+                          formik.values.image.release +
+                          " " +
+                          formik.values.image.aliases.split(",")[0]
+                        }
+                        disabled
+                        required
+                      />
+                    </Col>
+                    <Col size={4} className="u-align-self-end">
+                      <SelectImageBtn
+                        appearance="link"
+                        caption="Change image"
+                        onSelect={handleSelectImage}
+                      />
+                    </Col>
+                  </Row>
+                  <Input
+                    id="architecture"
+                    name="architecture"
+                    label="Architecture"
+                    type="text"
+                    value={formik.values.image.arch}
+                    disabled
+                  />
+                  <Select
+                    id="instanceType"
+                    label="Instance type"
+                    name="instanceType"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    options={[
+                      {
+                        label: "Container",
+                        value: "container",
+                      },
+                      {
+                        label: "Virtual Machine",
+                        value: "virtual-machine",
+                      },
+                    ]}
+                    value={formik.values.instanceType}
+                    disabled={
+                      isContainerOnlyImage(formik.values.image) ||
+                      isVmOnlyImage(formik.values.image)
+                    }
+                  />
+                </>
+              ) : (
+                <>
+                  <Col size={4}>
+                    <Label>* Base Image</Label>
+                  </Col>
+                  <Col size={8}>
+                    <SelectImageBtn
+                      appearance="bare"
+                      caption="Select image"
+                      onSelect={handleSelectImage}
+                    />
+                  </Col>
+                </>
+              )}
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>

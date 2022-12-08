@@ -4,6 +4,7 @@ import { LxdInstance } from "../types/instance";
 import { LxdConsole } from "../types/console";
 import { LxdApiResponse } from "../types/apiResponse";
 import { LxdOperation } from "../types/operation";
+import { RemoteImage } from "../types/image";
 
 export const fetchInstance = (instanceName: string): Promise<LxdInstance> => {
   return new Promise((resolve, reject) => {
@@ -25,7 +26,7 @@ export const fetchInstances = (): Promise<LxdInstance[]> => {
 
 export const createInstance = (
   name: string,
-  imageFingerprint: string,
+  image: RemoteImage,
   instanceType: string
 ) => {
   return new Promise((resolve, reject) => {
@@ -34,7 +35,10 @@ export const createInstance = (
       body: JSON.stringify({
         name: name,
         source: {
-          fingerprint: imageFingerprint,
+          alias: image.aliases.split(",")[0],
+          mode: "pull",
+          protocol: "simplestreams",
+          server: image.server,
           type: "image",
         },
         type: instanceType,
