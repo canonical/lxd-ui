@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { Button, Form, Icon, Input } from "@canonical/react-components";
 import { updateSettings } from "./api/server";
 import { useFormik } from "formik";
-import { LxdConfigOption } from "./types/server";
+import { LxdConfigOption } from "./types/config";
 import { queryKeys } from "./util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import NotificationRow from "./components/NotificationRow";

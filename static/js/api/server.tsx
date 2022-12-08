@@ -1,6 +1,7 @@
 import { handleResponse } from "../util/helpers";
-import { LxdConfigPair, LxdSettings } from "../types/server";
+import { LxdSettings } from "../types/server";
 import { LxdApiResponse } from "../types/apiResponse";
+import { LxdConfigPair } from "../types/config";
 
 export const fetchSettings = (): Promise<LxdSettings> => {
   return new Promise((resolve, reject) => {
