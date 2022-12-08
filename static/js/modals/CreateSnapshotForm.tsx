@@ -36,9 +36,9 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
       </>
     );
   };
+  // TODO: remove on next react-components update
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Escape") {
-      e.stopPropagation();
       close();
     }
   };
@@ -82,6 +82,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
     <Form onSubmit={formik.handleSubmit}>
       <Modal
         title={`Create snapshot for ${instance.name}`}
+        // TODO: put back the close prop on next react-components update
         buttonRow={
           <>
             <Button
