@@ -30,13 +30,15 @@ export const fetchInstances = (): Promise<LxdInstance[]> => {
 export const createInstance = (
   name: string,
   image: RemoteImage,
-  instanceType: string
+  instanceType: string,
+  profiles: string[]
 ) => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/instances", {
       method: "POST",
       body: JSON.stringify({
         name: name,
+        profiles: profiles,
         source: {
           alias: image.aliases.split(",")[0],
           mode: "pull",

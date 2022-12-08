@@ -19,6 +19,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
 import SubmitButton from "../buttons/SubmitButton";
+import ProfileSelect from "../components/ProfileSelect";
 import SelectImageBtn from "../buttons/images/SelectImageBtn";
 import { RemoteImage } from "../types/image";
 import { isContainerOnlyImage, isVmOnlyImage } from "../util/images";
@@ -37,11 +38,13 @@ const InstanceFormGuided: FC = () => {
     name: string;
     image: RemoteImage | undefined;
     instanceType: string;
+    profiles: string[];
   }>({
     initialValues: {
       name: "",
       image: undefined,
       instanceType: "container",
+      profiles: ["default"],
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
@@ -50,7 +53,12 @@ const InstanceFormGuided: FC = () => {
         notify.failure("", new Error("No image selected"));
         return;
       }
-      createInstance(values.name, values.image, values.instanceType)
+      createInstance(
+        values.name,
+        values.image,
+        values.instanceType,
+        values.profiles
+      )
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
@@ -165,6 +173,13 @@ const InstanceFormGuided: FC = () => {
                   </Col>
                 </>
               )}
+              <ProfileSelect
+                notify={notify}
+                selected={formik.values.profiles}
+                setSelected={(value) =>
+                  void formik.setFieldValue("profiles", value)
+                }
+              />
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>
