@@ -1,26 +1,56 @@
-interface LxdInstanceConfig {
-  "migration.stateful"?: boolean;
+import { LxdConfigPair, LxdDevices } from "./common";
+
+interface LxdInstanceUsageProp {
+  usage: number;
+}
+
+interface LxdInstanceMemory {
+  swap_usage: number;
+  swap_usage_peak: number;
+  usage: number;
+  usage_peak: number;
+}
+
+interface LxdInstanceNetworkAddress {
+  address: string;
+  family: string;
+  netmask: string;
+  scope: string;
+}
+
+interface LxdInstanceNetworkCounters {
+  bytes_received: number;
+  bytes_sent: number;
+  errors_received: number;
+  errors_sent: number;
+  packets_dropped_inbound: number;
+  packets_dropped_outbound: number;
+  packets_received: number;
+  packets_sent: number;
+}
+
+interface LxdInstanceNetwork {
+  addresses: LxdInstanceNetworkAddress[];
+  counters: LxdInstanceNetworkCounters;
+  host_name: string;
+  hwaddr: string;
+  mtu: number;
+  state: "up" | "down";
+  type: string;
 }
 
 interface LxdInstanceState {
-  network?: {
-    eth0?: {
-      addresses: {
-        family: string;
-        address: string;
-      }[];
-    };
-  };
-  cpu: { usage: number };
+  cpu: LxdInstanceUsageProp;
   disk: {
-    root: { usage: number };
+    root: LxdInstanceUsageProp;
+  } & {
+    [key: string]: LxdInstanceUsageProp;
   };
-  memory: {
-    usage: number;
-    usage_peak: number;
-    swap_usage: number;
-    swap_usage_peak: number;
-  };
+  memory: LxdInstanceMemory;
+  network?: { [key: string]: LxdInstanceNetwork; };
+  pid: number;
+  processes: number;
+  status: string;
 }
 
 interface LxdSnapshot {
@@ -32,15 +62,19 @@ interface LxdSnapshot {
 
 export interface LxdInstance {
   architecture: string;
-  config: LxdInstanceConfig;
+  config: LxdConfigPair;
   created_at: string;
   description: string;
+  devices: LxdDevices;
   ephemeral: boolean;
+  expanded_config: LxdConfigPair;
+  expanded_devices: LxdDevices;
   last_used_at: string;
   location: string;
   name: string;
   profiles: string[];
   project: string;
+  restore: string;
   snapshots: LxdSnapshot[] | null;
   state?: LxdInstanceState;
   stateful: boolean;

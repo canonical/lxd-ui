@@ -1,5 +1,4 @@
 export interface LxdNetwork {
-  name: string;
   config: {
     "ipv4.address": string;
     "ipv4.nat": string;
@@ -7,8 +6,9 @@ export interface LxdNetwork {
     "ipv6.nat": string;
   };
   description: string;
-  locations: null;
+  locations: string[];
   managed: boolean;
+  name: string;
   status: string;
   type: string;
   used_by?: string[];

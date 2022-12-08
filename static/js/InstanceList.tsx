@@ -111,7 +111,7 @@ const InstanceList: FC = () => {
           "aria-label": "Status",
         },
         {
-          content: instance.state?.network?.eth0?.addresses
+          content: instance.state?.network?.eth0.addresses
             .filter((item) => item.family === "inet")
             .map((item) => item.address)
             .join(" "),
@@ -119,7 +119,7 @@ const InstanceList: FC = () => {
           "aria-label": "IPv4",
         },
         {
-          content: instance.state?.network?.eth0?.addresses
+          content: instance.state?.network?.eth0.addresses
             .filter((item) => item.family === "inet6")
             .map((item) => item.address)
             .join(" "),

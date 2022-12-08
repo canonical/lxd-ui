@@ -71,7 +71,7 @@ const InstanceOverview: FC<Props> = ({ instanceName }) => {
         <tr>
           <th>Address</th>
           <td>
-            {instance.state?.network?.eth0?.addresses
+            {instance.state?.network?.eth0.addresses
               .map((item) => item.address)
               .join(" ")}
           </td>
