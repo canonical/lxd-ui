@@ -20,6 +20,7 @@ import { queryKeys } from "../util/queryKeys";
 import useNotification from "../util/useNotification";
 import usePanelParams from "../util/usePanelParams";
 import SubmitButton from "../buttons/SubmitButton";
+import ProfileSelect from "../components/ProfileSelect";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
@@ -116,6 +117,7 @@ const InstanceFormGuided: FC = () => {
                 required
                 stacked
               />
+              <ProfileSelect notify={notify} />
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>
