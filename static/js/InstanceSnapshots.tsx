@@ -70,7 +70,8 @@ const InstanceSnapshots: FC<Props> = ({ instanceName, setControls }) => {
   const rows = instance?.snapshots?.map((snapshot) => {
     const actions = (
       <ContextualMenu
-        key={`actions-${instance.name}`}
+        closeOnOutsideClick={false}
+        key={`snapshot-actions-${snapshot.name}`}
         hasToggleIcon
         links={[
           {

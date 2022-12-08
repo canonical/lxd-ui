@@ -69,6 +69,7 @@ const InstanceList: FC = () => {
 
     const actions = (
       <ContextualMenu
+        closeOnOutsideClick={false}
         key={`actions-${instance.name}`}
         hasToggleIcon
         links={[
