@@ -2,11 +2,10 @@ import { useSearchParams } from "react-router-dom";
 
 export interface PanelHelper {
   panel: string | null;
-  image: string | null;
   instance: string | null;
   clear: () => void;
-  openInstanceFormGuided: (image?: string) => void;
-  openInstanceFormYaml: (image?: string) => void;
+  openInstanceFormGuided: () => void;
+  openInstanceFormYaml: (instance?: string) => void;
   openImageImport: () => void;
   openProfileForm: () => void;
 }
@@ -34,19 +33,18 @@ const usePanelParams = (): PanelHelper => {
 
   return {
     panel: params.get("panel"),
-    image: params.get("image"),
     instance: params.get("instance"),
 
     clear: () => {
       setParams(new URLSearchParams());
     },
 
-    openInstanceFormGuided: (image) => {
-      setPanelParams(panels.instanceFormGuided, image ? { image } : {});
+    openInstanceFormGuided: () => {
+      setPanelParams(panels.instanceFormGuided);
     },
 
-    openInstanceFormYaml: (image) => {
-      setPanelParams(panels.instanceFormYaml, image ? { image } : {});
+    openInstanceFormYaml: (instance) => {
+      setPanelParams(panels.instanceFormYaml, instance ? { instance } : {});
     },
 
     openImageImport: () => {

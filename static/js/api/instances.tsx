@@ -5,9 +5,12 @@ import { LxdConsole } from "../types/console";
 import { LxdApiResponse } from "../types/apiResponse";
 import { LxdOperation } from "../types/operation";
 
-export const fetchInstance = (instanceName: string): Promise<LxdInstance> => {
+export const fetchInstance = (
+  instanceName: string,
+  recursion = 2
+): Promise<LxdInstance> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instanceName}?recursion=2`)
+    fetch(`/1.0/instances/${instanceName}?recursion=${recursion}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdInstance>) => resolve(data.metadata))
       .catch(reject);
@@ -58,6 +61,19 @@ export const createInstanceFromJson = (instanceConfiguration: string) => {
       .then((data: LxdOperation) => {
         watchOperation(data.operation, 120).then(resolve).catch(reject);
       })
+      .catch(reject);
+  });
+};
+
+export const updateInstanceFromJson = (instanceConfiguration: string) => {
+  const instance = JSON.parse(instanceConfiguration) as LxdInstance;
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${instance.name}`, {
+      method: "PATCH",
+      body: instanceConfiguration,
+    })
+      .then(handleResponse)
+      .then(resolve)
       .catch(reject);
   });
 };
