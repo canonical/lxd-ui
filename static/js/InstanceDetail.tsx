@@ -87,7 +87,7 @@ const InstanceDetail: FC = () => {
 
         {currentTab === 2 && (
           <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
-            <InstanceTerminal />
+            <InstanceTerminal setControls={setControls} />
           </div>
         )}
 

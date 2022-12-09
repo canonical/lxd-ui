@@ -1,7 +1,7 @@
 import { watchOperation } from "./operations";
 import { handleResponse } from "../util/helpers";
 import { LxdInstance } from "../types/instance";
-import { LxdConsole } from "../types/console";
+import { LxdTerminal, LxdTerminalPayload } from "../types/terminal";
 import { LxdApiResponse } from "../types/apiResponse";
 import { LxdOperation } from "../types/operation";
 import { RemoteImage } from "../types/image";
@@ -123,29 +123,22 @@ export const deleteInstance = (instance: LxdInstance) => {
   });
 };
 
-export const fetchInstanceExec = (name: string): Promise<LxdConsole> => {
+export const fetchInstanceExec = (
+  name: string,
+  payload: LxdTerminalPayload
+): Promise<LxdTerminal> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/exec?wait=10`, {
       method: "POST",
-      body: JSON.stringify({
-        command: ["bash"],
-        "record-output": true,
-        "wait-for-websocket": true,
-        environment: {
-          TERM: "xterm-256color",
-        },
-        interactive: true,
-        group: 1000,
-        user: 1000,
-      }),
+      body: JSON.stringify(payload),
     })
       .then(handleResponse)
-      .then((data: LxdConsole) => resolve(data))
+      .then((data: LxdTerminal) => resolve(data))
       .catch(reject);
   });
 };
 
-export const fetchInstanceVga = (name: string): Promise<LxdConsole> => {
+export const fetchInstanceVga = (name: string): Promise<LxdTerminal> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console?wait=10`, {
       method: "POST",
@@ -156,7 +149,7 @@ export const fetchInstanceVga = (name: string): Promise<LxdConsole> => {
       }),
     })
       .then(handleResponse)
-      .then((data: LxdConsole) => resolve(data))
+      .then((data: LxdTerminal) => resolve(data))
       .catch(reject);
   });
 };
