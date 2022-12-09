@@ -1,11 +1,4 @@
-import {
-  Button,
-  Col,
-  ContextualMenu,
-  Icon,
-  MainTable,
-  Row,
-} from "@canonical/react-components";
+import { Button, Col, Icon, MainTable, Row } from "@canonical/react-components";
 import React, {
   Dispatch,
   FC,
@@ -69,34 +62,18 @@ const InstanceSnapshots: FC<Props> = ({ instanceName, setControls }) => {
 
   const rows = instance?.snapshots?.map((snapshot) => {
     const actions = (
-      <ContextualMenu
-        closeOnOutsideClick={false}
-        key={`snapshot-actions-${snapshot.name}`}
-        hasToggleIcon
-        links={[
-          {
-            children: (
-              <RestoreSnapshotBtn
-                instanceName={instanceName}
-                snapshot={snapshot}
-                notify={notify}
-              />
-            ),
-          },
-          {
-            children: (
-              <DeleteSnapshotBtn
-                instanceName={instanceName}
-                snapshot={snapshot}
-                notify={notify}
-              />
-            ),
-          },
-        ]}
-        position="right"
-        toggleAppearance="base"
-        toggleLabel="Actions"
-      />
+      <>
+        <RestoreSnapshotBtn
+          instanceName={instanceName}
+          snapshot={snapshot}
+          notify={notify}
+        />
+        <DeleteSnapshotBtn
+          instanceName={instanceName}
+          snapshot={snapshot}
+          notify={notify}
+        />
+      </>
     );
 
     return {
