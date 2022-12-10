@@ -158,7 +158,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <a
                         className="p-side-navigation__link"
-                        href="https://github.com/lxc/lxd/issues/new"
+                        href="https://github.com/canonical/lxd-ui/issues/new"
                         target="_blank"
                         rel="noreferrer"
                       >
