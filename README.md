@@ -1,6 +1,7 @@
 # LXD-UI
 
-Web UI on top of LXD. Make container and VM management easy and accessible. Targets small and large scale private clouds.
+LXD-UI is a browser frontend for LXD. It enables easy and accessible container and virtual machine management.
+Targets small and large scale private clouds.
 
 # Setting up for development
 
