@@ -11,14 +11,11 @@ export const fetchProfiles = (): Promise<LxdProfile[]> => {
   });
 };
 
-export const createProfile = (name: string, description: string) => {
+export const createProfile = (profile: LxdProfile) => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/profiles", {
       method: "POST",
-      body: JSON.stringify({
-        name: name,
-        description: description,
-      }),
+      body: JSON.stringify(profile),
     })
       .then(handleResponse)
       .then((data) => resolve(data))

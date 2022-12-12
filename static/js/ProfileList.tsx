@@ -38,7 +38,7 @@ const ProfileList: FC = () => {
       </div>
     );
 
-    const usedBy = <span>{profile.used_by.length || "0"}</span>;
+    const usedBy = <span>{profile.used_by?.length ?? "0"}</span>;
 
     return {
       columns: [

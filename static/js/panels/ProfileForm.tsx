@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Col, Form, Input, Row } from "@canonical/react-components";
+import { Accordion, Col, Form, Input, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Aside from "../components/Aside";
@@ -11,6 +11,49 @@ import { createProfile } from "../api/profiles";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import SubmitButton from "../buttons/SubmitButton";
+import NetworkSelector from "../components/NetworkSelector";
+import { LxdDevices } from "../types/device";
+import StorageSelector from "../components/StorageSelector";
+import CpuLimitSelector from "../components/CpuLimitSelector";
+import CloudInitConfig from "../components/CloudInitConfig";
+import { LxdConfigPair } from "../types/config";
+import { LxdProfile } from "../types/profile";
+import MemoryLimitSelector from "../components/MemoryLimitSelector";
+import { CpuLimit, CPU_LIMIT_TYPE } from "../types/limits";
+import {
+  DEFAULT_CPU_LIMIT,
+  DEFAULT_DISK_DEVICE,
+  DEFAULT_MEM_LIMIT,
+  DEFAULT_NIC_DEVICE,
+} from "../util/defaults";
+
+const getCpuLimit = (cpuLimit: CpuLimit) => {
+  switch (cpuLimit.selectedType) {
+    case CPU_LIMIT_TYPE.DYNAMIC:
+      if (cpuLimit.dynamicValue) {
+        return `${cpuLimit.dynamicValue}`;
+      }
+      return null;
+    case CPU_LIMIT_TYPE.FIXED_RANGE:
+      if (!cpuLimit.rangeValue) return null;
+      if (
+        cpuLimit.rangeValue.from !== null &&
+        cpuLimit.rangeValue.to !== null
+      ) {
+        return `${cpuLimit.rangeValue.from}-${cpuLimit.rangeValue.to}`;
+      }
+      return null;
+    case CPU_LIMIT_TYPE.FIXED_SET:
+      if (cpuLimit.setValue) {
+        if (cpuLimit.setValue.includes(",")) {
+          return cpuLimit.setValue;
+        }
+        const singleValue = +cpuLimit.setValue;
+        return `${singleValue}-${singleValue}`;
+      }
+      return null;
+  }
+};
 
 const ProfileForm: FC = () => {
   const navigate = useNavigate();
@@ -25,10 +68,61 @@ const ProfileForm: FC = () => {
     initialValues: {
       name: "",
       description: "",
+      nicDevice: DEFAULT_NIC_DEVICE,
+      rootDiskDevice: DEFAULT_DISK_DEVICE,
+      cpuLimit: DEFAULT_CPU_LIMIT,
+      memoryLimit: DEFAULT_MEM_LIMIT,
+      userDataConfig: "\n\n",
+      vendorDataConfig: "\n\n",
+      networkConfig: "\n\n",
     },
     validationSchema: ProfileSchema,
-    onSubmit: (values) => {
-      createProfile(values.name, values.description)
+    onSubmit: ({
+      name,
+      description,
+      nicDevice,
+      rootDiskDevice,
+      cpuLimit,
+      memoryLimit,
+      userDataConfig,
+      vendorDataConfig,
+      networkConfig,
+    }) => {
+      const config: LxdConfigPair = {};
+      const limitsCpu = getCpuLimit(cpuLimit);
+      if (limitsCpu) {
+        config["limits.cpu"] = limitsCpu;
+      }
+      if (memoryLimit.value) {
+        config["limits.memory"] = `${memoryLimit.value}${memoryLimit.unit}`;
+      }
+      if (userDataConfig.trim()) {
+        config["cloud-init.user-data"] = `|\n${userDataConfig.trim()}`;
+      }
+      if (vendorDataConfig.trim()) {
+        config["cloud-init.vendor-data"] = `|\n${vendorDataConfig.trim()}`;
+      }
+      if (networkConfig.trim()) {
+        config["cloud-init.network-config"] = `|\n${networkConfig.trim()}`;
+      }
+
+      const devices: LxdDevices = {};
+      if (nicDevice.network) {
+        devices[nicDevice.name === "" ? nicDevice.network : nicDevice.name] =
+          nicDevice;
+      }
+      if (rootDiskDevice.pool) {
+        devices.root = rootDiskDevice;
+      }
+
+      const profile: LxdProfile = {
+        config: config,
+        description: description,
+        devices: devices,
+        name: name,
+      };
+
+      createProfile(profile)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
@@ -74,6 +168,95 @@ const ProfileForm: FC = () => {
                   formik.touched.description ? formik.errors.description : null
                 }
                 stacked
+              />
+              <Accordion
+                titleElement="h4"
+                sections={[
+                  {
+                    content: (
+                      <NetworkSelector
+                        notify={notify}
+                        nicDevice={formik.values.nicDevice}
+                        setNicDevice={(nicDevice) =>
+                          void formik.setFieldValue("nicDevice", nicDevice)
+                        }
+                      />
+                    ),
+                    title: "Network",
+                  },
+                  {
+                    content: (
+                      <StorageSelector
+                        notify={notify}
+                        diskDevice={formik.values.rootDiskDevice}
+                        setDiskDevice={(diskDevice) =>
+                          void formik.setFieldValue(
+                            "rootDiskDevice",
+                            diskDevice
+                          )
+                        }
+                        hasPathInput={false}
+                      />
+                    ),
+                    title: "Root storage",
+                  },
+                  {
+                    content: (
+                      <>
+                        <MemoryLimitSelector
+                          notify={notify}
+                          memoryLimit={formik.values.memoryLimit}
+                          setMemoryLimit={(memoryLimit) =>
+                            void formik.setFieldValue(
+                              "memoryLimit",
+                              memoryLimit
+                            )
+                          }
+                        />
+                        <hr />
+                        <CpuLimitSelector
+                          notify={notify}
+                          cpuLimit={formik.values.cpuLimit}
+                          setCpuLimit={(cpuLimit) =>
+                            void formik.setFieldValue("cpuLimit", cpuLimit)
+                          }
+                        />
+                      </>
+                    ),
+                    title: "Resource limits",
+                  },
+                  {
+                    content: (
+                      <>
+                        <CloudInitConfig
+                          title="cloud-init.user-data"
+                          config={formik.values.userDataConfig}
+                          setConfig={(config) =>
+                            void formik.setFieldValue("userDataConfig", config)
+                          }
+                        />
+                        <CloudInitConfig
+                          title="cloud-init.vendor-data"
+                          config={formik.values.vendorDataConfig}
+                          setConfig={(config) =>
+                            void formik.setFieldValue(
+                              "vendorDataConfig",
+                              config
+                            )
+                          }
+                        />
+                        <CloudInitConfig
+                          title="cloud-init.network-config"
+                          config={formik.values.networkConfig}
+                          setConfig={(config) =>
+                            void formik.setFieldValue("networkConfig", config)
+                          }
+                        />
+                      </>
+                    ),
+                    title: "cloud-init config",
+                  },
+                ]}
               />
               <hr />
               <Row className="u-align--right">
