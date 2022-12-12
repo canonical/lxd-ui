@@ -3,8 +3,8 @@ import { LxdDevices } from "./device";
 
 export interface LxdProfile {
   config: LxdConfigPair;
-  devices: LxdDevices;
   description: string;
+  devices: LxdDevices;
   name: string;
-  used_by: string[];
+  used_by?: string[];
 }
