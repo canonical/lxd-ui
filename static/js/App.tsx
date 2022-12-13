@@ -14,6 +14,7 @@ import Panels from "./panels/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Settings from "./Settings";
 import InstanceDetail from "./InstanceDetail";
+import StorageList from "./StorageList";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App: FC = () => {
             <Route path="/profiles" element={<ProfileList />} />
             <Route path="/networks" element={<NetworkList />} />
             <Route path="/projects" element={<ProjectList />} />
+            <Route path="/storages" element={<StorageList />} />
             <Route path="/cluster" element={<ClusterList />} />
             <Route path="/warnings" element={<WarningList />} />
             <Route path="/settings" element={<Settings />} />
