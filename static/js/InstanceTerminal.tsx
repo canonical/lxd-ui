@@ -172,14 +172,16 @@ const InstanceTerminal: FC<Props> = ({ setControls }) => {
   return (
     <>
       <NotificationRow notify={notify} />
-      <XTerm
-        ref={xtermRef}
-        addons={[fitAddon]}
-        className="p-terminal"
-        onData={(data) => {
-          dataWs?.send(textEncoder.encode(data));
-        }}
-      />
+      {controlWs && (
+        <XTerm
+          ref={xtermRef}
+          addons={[fitAddon]}
+          className="p-terminal"
+          onData={(data) => {
+            dataWs?.send(textEncoder.encode(data));
+          }}
+        />
+      )}
     </>
   );
 };
