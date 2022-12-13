@@ -32,6 +32,10 @@
 **--------------------------------------------------------------------------*/
 function resize_helper(sc)
 {
+    if (!sc) {
+        return;
+    }
+
     var width = document.getElementById(sc.screen_id).clientWidth;
     var wrapper = document.getElementById("spice-area");
 
@@ -72,7 +76,11 @@ function handle_resize(e)
 {
     var sc = window.spice_connection;
 
-    if (sc && sc.spice_resize_timer)
+    if (!sc) {
+        return;
+    }
+
+    if (sc.spice_resize_timer)
     {
         window.clearTimeout(sc.spice_resize_timer);
         sc.spice_resize_timer = undefined;
