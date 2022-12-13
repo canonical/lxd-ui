@@ -66,7 +66,12 @@ const InstanceTerminal: FC<Props> = ({ setControls }) => {
       return;
     }
 
-    const result = await fetchInstanceExec(name, payload);
+    const result = await fetchInstanceExec(name, payload).catch((e) => {
+      notify.failure("Could not open terminal session.", e);
+    });
+    if (!result) {
+      return;
+    }
 
     const dataUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
     const controlUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds.control}`;
@@ -84,7 +89,7 @@ const InstanceTerminal: FC<Props> = ({ setControls }) => {
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event);
+        notify.failure(getWsErrorMsg(event.code), event.reason);
       }
       setControlWs(null);
     };
@@ -103,7 +108,7 @@ const InstanceTerminal: FC<Props> = ({ setControls }) => {
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event);
+        notify.failure(getWsErrorMsg(event.code), event.reason);
       }
       setDataWs(null);
     };
