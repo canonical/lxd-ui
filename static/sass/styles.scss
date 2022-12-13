@@ -52,6 +52,10 @@
   align-self: end;
 }
 
+.u-instance-delete-margin {
+  margin-right: 1rem;
+}
+
 .p-instance-yaml {
   margin-bottom: $sp-large;
   max-height: calc(100vh - 200px);

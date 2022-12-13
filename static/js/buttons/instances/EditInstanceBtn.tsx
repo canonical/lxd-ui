@@ -5,21 +5,31 @@ import usePanelParams from "../../util/usePanelParams";
 
 interface Props {
   instance: LxdInstance;
+  appearance?: string;
+  className?: string;
+  isDense?: boolean;
+  label?: string;
 }
 
-const EditInstanceBtn: FC<Props> = ({ instance }) => {
+const EditInstanceBtn: FC<Props> = ({
+  instance,
+  appearance = "base",
+  className = "p-contextual-menu__link",
+  isDense = true,
+  label = "Edit instance",
+}) => {
   const panelParams = usePanelParams();
 
   return (
     <Button
-      appearance="base"
-      className="p-contextual-menu__link"
-      dense
+      appearance={appearance}
+      className={className}
+      dense={isDense}
       hasIcon
       onClick={() => panelParams.openInstanceFormYaml(instance.name)}
     >
       <i className={"p-icon--edit"} />
-      <span>Edit instance</span>
+      <span>{label}</span>
     </Button>
   );
 };
