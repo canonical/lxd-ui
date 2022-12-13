@@ -60,10 +60,30 @@
 
 .p-image-select-modal > section {
   min-height: 100%;
-  min-width: 1300px;
 }
 
 .p-image-list {
   max-height: calc(100vh - 200px);
   overflow-y: auto;
+}
+
+.p-table-image-select {
+  th,
+  td {
+    &:nth-child(1) {
+      width: 8rem;
+    }
+
+    &:nth-child(2) {
+      width: 8rem;
+    }
+
+    &:nth-child(3) {
+      width: 8rem;
+    }
+
+    &:nth-child(5) {
+      width: 6rem;
+    }
+  }
 }

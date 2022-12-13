@@ -329,7 +329,8 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
           />
           <div className="p-image-list">
             <MainTable
-              className="u-table-layout--auto"
+              className="p-table-image-select"
+              emptyStateMsg="No matching images found"
               headers={headers}
               rows={rows}
               paginate={null}
