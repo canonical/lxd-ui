@@ -38,7 +38,7 @@ const RestoreSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
       iconClass="p-icon--export"
       iconDescription="Restore"
       title="Confirm restore"
-      toggleCaption="Restore snapshot"
+      toggleCaption="Restore"
       confirmationMessage={`Are you sure you want to restore snapshot "${snapshot.name}"?
                             This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Restore"
