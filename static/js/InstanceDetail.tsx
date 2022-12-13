@@ -75,7 +75,7 @@ const InstanceDetail: FC = () => {
 
         {currentTab === 0 && (
           <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
-            <InstanceOverview instanceName={name} />
+            <InstanceOverview instanceName={name} setControls={setControls} />
           </div>
         )}
 

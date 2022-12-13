@@ -14,6 +14,7 @@ interface Props {
   confirmationMessage: string;
   posButtonLabel: string;
   onConfirm: () => void;
+  isDense?: boolean;
   isDisabled?: boolean;
 }
 
@@ -28,6 +29,7 @@ const ConfirmationButton: FC<Props> = ({
   confirmationMessage,
   posButtonLabel,
   onConfirm,
+  isDense = true,
   isDisabled = false,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
@@ -62,7 +64,7 @@ const ConfirmationButton: FC<Props> = ({
         appearance={toggleAppearance}
         hasIcon={toggleCaption !== undefined}
         className={className}
-        dense
+        dense={isDense}
         disabled={isDisabled}
         onClick={handleShiftClick}
       >

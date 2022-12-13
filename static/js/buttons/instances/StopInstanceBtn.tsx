@@ -10,9 +10,21 @@ interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
   onFinish?: () => void;
+  appearance?: string;
+  className?: string;
+  isDense?: boolean;
+  label?: string;
 }
 
-const StopInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
+const StopInstanceBtn: FC<Props> = ({
+  instance,
+  notify,
+  onFinish,
+  appearance = "base",
+  className = "p-contextual-menu__link",
+  isDense = true,
+  label = "Stop instance",
+}) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -35,9 +47,9 @@ const StopInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
 
   return (
     <Button
-      appearance="base"
-      className="p-contextual-menu__link"
-      dense
+      appearance={appearance}
+      className={className}
+      dense={isDense}
       hasIcon
       onClick={handleStop}
       disabled={isLoading || instance.status !== "Running"}
@@ -47,7 +59,7 @@ const StopInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
           isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--power-off"
         }
       />
-      <span>Stop instance</span>
+      <span>{label}</span>
     </Button>
   );
 };
