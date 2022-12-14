@@ -1,9 +1,9 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, useState } from "react";
 import BaseLayout from "./components/BaseLayout";
 import { Row, Tabs } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InstanceVga from "./InstanceVga";
 import InstanceSnapshots from "./InstanceSnapshots";
 
@@ -27,7 +27,7 @@ const InstanceDetail: FC = () => {
     name: string;
     activeTab?: string;
   }>();
-  const [controls, setControls] = useState<ReactNode | null>(null);
+  const [controlTarget, setControlTarget] = useState<HTMLSpanElement | null>();
   const [currentTab, setCurrentTab] = useState(getTab(activeTab));
 
   if (!name) {
@@ -35,7 +35,6 @@ const InstanceDetail: FC = () => {
   }
 
   const handleTabChange = (newTab: number) => {
-    setControls(null);
     setCurrentTab(newTab);
     switch (newTab) {
       case 1:
@@ -56,12 +55,7 @@ const InstanceDetail: FC = () => {
     <BaseLayout
       title={`Instance details for ${name}`}
       controls={
-        <>
-          {controls}
-          <Link className="p-button u-no-margin--bottom" to="/instances">
-            Back
-          </Link>
-        </>
+        <span id="control-target" ref={(ref) => setControlTarget(ref)} />
       }
     >
       <Row>
@@ -75,25 +69,31 @@ const InstanceDetail: FC = () => {
 
         {currentTab === 0 && (
           <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
-            <InstanceOverview instanceName={name} setControls={setControls} />
+            <InstanceOverview
+              instanceName={name}
+              controlTarget={controlTarget}
+            />
           </div>
         )}
 
         {currentTab === 1 && (
           <div tabIndex={1} role="tabpanel" aria-labelledby="snapshots">
-            <InstanceSnapshots instanceName={name} setControls={setControls} />
+            <InstanceSnapshots
+              instanceName={name}
+              controlTarget={controlTarget}
+            />
           </div>
         )}
 
         {currentTab === 2 && (
           <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
-            <InstanceTerminal setControls={setControls} />
+            <InstanceTerminal controlTarget={controlTarget} />
           </div>
         )}
 
         {currentTab === 3 && (
           <div tabIndex={3} role="tabpanel" aria-labelledby="vga">
-            <InstanceVga setControls={setControls} />
+            <InstanceVga controlTarget={controlTarget} />
           </div>
         )}
       </Row>

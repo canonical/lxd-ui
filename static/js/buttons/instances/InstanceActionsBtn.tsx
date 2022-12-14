@@ -4,7 +4,7 @@ import { NotificationHelper } from "../../types/notification";
 import { ContextualMenu } from "@canonical/react-components";
 import StartInstanceBtn from "./StartInstanceBtn";
 import StopInstanceBtn from "./StopInstanceBtn";
-import SnapshotsBtn from "./SnapshotsBtn";
+import OpenSnapshotsBtn from "./OpenSnapshotsBtn";
 import OpenTerminalBtn from "./OpenTerminalBtn";
 import OpenVgaBtn from "./OpenVgaBtn";
 import EditInstanceBtn from "./EditInstanceBtn";
@@ -31,7 +31,7 @@ const InstanceActionsBtn: FC<Props> = ({ instance, notify }) => {
       <StartInstanceBtn instance={instance} notify={notify} onFinish={close} />
       <StopInstanceBtn instance={instance} notify={notify} onFinish={close} />
       <EditInstanceBtn instance={instance} />
-      <SnapshotsBtn instance={instance} />
+      <OpenSnapshotsBtn instance={instance} />
       <OpenTerminalBtn instance={instance} />
       <OpenVgaBtn instance={instance} />
     </ContextualMenu>

@@ -1,13 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { XTerm } from "xterm-for-react";
 import Xterm from "xterm-for-react/dist/src/XTerm";
@@ -19,10 +10,8 @@ import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
 import ReconnectTerminalBtn from "./buttons/instances/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "./types/terminal";
-
-interface Props {
-  setControls: Dispatch<SetStateAction<ReactNode>>;
-}
+import { createPortal } from "react-dom";
+import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 
 const defaultPayload = {
   command: ["bash"],
@@ -36,7 +25,11 @@ const defaultPayload = {
   user: 1000,
 };
 
-const InstanceTerminal: FC<Props> = ({ setControls }) => {
+interface Props {
+  controlTarget?: HTMLSpanElement | null;
+}
+
+const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
   const { name } = useParams<{
     name: string;
   }>();
@@ -56,10 +49,6 @@ const InstanceTerminal: FC<Props> = ({ setControls }) => {
     notify.clear();
     setPayload(payload);
   };
-
-  useEffect(() => {
-    setControls(<ReconnectTerminalBtn onFinish={handleReconnect} />);
-  }, [notify.notification, xtermRef]);
 
   const openWebsockets = async (payload: LxdTerminalPayload) => {
     if (!name) {
@@ -171,6 +160,14 @@ const InstanceTerminal: FC<Props> = ({ setControls }) => {
 
   return (
     <>
+      {controlTarget &&
+        createPortal(
+          <>
+            <ReconnectTerminalBtn onFinish={handleReconnect} />
+            <OpenInstanceListBtn />
+          </>,
+          controlTarget
+        )}
       <NotificationRow notify={notify} />
       {controlWs && (
         <XTerm

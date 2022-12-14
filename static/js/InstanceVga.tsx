@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useRef,
-} from "react";
+import React, { FC, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
@@ -14,10 +7,8 @@ import { fetchInstanceVga } from "./api/instances";
 import { getWsErrorMsg } from "./util/helpers";
 import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
-
-interface Props {
-  setControls: Dispatch<SetStateAction<ReactNode>>;
-}
+import { createPortal } from "react-dom";
+import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -26,25 +17,16 @@ declare global {
   }
 }
 
-const InstanceVga: FC<Props> = ({ setControls }) => {
+interface Props {
+  controlTarget?: HTMLSpanElement | null;
+}
+
+const InstanceVga: FC<Props> = ({ controlTarget }) => {
   const { name } = useParams<{
     name: string;
   }>();
   const notify = useNotification();
   const spiceRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setControls(
-      <Button
-        className="u-no-margin--bottom"
-        hasIcon
-        onClick={handleFullScreen}
-      >
-        <Icon name="fullscreen" />
-        <span>Fullscreen</span>
-      </Button>
-    );
-  }, []);
 
   const handleError = (e: object) => {
     notify.failure("spice error", e);
@@ -126,6 +108,21 @@ const InstanceVga: FC<Props> = ({ setControls }) => {
   return (
     <>
       <NotificationRow notify={notify} />
+      {controlTarget &&
+        createPortal(
+          <>
+            <Button
+              className="u-no-margin--bottom"
+              hasIcon
+              onClick={handleFullScreen}
+            >
+              <Icon name="fullscreen" />
+              <span>Fullscreen</span>
+            </Button>
+            <OpenInstanceListBtn />
+          </>,
+          controlTarget
+        )}
       <div id="spice-area" ref={spiceRef}>
         <div id="spice-screen" className="spice-screen" />
       </div>

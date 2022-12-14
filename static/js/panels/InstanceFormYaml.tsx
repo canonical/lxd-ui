@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -20,7 +19,6 @@ import YamlEditor from "@focus-reactive/react-yaml";
 import usePanelParams from "../util/usePanelParams";
 
 const InstanceFormYaml: FC = () => {
-  const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
   const queryClient = useQueryClient();
@@ -58,7 +56,7 @@ const InstanceFormYaml: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
           });
-          navigate("/instances");
+          panelParams.clear();
         })
         .catch((e) => {
           formik.setSubmitting(false);
@@ -106,7 +104,7 @@ const InstanceFormYaml: FC = () => {
             </div>
             <Row className="u-align--right">
               <Col size={12}>
-                <Button onClick={() => navigate("/instances")} type="button">
+                <Button onClick={panelParams.clear} type="button">
                   Cancel
                 </Button>
                 <SubmitButton

@@ -79,28 +79,25 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
   });
 
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <Modal
-        title={`Create snapshot for ${instance.name}`}
-        // TODO: put back the close prop on next react-components update
-        buttonRow={
-          <>
-            <Button
-              className="u-no-margin--bottom"
-              type="button"
-              onClick={close}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid}
-              buttonLabel="Create snapshot"
-            />
-          </>
-        }
-        onKeyDown={handleEscKey}
-      >
+    <Modal
+      title={`Create snapshot for ${instance.name}`}
+      // TODO: put back the close prop on next react-components update
+      buttonRow={
+        <>
+          <Button className="u-no-margin--bottom" type="button" onClick={close}>
+            Cancel
+          </Button>
+          <SubmitButton
+            isSubmitting={formik.isSubmitting}
+            isDisabled={!formik.isValid}
+            buttonLabel="Create snapshot"
+            onClick={() => void formik.submitForm}
+          />
+        </>
+      }
+      onKeyDown={handleEscKey}
+    >
+      <Form onSubmit={formik.handleSubmit}>
         <Input
           id="name"
           name="name"
@@ -135,8 +132,8 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-      </Modal>
-    </Form>
+      </Form>
+    </Modal>
   );
 };
 

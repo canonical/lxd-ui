@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-} from "react";
+import React, { FC } from "react";
 import { fetchInstance } from "./api/instances";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
@@ -19,13 +13,15 @@ import StartInstanceBtn from "./buttons/instances/StartInstanceBtn";
 import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import EditInstanceBtn from "./buttons/instances/EditInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
+import { createPortal } from "react-dom";
+import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 
 interface Props {
+  controlTarget?: HTMLSpanElement | null;
   instanceName: string;
-  setControls: Dispatch<SetStateAction<ReactNode>>;
 }
 
-const InstanceOverview: FC<Props> = ({ instanceName, setControls }) => {
+const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
   const navigate = useNavigate();
   const notify = useNotification();
 
@@ -33,47 +29,6 @@ const InstanceOverview: FC<Props> = ({ instanceName, setControls }) => {
     queryKey: [queryKeys.instances, instanceName],
     queryFn: () => fetchInstance(instanceName),
   });
-
-  useEffect(() => {
-    if (instance) {
-      setControls(
-        <>
-          <StartInstanceBtn
-            instance={instance}
-            notify={notify}
-            appearance=""
-            className="u-no-margin--bottom"
-            isDense={false}
-            label="Start"
-          />
-          <StopInstanceBtn
-            instance={instance}
-            notify={notify}
-            appearance=""
-            className="u-no-margin--bottom"
-            isDense={false}
-            label="Stop"
-          />
-          <EditInstanceBtn
-            instance={instance}
-            appearance=""
-            className="u-no-margin--bottom"
-            isDense={false}
-            label="Edit"
-          />
-          <DeleteInstanceBtn
-            instance={instance}
-            notify={notify}
-            onFinish={() => navigate("/instances")}
-            appearance=""
-            className="u-no-margin--bottom"
-            isDense={false}
-            label="Delete"
-          />
-        </>
-      );
-    }
-  }, [instance]);
 
   if (error) {
     notify.failure("Could not load instance details.", error);
@@ -93,10 +48,32 @@ const InstanceOverview: FC<Props> = ({ instanceName, setControls }) => {
     return <>Could not load instance details.</>;
   }
   const instanceMetrics = getInstanceMetrics(metrics, instance);
+  const btnProps = {
+    instance: instance,
+    notify: notify,
+    appearance: "",
+    className: "u-no-margin--bottom",
+    isDense: false,
+  };
 
   return (
     <>
       <NotificationRow notify={notify} />
+      {controlTarget &&
+        createPortal(
+          <>
+            <StartInstanceBtn label="Start" {...btnProps} />
+            <StopInstanceBtn label="Stop" {...btnProps} />
+            <EditInstanceBtn label="Edit" {...btnProps} />
+            <DeleteInstanceBtn
+              label="Delete"
+              onFinish={() => navigate("/instances")}
+              {...btnProps}
+            />
+            <OpenInstanceListBtn />
+          </>,
+          controlTarget
+        )}
       <table>
         <thead>
           <tr>
