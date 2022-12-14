@@ -6,6 +6,7 @@ interface Props {
   isDisabled: boolean;
   buttonLabel: string;
   processingText?: string;
+  onClick?: () => void;
 }
 
 const SubmitButton: FC<Props> = ({
@@ -13,6 +14,7 @@ const SubmitButton: FC<Props> = ({
   isDisabled,
   buttonLabel,
   processingText = "Processing...",
+  onClick,
 }) => {
   return isSubmitting ? (
     <Button appearance="positive" type="submit" hasIcon disabled>
@@ -20,7 +22,12 @@ const SubmitButton: FC<Props> = ({
       <span>{processingText}</span>
     </Button>
   ) : (
-    <Button appearance="positive" type="submit" disabled={isDisabled}>
+    <Button
+      appearance="positive"
+      type="submit"
+      disabled={isDisabled}
+      onClick={onClick}
+    >
       {buttonLabel}
     </Button>
   );

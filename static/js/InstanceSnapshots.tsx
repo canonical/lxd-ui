@@ -1,43 +1,24 @@
-import { Button, Col, Icon, MainTable, Row } from "@canonical/react-components";
-import React, {
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Col, Icon, MainTable, Row } from "@canonical/react-components";
+import React, { FC } from "react";
 import { isoTimeToString } from "./util/helpers";
 import { queryKeys } from "./util/queryKeys";
 import DeleteSnapshotBtn from "./buttons/snapshots/DeleteSnapshotBtn";
-import CreateSnapshotForm from "./modals/CreateSnapshotForm";
 import RestoreSnapshotBtn from "./buttons/snapshots/RestoreSnapshotBtn";
 import NotificationRow from "./components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
 import useNotification from "./util/useNotification";
 import { fetchInstance } from "./api/instances";
+import { createPortal } from "react-dom";
+import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
+import CreateSnapshotBtn from "./buttons/instances/CreateSnapshotBtn";
 
 interface Props {
+  controlTarget?: HTMLSpanElement | null;
   instanceName: string;
-  setControls: Dispatch<SetStateAction<ReactNode>>;
 }
 
-const InstanceSnapshots: FC<Props> = ({ instanceName, setControls }) => {
-  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
   const notify = useNotification();
-
-  useEffect(() => {
-    setControls(
-      <Button
-        className="u-no-margin--bottom"
-        hasIcon
-        onClick={() => setCreateModalOpen(true)}
-      >
-        <i className="p-icon--plus" />
-        <span>Create snapshot</span>
-      </Button>
-    );
-  }, []);
 
   const {
     data: instance,
@@ -118,6 +99,15 @@ const InstanceSnapshots: FC<Props> = ({ instanceName, setControls }) => {
   return (
     <>
       <NotificationRow notify={notify} />
+      {controlTarget &&
+        instance &&
+        createPortal(
+          <>
+            <CreateSnapshotBtn instance={instance} notify={notify} />
+            <OpenInstanceListBtn />
+          </>,
+          controlTarget
+        )}
       <Row>
         {instance?.snapshots?.length && (
           <MainTable
@@ -159,13 +149,6 @@ const InstanceSnapshots: FC<Props> = ({ instanceName, setControls }) => {
           </Row>
         )}
       </Row>
-      {instance && isCreateModalOpen && (
-        <CreateSnapshotForm
-          instance={instance}
-          close={() => setCreateModalOpen(false)}
-          notify={notify}
-        />
-      )}
     </>
   );
 };

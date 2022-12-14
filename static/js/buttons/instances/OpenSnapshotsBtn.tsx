@@ -7,7 +7,7 @@ interface Props {
   instance: LxdInstance;
 }
 
-const SnapshotsBtn: FC<Props> = ({ instance }) => {
+const OpenSnapshotsBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -28,4 +28,4 @@ const SnapshotsBtn: FC<Props> = ({ instance }) => {
   );
 };
 
-export default SnapshotsBtn;
+export default OpenSnapshotsBtn;
