@@ -1,5 +1,7 @@
 import React, { FC } from "react";
 import {
+  Icon,
+  List,
   ContextualMenu,
   MainTable,
   Row,
@@ -31,6 +33,7 @@ const ProfileList: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
+    { content: "Effects", className: "u-align--center" },
     { content: "Used by", sortKey: "used_by", className: "u-align--center" },
     { content: "Actions", className: "u-align--center" },
   ];
@@ -54,6 +57,47 @@ const ProfileList: FC = () => {
       </div>
     );
 
+    const touchesNetwork = Object.values(profile.devices).some(
+      (device) => device.type === "nic"
+    );
+    const touchesStorage = Object.values(profile.devices).some(
+      (device) => device.type === "disk"
+    );
+    const touchesCloudInit = Object.keys(profile.config).some((config) =>
+      config.startsWith("cloud-init")
+    );
+    const touchesLimits = Object.keys(profile.config).some((config) =>
+      config.startsWith("limits")
+    );
+
+    const effects = (
+      <List
+        inline
+        items={[
+          touchesNetwork ? (
+            <Tooltip message="Network" key="1" position="btm-center">
+              <Icon name="connected" />
+            </Tooltip>
+          ) : null,
+          touchesStorage ? (
+            <Tooltip message="Storage" key="2" position="btm-center">
+              <Icon name="pods" />
+            </Tooltip>
+          ) : null,
+          touchesCloudInit ? (
+            <Tooltip message="Cloud init" key="3" position="btm-center">
+              <Icon name="restart" />
+            </Tooltip>
+          ) : null,
+          touchesLimits ? (
+            <Tooltip message="Limit resources" key="4" position="btm-center">
+              <Icon name="priority-low" />
+            </Tooltip>
+          ) : null,
+        ].filter((n) => n)}
+      />
+    );
+
     const usedBy = <span>{profile.used_by?.length ?? "0"}</span>;
 
     return {
@@ -67,6 +111,12 @@ const ProfileList: FC = () => {
           content: profile.description,
           role: "rowheader",
           "aria-label": "Description",
+        },
+        {
+          content: effects,
+          role: "rowheader",
+          className: "u-align--center",
+          "aria-label": "Effects",
         },
         {
           content: usedBy,
