@@ -3,18 +3,21 @@ import { useSearchParams } from "react-router-dom";
 export interface PanelHelper {
   panel: string | null;
   instance: string | null;
+  profile: string | null;
   clear: () => void;
   openInstanceFormGuided: () => void;
   openInstanceFormYaml: (instance?: string) => void;
   openImageImport: () => void;
-  openProfileForm: () => void;
+  openProfileFormGuided: () => void;
+  openProfileFormYaml: (profile?: string) => void;
 }
 
 export const panels = {
   instanceFormGuided: "instance-form-guided",
   instanceFormYaml: "instance-form-yaml",
   imageImport: "image-import",
-  profileForm: "profile-form",
+  profileFormGuided: "profile-form-guided",
+  profileFormYaml: "profile-form-yaml",
 };
 
 type ParamMap = Record<string, string>;
@@ -34,6 +37,7 @@ const usePanelParams = (): PanelHelper => {
   return {
     panel: params.get("panel"),
     instance: params.get("instance"),
+    profile: params.get("profile"),
 
     clear: () => {
       setParams(new URLSearchParams());
@@ -51,8 +55,12 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.imageImport);
     },
 
-    openProfileForm: () => {
-      setPanelParams(panels.profileForm);
+    openProfileFormGuided: () => {
+      setPanelParams(panels.profileFormGuided);
+    },
+
+    openProfileFormYaml: (profile) => {
+      setPanelParams(panels.profileFormYaml, profile ? { profile } : {});
     },
   };
 };

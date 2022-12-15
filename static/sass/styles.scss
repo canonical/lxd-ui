@@ -63,6 +63,12 @@
   overflow-y: scroll;
 }
 
+.p-profile-yaml {
+  margin-bottom: $sp-large;
+  max-height: calc(100vh - 200px);
+  overflow-y: scroll;
+}
+
 .p-image-select-modal > section {
   min-height: 100%;
 }

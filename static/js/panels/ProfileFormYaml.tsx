@@ -2,11 +2,6 @@ import React, { FC } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  createInstanceFromJson,
-  fetchInstance,
-  updateInstanceFromJson,
-} from "../api/instances";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import SubmitButton from "../buttons/SubmitButton";
@@ -18,58 +13,63 @@ import useNotification from "../util/useNotification";
 import YamlEditor from "@focus-reactive/react-yaml";
 import usePanelParams from "../util/usePanelParams";
 import { yamlToJson } from "../util/yaml";
+import {
+  createProfileFromJson,
+  fetchProfile,
+  updateProfileFromJson,
+} from "../api/profiles";
 
-const InstanceFormYaml: FC = () => {
+const ProfileFormYaml: FC = () => {
   const notify = useNotification();
   const panelParams = usePanelParams();
   const queryClient = useQueryClient();
 
-  const InstanceSchema = Yup.object().shape({
-    instanceYaml: Yup.string().required("This field is required"),
+  const ProfileSchema = Yup.object().shape({
+    profileYaml: Yup.string().required("This field is required"),
   });
 
   const initialYaml = "\n\n";
 
   const formik = useFormik({
     initialValues: {
-      instanceYaml: initialYaml,
+      profileYaml: initialYaml,
     },
-    validationSchema: InstanceSchema,
+    validationSchema: ProfileSchema,
     onSubmit: (values) => {
-      if (values.instanceYaml.trim() === "") {
+      if (values.profileYaml.trim() === "") {
         formik.setSubmitting(false);
         return notify.failure(
           "",
           new Error("Please enter a valid YAML configuration.")
         );
       }
-      const instanceJson = yamlToJson(values.instanceYaml);
-      const mutation = panelParams.instance
-        ? updateInstanceFromJson
-        : createInstanceFromJson;
-      mutation(instanceJson)
+      const profileJson = yamlToJson(values.profileYaml);
+      const mutation = panelParams.profile
+        ? updateProfileFromJson
+        : createProfileFromJson;
+      mutation(profileJson)
         .then(() => {
           void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
+            queryKey: [queryKeys.profiles],
           });
           panelParams.clear();
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure("Error on instance configuration save.", e);
+          notify.failure("Error on profile configuration save.", e);
         });
     },
   });
 
-  const { data: instance } = useQuery({
-    queryKey: [queryKeys.instances, panelParams.instance],
-    queryFn: () => fetchInstance(panelParams.instance ?? "", 0),
-    enabled: panelParams.instance !== null && panelParams.instance !== "",
+  const { data: profile } = useQuery({
+    queryKey: [queryKeys.profiles, panelParams.profile],
+    queryFn: () => fetchProfile(panelParams.profile ?? ""),
+    enabled: panelParams.profile !== null && panelParams.profile !== "",
   });
 
-  if (formik.values.instanceYaml === initialYaml && instance) {
-    const yaml = dumpYaml(instance);
-    void formik.setFieldValue("instanceYaml", yaml);
+  if (formik.values.profileYaml === initialYaml && profile) {
+    const yaml = dumpYaml(profile);
+    void formik.setFieldValue("profileYaml", yaml);
   }
 
   return (
@@ -78,23 +78,23 @@ const InstanceFormYaml: FC = () => {
         <PanelHeader
           title={
             <h4>
-              {panelParams.instance
-                ? `Edit instance configuration for ${panelParams.instance}`
-                : "Create instance from YAML configuration"}
+              {panelParams.profile
+                ? `Edit profile configuration for ${panelParams.profile}`
+                : "Create profile from YAML configuration"}
             </h4>
           }
         />
         <NotificationRow notify={notify} />
         <Row>
           <Form onSubmit={formik.handleSubmit} stacked>
-            <div className="p-instance-yaml">
+            <div className="p-profile-yaml">
               <YamlEditor
-                // using the instance name as a key to force a remount of the component
+                // using the profile name as a key to force a remount of the component
                 // (it won't update otherwise)
-                key={instance ? `update-${instance.name}` : "create"}
-                text={formik.values.instanceYaml}
+                key={profile ? `update-${profile.name}` : "create"}
+                text={formik.values.profileYaml}
                 onChange={({ text }) =>
-                  void formik.setValues({ instanceYaml: text })
+                  void formik.setValues({ profileYaml: text })
                 }
               />
             </div>
@@ -107,7 +107,7 @@ const InstanceFormYaml: FC = () => {
                   isSubmitting={formik.isSubmitting}
                   isDisabled={!formik.isValid}
                   buttonLabel={
-                    panelParams.instance ? "Update instance" : "Create instance"
+                    panelParams.profile ? "Update profile" : "Create profile"
                   }
                 />
               </Col>
@@ -119,4 +119,4 @@ const InstanceFormYaml: FC = () => {
   );
 };
 
-export default InstanceFormYaml;
+export default ProfileFormYaml;
