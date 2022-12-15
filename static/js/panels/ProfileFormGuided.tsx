@@ -55,7 +55,7 @@ const getCpuLimit = (cpuLimit: CpuLimit) => {
   }
 };
 
-const ProfileForm: FC = () => {
+const ProfileFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const queryClient = useQueryClient();
@@ -276,4 +276,4 @@ const ProfileForm: FC = () => {
   );
 };
 
-export default ProfileForm;
+export default ProfileFormGuided;

@@ -3,9 +3,10 @@ import { AnimatePresence } from "framer-motion";
 import useEventListener from "@use-it/event-listener";
 import "../../sass/_panels.scss";
 import usePanelParams, { panels } from "../util/usePanelParams";
-import ProfileForm from "./ProfileForm";
 import InstanceFormYaml from "./InstanceFormYaml";
 import InstanceFormGuided from "./InstanceFormGuided";
+import ProfileFormGuided from "./ProfileFormGuided";
+import ProfileFormYaml from "./ProfileFormYaml";
 
 export default function Panels() {
   const panelParams = usePanelParams();
@@ -21,8 +22,10 @@ export default function Panels() {
         return <InstanceFormGuided />;
       case panels.instanceFormYaml:
         return <InstanceFormYaml />;
-      case panels.profileForm:
-        return <ProfileForm />;
+      case panels.profileFormGuided:
+        return <ProfileFormGuided />;
+      case panels.profileFormYaml:
+        return <ProfileFormYaml />;
       default:
         return null;
     }

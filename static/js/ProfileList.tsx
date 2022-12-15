@@ -1,5 +1,10 @@
 import React, { FC } from "react";
-import { Button, MainTable, Row, Tooltip } from "@canonical/react-components";
+import {
+  ContextualMenu,
+  MainTable,
+  Row,
+  Tooltip,
+} from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
 import { fetchProfiles } from "./api/profiles";
 import BaseLayout from "./components/BaseLayout";
@@ -8,6 +13,7 @@ import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
 import DeleteProfileBtn from "./buttons/profiles/DeleteProfileBtn";
+import EditProfileBtn from "./buttons/profiles/EditProfileBtn";
 
 const ProfileList: FC = () => {
   const notify = useNotification();
@@ -32,6 +38,14 @@ const ProfileList: FC = () => {
   const rows = profiles.map((profile) => {
     const actions = (
       <div>
+        <Tooltip message="Edit profile" position="btm-center">
+          <EditProfileBtn
+            profile={profile}
+            appearance=""
+            label=""
+            className=""
+          />
+        </Tooltip>
         <Tooltip message="Delete profile" position="btm-center">
           <DeleteProfileBtn name={profile.name} notify={notify} />
         </Tooltip>
@@ -78,12 +92,22 @@ const ProfileList: FC = () => {
       <BaseLayout
         title="Profiles"
         controls={
-          <Button
-            appearance="positive"
-            onClick={() => panelParams.openProfileForm()}
-          >
-            Add profile
-          </Button>
+          <ContextualMenu
+            hasToggleIcon
+            links={[
+              {
+                children: "Quick create profile",
+                onClick: () => panelParams.openProfileFormGuided(),
+              },
+              {
+                children: "Custom create profile (YAML)",
+                onClick: () => panelParams.openProfileFormYaml(),
+              },
+            ]}
+            position="right"
+            toggleAppearance="positive"
+            toggleLabel="Add profile"
+          />
         }
       >
         <NotificationRow notify={notify} />

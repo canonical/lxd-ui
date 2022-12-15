@@ -62,7 +62,7 @@ const ConfirmationButton: FC<Props> = ({
       )}
       <Button
         appearance={toggleAppearance}
-        hasIcon={toggleCaption !== undefined}
+        hasIcon
         className={className}
         dense={isDense}
         disabled={isDisabled}
