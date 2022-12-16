@@ -136,6 +136,13 @@ const CpuLimitSelector: FC<Props> = ({ notify, cpuLimit, setCpuLimit }) => {
           .
         </span>
       </p>
+      {numberOfCores && (
+        <p>
+          <span>
+            Total number of CPU cores: <b>{numberOfCores}</b>
+          </span>
+        </p>
+      )}
     </>
   );
 };
