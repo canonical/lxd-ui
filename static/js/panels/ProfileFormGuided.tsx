@@ -170,7 +170,7 @@ const ProfileFormGuided: FC = () => {
                 stacked
               />
               <Accordion
-                titleElement="h4"
+                titleElement="h5"
                 sections={[
                   {
                     content: (
