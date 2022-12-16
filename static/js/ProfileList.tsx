@@ -51,7 +51,13 @@ const ProfileList: FC = () => {
         </Tooltip>
         {profile.name !== "default" && (
           <Tooltip message="Delete profile" position="btm-center">
-            <DeleteProfileBtn name={profile.name} notify={notify} />
+            <DeleteProfileBtn
+              name={profile.name}
+              notify={notify}
+              className=""
+              label=""
+              appearance=""
+            />
           </Tooltip>
         )}
       </div>
@@ -103,7 +109,7 @@ const ProfileList: FC = () => {
     return {
       columns: [
         {
-          content: profile.name,
+          content: <a href={`/profiles/${profile.name}`}>{profile.name}</a>,
           role: "rowheader",
           "aria-label": "Name",
         },
