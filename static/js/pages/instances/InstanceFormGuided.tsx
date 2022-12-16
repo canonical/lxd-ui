@@ -23,6 +23,7 @@ import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
+import { instanceTypeOptions } from "util/instanceOptions";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
@@ -142,16 +143,7 @@ const InstanceFormGuided: FC = () => {
                     name="instanceType"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    options={[
-                      {
-                        label: "Container",
-                        value: "container",
-                      },
-                      {
-                        label: "Virtual Machine",
-                        value: "virtual-machine",
-                      },
-                    ]}
+                    options={instanceTypeOptions}
                     value={formik.values.instanceType}
                     disabled={
                       isContainerOnlyImage(formik.values.image) ||

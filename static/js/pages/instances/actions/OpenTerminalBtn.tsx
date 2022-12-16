@@ -19,18 +19,16 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
   return (
     <Tooltip
       message={isDisabled ? "Instance must be running" : undefined}
-      position="left"
+      position="btm-center"
     >
       <Button
-        appearance="base"
-        className="p-contextual-menu__link"
+        className="u-no-margin--bottom"
         dense
         hasIcon
         onClick={handleOpen}
         disabled={isDisabled}
       >
         <i className="p-icon--open-terminal" />
-        <span>Open terminal</span>
       </Button>
     </Tooltip>
   );

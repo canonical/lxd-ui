@@ -9,22 +9,10 @@ import { Button } from "@canonical/react-components";
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
-  onFinish?: () => void;
-  appearance?: string;
-  className?: string;
   isDense?: boolean;
-  label?: string;
 }
 
-const StopInstanceBtn: FC<Props> = ({
-  instance,
-  notify,
-  onFinish,
-  appearance = "base",
-  className = "p-contextual-menu__link",
-  isDense = true,
-  label = "Stop instance",
-}) => {
+const StopInstanceBtn: FC<Props> = ({ instance, notify, isDense = true }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -37,7 +25,6 @@ const StopInstanceBtn: FC<Props> = ({
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} stopped.`);
-        onFinish?.();
       })
       .catch((e) => {
         setLoading(false);
@@ -47,8 +34,7 @@ const StopInstanceBtn: FC<Props> = ({
 
   return (
     <Button
-      appearance={appearance}
-      className={className}
+      className="u-no-margin--bottom"
       dense={isDense}
       hasIcon
       onClick={handleStop}
@@ -59,7 +45,7 @@ const StopInstanceBtn: FC<Props> = ({
           isLoading ? "p-icon--spinner u-animation--spin" : "p-icon--power-off"
         }
       />
-      <span>{label}</span>
+      <span>Stop</span>
     </Button>
   );
 };

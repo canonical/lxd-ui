@@ -68,8 +68,6 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
   const btnProps = {
     instance: instance,
     notify: notify,
-    appearance: "",
-    className: "u-no-margin--bottom",
     isDense: false,
   };
 
@@ -79,11 +77,10 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
       {controlTarget &&
         createPortal(
           <>
-            <StartInstanceBtn label="Start" {...btnProps} />
-            <StopInstanceBtn label="Stop" {...btnProps} />
-            <EditInstanceBtn label="Edit" {...btnProps} />
+            <StartInstanceBtn {...btnProps} />
+            <StopInstanceBtn {...btnProps} />
+            <EditInstanceBtn {...btnProps} />
             <DeleteInstanceBtn
-              label="Delete"
               onFinish={() => navigate("/instances")}
               {...btnProps}
             />
