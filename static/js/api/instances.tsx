@@ -75,7 +75,7 @@ export const updateInstanceFromJson = (instanceConfiguration: string) => {
   const instance = JSON.parse(instanceConfiguration) as LxdInstance;
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}`, {
-      method: "PATCH",
+      method: "PUT",
       body: instanceConfiguration,
     })
       .then(handleResponse)
