@@ -10,9 +10,9 @@ interface Props {
 const CloudInitConfig: FC<Props> = ({ title, config, setConfig }) => {
   return (
     <>
-      <h4>
+      <h5>
         <code>{title}</code>
-      </h4>
+      </h5>
       <YamlEditor text={config} onChange={({ text }) => setConfig(text)} />
     </>
   );

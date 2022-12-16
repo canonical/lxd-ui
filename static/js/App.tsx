@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Settings from "./Settings";
 import InstanceDetail from "./InstanceDetail";
 import StorageList from "./StorageList";
+import ProfileDetail from "./ProfileDetail";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App: FC = () => {
             />
             <Route path="/images" element={<ImageList />} />
             <Route path="/profiles" element={<ProfileList />} />
+            <Route path="/profiles/:name" element={<ProfileDetail />} />
             <Route path="/networks" element={<NetworkList />} />
             <Route path="/projects" element={<ProjectList />} />
             <Route path="/storages" element={<StorageList />} />
