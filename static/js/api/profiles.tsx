@@ -47,8 +47,8 @@ export const createProfileFromJson = (profileConfiguration: string) => {
 export const updateProfileFromJson = (profileConfiguration: string) => {
   const profile = JSON.parse(profileConfiguration) as LxdProfile;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/profile/${profile.name}`, {
-      method: "PATCH",
+    fetch(`/1.0/profiles/${profile.name}`, {
+      method: "PUT",
       body: profileConfiguration,
     })
       .then(handleResponse)
