@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "../api/server";
 import { queryKeys } from "../util/queryKeys";
 import { NotificationHelper } from "../types/notification";
-import { MEM_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "../types/limits";
+import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "../types/limits";
 import { DEFAULT_MEM_LIMIT } from "../util/defaults";
 
 interface Props {
@@ -37,10 +37,42 @@ const MemoryLimitSelector: FC<Props> = ({
   const maxMemory = resources?.memory.total;
 
   const getMemUnitOptions = () => {
-    return Object.values(MEM_UNITS).map((unit) => ({
+    return Object.values(BYTES_UNITS).map((unit) => ({
       label: unit,
       value: unit,
     }));
+  };
+
+  const getFormattedMaxValue = (unit: BYTES_UNITS) => {
+    if (!maxMemory) return undefined;
+    switch (unit) {
+      case BYTES_UNITS.B:
+        return maxMemory;
+      case BYTES_UNITS.KB:
+        return maxMemory / 10 ** 3;
+      case BYTES_UNITS.MB:
+        return maxMemory / 10 ** 6;
+      case BYTES_UNITS.GB:
+        return maxMemory / 10 ** 9;
+      case BYTES_UNITS.TB:
+        return maxMemory / 10 ** 12;
+      case BYTES_UNITS.PB:
+        return maxMemory / 10 ** 15;
+      case BYTES_UNITS.EB:
+        return maxMemory / 10 ** 18;
+      case BYTES_UNITS.KIB:
+        return maxMemory / 2 ** 10;
+      case BYTES_UNITS.MIB:
+        return maxMemory / (2 ** 10) ** 2;
+      case BYTES_UNITS.GIB:
+        return maxMemory / (2 ** 10) ** 3;
+      case BYTES_UNITS.TIB:
+        return maxMemory / (2 ** 10) ** 4;
+      case BYTES_UNITS.PIB:
+        return maxMemory / (2 ** 10) ** 5;
+      case BYTES_UNITS.EIB:
+        return maxMemory / (2 ** 10) ** 6;
+    }
   };
 
   return (
@@ -63,7 +95,7 @@ const MemoryLimitSelector: FC<Props> = ({
           id="percentMemLimit"
           name="percentMemLimit"
           type="number"
-          min="0.1"
+          min="0.0000000001"
           max="100"
           step="Any"
           placeholder="Enter value"
@@ -80,8 +112,8 @@ const MemoryLimitSelector: FC<Props> = ({
               id="fixedMemLimit"
               name="fixedMemLimit"
               type="number"
-              min="0.1"
-              max={maxMemory}
+              min="0.0000000001"
+              max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
               step="Any"
               placeholder="Enter value"
               onChange={(e) =>
@@ -97,7 +129,7 @@ const MemoryLimitSelector: FC<Props> = ({
               onChange={(e) =>
                 setMemoryLimit({
                   ...memoryLimit,
-                  unit: e.target.value as MEM_UNITS,
+                  unit: e.target.value as BYTES_UNITS,
                 })
               }
               value={memoryLimit.unit}

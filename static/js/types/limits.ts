@@ -1,4 +1,4 @@
-export enum MEM_UNITS {
+export enum BYTES_UNITS {
   B = "B",
   KB = "kB",
   MB = "MB",
@@ -21,7 +21,7 @@ export enum MEM_LIMIT_TYPE {
 
 export interface MemoryLimit {
   value?: number;
-  unit: MEM_UNITS | "%";
+  unit: BYTES_UNITS | "%";
   selectedType: MEM_LIMIT_TYPE;
 }
 

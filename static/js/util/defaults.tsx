@@ -3,7 +3,7 @@ import {
   CpuLimit,
   CPU_LIMIT_TYPE,
   MemoryLimit,
-  MEM_UNITS,
+  BYTES_UNITS,
   MEM_LIMIT_TYPE,
 } from "../types/limits";
 
@@ -24,6 +24,6 @@ export const DEFAULT_CPU_LIMIT: CpuLimit = {
 };
 
 export const DEFAULT_MEM_LIMIT: MemoryLimit = {
-  unit: MEM_UNITS.GIB,
+  unit: BYTES_UNITS.GIB,
   selectedType: MEM_LIMIT_TYPE.FIXED,
 };
