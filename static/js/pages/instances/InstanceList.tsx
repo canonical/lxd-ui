@@ -1,10 +1,14 @@
 import {
   Button,
+  Col,
   ContextualMenu,
+  Icon,
   MainTable,
   Row,
+  SearchBox,
+  Select,
 } from "@canonical/react-components";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { fetchInstances } from "api/instances";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
@@ -12,14 +16,23 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
-import { useNavigate } from "react-router-dom";
-import InstanceActionsBtn from "./actions/InstanceActionsBtn";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import InstanceDetailPanel from "./InstanceDetailPanel";
 import Loader from "components/Loader";
+import {
+  instanceStatusOptions,
+  instanceTypeOptions,
+} from "util/instanceOptions";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
+  const [params, setParams] = useSearchParams();
+  const selected = params.get("selected");
+  const [query, setQuery] = useState<string>("");
+  const [status, setStatus] = useState<string>("any");
+  const [type, setType] = useState<string>("any");
 
   const {
     data: instances = [],
@@ -34,18 +47,40 @@ const InstanceList: FC = () => {
     notify.failure("Could not load instances.", error);
   }
 
+  const setSelected = (name?: string) => {
+    const newParams = new URLSearchParams();
+    if (name) {
+      newParams.set("selected", name);
+    }
+    setParams(newParams);
+  };
+
+  const detailInstance = instances.find((item) => item.name === selected);
+  const visibleInstances = instances.filter((item) => {
+    if (query && !item.name.includes(query)) {
+      return false;
+    }
+    if (type !== "any" && item.type !== type) {
+      return false;
+    }
+    if (status !== "any" && item.status !== status) {
+      return false;
+    }
+    return true;
+  });
+
   const headers = [
+    { content: "Status", sortKey: "status", className: "u-align--center" },
     { content: "Name", sortKey: "name" },
-    { content: "State", sortKey: "state", className: "u-align--center" },
+    { content: "Type", sortKey: "type", className: "u-align--center" },
     { content: "IPv4" },
     { content: "IPv6" },
-    { content: "Type", sortKey: "type", className: "u-align--center" },
     {
       content: "Snapshots",
       sortKey: "snapshots",
       className: "u-align--center",
     },
-    { content: "" },
+    { content: "", className: "u-hide--medium u-hide--small" },
   ];
 
   // todo: which states are used - can error/unknown/init be removed?
@@ -59,26 +94,34 @@ const InstanceList: FC = () => {
     }[status];
   };
 
-  const rows = instances.map((instance) => {
+  const rows = visibleInstances.map((instance) => {
     const status = (
       <>
-        <i className={getIconClassForStatus(instance.status)}></i>{" "}
+        <i className={getIconClassForStatus(instance.status)}></i>
+        &nbsp;
         {instance.status}
       </>
     );
 
     return {
+      className: selected === instance.name ? "u-row-selected" : undefined,
       columns: [
+        {
+          content: status,
+          role: "rowheader",
+          className: "u-truncate",
+          "aria-label": "Status",
+        },
         {
           content: <a href={`/instances/${instance.name}`}>{instance.name}</a>,
           role: "rowheader",
           "aria-label": "Name",
         },
         {
-          content: status,
+          content: instance.type,
           role: "rowheader",
           className: "u-align--center",
-          "aria-label": "Status",
+          "aria-label": "Type",
         },
         {
           content: instance.state?.network?.eth0?.addresses
@@ -97,15 +140,10 @@ const InstanceList: FC = () => {
           "aria-label": "IPv6",
         },
         {
-          content: instance.type,
-          role: "rowheader",
-          className: "u-align--center",
-          "aria-label": "Type",
-        },
-        {
           content: (
             <Button
               appearance="base"
+              className="u-no-margin--bottom"
               onClick={() => navigate(`/instances/${instance.name}/snapshots`)}
             >
               {instance.snapshots?.length ?? "0"}
@@ -117,20 +155,22 @@ const InstanceList: FC = () => {
         },
         {
           content: (
-            <InstanceActionsBtn
-              instance={instance}
-              key={`actions-${instance.name}`}
-              notify={notify}
-            />
+            <Button
+              className="u-no-margin--bottom"
+              onClick={() => setSelected(instance.name)}
+              hasIcon
+            >
+              <Icon name="chevron-up" style={{ rotate: "90deg" }} />
+            </Button>
           ),
           role: "rowheader",
-          className: "u-align--center",
-          "aria-label": "Actions",
+          className: "u-align--center u-hide--medium u-hide--small",
+          "aria-label": "Details",
         },
       ],
       sortData: {
         name: instance.name,
-        state: instance.status,
+        status: instance.status,
         type: instance.type,
         snapshots: instance.snapshots?.length ?? 0,
       },
@@ -140,7 +180,14 @@ const InstanceList: FC = () => {
   return (
     <>
       <BaseLayout
-        title="Instances"
+        title={
+          <>
+            Instances{" "}
+            <small className="u-ma">
+              {visibleInstances.length} instances available
+            </small>
+          </>
+        }
         controls={
           <ContextualMenu
             hasToggleIcon
@@ -156,27 +203,83 @@ const InstanceList: FC = () => {
             ]}
             position="right"
             toggleAppearance="positive"
+            toggleClassName="u-no-margin--bottom"
             toggleLabel="Add instance"
           />
         }
       >
         <NotificationRow notify={notify} />
         <Row>
-          <MainTable
-            headers={headers}
-            rows={rows}
-            paginate={30}
-            responsive
-            sortable
-            className="u-table-layout--auto"
-            emptyStateMsg={
-              isLoading ? (
-                <Loader text="Loading instances..." />
-              ) : (
-                "No data to display"
-              )
-            }
-          />
+          <Col size={4}>
+            <SearchBox
+              id="filter-query"
+              type="text"
+              onChange={(value) => {
+                setQuery(value);
+              }}
+              placeholder="Search for instances"
+              value={query}
+            />
+          </Col>
+          <Col size={2}>
+            <Select
+              id="filter-state"
+              onChange={(v) => {
+                setStatus(v.target.value);
+              }}
+              options={[
+                {
+                  label: "All states",
+                  value: "any",
+                },
+                ...instanceStatusOptions,
+              ]}
+              value={status}
+            />
+          </Col>
+          <Col size={2}>
+            <Select
+              id="filter-type"
+              onChange={(v) => {
+                setType(v.target.value);
+              }}
+              options={[
+                {
+                  label: "All types",
+                  value: "any",
+                },
+                ...instanceTypeOptions,
+              ]}
+              value={type}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col size={detailInstance ? 8 : 12}>
+            <MainTable
+              headers={headers}
+              rows={rows}
+              paginate={15}
+              sortable
+              className="p-instance-table u-table-layout--auto"
+              emptyStateMsg={
+                isLoading ? (
+                  <Loader text="Loading instances..." />
+                ) : (
+                  "No data to display"
+                )
+              }
+            />
+          </Col>
+          {detailInstance && (
+            <Col size={4} className="u-hide--medium u-hide--small">
+              <InstanceDetailPanel
+                instance={detailInstance}
+                notify={notify}
+                onClose={() => setSelected()}
+              />
+            </Col>
+          )}
         </Row>
       </BaseLayout>
     </>

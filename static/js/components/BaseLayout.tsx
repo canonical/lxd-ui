@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from "react";
 
 interface Props {
-  title: string;
+  title: string | ReactNode;
   controls?: ReactNode | null;
   children: ReactNode;
 }

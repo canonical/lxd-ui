@@ -11,21 +11,9 @@ interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
   onFinish: () => void;
-  appearance?: string;
-  className?: string;
-  isDense?: boolean;
-  label?: string;
 }
 
-const DeleteInstanceBtn: FC<Props> = ({
-  instance,
-  notify,
-  onFinish,
-  appearance = "base",
-  className = "p-contextual-menu__link",
-  isDense = true,
-  label = "Delete instance",
-}) => {
+const DeleteInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -54,18 +42,17 @@ const DeleteInstanceBtn: FC<Props> = ({
       position="btm-center"
     >
       <ConfirmationButton
-        className={className}
+        className="u-no-margin--bottom"
         isLoading={isLoading}
         iconClass="p-icon--delete"
         iconDescription="Delete"
         title="Confirm delete"
-        toggleAppearance={appearance}
-        toggleCaption={label}
+        toggleCaption="Delete"
         confirmationMessage={`Are you sure you want to delete instance "${instance.name}"?
                             This action cannot be undone, and can result in data loss.`}
         posButtonLabel="Delete"
         onConfirm={handleDelete}
-        isDense={isDense}
+        isDense={false}
         isDisabled={isDisabled}
       />
     </Tooltip>

@@ -25,10 +25,9 @@ const OpenVgaBtn: FC<Props> = ({ instance }) => {
   };
 
   return (
-    <Tooltip message={getTooltipMessage()} position="left">
+    <Tooltip message={getTooltipMessage()} position="btm-center">
       <Button
-        appearance="base"
-        className="p-contextual-menu__link"
+        className="u-no-margin--bottom"
         dense
         hasIcon
         onClick={handleOpen}
@@ -37,7 +36,6 @@ const OpenVgaBtn: FC<Props> = ({ instance }) => {
         }
       >
         <i className="p-icon--canvas" />
-        <span>Open VGA session</span>
       </Button>
     </Tooltip>
   );
