@@ -41,23 +41,25 @@ export const handleResponse = async (response: Response) => {
   return response.json();
 };
 
-export const humanFileSize = (bytes: number) => {
+export const humanFileSize = (bytes: number, toBibyte = false) => {
   if (Math.abs(bytes) < 1000) {
     return `${bytes} B`;
   }
 
-  const units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const units = toBibyte
+    ? ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"]
+    : ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   let u = -1;
 
   do {
-    bytes /= 1000;
+    bytes /= toBibyte ? 1024 : 1000;
     ++u;
   } while (
     Math.round(Math.abs(bytes) * 10) / 10 >= 1000 &&
     u < units.length - 1
   );
 
-  return bytes.toFixed(1) + " " + units[u];
+  return `${bytes.toFixed(1)} ${units[u]}`;
 };
 
 export const getWsErrorMsg = (code: number) => {

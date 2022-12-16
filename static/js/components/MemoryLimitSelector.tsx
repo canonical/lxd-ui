@@ -13,6 +13,7 @@ import { queryKeys } from "../util/queryKeys";
 import { NotificationHelper } from "../types/notification";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "../types/limits";
 import { DEFAULT_MEM_LIMIT } from "../util/defaults";
+import { humanFileSize } from "../util/helpers";
 
 interface Props {
   notify: NotificationHelper;
@@ -43,7 +44,7 @@ const MemoryLimitSelector: FC<Props> = ({
     }));
   };
 
-  const getFormattedMaxValue = (unit: BYTES_UNITS) => {
+  const getFormattedMaxValue = (unit: BYTES_UNITS): number | undefined => {
     if (!maxMemory) return undefined;
     switch (unit) {
       case BYTES_UNITS.B:
@@ -73,6 +74,20 @@ const MemoryLimitSelector: FC<Props> = ({
       case BYTES_UNITS.EIB:
         return maxMemory / (2 ** 10) ** 6;
     }
+  };
+
+  const getTotalMemory = () => {
+    if (!maxMemory) {
+      return "";
+    }
+    if (memoryLimit.unit === "%") {
+      return humanFileSize(maxMemory, true);
+    }
+    const formattedValue = getFormattedMaxValue(memoryLimit.unit) ?? 0;
+    if (formattedValue < 1) {
+      return `${formattedValue} ${memoryLimit.unit}`;
+    }
+    return `${Number(formattedValue.toFixed(1))} ${memoryLimit.unit}`;
   };
 
   return (
@@ -136,6 +151,13 @@ const MemoryLimitSelector: FC<Props> = ({
             />
           </Col>
         </Row>
+      )}
+      {maxMemory && (
+        <p>
+          <span>
+            Total memory: <b>{getTotalMemory()}</b>
+          </span>
+        </p>
       )}
     </>
   );
