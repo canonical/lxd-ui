@@ -46,9 +46,11 @@ const ProfileList: FC = () => {
             className=""
           />
         </Tooltip>
-        <Tooltip message="Delete profile" position="btm-center">
-          <DeleteProfileBtn name={profile.name} notify={notify} />
-        </Tooltip>
+        {profile.name !== "default" && (
+          <Tooltip message="Delete profile" position="btm-center">
+            <DeleteProfileBtn name={profile.name} notify={notify} />
+          </Tooltip>
+        )}
       </div>
     );
 
