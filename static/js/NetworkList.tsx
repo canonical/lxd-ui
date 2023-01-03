@@ -6,11 +6,16 @@ import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
+import Loader from "./components/Loader";
 
 const NetworkList: FC = () => {
   const notify = useNotification();
 
-  const { data: networks = [], error } = useQuery({
+  const {
+    data: networks = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.networks],
     queryFn: fetchNetworks,
   });
@@ -106,6 +111,13 @@ const NetworkList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading networks..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>

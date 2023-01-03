@@ -9,6 +9,7 @@ import { fetchSettings } from "./api/server";
 import { handleResponse } from "./util/helpers";
 import { LxdConfigOption } from "./types/config";
 import SettingForm from "./SettingForm";
+import Loader from "./components/Loader";
 
 const configOptionsUrl = "/static/assets/data/config-options.json";
 
@@ -29,7 +30,11 @@ const Settings: FC = () => {
     loadConfigOptions();
   }, []);
 
-  const { data: settings, error } = useQuery({
+  const {
+    data: settings,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.settings],
     queryFn: fetchSettings,
   });
@@ -129,6 +134,13 @@ const Settings: FC = () => {
             headers={headers}
             rows={rows}
             sortable
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading settings..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>

@@ -12,6 +12,7 @@ import { queryKeys } from "../util/queryKeys";
 import { NotificationHelper } from "../types/notification";
 import { fetchProfiles } from "../api/profiles";
 import { LxdProfile } from "../types/profile";
+import Loader from "./Loader";
 
 interface Props {
   notify: NotificationHelper;
@@ -47,10 +48,18 @@ const ProfileSelect: FC<Props> = ({ notify, selected, setSelected }) => {
     setSelected(newSelection);
   };
 
-  const { data: profiles = [], error } = useQuery({
+  const {
+    data: profiles = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: fetchProfiles,
   });
+
+  if (isLoading) {
+    return <Loader text="Loading profiles..." />;
+  }
 
   if (error) {
     notify.failure("Could not load profiles.", error);

@@ -10,6 +10,7 @@ import useNotification from "./util/useNotification";
 import { fetchInstance } from "./api/instances";
 import { createPortal } from "react-dom";
 import CreateSnapshotBtn from "./buttons/instances/CreateSnapshotBtn";
+import Loader from "./components/Loader";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -27,6 +28,10 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
     queryKey: [queryKeys.instances, instanceName],
     queryFn: async () => fetchInstance(instanceName),
   });
+
+  if (isLoading) {
+    return <Loader text="Loading snapshots..." />;
+  }
 
   if (error) {
     notify.failure("Could not load snapshots", error);
@@ -117,7 +122,7 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
             className="u-table-layout--auto"
           />
         )}
-        {!isLoading && !instance?.snapshots?.length && (
+        {!instance?.snapshots?.length && (
           <Row className="empty-state-message">
             <Col size={2} />
             <Col size={8}>

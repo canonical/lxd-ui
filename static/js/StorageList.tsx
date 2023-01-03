@@ -6,11 +6,16 @@ import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
+import Loader from "./components/Loader";
 
 const StorageList: FC = () => {
   const notify = useNotification();
 
-  const { data: storages = [], error } = useQuery({
+  const {
+    data: storages = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: fetchStorages,
   });
@@ -92,6 +97,13 @@ const StorageList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading storages..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>

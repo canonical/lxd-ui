@@ -11,6 +11,7 @@ import useNotification from "./util/useNotification";
 import ReconnectTerminalBtn from "./buttons/instances/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "./types/terminal";
 import { createPortal } from "react-dom";
+import Loader from "./components/Loader";
 
 const defaultPayload = {
   command: ["bash"],
@@ -34,6 +35,7 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
   }>();
   const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
+  const [isTerminalLoading, setTerminalLoading] = useState<boolean>(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
   const [payload, setPayload] = useState<LxdTerminalPayload | null>(
@@ -54,7 +56,9 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
       return;
     }
 
+    setTerminalLoading(true);
     const result = await fetchInstanceExec(name, payload).catch((e) => {
+      setTerminalLoading(false);
       notify.failure("Could not open terminal session.", e);
     });
     if (!result) {
@@ -68,6 +72,7 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
     const control = new WebSocket(controlUrl);
 
     control.onopen = () => {
+      setTerminalLoading(false);
       setControlWs(control);
     };
 
@@ -167,6 +172,7 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
           controlTarget
         )}
       <NotificationRow notify={notify} />
+      {isTerminalLoading && <Loader text="Loading terminal session..." />}
       {controlWs && (
         <XTerm
           ref={xtermRef}

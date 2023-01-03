@@ -14,13 +14,18 @@ import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
 import { useNavigate } from "react-router-dom";
 import InstanceActionsBtn from "./buttons/instances/InstanceActionsBtn";
+import Loader from "./components/Loader";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
 
-  const { data: instances = [], error } = useQuery({
+  const {
+    data: instances = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.instances],
     queryFn: fetchInstances,
   });
@@ -164,6 +169,13 @@ const InstanceList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading instances..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>

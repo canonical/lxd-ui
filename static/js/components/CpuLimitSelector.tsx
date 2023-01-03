@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
 import { CpuLimit, CPU_LIMIT_TYPE } from "../types/limits";
+import Loader from "./Loader";
 
 interface Props {
   notify: NotificationHelper;
@@ -19,10 +20,18 @@ interface Props {
 }
 
 const CpuLimitSelector: FC<Props> = ({ notify, cpuLimit, setCpuLimit }) => {
-  const { data: resources, error } = useQuery({
+  const {
+    data: resources,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.resources],
     queryFn: fetchResources,
   });
+
+  if (isLoading) {
+    return <Loader text="Loading resources..." />;
+  }
 
   if (error) {
     notify.failure("Could not load resources.", error);

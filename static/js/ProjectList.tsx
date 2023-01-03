@@ -6,11 +6,16 @@ import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
+import Loader from "./components/Loader";
 
 const ProjectList: FC = () => {
   const notify = useNotification();
 
-  const { data: projects = [], error } = useQuery({
+  const {
+    data: projects = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.projects],
     queryFn: fetchProjects,
   });
@@ -108,6 +113,13 @@ const ProjectList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading projects..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>
