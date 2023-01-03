@@ -15,6 +15,7 @@ import EditInstanceBtn from "./buttons/instances/EditInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import { createPortal } from "react-dom";
 import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
+import { List } from "@canonical/react-components";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -176,7 +177,16 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
           </tr>
           <tr>
             <th>Profiles</th>
-            <td>{instance.profiles.join(", ")}</td>
+            <td>
+              <List
+                className="u-no-margin--bottom"
+                items={instance.profiles.map((name) => (
+                  <a key={name} href={`/profiles/${name}`}>
+                    {name}
+                  </a>
+                ))}
+              />
+            </td>
           </tr>
           <tr>
             <th>Location</th>
