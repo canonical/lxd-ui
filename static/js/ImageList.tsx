@@ -8,11 +8,16 @@ import DeleteImageBtn from "./buttons/images/DeleteImageBtn";
 import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import useNotification from "./util/useNotification";
+import Loader from "./components/Loader";
 
 const ImageList: FC = () => {
   const notify = useNotification();
 
-  const { data: images = [], error } = useQuery({
+  const {
+    data: images = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.images],
     queryFn: fetchImageList,
   });
@@ -119,6 +124,13 @@ const ImageList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading images..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>

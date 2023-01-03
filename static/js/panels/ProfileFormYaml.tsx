@@ -18,11 +18,14 @@ import {
   fetchProfile,
   updateProfileFromJson,
 } from "../api/profiles";
+import Loader from "../components/Loader";
 
 const ProfileFormYaml: FC = () => {
   const notify = useNotification();
   const panelParams = usePanelParams();
   const queryClient = useQueryClient();
+
+  const isEditMode = panelParams.profile !== null && panelParams.profile !== "";
 
   const ProfileSchema = Yup.object().shape({
     profileYaml: Yup.string().required("This field is required"),
@@ -61,11 +64,19 @@ const ProfileFormYaml: FC = () => {
     },
   });
 
-  const { data: profile } = useQuery({
+  const {
+    data: profile,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.profiles, panelParams.profile],
     queryFn: () => fetchProfile(panelParams.profile ?? ""),
-    enabled: panelParams.profile !== null && panelParams.profile !== "",
+    enabled: isEditMode,
   });
+
+  if (error) {
+    notify.failure("Could not load profile details.", error);
+  }
 
   if (formik.values.profileYaml === initialYaml && profile) {
     const yaml = dumpYaml(profile);
@@ -85,35 +96,39 @@ const ProfileFormYaml: FC = () => {
           }
         />
         <NotificationRow notify={notify} />
-        <Row>
-          <Form onSubmit={formik.handleSubmit} stacked>
-            <div className="p-profile-yaml">
-              <YamlEditor
-                // using the profile name as a key to force a remount of the component
-                // (it won't update otherwise)
-                key={profile ? `update-${profile.name}` : "create"}
-                text={formik.values.profileYaml}
-                onChange={({ text }) =>
-                  void formik.setValues({ profileYaml: text })
-                }
-              />
-            </div>
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button onClick={panelParams.clear} type="button">
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
-                  buttonLabel={
-                    panelParams.profile ? "Update profile" : "Create profile"
+        {isEditMode && isLoading ? (
+          <Loader text="Loading profile details..." />
+        ) : (
+          <Row>
+            <Form onSubmit={formik.handleSubmit} stacked>
+              <div className="p-profile-yaml">
+                <YamlEditor
+                  // using the profile name as a key to force a remount of the component
+                  // (it won't update otherwise)
+                  key={profile ? `update-${profile.name}` : "create"}
+                  text={formik.values.profileYaml}
+                  onChange={({ text }) =>
+                    void formik.setValues({ profileYaml: text })
                   }
                 />
-              </Col>
-            </Row>
-          </Form>
-        </Row>
+              </div>
+              <Row className="u-align--right">
+                <Col size={12}>
+                  <Button onClick={panelParams.clear} type="button">
+                    Cancel
+                  </Button>
+                  <SubmitButton
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={!formik.isValid}
+                    buttonLabel={
+                      panelParams.profile ? "Update profile" : "Create profile"
+                    }
+                  />
+                </Col>
+              </Row>
+            </Form>
+          </Row>
+        )}
       </div>
     </Aside>
   );

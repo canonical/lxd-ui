@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import NotificationRow from "./components/NotificationRow";
@@ -8,6 +8,7 @@ import { getWsErrorMsg } from "./util/helpers";
 import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
 import { createPortal } from "react-dom";
+import Loader from "./components/Loader";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -26,6 +27,7 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
   }>();
   const notify = useNotification();
   const spiceRef = useRef<HTMLDivElement>(null);
+  const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
   const handleError = (e: object) => {
     notify.failure("spice error", e);
@@ -38,7 +40,9 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
       return;
     }
 
+    setVgaLoading(true);
     const result = await fetchInstanceVga(name).catch((e) => {
+      setVgaLoading(false);
       notify.failure("Could not open vga session.", e);
     });
     if (!result) {
@@ -68,6 +72,7 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
         screen_id: "spice-screen",
         onerror: handleError,
         onsuccess: () => {
+          setVgaLoading(false);
           SpiceHtml5.handle_resize();
         },
       });
@@ -121,9 +126,13 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
           </>,
           controlTarget
         )}
-      <div id="spice-area" ref={spiceRef}>
-        <div id="spice-screen" className="spice-screen" />
-      </div>
+      {isVgaLoading ? (
+        <Loader text="Loading VGA session..." />
+      ) : (
+        <div id="spice-area" ref={spiceRef}>
+          <div id="spice-screen" className="spice-screen" />
+        </div>
+      )}
     </>
   );
 };

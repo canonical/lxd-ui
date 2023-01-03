@@ -5,6 +5,7 @@ import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
 import { LxdDiskDevice } from "../types/device";
 import { fetchStorages } from "../api/storages";
+import Loader from "./Loader";
 
 interface Props {
   notify: NotificationHelper;
@@ -19,10 +20,18 @@ const StorageSelector: FC<Props> = ({
   setDiskDevice: setDiskDevice,
   hasPathInput = true,
 }) => {
-  const { data: storagePools = [], error } = useQuery({
+  const {
+    data: storagePools = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: fetchStorages,
   });
+
+  if (isLoading) {
+    return <Loader text="Loading storage pools..." />;
+  }
 
   if (error) {
     notify.failure("Could not load storage pools.", error);

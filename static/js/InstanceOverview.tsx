@@ -15,6 +15,7 @@ import EditInstanceBtn from "./buttons/instances/EditInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import { createPortal } from "react-dom";
 import { List } from "@canonical/react-components";
+import Loader from "./components/Loader";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -25,7 +26,11 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
   const navigate = useNavigate();
   const notify = useNotification();
 
-  const { data: instance, error } = useQuery({
+  const {
+    data: instance,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.instances, instanceName],
     queryFn: () => fetchInstance(instanceName),
   });
@@ -34,7 +39,11 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
     notify.failure("Could not load instance details.", error);
   }
 
-  const { data: metrics = [], error: metricError } = useQuery({
+  const {
+    data: metrics = [],
+    error: metricError,
+    isLoading: isMetricLoading,
+  } = useQuery({
     queryKey: [queryKeys.metrics],
     queryFn: fetchMetrics,
     refetchInterval: 15 * 1000, // 15 seconds
@@ -42,6 +51,14 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
 
   if (metricError) {
     notify.failure("Could not load metrics.", metricError);
+  }
+
+  if (isLoading) {
+    return <Loader text="Loading instance details..." />;
+  }
+
+  if (isMetricLoading) {
+    return <Loader text="Loading metrics..." />;
   }
 
   if (!instance) {

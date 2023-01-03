@@ -18,11 +18,15 @@ import useNotification from "../util/useNotification";
 import YamlEditor from "@focus-reactive/react-yaml";
 import usePanelParams from "../util/usePanelParams";
 import { yamlToJson } from "../util/yaml";
+import Loader from "../components/Loader";
 
 const InstanceFormYaml: FC = () => {
   const notify = useNotification();
   const panelParams = usePanelParams();
   const queryClient = useQueryClient();
+
+  const isEditMode =
+    panelParams.instance !== null && panelParams.instance !== "";
 
   const InstanceSchema = Yup.object().shape({
     instanceYaml: Yup.string().required("This field is required"),
@@ -61,11 +65,19 @@ const InstanceFormYaml: FC = () => {
     },
   });
 
-  const { data: instance } = useQuery({
+  const {
+    data: instance,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.instances, panelParams.instance],
     queryFn: () => fetchInstance(panelParams.instance ?? "", 0),
-    enabled: panelParams.instance !== null && panelParams.instance !== "",
+    enabled: isEditMode,
   });
+
+  if (error) {
+    notify.failure("Could not load instance details.", error);
+  }
 
   if (formik.values.instanceYaml === initialYaml && instance) {
     const yaml = dumpYaml(instance);
@@ -85,35 +97,41 @@ const InstanceFormYaml: FC = () => {
           }
         />
         <NotificationRow notify={notify} />
-        <Row>
-          <Form onSubmit={formik.handleSubmit} stacked>
-            <div className="p-instance-yaml">
-              <YamlEditor
-                // using the instance name as a key to force a remount of the component
-                // (it won't update otherwise)
-                key={instance ? `update-${instance.name}` : "create"}
-                text={formik.values.instanceYaml}
-                onChange={({ text }) =>
-                  void formik.setValues({ instanceYaml: text })
-                }
-              />
-            </div>
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button onClick={panelParams.clear} type="button">
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
-                  buttonLabel={
-                    panelParams.instance ? "Update instance" : "Create instance"
+        {isEditMode && isLoading ? (
+          <Loader text="Loading instance details..." />
+        ) : (
+          <Row>
+            <Form onSubmit={formik.handleSubmit} stacked>
+              <div className="p-instance-yaml">
+                <YamlEditor
+                  // using the instance name as a key to force a remount of the component
+                  // (it won't update otherwise)
+                  key={instance ? `update-${instance.name}` : "create"}
+                  text={formik.values.instanceYaml}
+                  onChange={({ text }) =>
+                    void formik.setValues({ instanceYaml: text })
                   }
                 />
-              </Col>
-            </Row>
-          </Form>
-        </Row>
+              </div>
+              <Row className="u-align--right">
+                <Col size={12}>
+                  <Button onClick={panelParams.clear} type="button">
+                    Cancel
+                  </Button>
+                  <SubmitButton
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={!formik.isValid}
+                    buttonLabel={
+                      panelParams.instance
+                        ? "Update instance"
+                        : "Create instance"
+                    }
+                  />
+                </Col>
+              </Row>
+            </Form>
+          </Row>
+        )}
       </div>
     </Aside>
   );

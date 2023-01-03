@@ -16,6 +16,7 @@ import {
   Row,
 } from "@canonical/react-components";
 import { isDiskDevice, isNicDevice } from "./util/type";
+import Loader from "./components/Loader";
 
 const ProfileDetail: FC = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const ProfileDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <>Loading...</>; // TODO: improve, maybe with a nice loader?
+    return <Loader text="Loading profile details..." />;
   } else if (!profile) {
     return <>Could not load profile details.</>;
   }

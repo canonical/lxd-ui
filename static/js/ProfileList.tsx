@@ -16,12 +16,17 @@ import useNotification from "./util/useNotification";
 import usePanelParams from "./util/usePanelParams";
 import DeleteProfileBtn from "./buttons/profiles/DeleteProfileBtn";
 import EditProfileBtn from "./buttons/profiles/EditProfileBtn";
+import Loader from "./components/Loader";
 
 const ProfileList: FC = () => {
   const notify = useNotification();
   const panelParams = usePanelParams();
 
-  const { data: profiles = [], error } = useQuery({
+  const {
+    data: profiles = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: fetchProfiles,
   });
@@ -177,6 +182,13 @@ const ProfileList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading profiles..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>

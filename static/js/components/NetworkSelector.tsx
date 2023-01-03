@@ -5,6 +5,7 @@ import { fetchNetworks } from "../api/networks";
 import { NotificationHelper } from "../types/notification";
 import { queryKeys } from "../util/queryKeys";
 import { LxdNicDevice } from "../types/device";
+import Loader from "./Loader";
 
 interface Props {
   notify: NotificationHelper;
@@ -13,10 +14,18 @@ interface Props {
 }
 
 const NetworkSelector: FC<Props> = ({ notify, nicDevice, setNicDevice }) => {
-  const { data: networks = [], error } = useQuery({
+  const {
+    data: networks = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.networks],
     queryFn: fetchNetworks,
   });
+
+  if (isLoading) {
+    return <Loader text="Loading networks..." />;
+  }
 
   if (error) {
     notify.failure("Could not load networks.", error);

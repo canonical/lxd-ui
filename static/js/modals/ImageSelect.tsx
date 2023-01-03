@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "../util/queryKeys";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { isContainerOnlyImage, isVmOnlyImage } from "../util/images";
+import Loader from "../components/Loader";
 
 interface Props {
   onClose: () => void;
@@ -57,15 +58,25 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
     });
   };
 
-  const { data: linuxContainerImages = [] } = useQuery({
-    queryKey: [queryKeys.images, linuxContainersServer],
-    queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
-  });
+  const { data: linuxContainerImages = [], isLoading: isLciLoading } = useQuery(
+    {
+      queryKey: [queryKeys.images, linuxContainersServer],
+      queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
+    }
+  );
 
-  const { data: canonicalImages = [] } = useQuery({
+  const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
     queryKey: [queryKeys.images, canonicalServer],
     queryFn: () => loadImages(canonicalJson, canonicalServer),
   });
+
+  if (isLciLoading) {
+    return <Loader text="Loading Linux Containers images..." />;
+  }
+
+  if (isCiLoading) {
+    return <Loader text="Loading Canonical images..." />;
+  }
 
   const images = canonicalImages.concat(linuxContainerImages);
   images.sort((a, b) => {

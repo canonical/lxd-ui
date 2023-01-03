@@ -14,6 +14,7 @@ import { NotificationHelper } from "../types/notification";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "../types/limits";
 import { DEFAULT_MEM_LIMIT } from "../util/defaults";
 import { humanFileSize } from "../util/helpers";
+import Loader from "./Loader";
 
 interface Props {
   notify: NotificationHelper;
@@ -26,10 +27,18 @@ const MemoryLimitSelector: FC<Props> = ({
   memoryLimit,
   setMemoryLimit,
 }) => {
-  const { data: resources, error } = useQuery({
+  const {
+    data: resources,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.resources],
     queryFn: fetchResources,
   });
+
+  if (isLoading) {
+    return <Loader text="Loading resources..." />;
+  }
 
   if (error) {
     notify.failure("Could not load resources.", error);

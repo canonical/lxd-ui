@@ -6,11 +6,16 @@ import BaseLayout from "./components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "./util/queryKeys";
 import useNotification from "./util/useNotification";
+import Loader from "./components/Loader";
 
 const ClusterList: FC = () => {
   const notify = useNotification();
 
-  const { data: members = [], error } = useQuery({
+  const {
+    data: members = [],
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: [queryKeys.cluster, queryKeys.members],
     queryFn: fetchClusterMembers,
   });
@@ -99,6 +104,13 @@ const ClusterList: FC = () => {
             responsive
             sortable
             className="u-table-layout--auto"
+            emptyStateMsg={
+              isLoading ? (
+                <Loader text="Loading cluster members..." />
+              ) : (
+                "No data to display"
+              )
+            }
           />
         </Row>
       </BaseLayout>
