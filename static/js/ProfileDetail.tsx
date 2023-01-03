@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "./api/profiles";
 import DeleteProfileBtn from "./buttons/profiles/DeleteProfileBtn";
@@ -13,18 +13,20 @@ import {
   CodeSnippet,
   CodeSnippetBlockAppearance,
   Col,
+  List,
   Row,
 } from "@canonical/react-components";
 import { isDiskDevice, isNicDevice } from "./util/type";
 
 const ProfileDetail: FC = () => {
+  const navigate = useNavigate();
+  const notify = useNotification();
+
   const { name } = useParams<{ name: string }>();
 
   if (!name) {
     return <>Missing name</>;
   }
-
-  const notify = useNotification();
 
   const {
     data: profile,
@@ -53,9 +55,9 @@ const ProfileDetail: FC = () => {
     isDense: false,
   };
 
-  const getUsedByNames = () => {
-    return profile.used_by?.map((path) => path.split("/").slice(-1)[0]);
-  };
+  const usedByNames = profile.used_by?.map(
+    (path) => path.split("/").slice(-1)[0]
+  );
 
   const getCloudInitConfig = (
     type: "user-data" | "vendor-data" | "network-config"
@@ -70,7 +72,12 @@ const ProfileDetail: FC = () => {
         <>
           <EditProfileBtn label="Edit" {...btnProps} />
           {profile.name !== "default" && (
-            <DeleteProfileBtn label="Delete" name={name} {...btnProps} />
+            <DeleteProfileBtn
+              label="Delete"
+              name={name}
+              onFinish={() => navigate("/profiles")}
+              {...btnProps}
+            />
           )}
           <OpenProfileListBtn />
         </>
@@ -92,70 +99,78 @@ const ProfileDetail: FC = () => {
             </tr>
             <tr>
               <th>Description</th>
-              <td>{profile.description}</td>
+              <td>{profile.description !== "" ? profile.description : "-"}</td>
             </tr>
             <tr>
               <th>Instances using this profile</th>
               <td>
-                {(!profile.used_by || !profile.used_by.length) && <>None</>}
-                {getUsedByNames()?.map((name, index) => (
-                  <span key={name}>
-                    <a href={`/instances/${name}`}>{name}</a>
-                    {profile.used_by && index < profile.used_by.length - 1
-                      ? ", "
-                      : ""}
-                  </span>
-                ))}
+                {usedByNames?.length ? (
+                  <List
+                    className="u-no-margin--bottom"
+                    items={usedByNames.map((name) => (
+                      <a key={name} href={`/instances/${name}`}>
+                        {name}
+                      </a>
+                    ))}
+                  />
+                ) : (
+                  <>-</>
+                )}
               </td>
             </tr>
             <tr>
               <th>Network devices</th>
               <td>
-                {!Object.values(profile.devices).some(isNicDevice) && <>None</>}
-                {Object.values(profile.devices)
-                  .filter(isNicDevice)
-                  .map((device) => (
-                    <Row key={device.name}>
-                      <Col size={6}>
-                        <span>
-                          Name in instance: <b>{device.name}</b>
-                        </span>
-                      </Col>
-                      <Col size={6}>
-                        <span>
-                          Device: <b>{device.network}</b>
-                        </span>
-                      </Col>
-                    </Row>
-                  ))}
+                {Object.values(profile.devices).some(isNicDevice) ? (
+                  Object.values(profile.devices)
+                    .filter(isNicDevice)
+                    .map((device) => (
+                      <Row key={device.network}>
+                        <Col size={6}>
+                          <span>
+                            Name in instance:{" "}
+                            <b>{device.name ?? device.network}</b>
+                          </span>
+                        </Col>
+                        <Col size={6}>
+                          <span>
+                            Device: <b>{device.network}</b>
+                          </span>
+                        </Col>
+                      </Row>
+                    ))
+                ) : (
+                  <>-</>
+                )}
               </td>
             </tr>
             <tr>
               <th>Storage devices</th>
               <td>
-                {!Object.values(profile.devices).some(isDiskDevice) && (
-                  <>None</>
+                {Object.values(profile.devices).some(isDiskDevice) ? (
+                  Object.values(profile.devices)
+                    .filter(isDiskDevice)
+                    .map((device) => (
+                      <Row key={device.path}>
+                        <Col size={6}>
+                          <span>
+                            Path:{" "}
+                            <b>
+                              {device.path}
+                              {device.path === "/" && <span> (root)</span>}
+                            </b>
+                          </span>
+                        </Col>
+                        <Col size={6}>
+                          <span>
+                            Pool: <b>{device.pool}</b>
+                          </span>
+                        </Col>
+                      </Row>
+                    ))
+                ) : (
+                  <>-</>
                 )}
-                {Object.values(profile.devices)
-                  .filter(isDiskDevice)
-                  .map((device) => (
-                    <Row key={device.path}>
-                      <Col size={6}>
-                        <span>
-                          Path:{" "}
-                          <b>
-                            {device.path}
-                            {device.path === "/" && <span> (root)</span>}
-                          </b>
-                        </span>
-                      </Col>
-                      <Col size={6}>
-                        <span>
-                          Pool: <b>{device.pool}</b>
-                        </span>
-                      </Col>
-                    </Row>
-                  ))}
               </td>
             </tr>
             <tr>
