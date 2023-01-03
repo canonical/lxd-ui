@@ -108,8 +108,11 @@ const ProfileFormGuided: FC = () => {
 
       const devices: LxdDevices = {};
       if (nicDevice.network) {
-        devices[nicDevice.name === "" ? nicDevice.network : nicDevice.name] =
-          nicDevice;
+        devices[
+          nicDevice.name && nicDevice.name !== ""
+            ? nicDevice.name
+            : nicDevice.network
+        ] = nicDevice;
       }
       if (rootDiskDevice.pool) {
         devices.root = rootDiskDevice;

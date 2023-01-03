@@ -5,7 +5,7 @@ export interface LxdDiskDevice {
 }
 
 export interface LxdNicDevice {
-  name: string;
+  name?: string;
   network: string;
   type: "nic";
 }

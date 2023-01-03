@@ -12,6 +12,7 @@ interface Props {
   className?: string;
   isDense?: boolean;
   label?: string;
+  onFinish?: () => void;
 }
 
 const DeleteProfileBtn: FC<Props> = ({
@@ -21,6 +22,7 @@ const DeleteProfileBtn: FC<Props> = ({
   className = "p-contextual-menu__link",
   isDense = true,
   label = "Delete profile",
+  onFinish,
 }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -34,6 +36,7 @@ const DeleteProfileBtn: FC<Props> = ({
           queryKey: [queryKeys.profiles],
         });
         notify.success("Profile deleted.");
+        onFinish?.();
       })
       .catch((e) => {
         setLoading(false);
