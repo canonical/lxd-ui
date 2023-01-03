@@ -11,7 +11,6 @@ import useNotification from "./util/useNotification";
 import ReconnectTerminalBtn from "./buttons/instances/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "./types/terminal";
 import { createPortal } from "react-dom";
-import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 
 const defaultPayload = {
   command: ["bash"],
@@ -164,7 +163,6 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
         createPortal(
           <>
             <ReconnectTerminalBtn onFinish={handleReconnect} />
-            <OpenInstanceListBtn />
           </>,
           controlTarget
         )}

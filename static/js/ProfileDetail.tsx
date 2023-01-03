@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "./api/profiles";
 import DeleteProfileBtn from "./buttons/profiles/DeleteProfileBtn";
 import EditProfileBtn from "./buttons/profiles/EditProfileBtn";
-import OpenProfileListBtn from "./buttons/profiles/OpenProfileListBtn";
 import BaseLayout from "./components/BaseLayout";
 import NotificationRow from "./components/NotificationRow";
 import { queryKeys } from "./util/queryKeys";
@@ -79,7 +78,6 @@ const ProfileDetail: FC = () => {
               {...btnProps}
             />
           )}
-          <OpenProfileListBtn />
         </>
       }
     >
