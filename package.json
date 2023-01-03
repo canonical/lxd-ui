@@ -32,7 +32,7 @@
     "react-useportal": "^1.0.17",
     "serve": "14.1.2",
     "vanilla-framework": "3.9.0",
-    "xterm-addon-fit": "0.7.0",
+    "xterm-addon-fit": "0.6.0",
     "xterm-for-react": "1.0.4",
     "yup": "0.32.11"
   },
