@@ -51,7 +51,6 @@ const DeleteInstanceBtn: FC<Props> = ({
   return (
     <Tooltip
       message={isDisabled ? "Instance must be stopped" : undefined}
-      className="u-instance-delete-margin"
       position="btm-center"
     >
       <ConfirmationButton

@@ -8,7 +8,6 @@ import { getWsErrorMsg } from "./util/helpers";
 import useEventListener from "@use-it/event-listener";
 import useNotification from "./util/useNotification";
 import { createPortal } from "react-dom";
-import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -119,7 +118,6 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
               <Icon name="fullscreen" />
               <span>Fullscreen</span>
             </Button>
-            <OpenInstanceListBtn />
           </>,
           controlTarget
         )}

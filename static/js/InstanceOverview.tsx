@@ -14,7 +14,6 @@ import StopInstanceBtn from "./buttons/instances/StopInstanceBtn";
 import EditInstanceBtn from "./buttons/instances/EditInstanceBtn";
 import NotificationRow from "./components/NotificationRow";
 import { createPortal } from "react-dom";
-import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 import { List } from "@canonical/react-components";
 
 interface Props {
@@ -71,7 +70,6 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
               onFinish={() => navigate("/instances")}
               {...btnProps}
             />
-            <OpenInstanceListBtn />
           </>,
           controlTarget
         )}

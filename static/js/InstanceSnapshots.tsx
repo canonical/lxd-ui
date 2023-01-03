@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import useNotification from "./util/useNotification";
 import { fetchInstance } from "./api/instances";
 import { createPortal } from "react-dom";
-import OpenInstanceListBtn from "./buttons/instances/OpenInstanceListBtn";
 import CreateSnapshotBtn from "./buttons/instances/CreateSnapshotBtn";
 
 interface Props {
@@ -104,7 +103,6 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
         createPortal(
           <>
             <CreateSnapshotBtn instance={instance} notify={notify} />
-            <OpenInstanceListBtn />
           </>,
           controlTarget
         )}
