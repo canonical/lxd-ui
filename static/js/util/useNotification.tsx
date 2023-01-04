@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Notification, NotificationHelper } from "../types/notification";
+import { Notification, NotificationHelper } from "types/notification";
 import isEqual from "lodash/isEqual";
 
 const useNotification = (): NotificationHelper => {

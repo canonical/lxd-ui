@@ -1,21 +1,21 @@
 import React, { FC } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ClusterList from "./ClusterList";
-import ImageList from "./ImageList";
-import InstanceList from "./InstanceList";
-import Navigation from "./components/Navigation";
-import ProfileList from "./ProfileList";
-import NetworkList from "./NetworkList";
-import NoMatch from "./components/NoMatch";
-import ProjectList from "./ProjectList";
-import WarningList from "./WarningList";
-import Panels from "./panels/Panels";
+import ClusterList from "pages/cluster/ClusterList";
+import ImageList from "pages/images/ImageList";
+import InstanceList from "pages/instances/InstanceList";
+import Navigation from "components/Navigation";
+import ProfileList from "pages/profiles/ProfileList";
+import NetworkList from "pages/networks/NetworkList";
+import NoMatch from "components/NoMatch";
+import ProjectList from "pages/projects/ProjectList";
+import WarningList from "pages/warnings/WarningList";
+import Panels from "components/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Settings from "./Settings";
-import InstanceDetail from "./InstanceDetail";
-import StorageList from "./StorageList";
-import ProfileDetail from "./ProfileDetail";
+import Settings from "pages/settings/Settings";
+import InstanceDetail from "pages/instances/InstanceDetail";
+import StorageList from "pages/storages/StorageList";
+import ProfileDetail from "pages/profiles/ProfileDetail";
 
 const queryClient = new QueryClient();
 

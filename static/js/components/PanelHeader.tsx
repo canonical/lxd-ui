@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import usePanelParams from "../util/usePanelParams";
+import usePanelParams from "util/usePanelParams";
 import { Button } from "@canonical/react-components";
 
 interface Props {

@@ -1,6 +1,6 @@
-import { handleResponse } from "../util/helpers";
-import { LxdProject } from "../types/project";
-import { LxdApiResponse } from "../types/apiResponse";
+import { handleResponse } from "util/helpers";
+import { LxdProject } from "types/project";
+import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchProjects = (): Promise<LxdProject[]> => {
   return new Promise((resolve, reject) => {

@@ -3,7 +3,7 @@ import {
   Row,
   Notification as NotificationComponent,
 } from "@canonical/react-components";
-import { NotificationHelper } from "../types/notification";
+import { NotificationHelper } from "types/notification";
 
 interface Props {
   notify: NotificationHelper;

@@ -46,6 +46,13 @@ const config = {
   ],
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
+    alias: {
+      'api': path.join(__dirname, 'static/js/api'),
+      'components': path.join(__dirname, 'static/js/components'),
+      'pages': path.join(__dirname, 'static/js/pages'),
+      'types': path.join(__dirname, 'static/js/types'),
+      'util': path.join(__dirname, 'static/js/util'),
+    },
   },
 };
 

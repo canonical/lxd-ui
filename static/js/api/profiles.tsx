@@ -1,6 +1,6 @@
-import { handleResponse } from "../util/helpers";
-import { LxdProfile } from "../types/profile";
-import { LxdApiResponse } from "../types/apiResponse";
+import { handleResponse } from "util/helpers";
+import { LxdProfile } from "types/profile";
+import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchProfile = (name: string): Promise<LxdProfile> => {
   return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../util/helpers";
-import { LxdSnapshot } from "../types/instance";
-import { LxdOperation } from "../types/operation";
+import { handleResponse } from "util/helpers";
+import { LxdSnapshot } from "types/instance";
+import { LxdOperation } from "types/operation";
 
 export const createSnapshot = (
   instanceName: string,
