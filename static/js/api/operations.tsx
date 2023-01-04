@@ -1,5 +1,5 @@
-import { handleResponse } from "../util/helpers";
-import { LxdOperation } from "../types/operation";
+import { handleResponse } from "util/helpers";
+import { LxdOperation } from "types/operation";
 
 export const watchOperation = (operationUrl: string, timeout = 10) => {
   return new Promise((resolve, reject) => {

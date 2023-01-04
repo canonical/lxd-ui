@@ -1,10 +1,10 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../util/helpers";
-import { LxdInstance } from "../types/instance";
-import { LxdTerminal, LxdTerminalPayload } from "../types/terminal";
-import { LxdApiResponse } from "../types/apiResponse";
-import { LxdOperation } from "../types/operation";
-import { RemoteImage } from "../types/image";
+import { handleResponse } from "util/helpers";
+import { LxdInstance } from "types/instance";
+import { LxdTerminal, LxdTerminalPayload } from "types/terminal";
+import { LxdApiResponse } from "types/apiResponse";
+import { LxdOperation } from "types/operation";
+import { RemoteImage } from "types/image";
 
 export const fetchInstance = (
   instanceName: string,

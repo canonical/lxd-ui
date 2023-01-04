@@ -1,8 +1,8 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "../util/helpers";
-import { ImportImage, LxdImage } from "../types/image";
-import { LxdApiResponse } from "../types/apiResponse";
-import { LxdOperation } from "../types/operation";
+import { handleResponse } from "util/helpers";
+import { ImportImage, LxdImage } from "types/image";
+import { LxdApiResponse } from "types/apiResponse";
+import { LxdOperation } from "types/operation";
 
 export const fetchImageList = (): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-import { RemoteImage } from "../types/image";
+import { RemoteImage } from "types/image";
 
 export const isVmOnlyImage = (image: RemoteImage) => {
   return image.variant?.includes("desktop");

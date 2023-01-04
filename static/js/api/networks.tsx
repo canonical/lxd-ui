@@ -1,6 +1,6 @@
-import { handleResponse } from "../util/helpers";
-import { LxdNetwork } from "../types/network";
-import { LxdApiResponse } from "../types/apiResponse";
+import { handleResponse } from "util/helpers";
+import { LxdNetwork } from "types/network";
+import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchNetworks = (): Promise<LxdNetwork[]> => {
   return new Promise((resolve, reject) => {

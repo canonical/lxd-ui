@@ -1,7 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./static/js/dist",
-    "baseUrl": "src",
+    "baseUrl": ".",
+    "paths": {
+      "api/*": ["static/js/api/*"],
+      "components/*": ["static/js/components/*"],
+      "pages/*": ["static/js/pages/*"],
+      "types/*": ["static/js/types/*"],
+      "util/*": ["static/js/util/*"]
+    },
     "target": "ES2020",
     "module": "esnext",
     "jsx": "react-jsx",

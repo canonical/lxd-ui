@@ -1,6 +1,6 @@
-import { handleResponse } from "../util/helpers";
-import { LxdStorage } from "../types/storage";
-import { LxdApiResponse } from "../types/apiResponse";
+import { handleResponse } from "util/helpers";
+import { LxdStorage } from "types/storage";
+import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchStorages = (): Promise<LxdStorage[]> => {
   return new Promise((resolve, reject) => {
