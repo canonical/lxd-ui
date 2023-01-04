@@ -69,16 +69,8 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
     queryKey: [queryKeys.images, canonicalServer],
     queryFn: () => loadImages(canonicalJson, canonicalServer),
   });
-
-  if (isLciLoading) {
-    return <Loader text="Loading Linux Containers images..." />;
-  }
-
-  if (isCiLoading) {
-    return <Loader text="Loading Canonical images..." />;
-  }
-
-  const images = canonicalImages.concat(linuxContainerImages);
+  const isLoading = isCiLoading || isLciLoading;
+  const images = isLoading ? [] : canonicalImages.concat(linuxContainerImages);
   images.sort((a, b) => {
     if (a.aliases.includes("lts")) {
       return -1;
@@ -341,7 +333,13 @@ const ImageSelect: FC<Props> = ({ onClose, onSelect }) => {
           <div className="p-image-list">
             <MainTable
               className="p-table-image-select"
-              emptyStateMsg="No matching images found"
+              emptyStateMsg={
+                isLoading ? (
+                  <Loader text="Loading images..." />
+                ) : (
+                  "No matching images found"
+                )
+              }
               headers={headers}
               rows={rows}
               paginate={null}
