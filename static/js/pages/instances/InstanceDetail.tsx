@@ -8,18 +8,6 @@ import InstanceVga from "./InstanceVga";
 import InstanceSnapshots from "./InstanceSnapshots";
 
 const TABS: string[] = ["Overview", "Snapshots", "Terminal", "VGA"];
-const getTab = (activeTab?: string) => {
-  switch (activeTab) {
-    case "snapshots":
-      return 1;
-    case "terminal":
-      return 2;
-    case "vga":
-      return 3;
-    default:
-      return 0;
-  }
-};
 
 const InstanceDetail: FC = () => {
   const navigate = useNavigate();
@@ -28,26 +16,16 @@ const InstanceDetail: FC = () => {
     activeTab?: string;
   }>();
   const [controlTarget, setControlTarget] = useState<HTMLSpanElement | null>();
-  const [currentTab, setCurrentTab] = useState(getTab(activeTab));
 
   if (!name) {
     return <>Missing name</>;
   }
 
-  const handleTabChange = (newTab: number) => {
-    setCurrentTab(newTab);
-    switch (newTab) {
-      case 1:
-        navigate(`/instances/${name}/snapshots`);
-        break;
-      case 2:
-        navigate(`/instances/${name}/terminal`);
-        break;
-      case 3:
-        navigate(`/instances/${name}/vga`);
-        break;
-      default:
-        navigate(`/instances/${name}`);
+  const handleTabChange = (newTab: string) => {
+    if (newTab === "overview") {
+      navigate(`/instances/${name}`);
+    } else {
+      navigate(`/instances/${name}/${newTab}`);
     }
   };
 
@@ -60,14 +38,16 @@ const InstanceDetail: FC = () => {
     >
       <Row>
         <Tabs
-          links={TABS.map((tab, index) => ({
+          links={TABS.map((tab) => ({
             label: tab,
-            active: index === currentTab,
-            onClick: () => handleTabChange(index),
+            active:
+              tab.toLowerCase() === activeTab ||
+              (tab === "Overview" && !activeTab),
+            onClick: () => handleTabChange(tab.toLowerCase()),
           }))}
         />
 
-        {currentTab === 0 && (
+        {!activeTab && (
           <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
             <InstanceOverview
               instanceName={name}
@@ -76,7 +56,7 @@ const InstanceDetail: FC = () => {
           </div>
         )}
 
-        {currentTab === 1 && (
+        {activeTab === "snapshots" && (
           <div tabIndex={1} role="tabpanel" aria-labelledby="snapshots">
             <InstanceSnapshots
               instanceName={name}
@@ -85,13 +65,13 @@ const InstanceDetail: FC = () => {
           </div>
         )}
 
-        {currentTab === 2 && (
+        {activeTab === "terminal" && (
           <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
             <InstanceTerminal controlTarget={controlTarget} />
           </div>
         )}
 
-        {currentTab === 3 && (
+        {activeTab === "vga" && (
           <div tabIndex={3} role="tabpanel" aria-labelledby="vga">
             <InstanceVga controlTarget={controlTarget} />
           </div>
