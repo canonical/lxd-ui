@@ -4,39 +4,29 @@ import { queryKeys } from "util/queryKeys";
 import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { deleteProfile } from "api/profiles";
+import { useNavigate } from "react-router-dom";
+import { LxdProfile } from "types/profile";
 
 interface Props {
-  name: string;
+  profile: LxdProfile;
   notify: NotificationHelper;
-  appearance?: string;
-  className?: string;
-  isDense?: boolean;
-  label?: string;
-  onFinish?: () => void;
 }
 
-const DeleteProfileBtn: FC<Props> = ({
-  name,
-  notify,
-  appearance = "base",
-  className = "p-contextual-menu__link",
-  isDense = true,
-  label = "Delete profile",
-  onFinish,
-}) => {
+const DeleteProfileBtn: FC<Props> = ({ profile, notify }) => {
   const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteProfile(name)
+    deleteProfile(profile.name)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.profiles],
         });
         notify.success("Profile deleted.");
-        onFinish?.();
+        navigate("/profiles");
       })
       .catch((e) => {
         setLoading(false);
@@ -46,18 +36,17 @@ const DeleteProfileBtn: FC<Props> = ({
 
   return (
     <ConfirmationButton
-      className={className}
+      className="u-no-margin--bottom"
       isLoading={isLoading}
       iconClass="p-icon--delete"
       iconDescription="Delete"
       title="Confirm delete"
-      toggleAppearance={appearance}
-      toggleCaption={label}
-      confirmationMessage={`Are you sure you want to delete profile "${name}"?
+      toggleCaption="Delete"
+      confirmationMessage={`Are you sure you want to delete profile "${profile.name}"?
                             This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDense={isDense}
+      isDense={false}
     />
   );
 };
