@@ -23,6 +23,7 @@ import {
   instanceStatusOptions,
   instanceTypeOptions,
 } from "util/instanceOptions";
+import InstanceStatusIcon from "./InstanceStatusIcon";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -83,31 +84,12 @@ const InstanceList: FC = () => {
     { content: "", className: "u-hide--medium u-hide--small" },
   ];
 
-  // todo: which states are used - can error/unknown/init be removed?
-  const getIconClassForStatus = (status: string) => {
-    return {
-      error: "p-icon--oval-red",
-      unknown: "p-icon--oval-yellow",
-      initializing: "p-icon--spinner u-animation--spin",
-      Running: "p-icon--oval-green",
-      Stopped: "p-icon--oval-grey",
-    }[status];
-  };
-
   const rows = visibleInstances.map((instance) => {
-    const status = (
-      <>
-        <i className={getIconClassForStatus(instance.status)}></i>
-        &nbsp;
-        {instance.status}
-      </>
-    );
-
     return {
       className: selected === instance.name ? "u-row-selected" : undefined,
       columns: [
         {
-          content: status,
+          content: <InstanceStatusIcon instance={instance} />,
           role: "rowheader",
           className: "u-truncate",
           "aria-label": "Status",
