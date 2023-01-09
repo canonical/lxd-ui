@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "api/profiles";
 import DeleteProfileBtn from "./actions/DeleteProfileBtn";
@@ -19,7 +19,6 @@ import { isDiskDevice, isNicDevice } from "util/devices";
 import Loader from "components/Loader";
 
 const ProfileDetail: FC = () => {
-  const navigate = useNavigate();
   const notify = useNotification();
 
   const { name } = useParams<{ name: string }>();
@@ -47,14 +46,6 @@ const ProfileDetail: FC = () => {
     return <>Could not load profile details.</>;
   }
 
-  const btnProps = {
-    profile: profile,
-    notify: notify,
-    appearance: "",
-    className: "u-no-margin--bottom",
-    isDense: false,
-  };
-
   const usedByNames = profile.used_by?.map(
     (path) => path.split("/").slice(-1)[0]
   );
@@ -70,14 +61,9 @@ const ProfileDetail: FC = () => {
       title={`Profile details for ${name}`}
       controls={
         <>
-          <EditProfileBtn label="Edit" {...btnProps} />
+          <EditProfileBtn profile={profile} />
           {profile.name !== "default" && (
-            <DeleteProfileBtn
-              label="Delete"
-              name={name}
-              onFinish={() => navigate("/profiles")}
-              {...btnProps}
-            />
+            <DeleteProfileBtn profile={profile} notify={notify} />
           )}
         </>
       }

@@ -14,8 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
-import DeleteProfileBtn from "./actions/DeleteProfileBtn";
-import EditProfileBtn from "./actions/EditProfileBtn";
 import Loader from "components/Loader";
 
 const ProfileList: FC = () => {
@@ -40,34 +38,9 @@ const ProfileList: FC = () => {
     { content: "Description", sortKey: "description" },
     { content: "Effects", className: "u-align--center" },
     { content: "Used by", sortKey: "used_by", className: "u-align--center" },
-    { content: "Actions", className: "u-align--center" },
   ];
 
   const rows = profiles.map((profile) => {
-    const actions = (
-      <div>
-        <Tooltip message="Edit profile" position="btm-center">
-          <EditProfileBtn
-            profile={profile}
-            appearance=""
-            label=""
-            className=""
-          />
-        </Tooltip>
-        {profile.name !== "default" && (
-          <Tooltip message="Delete profile" position="btm-center">
-            <DeleteProfileBtn
-              name={profile.name}
-              notify={notify}
-              className=""
-              label=""
-              appearance=""
-            />
-          </Tooltip>
-        )}
-      </div>
-    );
-
     const touchesNetwork = Object.values(profile.devices).some(
       (device) => device.type === "nic"
     );
@@ -134,12 +107,6 @@ const ProfileList: FC = () => {
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Used by",
-        },
-        {
-          content: actions,
-          role: "rowheader",
-          "aria-label": "Actions",
-          className: "u-align--center",
         },
       ],
       sortData: {
