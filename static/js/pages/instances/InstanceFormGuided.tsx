@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -24,14 +24,22 @@ import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { instanceTypeOptions } from "util/instanceOptions";
+import { checkDuplicateName } from "util/helpers";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const queryClient = useQueryClient();
+  const controllerState = useState<AbortController | null>(null);
 
   const InstanceSchema = Yup.object().shape({
-    name: Yup.string().optional(),
+    name: Yup.string()
+      .test(
+        "deduplicate",
+        "An instance with this name already exists",
+        (value) => checkDuplicateName(value, controllerState, "instances")
+      )
+      .optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
 

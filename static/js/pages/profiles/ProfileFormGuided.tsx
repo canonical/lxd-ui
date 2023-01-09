@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Accordion, Col, Form, Input, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -26,6 +26,7 @@ import {
   DEFAULT_MEM_LIMIT,
   DEFAULT_NIC_DEVICE,
 } from "util/defaults";
+import { checkDuplicateName } from "util/helpers";
 
 const getCpuLimit = (cpuLimit: CpuLimit) => {
   switch (cpuLimit.selectedType) {
@@ -59,9 +60,14 @@ const ProfileFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const queryClient = useQueryClient();
+  const controllerState = useState<AbortController | null>(null);
 
   const ProfileSchema = Yup.object().shape({
-    name: Yup.string().required("This field is required"),
+    name: Yup.string()
+      .test("deduplicate", "A profile with this name already exists", (value) =>
+        checkDuplicateName(value, controllerState, "profiles")
+      )
+      .required("This field is required"),
   });
 
   const formik = useFormik({

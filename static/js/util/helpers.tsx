@@ -1,3 +1,5 @@
+import React from "react";
+
 export const isoTimeToString = (isoTime: string) => {
   if (isoTime.startsWith("0001-01-01T00")) {
     return "";
@@ -90,4 +92,25 @@ export const getWsErrorMsg = (code: number) => {
   if (code == 1015)
     return "The connection was closed due to a failure to perform a TLS handshake (e.g., the server certificate can't be verified).";
   else return "Unknown reason";
+};
+
+export const checkDuplicateName = (
+  candidate: string | undefined,
+  controllerState: [
+    AbortController | null,
+    React.Dispatch<React.SetStateAction<AbortController | null>>
+  ],
+  target: string
+) => {
+  if (!candidate) {
+    return true;
+  }
+  const [controller, setController] = controllerState;
+  if (controller) controller.abort();
+  const deduplicateController = new AbortController();
+  setController(deduplicateController);
+  const signal = deduplicateController.signal;
+  return fetch(`/1.0/${target}/${candidate}`, { signal }).then(
+    (response) => response.status === 404
+  );
 };
