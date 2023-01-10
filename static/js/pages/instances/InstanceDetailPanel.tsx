@@ -1,6 +1,4 @@
 import React, { FC } from "react";
-import StartInstanceBtn from "./actions/StartInstanceBtn";
-import StopInstanceBtn from "./actions/StopInstanceBtn";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenVgaBtn from "./actions/OpenVgaBtn";
 import { LxdInstance } from "types/instance";
@@ -9,6 +7,7 @@ import { NotificationHelper } from "types/notification";
 import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import OpenInstanceDetailBtn from "pages/instances/actions/OpenInstanceDetailBtn";
+import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 
 interface Props {
   instance: LxdInstance;
@@ -17,11 +16,6 @@ interface Props {
 }
 
 const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
-  const btnProps = {
-    instance: instance,
-    notify: notify,
-  };
-
   return (
     <div className="p-panel p-instance-detail-panel">
       <div className="p-panel__header p-instance-detail-panel--header">
@@ -66,11 +60,12 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
                   inline
                   items={[
                     <span key="status">{instance.status}</span>,
-                    instance.status === "Running" ? (
-                      <StopInstanceBtn key="stop" {...btnProps} />
-                    ) : (
-                      <StartInstanceBtn key="start" {...btnProps} />
-                    ),
+                    <StartStopInstanceBtn
+                      key="button"
+                      instance={instance}
+                      notify={notify}
+                      isDense={true}
+                    />,
                   ]}
                 />
               </td>

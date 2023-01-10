@@ -7,8 +7,6 @@ import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import { useNavigate } from "react-router-dom";
-import StartInstanceBtn from "./actions/StartInstanceBtn";
-import StopInstanceBtn from "./actions/StopInstanceBtn";
 import EditInstanceBtn from "./actions/EditInstanceBtn";
 import { createPortal } from "react-dom";
 import { List } from "@canonical/react-components";
@@ -55,8 +53,6 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
       {controlTarget &&
         createPortal(
           <>
-            <StartInstanceBtn {...btnProps} />
-            <StopInstanceBtn {...btnProps} />
             <EditInstanceBtn {...btnProps} />
             <DeleteInstanceBtn
               onFinish={() => navigate("/ui/instances")}
@@ -66,12 +62,6 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
           controlTarget
         )}
       <table>
-        <thead>
-          <tr>
-            <th>Label</th>
-            <th>Value</th>
-          </tr>
-        </thead>
         <tbody>
           <tr>
             <th>Name</th>
@@ -80,10 +70,6 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
           <tr>
             <th>Description</th>
             <td>{instance.description}</td>
-          </tr>
-          <tr>
-            <th>Status</th>
-            <td>{instance.status}</td>
           </tr>
           <tr>
             <th>Created at</th>
