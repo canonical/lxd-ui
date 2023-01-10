@@ -6,10 +6,17 @@ import InstanceTerminal from "./InstanceTerminal";
 import { useNavigate, useParams } from "react-router-dom";
 import InstanceVga from "./InstanceVga";
 import InstanceSnapshots from "./InstanceSnapshots";
+import NotificationRow from "components/NotificationRow";
+import useNotification from "util/useNotification";
+import { useQuery } from "@tanstack/react-query";
+import { fetchInstance } from "api/instances";
+import { queryKeys } from "util/queryKeys";
+import Loader from "components/Loader";
 
 const TABS: string[] = ["Overview", "Snapshots", "Terminal", "VGA"];
 
 const InstanceDetail: FC = () => {
+  const notify = useNotification();
   const navigate = useNavigate();
   const { name, activeTab } = useParams<{
     name: string;
@@ -19,6 +26,27 @@ const InstanceDetail: FC = () => {
 
   if (!name) {
     return <>Missing name</>;
+  }
+
+  const {
+    data: instance,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [queryKeys.instances, name],
+    queryFn: () => fetchInstance(name),
+  });
+
+  if (error) {
+    notify.failure("Could not load instance details.", error);
+  }
+
+  if (isLoading) {
+    return <Loader text="Loading instance details..." />;
+  }
+
+  if (!instance) {
+    return <>Could not load instance details.</>;
   }
 
   const handleTabChange = (newTab: string) => {
@@ -36,6 +64,7 @@ const InstanceDetail: FC = () => {
         <span id="control-target" ref={(ref) => setControlTarget(ref)} />
       }
     >
+      <NotificationRow notify={notify} />
       <Row>
         <Tabs
           links={TABS.map((tab) => ({
@@ -50,8 +79,9 @@ const InstanceDetail: FC = () => {
         {!activeTab && (
           <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
             <InstanceOverview
-              instanceName={name}
+              instance={instance}
               controlTarget={controlTarget}
+              notify={notify}
             />
           </div>
         )}
@@ -59,21 +89,22 @@ const InstanceDetail: FC = () => {
         {activeTab === "snapshots" && (
           <div tabIndex={1} role="tabpanel" aria-labelledby="snapshots">
             <InstanceSnapshots
-              instanceName={name}
+              instance={instance}
               controlTarget={controlTarget}
+              notify={notify}
             />
           </div>
         )}
 
         {activeTab === "terminal" && (
           <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
-            <InstanceTerminal controlTarget={controlTarget} />
+            <InstanceTerminal controlTarget={controlTarget} notify={notify} />
           </div>
         )}
 
         {activeTab === "vga" && (
           <div tabIndex={3} role="tabpanel" aria-labelledby="vga">
-            <InstanceVga controlTarget={controlTarget} />
+            <InstanceVga controlTarget={controlTarget} notify={notify} />
           </div>
         )}
       </Row>

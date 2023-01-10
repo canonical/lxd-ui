@@ -4,14 +4,13 @@ import { XTerm } from "xterm-for-react";
 import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
 import { fetchInstanceExec } from "api/instances";
-import NotificationRow from "components/NotificationRow";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
-import useNotification from "util/useNotification";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "types/terminal";
 import { createPortal } from "react-dom";
 import Loader from "components/Loader";
+import { NotificationHelper } from "types/notification";
 
 const defaultPayload = {
   command: ["bash"],
@@ -27,9 +26,10 @@ const defaultPayload = {
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
+  notify: NotificationHelper;
 }
 
-const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
+const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
   const { name } = useParams<{
     name: string;
   }>();
@@ -41,7 +41,6 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
   const [payload, setPayload] = useState<LxdTerminalPayload | null>(
     defaultPayload
   );
-  const notify = useNotification();
 
   const [fitAddon] = useState<FitAddon>(new FitAddon());
 
@@ -171,7 +170,6 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
           </>,
           controlTarget
         )}
-      <NotificationRow notify={notify} />
       {isTerminalLoading && <Loader text="Loading terminal session..." />}
       {controlWs && (
         <XTerm

@@ -1,8 +1,6 @@
 import React, { FC } from "react";
-import { fetchInstance } from "api/instances";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
 import { fetchMetrics } from "api/metrics";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
@@ -12,32 +10,20 @@ import { useNavigate } from "react-router-dom";
 import StartInstanceBtn from "./actions/StartInstanceBtn";
 import StopInstanceBtn from "./actions/StopInstanceBtn";
 import EditInstanceBtn from "./actions/EditInstanceBtn";
-import NotificationRow from "components/NotificationRow";
 import { createPortal } from "react-dom";
 import { List } from "@canonical/react-components";
 import Loader from "components/Loader";
+import { NotificationHelper } from "types/notification";
+import { LxdInstance } from "types/instance";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
-  instanceName: string;
+  instance: LxdInstance;
+  notify: NotificationHelper;
 }
 
-const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
+const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
   const navigate = useNavigate();
-  const notify = useNotification();
-
-  const {
-    data: instance,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances, instanceName],
-    queryFn: () => fetchInstance(instanceName),
-  });
-
-  if (error) {
-    notify.failure("Could not load instance details.", error);
-  }
 
   const {
     data: metrics = [],
@@ -53,17 +39,10 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
     notify.failure("Could not load metrics.", metricError);
   }
 
-  if (isLoading) {
-    return <Loader text="Loading instance details..." />;
-  }
-
   if (isMetricLoading) {
     return <Loader text="Loading metrics..." />;
   }
 
-  if (!instance) {
-    return <>Could not load instance details.</>;
-  }
   const instanceMetrics = getInstanceMetrics(metrics, instance);
   const btnProps = {
     instance: instance,
@@ -73,7 +52,6 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
 
   return (
     <>
-      <NotificationRow notify={notify} />
       {controlTarget &&
         createPortal(
           <>

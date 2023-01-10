@@ -1,42 +1,20 @@
-import { Col, Icon, MainTable, Row } from "@canonical/react-components";
 import React, { FC } from "react";
+import { Col, Icon, MainTable, Row } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
-import { queryKeys } from "util/queryKeys";
 import DeleteSnapshotBtn from "./actions/snapshots/DeleteSnapshotBtn";
 import RestoreSnapshotBtn from "./actions/snapshots/RestoreSnapshotBtn";
-import NotificationRow from "components/NotificationRow";
-import { useQuery } from "@tanstack/react-query";
-import useNotification from "util/useNotification";
-import { fetchInstance } from "api/instances";
 import { createPortal } from "react-dom";
 import CreateSnapshotBtn from "./actions/snapshots/CreateSnapshotBtn";
-import Loader from "components/Loader";
+import { NotificationHelper } from "types/notification";
+import { LxdInstance } from "types/instance";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
-  instanceName: string;
+  instance: LxdInstance;
+  notify: NotificationHelper;
 }
 
-const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
-  const notify = useNotification();
-
-  const {
-    data: instance,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances, instanceName],
-    queryFn: async () => fetchInstance(instanceName),
-  });
-
-  if (isLoading) {
-    return <Loader text="Loading snapshots..." />;
-  }
-
-  if (error) {
-    notify.failure("Could not load snapshots", error);
-  }
-
+const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Created at", sortKey: "created_at" },
@@ -45,16 +23,16 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
     { content: "" },
   ];
 
-  const rows = instance?.snapshots?.map((snapshot) => {
+  const rows = instance.snapshots?.map((snapshot) => {
     const actions = (
       <>
         <RestoreSnapshotBtn
-          instanceName={instanceName}
+          instanceName={instance.name}
           snapshot={snapshot}
           notify={notify}
         />
         <DeleteSnapshotBtn
-          instanceName={instanceName}
+          instanceName={instance.name}
           snapshot={snapshot}
           notify={notify}
         />
@@ -102,9 +80,7 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
 
   return (
     <>
-      <NotificationRow notify={notify} />
       {controlTarget &&
-        instance &&
         createPortal(
           <>
             <CreateSnapshotBtn instance={instance} notify={notify} />
@@ -112,7 +88,7 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
           controlTarget
         )}
       <Row>
-        {instance?.snapshots?.length && (
+        {instance.snapshots?.length && (
           <MainTable
             headers={headers}
             rows={rows}
@@ -122,7 +98,7 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instanceName }) => {
             className="u-table-layout--auto"
           />
         )}
-        {!instance?.snapshots?.length && (
+        {!instance.snapshots?.length && (
           <Row className="empty-state-message">
             <Col size={2} />
             <Col size={8}>
