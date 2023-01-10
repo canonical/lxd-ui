@@ -1,0 +1,17 @@
+domain: lxd-ui
+
+image: prod-comms.docker-registry.canonical.com/lxd-ui
+
+env:
+  - name: LXD_UI_BACKEND_IP
+    secretKeyRef:
+      key: ip
+      name: lxd-ui-backend
+  - name: LXD_UI_BACKEND_KEY_PEM
+    secretKeyRef:
+      key: key.pem
+      name: lxd-ui-backend
+  - name: LXD_UI_BACKEND_SECRET
+    secretKeyRef:
+      key: secret
+      name: lxd-ui-backend

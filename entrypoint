@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+set -e
+
+# configure haproxy
+printf %s "$LXD_UI_BACKEND_KEY_PEM" > key.pem
+cp haproxy.cfg haproxy-local.cfg
+sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
+sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" haproxy-local.cfg
+
+haproxy -f haproxy-local.cfg
+. /usr/local/nvm/nvm.sh && npx serve --single build
