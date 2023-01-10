@@ -9,9 +9,9 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
   // todo: which states are used - can error/unknown/init be removed?
   const getIconClassForStatus = (status: string) => {
     return {
-      error: "p-icon--oval-red",
-      unknown: "p-icon--oval-yellow",
-      initializing: "p-icon--spinner u-animation--spin",
+      Error: "p-icon--oval-red",
+      Frozen: "p-icon--oval-blue",
+      Ready: "p-icon--oval-yellow",
       Running: "p-icon--oval-green",
       Stopped: "p-icon--oval-grey",
     }[status];

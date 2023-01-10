@@ -24,6 +24,7 @@ import {
   instanceTypeOptions,
 } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
+import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -141,13 +142,21 @@ const InstanceList: FC = () => {
         },
         {
           content: (
-            <Button
-              className="u-no-margin--bottom"
-              onClick={() => setSelected(instance.name)}
-              hasIcon
-            >
-              <Icon name="chevron-up" style={{ rotate: "90deg" }} />
-            </Button>
+            <>
+              <StartStopInstanceBtn
+                instance={instance}
+                notify={notify}
+                hasCaption={false}
+                isDense={false}
+              />
+              <Button
+                className="u-no-margin--bottom"
+                onClick={() => setSelected(instance.name)}
+                hasIcon
+              >
+                <Icon name="chevron-up" style={{ rotate: "90deg" }} />
+              </Button>
+            </>
           ),
           role: "rowheader",
           className: "u-align--center u-hide--medium u-hide--small",
