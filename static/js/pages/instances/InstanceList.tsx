@@ -184,7 +184,9 @@ const InstanceList: FC = () => {
           <>
             Instances{" "}
             <small className="u-ma">
-              {visibleInstances.length} instances available
+              {visibleInstances.length}{" "}
+              {visibleInstances.length === 1 ? "instance" : "instances"}{" "}
+              available
             </small>
           </>
         }
