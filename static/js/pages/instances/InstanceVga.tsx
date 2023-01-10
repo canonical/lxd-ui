@@ -1,14 +1,13 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
 import * as SpiceHtml5 from "../../../assets/lib/spice/src/main";
 import { fetchInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
-import useNotification from "util/useNotification";
 import { createPortal } from "react-dom";
 import Loader from "components/Loader";
+import { NotificationHelper } from "types/notification";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -19,13 +18,13 @@ declare global {
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
+  notify: NotificationHelper;
 }
 
-const InstanceVga: FC<Props> = ({ controlTarget }) => {
+const InstanceVga: FC<Props> = ({ controlTarget, notify }) => {
   const { name } = useParams<{
     name: string;
   }>();
-  const notify = useNotification();
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
@@ -111,7 +110,6 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
 
   return (
     <>
-      <NotificationRow notify={notify} />
       {controlTarget &&
         createPortal(
           <>
