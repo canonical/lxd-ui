@@ -87,7 +87,7 @@ const ProfileList: FC = () => {
     return {
       columns: [
         {
-          content: <a href={`/profiles/${profile.name}`}>{profile.name}</a>,
+          content: <a href={`/ui/profiles/${profile.name}`}>{profile.name}</a>,
           role: "rowheader",
           "aria-label": "Name",
         },

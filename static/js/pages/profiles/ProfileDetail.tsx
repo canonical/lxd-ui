@@ -93,7 +93,7 @@ const ProfileDetail: FC = () => {
                   <List
                     className="u-no-margin--bottom"
                     items={usedByNames.map((name) => (
-                      <a key={name} href={`/instances/${name}`}>
+                      <a key={name} href={`/ui/instances/${name}`}>
                         {name}
                       </a>
                     ))}

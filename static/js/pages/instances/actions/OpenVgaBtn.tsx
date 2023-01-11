@@ -11,7 +11,7 @@ const OpenVgaBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    navigate(`/instances/${instance.name}/vga`);
+    navigate(`/ui/instances/${instance.name}/vga`);
   };
 
   const getTooltipMessage = () => {

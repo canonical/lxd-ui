@@ -27,21 +27,22 @@ const App: FC = () => {
           <Navigation />
           <Routes>
             <Route path="/" element={<InstanceList />} />
-            <Route path="/instances" element={<InstanceList />} />
-            <Route path="/instances/:name" element={<InstanceDetail />} />
+            <Route path="/ui" element={<InstanceList />} />
+            <Route path="/ui/instances" element={<InstanceList />} />
+            <Route path="/ui/instances/:name" element={<InstanceDetail />} />
             <Route
-              path="/instances/:name/:activeTab"
+              path="/ui/instances/:name/:activeTab"
               element={<InstanceDetail />}
             />
-            <Route path="/images" element={<ImageList />} />
-            <Route path="/profiles" element={<ProfileList />} />
-            <Route path="/profiles/:name" element={<ProfileDetail />} />
-            <Route path="/networks" element={<NetworkList />} />
-            <Route path="/projects" element={<ProjectList />} />
-            <Route path="/storages" element={<StorageList />} />
-            <Route path="/cluster" element={<ClusterList />} />
-            <Route path="/warnings" element={<WarningList />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/ui/images" element={<ImageList />} />
+            <Route path="/ui/profiles" element={<ProfileList />} />
+            <Route path="/ui/profiles/:name" element={<ProfileDetail />} />
+            <Route path="/ui/networks" element={<NetworkList />} />
+            <Route path="/ui/projects" element={<ProjectList />} />
+            <Route path="/ui/storages" element={<StorageList />} />
+            <Route path="/ui/cluster" element={<ClusterList />} />
+            <Route path="/ui/warnings" element={<WarningList />} />
+            <Route path="/ui/settings" element={<Settings />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
           <Panels />

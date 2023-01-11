@@ -81,7 +81,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
             <StopInstanceBtn {...btnProps} />
             <EditInstanceBtn {...btnProps} />
             <DeleteInstanceBtn
-              onFinish={() => navigate("/instances")}
+              onFinish={() => navigate("/ui/instances")}
               {...btnProps}
             />
           </>,
@@ -193,7 +193,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instanceName }) => {
               <List
                 className="u-no-margin--bottom"
                 items={instance.profiles.map((name) => (
-                  <a key={name} href={`/profiles/${name}`}>
+                  <a key={name} href={`/ui/profiles/${name}`}>
                     {name}
                   </a>
                 ))}

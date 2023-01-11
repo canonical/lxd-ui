@@ -20,9 +20,9 @@ const Navigation: FC = () => {
       <div className="l-navigation-bar">
         <div className="p-panel is-dark">
           <div className="p-panel__header">
-            <NavLink className="p-panel__logo" to="/">
+            <NavLink className="p-panel__logo" to="/ui/">
               <img
-                src="/static/assets/img/logo/containers.svg"
+                src="static/assets/img/logo/containers.svg"
                 alt="LXD-UI logo"
                 className="p-panel__logo-image"
               />
@@ -39,9 +39,9 @@ const Navigation: FC = () => {
         <div className="l-navigation__drawer">
           <div className="p-panel is-dark">
             <div className="p-panel__header is-sticky">
-              <NavLink className="p-panel__logo" to="/">
+              <NavLink className="p-panel__logo" to="/ui/">
                 <img
-                  src="/static/assets/img/logo/containers.svg"
+                  src="static/assets/img/logo/containers.svg"
                   alt="LXD-UI logo"
                   className="p-panel__logo-image"
                 />
@@ -64,7 +64,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/instances"
+                        to="/ui/instances"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
@@ -74,7 +74,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/profiles"
+                        to="/ui/profiles"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--profile is-light p-side-navigation__icon"></i>{" "}
@@ -84,7 +84,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/networks"
+                        to="/ui/networks"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
@@ -94,7 +94,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/projects"
+                        to="/ui/projects"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
@@ -104,7 +104,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/storages"
+                        to="/ui/storages"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--pods is-light p-side-navigation__icon"></i>{" "}
@@ -114,7 +114,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/cluster"
+                        to="/ui/cluster"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--machines is-light p-side-navigation__icon"></i>{" "}
@@ -124,7 +124,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/warnings"
+                        to="/ui/warnings"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--warning-grey is-light p-side-navigation__icon"></i>{" "}
@@ -134,7 +134,7 @@ const Navigation: FC = () => {
                     <li className="p-side-navigation__item--title">
                       <NavLink
                         className="p-side-navigation__link"
-                        to="/settings"
+                        to="/ui/settings"
                         onClick={toggleMenu}
                       >
                         <i className="p-icon--settings is-light p-side-navigation__icon"></i>{" "}

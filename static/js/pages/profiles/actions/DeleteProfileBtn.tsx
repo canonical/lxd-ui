@@ -26,7 +26,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, notify }) => {
           queryKey: [queryKeys.profiles],
         });
         notify.success("Profile deleted.");
-        navigate("/profiles");
+        navigate("/ui/profiles");
       })
       .catch((e) => {
         setLoading(false);

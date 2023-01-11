@@ -113,7 +113,9 @@ const InstanceList: FC = () => {
           "aria-label": "Status",
         },
         {
-          content: <a href={`/instances/${instance.name}`}>{instance.name}</a>,
+          content: (
+            <a href={`/ui/instances/${instance.name}`}>{instance.name}</a>
+          ),
           role: "rowheader",
           "aria-label": "Name",
         },
@@ -144,7 +146,9 @@ const InstanceList: FC = () => {
             <Button
               appearance="base"
               className="u-no-margin--bottom"
-              onClick={() => navigate(`/instances/${instance.name}/snapshots`)}
+              onClick={() =>
+                navigate(`/ui/instances/${instance.name}/snapshots`)
+              }
             >
               {instance.snapshots?.length ?? "0"}
             </Button>

@@ -7,7 +7,7 @@
     "clean": "rm -rf node_modules yarn-error.log css static/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
     "watch": "watch -p 'static/sass/**/*.scss' -p 'static/js/**/*' -c 'yarn run build'",
     "build-js": "webpack",
-    "build-css": "sass static/sass/styles.scss build/css/styles.css --load-path=node_modules --style=compressed && postcss --use autoprefixer --replace 'build/css/**/*.css' --no-map",
+    "build-css": "sass static/sass/styles.scss build/ui/styles.css --load-path=node_modules --style=compressed && postcss --use autoprefixer --replace 'build/**/*.css' --no-map",
     "build": "yarn run build-js && yarn run build-css",
     "format-js": "prettier 'static/js/**/*.{js,json,jsx}' --write",
     "lint-scss": "stylelint 'static/**/*.scss'",
