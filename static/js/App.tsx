@@ -16,6 +16,7 @@ import Settings from "pages/settings/Settings";
 import InstanceDetail from "pages/instances/InstanceDetail";
 import StorageList from "pages/storages/StorageList";
 import ProfileDetail from "pages/profiles/ProfileDetail";
+import CertificateGenerate from "pages/certificates/CertificateGenerate";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App: FC = () => {
             <Route path="/ui/cluster" element={<ClusterList />} />
             <Route path="/ui/warnings" element={<WarningList />} />
             <Route path="/ui/settings" element={<Settings />} />
+            <Route path="/ui/certificates" element={<CertificateGenerate />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
           <Panels />
