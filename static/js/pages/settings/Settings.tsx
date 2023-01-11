@@ -11,7 +11,7 @@ import { LxdConfigOption } from "types/config";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
 
-const configOptionsUrl = "/static/assets/data/config-options.json";
+const configOptionsUrl = "static/assets/data/config-options.json";
 
 const Settings: FC = () => {
   const [configOptions, setConfigOptions] = useState<LxdConfigOption[]>([]);

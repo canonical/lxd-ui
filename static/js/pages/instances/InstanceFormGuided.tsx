@@ -72,7 +72,7 @@ const InstanceFormGuided: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
           });
-          navigate("/instances");
+          navigate("/ui/instances");
         })
         .catch((e) => {
           formik.setSubmitting(false);
@@ -183,7 +183,9 @@ const InstanceFormGuided: FC = () => {
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>
-                  <Button onClick={() => navigate("/instances")}>Cancel</Button>
+                  <Button onClick={() => navigate("/ui/instances")}>
+                    Cancel
+                  </Button>
                   <SubmitButton
                     isSubmitting={formik.isSubmitting}
                     isDisabled={!formik.isValid}

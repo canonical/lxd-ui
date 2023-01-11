@@ -7,7 +7,8 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "[name].js",
+    publicPath: '/ui/',
+    filename: "ui/[name].js",
   },
   module: {
     rules: [
@@ -37,8 +38,13 @@ const config = {
           toType: "file",
         },
         {
+          from: "static/html/index.html",
+          to: "ui/index.html",
+          toType: "file",
+        },
+        {
           from: "static/assets",
-          to: "static/assets",
+          to: "ui/static/assets",
           toType: "dir",
         },
       ],

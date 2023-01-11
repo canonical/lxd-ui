@@ -6,7 +6,7 @@
   @media screen and (min-width: $breakpoint-small) {
     /* switch out the image in the collapsed view to hide partially visibly text */
     .p-panel__logo-image {
-      content: url("/static/assets/img/logo/containers-no-text.svg");
+      content: url("static/assets/img/logo/containers-no-text.svg");
       height: 3rem;
     }
 
@@ -16,14 +16,14 @@
       position: static;
 
       .p-panel__logo-image {
-        content: url("/static/assets/img/logo/containers.svg");
+        content: url("static/assets/img/logo/containers.svg");
       }
     }
   }
 
   @media screen and (min-width: $breakpoint-large) {
     .p-panel__logo-image {
-      content: url("/static/assets/img/logo/containers.svg");
+      content: url("static/assets/img/logo/containers.svg");
     }
   }
 }

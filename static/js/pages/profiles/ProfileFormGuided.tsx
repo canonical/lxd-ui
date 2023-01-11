@@ -136,7 +136,7 @@ const ProfileFormGuided: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });
-          navigate("/profiles");
+          navigate("/ui/profiles");
         })
         .catch((e) => {
           formik.setSubmitting(false);

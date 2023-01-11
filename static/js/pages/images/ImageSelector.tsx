@@ -25,9 +25,9 @@ interface Props {
   onSelect: (image: RemoteImage) => void;
 }
 
-const canonicalJson = "/static/assets/data/canonical-images.json";
+const canonicalJson = "static/assets/data/canonical-images.json";
 const canonicalServer = "https://cloud-images.ubuntu.com/releases";
-const linuxContainersJson = "/static/assets/data/linuxcontainers-images.json";
+const linuxContainersJson = "static/assets/data/linuxcontainers-images.json";
 const linuxContainersServer = "https://images.linuxcontainers.org";
 
 const ANY = "any";

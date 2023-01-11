@@ -55,7 +55,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             <tr>
               <th>Name</th>
               <td>
-                <a href={`/instances/${instance.name}`}>{instance.name}</a>
+                <a href={`/ui/instances/${instance.name}`}>{instance.name}</a>
               </td>
             </tr>
             <tr>
@@ -97,7 +97,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
         <List
           className="u-no-margin--bottom"
           items={instance.profiles.map((name) => (
-            <a key={name} href={`/profiles/${name}`}>
+            <a key={name} href={`/ui/profiles/${name}`}>
               {name}
             </a>
           ))}
@@ -119,7 +119,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             size={3}
             className="p-snapshot-link p-text--small u-align--right u-no-margin--bottom"
           >
-            <a href={`/instances/${instance.name}/snapshots`}>
+            <a href={`/ui/instances/${instance.name}/snapshots`}>
               Manage snapshots
             </a>
           </Col>

@@ -9,7 +9,7 @@ const OpenInstanceDetailBtn: FC<Props> = ({ instanceName }) => {
   return (
     <Link
       className="p-button is-dense u-no-margin--bottom"
-      to={`/instances/${instanceName}`}
+      to={`/ui/instances/${instanceName}`}
     >
       View instance
     </Link>
