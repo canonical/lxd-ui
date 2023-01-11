@@ -4,7 +4,7 @@ import { Position } from "@canonical/react-components/dist/components/Tooltip/To
 
 interface Props {
   text: string;
-  className: string;
+  className?: string;
   tooltipPosition?: Position;
 }
 
@@ -29,7 +29,7 @@ const CopyButton: FC<Props> = ({
   };
 
   return (
-    <div className={className}>
+    <span className={className}>
       <Tooltip
         message={copied ? "Copied!" : "Copy to clipboard"}
         position={tooltipPosition}
@@ -49,7 +49,7 @@ const CopyButton: FC<Props> = ({
           </i>
         </Button>
       </Tooltip>
-    </div>
+    </span>
   );
 };
 
