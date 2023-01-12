@@ -35,7 +35,7 @@ const OpenVgaBtn: FC<Props> = ({ instance }) => {
           instance.status !== "Running" || instance.type !== "virtual-machine"
         }
       >
-        <i className="p-icon--canvas" />
+        <i className="p-icon--desktop" />
       </Button>
     </Tooltip>
   );
