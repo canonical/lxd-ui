@@ -39,8 +39,7 @@ const DeleteSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
       iconDescription="Delete"
       title="Confirm delete"
       toggleCaption="Delete"
-      confirmationMessage={`Are you sure you want to delete snapshot "${snapshot.name}"?
-                            This action cannot be undone, and can result in data loss.`}
+      confirmationMessage={`Are you sure you want to delete snapshot "${snapshot.name}"? This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
       onConfirm={handleDelete}
     />
