@@ -16,7 +16,7 @@
     "serve": "serve --single --no-clipboard build && echo 'available on to https://localhost:9443'"
   },
   "dependencies": {
-    "@canonical/react-components": "0.37.8",
+    "@canonical/react-components": "0.37.9",
     "@focus-reactive/react-yaml": "1.1.2",
     "@tanstack/react-query": "^4.14.5",
     "@use-it/event-listener": "^0.1.7",
