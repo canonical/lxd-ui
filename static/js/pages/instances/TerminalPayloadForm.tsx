@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, KeyboardEvent } from "react";
 import {
   Button,
   Col,
@@ -73,8 +73,15 @@ const TerminalPayloadForm: FC<Props> = ({ close, onFinish }) => {
     void formik.setFieldValue("environment", copy);
   };
 
+  const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Escape") {
+      close();
+    }
+  };
+
   return (
     <Modal
+      close={close}
       title="Reconnect terminal"
       buttonRow={
         <>
@@ -86,6 +93,7 @@ const TerminalPayloadForm: FC<Props> = ({ close, onFinish }) => {
           </Button>
         </>
       }
+      onKeyDown={handleEscKey}
     >
       <Form onSubmit={formik.handleSubmit}>
         <Input
