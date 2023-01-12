@@ -11,22 +11,23 @@
 @include vf-p-icon-containers;
 @include vf-p-icon-copy-to-clipboard;
 @include vf-p-icon-desktop;
+@include vf-p-icon-disconnect;
 @include vf-p-icon-edit;
 @include vf-p-icon-export;
 @include vf-p-icon-fullscreen;
 @include vf-p-icon-import;
 @include vf-p-icon-machines;
 @include vf-p-icon-open-terminal;
+@include vf-p-icon-pods;
 @include vf-p-icon-power-off;
 @include vf-p-icon-priority-low;
 @include vf-p-icon-profile;
 @include vf-p-icon-restart;
+@include vf-p-icon-settings;
 @include vf-p-icon-switcher-environments;
 @include vf-p-icon-task-outstanding;
-@include vf-p-icon-warning-grey;
 @include vf-p-icon-video-play;
-@include vf-p-icon-settings;
-@include vf-p-icon-pods;
+@include vf-p-icon-warning-grey;
 
 @import "pattern_navigation";
 @include lxd-ui-p-navigation;

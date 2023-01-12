@@ -22,8 +22,7 @@ const StartStopInstanceBtn: FC<Props> = ({
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  const canBeStarted =
-    instance.status === "Stopped" || instance.status === "Frozen";
+  const canBeStarted = instance.status === "Stopped";
   const canBeStopped =
     instance.status === "Running" ||
     instance.status === "Ready" ||

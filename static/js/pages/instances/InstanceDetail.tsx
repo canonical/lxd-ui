@@ -12,6 +12,7 @@ import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
+import FreezeInstanceBtn from "./actions/FreezeInstanceBtn";
 
 const TABS: string[] = ["Overview", "Snapshots", "Terminal", "VGA"];
 
@@ -63,7 +64,12 @@ const InstanceDetail: FC = () => {
                   {instance.status}
                 </i>,
                 <StartStopInstanceBtn
-                  key="button"
+                  key="start-stop"
+                  instance={instance}
+                  notify={notify}
+                />,
+                <FreezeInstanceBtn
+                  key="freeze-unfreeze"
                   instance={instance}
                   notify={notify}
                 />,
