@@ -36,7 +36,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
       </>
     );
   };
-  // TODO: remove on next react-components update
+
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Escape") {
       close();
@@ -84,8 +84,8 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
 
   return (
     <Modal
+      close={close}
       title={`Create snapshot for ${instance.name}`}
-      // TODO: put back the close prop on next react-components update
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" type="button" onClick={close}>
