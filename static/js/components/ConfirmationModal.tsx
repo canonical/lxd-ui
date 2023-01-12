@@ -40,6 +40,10 @@ const ConfirmationModal: FC<Props> = ({
       <p style={{ textAlign: "start", whiteSpace: "pre-line" }}>
         {confirmationMessage}
       </p>
+      <p className="u-text--muted">
+        You can skip these confirmation modals by holding <code>SHIFT</code>{" "}
+        when clicking on the action.
+      </p>
     </Modal>
   );
 };
