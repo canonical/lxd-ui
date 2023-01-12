@@ -5,26 +5,19 @@ import usePanelParams from "util/usePanelParams";
 
 interface Props {
   instance: LxdInstance;
-  isDense?: boolean;
-  label?: string;
 }
 
-const EditInstanceBtn: FC<Props> = ({
-  instance,
-  isDense = true,
-  label = "Edit",
-}) => {
+const EditInstanceBtn: FC<Props> = ({ instance }) => {
   const panelParams = usePanelParams();
 
   return (
     <Button
       className="u-no-margin--bottom"
-      dense={isDense}
       hasIcon
       onClick={() => panelParams.openInstanceFormYaml(instance.name)}
     >
       <i className={"p-icon--edit"} />
-      {label && <span>{label}</span>}
+      <span>Edit</span>
     </Button>
   );
 };
