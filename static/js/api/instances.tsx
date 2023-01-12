@@ -112,6 +112,34 @@ export const stopInstance = (instance: LxdInstance) => {
   });
 };
 
+export const freezeInstance = (instance: LxdInstance) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${instance.name}/state`, {
+      method: "PUT",
+      body: '{"action": "freeze"}',
+    })
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const unfreezeInstance = (instance: LxdInstance) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${instance.name}/state`, {
+      method: "PUT",
+      body: '{"action": "unfreeze"}',
+    })
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
 export const deleteInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}`, {
