@@ -8,6 +8,7 @@ import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import OpenInstanceDetailBtn from "pages/instances/actions/OpenInstanceDetailBtn";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
+import CopyButton from "../../components/CopyButton";
 
 interface Props {
   instance: LxdInstance;
@@ -16,6 +17,25 @@ interface Props {
 }
 
 const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
+  const getIpAddresses = (family: string) => {
+    return instance.state?.network?.eth0?.addresses
+      .filter((item) => item.family === family)
+      .map((item) => {
+        return (
+          <Row key={item.address}>
+            <Col size={3} className="u-truncate" title={item.address}>
+              {item.address}
+            </Col>
+            <Col size={1}>
+              <CopyButton text={item.address} className="u-float-right" />
+            </Col>
+          </Row>
+        );
+      });
+  };
+  const ipv4Addresses = getIpAddresses("inet");
+  const ipv6Addresses = getIpAddresses("inet6");
+
   return (
     <div className="p-panel p-instance-detail-panel">
       <div className="p-panel__header p-instance-detail-panel--header">
@@ -86,6 +106,18 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
               <th>Last used</th>
               <td>{isoTimeToString(instance.last_used_at)}</td>
             </tr>
+            {ipv4Addresses && ipv4Addresses.length > 0 && (
+              <tr className="p-address-row">
+                <th>IPv4</th>
+                <td>{ipv4Addresses}</td>
+              </tr>
+            )}
+            {ipv6Addresses && ipv6Addresses.length > 0 && (
+              <tr className="p-address-row">
+                <th>IPv6</th>
+                <td>{ipv6Addresses}</td>
+              </tr>
+            )}
           </tbody>
         </table>
         <h5 className="u-no-margin--bottom">Profiles</h5>

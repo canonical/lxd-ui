@@ -9,6 +9,7 @@
 @include vf-p-icon-close;
 @include vf-p-icon-connected;
 @include vf-p-icon-containers;
+@include vf-p-icon-copy-to-clipboard;
 @include vf-p-icon-desktop;
 @include vf-p-icon-edit;
 @include vf-p-icon-export;
@@ -21,6 +22,7 @@
 @include vf-p-icon-profile;
 @include vf-p-icon-restart;
 @include vf-p-icon-switcher-environments;
+@include vf-p-icon-task-outstanding;
 @include vf-p-icon-warning-grey;
 @include vf-p-icon-video-play;
 @include vf-p-icon-settings;
@@ -118,6 +120,13 @@
         display: none;
       }
     }
+  }
+}
+
+.p-address-row {
+  display: none;
+  @media screen and (max-width: 1400px) {
+    display: table-row;
   }
 }
 

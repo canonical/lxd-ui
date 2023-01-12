@@ -69,9 +69,19 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
             <td>{isoTimeToString(instance.last_used_at)}</td>
           </tr>
           <tr>
-            <th>Address</th>
+            <th>IPv4</th>
             <td>
               {instance.state?.network?.eth0?.addresses
+                .filter((item) => item.family === "inet")
+                .map((item) => item.address)
+                .join(" ")}
+            </td>
+          </tr>
+          <tr>
+            <th>IPv6</th>
+            <td>
+              {instance.state?.network?.eth0?.addresses
+                .filter((item) => item.family === "inet6")
                 .map((item) => item.address)
                 .join(" ")}
             </td>
