@@ -6,7 +6,6 @@ import { humanFileSize, isoTimeToString } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
-import { useNavigate } from "react-router-dom";
 import EditInstanceBtn from "./actions/EditInstanceBtn";
 import { createPortal } from "react-dom";
 import { List } from "@canonical/react-components";
@@ -21,8 +20,6 @@ interface Props {
 }
 
 const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
-  const navigate = useNavigate();
-
   const {
     data: metrics = [],
     error: metricError,
@@ -42,22 +39,14 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
   }
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);
-  const btnProps = {
-    instance: instance,
-    notify: notify,
-    isDense: false,
-  };
 
   return (
     <>
       {controlTarget &&
         createPortal(
           <>
-            <EditInstanceBtn {...btnProps} />
-            <DeleteInstanceBtn
-              onFinish={() => navigate("/ui/instances")}
-              {...btnProps}
-            />
+            <EditInstanceBtn instance={instance} />
+            <DeleteInstanceBtn instance={instance} notify={notify} />
           </>,
           controlTarget
         )}

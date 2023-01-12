@@ -6,15 +6,16 @@ import { queryKeys } from "util/queryKeys";
 import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Tooltip } from "@canonical/react-components";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
-  onFinish: () => void;
 }
 
-const DeleteInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
+const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
   const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
@@ -26,7 +27,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify, onFinish }) => {
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} deleted.`);
-        onFinish();
+        navigate("/ui/instances");
       })
       .catch((e) => {
         setLoading(false);
