@@ -11,7 +11,7 @@
     "build": "yarn run build-js && yarn run build-css",
     "format-js": "prettier 'static/js/**/*.{js,json,jsx}' --write",
     "lint-scss": "stylelint 'static/**/*.scss'",
-    "lint-js": "eslint 'static/js/**/*.{js,json,jsx,tsx}' && prettier 'static/js/**/*.{js,json,jsx,tsx}' --check",
+    "lint-js": "eslint 'static/js/**/*.{js,json,jsx,tsx}' .eslintrc.js babel.config.js webpack.config.js && prettier 'static/js/**/*.{js,json,jsx,tsx}' .eslintrc.js babel.config.js webpack.config.js --check",
     "start": "yarn run build && concurrently --kill-others --raw 'yarn run watch' 'yarn serve'",
     "serve": "serve --single --no-clipboard build && echo 'available on to https://localhost:9443'"
   },
