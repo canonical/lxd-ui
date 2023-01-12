@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -7,7 +8,7 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, "build"),
-    publicPath: '/ui/',
+    publicPath: "/ui/",
     filename: "ui/[name].js",
   },
   module: {
@@ -53,16 +54,16 @@ const config = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
     alias: {
-      'api': path.join(__dirname, 'static/js/api'),
-      'components': path.join(__dirname, 'static/js/components'),
-      'pages': path.join(__dirname, 'static/js/pages'),
-      'types': path.join(__dirname, 'static/js/types'),
-      'util': path.join(__dirname, 'static/js/util'),
+      api: path.join(__dirname, "static/js/api"),
+      components: path.join(__dirname, "static/js/components"),
+      pages: path.join(__dirname, "static/js/pages"),
+      types: path.join(__dirname, "static/js/types"),
+      util: path.join(__dirname, "static/js/util"),
     },
   },
 };
 
-module.exports = (env) => {
+module.exports = () => {
   const production = process.env.ENVIRONMENT !== "devel";
 
   if (production) {

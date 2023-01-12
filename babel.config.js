@@ -1,26 +1,29 @@
 module.exports = {
-  presets: [[
-    '@babel/preset-env',
-    {
-      targets: {
-        esmodules: true,
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        targets: {
+          esmodules: true,
+        },
       },
-    },
-  ], '@babel/react' ],
+    ],
+    "@babel/react",
+  ],
   env: {
     test: {
       presets: [
         [
-          '@babel/env',
+          "@babel/env",
           {
             targets: {
-              node: 'current',
+              node: "current",
             },
           },
         ],
-        'jest',
+        "jest",
       ],
-      plugins: ['transform-es2015-modules-commonjs'],
+      plugins: ["transform-es2015-modules-commonjs"],
     },
   },
 };

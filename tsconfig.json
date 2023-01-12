@@ -26,7 +26,12 @@
     "noEmit": false,
     "sourceMap": true,
   },
-  "include": ["./static/js"],
+  "include": [
+    "./static/js",
+    ".eslintrc.js",
+    "babel.config.js",
+    "webpack.config.js"
+  ],
   "paths": [
     {
       "*": ["types/*.d.ts"]
