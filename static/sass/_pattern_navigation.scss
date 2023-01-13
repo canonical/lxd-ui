@@ -1,6 +1,26 @@
 @mixin lxd-ui-p-navigation {
   .p-panel__logo-image {
-    height: 2rem;
+    height: 2.5rem;
+  }
+
+  /* logo should be flush with the top of the window */
+  .l-navigation,
+  .l-navigation-bar {
+    .p-panel {
+      padding-bottom: 1rem;
+      padding-top: 0;
+    }
+
+    .p-panel__logo {
+      margin-top: -3px;
+    }
+  }
+
+  .l-navigation-bar {
+    .p-panel__logo {
+      margin-bottom: 0;
+      margin-top: -10px;
+    }
   }
 
   @media screen and (min-width: $breakpoint-small) {

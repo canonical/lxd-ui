@@ -22,7 +22,7 @@ const Navigation: FC = () => {
           <div className="p-panel__header">
             <NavLink className="p-panel__logo" to="/ui/">
               <img
-                src="static/assets/img/logo/containers.svg"
+                src="/ui/static/assets/img/logo/containers.svg"
                 alt="LXD-UI logo"
                 className="p-panel__logo-image"
               />
@@ -41,7 +41,7 @@ const Navigation: FC = () => {
             <div className="p-panel__header is-sticky">
               <NavLink className="p-panel__logo" to="/ui/">
                 <img
-                  src="static/assets/img/logo/containers.svg"
+                  src="/ui/static/assets/img/logo/containers.svg"
                   alt="LXD-UI logo"
                   className="p-panel__logo-image"
                 />
