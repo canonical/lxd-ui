@@ -263,7 +263,27 @@ const InstanceList: FC = () => {
                 isLoading ? (
                   <Loader text="Loading instances..." />
                 ) : (
-                  "No data to display"
+                  <Row className="p-strip empty-state-message">
+                    <Col size={4} className="u-align--right">
+                      <Icon name="containers" className="u-hide--small icon" />
+                    </Col>
+                    <Col size={8} className="u-align--left">
+                      <h4 className="p-heading--2">No instances found</h4>
+                      <p>
+                        Looks like there are no instances in this project!
+                        Create a new instance with the &quot;Add instance&quot;
+                        button above.
+                      </p>
+                      <p>
+                        <a
+                          className="p-link--external"
+                          href="https://linuxcontainers.org/lxd/docs/latest/instances/"
+                        >
+                          Read the documentation on instances
+                        </a>
+                      </p>
+                    </Col>
+                  </Row>
                 )
               }
             />
