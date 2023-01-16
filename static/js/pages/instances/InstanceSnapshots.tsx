@@ -88,45 +88,43 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
           controlTarget
         )}
       <Row>
-        {instance.snapshots?.length && (
-          <MainTable
-            headers={headers}
-            rows={rows}
-            paginate={30}
-            responsive
-            sortable
-            className="u-table-layout--auto"
-          />
-        )}
-        {!instance.snapshots?.length && (
-          <Row className="empty-state-message">
-            <Col size={2} />
-            <Col size={8}>
-              <Row>
-                <Col size={2}>
-                  <Icon name="settings" className="u-hide--small icon" />
-                </Col>
-                <Col size={6}>
-                  <h4 className="p-heading--2">No snapshots found</h4>
-                  <p>
-                    A snapshot is the state of an instance at a particular point
-                    in time. It can be used to restore the instance to that
-                    state. Create a new snapshot with the &quot;Create
-                    snapshot&quot; button above.
-                  </p>
-                  <p>
-                    <a
-                      className="p-link--external"
-                      href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
-                    >
-                      Read the documentation on snapshots
-                    </a>
-                  </p>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        )}
+        <MainTable
+          headers={headers}
+          rows={rows}
+          paginate={30}
+          responsive
+          sortable
+          className="u-table-layout--auto"
+          emptyStateMsg={
+            <Row className="empty-state-message">
+              <Col size={2} />
+              <Col size={8}>
+                <Row>
+                  <Col size={2}>
+                    <Icon name="settings" className="u-hide--small icon" />
+                  </Col>
+                  <Col size={6}>
+                    <h4 className="p-heading--2">No snapshots found</h4>
+                    <p>
+                      A snapshot is the state of an instance at a particular
+                      point in time. It can be used to restore the instance to
+                      that state. Create a new snapshot with the &quot;Create
+                      snapshot&quot; button above.
+                    </p>
+                    <p>
+                      <a
+                        className="p-link--external"
+                        href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
+                      >
+                        Read the documentation on snapshots
+                      </a>
+                    </p>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          }
+        />
       </Row>
     </>
   );
