@@ -8,10 +8,11 @@ import Meter from "components/Meter";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import EditInstanceBtn from "./actions/EditInstanceBtn";
 import { createPortal } from "react-dom";
-import { List } from "@canonical/react-components";
+import { Col, List, Row } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { NotificationHelper } from "types/notification";
 import { LxdInstance } from "types/instance";
+import CopyButton from "components/CopyButton";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -40,6 +41,25 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);
 
+  const getIpAddresses = (family: string) => {
+    return instance.state?.network?.eth0?.addresses
+      .filter((item) => item.family === family)
+      .map((item) => {
+        return (
+          <Row key={item.address}>
+            <Col size={11} className="u-truncate" title={item.address}>
+              {item.address}
+            </Col>
+            <Col size={1}>
+              <CopyButton text={item.address} className="u-float-right" />
+            </Col>
+          </Row>
+        );
+      });
+  };
+  const ipv4Addresses = getIpAddresses("inet");
+  const ipv6Addresses = getIpAddresses("inet6");
+
   return (
     <>
       {controlTarget &&
@@ -58,7 +78,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
           </tr>
           <tr>
             <th>Description</th>
-            <td>{instance.description}</td>
+            <td>{instance.description !== "" ? instance.description : "-"}</td>
           </tr>
           <tr>
             <th>Created at</th>
@@ -71,25 +91,19 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
           <tr>
             <th>IPv4</th>
             <td>
-              {instance.state?.network?.eth0?.addresses
-                .filter((item) => item.family === "inet")
-                .map((item) => item.address)
-                .join(" ")}
+              {ipv4Addresses && ipv4Addresses.length > 0 ? ipv4Addresses : "-"}
             </td>
           </tr>
           <tr>
             <th>IPv6</th>
             <td>
-              {instance.state?.network?.eth0?.addresses
-                .filter((item) => item.family === "inet6")
-                .map((item) => item.address)
-                .join(" ")}
+              {ipv6Addresses && ipv6Addresses.length > 0 ? ipv6Addresses : "-"}
             </td>
           </tr>
           <tr>
             <td>Memory</td>
             <td>
-              {instanceMetrics.memory && (
+              {instanceMetrics.memory ? (
                 <div>
                   <Meter
                     percentage={
@@ -108,13 +122,15 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
                     }
                   />
                 </div>
+              ) : (
+                "-"
               )}
             </td>
           </tr>
           <tr>
             <td>Disk</td>
             <td>
-              {instanceMetrics.disk && (
+              {instanceMetrics.disk ? (
                 <div>
                   <Meter
                     percentage={
@@ -131,6 +147,8 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
                     }
                   />
                 </div>
+              ) : (
+                "-"
               )}
             </td>
           </tr>
