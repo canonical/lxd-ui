@@ -71,12 +71,6 @@ const ProfileDetail: FC = () => {
       <NotificationRow notify={notify} />
       <Row>
         <table>
-          <thead>
-            <tr>
-              <th>Label</th>
-              <th>Value</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
               <th>Name</th>
