@@ -65,7 +65,7 @@ const FreezeInstanceBtn: FC<Props> = ({
       }
       position="btm-center"
     >
-      {instance.status === "Frozen" ? (
+      {instance.status !== "Frozen" ? (
         <ConfirmationButton
           className="u-no-margin--bottom u-no-margin--right"
           isLoading={isLoading}
