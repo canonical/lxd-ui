@@ -173,13 +173,15 @@ const InstanceFormGuided: FC = () => {
                   </Col>
                 </>
               )}
-              <ProfileSelect
-                notify={notify}
-                selected={formik.values.profiles}
-                setSelected={(value) =>
-                  void formik.setFieldValue("profiles", value)
-                }
-              />
+              {formik.values.image && (
+                <ProfileSelect
+                  notify={notify}
+                  selected={formik.values.profiles}
+                  setSelected={(value) =>
+                    void formik.setFieldValue("profiles", value)
+                  }
+                />
+              )}
               <hr />
               <Row className="u-align--right">
                 <Col size={12}>
