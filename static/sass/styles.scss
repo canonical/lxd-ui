@@ -176,3 +176,13 @@
 .p-certificate-generate {
   max-width: 57rem !important;
 }
+
+.p-bottom-controls {
+  background-color: white;
+  bottom: 0;
+  position: sticky;
+
+  div {
+    margin-top: 0.5rem;
+  }
+}
