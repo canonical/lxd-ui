@@ -11,7 +11,7 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createInstance } from "api/instances";
+import { createInstance, startInstance } from "api/instances";
 import Aside from "components/Aside";
 import NotificationRow from "components/NotificationRow";
 import PanelHeader from "components/PanelHeader";
@@ -25,12 +25,15 @@ import { RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { instanceTypeOptions } from "util/instanceOptions";
 import { checkDuplicateName } from "util/helpers";
+import { LxdInstance } from "types/instance";
+import { LxdOperation } from "types/operation";
 
 const InstanceFormGuided: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const [withStart, setWithStart] = useState<boolean>(false);
 
   const InstanceSchema = Yup.object().shape({
     name: Yup.string()
@@ -42,6 +45,16 @@ const InstanceFormGuided: FC = () => {
       .optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
+
+  const create = () => {
+    setWithStart(false);
+    formik.handleSubmit();
+  };
+
+  const createAndStart = () => {
+    setWithStart(true);
+    formik.handleSubmit();
+  };
 
   const formik = useFormik<{
     name: string;
@@ -68,11 +81,30 @@ const InstanceFormGuided: FC = () => {
         values.instanceType,
         values.profiles
       )
-        .then(() => {
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
-          navigate("/ui/instances");
+        .then((operation) => {
+          if (withStart) {
+            startInstance({
+              name:
+                values.name ||
+                (operation as LxdOperation).metadata.resources.instances[0]
+                  .split("/")
+                  .pop(),
+            } as LxdInstance)
+              .then(() => {
+                void queryClient.invalidateQueries({
+                  queryKey: [queryKeys.instances],
+                });
+                navigate("/ui/instances");
+              })
+              .catch((e) => {
+                notify.failure("Error on instance start.", e);
+              });
+          } else {
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.instances],
+            });
+            navigate("/ui/instances");
+          }
         })
         .catch((e) => {
           formik.setSubmitting(false);
@@ -93,12 +125,12 @@ const InstanceFormGuided: FC = () => {
 
   return (
     <Aside>
-      <div className="p-panel">
+      <div className="p-panel l-site">
         <PanelHeader title={<h4>Quick create instance</h4>} />
         <div className="p-panel__content">
           <NotificationRow notify={notify} />
           <Row>
-            <Form onSubmit={formik.handleSubmit} stacked>
+            <Form onSubmit={createAndStart} stacked>
               <Input
                 id="name"
                 name="name"
@@ -182,20 +214,33 @@ const InstanceFormGuided: FC = () => {
                   }
                 />
               )}
-              <hr />
-              <Row className="u-align--right">
-                <Col size={12}>
-                  <Button onClick={() => navigate("/ui/instances")}>
-                    Cancel
-                  </Button>
-                  <SubmitButton
-                    isSubmitting={formik.isSubmitting}
-                    isDisabled={!formik.isValid}
-                    buttonLabel="Create instance"
-                  />
-                </Col>
-              </Row>
             </Form>
+          </Row>
+        </div>
+        <div className="l-footer--sticky p-bottom-controls">
+          <hr />
+          <Row className="u-align--right">
+            <Col size={12}>
+              <Button
+                appearance="base"
+                onClick={() => navigate("/ui/instances")}
+              >
+                Cancel
+              </Button>
+              <SubmitButton
+                isSubmitting={formik.isSubmitting}
+                isDisabled={!formik.isValid}
+                buttonLabel="Create"
+                appearance="default"
+                onClick={create}
+              />
+              <SubmitButton
+                isSubmitting={formik.isSubmitting}
+                isDisabled={!formik.isValid}
+                buttonLabel="Create and start"
+                onClick={createAndStart}
+              />
+            </Col>
           </Row>
         </div>
       </div>

@@ -51,7 +51,9 @@ export const createInstance = (
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 120).then(resolve).catch(reject);
+        watchOperation(data.operation, 120)
+          .then(() => resolve(data))
+          .catch(reject);
       })
       .catch(reject);
   });
