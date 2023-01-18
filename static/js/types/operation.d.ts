@@ -3,8 +3,8 @@ export interface LxdOperation {
   metadata: {
     err?: string;
     resources: {
-      instances: string[];
-    }
+      instances?: string[];
+    };
     status: "Success" | "Running" | "Started";
   };
 }

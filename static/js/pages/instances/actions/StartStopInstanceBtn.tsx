@@ -31,7 +31,7 @@ const StartStopInstanceBtn: FC<Props> = ({
 
   const handleStart = () => {
     setLoading(true);
-    startInstance(instance)
+    startInstance(instance.name)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
@@ -47,7 +47,7 @@ const StartStopInstanceBtn: FC<Props> = ({
 
   const handleStop = () => {
     setLoading(true);
-    stopInstance(instance)
+    stopInstance(instance.name)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({

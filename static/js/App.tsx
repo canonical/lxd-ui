@@ -17,6 +17,7 @@ import InstanceDetail from "pages/instances/InstanceDetail";
 import StorageList from "pages/storages/StorageList";
 import ProfileDetail from "pages/profiles/ProfileDetail";
 import CertificateGenerate from "pages/certificates/CertificateGenerate";
+import { SharedNotifyProvider } from "./context/sharedNotify";
 
 const queryClient = new QueryClient();
 
@@ -24,31 +25,36 @@ const App: FC = () => {
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
-        <div className="l-application" role="presentation">
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<InstanceList />} />
-            <Route path="/ui" element={<InstanceList />} />
-            <Route path="/ui/instances" element={<InstanceList />} />
-            <Route path="/ui/instances/:name" element={<InstanceDetail />} />
-            <Route
-              path="/ui/instances/:name/:activeTab"
-              element={<InstanceDetail />}
-            />
-            <Route path="/ui/images" element={<ImageList />} />
-            <Route path="/ui/profiles" element={<ProfileList />} />
-            <Route path="/ui/profiles/:name" element={<ProfileDetail />} />
-            <Route path="/ui/networks" element={<NetworkList />} />
-            <Route path="/ui/projects" element={<ProjectList />} />
-            <Route path="/ui/storages" element={<StorageList />} />
-            <Route path="/ui/cluster" element={<ClusterList />} />
-            <Route path="/ui/warnings" element={<WarningList />} />
-            <Route path="/ui/settings" element={<Settings />} />
-            <Route path="/ui/certificates" element={<CertificateGenerate />} />
-            <Route path="*" element={<NoMatch />} />
-          </Routes>
-          <Panels />
-        </div>
+        <SharedNotifyProvider>
+          <div className="l-application" role="presentation">
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<InstanceList />} />
+              <Route path="/ui" element={<InstanceList />} />
+              <Route path="/ui/instances" element={<InstanceList />} />
+              <Route path="/ui/instances/:name" element={<InstanceDetail />} />
+              <Route
+                path="/ui/instances/:name/:activeTab"
+                element={<InstanceDetail />}
+              />
+              <Route path="/ui/images" element={<ImageList />} />
+              <Route path="/ui/profiles" element={<ProfileList />} />
+              <Route path="/ui/profiles/:name" element={<ProfileDetail />} />
+              <Route path="/ui/networks" element={<NetworkList />} />
+              <Route path="/ui/projects" element={<ProjectList />} />
+              <Route path="/ui/storages" element={<StorageList />} />
+              <Route path="/ui/cluster" element={<ClusterList />} />
+              <Route path="/ui/warnings" element={<WarningList />} />
+              <Route path="/ui/settings" element={<Settings />} />
+              <Route
+                path="/ui/certificates"
+                element={<CertificateGenerate />}
+              />
+              <Route path="*" element={<NoMatch />} />
+            </Routes>
+            <Panels />
+          </div>
+        </SharedNotifyProvider>
       </QueryClientProvider>
     </Router>
   );

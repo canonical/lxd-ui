@@ -5,9 +5,9 @@ import ConfirmationModal from "./ConfirmationModal";
 
 interface Props {
   className?: string;
-  isLoading: boolean;
-  iconClass: string;
-  iconDescription: string;
+  isLoading?: boolean;
+  iconClass?: string;
+  iconDescription?: string;
   title: string;
   toggleAppearance?: string;
   toggleCaption?: string;
@@ -20,9 +20,9 @@ interface Props {
 
 const ConfirmationButton: FC<Props> = ({
   className,
-  isLoading,
-  iconClass,
-  iconDescription,
+  isLoading = false,
+  iconClass = null,
+  iconDescription = null,
   title,
   toggleAppearance = "",
   toggleCaption,
@@ -62,19 +62,22 @@ const ConfirmationButton: FC<Props> = ({
       )}
       <Button
         appearance={toggleAppearance}
-        hasIcon
+        hasIcon={iconClass ? true : false}
         className={className}
         dense={isDense}
         disabled={isDisabled}
         onClick={handleShiftClick}
+        type="button"
       >
-        <i
-          className={
-            isLoading ? "p-icon--spinner u-animation--spin" : iconClass
-          }
-        >
-          {iconDescription}
-        </i>
+        {iconClass && (
+          <i
+            className={
+              isLoading ? "p-icon--spinner u-animation--spin" : iconClass
+            }
+          >
+            {iconDescription}
+          </i>
+        )}
         {toggleCaption && <span>{toggleCaption}</span>}
       </Button>
     </>

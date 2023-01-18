@@ -20,7 +20,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    deleteInstance(instance)
+    deleteInstance(instance.name)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
