@@ -59,3 +59,13 @@ Install dotrun as described in https://github.com/canonical/dotrun#installation 
     dotrun
 
 Browse through https://localhost:9443/ and **avoid** querying port 3000 directly. Requests to the lxd core won't reach HAProxy on the port 3000.
+
+# End-to-end tests
+
+The tests expect the environment on localhost to be accessible without client certificate. Change your local `haproxy.cfg` to have optional instead of required verification so it says `bind 127.0.0.1:9443 ssl verify optional [...]` instead of `bind 127.0.0.1:9443 ssl verify required [...]`. Then `sudo service haproxy restart`, execute `dotrun` and start tests with
+
+    npx playwright test
+
+Generate new tests with helper
+
+    npx playwright codegen --ignore-https-errors https://localhost:9443/

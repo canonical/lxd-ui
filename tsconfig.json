@@ -30,7 +30,9 @@
     "./static/js",
     ".eslintrc.js",
     "babel.config.js",
-    "webpack.config.js"
+    "playwright.config.ts",
+    "webpack.config.js",
+    "./tests/*.ts",
   ],
   "paths": [
     {
