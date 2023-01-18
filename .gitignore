@@ -74,3 +74,8 @@ dist/
 *.pem
 *.csr
 *.pfx
+
+# tests
+/test-results/
+/playwright-report/
+/playwright/.cache/
