@@ -135,6 +135,8 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
       return;
     }
 
+    xtermRef.current?.terminal.element?.style.setProperty("padding", "1rem");
+
     // ensure options is not undefined. fitAddon.fit will crash otherwise
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (xtermRef.current && xtermRef.current.terminal.options === undefined) {
