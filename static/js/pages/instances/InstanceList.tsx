@@ -1,14 +1,13 @@
 import {
   Button,
   Col,
-  ContextualMenu,
   Icon,
   MainTable,
   Row,
   SearchBox,
   Select,
 } from "@canonical/react-components";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { fetchInstances } from "api/instances";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
@@ -25,6 +24,7 @@ import {
 } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
+import { useSharedNotify } from "../../context/sharedNotify";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -35,6 +35,13 @@ const InstanceList: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [status, setStatus] = useState<string>("any");
   const [type, setType] = useState<string>("any");
+
+  const { setSharedNotify } = useSharedNotify();
+  useEffect(() => {
+    if (setSharedNotify) {
+      setSharedNotify(notify);
+    }
+  }, [setSharedNotify, notify]);
 
   const {
     data: instances = [],
@@ -186,23 +193,13 @@ const InstanceList: FC = () => {
           </>
         }
         controls={
-          <ContextualMenu
-            hasToggleIcon
-            links={[
-              {
-                children: "Quick create instance",
-                onClick: () => panelParams.openInstanceFormGuided(),
-              },
-              {
-                children: "Custom create instance (YAML)",
-                onClick: () => panelParams.openInstanceFormYaml(),
-              },
-            ]}
-            position="right"
-            toggleAppearance="positive"
-            toggleClassName="u-no-margin--bottom"
-            toggleLabel="Add instance"
-          />
+          <Button
+            className="u-no-margin--bottom"
+            appearance="positive"
+            onClick={() => panelParams.openInstanceFormGuided()}
+          >
+            Add instance
+          </Button>
         }
       >
         <NotificationRow notify={notify} />

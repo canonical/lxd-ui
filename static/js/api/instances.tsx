@@ -4,7 +4,6 @@ import { LxdInstance } from "types/instance";
 import { LxdTerminal, LxdTerminalPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperation } from "types/operation";
-import { RemoteImage } from "types/image";
 
 export const fetchInstance = (
   instanceName: string,
@@ -27,43 +26,11 @@ export const fetchInstances = (): Promise<LxdInstance[]> => {
   });
 };
 
-export const createInstance = (
-  name: string,
-  image: RemoteImage,
-  instanceType: string,
-  profiles: string[]
-) => {
+export const createInstanceFromJson = (body: string): Promise<LxdOperation> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/instances", {
       method: "POST",
-      body: JSON.stringify({
-        name: name,
-        profiles: profiles,
-        source: {
-          alias: image.aliases.split(",")[0],
-          mode: "pull",
-          protocol: "simplestreams",
-          server: image.server,
-          type: "image",
-        },
-        type: instanceType,
-      }),
-    })
-      .then(handleResponse)
-      .then((data: LxdOperation) => {
-        watchOperation(data.operation, 120)
-          .then(() => resolve(data))
-          .catch(reject);
-      })
-      .catch(reject);
-  });
-};
-
-export const createInstanceFromJson = (instanceConfiguration: string) => {
-  return new Promise((resolve, reject) => {
-    fetch("/1.0/instances", {
-      method: "POST",
-      body: instanceConfiguration,
+      body: body,
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
@@ -86,9 +53,9 @@ export const updateInstanceFromJson = (instanceConfiguration: string) => {
   });
 };
 
-export const startInstance = (instance: LxdInstance) => {
+export const startInstance = (instanceName: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state`, {
+    fetch(`/1.0/instances/${instanceName}/state`, {
       method: "PUT",
       body: '{"action": "start"}',
     })
@@ -100,9 +67,9 @@ export const startInstance = (instance: LxdInstance) => {
   });
 };
 
-export const stopInstance = (instance: LxdInstance) => {
+export const stopInstance = (instanceName: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state`, {
+    fetch(`/1.0/instances/${instanceName}/state`, {
       method: "PUT",
       body: '{"action": "stop"}',
     })
@@ -114,9 +81,9 @@ export const stopInstance = (instance: LxdInstance) => {
   });
 };
 
-export const freezeInstance = (instance: LxdInstance) => {
+export const freezeInstance = (instanceName: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state`, {
+    fetch(`/1.0/instances/${instanceName}/state`, {
       method: "PUT",
       body: '{"action": "freeze"}',
     })
@@ -128,9 +95,9 @@ export const freezeInstance = (instance: LxdInstance) => {
   });
 };
 
-export const unfreezeInstance = (instance: LxdInstance) => {
+export const unfreezeInstance = (instanceName: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state`, {
+    fetch(`/1.0/instances/${instanceName}/state`, {
       method: "PUT",
       body: '{"action": "unfreeze"}',
     })
@@ -142,9 +109,9 @@ export const unfreezeInstance = (instance: LxdInstance) => {
   });
 };
 
-export const deleteInstance = (instance: LxdInstance) => {
+export const deleteInstance = (instanceName: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}`, {
+    fetch(`/1.0/instances/${instanceName}`, {
       method: "DELETE",
     })
       .then(handleResponse)
