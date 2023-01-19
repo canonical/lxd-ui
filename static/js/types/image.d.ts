@@ -31,15 +31,17 @@ export interface RemoteImage {
   release: string;
   release_title?: string;
   variant?: string;
-  versions?: {
-    [key: string]: {
-      items: {
-        [key: string]: {
+  versions?: Record<
+    string,
+    {
+      items: Record<
+        string,
+        {
           ftype: string;
-        };
-      };
-    };
-  };
+        }
+      >;
+    }
+  >;
   server?: string;
 }
 

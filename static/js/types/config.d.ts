@@ -1,6 +1,4 @@
-export interface LxdConfigPair {
-  [key: string]: string;
-}
+export type LxdConfigPair = Record<string, string>;
 
 export interface LxdConfigOption {
   key: string;
