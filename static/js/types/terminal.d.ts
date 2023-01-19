@@ -15,7 +15,7 @@ export interface LxdTerminalPayload {
   "record-output": boolean;
   "wait-for-websocket": boolean;
   interactive: boolean;
-  environment: {};
+  environment: Record<string, string>;
   user?: number;
   group?: number;
 }

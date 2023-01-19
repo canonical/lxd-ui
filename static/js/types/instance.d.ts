@@ -44,15 +44,11 @@ interface LxdInstanceState {
   cpu: LxdInstanceUsageProp;
   disk: {
     root: LxdInstanceUsageProp;
-  } & {
-    [key: string]: LxdInstanceUsageProp;
-  };
+  } & Record<string, LxdInstanceUsageProp>;
   memory: LxdInstanceMemory;
   network?: {
     eth0?: LxdInstanceNetwork;
-  } & {
-    [key: string]: LxdInstanceNetwork;
-  };
+  } & Record<string, LxdInstanceNetwork>;
   pid: number;
   processes: number;
   status: string;

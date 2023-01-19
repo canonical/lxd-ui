@@ -10,6 +10,4 @@ export interface LxdNicDevice {
   type: "nic";
 }
 
-export interface LxdDevices {
-  [key: string]: LxdDiskDevice | LxdNicDevice;
-}
+export type LxdDevices = Record<string, LxdDiskDevice | LxdNicDevice>;
