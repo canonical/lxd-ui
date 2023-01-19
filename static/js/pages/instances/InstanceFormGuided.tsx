@@ -149,7 +149,7 @@ const InstanceFormGuided: FC = () => {
 
   const getCreationPayload = (values: FormValues) => {
     return {
-      instanceType: values.instanceType,
+      type: values.instanceType,
       name: values.name,
       profiles: values.profiles,
       source: {
