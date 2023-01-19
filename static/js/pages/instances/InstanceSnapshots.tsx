@@ -112,6 +112,8 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
                   <a
                     className="p-link--external"
                     href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
+                    target="_blank"
+                    rel="noreferrer"
                   >
                     Read the documentation on snapshots
                   </a>
