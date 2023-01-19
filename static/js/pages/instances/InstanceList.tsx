@@ -275,6 +275,8 @@ const InstanceList: FC = () => {
                         <a
                           className="p-link--external"
                           href="https://linuxcontainers.org/lxd/docs/latest/instances/"
+                          target="_blank"
+                          rel="noreferrer"
                         >
                           Read the documentation on instances
                         </a>
