@@ -8,6 +8,7 @@ export interface Notification {
 }
 
 export interface NotificationHelper {
+  id: string;
   notification: Notification | null;
   clear: () => void;
   failure: (message: string | ReactNode, error: unknown) => void;
