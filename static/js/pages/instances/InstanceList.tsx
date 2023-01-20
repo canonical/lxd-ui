@@ -157,6 +157,7 @@ const InstanceList: FC = () => {
                 isDense={false}
               />
               <Button
+                appearance="base"
                 className="u-no-margin--bottom"
                 onClick={() => setSelected(instance.name)}
                 hasIcon
@@ -166,7 +167,7 @@ const InstanceList: FC = () => {
             </>
           ),
           role: "rowheader",
-          className: "u-align--center u-hide--medium u-hide--small",
+          className: "u-align--right u-hide--medium u-hide--small",
           "aria-label": "Details",
         },
       ],
