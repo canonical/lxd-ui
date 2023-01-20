@@ -1,9 +1,7 @@
 import React, {
   createContext,
-  Dispatch,
   FC,
   ReactNode,
-  SetStateAction,
   useContext,
   useState,
 } from "react";
@@ -11,7 +9,7 @@ import { NotificationHelper } from "types/notification";
 
 interface ContextProps {
   sharedNotify: NotificationHelper | null;
-  setSharedNotify: Dispatch<SetStateAction<NotificationHelper | null>> | null;
+  setSharedNotify: ((newNotify: NotificationHelper) => void) | null;
 }
 
 const initialState: ContextProps = {
@@ -28,9 +26,16 @@ interface ProviderProps {
 export const SharedNotifyProvider: FC<ProviderProps> = ({ children }) => {
   const [notify, setNotify] = useState<NotificationHelper | null>(null);
 
+  const updateNotify = (newNotify: NotificationHelper) => {
+    if (newNotify.id === notify?.id) {
+      return;
+    }
+    setNotify(newNotify);
+  };
+
   const value = {
     sharedNotify: notify,
-    setSharedNotify: setNotify,
+    setSharedNotify: updateNotify,
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Notification, NotificationHelper } from "types/notification";
 import isEqual from "lodash/isEqual";
 
@@ -11,7 +11,10 @@ const useNotification = (): NotificationHelper => {
     }
   };
 
+  const id = useMemo(() => (Math.random() + 1).toString(36).substring(7), []);
+
   return {
+    id,
     notification,
 
     failure: (message, error) =>
