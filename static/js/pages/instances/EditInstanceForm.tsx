@@ -2,11 +2,7 @@ import React, { FC } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  createInstanceFromJson,
-  fetchInstance,
-  updateInstanceFromJson,
-} from "api/instances";
+import { fetchInstance, updateInstanceFromJson } from "api/instances";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
@@ -20,23 +16,32 @@ import usePanelParams from "util/usePanelParams";
 import { yamlToJson } from "util/yaml";
 import Loader from "components/Loader";
 
-const InstanceFormYaml: FC = () => {
+const EditInstanceForm: FC = () => {
   const notify = useNotification();
   const panelParams = usePanelParams();
   const queryClient = useQueryClient();
-
-  const isEditMode =
-    panelParams.instance !== null && panelParams.instance !== "";
 
   const InstanceSchema = Yup.object().shape({
     instanceYaml: Yup.string().required("This field is required"),
   });
 
-  const initialYaml = "\n\n";
+  const {
+    data: instance,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [queryKeys.instances, panelParams.instance],
+    queryFn: () => fetchInstance(panelParams.instance ?? "", 0),
+    enabled: panelParams.instance !== null,
+  });
+
+  if (error) {
+    notify.failure("Could not load instance details.", error);
+  }
 
   const formik = useFormik({
     initialValues: {
-      instanceYaml: initialYaml,
+      instanceYaml: instance ? dumpYaml(instance) : "",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
@@ -48,10 +53,7 @@ const InstanceFormYaml: FC = () => {
         );
       }
       const instanceJson = yamlToJson(values.instanceYaml);
-      const mutation = panelParams.instance
-        ? updateInstanceFromJson
-        : createInstanceFromJson;
-      mutation(instanceJson)
+      updateInstanceFromJson(instanceJson)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
@@ -65,48 +67,22 @@ const InstanceFormYaml: FC = () => {
     },
   });
 
-  const {
-    data: instance,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances, panelParams.instance],
-    queryFn: () => fetchInstance(panelParams.instance ?? "", 0),
-    enabled: isEditMode,
-  });
-
-  if (error) {
-    notify.failure("Could not load instance details.", error);
-  }
-
-  if (formik.values.instanceYaml === initialYaml && instance) {
-    const yaml = dumpYaml(instance);
-    void formik.setFieldValue("instanceYaml", yaml);
-  }
-
   return (
     <Aside width="wide">
       <div className="p-panel">
         <PanelHeader
           title={
-            <h4>
-              {panelParams.instance
-                ? `Edit instance configuration for ${panelParams.instance}`
-                : "Create instance from YAML configuration"}
-            </h4>
+            <h4>Edit instance configuration for {panelParams.instance}</h4>
           }
         />
         <NotificationRow notify={notify} />
-        {isEditMode && isLoading ? (
+        {isLoading ? (
           <Loader text="Loading instance details..." />
         ) : (
           <Row>
             <Form onSubmit={formik.handleSubmit} stacked>
               <div className="p-instance-yaml">
                 <YamlEditor
-                  // using the instance name as a key to force a remount of the component
-                  // (it won't update otherwise)
-                  key={instance ? `update-${instance.name}` : "create"}
                   text={formik.values.instanceYaml}
                   onChange={({ text }) =>
                     void formik.setValues({ instanceYaml: text })
@@ -121,11 +97,7 @@ const InstanceFormYaml: FC = () => {
                   <SubmitButton
                     isSubmitting={formik.isSubmitting}
                     isDisabled={!formik.isValid}
-                    buttonLabel={
-                      panelParams.instance
-                        ? "Update instance"
-                        : "Create instance"
-                    }
+                    buttonLabel="Update instance"
                   />
                 </Col>
               </Row>
@@ -137,4 +109,4 @@ const InstanceFormYaml: FC = () => {
   );
 };
 
-export default InstanceFormYaml;
+export default EditInstanceForm;

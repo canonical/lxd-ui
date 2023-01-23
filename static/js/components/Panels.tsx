@@ -3,8 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import useEventListener from "@use-it/event-listener";
 import "../../sass/_panels.scss";
 import usePanelParams, { panels } from "util/usePanelParams";
-import InstanceFormGuided from "pages/instances/InstanceFormGuided";
-import InstanceFormYaml from "pages/instances/InstanceFormYaml";
+import CreateInstanceForm from "pages/instances/CreateInstanceForm";
+import EditInstanceForm from "pages/instances/EditInstanceForm";
 import ProfileFormGuided from "pages/profiles/ProfileFormGuided";
 import ProfileFormYaml from "pages/profiles/ProfileFormYaml";
 
@@ -18,10 +18,10 @@ export default function Panels() {
 
   const generatePanel = () => {
     switch (panelParams.panel) {
-      case panels.instanceFormGuided:
-        return <InstanceFormGuided />;
-      case panels.instanceFormYaml:
-        return <InstanceFormYaml />;
+      case panels.createInstance:
+        return <CreateInstanceForm />;
+      case panels.editInstance:
+        return <EditInstanceForm />;
       case panels.profileFormGuided:
         return <ProfileFormGuided />;
       case panels.profileFormYaml:
