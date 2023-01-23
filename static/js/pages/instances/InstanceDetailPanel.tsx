@@ -107,13 +107,13 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
               <td>{isoTimeToString(instance.last_used_at)}</td>
             </tr>
             {ipv4Addresses && ipv4Addresses.length > 0 && (
-              <tr className="p-address-row">
+              <tr>
                 <th>IPv4</th>
                 <td>{ipv4Addresses}</td>
               </tr>
             )}
             {ipv6Addresses && ipv6Addresses.length > 0 && (
-              <tr className="p-address-row">
+              <tr>
                 <th>IPv6</th>
                 <td>{ipv6Addresses}</td>
               </tr>

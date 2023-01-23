@@ -5,9 +5,13 @@ import { Button, Tooltip } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
+  className?: string;
 }
 
-const OpenVgaBtn: FC<Props> = ({ instance }) => {
+const OpenVgaBtn: FC<Props> = ({
+  instance,
+  className = "u-no-margin--bottom",
+}) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -27,7 +31,7 @@ const OpenVgaBtn: FC<Props> = ({ instance }) => {
   return (
     <Tooltip message={getTooltipMessage()} position="btm-center">
       <Button
-        className="u-no-margin--bottom"
+        className={className}
         dense
         hasIcon
         onClick={handleOpen}

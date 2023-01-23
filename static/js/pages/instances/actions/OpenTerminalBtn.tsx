@@ -5,9 +5,13 @@ import { Button, Tooltip } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
+  className?: string;
 }
 
-const OpenTerminalBtn: FC<Props> = ({ instance }) => {
+const OpenTerminalBtn: FC<Props> = ({
+  instance,
+  className = "u-no-margin--bottom",
+}) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -22,7 +26,7 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
       position="btm-center"
     >
       <Button
-        className="u-no-margin--bottom"
+        className={className}
         dense
         hasIcon
         onClick={handleOpen}

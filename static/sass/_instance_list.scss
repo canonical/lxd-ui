@@ -1,0 +1,44 @@
+.p-instance-table {
+  @media screen and (max-width: 1400px) {
+    th,
+    td {
+      &:nth-child(4),
+      &:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+}
+
+.p-instance-table-with-panel {
+  th,
+  td {
+    &:nth-child(4),
+    &:nth-child(5) {
+      display: none;
+    }
+  }
+}
+
+.u-row:hover,
+.u-row-selected {
+  background-color: $colors--light-theme--background-hover;
+}
+
+@media screen and (min-width: 1400px) {
+  .u-instance-actions {
+    visibility: hidden;
+  }
+
+  .u-row:hover {
+    .u-instance-actions {
+      visibility: visible;
+    }
+  }
+
+  .u-row-selected:hover {
+    .u-instance-actions {
+      display: none;
+    }
+  }
+}
