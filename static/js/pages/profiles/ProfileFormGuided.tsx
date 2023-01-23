@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Accordion, Col, Form, Input, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,6 +26,7 @@ import {
   DEFAULT_NIC_DEVICE,
 } from "util/defaults";
 import { checkDuplicateName } from "util/helpers";
+import usePanelParams from "util/usePanelParams";
 
 const getCpuLimit = (cpuLimit: CpuLimit) => {
   switch (cpuLimit.selectedType) {
@@ -57,7 +57,7 @@ const getCpuLimit = (cpuLimit: CpuLimit) => {
 };
 
 const ProfileFormGuided: FC = () => {
-  const navigate = useNavigate();
+  const panelParams = usePanelParams();
   const notify = useNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -136,7 +136,7 @@ const ProfileFormGuided: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });
-          navigate("/ui/profiles");
+          panelParams.clear();
         })
         .catch((e) => {
           formik.setSubmitting(false);
