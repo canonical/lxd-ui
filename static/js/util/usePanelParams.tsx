@@ -5,16 +5,16 @@ export interface PanelHelper {
   instance: string | null;
   profile: string | null;
   clear: () => void;
-  openInstanceFormGuided: () => void;
-  openInstanceFormYaml: (instance?: string) => void;
+  openCreateInstance: () => void;
+  openEditInstance: (instance: string) => void;
   openImageImport: () => void;
   openProfileFormGuided: () => void;
   openProfileFormYaml: (profile?: string) => void;
 }
 
 export const panels = {
-  instanceFormGuided: "instance-form-guided",
-  instanceFormYaml: "instance-form-yaml",
+  createInstance: "create-instance",
+  editInstance: "edit-instance",
   imageImport: "image-import",
   profileFormGuided: "profile-form-guided",
   profileFormYaml: "profile-form-yaml",
@@ -43,12 +43,12 @@ const usePanelParams = (): PanelHelper => {
       setParams(new URLSearchParams());
     },
 
-    openInstanceFormGuided: () => {
-      setPanelParams(panels.instanceFormGuided);
+    openCreateInstance: () => {
+      setPanelParams(panels.createInstance);
     },
 
-    openInstanceFormYaml: (instance) => {
-      setPanelParams(panels.instanceFormYaml, instance ? { instance } : {});
+    openEditInstance: (instance) => {
+      setPanelParams(panels.editInstance, { instance });
     },
 
     openImageImport: () => {

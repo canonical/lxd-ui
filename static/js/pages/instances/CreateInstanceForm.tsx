@@ -30,7 +30,7 @@ import { yamlToObject } from "util/yaml";
 import usePanelParams from "util/usePanelParams";
 import { useSharedNotify } from "../../context/sharedNotify";
 
-const InstanceFormGuided: FC = () => {
+const CreateInstanceForm: FC = () => {
   const notify = useNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -308,4 +308,4 @@ const InstanceFormGuided: FC = () => {
   );
 };
 
-export default InstanceFormGuided;
+export default CreateInstanceForm;

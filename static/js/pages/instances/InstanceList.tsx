@@ -197,7 +197,7 @@ const InstanceList: FC = () => {
           <Button
             className="u-no-margin--bottom"
             appearance="positive"
-            onClick={() => panelParams.openInstanceFormGuided()}
+            onClick={() => panelParams.openCreateInstance()}
           >
             Add instance
           </Button>
