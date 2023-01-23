@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Button,
   Col,
@@ -32,7 +31,6 @@ import usePanelParams from "util/usePanelParams";
 import { useSharedNotify } from "../../context/sharedNotify";
 
 const InstanceFormGuided: FC = () => {
-  const navigate = useNavigate();
   const notify = useNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -286,10 +284,7 @@ const InstanceFormGuided: FC = () => {
           <hr />
           <Row className="u-align--right">
             <Col size={12}>
-              <Button
-                appearance="base"
-                onClick={() => navigate("/ui/instances")}
-              >
+              <Button appearance="base" onClick={panelParams.clear}>
                 Cancel
               </Button>
               <SubmitButton
