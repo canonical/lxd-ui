@@ -9,6 +9,7 @@ import ConfirmationButton from "components/ConfirmationButton";
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
+  className?: string;
   hasCaption?: boolean;
   isDense?: boolean;
 }
@@ -16,6 +17,7 @@ interface Props {
 const StartStopInstanceBtn: FC<Props> = ({
   instance,
   notify,
+  className = "u-no-margin--bottom u-no-margin--right",
   hasCaption = true,
   isDense = true,
 }) => {
@@ -65,7 +67,7 @@ const StartStopInstanceBtn: FC<Props> = ({
     <>
       {canBeStarted && (
         <ConfirmationButton
-          className="u-no-margin--bottom u-no-margin--right"
+          className={className}
           isLoading={isLoading}
           iconClass={
             isLoading
@@ -84,7 +86,7 @@ const StartStopInstanceBtn: FC<Props> = ({
       )}
       {canBeStopped && (
         <ConfirmationButton
-          className="u-no-margin--bottom u-no-margin--right"
+          className={className}
           isLoading={isLoading}
           iconClass={
             isLoading

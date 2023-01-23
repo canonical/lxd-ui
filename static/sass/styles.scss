@@ -39,6 +39,8 @@
 
 @import "meter";
 
+@import "instance_list";
+
 @import "profile_select";
 
 .l-main .row {
@@ -112,25 +114,6 @@
   }
 }
 
-.p-instance-table {
-  @media screen and (max-width: 1400px) {
-    th,
-    td {
-      &:nth-child(4),
-      &:nth-child(5) {
-        display: none;
-      }
-    }
-  }
-}
-
-.p-address-row {
-  display: none;
-  @media screen and (max-width: 1400px) {
-    display: table-row;
-  }
-}
-
 .p-image-select-modal > section {
   min-height: 100%;
 }
@@ -167,10 +150,6 @@
 
 .u-loader {
   margin: $sp-large;
-}
-
-.u-row-selected {
-  background-color: $colors--light-theme--background-hover;
 }
 
 .p-certificate-generate {

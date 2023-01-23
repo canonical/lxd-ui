@@ -2,6 +2,7 @@ import {
   Button,
   Col,
   Icon,
+  List,
   MainTable,
   Row,
   SearchBox,
@@ -25,6 +26,8 @@ import {
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import { useSharedNotify } from "../../context/sharedNotify";
+import OpenTerminalBtn from "./actions/OpenTerminalBtn";
+import OpenVgaBtn from "./actions/OpenVgaBtn";
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -89,12 +92,12 @@ const InstanceList: FC = () => {
       sortKey: "snapshots",
       className: "u-align--center",
     },
-    { content: "", className: "u-hide--medium u-hide--small" },
+    { content: "" },
   ];
 
   const rows = visibleInstances.map((instance) => {
     return {
-      className: selected === instance.name ? "u-row-selected" : undefined,
+      className: selected === instance.name ? "u-row-selected" : "u-row",
       columns: [
         {
           content: <InstanceStatusIcon instance={instance} />,
@@ -149,25 +152,41 @@ const InstanceList: FC = () => {
         },
         {
           content: (
-            <>
-              <StartStopInstanceBtn
-                instance={instance}
-                notify={notify}
-                hasCaption={false}
-                isDense={false}
-              />
-              <Button
-                appearance="base"
-                className="u-no-margin--bottom"
-                onClick={() => setSelected(instance.name)}
-                hasIcon
-              >
-                <Icon name="chevron-up" style={{ rotate: "90deg" }} />
-              </Button>
-            </>
+            <List
+              inline
+              className="u-no-margin--bottom"
+              items={[
+                <StartStopInstanceBtn
+                  key="startstop"
+                  className="u-instance-actions"
+                  instance={instance}
+                  notify={notify}
+                  hasCaption={false}
+                />,
+                <OpenVgaBtn
+                  key="vga"
+                  className="u-instance-actions"
+                  instance={instance}
+                />,
+                <OpenTerminalBtn
+                  key="terminal"
+                  className="u-instance-actions"
+                  instance={instance}
+                />,
+                <Button
+                  key="select"
+                  appearance="base"
+                  className="u-no-margin--bottom u-hide--medium u-hide--small"
+                  onClick={() => setSelected(instance.name)}
+                  hasIcon
+                >
+                  <Icon name="chevron-up" style={{ rotate: "90deg" }} />
+                </Button>,
+              ]}
+            />
           ),
           role: "rowheader",
-          className: "u-align--right u-hide--medium u-hide--small",
+          className: "u-align--right",
           "aria-label": "Details",
         },
       ],
@@ -256,7 +275,9 @@ const InstanceList: FC = () => {
               rows={rows}
               paginate={15}
               sortable
-              className="p-instance-table u-table-layout--auto"
+              className={`p-instance-table ${
+                selected ? "p-instance-table-with-panel" : ""
+              } u-table-layout--auto`}
               emptyStateMsg={
                 isLoading ? (
                   <Loader text="Loading instances..." />
