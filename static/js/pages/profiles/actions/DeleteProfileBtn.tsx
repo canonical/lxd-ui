@@ -1,6 +1,4 @@
 import React, { FC, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { deleteProfile } from "api/profiles";
@@ -15,16 +13,12 @@ interface Props {
 const DeleteProfileBtn: FC<Props> = ({ profile, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
     deleteProfile(profile.name)
       .then(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.profiles],
-        });
         notify.success("Profile deleted.");
         navigate("/ui/profiles");
       })

@@ -1,8 +1,6 @@
 import React, { FC, useState } from "react";
 import { deleteInstance } from "api/instances";
 import { LxdInstance } from "types/instance";
-import { useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Tooltip } from "@canonical/react-components";
@@ -16,16 +14,12 @@ interface Props {
 const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
     deleteInstance(instance.name)
       .then(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
         notify.success(`Instance ${instance.name} deleted.`);
         navigate("/ui/instances");
       })
