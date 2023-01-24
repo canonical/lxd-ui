@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, MouseEvent } from "react";
 import { Button, Modal } from "@canonical/react-components";
 
 interface Props {
@@ -7,7 +7,8 @@ interface Props {
   confirmationMessage: string;
   negButtonLabel?: string;
   posButtonLabel: string;
-  onConfirm: () => void;
+  onConfirm: (e: MouseEvent<HTMLElement>) => void;
+  hasShiftHint?: boolean;
 }
 
 const ConfirmationModal: FC<Props> = ({
@@ -17,6 +18,7 @@ const ConfirmationModal: FC<Props> = ({
   negButtonLabel = "Cancel",
   posButtonLabel,
   onConfirm,
+  hasShiftHint = true,
 }) => {
   return (
     <Modal
@@ -40,10 +42,12 @@ const ConfirmationModal: FC<Props> = ({
       <p style={{ textAlign: "start", whiteSpace: "pre-line" }}>
         {confirmationMessage}
       </p>
-      <p className="u-text--muted">
-        You can skip these confirmation modals by holding <code>SHIFT</code>{" "}
-        when clicking on the action.
-      </p>
+      {hasShiftHint && (
+        <p className="u-text--muted">
+          You can skip these confirmation modals by holding <code>SHIFT</code>{" "}
+          when clicking on the action.
+        </p>
+      )}
     </Modal>
   );
 };
