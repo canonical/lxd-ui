@@ -9,6 +9,8 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "types/instance";
 import SubmitButton from "components/SubmitButton";
+import useNotification from "util/useNotification";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   instance: LxdInstance;
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
+  const formNotify = useNotification();
   const queryClient = useQueryClient();
 
   const isRunning = instance.status === "Running";
@@ -60,6 +63,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
     },
     validationSchema: SnapshotSchema,
     onSubmit: (values) => {
+      formNotify.clear();
       const expiresAt = values.expiresAt
         ? stringToIsoTime(values.expiresAt)
         : null;
@@ -72,8 +76,8 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
           close();
         })
         .catch((e) => {
-          notify.failure("Error on snapshot create.", e);
-          close();
+          formNotify.failure("Error on snapshot create.", e);
+          formik.setSubmitting(false);
         });
     },
   });
@@ -101,6 +105,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
       }
       onKeyDown={handleEscKey}
     >
+      <NotificationRow notify={formNotify} />
       <Form onSubmit={formik.handleSubmit}>
         <Input
           id="name"
