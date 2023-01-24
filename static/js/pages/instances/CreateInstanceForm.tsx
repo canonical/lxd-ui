@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import {
   Button,
   Col,
@@ -29,13 +29,15 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import usePanelParams from "util/usePanelParams";
 import { useSharedNotify } from "../../context/sharedNotify";
+import ConfirmationModal from "components/ConfirmationModal";
+import usePortal from "react-useportal";
 
 const CreateInstanceForm: FC = () => {
   const notify = useNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const panelParams = usePanelParams();
-  const [isYamlConfig, setYamlConfig] = useState<boolean>(false);
+  const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { sharedNotify: instanceListNotify } = useSharedNotify();
 
   const InstanceSchema = Yup.object().shape({
@@ -54,7 +56,8 @@ const CreateInstanceForm: FC = () => {
     image: RemoteImage | undefined;
     instanceType: string;
     profiles: string[];
-    instanceYaml: string;
+    yaml?: string;
+    unchangedYaml?: string;
   }
 
   const closeAndNotifySuccess = (instanceName: string, action: string) => {
@@ -86,8 +89,8 @@ const CreateInstanceForm: FC = () => {
 
   const submit = (values: FormValues, shouldStart = true) => {
     formik.setSubmitting(true);
-    const instanceCreationObj = isYamlConfig
-      ? yamlToObject(values.instanceYaml)
+    const instanceCreationObj = values.yaml
+      ? yamlToObject(values.yaml)
       : getCreationPayload(values);
     const instanceCreationStr = JSON.stringify(instanceCreationObj);
     createInstanceFromJson(instanceCreationStr)
@@ -122,7 +125,7 @@ const CreateInstanceForm: FC = () => {
       image: undefined,
       instanceType: "container",
       profiles: ["default"],
-      instanceYaml: "",
+      yaml: undefined,
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
@@ -160,30 +163,39 @@ const CreateInstanceForm: FC = () => {
     };
   };
 
-  const setYaml = (text: string) => {
-    void formik.setFieldValue("instanceYaml", text);
-  };
-
   const switchToYaml = () => {
     const instanceCreateObj = getCreationPayload(formik.values);
     const yaml = dumpYaml(instanceCreateObj);
-    setYaml(yaml);
-    setYamlConfig(true);
+    void formik.setFieldValue("yaml", yaml);
+    void formik.setFieldValue("unchangedYaml", yaml);
+  };
+
+  const closeYaml = (e: MouseEvent<HTMLElement>) => {
+    if (formik.values.yaml !== formik.values.unchangedYaml && !isOpen) {
+      openPortal(e);
+      return;
+    }
+    void formik.setFieldValue("yaml", undefined);
+    void formik.setFieldValue("unchangedYaml", undefined);
+    closePortal();
   };
 
   return (
     <Aside>
       <div className="p-panel l-site">
-        <PanelHeader title={<h4>Create new instance</h4>} />
+        <PanelHeader
+          title={<h4>Create new instance</h4>}
+          onClose={formik.values.yaml ? closeYaml : undefined}
+        />
         <div className="p-panel__content">
           <NotificationRow notify={notify} />
           <Row>
             <Form onSubmit={() => submit(formik.values)} stacked>
-              {isYamlConfig ? (
+              {formik.values.yaml ? (
                 <InstanceCustomiseYaml
-                  instanceYaml={formik.values.instanceYaml}
-                  setYaml={setYaml}
-                  goBack={() => setYamlConfig(false)}
+                  instanceYaml={formik.values.yaml}
+                  setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+                  goBack={closeYaml}
                 />
               ) : (
                 <>
@@ -304,6 +316,20 @@ const CreateInstanceForm: FC = () => {
           </Row>
         </div>
       </div>
+      {isOpen && (
+        <Portal>
+          <ConfirmationModal
+            title="Confirm"
+            confirmationMessage={
+              "Are you sure you want to go back to the basic form? All the changes applied to the YAML config will be lost."
+            }
+            posButtonLabel="Go back"
+            onConfirm={closeYaml}
+            onClose={closePortal}
+            hasShiftHint={false}
+          />
+        </Portal>
+      )}
     </Aside>
   );
 };
