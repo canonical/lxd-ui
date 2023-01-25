@@ -7,11 +7,18 @@ export interface Notification {
   type: ValueOf<typeof NotificationSeverity>;
 }
 
+export interface QueuedNotification {
+  state?: {
+    queuedNotification: Notification | null;
+  };
+}
+
 export interface NotificationHelper {
   id: string;
   notification: Notification | null;
   clear: () => void;
-  failure: (message: string | ReactNode, error: unknown) => Notification | null;
-  info: (message: string | ReactNode) => Notification | null;
-  success: (message: string | ReactNode) => Notification | null;
+  failure: (message: string | ReactNode, error: unknown) => Notification;
+  info: (message: string | ReactNode) => Notification;
+  success: (message: string | ReactNode) => Notification;
+  queue: (notification: Notification) => QueuedNotification;
 }
