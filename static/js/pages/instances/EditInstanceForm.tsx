@@ -47,10 +47,11 @@ const EditInstanceForm: FC = () => {
     onSubmit: (values) => {
       if (values.instanceYaml.trim() === "") {
         formik.setSubmitting(false);
-        return notify.failure(
+        notify.failure(
           "",
           new Error("Please enter a valid YAML configuration.")
         );
+        return;
       }
       const instanceJson = yamlToJson(values.instanceYaml);
       updateInstanceFromJson(instanceJson)

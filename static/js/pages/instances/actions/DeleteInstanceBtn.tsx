@@ -20,8 +20,9 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
     deleteInstance(instance.name)
       .then(() => {
         setLoading(false);
-        notify.success(`Instance ${instance.name} deleted.`);
-        navigate("/ui/instances");
+        navigate("/ui/instances", {
+          state: notify.success(`Instance ${instance.name} deleted.`),
+        });
       })
       .catch((e) => {
         setLoading(false);

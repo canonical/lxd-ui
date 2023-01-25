@@ -11,7 +11,7 @@ export interface NotificationHelper {
   id: string;
   notification: Notification | null;
   clear: () => void;
-  failure: (message: string | ReactNode, error: unknown) => void;
-  info: (message: string | ReactNode) => void;
-  success: (message: string | ReactNode) => void;
+  failure: (message: string | ReactNode, error: unknown) => Notification | null;
+  info: (message: string | ReactNode) => Notification | null;
+  success: (message: string | ReactNode) => Notification | null;
 }

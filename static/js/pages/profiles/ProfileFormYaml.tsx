@@ -41,10 +41,11 @@ const ProfileFormYaml: FC = () => {
     onSubmit: (values) => {
       if (values.profileYaml.trim() === "") {
         formik.setSubmitting(false);
-        return notify.failure(
+        notify.failure(
           "",
           new Error("Please enter a valid YAML configuration.")
         );
+        return;
       }
       const profileJson = yamlToJson(values.profileYaml);
       const mutation = panelParams.profile
