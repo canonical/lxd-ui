@@ -1,14 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { Notification, NotificationHelper } from "types/notification";
 import isEqual from "lodash/isEqual";
+import { useLocation } from "react-router-dom";
 
 const useNotification = (): NotificationHelper => {
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const location = useLocation();
+  const [notification, setNotification] = useState<Notification | null>(
+    location.state as Notification
+  );
 
+  window.history.replaceState({}, document.title);
   const setDeduplicated = (newValue: Notification | null) => {
     if (!isEqual(newValue, notification)) {
       setNotification(newValue);
     }
+    return newValue;
   };
 
   const id = useMemo(() => (Math.random() + 1).toString(36).substring(7), []);

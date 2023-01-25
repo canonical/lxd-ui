@@ -19,8 +19,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, notify }) => {
     deleteProfile(profile.name)
       .then(() => {
         setLoading(false);
-        notify.success("Profile deleted.");
-        navigate("/ui/profiles");
+        navigate("/ui/profiles", { state: notify.success("Profile deleted.") });
       })
       .catch((e) => {
         setLoading(false);
