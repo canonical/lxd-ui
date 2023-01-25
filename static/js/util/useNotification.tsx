@@ -1,16 +1,20 @@
 import React, { useMemo, useState } from "react";
-import { Notification, NotificationHelper } from "types/notification";
+import {
+  Notification,
+  NotificationHelper,
+  QueuedNotification,
+} from "types/notification";
 import isEqual from "lodash/isEqual";
 import { useLocation } from "react-router-dom";
 
 const useNotification = (): NotificationHelper => {
-  const location = useLocation();
+  const location = useLocation() as QueuedNotification;
   const [notification, setNotification] = useState<Notification | null>(
-    location.state as Notification
+    location.state?.queuedNotification ?? null
   );
 
-  window.history.replaceState({}, document.title);
-  const setDeduplicated = (newValue: Notification | null) => {
+  window.history.replaceState({}, "");
+  const setDeduplicated = (newValue: Notification) => {
     if (!isEqual(newValue, notification)) {
       setNotification(newValue);
     }
@@ -49,7 +53,11 @@ const useNotification = (): NotificationHelper => {
         type: "positive",
       }),
 
-    clear: () => setDeduplicated(null),
+    clear: () => notification !== null && setNotification(null),
+
+    queue: (notification) => {
+      return { state: { queuedNotification: notification } };
+    },
   };
 };
 
