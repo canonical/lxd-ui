@@ -17,7 +17,7 @@
     "lint-js-prettier": "prettier 'static/js/**/*.{js,json,jsx,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js webpack.config.js --check",
     "lint-js": "yarn lint-js-eslint && yarn lint-js-prettier",
     "start": "yarn run build && concurrently --kill-others --raw 'yarn run watch' 'yarn serve'",
-    "serve": "serve --single --no-clipboard build && echo 'available on to https://localhost:9443'"
+    "serve": "./entrypoint"
   },
   "dependencies": {
     "@canonical/react-components": "0.37.9",

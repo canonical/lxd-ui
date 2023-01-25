@@ -7,7 +7,7 @@ RUN yarn run build
 RUN mkdir /srv/deploy
 RUN mv build /srv/deploy/
 RUN mv entrypoint /srv/deploy/
-RUN mv haproxy.cfg /srv/deploy/
+RUN mv haproxy-demo.cfg /srv/deploy/
 
 # Build the demo image
 FROM ubuntu:jammy

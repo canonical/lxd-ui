@@ -1,11 +1,28 @@
 #! /usr/bin/env bash
 set -e
 
-# configure haproxy
-printf %s "$LXD_UI_BACKEND_KEY_PEM" > key.pem
-cp haproxy.cfg haproxy-local.cfg
-sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
-sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" haproxy-local.cfg
+# demo config
+if [[ ! -z "$LXD_UI_BACKEND_KEY_PEM" ]]; then
+  printf %s "$LXD_UI_BACKEND_KEY_PEM" > key.pem
+  cp haproxy-demo.cfg haproxy-local.cfg
+  sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
+  sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" haproxy-local.cfg
+  . /usr/local/nvm/nvm.sh
+# dev config
+else
+  cp haproxy-dev.cfg haproxy-local.cfg
+  # generate certificates for dev environment
+  if [ ! -d "keys" ]; then
+    mkdir -p keys
+    openssl req -nodes -x509 -newkey rsa:2048 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -subj "/C=GB/ST=London/L=London/O=LXD UI/OU=dev/CN=localhost" -days 3000
+    openssl dhparam -out keys/dhparams.pem 2048
+    cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
+    cp keys/lxd-ui.key keys/lxd-ui.crt.key
+    echo 'finished generating certificates'
+    echo 'please add the certificates to your local LXD as explained in README.md'
+  fi
+  echo 'booting on https://localhost:9443'
+fi
 
-haproxy -f haproxy-local.cfg
-. /usr/local/nvm/nvm.sh && npx serve --single build
+haproxy -f haproxy-local.cfg >> haproxy.log
+npx serve --single --no-clipboard -l 3000 build >> serve.log
