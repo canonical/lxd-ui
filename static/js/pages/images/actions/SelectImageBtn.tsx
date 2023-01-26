@@ -7,15 +7,15 @@ import { RemoteImage } from "types/image";
 interface Props {
   appearance: string;
   caption: string;
-  onSelect: (image: RemoteImage) => void;
+  onSelect: (image: RemoteImage, type: string | null) => void;
 }
 
 const SelectImageBtn: FC<Props> = ({ appearance, caption, onSelect }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
-  const handleSelect = (image: RemoteImage) => {
+  const handleSelect = (image: RemoteImage, type: string | null) => {
     closePortal();
-    onSelect(image);
+    onSelect(image, type);
   };
 
   return (

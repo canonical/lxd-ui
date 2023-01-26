@@ -138,8 +138,11 @@ const CreateInstanceForm: FC = () => {
     },
   });
 
-  const handleSelectImage = (image: RemoteImage) => {
+  const handleSelectImage = (image: RemoteImage, type: string | null) => {
     void formik.setFieldValue("image", image);
+    if (type) {
+      void formik.setFieldValue("instanceType", type);
+    }
     if (isVmOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "virtual-machine");
     }
