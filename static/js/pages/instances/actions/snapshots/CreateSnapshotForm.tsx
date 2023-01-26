@@ -47,7 +47,18 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
   };
 
   const SnapshotSchema = Yup.object().shape({
-    name: Yup.string().required("This field is required"),
+    name: Yup.string()
+      .required("This field is required")
+      .test(
+        "forbiddenChars",
+        `The snapshot name cannot contain spaces or "/" characters`,
+        (value) => {
+          if (!value) {
+            return true;
+          }
+          return !(value.includes(" ") || value.includes("/"));
+        }
+      ),
     stateful: Yup.boolean(),
   });
 
