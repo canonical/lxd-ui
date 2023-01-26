@@ -22,7 +22,7 @@ import Loader from "components/Loader";
 
 interface Props {
   onClose: () => void;
-  onSelect: (image: RemoteImage) => void;
+  onSelect: (image: RemoteImage, type: string | null) => void;
 }
 
 const canonicalJson = "/ui/static/assets/data/canonical-images.json";
@@ -33,7 +33,7 @@ const linuxContainersServer = "https://images.linuxcontainers.org";
 
 const ANY = "any";
 const CONTAINER = "container";
-const VM = "vm";
+const VM = "virtual-machine";
 
 const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   const [query, setQuery] = useState<string>("");
@@ -168,7 +168,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             content: (
               <Button
                 appearance="positive"
-                onClick={() => onSelect(item)}
+                onClick={() => onSelect(item, type === ANY ? null : type)}
                 type="button"
               >
                 Select
