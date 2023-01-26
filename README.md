@@ -15,9 +15,11 @@ Install dotrun as described in https://github.com/canonical/dotrun#installation 
 
     dotrun
 
-You might want to enable a firewall as `dotrun` exposes an api to start or interact with unprivileged containers on your public ip.
+You should enable a firewall as `dotrun` exposes an api to start or interact with unprivileged containers on your public
+ip via port `9443`. Ensure that the lxd API on port `8443` is open, so `dotrun` can access it.
 
-First time running `dotrun` will generate certificates for you. You can find them in the `keys` folder on the top of this repo. Trust them from your local lxd with
+First time running `dotrun` will generate certificates for you. You can find them in the `keys` folder on the top of
+this repo. Trust them from your local lxd with
 
     sudo lxc config trust add keys/lxd-ui.crt
 
