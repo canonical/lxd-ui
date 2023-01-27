@@ -122,6 +122,7 @@ const InstanceList: FC = () => {
           content: instance.state?.network?.eth0?.addresses
             .filter((item) => item.family === "inet")
             .map((item) => item.address)
+            .filter((address) => !address.startsWith("127"))
             .join(" "),
           role: "rowheader",
           "aria-label": "IPv4",
@@ -130,6 +131,7 @@ const InstanceList: FC = () => {
           content: instance.state?.network?.eth0?.addresses
             .filter((item) => item.family === "inet6")
             .map((item) => item.address)
+            .filter((address) => !address.startsWith("fe80"))
             .join(" "),
           role: "rowheader",
           "aria-label": "IPv6",
