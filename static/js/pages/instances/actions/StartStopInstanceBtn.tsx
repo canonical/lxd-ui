@@ -67,7 +67,7 @@ const StartStopInstanceBtn: FC<Props> = ({
     <>
       {canBeStarted && (
         <ConfirmationButton
-          className={className}
+          className={isLoading ? "" : className}
           isLoading={isLoading}
           iconClass={
             isLoading
@@ -86,7 +86,7 @@ const StartStopInstanceBtn: FC<Props> = ({
       )}
       {canBeStopped && (
         <ConfirmationButton
-          className={className}
+          className={isLoading ? "" : className}
           isLoading={isLoading}
           iconClass={
             isLoading
