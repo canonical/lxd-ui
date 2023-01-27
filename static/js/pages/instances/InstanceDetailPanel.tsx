@@ -99,6 +99,20 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
               <td>{instance.architecture}</td>
             </tr>
             <tr>
+              <th>Image</th>
+              <td>
+                <Row>
+                  <Col
+                    size={4}
+                    className="u-truncate"
+                    title={instance.config["image.description"]}
+                  >
+                    {instance.config["image.description"]}
+                  </Col>
+                </Row>
+              </td>
+            </tr>
+            <tr>
               <th>Date created</th>
               <td>{isoTimeToString(instance.created_at)}</td>
             </tr>

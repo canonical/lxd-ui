@@ -161,6 +161,10 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
             <td>{instance.architecture}</td>
           </tr>
           <tr>
+            <th>Image</th>
+            <td>{instance.config["image.description"]}</td>
+          </tr>
+          <tr>
             <th>Stateful</th>
             <td>{instance.stateful ? "true" : "false"}</td>
           </tr>
