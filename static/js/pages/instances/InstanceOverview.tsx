@@ -8,11 +8,10 @@ import Meter from "components/Meter";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import EditInstanceBtn from "./actions/EditInstanceBtn";
 import { createPortal } from "react-dom";
-import { Col, List, Row } from "@canonical/react-components";
+import { List } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { NotificationHelper } from "types/notification";
 import { LxdInstance } from "types/instance";
-import CopyButton from "components/CopyButton";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -46,14 +45,9 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
       .filter((item) => item.family === family)
       .map((item) => {
         return (
-          <Row key={item.address}>
-            <Col size={11} className="u-truncate" title={item.address}>
-              {item.address}
-            </Col>
-            <Col size={1}>
-              <CopyButton text={item.address} className="u-float-right" />
-            </Col>
-          </Row>
+          <div key={item.address} className="u-truncate" title={item.address}>
+            {item.address}
+          </div>
         );
       });
   };

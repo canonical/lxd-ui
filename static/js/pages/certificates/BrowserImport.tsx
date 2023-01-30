@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import { Col, Row, Tabs } from "@canonical/react-components";
-import CopyButton from "components/CopyButton";
 
 const FIREFOX = "Firefox";
 const CHROME_LINUX = "Chrome (Linux)";
@@ -29,11 +28,6 @@ const BrowserImport: FC = () => {
                 <div className="p-code-snippet u-no-margin--bottom">
                   <pre className="p-code-snippet__block">
                     <code>about:preferences#privacy</code>{" "}
-                    <CopyButton
-                      className="u-float-right"
-                      text="about:preferences#privacy"
-                      tooltipPosition="right"
-                    />
                   </pre>
                 </div>
               </li>
@@ -60,11 +54,6 @@ const BrowserImport: FC = () => {
                 <div className="p-code-snippet u-no-margin--bottom">
                   <pre className="p-code-snippet__block">
                     <code>chrome://settings/certificates</code>{" "}
-                    <CopyButton
-                      className="u-float-right"
-                      text="chrome://settings/certificates"
-                      tooltipPosition="right"
-                    />
                   </pre>
                 </div>
               </li>
@@ -85,11 +74,6 @@ const BrowserImport: FC = () => {
                 <div className="p-code-snippet u-no-margin--bottom">
                   <pre className="p-code-snippet__block">
                     <code>chrome://settings/security</code>{" "}
-                    <CopyButton
-                      className="u-float-right"
-                      text="chrome://settings/security"
-                      tooltipPosition="right"
-                    />
                   </pre>
                 </div>
               </li>
