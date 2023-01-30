@@ -3,7 +3,6 @@ import { generateCert } from "util/certificate";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import BrowserImport from "pages/certificates/BrowserImport";
-import CopyButton from "components/CopyButton";
 
 interface Certs {
   crt: string;
@@ -80,11 +79,6 @@ const CertificateGenerate: FC = () => {
                   <div className="p-code-snippet">
                     <pre className="p-code-snippet__block--icon">
                       <code>lxc config trust add Downloads/lxd-ui.crt</code>{" "}
-                      <CopyButton
-                        className="u-float-right"
-                        text="lxc config trust add Downloads/lxd-ui.crt"
-                        tooltipPosition="right"
-                      />
                     </pre>
                   </div>
                 </Col>

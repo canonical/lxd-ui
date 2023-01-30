@@ -8,7 +8,6 @@ import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import OpenInstanceDetailBtn from "pages/instances/actions/OpenInstanceDetailBtn";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
-import CopyButton from "../../components/CopyButton";
 
 interface Props {
   instance: LxdInstance;
@@ -23,11 +22,8 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
       .map((item) => {
         return (
           <Row key={item.address}>
-            <Col size={3} className="u-truncate" title={item.address}>
+            <Col size={4} className="u-truncate" title={item.address}>
               {item.address}
-            </Col>
-            <Col size={1}>
-              <CopyButton text={item.address} className="u-float-right" />
             </Col>
           </Row>
         );
