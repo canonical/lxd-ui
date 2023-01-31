@@ -2,6 +2,7 @@
 
 @import "settings";
 @import "vanilla-framework/scss/build";
+@import "./breakpoints";
 
 @import "pattern_icon";
 @include lxdui-p-icon;
@@ -163,5 +164,11 @@
 
   div {
     margin-top: 0.5rem;
+  }
+}
+
+@include mobile-and-tablet {
+  .u-certificate-button {
+    margin-left: 2.5rem;
   }
 }

@@ -16,7 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import Loader from "components/Loader";
 import {
@@ -107,7 +107,7 @@ const InstanceList: FC = () => {
         },
         {
           content: (
-            <a href={`/ui/instances/${instance.name}`}>{instance.name}</a>
+            <Link to={`/ui/instances/${instance.name}`}>{instance.name}</Link>
           ),
           role: "rowheader",
           "aria-label": "Name",

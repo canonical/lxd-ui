@@ -4,7 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const config = {
   entry: {
-    app: "./static/js/App.tsx",
+    app: "./static/js/index.tsx",
   },
   output: {
     path: path.resolve(__dirname, "build"),
