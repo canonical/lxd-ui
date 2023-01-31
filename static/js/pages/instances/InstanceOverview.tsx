@@ -12,6 +12,7 @@ import { List } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { NotificationHelper } from "types/notification";
 import { LxdInstance } from "types/instance";
+import { Link } from "react-router-dom";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -172,9 +173,9 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
               <List
                 className="u-no-margin--bottom"
                 items={instance.profiles.map((name) => (
-                  <a key={name} href={`/ui/profiles/${name}`}>
+                  <Link key={name} to={`/ui/profiles/${name}`}>
                     {name}
-                  </a>
+                  </Link>
                 ))}
               />
             </td>

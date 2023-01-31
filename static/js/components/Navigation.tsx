@@ -1,10 +1,12 @@
 import React, { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
+import { useAuth } from "../context/auth";
 
 const Navigation: FC = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
+  const { isAuthenticated } = useAuth();
   const toggleMenu = () => setMenuCollapsed(!menuCollapsed);
 
   const generateMenuClass = () => {
@@ -60,88 +62,90 @@ const Navigation: FC = () => {
             <div className="p-panel__content">
               <div className="p-side-navigation--icons is-dark">
                 <nav aria-label="Main navigation">
-                  <ul className="p-side-navigation__list">
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/instances"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
-                        Instances
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/profiles"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--profile is-light p-side-navigation__icon"></i>{" "}
-                        Profiles
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/networks"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
-                        Networks
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/projects"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
-                        Projects
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/storages"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--pods is-light p-side-navigation__icon"></i>{" "}
-                        Storages
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/cluster"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--machines is-light p-side-navigation__icon"></i>{" "}
-                        Cluster
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/warnings"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--warning-grey is-light p-side-navigation__icon"></i>{" "}
-                        Warnings
-                      </NavLink>
-                    </li>
-                    <li className="p-side-navigation__item--title">
-                      <NavLink
-                        className="p-side-navigation__link"
-                        to="/ui/settings"
-                        onClick={toggleMenu}
-                      >
-                        <i className="p-icon--settings is-light p-side-navigation__icon"></i>{" "}
-                        Settings
-                      </NavLink>
-                    </li>
-                  </ul>
+                  {isAuthenticated && (
+                    <ul className="p-side-navigation__list">
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/instances"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
+                          Instances
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/profiles"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--profile is-light p-side-navigation__icon"></i>{" "}
+                          Profiles
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/networks"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
+                          Networks
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/projects"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
+                          Projects
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/storages"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--pods is-light p-side-navigation__icon"></i>{" "}
+                          Storages
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/cluster"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--machines is-light p-side-navigation__icon"></i>{" "}
+                          Cluster
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/warnings"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--warning-grey is-light p-side-navigation__icon"></i>{" "}
+                          Warnings
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item--title">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to="/ui/settings"
+                          onClick={toggleMenu}
+                        >
+                          <i className="p-icon--settings is-light p-side-navigation__icon"></i>{" "}
+                          Settings
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
                   <ul className="p-side-navigation__list">
                     <li className="p-side-navigation__item--title">
                       <a

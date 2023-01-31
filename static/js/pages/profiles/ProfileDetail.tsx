@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "api/profiles";
 import DeleteProfileBtn from "./actions/DeleteProfileBtn";
@@ -87,9 +87,9 @@ const ProfileDetail: FC = () => {
                   <List
                     className="u-no-margin--bottom"
                     items={usedByNames.map((name) => (
-                      <a key={name} href={`/ui/instances/${name}`}>
+                      <Link key={name} to={`/ui/instances/${name}`}>
                         {name}
-                      </a>
+                      </Link>
                     ))}
                   />
                 ) : (

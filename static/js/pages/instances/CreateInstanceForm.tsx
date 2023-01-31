@@ -31,6 +31,7 @@ import usePanelParams from "util/usePanelParams";
 import { useSharedNotify } from "../../context/sharedNotify";
 import ConfirmationModal from "components/ConfirmationModal";
 import usePortal from "react-useportal";
+import { Link } from "react-router-dom";
 
 const CreateInstanceForm: FC = () => {
   const notify = useNotification();
@@ -66,7 +67,8 @@ const CreateInstanceForm: FC = () => {
     });
     instanceListNotify?.success(
       <>
-        Instance <a href={`/ui/instances/${instanceName}`}>{instanceName}</a>{" "}
+        Instance{" "}
+        <Link to={`/ui/instances/${instanceName}`}>{instanceName}</Link>{" "}
         {action}.
       </>
     );
@@ -79,7 +81,8 @@ const CreateInstanceForm: FC = () => {
     });
     instanceListNotify?.failure(
       <>
-        Instance <a href={`/ui/instances/${instanceName}`}>{instanceName}</a>{" "}
+        Instance{" "}
+        <Link to={`/ui/instances/${instanceName}`}>{instanceName}</Link>{" "}
         created. Instance Start failed.
       </>,
       e

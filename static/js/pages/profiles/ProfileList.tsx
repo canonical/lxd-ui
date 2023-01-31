@@ -15,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
 import Loader from "components/Loader";
+import { Link } from "react-router-dom";
 
 const ProfileList: FC = () => {
   const notify = useNotification();
@@ -87,7 +88,9 @@ const ProfileList: FC = () => {
     return {
       columns: [
         {
-          content: <a href={`/ui/profiles/${profile.name}`}>{profile.name}</a>,
+          content: (
+            <Link to={`/ui/profiles/${profile.name}`}>{profile.name}</Link>
+          ),
           role: "rowheader",
           "aria-label": "Name",
         },

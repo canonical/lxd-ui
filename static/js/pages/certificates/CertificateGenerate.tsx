@@ -3,6 +3,9 @@ import { generateCert } from "util/certificate";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import BrowserImport from "pages/certificates/BrowserImport";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import Loader from "components/Loader";
 
 interface Certs {
   crt: string;
@@ -12,6 +15,15 @@ interface Certs {
 const CertificateGenerate: FC = () => {
   const [isGenerating, setGenerating] = useState(false);
   const [certs, setCerts] = useState<Certs | null>(null);
+  const { isAuthenticated, isAuthLoading } = useAuth();
+
+  if (isAuthLoading) {
+    return <Loader />;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   const createCert = () => {
     setGenerating(true);
@@ -47,33 +59,34 @@ const CertificateGenerate: FC = () => {
       <Row className="p-certificate-generate">
         <ol className="p-stepped-list">
           <li className="p-stepped-list__item">
-            <h3 className="p-stepped-list__title">Generate</h3>
-            <div className="p-stepped-list__content">
-              <Row>
-                <Col size={8}>
+            <Row>
+              <Col size={8}>
+                <h3 className="p-stepped-list__title">Generate</h3>
+                <div className="p-stepped-list__content">
                   <p>Click generate to create a new certificate</p>
-                </Col>
-                <Col size={4}>
-                  <Button
-                    onClick={createCert}
-                    appearance="positive"
-                    disabled={isGenerating || certs !== null}
-                    hasIcon={isGenerating}
-                  >
-                    {isGenerating && (
-                      <i className="p-icon--spinner is-light u-animation--spin"></i>
-                    )}
-                    <span>{isGenerating ? "Generating" : "Generate"}</span>
-                  </Button>
-                </Col>
-              </Row>
-            </div>
+                </div>
+              </Col>
+              <Col size={4}>
+                <Button
+                  className="u-certificate-button"
+                  onClick={createCert}
+                  appearance="positive"
+                  disabled={isGenerating || certs !== null}
+                  hasIcon={isGenerating}
+                >
+                  {isGenerating && (
+                    <i className="p-icon--spinner is-light u-animation--spin"></i>
+                  )}
+                  <span>{isGenerating ? "Generating" : "Generate"}</span>
+                </Button>
+              </Col>
+            </Row>
           </li>
           <li className="p-stepped-list__item">
-            <h3 className="p-stepped-list__title">Trust</h3>
-            <div className="p-stepped-list__content">
-              <Row>
-                <Col size={8}>
+            <Row>
+              <Col size={8}>
+                <h3 className="p-stepped-list__title">Trust</h3>
+                <div className="p-stepped-list__content">
                   Download <code>lxd-ui.crt</code> and add it to the LXD trust
                   store
                   <div className="p-code-snippet">
@@ -81,41 +94,43 @@ const CertificateGenerate: FC = () => {
                       <code>lxc config trust add Downloads/lxd-ui.crt</code>{" "}
                     </pre>
                   </div>
-                </Col>
-                <Col size={4}>
-                  {certs && (
-                    <Button
-                      onClick={() => downloadText("lxd-ui.crt", certs.crt)}
-                    >
-                      Download crt
-                    </Button>
-                  )}
-                </Col>
-              </Row>
-            </div>
+                </div>
+              </Col>
+              <Col size={4}>
+                {certs && (
+                  <Button
+                    className="u-certificate-button"
+                    onClick={() => downloadText("lxd-ui.crt", certs.crt)}
+                  >
+                    Download crt
+                  </Button>
+                )}
+              </Col>
+            </Row>
           </li>
           <li className="p-stepped-list__item">
-            <h3 className="p-stepped-list__title">Import</h3>
-            <div className="p-stepped-list__content">
-              <Row>
-                <Col size={8}>
+            <Row>
+              <Col size={8}>
+                <h3 className="p-stepped-list__title">Import</h3>
+                <div className="p-stepped-list__content">
                   <p>
                     Download <code>lxd-ui.pfx</code> and import it into your
                     browser.
                   </p>
-                </Col>
-                <Col size={4}>
-                  {certs && (
-                    <Button
-                      onClick={() => downloadBase64("lxd-ui.pfx", certs.pfx)}
-                    >
-                      Download pfx
-                    </Button>
-                  )}
-                </Col>
-              </Row>
-              <BrowserImport />
-            </div>
+                  <BrowserImport />
+                </div>
+              </Col>
+              <Col size={4}>
+                {certs && (
+                  <Button
+                    className="u-certificate-button"
+                    onClick={() => downloadBase64("lxd-ui.pfx", certs.pfx)}
+                  >
+                    Download pfx
+                  </Button>
+                )}
+              </Col>
+            </Row>
           </li>
           <li className="p-stepped-list__item">
             <h3 className="p-stepped-list__title">

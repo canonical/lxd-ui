@@ -8,6 +8,7 @@ import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import OpenInstanceDetailBtn from "pages/instances/actions/OpenInstanceDetailBtn";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
+import { Link } from "react-router-dom";
 
 interface Props {
   instance: LxdInstance;
@@ -65,7 +66,9 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             <tr>
               <th>Name</th>
               <td>
-                <a href={`/ui/instances/${instance.name}`}>{instance.name}</a>
+                <Link to={`/ui/instances/${instance.name}`}>
+                  {instance.name}
+                </Link>
               </td>
             </tr>
             <tr>
@@ -134,9 +137,9 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
         <List
           className="u-no-margin--bottom"
           items={instance.profiles.map((name) => (
-            <a key={name} href={`/ui/profiles/${name}`}>
+            <Link key={name} to={`/ui/profiles/${name}`}>
               {name}
-            </a>
+            </Link>
           ))}
         />
         <h5 className="u-no-margin--bottom">Networks</h5>
@@ -156,9 +159,9 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             size={3}
             className="p-snapshot-link p-text--small u-align--right u-no-margin--bottom"
           >
-            <a href={`/ui/instances/${instance.name}/snapshots`}>
+            <Link to={`/ui/instances/${instance.name}/snapshots`}>
               Manage snapshots
-            </a>
+            </Link>
           </Col>
         </Row>
         <List
