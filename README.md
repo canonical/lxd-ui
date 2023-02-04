@@ -34,3 +34,12 @@ The tests expect the environment on localhost to be accessible. Execute `dotrun`
 Generate new tests with helper
 
     npx playwright codegen --ignore-https-errors https://localhost:9443/
+    
+# Examples
+
+### Home Page
+![image](https://user-images.githubusercontent.com/45884264/216782634-855c4d85-4f9a-409c-8443-b069dbba258c.png)
+
+
+### Container / VM Creation - Image Selection Menu
+![image](https://user-images.githubusercontent.com/45884264/216782621-54fa4b6e-84b0-4854-bb38-187eea6a9071.png)
