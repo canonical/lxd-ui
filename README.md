@@ -37,9 +37,10 @@ Generate new tests with helper
     
 # Examples
 
-### Home Page
-![image](https://user-images.githubusercontent.com/45884264/216782634-855c4d85-4f9a-409c-8443-b069dbba258c.png)
+| Image Selection | Instances | Instances - Detail |
+|--|--|--|
+| ![imageselect](https://user-images.githubusercontent.com/45884264/216782621-54fa4b6e-84b0-4854-bb38-187eea6a9071.png) | ![instances](https://user-images.githubusercontent.com/1155472/217049612-945199f0-218f-40d8-8920-145748e71566.png) | ![instancedetail](https://user-images.githubusercontent.com/45884264/217056145-b06177b3-d96d-47ab-827f-5174f10ab8a4.png) |
 
-
-### Container / VM Creation - Image Selection Menu
-![image](https://user-images.githubusercontent.com/45884264/216782621-54fa4b6e-84b0-4854-bb38-187eea6a9071.png)
+| Snapshots | Terminal | Profiles - Detail |
+|--|--|--|
+| ![snapshots](https://user-images.githubusercontent.com/45884264/217056175-8f4abde0-c371-4dd1-862b-c73d2f594337.png) | ![terminal](https://user-images.githubusercontent.com/45884264/217056195-919372ee-aab2-44f3-b1d3-267c517fa5af.png) | ![profiledetail](https://user-images.githubusercontent.com/45884264/217056232-0297eeb0-0682-4d81-8485-d8fad487410b.png) |
