@@ -13,7 +13,7 @@ const CertificateMain: FC = () => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/" />;
+    return <Navigate to="/ui" />;
   }
 
   return (
