@@ -5,16 +5,17 @@ import { LxdProfile } from "types/profile";
 
 interface Props {
   profile: LxdProfile;
+  project: string;
 }
 
-const EditProfileBtn: FC<Props> = ({ profile }) => {
+const EditProfileBtn: FC<Props> = ({ profile, project }) => {
   const panelParams = usePanelParams();
 
   return (
     <Button
       className="u-no-margin--bottom"
       hasIcon
-      onClick={() => panelParams.openProfileFormYaml(profile.name)}
+      onClick={() => panelParams.openProfileFormYaml(profile.name, project)}
     >
       <i className={"p-icon--edit"} />
       <span>Edit</span>

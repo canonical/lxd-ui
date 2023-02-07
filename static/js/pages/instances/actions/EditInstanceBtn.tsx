@@ -14,7 +14,9 @@ const EditInstanceBtn: FC<Props> = ({ instance }) => {
     <Button
       className="u-no-margin--bottom"
       hasIcon
-      onClick={() => panelParams.openEditInstance(instance.name)}
+      onClick={() =>
+        panelParams.openEditInstance(instance.name, instance.project)
+      }
     >
       <i className={"p-icon--edit"} />
       <span>Edit</span>

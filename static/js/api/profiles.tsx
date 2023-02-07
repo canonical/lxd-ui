@@ -2,27 +2,30 @@ import { handleResponse } from "util/helpers";
 import { LxdProfile } from "types/profile";
 import { LxdApiResponse } from "types/apiResponse";
 
-export const fetchProfile = (name: string): Promise<LxdProfile> => {
+export const fetchProfile = (
+  name: string,
+  project: string
+): Promise<LxdProfile> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${name}?recursion=1`)
+    fetch(`/1.0/profiles/${name}?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdProfile>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const fetchProfiles = (): Promise<LxdProfile[]> => {
+export const fetchProfiles = (project: string): Promise<LxdProfile[]> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/profiles?recursion=1")
+    fetch(`/1.0/profiles?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdProfile[]>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const createProfile = (profile: LxdProfile) => {
+export const createProfile = (profile: LxdProfile, project: string) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/profiles", {
+    fetch(`/1.0/profiles?project=${project}`, {
       method: "POST",
       body: JSON.stringify(profile),
     })
@@ -32,11 +35,11 @@ export const createProfile = (profile: LxdProfile) => {
   });
 };
 
-export const createProfileFromJson = (profileConfiguration: string) => {
+export const createProfileFromJson = (body: string, project: string) => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/profiles", {
+    fetch(`/1.0/profiles?project=${project}`, {
       method: "POST",
-      body: profileConfiguration,
+      body: body,
     })
       .then(handleResponse)
       .then((data) => resolve(data))
@@ -44,12 +47,12 @@ export const createProfileFromJson = (profileConfiguration: string) => {
   });
 };
 
-export const updateProfileFromJson = (profileConfiguration: string) => {
-  const profile = JSON.parse(profileConfiguration) as LxdProfile;
+export const updateProfileFromJson = (body: string, project: string) => {
+  const profile = JSON.parse(body) as LxdProfile;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${profile.name}`, {
+    fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
       method: "PUT",
-      body: profileConfiguration,
+      body: body,
     })
       .then(handleResponse)
       .then(resolve)
@@ -57,9 +60,9 @@ export const updateProfileFromJson = (profileConfiguration: string) => {
   });
 };
 
-export const deleteProfile = (name: string) => {
+export const deleteProfile = (name: string, project: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${name}`, {
+    fetch(`/1.0/profiles/${name}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)

@@ -7,9 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import Loader from "components/Loader";
+import { useParams } from "react-router-dom";
 
 const NetworkList: FC = () => {
   const notify = useNotification();
+  const { project } = useParams<{
+    project: string;
+  }>();
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   const {
     data: networks = [],
@@ -17,7 +25,7 @@ const NetworkList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.networks],
-    queryFn: fetchNetworks,
+    queryFn: () => fetchNetworks(project),
   });
 
   if (error) {

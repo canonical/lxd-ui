@@ -31,7 +31,8 @@ const EditInstanceForm: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.instances, panelParams.instance],
-    queryFn: () => fetchInstance(panelParams.instance ?? "", 0),
+    queryFn: () =>
+      fetchInstance(panelParams.instance ?? "", panelParams.project, 0),
     enabled: panelParams.instance !== null,
   });
 
@@ -54,7 +55,7 @@ const EditInstanceForm: FC = () => {
         return;
       }
       const instanceJson = yamlToJson(values.instanceYaml);
-      updateInstanceFromJson(instanceJson)
+      updateInstanceFromJson(instanceJson, panelParams.project)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],

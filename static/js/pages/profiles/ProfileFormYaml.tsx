@@ -51,7 +51,7 @@ const ProfileFormYaml: FC = () => {
       const mutation = panelParams.profile
         ? updateProfileFromJson
         : createProfileFromJson;
-      mutation(profileJson)
+      mutation(profileJson, panelParams.project)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
@@ -71,7 +71,7 @@ const ProfileFormYaml: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.profiles, panelParams.profile],
-    queryFn: () => fetchProfile(panelParams.profile ?? ""),
+    queryFn: () => fetchProfile(panelParams.profile ?? "", panelParams.project),
     enabled: isEditMode,
   });
 

@@ -65,7 +65,12 @@ const ProfileFormGuided: FC = () => {
   const ProfileSchema = Yup.object().shape({
     name: Yup.string()
       .test("deduplicate", "A profile with this name already exists", (value) =>
-        checkDuplicateName(value, controllerState, "profiles")
+        checkDuplicateName(
+          value,
+          panelParams.project,
+          controllerState,
+          "profiles"
+        )
       )
       .required("This field is required"),
   });
@@ -131,7 +136,7 @@ const ProfileFormGuided: FC = () => {
         name: name,
       };
 
-      createProfile(profile)
+      createProfile(profile, panelParams.project)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
@@ -186,6 +191,7 @@ const ProfileFormGuided: FC = () => {
                       <NetworkSelector
                         notify={notify}
                         nicDevice={formik.values.nicDevice}
+                        project={panelParams.project}
                         setNicDevice={(nicDevice) =>
                           void formik.setFieldValue("nicDevice", nicDevice)
                         }
@@ -197,6 +203,7 @@ const ProfileFormGuided: FC = () => {
                     content: (
                       <StorageSelector
                         notify={notify}
+                        project={panelParams.project}
                         diskDevice={formik.values.rootDiskDevice}
                         setDiskDevice={(diskDevice) =>
                           void formik.setFieldValue(

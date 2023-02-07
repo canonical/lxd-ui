@@ -78,7 +78,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
       const expiresAt = values.expiresAt
         ? stringToIsoTime(values.expiresAt)
         : null;
-      createSnapshot(instance.name, values.name, expiresAt, values.stateful)
+      createSnapshot(instance, values.name, expiresAt, values.stateful)
         .then(() => {
           void queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.instances,

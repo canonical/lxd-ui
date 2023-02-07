@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { LxdSnapshot } from "types/instance";
+import { LxdInstance, LxdSnapshot } from "types/instance";
 import { deleteSnapshot } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -7,24 +7,24 @@ import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 
 interface Props {
-  instanceName: string;
+  instance: LxdInstance;
   snapshot: LxdSnapshot;
   notify: NotificationHelper;
 }
 
-const DeleteSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
+const DeleteSnapshotBtn: FC<Props> = ({ instance, snapshot, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteSnapshot(instanceName, snapshot)
+    deleteSnapshot(instance, snapshot)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
-        notify.success("Snapshot deleted.");
+        notify.success(`Snapshot ${snapshot.name} deleted.`);
       })
       .catch((e) => {
         setLoading(false);

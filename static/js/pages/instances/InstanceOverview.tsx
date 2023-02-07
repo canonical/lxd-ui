@@ -173,7 +173,10 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
               <List
                 className="u-no-margin--bottom"
                 items={instance.profiles.map((name) => (
-                  <Link key={name} to={`/ui/profiles/${name}`}>
+                  <Link
+                    key={name}
+                    to={`/ui/${instance.project}/profiles/${name}`}
+                  >
                     {name}
                   </Link>
                 ))}

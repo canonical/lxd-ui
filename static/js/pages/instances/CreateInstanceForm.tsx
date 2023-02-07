@@ -32,6 +32,7 @@ import { useSharedNotify } from "../../context/sharedNotify";
 import ConfirmationModal from "components/ConfirmationModal";
 import usePortal from "react-useportal";
 import { Link } from "react-router-dom";
+import { LxdInstance } from "types/instance";
 
 const CreateInstanceForm: FC = () => {
   const notify = useNotification();
@@ -46,7 +47,13 @@ const CreateInstanceForm: FC = () => {
       .test(
         "deduplicate",
         "An instance with this name already exists",
-        (value) => checkDuplicateName(value, controllerState, "instances")
+        (value) =>
+          checkDuplicateName(
+            value,
+            panelParams.project,
+            controllerState,
+            "instances"
+          )
       )
       .optional(),
     instanceType: Yup.string().required("Instance type is required"),
@@ -68,7 +75,9 @@ const CreateInstanceForm: FC = () => {
     instanceListNotify?.success(
       <>
         Instance{" "}
-        <Link to={`/ui/instances/${instanceName}`}>{instanceName}</Link>{" "}
+        <Link to={`/ui/${panelParams.project}/instances/${instanceName}`}>
+          {instanceName}
+        </Link>{" "}
         {action}.
       </>
     );
@@ -82,7 +91,9 @@ const CreateInstanceForm: FC = () => {
     instanceListNotify?.failure(
       <>
         Instance{" "}
-        <Link to={`/ui/instances/${instanceName}`}>{instanceName}</Link>{" "}
+        <Link to={`/ui/${panelParams.project}/instances/${instanceName}`}>
+          {instanceName}
+        </Link>{" "}
         created. Instance Start failed.
       </>,
       e
@@ -96,7 +107,7 @@ const CreateInstanceForm: FC = () => {
       ? yamlToObject(values.yaml)
       : getCreationPayload(values);
     const instanceCreationStr = JSON.stringify(instanceCreationObj);
-    createInstanceFromJson(instanceCreationStr)
+    createInstanceFromJson(instanceCreationStr, panelParams.project)
       .then((operation) => {
         const instanceName = operation.metadata.resources.instances?.[0]
           .split("/")
@@ -105,7 +116,10 @@ const CreateInstanceForm: FC = () => {
           return;
         }
         if (shouldStart) {
-          startInstance(instanceName)
+          startInstance({
+            name: instanceName,
+            project: panelParams.project,
+          } as LxdInstance)
             .then(() => {
               closeAndNotifySuccess(instanceName, "created and started");
             })
@@ -283,6 +297,7 @@ const CreateInstanceForm: FC = () => {
                     <>
                       <ProfileSelect
                         notify={notify}
+                        project={panelParams.project}
                         selected={formik.values.profiles}
                         setSelected={(value) =>
                           void formik.setFieldValue("profiles", value)

@@ -4,12 +4,14 @@ export interface PanelHelper {
   panel: string | null;
   instance: string | null;
   profile: string | null;
+  project: string;
   clear: () => void;
-  openCreateInstance: () => void;
-  openEditInstance: (instance: string) => void;
+  openCreateInstance: (project: string) => void;
+  openEditInstance: (instance: string, project: string) => void;
   openImageImport: () => void;
-  openProfileFormGuided: () => void;
-  openProfileFormYaml: (profile?: string) => void;
+  openProfileFormGuided: (project: string) => void;
+  openProfileFormYaml: (profile: string, project: string) => void;
+  openNewProfileFormYaml: (project: string) => void;
 }
 
 export const panels = {
@@ -38,29 +40,34 @@ const usePanelParams = (): PanelHelper => {
     panel: params.get("panel"),
     instance: params.get("instance"),
     profile: params.get("profile"),
+    project: params.get("project") ?? "default",
 
     clear: () => {
       setParams(new URLSearchParams());
     },
 
-    openCreateInstance: () => {
-      setPanelParams(panels.createInstance);
+    openCreateInstance: (project) => {
+      setPanelParams(panels.createInstance, { project });
     },
 
-    openEditInstance: (instance) => {
-      setPanelParams(panels.editInstance, { instance });
+    openEditInstance: (instance, project) => {
+      setPanelParams(panels.editInstance, { instance, project });
     },
 
     openImageImport: () => {
       setPanelParams(panels.imageImport);
     },
 
-    openProfileFormGuided: () => {
-      setPanelParams(panels.profileFormGuided);
+    openProfileFormGuided: (project: string) => {
+      setPanelParams(panels.profileFormGuided, { project });
     },
 
-    openProfileFormYaml: (profile) => {
-      setPanelParams(panels.profileFormYaml, profile ? { profile } : {});
+    openProfileFormYaml: (profile, project) => {
+      setPanelParams(panels.profileFormYaml, { profile, project });
+    },
+
+    openNewProfileFormYaml: (project) => {
+      setPanelParams(panels.profileFormYaml, { project });
     },
   };
 };

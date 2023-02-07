@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ClusterList from "pages/cluster/ClusterList";
 import ImageList from "pages/images/ImageList";
 import InstanceList from "pages/instances/InstanceList";
@@ -19,21 +19,18 @@ import ProtectedRoute from "components/ProtectedRoute";
 const App: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<ProtectedRoute outlet={<InstanceList />} />} />
+      <Route path="/" element={<Navigate to="/ui/default/instances" />} />
+      <Route path="/ui" element={<Navigate to="/ui/default/instances" />} />
       <Route
-        path="/ui"
+        path="/ui/:project/instances"
         element={<ProtectedRoute outlet={<InstanceList />} />}
       />
       <Route
-        path="/ui/instances"
-        element={<ProtectedRoute outlet={<InstanceList />} />}
-      />
-      <Route
-        path="/ui/instances/:name"
+        path="/ui/:project/instances/:name"
         element={<ProtectedRoute outlet={<InstanceDetail />} />}
       />
       <Route
-        path="/ui/instances/:name/:activeTab"
+        path="/ui/:project/instances/:name/:activeTab"
         element={<ProtectedRoute outlet={<InstanceDetail />} />}
       />
       <Route
@@ -41,15 +38,15 @@ const App: FC = () => {
         element={<ProtectedRoute outlet={<ImageList />} />}
       />
       <Route
-        path="/ui/profiles"
+        path="/ui/:project/profiles"
         element={<ProtectedRoute outlet={<ProfileList />} />}
       />
       <Route
-        path="/ui/profiles/:name"
+        path="/ui/:project/profiles/:name"
         element={<ProtectedRoute outlet={<ProfileDetail />} />}
       />
       <Route
-        path="/ui/networks"
+        path="/ui/:project/networks"
         element={<ProtectedRoute outlet={<NetworkList />} />}
       />
       <Route
@@ -57,7 +54,7 @@ const App: FC = () => {
         element={<ProtectedRoute outlet={<ProjectList />} />}
       />
       <Route
-        path="/ui/storages"
+        path="/ui/:project/storages"
         element={<ProtectedRoute outlet={<StorageList />} />}
       />
       <Route

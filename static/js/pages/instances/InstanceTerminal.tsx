@@ -30,8 +30,9 @@ interface Props {
 }
 
 const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
-  const { name } = useParams<{
+  const { name, project } = useParams<{
     name: string;
+    project: string;
   }>();
   const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
@@ -52,14 +53,21 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
 
   const openWebsockets = async (payload: LxdTerminalPayload) => {
     if (!name) {
+      notify.failure("Missing name", new Error());
+      return;
+    }
+    if (!project) {
+      notify.failure("Missing project", new Error());
       return;
     }
 
     setTerminalLoading(true);
-    const result = await fetchInstanceExec(name, payload).catch((e) => {
-      setTerminalLoading(false);
-      notify.failure("Could not open terminal session.", e);
-    });
+    const result = await fetchInstanceExec(name, project, payload).catch(
+      (e) => {
+        setTerminalLoading(false);
+        notify.failure("Could not open terminal session.", e);
+      }
+    );
     if (!result) {
       return;
     }

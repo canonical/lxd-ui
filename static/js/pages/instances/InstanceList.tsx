@@ -16,7 +16,12 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import Loader from "components/Loader";
 import {
@@ -33,11 +38,18 @@ const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
+  const { project } = useParams<{
+    project: string;
+  }>();
   const [params, setParams] = useSearchParams();
   const selected = params.get("selected");
   const [query, setQuery] = useState<string>("");
   const [status, setStatus] = useState<string>("any");
   const [type, setType] = useState<string>("any");
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   const { setSharedNotify } = useSharedNotify();
   useEffect(() => {
@@ -52,7 +64,7 @@ const InstanceList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.instances],
-    queryFn: fetchInstances,
+    queryFn: () => fetchInstances(project),
   });
 
   if (error) {
@@ -107,7 +119,9 @@ const InstanceList: FC = () => {
         },
         {
           content: (
-            <Link to={`/ui/instances/${instance.name}`}>{instance.name}</Link>
+            <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
+              {instance.name}
+            </Link>
           ),
           role: "rowheader",
           "aria-label": "Name",
@@ -142,7 +156,9 @@ const InstanceList: FC = () => {
               appearance="base"
               className="u-no-margin--bottom"
               onClick={() =>
-                navigate(`/ui/instances/${instance.name}/snapshots`)
+                navigate(
+                  `/ui/${instance.project}/instances/${instance.name}/snapshots`
+                )
               }
             >
               {instance.snapshots?.length ?? "0"}
@@ -218,7 +234,7 @@ const InstanceList: FC = () => {
           <Button
             className="u-no-margin--bottom"
             appearance="positive"
-            onClick={() => panelParams.openCreateInstance()}
+            onClick={() => panelParams.openCreateInstance(project)}
           >
             Add instance
           </Button>

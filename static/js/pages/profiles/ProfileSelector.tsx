@@ -16,11 +16,17 @@ import Loader from "components/Loader";
 
 interface Props {
   notify: NotificationHelper;
+  project: string;
   selected: string[];
   setSelected: (profiles: string[]) => void;
 }
 
-const ProfileSelector: FC<Props> = ({ notify, selected, setSelected }) => {
+const ProfileSelector: FC<Props> = ({
+  notify,
+  project,
+  selected,
+  setSelected,
+}) => {
   const toggleProfile = (item: LxdProfile) => {
     const newSelection = selected.includes(item.name)
       ? selected.filter((i) => i !== item.name)
@@ -54,7 +60,7 @@ const ProfileSelector: FC<Props> = ({ notify, selected, setSelected }) => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.profiles],
-    queryFn: fetchProfiles,
+    queryFn: () => fetchProfiles(project),
   });
 
   if (isLoading) {

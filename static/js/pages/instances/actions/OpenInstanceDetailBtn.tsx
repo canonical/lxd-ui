@@ -1,15 +1,16 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { LxdInstance } from "types/instance";
 
 interface Props {
-  instanceName: string;
+  instance: LxdInstance;
 }
 
-const OpenInstanceDetailBtn: FC<Props> = ({ instanceName }) => {
+const OpenInstanceDetailBtn: FC<Props> = ({ instance }) => {
   return (
     <Link
       className="p-button is-dense u-no-margin--bottom"
-      to={`/ui/instances/${instanceName}`}
+      to={`/ui/${instance.project}/instances/${instance.name}`}
     >
       View instance
     </Link>

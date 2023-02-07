@@ -10,17 +10,23 @@ import Loader from "components/Loader";
 interface Props {
   notify: NotificationHelper;
   nicDevice: LxdNicDevice;
+  project: string;
   setNicDevice: (nicDevice: LxdNicDevice) => void;
 }
 
-const NetworkSelector: FC<Props> = ({ notify, nicDevice, setNicDevice }) => {
+const NetworkSelector: FC<Props> = ({
+  notify,
+  nicDevice,
+  project,
+  setNicDevice,
+}) => {
   const {
     data: networks = [],
     error,
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.networks],
-    queryFn: fetchNetworks,
+    queryFn: () => fetchNetworks(project),
   });
 
   if (isLoading) {

@@ -27,12 +27,12 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
     const actions = (
       <>
         <RestoreSnapshotBtn
-          instanceName={instance.name}
+          instance={instance}
           snapshot={snapshot}
           notify={notify}
         />
         <DeleteSnapshotBtn
-          instanceName={instance.name}
+          instance={instance}
           snapshot={snapshot}
           notify={notify}
         />

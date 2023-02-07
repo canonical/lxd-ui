@@ -17,11 +17,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, notify }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    deleteInstance(instance.name)
+    deleteInstance(instance)
       .then(() => {
         setLoading(false);
         navigate(
-          "/ui/instances",
+          `/ui/${instance.project}/instances`,
           notify.queue(notify.success(`Instance ${instance.name} deleted.`))
         );
       })

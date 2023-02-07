@@ -96,6 +96,7 @@ export const getWsErrorMsg = (code: number) => {
 
 export const checkDuplicateName = (
   candidate: string | undefined,
+  project: string,
   controllerState: [
     AbortController | null,
     React.Dispatch<React.SetStateAction<AbortController | null>>
@@ -110,7 +111,7 @@ export const checkDuplicateName = (
   const deduplicateController = new AbortController();
   setController(deduplicateController);
   const signal = deduplicateController.signal;
-  return fetch(`/1.0/${target}/${candidate}`, { signal }).then(
-    (response) => response.status === 404
-  );
+  return fetch(`/1.0/${target}/${candidate}?project=${project}`, {
+    signal,
+  }).then((response) => response.status === 404);
 };

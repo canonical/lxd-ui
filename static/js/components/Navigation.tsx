@@ -5,6 +5,7 @@ import { useAuth } from "../context/auth";
 
 const Navigation: FC = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
+  const project = "default";
 
   const { isAuthenticated } = useAuth();
   const toggleMenu = () => setMenuCollapsed(!menuCollapsed);
@@ -67,7 +68,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item--title">
                         <NavLink
                           className="p-side-navigation__link"
-                          to="/ui/instances"
+                          to={`/ui/${project}/instances`}
                           onClick={toggleMenu}
                         >
                           <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
@@ -77,7 +78,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item--title">
                         <NavLink
                           className="p-side-navigation__link"
-                          to="/ui/profiles"
+                          to={`/ui/${project}/profiles`}
                           onClick={toggleMenu}
                         >
                           <i className="p-icon--profile is-light p-side-navigation__icon"></i>{" "}
@@ -87,7 +88,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item--title">
                         <NavLink
                           className="p-side-navigation__link"
-                          to="/ui/networks"
+                          to={`/ui/${project}/networks`}
                           onClick={toggleMenu}
                         >
                           <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
@@ -107,7 +108,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item--title">
                         <NavLink
                           className="p-side-navigation__link"
-                          to="/ui/storages"
+                          to={`/ui/${project}/storages`}
                           onClick={toggleMenu}
                         >
                           <i className="p-icon--pods is-light p-side-navigation__icon"></i>{" "}
