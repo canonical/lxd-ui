@@ -25,34 +25,13 @@
   padding-top: 0.5rem;
 }
 
-.p-instance-table {
-  @media screen and (max-width: 1400px) {
-    th,
-    td {
-      &:nth-child(4),
-      &:nth-child(5) {
-        display: none;
-      }
-    }
-  }
-}
-
-.p-instance-table-with-panel {
-  th,
-  td {
-    &:nth-child(4),
-    &:nth-child(5) {
-      display: none;
-    }
-  }
-}
-
 .u-row:hover,
 .u-row-selected {
   background-color: $colors--light-theme--background-hover;
 }
 
-@media screen and (min-width: 1400px) {
+// show actions only on hover for desktop sized screens
+@media screen and (min-width: 800px) {
   .u-instance-actions {
     visibility: hidden;
   }
@@ -67,5 +46,21 @@
     .u-instance-actions {
       display: none;
     }
+  }
+}
+
+.configurable-table-toggle {
+  float: right;
+  margin-bottom: -3.5rem;
+}
+
+.table-column-select-list {
+  margin-left: 1rem;
+  min-width: 12rem;
+}
+
+.instance-table {
+  td:last-child {
+    padding-right: 0;
   }
 }

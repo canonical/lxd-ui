@@ -29,6 +29,36 @@ import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import { useSharedNotify } from "../../context/sharedNotify";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenVgaBtn from "./actions/OpenVgaBtn";
+import TableColumnsSelect from "components/TableColumnsSelect";
+import useEventListener from "@use-it/event-listener";
+
+const STATUS = "Status";
+const NAME = "Name";
+const TYPE = "Type";
+const IPV4 = "IPv4";
+const IPV6 = "IPv6";
+const SNAPSHOTS = "Snapshots";
+
+const loadHidden = () => {
+  const saved = localStorage.getItem("instanceListHiddenColumns");
+  if (!saved) {
+    if (window.outerWidth < 900) {
+      return [IPV4, IPV6, SNAPSHOTS];
+    }
+    if (window.outerWidth < 1200) {
+      return [IPV6, SNAPSHOTS];
+    }
+    if (window.outerWidth < 1400) {
+      return [SNAPSHOTS];
+    }
+    return [];
+  }
+  return JSON.parse(saved) as string[];
+};
+
+const saveHidden = (columns: string[]) => {
+  localStorage.setItem("instanceListHiddenColumns", JSON.stringify(columns));
+};
 
 const InstanceList: FC = () => {
   const navigate = useNavigate();
@@ -42,6 +72,34 @@ const InstanceList: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [status, setStatus] = useState<string>("any");
   const [type, setType] = useState<string>("any");
+  const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
+  const [sideHidden, setSideHidden] = useState<string[]>([]);
+
+  const hidden = userHidden.concat(sideHidden);
+  const resizeColsForSidepanel = () => {
+    const sideHiddenNew = [];
+    if (selected) {
+      if (window.outerWidth < 2100 && !userHidden.includes(SNAPSHOTS)) {
+        sideHiddenNew.push(SNAPSHOTS);
+      }
+      if (window.outerWidth < 1950 && !userHidden.includes(IPV6)) {
+        sideHiddenNew.push(IPV6);
+      }
+      if (window.outerWidth < 1400 && !userHidden.includes(IPV4)) {
+        sideHiddenNew.push(IPV4);
+      }
+    }
+    if (JSON.stringify(sideHiddenNew) !== JSON.stringify(sideHidden)) {
+      setSideHidden(sideHiddenNew);
+    }
+  };
+  useEventListener("resize", resizeColsForSidepanel);
+  resizeColsForSidepanel();
+
+  const setHidden = (columns: string[]) => {
+    setUserHidden(columns);
+    saveHidden(columns);
+  };
 
   if (!project) {
     return <>Missing project</>;
@@ -90,18 +148,28 @@ const InstanceList: FC = () => {
   });
 
   const headers = [
-    { content: "Status", sortKey: "status", className: "u-align--center" },
-    { content: "Name", sortKey: "name" },
-    { content: "Type", sortKey: "type", className: "u-align--center" },
-    { content: "IPv4" },
-    { content: "IPv6" },
+    { content: STATUS, sortKey: "status", className: "u-align--center" },
+    { content: NAME, sortKey: "name" },
+    { content: TYPE, sortKey: "type", className: "u-align--center" },
     {
-      content: "Snapshots",
+      content: IPV4,
+      className: "u-align--right",
+    },
+    {
+      content: IPV6,
+      className: "u-align--left",
+    },
+    {
+      content: SNAPSHOTS,
       sortKey: "snapshots",
       className: "u-align--center",
     },
-    { content: "" },
-  ];
+    {
+      content: null,
+    },
+  ].filter(
+    (item) => typeof item.content !== "string" || !hidden.includes(item.content)
+  );
 
   const rows = visibleInstances.map((instance) => {
     return {
@@ -111,7 +179,7 @@ const InstanceList: FC = () => {
           content: <InstanceStatusIcon instance={instance} />,
           role: "rowheader",
           className: "u-truncate",
-          "aria-label": "Status",
+          "aria-label": STATUS,
         },
         {
           content: (
@@ -120,13 +188,13 @@ const InstanceList: FC = () => {
             </Link>
           ),
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": NAME,
         },
         {
           content: instance.type,
           role: "rowheader",
-          className: "u-align--center",
-          "aria-label": "Type",
+          className: "u-align--left",
+          "aria-label": TYPE,
         },
         {
           content: instance.state?.network?.eth0?.addresses
@@ -135,7 +203,8 @@ const InstanceList: FC = () => {
             .filter((address) => !address.startsWith("127"))
             .join(" "),
           role: "rowheader",
-          "aria-label": "IPv4",
+          className: "u-align--right",
+          "aria-label": IPV4,
         },
         {
           content: instance.state?.network?.eth0?.addresses
@@ -144,7 +213,7 @@ const InstanceList: FC = () => {
             .filter((address) => !address.startsWith("fe80"))
             .join(" "),
           role: "rowheader",
-          "aria-label": "IPv6",
+          "aria-label": IPV6,
         },
         {
           content: (
@@ -161,8 +230,8 @@ const InstanceList: FC = () => {
             </Button>
           ),
           role: "rowheader",
-          className: "u-align--center",
-          "aria-label": "Snapshots",
+          className: "u-align--right",
+          "aria-label": SNAPSHOTS,
         },
         {
           content: (
@@ -203,7 +272,7 @@ const InstanceList: FC = () => {
           className: "u-align--right",
           "aria-label": "Details",
         },
-      ],
+      ].filter((item) => !hidden.includes(item["aria-label"])),
       sortData: {
         name: instance.name,
         status: instance.status,
@@ -283,14 +352,18 @@ const InstanceList: FC = () => {
           <NotificationRow notify={notify} />
           <Row>
             <Col size={detailInstance ? 8 : 12}>
+              <TableColumnsSelect
+                columns={[STATUS, NAME, TYPE, IPV4, IPV6, SNAPSHOTS]}
+                hidden={hidden}
+                setHidden={setHidden}
+                className={detailInstance ? "u-hide" : undefined}
+              />
               <MainTable
                 headers={headers}
                 rows={rows}
                 paginate={15}
                 sortable
-                className={`p-instance-table ${
-                  selected ? "p-instance-table-with-panel" : ""
-                } u-table-layout--auto`}
+                className="instance-table u-table-layout--auto"
                 emptyStateMsg={
                   isLoading ? (
                     <Loader text="Loading instances..." />
