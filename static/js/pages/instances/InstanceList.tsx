@@ -10,7 +10,6 @@ import {
 } from "@canonical/react-components";
 import React, { FC, useEffect, useState } from "react";
 import { fetchInstances } from "api/instances";
-import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -24,10 +23,7 @@ import {
 } from "react-router-dom";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import Loader from "components/Loader";
-import {
-  instanceStatusOptions,
-  instanceTypeOptions,
-} from "util/instanceOptions";
+import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import { useSharedNotify } from "../../context/sharedNotify";
@@ -218,127 +214,130 @@ const InstanceList: FC = () => {
   });
 
   return (
-    <>
-      <BaseLayout
-        title={
-          <>
-            Instances{" "}
-            <small className="u-ma">
-              {visibleInstances.length}{" "}
-              {visibleInstances.length === 1 ? "instance" : "instances"}{" "}
-              available
-            </small>
-          </>
-        }
-        controls={
-          <Button
-            className="u-no-margin--bottom"
-            appearance="positive"
-            onClick={() => panelParams.openCreateInstance(project)}
-          >
-            Add instance
-          </Button>
-        }
-      >
-        <NotificationRow notify={notify} />
-        <Row>
-          <Col size={4}>
-            <SearchBox
-              id="filter-query"
-              type="text"
-              onChange={(value) => {
-                setQuery(value);
-              }}
-              placeholder="Search for instances"
-              value={query}
-            />
-          </Col>
-          <Col size={2}>
-            <Select
-              id="filter-state"
-              onChange={(v) => {
-                setStatus(v.target.value);
-              }}
-              options={[
-                {
-                  label: "All states",
-                  value: "any",
-                },
-                ...instanceStatusOptions,
-              ]}
-              value={status}
-            />
-          </Col>
-          <Col size={2}>
-            <Select
-              id="filter-type"
-              onChange={(v) => {
-                setType(v.target.value);
-              }}
-              options={[
-                {
-                  label: "All types",
-                  value: "any",
-                },
-                ...instanceTypeOptions,
-              ]}
-              value={type}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col size={detailInstance ? 8 : 12}>
-            <MainTable
-              headers={headers}
-              rows={rows}
-              paginate={15}
-              sortable
-              className={`p-instance-table ${
-                selected ? "p-instance-table-with-panel" : ""
-              } u-table-layout--auto`}
-              emptyStateMsg={
-                isLoading ? (
-                  <Loader text="Loading instances..." />
-                ) : (
-                  <Row className="p-strip empty-state-message">
-                    <Col size={4} className="u-align--right">
-                      <Icon name="containers" className="u-hide--small icon" />
-                    </Col>
-                    <Col size={8} className="u-align--left">
-                      <h4 className="p-heading--2">No instances found</h4>
-                      <p>
-                        Looks like there are no instances in this project!
-                        Create a new instance with the &quot;Add instance&quot;
-                        button above.
-                      </p>
-                      <p>
-                        <a
-                          className="p-link--external"
-                          href="https://linuxcontainers.org/lxd/docs/latest/instances/"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Read the documentation on instances
-                        </a>
-                      </p>
-                    </Col>
-                  </Row>
-                )
-              }
-            />
-          </Col>
-          {detailInstance && (
-            <Col size={4} className="u-hide--medium u-hide--small">
-              <InstanceDetailPanel
-                instance={detailInstance}
-                notify={notify}
-                onClose={() => setSelected()}
+    <main className="l-main">
+      <div className="p-panel">
+        <div className="p-panel__header">
+          <Row className="p-panel__title p-instance-header no-grid-gap">
+            <Col size={3}>
+              <h4 className="margin-bottom">
+                {visibleInstances.length}{" "}
+                {visibleInstances.length === 1 ? "Instance" : "Instances"}
+              </h4>
+            </Col>
+            <Col size={7} className="middle-column">
+              <SearchBox
+                className="search-box margin-right margin-bottom"
+                id="filter-query"
+                type="text"
+                onChange={(value) => {
+                  setQuery(value);
+                }}
+                placeholder="Search"
+                value={query}
+              />
+              <Select
+                className="margin-bottom"
+                wrapperClassName="margin-right"
+                id="filter-state"
+                onChange={(v) => {
+                  setStatus(v.target.value);
+                }}
+                options={[
+                  {
+                    label: "All statuses",
+                    value: "any",
+                  },
+                  ...instanceStatuses,
+                ]}
+                value={status}
+              />
+              <Select
+                className="margin-bottom"
+                id="filter-type"
+                onChange={(v) => {
+                  setType(v.target.value);
+                }}
+                options={[
+                  {
+                    label: "Containers and VMs",
+                    value: "any",
+                  },
+                  ...instanceListTypes,
+                ]}
+                value={type}
               />
             </Col>
-          )}
-        </Row>
-      </BaseLayout>
-    </>
+            <Col size={2}>
+              <Button
+                className="margin-bottom u-float-right"
+                appearance="positive"
+                onClick={() => panelParams.openCreateInstance(project)}
+              >
+                Create new
+              </Button>
+            </Col>
+            <hr />
+          </Row>
+        </div>
+        <div className="p-panel__content p-instance-content">
+          <NotificationRow notify={notify} />
+          <Row>
+            <Col size={detailInstance ? 8 : 12}>
+              <MainTable
+                headers={headers}
+                rows={rows}
+                paginate={15}
+                sortable
+                className={`p-instance-table ${
+                  selected ? "p-instance-table-with-panel" : ""
+                } u-table-layout--auto`}
+                emptyStateMsg={
+                  isLoading ? (
+                    <Loader text="Loading instances..." />
+                  ) : (
+                    <Row className="p-strip empty-state-message">
+                      <Col size={4} className="u-align--right">
+                        <Icon
+                          name="containers"
+                          className="u-hide--small icon"
+                        />
+                      </Col>
+                      <Col size={8} className="u-align--left">
+                        <h4 className="p-heading--2">No instances found</h4>
+                        <p>
+                          Looks like there are no instances in this project!
+                          Create a new instance with the &quot;Add
+                          instance&quot; button above.
+                        </p>
+                        <p>
+                          <a
+                            className="p-link--external"
+                            href="https://linuxcontainers.org/lxd/docs/latest/instances/"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Read the documentation on instances
+                          </a>
+                        </p>
+                      </Col>
+                    </Row>
+                  )
+                }
+              />
+            </Col>
+            {detailInstance && (
+              <Col size={4} className="u-hide--medium u-hide--small">
+                <InstanceDetailPanel
+                  instance={detailInstance}
+                  notify={notify}
+                  onClose={() => setSelected()}
+                />
+              </Col>
+            )}
+          </Row>
+        </div>
+      </div>
+    </main>
   );
 };
 
