@@ -22,7 +22,7 @@ import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
-import { instanceTypeOptions } from "util/instanceOptions";
+import { instanceCreationTypes } from "util/instanceOptions";
 import { checkDuplicateName } from "util/helpers";
 import InstanceCustomiseYaml from "./InstanceCustomiseYaml";
 import { dump as dumpYaml } from "js-yaml";
@@ -271,7 +271,7 @@ const CreateInstanceForm: FC = () => {
                         name="instanceType"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        options={instanceTypeOptions}
+                        options={instanceCreationTypes}
                         value={formik.values.instanceType}
                         disabled={
                           isContainerOnlyImage(formik.values.image) ||

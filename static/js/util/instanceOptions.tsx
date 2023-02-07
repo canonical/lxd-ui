@@ -1,4 +1,15 @@
-export const instanceTypeOptions = [
+export const instanceListTypes = [
+  {
+    label: "Containers",
+    value: "container",
+  },
+  {
+    label: "VMs",
+    value: "virtual-machine",
+  },
+];
+
+export const instanceCreationTypes = [
   {
     label: "Container",
     value: "container",
@@ -9,7 +20,7 @@ export const instanceTypeOptions = [
   },
 ];
 
-export const instanceStatusOptions = [
+export const instanceStatuses = [
   {
     label: "Running",
     value: "Running",
