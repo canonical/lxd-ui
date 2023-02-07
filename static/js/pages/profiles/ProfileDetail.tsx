@@ -20,11 +20,16 @@ import Loader from "components/Loader";
 
 const ProfileDetail: FC = () => {
   const notify = useNotification();
-
   const { name } = useParams<{ name: string }>();
+  const { project } = useParams<{
+    project: string;
+  }>();
 
   if (!name) {
     return <>Missing name</>;
+  }
+  if (!project) {
+    return <>Missing project</>;
   }
 
   const {
@@ -33,7 +38,7 @@ const ProfileDetail: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.profiles, name],
-    queryFn: () => fetchProfile(name),
+    queryFn: () => fetchProfile(name, project),
   });
 
   if (error) {
@@ -61,9 +66,13 @@ const ProfileDetail: FC = () => {
       title={`Profile details for ${name}`}
       controls={
         <>
-          <EditProfileBtn profile={profile} />
+          <EditProfileBtn profile={profile} project={project} />
           {profile.name !== "default" && (
-            <DeleteProfileBtn profile={profile} notify={notify} />
+            <DeleteProfileBtn
+              profile={profile}
+              project={project}
+              notify={notify}
+            />
           )}
         </>
       }
@@ -87,7 +96,7 @@ const ProfileDetail: FC = () => {
                   <List
                     className="u-no-margin--bottom"
                     items={usedByNames.map((name) => (
-                      <Link key={name} to={`/ui/instances/${name}`}>
+                      <Link key={name} to={`/ui/${project}/instances/${name}`}>
                         {name}
                       </Link>
                     ))}

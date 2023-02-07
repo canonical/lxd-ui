@@ -15,11 +15,18 @@ import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
 import Loader from "components/Loader";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const ProfileList: FC = () => {
   const notify = useNotification();
   const panelParams = usePanelParams();
+  const { project } = useParams<{
+    project: string;
+  }>();
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   const {
     data: profiles = [],
@@ -27,7 +34,7 @@ const ProfileList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.profiles],
-    queryFn: fetchProfiles,
+    queryFn: () => fetchProfiles(project),
   });
 
   if (error) {
@@ -89,7 +96,9 @@ const ProfileList: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/profiles/${profile.name}`}>{profile.name}</Link>
+            <Link to={`/ui/${project}/profiles/${profile.name}`}>
+              {profile.name}
+            </Link>
           ),
           role: "rowheader",
           "aria-label": "Name",
@@ -130,11 +139,11 @@ const ProfileList: FC = () => {
             links={[
               {
                 children: "Quick create profile",
-                onClick: () => panelParams.openProfileFormGuided(),
+                onClick: () => panelParams.openProfileFormGuided(project),
               },
               {
                 children: "Custom create profile (YAML)",
-                onClick: () => panelParams.openProfileFormYaml(),
+                onClick: () => panelParams.openNewProfileFormYaml(project),
               },
             ]}
             position="right"

@@ -7,19 +7,22 @@ import { LxdProfile } from "types/profile";
 
 interface Props {
   profile: LxdProfile;
+  project: string;
   notify: NotificationHelper;
 }
 
-const DeleteProfileBtn: FC<Props> = ({ profile, notify }) => {
+const DeleteProfileBtn: FC<Props> = ({ profile, project, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteProfile(profile.name)
+    deleteProfile(profile.name, project)
       .then(() => {
         setLoading(false);
-        navigate("/ui/profiles", { state: notify.success("Profile deleted.") });
+        navigate(`/ui/${project}/profiles`, {
+          state: notify.success(`Profile ${profile.name} deleted.`),
+        });
       })
       .catch((e) => {
         setLoading(false);

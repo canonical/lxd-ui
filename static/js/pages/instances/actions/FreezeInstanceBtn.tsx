@@ -25,7 +25,7 @@ const FreezeInstanceBtn: FC<Props> = ({
 
   const handleFreeze = () => {
     setLoading(true);
-    freezeInstance(instance.name)
+    freezeInstance(instance)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
@@ -41,7 +41,7 @@ const FreezeInstanceBtn: FC<Props> = ({
 
   const handleUnfreeze = () => {
     setLoading(true);
-    unfreezeInstance(instance.name)
+    unfreezeInstance(instance)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({

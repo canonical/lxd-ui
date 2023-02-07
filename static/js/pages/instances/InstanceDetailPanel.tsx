@@ -55,10 +55,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
           items={[
             <OpenTerminalBtn key="terminal" instance={instance} />,
             <OpenVgaBtn key="vga" instance={instance} />,
-            <OpenInstanceDetailBtn
-              key="details"
-              instanceName={instance.name}
-            />,
+            <OpenInstanceDetailBtn key="details" instance={instance} />,
           ]}
         />
         <table className="u-table-layout--auto">
@@ -66,7 +63,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             <tr>
               <th>Name</th>
               <td>
-                <Link to={`/ui/instances/${instance.name}`}>
+                <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
                   {instance.name}
                 </Link>
               </td>
@@ -137,7 +134,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
         <List
           className="u-no-margin--bottom"
           items={instance.profiles.map((name) => (
-            <Link key={name} to={`/ui/profiles/${name}`}>
+            <Link key={name} to={`/ui/${instance.project}/profiles/${name}`}>
               {name}
             </Link>
           ))}
@@ -159,7 +156,9 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             size={3}
             className="p-snapshot-link p-text--small u-align--right u-no-margin--bottom"
           >
-            <Link to={`/ui/instances/${instance.name}/snapshots`}>
+            <Link
+              to={`/ui/${instance.project}/instances/${instance.name}/snapshots`}
+            >
               Manage snapshots
             </Link>
           </Col>

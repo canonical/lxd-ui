@@ -9,6 +9,7 @@ import Loader from "components/Loader";
 
 interface Props {
   notify: NotificationHelper;
+  project: string;
   diskDevice: LxdDiskDevice;
   setDiskDevice: (diskDevice: LxdDiskDevice) => void;
   hasPathInput?: boolean;
@@ -16,6 +17,7 @@ interface Props {
 
 const StorageSelector: FC<Props> = ({
   notify,
+  project,
   diskDevice: diskDevice,
   setDiskDevice: setDiskDevice,
   hasPathInput = true,
@@ -26,7 +28,7 @@ const StorageSelector: FC<Props> = ({
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: fetchStorages,
+    queryFn: () => fetchStorages(project),
   });
 
   if (isLoading) {

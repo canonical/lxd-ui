@@ -7,9 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import Loader from "components/Loader";
+import { useParams } from "react-router-dom";
 
 const StorageList: FC = () => {
   const notify = useNotification();
+  const { project } = useParams<{
+    project: string;
+  }>();
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   const {
     data: storages = [],
@@ -17,7 +25,7 @@ const StorageList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: fetchStorages,
+    queryFn: () => fetchStorages(project),
   });
 
   if (error) {

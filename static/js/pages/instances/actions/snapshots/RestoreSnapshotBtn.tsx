@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { LxdSnapshot } from "types/instance";
+import { LxdInstance, LxdSnapshot } from "types/instance";
 import { restoreSnapshot } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -7,18 +7,18 @@ import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 
 interface Props {
-  instanceName: string;
+  instance: LxdInstance;
   snapshot: LxdSnapshot;
   notify: NotificationHelper;
 }
 
-const RestoreSnapshotBtn: FC<Props> = ({ instanceName, snapshot, notify }) => {
+const RestoreSnapshotBtn: FC<Props> = ({ instance, snapshot, notify }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
   const handleRestore = () => {
     setLoading(true);
-    restoreSnapshot(instanceName, snapshot)
+    restoreSnapshot(instance, snapshot)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({

@@ -19,14 +19,18 @@ const TABS: string[] = ["Overview", "Snapshots", "Terminal", "VGA"];
 const InstanceDetail: FC = () => {
   const notify = useNotification();
   const navigate = useNavigate();
-  const { name, activeTab } = useParams<{
+  const { name, project, activeTab } = useParams<{
     name: string;
+    project: string;
     activeTab?: string;
   }>();
   const [controlTarget, setControlTarget] = useState<HTMLSpanElement | null>();
 
   if (!name) {
     return <>Missing name</>;
+  }
+  if (!project) {
+    return <>Missing project</>;
   }
 
   const {
@@ -35,7 +39,7 @@ const InstanceDetail: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.instances, name],
-    queryFn: () => fetchInstance(name),
+    queryFn: () => fetchInstance(name, project),
   });
 
   if (error) {
@@ -44,9 +48,9 @@ const InstanceDetail: FC = () => {
 
   const handleTabChange = (newTab: string) => {
     if (newTab === "overview") {
-      navigate(`/ui/instances/${name}`);
+      navigate(`/ui/${project}/instances/${name}`);
     } else {
-      navigate(`/ui/instances/${name}/${newTab}`);
+      navigate(`/ui/${project}/instances/${name}/${newTab}`);
     }
   };
 

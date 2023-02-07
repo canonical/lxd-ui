@@ -22,8 +22,9 @@ interface Props {
 }
 
 const InstanceVga: FC<Props> = ({ controlTarget, notify }) => {
-  const { name } = useParams<{
+  const { name, project } = useParams<{
     name: string;
+    project: string;
   }>();
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
@@ -35,12 +36,15 @@ const InstanceVga: FC<Props> = ({ controlTarget, notify }) => {
   const openVgaConsole = async () => {
     if (!name) {
       notify.failure("Missing name", new Error());
-
+      return;
+    }
+    if (!project) {
+      notify.failure("Missing project", new Error());
       return;
     }
 
     setVgaLoading(true);
-    const result = await fetchInstanceVga(name).catch((e) => {
+    const result = await fetchInstanceVga(name, project).catch((e) => {
       setVgaLoading(false);
       notify.failure("Could not open vga session.", e);
     });
