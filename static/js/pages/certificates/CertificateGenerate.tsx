@@ -22,7 +22,7 @@ const CertificateGenerate: FC = () => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/" />;
+    return <Navigate to="/ui" />;
   }
 
   const createCert = () => {
