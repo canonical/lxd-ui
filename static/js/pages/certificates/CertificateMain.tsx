@@ -17,22 +17,24 @@ const CertificateMain: FC = () => {
   }
 
   return (
-    <div className="p-strip">
-      <Row>
-        <Col size={12}>
-          <h1>LXD UI</h1>
-          <p>
-            A valid certificate is needed to access the UI from your browser.
-          </p>
-          <Button
-            appearance="positive"
-            onClick={() => navigate("/ui/certificates/generate")}
-          >
-            Setup certificates
-          </Button>
-        </Col>
-      </Row>
-    </div>
+    <main className="l-main">
+      <div className="p-strip">
+        <Row>
+          <Col size={12}>
+            <h1>LXD UI</h1>
+            <p>
+              A valid certificate is needed to access the UI from your browser.
+            </p>
+            <Button
+              appearance="positive"
+              onClick={() => navigate("/ui/certificates/generate")}
+            >
+              Setup certificates
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    </main>
   );
 };
 
