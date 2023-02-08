@@ -35,6 +35,7 @@
     "react": "18.2.0",
     "react-cytoscapejs": "2.0.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "2.4.0",
     "react-router-dom": "6.17.0",
     "react-scripts": "5.0.1",
     "react-useportal": "^1.0.18",
