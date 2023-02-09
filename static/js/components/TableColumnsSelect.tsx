@@ -42,7 +42,9 @@ const TableColumnsSelect = ({
           checked={hidden.length === 0}
           indeterminate={selectedCount > 0 && selectedCount < columns.length}
           label={`${selectedCount} out of ${columns.length} selected`}
-          onChange={() => hidden.length > 0 && setHidden([])}
+          onChange={() =>
+            hidden.length > 0 ? setHidden([]) : setHidden(columns)
+          }
         />
         <hr />
         {columns.map((column) => (

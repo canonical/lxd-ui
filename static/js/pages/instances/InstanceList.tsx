@@ -35,6 +35,7 @@ import useEventListener from "@use-it/event-listener";
 const STATUS = "Status";
 const NAME = "Name";
 const TYPE = "Type";
+const DESCRIPTION = "Description";
 const IPV4 = "IPv4";
 const IPV6 = "IPv6";
 const SNAPSHOTS = "Snapshots";
@@ -43,15 +44,15 @@ const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
   if (!saved) {
     if (window.outerWidth < 900) {
-      return [IPV4, IPV6, SNAPSHOTS];
+      return [DESCRIPTION, IPV4, IPV6, SNAPSHOTS];
     }
     if (window.outerWidth < 1200) {
-      return [IPV6, SNAPSHOTS];
+      return [DESCRIPTION, IPV6, SNAPSHOTS];
     }
     if (window.outerWidth < 1400) {
-      return [SNAPSHOTS];
+      return [DESCRIPTION, SNAPSHOTS];
     }
-    return [];
+    return [DESCRIPTION];
   }
   return JSON.parse(saved) as string[];
 };
@@ -76,6 +77,7 @@ const InstanceList: FC = () => {
   const [sideHidden, setSideHidden] = useState<string[]>([]);
 
   const hidden = userHidden.concat(sideHidden);
+
   const resizeColsForSidepanel = () => {
     const sideHiddenNew = [];
     if (selected) {
@@ -148,25 +150,14 @@ const InstanceList: FC = () => {
   });
 
   const headers = [
-    { content: STATUS, sortKey: "status", className: "u-align--center" },
+    { content: STATUS, sortKey: "status" },
     { content: NAME, sortKey: "name" },
-    { content: TYPE, sortKey: "type", className: "u-align--center" },
-    {
-      content: IPV4,
-      className: "u-align--right",
-    },
-    {
-      content: IPV6,
-      className: "u-align--left",
-    },
-    {
-      content: SNAPSHOTS,
-      sortKey: "snapshots",
-      className: "u-align--center",
-    },
-    {
-      content: null,
-    },
+    { content: TYPE, sortKey: "type" },
+    { content: DESCRIPTION, sortKey: "description" },
+    { content: IPV4, className: "u-align--right" },
+    { content: IPV6 },
+    { content: SNAPSHOTS, sortKey: "snapshots", className: "u-align--right" },
+    { content: null },
   ].filter(
     (item) => typeof item.content !== "string" || !hidden.includes(item.content)
   );
@@ -193,8 +184,12 @@ const InstanceList: FC = () => {
         {
           content: instance.type,
           role: "rowheader",
-          className: "u-align--left",
           "aria-label": TYPE,
+        },
+        {
+          content: instance.description,
+          role: "rowheader",
+          "aria-label": DESCRIPTION,
         },
         {
           content: instance.state?.network?.eth0?.addresses
@@ -353,7 +348,15 @@ const InstanceList: FC = () => {
           <Row>
             <Col size={detailInstance ? 8 : 12}>
               <TableColumnsSelect
-                columns={[STATUS, NAME, TYPE, IPV4, IPV6, SNAPSHOTS]}
+                columns={[
+                  STATUS,
+                  NAME,
+                  TYPE,
+                  DESCRIPTION,
+                  IPV4,
+                  IPV6,
+                  SNAPSHOTS,
+                ]}
                 hidden={hidden}
                 setHidden={setHidden}
                 className={detailInstance ? "u-hide" : undefined}

@@ -55,8 +55,11 @@
 }
 
 .table-column-select-list {
-  margin-left: 1rem;
   min-width: 12rem;
+
+  label {
+    margin-left: 1rem;
+  }
 }
 
 .instance-table {
