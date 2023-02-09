@@ -1,5 +1,5 @@
 import { watchOperation } from "./operations";
-import { handleResponse } from "util/helpers";
+import { handleResponse, handleTextResponse } from "util/helpers";
 import { LxdInstance } from "types/instance";
 import { LxdTerminal, LxdTerminalPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
@@ -126,7 +126,7 @@ export const deleteInstance = (instance: LxdInstance) => {
   });
 };
 
-export const fetchInstanceExec = (
+export const connectInstanceExec = (
   name: string,
   project: string,
   payload: LxdTerminalPayload
@@ -142,7 +142,7 @@ export const fetchInstanceExec = (
   });
 };
 
-export const fetchInstanceVga = (
+export const connectInstanceVga = (
   name: string,
   project: string
 ): Promise<LxdTerminal> => {
@@ -157,6 +157,38 @@ export const fetchInstanceVga = (
     })
       .then(handleResponse)
       .then((data: LxdTerminal) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const connectInstanceConsole = (
+  name: string,
+  project: string
+): Promise<LxdTerminal> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
+      method: "POST",
+      body: JSON.stringify({
+        "wait-for-websocket": true,
+        type: "console",
+      }),
+    })
+      .then(handleResponse)
+      .then((data: LxdTerminal) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const fetchInstanceConsoleBuffer = (
+  name: string,
+  project: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/console?project=${project}`, {
+      method: "GET",
+    })
+      .then(handleTextResponse)
+      .then((data: string) => resolve(data))
       .catch(reject);
   });
 };

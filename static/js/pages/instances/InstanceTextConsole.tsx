@@ -3,33 +3,22 @@ import { useParams } from "react-router-dom";
 import { XTerm } from "xterm-for-react";
 import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
-import { connectInstanceExec } from "api/instances";
+import {
+  connectInstanceConsole,
+  fetchInstanceConsoleBuffer,
+} from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import useEventListener from "@use-it/event-listener";
-import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
-import { LxdTerminalPayload } from "types/terminal";
-import { createPortal } from "react-dom";
 import Loader from "components/Loader";
 import { NotificationHelper } from "types/notification";
-
-const defaultPayload = {
-  command: ["bash"],
-  "record-output": true,
-  "wait-for-websocket": true,
-  environment: {
-    TERM: "xterm-256color",
-  },
-  interactive: true,
-  group: 1000,
-  user: 1000,
-};
+import useEventListener from "@use-it/event-listener";
+import { LxdInstance } from "types/instance";
 
 interface Props {
-  controlTarget?: HTMLSpanElement | null;
+  instance: LxdInstance;
   notify: NotificationHelper;
 }
 
-const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
+const InstanceTextConsole: FC<Props> = ({ instance, notify }) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -37,21 +26,11 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
   const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [textBuffer, setTextBuffer] = useState("");
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
-  const [controlWs, setControlWs] = useState<WebSocket | null>(null);
-  const [payload, setPayload] = useState<LxdTerminalPayload | null>(
-    defaultPayload
-  );
-
   const [fitAddon] = useState<FitAddon>(new FitAddon());
 
-  const handleReconnect = (payload: LxdTerminalPayload) => {
-    xtermRef.current?.terminal.clear();
-    notify.clear();
-    setPayload(payload);
-  };
-
-  const openWebsockets = async (payload: LxdTerminalPayload) => {
+  const openWebsockets = async () => {
     if (!name) {
       notify.failure("Missing name", new Error());
       return;
@@ -62,12 +41,13 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
     }
 
     setLoading(true);
-    const result = await connectInstanceExec(name, project, payload).catch(
-      (e) => {
-        setLoading(false);
-        notify.failure("Could not open terminal session.", e);
-      }
-    );
+    fetchInstanceConsoleBuffer(name, project)
+      .then(setTextBuffer)
+      .catch(console.error);
+    const result = await connectInstanceConsole(name, project).catch((e) => {
+      setLoading(false);
+      notify.failure("Could not open text console.", e);
+    });
     if (!result) {
       return;
     }
@@ -80,7 +60,6 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
 
     control.onopen = () => {
       setLoading(false);
-      setControlWs(control);
     };
 
     control.onerror = (e) => {
@@ -91,7 +70,6 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
       if (1005 !== event.code) {
         notify.failure(getWsErrorMsg(event.code), event.reason);
       }
-      setControlWs(null);
     };
 
     control.onmessage = (message) => {
@@ -127,22 +105,26 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
   };
 
   useEffect(() => {
-    if (!payload) {
+    if (dataWs) {
       return;
     }
-    const websocketPromise = openWebsockets(payload);
+    const websocketPromise = openWebsockets();
     return () => {
       void websocketPromise.then((websockets) => {
         websockets?.map((websocket) => websocket.close());
       });
     };
-  }, [payload]);
+  }, [xtermRef, fitAddon, instance.status]);
 
-  const handleResize = () => {
-    if (controlWs?.readyState === WebSocket.CLOSED) {
+  useEffect(() => {
+    if (!textBuffer || !xtermRef.current || isLoading) {
       return;
     }
+    xtermRef.current.terminal.write(textBuffer);
+    setTextBuffer("");
+  }, [textBuffer, xtermRef, isLoading]);
 
+  const handleResize = () => {
     xtermRef.current?.terminal.element?.style.setProperty("padding", "1rem");
 
     // ensure options is not undefined. fitAddon.fit will crash otherwise
@@ -151,37 +133,18 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
       xtermRef.current.terminal.options = {};
     }
     fitAddon.fit();
-
-    const dimensions = fitAddon.proposeDimensions();
-    controlWs?.send(
-      textEncoder.encode(
-        JSON.stringify({
-          command: "window-resize",
-          args: {
-            height: dimensions?.rows.toString(),
-            width: dimensions?.cols.toString(),
-          },
-        })
-      )
-    );
   };
 
   useEventListener("resize", handleResize);
   useLayoutEffect(() => {
     handleResize();
-  }, [controlWs, fitAddon, xtermRef]);
+  }, [fitAddon, xtermRef, isLoading]);
 
   return (
     <>
-      {controlTarget &&
-        createPortal(
-          <>
-            <ReconnectTerminalBtn onFinish={handleReconnect} />
-          </>,
-          controlTarget
-        )}
-      {isLoading && <Loader text="Loading terminal session..." />}
-      {controlWs && (
+      {isLoading ? (
+        <Loader text="Loading text console..." />
+      ) : (
         <XTerm
           ref={xtermRef}
           addons={[fitAddon]}
@@ -195,4 +158,4 @@ const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
   );
 };
 
-export default InstanceTerminal;
+export default InstanceTextConsole;
