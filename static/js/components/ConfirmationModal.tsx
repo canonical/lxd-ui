@@ -43,7 +43,7 @@ const ConfirmationModal: FC<Props> = ({
         {confirmationMessage}
       </p>
       {hasShiftHint && (
-        <p className="u-text--muted">
+        <p className="u-text--muted u-hide--small">
           You can skip these confirmation modals by holding <code>SHIFT</code>{" "}
           when clicking on the action.
         </p>
