@@ -43,6 +43,15 @@ export const handleResponse = async (response: Response) => {
   return response.json();
 };
 
+export const handleTextResponse = async (response: Response) => {
+  if (!response.ok) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const result: ErrorResponse = await response.json();
+    throw Error(result.error);
+  }
+  return response.text();
+};
+
 export const humanFileSize = (bytes: number, toBibyte = false) => {
   if (Math.abs(bytes) < 1000) {
     return `${bytes} B`;

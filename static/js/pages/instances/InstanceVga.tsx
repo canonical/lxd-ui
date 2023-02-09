@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import * as SpiceHtml5 from "../../../assets/lib/spice/src/main";
-import { fetchInstanceVga } from "api/instances";
+import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import { createPortal } from "react-dom";
@@ -44,7 +44,7 @@ const InstanceVga: FC<Props> = ({ controlTarget, notify }) => {
     }
 
     setVgaLoading(true);
-    const result = await fetchInstanceVga(name, project).catch((e) => {
+    const result = await connectInstanceVga(name, project).catch((e) => {
       setVgaLoading(false);
       notify.failure("Could not open vga session.", e);
     });

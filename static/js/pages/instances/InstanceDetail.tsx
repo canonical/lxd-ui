@@ -13,8 +13,19 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import FreezeInstanceBtn from "./actions/FreezeInstanceBtn";
+import InstanceTextConsole from "pages/instances/InstanceTextConsole";
 
-const TABS: string[] = ["Overview", "Snapshots", "Terminal", "VGA"];
+const TABS: string[] = [
+  "Overview",
+  "Snapshots",
+  "Terminal",
+  "Text Console",
+  "VGA Console",
+];
+
+const tabNameToUrl = (name: string) => {
+  return name.replace(" ", "-").toLowerCase();
+};
 
 const InstanceDetail: FC = () => {
   const notify = useNotification();
@@ -47,6 +58,7 @@ const InstanceDetail: FC = () => {
   }
 
   const handleTabChange = (newTab: string) => {
+    notify.clear();
     if (newTab === "overview") {
       navigate(`/ui/${project}/instances/${name}`);
     } else {
@@ -96,9 +108,9 @@ const InstanceDetail: FC = () => {
                 links={TABS.map((tab) => ({
                   label: tab,
                   active:
-                    tab.toLowerCase() === activeTab ||
+                    tabNameToUrl(tab) === activeTab ||
                     (tab === "Overview" && !activeTab),
-                  onClick: () => handleTabChange(tab.toLowerCase()),
+                  onClick: () => handleTabChange(tabNameToUrl(tab)),
                 }))}
               />
 
@@ -131,8 +143,18 @@ const InstanceDetail: FC = () => {
                 </div>
               )}
 
-              {activeTab === "vga" && (
-                <div tabIndex={3} role="tabpanel" aria-labelledby="vga">
+              {activeTab === "text-console" && (
+                <div
+                  tabIndex={3}
+                  role="tabpanel"
+                  aria-labelledby="text console"
+                >
+                  <InstanceTextConsole instance={instance} notify={notify} />
+                </div>
+              )}
+
+              {activeTab === "vga-console" && (
+                <div tabIndex={4} role="tabpanel" aria-labelledby="vga console">
                   <InstanceVga controlTarget={controlTarget} notify={notify} />
                 </div>
               )}
