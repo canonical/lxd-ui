@@ -153,6 +153,14 @@
   margin: $sp-large;
 }
 
+.certificate-main {
+  padding-left: 2rem;
+
+  @include large {
+    padding-left: 4rem;
+  }
+}
+
 .p-certificate-generate {
   max-width: 57rem !important;
 }
