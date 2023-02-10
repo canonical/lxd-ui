@@ -19,7 +19,7 @@ const CertificateMain: FC = () => {
   return (
     <main className="l-main">
       <div className="p-strip">
-        <Row>
+        <Row className="certificate-main">
           <Col size={12}>
             <h1>LXD UI</h1>
             <p>
