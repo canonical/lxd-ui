@@ -14,6 +14,7 @@ import Loader from "components/Loader";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import FreezeInstanceBtn from "./actions/FreezeInstanceBtn";
 import InstanceTextConsole from "pages/instances/InstanceTextConsole";
+import InstanceLogs from "pages/instances/InstanceLogs";
 
 const TABS: string[] = [
   "Overview",
@@ -21,6 +22,7 @@ const TABS: string[] = [
   "Terminal",
   "Text Console",
   "VGA Console",
+  "Logs",
 ];
 
 const tabNameToUrl = (name: string) => {
@@ -156,6 +158,12 @@ const InstanceDetail: FC = () => {
               {activeTab === "vga-console" && (
                 <div tabIndex={4} role="tabpanel" aria-labelledby="vga console">
                   <InstanceVga controlTarget={controlTarget} notify={notify} />
+                </div>
+              )}
+
+              {activeTab === "logs" && (
+                <div tabIndex={5} role="tabpanel" aria-labelledby="logs">
+                  <InstanceLogs instance={instance} />
                 </div>
               )}
             </Row>

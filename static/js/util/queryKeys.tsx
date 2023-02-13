@@ -3,6 +3,7 @@ export const queryKeys = {
   cluster: "cluster",
   images: "images",
   instances: "instances",
+  logs: "logs",
   members: "members",
   metrics: "metrics",
   networks: "networks",

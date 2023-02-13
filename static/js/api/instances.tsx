@@ -192,3 +192,32 @@ export const fetchInstanceConsoleBuffer = (
       .catch(reject);
   });
 };
+
+export const fetchInstanceLogs = (
+  name: string,
+  project: string
+): Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/logs?project=${project}`, {
+      method: "GET",
+    })
+      .then(handleResponse)
+      .then((data: LxdApiResponse<string[]>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchInstanceLogFile = (
+  name: string,
+  project: string,
+  file: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}/logs/${file}?project=${project}`, {
+      method: "GET",
+    })
+      .then(handleTextResponse)
+      .then((data: string) => resolve(data))
+      .catch(reject);
+  });
+};
