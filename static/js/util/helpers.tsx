@@ -124,3 +124,10 @@ export const checkDuplicateName = (
     signal,
   }).then((response) => response.status === 404);
 };
+
+export const getUrlParam = (paramName: string, url?: string): string | null => {
+  const targetUrl = url ?? location.href;
+  const browserUrl = new URL(targetUrl);
+
+  return browserUrl.searchParams.get(paramName);
+};

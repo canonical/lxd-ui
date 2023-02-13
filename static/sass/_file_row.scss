@@ -1,0 +1,17 @@
+.file-row {
+  .file-row-header {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    padding: $sp-small;
+
+    .file-row-toggle {
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    .file-row-title {
+      display: inline;
+    }
+  }
+}
