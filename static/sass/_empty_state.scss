@@ -1,0 +1,16 @@
+.empty-state {
+  .empty-state-icon {
+    height: $sp-xx-large;
+    margin-bottom: $spv--large;
+    margin-top: $spv--x-large;
+    width: $sp-xx-large;
+  }
+
+  .empty-state-link {
+    @include vf-icon-external-link($color-link);
+  }
+
+  .empty-state-button {
+    margin-top: $spv--medium;
+  }
+}

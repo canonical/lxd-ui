@@ -25,6 +25,10 @@
   padding-top: 0.5rem;
 }
 
+.p-empty-instances {
+  @include vf-icon-containers($color-mid-light);
+}
+
 .u-row:hover,
 .u-row-selected {
   background-color: $colors--light-theme--background-hover;

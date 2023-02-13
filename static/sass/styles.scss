@@ -40,19 +40,14 @@
 
 @import "meter";
 
+@import "empty_state";
+
 @import "instance_list";
 
 @import "profile_select";
 
 .l-main .row {
   max-width: none;
-}
-
-.empty-state-message {
-  .icon {
-    height: 100%;
-    width: 35%;
-  }
 }
 
 .u-vertical-align-middle {

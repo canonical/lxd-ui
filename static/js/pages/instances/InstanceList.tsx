@@ -31,6 +31,7 @@ import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenVgaBtn from "./actions/OpenVgaBtn";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
+import EmptyState from "components/EmptyState";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -359,47 +360,37 @@ const InstanceList: FC = () => {
                 ]}
                 hidden={hidden}
                 setHidden={setHidden}
-                className={detailInstance ? "u-hide" : undefined}
-              />
-              <MainTable
-                headers={headers}
-                rows={rows}
-                paginate={15}
-                sortable
-                className="instance-table u-table-layout--auto"
-                emptyStateMsg={
-                  isLoading ? (
-                    <Loader text="Loading instances..." />
-                  ) : (
-                    <Row className="p-strip empty-state-message">
-                      <Col size={4} className="u-align--right">
-                        <Icon
-                          name="containers"
-                          className="u-hide--small icon"
-                        />
-                      </Col>
-                      <Col size={8} className="u-align--left">
-                        <h4 className="p-heading--2">No instances found</h4>
-                        <p>
-                          Looks like there are no instances in this project!
-                          Create a new instance with the &quot;Add
-                          instance&quot; button above.
-                        </p>
-                        <p>
-                          <a
-                            className="p-link--external"
-                            href="https://linuxcontainers.org/lxd/docs/latest/instances/"
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Read the documentation on instances
-                          </a>
-                        </p>
-                      </Col>
-                    </Row>
-                  )
+                className={
+                  detailInstance || instances.length < 1 ? "u-hide" : undefined
                 }
               />
+              {isLoading || instances.length > 0 ? (
+                <MainTable
+                  headers={headers}
+                  rows={rows}
+                  paginate={15}
+                  sortable
+                  className="instance-table u-table-layout--auto"
+                  emptyStateMsg={
+                    isLoading ? (
+                      <Loader text="Loading instances..." />
+                    ) : (
+                      <>No instance found matching this search</>
+                    )
+                  }
+                />
+              ) : (
+                <EmptyState
+                  iconName="containers"
+                  iconClass="p-empty-instances"
+                  title="No instances found"
+                  message="There are no instances in this project. Spin up your first instance!"
+                  linkMessage="How to create instances"
+                  linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
+                  buttonLabel="Create"
+                  buttonAction={() => panelParams.openCreateInstance(project)}
+                />
+              )}
             </Col>
             {detailInstance && (
               <Col size={4} className="u-hide--medium u-hide--small">
