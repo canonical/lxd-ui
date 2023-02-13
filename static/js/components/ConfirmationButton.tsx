@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, ReactNode } from "react";
 import { Button } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import ConfirmationModal from "./ConfirmationModal";
@@ -11,6 +11,7 @@ interface Props {
   title: string;
   toggleAppearance?: string;
   toggleCaption?: string;
+  confirmationExtra?: ReactNode;
   confirmationMessage: string;
   posButtonLabel: string;
   onConfirm: () => void;
@@ -26,6 +27,7 @@ const ConfirmationButton: FC<Props> = ({
   title,
   toggleAppearance = "",
   toggleCaption,
+  confirmationExtra,
   confirmationMessage,
   posButtonLabel,
   onConfirm,
@@ -47,6 +49,10 @@ const ConfirmationButton: FC<Props> = ({
     }
   };
 
+  const visibleIcon = isLoading
+    ? "p-icon--spinner u-animation--spin"
+    : iconClass ?? undefined;
+
   return (
     <>
       {isOpen && (
@@ -54,6 +60,7 @@ const ConfirmationButton: FC<Props> = ({
           <ConfirmationModal
             title={title}
             onClose={closePortal}
+            confirmationExtra={confirmationExtra}
             confirmationMessage={confirmationMessage}
             posButtonLabel={posButtonLabel}
             onConfirm={handleConfirmModal}
@@ -62,22 +69,14 @@ const ConfirmationButton: FC<Props> = ({
       )}
       <Button
         appearance={toggleAppearance}
-        hasIcon={iconClass ? true : false}
+        hasIcon={!!visibleIcon}
         className={className}
         dense={isDense}
         disabled={isDisabled}
         onClick={handleShiftClick}
         type="button"
       >
-        {iconClass && (
-          <i
-            className={
-              isLoading ? "p-icon--spinner u-animation--spin" : iconClass
-            }
-          >
-            {iconDescription}
-          </i>
-        )}
+        {visibleIcon && <i className={visibleIcon}>{iconDescription}</i>}
         {toggleCaption && <span>{toggleCaption}</span>}
       </Button>
     </>

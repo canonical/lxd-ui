@@ -1,9 +1,10 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, ReactNode } from "react";
 import { Button, Modal } from "@canonical/react-components";
 
 interface Props {
   title: string;
   onClose: () => void;
+  confirmationExtra?: ReactNode;
   confirmationMessage: string;
   negButtonLabel?: string;
   posButtonLabel: string;
@@ -14,6 +15,7 @@ interface Props {
 const ConfirmationModal: FC<Props> = ({
   title,
   onClose,
+  confirmationExtra,
   confirmationMessage,
   negButtonLabel = "Cancel",
   posButtonLabel,
@@ -26,6 +28,7 @@ const ConfirmationModal: FC<Props> = ({
       title={title}
       buttonRow={
         <>
+          {confirmationExtra}
           <Button className="u-no-margin--bottom" onClick={onClose}>
             {negButtonLabel}
           </Button>

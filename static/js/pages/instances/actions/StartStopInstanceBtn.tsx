@@ -2,9 +2,10 @@ import React, { FC, useState } from "react";
 import { LxdInstance } from "types/instance";
 import { NotificationHelper } from "types/notification";
 import { useQueryClient } from "@tanstack/react-query";
-import { startInstance, stopInstance } from "api/instances";
+import { startInstance, stopInstance, unfreezeInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
+import { Button, CheckboxInput } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
@@ -12,53 +13,84 @@ interface Props {
   className?: string;
   hasCaption?: boolean;
   isDense?: boolean;
+  onStarting?: (instance: LxdInstance) => void;
+  onStopping?: (instance: LxdInstance) => void;
+  onFinish?: (instance: LxdInstance) => void;
 }
 
 const StartStopInstanceBtn: FC<Props> = ({
   instance,
   notify,
-  className = "u-no-margin--bottom u-no-margin--right",
+  className = "u-no-margin--bottom",
   hasCaption = true,
   isDense = true,
+  onStarting,
+  onStopping,
+  onFinish,
 }) => {
-  const [isLoading, setLoading] = useState(false);
+  const [isStarting, setStarting] = useState(false);
+  const [isStopping, setStopping] = useState(false);
+  const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
 
-  const canBeStarted = instance.status === "Stopped";
+  const setStart = (val: boolean) => {
+    setStarting(val);
+    if (val && onStarting) {
+      onStarting(instance);
+    }
+    if (!val && onFinish) {
+      onFinish(instance);
+    }
+  };
+
+  const setStop = (val: boolean) => {
+    setStopping(val);
+    if (val && onStopping) {
+      onStopping(instance);
+    }
+    if (!val && onFinish) {
+      onFinish(instance);
+    }
+  };
+
+  const canBeStarted =
+    instance.status === "Stopped" || instance.status === "Frozen";
   const canBeStopped =
     instance.status === "Running" ||
     instance.status === "Ready" ||
     instance.status === "Frozen";
-  const isEnabled = !isLoading;
+  const isDisabled = isStarting || isStopping;
 
   const handleStart = () => {
-    setLoading(true);
-    startInstance(instance)
+    setStart(true);
+    const mutation =
+      instance.status === "Frozen" ? unfreezeInstance : startInstance;
+    mutation(instance)
       .then(() => {
-        setLoading(false);
+        setStart(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} started.`);
       })
       .catch((e) => {
-        setLoading(false);
+        setStart(false);
         notify.failure("Error on instance start.", e);
       });
   };
 
   const handleStop = () => {
-    setLoading(true);
-    stopInstance(instance)
+    setStop(true);
+    stopInstance(instance, isForce)
       .then(() => {
-        setLoading(false);
+        setStop(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
         notify.success(`Instance ${instance.name} stopped.`);
       })
       .catch((e) => {
-        setLoading(false);
+        setStop(false);
         notify.failure("Error on instance stop.", e);
       });
   };
@@ -66,41 +98,50 @@ const StartStopInstanceBtn: FC<Props> = ({
   return (
     <>
       {canBeStarted && (
-        <ConfirmationButton
-          className={isLoading ? "" : className}
-          isLoading={isLoading}
-          iconClass={
-            isLoading
-              ? "p-icon--spinner u-animation--spin"
-              : "p-icon--video-play"
-          }
-          iconDescription="Start"
-          title="Confirm start"
-          toggleCaption={hasCaption ? "Start" : undefined}
-          confirmationMessage={`Are you sure you want to start instance "${instance.name}"?`}
-          posButtonLabel="Start"
-          onConfirm={handleStart}
-          isDense={isDense}
-          isDisabled={!isEnabled}
-        />
+        <Button
+          hasIcon
+          className={className}
+          dense={isDense}
+          disabled={isDisabled}
+          onClick={handleStart}
+          type="button"
+        >
+          <i
+            className={
+              isStarting
+                ? "p-icon--spinner u-animation--spin"
+                : "p-icon--video-play"
+            }
+          />
+          <span>{isStarting ? "Starting" : "Start"}</span>
+        </Button>
       )}
       {canBeStopped && (
         <ConfirmationButton
-          className={isLoading ? "" : className}
-          isLoading={isLoading}
-          iconClass={
-            isLoading
-              ? "p-icon--spinner u-animation--spin"
-              : "p-icon--power-off"
-          }
+          className={className}
+          isLoading={isStopping}
+          iconClass={"p-icon--power-off"}
           iconDescription="Stop"
           title="Confirm stop"
-          toggleCaption={hasCaption ? "Stop" : undefined}
+          toggleCaption={
+            hasCaption ? (isStopping ? "Stopping" : "Stop") : undefined
+          }
           confirmationMessage={`Are you sure you want to stop instance "${instance.name}"?`}
+          confirmationExtra={
+            <span className="u-float-left">
+              <CheckboxInput
+                inline
+                label="Force stop"
+                tabIndex={-1}
+                defaultChecked={isForce}
+                onClick={() => setForce((prev) => !prev)}
+              />
+            </span>
+          }
           posButtonLabel="Stop"
           onConfirm={handleStop}
           isDense={isDense}
-          isDisabled={!isEnabled}
+          isDisabled={isDisabled}
         />
       )}
     </>

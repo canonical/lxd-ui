@@ -65,21 +65,24 @@ export const startInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
 };
 
-export const stopInstance = (instance: LxdInstance) => {
+export const stopInstance = (instance: LxdInstance, isForce: boolean) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
       method: "PUT",
-      body: '{"action": "stop"}',
+      body: JSON.stringify({
+        action: "stop",
+        force: isForce,
+      }),
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -93,7 +96,7 @@ export const freezeInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -107,7 +110,7 @@ export const unfreezeInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
