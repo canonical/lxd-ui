@@ -27,11 +27,11 @@ import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import { useSharedNotify } from "../../context/sharedNotify";
-import OpenTerminalBtn from "./actions/OpenTerminalBtn";
-import OpenVgaBtn from "./actions/OpenVgaBtn";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
 import EmptyState from "components/EmptyState";
+import { LxdInstance } from "types/instance";
+import classnames from "classnames";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -74,6 +74,8 @@ const InstanceList: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [status, setStatus] = useState<string>("any");
   const [type, setType] = useState<string>("any");
+  const [starting, setStarting] = useState<string[]>([]);
+  const [stopping, setStopping] = useState<string[]>([]);
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sideHidden, setSideHidden] = useState<string[]>([]);
 
@@ -102,6 +104,19 @@ const InstanceList: FC = () => {
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
     saveHidden(columns);
+  };
+
+  const addStarting = (instance: LxdInstance) => {
+    setStarting((prev) => prev.concat(instance.name));
+  };
+
+  const addStopping = (instance: LxdInstance) => {
+    setStopping((prev) => prev.concat(instance.name));
+  };
+
+  const removeLoading = (instance: LxdInstance) => {
+    setStarting((prev) => prev.filter((name) => name !== instance.name));
+    setStopping((prev) => prev.filter((name) => name !== instance.name));
   };
 
   if (!project) {
@@ -168,7 +183,13 @@ const InstanceList: FC = () => {
       className: selected === instance.name ? "u-row-selected" : "u-row",
       columns: [
         {
-          content: <InstanceStatusIcon instance={instance} />,
+          content: (
+            <InstanceStatusIcon
+              instance={instance}
+              isStarting={starting.includes(instance.name)}
+              isStopping={stopping.includes(instance.name)}
+            />
+          ),
           role: "rowheader",
           className: "u-truncate",
           "aria-label": STATUS,
@@ -237,20 +258,15 @@ const InstanceList: FC = () => {
               items={[
                 <StartStopInstanceBtn
                   key="startstop"
-                  className="u-instance-actions"
+                  className={classnames("u-instance-actions", {
+                    "u-hide": starting.concat(stopping).includes(instance.name),
+                  })}
                   instance={instance}
                   notify={notify}
-                  hasCaption={false}
-                />,
-                <OpenVgaBtn
-                  key="vga"
-                  className="u-instance-actions"
-                  instance={instance}
-                />,
-                <OpenTerminalBtn
-                  key="terminal"
-                  className="u-instance-actions"
-                  instance={instance}
+                  hasCaption={true}
+                  onStarting={addStarting}
+                  onStopping={addStopping}
+                  onFinish={removeLoading}
                 />,
                 <Button
                   key="select"

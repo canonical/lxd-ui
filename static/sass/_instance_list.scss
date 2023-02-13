@@ -48,7 +48,7 @@
 
   .u-row-selected:hover {
     .u-instance-actions {
-      display: none;
+      visibility: hidden;
     }
   }
 }
