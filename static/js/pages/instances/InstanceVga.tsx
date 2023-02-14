@@ -62,7 +62,9 @@ const InstanceVga: FC<Props> = ({ controlTarget, notify }) => {
     };
 
     control.onclose = (event) => {
-      notify.failure(getWsErrorMsg(event.code), event.reason);
+      if (1005 !== event.code) {
+        notify.failure(getWsErrorMsg(event.code), event.reason);
+      }
     };
 
     control.onmessage = (message) => {
