@@ -14,14 +14,16 @@ import usePanelParams from "util/usePanelParams";
 import { LxdStorage } from "types/storage";
 import { createStoragePool } from "api/storages";
 import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
+import { useSharedNotify } from "../../context/sharedNotify";
 
 const StorageForm: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotification();
   const queryClient = useQueryClient();
+  const { sharedNotify: storageListNotify } = useSharedNotify();
   const controllerState = useState<AbortController | null>(null);
 
-  const SnapshotSchema = Yup.object().shape({
+  const StorageSchema = Yup.object().shape({
     name: Yup.string()
       .test(
         "deduplicate",
@@ -45,7 +47,7 @@ const StorageForm: FC = () => {
       source: "",
       size: "",
     },
-    validationSchema: SnapshotSchema,
+    validationSchema: StorageSchema,
     onSubmit: ({ name, description, driver, source, size }) => {
       const storagePool: LxdStorage = {
         name,
@@ -62,6 +64,7 @@ const StorageForm: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
+          storageListNotify?.success(`Storage ${storagePool.name} created.`);
           panelParams.clear();
         })
         .catch((e) => {
@@ -118,7 +121,7 @@ const StorageForm: FC = () => {
                 id="size"
                 name="size"
                 type="number"
-                help="Optional, defaults to 20% of free disk space, >= 5 GiB and <= 30 GiB"
+                help="When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
                 label="Size in GiB"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}

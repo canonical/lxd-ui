@@ -1,5 +1,5 @@
 import { handleResponse } from "util/helpers";
-import { LxdStorage } from "types/storage";
+import { LxdStorage, LxdStorageResources } from "types/storage";
 import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchStorages = (project: string): Promise<LxdStorage[]> => {
@@ -7,6 +7,19 @@ export const fetchStorages = (project: string): Promise<LxdStorage[]> => {
     fetch(`/1.0/storage-pools?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorage[]>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchStorageResources = (
+  storage: string
+): Promise<LxdStorageResources> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${storage}/resources`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageResources>) =>
+        resolve(data.metadata)
+      )
       .catch(reject);
   });
 };
