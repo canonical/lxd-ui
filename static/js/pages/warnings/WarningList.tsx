@@ -26,12 +26,13 @@ const WarningList: FC = () => {
   }
 
   const headers = [
-    { content: "UUID", sortKey: "uuid" },
     { content: "Type", sortKey: "type" },
+    { content: "Last message", sortKey: "lastMessage" },
     { content: "Status", sortKey: "status", className: "u-align--center" },
     { content: "Severity", sortKey: "severity", className: "u-align--center" },
     { content: "Count", sortKey: "count", className: "u-align--center" },
     { content: "Project", sortKey: "project" },
+    { content: "First seen", sortKey: "firstSeen" },
     { content: "Last seen", sortKey: "lastSeen" },
   ];
 
@@ -39,14 +40,14 @@ const WarningList: FC = () => {
     return {
       columns: [
         {
-          content: warning.uuid,
-          role: "rowheader",
-          "aria-label": "UUID",
-        },
-        {
           content: warning.type,
           role: "rowheader",
           "aria-label": "Type",
+        },
+        {
+          content: warning.last_message,
+          role: "rowheader",
+          "aria-label": "Last message",
         },
         {
           content: warning.status,
@@ -73,18 +74,24 @@ const WarningList: FC = () => {
           "aria-label": "Project",
         },
         {
+          content: isoTimeToString(warning.first_seen_at),
+          role: "rowheader",
+          "aria-label": "First seen",
+        },
+        {
           content: isoTimeToString(warning.last_seen_at),
           role: "rowheader",
           "aria-label": "Last seen",
         },
       ],
       sortData: {
-        uuid: warning.uuid,
         type: warning.type,
+        lastMessage: warning.last_message,
         status: warning.status,
         severity: warning.severity,
         count: warning.count,
         project: warning.project,
+        firstSeen: warning.first_seen_at,
         lastSeen: warning.last_seen_at,
       },
     };
