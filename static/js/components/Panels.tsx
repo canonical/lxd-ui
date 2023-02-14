@@ -7,6 +7,7 @@ import CreateInstanceForm from "pages/instances/CreateInstanceForm";
 import EditInstanceForm from "pages/instances/EditInstanceForm";
 import ProfileFormGuided from "pages/profiles/ProfileFormGuided";
 import ProfileFormYaml from "pages/profiles/ProfileFormYaml";
+import StorageForm from "pages/storages/StorageForm";
 
 export default function Panels() {
   const panelParams = usePanelParams();
@@ -26,6 +27,8 @@ export default function Panels() {
         return <ProfileFormGuided />;
       case panels.profileFormYaml:
         return <ProfileFormYaml />;
+      case panels.storageForm:
+        return <StorageForm />;
       default:
         return null;
     }

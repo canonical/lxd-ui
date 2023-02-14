@@ -8,6 +8,8 @@ import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
+import AddStorageBtn from "pages/storages/actions/AddStorageBtn";
+import DeleteStorageBtn from "pages/storages/actions/DeleteStorageBtn";
 
 const StorageList: FC = () => {
   const notify = useNotification();
@@ -56,7 +58,7 @@ const StorageList: FC = () => {
           "aria-label": "Driver",
         },
         {
-          content: storage.config["volume.size"],
+          content: storage.config?.size,
           role: "rowheader",
           "aria-label": "Size",
         },
@@ -77,7 +79,13 @@ const StorageList: FC = () => {
           "aria-label": "State",
         },
         {
-          content: <></>,
+          content: (
+            <DeleteStorageBtn
+              storage={storage}
+              project={project}
+              notify={notify}
+            />
+          ),
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Actions",
@@ -95,7 +103,10 @@ const StorageList: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Storages">
+      <BaseLayout
+        title="Storages"
+        controls={<AddStorageBtn project={project} />}
+      >
         <NotificationRow notify={notify} />
         <Row>
           <MainTable

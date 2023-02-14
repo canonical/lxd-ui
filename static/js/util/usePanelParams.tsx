@@ -12,6 +12,7 @@ export interface PanelHelper {
   openProfileFormGuided: (project: string) => void;
   openProfileFormYaml: (profile: string, project: string) => void;
   openNewProfileFormYaml: (project: string) => void;
+  openNewStorageForm: (project: string) => void;
 }
 
 export const panels = {
@@ -20,6 +21,7 @@ export const panels = {
   imageImport: "image-import",
   profileFormGuided: "profile-form-guided",
   profileFormYaml: "profile-form-yaml",
+  storageForm: "storage-form",
 };
 
 type ParamMap = Record<string, string>;
@@ -68,6 +70,10 @@ const usePanelParams = (): PanelHelper => {
 
     openNewProfileFormYaml: (project) => {
       setPanelParams(panels.profileFormYaml, { project });
+    },
+
+    openNewStorageForm: (project) => {
+      setPanelParams(panels.storageForm, { project });
     },
   };
 };
