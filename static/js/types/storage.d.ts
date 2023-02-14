@@ -10,3 +10,14 @@ export interface LxdStorage {
   status?: string;
   used_by?: string[];
 }
+
+export interface LxdStorageResources {
+  inodes: {
+    used: number;
+    total: number;
+  };
+  space: {
+    used: number;
+    total: number;
+  };
+}

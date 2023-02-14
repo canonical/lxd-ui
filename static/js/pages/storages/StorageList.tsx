@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchStorages } from "api/storages";
@@ -10,6 +10,8 @@ import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storages/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storages/actions/DeleteStorageBtn";
+import StorageSize from "pages/storages/StorageSize";
+import { useSharedNotify } from "../../context/sharedNotify";
 
 const StorageList: FC = () => {
   const notify = useNotification();
@@ -20,6 +22,13 @@ const StorageList: FC = () => {
   if (!project) {
     return <>Missing project</>;
   }
+
+  const { setSharedNotify } = useSharedNotify();
+  useEffect(() => {
+    if (setSharedNotify) {
+      setSharedNotify(notify);
+    }
+  }, [setSharedNotify, notify]);
 
   const {
     data: storages = [],
@@ -58,7 +67,7 @@ const StorageList: FC = () => {
           "aria-label": "Driver",
         },
         {
-          content: storage.config?.size,
+          content: <StorageSize storage={storage} />,
           role: "rowheader",
           "aria-label": "Size",
         },
