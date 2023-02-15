@@ -45,3 +45,24 @@
     content: url("static/assets/img/logo/containers.svg");
   }
 }
+
+.sidenav-top-ul::after {
+  display: none;
+}
+
+.sidenav-bottom-ul {
+  bottom: $spv--x-large;
+  position: absolute;
+  width: 100%;
+}
+
+.sidenav-toggle {
+  background-color: #444 !important;
+  bottom: $spv--large;
+  position: absolute;
+  right: $sph--large;
+}
+
+.p-side-navigation__item--title {
+  white-space: nowrap;
+}
