@@ -1,3 +1,5 @@
+@import "./breakpoints";
+
 .p-panel__logo-image {
   height: 2.5rem;
 }
@@ -10,8 +12,16 @@
     padding-top: 0;
   }
 
-  .p-panel__logo {
-    margin-top: -3px;
+  @include mobile {
+    .p-panel__logo {
+      margin-top: 0;
+    }
+  }
+
+  @include desktop {
+    .p-panel__logo {
+      margin-top: -3px;
+    }
   }
 }
 
@@ -22,7 +32,7 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-small) {
+@include desktop {
   /* switch out the image in the collapsed view to hide partially visibly text */
   .p-panel__logo-image {
     content: url("static/assets/img/logo/containers-no-text.svg");
@@ -40,7 +50,7 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-large) {
+@include large {
   .p-panel__logo-image {
     content: url("static/assets/img/logo/containers.svg");
   }
