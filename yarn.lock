@@ -9054,6 +9054,15 @@ sass@1.57.1:
     immutable "^4.0.0"
     source-map-js ">=0.6.2 <2.0.0"
 
+sass@1.58.0:
+  version "1.58.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.58.0.tgz#ee8aea3ad5ea5c485c26b3096e2df6087d0bb1cc"
+  integrity sha512-PiMJcP33DdKtZ/1jSjjqVIKihoDc6yWmYr9K/4r3fVVIEDAluD0q7XZiRKrNJcPK3qkLRF/79DND1H5q1LBjgg==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
 sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
@@ -10311,10 +10320,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vanilla-framework@3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.11.0.tgz#dc78723aacac878d48d988ea3e26579326db6fe2"
-  integrity sha512-JEw6/GAlEHut7Ivdh5gcSwuGZuQBoUC3Hl+xV8evIBCs3QcUIyhIn3irXzl8qOBTAVlxcENFoxfLyiKB1a3rGA==
+vanilla-framework@3.11.1:
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.11.1.tgz#5fbb205ad37d14f6e82e0690d23eb391d621ba70"
+  integrity sha512-1MfCU30SXt56hEL+M4il/nAs3ZvK/ophS1VjL6DgBpo+7geXtS45jUREAvt3mESUvv5GWfhnYN5Mdgo10Nn/Aw==
   dependencies:
     "@canonical/cookie-policy" "3.4.0"
     "@canonical/latest-news" "1.4.1"
@@ -10322,7 +10331,7 @@ vanilla-framework@3.11.0:
     postcss "8.4.21"
     postcss-cli "9.1.0"
     postcss-scss "4.0.6"
-    sass "1.57.1"
+    sass "1.58.0"
     yaml "1.10.2"
 
 vary@~1.1.2:
