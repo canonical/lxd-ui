@@ -43,6 +43,16 @@ const Navigation: FC = () => {
           <div className="p-panel is-dark">
             <div className="p-panel__header is-sticky">
               <Logo />
+              <div className="p-panel__controls align-with-logo u-hide--medium u-hide--large">
+                <Button
+                  appearance="base"
+                  hasIcon
+                  className="u-no-margin"
+                  onClick={toggleMenu}
+                >
+                  <Icon name="close" />
+                </Button>
+              </div>
             </div>
             <div className="p-panel__content">
               <div className="p-side-navigation--icons is-dark">
