@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import { useAuth } from "../context/auth";
 import classnames from "classnames";
+import Logo from "./Logo";
 
 const Navigation: FC = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
@@ -22,13 +23,7 @@ const Navigation: FC = () => {
       <header className="l-navigation-bar">
         <div className="p-panel is-dark">
           <div className="p-panel__header">
-            <NavLink className="p-panel__logo" to="/ui/">
-              <img
-                src="/ui/static/assets/img/logo/containers.svg"
-                alt="LXD-UI logo"
-                className="p-panel__logo-image"
-              />
-            </NavLink>
+            <Logo />
             <div className="p-panel__controls">
               <Button dense className="p-panel__toggle" onClick={toggleMenu}>
                 Menu
@@ -47,13 +42,7 @@ const Navigation: FC = () => {
         <div className="l-navigation__drawer">
           <div className="p-panel is-dark">
             <div className="p-panel__header is-sticky">
-              <NavLink className="p-panel__logo" to="/ui/">
-                <img
-                  src="/ui/static/assets/img/logo/containers.svg"
-                  alt="LXD-UI logo"
-                  className="p-panel__logo-image"
-                />
-              </NavLink>
+              <Logo />
             </div>
             <div className="p-panel__content">
               <div className="p-side-navigation--icons is-dark">
