@@ -414,6 +414,11 @@ const InstanceList: FC = () => {
                   instance={detailInstance}
                   notify={notify}
                   onClose={() => setSelected()}
+                  starting={starting}
+                  stopping={stopping}
+                  addStarting={addStarting}
+                  addStopping={addStopping}
+                  removeLoading={removeLoading}
                 />
               </Col>
             )}

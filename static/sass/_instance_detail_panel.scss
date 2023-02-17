@@ -1,0 +1,67 @@
+.p-instance-detail-panel {
+  border-left: $border;
+  margin-top: -$spv--large;
+  padding-top: $spv--x-small;
+
+  .p-instance-detail-panel--header {
+    flex-direction: column;
+    padding-left: $sph--x-large;
+    padding-right: 0;
+
+    .p-panel__title-wrapper,
+    .p-panel__title {
+      align-items: baseline;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .p-panel__title {
+      padding: $sp-xx-small;
+
+      span {
+        &:nth-child(1) {
+          margin-right: $sph--small;
+        }
+
+        &:nth-child(2) {
+          flex: 1;
+          font-size: map.get($base-font-sizes, base);
+        }
+      }
+    }
+
+    .p-panel__controls {
+      align-self: center;
+      padding-top: 0;
+    }
+  }
+
+  .p-instance-detail-panel--content {
+    display: flex;
+    flex-direction: column;
+    padding-left: $sp-large;
+    padding-top: $sp-xx-small;
+
+    .p-instance-actions {
+      align-self: end;
+      margin-bottom: $spv--small;
+    }
+  }
+
+  .p-snapshot-link {
+    margin-top: $sp-small;
+  }
+
+  .p-snapshot-creation {
+    margin-top: $sp-x-small;
+  }
+
+  td,
+  th {
+    padding: $sp-x-small !important;
+  }
+
+  tr {
+    border: none !important;
+  }
+}

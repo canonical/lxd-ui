@@ -9,11 +9,11 @@
 @include lxdui-p-icon;
 @include vf-p-icon-applications;
 @include vf-p-icon-begin-downloading;
+@include vf-p-icon-canvas;
 @include vf-p-icon-close;
 @include vf-p-icon-connected;
 @include vf-p-icon-containers;
 @include vf-p-icon-copy-to-clipboard;
-@include vf-p-icon-desktop;
 @include vf-p-icon-disconnect;
 @include vf-p-icon-edit;
 @include vf-p-icon-export;
@@ -37,6 +37,7 @@
 @import "empty_state";
 @import "file_row";
 @import "font";
+@import "instance_detail_panel";
 @import "instance_list";
 @import "meter";
 @import "pattern_navigation";
@@ -65,66 +66,6 @@
   margin-bottom: $sp-large;
   max-height: calc(100vh - 200px);
   overflow-y: scroll;
-}
-
-.p-instance-detail-panel {
-  border-left: $border;
-  margin-top: -$spv--large;
-  padding-top: $spv--x-small;
-
-  .p-instance-detail-panel--header {
-    flex-direction: column;
-    padding-left: $sph--x-large;
-    padding-right: 0;
-
-    .p-panel__title-wrapper,
-    .p-panel__title {
-      align-items: baseline;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .p-panel__title {
-      padding: $sp-xx-small;
-
-      span {
-        &:nth-child(1) {
-          margin-right: $sph--small;
-        }
-
-        &:nth-child(2) {
-          font-size: map.get($base-font-sizes, base);
-        }
-      }
-    }
-
-    .p-panel__controls {
-      align-self: center;
-      padding-top: 0;
-    }
-  }
-
-  .p-instance-detail-panel--content {
-    padding-left: $sp-large;
-    padding-right: $sp-large;
-  }
-
-  .p-snapshot-link {
-    margin-top: $sp-small;
-  }
-
-  .p-snapshot-creation {
-    margin-top: $sp-x-small;
-  }
-
-  td,
-  th {
-    padding: $sp-x-small !important;
-  }
-
-  tr {
-    border: none !important;
-  }
 }
 
 .p-image-select-modal > section {
