@@ -22,8 +22,8 @@ const OpenTerminalBtn: FC<Props> = ({
 
   return (
     <Tooltip
-      message={isDisabled ? "Instance must be running" : undefined}
-      position="btm-center"
+      message={isDisabled ? "Instance must be running" : "Terminal"}
+      position="top-right"
     >
       <Button
         className={className}
@@ -32,7 +32,7 @@ const OpenTerminalBtn: FC<Props> = ({
         onClick={handleOpen}
         disabled={isDisabled}
       >
-        <i className="p-icon--open-terminal" />
+        <i className="p-icon--code" />
       </Button>
     </Tooltip>
   );

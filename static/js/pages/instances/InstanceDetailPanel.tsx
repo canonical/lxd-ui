@@ -6,17 +6,31 @@ import { Button, Col, List, Row } from "@canonical/react-components";
 import { NotificationHelper } from "types/notification";
 import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
-import OpenInstanceDetailBtn from "pages/instances/actions/OpenInstanceDetailBtn";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import { Link } from "react-router-dom";
+import InstanceStatusIcon from "./InstanceStatusIcon";
 
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
   onClose: () => void;
+  starting: string[];
+  stopping: string[];
+  addStarting: (instance: LxdInstance) => void;
+  addStopping: (instance: LxdInstance) => void;
+  removeLoading: (instance: LxdInstance) => void;
 }
 
-const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
+const InstanceDetailPanel: FC<Props> = ({
+  instance,
+  notify,
+  onClose,
+  starting,
+  stopping,
+  addStarting,
+  addStopping,
+  removeLoading,
+}) => {
   const getIpAddresses = (family: string) => {
     return instance.state?.network?.eth0?.addresses
       .filter((item) => item.family === family)
@@ -39,7 +53,7 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
         <div className="p-panel__title-wrapper">
           <div className="p-panel__title">
             <span className="u-no-margin--bottom">Instance summary</span>
-            <span className="u-no-margin--bottom">
+            <span className="u-no-margin--bottom u-truncate">
               <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
                 View more
               </Link>
@@ -61,13 +75,22 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
       <div className="p-panel__content p-instance-detail-panel--content">
         <List
           inline
-          className="u-float-right"
+          className="p-instance-actions"
           items={[
             <OpenTerminalBtn key="terminal" instance={instance} />,
             <OpenVgaBtn key="vga" instance={instance} />,
-            <OpenInstanceDetailBtn key="details" instance={instance} />,
+            <StartStopInstanceBtn
+              key="startstop"
+              instance={instance}
+              notify={notify}
+              hasCaption={true}
+              onStarting={addStarting}
+              onStopping={addStopping}
+              onFinish={removeLoading}
+            />,
           ]}
         />
+        <hr />
         <table className="u-table-layout--auto">
           <tbody>
             <tr>
@@ -81,18 +104,10 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
             <tr>
               <th>Status</th>
               <td>
-                <List
-                  className="u-sv-3"
-                  inline
-                  items={[
-                    <span key="status">{instance.status}</span>,
-                    <StartStopInstanceBtn
-                      key="button"
-                      instance={instance}
-                      notify={notify}
-                      isDense={true}
-                    />,
-                  ]}
+                <InstanceStatusIcon
+                  instance={instance}
+                  isStarting={starting.includes(instance.name)}
+                  isStopping={stopping.includes(instance.name)}
                 />
               </td>
             </tr>

@@ -25,11 +25,11 @@ const OpenVgaBtn: FC<Props> = ({
     if (instance.status !== "Running") {
       return "Instance must be running";
     }
-    return undefined;
+    return "VGA Console";
   };
 
   return (
-    <Tooltip message={getTooltipMessage()} position="btm-center">
+    <Tooltip message={getTooltipMessage()} position="top-right">
       <Button
         className={className}
         dense
@@ -39,7 +39,7 @@ const OpenVgaBtn: FC<Props> = ({
           instance.status !== "Running" || instance.type !== "virtual-machine"
         }
       >
-        <i className="p-icon--desktop" />
+        <i className="p-icon--canvas" />
       </Button>
     </Tooltip>
   );

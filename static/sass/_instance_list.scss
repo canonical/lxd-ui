@@ -23,6 +23,11 @@
 
 .p-instance-content {
   padding-top: $spv--large;
+
+  .p-notification--positive,
+  .p-notification--negative {
+    margin-bottom: $spv--large;
+  }
 }
 
 .p-empty-instances {
