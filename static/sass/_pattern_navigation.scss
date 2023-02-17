@@ -37,6 +37,12 @@
   }
 }
 
+@include mobile {
+  .l-navigation {
+    transition-duration: 0s !important;
+  }
+}
+
 @include desktop {
   /* switch out the image in the collapsed view to hide partially visibly text */
   .p-panel__logo-image {
@@ -44,8 +50,7 @@
     height: 3rem;
   }
 
-  .l-navigation:focus-within,
-  .l-navigation:hover {
+  .l-navigation.is-pinned {
     grid-area: nav;
     position: static;
 
@@ -55,9 +60,16 @@
   }
 }
 
-@include large {
-  .p-panel__logo-image {
-    content: url("static/assets/img/logo/containers.svg");
+.l-navigation.is-collapsed:focus-within {
+  transform: translateX(-100%);
+}
+
+@include desktop {
+  .l-navigation.is-collapsed,
+  .l-navigation.is-collapsed:focus-within,
+  .l-navigation.is-collapsed:hover {
+    transform: translateX(0);
+    width: 4rem;
   }
 }
 
@@ -68,7 +80,7 @@
 .sidenav-bottom-ul {
   bottom: $spv--x-large;
   position: absolute;
-  width: 100%;
+  width: 15rem;
 }
 
 .sidenav-toggle {
@@ -76,6 +88,10 @@
   bottom: $spv--large;
   position: absolute;
   right: $sph--large;
+}
+
+.l-navigation.is-collapsed .sidenav-toggle {
+  rotate: 180deg;
 }
 
 .p-side-navigation__item--title {
