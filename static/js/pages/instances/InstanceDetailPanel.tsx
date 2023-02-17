@@ -36,17 +36,27 @@ const InstanceDetailPanel: FC<Props> = ({ instance, notify, onClose }) => {
   return (
     <div className="p-panel p-instance-detail-panel">
       <div className="p-panel__header p-instance-detail-panel--header">
-        <div className="p-panel__title">Instance details</div>
-        <div className="p-panel__controls">
-          <Button
-            appearance="base"
-            className="u-no-margin--bottom"
-            hasIcon
-            onClick={onClose}
-          >
-            <i className="p-icon--close"></i>
-          </Button>
+        <div className="p-panel__title-wrapper">
+          <div className="p-panel__title">
+            <span className="u-no-margin--bottom">Instance summary</span>
+            <span className="u-no-margin--bottom">
+              <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
+                View more
+              </Link>
+            </span>
+          </div>
+          <div className="p-panel__controls">
+            <Button
+              appearance="base"
+              className="u-no-margin--bottom"
+              hasIcon
+              onClick={onClose}
+            >
+              <i className="p-icon--close"></i>
+            </Button>
+          </div>
         </div>
+        <hr />
       </div>
       <div className="p-panel__content p-instance-detail-panel--content">
         <List

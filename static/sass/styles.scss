@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@use "sass:map";
 
 @import "settings";
 @import "vanilla-framework/scss/build";
@@ -67,18 +68,38 @@
 }
 
 .p-instance-detail-panel {
-  border: $border;
+  border-left: $border;
+  margin-top: -$spv--large;
+  padding-top: $spv--x-small;
 
   .p-instance-detail-panel--header {
-    border-bottom: $border;
-    padding-left: $sp-large;
-    padding-right: $sp-xx-small;
+    flex-direction: column;
+    padding-left: $sph--x-large;
+    padding-right: 0;
+
+    .p-panel__title-wrapper,
+    .p-panel__title {
+      align-items: baseline;
+      display: flex;
+      justify-content: flex-start;
+    }
 
     .p-panel__title {
       padding: $sp-xx-small;
+
+      span {
+        &:nth-child(1) {
+          margin-right: $sph--small;
+        }
+
+        &:nth-child(2) {
+          font-size: map.get($base-font-sizes, base);
+        }
+      }
     }
 
     .p-panel__controls {
+      align-self: center;
       padding-top: 0;
     }
   }

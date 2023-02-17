@@ -357,12 +357,12 @@ const InstanceList: FC = () => {
                 Create new
               </Button>
             </Col>
-            <hr />
+            <hr className="u-no-margin--bottom" />
           </Row>
         </div>
         <div className="p-panel__content p-instance-content">
           <NotificationRow notify={notify} />
-          <Row>
+          <Row className="no-grid-gap">
             <Col size={detailInstance ? 8 : 12}>
               <TableColumnsSelect
                 columns={[
