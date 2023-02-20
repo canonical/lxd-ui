@@ -1,6 +1,7 @@
 export interface LxdStorage {
   config?: {
     size?: string;
+    source?: string;
   };
   description: string;
   driver: string;

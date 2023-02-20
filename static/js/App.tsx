@@ -15,6 +15,7 @@ import ProfileDetail from "pages/profiles/ProfileDetail";
 import CertificateGenerate from "pages/certificates/CertificateGenerate";
 import CertificateMain from "pages/certificates/CertificateMain";
 import ProtectedRoute from "components/ProtectedRoute";
+import StorageDetail from "pages/storages/StorageDetail";
 import NetworkMap from "pages/networks/NetworkMap";
 
 const App: FC = () => {
@@ -67,6 +68,10 @@ const App: FC = () => {
       <Route
         path="/ui/:project/storages"
         element={<ProtectedRoute outlet={<StorageList />} />}
+      />
+      <Route
+        path="/ui/:project/storages/:name"
+        element={<ProtectedRoute outlet={<StorageDetail />} />}
       />
       <Route
         path="/ui/cluster"
