@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { MainTable, Row } from "@canonical/react-components";
+import { Button, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchNetworks } from "api/networks";
 import BaseLayout from "components/BaseLayout";
@@ -7,9 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import Loader from "components/Loader";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NetworkList: FC = () => {
+  const navigate = useNavigate();
   const notify = useNotification();
   const { project } = useParams<{
     project: string;
@@ -109,7 +110,17 @@ const NetworkList: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Networks">
+      <BaseLayout
+        title="Networks"
+        controls={
+          <Button
+            className="u-no-margin--bottom"
+            onClick={() => navigate(`/ui/${project}/networks/map`)}
+          >
+            Network map
+          </Button>
+        }
+      >
         <NotificationRow notify={notify} />
         <Row>
           <MainTable

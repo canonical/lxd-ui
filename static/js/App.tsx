@@ -15,6 +15,7 @@ import ProfileDetail from "pages/profiles/ProfileDetail";
 import CertificateGenerate from "pages/certificates/CertificateGenerate";
 import CertificateMain from "pages/certificates/CertificateMain";
 import ProtectedRoute from "components/ProtectedRoute";
+import NetworkMap from "pages/networks/NetworkMap";
 
 const App: FC = () => {
   return (
@@ -54,6 +55,10 @@ const App: FC = () => {
       <Route
         path="/ui/:project/networks"
         element={<ProtectedRoute outlet={<NetworkList />} />}
+      />
+      <Route
+        path="/ui/:project/networks/map"
+        element={<ProtectedRoute outlet={<NetworkMap />} />}
       />
       <Route
         path="/ui/projects"
