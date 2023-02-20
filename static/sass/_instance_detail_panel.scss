@@ -45,6 +45,10 @@
     .p-instance-actions {
       align-self: end;
       margin-bottom: $spv--small;
+
+      .p-inline-list__item {
+        margin-right: $sph--small;
+      }
     }
 
     hr {
@@ -71,5 +75,23 @@
 
   tr {
     border-bottom: $border;
+    border-color: $color-mid-x-light;
   }
+
+  tr:last-child {
+    border-color: $color-mid-light;
+
+    td,
+    th {
+      padding-bottom: $spv--x-large !important;
+    }
+  }
+
+  .u-spaced-hr {
+    margin-top: $spv--x-large;
+  }
+}
+
+.p-section-separator {
+  background-color: $color-mid-light;
 }

@@ -29,6 +29,11 @@
 @include vf-p-icon-restart;
 @include vf-p-icon-security;
 @include vf-p-icon-settings;
+@include vf-p-icon-status-failed-small;
+@include vf-p-icon-status-in-progress-small;
+@include vf-p-icon-status-queued-small;
+@include vf-p-icon-status-succeeded-small;
+@include vf-p-icon-status-waiting-small;
 @include vf-p-icon-switcher-environments;
 @include vf-p-icon-task-outstanding;
 @include vf-p-icon-video-play;

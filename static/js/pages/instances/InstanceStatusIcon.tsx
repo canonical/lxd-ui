@@ -24,12 +24,12 @@ const InstanceStatusIcon: FC<Props> = ({
 
   const getIconClassForStatus = (status: string) => {
     return {
-      Error: "p-icon--oval-red",
-      Frozen: "p-icon--oval-blue",
+      Error: "p-icon--status-failed-small",
+      Frozen: "p-icon--status-in-progress-small",
       Freezing: "p-icon--spinner u-animation--spin",
-      Ready: "p-icon--oval-yellow",
-      Running: "p-icon--oval-green",
-      Stopped: "p-icon--oval-grey",
+      Ready: "p-icon--status-waiting-small",
+      Running: "p-icon--status-succeeded-small",
+      Stopped: "p-icon--status-queued-small",
     }[status];
   };
 
