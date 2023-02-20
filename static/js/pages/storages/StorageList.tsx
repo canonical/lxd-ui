@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import Loader from "components/Loader";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storages/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storages/actions/DeleteStorageBtn";
 import StorageSize from "pages/storages/StorageSize";
@@ -57,7 +57,11 @@ const StorageList: FC = () => {
     return {
       columns: [
         {
-          content: storage.name,
+          content: (
+            <Link to={`/ui/${project}/storages/${storage.name}`}>
+              {storage.name}
+            </Link>
+          ),
           role: "rowheader",
           "aria-label": "Name",
         },

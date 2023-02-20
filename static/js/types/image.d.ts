@@ -8,6 +8,9 @@ export interface LxdImage {
   public: boolean;
   properties: {
     description: string;
+    os: string;
+    release: string;
+    variant?: string;
   };
   architecture: string;
   type: string;

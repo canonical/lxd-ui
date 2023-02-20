@@ -20,8 +20,8 @@ import Loader from "components/Loader";
 
 const ProfileDetail: FC = () => {
   const notify = useNotification();
-  const { name } = useParams<{ name: string }>();
-  const { project } = useParams<{
+  const { name, project } = useParams<{
+    name: string;
     project: string;
   }>();
 

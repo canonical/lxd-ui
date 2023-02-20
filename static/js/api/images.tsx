@@ -4,6 +4,18 @@ import { ImportImage, LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperation } from "types/operation";
 
+export const fetchImage = (
+  image: string,
+  project: string
+): Promise<LxdImage> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images/${image}?project=${project}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdImage>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
 export const fetchImageList = (): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/images?recursion=1")
