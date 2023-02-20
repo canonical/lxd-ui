@@ -46,6 +46,14 @@
       align-self: end;
       margin-bottom: $spv--small;
     }
+
+    hr {
+      margin-bottom: 0;
+    }
+
+    .p-button--link {
+      padding: 0;
+    }
   }
 
   .p-snapshot-link {
@@ -62,6 +70,6 @@
   }
 
   tr {
-    border: none !important;
+    border-bottom: $border;
   }
 }
