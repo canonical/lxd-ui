@@ -7,34 +7,4 @@
     @extend %icon;
     @include lxdui-icon-sidebar-collapse;
   }
-
-  .p-icon--oval-green {
-    @extend %icon;
-
-    background-image: url("static/assets/img/status/status-running.svg");
-  }
-
-  .p-icon--oval-yellow {
-    @extend %icon;
-
-    background-image: url("static/assets/img/status/status-ready.svg");
-  }
-
-  .p-icon--oval-grey {
-    @extend %icon;
-
-    background-image: url("static/assets/img/status/status-stopped.svg");
-  }
-
-  .p-icon--oval-blue {
-    @extend %icon;
-
-    background-image: url("static/assets/img/status/status-frozen.svg");
-  }
-
-  .p-icon--oval-red {
-    @extend %icon;
-
-    background-image: url("static/assets/img/status/status-error.svg");
-  }
 }

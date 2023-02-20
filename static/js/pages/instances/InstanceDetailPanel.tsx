@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import { instanceCreationTypes } from "util/instanceOptions";
 
+const RECENT_SNAPSHOT_LIMIT = 5;
+
 interface Props {
   instance: LxdInstance;
   notify: NotificationHelper;
@@ -36,20 +38,26 @@ const InstanceDetailPanel: FC<Props> = ({
   const [ip6DisplayCount, setIp6DisplayCount] = useState(5);
 
   const getIpAddresses = (family: string) => {
-    return instance.state?.network?.eth0?.addresses
-      .filter((item) => item.family === family)
-      .map((item) => {
-        return (
-          <Row key={item.address}>
-            <Col size={4} className="u-truncate" title={item.address}>
-              {item.address}
-            </Col>
-          </Row>
-        );
-      });
+    return (
+      instance.state?.network?.eth0?.addresses
+        .filter((item) => item.family === family)
+        .map((item) => {
+          return (
+            <Row key={item.address}>
+              <Col size={4} className="u-truncate" title={item.address}>
+                {item.address}
+              </Col>
+            </Row>
+          );
+        }) ?? []
+    );
   };
   const ip4Addresses = getIpAddresses("inet");
   const ip6Addresses = getIpAddresses("inet6");
+  const manageSnapshotLabel =
+    instance.snapshots && instance.snapshots.length > RECENT_SNAPSHOT_LIMIT
+      ? "View all"
+      : "Manage";
 
   return (
     <div className="p-panel p-instance-detail-panel">
@@ -57,7 +65,7 @@ const InstanceDetailPanel: FC<Props> = ({
         <div className="p-panel__title-wrapper">
           <div className="p-panel__title">
             <span className="u-no-margin--bottom">Instance summary</span>
-            <span className="u-no-margin--bottom u-truncate">
+            <span title="View more" className="u-no-margin--bottom u-truncate">
               <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
                 View more
               </Link>
@@ -74,7 +82,7 @@ const InstanceDetailPanel: FC<Props> = ({
             </Button>
           </div>
         </div>
-        <hr />
+        <hr className="p-section-separator" />
       </div>
       <div className="p-panel__content p-instance-detail-panel--content">
         <List
@@ -82,7 +90,9 @@ const InstanceDetailPanel: FC<Props> = ({
           className="p-instance-actions"
           items={[
             <OpenTerminalBtn key="terminal" instance={instance} />,
+            // TODO: update the button upon VD approval of instance detail page
             <OpenVgaBtn key="vga" instance={instance} />,
+            // TODO: update the following with icon-only action buttons upon VD
             <StartStopInstanceBtn
               key="startstop"
               instance={instance}
@@ -94,8 +104,8 @@ const InstanceDetailPanel: FC<Props> = ({
             />,
           ]}
         />
-        <hr />
-        <table className="u-table-layout--auto">
+        <hr className="p-section-separator" />
+        <table className="u-table-layout--auto u-no-margin--bottom">
           <tbody>
             <tr>
               <th className="u-text--muted">Name</th>
@@ -146,7 +156,7 @@ const InstanceDetailPanel: FC<Props> = ({
             <tr>
               <th className="u-text--muted">IPv4</th>
               <td>
-                {ip4Addresses && ip4Addresses.length > 0 ? (
+                {ip4Addresses.length ? (
                   <>
                     {ip4Addresses.slice(0, ip4DisplayCount)}
                     {ip4DisplayCount < ip4Addresses.length && (
@@ -168,7 +178,7 @@ const InstanceDetailPanel: FC<Props> = ({
             <tr>
               <th className="u-text--muted">IPv6</th>
               <td>
-                {ip6Addresses && ip6Addresses.length > 0 ? (
+                {ip6Addresses.length ? (
                   <>
                     {ip6Addresses.slice(0, ip6DisplayCount)}
                     {ip6DisplayCount < ip6Addresses.length && (
@@ -205,7 +215,27 @@ const InstanceDetailPanel: FC<Props> = ({
             </tr>
           </tbody>
         </table>
-        <h5 className="u-no-margin--bottom">Profiles</h5>
+        <Row>
+          <Col size={1}>
+            <h5 className="p-text--x-small-capitalised u-no-margin--bottom">
+              Profiles
+            </h5>
+          </Col>
+          <Col
+            size={3}
+            title="View configurations"
+            className="p-snapshot-link p-text--small u-align--right u-no-margin--bottom u-truncate"
+          >
+            <strong>
+              <Link
+                // TODO: fix this link to point to the configurations tab
+                to={`/ui/${instance.project}/instances/${instance.name}`}
+              >
+                View configurations
+              </Link>
+            </strong>
+          </Col>
+        </Row>
         <List
           className="u-no-margin--bottom"
           items={instance.profiles.map((name) => (
@@ -214,46 +244,61 @@ const InstanceDetailPanel: FC<Props> = ({
             </Link>
           ))}
         />
-        <h5 className="u-no-margin--bottom">Networks</h5>
+        <hr className="u-spaced-hr p-section-separator" />
+        <h5 className="p-text--x-small-capitalised u-no-margin--bottom">
+          Networks
+        </h5>
         <List
           className="u-no-margin--bottom"
           items={Object.values(instance.expanded_devices)
             .filter(isNicDevice)
-            .map((item) =>
-              item.name ? `${item.name}: ${item.network}` : item.network
-            )}
+            .map((item) => (
+              // TODO: fix this link to point to the network detail page
+              <Link key={item.network} to={`/ui/${instance.project}/networks`}>
+                {item.network}
+              </Link>
+            ))}
         />
+        <hr className="u-spaced-hr p-section-separator" />
         <Row>
-          <Col size={1}>
-            <h5 className="u-no-margin--bottom">Snapshots</h5>
+          <Col size={3}>
+            <h5 className="p-text--x-small-capitalised u-no-margin--bottom">
+              Recent Snapshots
+            </h5>
           </Col>
           <Col
-            size={3}
-            className="p-snapshot-link p-text--small u-align--right u-no-margin--bottom"
+            size={1}
+            title={manageSnapshotLabel}
+            className="p-snapshot-link p-text--small u-align--right u-no-margin--bottom u-truncate"
           >
-            <Link
-              to={`/ui/${instance.project}/instances/${instance.name}/snapshots`}
-            >
-              Manage snapshots
-            </Link>
+            <strong>
+              <Link
+                to={`/ui/${instance.project}/instances/${instance.name}/snapshots`}
+              >
+                {manageSnapshotLabel}
+              </Link>
+            </strong>
           </Col>
         </Row>
         <List
           className="u-no-margin--bottom"
           items={
-            instance.snapshots?.map((snapshot) => (
-              <Row key={snapshot.name}>
-                <Col size={1} className="u-truncate" title={snapshot.name}>
-                  {snapshot.name}
-                </Col>
-                <Col
-                  size={3}
-                  className="p-snapshot-creation p-text--small u-align--right u-text--muted u-no-margin--bottom"
-                >
-                  created {isoTimeToString(snapshot.created_at)}
-                </Col>
-              </Row>
-            )) ?? ["None"]
+            instance.snapshots
+              ?.reverse()
+              .slice(0, RECENT_SNAPSHOT_LIMIT)
+              .map((snapshot) => (
+                <Row key={snapshot.name}>
+                  <Col size={2} className="u-truncate" title={snapshot.name}>
+                    {snapshot.name}
+                  </Col>
+                  <Col
+                    size={2}
+                    className="p-snapshot-creation u-align--right u-text--muted u-no-margin--bottom"
+                  >
+                    <i>{isoTimeToString(snapshot.created_at)}</i>
+                  </Col>
+                </Row>
+              )) ?? ["None"]
           }
         />
       </div>

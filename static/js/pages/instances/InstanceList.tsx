@@ -215,9 +215,11 @@ const InstanceList: FC = () => {
         },
         {
           content: instance.state?.network?.eth0?.addresses
-            .filter((item) => item.family === "inet")
+            .filter(
+              (item) =>
+                item.family === "inet" && !item.address.startsWith("127")
+            )
             .map((item) => item.address)
-            .filter((address) => !address.startsWith("127"))
             .join(" "),
           role: "rowheader",
           className: "u-align--right",
@@ -225,9 +227,11 @@ const InstanceList: FC = () => {
         },
         {
           content: instance.state?.network?.eth0?.addresses
-            .filter((item) => item.family === "inet6")
+            .filter(
+              (item) =>
+                item.family === "inet6" && !item.address.startsWith("fe80")
+            )
             .map((item) => item.address)
-            .filter((address) => !address.startsWith("fe80"))
             .join(" "),
           role: "rowheader",
           "aria-label": IPV6,
