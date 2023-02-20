@@ -82,15 +82,15 @@ const ProfileDetail: FC = () => {
         <table>
           <tbody>
             <tr>
-              <th>Name</th>
+              <th className="u-text--muted">Name</th>
               <td>{profile.name}</td>
             </tr>
             <tr>
-              <th>Description</th>
-              <td>{profile.description !== "" ? profile.description : "-"}</td>
+              <th className="u-text--muted">Description</th>
+              <td>{profile.description ? profile.description : "-"}</td>
             </tr>
             <tr>
-              <th>Instances using this profile</th>
+              <th className="u-text--muted">Instances using this profile</th>
               <td>
                 {usedByNames?.length ? (
                   <List
@@ -107,7 +107,7 @@ const ProfileDetail: FC = () => {
               </td>
             </tr>
             <tr>
-              <th>Network devices</th>
+              <th className="u-text--muted">Network devices</th>
               <td>
                 {Object.values(profile.devices).some(isNicDevice) ? (
                   Object.values(profile.devices)
@@ -133,7 +133,7 @@ const ProfileDetail: FC = () => {
               </td>
             </tr>
             <tr>
-              <th>Storage devices</th>
+              <th className="u-text--muted">Storage devices</th>
               <td>
                 {Object.values(profile.devices).some(isDiskDevice) ? (
                   Object.values(profile.devices)
@@ -162,15 +162,15 @@ const ProfileDetail: FC = () => {
               </td>
             </tr>
             <tr>
-              <th>Memory limit</th>
+              <th className="u-text--muted">Memory limit</th>
               <td>{profile.config["limits.memory"] || "-"}</td>
             </tr>
             <tr>
-              <th>CPU limit</th>
+              <th className="u-text--muted">CPU limit</th>
               <td>{profile.config["limits.cpu"] || "-"}</td>
             </tr>
             <tr>
-              <th>cloud-init config</th>
+              <th className="u-text--muted">cloud-init config</th>
               <td>
                 {profile.config["cloud-init.user-data"] && (
                   <Row>

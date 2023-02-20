@@ -68,35 +68,35 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
       <table>
         <tbody>
           <tr>
-            <th>Name</th>
+            <th className="u-text--muted">Name</th>
             <td>{instance.name}</td>
           </tr>
           <tr>
-            <th>Description</th>
-            <td>{instance.description !== "" ? instance.description : "-"}</td>
+            <th className="u-text--muted">Description</th>
+            <td>{instance.description ? instance.description : "-"}</td>
           </tr>
           <tr>
-            <th>Created at</th>
+            <th className="u-text--muted">Created at</th>
             <td>{isoTimeToString(instance.created_at)}</td>
           </tr>
           <tr>
-            <th>Last used at</th>
+            <th className="u-text--muted">Last used at</th>
             <td>{isoTimeToString(instance.last_used_at)}</td>
           </tr>
           <tr>
-            <th>IPv4</th>
+            <th className="u-text--muted">IPv4</th>
             <td>
               {ipv4Addresses && ipv4Addresses.length > 0 ? ipv4Addresses : "-"}
             </td>
           </tr>
           <tr>
-            <th>IPv6</th>
+            <th className="u-text--muted">IPv6</th>
             <td>
               {ipv6Addresses && ipv6Addresses.length > 0 ? ipv6Addresses : "-"}
             </td>
           </tr>
           <tr>
-            <td>Memory</td>
+            <th className="u-text--muted">Memory</th>
             <td>
               {instanceMetrics.memory ? (
                 <div>
@@ -123,7 +123,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
             </td>
           </tr>
           <tr>
-            <td>Disk</td>
+            <th className="u-text--muted">Disk</th>
             <td>
               {instanceMetrics.disk ? (
                 <div>
@@ -148,27 +148,27 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
             </td>
           </tr>
           <tr>
-            <th>Type</th>
+            <th className="u-text--muted">Type</th>
             <td>{instance.type}</td>
           </tr>
           <tr>
-            <th>Architecture</th>
+            <th className="u-text--muted">Architecture</th>
             <td>{instance.architecture}</td>
           </tr>
           <tr>
-            <th>Image</th>
+            <th className="u-text--muted">Image</th>
             <td>{instance.config["image.description"]}</td>
           </tr>
           <tr>
-            <th>Stateful</th>
+            <th className="u-text--muted">Stateful</th>
             <td>{instance.stateful ? "true" : "false"}</td>
           </tr>
           <tr>
-            <th>Project</th>
+            <th className="u-text--muted">Project</th>
             <td>{instance.project}</td>
           </tr>
           <tr>
-            <th>Profiles</th>
+            <th className="u-text--muted">Profiles</th>
             <td>
               <List
                 className="u-no-margin--bottom"
@@ -184,11 +184,11 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
             </td>
           </tr>
           <tr>
-            <th>Location</th>
+            <th className="u-text--muted">Location</th>
             <td>{instance.location}</td>
           </tr>
           <tr>
-            <th>Ephemeral</th>
+            <th className="u-text--muted">Ephemeral</th>
             <td>{instance.ephemeral ? "true" : "false"}</td>
           </tr>
         </tbody>
