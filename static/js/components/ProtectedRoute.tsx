@@ -15,7 +15,7 @@ const ProtectedRoute = ({ outlet }: Props) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/ui/certificates" />;
+    return <Navigate to="/ui/certificates" replace={true} />;
   }
 
   return outlet;

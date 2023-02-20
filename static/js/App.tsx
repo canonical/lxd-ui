@@ -19,8 +19,14 @@ import ProtectedRoute from "components/ProtectedRoute";
 const App: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/ui/default/instances" />} />
-      <Route path="/ui" element={<Navigate to="/ui/default/instances" />} />
+      <Route
+        path="/"
+        element={<Navigate to="/ui/default/instances" replace={true} />}
+      />
+      <Route
+        path="/ui"
+        element={<Navigate to="/ui/default/instances" replace={true} />}
+      />
       <Route
         path="/ui/:project/instances"
         element={<ProtectedRoute outlet={<InstanceList />} />}
