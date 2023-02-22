@@ -11,6 +11,11 @@ import { fetchStorage } from "api/storages";
 import StorageSize from "pages/storages/StorageSize";
 import ImageName from "pages/images/ImageName";
 
+interface UsedByType {
+  name: string;
+  project: string;
+}
+
 const StorageDetail: FC = () => {
   const notify = useNotification();
   const { name, project } = useParams<{
@@ -44,7 +49,7 @@ const StorageDetail: FC = () => {
     return <>Could not load storage details.</>;
   }
 
-  const filterUsedByType = (type: string) =>
+  const filterUsedByType = (type: string): UsedByType[] =>
     storage.used_by
       ?.filter((path) => {
         if (type === "instances" && path.includes("/snapshots/")) {
@@ -66,6 +71,18 @@ const StorageDetail: FC = () => {
   const usedByInstances = filterUsedByType("instances");
   const usedByProfiles = filterUsedByType("profiles");
   const usedByImages = filterUsedByType("images");
+
+  usedByInstances.sort((a, b) => {
+    return a.project < b.project
+      ? -1
+      : a.project > b.project
+      ? 1
+      : a.name < b.name
+      ? -1
+      : a.name > b.name
+      ? 1
+      : 0;
+  });
 
   return (
     <BaseLayout title={`Storage details for ${name}`}>
