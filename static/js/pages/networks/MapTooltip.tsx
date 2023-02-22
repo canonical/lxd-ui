@@ -13,7 +13,7 @@ export const mountElement = (component: ReactNode) => {
   element.className = "map-tooltip";
   const root = createRoot(element);
   root.render(component);
-  document.body.appendChild(element);
+  document.getElementById("network-map")?.appendChild(element);
   return element;
 };
 

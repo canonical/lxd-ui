@@ -1,5 +1,5 @@
 import React, { FC, useRef } from "react";
-import { Row } from "@canonical/react-components";
+import { Col, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
@@ -18,6 +18,7 @@ import MapTooltip, {
   MapTooltipProps,
   mountElement,
 } from "pages/networks/MapTooltip";
+import MapLegend from "pages/networks/MapLegend";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 Cytoscape.use(popper);
@@ -129,36 +130,38 @@ const NetworkMap: FC = () => {
       <BaseLayout title="Network map (beta)">
         <NotificationRow notify={notify} />
         <Row>
-          <CytoscapeComponent
-            elements={elements}
-            id="network-map"
-            layout={{
-              name: "cose",
-              nodeDimensionsIncludeLabels: true,
-              animate: false,
-            }}
-            cy={(cy) => {
-              cy.nodes().on("mouseover", (event: CyEvent) => {
-                cyPopperRef.current = event.target.popper({
-                  content: mountElement(
-                    <MapTooltip {...event.target.data().details} />
-                  ),
-                  popper: {
-                    placement: "right",
-                    removeOnDestroy: true,
-                  },
+          <Col size={12} id="network-map">
+            <MapLegend />
+            <CytoscapeComponent
+              className="canvas"
+              elements={elements}
+              layout={{
+                name: "cose",
+                nodeDimensionsIncludeLabels: true,
+                animate: false,
+              }}
+              cy={(cy) => {
+                cy.nodes().on("mouseover", (event: CyEvent) => {
+                  cyPopperRef.current = event.target.popper({
+                    content: mountElement(
+                      <MapTooltip {...event.target.data().details} />
+                    ),
+                    popper: {
+                      placement: "right",
+                      removeOnDestroy: true,
+                    },
+                  });
                 });
-              });
-              cy.nodes().on("mouseout", () => {
-                if (cyPopperRef.current) {
-                  cyPopperRef.current.destroy();
-                  const tooltip =
-                    document.getElementsByClassName("map-tooltip");
-                  tooltip[0].parentNode?.removeChild(tooltip[0]);
-                }
-              });
-            }}
-          />
+                cy.nodes().on("mouseout", () => {
+                  if (cyPopperRef.current) {
+                    cyPopperRef.current.destroy();
+                    const item = document.getElementsByClassName("map-tooltip");
+                    item[0].parentNode?.removeChild(item[0]);
+                  }
+                });
+              }}
+            />
+          </Col>
         </Row>
       </BaseLayout>
     </>
