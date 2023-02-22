@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import { Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
@@ -9,16 +9,44 @@ import { useParams } from "react-router-dom";
 import CytoscapeComponent from "react-cytoscapejs";
 import { fetchInstances } from "api/instances";
 import { isNicDevice } from "util/devices";
-import { EdgeDefinition } from "cytoscape";
+import Cytoscape, { EdgeDefinition } from "cytoscape";
 import { fetchNetworks } from "api/networks";
 import { LxdInstance } from "types/instance";
 import Loader from "components/Loader";
+import popper from "cytoscape-popper";
+import MapTooltip, {
+  MapTooltipProps,
+  mountElement,
+} from "pages/networks/MapTooltip";
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+Cytoscape.use(popper);
+
+interface PopperRef {
+  destroy: () => void;
+}
+
+interface CyEvent {
+  target: {
+    data: () => {
+      details: MapTooltipProps;
+    };
+    popper: (content: {
+      content: HTMLDivElement;
+      popper: {
+        placement: string;
+        removeOnDestroy: boolean;
+      };
+    }) => PopperRef;
+  };
+}
 
 const NetworkMap: FC = () => {
   const notify = useNotification();
   const { project } = useParams<{
     project: string;
   }>();
+  const cyPopperRef = useRef<PopperRef | null>(null);
 
   if (!project) {
     return <>Missing project</>;
@@ -52,6 +80,10 @@ const NetworkMap: FC = () => {
       data: {
         id: instance.name,
         label: instance.name,
+        details: {
+          type: "instance",
+          item: instance,
+        },
       },
       style: {
         backgroundColor: getInstanceColor(instance),
@@ -61,7 +93,14 @@ const NetworkMap: FC = () => {
 
   const networkNodes = networks.map((network) => {
     return {
-      data: { id: network.name, label: network.name },
+      data: {
+        id: network.name,
+        label: network.name,
+        details: {
+          type: "network",
+          item: network,
+        },
+      },
       style: {
         shape: "square",
         backgroundColor: "#0066cc",
@@ -92,14 +131,32 @@ const NetworkMap: FC = () => {
         <Row>
           <CytoscapeComponent
             elements={elements}
-            style={{
-              width: "100vw",
-              height: "calc(100vh - 130px)",
-            }}
+            id="network-map"
             layout={{
               name: "cose",
               nodeDimensionsIncludeLabels: true,
               animate: false,
+            }}
+            cy={(cy) => {
+              cy.nodes().on("mouseover", (event: CyEvent) => {
+                cyPopperRef.current = event.target.popper({
+                  content: mountElement(
+                    <MapTooltip {...event.target.data().details} />
+                  ),
+                  popper: {
+                    placement: "right",
+                    removeOnDestroy: true,
+                  },
+                });
+              });
+              cy.nodes().on("mouseout", () => {
+                if (cyPopperRef.current) {
+                  cyPopperRef.current.destroy();
+                  const tooltip =
+                    document.getElementsByClassName("map-tooltip");
+                  tooltip[0].parentNode?.removeChild(tooltip[0]);
+                }
+              });
             }}
           />
         </Row>
