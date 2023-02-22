@@ -1,5 +1,12 @@
 import React, { FC, useState } from "react";
-import { Col, Form, Input, Row, Select } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Aside from "components/Aside";
@@ -74,9 +81,13 @@ const StorageForm: FC = () => {
     },
   });
 
+  const submitForm = () => {
+    void formik.submitForm();
+  };
+
   return (
     <Aside>
-      <div className="p-panel">
+      <div className="p-panel l-site">
         <PanelHeader title={<h4>Create storage pool</h4>} />
         <div className="p-panel__content">
           <NotificationRow notify={notify} />
@@ -142,17 +153,23 @@ const StorageForm: FC = () => {
                 error={formik.touched.source ? formik.errors.source : null}
                 stacked
               />
-              <hr />
-              <Row className="u-align--right">
-                <Col size={12}>
-                  <SubmitButton
-                    isSubmitting={formik.isSubmitting}
-                    isDisabled={!formik.isValid}
-                    buttonLabel="Create"
-                  />
-                </Col>
-              </Row>
             </Form>
+          </Row>
+        </div>
+        <div className="l-footer--sticky p-bottom-controls">
+          <hr />
+          <Row className="u-align--right">
+            <Col size={12}>
+              <Button appearance="base" onClick={panelParams.clear}>
+                Cancel
+              </Button>
+              <SubmitButton
+                isSubmitting={formik.isSubmitting}
+                isDisabled={!formik.isValid}
+                onClick={submitForm}
+                buttonLabel="Create"
+              />
+            </Col>
           </Row>
         </div>
       </div>
