@@ -74,6 +74,12 @@
   overflow-y: scroll;
 }
 
+.storage-detail-table {
+  th {
+    width: 12rem;
+  }
+}
+
 .p-image-select-modal > section {
   min-height: 100%;
 }
