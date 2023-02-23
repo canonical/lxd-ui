@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "components/Loader";
 import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
@@ -45,7 +45,6 @@ const saveHidden = (columns: string[]) => {
 };
 
 const InstanceList: FC = () => {
-  const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
   const { project } = useParams<{ project: string }>();
@@ -218,19 +217,7 @@ const InstanceList: FC = () => {
             "aria-label": IPV6,
           },
           {
-            content: (
-              <Button
-                appearance="base"
-                className="u-no-margin--bottom"
-                onClick={() =>
-                  navigate(
-                    `/ui/${instance.project}/instances/${instance.name}/snapshots`
-                  )
-                }
-              >
-                {instance.snapshots?.length ?? "0"}
-              </Button>
-            ),
+            content: instance.snapshots?.length ?? "0",
             role: "rowheader",
             className: "u-align--right",
             "aria-label": SNAPSHOTS,
