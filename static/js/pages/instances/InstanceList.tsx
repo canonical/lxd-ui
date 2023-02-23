@@ -21,7 +21,6 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import InstanceDetailPanel from "./InstanceDetailPanel";
 import Loader from "components/Loader";
 import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
@@ -276,7 +275,10 @@ const InstanceList: FC = () => {
                   key="select"
                   appearance="base"
                   className="u-no-margin--bottom u-hide--medium u-hide--small"
-                  onClick={() => setSelected(instance.name)}
+                  onClick={() => {
+                    setSelected(instance.name);
+                    panelParams.openInstanceSummary(instance.name, project);
+                  }}
                   hasIcon
                 >
                   <Icon name="chevron-up" style={{ rotate: "90deg" }} />
@@ -367,7 +369,7 @@ const InstanceList: FC = () => {
         <div className="p-panel__content p-instance-content">
           <NotificationRow notify={notify} />
           <Row className="no-grid-gap">
-            <Col size={detailInstance ? 8 : 12}>
+            <Col size={12}>
               <TableColumnsSelect
                 columns={[
                   STATUS,
@@ -412,20 +414,6 @@ const InstanceList: FC = () => {
                 />
               )}
             </Col>
-            {detailInstance && (
-              <Col size={4} className="u-hide--medium u-hide--small">
-                <InstanceDetailPanel
-                  instance={detailInstance}
-                  notify={notify}
-                  onClose={() => setSelected()}
-                  starting={starting}
-                  stopping={stopping}
-                  addStarting={addStarting}
-                  addStopping={addStopping}
-                  removeLoading={removeLoading}
-                />
-              </Col>
-            )}
           </Row>
         </div>
       </div>

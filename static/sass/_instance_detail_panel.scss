@@ -1,11 +1,18 @@
 .p-instance-detail-panel {
   border-left: $border;
   margin-top: -$spv--large;
-  padding-top: $spv--x-small;
+  padding-top: $spv--x-large;
+
+  .row {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   .p-instance-detail-panel--header {
     flex-direction: column;
-    padding-left: $sph--x-large;
+    margin-left: $sph--x-large;
+    margin-right: $sph--x-large;
+    padding-left: 0;
     padding-right: 0;
 
     .p-panel__title-wrapper,
@@ -39,7 +46,8 @@
   .p-instance-detail-panel--content {
     display: flex;
     flex-direction: column;
-    padding-left: $sp-large;
+    margin-left: $sp-large;
+    margin-right: $sp-large;
     padding-top: $sp-xx-small;
 
     .p-instance-actions {
@@ -60,12 +68,14 @@
     }
   }
 
-  .p-snapshot-link {
-    margin-top: $sp-small;
+  .p-muted-heading,
+  .p-action-link {
+    margin-bottom: $spv--small;
+    margin-top: $spv--x-small;
   }
 
   .p-snapshot-creation {
-    margin-top: $sp-x-small;
+    margin-top: $spv--x-small;
   }
 
   td,

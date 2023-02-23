@@ -1,8 +1,8 @@
 import React from "react";
-import { AnimatePresence } from "framer-motion";
 import useEventListener from "@use-it/event-listener";
 import "../../sass/_panels.scss";
 import usePanelParams, { panels } from "util/usePanelParams";
+import InstanceDetailPanel from "pages/instances/InstanceDetailPanel";
 import CreateInstanceForm from "pages/instances/CreateInstanceForm";
 import EditInstanceForm from "pages/instances/EditInstanceForm";
 import ProfileFormGuided from "pages/profiles/ProfileFormGuided";
@@ -19,6 +19,8 @@ export default function Panels() {
 
   const generatePanel = () => {
     switch (panelParams.panel) {
+      case panels.instanceSummary:
+        return <InstanceDetailPanel />;
       case panels.createInstance:
         return <CreateInstanceForm />;
       case panels.editInstance:
@@ -33,7 +35,5 @@ export default function Panels() {
         return null;
     }
   };
-  return (
-    <AnimatePresence>{panelParams.panel && generatePanel()}</AnimatePresence>
-  );
+  return <>{panelParams.panel && generatePanel()}</>;
 }

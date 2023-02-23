@@ -3,7 +3,6 @@ import classnames from "classnames";
 
 import { Spinner } from "@canonical/react-components";
 
-import SlideInOut from "./SlideInOut";
 import "../../sass/_aside.scss";
 
 interface Props {
@@ -22,8 +21,7 @@ const Aside: FC<Props> = ({
   isSplit = false,
 }: Props) => {
   return (
-    <SlideInOut
-      isActive={true}
+    <div
       className={classnames("l-aside", {
         "is-narrow": width === "narrow",
         "is-wide": width === "wide",
@@ -38,7 +36,7 @@ const Aside: FC<Props> = ({
       ) : (
         children
       )}
-    </SlideInOut>
+    </div>
   );
 };
 
