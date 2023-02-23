@@ -34,7 +34,7 @@ const TableColumnsSelect = ({
       dropdownProps={{ "aria-label": "columns menu" }}
       position="right"
       toggleClassName="has-icon"
-      toggleLabel={<Icon name="settings" />}
+      toggleLabel={<Icon name="settings" title="Columns" />}
       toggleAppearance="base"
     >
       <div className="table-column-select-list">
