@@ -54,7 +54,7 @@
       align-self: end;
       margin-bottom: $spv--small;
 
-      .p-inline-list__item {
+      .p-inline-list__item:not(:last-of-type) {
         margin-right: $sph--small;
       }
     }
