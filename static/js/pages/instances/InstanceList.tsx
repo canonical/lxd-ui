@@ -43,19 +43,7 @@ const SNAPSHOTS = "Snapshots";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
-  if (!saved) {
-    if (window.outerWidth < 900) {
-      return [DESCRIPTION, IPV4, IPV6, SNAPSHOTS];
-    }
-    if (window.outerWidth < 1200) {
-      return [DESCRIPTION, IPV6, SNAPSHOTS];
-    }
-    if (window.outerWidth < 1400) {
-      return [DESCRIPTION, SNAPSHOTS];
-    }
-    return [DESCRIPTION];
-  }
-  return JSON.parse(saved) as string[];
+  return saved ? (JSON.parse(saved) as string[]) : [];
 };
 
 const saveHidden = (columns: string[]) => {
@@ -77,29 +65,45 @@ const InstanceList: FC = () => {
   const [starting, setStarting] = useState<string[]>([]);
   const [stopping, setStopping] = useState<string[]>([]);
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
-  const [sideHidden, setSideHidden] = useState<string[]>([]);
+  const [sizeHidden, setSizeHidden] = useState<string[]>([]);
 
-  const hidden = userHidden.concat(sideHidden);
+  const figureSizeHidden = () => {
+    const wrapper = document.getElementById("instance-table-measure");
+    const table = wrapper?.children[0];
+    const columns = table?.firstChild?.firstChild;
 
-  const resizeColsForSidepanel = () => {
-    const sideHiddenNew = [];
-    if (selected) {
-      if (window.outerWidth < 2100 && !userHidden.includes(SNAPSHOTS)) {
-        sideHiddenNew.push(SNAPSHOTS);
-      }
-      if (window.outerWidth < 1950 && !userHidden.includes(IPV6)) {
-        sideHiddenNew.push(IPV6);
-      }
-      if (window.outerWidth < 1400 && !userHidden.includes(IPV4)) {
-        sideHiddenNew.push(IPV4);
-      }
+    if (!wrapper || !table || !columns) {
+      return;
     }
-    if (JSON.stringify(sideHiddenNew) !== JSON.stringify(sideHidden)) {
-      setSideHidden(sideHiddenNew);
+
+    const wrapWidth = wrapper.getBoundingClientRect().width;
+    const tableWidth = table.getBoundingClientRect().width;
+    const colWidth = new Map();
+    columns.childNodes.forEach((item) => {
+      const col = item as Element;
+      const name = col.innerHTML;
+      const width = col.getBoundingClientRect().width;
+      colWidth.set(name, width);
+    });
+
+    let gainedSpace = 0;
+    const sizeHiddenNew: string[] = [];
+    [SNAPSHOTS, IPV6, IPV4, DESCRIPTION, TYPE].forEach((column) => {
+      if (
+        tableWidth - gainedSpace > wrapWidth &&
+        !userHidden.includes(column)
+      ) {
+        gainedSpace += colWidth.get(column);
+        sizeHiddenNew.push(column);
+      }
+    });
+    if (JSON.stringify(sizeHiddenNew) !== JSON.stringify(sizeHidden)) {
+      setSizeHidden(sizeHiddenNew);
     }
   };
-  useEventListener("resize", resizeColsForSidepanel);
-  resizeColsForSidepanel();
+  useEventListener("resize", figureSizeHidden);
+  useEffect(figureSizeHidden, [selected, userHidden]);
+  figureSizeHidden();
 
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
@@ -165,134 +169,143 @@ const InstanceList: FC = () => {
     return true;
   });
 
-  const headers = [
-    { content: STATUS, sortKey: "status" },
-    { content: NAME, sortKey: "name" },
-    { content: TYPE, sortKey: "type" },
-    { content: DESCRIPTION, sortKey: "description" },
-    { content: IPV4, className: "u-align--right" },
-    { content: IPV6 },
-    { content: SNAPSHOTS, sortKey: "snapshots", className: "u-align--right" },
-    { content: null },
-  ].filter(
-    (item) => typeof item.content !== "string" || !hidden.includes(item.content)
-  );
-
-  const rows = visibleInstances.map((instance) => {
-    return {
-      className: selected === instance.name ? "u-row-selected" : "u-row",
-      columns: [
-        {
-          content: (
-            <InstanceStatusIcon
-              instance={instance}
-              isStarting={starting.includes(instance.name)}
-              isStopping={stopping.includes(instance.name)}
-            />
-          ),
-          role: "rowheader",
-          className: "u-truncate",
-          "aria-label": STATUS,
-        },
-        {
-          content: (
-            <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
-              {instance.name}
-            </Link>
-          ),
-          role: "rowheader",
-          "aria-label": NAME,
-        },
-        {
-          content: instance.type,
-          role: "rowheader",
-          "aria-label": TYPE,
-        },
-        {
-          content: instance.description,
-          role: "rowheader",
-          "aria-label": DESCRIPTION,
-        },
-        {
-          content: instance.state?.network?.eth0?.addresses
-            .filter((item) => item.family === "inet")
-            .map((item) => item.address)
-            .filter((address) => !address.startsWith("127"))
-            .join(" "),
-          role: "rowheader",
-          className: "u-align--right",
-          "aria-label": IPV4,
-        },
-        {
-          content: instance.state?.network?.eth0?.addresses
-            .filter((item) => item.family === "inet6")
-            .map((item) => item.address)
-            .filter((address) => !address.startsWith("fe80"))
-            .join(" "),
-          role: "rowheader",
-          "aria-label": IPV6,
-        },
-        {
-          content: (
-            <Button
-              appearance="base"
-              className="u-no-margin--bottom"
-              onClick={() =>
-                navigate(
-                  `/ui/${instance.project}/instances/${instance.name}/snapshots`
-                )
-              }
-            >
-              {instance.snapshots?.length ?? "0"}
-            </Button>
-          ),
-          role: "rowheader",
-          className: "u-align--right",
-          "aria-label": SNAPSHOTS,
-        },
-        {
-          content: (
-            <List
-              inline
-              className="u-no-margin--bottom"
-              items={[
-                <StartStopInstanceBtn
-                  key="startstop"
-                  className={classnames("u-instance-actions", {
-                    "u-hide": starting.concat(stopping).includes(instance.name),
-                  })}
-                  instance={instance}
-                  notify={notify}
-                  hasCaption={true}
-                  onStarting={addStarting}
-                  onStopping={addStopping}
-                  onFinish={removeLoading}
-                />,
-                <Button
-                  key="select"
-                  appearance="base"
-                  className="u-no-margin--bottom u-hide--medium u-hide--small"
-                  onClick={() => setSelected(instance.name)}
-                  hasIcon
-                >
-                  <Icon name="chevron-up" style={{ rotate: "90deg" }} />
-                </Button>,
-              ]}
-            />
-          ),
-          role: "rowheader",
-          className: "u-align--right",
-          "aria-label": "Details",
-        },
-      ].filter((item) => !hidden.includes(item["aria-label"])),
-      sortData: {
-        name: instance.name,
-        status: instance.status,
-        type: instance.type,
-        snapshots: instance.snapshots?.length ?? 0,
+  const getHeaders = (hiddenCols: string[]) =>
+    [
+      { content: NAME, sortKey: "name" },
+      { content: TYPE, sortKey: "type" },
+      { content: DESCRIPTION, sortKey: "description" },
+      { content: IPV4, className: "u-align--right" },
+      { content: IPV6, id: "header-ipv6" },
+      {
+        content: SNAPSHOTS,
+        sortKey: "snapshots",
+        className: "u-align--right",
       },
-    };
-  });
+      { content: STATUS, sortKey: "status" },
+      { content: null },
+    ].filter(
+      (item) =>
+        typeof item.content !== "string" || !hiddenCols.includes(item.content)
+    );
+
+  const getRows = (hiddenCols: string[]) =>
+    visibleInstances.map((instance) => {
+      return {
+        className: selected === instance.name ? "u-row-selected" : "u-row",
+        columns: [
+          {
+            content: (
+              <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
+                {instance.name}
+              </Link>
+            ),
+            role: "rowheader",
+            "aria-label": NAME,
+          },
+          {
+            content: instance.type,
+            role: "rowheader",
+            "aria-label": TYPE,
+          },
+          {
+            content: instance.description,
+            role: "rowheader",
+            "aria-label": DESCRIPTION,
+          },
+          {
+            content: instance.state?.network?.eth0?.addresses
+              .filter((item) => item.family === "inet")
+              .map((item) => item.address)
+              .filter((address) => !address.startsWith("127"))
+              .join(" "),
+            role: "rowheader",
+            className: "u-align--right",
+            "aria-label": IPV4,
+          },
+          {
+            content: instance.state?.network?.eth0?.addresses
+              .filter((item) => item.family === "inet6")
+              .map((item) => item.address)
+              .filter((address) => !address.startsWith("fe80"))
+              .join(" "),
+            role: "rowheader",
+            "aria-label": IPV6,
+          },
+          {
+            content: (
+              <Button
+                appearance="base"
+                className="u-no-margin--bottom"
+                onClick={() =>
+                  navigate(
+                    `/ui/${instance.project}/instances/${instance.name}/snapshots`
+                  )
+                }
+              >
+                {instance.snapshots?.length ?? "0"}
+              </Button>
+            ),
+            role: "rowheader",
+            className: "u-align--right",
+            "aria-label": SNAPSHOTS,
+          },
+          {
+            content: (
+              <InstanceStatusIcon
+                instance={instance}
+                isStarting={starting.includes(instance.name)}
+                isStopping={stopping.includes(instance.name)}
+              />
+            ),
+            role: "rowheader",
+            className: "u-truncate",
+            "aria-label": STATUS,
+          },
+          {
+            content: (
+              <List
+                inline
+                className="u-no-margin--bottom"
+                items={[
+                  <StartStopInstanceBtn
+                    key="startstop"
+                    className={classnames("u-instance-actions", {
+                      "u-hide": starting
+                        .concat(stopping)
+                        .includes(instance.name),
+                    })}
+                    instance={instance}
+                    notify={notify}
+                    hasCaption={true}
+                    onStarting={addStarting}
+                    onStopping={addStopping}
+                    onFinish={removeLoading}
+                  />,
+                  <Button
+                    key="select"
+                    appearance="base"
+                    className="u-no-margin--bottom u-hide--medium u-hide--small"
+                    onClick={() => setSelected(instance.name)}
+                    hasIcon
+                  >
+                    <Icon name="chevron-up" style={{ rotate: "90deg" }} />
+                  </Button>,
+                ]}
+              />
+            ),
+            role: "rowheader",
+            className: "u-align--right",
+            "aria-label": "Details",
+          },
+        ].filter((item) => !hiddenCols.includes(item["aria-label"])),
+        sortData: {
+          name: instance.name,
+          status: instance.status,
+          type: instance.type,
+          snapshots: instance.snapshots?.length ?? 0,
+        },
+      };
+    });
 
   return (
     <main className="l-main">
@@ -365,36 +378,37 @@ const InstanceList: FC = () => {
           <Row>
             <Col size={detailInstance ? 8 : 12}>
               <TableColumnsSelect
-                columns={[
-                  STATUS,
-                  NAME,
-                  TYPE,
-                  DESCRIPTION,
-                  IPV4,
-                  IPV6,
-                  SNAPSHOTS,
-                ]}
-                hidden={hidden}
+                columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                hidden={userHidden}
                 setHidden={setHidden}
                 className={
                   detailInstance || instances.length < 1 ? "u-hide" : undefined
                 }
               />
               {isLoading || instances.length > 0 ? (
-                <MainTable
-                  headers={headers}
-                  rows={rows}
-                  paginate={15}
-                  sortable
-                  className="instance-table u-table-layout--auto"
-                  emptyStateMsg={
-                    isLoading ? (
-                      <Loader text="Loading instances..." />
-                    ) : (
-                      <>No instance found matching this search</>
-                    )
-                  }
-                />
+                <>
+                  <MainTable
+                    headers={getHeaders(userHidden.concat(sizeHidden))}
+                    rows={getRows(userHidden.concat(sizeHidden))}
+                    paginate={15}
+                    sortable
+                    className="instance-table u-table-layout--auto"
+                    emptyStateMsg={
+                      isLoading ? (
+                        <Loader text="Loading instances..." />
+                      ) : (
+                        <>No instance found matching this search</>
+                      )
+                    }
+                  />
+                  <div id="instance-table-measure">
+                    <MainTable
+                      headers={getHeaders(userHidden)}
+                      rows={getRows(userHidden)}
+                      className="instance-table u-table-layout--auto"
+                    />
+                  </div>
+                </>
               ) : (
                 <EmptyState
                   iconName="containers"
