@@ -6,6 +6,7 @@ import { Spinner } from "@canonical/react-components";
 import "../../sass/_aside.scss";
 
 interface Props {
+  className?: string;
   children: ReactNode;
   width?: "wide" | "narrow";
   pinned?: boolean;
@@ -15,6 +16,7 @@ interface Props {
 
 const Aside: FC<Props> = ({
   children,
+  className,
   width,
   pinned = false,
   loading = false,
@@ -22,7 +24,7 @@ const Aside: FC<Props> = ({
 }: Props) => {
   return (
     <div
-      className={classnames("l-aside", {
+      className={classnames("l-aside", className, {
         "is-narrow": width === "narrow",
         "is-wide": width === "wide",
         "is-pinned": pinned,

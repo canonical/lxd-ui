@@ -1,23 +1,37 @@
-.p-instance-header {
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
+.l-application:has(.l-toolbar) {
+  grid-template-areas: "nav navbar navbar" "nav toolbar toolbar" "nav main aside" "nav status status";
+  grid-template-rows: min-content min-content 1fr min-content;
+}
 
-  .middle-column {
-    align-self: flex-start;
+.l-toolbar {
+  border-bottom: $border;
+  display: flex;
+  grid-area: toolbar;
+  margin: $spv--large $spv--large 0;
+
+  .filters {
     display: flex;
-  }
-
-  .search-box {
     flex-grow: 1;
+    margin-left: 6rem;
+    margin-right: 6rem;
+
+    .search-box {
+      flex-grow: 1;
+    }
   }
 
   .margin-right {
     margin-right: $sph--large;
   }
 
-  .margin-bottom {
-    margin-bottom: $spv--large;
+  @include mobile-and-tablet {
+    h4 {
+      flex-grow: 1;
+    }
+
+    .filters {
+      display: none;
+    }
   }
 }
 
