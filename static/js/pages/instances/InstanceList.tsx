@@ -15,12 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import usePanelParams from "util/usePanelParams";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
 import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
@@ -53,11 +48,7 @@ const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotification();
   const panelParams = usePanelParams();
-  const { project } = useParams<{
-    project: string;
-  }>();
-  const [params, setParams] = useSearchParams();
-  const selected = params.get("selected");
+  const { project } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
   const [status, setStatus] = useState<string>("any");
   const [type, setType] = useState<string>("any");
@@ -101,7 +92,7 @@ const InstanceList: FC = () => {
     }
   };
   useEventListener("resize", figureSizeHidden);
-  useEffect(figureSizeHidden, [selected, userHidden]);
+  useEffect(figureSizeHidden, [panelParams.instance, userHidden]);
   figureSizeHidden();
 
   const setHidden = (columns: string[]) => {
@@ -146,15 +137,6 @@ const InstanceList: FC = () => {
     notify.failure("Could not load instances.", error);
   }
 
-  const setSelected = (name?: string) => {
-    const newParams = new URLSearchParams();
-    if (name) {
-      newParams.set("selected", name);
-    }
-    setParams(newParams);
-  };
-
-  const detailInstance = instances.find((item) => item.name === selected);
   const visibleInstances = instances.filter((item) => {
     if (query && !item.name.includes(query)) {
       return false;
@@ -190,7 +172,8 @@ const InstanceList: FC = () => {
   const getRows = (hiddenCols: string[]) =>
     visibleInstances.map((instance) => {
       return {
-        className: selected === instance.name ? "u-row-selected" : "u-row",
+        className:
+          panelParams.instance === instance.name ? "u-row-selected" : "u-row",
         columns: [
           {
             content: (
@@ -289,7 +272,6 @@ const InstanceList: FC = () => {
                     appearance="base"
                     className="u-no-margin--bottom u-hide--medium u-hide--small"
                     onClick={() => {
-                      setSelected(instance.name);
                       panelParams.openInstanceSummary(instance.name, project);
                     }}
                     hasIcon
@@ -314,124 +296,118 @@ const InstanceList: FC = () => {
     });
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <Row className="p-panel__title p-instance-header no-grid-gap">
-            <Col size={3}>
-              <h4 className="margin-bottom">
-                {visibleInstances.length}{" "}
-                {visibleInstances.length === 1 ? "Instance" : "Instances"}
-              </h4>
-            </Col>
-            <Col size={7} className="middle-column">
-              <SearchBox
-                className="search-box margin-right margin-bottom"
-                id="filter-query"
-                type="text"
-                onChange={(value) => {
-                  setQuery(value);
-                }}
-                placeholder="Search"
-                value={query}
-              />
-              <Select
-                className="margin-bottom"
-                wrapperClassName="margin-right"
-                id="filter-state"
-                onChange={(v) => {
-                  setStatus(v.target.value);
-                }}
-                options={[
-                  {
-                    label: "All statuses",
-                    value: "any",
-                  },
-                  ...instanceStatuses,
-                ]}
-                value={status}
-              />
-              <Select
-                className="margin-bottom"
-                id="filter-type"
-                onChange={(v) => {
-                  setType(v.target.value);
-                }}
-                options={[
-                  {
-                    label: "Containers and VMs",
-                    value: "any",
-                  },
-                  ...instanceListTypes,
-                ]}
-                value={type}
-              />
-            </Col>
-            <Col size={2}>
-              <Button
-                className="margin-bottom u-float-right"
-                appearance="positive"
-                onClick={() => panelParams.openCreateInstance(project)}
-              >
-                Create new
-              </Button>
-            </Col>
-            <hr className="u-no-margin--bottom" />
-          </Row>
+    <>
+      <aside className="l-toolbar">
+        <h4>
+          {visibleInstances.length}{" "}
+          {visibleInstances.length === 1 ? "Instance" : "Instances"}
+        </h4>
+        <div className="filters">
+          <SearchBox
+            className="search-box margin-right"
+            id="filter-query"
+            type="text"
+            onChange={(value) => {
+              setQuery(value);
+            }}
+            placeholder="Search"
+            value={query}
+          />
+          <Select
+            wrapperClassName="margin-right"
+            id="filter-state"
+            onChange={(v) => {
+              setStatus(v.target.value);
+            }}
+            options={[
+              {
+                label: "All statuses",
+                value: "any",
+              },
+              ...instanceStatuses,
+            ]}
+            value={status}
+          />
+          <Select
+            id="filter-type"
+            onChange={(v) => {
+              setType(v.target.value);
+            }}
+            options={[
+              {
+                label: "Containers and VMs",
+                value: "any",
+              },
+              ...instanceListTypes,
+            ]}
+            value={type}
+          />
         </div>
-        <div className="p-panel__content p-instance-content">
-          <NotificationRow notify={notify} />
-          <Row className="no-grid-gap">
-            <Col size={12}>
-              <TableColumnsSelect
-                columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
-                hidden={userHidden}
-                setHidden={setHidden}
-                className={
-                  detailInstance || instances.length < 1 ? "u-hide" : undefined
-                }
-              />
-              {isLoading || instances.length > 0 ? (
-                <>
-                  <MainTable
-                    headers={getHeaders(userHidden.concat(sizeHidden))}
-                    rows={getRows(userHidden.concat(sizeHidden))}
-                    paginate={15}
-                    sortable
-                    className="instance-table u-table-layout--auto"
-                    emptyStateMsg={
-                      isLoading ? (
-                        <Loader text="Loading instances..." />
-                      ) : (
-                        <>No instance found matching this search</>
-                      )
-                    }
-                  />
-                  <div id="instance-table-measure">
-                    <MainTable
-                      headers={getHeaders(userHidden)}
-                      rows={getRows(userHidden)}
-                      className="instance-table u-table-layout--auto"
-                    />
-                  </div>
-                </>
-              ) : (
-                <EmptyState
-                  iconName="containers"
-                  iconClass="p-empty-instances"
-                  title="No instances found"
-                  message="There are no instances in this project. Spin up your first instance!"
-                  linkMessage="How to create instances"
-                  linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
-                  buttonLabel="Create"
-                  buttonAction={() => panelParams.openCreateInstance(project)}
+        <Button
+          appearance="positive"
+          onClick={() => panelParams.openCreateInstance(project)}
+        >
+          Create new
+        </Button>
+      </aside>
+      <main className="l-main">
+        <div className="p-panel">
+          <div className="p-panel__content p-instance-content">
+            <NotificationRow notify={notify} />
+            <Row className="no-grid-gap">
+              <Col size={12}>
+                <TableColumnsSelect
+                  columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                  hidden={userHidden}
+                  setHidden={setHidden}
+                  className={
+                    panelParams.instance || instances.length < 1
+                      ? "u-hide"
+                      : undefined
+                  }
                 />
-              )}
-            </Col>
-          </Row>
+                {isLoading || instances.length > 0 ? (
+                  <>
+                    <MainTable
+                      headers={getHeaders(userHidden.concat(sizeHidden))}
+                      rows={getRows(userHidden.concat(sizeHidden))}
+                      paginate={15}
+                      sortable
+                      className="instance-table u-table-layout--auto"
+                      emptyStateMsg={
+                        isLoading ? (
+                          <Loader text="Loading instances..." />
+                        ) : (
+                          <>No instance found matching this search</>
+                        )
+                      }
+                    />
+                    <div id="instance-table-measure">
+                      <MainTable
+                        headers={getHeaders(userHidden)}
+                        rows={getRows(userHidden)}
+                        className="instance-table u-table-layout--auto"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <EmptyState
+                    iconName="containers"
+                    iconClass="p-empty-instances"
+                    title="No instances found"
+                    message="There are no instances in this project. Spin up your first instance!"
+                    linkMessage="How to create instances"
+                    linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
+                    buttonLabel="Create"
+                    buttonAction={() => panelParams.openCreateInstance(project)}
+                  />
+                )}
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 

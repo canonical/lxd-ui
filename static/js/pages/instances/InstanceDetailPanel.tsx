@@ -65,7 +65,7 @@ const InstanceDetailPanel: FC = () => {
       : "Manage";
 
   return (
-    <Aside width="narrow" pinned>
+    <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
       {isLoading && <Loader />}
       {!isLoading && !instance && <>Could not load instance details.</>}
       {instance && instanceListNotify && (
