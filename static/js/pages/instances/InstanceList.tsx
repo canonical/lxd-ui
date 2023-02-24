@@ -56,6 +56,30 @@ const InstanceList: FC = () => {
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
 
+  if (!project) {
+    return <>Missing project</>;
+  }
+
+  const { setSharedNotify } = useSharedNotify();
+  useEffect(() => {
+    if (setSharedNotify) {
+      setSharedNotify(notify);
+    }
+  }, [setSharedNotify, notify]);
+
+  const {
+    data: instances = [],
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [queryKeys.instances],
+    queryFn: () => fetchInstances(project),
+  });
+
+  if (error) {
+    notify.failure("Could not load instances.", error);
+  }
+
   const figureSizeHidden = () => {
     const wrapper = document.getElementById("instance-table-measure");
     const table = wrapper?.children[0];
@@ -91,8 +115,7 @@ const InstanceList: FC = () => {
     }
   };
   useEventListener("resize", figureSizeHidden);
-  useEffect(figureSizeHidden, [panelParams.instance, userHidden]);
-  figureSizeHidden();
+  useEffect(figureSizeHidden, [panelParams.instance, userHidden, instances]);
 
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
@@ -111,30 +134,6 @@ const InstanceList: FC = () => {
     setStarting((prev) => prev.filter((name) => name !== instance.name));
     setStopping((prev) => prev.filter((name) => name !== instance.name));
   };
-
-  if (!project) {
-    return <>Missing project</>;
-  }
-
-  const { setSharedNotify } = useSharedNotify();
-  useEffect(() => {
-    if (setSharedNotify) {
-      setSharedNotify(notify);
-    }
-  }, [setSharedNotify, notify]);
-
-  const {
-    data: instances = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances],
-    queryFn: () => fetchInstances(project),
-  });
-
-  if (error) {
-    notify.failure("Could not load instances.", error);
-  }
 
   const visibleInstances = instances.filter((item) => {
     if (query && !item.name.includes(query)) {
