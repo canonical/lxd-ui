@@ -5,11 +5,14 @@
   }
 
   .p-instance-detail-panel--header {
+    background: white;
     flex-direction: column;
     margin-left: $sph--x-large;
     margin-right: $sph--x-large;
     padding-left: 0;
     padding-right: 0;
+    position: absolute;
+    z-index: 10;
 
     .p-panel__title-wrapper,
     .p-panel__title {
@@ -37,14 +40,6 @@
       align-self: center;
       padding-top: 0;
     }
-  }
-
-  .p-instance-detail-panel--content {
-    display: flex;
-    flex-direction: column;
-    margin-left: $sp-large;
-    margin-right: $sp-large;
-    padding-top: $sp-xx-small;
 
     .p-instance-actions {
       align-self: end;
@@ -54,6 +49,14 @@
         margin-right: $sph--small;
       }
     }
+  }
+
+  .p-instance-detail-panel--content {
+    display: flex;
+    flex-direction: column;
+    margin-left: $sp-large;
+    margin-right: $sp-large;
+    padding-top: 5.5rem;
 
     hr {
       margin-bottom: 0;
