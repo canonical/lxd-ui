@@ -97,8 +97,6 @@ const InstanceDetailPanel: FC = () => {
               </div>
             </div>
             <hr className="p-section-separator" />
-          </div>
-          <div className="p-panel__content p-instance-detail-panel--content">
             <List
               inline
               className="p-instance-actions"
@@ -122,6 +120,8 @@ const InstanceDetailPanel: FC = () => {
               ]}
             />
             <hr className="p-section-separator" />
+          </div>
+          <div className="p-panel__content p-instance-detail-panel--content">
             <table className="u-table-layout--auto u-no-margin--bottom">
               <tbody>
                 <tr>
