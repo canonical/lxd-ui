@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { LxdInstance } from "types/instance";
-import { Button, Tooltip } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
@@ -18,7 +18,7 @@ const OpenVgaBtn: FC<Props> = ({
     navigate(`/ui/${instance.project}/instances/${instance.name}/vga`);
   };
 
-  const getTooltipMessage = () => {
+  const getTitle = () => {
     if (instance.type !== "virtual-machine") {
       return "Instance type must be virtual-machine";
     }
@@ -29,19 +29,18 @@ const OpenVgaBtn: FC<Props> = ({
   };
 
   return (
-    <Tooltip message={getTooltipMessage()} position="top-right">
-      <Button
-        className={className}
-        dense
-        hasIcon
-        onClick={handleOpen}
-        disabled={
-          instance.status !== "Running" || instance.type !== "virtual-machine"
-        }
-      >
-        <i className="p-icon--canvas" />
-      </Button>
-    </Tooltip>
+    <Button
+      className={className}
+      dense
+      hasIcon
+      onClick={handleOpen}
+      disabled={
+        instance.status !== "Running" || instance.type !== "virtual-machine"
+      }
+      title={getTitle()}
+    >
+      <i className="p-icon--canvas" />
+    </Button>
   );
 };
 

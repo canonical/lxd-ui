@@ -1,5 +1,5 @@
 import React, { FC, useRef } from "react";
-import { Button, Icon, Tooltip } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { fetchInstanceLogFile } from "api/instances";
 
@@ -48,19 +48,18 @@ const DownloadButton: FC<DownloadButtonProps> = ({
   };
 
   return (
-    <Tooltip message={`Download ${fileName}`} position="left">
-      <Button
-        appearance="base"
-        className="u-no-margin--bottom"
-        onClick={() => void handleDownload()}
-        aria-label={`Download ${fileName} file`}
-        has-icon
-        is-dense
-        ref={buttonRef}
-      >
-        <Icon name="begin-downloading" alt="download" />
-      </Button>
-    </Tooltip>
+    <Button
+      appearance="base"
+      className="u-no-margin--bottom"
+      onClick={() => void handleDownload()}
+      title={`Download ${fileName}`}
+      aria-label={`Download ${fileName} file`}
+      has-icon
+      is-dense
+      ref={buttonRef}
+    >
+      <Icon name="begin-downloading" alt="download" />
+    </Button>
   );
 };
 
