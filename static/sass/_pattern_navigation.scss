@@ -78,19 +78,31 @@
 }
 
 .sidenav-bottom-ul {
-  bottom: $spv--x-large;
-  position: absolute;
   width: 15rem;
 }
 
 .sidenav-toggle {
   background-color: #444 !important;
-  bottom: $spv--large;
-  position: absolute;
-  right: $sph--large;
+  left: 12rem;
+  position: relative;
+}
+
+@media screen and (min-height: 500px) {
+  .sidenav-bottom-ul {
+    bottom: $spv--x-large;
+    position: absolute;
+  }
+
+  .sidenav-toggle {
+    bottom: $spv--large;
+    left: inherit;
+    position: absolute;
+    right: $sph--large;
+  }
 }
 
 .l-navigation.is-collapsed .sidenav-toggle {
+  left: 1rem;
   rotate: 180deg;
 }
 
