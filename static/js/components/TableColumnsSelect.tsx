@@ -34,8 +34,9 @@ const TableColumnsSelect = ({
       dropdownProps={{ "aria-label": "columns menu" }}
       position="right"
       toggleClassName="has-icon"
-      toggleLabel={<Icon name="settings" title="Columns" />}
+      toggleLabel={<Icon name="settings" />}
       toggleAppearance="base"
+      title="Columns"
     >
       <div className="table-column-select-list">
         <CheckboxInput
