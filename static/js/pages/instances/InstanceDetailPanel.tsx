@@ -69,42 +69,33 @@ const InstanceDetailPanel: FC = () => {
       {isLoading && <Loader />}
       {!isLoading && !instance && <>Could not load instance details.</>}
       {instance && instanceListNotify && (
-        <div className="p-panel p-instance-detail-panel">
-          <div className="p-panel__header p-instance-detail-panel--header">
-            <div className="p-panel__title-wrapper">
-              <div className="p-panel__title">
-                <span className="u-no-margin--bottom">Instance summary</span>
-                <span
-                  title="View more"
-                  className="u-no-margin--bottom u-truncate"
-                >
-                  <Link
-                    to={`/ui/${instance.project}/instances/${instance.name}`}
-                  >
-                    View more
-                  </Link>
-                </span>
-              </div>
-              <div className="p-panel__controls">
-                <Button
-                  appearance="base"
-                  className="u-no-margin--bottom"
-                  hasIcon
-                  onClick={panelParams.clear}
-                >
-                  <i className="p-icon--close"></i>
-                </Button>
-              </div>
+        <div className="p-panel instance-detail-panel">
+          <div className="p-panel__header">
+            <h4 className="p-panel__title">Instance summary</h4>
+            <div className="p-panel__controls">
+              <Button
+                appearance="base"
+                className="u-no-margin--bottom"
+                hasIcon
+                onClick={panelParams.clear}
+              >
+                <i className="p-icon--close"></i>
+              </Button>
             </div>
-            <hr className="p-section-separator" />
-            <List
-              inline
-              className="p-instance-actions"
-              items={[
-                <OpenTerminalBtn key="terminal" instance={instance} />,
-                // TODO: update the button upon VD approval of instance detail page
-                <OpenVgaBtn key="vga" instance={instance} />,
-                // TODO: update the following with icon-only action buttons upon VD
+          </div>
+          <div className="p-panel__content instance-detail-panel--content">
+            <div className="actions">
+              <List
+                inline
+                className="primary"
+                items={[
+                  <OpenTerminalBtn key="terminal" instance={instance} />,
+                  // TODO: update the button upon VD approval of instance detail page
+                  <OpenVgaBtn key="vga" instance={instance} />,
+                  // TODO: update the following with icon-only action buttons upon VD
+                ]}
+              />
+              <div className="state">
                 <StartStopInstanceBtn
                   key="startstop"
                   instance={instance}
@@ -116,12 +107,9 @@ const InstanceDetailPanel: FC = () => {
                     setStarting(false);
                     setStopping(false);
                   }}
-                />,
-              ]}
-            />
-            <hr className="p-section-separator" />
-          </div>
-          <div className="p-panel__content p-instance-detail-panel--content">
+                />
+              </div>
+            </div>
             <table className="u-table-layout--auto u-no-margin--bottom">
               <tbody>
                 <tr>
@@ -225,10 +213,6 @@ const InstanceDetailPanel: FC = () => {
                   <td>{instance.architecture}</td>
                 </tr>
                 <tr>
-                  <th className="u-text--muted">PID</th>
-                  <td>{instance.state?.pid ? instance.state.pid : "-"}</td>
-                </tr>
-                <tr>
                   <th className="u-text--muted">Created</th>
                   <td>{isoTimeToString(instance.created_at)}</td>
                 </tr>
@@ -266,7 +250,7 @@ const InstanceDetailPanel: FC = () => {
                 </Link>
               ))}
             />
-            <hr className="u-spaced-hr p-section-separator" />
+            <hr className="p-section-separator" />
             <h5 className="p-muted-heading">Networks</h5>
             <List
               className="u-no-margin--bottom"
@@ -282,7 +266,7 @@ const InstanceDetailPanel: FC = () => {
                   </Link>
                 ))}
             />
-            <hr className="u-spaced-hr p-section-separator" />
+            <hr className="p-section-separator" />
             <Row className="no-grid-gap">
               <Col size={8}>
                 <h5 className="p-muted-heading">Recent Snapshots</h5>

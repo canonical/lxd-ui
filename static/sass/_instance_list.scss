@@ -1,102 +1,120 @@
-.l-application:has(.l-toolbar) {
-  grid-template-areas: "nav navbar navbar" "nav toolbar toolbar" "nav main aside" "nav status status";
-  grid-template-rows: min-content min-content 1fr min-content;
-}
-
-.l-toolbar {
-  border-bottom: $border;
-  display: flex;
-  grid-area: toolbar;
-  margin: $spv--large $spv--large 0;
-
-  .filters {
+.instance-list {
+  .instance-list-header {
     display: flex;
-    flex-grow: 1;
-    margin-left: 6rem;
-    margin-right: 6rem;
+    margin: $spv--large $spv--large 0;
 
-    .search-box {
+    .instance-header-left {
+      display: flex;
       flex-grow: 1;
+
+      h4 {
+        margin-right: 2rem;
+      }
+
+      .search-box {
+        max-width: 20rem;
+        width: 100%;
+      }
+    }
+
+    .margin-right {
+      margin-right: $sph--large;
+    }
+
+    .filter-type {
+      min-width: 183px;
+    }
+
+    @include mobile-and-tablet {
+      .filter-state,
+      .filter-type,
+      .search-box {
+        display: none;
+      }
     }
   }
 
-  .margin-right {
-    margin-right: $sph--large;
-  }
-
-  @include mobile-and-tablet {
-    h4 {
-      flex-grow: 1;
-    }
-
-    .filters {
-      display: none;
-    }
-  }
-}
-
-.p-instance-content {
-  padding-top: $spv--large;
-
-  .p-notification--positive,
-  .p-notification--negative {
-    margin-bottom: $spv--large;
-  }
-}
-
-.p-empty-instances {
-  @include vf-icon-containers($color-mid-light);
-}
-
-.u-row:hover,
-.u-row-selected {
-  background-color: $colors--light-theme--background-hover;
-}
-
-// show actions only on hover for desktop sized screens
-@media screen and (min-width: 800px) {
-  .u-instance-actions {
-    visibility: hidden;
-  }
-
-  .u-row:hover {
-    .u-instance-actions {
-      visibility: visible;
+  @media screen and (max-width: 1460px) {
+    .has-side-panel {
+      .filter-state,
+      .filter-type,
+      .search-box {
+        display: none;
+      }
     }
   }
 
-  .u-row-selected:hover {
+  .p-instance-content {
+    padding-top: $spv--large;
+
+    .p-notification--positive,
+    .p-notification--negative {
+      margin-bottom: $spv--large;
+    }
+  }
+
+  .p-empty-instances {
+    @include vf-icon-containers($color-mid-light);
+  }
+
+  .u-row:hover,
+  .u-row-selected {
+    background-color: $colors--light-theme--background-hover;
+  }
+
+  // show actions only on hover for desktop sized screens
+  @media screen and (min-width: 800px) {
     .u-instance-actions {
       visibility: hidden;
     }
+
+    .u-row:hover {
+      .u-instance-actions {
+        visibility: visible;
+      }
+    }
+
+    .u-row-selected:hover {
+      .u-instance-actions {
+        visibility: hidden;
+      }
+    }
   }
-}
 
-.configurable-table-toggle {
-  float: right;
-  margin-bottom: -3.5rem;
-  margin-right: $sph--large;
-}
-
-.table-column-select-list {
-  min-width: 12rem;
-
-  label {
-    margin-left: 1rem;
+  .configurable-table-toggle {
+    float: right;
+    margin-bottom: -3.5rem;
   }
-}
 
-.instance-table {
-  td:last-child {
-    padding-right: $sph--large;
+  .table-column-select-list {
+    min-width: 12rem;
+
+    label {
+      margin-left: 1rem;
+    }
   }
-}
 
-.p-pagination__items {
-  justify-content: flex-end;
-}
+  .instance-table {
+    td:last-child {
+      padding-right: $sph--large;
+    }
 
-#instance-table-measure {
-  max-height: 1px;
-  overflow: hidden;
+    .status-icon {
+      margin-left: $spv--x-large;
+      margin-right: $spv--small;
+    }
+
+    .status-header {
+      padding-left: 3.5rem;
+    }
+  }
+
+  .p-pagination__items {
+    justify-content: flex-end;
+  }
+
+  #instance-table-measure {
+    max-height: 1px;
+    overflow: hidden;
+  }
 }

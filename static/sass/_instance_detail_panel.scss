@@ -1,48 +1,15 @@
-.p-instance-detail-panel {
+.instance-detail-panel {
   .row {
     padding-left: 0;
     padding-right: 0;
   }
 
-  .p-instance-detail-panel--header {
-    background: white;
-    flex-direction: column;
-    margin-left: $sph--x-large;
-    margin-right: $sph--x-large;
-    padding-left: 0;
-    padding-right: 0;
-    position: absolute;
-    z-index: 10;
+  .actions {
+    display: flex;
 
-    .p-panel__title-wrapper,
-    .p-panel__title {
-      align-items: baseline;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .p-panel__title {
-      padding: $sp-xx-small;
-
-      span {
-        &:nth-child(1) {
-          margin-right: $sph--small;
-        }
-
-        &:nth-child(2) {
-          flex: 1;
-          font-size: map.get($base-font-sizes, base);
-        }
-      }
-    }
-
-    .p-panel__controls {
-      align-self: center;
-      padding-top: 0;
-    }
-
-    .p-instance-actions {
+    .primary {
       align-self: end;
+      flex-grow: 1;
       margin-bottom: $spv--small;
 
       .p-inline-list__item:not(:last-of-type) {
@@ -51,12 +18,11 @@
     }
   }
 
-  .p-instance-detail-panel--content {
+  .instance-detail-panel--content {
     display: flex;
     flex-direction: column;
     margin-left: $sp-large;
     margin-right: $sp-large;
-    padding-top: 5.5rem;
 
     hr {
       margin-bottom: 0;

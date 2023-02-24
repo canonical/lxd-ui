@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, MouseEvent, useState } from "react";
 import { LxdInstance } from "types/instance";
 import { NotificationHelper } from "types/notification";
 import { useQueryClient } from "@tanstack/react-query";
@@ -61,7 +61,8 @@ const StartStopInstanceBtn: FC<Props> = ({
     instance.status === "Frozen";
   const isDisabled = isStarting || isStopping;
 
-  const handleStart = () => {
+  const handleStart = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setStart(true);
     const mutation =
       instance.status === "Frozen" ? unfreezeInstance : startInstance;
