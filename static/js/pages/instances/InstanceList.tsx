@@ -1,7 +1,6 @@
 import {
   Button,
   Col,
-  Icon,
   List,
   MainTable,
   Row,
@@ -160,7 +159,7 @@ const InstanceList: FC = () => {
         sortKey: "snapshots",
         className: "u-align--right",
       },
-      { content: STATUS, sortKey: "status" },
+      { content: STATUS, sortKey: "status", className: "status-header" },
       { content: null },
     ].filter(
       (item) =>
@@ -170,6 +169,7 @@ const InstanceList: FC = () => {
   const getRows = (hiddenCols: string[]) =>
     visibleInstances.map((instance) => {
       return {
+        onClick: () => panelParams.openInstanceSummary(instance.name, project),
         className:
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
         columns: [
@@ -253,17 +253,6 @@ const InstanceList: FC = () => {
                     onStopping={addStopping}
                     onFinish={removeLoading}
                   />,
-                  <Button
-                    key="select"
-                    appearance="base"
-                    className="u-no-margin--bottom u-hide--medium u-hide--small"
-                    onClick={() => {
-                      panelParams.openInstanceSummary(instance.name, project);
-                    }}
-                    hasIcon
-                  >
-                    <Icon name="chevron-up" style={{ rotate: "90deg" }} />
-                  </Button>,
                 ]}
               />
             ),
@@ -283,61 +272,64 @@ const InstanceList: FC = () => {
 
   return (
     <>
-      <aside className="l-toolbar">
-        <h4>
-          {visibleInstances.length}{" "}
-          {visibleInstances.length === 1 ? "Instance" : "Instances"}
-        </h4>
-        <div className="filters">
-          <SearchBox
-            className="search-box margin-right"
-            id="filter-query"
-            type="text"
-            onChange={(value) => {
-              setQuery(value);
-            }}
-            placeholder="Search"
-            value={query}
-          />
-          <Select
-            wrapperClassName="margin-right"
-            id="filter-state"
-            onChange={(v) => {
-              setStatus(v.target.value);
-            }}
-            options={[
-              {
-                label: "All statuses",
-                value: "any",
-              },
-              ...instanceStatuses,
-            ]}
-            value={status}
-          />
-          <Select
-            id="filter-type"
-            onChange={(v) => {
-              setType(v.target.value);
-            }}
-            options={[
-              {
-                label: "Containers and VMs",
-                value: "any",
-              },
-              ...instanceListTypes,
-            ]}
-            value={type}
-          />
-        </div>
-        <Button
-          appearance="positive"
-          onClick={() => panelParams.openCreateInstance(project)}
+      <main className="l-main instance-list">
+        <div
+          className={classnames("p-panel", {
+            "has-side-panel": !!panelParams.instance,
+          })}
         >
-          Create new
-        </Button>
-      </aside>
-      <main className="l-main">
-        <div className="p-panel">
+          <div className="p-panel__header instance-list-header">
+            <div className="instance-header-left">
+              <h4>
+                {visibleInstances.length}
+                &nbsp;
+                {visibleInstances.length === 1 ? "Instance" : "Instances"}
+              </h4>
+              <SearchBox
+                className="search-box margin-right"
+                type="text"
+                onChange={(value) => {
+                  setQuery(value);
+                }}
+                placeholder="Search"
+                value={query}
+              />
+              <Select
+                wrapperClassName="margin-right filter-state"
+                onChange={(v) => {
+                  setStatus(v.target.value);
+                }}
+                options={[
+                  {
+                    label: "All statuses",
+                    value: "any",
+                  },
+                  ...instanceStatuses,
+                ]}
+                value={status}
+              />
+              <Select
+                wrapperClassName="margin-right filter-type"
+                onChange={(v) => {
+                  setType(v.target.value);
+                }}
+                options={[
+                  {
+                    label: "Containers and VMs",
+                    value: "any",
+                  },
+                  ...instanceListTypes,
+                ]}
+                value={type}
+              />
+            </div>
+            <Button
+              appearance="positive"
+              onClick={() => panelParams.openCreateInstance(project)}
+            >
+              Create new
+            </Button>
+          </div>
           <div className="p-panel__content p-instance-content">
             <NotificationRow notify={notify} />
             <Row className="no-grid-gap">

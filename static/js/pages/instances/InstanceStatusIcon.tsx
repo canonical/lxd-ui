@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { LxdInstance } from "types/instance";
+import classnames from "classnames";
 
 interface Props {
   instance: LxdInstance;
@@ -15,7 +16,7 @@ const InstanceStatusIcon: FC<Props> = ({
   if (isStarting || isStopping) {
     return (
       <>
-        <i className="p-icon--spinner u-animation--spin" />
+        <i className="p-icon--spinner u-animation--spin status-icon" />
         &nbsp;
         <i>{isStarting ? "Starting" : "Stopping"}</i>
       </>
@@ -35,8 +36,12 @@ const InstanceStatusIcon: FC<Props> = ({
 
   return (
     <>
-      <i className={getIconClassForStatus(instance.status)}></i>
-      &nbsp;
+      <i
+        className={classnames(
+          getIconClassForStatus(instance.status),
+          "status-icon"
+        )}
+      ></i>
       {instance.status}
     </>
   );
