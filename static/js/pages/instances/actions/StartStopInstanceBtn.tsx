@@ -56,7 +56,7 @@ const StartStopInstanceBtn: FC<Props> = ({
   const canBeStarted =
     instance.status === "Stopped" || instance.status === "Frozen";
   const canBeStopped =
-    instance.status === "Running" ||
+    instance.status.endsWith("ing") ||
     instance.status === "Ready" ||
     instance.status === "Frozen";
   const isDisabled = isStarting || isStopping;
@@ -141,7 +141,6 @@ const StartStopInstanceBtn: FC<Props> = ({
           posButtonLabel="Stop"
           onConfirm={handleStop}
           isDense={isDense}
-          isDisabled={isDisabled}
         />
       )}
     </>
