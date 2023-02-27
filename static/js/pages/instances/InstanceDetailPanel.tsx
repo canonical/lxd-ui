@@ -250,7 +250,7 @@ const InstanceDetailPanel: FC = () => {
                 </Link>
               ))}
             />
-            <hr className="p-section-separator" />
+            <hr className="u-spaced-hr p-section-separator" />
             <h5 className="p-muted-heading">Networks</h5>
             <List
               className="u-no-margin--bottom"
@@ -266,7 +266,7 @@ const InstanceDetailPanel: FC = () => {
                   </Link>
                 ))}
             />
-            <hr className="p-section-separator" />
+            <hr className="u-spaced-hr p-section-separator" />
             <Row className="no-grid-gap">
               <Col size={8}>
                 <h5 className="p-muted-heading">Recent Snapshots</h5>

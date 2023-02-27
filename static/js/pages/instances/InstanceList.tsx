@@ -168,8 +168,10 @@ const InstanceList: FC = () => {
 
   const getRows = (hiddenCols: string[]) =>
     visibleInstances.map((instance) => {
+      const openSummary = () =>
+        panelParams.openInstanceSummary(instance.name, project);
+
       return {
-        onClick: () => panelParams.openInstanceSummary(instance.name, project),
         className:
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
         columns: [
@@ -186,11 +188,15 @@ const InstanceList: FC = () => {
             content: instance.type,
             role: "rowheader",
             "aria-label": TYPE,
+            onClick: openSummary,
+            className: "clickable-cell",
           },
           {
             content: instance.description,
             role: "rowheader",
             "aria-label": DESCRIPTION,
+            onClick: openSummary,
+            className: "clickable-cell",
           },
           {
             content: instance.state?.network?.eth0?.addresses
@@ -201,8 +207,9 @@ const InstanceList: FC = () => {
               .map((item) => item.address)
               .join(" "),
             role: "rowheader",
-            className: "u-align--right",
+            className: "u-align--right clickable-cell",
             "aria-label": IPV4,
+            onClick: openSummary,
           },
           {
             content: instance.state?.network?.eth0?.addresses
@@ -214,12 +221,15 @@ const InstanceList: FC = () => {
               .join(" "),
             role: "rowheader",
             "aria-label": IPV6,
+            onClick: openSummary,
+            className: "clickable-cell",
           },
           {
             content: instance.snapshots?.length ?? "0",
             role: "rowheader",
-            className: "u-align--right",
+            className: "u-align--right clickable-cell",
             "aria-label": SNAPSHOTS,
+            onClick: openSummary,
           },
           {
             content: (
@@ -230,8 +240,9 @@ const InstanceList: FC = () => {
               />
             ),
             role: "rowheader",
-            className: "u-truncate",
+            className: "u-truncate clickable-cell",
             "aria-label": STATUS,
+            onClick: openSummary,
           },
           {
             content: (

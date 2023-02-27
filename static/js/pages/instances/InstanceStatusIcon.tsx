@@ -17,7 +17,6 @@ const InstanceStatusIcon: FC<Props> = ({
     return (
       <>
         <i className="p-icon--spinner u-animation--spin status-icon" />
-        &nbsp;
         <i>{isStarting ? "Starting" : "Stopping"}</i>
       </>
     );

@@ -140,6 +140,10 @@
   }
 }
 
+.status-icon {
+  margin-right: $spv--x-small;
+}
+
 @include mobile-and-tablet {
   .u-certificate-button {
     margin-left: 2.5rem;
