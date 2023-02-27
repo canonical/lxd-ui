@@ -57,7 +57,7 @@ const Navigation: FC = () => {
           <div className="p-panel is-dark">
             <div className="p-panel__header is-sticky">
               <Logo />
-              <div className="p-panel__controls align-with-logo u-hide--medium u-hide--large">
+              <div className="p-panel__controls u-hide--medium u-hide--large">
                 <Button appearance="base" hasIcon className="u-no-margin">
                   <Icon name="close" />
                 </Button>

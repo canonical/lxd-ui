@@ -1,39 +1,42 @@
+@use "sass:map";
 @import "./breakpoints";
 
-.p-panel__logo-image {
-  height: 2.5rem;
-}
+.p-panel__logo {
+  margin-top: 0;
 
-/* logo should be flush with the top of the window */
-.l-navigation,
-.l-navigation-bar {
-  .p-panel {
-    padding-bottom: 1rem;
-    padding-top: 0;
+  .p-panel__logo-image {
+    height: 48px;
+    max-width: inherit;
+  }
+
+  .logo-text {
+    color: #fff;
+    font-size: #{map.get($font-sizes, h4)}rem;
+    left: 54px;
+    position: absolute;
+    top: 21px;
   }
 
   @include mobile {
-    .p-panel__logo {
-      margin-top: 0;
+    .logo-text {
+      left: 46px;
     }
   }
 
-  @include desktop {
-    .p-panel__logo {
-      margin-top: -3px;
+  @include extra-large {
+    .p-panel__logo-image {
+      height: 54px;
     }
-  }
 
-  .align-with-logo {
-    margin-right: -$sph--small;
-    padding-top: $spv--small;
+    .logo-text {
+      left: 61px;
+    }
   }
 }
 
-.l-navigation-bar {
-  .p-panel__logo {
-    margin-bottom: 0;
-    margin-top: -10px;
+@include desktop {
+  .l-navigation.is-collapsed .logo-text {
+    display: none;
   }
 }
 
@@ -43,20 +46,9 @@
   }
 }
 
-@include desktop {
-  /* switch out the image in the collapsed view to hide partially visibly text */
-  .p-panel__logo-image {
-    content: url("static/assets/img/logo/containers-no-text.svg");
-    height: 3rem;
-  }
-
-  .l-navigation.is-pinned {
-    grid-area: nav;
-    position: static;
-
-    .p-panel__logo-image {
-      content: url("static/assets/img/logo/containers.svg");
-    }
+@media screen and (min-width: $breakpoint-x-small) and (max-width: $breakpoint-small - 1px) {
+  .l-navigation__drawer {
+    width: 17rem;
   }
 }
 

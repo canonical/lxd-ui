@@ -9,6 +9,7 @@ const Logo: FC = () => {
         alt="LXD-UI logo"
         className="p-panel__logo-image"
       />
+      <div className="logo-text">Canonical LXD</div>
     </NavLink>
   );
 };
