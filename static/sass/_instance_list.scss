@@ -62,6 +62,10 @@
     background-color: $colors--light-theme--background-hover;
   }
 
+  .clickable-cell {
+    cursor: pointer;
+  }
+
   // show actions only on hover for desktop sized screens
   @media screen and (min-width: 800px) {
     .u-instance-actions {
@@ -101,11 +105,10 @@
 
     .status-icon {
       margin-left: $spv--x-large;
-      margin-right: $spv--small;
     }
 
     .status-header {
-      padding-left: 3.5rem;
+      padding-left: 3.25rem;
     }
   }
 

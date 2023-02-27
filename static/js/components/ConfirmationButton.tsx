@@ -42,7 +42,6 @@ const ConfirmationButton: FC<Props> = ({
   };
 
   const handleShiftClick = (e: MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
     if (e.shiftKey) {
       onConfirm();
     } else {
