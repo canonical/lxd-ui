@@ -25,7 +25,7 @@
       min-width: 183px;
     }
 
-    @include mobile-and-tablet {
+    @media screen and (max-width: 1120px) {
       .filter-state,
       .filter-type,
       .search-box {
@@ -34,7 +34,7 @@
     }
   }
 
-  @media screen and (max-width: 1460px) {
+  @media screen and (max-width: 1470px) {
     .has-side-panel {
       .filter-state,
       .filter-type,
@@ -44,7 +44,8 @@
     }
   }
 
-  .p-instance-content {
+  .instance-content {
+    padding-bottom: 0;
     padding-top: $spv--large;
 
     .p-notification--positive,
@@ -90,15 +91,9 @@
     margin-bottom: -3.5rem;
   }
 
-  .table-column-select-list {
-    min-width: 12rem;
-
-    label {
-      margin-left: 1rem;
-    }
-  }
-
   .instance-table {
+    margin-bottom: 0;
+
     td:last-child {
       padding-right: $sph--large;
     }
@@ -110,6 +105,19 @@
     .status-header {
       padding-left: 3.25rem;
     }
+
+    tbody {
+      display: block;
+      max-height: calc(100vh - 146px);
+      overflow-y: auto;
+    }
+
+    thead,
+    tbody tr {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
   }
 
   .p-pagination__items {
@@ -119,5 +127,17 @@
   #instance-table-measure {
     max-height: 1px;
     overflow: hidden;
+  }
+
+  .p-panel {
+    min-height: auto;
+  }
+}
+
+.table-column-select-list {
+  min-width: 12rem;
+
+  label {
+    margin-left: 1rem;
   }
 }

@@ -116,6 +116,20 @@ const InstanceList: FC = () => {
   useEventListener("resize", figureSizeHidden);
   useEffect(figureSizeHidden, [panelParams.instance, userHidden, instances]);
 
+  const updateTBodyHeight = () => {
+    const table = document.getElementById("instance-table-wrapper");
+    if (!table || table.children.length !== 2) {
+      return;
+    }
+    const tBody = table.children[1];
+    const offsetTop = Math.ceil(tBody.getBoundingClientRect().top + 1);
+    const style = `max-height: calc(100vh - ${offsetTop}px)`;
+    tBody.setAttribute("style", style);
+  };
+  useEffect(() => {
+    updateTBodyHeight();
+  }, [notify.notification]);
+
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
     saveHidden(columns);
@@ -341,7 +355,7 @@ const InstanceList: FC = () => {
               Create new
             </Button>
           </div>
-          <div className="p-panel__content p-instance-content">
+          <div className="p-panel__content instance-content">
             <NotificationRow notify={notify} />
             <Row className="no-grid-gap">
               <Col size={12}>
@@ -363,6 +377,7 @@ const InstanceList: FC = () => {
                       paginate={15}
                       sortable
                       className="instance-table u-table-layout--auto"
+                      id="instance-table-wrapper"
                       emptyStateMsg={
                         isLoading ? (
                           <Loader text="Loading instances..." />
