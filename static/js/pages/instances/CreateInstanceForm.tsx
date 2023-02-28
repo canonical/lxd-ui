@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useState } from "react";
+import React, { FC, MouseEvent, ReactNode, useState } from "react";
 import {
   Button,
   Col,
@@ -10,7 +10,7 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { createInstanceFromJson, startInstance } from "api/instances";
+import { createInstance, startInstance } from "api/instances";
 import Aside from "components/Aside";
 import NotificationRow from "components/NotificationRow";
 import PanelHeader from "components/PanelHeader";
@@ -31,10 +31,26 @@ import usePanelParams from "util/usePanelParams";
 import { useSharedNotify } from "../../context/sharedNotify";
 import ConfirmationModal from "components/ConfirmationModal";
 import usePortal from "react-useportal";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LxdInstance } from "types/instance";
+import { Location } from "history";
+
+interface FormValues {
+  name: string;
+  image: RemoteImage | undefined;
+  instanceType: string;
+  profiles: string[];
+  yaml?: string;
+  unchangedYaml?: string;
+}
+
+interface RetryFormState {
+  retryFormValues: FormValues;
+}
 
 const CreateInstanceForm: FC = () => {
+  const location = useLocation() as Location<RetryFormState | null>;
+  const navigate = useNavigate();
   const notify = useNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -59,55 +75,48 @@ const CreateInstanceForm: FC = () => {
     instanceType: Yup.string().required("Instance type is required"),
   });
 
-  interface FormValues {
-    name: string;
-    image: RemoteImage | undefined;
-    instanceType: string;
-    profiles: string[];
-    yaml?: string;
-    unchangedYaml?: string;
+  function notifyInProgress() {
+    instanceListNotify?.info(<>Creating the instance.</>, "Processing");
   }
 
-  const closeAndNotifySuccess = (instanceName: string, action: string) => {
-    void queryClient.invalidateQueries({
-      queryKey: [queryKeys.instances],
-    });
+  function notifyLaunchedAndStarted(instanceLink: ReactNode) {
     instanceListNotify?.success(
-      <>
-        Instance{" "}
-        <Link to={`/ui/${panelParams.project}/instances/${instanceName}`}>
-          {instanceName}
-        </Link>{" "}
-        {action}.
-      </>
+      <>Launched and started instance {instanceLink}.</>
     );
-    panelParams.clear();
-  };
+  }
 
-  const closeAndNotifyFailure = (instanceName: string, e: unknown) => {
-    void queryClient.invalidateQueries({
-      queryKey: [queryKeys.instances],
-    });
+  function notifyCreatedButStartFailed(instanceLink: ReactNode, e: Error) {
     instanceListNotify?.failure(
-      <>
-        Instance{" "}
-        <Link to={`/ui/${panelParams.project}/instances/${instanceName}`}>
-          {instanceName}
-        </Link>{" "}
-        created. Instance Start failed.
-      </>,
+      <>The instance {instanceLink} was created, but could not be started.</>,
       e
     );
-    panelParams.clear();
-  };
+  }
+
+  function notifyLaunched(instanceLink: ReactNode) {
+    instanceListNotify?.success(<>Launched instance {instanceLink}.</>);
+  }
+
+  function notifyLaunchFailed(e: Error, formUrl: string, values: FormValues) {
+    instanceListNotify?.failure(<>Instance creation failed.</>, e, [
+      {
+        label: "Check configuration",
+        onClick: () =>
+          navigate(formUrl, { state: { retryFormValues: values } }),
+      },
+    ]);
+  }
 
   const submit = (values: FormValues, shouldStart = true) => {
-    formik.setSubmitting(true);
+    const project = panelParams.project;
+    const formUrl = location.pathname + location.search;
+    notifyInProgress();
+    panelParams.clear();
+
     const instanceCreationObj = values.yaml
       ? yamlToObject(values.yaml)
       : getCreationPayload(values);
     const instanceCreationStr = JSON.stringify(instanceCreationObj);
-    createInstanceFromJson(instanceCreationStr, panelParams.project)
+    createInstance(instanceCreationStr, project)
       .then((operation) => {
         const instanceName = operation.metadata.resources.instances?.[0]
           .split("/")
@@ -115,29 +124,38 @@ const CreateInstanceForm: FC = () => {
         if (!instanceName) {
           return;
         }
+        const instanceLink = (
+          <Link to={`/ui/${project}/instances/${instanceName}`}>
+            {instanceName}
+          </Link>
+        );
         if (shouldStart) {
           startInstance({
             name: instanceName,
-            project: panelParams.project,
+            project: project,
           } as LxdInstance)
             .then(() => {
-              closeAndNotifySuccess(instanceName, "created and started");
+              notifyLaunchedAndStarted(instanceLink);
             })
-            .catch((e) => {
-              closeAndNotifyFailure(instanceName, e);
+            .catch((e: Error) => {
+              notifyCreatedButStartFailed(instanceLink, e);
             });
         } else {
-          closeAndNotifySuccess(instanceName, "created");
+          notifyLaunched(instanceLink);
         }
       })
-      .catch((e) => {
-        formik.setSubmitting(false);
-        notify.failure("Error on instance creation.", e);
+      .catch((e: Error) => {
+        notifyLaunchFailed(e, formUrl, values);
+      })
+      .finally(() => {
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances],
+        });
       });
   };
 
   const formik = useFormik<FormValues>({
-    initialValues: {
+    initialValues: location.state?.retryFormValues ?? {
       name: "",
       image: undefined,
       instanceType: "container",

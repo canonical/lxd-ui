@@ -27,23 +27,24 @@ const useNotification = (): NotificationHelper => {
     id,
     notification,
 
-    failure: (message, error) =>
+    failure: (message, error, actions = undefined) =>
       setDeduplicated({
-        /* eslint-disable @typescript-eslint/no-base-to-string */
+        actions,
         message: error ? (
           <>
+            {/* eslint-disable-next-line @typescript-eslint/no-base-to-string */}
             {message} {error.toString()}
           </>
         ) : (
           message
         ),
-        /* eslint-enable @typescript-eslint/no-base-to-string */
         type: "negative",
       }),
 
-    info: (message) =>
+    info: (message, title) =>
       setDeduplicated({
         message,
+        title,
         type: "information",
       }),
 
