@@ -27,7 +27,7 @@ export const fetchInstances = (project: string): Promise<LxdInstance[]> => {
   });
 };
 
-export const createInstanceFromJson = (
+export const createInstance = (
   body: string,
   project: string
 ): Promise<LxdOperation> => {

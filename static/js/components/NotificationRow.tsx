@@ -24,11 +24,31 @@ const NotificationRow: FC<Props> = ({ notify }) => {
   if (!notify.notification) {
     return null;
   }
-  const { type, message } = notify.notification;
+  const { actions, title, type, message } = notify.notification;
+  const figureTitle = () => {
+    if (title) {
+      return title;
+    }
+    switch (type) {
+      case "negative":
+        return "Error";
+      case "positive":
+        return "Success";
+      case "information":
+        return "Info";
+      default:
+        return "";
+    }
+  };
   return (
     <div ref={ref}>
       <Row>
-        <NotificationComponent severity={type} onDismiss={notify.clear}>
+        <NotificationComponent
+          title={figureTitle() || undefined}
+          actions={actions}
+          severity={type}
+          onDismiss={notify.clear}
+        >
           {message}
         </NotificationComponent>
       </Row>

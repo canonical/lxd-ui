@@ -2,8 +2,15 @@ import { NotificationSeverity } from "@canonical/react-components/dist/component
 import { ValueOf } from "@canonical/react-components/dist/types";
 import { ReactNode } from "react";
 
+interface NotificationAction {
+  label: string;
+  onClick: () => void;
+}
+
 export interface Notification {
+  actions?: NotificationAction[];
   message: string | ReactNode;
+  title?: string;
   type: ValueOf<typeof NotificationSeverity>;
 }
 
@@ -17,8 +24,12 @@ export interface NotificationHelper {
   id: string;
   notification: Notification | null;
   clear: () => void;
-  failure: (message: string | ReactNode, error: unknown) => Notification;
-  info: (message: string | ReactNode) => Notification;
+  failure: (
+    message: string | ReactNode,
+    error: unknown,
+    actions?: NotificationAction[]
+  ) => Notification;
+  info: (message: string | ReactNode, title?: string) => Notification;
   success: (message: string | ReactNode) => Notification;
   queue: (notification: Notification) => QueuedNotification;
 }
