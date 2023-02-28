@@ -1,0 +1,43 @@
+@import "vanilla-framework/scss/settings_colors";
+
+.network-map {
+  display: flex;
+  height: calc(100vh - 130px);
+  width: 100vw;
+
+  .tooltip {
+    background-color: $color-light;
+    border: 1px solid $color-mid-light;
+    padding: 0.5rem;
+  }
+
+  .canvas {
+    height: calc(100vh - 130px);
+    width: calc(100vw - 535px);
+  }
+
+  .legend {
+    .legend-item {
+      display: inline-block;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+      width: 1.5rem;
+    }
+
+    .network {
+      background: $color-link;
+    }
+
+    .instance {
+      border-radius: 1000px;
+    }
+
+    .running {
+      background: $color-mid-light;
+    }
+
+    .other {
+      background: $color-positive;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { MainTable, Row } from "@canonical/react-components";
+import { Button, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchNetworks } from "api/networks";
 import BaseLayout from "components/BaseLayout";
@@ -7,9 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import useNotification from "util/useNotification";
 import Loader from "components/Loader";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NetworkList: FC = () => {
+  const navigate = useNavigate();
   const notify = useNotification();
   const { project } = useParams<{
     project: string;
@@ -35,11 +36,11 @@ const NetworkList: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Type", sortKey: "type" },
-    { content: "Managed", sortKey: "managed", className: "u-align--center" },
-    { content: "IPV4" },
+    { content: "Managed", sortKey: "managed" },
+    { content: "IPV4", className: "u-align--right" },
     { content: "IPV6" },
     { content: "Description", sortKey: "description" },
-    { content: "Used by", sortKey: "usedBy", className: "u-align--center" },
+    { content: "Used by", sortKey: "usedBy", className: "u-align--right" },
     { content: "State", sortKey: "state" },
     { content: "Actions", className: "u-align--center" },
   ];
@@ -60,11 +61,11 @@ const NetworkList: FC = () => {
         {
           content: network.managed ? "Yes" : "No",
           role: "rowheader",
-          className: "u-align--center",
           "aria-label": "Managed",
         },
         {
           content: network.config["ipv4.address"],
+          className: "u-align--right",
           role: "rowheader",
           "aria-label": "IPV4",
         },
@@ -81,7 +82,7 @@ const NetworkList: FC = () => {
         {
           content: network.used_by?.length ?? "0",
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Used by",
         },
         {
@@ -109,7 +110,17 @@ const NetworkList: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Networks">
+      <BaseLayout
+        title="Networks"
+        controls={
+          <Button
+            className="u-no-margin--bottom"
+            onClick={() => navigate(`/ui/${project}/networks/map`)}
+          >
+            See map
+          </Button>
+        }
+      >
         <NotificationRow notify={notify} />
         <Row>
           <MainTable
