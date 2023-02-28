@@ -79,7 +79,7 @@ const InstanceDetailPanel: FC = () => {
                 hasIcon
                 onClick={panelParams.clear}
               >
-                <i className="p-icon--close"></i>
+                <i className="p-icon--close">Close</i>
               </Button>
             </div>
           </div>

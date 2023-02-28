@@ -54,8 +54,8 @@ const DownloadButton: FC<DownloadButtonProps> = ({
       onClick={() => void handleDownload()}
       title={`Download ${fileName}`}
       aria-label={`Download ${fileName} file`}
-      has-icon
-      is-dense
+      hasIcon
+      dense
       ref={buttonRef}
     >
       <Icon name="begin-downloading" alt="download" />

@@ -374,7 +374,6 @@ const InstanceList: FC = () => {
                     <MainTable
                       headers={getHeaders(userHidden.concat(sizeHidden))}
                       rows={getRows(userHidden.concat(sizeHidden))}
-                      paginate={15}
                       sortable
                       className="instance-table u-table-layout--auto"
                       id="instance-table-wrapper"
