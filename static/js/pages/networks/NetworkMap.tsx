@@ -88,6 +88,8 @@ const NetworkMap: FC = () => {
       },
       style: {
         backgroundColor: getInstanceColor(instance),
+        "text-background-opacity": 1,
+        "text-background-color": "#ffffff",
       },
     };
   });
@@ -105,6 +107,8 @@ const NetworkMap: FC = () => {
       style: {
         shape: "square",
         backgroundColor: "#0066cc",
+        "text-background-opacity": 1,
+        "text-background-color": "#ffffff",
       },
     };
   });
