@@ -39,7 +39,7 @@ const OpenVgaBtn: FC<Props> = ({
       }
       title={getTitle()}
     >
-      <i className="p-icon--canvas" />
+      <i className="p-icon--canvas">Open VGA Terminal</i>
     </Button>
   );
 };

@@ -29,7 +29,7 @@ const OpenTerminalBtn: FC<Props> = ({
       disabled={isDisabled}
       title={isDisabled ? "Instance must be running" : "Terminal"}
     >
-      <i className="p-icon--code" />
+      <i className="p-icon--code">Open Terminal</i>
     </Button>
   );
 };
