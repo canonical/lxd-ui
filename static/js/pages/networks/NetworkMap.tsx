@@ -49,19 +49,21 @@ const NetworkMap: FC = () => {
   }>();
   const cyPopperRef = useRef<PopperRef | null>(null);
 
-  if (!project) {
-    return <>Missing project</>;
-  }
-
   const { data: instances = [], isLoading: instanceLoading } = useQuery({
     queryKey: [queryKeys.instances],
-    queryFn: () => fetchInstances(project),
+    queryFn: () => fetchInstances(project ?? ""),
+    enabled: Boolean(project),
   });
 
   const { data: networks = [], isLoading: networkLoading } = useQuery({
     queryKey: [queryKeys.networks],
-    queryFn: () => fetchNetworks(project),
+    queryFn: () => fetchNetworks(project ?? ""),
+    enabled: Boolean(project),
   });
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   if (instanceLoading || networkLoading) {
     return <Loader />;
@@ -89,7 +91,7 @@ const NetworkMap: FC = () => {
       style: {
         backgroundColor: getInstanceColor(instance),
         "text-background-opacity": 1,
-        "text-background-color": "#ffffff",
+        "text-background-color": "#FFF",
       },
     };
   });
@@ -106,9 +108,9 @@ const NetworkMap: FC = () => {
       },
       style: {
         shape: "square",
-        backgroundColor: "#0066cc",
+        backgroundColor: "#06C",
         "text-background-opacity": 1,
-        "text-background-color": "#ffffff",
+        "text-background-color": "#FFF",
       },
     };
   });
@@ -130,45 +132,43 @@ const NetworkMap: FC = () => {
   const elements = [...networkNodes, ...instanceNodes, ...edges];
 
   return (
-    <>
-      <BaseLayout title="Network map (beta)">
-        <NotificationRow notify={notify} />
-        <Row>
-          <Col size={12} id="network-map">
-            <MapLegend />
-            <CytoscapeComponent
-              className="canvas"
-              elements={elements}
-              layout={{
-                name: "cose",
-                nodeDimensionsIncludeLabels: true,
-                animate: false,
-              }}
-              cy={(cy) => {
-                cy.nodes().on("mouseover", (event: CyEvent) => {
-                  cyPopperRef.current = event.target.popper({
-                    content: mountElement(
-                      <MapTooltip {...event.target.data().details} />
-                    ),
-                    popper: {
-                      placement: "right",
-                      removeOnDestroy: true,
-                    },
-                  });
+    <BaseLayout title="Network map (beta)">
+      <NotificationRow notify={notify} />
+      <Row>
+        <Col size={12} id="network-map" className="network-map">
+          <MapLegend />
+          <CytoscapeComponent
+            className="canvas"
+            elements={elements}
+            layout={{
+              name: "cose",
+              nodeDimensionsIncludeLabels: true,
+              animate: false,
+            }}
+            cy={(cy) => {
+              cy.nodes().on("mouseover", (event: CyEvent) => {
+                cyPopperRef.current = event.target.popper({
+                  content: mountElement(
+                    <MapTooltip {...event.target.data().details} />
+                  ),
+                  popper: {
+                    placement: "right",
+                    removeOnDestroy: true,
+                  },
                 });
-                cy.nodes().on("mouseout", () => {
-                  if (cyPopperRef.current) {
-                    cyPopperRef.current.destroy();
-                    const item = document.getElementsByClassName("map-tooltip");
-                    item[0].parentNode?.removeChild(item[0]);
-                  }
-                });
-              }}
-            />
-          </Col>
-        </Row>
-      </BaseLayout>
-    </>
+              });
+              cy.nodes().on("mouseout", () => {
+                if (cyPopperRef.current) {
+                  cyPopperRef.current.destroy();
+                  const item = document.getElementsByClassName("map-tooltip");
+                  item[0].parentNode?.removeChild(item[0]);
+                }
+              });
+            }}
+          />
+        </Col>
+      </Row>
+    </BaseLayout>
   );
 };
 

@@ -1,11 +1,13 @@
-#network-map {
+@import "vanilla-framework/scss/settings_colors";
+
+.network-map {
   display: flex;
   height: calc(100vh - 130px);
   width: 100vw;
 
   .tooltip {
-    background-color: #f7f7f7;
-    border: 1px solid #d9d9d9;
+    background-color: $color-light;
+    border: 1px solid $color-mid-light;
     padding: 0.5rem;
   }
 
@@ -23,7 +25,7 @@
     }
 
     .network {
-      background: #06c;
+      background: $color-link;
     }
 
     .instance {
@@ -31,11 +33,11 @@
     }
 
     .running {
-      background: #d9d9d9;
+      background: $color-mid-light;
     }
 
     .other {
-      background: #0e8420;
+      background: $color-positive;
     }
   }
 }
