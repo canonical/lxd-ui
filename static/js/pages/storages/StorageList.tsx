@@ -48,7 +48,7 @@ const StorageList: FC = () => {
     { content: "Driver", sortKey: "driver" },
     { content: "Size" },
     { content: "Description", sortKey: "description" },
-    { content: "Used by", sortKey: "usedBy", className: "u-align--center" },
+    { content: "Used by", sortKey: "usedBy", className: "u-align--right" },
     { content: "State", sortKey: "state" },
     { content: "Actions", className: "u-align--center" },
   ];
@@ -83,7 +83,7 @@ const StorageList: FC = () => {
         {
           content: storage.used_by?.length ?? "0",
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Used by",
         },
         {

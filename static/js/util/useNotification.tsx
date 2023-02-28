@@ -30,14 +30,14 @@ const useNotification = (): NotificationHelper => {
     failure: (message, error, actions = undefined) =>
       setDeduplicated({
         actions,
-        message: error ? (
-          <>
-            {/* eslint-disable-next-line @typescript-eslint/no-base-to-string */}
-            {message} {error.toString()}
-          </>
-        ) : (
-          message
-        ),
+        message:
+          error && typeof error === "object" && "message" in error ? (
+            <>
+              {message} {error.message}
+            </>
+          ) : (
+            message
+          ),
         type: "negative",
       }),
 
