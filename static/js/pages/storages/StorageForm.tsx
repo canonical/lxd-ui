@@ -120,7 +120,11 @@ const StorageForm: FC = () => {
               />
               <Select
                 name="driver"
-                help="ZFS gives best performance and reliability"
+                help={
+                  formik.values.driver === "zfs"
+                    ? "ZFS gives best performance and reliability"
+                    : undefined
+                }
                 label="Driver"
                 options={storageDrivers}
                 onChange={formik.handleChange}

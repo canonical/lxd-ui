@@ -3,12 +3,7 @@ import { Link } from "react-router-dom";
 import { List, Tabs } from "@canonical/react-components";
 import ImageName from "pages/images/ImageName";
 import { LxdStorage } from "types/storage";
-
-interface UsedByType {
-  name: string;
-  project: string;
-  instance: string;
-}
+import { filterUsedByType, LxdUsedBy } from "util/usedBy";
 
 interface Props {
   storage: LxdStorage;
@@ -24,48 +19,12 @@ const TABS = [INSTANCES, PROFILES, IMAGES, SNAPSHOTS];
 const StorageUsedBy: FC<Props> = ({ storage, project }) => {
   const [activeTab, setActiveTab] = useState(INSTANCES);
 
-  const filterUsedByType = (type: string) =>
-    storage.used_by
-      ?.filter((path) => {
-        if (type === "instances" && path.includes("/snapshots/")) {
-          return false;
-        }
-
-        if (type === "snapshots") {
-          return path.includes("/snapshots/");
-        }
-
-        return path.startsWith(`/1.0/${type}`);
-      })
-      .map((path) => {
-        const name: string = path.split("/").slice(-1)[0] ?? "";
-        return {
-          name: name.split("?")[0],
-          project: name.includes("?project=")
-            ? name.split("=").slice(-1)[0]
-            : project,
-          instance: type === "snapshots" ? path.split("/")[3] : "",
-        };
-      }) ?? [];
-
-  const data: Record<string, UsedByType[]> = {
-    [INSTANCES]: filterUsedByType("instances"),
-    [PROFILES]: filterUsedByType("profiles"),
-    [IMAGES]: filterUsedByType("images"),
-    [SNAPSHOTS]: filterUsedByType("snapshots"),
+  const data: Record<string, LxdUsedBy[]> = {
+    [INSTANCES]: filterUsedByType("instances", project, storage.used_by),
+    [PROFILES]: filterUsedByType("profiles", project, storage.used_by),
+    [IMAGES]: filterUsedByType("images", project, storage.used_by),
+    [SNAPSHOTS]: filterUsedByType("snapshots", project, storage.used_by),
   };
-
-  data[INSTANCES].sort((a, b) => {
-    return a.project < b.project
-      ? -1
-      : a.project > b.project
-      ? 1
-      : a.name < b.name
-      ? -1
-      : a.name > b.name
-      ? 1
-      : 0;
-  });
 
   return (
     <>

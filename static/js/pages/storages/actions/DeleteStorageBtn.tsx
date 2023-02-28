@@ -28,12 +28,13 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project, notify }) => {
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Error on storage delete.", e);
+        notify.failure("", e);
       });
   };
 
   return (
     <ConfirmationButton
+      toggleAppearance="base"
       className="u-no-margin--bottom"
       isLoading={isLoading}
       iconClass="p-icon--delete"
