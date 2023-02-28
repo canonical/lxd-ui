@@ -163,18 +163,22 @@ const InstanceList: FC = () => {
 
   const getHeaders = (hiddenCols: string[]) =>
     [
-      { content: NAME, sortKey: "name" },
-      { content: TYPE, sortKey: "type" },
-      { content: DESCRIPTION, sortKey: "description" },
-      { content: IPV4, className: "u-align--right" },
-      { content: IPV6, id: "header-ipv6" },
+      { content: NAME, sortKey: "name", className: "name" },
+      { content: TYPE, sortKey: "type", className: "type" },
+      {
+        content: DESCRIPTION,
+        sortKey: "description",
+        className: "description",
+      },
+      { content: IPV4, className: "u-align--right ipv4" },
+      { content: IPV6, id: "header-ipv6", className: "ipv6" },
       {
         content: SNAPSHOTS,
         sortKey: "snapshots",
-        className: "u-align--right",
+        className: "u-align--right snapshots",
       },
-      { content: STATUS, sortKey: "status", className: "status-header" },
-      { content: null },
+      { content: STATUS, sortKey: "status", className: "status-header status" },
+      { content: null, className: "actions" },
     ].filter(
       (item) =>
         typeof item.content !== "string" || !hiddenCols.includes(item.content)
@@ -196,6 +200,7 @@ const InstanceList: FC = () => {
               </Link>
             ),
             role: "rowheader",
+            className: "name",
             "aria-label": NAME,
           },
           {
@@ -203,14 +208,14 @@ const InstanceList: FC = () => {
             role: "rowheader",
             "aria-label": TYPE,
             onClick: openSummary,
-            className: "clickable-cell",
+            className: "clickable-cell type",
           },
           {
             content: instance.description,
             role: "rowheader",
             "aria-label": DESCRIPTION,
             onClick: openSummary,
-            className: "clickable-cell",
+            className: "clickable-cell description",
           },
           {
             content: instance.state?.network?.eth0?.addresses
@@ -221,7 +226,7 @@ const InstanceList: FC = () => {
               .map((item) => item.address)
               .join(" "),
             role: "rowheader",
-            className: "u-align--right clickable-cell",
+            className: "u-align--right clickable-cell ipv4",
             "aria-label": IPV4,
             onClick: openSummary,
           },
@@ -236,12 +241,12 @@ const InstanceList: FC = () => {
             role: "rowheader",
             "aria-label": IPV6,
             onClick: openSummary,
-            className: "clickable-cell",
+            className: "clickable-cell ipv6",
           },
           {
             content: instance.snapshots?.length ?? "0",
             role: "rowheader",
-            className: "u-align--right clickable-cell",
+            className: "u-align--right clickable-cell, snapshots",
             "aria-label": SNAPSHOTS,
             onClick: openSummary,
           },
@@ -254,7 +259,7 @@ const InstanceList: FC = () => {
               />
             ),
             role: "rowheader",
-            className: "u-truncate clickable-cell",
+            className: "clickable-cell status",
             "aria-label": STATUS,
             onClick: openSummary,
           },
@@ -282,7 +287,7 @@ const InstanceList: FC = () => {
               />
             ),
             role: "rowheader",
-            className: "u-align--right",
+            className: "u-align--right actions",
             "aria-label": "Details",
           },
         ].filter((item) => !hiddenCols.includes(item["aria-label"])),
@@ -375,7 +380,7 @@ const InstanceList: FC = () => {
                       headers={getHeaders(userHidden.concat(sizeHidden))}
                       rows={getRows(userHidden.concat(sizeHidden))}
                       sortable
-                      className="instance-table u-table-layout--auto"
+                      className="instance-table"
                       id="instance-table-wrapper"
                       emptyStateMsg={
                         isLoading ? (

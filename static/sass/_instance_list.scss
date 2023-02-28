@@ -118,6 +118,38 @@
       table-layout: fixed;
       width: 100%;
     }
+
+    .name {
+      width: 170px;
+    }
+
+    .type {
+      width: 150px;
+    }
+
+    .description {
+      width: 150px;
+    }
+
+    .ipv4 {
+      width: 150px;
+    }
+
+    .ipv6 {
+      width: 330px;
+    }
+
+    .status {
+      width: 160px;
+    }
+
+    .snapshots {
+      width: 100px;
+    }
+
+    .actions {
+      width: 125px;
+    }
   }
 
   .p-pagination__items {
