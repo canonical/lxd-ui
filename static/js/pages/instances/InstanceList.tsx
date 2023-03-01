@@ -34,6 +34,8 @@ const IPV4 = "IPv4";
 const IPV6 = "IPv6";
 const SNAPSHOTS = "Snapshots";
 
+const PAGE_SIZE = 15;
+
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
   return saved ? (JSON.parse(saved) as string[]) : [];
@@ -122,13 +124,15 @@ const InstanceList: FC = () => {
       return;
     }
     const tBody = table.children[1];
-    const offsetTop = Math.ceil(tBody.getBoundingClientRect().top + 1);
-    const style = `max-height: calc(100vh - ${offsetTop}px)`;
+    const above = tBody.getBoundingClientRect().top + 1;
+    const below = instances.length > PAGE_SIZE ? 81 : 0;
+    const offset = Math.ceil(above + below);
+    const style = `height: calc(100vh - ${offset}px)`;
     tBody.setAttribute("style", style);
   };
   useEffect(() => {
     updateTBodyHeight();
-  }, [notify.notification]);
+  }, [instances, notify.notification]);
 
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
@@ -323,6 +327,7 @@ const InstanceList: FC = () => {
                 }}
                 placeholder="Search"
                 value={query}
+                aria-label="Search"
               />
               <Select
                 wrapperClassName="margin-right filter-state"
@@ -337,6 +342,7 @@ const InstanceList: FC = () => {
                   ...instanceStatuses,
                 ]}
                 value={status}
+                aria-label="Filter status"
               />
               <Select
                 wrapperClassName="margin-right filter-type"
@@ -351,6 +357,7 @@ const InstanceList: FC = () => {
                   ...instanceListTypes,
                 ]}
                 value={type}
+                aria-label="Filter type"
               />
             </div>
             <Button
@@ -380,6 +387,7 @@ const InstanceList: FC = () => {
                       headers={getHeaders(userHidden.concat(sizeHidden))}
                       rows={getRows(userHidden.concat(sizeHidden))}
                       sortable
+                      paginate={PAGE_SIZE}
                       className="instance-table"
                       id="instance-table-wrapper"
                       emptyStateMsg={
