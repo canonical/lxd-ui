@@ -85,13 +85,14 @@
     }
 
     .status-header {
-      padding-left: 3.25rem;
+      padding-left: 2.75rem;
     }
 
     tbody {
       display: block;
-      max-height: calc(100vh - 146px);
+      height: calc(100vh - 146px);
       overflow-y: auto;
+      scrollbar-gutter: stable;
     }
 
     thead,

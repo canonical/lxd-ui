@@ -53,13 +53,8 @@ const StartStopInstanceBtn: FC<Props> = ({
     }
   };
 
-  const canBeStarted =
-    instance.status === "Stopped" || instance.status === "Frozen";
-  const canBeStopped =
-    instance.status.endsWith("ing") ||
-    instance.status === "Ready" ||
-    instance.status === "Frozen";
-  const isDisabled = isStarting || isStopping;
+  const startStatuses = ["Stopped", "Frozen"];
+  const stopStatuses = ["Ready", "Frozen", "Running", "Stopping", "Freezing"];
 
   const handleStart = () => {
     setStart(true);
@@ -97,12 +92,12 @@ const StartStopInstanceBtn: FC<Props> = ({
 
   return (
     <>
-      {canBeStarted && (
+      {startStatuses.includes(instance.status) && (
         <Button
           hasIcon
           className={className}
           dense={isDense}
-          disabled={isDisabled}
+          disabled={isStarting || isStopping}
           onClick={handleStart}
           type="button"
         >
@@ -116,7 +111,7 @@ const StartStopInstanceBtn: FC<Props> = ({
           <span>{isStarting ? "Starting" : "Start"}</span>
         </Button>
       )}
-      {canBeStopped && (
+      {stopStatuses.includes(instance.status) && (
         <ConfirmationButton
           className={className}
           isLoading={isStopping}
