@@ -1,7 +1,7 @@
 .instance-list {
   .instance-list-header {
     display: flex;
-    margin: $spv--large $spv--large 0;
+    margin: $spv--large 0;
 
     .instance-header-left {
       display: flex;
@@ -23,24 +23,6 @@
 
     .filter-type {
       min-width: 183px;
-    }
-
-    @media screen and (max-width: 1120px) {
-      .filter-state,
-      .filter-type,
-      .search-box {
-        display: none;
-      }
-    }
-  }
-
-  @media screen and (max-width: 1470px) {
-    .has-side-panel {
-      .filter-state,
-      .filter-type,
-      .search-box {
-        display: none;
-      }
     }
   }
 
@@ -171,5 +153,42 @@
 
   label {
     margin-left: 1rem;
+  }
+}
+
+// hide filters on small screens
+@media screen and (max-width: 1070px) {
+  .filter-state,
+  .filter-type,
+  .search-box {
+    display: none;
+  }
+}
+@media screen and (max-width: 1430px) {
+  .has-side-panel {
+    .filter-state,
+    .filter-type,
+    .search-box {
+      display: none;
+    }
+  }
+}
+
+.l-navigation.is-collapsed + .instance-list {
+  @media screen and (min-width: 900px) {
+    .filter-state,
+    .filter-type,
+    .search-box {
+      display: flex;
+    }
+  }
+  @media screen and (max-width: 1250px) {
+    .has-side-panel {
+      .filter-state,
+      .filter-type,
+      .search-box {
+        display: none;
+      }
+    }
   }
 }
