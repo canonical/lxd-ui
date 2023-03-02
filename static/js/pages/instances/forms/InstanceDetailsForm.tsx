@@ -11,7 +11,7 @@ import { RemoteImage } from "types/image";
 export interface InstanceDetailsFormValues {
   name: string;
   description?: string;
-  image: RemoteImage | undefined;
+  image?: RemoteImage;
   instanceType: string;
   profiles: string[];
 }

@@ -1,24 +1,13 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Button } from "@canonical/react-components";
-import CreateSnapshotForm from "./CreateSnapshotForm";
-import { LxdInstance } from "types/instance";
 
 interface Props {
-  instance: LxdInstance;
+  openModal: () => void;
 }
 
-const CreateSnapshotBtn: FC<Props> = ({ instance }) => {
-  const [isModal, setModal] = useState(false);
-
-  const openModal = () => {
-    setModal(true);
-  };
-
+const CreateSnapshotBtn: FC<Props> = ({ openModal }) => {
   return (
     <>
-      {isModal && (
-        <CreateSnapshotForm instance={instance} close={() => setModal(false)} />
-      )}
       <Button className="u-no-margin--bottom" hasIcon onClick={openModal}>
         <i className="p-icon--plus" />
         <span>Create snapshot</span>
