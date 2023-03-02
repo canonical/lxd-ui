@@ -5,11 +5,11 @@ import { fetchClusterMembers } from "api/cluster";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import Loader from "components/Loader";
 
 const ClusterList: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
 
   const {
     data: members = [],
@@ -95,7 +95,7 @@ const ClusterList: FC = () => {
   return (
     <>
       <BaseLayout title="Cluster">
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <MainTable
             headers={headers}

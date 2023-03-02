@@ -7,11 +7,11 @@ import NotificationRow from "components/NotificationRow";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import Loader from "components/Loader";
 
 const ImageList: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
 
   const {
     data: images = [],
@@ -42,7 +42,7 @@ const ImageList: FC = () => {
     const actions = (
       <div>
         <Tooltip message="Delete image" position="left">
-          <DeleteImageBtn image={image} notify={notify} />
+          <DeleteImageBtn image={image} />
         </Tooltip>
       </div>
     );
@@ -115,7 +115,7 @@ const ImageList: FC = () => {
   return (
     <>
       <BaseLayout title="Images">
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <MainTable
             headers={headers}

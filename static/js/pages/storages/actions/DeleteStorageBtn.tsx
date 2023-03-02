@@ -1,18 +1,18 @@
 import React, { FC, useState } from "react";
-import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { LxdStorage } from "types/storage";
 import { deleteStoragePool } from "api/storages";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import useNotify from "util/useNotify";
 
 interface Props {
   storage: LxdStorage;
   project: string;
-  notify: NotificationHelper;
 }
 
-const DeleteStorageBtn: FC<Props> = ({ storage, project, notify }) => {
+const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 

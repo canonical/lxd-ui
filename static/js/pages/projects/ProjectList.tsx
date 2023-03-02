@@ -5,11 +5,11 @@ import { fetchProjects } from "api/projects";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import Loader from "components/Loader";
 
 const ProjectList: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
 
   const {
     data: projects = [],
@@ -104,7 +104,7 @@ const ProjectList: FC = () => {
   return (
     <>
       <BaseLayout title="Projects">
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <MainTable
             headers={headers}

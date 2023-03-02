@@ -3,7 +3,6 @@ import useEventListener from "@use-it/event-listener";
 import "../../sass/_panels.scss";
 import usePanelParams, { panels } from "util/usePanelParams";
 import InstanceDetailPanel from "pages/instances/InstanceDetailPanel";
-import CreateInstanceForm from "pages/instances/CreateInstanceForm";
 import EditInstanceForm from "pages/instances/EditInstanceForm";
 import ProfileFormGuided from "pages/profiles/ProfileFormGuided";
 import ProfileFormYaml from "pages/profiles/ProfileFormYaml";
@@ -21,8 +20,6 @@ export default function Panels() {
     switch (panelParams.panel) {
       case panels.instanceSummary:
         return <InstanceDetailPanel />;
-      case panels.createInstance:
-        return <CreateInstanceForm />;
       case panels.editInstance:
         return <EditInstanceForm />;
       case panels.profileFormGuided:

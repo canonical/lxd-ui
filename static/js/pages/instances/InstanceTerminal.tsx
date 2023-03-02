@@ -10,7 +10,7 @@ import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "types/terminal";
 import { createPortal } from "react-dom";
 import Loader from "components/Loader";
-import { NotificationHelper } from "types/notification";
+import useNotify from "util/useNotify";
 
 const defaultPayload = {
   command: ["bash"],
@@ -26,10 +26,10 @@ const defaultPayload = {
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
-  notify: NotificationHelper;
 }
 
-const InstanceTerminal: FC<Props> = ({ controlTarget, notify }) => {
+const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
+  const notify = useNotify();
   const { name, project } = useParams<{
     name: string;
     project: string;

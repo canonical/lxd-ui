@@ -10,17 +10,17 @@ import EditInstanceBtn from "./actions/EditInstanceBtn";
 import { createPortal } from "react-dom";
 import { List } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { NotificationHelper } from "types/notification";
 import { LxdInstance } from "types/instance";
 import { Link } from "react-router-dom";
+import useNotify from "util/useNotify";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
   instance: LxdInstance;
-  notify: NotificationHelper;
 }
 
-const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
+const InstanceOverview: FC<Props> = ({ controlTarget, instance }) => {
+  const notify = useNotify();
   const {
     data: metrics = [],
     error: metricError,
@@ -61,7 +61,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance, notify }) => {
         createPortal(
           <>
             <EditInstanceBtn instance={instance} />
-            <DeleteInstanceBtn instance={instance} notify={notify} />
+            <DeleteInstanceBtn instance={instance} />
           </>,
           controlTarget
         )}

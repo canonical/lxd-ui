@@ -1,0 +1,29 @@
+.instance-form {
+  display: flex;
+  margin-top: 6px;
+
+  .form-contents {
+    margin-left: inherit;
+    width: 42rem;
+  }
+
+  .devices-form-row {
+    hr {
+      margin-bottom: $spv--large;
+    }
+  }
+
+  .delete-device {
+    margin-top: 2.5rem;
+  }
+}
+
+@include mobile-and-tablet {
+  .instance-form {
+    flex-direction: column;
+
+    .form-contents {
+      width: inherit;
+    }
+  }
+}

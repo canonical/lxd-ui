@@ -3,13 +3,10 @@ import {
   Row,
   Notification as NotificationComponent,
 } from "@canonical/react-components";
-import { NotificationHelper } from "types/notification";
+import useNotify from "util/useNotify";
 
-interface Props {
-  notify: NotificationHelper;
-}
-
-const NotificationRow: FC<Props> = ({ notify }) => {
+const NotificationRow: FC = () => {
+  const notify = useNotify();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

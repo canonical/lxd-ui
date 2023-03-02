@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import { Row } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStorage } from "api/storages";
@@ -12,7 +12,7 @@ import StorageSize from "pages/storages/StorageSize";
 import StorageUsedBy from "pages/storages/StorageUsedBy";
 
 const StorageDetail: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -46,7 +46,7 @@ const StorageDetail: FC = () => {
 
   return (
     <BaseLayout title={`Storage details for ${name}`}>
-      <NotificationRow notify={notify} />
+      <NotificationRow />
       <Row>
         <table className="storage-detail-table">
           <tbody>

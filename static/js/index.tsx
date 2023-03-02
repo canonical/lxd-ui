@@ -4,9 +4,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Navigation from "components/Navigation";
 import Panels from "components/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SharedNotifyProvider } from "./context/sharedNotify";
 import { AuthProvider } from "./context/auth";
 import App from "./App";
+import NotifyProvider from "util/useNotification";
 
 const queryClient = new QueryClient();
 
@@ -15,8 +15,8 @@ if (!rootElement) throw new Error("Failed to find the root element");
 const root = createRoot(rootElement);
 root.render(
   <Router>
-    <QueryClientProvider client={queryClient}>
-      <SharedNotifyProvider>
+    <NotifyProvider>
+      <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <div className="l-application" role="presentation">
             <Navigation />
@@ -24,7 +24,7 @@ root.render(
             <Panels />
           </div>
         </AuthProvider>
-      </SharedNotifyProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </NotifyProvider>
   </Router>
 );

@@ -1,62 +1,83 @@
-import React, { FC, MouseEvent, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import {
   Button,
   Col,
   Form,
-  Input,
-  Label,
+  Notification,
   Row,
-  Select,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createInstance, startInstance } from "api/instances";
-import Aside from "components/Aside";
 import NotificationRow from "components/NotificationRow";
-import PanelHeader from "components/PanelHeader";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
 import SubmitButton from "components/SubmitButton";
-import ProfileSelect from "pages/profiles/ProfileSelector";
-import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
-import { instanceCreationTypes } from "util/instanceOptions";
 import { checkDuplicateName } from "util/helpers";
-import InstanceCustomiseYaml from "./InstanceCustomiseYaml";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import usePanelParams from "util/usePanelParams";
-import { useSharedNotify } from "../../context/sharedNotify";
-import ConfirmationModal from "components/ConfirmationModal";
-import usePortal from "react-useportal";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { Location } from "history";
+import InstanceDetailsForm, {
+  InstanceDetailsFormValues,
+} from "pages/instances/forms/InstanceDetailsForm";
+import MenuItem from "pages/instances/forms/FormMenuItem";
+import useNotify from "util/useNotify";
+import DevicesForm, {
+  DevicesFormValues,
+} from "pages/instances/forms/DevicesForm";
+import SecurityPoliciesForm, {
+  SecurityPoliciesFormValues,
+} from "pages/instances/forms/SecurityPoliciesForm";
+import SnapshotsForm, {
+  SnapshotFormValues,
+} from "pages/instances/forms/SnapshotsForm";
+import CloudInitForm, {
+  CloudInitFormValues,
+} from "pages/instances/forms/CloudInitForm";
+import ResourceLimitsForm, {
+  ResourceLimitsFormValues,
+} from "pages/instances/forms/ResourceLimitsForm";
+import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
+import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
+import { cpuLimitToPayload } from "util/limits";
 
-interface FormValues {
-  name: string;
-  image: RemoteImage | undefined;
-  instanceType: string;
-  profiles: string[];
-  yaml?: string;
-  unchangedYaml?: string;
-}
+export type FormValues = InstanceDetailsFormValues &
+  DevicesFormValues &
+  ResourceLimitsFormValues &
+  SecurityPoliciesFormValues &
+  SnapshotFormValues &
+  CloudInitFormValues &
+  YamlFormValues;
 
 interface RetryFormState {
   retryFormValues: FormValues;
 }
 
+const INSTANCE_DETAILS = "Instance details";
+const DEVICES = "Devices";
+const RESOURCE_LIMITS = "Resource limits";
+const SECURITY_POLICIES = "Security policies";
+const SNAPSHOTS = "Snapshots";
+const CLOUD_INIT = "Cloud init";
+const YAML_CONFIGURATION = "YAML configuration";
+
 const CreateInstanceForm: FC = () => {
   const location = useLocation() as Location<RetryFormState | null>;
   const navigate = useNavigate();
-  const notify = useNotification();
+  const notify = useNotify();
+  const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const panelParams = usePanelParams();
-  const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { sharedNotify: instanceListNotify } = useSharedNotify();
+  const [section, setSection] = useState(INSTANCE_DETAILS);
+  const [isConfigOpen, setConfigOpen] = useState(false);
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   const InstanceSchema = Yup.object().shape({
     name: Yup.string()
@@ -64,40 +85,29 @@ const CreateInstanceForm: FC = () => {
         "deduplicate",
         "An instance with this name already exists",
         (value) =>
-          checkDuplicateName(
-            value,
-            panelParams.project,
-            controllerState,
-            "instances"
-          )
+          checkDuplicateName(value, project, controllerState, "instances")
       )
       .optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
 
-  function notifyInProgress() {
-    instanceListNotify?.info(<>Creating the instance.</>, "Processing");
-  }
-
   function notifyLaunchedAndStarted(instanceLink: ReactNode) {
-    instanceListNotify?.success(
-      <>Launched and started instance {instanceLink}.</>
-    );
+    notify.success(<>Launched and started instance {instanceLink}.</>);
   }
 
   function notifyCreatedButStartFailed(instanceLink: ReactNode, e: Error) {
-    instanceListNotify?.failure(
+    notify.failure(
       <>The instance {instanceLink} was created, but could not be started.</>,
       e
     );
   }
 
   function notifyLaunched(instanceLink: ReactNode) {
-    instanceListNotify?.success(<>Launched instance {instanceLink}.</>);
+    notify.success(<>Launched instance {instanceLink}.</>);
   }
 
   function notifyLaunchFailed(e: Error, formUrl: string, values: FormValues) {
-    instanceListNotify?.failure(<>Instance creation failed.</>, e, [
+    notify.failure(<>Instance creation failed.</>, e, [
       {
         label: "Check configuration",
         onClick: () =>
@@ -107,16 +117,17 @@ const CreateInstanceForm: FC = () => {
   }
 
   const submit = (values: FormValues, shouldStart = true) => {
-    const project = panelParams.project;
     const formUrl = location.pathname + location.search;
-    notifyInProgress();
-    panelParams.clear();
+    navigate(
+      `/ui/${project}/instances`,
+      notify.queue(notify.info("Creating the instance.", "Processing"))
+    );
 
-    const instanceCreationObj = values.yaml
+    const instancePayload = values.yaml
       ? yamlToObject(values.yaml)
       : getCreationPayload(values);
-    const instanceCreationStr = JSON.stringify(instanceCreationObj);
-    createInstance(instanceCreationStr, project)
+
+    createInstance(JSON.stringify(instancePayload), project)
       .then((operation) => {
         const instanceName = operation.metadata.resources.instances?.[0]
           .split("/")
@@ -160,6 +171,26 @@ const CreateInstanceForm: FC = () => {
       image: undefined,
       instanceType: "container",
       profiles: ["default"],
+      devices: [{ type: "", name: "" }],
+      limits_cpu: DEFAULT_CPU_LIMIT,
+      limits_memory: DEFAULT_MEM_LIMIT,
+      limits_memory_swap: false,
+      protection_delete: false,
+      security_privileged: false,
+      security_protection_shift: false,
+      security_idmap_base: "",
+      security_idmap_size: "",
+      security_idmap_isolated: false,
+      security_devlxd: false,
+      security_devlxd_images: false,
+      security_secureboot: false,
+      snapshots_pattern: "",
+      snapshots_schedule_stopped: false,
+      snapshots_schedule: "",
+      snapshots_expiry: "",
+      ["cloud-init_network-config"]: "",
+      ["cloud-init_user-data"]: "",
+      ["cloud-init_vendor-data"]: "",
       yaml: undefined,
     },
     validationSchema: InstanceSchema,
@@ -184,13 +215,45 @@ const CreateInstanceForm: FC = () => {
     if (isContainerOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "container");
     }
+    notify.clear();
   };
 
   const getCreationPayload = (values: FormValues) => {
     return {
-      type: values.instanceType,
       name: values.name,
+      description: values.description,
+      devices: values.devices
+        .filter((item) => item.type !== "")
+        .reduce((obj, { name, ...item }) => {
+          return {
+            ...obj,
+            [name]: item,
+          };
+        }, {}),
+      type: values.instanceType,
       profiles: values.profiles,
+      ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
+      ["limits.memory"]: values.limits_memory.value
+        ? `${values.limits_memory.value}${values.limits_memory.unit}`
+        : undefined,
+      ["limits.memory.swap"]: values.limits_memory_swap,
+      ["limits.processes"]: values.limits_processes,
+      ["protection.delete"]: values.protection_delete,
+      ["security.privileged"]: values.security_privileged,
+      ["security.protection.shift"]: values.security_protection_shift,
+      ["security.idmap.base"]: values.security_idmap_base,
+      ["security.idmap.size"]: values.security_idmap_size,
+      ["security.idmap.isolated"]: values.security_idmap_isolated,
+      ["security.devlxd"]: values.security_devlxd,
+      ["security.devlxd.images"]: values.security_devlxd_images,
+      ["security.secureboot"]: values.security_secureboot,
+      ["snapshots.pattern"]: values.snapshots_pattern,
+      ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped,
+      ["snapshots.schedule"]: values.snapshots_schedule,
+      ["snapshots.expiry"]: values.snapshots_expiry,
+      ["cloud-init.network-config"]: values["cloud-init_network-config"],
+      ["cloud-init.user-data"]: values["cloud-init_user-data"],
+      ["cloud-init.vendor-data"]: values["cloud-init_vendor-data"],
       source: {
         alias: values.image?.aliases.split(",")[0],
         mode: "pull",
@@ -201,175 +264,164 @@ const CreateInstanceForm: FC = () => {
     };
   };
 
-  const switchToYaml = () => {
-    const instanceCreateObj = getCreationPayload(formik.values);
-    const yaml = dumpYaml(instanceCreateObj);
-    void formik.setFieldValue("yaml", yaml);
-    void formik.setFieldValue("unchangedYaml", yaml);
+  const blockMenu = () => {
+    if (!formik.values.image) {
+      notify.info("Please select an image before adding custom configuration.");
+      return true;
+    }
+    return false;
   };
 
-  const closeYaml = (e: MouseEvent<HTMLElement>) => {
-    if (formik.values.yaml !== formik.values.unchangedYaml && !isOpen) {
-      openPortal(e);
-      return;
-    }
-    void formik.setFieldValue("yaml", undefined);
-    void formik.setFieldValue("unchangedYaml", undefined);
-    closePortal();
+  const menuItem = {
+    active: section,
+    setActive: (newItem: string) => {
+      if (blockMenu()) {
+        return;
+      }
+      if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
+        void formik.setFieldValue("yaml", undefined);
+      }
+      setSection(newItem);
+    },
   };
+
+  function getYaml() {
+    const payload = getCreationPayload(formik.values);
+    return dumpYaml(payload);
+  }
+
+  const overrideNotification = (
+    <Notification severity="caution" title="Before you add configurations">
+      The custom configuration overrides any settings specified through
+      profiles.
+    </Notification>
+  );
 
   return (
-    <Aside>
-      <div className="p-panel l-site">
-        <PanelHeader
-          title={<h4>Create new instance</h4>}
-          onClose={formik.values.yaml ? closeYaml : undefined}
-        />
-        <div className="p-panel__content">
-          <NotificationRow notify={notify} />
-          <Row>
-            <Form onSubmit={() => submit(formik.values)} stacked>
-              {formik.values.yaml ? (
-                <InstanceCustomiseYaml
-                  instanceYaml={formik.values.yaml}
-                  setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                  goBack={closeYaml}
-                />
-              ) : (
-                <>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    label="Instance name"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    error={formik.touched.name ? formik.errors.name : null}
-                  />
-                  {formik.values.image ? (
-                    <>
-                      <Row>
-                        <Col size={8}>
-                          <Input
-                            id="baseImage"
-                            name="baseImage"
-                            label="Base Image"
-                            type="text"
-                            value={
-                              formik.values.image.os +
-                              " " +
-                              formik.values.image.release +
-                              " " +
-                              formik.values.image.aliases.split(",")[0]
-                            }
-                            disabled
-                            required
-                          />
-                        </Col>
-                        <Col size={4} className="u-align-self-end">
-                          <SelectImageBtn
-                            appearance="link"
-                            caption="Change image"
-                            onSelect={handleSelectImage}
-                          />
-                        </Col>
-                      </Row>
-                      <Input
-                        id="architecture"
-                        name="architecture"
-                        label="Architecture"
-                        type="text"
-                        value={formik.values.image.arch}
-                        disabled
-                      />
-                      <Select
-                        id="instanceType"
-                        label="Instance type"
-                        name="instanceType"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        options={instanceCreationTypes}
-                        value={formik.values.instanceType}
-                        disabled={
-                          isContainerOnlyImage(formik.values.image) ||
-                          isVmOnlyImage(formik.values.image)
-                        }
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Col size={4}>
-                        <Label required>Base Image</Label>
-                      </Col>
-                      <Col size={8}>
-                        <SelectImageBtn
-                          appearance=""
-                          caption="Select image"
-                          onSelect={handleSelectImage}
-                        />
-                      </Col>
-                    </>
-                  )}
-                  {formik.values.image && (
-                    <>
-                      <ProfileSelect
-                        notify={notify}
-                        project={panelParams.project}
-                        selected={formik.values.profiles}
-                        setSelected={(value) =>
-                          void formik.setFieldValue("profiles", value)
-                        }
-                      />
-                      <Button type="button" onClick={switchToYaml}>
-                        Customise (YAML)
-                      </Button>
-                    </>
-                  )}
-                </>
-              )}
-            </Form>
-          </Row>
+    <main className="l-main">
+      <div className="p-panel">
+        <div className="p-panel__header">
+          <h4 className="p-panel__title">Create new instance</h4>
         </div>
-        <div className="l-footer--sticky p-bottom-controls">
-          <hr />
-          <Row className="u-align--right">
-            <Col size={12}>
-              <Button appearance="base" onClick={panelParams.clear}>
-                Cancel
-              </Button>
-              <SubmitButton
-                isSubmitting={formik.isSubmitting}
-                isDisabled={!formik.isValid}
-                buttonLabel="Create"
-                appearance="default"
-                onClick={() => submit(formik.values, false)}
-              />
-              <SubmitButton
-                isSubmitting={formik.isSubmitting}
-                isDisabled={!formik.isValid}
-                buttonLabel="Create and start"
-                onClick={() => submit(formik.values)}
-              />
-            </Col>
-          </Row>
+        <div className="p-panel__content">
+          <Form
+            onSubmit={() => submit(formik.values)}
+            stacked
+            className="instance-form"
+          >
+            <div className="p-side-navigation--accordion form-navigation">
+              <nav aria-label="Instance creation">
+                <ul className="p-side-navigation__list">
+                  <MenuItem label={INSTANCE_DETAILS} {...menuItem} />
+                  <li className="p-side-navigation__item">
+                    <button
+                      type="button"
+                      className="p-side-navigation__accordion-button"
+                      aria-expanded={isConfigOpen ? "true" : "false"}
+                      onClick={() =>
+                        !blockMenu() && setConfigOpen((old) => !old)
+                      }
+                    >
+                      Configuration
+                    </button>
+                    <ul
+                      className="p-side-navigation__list"
+                      aria-expanded={isConfigOpen ? "true" : "false"}
+                    >
+                      <MenuItem label={DEVICES} {...menuItem} />
+                      <MenuItem label={RESOURCE_LIMITS} {...menuItem} />
+                      <MenuItem label={SECURITY_POLICIES} {...menuItem} />
+                      <MenuItem label={SNAPSHOTS} {...menuItem} />
+                      <MenuItem label={CLOUD_INIT} {...menuItem} />
+                    </ul>
+                  </li>
+                  <MenuItem label={YAML_CONFIGURATION} {...menuItem} />
+                </ul>
+              </nav>
+            </div>
+            <Row className="form-contents">
+              <Col size={12}>
+                <NotificationRow />
+                {section === INSTANCE_DETAILS && (
+                  <InstanceDetailsForm
+                    formik={formik}
+                    project={project}
+                    onSelectImage={handleSelectImage}
+                  />
+                )}
+
+                {section === DEVICES && (
+                  <DevicesForm formik={formik} project={project}>
+                    {overrideNotification}
+                  </DevicesForm>
+                )}
+
+                {section === RESOURCE_LIMITS && (
+                  <ResourceLimitsForm formik={formik}>
+                    {overrideNotification}
+                  </ResourceLimitsForm>
+                )}
+
+                {section === SECURITY_POLICIES && (
+                  <SecurityPoliciesForm formik={formik}>
+                    {overrideNotification}
+                  </SecurityPoliciesForm>
+                )}
+
+                {section === SNAPSHOTS && (
+                  <SnapshotsForm formik={formik}>
+                    {overrideNotification}
+                  </SnapshotsForm>
+                )}
+
+                {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+
+                {section === YAML_CONFIGURATION && (
+                  <YamlForm
+                    yaml={getYaml()}
+                    setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+                  >
+                    <Notification
+                      severity="caution"
+                      title="Before you edit the YAML"
+                    >
+                      Changes will be discarded, when switching back to the
+                      guided forms.
+                    </Notification>
+                  </YamlForm>
+                )}
+              </Col>
+            </Row>
+          </Form>
         </div>
       </div>
-      {isOpen && (
-        <Portal>
-          <ConfirmationModal
-            title="Confirm"
-            confirmationMessage={
-              "Are you sure you want to go back to the basic form? All the changes applied to the YAML config will be lost."
-            }
-            posButtonLabel="Go back"
-            onConfirm={closeYaml}
-            onClose={closePortal}
-            hasShiftHint={false}
-          />
-        </Portal>
-      )}
-    </Aside>
+      <div className="p-bottom-controls">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button
+              appearance="base"
+              onClick={() => navigate(`/ui/${project}/instances`)}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.image}
+              buttonLabel="Create"
+              appearance="default"
+              onClick={() => submit(formik.values, false)}
+            />
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.image}
+              buttonLabel="Create and start"
+              onClick={() => submit(formik.values)}
+            />
+          </Col>
+        </Row>
+      </div>
+    </main>
   );
 };
 

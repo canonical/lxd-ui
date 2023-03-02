@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import InstanceVga from "./InstanceVga";
 import InstanceSnapshots from "./InstanceSnapshots";
 import NotificationRow from "components/NotificationRow";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
@@ -30,7 +30,7 @@ const tabNameToUrl = (name: string) => {
 };
 
 const InstanceDetail: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
   const navigate = useNavigate();
   const { name, project, activeTab } = useParams<{
     name: string;
@@ -81,16 +81,8 @@ const InstanceDetail: FC = () => {
                 <i key="status" className="p-text--small">
                   {instance.status}
                 </i>,
-                <StartStopInstanceBtn
-                  key="start-stop"
-                  instance={instance}
-                  notify={notify}
-                />,
-                <PauseInstanceBtn
-                  key="freeze-unfreeze"
-                  instance={instance}
-                  notify={notify}
-                />,
+                <StartStopInstanceBtn key="start-stop" instance={instance} />,
+                <PauseInstanceBtn key="freeze-unfreeze" instance={instance} />,
               ]}
             />
           ) : (
@@ -101,7 +93,7 @@ const InstanceDetail: FC = () => {
           </div>
         </div>
         <div className="p-panel__content">
-          <NotificationRow notify={notify} />
+          <NotificationRow />
           {isLoading && <Loader text="Loading instance details..." />}
           {!isLoading && !instance && <>Could not load instance details.</>}
           {!isLoading && instance && (
@@ -121,7 +113,6 @@ const InstanceDetail: FC = () => {
                   <InstanceOverview
                     instance={instance}
                     controlTarget={controlTarget}
-                    notify={notify}
                   />
                 </div>
               )}
@@ -131,17 +122,13 @@ const InstanceDetail: FC = () => {
                   <InstanceSnapshots
                     instance={instance}
                     controlTarget={controlTarget}
-                    notify={notify}
                   />
                 </div>
               )}
 
               {activeTab === "terminal" && (
                 <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
-                  <InstanceTerminal
-                    controlTarget={controlTarget}
-                    notify={notify}
-                  />
+                  <InstanceTerminal controlTarget={controlTarget} />
                 </div>
               )}
 
@@ -151,13 +138,13 @@ const InstanceDetail: FC = () => {
                   role="tabpanel"
                   aria-labelledby="text console"
                 >
-                  <InstanceTextConsole instance={instance} notify={notify} />
+                  <InstanceTextConsole instance={instance} />
                 </div>
               )}
 
               {activeTab === "vga-console" && (
                 <div tabIndex={4} role="tabpanel" aria-labelledby="vga console">
-                  <InstanceVga controlTarget={controlTarget} notify={notify} />
+                  <InstanceVga controlTarget={controlTarget} />
                 </div>
               )}
 

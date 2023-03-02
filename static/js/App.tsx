@@ -17,6 +17,7 @@ import CertificateMain from "pages/certificates/CertificateMain";
 import ProtectedRoute from "components/ProtectedRoute";
 import StorageDetail from "pages/storages/StorageDetail";
 import NetworkMap from "pages/networks/NetworkMap";
+import CreateInstanceForm from "pages/instances/CreateInstanceForm";
 
 const App: FC = () => {
   return (
@@ -32,6 +33,10 @@ const App: FC = () => {
       <Route
         path="/ui/:project/instances"
         element={<ProtectedRoute outlet={<InstanceList />} />}
+      />
+      <Route
+        path="/ui/:project/instances/1/create"
+        element={<ProtectedRoute outlet={<CreateInstanceForm />} />}
       />
       <Route
         path="/ui/:project/instances/:name"

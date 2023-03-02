@@ -3,16 +3,16 @@ import { LxdInstance, LxdSnapshot } from "types/instance";
 import { restoreSnapshot } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
+import useNotify from "util/useNotify";
 
 interface Props {
   instance: LxdInstance;
   snapshot: LxdSnapshot;
-  notify: NotificationHelper;
 }
 
-const RestoreSnapshotBtn: FC<Props> = ({ instance, snapshot, notify }) => {
+const RestoreSnapshotBtn: FC<Props> = ({ instance, snapshot }) => {
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 

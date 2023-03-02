@@ -10,23 +10,20 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "api/server";
 import { queryKeys } from "util/queryKeys";
-import { NotificationHelper } from "types/notification";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
 import { DEFAULT_MEM_LIMIT } from "util/defaults";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
+import useNotify from "util/useNotify";
 
 interface Props {
-  notify: NotificationHelper;
   memoryLimit: MemoryLimit;
   setMemoryLimit: (memoryLimit: MemoryLimit) => void;
 }
 
-const MemoryLimitSelector: FC<Props> = ({
-  notify,
-  memoryLimit,
-  setMemoryLimit,
-}) => {
+const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
+  const notify = useNotify();
+
   const {
     data: resources,
     error,

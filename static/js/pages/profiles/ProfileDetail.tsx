@@ -7,7 +7,7 @@ import EditProfileBtn from "./actions/EditProfileBtn";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import {
   CodeSnippet,
   CodeSnippetBlockAppearance,
@@ -19,7 +19,7 @@ import { isDiskDevice, isNicDevice } from "util/devices";
 import Loader from "components/Loader";
 
 const ProfileDetail: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -68,16 +68,12 @@ const ProfileDetail: FC = () => {
         <>
           <EditProfileBtn profile={profile} project={project} />
           {profile.name !== "default" && (
-            <DeleteProfileBtn
-              profile={profile}
-              project={project}
-              notify={notify}
-            />
+            <DeleteProfileBtn profile={profile} project={project} />
           )}
         </>
       }
     >
-      <NotificationRow notify={notify} />
+      <NotificationRow />
       <Row>
         <table>
           <tbody>

@@ -7,7 +7,7 @@ import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import { createPortal } from "react-dom";
 import Loader from "components/Loader";
-import { NotificationHelper } from "types/notification";
+import useNotify from "util/useNotify";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -18,10 +18,10 @@ declare global {
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
-  notify: NotificationHelper;
 }
 
-const InstanceVga: FC<Props> = ({ controlTarget, notify }) => {
+const InstanceVga: FC<Props> = ({ controlTarget }) => {
+  const notify = useNotify();
   const { name, project } = useParams<{
     name: string;
     project: string;

@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import Aside from "components/Aside";
 import NotificationRow from "components/NotificationRow";
 import PanelHeader from "components/PanelHeader";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import { createProfile } from "api/profiles";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -18,7 +18,6 @@ import CloudInitConfig from "./CloudInitConfig";
 import { LxdConfigPair } from "types/config";
 import { LxdProfile } from "types/profile";
 import MemoryLimitSelector from "./MemoryLimitSelector";
-import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
 import {
   DEFAULT_CPU_LIMIT,
   DEFAULT_DISK_DEVICE,
@@ -27,38 +26,11 @@ import {
 } from "util/defaults";
 import { checkDuplicateName } from "util/helpers";
 import usePanelParams from "util/usePanelParams";
-
-const getCpuLimit = (cpuLimit: CpuLimit) => {
-  switch (cpuLimit.selectedType) {
-    case CPU_LIMIT_TYPE.DYNAMIC:
-      if (cpuLimit.dynamicValue) {
-        return `${cpuLimit.dynamicValue}`;
-      }
-      return null;
-    case CPU_LIMIT_TYPE.FIXED_RANGE:
-      if (!cpuLimit.rangeValue) return null;
-      if (
-        cpuLimit.rangeValue.from !== null &&
-        cpuLimit.rangeValue.to !== null
-      ) {
-        return `${cpuLimit.rangeValue.from}-${cpuLimit.rangeValue.to}`;
-      }
-      return null;
-    case CPU_LIMIT_TYPE.FIXED_SET:
-      if (cpuLimit.setValue) {
-        if (cpuLimit.setValue.includes(",")) {
-          return cpuLimit.setValue;
-        }
-        const singleValue = +cpuLimit.setValue;
-        return `${singleValue}-${singleValue}`;
-      }
-      return null;
-  }
-};
+import { cpuLimitToPayload } from "util/limits";
 
 const ProfileFormGuided: FC = () => {
   const panelParams = usePanelParams();
-  const notify = useNotification();
+  const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
@@ -100,7 +72,7 @@ const ProfileFormGuided: FC = () => {
       networkConfig,
     }) => {
       const config: LxdConfigPair = {};
-      const limitsCpu = getCpuLimit(cpuLimit);
+      const limitsCpu = cpuLimitToPayload(cpuLimit);
       if (limitsCpu) {
         config["limits.cpu"] = limitsCpu;
       }
@@ -142,6 +114,7 @@ const ProfileFormGuided: FC = () => {
             queryKey: [queryKeys.profiles],
           });
           panelParams.clear();
+          notify.success(`Profile ${profile.name} created.`);
         })
         .catch((e) => {
           formik.setSubmitting(false);
@@ -155,7 +128,7 @@ const ProfileFormGuided: FC = () => {
       <div className="p-panel">
         <PanelHeader title={<h4>Create profile</h4>} />
         <div className="p-panel__content">
-          <NotificationRow notify={notify} />
+          <NotificationRow />
           <Row>
             <Form onSubmit={formik.handleSubmit} stacked>
               <Input
@@ -189,7 +162,6 @@ const ProfileFormGuided: FC = () => {
                   {
                     content: (
                       <NetworkSelector
-                        notify={notify}
                         nicDevice={formik.values.nicDevice}
                         project={panelParams.project}
                         setNicDevice={(nicDevice) =>
@@ -202,7 +174,6 @@ const ProfileFormGuided: FC = () => {
                   {
                     content: (
                       <StorageSelector
-                        notify={notify}
                         project={panelParams.project}
                         diskDevice={formik.values.rootDiskDevice}
                         setDiskDevice={(diskDevice) =>
@@ -220,7 +191,6 @@ const ProfileFormGuided: FC = () => {
                     content: (
                       <>
                         <MemoryLimitSelector
-                          notify={notify}
                           memoryLimit={formik.values.memoryLimit}
                           setMemoryLimit={(memoryLimit) =>
                             void formik.setFieldValue(
@@ -231,7 +201,6 @@ const ProfileFormGuided: FC = () => {
                         />
                         <hr />
                         <CpuLimitSelector
-                          notify={notify}
                           cpuLimit={formik.values.cpuLimit}
                           setCpuLimit={(cpuLimit) =>
                             void formik.setFieldValue("cpuLimit", cpuLimit)

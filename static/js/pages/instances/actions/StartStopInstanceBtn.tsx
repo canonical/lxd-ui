@@ -1,15 +1,14 @@
 import React, { FC, useState } from "react";
 import { LxdInstance } from "types/instance";
-import { NotificationHelper } from "types/notification";
 import { useQueryClient } from "@tanstack/react-query";
 import { startInstance, stopInstance, unfreezeInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Button, CheckboxInput } from "@canonical/react-components";
+import useNotify from "util/useNotify";
 
 interface Props {
   instance: LxdInstance;
-  notify: NotificationHelper;
   className?: string;
   hasCaption?: boolean;
   isDense?: boolean;
@@ -20,7 +19,6 @@ interface Props {
 
 const StartStopInstanceBtn: FC<Props> = ({
   instance,
-  notify,
   className = "u-no-margin--bottom",
   hasCaption = true,
   isDense = true,
@@ -28,6 +26,7 @@ const StartStopInstanceBtn: FC<Props> = ({
   onStopping,
   onFinish,
 }) => {
+  const notify = useNotify();
   const [isStarting, setStarting] = useState(false);
   const [isStopping, setStopping] = useState(false);
   const [isForce, setForce] = useState(false);

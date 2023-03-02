@@ -1,6 +1,8 @@
 export interface LxdDiskDevice {
+  name?: string;
   path: string;
   pool: string;
+  size?: string;
   type: "disk";
 }
 

@@ -18,10 +18,10 @@ export interface QueuedNotification {
   state?: {
     queuedNotification: Notification | null;
   };
+  pathname?: string;
 }
 
 export interface NotificationHelper {
-  id: string;
   notification: Notification | null;
   clear: () => void;
   failure: (
@@ -31,5 +31,6 @@ export interface NotificationHelper {
   ) => Notification;
   info: (message: string | ReactNode, title?: string) => Notification;
   success: (message: string | ReactNode) => Notification;
-  queue: (notification: Notification) => QueuedNotification;
+  queue: (notification: Notification) => QueuedNotification | undefined;
+  setDeduplicated: (val: Notification) => Notification;
 }

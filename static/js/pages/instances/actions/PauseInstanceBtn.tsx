@@ -2,24 +2,23 @@ import React, { FC, useState } from "react";
 import { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Tooltip } from "@canonical/react-components";
 import { freezeInstance } from "api/instances";
+import useNotify from "util/useNotify";
 
 interface Props {
   instance: LxdInstance;
-  notify: NotificationHelper;
   hasCaption?: boolean;
   isDense?: boolean;
 }
 
 const PauseInstanceBtn: FC<Props> = ({
   instance,
-  notify,
   hasCaption = true,
   isDense = true,
 }) => {
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(instance.status === "Freezing");
   const queryClient = useQueryClient();
 
