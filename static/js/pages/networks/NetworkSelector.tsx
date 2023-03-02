@@ -5,7 +5,7 @@ import { fetchNetworks } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { LxdNicDevice } from "types/device";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   nicDevice: LxdNicDevice;

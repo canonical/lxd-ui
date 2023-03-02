@@ -6,7 +6,7 @@ import { isoTimeToString } from "util/helpers";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 
 const WarningList: FC = () => {

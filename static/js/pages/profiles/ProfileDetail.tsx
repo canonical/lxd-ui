@@ -7,7 +7,7 @@ import EditProfileBtn from "./actions/EditProfileBtn";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import {
   CodeSnippet,
   CodeSnippetBlockAppearance,

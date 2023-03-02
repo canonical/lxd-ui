@@ -4,7 +4,7 @@ import { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   image: LxdImage;

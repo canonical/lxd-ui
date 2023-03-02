@@ -12,7 +12,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
 import { LxdProfile } from "types/profile";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   project: string;

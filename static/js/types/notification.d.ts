@@ -31,6 +31,5 @@ export interface NotificationHelper {
   ) => Notification;
   info: (message: string | ReactNode, title?: string) => Notification;
   success: (message: string | ReactNode) => Notification;
-  queue: (notification: Notification) => QueuedNotification | undefined;
-  setDeduplicated: (val: Notification) => Notification;
+  queue: (notification: Notification) => QueuedNotification;
 }

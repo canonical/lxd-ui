@@ -55,6 +55,7 @@ const config = {
     extensions: [".ts", ".tsx", ".js"],
     alias: {
       api: path.join(__dirname, "static/js/api"),
+      context: path.join(__dirname, "static/js/context"),
       components: path.join(__dirname, "static/js/components"),
       pages: path.join(__dirname, "static/js/pages"),
       types: path.join(__dirname, "static/js/types"),

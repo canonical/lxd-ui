@@ -10,7 +10,7 @@ import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "types/terminal";
 import { createPortal } from "react-dom";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 const defaultPayload = {
   command: ["bash"],

@@ -12,7 +12,7 @@ import { List } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { LxdInstance } from "types/instance";
 import { Link } from "react-router-dom";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;

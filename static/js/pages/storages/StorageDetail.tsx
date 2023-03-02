@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import { Row } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStorage } from "api/storages";

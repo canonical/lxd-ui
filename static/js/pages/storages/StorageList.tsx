@@ -5,7 +5,7 @@ import { fetchStorages } from "api/storages";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storages/actions/AddStorageBtn";

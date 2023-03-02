@@ -25,7 +25,7 @@ import InstanceDetailsForm, {
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceDetailsForm";
 import MenuItem from "pages/instances/forms/FormMenuItem";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import DevicesForm, {
   DevicesFormValues,
 } from "pages/instances/forms/DevicesForm";

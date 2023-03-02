@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "api/*": ["static/js/api/*"],
+      "context/*": ["static/js/context/*"],
       "components/*": ["static/js/components/*"],
       "pages/*": ["static/js/pages/*"],
       "types/*": ["static/js/types/*"],

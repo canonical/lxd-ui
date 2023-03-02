@@ -5,7 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Tooltip } from "@canonical/react-components";
 import { freezeInstance } from "api/instances";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   instance: LxdInstance;

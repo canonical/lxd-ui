@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Row, Col, Button } from "@canonical/react-components";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/auth";
+import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 
 const CertificateMain: FC = () => {

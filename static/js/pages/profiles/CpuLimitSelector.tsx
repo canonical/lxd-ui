@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   cpuLimit: CpuLimit;

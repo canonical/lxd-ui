@@ -4,7 +4,7 @@ import { LxdStorage } from "types/storage";
 import { deleteStoragePool } from "api/storages";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   storage: LxdStorage;

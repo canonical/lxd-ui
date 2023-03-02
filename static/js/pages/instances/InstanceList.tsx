@@ -12,7 +12,7 @@ import { fetchInstances } from "api/instances";
 import NotificationRow from "components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import usePanelParams from "util/usePanelParams";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";

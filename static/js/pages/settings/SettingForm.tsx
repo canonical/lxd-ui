@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { LxdConfigOption } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   option: LxdConfigOption;

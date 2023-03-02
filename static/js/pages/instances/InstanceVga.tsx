@@ -7,7 +7,7 @@ import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import { createPortal } from "react-dom";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 declare global {
   // eslint-disable-next-line no-unused-vars

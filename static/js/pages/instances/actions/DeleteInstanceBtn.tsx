@@ -4,7 +4,7 @@ import { LxdInstance } from "types/instance";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Tooltip } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   instance: LxdInstance;
