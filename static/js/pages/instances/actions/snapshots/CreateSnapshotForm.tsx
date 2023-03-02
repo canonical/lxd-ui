@@ -4,22 +4,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getTomorrowMidnight, stringToIsoTime } from "util/helpers";
 import { createSnapshot } from "api/snapshots";
-import { NotificationHelper } from "types/notification";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "types/instance";
 import SubmitButton from "components/SubmitButton";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import NotificationRow from "components/NotificationRow";
 
 interface Props {
   instance: LxdInstance;
   close: () => void;
-  notify: NotificationHelper;
 }
 
-const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
-  const formNotify = useNotification();
+const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
+  const notify = useNotify();
   const queryClient = useQueryClient();
 
   const isRunning = instance.status === "Running";
@@ -74,7 +72,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
     },
     validationSchema: SnapshotSchema,
     onSubmit: (values) => {
-      formNotify.clear();
+      notify.clear();
       const expiresAt = values.expiresAt
         ? stringToIsoTime(values.expiresAt)
         : null;
@@ -87,7 +85,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
           close();
         })
         .catch((e) => {
-          formNotify.failure("Error on snapshot create.", e);
+          notify.failure("Error on snapshot create.", e);
           formik.setSubmitting(false);
         });
     },
@@ -116,7 +114,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, notify }) => {
       }
       onKeyDown={handleEscKey}
     >
-      <NotificationRow notify={formNotify} />
+      <NotificationRow />
       <Form onSubmit={formik.handleSubmit}>
         <Input
           id="name"

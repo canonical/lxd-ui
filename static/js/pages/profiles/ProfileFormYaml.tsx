@@ -9,7 +9,7 @@ import { dump as dumpYaml } from "js-yaml";
 import PanelHeader from "components/PanelHeader";
 import NotificationRow from "components/NotificationRow";
 import Aside from "components/Aside";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import YamlEditor from "@focus-reactive/react-yaml";
 import usePanelParams from "util/usePanelParams";
 import { yamlToJson } from "util/yaml";
@@ -21,7 +21,7 @@ import {
 import Loader from "components/Loader";
 
 const ProfileFormYaml: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
   const panelParams = usePanelParams();
   const queryClient = useQueryClient();
 
@@ -96,7 +96,7 @@ const ProfileFormYaml: FC = () => {
             </h4>
           }
         />
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         {isEditMode && isLoading ? (
           <Loader text="Loading profile details..." />
         ) : (

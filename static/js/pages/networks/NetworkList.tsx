@@ -5,16 +5,14 @@ import { fetchNetworks } from "api/networks";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
 import Loader from "components/Loader";
 import { useNavigate, useParams } from "react-router-dom";
+import useNotify from "util/useNotify";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();
-  const notify = useNotification();
-  const { project } = useParams<{
-    project: string;
-  }>();
+  const notify = useNotify();
+  const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
@@ -121,7 +119,7 @@ const NetworkList: FC = () => {
           </Button>
         }
       >
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <MainTable
             headers={headers}

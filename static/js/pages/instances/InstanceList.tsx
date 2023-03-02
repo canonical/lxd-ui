@@ -12,14 +12,13 @@ import { fetchInstances } from "api/instances";
 import NotificationRow from "components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import usePanelParams from "util/usePanelParams";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
 import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
-import { useSharedNotify } from "../../context/sharedNotify";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
 import EmptyState from "components/EmptyState";
@@ -46,7 +45,8 @@ const saveHidden = (columns: string[]) => {
 };
 
 const InstanceList: FC = () => {
-  const notify = useNotification();
+  const navigate = useNavigate();
+  const notify = useNotify();
   const panelParams = usePanelParams();
   const { project } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
@@ -60,13 +60,6 @@ const InstanceList: FC = () => {
   if (!project) {
     return <>Missing project</>;
   }
-
-  const { setSharedNotify } = useSharedNotify();
-  useEffect(() => {
-    if (setSharedNotify) {
-      setSharedNotify(notify);
-    }
-  }, [setSharedNotify, notify]);
 
   const {
     data: instances = [],
@@ -290,7 +283,6 @@ const InstanceList: FC = () => {
                         .includes(instance.name),
                     })}
                     instance={instance}
-                    notify={notify}
                     hasCaption={true}
                     onStarting={addStarting}
                     onStopping={addStopping}
@@ -371,13 +363,13 @@ const InstanceList: FC = () => {
             </div>
             <Button
               appearance="positive"
-              onClick={() => panelParams.openCreateInstance(project)}
+              onClick={() => navigate(`/ui/${project}/instances/1/create`)}
             >
               Create new
             </Button>
           </div>
           <div className="p-panel__content instance-content">
-            <NotificationRow notify={notify} />
+            <NotificationRow />
             <Row className="no-grid-gap">
               <Col size={12}>
                 <TableColumnsSelect
@@ -424,7 +416,9 @@ const InstanceList: FC = () => {
                     linkMessage="How to create instances"
                     linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
                     buttonLabel="Create"
-                    buttonAction={() => panelParams.openCreateInstance(project)}
+                    buttonAction={() =>
+                      navigate(`/ui/${project}/instances/1/create`)
+                    }
                   />
                 )}
               </Col>

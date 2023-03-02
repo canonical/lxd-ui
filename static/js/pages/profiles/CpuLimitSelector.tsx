@@ -8,18 +8,19 @@ import {
 } from "@canonical/react-components";
 import { fetchResources } from "api/server";
 import { useQuery } from "@tanstack/react-query";
-import { NotificationHelper } from "types/notification";
 import { queryKeys } from "util/queryKeys";
 import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
 import Loader from "components/Loader";
+import useNotify from "util/useNotify";
 
 interface Props {
-  notify: NotificationHelper;
   cpuLimit: CpuLimit;
   setCpuLimit: (cpuLimit: CpuLimit) => void;
 }
 
-const CpuLimitSelector: FC<Props> = ({ notify, cpuLimit, setCpuLimit }) => {
+const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
+  const notify = useNotify();
+
   const {
     data: resources,
     error,

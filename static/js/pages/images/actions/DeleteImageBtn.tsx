@@ -3,15 +3,15 @@ import { deleteImage } from "api/images";
 import { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
+import useNotify from "util/useNotify";
 
 interface Props {
   image: LxdImage;
-  notify: NotificationHelper;
 }
 
-const DeleteImageBtn: FC<Props> = ({ image, notify }) => {
+const DeleteImageBtn: FC<Props> = ({ image }) => {
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 

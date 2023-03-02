@@ -5,8 +5,7 @@ import { useFormik } from "formik";
 import { LxdConfigOption } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import NotificationRow from "components/NotificationRow";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 
 interface Props {
   option: LxdConfigOption;
@@ -15,7 +14,7 @@ interface Props {
 
 const SettingForm: FC<Props> = ({ option, value }) => {
   const [isEditMode, setEditMode] = useState(false);
-  const notify = useNotification();
+  const notify = useNotify();
   const queryClient = useQueryClient();
 
   const toFormikKey = (key: string) => {
@@ -125,7 +124,6 @@ const SettingForm: FC<Props> = ({ option, value }) => {
           </Button>
         </>
       )}
-      <NotificationRow notify={notify} />
     </>
   );
 };

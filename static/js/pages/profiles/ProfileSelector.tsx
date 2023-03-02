@@ -9,24 +9,19 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { NotificationHelper } from "types/notification";
 import { fetchProfiles } from "api/profiles";
 import { LxdProfile } from "types/profile";
 import Loader from "components/Loader";
+import useNotify from "util/useNotify";
 
 interface Props {
-  notify: NotificationHelper;
   project: string;
   selected: string[];
   setSelected: (profiles: string[]) => void;
 }
 
-const ProfileSelector: FC<Props> = ({
-  notify,
-  project,
-  selected,
-  setSelected,
-}) => {
+const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
+  const notify = useNotify();
   const toggleProfile = (item: LxdProfile) => {
     const newSelection = selected.includes(item.name)
       ? selected.filter((i) => i !== item.name)
@@ -77,10 +72,14 @@ const ProfileSelector: FC<Props> = ({
 
   return (
     <>
-      <Label className="u-sv-1">Apply profiles</Label>
-      <div className="u-text--muted u-sv1">
-        Add profiles and create a hierarchy
-      </div>
+      <Row>
+        <Col size={12}>
+          <Label className="u-sv-1">Apply profiles</Label>
+          <div className="u-text--muted u-sv1">
+            Add profiles and create a hierarchy
+          </div>
+        </Col>
+      </Row>
       <Row className="p-profile-select">
         <Col size={6} className="p-profile-select-box">
           <i className="p-profile-select-title">Available profiles</i>

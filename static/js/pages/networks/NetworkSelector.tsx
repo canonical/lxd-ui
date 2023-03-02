@@ -2,24 +2,19 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchNetworks } from "api/networks";
-import { NotificationHelper } from "types/notification";
 import { queryKeys } from "util/queryKeys";
 import { LxdNicDevice } from "types/device";
 import Loader from "components/Loader";
+import useNotify from "util/useNotify";
 
 interface Props {
-  notify: NotificationHelper;
   nicDevice: LxdNicDevice;
   project: string;
   setNicDevice: (nicDevice: LxdNicDevice) => void;
 }
 
-const NetworkSelector: FC<Props> = ({
-  notify,
-  nicDevice,
-  project,
-  setNicDevice,
-}) => {
+const NetworkSelector: FC<Props> = ({ nicDevice, project, setNicDevice }) => {
+  const notify = useNotify();
   const {
     data: networks = [],
     error,

@@ -4,7 +4,6 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
 import { useParams } from "react-router-dom";
 import CytoscapeComponent from "react-cytoscapejs";
 import { fetchInstances } from "api/instances";
@@ -43,10 +42,7 @@ interface CyEvent {
 }
 
 const NetworkMap: FC = () => {
-  const notify = useNotification();
-  const { project } = useParams<{
-    project: string;
-  }>();
+  const { project } = useParams<{ project: string }>();
   const cyPopperRef = useRef<PopperRef | null>(null);
 
   const { data: instances = [], isLoading: instanceLoading } = useQuery({
@@ -133,7 +129,7 @@ const NetworkMap: FC = () => {
 
   return (
     <BaseLayout title="Network map (beta)">
-      <NotificationRow notify={notify} />
+      <NotificationRow />
       <Row>
         <Col size={12} id="network-map" className="network-map">
           <MapLegend />

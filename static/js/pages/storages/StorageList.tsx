@@ -1,34 +1,24 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchStorages } from "api/storages";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storages/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storages/actions/DeleteStorageBtn";
 import StorageSize from "pages/storages/StorageSize";
-import { useSharedNotify } from "../../context/sharedNotify";
 
 const StorageList: FC = () => {
-  const notify = useNotification();
-  const { project } = useParams<{
-    project: string;
-  }>();
+  const notify = useNotify();
+  const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
   }
-
-  const { setSharedNotify } = useSharedNotify();
-  useEffect(() => {
-    if (setSharedNotify) {
-      setSharedNotify(notify);
-    }
-  }, [setSharedNotify, notify]);
 
   const {
     data: storages = [],
@@ -92,13 +82,7 @@ const StorageList: FC = () => {
           "aria-label": "State",
         },
         {
-          content: (
-            <DeleteStorageBtn
-              storage={storage}
-              project={project}
-              notify={notify}
-            />
-          ),
+          content: <DeleteStorageBtn storage={storage} project={project} />,
           role: "rowheader",
           className: "u-align--center",
           "aria-label": "Actions",
@@ -120,7 +104,7 @@ const StorageList: FC = () => {
         title="Storages"
         controls={<AddStorageBtn project={project} />}
       >
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <MainTable
             headers={headers}

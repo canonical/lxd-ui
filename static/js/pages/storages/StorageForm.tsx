@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import Aside from "components/Aside";
 import NotificationRow from "components/NotificationRow";
 import PanelHeader from "components/PanelHeader";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
@@ -21,13 +21,11 @@ import usePanelParams from "util/usePanelParams";
 import { LxdStorage } from "types/storage";
 import { createStoragePool } from "api/storages";
 import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
-import { useSharedNotify } from "../../context/sharedNotify";
 
 const StorageForm: FC = () => {
   const panelParams = usePanelParams();
-  const notify = useNotification();
+  const notify = useNotify();
   const queryClient = useQueryClient();
-  const { sharedNotify: storageListNotify } = useSharedNotify();
   const controllerState = useState<AbortController | null>(null);
 
   const StorageSchema = Yup.object().shape({
@@ -71,7 +69,7 @@ const StorageForm: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          storageListNotify?.success(`Storage ${storagePool.name} created.`);
+          notify.success(`Storage ${storagePool.name} created.`);
           panelParams.clear();
         })
         .catch((e) => {
@@ -90,7 +88,7 @@ const StorageForm: FC = () => {
       <div className="p-panel l-site">
         <PanelHeader title={<h4>Create storage pool</h4>} />
         <div className="p-panel__content">
-          <NotificationRow notify={notify} />
+          <NotificationRow />
           <Row>
             <Form onSubmit={formik.handleSubmit} stacked>
               <Input

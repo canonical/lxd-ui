@@ -5,7 +5,6 @@ import DeleteSnapshotBtn from "./actions/snapshots/DeleteSnapshotBtn";
 import RestoreSnapshotBtn from "./actions/snapshots/RestoreSnapshotBtn";
 import { createPortal } from "react-dom";
 import CreateSnapshotBtn from "./actions/snapshots/CreateSnapshotBtn";
-import { NotificationHelper } from "types/notification";
 import { LxdInstance } from "types/instance";
 import EmptyState from "components/EmptyState";
 import CreateSnapshotForm from "pages/instances/actions/snapshots/CreateSnapshotForm";
@@ -13,12 +12,10 @@ import CreateSnapshotForm from "pages/instances/actions/snapshots/CreateSnapshot
 interface Props {
   controlTarget?: HTMLSpanElement | null;
   instance: LxdInstance;
-  notify: NotificationHelper;
 }
 
-const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
+const InstanceSnapshots: FC<Props> = ({ controlTarget, instance }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Created at", sortKey: "created_at" },
@@ -30,16 +27,8 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
   const rows = instance.snapshots?.map((snapshot) => {
     const actions = (
       <>
-        <RestoreSnapshotBtn
-          instance={instance}
-          snapshot={snapshot}
-          notify={notify}
-        />
-        <DeleteSnapshotBtn
-          instance={instance}
-          snapshot={snapshot}
-          notify={notify}
-        />
+        <RestoreSnapshotBtn instance={instance} snapshot={snapshot} />
+        <DeleteSnapshotBtn instance={instance} snapshot={snapshot} />
       </>
     );
 
@@ -95,7 +84,6 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
         <CreateSnapshotForm
           instance={instance}
           close={() => setModalOpen(false)}
-          notify={notify}
         />
       )}
       <Row>

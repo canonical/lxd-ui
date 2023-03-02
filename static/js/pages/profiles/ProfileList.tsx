@@ -12,17 +12,15 @@ import { fetchProfiles } from "api/profiles";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import usePanelParams from "util/usePanelParams";
 import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
 
 const ProfileList: FC = () => {
-  const notify = useNotification();
+  const notify = useNotify();
   const panelParams = usePanelParams();
-  const { project } = useParams<{
-    project: string;
-  }>();
+  const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
@@ -152,7 +150,7 @@ const ProfileList: FC = () => {
           />
         }
       >
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <MainTable
             headers={headers}

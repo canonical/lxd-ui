@@ -1,17 +1,17 @@
 import React, { FC, useState } from "react";
-import { NotificationHelper } from "types/notification";
 import ConfirmationButton from "components/ConfirmationButton";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import { LxdProfile } from "types/profile";
+import useNotify from "util/useNotify";
 
 interface Props {
   profile: LxdProfile;
   project: string;
-  notify: NotificationHelper;
 }
 
-const DeleteProfileBtn: FC<Props> = ({ profile, project, notify }) => {
+const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -20,9 +20,10 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project, notify }) => {
     deleteProfile(profile.name, project)
       .then(() => {
         setLoading(false);
-        navigate(`/ui/${project}/profiles`, {
-          state: notify.success(`Profile ${profile.name} deleted.`),
-        });
+        navigate(
+          `/ui/${project}/profiles`,
+          notify.queue(notify.success(`Profile ${profile.name} deleted.`))
+        );
       })
       .catch((e) => {
         setLoading(false);

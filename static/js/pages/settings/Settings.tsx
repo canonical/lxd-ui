@@ -4,7 +4,7 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotification from "util/useNotification";
+import useNotify from "util/useNotify";
 import { fetchSettings } from "api/server";
 import { handleResponse } from "util/helpers";
 import { LxdConfigOption } from "types/config";
@@ -16,7 +16,7 @@ const configOptionsUrl = "static/assets/data/config-options.json";
 const Settings: FC = () => {
   const [configOptions, setConfigOptions] = useState<LxdConfigOption[]>([]);
   const [query, setQuery] = useState("");
-  const notify = useNotification();
+  const notify = useNotify();
 
   const loadConfigOptions = () => {
     void fetch(configOptionsUrl)
@@ -114,7 +114,7 @@ const Settings: FC = () => {
   return (
     <>
       <BaseLayout title="Settings">
-        <NotificationRow notify={notify} />
+        <NotificationRow />
         <Row>
           <Col size={8}>
             <SearchBox

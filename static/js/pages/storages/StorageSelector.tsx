@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
-import { NotificationHelper } from "types/notification";
 import { queryKeys } from "util/queryKeys";
 import { LxdDiskDevice } from "types/device";
 import { fetchStorages } from "api/storages";
 import Loader from "components/Loader";
+import useNotify from "util/useNotify";
 
 interface Props {
-  notify: NotificationHelper;
   project: string;
   diskDevice: LxdDiskDevice;
   setDiskDevice: (diskDevice: LxdDiskDevice) => void;
@@ -16,12 +15,12 @@ interface Props {
 }
 
 const StorageSelector: FC<Props> = ({
-  notify,
   project,
   diskDevice: diskDevice,
   setDiskDevice: setDiskDevice,
   hasPathInput = true,
 }) => {
+  const notify = useNotify();
   const {
     data: storagePools = [],
     error,

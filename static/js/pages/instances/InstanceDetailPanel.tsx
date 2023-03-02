@@ -12,14 +12,14 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { useSharedNotify } from "../../context/sharedNotify";
 import Aside from "components/Aside";
 import usePanelParams from "util/usePanelParams";
+import useNotify from "util/useNotify";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
 const InstanceDetailPanel: FC = () => {
-  const { sharedNotify: instanceListNotify } = useSharedNotify();
+  const notify = useNotify();
   const panelParams = usePanelParams();
   const [isStarting, setStarting] = useState<boolean>(false);
   const [isStopping, setStopping] = useState<boolean>(false);
@@ -36,7 +36,7 @@ const InstanceDetailPanel: FC = () => {
   });
 
   if (error) {
-    instanceListNotify?.failure("Could not load instance details.", error);
+    notify.failure("Could not load instance details.", error);
   }
 
   const [ip4DisplayCount, setIp4DisplayCount] = useState(5);
@@ -68,7 +68,7 @@ const InstanceDetailPanel: FC = () => {
     <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
       {isLoading && <Loader />}
       {!isLoading && !instance && <>Could not load instance details.</>}
-      {instance && instanceListNotify && (
+      {instance && (
         <div className="p-panel instance-detail-panel">
           <div className="p-panel__header">
             <h4 className="p-panel__title">Instance summary</h4>
@@ -99,7 +99,6 @@ const InstanceDetailPanel: FC = () => {
                 <StartStopInstanceBtn
                   key="startstop"
                   instance={instance}
-                  notify={instanceListNotify}
                   hasCaption={true}
                   onStarting={() => setStarting(true)}
                   onStopping={() => setStopping(true)}

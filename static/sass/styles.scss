@@ -43,6 +43,7 @@
 @import "file_row";
 @import "font";
 @import "instance_detail_panel";
+@import "instance_forms";
 @import "instance_list";
 @import "meter";
 @import "network_map";
@@ -60,12 +61,6 @@
 
 .u-align-self-end {
   align-self: end;
-}
-
-.p-instance-yaml {
-  margin-bottom: $sp-large;
-  max-height: calc(100vh - 200px);
-  overflow-y: scroll;
 }
 
 .p-profile-yaml {

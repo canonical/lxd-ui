@@ -9,16 +9,16 @@ import {
 } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import Loader from "components/Loader";
-import { NotificationHelper } from "types/notification";
 import useEventListener from "@use-it/event-listener";
 import { LxdInstance } from "types/instance";
+import useNotify from "util/useNotify";
 
 interface Props {
   instance: LxdInstance;
-  notify: NotificationHelper;
 }
 
-const InstanceTextConsole: FC<Props> = ({ instance, notify }) => {
+const InstanceTextConsole: FC<Props> = ({ instance }) => {
+  const notify = useNotify();
   const { name, project } = useParams<{
     name: string;
     project: string;
