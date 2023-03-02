@@ -5,7 +5,7 @@ import { startInstance, stopInstance, unfreezeInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
 import { Button, CheckboxInput } from "@canonical/react-components";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   instance: LxdInstance;

@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useNavigate, useParams } from "react-router-dom";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();

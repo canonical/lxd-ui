@@ -10,7 +10,7 @@ import { dump as dumpYaml } from "js-yaml";
 import PanelHeader from "components/PanelHeader";
 import NotificationRow from "components/NotificationRow";
 import Aside from "components/Aside";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import YamlEditor from "@focus-reactive/react-yaml";
 import usePanelParams from "util/usePanelParams";
 import { yamlToJson } from "util/yaml";

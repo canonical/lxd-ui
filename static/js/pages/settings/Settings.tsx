@@ -4,7 +4,7 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import { fetchSettings } from "api/server";
 import { handleResponse } from "util/helpers";
 import { LxdConfigOption } from "types/config";

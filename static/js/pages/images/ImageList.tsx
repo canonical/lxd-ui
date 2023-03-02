@@ -7,7 +7,7 @@ import NotificationRow from "components/NotificationRow";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 
 const ImageList: FC = () => {

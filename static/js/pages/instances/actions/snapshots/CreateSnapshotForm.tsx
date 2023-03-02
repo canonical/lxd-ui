@@ -8,7 +8,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "types/instance";
 import SubmitButton from "components/SubmitButton";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import NotificationRow from "components/NotificationRow";
 
 interface Props {

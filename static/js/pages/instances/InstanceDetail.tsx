@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import InstanceVga from "./InstanceVga";
 import InstanceSnapshots from "./InstanceSnapshots";
 import NotificationRow from "components/NotificationRow";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";

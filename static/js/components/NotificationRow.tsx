@@ -3,7 +3,7 @@ import {
   Row,
   Notification as NotificationComponent,
 } from "@canonical/react-components";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 const NotificationRow: FC = () => {
   const notify = useNotify();

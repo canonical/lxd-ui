@@ -4,9 +4,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Navigation from "components/Navigation";
 import Panels from "components/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "./context/auth";
+import { AuthProvider } from "context/auth";
+import { NotifyProvider } from "context/notify";
 import App from "./App";
-import NotifyProvider from "util/useNotification";
 
 const queryClient = new QueryClient();
 

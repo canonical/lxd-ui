@@ -11,7 +11,7 @@ import { getWsErrorMsg } from "util/helpers";
 import Loader from "components/Loader";
 import useEventListener from "@use-it/event-listener";
 import { LxdInstance } from "types/instance";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   instance: LxdInstance;

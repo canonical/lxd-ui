@@ -4,7 +4,7 @@ import { Button, Col, Icon, Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import BrowserImport from "pages/certificates/BrowserImport";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../context/auth";
+import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 
 interface Certs {

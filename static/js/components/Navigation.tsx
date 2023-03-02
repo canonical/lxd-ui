@@ -1,7 +1,7 @@
 import React, { FC, MouseEvent, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
-import { useAuth } from "../context/auth";
+import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 

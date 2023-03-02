@@ -5,7 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import { LxdDiskDevice } from "types/device";
 import { fetchStorages } from "api/storages";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   project: string;

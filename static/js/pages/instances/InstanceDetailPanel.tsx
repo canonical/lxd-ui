@@ -14,7 +14,7 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import Aside from "components/Aside";
 import usePanelParams from "util/usePanelParams";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 

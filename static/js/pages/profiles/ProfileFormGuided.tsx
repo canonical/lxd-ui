@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import Aside from "components/Aside";
 import NotificationRow from "components/NotificationRow";
 import PanelHeader from "components/PanelHeader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 import { createProfile } from "api/profiles";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

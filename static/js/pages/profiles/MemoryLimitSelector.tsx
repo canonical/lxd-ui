@@ -14,7 +14,7 @@ import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
 import { DEFAULT_MEM_LIMIT } from "util/defaults";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
-import useNotify from "util/useNotify";
+import { useNotify } from "context/notify";
 
 interface Props {
   memoryLimit: MemoryLimit;
