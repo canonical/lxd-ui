@@ -6,16 +6,16 @@ export const cpuLimitToPayload = (cpuLimit: CpuLimit) => {
       if (cpuLimit.dynamicValue) {
         return `${cpuLimit.dynamicValue}`;
       }
-      return null;
+      return undefined;
     case CPU_LIMIT_TYPE.FIXED_RANGE:
-      if (!cpuLimit.rangeValue) return null;
+      if (!cpuLimit.rangeValue) return undefined;
       if (
         cpuLimit.rangeValue.from !== null &&
         cpuLimit.rangeValue.to !== null
       ) {
         return `${cpuLimit.rangeValue.from}-${cpuLimit.rangeValue.to}`;
       }
-      return null;
+      return undefined;
     case CPU_LIMIT_TYPE.FIXED_SET:
       if (cpuLimit.setValue) {
         if (cpuLimit.setValue.includes(",")) {
@@ -24,6 +24,14 @@ export const cpuLimitToPayload = (cpuLimit: CpuLimit) => {
         const singleValue = +cpuLimit.setValue;
         return `${singleValue}-${singleValue}`;
       }
-      return null;
+      return undefined;
   }
+};
+
+export const boolPayload = (val?: boolean) => {
+  if (val === undefined) {
+    return undefined;
+  }
+
+  return val ? "true" : "false";
 };
