@@ -132,7 +132,7 @@ const InstanceList: FC = () => {
   };
   useEffect(() => {
     updateTBodyHeight();
-  }, [instances, notify.notification]);
+  }, [instances, notify.notification, query, status, type]);
 
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
