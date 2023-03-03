@@ -195,6 +195,20 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     setConfigOpen((old) => !old);
   };
 
+  const getYaml = () => {
+    const exclude = new Set([
+      "backups",
+      "snapshots",
+      "state",
+      "expanded_config",
+      "expanded_devices",
+    ]);
+    const bareInstance = Object.fromEntries(
+      Object.entries(instance).filter((e) => !exclude.has(e[0]))
+    );
+    return dumpYaml(bareInstance);
+  };
+
   const overrideNotification = (
     <Notification severity="caution" title="Before you add configurations">
       The custom configuration overrides any settings specified through
@@ -249,7 +263,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
             {section === YAML_CONFIGURATION && (
               <YamlForm
-                yaml={dumpYaml(instance)}
+                yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >
                 <Notification
