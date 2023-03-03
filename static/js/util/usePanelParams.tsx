@@ -7,7 +7,6 @@ export interface PanelHelper {
   project: string;
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
-  openEditInstance: (instance: string, project: string) => void;
   openImageImport: () => void;
   openProfileFormGuided: (project: string) => void;
   openProfileFormYaml: (profile: string, project: string) => void;
@@ -17,7 +16,6 @@ export interface PanelHelper {
 
 export const panels = {
   instanceSummary: "instance-summary",
-  editInstance: "edit-instance",
   imageImport: "image-import",
   profileFormGuided: "profile-form-guided",
   profileFormYaml: "profile-form-yaml",
@@ -50,10 +48,6 @@ const usePanelParams = (): PanelHelper => {
 
     openInstanceSummary: (instance, project) => {
       setPanelParams(panels.instanceSummary, { instance, project });
-    },
-
-    openEditInstance: (instance, project) => {
-      setPanelParams(panels.editInstance, { instance, project });
     },
 
     openImageImport: () => {

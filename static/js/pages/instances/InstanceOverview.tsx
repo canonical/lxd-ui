@@ -6,7 +6,6 @@ import { humanFileSize, isoTimeToString } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
-import EditInstanceBtn from "./actions/EditInstanceBtn";
 import { createPortal } from "react-dom";
 import { List } from "@canonical/react-components";
 import Loader from "components/Loader";
@@ -58,13 +57,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance }) => {
   return (
     <>
       {controlTarget &&
-        createPortal(
-          <>
-            <EditInstanceBtn instance={instance} />
-            <DeleteInstanceBtn instance={instance} />
-          </>,
-          controlTarget
-        )}
+        createPortal(<DeleteInstanceBtn instance={instance} />, controlTarget)}
       <table>
         <tbody>
           <tr>

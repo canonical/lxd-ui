@@ -25,7 +25,6 @@ import InstanceDetailsForm, {
   instanceDetailPayload,
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceDetailsForm";
-import MenuItem from "pages/instances/forms/FormMenuItem";
 import { useNotify } from "context/notify";
 import DevicesForm, {
   devicePayload,
@@ -49,6 +48,15 @@ import ResourceLimitsForm, {
 } from "pages/instances/forms/ResourceLimitsForm";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
+import InstanceFormMenu, {
+  CLOUD_INIT,
+  DEVICES,
+  INSTANCE_DETAILS,
+  RESOURCE_LIMITS,
+  SECURITY_POLICIES,
+  SNAPSHOTS,
+  YAML_CONFIGURATION,
+} from "pages/instances/forms/InstanceFormMenu";
 
 export type FormValues = InstanceDetailsFormValues &
   DevicesFormValues &
@@ -61,14 +69,6 @@ export type FormValues = InstanceDetailsFormValues &
 interface RetryFormState {
   retryFormValues: FormValues;
 }
-
-const INSTANCE_DETAILS = "Instance details";
-const DEVICES = "Devices";
-const RESOURCE_LIMITS = "Resource limits";
-const SECURITY_POLICIES = "Security policies";
-const SNAPSHOTS = "Snapshots";
-const CLOUD_INIT = "Cloud init";
-const YAML_CONFIGURATION = "YAML configuration";
 
 const CreateInstanceForm: FC = () => {
   const location = useLocation() as Location<RetryFormState | null>;
@@ -217,7 +217,7 @@ const CreateInstanceForm: FC = () => {
     };
   };
 
-  const blockMenu = () => {
+  const blockCustomConfiguration = () => {
     if (!formik.values.image) {
       notify.info("Please select an image before adding custom configuration.");
       return true;
@@ -225,17 +225,21 @@ const CreateInstanceForm: FC = () => {
     return false;
   };
 
-  const menuItem = {
-    active: section,
-    setActive: (newItem: string) => {
-      if (blockMenu()) {
-        return;
-      }
-      if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
-        void formik.setFieldValue("yaml", undefined);
-      }
-      setSection(newItem);
-    },
+  const updateSection = (newItem: string) => {
+    if (blockCustomConfiguration()) {
+      return;
+    }
+    if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
+      void formik.setFieldValue("yaml", undefined);
+    }
+    setSection(newItem);
+  };
+
+  const toggleMenu = () => {
+    if (blockCustomConfiguration()) {
+      return;
+    }
+    setConfigOpen((old) => !old);
   };
 
   function getYaml() {
@@ -262,36 +266,12 @@ const CreateInstanceForm: FC = () => {
             stacked
             className="instance-form"
           >
-            <div className="p-side-navigation--accordion form-navigation">
-              <nav aria-label="Instance creation">
-                <ul className="p-side-navigation__list">
-                  <MenuItem label={INSTANCE_DETAILS} {...menuItem} />
-                  <li className="p-side-navigation__item">
-                    <button
-                      type="button"
-                      className="p-side-navigation__accordion-button"
-                      aria-expanded={isConfigOpen ? "true" : "false"}
-                      onClick={() =>
-                        !blockMenu() && setConfigOpen((old) => !old)
-                      }
-                    >
-                      Configuration
-                    </button>
-                    <ul
-                      className="p-side-navigation__list"
-                      aria-expanded={isConfigOpen ? "true" : "false"}
-                    >
-                      <MenuItem label={DEVICES} {...menuItem} />
-                      <MenuItem label={RESOURCE_LIMITS} {...menuItem} />
-                      <MenuItem label={SECURITY_POLICIES} {...menuItem} />
-                      <MenuItem label={SNAPSHOTS} {...menuItem} />
-                      <MenuItem label={CLOUD_INIT} {...menuItem} />
-                    </ul>
-                  </li>
-                  <MenuItem label={YAML_CONFIGURATION} {...menuItem} />
-                </ul>
-              </nav>
-            </div>
+            <InstanceFormMenu
+              active={section}
+              setActive={updateSection}
+              isConfigOpen={isConfigOpen}
+              toggleConfigOpen={toggleMenu}
+            />
             <Row className="form-contents">
               <Col size={12}>
                 <NotificationRow />

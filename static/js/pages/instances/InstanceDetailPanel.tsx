@@ -229,8 +229,7 @@ const InstanceDetailPanel: FC = () => {
                   className="p-action-link p-text--small u-align--right u-no-margin--bottom u-truncate"
                 >
                   <Link
-                    // TODO: fix this link to point to the configurations tab
-                    to={`/ui/${instance.project}/instances/${instance.name}`}
+                    to={`/ui/${instance.project}/instances/${instance.name}/configuration`}
                   >
                     View configurations
                   </Link>

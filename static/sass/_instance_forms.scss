@@ -23,6 +23,12 @@
   }
 }
 
+.edit-instance-form {
+  .form-contents {
+    margin-left: 1.5rem;
+  }
+}
+
 @include mobile-and-tablet {
   .instance-form {
     flex-direction: column;

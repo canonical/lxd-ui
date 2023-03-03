@@ -7,6 +7,7 @@ import CpuLimitSelector from "pages/profiles/CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import classnames from "classnames";
 import { boolPayload, cpuLimitToPayload } from "util/limits";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 
 export interface ResourceLimitsFormValues {
   limits_cpu: CpuLimit;
@@ -15,7 +16,10 @@ export interface ResourceLimitsFormValues {
   limits_processes?: number;
 }
 
-export const resourceLimitsPayload = (values: FormValues, isVm: boolean) => {
+export const resourceLimitsPayload = (
+  values: FormValues | EditInstanceFormValues,
+  isVm: boolean
+) => {
   return {
     ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
     ["limits.memory"]: values.limits_memory.value
@@ -32,7 +36,7 @@ export const resourceLimitsPayload = (values: FormValues, isVm: boolean) => {
 };
 
 interface Props {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
   children?: ReactNode;
 }
 
