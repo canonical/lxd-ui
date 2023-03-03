@@ -10,6 +10,14 @@ export interface CloudInitFormValues {
   ["cloud-init_vendor-data"]: string;
 }
 
+export const cloudInitPayload = (values: FormValues) => {
+  return {
+    ["cloud-init.network-config"]: values["cloud-init_network-config"],
+    ["cloud-init.user-data"]: values["cloud-init_user-data"],
+    ["cloud-init.vendor-data"]: values["cloud-init_vendor-data"],
+  };
+};
+
 interface Props {
   formik: FormikProps<FormValues>;
 }

@@ -6,6 +6,7 @@ import MemoryLimitSelector from "pages/profiles/MemoryLimitSelector";
 import CpuLimitSelector from "pages/profiles/CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import classnames from "classnames";
+import { cpuLimitToPayload } from "util/limits";
 
 export interface ResourceLimitsFormValues {
   limits_cpu: CpuLimit;
@@ -13,6 +14,23 @@ export interface ResourceLimitsFormValues {
   limits_memory_swap: boolean;
   limits_processes?: number;
 }
+
+export const resourceLimitsPayload = (values: FormValues, isVm: boolean) => {
+  return {
+    ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
+    ["limits.memory"]: values.limits_memory.value
+      ? `${values.limits_memory.value}${values.limits_memory.unit}`
+      : undefined,
+    ["limits.memory.swap"]: isVm
+      ? undefined
+      : values.limits_memory_swap
+      ? "true"
+      : "false",
+    ["limits.processes"]: isVm
+      ? undefined
+      : values.limits_processes?.toString(),
+  };
+};
 
 interface Props {
   formik: FormikProps<FormValues>;

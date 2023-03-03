@@ -30,6 +30,19 @@ export interface DevicesFormValues {
   devices: FormDevice[];
 }
 
+export const devicePayload = (values: FormValues) => {
+  return {
+    devices: values.devices
+      .filter((item) => item.type !== "")
+      .reduce((obj, { name, ...item }) => {
+        return {
+          ...obj,
+          [name]: item,
+        };
+      }, {}),
+  };
+};
+
 interface Props {
   formik: FormikProps<FormValues>;
   project: string;
