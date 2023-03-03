@@ -3,6 +3,7 @@ import { CheckboxInput, Col, Input, Row } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { FormValues } from "pages/instances/CreateInstanceForm";
 import { boolPayload } from "util/limits";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -11,7 +12,9 @@ export interface SnapshotFormValues {
   snapshots_schedule_stopped?: boolean;
 }
 
-export const snapshotsPayload = (values: FormValues) => {
+export const snapshotsPayload = (
+  values: FormValues | EditInstanceFormValues
+) => {
   return {
     ["snapshots.pattern"]: values.snapshots_pattern,
     ["snapshots.schedule.stopped"]: boolPayload(
@@ -23,7 +26,7 @@ export const snapshotsPayload = (values: FormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
   children?: ReactNode;
 }
 

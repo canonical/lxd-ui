@@ -15,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import { fetchStorages } from "api/storages";
 import { LxdDiskDevice, LxdNicDevice } from "types/device";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 
 interface EmptyDevice {
   type: "";
@@ -30,7 +31,7 @@ export interface DevicesFormValues {
   devices: FormDevice[];
 }
 
-export const devicePayload = (values: FormValues) => {
+export const devicePayload = (values: FormValues | EditInstanceFormValues) => {
   return {
     devices: values.devices
       .filter((item) => item.type !== "")
@@ -44,7 +45,7 @@ export const devicePayload = (values: FormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
   project: string;
   children?: ReactNode;
 }

@@ -15,9 +15,11 @@ import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import PauseInstanceBtn from "./actions/PauseInstanceBtn";
 import InstanceTextConsole from "pages/instances/InstanceTextConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
+import InstanceConfiguration from "pages/instances/InstanceConfiguration";
 
 const TABS: string[] = [
   "Overview",
+  "Configuration",
   "Snapshots",
   "Terminal",
   "Text Console",
@@ -117,8 +119,18 @@ const InstanceDetail: FC = () => {
                 </div>
               )}
 
+              {activeTab === "configuration" && (
+                <div
+                  tabIndex={1}
+                  role="tabpanel"
+                  aria-labelledby="configuration"
+                >
+                  <InstanceConfiguration instance={instance} />
+                </div>
+              )}
+
               {activeTab === "snapshots" && (
-                <div tabIndex={1} role="tabpanel" aria-labelledby="snapshots">
+                <div tabIndex={2} role="tabpanel" aria-labelledby="snapshots">
                   <InstanceSnapshots
                     instance={instance}
                     controlTarget={controlTarget}
@@ -127,14 +139,14 @@ const InstanceDetail: FC = () => {
               )}
 
               {activeTab === "terminal" && (
-                <div tabIndex={2} role="tabpanel" aria-labelledby="terminal">
+                <div tabIndex={3} role="tabpanel" aria-labelledby="terminal">
                   <InstanceTerminal controlTarget={controlTarget} />
                 </div>
               )}
 
               {activeTab === "text-console" && (
                 <div
-                  tabIndex={3}
+                  tabIndex={4}
                   role="tabpanel"
                   aria-labelledby="text console"
                 >
@@ -143,13 +155,13 @@ const InstanceDetail: FC = () => {
               )}
 
               {activeTab === "vga-console" && (
-                <div tabIndex={4} role="tabpanel" aria-labelledby="vga console">
+                <div tabIndex={5} role="tabpanel" aria-labelledby="vga console">
                   <InstanceVga controlTarget={controlTarget} />
                 </div>
               )}
 
               {activeTab === "logs" && (
-                <div tabIndex={5} role="tabpanel" aria-labelledby="logs">
+                <div tabIndex={6} role="tabpanel" aria-labelledby="logs">
                   <InstanceLogs instance={instance} />
                 </div>
               )}

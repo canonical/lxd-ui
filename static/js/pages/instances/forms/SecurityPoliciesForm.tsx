@@ -4,6 +4,7 @@ import { FormikProps } from "formik/dist/types";
 import { FormValues } from "pages/instances/CreateInstanceForm";
 import classnames from "classnames";
 import { boolPayload } from "util/limits";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: boolean;
@@ -17,7 +18,10 @@ export interface SecurityPoliciesFormValues {
   security_secureboot?: boolean;
 }
 
-export const securityPoliciesPayload = (values: FormValues, isVm: boolean) => {
+export const securityPoliciesPayload = (
+  values: FormValues | EditInstanceFormValues,
+  isVm: boolean
+) => {
   return {
     ["security.protection.delete"]: boolPayload(
       values.security_protection_delete
@@ -44,7 +48,7 @@ export const securityPoliciesPayload = (values: FormValues, isVm: boolean) => {
 };
 
 interface Props {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
   children?: ReactNode;
 }
 

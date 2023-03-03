@@ -44,11 +44,11 @@ export const createInstance = (
   });
 };
 
-export const updateInstanceFromJson = (body: string, project: string) => {
+export const updateInstance = (body: string, project: string) => {
   const instance = JSON.parse(body) as LxdInstance;
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${project}`, {
-      method: "PUT",
+      method: "PATCH",
       body: body,
     })
       .then(handleResponse)
