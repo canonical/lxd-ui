@@ -153,8 +153,17 @@ const InstanceList: FC = () => {
   };
 
   const visibleInstances = instances.filter((item) => {
-    if (query && !item.name.includes(query)) {
-      return false;
+    if (query) {
+      const q = query.toLowerCase();
+      if (
+        !item.name.toLowerCase().includes(q) &&
+        !item.status.toLowerCase().includes(q) &&
+        !item.type.toLowerCase().includes(q) &&
+        !item.description.toLowerCase().includes(q) &&
+        !item.config["image.description"].toLowerCase().includes(q)
+      ) {
+        return false;
+      }
     }
     if (type !== "any" && item.type !== type) {
       return false;
