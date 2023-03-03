@@ -22,28 +22,33 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { Location } from "history";
 import InstanceDetailsForm, {
+  instanceDetailPayload,
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceDetailsForm";
 import MenuItem from "pages/instances/forms/FormMenuItem";
 import { useNotify } from "context/notify";
 import DevicesForm, {
+  devicePayload,
   DevicesFormValues,
 } from "pages/instances/forms/DevicesForm";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
+  securityPoliciesPayload,
 } from "pages/instances/forms/SecurityPoliciesForm";
 import SnapshotsForm, {
   SnapshotFormValues,
+  snapshotsPayload,
 } from "pages/instances/forms/SnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
+  cloudInitPayload,
 } from "pages/instances/forms/CloudInitForm";
 import ResourceLimitsForm, {
   ResourceLimitsFormValues,
+  resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
-import { cpuLimitToPayload } from "util/limits";
 
 export type FormValues = InstanceDetailsFormValues &
   DevicesFormValues &
@@ -221,82 +226,13 @@ const CreateInstanceForm: FC = () => {
   const getCreationPayload = (values: FormValues) => {
     const isVm = values.instanceType === "virtual-machine";
     return {
-      name: values.name,
-      description: values.description,
-      devices: values.devices
-        .filter((item) => item.type !== "")
-        .reduce((obj, { name, ...item }) => {
-          return {
-            ...obj,
-            [name]: item,
-          };
-        }, {}),
-      type: values.instanceType,
-      profiles: values.profiles,
+      ...instanceDetailPayload(values),
+      ...devicePayload(values),
       config: {
-        ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
-        ["limits.memory"]: values.limits_memory.value
-          ? `${values.limits_memory.value}${values.limits_memory.unit}`
-          : undefined,
-        ["limits.memory.swap"]: isVm
-          ? undefined
-          : values.limits_memory_swap
-          ? "true"
-          : "false",
-        ["limits.processes"]: isVm
-          ? undefined
-          : values.limits_processes?.toString(),
-        ["security.protection.delete"]: values.security_protection_delete
-          ? "true"
-          : "false",
-        ["security.privileged"]: isVm
-          ? undefined
-          : values.security_privileged
-          ? "true"
-          : "false",
-        ["security.protection.shift"]: isVm
-          ? undefined
-          : values.security_protection_shift
-          ? "true"
-          : "false",
-        ["security.idmap.base"]: isVm ? undefined : values.security_idmap_base,
-        ["security.idmap.size"]: isVm ? undefined : values.security_idmap_size,
-        ["security.idmap.isolated"]: isVm
-          ? undefined
-          : values.security_idmap_isolated
-          ? "true"
-          : "false",
-        ["security.devlxd"]: isVm
-          ? undefined
-          : values.security_devlxd
-          ? "true"
-          : "false",
-        ["security.devlxd.images"]: isVm
-          ? undefined
-          : values.security_devlxd_images
-          ? "true"
-          : "false",
-        ["security.secureboot"]: !isVm
-          ? undefined
-          : values.security_secureboot
-          ? "true"
-          : "false",
-        ["snapshots.pattern"]: values.snapshots_pattern,
-        ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped
-          ? "true"
-          : "false",
-        ["snapshots.schedule"]: values.snapshots_schedule,
-        ["snapshots.expiry"]: values.snapshots_expiry,
-        ["cloud-init.network-config"]: values["cloud-init_network-config"],
-        ["cloud-init.user-data"]: values["cloud-init_user-data"],
-        ["cloud-init.vendor-data"]: values["cloud-init_vendor-data"],
-      },
-      source: {
-        alias: values.image?.aliases.split(",")[0],
-        mode: "pull",
-        protocol: "simplestreams",
-        server: values.image?.server,
-        type: "image",
+        ...resourceLimitsPayload(values, isVm),
+        ...securityPoliciesPayload(values, isVm),
+        ...snapshotsPayload(values),
+        ...cloudInitPayload(values),
       },
     };
   };

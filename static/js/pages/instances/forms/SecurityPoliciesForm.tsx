@@ -16,6 +16,46 @@ export interface SecurityPoliciesFormValues {
   security_secureboot: boolean;
 }
 
+export const securityPoliciesPayload = (values: FormValues, isVm: boolean) => {
+  return {
+    ["security.protection.delete"]: values.security_protection_delete
+      ? "true"
+      : "false",
+    ["security.privileged"]: isVm
+      ? undefined
+      : values.security_privileged
+      ? "true"
+      : "false",
+    ["security.protection.shift"]: isVm
+      ? undefined
+      : values.security_protection_shift
+      ? "true"
+      : "false",
+    ["security.idmap.base"]: isVm ? undefined : values.security_idmap_base,
+    ["security.idmap.size"]: isVm ? undefined : values.security_idmap_size,
+    ["security.idmap.isolated"]: isVm
+      ? undefined
+      : values.security_idmap_isolated
+      ? "true"
+      : "false",
+    ["security.devlxd"]: isVm
+      ? undefined
+      : values.security_devlxd
+      ? "true"
+      : "false",
+    ["security.devlxd.images"]: isVm
+      ? undefined
+      : values.security_devlxd_images
+      ? "true"
+      : "false",
+    ["security.secureboot"]: !isVm
+      ? undefined
+      : values.security_secureboot
+      ? "true"
+      : "false",
+  };
+};
+
 interface Props {
   formik: FormikProps<FormValues>;
   children?: ReactNode;

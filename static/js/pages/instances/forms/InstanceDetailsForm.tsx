@@ -16,6 +16,22 @@ export interface InstanceDetailsFormValues {
   profiles: string[];
 }
 
+export const instanceDetailPayload = (values: FormValues) => {
+  return {
+    name: values.name,
+    description: values.description,
+    type: values.instanceType,
+    profiles: values.profiles,
+    source: {
+      alias: values.image?.aliases.split(",")[0],
+      mode: "pull",
+      protocol: "simplestreams",
+      server: values.image?.server,
+      type: "image",
+    },
+  };
+};
+
 interface Props {
   formik: FormikProps<FormValues>;
   onSelectImage: (image: RemoteImage, type: string | null) => void;

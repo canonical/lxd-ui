@@ -10,6 +10,17 @@ export interface SnapshotFormValues {
   snapshots_schedule_stopped: boolean;
 }
 
+export const snapshotsPayload = (values: FormValues) => {
+  return {
+    ["snapshots.pattern"]: values.snapshots_pattern,
+    ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped
+      ? "true"
+      : "false",
+    ["snapshots.schedule"]: values.snapshots_schedule,
+    ["snapshots.expiry"]: values.snapshots_expiry,
+  };
+};
+
 interface Props {
   formik: FormikProps<FormValues>;
   children?: ReactNode;
