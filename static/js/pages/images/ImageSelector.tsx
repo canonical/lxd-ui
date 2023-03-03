@@ -19,6 +19,8 @@ import { queryKeys } from "util/queryKeys";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import Loader from "components/Loader";
+import { fetchSettings } from "api/server";
+import { getArchitectureAliases } from "util/architectures";
 
 interface Props {
   onClose: () => void;
@@ -59,6 +61,11 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     });
   };
 
+  const { data: settings, isLoading: isSettingsLoading } = useQuery({
+    queryKey: [queryKeys.settings],
+    queryFn: fetchSettings,
+  });
+
   const { data: linuxContainerImages = [], isLoading: isLciLoading } = useQuery(
     {
       queryKey: [queryKeys.images, linuxContainersServer],
@@ -70,19 +77,35 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     queryKey: [queryKeys.images, canonicalServer],
     queryFn: () => loadImages(canonicalJson, canonicalServer),
   });
-  const isLoading = isCiLoading || isLciLoading;
-  const images = isLoading ? [] : canonicalImages.concat(linuxContainerImages);
-  images.sort((a, b) => {
-    if (a.aliases.includes("lts")) {
-      return -1;
-    }
-    if (b.aliases.includes("lts")) {
-      return 1;
-    }
-    return 0;
-  });
+  const isLoading = isCiLoading || isLciLoading || isSettingsLoading;
+  const archSupported = getArchitectureAliases(
+    settings?.environment?.architectures ?? []
+  );
+  const images = isLoading
+    ? []
+    : canonicalImages
+        .concat(linuxContainerImages)
+        .filter((image) => archSupported.includes(image.arch))
+        .sort((a, b) => {
+          if (a.aliases.includes("lts")) {
+            return -1;
+          }
+          if (b.aliases.includes("lts")) {
+            return 1;
+          }
+          return 0;
+        });
 
   const archAll = [...new Set(images.map((item) => item.arch))].sort();
+
+  if (
+    archSupported.length > 0 &&
+    !archSupported.includes("amd64") &&
+    arch.length === 1 &&
+    arch.pop() === "amd64"
+  ) {
+    setArch(archAll);
+  }
 
   const getOptionList: (
     mapper: (item: RemoteImage) => string,
