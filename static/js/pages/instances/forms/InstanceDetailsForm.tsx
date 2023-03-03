@@ -9,7 +9,7 @@ import { FormValues } from "pages/instances/CreateInstanceForm";
 import { RemoteImage } from "types/image";
 
 export interface InstanceDetailsFormValues {
-  name: string;
+  name?: string;
   description?: string;
   image?: RemoteImage;
   instanceType: string;

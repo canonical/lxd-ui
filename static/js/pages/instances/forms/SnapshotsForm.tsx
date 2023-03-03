@@ -2,20 +2,21 @@ import React, { FC, ReactNode } from "react";
 import { CheckboxInput, Col, Input, Row } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { FormValues } from "pages/instances/CreateInstanceForm";
+import { boolPayload } from "util/limits";
 
 export interface SnapshotFormValues {
-  snapshots_pattern: string;
-  snapshots_expiry: string;
-  snapshots_schedule: string;
-  snapshots_schedule_stopped: boolean;
+  snapshots_pattern?: string;
+  snapshots_expiry?: string;
+  snapshots_schedule?: string;
+  snapshots_schedule_stopped?: boolean;
 }
 
 export const snapshotsPayload = (values: FormValues) => {
   return {
     ["snapshots.pattern"]: values.snapshots_pattern,
-    ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped
-      ? "true"
-      : "false",
+    ["snapshots.schedule.stopped"]: boolPayload(
+      values.snapshots_schedule_stopped
+    ),
     ["snapshots.schedule"]: values.snapshots_schedule,
     ["snapshots.expiry"]: values.snapshots_expiry,
   };
@@ -68,8 +69,16 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             label="Snapshot stopped instances"
             name="snapshots_schedule_stopped"
             onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              formik.setFieldValue(
+                "snapshots_schedule_stopped",
+                e.target.checked
+              )
+            }
             checked={formik.values.snapshots_schedule_stopped}
+            indeterminate={
+              formik.values.snapshots_schedule_stopped === undefined
+            }
           />
           <hr />
           <Input
