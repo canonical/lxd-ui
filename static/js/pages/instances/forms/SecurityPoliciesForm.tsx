@@ -2,9 +2,10 @@ import React, { FC, ReactNode } from "react";
 import { CheckboxInput, Col, Input, Row } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { FormValues } from "pages/instances/CreateInstanceForm";
+import classnames from "classnames";
 
 export interface SecurityPoliciesFormValues {
-  protection_delete: boolean;
+  security_protection_delete: boolean;
   security_privileged: boolean;
   security_protection_shift: boolean;
   security_idmap_base: string;
@@ -28,10 +29,10 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
         <Col size={9}>
           <CheckboxInput
             label="Prevent the instance from being deleted"
-            name="protection_delete"
+            name="security_protection_delete"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            checked={formik.values.protection_delete}
+            checked={formik.values.security_protection_delete}
           />
           <CheckboxInput
             label="Run the instance in privileged mode (Containers only)"
@@ -39,6 +40,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.security_privileged}
+            disabled={formik.values.instanceType !== "container"}
           />
           <CheckboxInput
             label="Prevent instance file system from being UID/GID shifted on startup (Containers only)"
@@ -46,6 +48,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.security_protection_shift}
+            disabled={formik.values.instanceType !== "container"}
           />
           <hr />
           <Input
@@ -56,6 +59,10 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             value={formik.values.security_idmap_base}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
+            disabled={formik.values.instanceType !== "container"}
+            labelClassName={classnames({
+              "is-disabled": formik.values.instanceType !== "container",
+            })}
           />
           <Input
             label="Idmap size (Containers only)"
@@ -65,6 +72,10 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             value={formik.values.security_idmap_size}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
+            disabled={formik.values.instanceType !== "container"}
+            labelClassName={classnames({
+              "is-disabled": formik.values.instanceType !== "container",
+            })}
           />
           <CheckboxInput
             label="Use unique idmap (Containers only)"
@@ -72,6 +83,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.security_idmap_isolated}
+            disabled={formik.values.instanceType !== "container"}
           />
           <hr />
           <CheckboxInput
@@ -80,14 +92,18 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.security_devlxd}
+            disabled={formik.values.instanceType !== "container"}
           />
           <CheckboxInput
-            disabled={!formik.values.security_devlxd}
             label="Make /1.0/images API available over /dev/lxd (Containers only)"
             name="security_devlxd_images"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.security_devlxd_images}
+            disabled={
+              !formik.values.security_devlxd ||
+              formik.values.instanceType !== "container"
+            }
           />
           <hr />
           <CheckboxInput
@@ -96,6 +112,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.security_secureboot}
+            disabled={formik.values.instanceType !== "virtual-machine"}
           />
         </Col>
       </Row>
