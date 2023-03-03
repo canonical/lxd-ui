@@ -66,7 +66,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             name="snapshots_schedule"
             help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
             type="text"
-            value={formik.values.snapshots_expiry}
+            value={formik.values.snapshots_schedule}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />

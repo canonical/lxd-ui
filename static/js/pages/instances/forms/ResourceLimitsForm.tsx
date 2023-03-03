@@ -5,6 +5,7 @@ import { FormValues } from "pages/instances/CreateInstanceForm";
 import MemoryLimitSelector from "pages/profiles/MemoryLimitSelector";
 import CpuLimitSelector from "pages/profiles/CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
+import classnames from "classnames";
 
 export interface ResourceLimitsFormValues {
   limits_cpu: CpuLimit;
@@ -43,6 +44,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             checked={formik.values.limits_memory_swap}
+            disabled={formik.values.instanceType !== "container"}
           />
           <hr />
           <Input
@@ -52,6 +54,10 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             onChange={formik.handleChange}
             value={formik.values.limits_processes}
             type="number"
+            disabled={formik.values.instanceType !== "container"}
+            labelClassName={classnames({
+              "is-disabled": formik.values.instanceType !== "container",
+            })}
           />
           <hr />
         </Col>

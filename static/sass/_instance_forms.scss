@@ -16,6 +16,11 @@
   .delete-device {
     margin-top: 2.5rem;
   }
+
+  .is-disabled {
+    cursor: not-allowed;
+    opacity: 0.33;
+  }
 }
 
 @include mobile-and-tablet {

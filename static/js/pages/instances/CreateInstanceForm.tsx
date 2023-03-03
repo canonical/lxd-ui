@@ -175,7 +175,7 @@ const CreateInstanceForm: FC = () => {
       limits_cpu: DEFAULT_CPU_LIMIT,
       limits_memory: DEFAULT_MEM_LIMIT,
       limits_memory_swap: false,
-      protection_delete: false,
+      security_protection_delete: false,
       security_privileged: false,
       security_protection_shift: false,
       security_idmap_base: "",
@@ -219,6 +219,7 @@ const CreateInstanceForm: FC = () => {
   };
 
   const getCreationPayload = (values: FormValues) => {
+    const isVm = values.instanceType === "virtual-machine";
     return {
       name: values.name,
       description: values.description,
@@ -232,28 +233,64 @@ const CreateInstanceForm: FC = () => {
         }, {}),
       type: values.instanceType,
       profiles: values.profiles,
-      ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
-      ["limits.memory"]: values.limits_memory.value
-        ? `${values.limits_memory.value}${values.limits_memory.unit}`
-        : undefined,
-      ["limits.memory.swap"]: values.limits_memory_swap,
-      ["limits.processes"]: values.limits_processes,
-      ["protection.delete"]: values.protection_delete,
-      ["security.privileged"]: values.security_privileged,
-      ["security.protection.shift"]: values.security_protection_shift,
-      ["security.idmap.base"]: values.security_idmap_base,
-      ["security.idmap.size"]: values.security_idmap_size,
-      ["security.idmap.isolated"]: values.security_idmap_isolated,
-      ["security.devlxd"]: values.security_devlxd,
-      ["security.devlxd.images"]: values.security_devlxd_images,
-      ["security.secureboot"]: values.security_secureboot,
-      ["snapshots.pattern"]: values.snapshots_pattern,
-      ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped,
-      ["snapshots.schedule"]: values.snapshots_schedule,
-      ["snapshots.expiry"]: values.snapshots_expiry,
-      ["cloud-init.network-config"]: values["cloud-init_network-config"],
-      ["cloud-init.user-data"]: values["cloud-init_user-data"],
-      ["cloud-init.vendor-data"]: values["cloud-init_vendor-data"],
+      config: {
+        ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
+        ["limits.memory"]: values.limits_memory.value
+          ? `${values.limits_memory.value}${values.limits_memory.unit}`
+          : undefined,
+        ["limits.memory.swap"]: isVm
+          ? undefined
+          : values.limits_memory_swap
+          ? "true"
+          : "false",
+        ["limits.processes"]: isVm
+          ? undefined
+          : values.limits_processes?.toString(),
+        ["security.protection.delete"]: values.security_protection_delete
+          ? "true"
+          : "false",
+        ["security.privileged"]: isVm
+          ? undefined
+          : values.security_privileged
+          ? "true"
+          : "false",
+        ["security.protection.shift"]: isVm
+          ? undefined
+          : values.security_protection_shift
+          ? "true"
+          : "false",
+        ["security.idmap.base"]: isVm ? undefined : values.security_idmap_base,
+        ["security.idmap.size"]: isVm ? undefined : values.security_idmap_size,
+        ["security.idmap.isolated"]: isVm
+          ? undefined
+          : values.security_idmap_isolated
+          ? "true"
+          : "false",
+        ["security.devlxd"]: isVm
+          ? undefined
+          : values.security_devlxd
+          ? "true"
+          : "false",
+        ["security.devlxd.images"]: isVm
+          ? undefined
+          : values.security_devlxd_images
+          ? "true"
+          : "false",
+        ["security.secureboot"]: !isVm
+          ? undefined
+          : values.security_secureboot
+          ? "true"
+          : "false",
+        ["snapshots.pattern"]: values.snapshots_pattern,
+        ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped
+          ? "true"
+          : "false",
+        ["snapshots.schedule"]: values.snapshots_schedule,
+        ["snapshots.expiry"]: values.snapshots_expiry,
+        ["cloud-init.network-config"]: values["cloud-init_network-config"],
+        ["cloud-init.user-data"]: values["cloud-init_user-data"],
+        ["cloud-init.vendor-data"]: values["cloud-init_vendor-data"],
+      },
       source: {
         alias: values.image?.aliases.split(",")[0],
         mode: "pull",
