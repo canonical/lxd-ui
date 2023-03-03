@@ -35,7 +35,7 @@ export const filterUsedByType = (
         return {
           name: url.pathname.split("/").slice(-1)[0] ?? "",
           project: url.searchParams.get("project") ?? defaultProject,
-          instance: type === "snapshots" ? url.pathname.split("/")[3] : "",
+          instance: type === "snapshots" ? url.pathname.split("/")[4] : "",
         };
       })
       .sort((a, b) => {
