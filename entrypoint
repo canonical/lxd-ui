@@ -21,7 +21,7 @@ else
     echo 'finished generating certificates'
     echo 'please add the certificates to your local LXD as explained in README.md'
   fi
-  echo 'booting on https://localhost:9443'
+  echo 'booting on https://localhost:8407'
 fi
 
 haproxy -f haproxy-local.cfg >> haproxy.log
