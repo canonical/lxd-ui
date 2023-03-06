@@ -30,16 +30,17 @@
       > div:not(:has(.cm-editor)) {
         max-width: 42rem;
       }
-
-      > div:has(.cm-editor) {
-        max-width: 50rem;
-      }
     }
 
-    .devices-form-row {
+    .device-form {
       hr {
         margin-bottom: $spv--large;
       }
+    }
+
+    .image-change-link {
+      align-self: end;
+      margin-bottom: 6px;
     }
 
     .delete-device {

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, Fragment, ReactNode } from "react";
 import {
   Button,
   Col,
@@ -106,108 +106,112 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
   };
 
   return (
-    <>
+    <div className="device-form">
       {children}
       {formik.values.devices.map((variable, index) => (
-        <Row key={index} className="devices-form-row">
-          <Col size={9}>
-            <Select
-              label="Device type"
-              name={`devices.${index}.type`}
-              onBlur={formik.handleBlur}
-              onChange={(e) => {
-                const getValue = () => {
-                  switch (e.target.value) {
-                    case "disk":
-                      return {
-                        type: "disk",
-                        name: "root",
-                        path: "/",
-                      };
-                    case "nic": {
-                      return {
-                        type: "nic",
-                        name: "",
-                      };
+        <Fragment key={index}>
+          <Row>
+            <Col size={8}>
+              <Select
+                label="Device type"
+                name={`devices.${index}.type`}
+                onBlur={formik.handleBlur}
+                onChange={(e) => {
+                  const getValue = () => {
+                    switch (e.target.value) {
+                      case "disk":
+                        return {
+                          type: "disk",
+                          name: "root",
+                          path: "/",
+                        };
+                      case "nic": {
+                        return {
+                          type: "nic",
+                          name: "",
+                        };
+                      }
                     }
-                  }
-                };
-                formik.setFieldValue(`devices.${index}`, getValue());
-              }}
-              value={formik.values.devices[index].type}
-              options={[
-                {
-                  label: "Select type",
-                  value: "",
-                },
-                {
-                  label: "Network",
-                  value: "nic",
-                },
-                {
-                  label: "Storage",
-                  value: "disk",
-                },
-              ]}
-              aria-label="Device type"
-            />
-            {formik.values.devices[index].type === "nic" && (
-              <>
-                <Select
-                  label="Network device"
-                  name={`devices.${index}.network`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdNicDevice).network}
-                  options={getNetworkOptions()}
-                />
-                <Input
-                  label="Network name"
-                  name={`devices.${index}.name`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdNicDevice).name}
-                  type="text"
-                  placeholder="Enter name"
-                />
-              </>
-            )}
-            {formik.values.devices[index].type === "disk" && (
-              <>
-                <Select
-                  label="Storage pool"
-                  name={`devices.${index}.pool`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdDiskDevice).pool}
-                  options={getStoragePoolOptions()}
-                />
-                <Input
-                  label="Size limit in GB"
-                  name={`devices.${index}.size`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdDiskDevice).size}
-                  type="text"
-                  placeholder="Enter number with GB suffix"
-                />
-              </>
-            )}
-            <hr />
-          </Col>
-          <Col size={3}>
-            <Button
-              className={classnames("delete-device", {
-                "u-hide": formik.values.devices[index].type === "",
-              })}
-              onClick={() => removeDiskRow(index)}
-              type="button"
-              appearance="link"
-            >
-              Delete device
-            </Button>
-          </Col>
-        </Row>
+                  };
+                  formik.setFieldValue(`devices.${index}`, getValue());
+                }}
+                value={formik.values.devices[index].type}
+                options={[
+                  {
+                    label: "Select type",
+                    value: "",
+                  },
+                  {
+                    label: "Network",
+                    value: "nic",
+                  },
+                  {
+                    label: "Storage",
+                    value: "disk",
+                  },
+                ]}
+                aria-label="Device type"
+              />
+              {formik.values.devices[index].type === "nic" && (
+                <>
+                  <Select
+                    label="Network device"
+                    name={`devices.${index}.network`}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={
+                      (formik.values.devices[index] as LxdNicDevice).network
+                    }
+                    options={getNetworkOptions()}
+                  />
+                  <Input
+                    label="Network name"
+                    name={`devices.${index}.name`}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={(formik.values.devices[index] as LxdNicDevice).name}
+                    type="text"
+                    placeholder="Enter name"
+                  />
+                </>
+              )}
+              {formik.values.devices[index].type === "disk" && (
+                <>
+                  <Select
+                    label="Storage pool"
+                    name={`devices.${index}.pool`}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={(formik.values.devices[index] as LxdDiskDevice).pool}
+                    options={getStoragePoolOptions()}
+                  />
+                  <Input
+                    label="Size limit in GB"
+                    name={`devices.${index}.size`}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={(formik.values.devices[index] as LxdDiskDevice).size}
+                    type="text"
+                    placeholder="Enter number with GB suffix"
+                  />
+                </>
+              )}
+            </Col>
+            <Col size={4}>
+              <Button
+                className={classnames("delete-device", {
+                  "u-hide": formik.values.devices[index].type === "",
+                })}
+                onClick={() => removeDiskRow(index)}
+                type="button"
+                appearance="link"
+              >
+                Delete device
+              </Button>
+            </Col>
+          </Row>
+          <hr />
+        </Fragment>
       ))}
       <Button onClick={addDeviceRow} type="button" hasIcon>
         <Icon name="plus" />
@@ -218,9 +222,10 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
         target="_blank"
         rel="noreferrer"
       >
-        What is a device <Icon name="external-link" />
+        What is a device{" "}
+        <i className="p-icon--external-link external-link-icon"></i>
       </Link>
-    </>
+    </div>
   );
 };
 

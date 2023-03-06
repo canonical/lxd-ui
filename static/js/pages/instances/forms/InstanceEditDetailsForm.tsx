@@ -30,7 +30,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
   return (
     <>
       <Row>
-        <Col size={9}>
+        <Col size={8}>
           <Input
             id="description"
             name="description"

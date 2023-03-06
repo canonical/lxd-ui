@@ -59,10 +59,6 @@
   vertical-align: middle;
 }
 
-.u-align-self-end {
-  align-self: end;
-}
-
 .p-profile-yaml {
   margin-bottom: $sp-large;
   max-height: calc(100vh - 200px);
@@ -80,7 +76,7 @@
 }
 
 .p-image-list {
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 250px);
   overflow-y: auto;
 }
 
@@ -139,6 +135,25 @@
   margin-right: $sph--x-small;
 }
 
+.external-link-icon {
+  @include vf-icon-external-link($color-link);
+}
+
+.cpu-limit-label,
+.memory-limit-label,
+.snapshot-schedule {
+  align-items: flex-end;
+  display: flex;
+
+  .grow {
+    flex-grow: 1;
+  }
+
+  .right-margin {
+    margin-right: 2rem;
+  }
+}
+
 .p-empty-snapshots {
   @include vf-icon-settings($color-mid-light);
 }
@@ -146,5 +161,12 @@
 @include mobile-and-tablet {
   .u-certificate-button {
     margin-left: 2.5rem;
+  }
+}
+
+@include large {
+  .search-image {
+    margin-top: calc(2.5rem + 3px);
+    max-width: 30rem;
   }
 }

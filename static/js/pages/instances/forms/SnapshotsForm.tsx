@@ -1,5 +1,11 @@
-import React, { FC, ReactNode } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import React, { FC, ReactNode, useState } from "react";
+import {
+  Col,
+  Input,
+  RadioInput,
+  Row,
+  Select,
+} from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { FormValues } from "pages/instances/CreateInstanceForm";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
@@ -29,11 +35,13 @@ interface Props {
 }
 
 const SnapshotsForm: FC<Props> = ({ formik, children }) => {
+  const [cronSyntax, setCronSyntax] = useState(true);
+
   return (
     <>
       {children}
       <Row>
-        <Col size={9}>
+        <Col size={8}>
           <Input
             label="Snapshot name pattern"
             placeholder="Enter name pattern"
@@ -75,15 +83,85 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             value={formik.values.snapshots_schedule_stopped}
           />
           <hr />
-          <Input
-            label="Schedule in cron syntax"
-            name="snapshots_schedule"
-            help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
-            type="text"
-            value={formik.values.snapshots_schedule}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
+          <div className="snapshot-schedule">
+            <RadioInput
+              labelClassName="right-margin"
+              label="Cron syntax"
+              checked={cronSyntax}
+              onChange={() => setCronSyntax(true)}
+            />
+            <RadioInput
+              label="Manual configuration"
+              checked={!cronSyntax}
+              onChange={() => {
+                setCronSyntax(false);
+                formik.setFieldValue("snapshots_schedule", "* * * * *");
+              }}
+            />
+          </div>
+          {cronSyntax ? (
+            <Input
+              label="Schedule in cron syntax"
+              name="snapshots_schedule"
+              help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
+              type="text"
+              value={formik.values.snapshots_schedule}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+          ) : (
+            <>
+              <Select
+                label="Every"
+                name="every"
+                onChange={(e) => {
+                  const getSchedule = () => {
+                    switch (e.target.value) {
+                      case "minute":
+                        return "* * * * *";
+                      case "hour":
+                        return "@hourly";
+                      case "day":
+                        return "@daily";
+                      case "week":
+                        return "@weekly";
+                      case "month":
+                        return "@monthly";
+                      case "year":
+                        return "@yearly";
+                    }
+                  };
+                  formik.setFieldValue("snapshots_schedule", getSchedule());
+                }}
+                options={[
+                  {
+                    label: "minute",
+                    value: "minute",
+                  },
+                  {
+                    label: "hour",
+                    value: "hour",
+                  },
+                  {
+                    label: "day",
+                    value: "day",
+                  },
+                  {
+                    label: "week",
+                    value: "week",
+                  },
+                  {
+                    label: "month",
+                    value: "month",
+                  },
+                  {
+                    label: "year",
+                    value: "year",
+                  },
+                ]}
+              />
+            </>
+          )}
         </Col>
       </Row>
     </>

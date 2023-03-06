@@ -14,6 +14,7 @@ export interface ResourceLimitsFormValues {
   limits_cpu: CpuLimit;
   limits_memory: MemoryLimit;
   limits_memory_swap?: string;
+  limits_disk_priority?: number;
   limits_processes?: number;
 }
 
@@ -30,6 +31,7 @@ export const resourceLimitsPayload = (
       isVm || values.limits_memory_swap === undefined
         ? undefined
         : values.limits_memory_swap,
+    ["limits.disk.priority"]: values.limits_disk_priority?.toString(),
     ["limits.processes"]: isVm
       ? undefined
       : values.limits_processes?.toString(),
@@ -46,7 +48,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
     <>
       {children}
       <Row>
-        <Col size={9}>
+        <Col size={8}>
           <CpuLimitSelector
             cpuLimit={formik.values.limits_cpu}
             setCpuLimit={(cpuLimit) => {
@@ -71,8 +73,20 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
           />
           <hr />
           <Input
+            label="Disk priority"
+            name="limits_disk_priority"
+            placeholder="Enter number"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.limits_disk_priority}
+            type="number"
+            help="Controls how much priority to give to the instance’s I/O requests when under load (integer between 0 and 10)"
+          />
+          <hr />
+          <Input
             label="Max number of processes (Containers only)"
             name="limits_processes"
+            placeholder="Enter number"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.limits_processes}
@@ -82,7 +96,6 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
               "is-disabled": formik.values.instanceType !== "container",
             })}
           />
-          <hr />
         </Col>
       </Row>
     </>
