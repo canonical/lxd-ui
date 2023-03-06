@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Col, Form, Notification, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -32,7 +32,7 @@ import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
-import { parseCpuLimit, parseMemoryLimit, payloadToBool } from "util/limits";
+import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import InstanceEditDetailsForm, {
   instanceEditDetailPayload,
   InstanceEditDetailsFormValues,
@@ -46,6 +46,7 @@ import InstanceFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
+import useEventListener from "@use-it/event-listener";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   DevicesFormValues &
@@ -73,6 +74,21 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   const InstanceSchema = Yup.object().shape({
     instanceType: Yup.string().required("Instance type is required"),
   });
+
+  const updateFormHeight = () => {
+    const elements = document.getElementsByClassName("form-contents");
+    const belowElements = document.getElementsByClassName("p-bottom-controls");
+    if (elements.length !== 1 || belowElements.length !== 1) {
+      return;
+    }
+    const above = elements[0].getBoundingClientRect().top + 1;
+    const below = belowElements[0].getBoundingClientRect().height + 1;
+    const offset = Math.ceil(above + below);
+    const style = `height: calc(100vh - ${offset}px)`;
+    elements[0].setAttribute("style", style);
+  };
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEventListener("resize", updateFormHeight);
 
   const formik = useFormik<EditInstanceFormValues>({
     initialValues: {
@@ -109,40 +125,24 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
       limits_cpu: parseCpuLimit(instance.config["limits.cpu"]),
       limits_memory: parseMemoryLimit(instance.config["limits.memory"]),
-      limits_memory_swap: payloadToBool(instance.config["limits.memory.swap"]),
+      limits_memory_swap: instance.config["limits.memory.swap"],
       limits_processes: instance.config["limits.processes"]
         ? parseInt(instance.config["limits.processes"])
         : undefined,
 
-      security_protection_delete: payloadToBool(
-        instance.config["security.protection.delete"]
-      ),
-      security_privileged: payloadToBool(
-        instance.config["security.privileged"]
-      ),
-      security_protection_shift: payloadToBool(
-        instance.config["security.protection.shift"]
-      ),
+      security_protection_delete: instance.config["security.protection.delete"],
+      security_privileged: instance.config["security.privileged"],
+      security_protection_shift: instance.config["security.protection.shift"],
       security_idmap_base: instance.config["security.idmap.base"],
       security_idmap_size: instance.config["security.idmap.size"],
-      security_idmap_isolated: payloadToBool(
-        instance.config["security.idmap.isolated"]
-      ),
-      security_devlxd: payloadToBool(instance.config["security.devlxd"]),
-      security_devlxd_images: payloadToBool(
-        instance.config["security.devlxd.images"]
-      ),
-      security_secureboot: payloadToBool(
-        instance.config["security.secureboot"]
-      ),
-
+      security_idmap_isolated: instance.config["security.idmap.isolated"],
+      security_devlxd: instance.config["security.devlxd"],
+      security_devlxd_images: instance.config["security.devlxd.images"],
+      security_secureboot: instance.config["security.secureboot"],
       snapshots_pattern: instance.config["snapshots.pattern"],
       snapshots_expiry: instance.config["snapshots.expiry"],
       snapshots_schedule: instance.config["snapshots.schedule"],
-      snapshots_schedule_stopped: payloadToBool(
-        instance.config["snapshots.schedule.stopped"]
-      ),
-
+      snapshots_schedule_stopped: instance.config["snapshots.schedule.stopped"],
       ["cloud-init_network-config"]:
         instance.config["cloud-init.network-config"],
       ["cloud-init_user-data"]: instance.config["cloud-init.user-data"],
@@ -217,11 +217,11 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   );
 
   return (
-    <>
+    <div className="edit-instance-form">
       <Form
         onSubmit={() => void formik.submitForm()}
         stacked
-        className="instance-form edit-instance-form"
+        className="instance-form"
       >
         <InstanceFormMenu
           active={section}
@@ -229,7 +229,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
         />
-        <Row className="form-contents">
+        <Row className="form-contents" key={section}>
           <Col size={12}>
             {section === INSTANCE_DETAILS && (
               <InstanceEditDetailsForm formik={formik} project={project} />
@@ -291,7 +291,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           </Col>
         </Row>
       </div>
-    </>
+    </div>
   );
 };
 

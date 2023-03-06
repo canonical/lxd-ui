@@ -29,7 +29,7 @@ const InstanceFormMenu: FC<Props> = ({
 
   return (
     <div className="p-side-navigation--accordion form-navigation">
-      <nav aria-label="Instance creation">
+      <nav aria-label="Instance form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={INSTANCE_DETAILS} {...menuItemProps} />
           <li className="p-side-navigation__item">

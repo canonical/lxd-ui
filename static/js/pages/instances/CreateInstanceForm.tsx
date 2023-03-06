@@ -260,7 +260,7 @@ const CreateInstanceForm: FC = () => {
         <div className="p-panel__header">
           <h4 className="p-panel__title">Create new instance</h4>
         </div>
-        <div className="p-panel__content">
+        <div className="p-panel__content create-new-instance">
           <Form
             onSubmit={() => submit(formik.values)}
             stacked
@@ -272,7 +272,7 @@ const CreateInstanceForm: FC = () => {
               isConfigOpen={isConfigOpen}
               toggleConfigOpen={toggleMenu}
             />
-            <Row className="form-contents">
+            <Row className="form-contents" key={section}>
               <Col size={12}>
                 <NotificationRow />
                 {section === INSTANCE_DETAILS && (
@@ -326,33 +326,33 @@ const CreateInstanceForm: FC = () => {
               </Col>
             </Row>
           </Form>
+          <div className="footer">
+            <hr />
+            <Row className="u-align--right">
+              <Col size={12}>
+                <Button
+                  appearance="base"
+                  onClick={() => navigate(`/ui/${project}/instances`)}
+                >
+                  Cancel
+                </Button>
+                <SubmitButton
+                  isSubmitting={formik.isSubmitting}
+                  isDisabled={!formik.isValid || !formik.values.image}
+                  buttonLabel="Create"
+                  appearance="default"
+                  onClick={() => submit(formik.values, false)}
+                />
+                <SubmitButton
+                  isSubmitting={formik.isSubmitting}
+                  isDisabled={!formik.isValid || !formik.values.image}
+                  buttonLabel="Create and start"
+                  onClick={() => submit(formik.values)}
+                />
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
-      <div className="p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() => navigate(`/ui/${project}/instances`)}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.image}
-              buttonLabel="Create"
-              appearance="default"
-              onClick={() => submit(formik.values, false)}
-            />
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.image}
-              buttonLabel="Create and start"
-              onClick={() => submit(formik.values)}
-            />
-          </Col>
-        </Row>
       </div>
     </main>
   );
