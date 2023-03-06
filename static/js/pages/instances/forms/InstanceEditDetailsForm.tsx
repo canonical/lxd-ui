@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import { Col, Input, Row } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
-import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 
@@ -33,16 +32,6 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
       <Row>
         <Col size={9}>
           <Input
-            id="name"
-            name="name"
-            type="text"
-            label="Instance name"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            disabled={true}
-          />
-          <Input
             id="description"
             name="description"
             type="text"
@@ -50,24 +39,6 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-          />
-          <Input
-            id="baseImage"
-            name="baseImage"
-            label="Base Image"
-            type="text"
-            value={formik.values.image}
-            disabled
-          />
-          <Select
-            id="instanceType"
-            label="Instance type"
-            name="instanceType"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            options={instanceCreationTypes}
-            value={formik.values.instanceType}
-            disabled
           />
         </Col>
       </Row>

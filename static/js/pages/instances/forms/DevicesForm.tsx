@@ -16,6 +16,7 @@ import { fetchNetworks } from "api/networks";
 import { fetchStorages } from "api/storages";
 import { LxdDiskDevice, LxdNicDevice } from "types/device";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import classnames from "classnames";
 
 interface EmptyDevice {
   type: "";
@@ -115,10 +116,23 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
               name={`devices.${index}.type`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
-                formik.setFieldValue(`devices.${index}`, {
-                  type: e.target.value,
-                  name: "",
-                });
+                const getValue = () => {
+                  switch (e.target.value) {
+                    case "disk":
+                      return {
+                        type: "disk",
+                        name: "root",
+                        path: "/",
+                      };
+                    case "nic": {
+                      return {
+                        type: "nic",
+                        name: "",
+                      };
+                    }
+                  }
+                };
+                formik.setFieldValue(`devices.${index}`, getValue());
               }}
               value={formik.values.devices[index].type}
               options={[
@@ -131,7 +145,7 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
                   value: "nic",
                 },
                 {
-                  label: "Storage pool",
+                  label: "Storage",
                   value: "disk",
                 },
               ]}
@@ -169,24 +183,6 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
                   options={getStoragePoolOptions()}
                 />
                 <Input
-                  label="Name"
-                  name={`devices.${index}.name`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdDiskDevice).name}
-                  type="text"
-                  placeholder="Enter a name (i.e. root)"
-                />
-                <Input
-                  label="Path"
-                  name={`devices.${index}.path`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdDiskDevice).path}
-                  type="text"
-                  placeholder="Enter path (i.e. /)"
-                />
-                <Input
                   label="Size limit in GB"
                   name={`devices.${index}.size`}
                   onBlur={formik.handleBlur}
@@ -201,7 +197,9 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
           </Col>
           <Col size={3}>
             <Button
-              className="delete-device"
+              className={classnames("delete-device", {
+                "u-hide": formik.values.devices[index].type === "",
+              })}
               onClick={() => removeDiskRow(index)}
               type="button"
               appearance="link"

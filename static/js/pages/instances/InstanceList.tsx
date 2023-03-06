@@ -363,7 +363,7 @@ const InstanceList: FC = () => {
             </div>
             <Button
               appearance="positive"
-              onClick={() => navigate(`/ui/${project}/instances/1/create`)}
+              onClick={() => navigate(`/ui/${project}/instances/create-new`)}
             >
               Create new
             </Button>
@@ -417,7 +417,7 @@ const InstanceList: FC = () => {
                     linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
                     buttonLabel="Create"
                     buttonAction={() =>
-                      navigate(`/ui/${project}/instances/1/create`)
+                      navigate(`/ui/${project}/instances/create-new`)
                     }
                   />
                 )}

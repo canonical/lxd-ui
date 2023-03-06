@@ -35,7 +35,7 @@ const App: FC = () => {
         element={<ProtectedRoute outlet={<InstanceList />} />}
       />
       <Route
-        path="/ui/:project/instances/1/create"
+        path="/ui/:project/instances/create-new"
         element={<ProtectedRoute outlet={<CreateInstanceForm />} />}
       />
       <Route

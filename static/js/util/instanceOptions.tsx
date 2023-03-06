@@ -30,3 +30,18 @@ export const instanceStatuses = [
     value: "Stopped",
   },
 ];
+
+export const booleanFields = [
+  {
+    label: "Inherit from profile",
+    value: "",
+  },
+  {
+    label: "true",
+    value: "true",
+  },
+  {
+    label: "false",
+    value: "false",
+  },
+];

@@ -74,19 +74,3 @@ export const parseMemoryLimit = (limit?: string): MemoryLimit => {
     selectedType: MEM_LIMIT_TYPE.FIXED,
   };
 };
-
-export const boolPayload = (val?: boolean) => {
-  if (val === undefined) {
-    return undefined;
-  }
-
-  return val ? "true" : "false";
-};
-
-export const payloadToBool = (val?: string) => {
-  if (val === undefined) {
-    return undefined;
-  }
-
-  return val === "true";
-};

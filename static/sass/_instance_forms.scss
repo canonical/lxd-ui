@@ -1,40 +1,85 @@
-.instance-form {
-  display: flex;
-  margin-top: 6px;
+.create-new-instance,
+.edit-instance-form {
+  padding-bottom: 0;
 
-  .form-contents {
-    margin-left: inherit;
-    width: 42rem;
-  }
-
-  .devices-form-row {
+  .footer {
     hr {
       margin-bottom: $spv--large;
     }
   }
 
-  .delete-device {
-    margin-top: 2.5rem;
+  .p-notification--caution {
+    background-image: none;
+    border: 0;
+    padding-left: $spv--large;
   }
 
-  .is-disabled {
-    cursor: not-allowed;
-    opacity: 0.33;
-  }
-}
-
-.edit-instance-form {
-  .form-contents {
-    margin-left: 1.5rem;
-  }
-}
-
-@include mobile-and-tablet {
   .instance-form {
-    flex-direction: column;
+    display: flex;
+    margin-top: 6px;
+
+    .form-navigation {
+      width: 16rem;
+    }
 
     .form-contents {
-      width: inherit;
+      height: calc(100vh - 167px);
+      overflow-y: auto;
+      padding-left: 2.5rem;
+
+      > div:not(:has(.cm-editor)) {
+        max-width: 42rem;
+      }
+
+      > div:has(.cm-editor) {
+        max-width: 50rem;
+      }
+    }
+
+    .devices-form-row {
+      hr {
+        margin-bottom: $spv--large;
+      }
+    }
+
+    .delete-device {
+      margin-top: 2.5rem;
+    }
+
+    .is-disabled {
+      cursor: not-allowed;
+      opacity: 0.33;
     }
   }
+
+  @include mobile-and-tablet {
+    .instance-form {
+      margin-top: 13px;
+
+      .form-contents {
+        height: calc(100vh - 154px);
+        width: inherit;
+      }
+    }
+  }
+
+  @include mobile {
+    .instance-form {
+      .form-contents {
+        height: calc(100vh - 222px);
+      }
+    }
+  }
+
+  @include extra-large {
+    .instance-form {
+      .form-contents {
+        height: calc(100vh - 187px);
+      }
+    }
+  }
+}
+
+.p-panel__content:has(.edit-instance-form) {
+  padding-bottom: 0;
 }
