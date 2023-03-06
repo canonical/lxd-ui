@@ -1,14 +1,16 @@
 import React, { FC, ReactNode } from "react";
 import { Col, Input, Row, Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { FormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import MemoryLimitSelector from "pages/profiles/MemoryLimitSelector";
 import CpuLimitSelector from "pages/profiles/CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import classnames from "classnames";
 import { cpuLimitToPayload } from "util/limits";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { booleanFields } from "util/instanceOptions";
+import {
+  SharedFormikTypes,
+  SharedFormTypes,
+} from "pages/instances/forms/sharedFormTypes";
 
 export interface ResourceLimitsFormValues {
   limits_cpu: CpuLimit;
@@ -18,32 +20,29 @@ export interface ResourceLimitsFormValues {
   limits_processes?: number;
 }
 
-export const resourceLimitsPayload = (
-  values: FormValues | EditInstanceFormValues,
-  isVm: boolean
-) => {
+export const resourceLimitsPayload = (values: SharedFormTypes) => {
   return {
     ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
     ["limits.memory"]: values.limits_memory.value
       ? `${values.limits_memory.value}${values.limits_memory.unit}`
       : undefined,
-    ["limits.memory.swap"]:
-      isVm || values.limits_memory_swap === undefined
-        ? undefined
-        : values.limits_memory_swap,
+    ["limits.memory.swap"]: values.limits_memory_swap,
     ["limits.disk.priority"]: values.limits_disk_priority?.toString(),
-    ["limits.processes"]: isVm
-      ? undefined
-      : values.limits_processes?.toString(),
+    ["limits.processes"]: values.limits_processes?.toString(),
   };
 };
 
 interface Props {
-  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
+  formik: SharedFormikTypes;
   children?: ReactNode;
 }
 
 const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
+  const isInstance = formik.values.type === "instance";
+  const isContainerOnlyDisabled =
+    isInstance &&
+    (formik.values as CreateInstanceFormValues).instanceType !== "container";
+
   return (
     <>
       {children}
@@ -67,9 +66,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             name="limits_memory_swap"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.limits_memory_swap}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
           />
           <hr />
           <Input
@@ -91,9 +90,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             onChange={formik.handleChange}
             value={formik.values.limits_processes}
             type="number"
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
             labelClassName={classnames({
-              "is-disabled": formik.values.instanceType !== "container",
+              "is-disabled": isContainerOnlyDisabled,
             })}
           />
         </Col>

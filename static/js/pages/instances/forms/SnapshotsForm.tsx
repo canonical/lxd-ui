@@ -6,10 +6,11 @@ import {
   Row,
   Select,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { FormValues } from "pages/instances/CreateInstanceForm";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { booleanFields } from "util/instanceOptions";
+import {
+  SharedFormikTypes,
+  SharedFormTypes,
+} from "pages/instances/forms/sharedFormTypes";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -18,9 +19,7 @@ export interface SnapshotFormValues {
   snapshots_schedule_stopped?: string;
 }
 
-export const snapshotsPayload = (
-  values: FormValues | EditInstanceFormValues
-) => {
+export const snapshotsPayload = (values: SharedFormTypes) => {
   return {
     ["snapshots.pattern"]: values.snapshots_pattern,
     ["snapshots.schedule.stopped"]: values.snapshots_schedule_stopped,
@@ -30,12 +29,13 @@ export const snapshotsPayload = (
 };
 
 interface Props {
-  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
+  formik: SharedFormikTypes;
   children?: ReactNode;
 }
 
 const SnapshotsForm: FC<Props> = ({ formik, children }) => {
   const [cronSyntax, setCronSyntax] = useState(true);
+  const isInstance = formik.values.type === "instance";
 
   return (
     <>
@@ -79,7 +79,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             name="snapshots_schedule_stopped"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.snapshots_schedule_stopped}
           />
           <hr />

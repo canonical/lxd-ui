@@ -10,6 +10,7 @@ export interface InstanceEditDetailsFormValues {
   image: string;
   instanceType: string;
   profiles: string[];
+  type: string;
 }
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {

@@ -5,7 +5,7 @@ import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
-import { FormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { RemoteImage } from "types/image";
 
 export interface InstanceDetailsFormValues {
@@ -14,9 +14,10 @@ export interface InstanceDetailsFormValues {
   image?: RemoteImage;
   instanceType: string;
   profiles: string[];
+  type: string;
 }
 
-export const instanceDetailPayload = (values: FormValues) => {
+export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
   return {
     name: values.name,
     description: values.description,
@@ -33,7 +34,7 @@ export const instanceDetailPayload = (values: FormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<CreateInstanceFormValues>;
   onSelectImage: (image: RemoteImage, type: string | null) => void;
   project: string;
 }

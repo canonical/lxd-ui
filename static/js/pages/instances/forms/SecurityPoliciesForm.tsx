@@ -1,10 +1,12 @@
 import React, { FC, ReactNode } from "react";
 import { Col, Input, Row, Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { FormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import classnames from "classnames";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { booleanFields } from "util/instanceOptions";
+import {
+  SharedFormikTypes,
+  SharedFormTypes,
+} from "pages/instances/forms/sharedFormTypes";
 
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: string;
@@ -18,35 +20,35 @@ export interface SecurityPoliciesFormValues {
   security_secureboot?: string;
 }
 
-export const securityPoliciesPayload = (
-  values: FormValues | EditInstanceFormValues,
-  isVm: boolean
-) => {
+export const securityPoliciesPayload = (values: SharedFormTypes) => {
   return {
     ["security.protection.delete"]: values.security_protection_delete,
-    ["security.privileged"]: isVm ? undefined : values.security_privileged,
-    ["security.protection.shift"]: isVm
-      ? undefined
-      : values.security_protection_shift,
-    ["security.idmap.base"]: isVm ? undefined : values.security_idmap_base,
-    ["security.idmap.size"]: isVm ? undefined : values.security_idmap_size,
-    ["security.idmap.isolated"]: isVm
-      ? undefined
-      : values.security_idmap_isolated,
-    ["security.devlxd"]: isVm ? undefined : values.security_devlxd,
-    ["security.devlxd.images"]: isVm
-      ? undefined
-      : values.security_devlxd_images,
-    ["security.secureboot"]: !isVm ? undefined : values.security_secureboot,
+    ["security.privileged"]: values.security_privileged,
+    ["security.protection.shift"]: values.security_protection_shift,
+    ["security.idmap.base"]: values.security_idmap_base,
+    ["security.idmap.size"]: values.security_idmap_size,
+    ["security.idmap.isolated"]: values.security_idmap_isolated,
+    ["security.devlxd"]: values.security_devlxd,
+    ["security.devlxd.images"]: values.security_devlxd_images,
+    ["security.secureboot"]: values.security_secureboot,
   };
 };
 
 interface Props {
-  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
+  formik: SharedFormikTypes;
   children?: ReactNode;
 }
 
 const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
+  const isInstance = formik.values.type === "instance";
+  const isContainerOnlyDisabled =
+    isInstance &&
+    (formik.values as CreateInstanceFormValues).instanceType !== "container";
+  const isVmOnlyDisabled =
+    isInstance &&
+    (formik.values as CreateInstanceFormValues).instanceType !==
+      "virtual-machine";
+
   return (
     <>
       {children}
@@ -57,7 +59,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             name="security_protection_delete"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_protection_delete}
           />
           <Select
@@ -65,18 +67,18 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             name="security_privileged"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_privileged}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
           />
           <Select
             label="Prevent instance file system from being UID/GID shifted on startup (Containers only)"
             name="security_protection_shift"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_protection_shift}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
           />
           <hr />
           <Input
@@ -87,9 +89,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             value={formik.values.security_idmap_base}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
             labelClassName={classnames({
-              "is-disabled": formik.values.instanceType !== "container",
+              "is-disabled": isContainerOnlyDisabled,
             })}
           />
           <Input
@@ -100,9 +102,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             value={formik.values.security_idmap_size}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
             labelClassName={classnames({
-              "is-disabled": formik.values.instanceType !== "container",
+              "is-disabled": isContainerOnlyDisabled,
             })}
           />
           <Select
@@ -110,9 +112,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             name="security_idmap_isolated"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_idmap_isolated}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
           />
           <hr />
           <Select
@@ -120,21 +122,18 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             name="security_devlxd"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_devlxd}
-            disabled={formik.values.instanceType !== "container"}
+            disabled={isContainerOnlyDisabled}
           />
           <Select
             label="Make /1.0/images API available over /dev/lxd (Containers only)"
             name="security_devlxd_images"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_devlxd_images}
-            disabled={
-              !formik.values.security_devlxd ||
-              formik.values.instanceType !== "container"
-            }
+            disabled={!formik.values.security_devlxd || isContainerOnlyDisabled}
           />
           <hr />
           <Select
@@ -142,9 +141,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             name="security_secureboot"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            options={booleanFields}
+            options={booleanFields(isInstance)}
             value={formik.values.security_secureboot}
-            disabled={formik.values.instanceType !== "virtual-machine"}
+            disabled={isVmOnlyDisabled}
           />
         </Col>
       </Row>

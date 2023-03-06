@@ -18,6 +18,7 @@ import ProtectedRoute from "components/ProtectedRoute";
 import StorageDetail from "pages/storages/StorageDetail";
 import NetworkMap from "pages/networks/NetworkMap";
 import CreateInstanceForm from "pages/instances/CreateInstanceForm";
+import CreateProfileForm from "pages/profiles/CreateProfileForm";
 
 const App: FC = () => {
   return (
@@ -55,7 +56,15 @@ const App: FC = () => {
         element={<ProtectedRoute outlet={<ProfileList />} />}
       />
       <Route
+        path="/ui/:project/profiles/create-new"
+        element={<ProtectedRoute outlet={<CreateProfileForm />} />}
+      />
+      <Route
         path="/ui/:project/profiles/:name"
+        element={<ProtectedRoute outlet={<ProfileDetail />} />}
+      />
+      <Route
+        path="/ui/:project/profiles/:name/:activeTab"
         element={<ProtectedRoute outlet={<ProfileDetail />} />}
       />
       <Route

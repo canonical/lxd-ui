@@ -1,5 +1,7 @@
-.create-new-instance,
-.edit-instance-form {
+.create-instance,
+.edit-instance,
+.create-profile,
+.edit-profile {
   padding-bottom: 0;
 
   .footer {
@@ -14,7 +16,7 @@
     padding-left: $spv--large;
   }
 
-  .instance-form {
+  .form {
     display: flex;
     margin-top: 6px;
 
@@ -54,7 +56,7 @@
   }
 
   @include mobile-and-tablet {
-    .instance-form {
+    .form {
       margin-top: 13px;
 
       .form-contents {
@@ -65,7 +67,7 @@
   }
 
   @include mobile {
-    .instance-form {
+    .form {
       .form-contents {
         height: calc(100vh - 222px);
       }
@@ -73,7 +75,7 @@
   }
 
   @include extra-large {
-    .instance-form {
+    .form {
       .form-contents {
         height: calc(100vh - 187px);
       }
@@ -81,6 +83,7 @@
   }
 }
 
-.p-panel__content:has(.edit-instance-form) {
+.p-panel__content:has(.edit-instance),
+.p-panel__content:has(.edit-profile) {
   padding-bottom: 0;
 }

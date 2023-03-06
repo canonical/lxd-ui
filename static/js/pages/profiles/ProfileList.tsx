@@ -2,10 +2,10 @@ import React, { FC } from "react";
 import {
   Icon,
   List,
-  ContextualMenu,
   MainTable,
   Row,
   Tooltip,
+  Button,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchProfiles } from "api/profiles";
@@ -13,13 +13,12 @@ import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
-import usePanelParams from "util/usePanelParams";
 import Loader from "components/Loader";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ProfileList: FC = () => {
+  const navigate = useNavigate();
   const notify = useNotify();
-  const panelParams = usePanelParams();
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -132,22 +131,12 @@ const ProfileList: FC = () => {
       <BaseLayout
         title="Profiles"
         controls={
-          <ContextualMenu
-            hasToggleIcon
-            links={[
-              {
-                children: "Quick create profile",
-                onClick: () => panelParams.openProfileFormGuided(project),
-              },
-              {
-                children: "Custom create profile (YAML)",
-                onClick: () => panelParams.openNewProfileFormYaml(project),
-              },
-            ]}
-            position="right"
-            toggleAppearance="positive"
-            toggleLabel="Add profile"
-          />
+          <Button
+            appearance="positive"
+            onClick={() => navigate(`/ui/${project}/profiles/create-new`)}
+          >
+            Create new
+          </Button>
         }
       >
         <NotificationRow />
