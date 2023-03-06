@@ -2,14 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 import { Col, Form, Notification, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useParams } from "react-router-dom";
-import { LxdInstance } from "types/instance";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
 import DevicesForm, {
   devicePayload,
@@ -33,22 +31,24 @@ import ResourceLimitsForm, {
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
-import InstanceEditDetailsForm, {
-  instanceEditDetailPayload,
-  InstanceEditDetailsFormValues,
-} from "pages/instances/forms/InstanceEditDetailsForm";
-import InstanceFormMenu, {
+import { updateProfile } from "api/profiles";
+import ProfileEditDetailsForm, {
+  profileEditDetailPayload,
+  ProfileEditDetailsFormValues,
+} from "pages/profiles/forms/ProfileEditDetailsForm";
+import ProfileFormMenu, {
   CLOUD_INIT,
   DEVICES,
-  INSTANCE_DETAILS,
+  PROFILE_DETAILS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-} from "pages/instances/forms/InstanceFormMenu";
+} from "pages/profiles/forms/ProfileFormMenu";
+import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
 
-export type EditInstanceFormValues = InstanceEditDetailsFormValues &
+export type EditProfileFormValues = ProfileEditDetailsFormValues &
   DevicesFormValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
@@ -57,50 +57,48 @@ export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   YamlFormValues;
 
 interface Props {
-  instance: LxdInstance;
+  profile: LxdProfile;
 }
 
-const EditInstanceForm: FC<Props> = ({ instance }) => {
+const EditProfileForm: FC<Props> = ({ profile }) => {
+  const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
-  const [section, setSection] = useState(INSTANCE_DETAILS);
+  const [section, setSection] = useState(PROFILE_DETAILS);
   const [isConfigOpen, setConfigOpen] = useState(false);
 
   if (!project) {
     return <>Missing project</>;
   }
 
-  const InstanceSchema = Yup.object().shape({
-    instanceType: Yup.string().required("Instance type is required"),
-  });
-
-  const updateFormHeight = () => {
-    const elements = document.getElementsByClassName("form-contents");
-    const belowElements = document.getElementsByClassName("p-bottom-controls");
-    if (elements.length !== 1 || belowElements.length !== 1) {
+  const updateHeight = () => {
+    const element = document.getElementsByClassName("form-contents");
+    const belowElement = document.getElementsByClassName("p-bottom-controls");
+    if (element.length !== 1 || belowElement.length !== 1) {
       return;
     }
-    const above = elements[0].getBoundingClientRect().top + 1;
-    const below = belowElements[0].getBoundingClientRect().height + 1;
+    const above = element[0].getBoundingClientRect().top + 1;
+    const below = belowElement[0].getBoundingClientRect().height + 1;
     const offset = Math.ceil(above + below);
     const style = `height: calc(100vh - ${offset}px)`;
-    elements[0].setAttribute("style", style);
+    element[0].setAttribute("style", style);
   };
-  useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+  useEffect(updateHeight, [notify.notification?.message, section]);
+  useEventListener("resize", updateHeight);
 
-  const formik = useFormik<EditInstanceFormValues>({
+  const ProfileSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+  });
+
+  const formik = useFormik<EditProfileFormValues>({
     initialValues: {
-      name: instance.name,
-      description: instance.description,
-      image: instance.config["image.description"],
-      instanceType: instance.type,
-      profiles: instance.profiles,
-      type: "instance",
+      name: profile.name,
+      description: profile.description,
+      type: "profile",
 
-      devices: Object.keys(instance.devices).map((key) => {
-        const item = instance.devices[key];
+      devices: Object.keys(profile.devices).map((key) => {
+        const item = profile.devices[key];
         switch (item.type) {
           case "nic":
             return {
@@ -124,43 +122,46 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         }
       }),
 
-      limits_cpu: parseCpuLimit(instance.config["limits.cpu"]),
-      limits_memory: parseMemoryLimit(instance.config["limits.memory"]),
-      limits_memory_swap: instance.config["limits.memory.swap"],
-      limits_disk_priority: instance.config["limits.disk.priority"]
-        ? parseInt(instance.config["limits.disk.priority"])
+      limits_cpu: parseCpuLimit(profile.config["limits.cpu"]),
+      limits_memory: parseMemoryLimit(profile.config["limits.memory"]),
+      limits_memory_swap: profile.config["limits.memory.swap"],
+      limits_disk_priority: profile.config["limits.disk.priority"]
+        ? parseInt(profile.config["limits.disk.priority"])
         : undefined,
-      limits_processes: instance.config["limits.processes"]
-        ? parseInt(instance.config["limits.processes"])
+      limits_processes: profile.config["limits.processes"]
+        ? parseInt(profile.config["limits.processes"])
         : undefined,
 
-      security_protection_delete: instance.config["security.protection.delete"],
-      security_privileged: instance.config["security.privileged"],
-      security_protection_shift: instance.config["security.protection.shift"],
-      security_idmap_base: instance.config["security.idmap.base"],
-      security_idmap_size: instance.config["security.idmap.size"],
-      security_idmap_isolated: instance.config["security.idmap.isolated"],
-      security_devlxd: instance.config["security.devlxd"],
-      security_devlxd_images: instance.config["security.devlxd.images"],
-      security_secureboot: instance.config["security.secureboot"],
-      snapshots_pattern: instance.config["snapshots.pattern"],
-      snapshots_expiry: instance.config["snapshots.expiry"],
-      snapshots_schedule: instance.config["snapshots.schedule"],
-      snapshots_schedule_stopped: instance.config["snapshots.schedule.stopped"],
+      security_protection_delete: profile.config["security.protection.delete"],
+      security_privileged: profile.config["security.privileged"],
+      security_protection_shift: profile.config["security.protection.shift"],
+      security_idmap_base: profile.config["security.idmap.base"],
+      security_idmap_size: profile.config["security.idmap.size"],
+      security_idmap_isolated: profile.config["security.idmap.isolated"],
+      security_devlxd: profile.config["security.devlxd"],
+      security_devlxd_images: profile.config["security.devlxd.images"],
+      security_secureboot: profile.config["security.secureboot"],
+      snapshots_pattern: profile.config["snapshots.pattern"],
+      snapshots_expiry: profile.config["snapshots.expiry"],
+      snapshots_schedule: profile.config["snapshots.schedule"],
+      snapshots_schedule_stopped: profile.config["snapshots.schedule.stopped"],
       ["cloud-init_network-config"]:
-        instance.config["cloud-init.network-config"],
-      ["cloud-init_user-data"]: instance.config["cloud-init.user-data"],
-      ["cloud-init_vendor-data"]: instance.config["cloud-init.vendor-data"],
+        profile.config["cloud-init.network-config"],
+      ["cloud-init_user-data"]: profile.config["cloud-init.user-data"],
+      ["cloud-init_vendor-data"]: profile.config["cloud-init.vendor-data"],
     },
-    validationSchema: InstanceSchema,
+    validationSchema: ProfileSchema,
     onSubmit: (values) => {
-      const instancePayload = values.yaml
+      const profilePayload = values.yaml
         ? yamlToObject(values.yaml)
         : getPayload(values);
 
-      updateInstance(JSON.stringify(instancePayload), project)
+      updateProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          notify.success("Saved.");
+          navigate(
+            `/ui/${project}/profiles/${profile.name}`,
+            notify.queue(notify.success(`Profile "${values.name}" saved.`))
+          );
         })
         .catch((e: Error) => {
           notify.failure("Could not save", e);
@@ -168,15 +169,15 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         .finally(() => {
           formik.setSubmitting(false);
           void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
+            queryKey: [queryKeys.profiles],
           });
         });
     },
   });
 
-  const getPayload = (values: EditInstanceFormValues) => {
+  const getPayload = (values: EditProfileFormValues) => {
     return {
-      ...instanceEditDetailPayload(values),
+      ...profileEditDetailPayload(values),
       ...devicePayload(values),
       config: {
         ...resourceLimitsPayload(values),
@@ -199,17 +200,11 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   };
 
   const getYaml = () => {
-    const exclude = new Set([
-      "backups",
-      "snapshots",
-      "state",
-      "expanded_config",
-      "expanded_devices",
-    ]);
-    const bareInstance = Object.fromEntries(
-      Object.entries(instance).filter((e) => !exclude.has(e[0]))
+    const exclude = new Set(["used_by"]);
+    const bareProfile = Object.fromEntries(
+      Object.entries(profile).filter((e) => !exclude.has(e[0]))
     );
-    return dumpYaml(bareInstance);
+    return dumpYaml(bareProfile);
   };
 
   const overrideNotification = (
@@ -220,9 +215,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   );
 
   return (
-    <div className="edit-instance">
+    <div className="edit-profile">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
-        <InstanceFormMenu
+        <ProfileFormMenu
           active={section}
           setActive={updateSection}
           isConfigOpen={isConfigOpen}
@@ -230,8 +225,8 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         />
         <Row className="form-contents" key={section}>
           <Col size={12}>
-            {section === INSTANCE_DETAILS && (
-              <InstanceEditDetailsForm formik={formik} project={project} />
+            {section === PROFILE_DETAILS && (
+              <ProfileEditDetailsForm formik={formik} />
             )}
 
             {section === DEVICES && (
@@ -283,7 +278,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           <Col size={12}>
             <SubmitButton
               isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.image}
+              isDisabled={!formik.isValid}
               buttonLabel="Save changes"
               onClick={() => void formik.submitForm()}
             />
@@ -294,4 +289,4 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   );
 };
 
-export default EditInstanceForm;
+export default EditProfileForm;

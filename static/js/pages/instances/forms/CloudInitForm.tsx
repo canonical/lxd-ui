@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import { Notification } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { FormValues } from "pages/instances/CreateInstanceForm";
 import CloudInitConfig from "pages/profiles/CloudInitConfig";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import {
+  SharedFormikTypes,
+  SharedFormTypes,
+} from "pages/instances/forms/sharedFormTypes";
 
 export interface CloudInitFormValues {
   ["cloud-init_network-config"]?: string;
@@ -11,9 +12,7 @@ export interface CloudInitFormValues {
   ["cloud-init_vendor-data"]?: string;
 }
 
-export const cloudInitPayload = (
-  values: FormValues | EditInstanceFormValues
-) => {
+export const cloudInitPayload = (values: SharedFormTypes) => {
   return {
     ["cloud-init.network-config"]: values["cloud-init_network-config"],
     ["cloud-init.user-data"]: values["cloud-init_user-data"],
@@ -22,7 +21,7 @@ export const cloudInitPayload = (
 };
 
 interface Props {
-  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
+  formik: SharedFormikTypes;
 }
 
 const CloudInitForm: FC<Props> = ({ formik }) => {

@@ -8,17 +8,12 @@ export interface PanelHelper {
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
   openImageImport: () => void;
-  openProfileFormGuided: (project: string) => void;
-  openProfileFormYaml: (profile: string, project: string) => void;
-  openNewProfileFormYaml: (project: string) => void;
   openNewStorageForm: (project: string) => void;
 }
 
 export const panels = {
   instanceSummary: "instance-summary",
   imageImport: "image-import",
-  profileFormGuided: "profile-form-guided",
-  profileFormYaml: "profile-form-yaml",
   storageForm: "storage-form",
 };
 
@@ -52,18 +47,6 @@ const usePanelParams = (): PanelHelper => {
 
     openImageImport: () => {
       setPanelParams(panels.imageImport);
-    },
-
-    openProfileFormGuided: (project: string) => {
-      setPanelParams(panels.profileFormGuided, { project });
-    },
-
-    openProfileFormYaml: (profile, project) => {
-      setPanelParams(panels.profileFormYaml, { profile, project });
-    },
-
-    openNewProfileFormYaml: (project) => {
-      setPanelParams(panels.profileFormYaml, { project });
     },
 
     openNewStorageForm: (project) => {

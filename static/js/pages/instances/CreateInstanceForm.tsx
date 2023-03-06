@@ -58,7 +58,7 @@ import InstanceFormMenu, {
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
 
-export type FormValues = InstanceDetailsFormValues &
+export type CreateInstanceFormValues = InstanceDetailsFormValues &
   DevicesFormValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
@@ -67,7 +67,7 @@ export type FormValues = InstanceDetailsFormValues &
   YamlFormValues;
 
 interface RetryFormState {
-  retryFormValues: FormValues;
+  retryFormValues: CreateInstanceFormValues;
 }
 
 const CreateInstanceForm: FC = () => {
@@ -111,7 +111,11 @@ const CreateInstanceForm: FC = () => {
     notify.success(<>Launched instance {instanceLink}.</>);
   }
 
-  function notifyLaunchFailed(e: Error, formUrl: string, values: FormValues) {
+  function notifyLaunchFailed(
+    e: Error,
+    formUrl: string,
+    values: CreateInstanceFormValues
+  ) {
     notify.failure(<>Instance creation failed.</>, e, [
       {
         label: "Check configuration",
@@ -121,7 +125,7 @@ const CreateInstanceForm: FC = () => {
     ]);
   }
 
-  const submit = (values: FormValues, shouldStart = true) => {
+  const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
     const formUrl = location.pathname + location.search;
     navigate(
       `/ui/${project}/instances`,
@@ -170,13 +174,14 @@ const CreateInstanceForm: FC = () => {
       });
   };
 
-  const formik = useFormik<FormValues>({
+  const formik = useFormik<CreateInstanceFormValues>({
     initialValues: location.state?.retryFormValues ?? {
       instanceType: "container",
       profiles: ["default"],
       devices: [{ type: "", name: "" }],
       limits_cpu: DEFAULT_CPU_LIMIT,
       limits_memory: DEFAULT_MEM_LIMIT,
+      type: "instance",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
@@ -203,14 +208,13 @@ const CreateInstanceForm: FC = () => {
     notify.clear();
   };
 
-  const getCreationPayload = (values: FormValues) => {
-    const isVm = values.instanceType === "virtual-machine";
+  const getCreationPayload = (values: CreateInstanceFormValues) => {
     return {
       ...instanceDetailPayload(values),
       ...devicePayload(values),
       config: {
-        ...resourceLimitsPayload(values, isVm),
-        ...securityPoliciesPayload(values, isVm),
+        ...resourceLimitsPayload(values),
+        ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...cloudInitPayload(values),
       },
@@ -260,12 +264,8 @@ const CreateInstanceForm: FC = () => {
         <div className="p-panel__header">
           <h4 className="p-panel__title">Create new instance</h4>
         </div>
-        <div className="p-panel__content create-new-instance">
-          <Form
-            onSubmit={() => submit(formik.values)}
-            stacked
-            className="instance-form"
-          >
+        <div className="p-panel__content create-instance">
+          <Form onSubmit={() => submit(formik.values)} stacked className="form">
             <InstanceFormMenu
               active={section}
               setActive={updateSection}

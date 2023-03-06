@@ -31,9 +31,27 @@ export const instanceStatuses = [
   },
 ];
 
-export const booleanFields = [
+export const booleanFields = (isInstance: boolean) =>
+  isInstance ? instanceBooleanFields : profileBooleanFields;
+
+export const instanceBooleanFields = [
   {
     label: "Inherit from profile",
+    value: "",
+  },
+  {
+    label: "true",
+    value: "true",
+  },
+  {
+    label: "false",
+    value: "false",
+  },
+];
+
+export const profileBooleanFields = [
+  {
+    label: "Select",
     value: "",
   },
   {

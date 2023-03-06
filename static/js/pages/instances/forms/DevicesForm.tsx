@@ -8,15 +8,16 @@ import {
   Row,
   Select,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { FormValues } from "pages/instances/CreateInstanceForm";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import { fetchStorages } from "api/storages";
 import { LxdDiskDevice, LxdNicDevice } from "types/device";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import classnames from "classnames";
+import {
+  SharedFormikTypes,
+  SharedFormTypes,
+} from "pages/instances/forms/sharedFormTypes";
 
 interface EmptyDevice {
   type: "";
@@ -32,7 +33,7 @@ export interface DevicesFormValues {
   devices: FormDevice[];
 }
 
-export const devicePayload = (values: FormValues | EditInstanceFormValues) => {
+export const devicePayload = (values: SharedFormTypes) => {
   return {
     devices: values.devices
       .filter((item) => item.type !== "")
@@ -46,7 +47,7 @@ export const devicePayload = (values: FormValues | EditInstanceFormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<FormValues> | FormikProps<EditInstanceFormValues>;
+  formik: SharedFormikTypes;
   project: string;
   children?: ReactNode;
 }
