@@ -51,7 +51,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
     <>
       {children}
       <Row>
-        <Col size={9}>
+        <Col size={8}>
           <Select
             label="Prevent the instance from being deleted"
             name="security_protection_delete"

@@ -42,7 +42,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
   return (
     <>
       <Row>
-        <Col size={9}>
+        <Col size={8}>
           <Input
             id="name"
             name="name"
@@ -67,7 +67,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
       {formik.values.image ? (
         <>
           <Row>
-            <Col size={9}>
+            <Col size={8}>
               <Input
                 id="baseImage"
                 name="baseImage"
@@ -84,7 +84,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
                 required
               />
             </Col>
-            <Col size={3} className="u-align-self-end">
+            <Col size={4} className="image-change-link">
               <SelectImageBtn
                 appearance="link"
                 caption="Change image"
@@ -93,7 +93,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
             </Col>
           </Row>
           <Row>
-            <Col size={9}>
+            <Col size={8}>
               <Select
                 id="instanceType"
                 label="Instance type"
@@ -112,7 +112,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
         </>
       ) : (
         <Row>
-          <Col size={9}>
+          <Col size={8}>
             <Label required>Base Image</Label>
             <br />
             <SelectImageBtn

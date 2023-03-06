@@ -6,10 +6,6 @@
     width: $sp-xx-large;
   }
 
-  .empty-state-link {
-    @include vf-icon-external-link($color-link);
-  }
-
   .empty-state-button {
     margin-top: $spv--medium;
   }

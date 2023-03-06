@@ -1,13 +1,9 @@
 import React, { FC, OptionHTMLAttributes, useState } from "react";
 import {
   Button,
-  Card,
-  CheckboxInput,
   Col,
-  Label,
   MainTable,
   Modal,
-  RadioInput,
   Row,
   SearchBox,
   Select,
@@ -41,8 +37,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   const [query, setQuery] = useState<string>("");
   const [os, setOs] = useState<string>("");
   const [release, setRelease] = useState<string>("");
-  const [arch, setArch] = useState<string[]>(["amd64"]);
-  const [archDisplayCount, setArchDisplayCount] = useState(2);
+  const [arch, setArch] = useState<string>("amd64");
   const [type, setType] = useState<string>(ANY);
 
   const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
@@ -98,15 +93,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
 
   const archAll = [...new Set(images.map((item) => item.arch))].sort();
 
-  if (
-    archSupported.length > 0 &&
-    !archSupported.includes("amd64") &&
-    arch.length === 1 &&
-    arch.pop() === "amd64"
-  ) {
-    setArch(archAll);
-  }
-
   const getOptionList: (
     mapper: (item: RemoteImage) => string,
     filter?: (item: RemoteImage) => boolean
@@ -127,14 +113,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
       value: "",
     });
     return options;
-  };
-
-  const toggleArch = (item: string) => {
-    setArch((oldList) => {
-      return oldList.includes(item)
-        ? oldList.filter((i) => i !== item)
-        : [...oldList, item];
-    });
   };
 
   const rows: MainTableRow[] = images
@@ -178,9 +156,9 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             "aria-label": "Release",
           },
           {
-            content: item.arch,
+            content: item.variant,
             role: "rowheader",
-            "aria-label": "Architecture",
+            "aria-label": "Variant",
           },
           {
             content: item.aliases.replaceAll(",", " "),
@@ -204,7 +182,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
         sortData: {
           os: item.os,
           release: item.release,
-          arch: item.arch,
+          variant: item.variant,
           alias: item.aliases,
         },
       };
@@ -213,7 +191,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   const headers = [
     { content: "Distribution", sortKey: "os" },
     { content: "Release", sortKey: "release" },
-    { content: "Architecture", sortKey: "arch" },
+    { content: "Variant", sortKey: "variant" },
     { content: "Alias", sortKey: "alias" },
     { content: "" },
   ];
@@ -221,12 +199,12 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   return (
     <Modal
       close={onClose}
-      title="Image selection"
+      title="Select base image"
       className="p-image-select-modal"
     >
       <Row className="u-no-padding--left u-no-padding--right">
-        <Col size={4}>
-          <Card title="Filters" style={{ height: "100%" }}>
+        <Col size={3}>
+          <div style={{ height: "100%" }}>
             <Select
               label="Distribution"
               name="distribution"
@@ -252,98 +230,50 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               value={release}
               stacked
             />
-            <Label>Type</Label>
-            <RadioInput
-              label="Any"
-              checked={type === ANY}
-              onChange={() => setType(ANY)}
+            <Select
+              label="Type"
+              name="type"
+              onChange={(v) => {
+                setType(v.target.value);
+              }}
+              options={[
+                {
+                  label: "Any",
+                  value: ANY,
+                },
+                {
+                  label: "container",
+                  value: CONTAINER,
+                },
+                {
+                  label: "virtual-machine",
+                  value: VM,
+                },
+              ]}
+              value={type}
+              stacked
             />
-            <RadioInput
-              label="Container"
-              checked={type === CONTAINER}
-              onChange={() => setType(CONTAINER)}
+            <Select
+              label="Architecture"
+              name="architecture"
+              onChange={(v) => {
+                setArch(v.target.value);
+              }}
+              options={archAll.map((item) => {
+                return {
+                  label: item,
+                  value: item,
+                };
+              })}
+              value={arch}
+              stacked
             />
-            <RadioInput
-              label="Virtual-machine"
-              checked={type === VM}
-              onChange={() => setType(VM)}
-            />
-            <Label>Architecture</Label>
-            {archDisplayCount < archAll.length ? (
-              archAll
-                .slice(0, archDisplayCount)
-                .map((item) => (
-                  <CheckboxInput
-                    key={item}
-                    label={item}
-                    value={item}
-                    checked={arch.includes(item)}
-                    onChange={() => toggleArch(item)}
-                  />
-                ))
-            ) : (
-              <Row>
-                <Col size={2}>
-                  {archAll
-                    .slice(0, Math.ceil(archDisplayCount / 2))
-                    .map((item) => (
-                      <CheckboxInput
-                        key={item}
-                        label={item}
-                        value={item}
-                        checked={arch.includes(item)}
-                        onChange={() => toggleArch(item)}
-                      />
-                    ))}
-                </Col>
-                <Col size={2}>
-                  {archAll
-                    .slice(Math.ceil(archDisplayCount / 2), archDisplayCount)
-                    .map((item) => (
-                      <CheckboxInput
-                        key={item}
-                        label={item}
-                        value={item}
-                        checked={arch.includes(item)}
-                        onChange={() => toggleArch(item)}
-                      />
-                    ))}
-                </Col>
-              </Row>
-            )}
-            {archDisplayCount < archAll.length ? (
-              <Button
-                appearance="link"
-                className="u-no-margin--bottom"
-                small
-                onClick={() => setArchDisplayCount(archAll.length)}
-              >
-                see all
-              </Button>
-            ) : arch.length !== archAll.length ? (
-              <Button
-                appearance="link"
-                className="u-no-margin--bottom"
-                small
-                onClick={() => setArch(archAll)}
-              >
-                select all
-              </Button>
-            ) : (
-              <Button
-                appearance="link"
-                className="u-no-margin--bottom"
-                small
-                onClick={() => setArch([])}
-              >
-                unselect all
-              </Button>
-            )}
-          </Card>
+          </div>
         </Col>
-        <Col size={8}>
+        <Col size={9}>
           <SearchBox
             autoFocus
+            className="search-image"
             id="search-image-catalog"
             type="text"
             onChange={(value) => {
@@ -351,7 +281,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               setOs("");
               setRelease("");
             }}
-            placeholder="Search for distributions, releases or or aliases"
+            placeholder="Search an image"
             value={query}
           />
           <div className="p-image-list">

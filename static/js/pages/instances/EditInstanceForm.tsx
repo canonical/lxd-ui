@@ -126,6 +126,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       limits_cpu: parseCpuLimit(instance.config["limits.cpu"]),
       limits_memory: parseMemoryLimit(instance.config["limits.memory"]),
       limits_memory_swap: instance.config["limits.memory.swap"],
+      limits_disk_priority: instance.config["limits.disk.priority"]
+        ? parseInt(instance.config["limits.disk.priority"])
+        : undefined,
       limits_processes: instance.config["limits.processes"]
         ? parseInt(instance.config["limits.processes"])
         : undefined,

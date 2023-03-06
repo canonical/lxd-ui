@@ -11,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "api/server";
 import { queryKeys } from "util/queryKeys";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
-import { DEFAULT_MEM_LIMIT } from "util/defaults";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { useNotify } from "context/notify";
@@ -96,21 +95,35 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
     return `${Number(formattedValue.toFixed(1))} ${memoryLimit.unit}`;
   };
 
+  const helpText = maxMemory && (
+    <>
+      Total memory: <b>{getTotalMemory()}</b>
+    </>
+  );
+
   return (
     <>
-      <Label>Memory limit</Label>
-      <RadioInput
-        label="fixed (bytes)"
-        checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED}
-        onChange={() => setMemoryLimit(DEFAULT_MEM_LIMIT)}
-      />
-      <RadioInput
-        label="% of the host"
-        checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT}
-        onChange={() =>
-          setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT })
-        }
-      />
+      <div className="memory-limit-label">
+        <Label className="grow">Memory limit</Label>
+        <RadioInput
+          labelClassName="right-margin"
+          label="number"
+          checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT}
+          onChange={() =>
+            setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT })
+          }
+        />
+        <RadioInput
+          label="fixed"
+          checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED}
+          onChange={() =>
+            setMemoryLimit({
+              unit: BYTES_UNITS.GIB,
+              selectedType: MEM_LIMIT_TYPE.FIXED,
+            })
+          }
+        />
+      </div>
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT && (
         <Input
           id="percentMemLimit"
@@ -119,16 +132,17 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           min="0.0000000001"
           max="100"
           step="Any"
-          placeholder="Enter value"
+          placeholder="Enter percentage"
           onChange={(e) =>
             setMemoryLimit({ ...memoryLimit, value: +e.target.value })
           }
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
+          help={helpText}
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
         <Row>
-          <Col size={6}>
+          <Col size={4}>
             <Input
               id="fixedMemLimit"
               name="fixedMemLimit"
@@ -141,9 +155,10 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
                 setMemoryLimit({ ...memoryLimit, value: +e.target.value })
               }
               value={`${memoryLimit.value ? memoryLimit.value : ""}`}
+              help={helpText}
             />
           </Col>
-          <Col size={6}>
+          <Col size={4}>
             <Select
               name="unitSelect"
               options={getMemUnitOptions()}
@@ -157,13 +172,6 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             />
           </Col>
         </Row>
-      )}
-      {maxMemory && (
-        <p>
-          <span>
-            Total memory: <b>{getTotalMemory()}</b>
-          </span>
-        </p>
       )}
     </>
   );

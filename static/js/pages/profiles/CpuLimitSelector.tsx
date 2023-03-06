@@ -1,11 +1,5 @@
 import React, { FC } from "react";
-import {
-  Col,
-  Input,
-  Label,
-  RadioInput,
-  Row,
-} from "@canonical/react-components";
+import { Input, Label, RadioInput } from "@canonical/react-components";
 import { fetchResources } from "api/server";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -39,27 +33,30 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
   }
 
   const numberOfCores = resources?.cpu.total;
+  const helpText = numberOfCores && (
+    <>
+      Total number of CPU cores: <b>{numberOfCores}</b>
+    </>
+  );
 
   return (
     <>
-      <Label>Exposed CPUs</Label>
-      <RadioInput
-        label="dynamic (load-balancing)"
-        checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC}
-        onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.DYNAMIC })}
-      />
-      <RadioInput
-        label="fixed range (pinned to cores)"
-        checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_RANGE}
-        onChange={() =>
-          setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED_RANGE })
-        }
-      />
-      <RadioInput
-        label="fixed set (pinned to cores)"
-        checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET}
-        onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED_SET })}
-      />
+      <div className="cpu-limit-label">
+        <Label className="grow">Exposed CPUs</Label>
+        <RadioInput
+          labelClassName="right-margin"
+          label="number"
+          checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC}
+          onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.DYNAMIC })}
+        />
+        <RadioInput
+          label="fixed"
+          checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET}
+          onChange={() =>
+            setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED_SET })
+          }
+        />
+      </div>
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC && (
         <Input
           id="dynCpuLimit"
@@ -73,53 +70,8 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
             setCpuLimit({ ...cpuLimit, dynamicValue: +e.target.value })
           }
           value={cpuLimit.dynamicValue ?? ""}
+          help={helpText}
         />
-      )}
-      {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_RANGE && (
-        <Row>
-          <Col size={6}>
-            <Input
-              id="rangeCpuLimitFrom"
-              name="rangeCpuLimitFrom"
-              type="number"
-              min="0"
-              max={cpuLimit.rangeValue?.to ?? numberOfCores}
-              step="1"
-              placeholder="From (core #)"
-              onChange={(e) =>
-                setCpuLimit({
-                  ...cpuLimit,
-                  rangeValue: {
-                    from: +e.target.value,
-                    to: cpuLimit.rangeValue?.to ?? null,
-                  },
-                })
-              }
-              value={cpuLimit.rangeValue?.from ?? ""}
-            />
-          </Col>
-          <Col size={6}>
-            <Input
-              id="rangeCpuLimitTo"
-              name="rangeCpuLimitTo"
-              type="number"
-              min={cpuLimit.rangeValue?.from ?? 0}
-              max={numberOfCores ? numberOfCores - 1 : undefined}
-              step="1"
-              placeholder="To (core #)"
-              onChange={(e) =>
-                setCpuLimit({
-                  ...cpuLimit,
-                  rangeValue: {
-                    from: cpuLimit.rangeValue?.from ?? null,
-                    to: +e.target.value,
-                  },
-                })
-              }
-              value={cpuLimit.rangeValue?.to ?? ""}
-            />
-          </Col>
-        </Row>
       )}
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET && (
         <Input
@@ -131,27 +83,8 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
             setCpuLimit({ ...cpuLimit, setValue: e.target.value })
           }
           value={cpuLimit.setValue ?? ""}
+          help={helpText}
         />
-      )}
-      <p>
-        <span>
-          See docs for the{" "}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://linuxcontainers.org/lxd/docs/latest/reference/instance_options/#cpu-limits"
-          >
-            allowed formats
-          </a>
-          .
-        </span>
-      </p>
-      {numberOfCores && (
-        <p>
-          <span>
-            Total number of CPU cores: <b>{numberOfCores}</b>
-          </span>
-        </p>
       )}
     </>
   );
