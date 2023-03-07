@@ -34,7 +34,9 @@ interface Props {
 }
 
 const SnapshotsForm: FC<Props> = ({ formik, children }) => {
-  const [cronSyntax, setCronSyntax] = useState(true);
+  const [cronSyntax, setCronSyntax] = useState(
+    !formik.values.snapshots_schedule?.startsWith("@")
+  );
   const isInstance = formik.values.type === "instance";
 
   return (
@@ -88,14 +90,17 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
               labelClassName="right-margin"
               label="Cron syntax"
               checked={cronSyntax}
-              onChange={() => setCronSyntax(true)}
+              onChange={() => {
+                setCronSyntax(true);
+                formik.setFieldValue("snapshots_schedule", "");
+              }}
             />
             <RadioInput
               label="Manual configuration"
               checked={!cronSyntax}
               onChange={() => {
                 setCronSyntax(false);
-                formik.setFieldValue("snapshots_schedule", "* * * * *");
+                formik.setFieldValue("snapshots_schedule", "@daily");
               }}
             />
           </div>
@@ -113,50 +118,34 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             <>
               <Select
                 label="Every"
-                name="every"
-                onChange={(e) => {
-                  const getSchedule = () => {
-                    switch (e.target.value) {
-                      case "minute":
-                        return "* * * * *";
-                      case "hour":
-                        return "@hourly";
-                      case "day":
-                        return "@daily";
-                      case "week":
-                        return "@weekly";
-                      case "month":
-                        return "@monthly";
-                      case "year":
-                        return "@yearly";
-                    }
-                  };
-                  formik.setFieldValue("snapshots_schedule", getSchedule());
-                }}
+                name="snapshots_schedule"
+                value={formik.values.snapshots_schedule}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 options={[
                   {
                     label: "minute",
-                    value: "minute",
+                    value: "* * * * *",
                   },
                   {
                     label: "hour",
-                    value: "hour",
+                    value: "@hourly",
                   },
                   {
                     label: "day",
-                    value: "day",
+                    value: "@daily",
                   },
                   {
                     label: "week",
-                    value: "week",
+                    value: "@weekly",
                   },
                   {
                     label: "month",
-                    value: "month",
+                    value: "@monthly",
                   },
                   {
                     label: "year",
-                    value: "year",
+                    value: "@yearly",
                   },
                 ]}
               />
