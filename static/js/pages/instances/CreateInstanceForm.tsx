@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -57,6 +57,8 @@ import InstanceFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
+import useEventListener from "@use-it/event-listener";
+import { updateMaxHeight } from "util/updateMaxHeight";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   DevicesFormValues &
@@ -95,6 +97,12 @@ const CreateInstanceForm: FC = () => {
       .optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
+
+  const updateFormHeight = () => {
+    updateMaxHeight("form-contents", "p-bottom-controls");
+  };
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEventListener("resize", updateFormHeight);
 
   function notifyLaunchedAndStarted(instanceLink: ReactNode) {
     notify.success(<>Launched and started instance {instanceLink}.</>);
@@ -326,7 +334,7 @@ const CreateInstanceForm: FC = () => {
               </Col>
             </Row>
           </Form>
-          <div className="footer">
+          <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">
               <Col size={12}>

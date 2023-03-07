@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -53,6 +53,8 @@ import ProfileDetailsForm, {
   profileDetailPayload,
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
+import { updateMaxHeight } from "util/updateMaxHeight";
+import useEventListener from "@use-it/event-listener";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   DevicesFormValues &
@@ -82,6 +84,12 @@ const CreateProfileForm: FC = () => {
       )
       .required(),
   });
+
+  const updateFormHeight = () => {
+    updateMaxHeight("form-contents", "p-bottom-controls");
+  };
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEventListener("resize", updateFormHeight);
 
   const formik = useFormik<CreateProfileFormValues>({
     initialValues: {
@@ -203,7 +211,7 @@ const CreateProfileForm: FC = () => {
               </Col>
             </Row>
           </Form>
-          <div className="footer">
+          <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">
               <Col size={12}>
