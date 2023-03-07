@@ -22,7 +22,13 @@ const FileRow: FC<FileRowProps> = ({ instance, path }) => {
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: [queryKeys.instances, instance.name, queryKeys.logs, fileName],
+    queryKey: [
+      queryKeys.instances,
+      instance.name,
+      instance.project,
+      queryKeys.logs,
+      fileName,
+    ],
     queryFn: () =>
       fetchInstanceLogFile(instance.name, instance.project, fileName),
     enabled: isOpen,

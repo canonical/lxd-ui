@@ -53,7 +53,7 @@ const InstanceDetail: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.instances, name],
+    queryKey: [queryKeys.instances, name, project],
     queryFn: () => fetchInstance(name, project),
   });
 
