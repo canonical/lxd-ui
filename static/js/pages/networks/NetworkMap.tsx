@@ -46,7 +46,7 @@ const NetworkMap: FC = () => {
   const cyPopperRef = useRef<PopperRef | null>(null);
 
   const { data: instances = [], isLoading: instanceLoading } = useQuery({
-    queryKey: [queryKeys.instances],
+    queryKey: [queryKeys.instances, project],
     queryFn: () => fetchInstances(project ?? ""),
     enabled: Boolean(project),
   });

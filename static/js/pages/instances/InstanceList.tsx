@@ -66,7 +66,7 @@ const InstanceList: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.instances],
+    queryKey: [queryKeys.instances, project],
     queryFn: () => fetchInstances(project),
   });
 

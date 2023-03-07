@@ -29,7 +29,7 @@ const InstanceDetailPanel: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.instances, panelParams.instance],
+    queryKey: [queryKeys.instances, panelParams.instance, panelParams.project],
     queryFn: () =>
       fetchInstance(panelParams.instance ?? "", panelParams.project),
     enabled: panelParams.instance !== null,
