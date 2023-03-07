@@ -18,9 +18,12 @@ const createSnapshot = async (
   instance: string,
   snapshot: string
 ) => {
-  await page.goto(`/ui/instances/detail/${instance}`);
+  await page.goto(`/`);
+  await page.getByPlaceholder("Search").click();
+  await page.getByPlaceholder("Search").fill(instance);
+  await page.getByRole("link", { name: instance }).first().click();
   await page.getByTestId("tab-link-Snapshots").click();
-  await page.getByRole("button", { name: "Create snapshot" }).click();
+  await page.getByRole("button", { name: "Create snapshot" }).first().click();
   await page.getByLabel("Snapshot name").click();
   await page.getByLabel("Snapshot name").fill(snapshot);
   await page
@@ -58,5 +61,5 @@ const deleteSnapshot = async (page: Page, snapshot: string) => {
     .getByRole("button", { name: "Delete" })
     .click();
 
-  await page.waitForSelector("text=Snapshot deleted", TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} deleted.`, TIMEOUT);
 };
