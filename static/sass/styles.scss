@@ -144,6 +144,10 @@
   margin-right: $sph--x-small;
 }
 
+.p-empty-snapshots {
+  @include vf-icon-settings($color-mid-light);
+}
+
 @include mobile-and-tablet {
   .u-certificate-button {
     margin-left: 2.5rem;
