@@ -15,8 +15,7 @@ import SubmitButton from "components/SubmitButton";
 import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Location } from "history";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
 import DevicesForm, {
   devicePayload,
@@ -63,12 +62,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
-interface RetryFormState {
-  retryFormValues: CreateProfileFormValues;
-}
-
 const CreateProfileForm: FC = () => {
-  const location = useLocation() as Location<RetryFormState | null>;
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -90,7 +84,7 @@ const CreateProfileForm: FC = () => {
   });
 
   const formik = useFormik<CreateProfileFormValues>({
-    initialValues: location.state?.retryFormValues ?? {
+    initialValues: {
       name: "",
       devices: [{ type: "", name: "" }],
       limits_cpu: DEFAULT_CPU_LIMIT,

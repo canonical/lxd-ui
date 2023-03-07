@@ -47,6 +47,7 @@ import InstanceFormMenu, {
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
+import { parseDevices } from "util/devices";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   DevicesFormValues &
@@ -99,30 +100,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       profiles: instance.profiles,
       type: "instance",
 
-      devices: Object.keys(instance.devices).map((key) => {
-        const item = instance.devices[key];
-        switch (item.type) {
-          case "nic":
-            return {
-              name: key,
-              network: item.network,
-              type: "nic",
-            };
-          case "disk":
-            return {
-              name: key,
-              path: item.path,
-              pool: item.pool,
-              size: item.size,
-              type: "disk",
-            };
-          default:
-            return {
-              type: "",
-              name: "",
-            };
-        }
-      }),
+      devices: parseDevices(instance.devices),
 
       limits_cpu: parseCpuLimit(instance.config["limits.cpu"]),
       limits_memory: parseMemoryLimit(instance.config["limits.memory"]),

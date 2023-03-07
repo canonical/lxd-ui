@@ -61,7 +61,7 @@ export const parseCpuLimit = (limit?: string): CpuLimit => {
 };
 
 export const parseMemoryLimit = (limit?: string): MemoryLimit => {
-  if (limit?.includes("%")) {
+  if (limit?.includes("%") || !limit) {
     return {
       value: limit ? parseInt(limit) : undefined,
       unit: "%",
@@ -70,7 +70,7 @@ export const parseMemoryLimit = (limit?: string): MemoryLimit => {
   }
   return {
     value: limit ? parseInt(limit) : undefined,
-    unit: (limit?.replace(/[0-9]/g, "") ?? BYTES_UNITS.GB) as BYTES_UNITS,
+    unit: limit.replace(/[0-9]/g, "") as BYTES_UNITS,
     selectedType: MEM_LIMIT_TYPE.FIXED,
   };
 };

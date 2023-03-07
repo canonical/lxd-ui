@@ -200,7 +200,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     <Modal
       close={onClose}
       title="Select base image"
-      className="p-image-select-modal"
+      className="image-select-modal"
     >
       <Row className="u-no-padding--left u-no-padding--right">
         <Col size={3}>
@@ -284,9 +284,9 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             placeholder="Search an image"
             value={query}
           />
-          <div className="p-image-list">
+          <div className="image-list">
             <MainTable
-              className="p-table-image-select"
+              className="table-image-select"
               emptyStateMsg={
                 isLoading ? (
                   <Loader text="Loading images..." />

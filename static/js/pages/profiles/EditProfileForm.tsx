@@ -47,6 +47,7 @@ import ProfileFormMenu, {
 } from "pages/profiles/forms/ProfileFormMenu";
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
+import { parseDevices } from "util/devices";
 
 export type EditProfileFormValues = ProfileEditDetailsFormValues &
   DevicesFormValues &
@@ -97,30 +98,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       description: profile.description,
       type: "profile",
 
-      devices: Object.keys(profile.devices).map((key) => {
-        const item = profile.devices[key];
-        switch (item.type) {
-          case "nic":
-            return {
-              name: key,
-              network: item.network,
-              type: "nic",
-            };
-          case "disk":
-            return {
-              name: key,
-              path: item.path,
-              pool: item.pool,
-              size: item.size,
-              type: "disk",
-            };
-          default:
-            return {
-              type: "",
-              name: "",
-            };
-        }
-      }),
+      devices: parseDevices(profile.devices),
 
       limits_cpu: parseCpuLimit(profile.config["limits.cpu"]),
       limits_memory: parseMemoryLimit(profile.config["limits.memory"]),
