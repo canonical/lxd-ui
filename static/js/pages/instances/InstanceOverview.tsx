@@ -168,7 +168,7 @@ const InstanceOverview: FC<Props> = ({ controlTarget, instance }) => {
                 items={instance.profiles.map((name) => (
                   <Link
                     key={name}
-                    to={`/ui/${instance.project}/profiles/${name}`}
+                    to={`/ui/${instance.project}/profiles/detail/${name}`}
                   >
                     {name}
                   </Link>

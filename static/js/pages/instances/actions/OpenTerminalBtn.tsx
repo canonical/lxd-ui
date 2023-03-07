@@ -15,7 +15,9 @@ const OpenTerminalBtn: FC<Props> = ({
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    navigate(`/ui/${instance.project}/instances/${instance.name}/terminal`);
+    navigate(
+      `/ui/${instance.project}/instances/detail/${instance.name}/terminal`
+    );
   };
 
   const isDisabled = instance.status !== "Running";

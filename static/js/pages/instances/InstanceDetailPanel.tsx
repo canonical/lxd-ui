@@ -116,7 +116,7 @@ const InstanceDetailPanel: FC = () => {
                     <th className="u-text--muted">Name</th>
                     <td>
                       <Link
-                        to={`/ui/${instance.project}/instances/${instance.name}`}
+                        to={`/ui/${instance.project}/instances/detail/${instance.name}`}
                       >
                         {instance.name}
                       </Link>
@@ -229,7 +229,7 @@ const InstanceDetailPanel: FC = () => {
                   className="p-action-link p-text--small u-align--right u-no-margin--bottom u-truncate"
                 >
                   <Link
-                    to={`/ui/${instance.project}/instances/${instance.name}/configuration`}
+                    to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration`}
                   >
                     View configurations
                   </Link>
@@ -240,7 +240,7 @@ const InstanceDetailPanel: FC = () => {
                 items={instance.profiles.map((name) => (
                   <Link
                     key={name}
-                    to={`/ui/${instance.project}/profiles/${name}`}
+                    to={`/ui/${instance.project}/profiles/detail/${name}`}
                   >
                     {name}
                   </Link>
@@ -273,7 +273,7 @@ const InstanceDetailPanel: FC = () => {
                   className="p-action-link p-text--small u-align--right u-no-margin--bottom u-truncate"
                 >
                   <Link
-                    to={`/ui/${instance.project}/instances/${instance.name}/snapshots`}
+                    to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
                   >
                     {manageSnapshotLabel}
                   </Link>

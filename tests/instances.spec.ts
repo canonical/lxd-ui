@@ -38,7 +38,7 @@ export const createInstance = async (page: Page, name: string) => {
 };
 
 export const deleteInstance = async (page: Page, instanceName: string) => {
-  await page.goto(`/ui/instances/${instanceName}`);
+  await page.goto(`/ui/instances/detail/${instanceName}`);
   await page.waitForTimeout(10000).then(async () => {
     await page.getByRole("button", { name: "Delete" }).click();
     await page

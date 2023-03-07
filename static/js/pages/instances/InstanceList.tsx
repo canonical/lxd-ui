@@ -201,7 +201,9 @@ const InstanceList: FC = () => {
         columns: [
           {
             content: (
-              <Link to={`/ui/${instance.project}/instances/${instance.name}`}>
+              <Link
+                to={`/ui/${instance.project}/instances/detail/${instance.name}`}
+              >
                 {instance.name}
               </Link>
             ),
@@ -367,7 +369,7 @@ const InstanceList: FC = () => {
             </div>
             <Button
               appearance="positive"
-              onClick={() => navigate(`/ui/${project}/instances/create-new`)}
+              onClick={() => navigate(`/ui/${project}/instances/create`)}
             >
               Create new
             </Button>
@@ -421,7 +423,7 @@ const InstanceList: FC = () => {
                     linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
                     buttonLabel="Create"
                     buttonAction={() =>
-                      navigate(`/ui/${project}/instances/create-new`)
+                      navigate(`/ui/${project}/instances/create`)
                     }
                   />
                 )}

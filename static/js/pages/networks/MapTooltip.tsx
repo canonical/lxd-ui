@@ -22,7 +22,7 @@ const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
     const instance = item as LxdInstance;
     return (
       <div className="p-text--small tooltip">
-        <a href={`/ui/${instance.project}/instances/${instance.name}`}>
+        <a href={`/ui/${instance.project}/instances/detail/${instance.name}`}>
           {instance.name}
         </a>
         <br />

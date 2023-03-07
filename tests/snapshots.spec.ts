@@ -18,7 +18,7 @@ const createSnapshot = async (
   instance: string,
   snapshot: string
 ) => {
-  await page.goto(`/ui/instances/${instance}`);
+  await page.goto(`/ui/instances/detail/${instance}`);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByRole("button", { name: "Create snapshot" }).click();
   await page.getByLabel("Snapshot name").click();

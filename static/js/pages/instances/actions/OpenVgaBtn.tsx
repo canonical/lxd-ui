@@ -15,7 +15,7 @@ const OpenVgaBtn: FC<Props> = ({
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    navigate(`/ui/${instance.project}/instances/${instance.name}/vga`);
+    navigate(`/ui/${instance.project}/instances/detail/${instance.name}/vga`);
   };
 
   const getTitle = () => {
