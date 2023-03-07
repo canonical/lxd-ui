@@ -103,21 +103,6 @@
   @include vf-icon-external-link($color-link);
 }
 
-.cpu-limit-label,
-.memory-limit-label,
-.snapshot-schedule {
-  align-items: flex-end;
-  display: flex;
-
-  .grow {
-    flex-grow: 1;
-  }
-
-  .right-margin {
-    margin-right: 2rem;
-  }
-}
-
 .p-empty-snapshots {
   @include vf-icon-settings($color-mid-light);
 }
