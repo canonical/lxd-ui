@@ -137,7 +137,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       updateProfile(JSON.stringify(profilePayload), project)
         .then(() => {
           navigate(
-            `/ui/${project}/profiles/${profile.name}`,
+            `/ui/${project}/profiles/detail/${profile.name}`,
             notify.queue(notify.success(`Profile "${values.name}" saved.`))
           );
         })

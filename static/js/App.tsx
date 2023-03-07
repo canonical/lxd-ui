@@ -36,15 +36,15 @@ const App: FC = () => {
         element={<ProtectedRoute outlet={<InstanceList />} />}
       />
       <Route
-        path="/ui/:project/instances/create-new"
+        path="/ui/:project/instances/create"
         element={<ProtectedRoute outlet={<CreateInstanceForm />} />}
       />
       <Route
-        path="/ui/:project/instances/:name"
+        path="/ui/:project/instances/detail/:name"
         element={<ProtectedRoute outlet={<InstanceDetail />} />}
       />
       <Route
-        path="/ui/:project/instances/:name/:activeTab"
+        path="/ui/:project/instances/detail/:name/:activeTab"
         element={<ProtectedRoute outlet={<InstanceDetail />} />}
       />
       <Route
@@ -56,15 +56,15 @@ const App: FC = () => {
         element={<ProtectedRoute outlet={<ProfileList />} />}
       />
       <Route
-        path="/ui/:project/profiles/create-new"
+        path="/ui/:project/profiles/create"
         element={<ProtectedRoute outlet={<CreateProfileForm />} />}
       />
       <Route
-        path="/ui/:project/profiles/:name"
+        path="/ui/:project/profiles/detail/:name"
         element={<ProtectedRoute outlet={<ProfileDetail />} />}
       />
       <Route
-        path="/ui/:project/profiles/:name/:activeTab"
+        path="/ui/:project/profiles/detail/:name/:activeTab"
         element={<ProtectedRoute outlet={<ProfileDetail />} />}
       />
       <Route

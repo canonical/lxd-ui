@@ -93,7 +93,7 @@ const ProfileList: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/${project}/profiles/${profile.name}`}>
+            <Link to={`/ui/${project}/profiles/detail/${profile.name}`}>
               {profile.name}
             </Link>
           ),
@@ -133,7 +133,7 @@ const ProfileList: FC = () => {
         controls={
           <Button
             appearance="positive"
-            onClick={() => navigate(`/ui/${project}/profiles/create-new`)}
+            onClick={() => navigate(`/ui/${project}/profiles/create`)}
           >
             Create new
           </Button>

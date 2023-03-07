@@ -62,7 +62,10 @@ const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
                 <List
                   className="u-no-margin--bottom"
                   items={usedByNames.map((name) => (
-                    <Link key={name} to={`/ui/${project}/instances/${name}`}>
+                    <Link
+                      key={name}
+                      to={`/ui/${project}/instances/detail/${name}`}
+                    >
                       {name}
                     </Link>
                   ))}

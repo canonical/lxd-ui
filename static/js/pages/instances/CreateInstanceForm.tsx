@@ -145,7 +145,7 @@ const CreateInstanceForm: FC = () => {
           return;
         }
         const instanceLink = (
-          <Link to={`/ui/${project}/instances/${instanceName}`}>
+          <Link to={`/ui/${project}/instances/detail/${instanceName}`}>
             {instanceName}
           </Link>
         );

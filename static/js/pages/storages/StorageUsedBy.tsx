@@ -42,7 +42,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             className="u-no-margin--bottom"
             items={data[INSTANCES].map((item) => (
               <Fragment key={item.name}>
-                <Link to={`/ui/${item.project}/instances/${item.name}`}>
+                <Link to={`/ui/${item.project}/instances/detail/${item.name}`}>
                   {item.name}
                 </Link>
                 {item.project !== project && ` (project ${item.project})`}
@@ -59,7 +59,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             className="u-no-margin--bottom"
             items={data[PROFILES].map((item) => (
               <Fragment key={item.name}>
-                <Link to={`/ui/${item.project}/profiles/${item.name}`}>
+                <Link to={`/ui/${item.project}/profiles/detail/${item.name}`}>
                   {item.name}
                 </Link>
                 {item.project !== project && ` (project ${item.project})`}
@@ -93,7 +93,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             items={data[SNAPSHOTS].map((item) => (
               <Fragment key={item.name}>
                 <Link
-                  to={`/ui/${item.project}/instances/${item.instance}/snapshots`}
+                  to={`/ui/${item.project}/instances/detail/${item.instance}/snapshots`}
                 >
                   {`${item.instance} ${item.name}`}
                 </Link>
