@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Col, Icon, MainTable, Row } from "@canonical/react-components";
+import React, { FC, useState } from "react";
+import { MainTable, Row } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import DeleteSnapshotBtn from "./actions/snapshots/DeleteSnapshotBtn";
 import RestoreSnapshotBtn from "./actions/snapshots/RestoreSnapshotBtn";
@@ -7,6 +7,8 @@ import { createPortal } from "react-dom";
 import CreateSnapshotBtn from "./actions/snapshots/CreateSnapshotBtn";
 import { NotificationHelper } from "types/notification";
 import { LxdInstance } from "types/instance";
+import EmptyState from "components/EmptyState";
+import CreateSnapshotForm from "pages/instances/actions/snapshots/CreateSnapshotForm";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -15,6 +17,8 @@ interface Props {
 }
 
 const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Created at", sortKey: "created_at" },
@@ -83,45 +87,40 @@ const InstanceSnapshots: FC<Props> = ({ controlTarget, instance, notify }) => {
       {controlTarget &&
         createPortal(
           <>
-            <CreateSnapshotBtn instance={instance} notify={notify} />
+            <CreateSnapshotBtn openSnapshotForm={() => setModalOpen(true)} />
           </>,
           controlTarget
         )}
-      <Row>
-        <MainTable
-          headers={headers}
-          rows={rows}
-          paginate={30}
-          responsive
-          sortable
-          className="u-table-layout--auto"
-          emptyStateMsg={
-            <Row className="p-strip empty-state-message">
-              <Col size={4} className="u-align--right">
-                <Icon name="settings" className="u-hide--small icon" />
-              </Col>
-              <Col size={8} className="u-align--left">
-                <h4 className="p-heading--2">No snapshots found</h4>
-                <p>
-                  A snapshot is the state of an instance at a particular point
-                  in time. It can be used to restore the instance to that state.
-                  Create a new snapshot with the &quot;Create snapshot&quot;
-                  button above.
-                </p>
-                <p>
-                  <a
-                    className="p-link--external"
-                    href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Read the documentation on snapshots
-                  </a>
-                </p>
-              </Col>
-            </Row>
-          }
+      {isModalOpen && (
+        <CreateSnapshotForm
+          instance={instance}
+          close={() => setModalOpen(false)}
+          notify={notify}
         />
+      )}
+      <Row>
+        {instance.snapshots && instance.snapshots.length > 0 ? (
+          <MainTable
+            headers={headers}
+            rows={rows}
+            paginate={30}
+            responsive
+            sortable
+            className="u-table-layout--auto"
+          />
+        ) : (
+          <EmptyState
+            iconName="settings"
+            iconClass="p-empty-snapshots"
+            title="No snapshots found"
+            message="A snapshot is the state of an instance at a particular point
+                  in time. It can be used to restore the instance to that state."
+            linkMessage="Read the documentation on snapshots"
+            linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
+            buttonLabel="Create snapshot"
+            buttonAction={() => setModalOpen(true)}
+          />
+        )}
       </Row>
     </>
   );
