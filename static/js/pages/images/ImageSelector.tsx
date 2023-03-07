@@ -39,6 +39,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   const [release, setRelease] = useState<string>("");
   const [arch, setArch] = useState<string>("amd64");
   const [type, setType] = useState<string>(ANY);
+  const [variant, setVariant] = useState<string>(ANY);
 
   const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
     return new Promise((resolve, reject) => {
@@ -92,6 +93,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
         });
 
   const archAll = [...new Set(images.map((item) => item.arch))].sort();
+  const variantAll = [...new Set(images.map((item) => item.variant))].sort();
 
   const getOptionList: (
     mapper: (item: RemoteImage) => string,
@@ -123,7 +125,10 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
       if (type === CONTAINER && isVmOnlyImage(item)) {
         return false;
       }
-      if (!arch.includes(item.arch)) {
+      if (arch !== item.arch) {
+        return false;
+      }
+      if (variant !== ANY && variant !== item.variant) {
         return false;
       }
       if (os && item.os !== os) {
@@ -143,46 +148,74 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
       );
     })
     .map((item) => {
+      const figureType = () => {
+        if (isVmOnlyImage(item)) {
+          return VM;
+        }
+        if (isContainerOnlyImage(item)) {
+          return CONTAINER;
+        }
+        return "all";
+      };
+      const itemType = figureType();
+
+      const selectImage = () => onSelect(item, type === ANY ? null : type);
+
       return {
+        className: "u-row",
         columns: [
           {
             content: item.os,
             role: "rowheader",
             "aria-label": "Distribution",
+            onClick: selectImage,
           },
           {
             content: item.release,
             role: "rowheader",
             "aria-label": "Release",
+            onClick: selectImage,
           },
           {
             content: item.variant,
             role: "rowheader",
             "aria-label": "Variant",
+            onClick: selectImage,
           },
           {
-            content: item.aliases.replaceAll(",", " "),
+            content: itemType,
+            role: "rowheader",
+            "aria-label": "Type",
+            onClick: selectImage,
+          },
+          {
+            content: item.aliases.split(",").pop(),
             role: "rowheader",
             "aria-label": "Alias",
+            onClick: selectImage,
           },
           {
             content: (
               <Button
                 appearance="positive"
-                onClick={() => onSelect(item, type === ANY ? null : type)}
+                onClick={selectImage}
                 type="button"
+                dense
+                className="u-no-margin--bottom"
               >
                 Select
               </Button>
             ),
             role: "rowheader",
             "aria-label": "Action",
+            onClick: selectImage,
           },
         ],
         sortData: {
           os: item.os,
           release: item.release,
           variant: item.variant,
+          type: itemType,
           alias: item.aliases,
         },
       };
@@ -192,6 +225,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     { content: "Distribution", sortKey: "os" },
     { content: "Release", sortKey: "release" },
     { content: "Variant", sortKey: "variant" },
+    { content: "Type", sortKey: "type" },
     { content: "Alias", sortKey: "alias" },
     { content: "" },
   ];
@@ -231,6 +265,45 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               stacked
             />
             <Select
+              label="Variant"
+              name="type"
+              onChange={(v) => {
+                setVariant(v.target.value);
+              }}
+              options={[
+                {
+                  label: "Any",
+                  value: ANY,
+                },
+              ].concat(
+                variantAll
+                  .filter((item) => Boolean(item))
+                  .map((item) => {
+                    return {
+                      label: item ?? "",
+                      value: item ?? "",
+                    };
+                  })
+              )}
+              value={variant}
+              stacked
+            />
+            <Select
+              label="Architecture"
+              name="architecture"
+              onChange={(v) => {
+                setArch(v.target.value);
+              }}
+              options={archAll.map((item) => {
+                return {
+                  label: item,
+                  value: item,
+                };
+              })}
+              value={arch}
+              stacked
+            />
+            <Select
               label="Type"
               name="type"
               onChange={(v) => {
@@ -251,21 +324,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                 },
               ]}
               value={type}
-              stacked
-            />
-            <Select
-              label="Architecture"
-              name="architecture"
-              onChange={(v) => {
-                setArch(v.target.value);
-              }}
-              options={archAll.map((item) => {
-                return {
-                  label: item,
-                  value: item,
-                };
-              })}
-              value={arch}
               stacked
             />
           </div>
