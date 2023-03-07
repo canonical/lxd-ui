@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Col, Input, Row } from "@canonical/react-components";
+import { Col, Row, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { EditProfileFormValues } from "pages/profiles/EditProfileForm";
 
@@ -25,14 +25,16 @@ const ProfileEditDetailsForm: FC<Props> = ({ formik }) => {
     <>
       <Row>
         <Col size={8}>
-          <Input
-            id="description"
+          <Textarea
             name="description"
-            type="text"
-            label="Profile Description"
+            label="Description"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
+            rows={Math.max(
+              1,
+              Math.ceil((formik.values.description?.length ?? 0) / 46)
+            )}
           />
         </Col>
       </Row>

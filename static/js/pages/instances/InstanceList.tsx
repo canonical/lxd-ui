@@ -217,7 +217,11 @@ const InstanceList: FC = () => {
             className: "clickable-cell type",
           },
           {
-            content: instance.description,
+            content: (
+              <div className="u-truncate" title={instance.description}>
+                {instance.description}
+              </div>
+            ),
             role: "rowheader",
             "aria-label": DESCRIPTION,
             onClick: openSummary,
