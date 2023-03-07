@@ -8,7 +8,7 @@ export interface PanelHelper {
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
   openImageImport: () => void;
-  openNewStorageForm: (project: string) => void;
+  openStorageForm: (project: string) => void;
 }
 
 export const panels = {
@@ -49,7 +49,7 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.imageImport);
     },
 
-    openNewStorageForm: (project) => {
+    openStorageForm: (project) => {
       setPanelParams(panels.storageForm, { project });
     },
   };

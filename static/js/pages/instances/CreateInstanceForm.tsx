@@ -134,7 +134,7 @@ const CreateInstanceForm: FC = () => {
 
     const instancePayload = values.yaml
       ? yamlToObject(values.yaml)
-      : getCreationPayload(values);
+      : getPayload(values);
 
     createInstance(JSON.stringify(instancePayload), project)
       .then((operation) => {
@@ -208,7 +208,7 @@ const CreateInstanceForm: FC = () => {
     notify.clear();
   };
 
-  const getCreationPayload = (values: CreateInstanceFormValues) => {
+  const getPayload = (values: CreateInstanceFormValues) => {
     return {
       ...instanceDetailPayload(values),
       ...devicePayload(values),
@@ -247,7 +247,7 @@ const CreateInstanceForm: FC = () => {
   };
 
   function getYaml() {
-    const payload = getCreationPayload(formik.values);
+    const payload = getPayload(formik.values);
     return dumpYaml(payload);
   }
 

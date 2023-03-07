@@ -18,13 +18,14 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
+import { formDeviceToPayload } from "util/devices";
 
 interface EmptyDevice {
   type: "";
   name: string;
 }
 
-type FormDevice =
+export type FormDevice =
   | (Partial<LxdDiskDevice> & Required<Pick<LxdDiskDevice, "name">>)
   | (Partial<LxdNicDevice> & Required<Pick<LxdNicDevice, "name">>)
   | EmptyDevice;
@@ -35,14 +36,7 @@ export interface DevicesFormValues {
 
 export const devicePayload = (values: SharedFormTypes) => {
   return {
-    devices: values.devices
-      .filter((item) => item.type !== "")
-      .reduce((obj, { name, ...item }) => {
-        return {
-          ...obj,
-          [name]: item,
-        };
-      }, {}),
+    devices: formDeviceToPayload(values.devices),
   };
 };
 
@@ -53,13 +47,13 @@ interface Props {
 }
 
 const DevicesForm: FC<Props> = ({ formik, project, children }) => {
-  const removeDiskRow = (index: number) => {
+  const removeDevice = (index: number) => {
     const copy = [...formik.values.devices];
     copy.splice(index, 1);
     formik.setFieldValue("devices", copy);
   };
 
-  const addDeviceRow = () => {
+  const addDevice = () => {
     const copy = [...formik.values.devices];
     copy.push({ type: "", name: "" });
     formik.setFieldValue("devices", copy);
@@ -203,7 +197,7 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
                 className={classnames("delete-device", {
                   "u-hide": formik.values.devices[index].type === "",
                 })}
-                onClick={() => removeDiskRow(index)}
+                onClick={() => removeDevice(index)}
                 type="button"
                 appearance="link"
               >
@@ -214,7 +208,7 @@ const DevicesForm: FC<Props> = ({ formik, project, children }) => {
           <hr />
         </Fragment>
       ))}
-      <Button onClick={addDeviceRow} type="button" hasIcon>
+      <Button onClick={addDevice} type="button" hasIcon>
         <Icon name="plus" />
         <span>Add device</span>
       </Button>

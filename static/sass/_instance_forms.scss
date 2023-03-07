@@ -87,3 +87,57 @@
 .p-panel__content:has(.edit-profile) {
   padding-bottom: 0;
 }
+
+.cpu-limit-label,
+.memory-limit-label,
+.snapshot-schedule {
+  align-items: flex-end;
+  display: flex;
+
+  .grow {
+    flex-grow: 1;
+  }
+
+  .right-margin {
+    margin-right: 2rem;
+  }
+}
+
+.image-select-modal {
+  > section {
+    min-height: 100%;
+  }
+
+  .table-image-select {
+    th,
+    td {
+      &:nth-child(1) {
+        width: 8rem;
+      }
+
+      &:nth-child(2) {
+        width: 8rem;
+      }
+
+      &:nth-child(3) {
+        width: 8rem;
+      }
+
+      &:nth-child(5) {
+        width: 6rem;
+      }
+    }
+  }
+
+  .image-list {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+  }
+
+  @include large {
+    .search-image {
+      margin-top: calc(2.5rem + 3px);
+      max-width: 30rem;
+    }
+  }
+}

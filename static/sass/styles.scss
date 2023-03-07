@@ -59,45 +59,9 @@
   vertical-align: middle;
 }
 
-.p-profile-yaml {
-  margin-bottom: $sp-large;
-  max-height: calc(100vh - 200px);
-  overflow-y: scroll;
-}
-
 .storage-detail-table {
   th {
     width: 12rem;
-  }
-}
-
-.p-image-select-modal > section {
-  min-height: 100%;
-}
-
-.p-image-list {
-  max-height: calc(100vh - 250px);
-  overflow-y: auto;
-}
-
-.p-table-image-select {
-  th,
-  td {
-    &:nth-child(1) {
-      width: 8rem;
-    }
-
-    &:nth-child(2) {
-      width: 8rem;
-    }
-
-    &:nth-child(3) {
-      width: 8rem;
-    }
-
-    &:nth-child(5) {
-      width: 6rem;
-    }
   }
 }
 
@@ -161,12 +125,5 @@
 @include mobile-and-tablet {
   .u-certificate-button {
     margin-left: 2.5rem;
-  }
-}
-
-@include large {
-  .search-image {
-    margin-top: calc(2.5rem + 3px);
-    max-width: 30rem;
   }
 }
