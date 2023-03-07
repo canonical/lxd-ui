@@ -26,10 +26,7 @@ import InstanceDetailsForm, {
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceDetailsForm";
 import { useNotify } from "context/notify";
-import DevicesForm, {
-  devicePayload,
-  DevicesFormValues,
-} from "pages/instances/forms/DevicesForm";
+import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
@@ -50,18 +47,21 @@ import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
-  DEVICES,
+  STORAGE,
   INSTANCE_DETAILS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
+  NETWORKS,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
+import StorageForm from "pages/instances/forms/StorageForm";
+import NetworkForm from "pages/instances/forms/NetworkForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
-  DevicesFormValues &
+  FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
@@ -186,7 +186,7 @@ const CreateInstanceForm: FC = () => {
     initialValues: location.state?.retryFormValues ?? {
       instanceType: "container",
       profiles: ["default"],
-      devices: [{ type: "", name: "" }],
+      devices: [{ type: "nic", name: "" }],
       limits_cpu: DEFAULT_CPU_LIMIT,
       limits_memory: DEFAULT_MEM_LIMIT,
       type: "instance",
@@ -219,7 +219,7 @@ const CreateInstanceForm: FC = () => {
   const getPayload = (values: CreateInstanceFormValues) => {
     return {
       ...instanceDetailPayload(values),
-      ...devicePayload(values),
+      devices: formDeviceToPayload(values.devices),
       config: {
         ...resourceLimitsPayload(values),
         ...securityPoliciesPayload(values),
@@ -291,10 +291,16 @@ const CreateInstanceForm: FC = () => {
                   />
                 )}
 
-                {section === DEVICES && (
-                  <DevicesForm formik={formik} project={project}>
+                {section === STORAGE && (
+                  <StorageForm formik={formik} project={project}>
                     {overrideNotification}
-                  </DevicesForm>
+                  </StorageForm>
+                )}
+
+                {section === NETWORKS && (
+                  <NetworkForm formik={formik} project={project}>
+                    {overrideNotification}
+                  </NetworkForm>
                 )}
 
                 {section === RESOURCE_LIMITS && (
