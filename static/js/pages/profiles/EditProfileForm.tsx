@@ -48,6 +48,7 @@ import ProfileFormMenu, {
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
 import { parseDevices } from "util/devices";
+import { updateMaxHeight } from "util/updateMaxHeight";
 
 export type EditProfileFormValues = ProfileEditDetailsFormValues &
   DevicesFormValues &
@@ -73,20 +74,11 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     return <>Missing project</>;
   }
 
-  const updateHeight = () => {
-    const element = document.getElementsByClassName("form-contents");
-    const belowElement = document.getElementsByClassName("p-bottom-controls");
-    if (element.length !== 1 || belowElement.length !== 1) {
-      return;
-    }
-    const above = element[0].getBoundingClientRect().top + 1;
-    const below = belowElement[0].getBoundingClientRect().height + 1;
-    const offset = Math.ceil(above + below);
-    const style = `height: calc(100vh - ${offset}px)`;
-    element[0].setAttribute("style", style);
+  const updateFormHeight = () => {
+    updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateHeight);
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEventListener("resize", updateFormHeight);
 
   const ProfileSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),

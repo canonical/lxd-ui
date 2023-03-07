@@ -4,12 +4,6 @@
 .edit-profile {
   padding-bottom: 0;
 
-  .footer {
-    hr {
-      margin-bottom: $spv--large;
-    }
-  }
-
   .p-notification--caution {
     background-image: none;
     border: 0;
@@ -25,7 +19,6 @@
     }
 
     .form-contents {
-      height: calc(100vh - 167px);
       overflow-y: auto;
       padding-left: 2.5rem;
 
@@ -34,10 +27,8 @@
       }
     }
 
-    .device-form {
-      hr {
-        margin-bottom: $spv--large;
-      }
+    .device-form hr {
+      margin-bottom: $spv--large;
     }
 
     .image-change-link {
@@ -58,27 +49,21 @@
   @include mobile-and-tablet {
     .form {
       margin-top: 13px;
-
-      .form-contents {
-        height: calc(100vh - 154px);
-        width: inherit;
-      }
     }
   }
 
-  @include mobile {
-    .form {
-      .form-contents {
-        height: calc(100vh - 222px);
-      }
-    }
-  }
+  .cpu-limit-label,
+  .memory-limit-label,
+  .snapshot-schedule {
+    align-items: flex-end;
+    display: flex;
 
-  @include extra-large {
-    .form {
-      .form-contents {
-        height: calc(100vh - 187px);
-      }
+    .grow {
+      flex-grow: 1;
+    }
+
+    .right-margin {
+      margin-right: 2rem;
     }
   }
 }
@@ -86,21 +71,6 @@
 .p-panel__content:has(.edit-instance),
 .p-panel__content:has(.edit-profile) {
   padding-bottom: 0;
-}
-
-.cpu-limit-label,
-.memory-limit-label,
-.snapshot-schedule {
-  align-items: flex-end;
-  display: flex;
-
-  .grow {
-    flex-grow: 1;
-  }
-
-  .right-margin {
-    margin-right: 2rem;
-  }
 }
 
 .image-select-modal {

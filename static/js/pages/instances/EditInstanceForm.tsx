@@ -48,6 +48,7 @@ import InstanceFormMenu, {
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { parseDevices } from "util/devices";
+import { updateMaxHeight } from "util/updateMaxHeight";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   DevicesFormValues &
@@ -77,16 +78,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   });
 
   const updateFormHeight = () => {
-    const elements = document.getElementsByClassName("form-contents");
-    const belowElements = document.getElementsByClassName("p-bottom-controls");
-    if (elements.length !== 1 || belowElements.length !== 1) {
-      return;
-    }
-    const above = elements[0].getBoundingClientRect().top + 1;
-    const below = belowElements[0].getBoundingClientRect().height + 1;
-    const offset = Math.ceil(above + below);
-    const style = `height: calc(100vh - ${offset}px)`;
-    elements[0].setAttribute("style", style);
+    updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
