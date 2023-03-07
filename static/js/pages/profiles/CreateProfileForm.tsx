@@ -221,7 +221,7 @@ const CreateProfileForm: FC = () => {
                 </Button>
                 <SubmitButton
                   isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
+                  isDisabled={!formik.isValid || !formik.values.name}
                   buttonLabel="Create"
                   onClick={() => void formik.submitForm()}
                 />

@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { Col, Input, Label, Row, Select } from "@canonical/react-components";
+import {
+  Col,
+  Input,
+  Label,
+  Row,
+  Select,
+  Textarea,
+} from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
@@ -54,14 +61,17 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
           />
-          <Input
+          <Textarea
             id="description"
             name="description"
-            type="text"
-            label="Instance Description"
+            label="Description"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
+            rows={Math.max(
+              1,
+              Math.ceil((formik.values.description?.length ?? 0) / 46)
+            )}
           />
         </Col>
       </Row>

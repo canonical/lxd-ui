@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Col, Input, Row } from "@canonical/react-components";
+import { Col, Row, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
@@ -32,14 +32,17 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
     <>
       <Row>
         <Col size={8}>
-          <Input
+          <Textarea
             id="description"
             name="description"
-            type="text"
-            label="Instance Description"
+            label="Description"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
+            rows={Math.max(
+              1,
+              Math.ceil((formik.values.description?.length ?? 0) / 46)
+            )}
           />
         </Col>
       </Row>
