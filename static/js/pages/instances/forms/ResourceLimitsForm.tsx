@@ -1,8 +1,8 @@
 import React, { FC, ReactNode } from "react";
 import { Col, Input, Row, Select } from "@canonical/react-components";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
-import MemoryLimitSelector from "pages/profiles/MemoryLimitSelector";
-import CpuLimitSelector from "pages/profiles/CpuLimitSelector";
+import MemoryLimitSelector from "./MemoryLimitSelector";
+import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import classnames from "classnames";
 import { cpuLimitToPayload } from "util/limits";
