@@ -17,10 +17,7 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
-import DevicesForm, {
-  devicePayload,
-  DevicesFormValues,
-} from "pages/instances/forms/DevicesForm";
+import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
@@ -42,12 +39,13 @@ import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
-  DEVICES,
+  STORAGE,
   PROFILE_DETAILS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
+  NETWORKS,
 } from "pages/profiles/forms/ProfileFormMenu";
 import ProfileDetailsForm, {
   profileDetailPayload,
@@ -55,9 +53,11 @@ import ProfileDetailsForm, {
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
+import StorageForm from "pages/instances/forms/StorageForm";
+import NetworkForm from "pages/instances/forms/NetworkForm";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
-  DevicesFormValues &
+  FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
@@ -94,7 +94,7 @@ const CreateProfileForm: FC = () => {
   const formik = useFormik<CreateProfileFormValues>({
     initialValues: {
       name: "",
-      devices: [{ type: "", name: "" }],
+      devices: [{ type: "nic", name: "" }],
       limits_cpu: DEFAULT_CPU_LIMIT,
       limits_memory: DEFAULT_MEM_LIMIT,
       type: "profile",
@@ -127,7 +127,7 @@ const CreateProfileForm: FC = () => {
   const getCreationPayload = (values: CreateProfileFormValues) => {
     return {
       ...profileDetailPayload(values),
-      ...devicePayload(values),
+      devices: formDeviceToPayload(values.devices),
       config: {
         ...resourceLimitsPayload(values),
         ...securityPoliciesPayload(values),
@@ -178,8 +178,12 @@ const CreateProfileForm: FC = () => {
                   <ProfileDetailsForm formik={formik} />
                 )}
 
-                {section === DEVICES && (
-                  <DevicesForm formik={formik} project={project} />
+                {section === STORAGE && (
+                  <StorageForm formik={formik} project={project} />
+                )}
+
+                {section === NETWORKS && (
+                  <NetworkForm formik={formik} project={project} />
                 )}
 
                 {section === RESOURCE_LIMITS && (

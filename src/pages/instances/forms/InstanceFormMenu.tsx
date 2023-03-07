@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import MenuItem from "pages/instances/forms/FormMenuItem";
 
 export const INSTANCE_DETAILS = "Instance details";
-export const DEVICES = "Devices";
+export const STORAGE = "Storage";
+export const NETWORKS = "Networks";
 export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
 export const SNAPSHOTS = "Snapshots";
@@ -45,7 +46,8 @@ const InstanceFormMenu: FC<Props> = ({
               className="p-side-navigation__list"
               aria-expanded={isConfigOpen ? "true" : "false"}
             >
-              <MenuItem label={DEVICES} {...menuItemProps} />
+              <MenuItem label={STORAGE} {...menuItemProps} />
+              <MenuItem label={NETWORKS} {...menuItemProps} />
               <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
               <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
               <MenuItem label={SNAPSHOTS} {...menuItemProps} />

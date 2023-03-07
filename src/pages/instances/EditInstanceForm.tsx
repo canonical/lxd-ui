@@ -11,10 +11,11 @@ import { yamlToObject } from "util/yaml";
 import { useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { useNotify } from "context/notify";
-import DevicesForm, {
-  devicePayload,
-  DevicesFormValues,
-} from "pages/instances/forms/DevicesForm";
+import {
+  parseDevices,
+  formDeviceToPayload,
+  FormDeviceValues,
+} from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
@@ -39,19 +40,21 @@ import InstanceEditDetailsForm, {
 } from "pages/instances/forms/InstanceEditDetailsForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
-  DEVICES,
+  STORAGE,
   INSTANCE_DETAILS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
+  NETWORKS,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
-import { parseDevices } from "util/devices";
 import { updateMaxHeight } from "util/updateMaxHeight";
+import StorageForm from "pages/instances/forms/StorageForm";
+import NetworkForm from "pages/instances/forms/NetworkForm";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
-  DevicesFormValues &
+  FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
@@ -147,7 +150,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   const getPayload = (values: EditInstanceFormValues) => {
     return {
       ...instanceEditDetailPayload(values),
-      ...devicePayload(values),
+      devices: formDeviceToPayload(values.devices),
       config: {
         ...resourceLimitsPayload(values),
         ...securityPoliciesPayload(values),
@@ -204,10 +207,16 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
               <InstanceEditDetailsForm formik={formik} project={project} />
             )}
 
-            {section === DEVICES && (
-              <DevicesForm formik={formik} project={project}>
+            {section === STORAGE && (
+              <StorageForm formik={formik} project={project}>
                 {overrideNotification}
-              </DevicesForm>
+              </StorageForm>
+            )}
+
+            {section === NETWORKS && (
+              <NetworkForm formik={formik} project={project}>
+                {overrideNotification}
+              </NetworkForm>
             )}
 
             {section === RESOURCE_LIMITS && (
