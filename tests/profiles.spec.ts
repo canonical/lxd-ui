@@ -6,19 +6,20 @@ test("profile create and remove", async ({ page }) => {
 
   await page.goto("/ui/");
   await page.getByRole("link", { name: "Profiles" }).click();
-  await page.getByRole("button", { name: "Add profile" }).click();
-  await page.getByRole("button", { name: "Quick create profile" }).click();
+  await page.getByRole("button", { name: "Create new" }).click();
   await page.getByLabel("Profile name").click();
   await page.getByLabel("Profile name").fill(profileName);
-  await page.getByRole("button", { name: "Create profile" }).click();
-  await page.getByRole("link", { name: profileName }).click();
+  await page.getByRole("button", { name: "Create" }).click();
+  await page.waitForSelector(`text=Profile ${profileName} created.`, TIMEOUT);
+
+  await page.getByRole("link", { name: profileName }).first().click();
   await page.getByRole("button", { name: "Delete" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
 
-  await page.waitForSelector("text=Add profile", TIMEOUT);
+  await page.waitForSelector(`text=Profile ${profileName} deleted.`, TIMEOUT);
 });
 
 const randomProfileName = (): string => {
