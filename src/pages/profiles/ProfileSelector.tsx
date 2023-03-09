@@ -1,16 +1,8 @@
-import React, { FC, Fragment } from "react";
-import {
-  Button,
-  Col,
-  Icon,
-  Label,
-  List,
-  Row,
-} from "@canonical/react-components";
+import React, { FC } from "react";
+import { Button, Col, Icon, Row, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
-import { LxdProfile } from "types/profile";
 import Loader from "components/Loader";
 import { useNotify } from "context/notify";
 
@@ -22,32 +14,6 @@ interface Props {
 
 const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
   const notify = useNotify();
-  const toggleProfile = (item: LxdProfile) => {
-    const newSelection = selected.includes(item.name)
-      ? selected.filter((i) => i !== item.name)
-      : [...selected, item.name];
-    setSelected(newSelection);
-  };
-
-  const moveUp = (item: LxdProfile, index: number) => {
-    if (index === 0) {
-      return;
-    }
-    const newSelection = [...selected];
-    newSelection.splice(index, 1);
-    newSelection.splice(index - 1, 0, item.name);
-    setSelected(newSelection);
-  };
-
-  const moveDown = (item: LxdProfile, index: number) => {
-    if (index === selected.length) {
-      return;
-    }
-    const newSelection = [...selected];
-    newSelection.splice(index, 1);
-    newSelection.splice(index + 1, 0, item.name);
-    setSelected(newSelection);
-  };
 
   const {
     data: profiles = [],
@@ -70,109 +36,102 @@ const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
     (profile) => !selected.includes(profile.name)
   );
 
+  const addProfile = () => {
+    const nextProfile = unselected.pop()?.name;
+    if (nextProfile) {
+      setSelected([...selected, nextProfile]);
+    }
+  };
+
   return (
     <>
-      <Row>
-        <Col size={12}>
-          <Label className="u-sv-1">Apply profiles</Label>
-          <div className="u-text--muted u-sv1">
-            Add profiles and create a hierarchy
-          </div>
-        </Col>
-      </Row>
-      <Row className="p-profile-select">
-        <Col size={6} className="p-profile-select-box">
-          <i className="p-profile-select-title">Available profiles</i>
-          <hr />
-          <div className="p-profile-select-list">
-            <List
-              items={unselected.map((profile) => (
-                <Fragment key={profile.name}>
-                  <span
-                    className="p-profile-select-name u-truncate"
-                    title={profile.name}
-                  >
-                    {profile.name}
-                  </span>
-                  <div className="u-float-right">
-                    <Button
-                      dense
-                      hasIcon
-                      small
-                      type="button"
-                      onClick={() => toggleProfile(profile)}
-                    >
-                      Apply
-                    </Button>
-                  </div>
-                </Fragment>
-              ))}
-            />
-          </div>
-        </Col>
-        <Col size={6} className="p-profile-select-box">
-          <i className="p-profile-select-title">Applied profiles</i>
-          <hr />
-          <div className="p-profile-select-list">
-            <List
-              items={selected.map((name, i) => {
-                const profile = profiles.find(
-                  (profile) => profile.name === name
-                );
-                if (!profile) {
-                  return null;
-                }
-                return (
-                  <Fragment key={profile.name}>
-                    <span
-                      className="p-profile-select-name u-truncate"
-                      title={profile.name}
-                    >
-                      {profile.name}
-                    </span>
-                    <div className="u-float-right">
-                      <Button
-                        appearance="base"
-                        className="p-profile-select-button"
-                        dense
-                        hasIcon
-                        small
-                        type="button"
-                        disabled={i === 0}
-                        onClick={() => moveUp(profile, i)}
-                      >
-                        <Icon name="chevron-up" />
-                      </Button>
-                      <Button
-                        appearance="base"
-                        className="p-profile-select-button"
-                        dense
-                        hasIcon
-                        small
-                        type="button"
-                        disabled={i === selected.length - 1}
-                        onClick={() => moveDown(profile, i)}
-                      >
-                        <Icon name="chevron-down" />
-                      </Button>
-                      <Button
-                        appearance="base"
-                        dense
-                        hasIcon
-                        small
-                        type="button"
-                        onClick={() => toggleProfile(profile)}
-                      >
-                        <Icon name="close" />
-                      </Button>
-                    </div>
-                  </Fragment>
-                );
-              })}
-            />
-          </div>
-        </Col>
-      </Row>
+      {selected.map((value, index) => (
+        <Row key={value}>
+          <Col size={8}>
+            <Select
+              id={`profile-${index}`}
+              help={
+                index > 0 &&
+                index === selected.length - 1 &&
+                "Additional profiles override settings from profiles above"
+              }
+              label={`Profile ${index + 1}`}
+              onChange={(e) => {
+                selected[index] = e.target.value;
+                setSelected(selected);
+              }}
+              options={profiles
+                .filter(
+                  (profile) =>
+                    !selected.includes(profile.name) ||
+                    selected.indexOf(profile.name) === index
+                )
+                .map((profile) => {
+                  return {
+                    label: profile.name,
+                    value: profile.name,
+                  };
+                })}
+              value={value}
+            ></Select>
+          </Col>
+          {(index > 0 || selected.length > 1) && (
+            <Col size={4}>
+              <Button
+                appearance="link"
+                className="profile-action-btn"
+                onClick={() => {
+                  const newSelection = [...selected];
+                  newSelection.splice(index, 1);
+                  newSelection.splice(index - 1, 0, value);
+                  setSelected(newSelection);
+                }}
+                type="button"
+                aria-label="move profile up"
+                title="move profile up"
+                disabled={index === 0}
+              >
+                <Icon name="chevron-up" />
+              </Button>
+              <Button
+                appearance="link"
+                className="profile-action-btn"
+                onClick={() => {
+                  const newSelection = [...selected];
+                  newSelection.splice(index, 1);
+                  newSelection.splice(index + 1, 0, value);
+                  setSelected(newSelection);
+                }}
+                type="button"
+                aria-label="move profile down"
+                title="move profile down"
+                disabled={index === selected.length - 1}
+              >
+                <Icon name="chevron-down" />
+              </Button>
+              {index > 0 && (
+                <Button
+                  appearance="link"
+                  className="profile-delete-btn"
+                  onClick={() =>
+                    setSelected(selected.filter((item) => item !== value))
+                  }
+                  type="button"
+                >
+                  Delete
+                </Button>
+              )}
+            </Col>
+          )}
+        </Row>
+      ))}
+      <Button
+        disabled={unselected.length === 0}
+        onClick={addProfile}
+        type="button"
+      >
+        Add profile
+      </Button>
     </>
   );
 };

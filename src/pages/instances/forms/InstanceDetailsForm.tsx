@@ -56,6 +56,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
             name="name"
             type="text"
             label="Instance name"
+            placeholder="Enter name"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -65,6 +66,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
             id="description"
             name="description"
             label="Description"
+            placeholder="Enter description"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}

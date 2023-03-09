@@ -70,6 +70,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
           <Input
             label="Expire after"
             name="snapshots_expiry"
+            placeholder="Enter expiration expression"
             help="Controls when snapshots are to be deleted (expects an expression like 1M 2H 3d 4w 5m 6y)"
             type="text"
             value={formik.values.snapshots_expiry}
@@ -108,6 +109,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             <Input
               label="Schedule in cron syntax"
               name="snapshots_schedule"
+              placeholder="Enter cron expression"
               help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
               type="text"
               value={formik.values.snapshots_schedule}

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import MenuItem from "pages/instances/forms/FormMenuItem";
+import { Button } from "@canonical/react-components";
 
 export const PROFILE_DETAILS = "Profile details";
 export const STORAGE = "Storage";
@@ -34,14 +35,14 @@ const ProfileFormMenu: FC<Props> = ({
         <ul className="p-side-navigation__list">
           <MenuItem label={PROFILE_DETAILS} {...menuItemProps} />
           <li className="p-side-navigation__item">
-            <button
+            <Button
               type="button"
               className="p-side-navigation__accordion-button"
               aria-expanded={isConfigOpen ? "true" : "false"}
               onClick={toggleConfigOpen}
             >
               Configuration
-            </button>
+            </Button>
             <ul
               className="p-side-navigation__list"
               aria-expanded={isConfigOpen ? "true" : "false"}

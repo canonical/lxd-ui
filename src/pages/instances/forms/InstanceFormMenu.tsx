@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import MenuItem from "pages/instances/forms/FormMenuItem";
+import { Button } from "@canonical/react-components";
 
 export const INSTANCE_DETAILS = "Instance details";
 export const STORAGE = "Storage";
@@ -12,6 +13,7 @@ export const YAML_CONFIGURATION = "YAML configuration";
 
 interface Props {
   isConfigOpen: boolean;
+  isConfigDisabled: boolean;
   toggleConfigOpen: () => void;
   active: string;
   setActive: (val: string) => void;
@@ -19,6 +21,7 @@ interface Props {
 
 const InstanceFormMenu: FC<Props> = ({
   isConfigOpen,
+  isConfigDisabled,
   toggleConfigOpen,
   active,
   setActive,
@@ -34,14 +37,20 @@ const InstanceFormMenu: FC<Props> = ({
         <ul className="p-side-navigation__list">
           <MenuItem label={INSTANCE_DETAILS} {...menuItemProps} />
           <li className="p-side-navigation__item">
-            <button
+            <Button
               type="button"
               className="p-side-navigation__accordion-button"
               aria-expanded={isConfigOpen ? "true" : "false"}
               onClick={toggleConfigOpen}
+              disabled={isConfigDisabled}
+              title={
+                isConfigDisabled
+                  ? "Please select an image before adding custom configuration"
+                  : ""
+              }
             >
               Configuration
-            </button>
+            </Button>
             <ul
               className="p-side-navigation__list"
               aria-expanded={isConfigOpen ? "true" : "false"}
@@ -54,7 +63,19 @@ const InstanceFormMenu: FC<Props> = ({
               <MenuItem label={CLOUD_INIT} {...menuItemProps} />
             </ul>
           </li>
-          <MenuItem label={YAML_CONFIGURATION} {...menuItemProps} />
+          {isConfigDisabled ? (
+            <li className="p-side-navigation__item">
+              <Button
+                className="p-side-navigation__link p-button--base"
+                disabled={true}
+                title="Please select an image before adding custom configuration"
+              >
+                {YAML_CONFIGURATION}
+              </Button>
+            </li>
+          ) : (
+            <MenuItem label={YAML_CONFIGURATION} {...menuItemProps} />
+          )}
         </ul>
       </nav>
     </div>

@@ -188,6 +188,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             onClick: selectImage,
           },
           {
+            className: "u-hide--small u-hide--medium",
             content: item.aliases.split(",").pop(),
             role: "rowheader",
             "aria-label": "Alias",
@@ -196,7 +197,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
           {
             content: (
               <Button
-                appearance="positive"
                 onClick={selectImage}
                 type="button"
                 dense
@@ -225,7 +225,11 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     { content: "Release", sortKey: "release" },
     { content: "Variant", sortKey: "variant" },
     { content: "Type", sortKey: "type" },
-    { content: "Alias", sortKey: "alias" },
+    {
+      content: "Alias",
+      sortKey: "alias",
+      className: "u-hide--small u-hide--medium",
+    },
     { content: "" },
   ];
 
@@ -237,7 +241,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     >
       <Row className="u-no-padding--left u-no-padding--right">
         <Col size={3}>
-          <div style={{ height: "100%" }}>
+          <div className="image-select-filters">
             <Select
               label="Distribution"
               name="distribution"
@@ -247,7 +251,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               }}
               options={getOptionList((item: RemoteImage) => item.os)}
               value={os}
-              stacked
             />
             <Select
               disabled={os === ""}
@@ -261,7 +264,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                 (item) => item.os === os
               )}
               value={release}
-              stacked
             />
             <Select
               label="Variant"
@@ -285,7 +287,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                   })
               )}
               value={variant}
-              stacked
             />
             <Select
               label="Architecture"
@@ -300,7 +301,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                 };
               })}
               value={arch}
-              stacked
             />
             <Select
               label="Type"
@@ -323,7 +323,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                 },
               ]}
               value={type}
-              stacked
             />
           </div>
         </Col>
