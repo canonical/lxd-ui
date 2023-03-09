@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
-import * as SpiceHtml5 from "../../../assets/lib/spice/src/main";
+import * as SpiceHtml5 from "../../lib/spice/src/main";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";

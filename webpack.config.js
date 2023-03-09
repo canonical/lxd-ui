@@ -4,7 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const config = {
   entry: {
-    app: "./static/js/index.tsx",
+    app: "./src/index.tsx",
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -34,18 +34,18 @@ const config = {
     new CopyPlugin({
       patterns: [
         {
-          from: "static/html/index.html",
+          from: "index-prd.html",
           to: "index.html",
           toType: "file",
         },
         {
-          from: "static/html/index.html",
+          from: "index-prd.html",
           to: "ui/index.html",
           toType: "file",
         },
         {
-          from: "static/assets",
-          to: "ui/static/assets",
+          from: "public/assets",
+          to: "ui/assets",
           toType: "dir",
         },
       ],
@@ -54,12 +54,12 @@ const config = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
     alias: {
-      api: path.join(__dirname, "static/js/api"),
-      context: path.join(__dirname, "static/js/context"),
-      components: path.join(__dirname, "static/js/components"),
-      pages: path.join(__dirname, "static/js/pages"),
-      types: path.join(__dirname, "static/js/types"),
-      util: path.join(__dirname, "static/js/util"),
+      api: path.join(__dirname, "src/api"),
+      context: path.join(__dirname, "src/context"),
+      components: path.join(__dirname, "src/components"),
+      pages: path.join(__dirname, "src/pages"),
+      types: path.join(__dirname, "src/types"),
+      util: path.join(__dirname, "src/util"),
     },
   },
 };

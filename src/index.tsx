@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
 import { NotifyProvider } from "context/notify";
 import App from "./App";
+import "./sass/styles.scss";
 
 const queryClient = new QueryClient();
 

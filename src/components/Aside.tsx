@@ -1,9 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import classnames from "classnames";
-
 import { Spinner } from "@canonical/react-components";
-
-import "../../sass/_aside.scss";
 
 interface Props {
   className?: string;

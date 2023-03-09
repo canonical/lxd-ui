@@ -5,7 +5,7 @@ const Logo: FC = () => {
   return (
     <NavLink className="p-panel__logo" to="/ui/">
       <img
-        src="/ui/static/assets/img/logo/containers.svg"
+        src="/ui/assets/img/logo/containers.svg"
         alt="LXD-UI logo"
         className="p-panel__logo-image"
       />
