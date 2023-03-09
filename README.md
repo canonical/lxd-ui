@@ -25,6 +25,8 @@ this repo. Trust them from your local lxd with
 
 Now you can browse through https://localhost:8407/ to reach lxd-ui.
 
+To enable pre commit checks, after the 1st successful run of `dotrun`, execute `yarn hooks-add`. You can remove the hooks with `yarn hooks-remove` later.
+
 # End-to-end tests
 
 The tests expect the environment on localhost to be accessible. Execute `dotrun` and start tests with
