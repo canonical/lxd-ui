@@ -1,6 +1,5 @@
 import React from "react";
 import useEventListener from "@use-it/event-listener";
-import "../../sass/_panels.scss";
 import usePanelParams, { panels } from "util/usePanelParams";
 import InstanceDetailPanel from "pages/instances/InstanceDetailPanel";
 import StorageForm from "pages/storages/StorageForm";

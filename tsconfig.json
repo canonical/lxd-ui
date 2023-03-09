@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./static/js/dist",
+    "outDir": "./public/js/dist",
     "baseUrl": ".",
     "paths": {
-      "api/*": ["static/js/api/*"],
-      "context/*": ["static/js/context/*"],
-      "components/*": ["static/js/components/*"],
-      "pages/*": ["static/js/pages/*"],
-      "types/*": ["static/js/types/*"],
-      "util/*": ["static/js/util/*"]
+      "api/*": ["src/api/*"],
+      "context/*": ["src/context/*"],
+      "components/*": ["src/components/*"],
+      "pages/*": ["src/pages/*"],
+      "types/*": ["src/types/*"],
+      "util/*": ["src/util/*"]
     },
     "target": "ES2020",
     "module": "esnext",
@@ -25,15 +25,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "sourceMap": true,
+    "sourceMap": true
   },
   "include": [
-    "./static/js",
+    "./src",
     ".eslintrc.js",
     "babel.config.js",
     "playwright.config.ts",
     "webpack.config.js",
     "./tests/*.ts",
+    "vite.config.ts"
   ],
   "paths": [
     {
