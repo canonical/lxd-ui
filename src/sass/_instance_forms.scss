@@ -16,6 +16,11 @@
 
     .form-navigation {
       width: 16rem;
+
+      .p-side-navigation__link {
+        min-width: 13rem;
+        text-align: left;
+      }
     }
 
     .form-contents {
@@ -34,6 +39,16 @@
     .image-change-link {
       align-self: end;
       margin-bottom: 6px;
+    }
+
+    .profile-action-btn {
+      margin-right: $sph--large;
+      margin-top: 2.5rem;
+    }
+
+    .profile-delete-btn {
+      margin-left: $sph--large;
+      margin-top: 2.5rem;
     }
 
     .delete-device {
@@ -78,6 +93,17 @@
     min-height: 100%;
   }
 
+  .image-select-filters {
+    height: 100%;
+    margin-right: 2rem;
+  }
+
+  @include mobile-and-tablet {
+    .image-select-filters {
+      display: none;
+    }
+  }
+
   .table-image-select {
     .u-row:hover {
       background-color: $colors--light-theme--background-hover;
@@ -113,7 +139,7 @@
   }
 
   .image-list {
-    max-height: calc(100vh - 250px);
+    max-height: calc(100vh - 140px);
     overflow-y: auto;
   }
 
@@ -121,6 +147,16 @@
     .search-image {
       margin-top: calc(2.5rem + 3px);
       max-width: 30rem;
+    }
+
+    .image-list {
+      max-height: calc(100vh - 220px);
+    }
+  }
+
+  @include extra-large {
+    .image-list {
+      max-height: calc(100vh - 250px);
     }
   }
 }

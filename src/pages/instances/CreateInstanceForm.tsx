@@ -229,18 +229,7 @@ const CreateInstanceForm: FC = () => {
     };
   };
 
-  const blockCustomConfiguration = () => {
-    if (!formik.values.image) {
-      notify.info("Please select an image before adding custom configuration.");
-      return true;
-    }
-    return false;
-  };
-
   const updateSection = (newItem: string) => {
-    if (blockCustomConfiguration()) {
-      return;
-    }
     if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
       void formik.setFieldValue("yaml", undefined);
     }
@@ -248,9 +237,6 @@ const CreateInstanceForm: FC = () => {
   };
 
   const toggleMenu = () => {
-    if (blockCustomConfiguration()) {
-      return;
-    }
     setConfigOpen((old) => !old);
   };
 
@@ -277,6 +263,7 @@ const CreateInstanceForm: FC = () => {
             <InstanceFormMenu
               active={section}
               setActive={updateSection}
+              isConfigDisabled={!formik.values.image}
               isConfigOpen={isConfigOpen}
               toggleConfigOpen={toggleMenu}
             />

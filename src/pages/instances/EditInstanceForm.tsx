@@ -198,6 +198,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         <InstanceFormMenu
           active={section}
           setActive={updateSection}
+          isConfigDisabled={false}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
         />

@@ -30,6 +30,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik }) => {
             name="name"
             type="text"
             label="Profile name"
+            placeholder="Enter name"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -39,6 +40,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik }) => {
             id="description"
             name="description"
             label="Description"
+            placeholder="Enter description"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}

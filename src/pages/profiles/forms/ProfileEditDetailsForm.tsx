@@ -28,6 +28,7 @@ const ProfileEditDetailsForm: FC<Props> = ({ formik }) => {
           <Textarea
             name="description"
             label="Description"
+            placeholder="Enter description"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
