@@ -16,6 +16,8 @@
     "lint-js-eslint": "eslint 'static/js/**/*.{js,json,jsx,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js webpack.config.js",
     "lint-js-prettier": "prettier 'static/js/**/*.{js,json,jsx,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js webpack.config.js --check",
     "lint-js": "yarn lint-js-eslint && yarn lint-js-prettier",
+    "hooks-add": "husky install",
+    "hooks-remove": "husky uninstall",
     "start": "yarn run build && concurrently --kill-others --raw 'yarn run watch' 'yarn serve'",
     "serve": "./entrypoint"
   },
@@ -69,6 +71,8 @@
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.11",
+    "husky": "8.0.0",
+    "lint-staged": "13.1.1",
     "postcss": "8.4.20",
     "postcss-cli": "10.1.0",
     "prettier": "2.8.1",
@@ -86,5 +90,12 @@
     "watch-cli": "0.2.3",
     "webpack": "5.75.0",
     "webpack-cli": "5.0.1"
+  },
+  "lint-staged": {
+    "static/js/**/*.{js,json,jsx,ts,tsx}": [
+      "eslint",
+      "prettier --check"
+    ],
+    "static/**/*.scss": "stylelint"
   }
 }
