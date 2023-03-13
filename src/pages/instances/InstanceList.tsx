@@ -6,6 +6,7 @@ import {
   Row,
   SearchBox,
   Select,
+  usePagination,
 } from "@canonical/react-components";
 import React, { FC, useEffect, useState } from "react";
 import { fetchInstances } from "api/instances";
@@ -24,6 +25,7 @@ import useEventListener from "@use-it/event-listener";
 import EmptyState from "components/EmptyState";
 import { LxdInstance } from "types/instance";
 import classnames from "classnames";
+import Pagination from "components/Pagination";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -32,8 +34,6 @@ const DESCRIPTION = "Description";
 const IPV4 = "IPv4";
 const IPV6 = "IPv6";
 const SNAPSHOTS = "Snapshots";
-
-const PAGE_SIZE = 15;
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -56,6 +56,7 @@ const InstanceList: FC = () => {
   const [stopping, setStopping] = useState<string[]>([]);
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
+  const [pageSize, setPageSize] = useState(50);
 
   if (!project) {
     return <>Missing project</>;
@@ -111,22 +112,6 @@ const InstanceList: FC = () => {
   useEventListener("resize", figureSizeHidden);
   useEffect(figureSizeHidden, [panelParams.instance, userHidden, instances]);
 
-  const updateTBodyHeight = () => {
-    const table = document.getElementById("instance-table-wrapper");
-    if (!table || table.children.length !== 2) {
-      return;
-    }
-    const tBody = table.children[1];
-    const above = tBody.getBoundingClientRect().top + 1;
-    const below = instances.length > PAGE_SIZE ? 81 : 0;
-    const offset = Math.ceil(above + below);
-    const style = `height: calc(100vh - ${offset}px)`;
-    tBody.setAttribute("style", style);
-  };
-  useEffect(() => {
-    updateTBodyHeight();
-  }, [instances, notify.notification, query, status, type]);
-
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
     saveHidden(columns);
@@ -145,7 +130,7 @@ const InstanceList: FC = () => {
     setStopping((prev) => prev.filter((name) => name !== instance.name));
   };
 
-  const visibleInstances = instances.filter((item) => {
+  const filteredInstances = instances.filter((item) => {
     if (query) {
       const q = query.toLowerCase();
       if (
@@ -191,7 +176,7 @@ const InstanceList: FC = () => {
     );
 
   const getRows = (hiddenCols: string[]) =>
-    visibleInstances.map((instance) => {
+    filteredInstances.map((instance) => {
       const openSummary = () =>
         panelParams.openInstanceSummary(instance.name, project);
 
@@ -311,6 +296,40 @@ const InstanceList: FC = () => {
       };
     });
 
+  const {
+    pageData: pageInstances,
+    currentPage,
+    paginate: setCurrentPage,
+  } = usePagination(getRows(userHidden.concat(sizeHidden)), {
+    itemsPerPage: pageSize,
+    autoResetPage: true,
+  });
+
+  const updateTBodyHeight = () => {
+    const table = document.getElementById("instance-table-wrapper");
+    if (!table || table.children.length !== 2) {
+      return;
+    }
+    const tBody = table.children[1];
+    const above = tBody.getBoundingClientRect().top + 1;
+    const below = 85;
+    const offset = Math.ceil(above + below);
+    const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
+    tBody.setAttribute("style", style);
+  };
+  useEventListener("resize", updateTBodyHeight);
+  useEffect(() => {
+    updateTBodyHeight();
+  }, [
+    instances,
+    notify.notification,
+    query,
+    status,
+    type,
+    pageSize,
+    currentPage,
+  ]);
+
   return (
     <>
       <main className="l-main instance-list">
@@ -322,9 +341,9 @@ const InstanceList: FC = () => {
           <div className="p-panel__header instance-list-header">
             <div className="instance-header-left">
               <h4>
-                {visibleInstances.length}
+                {instances.length}
                 &nbsp;
-                {visibleInstances.length === 1 ? "Instance" : "Instances"}
+                {instances.length === 1 ? "Instance" : "Instances"}
               </h4>
               <SearchBox
                 className="search-box margin-right"
@@ -392,9 +411,8 @@ const InstanceList: FC = () => {
                   <>
                     <MainTable
                       headers={getHeaders(userHidden.concat(sizeHidden))}
-                      rows={getRows(userHidden.concat(sizeHidden))}
+                      rows={pageInstances}
                       sortable
-                      paginate={PAGE_SIZE}
                       className="instance-table"
                       id="instance-table-wrapper"
                       emptyStateMsg={
@@ -404,6 +422,22 @@ const InstanceList: FC = () => {
                           <>No instance found matching this search</>
                         )
                       }
+                    />
+                    <Pagination
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                      pageSize={pageSize}
+                      setPageSize={setPageSize}
+                      totalCount={instances.length}
+                      totalPages={Math.ceil(
+                        filteredInstances.length / pageSize
+                      )}
+                      visibleCount={
+                        filteredInstances.length === instances.length
+                          ? pageInstances.length
+                          : filteredInstances.length
+                      }
+                      keyword="instance"
                     />
                     <div id="instance-table-measure">
                       <MainTable
