@@ -26,6 +26,8 @@ import EmptyState from "components/EmptyState";
 import { LxdInstance } from "types/instance";
 import classnames from "classnames";
 import Pagination from "components/Pagination";
+import { paginationOptions } from "util/paginationOptions";
+import { updateTBodyHeight } from "util/updateTBodyHeight";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -56,7 +58,7 @@ const InstanceList: FC = () => {
   const [stopping, setStopping] = useState<string[]>([]);
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
-  const [pageSize, setPageSize] = useState(50);
+  const [pageSize, setPageSize] = useState(paginationOptions[0].value);
 
   if (!project) {
     return <>Missing project</>;
@@ -305,21 +307,9 @@ const InstanceList: FC = () => {
     autoResetPage: true,
   });
 
-  const updateTBodyHeight = () => {
-    const table = document.getElementById("instance-table-wrapper");
-    if (!table || table.children.length !== 2) {
-      return;
-    }
-    const tBody = table.children[1];
-    const above = tBody.getBoundingClientRect().top + 1;
-    const below = 85;
-    const offset = Math.ceil(above + below);
-    const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
-    tBody.setAttribute("style", style);
-  };
-  useEventListener("resize", updateTBodyHeight);
+  useEventListener("resize", () => updateTBodyHeight("instance-table-wrapper"));
   useEffect(() => {
-    updateTBodyHeight();
+    updateTBodyHeight("instance-table-wrapper");
   }, [
     instances,
     notify.notification,

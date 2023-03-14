@@ -1,8 +1,18 @@
-import React, { FC, KeyboardEvent } from "react";
-import { Button, Form, Input, Modal } from "@canonical/react-components";
+import React, { FC, KeyboardEvent, useState } from "react";
+import {
+  Button,
+  Col,
+  Form,
+  Icon,
+  Input,
+  List,
+  Modal,
+  Row,
+  Tooltip,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getTomorrowMidnight, stringToIsoTime } from "util/helpers";
+import { checkDuplicateName, getTomorrow, stringToIsoTime } from "util/helpers";
 import { createSnapshot } from "api/snapshots";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,31 +21,43 @@ import SubmitButton from "components/SubmitButton";
 import { useNotify } from "context/notify";
 import NotificationRow from "components/NotificationRow";
 
+const TOOLTIP_OVER_MODAL_ZINDEX = 150;
+
 interface Props {
   instance: LxdInstance;
   close: () => void;
+  onSuccess: (message: string) => void;
 }
 
-const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
+const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
+  const controllerState = useState<AbortController | null>(null);
 
   const isRunning = instance.status === "Running";
   const isStateful = instance.config["migration.stateful"];
 
-  const getStatefulHelp = () => {
+  const getStatefulInfo = () => {
     if (isStateful && isRunning) {
       return "";
     }
     if (isStateful) {
-      return <>To create a stateful snapshot, the instance must be running</>;
+      return `To create a stateful snapshot,\nthe instance must be running`;
     }
     return (
       <>
-        To create a stateful snapshot, the instance needs the{" "}
-        <code>migration.stateful</code> config set to true
+        {`To create a stateful snapshot, the instance needs\n`}
+        the <code>migration.stateful</code> config set to true
       </>
     );
+  };
+
+  const getExpiresAt = (
+    expirationDate: string,
+    expirationTime: string | null
+  ) => {
+    expirationTime = expirationTime ?? "00:00";
+    return `${expirationDate}T${expirationTime}`;
   };
 
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
@@ -47,6 +69,14 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
   const SnapshotSchema = Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
+      .test("deduplicate", "Snapshot name already in use", (value) =>
+        checkDuplicateName(
+          value,
+          instance.project,
+          controllerState,
+          `instances/${instance.name}/snapshots`
+        )
+      )
       .test(
         "forbiddenChars",
         `The snapshot name cannot contain spaces or "/" characters`,
@@ -63,25 +93,29 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
   const formik = useFormik<{
     name: string;
     stateful: boolean;
-    expiresAt: string | null;
+    expirationDate: string | null;
+    expirationTime: string | null;
   }>({
     initialValues: {
       name: "",
       stateful: false,
-      expiresAt: null,
+      expirationDate: null,
+      expirationTime: null,
     },
     validationSchema: SnapshotSchema,
     onSubmit: (values) => {
       notify.clear();
-      const expiresAt = values.expiresAt
-        ? stringToIsoTime(values.expiresAt)
+      const expiresAt = values.expirationDate
+        ? stringToIsoTime(
+            getExpiresAt(values.expirationDate, values.expirationTime)
+          )
         : null;
       createSnapshot(instance, values.name, expiresAt, values.stateful)
         .then(() => {
           void queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.instances,
           });
-          notify.success(`Snapshot ${values.name} created.`);
+          onSuccess(`Snapshot ${values.name} created.`);
           close();
         })
         .catch((e) => {
@@ -97,8 +131,9 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
 
   return (
     <Modal
+      className="snapshot-creation-modal"
       close={close}
-      title={`Create snapshot for ${instance.name}`}
+      title="Create snapshot"
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" type="button" onClick={close}>
@@ -107,7 +142,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
           <SubmitButton
             isSubmitting={formik.isSubmitting}
             isDisabled={false}
-            buttonLabel="Create snapshot"
+            buttonLabel="Create"
             onClick={submitForm}
           />
         </>
@@ -126,29 +161,54 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close }) => {
           onBlur={formik.handleBlur}
           value={formik.values.name}
           error={formik.touched.name ? formik.errors.name : null}
-          stacked
           takeFocus
         />
-        <Input
-          id="expiresAt"
-          name="expiresAt"
-          type="datetime-local"
-          label="Expires at"
-          min={getTomorrowMidnight()}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          stacked
-        />
-        <Input
-          id="stateful"
-          name="stateful"
-          type="checkbox"
-          label="Stateful"
-          wrapperClassName="row"
-          help={getStatefulHelp()}
-          disabled={!isStateful || !isRunning}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+        <Row className="expiration-wrapper">
+          <Col size={6}>
+            <Input
+              id="expirationDate"
+              name="expirationDate"
+              type="date"
+              label="Expiration date"
+              min={getTomorrow()}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </Col>
+          <Col size={6}>
+            <Input
+              id="expirationTime"
+              name="expirationTime"
+              type="time"
+              label="Expiration time"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </Col>
+        </Row>
+        <List
+          inline
+          items={[
+            <Input
+              key="stateful"
+              id="stateful"
+              name="stateful"
+              type="checkbox"
+              label="Stateful"
+              wrapperClassName="u-inline-block"
+              disabled={!isStateful || !isRunning}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />,
+            <Tooltip
+              key="stateful-info"
+              position="btm-left"
+              message={getStatefulInfo()}
+              zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
+            >
+              <Icon name="information" />
+            </Tooltip>,
+          ]}
         />
       </Form>
     </Modal>

@@ -19,7 +19,7 @@ export const stringToIsoTime = (dateTime: string) => {
   return date.toISOString();
 };
 
-export const getTomorrowMidnight = (date: Date = new Date()) => {
+export const getTomorrow = (date: Date = new Date()) => {
   // set date as next day
   date.setDate(date.getDate() + 1);
   // set time to midnight
@@ -27,7 +27,7 @@ export const getTomorrowMidnight = (date: Date = new Date()) => {
   // compute timezone offset
   const tzOffset = date.getTimezoneOffset() * 60000;
   // return ISO string w/o tzOffset, seconds and milliseconds
-  return new Date(date.getTime() - tzOffset).toISOString().slice(0, 16);
+  return new Date(date.getTime() - tzOffset).toISOString().slice(0, 10);
 };
 
 interface ErrorResponse {

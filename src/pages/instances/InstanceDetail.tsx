@@ -72,7 +72,7 @@ const InstanceDetail: FC = () => {
 
   return (
     <main className="l-main">
-      <div className="p-panel">
+      <div className="p-panel instance-detail-page">
         <div className="p-panel__header">
           {instance ? (
             <List
@@ -131,10 +131,7 @@ const InstanceDetail: FC = () => {
 
               {activeTab === "snapshots" && (
                 <div tabIndex={2} role="tabpanel" aria-labelledby="snapshots">
-                  <InstanceSnapshots
-                    instance={instance}
-                    controlTarget={controlTarget}
-                  />
+                  <InstanceSnapshots instance={instance} />
                 </div>
               )}
 
