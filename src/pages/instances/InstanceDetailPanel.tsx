@@ -129,7 +129,7 @@ const InstanceDetailPanel: FC = () => {
                         className="u-truncate base-image"
                         title={instance.config["image.description"]}
                       >
-                        {instance.config["image.description"] || "-"}
+                        {instance.config["image.description"] ?? "-"}
                       </div>
                     </td>
                   </tr>

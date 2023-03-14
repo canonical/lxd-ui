@@ -1,0 +1,10 @@
+.instance-detail-page {
+  .p-tabs__list {
+    margin-bottom: $spv--large !important;
+  }
+
+  .p-panel__content {
+    padding-bottom: 0;
+    padding-top: $spv--large;
+  }
+}

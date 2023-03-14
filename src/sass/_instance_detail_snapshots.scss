@@ -1,0 +1,115 @@
+.snapshot-list {
+  .upper-controls-bar {
+    display: flex;
+    gap: $sph--large;
+
+    .search-box-wrapper {
+      display: flex;
+      flex-grow: 1;
+
+      .search-box {
+        max-width: 25rem;
+        width: 100%;
+        @media screen and (max-width: 1070px) {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  .snapshot-creation-modal {
+    .p-modal__dialog {
+      min-width: 30rem;
+      padding-bottom: 0;
+      padding-left: $sph--x-large;
+      padding-right: $sph--x-large;
+    }
+
+    .p-form__label {
+      margin-bottom: 0;
+    }
+
+    .p-inline-list {
+      margin-bottom: $spv--small;
+    }
+
+    .p-inline-list__item {
+      margin-right: $sph--small;
+    }
+
+    .expiration-wrapper {
+      grid-gap: $sph--large;
+    }
+  }
+
+  .snapshots-table {
+    margin-bottom: 0;
+
+    td:last-child {
+      padding-right: $sph--large;
+    }
+
+    thead,
+    tbody {
+      display: block;
+      overflow-y: auto;
+      scrollbar-gutter: stable;
+    }
+
+    tbody {
+      height: calc(100vh - 323px);
+    }
+
+    thead tr,
+    tbody tr {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    .name {
+      width: 170px;
+    }
+
+    .created {
+      width: 200px;
+    }
+
+    .expiration {
+      width: 200px;
+    }
+
+    .stateful {
+      width: 80px;
+    }
+
+    .actions {
+      width: 220px;
+
+      .p-inline-list__item:not(:last-of-type) {
+        margin-right: $sph--small;
+      }
+    }
+
+    .u-row:hover {
+      background-color: $colors--light-theme--background-hover;
+    }
+
+    // show actions only on hover for desktop sized screens
+    @media screen and (min-width: 800px) {
+      .u-snapshot-actions {
+        visibility: hidden;
+      }
+
+      .u-row:hover {
+        .u-snapshot-actions {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  .p-pagination__items {
+    justify-content: flex-end;
+  }
+}

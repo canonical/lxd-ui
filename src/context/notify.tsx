@@ -19,7 +19,7 @@ const queue = (notification: Notification): QueuedNotification => {
   return { state: { queuedNotification: notification } };
 };
 
-const failure = (
+export const failure = (
   message: string | ReactNode,
   error: unknown,
   actions?: NotificationAction[]
@@ -38,7 +38,10 @@ const failure = (
   };
 };
 
-const info = (message: string | ReactNode, title?: string): Notification => {
+export const info = (
+  message: string | ReactNode,
+  title?: string
+): Notification => {
   return {
     message,
     title,
@@ -46,7 +49,7 @@ const info = (message: string | ReactNode, title?: string): Notification => {
   };
 };
 
-const success = (message: ReactNode): Notification => {
+export const success = (message: string | ReactNode): Notification => {
   return {
     message,
     type: "positive",

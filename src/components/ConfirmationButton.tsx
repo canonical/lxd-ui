@@ -49,9 +49,11 @@ const ConfirmationButton: FC<Props> = ({
     }
   };
 
-  const visibleIcon = isLoading
-    ? "p-icon--spinner u-animation--spin"
-    : iconClass ?? undefined;
+  const visibleIcon = iconClass
+    ? isLoading
+      ? "p-icon--spinner u-animation--spin"
+      : iconClass
+    : undefined;
 
   return (
     <>
