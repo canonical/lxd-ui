@@ -7,7 +7,7 @@ import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 export interface InstanceEditDetailsFormValues {
   name: string;
   description?: string;
-  image: string;
+  image?: string;
   instanceType: string;
   profiles: string[];
   type: string;
