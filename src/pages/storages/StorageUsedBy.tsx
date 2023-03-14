@@ -4,6 +4,7 @@ import { List, Tabs } from "@canonical/react-components";
 import ImageName from "pages/images/ImageName";
 import { LxdStorage } from "types/storage";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
+import InstanceLink from "pages/instances/InstanceLink";
 
 interface Props {
   storage: LxdStorage;
@@ -42,9 +43,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             className="u-no-margin--bottom"
             items={data[INSTANCES].map((item) => (
               <Fragment key={item.name}>
-                <Link to={`/ui/${item.project}/instances/detail/${item.name}`}>
-                  {item.name}
-                </Link>
+                <InstanceLink instance={item} />
                 {item.project !== project && ` (project ${item.project})`}
               </Fragment>
             ))}

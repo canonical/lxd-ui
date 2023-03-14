@@ -5,13 +5,9 @@ import { Button } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
-  className?: string;
 }
 
-const OpenTerminalBtn: FC<Props> = ({
-  instance,
-  className = "u-no-margin--bottom",
-}) => {
+const OpenTerminalBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -24,12 +20,12 @@ const OpenTerminalBtn: FC<Props> = ({
 
   return (
     <Button
-      className={className}
+      appearance="base"
       dense
       hasIcon
       onClick={handleOpen}
       disabled={isDisabled}
-      title={isDisabled ? "Instance must be running" : "Terminal"}
+      title="Terminal"
     >
       <i className="p-icon--code">Open Terminal</i>
     </Button>

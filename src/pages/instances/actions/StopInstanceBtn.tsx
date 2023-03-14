@@ -1,39 +1,41 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
+import { stopInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
-import { freezeInstance } from "api/instances";
 import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
+import ConfirmationForce from "components/ConfirmationForce";
 
 interface Props {
   instance: LxdInstance;
 }
 
-const PauseInstanceBtn: FC<Props> = ({ instance }) => {
+const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const instanceLoading = useInstanceLoading();
   const notify = useNotify();
+  const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
   const isLoading =
-    instanceLoading.getType(instance) === "Pausing" ||
-    instance.status === "Freezing";
+    instanceLoading.getType(instance) === "Stopping" ||
+    instance.status === "Stopping";
 
-  const handlePause = () => {
-    instanceLoading.setLoading(instance, "Pausing");
-    freezeInstance(instance)
+  const handleStop = () => {
+    instanceLoading.setLoading(instance, "Stopping");
+    stopInstance(instance, isForce)
       .then(() => {
         notify.success(
           <>
-            Instance <InstanceLink instance={instance} /> paused.
+            Instance <InstanceLink instance={instance} /> stopped.
           </>
         );
       })
       .catch((e) => {
         notify.failure(
           <>
-            Error pausing instance <InstanceLink instance={instance} />.
+            Error stopping instance <InstanceLink instance={instance} />.
           </>,
           e
         );
@@ -46,21 +48,23 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       });
   };
 
-  const isDisabled = isLoading || instance.status !== "Running";
-
   return (
     <ConfirmationButton
       toggleAppearance="base"
       isLoading={isLoading}
-      iconClass="p-icon--pause-instance"
-      title="Confirm pause"
-      confirmationMessage={`Are you sure you want to pause instance "${instance.name}"?`}
-      posButtonLabel="Pause"
-      onConfirm={handlePause}
+      iconClass="p-icon--stop-instance"
+      title="Confirm stop"
+      confirmationMessage={`Are you sure you want to stop instance "${instance.name}"?`}
+      confirmationExtra={
+        <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
+      }
+      posButtonLabel="Stop"
+      onCancel={() => setForce(false)}
+      onConfirm={handleStop}
       isDense={true}
-      isDisabled={isDisabled}
+      isDisabled={instance.status === "Stopped"}
     />
   );
 };
 
-export default PauseInstanceBtn;
+export default StopInstanceBtn;

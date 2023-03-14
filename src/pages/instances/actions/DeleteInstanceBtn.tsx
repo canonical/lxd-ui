@@ -27,7 +27,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Error on instance delete.", e);
+        notify.failure(`Error deleting instance ${instance.name}.`, e);
       });
   };
 

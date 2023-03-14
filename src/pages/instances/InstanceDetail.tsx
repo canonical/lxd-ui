@@ -11,11 +11,10 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
-import PauseInstanceBtn from "./actions/PauseInstanceBtn";
 import InstanceTextConsole from "pages/instances/InstanceTextConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import InstanceConfiguration from "pages/instances/InstanceConfiguration";
+import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 
 const TABS: string[] = [
   "Overview",
@@ -83,8 +82,7 @@ const InstanceDetail: FC = () => {
                 <i key="status" className="p-text--small">
                   {instance.status}
                 </i>,
-                <StartStopInstanceBtn key="start-stop" instance={instance} />,
-                <PauseInstanceBtn key="freeze-unfreeze" instance={instance} />,
+                <InstanceStateActions key="state" instance={instance} />,
               ]}
             />
           ) : (
