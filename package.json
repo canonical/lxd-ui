@@ -4,23 +4,19 @@
   "author": "Canonical Webteam",
   "license": "LGPL-3.0-only",
   "scripts": {
-    "clean": "rm -rf node_modules yarn-error.log css public/css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle",
-    "watch": "watch -p 'src/sass/**/*.scss' -p 'src/**/*' -c 'yarn run build'",
-    "build-js": "webpack",
-    "build-css": "sass src/sass/styles.scss build/ui/styles.css --load-path=node_modules --style=compressed && postcss --use autoprefixer --replace 'build/**/*.css' --no-map",
-    "build": "yarn run build-js && yarn run build-css",
-    "format-js-eslint": "eslint 'src/**/*.{js,json,jsx,tsx,ts}' 'tests/**/*.ts' --fix",
-    "format-js-prettier": "prettier 'src/**/*.{js,json,jsx,tsx,ts}' 'tests/**/*.ts' --write",
+    "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle",
+    "build-html": "sed -i 's#assets#ui/assets#' build/ui/index.html && cp build/ui/index.html build/index.html",
+    "build": "npx vite build && yarn build-html",
+    "format-js-eslint": "eslint 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --fix",
+    "format-js-prettier": "prettier 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --write",
     "format-js": "yarn format-js-eslint && yarn format-js-prettier",
     "lint-scss": "stylelint 'src/**/*.scss'",
-    "lint-js-eslint": "eslint 'src/**/*.{json,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js webpack.config.js",
-    "lint-js-prettier": "prettier 'src/**/*.{json,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js webpack.config.js --check",
+    "lint-js-eslint": "eslint 'src/**/*.{json,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js",
+    "lint-js-prettier": "prettier 'src/**/*.{json,tsx,ts}' 'tests/**/*.ts' .eslintrc.js babel.config.js --check",
     "lint-js": "yarn lint-js-eslint && yarn lint-js-prettier",
     "hooks-add": "husky install",
     "hooks-remove": "husky uninstall",
-    "start": "yarn start-vite",
-    "start-webpack": "yarn run build && concurrently --kill-others --raw 'yarn run watch' 'yarn serve'",
-    "start-vite": "concurrently --kill-others --raw 'vite' 'yarn serve'",
+    "start": "concurrently --kill-others --raw 'vite' 'yarn serve'",
     "serve": "./entrypoint"
   },
   "dependencies": {
@@ -68,7 +64,6 @@
     "babel-loader": "9.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
     "concurrently": "7.6.0",
-    "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.3",
     "eslint": "8.31.0",
     "eslint-config-prettier": "8.6.0",
@@ -91,13 +86,10 @@
     "ts-loader": "9.4.2",
     "typescript": "4.9.4",
     "vite": "^4.1.0",
-    "vite-tsconfig-paths": "4.0.5",
-    "watch-cli": "0.2.3",
-    "webpack": "5.75.0",
-    "webpack-cli": "5.0.1"
+    "vite-tsconfig-paths": "4.0.5"
   },
   "lint-staged": {
-    "src/**/*.{js,json,jsx,ts,tsx}": [
+    "src/**/*.{json,jsx,ts,tsx}": [
       "eslint",
       "prettier --check"
     ],

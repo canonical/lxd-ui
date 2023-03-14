@@ -14,4 +14,8 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    outDir: "./build/ui",
+    minify: "esbuild",
+  },
 });
