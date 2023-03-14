@@ -45,6 +45,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
       <Row>
         <Col size={8}>
           <Input
+            id="snapshotsPattern"
             label="Snapshot name pattern"
             placeholder="Enter name pattern"
             help={
@@ -68,6 +69,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             onChange={formik.handleChange}
           />
           <Input
+            id="snapshotsExpiry"
             label="Expire after"
             name="snapshots_expiry"
             placeholder="Enter expiration expression"
@@ -78,6 +80,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             onChange={formik.handleChange}
           />
           <Select
+            id="snapshotsScheduleStopped"
             label="Snapshot stopped instances"
             name="snapshots_schedule_stopped"
             onBlur={formik.handleBlur}
@@ -107,6 +110,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
           </div>
           {cronSyntax ? (
             <Input
+              id="snapshotsSchedule"
               label="Schedule in cron syntax"
               name="snapshots_schedule"
               placeholder="Enter cron expression"
@@ -119,6 +123,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
           ) : (
             <>
               <Select
+                id="snapshotsSchedule"
                 label="Every"
                 name="snapshots_schedule"
                 value={formik.values.snapshots_schedule}

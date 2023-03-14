@@ -65,6 +65,7 @@ const NetworkForm: FC<Props> = ({ formik, project, children }) => {
                   <Select
                     label="Network device"
                     name={`devices.${index}.network`}
+                    id={`networkDevice${index}`}
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={
@@ -75,6 +76,7 @@ const NetworkForm: FC<Props> = ({ formik, project, children }) => {
                   <Input
                     label="Network name"
                     name={`devices.${index}.name`}
+                    id={`networkName${index}`}
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={(formik.values.devices[index] as LxdNicDevice).name}

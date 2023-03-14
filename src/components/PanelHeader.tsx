@@ -18,6 +18,7 @@ const PanelHeader: FC<Props> = ({ title, onClose }: Props) => {
           appearance="base"
           hasIcon
           onClick={onClose ?? panelParams.clear}
+          aria-label="close panel"
         >
           <i className="p-icon--close"></i>
         </Button>

@@ -86,7 +86,9 @@ const StorageForm: FC = () => {
   return (
     <Aside>
       <div className="p-panel l-site">
-        <PanelHeader title={<h4>Create storage pool</h4>} />
+        <PanelHeader
+          title={<h2 className="p-heading--4">Create storage pool</h2>}
+        />
         <div className="p-panel__content">
           <NotificationRow />
           <Row>
@@ -117,6 +119,7 @@ const StorageForm: FC = () => {
                 stacked
               />
               <Select
+                id="driver"
                 name="driver"
                 help={
                   formik.values.driver === "zfs"

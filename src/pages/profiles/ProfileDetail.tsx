@@ -59,7 +59,7 @@ const ProfileDetail: FC = () => {
     <main className="l-main">
       <div className="p-panel">
         <div className="p-panel__header">
-          <h4 className="p-panel__title">{name}</h4>
+          <h1 className="p-panel__title">{name}</h1>
           <div className="p-panel__controls">
             {<span id="control-target" ref={(ref) => setControlTarget(ref)} />}
           </div>
@@ -73,6 +73,7 @@ const ProfileDetail: FC = () => {
               <Tabs
                 links={TABS.map((tab) => ({
                   label: tab,
+                  id: tabNameToUrl(tab),
                   active:
                     tabNameToUrl(tab) === activeTab ||
                     (tab === "Overview" && !activeTab),
@@ -81,7 +82,7 @@ const ProfileDetail: FC = () => {
               />
 
               {!activeTab && (
-                <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
+                <div role="tabpanel" aria-labelledby="overview">
                   <ProfileDetailOverview
                     profile={profile}
                     controlTarget={controlTarget}
@@ -90,11 +91,7 @@ const ProfileDetail: FC = () => {
               )}
 
               {activeTab === "configuration" && (
-                <div
-                  tabIndex={1}
-                  role="tabpanel"
-                  aria-labelledby="configuration"
-                >
+                <div role="tabpanel" aria-labelledby="configuration">
                   <EditProfileForm profile={profile} />
                 </div>
               )}

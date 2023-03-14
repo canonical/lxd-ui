@@ -42,7 +42,9 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
   return (
     <>
       <div className="cpu-limit-label">
-        <Label className="grow">Exposed CPUs</Label>
+        <Label className="grow" forId="cpuLimit">
+          Exposed CPUs
+        </Label>
         <RadioInput
           labelClassName="right-margin"
           label="number"
@@ -59,7 +61,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
       </div>
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC && (
         <Input
-          id="dynCpuLimit"
+          id="cpuLimit"
           name="dynCpuLimit"
           type="number"
           min="1"
@@ -75,7 +77,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
       )}
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET && (
         <Input
-          id="cpuFixedSetLimit"
+          id="cpuLimit"
           name="cpuFixedSetLimit"
           type="text"
           placeholder="Comma-separated core numbers"

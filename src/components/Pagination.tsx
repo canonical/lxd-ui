@@ -30,6 +30,7 @@ const Pagination: FC<Props> = ({
         {totalCount !== 1 && "s"}
       </div>
       <Button
+        aria-label="Previous page"
         className="back"
         appearance="base"
         hasIcon
@@ -43,6 +44,9 @@ const Pagination: FC<Props> = ({
         <Icon name="chevron-down" />
       </Button>
       <Input
+        id="paginationPageInput"
+        label="Page number"
+        labelClassName="u-off-screen"
         className="u-no-margin--bottom"
         onChange={(e) => {
           const newPage = Math.min(
@@ -57,6 +61,7 @@ const Pagination: FC<Props> = ({
       />{" "}
       of&nbsp;{totalPages}
       <Button
+        aria-label="Next page"
         className="next"
         appearance="base"
         hasIcon
@@ -70,6 +75,9 @@ const Pagination: FC<Props> = ({
         <Icon name="chevron-down" />
       </Button>
       <Select
+        label="Items per page"
+        labelClassName="u-off-screen"
+        id="itemsPerPage"
         options={paginationOptions}
         onChange={(e) => {
           setPageSize(parseInt(e.target.value));

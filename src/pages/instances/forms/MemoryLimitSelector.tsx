@@ -104,7 +104,9 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
   return (
     <>
       <div className="memory-limit-label">
-        <Label className="grow">Memory limit</Label>
+        <Label className="grow" forId="memLimit">
+          Memory limit
+        </Label>
         <RadioInput
           labelClassName="right-margin"
           label="number"
@@ -126,10 +128,10 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
       </div>
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT && (
         <Input
-          id="percentMemLimit"
+          id="memLimit"
           name="percentMemLimit"
           type="number"
-          min="0.0000000001"
+          min="0"
           max="100"
           step="Any"
           placeholder="Enter percentage"
@@ -144,7 +146,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
         <Row>
           <Col size={4}>
             <Input
-              id="fixedMemLimit"
+              id="memLimit"
               name="fixedMemLimit"
               type="number"
               min="0.0000000001"
@@ -160,7 +162,8 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           </Col>
           <Col size={4}>
             <Select
-              name="unitSelect"
+              id="memUnitSelect"
+              name="memUnitSelect"
               options={getMemUnitOptions()}
               onChange={(e) =>
                 setMemoryLimit({

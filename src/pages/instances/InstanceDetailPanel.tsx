@@ -68,7 +68,7 @@ const InstanceDetailPanel: FC = () => {
       {instance && (
         <div className="p-panel instance-detail-panel">
           <div className="p-panel__header">
-            <h4 className="p-panel__title">Instance summary</h4>
+            <h2 className="p-panel__title">Instance summary</h2>
             <div className="p-panel__controls">
               <Button
                 appearance="base"
@@ -196,13 +196,13 @@ const InstanceDetailPanel: FC = () => {
                   </tr>
                   <tr>
                     <th>
-                      <h5 className="p-muted-heading">
+                      <h3 className="p-muted-heading p-heading--5">
                         <Link
                           to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration`}
                         >
                           Profiles
                         </Link>
-                      </h5>
+                      </h3>
                     </th>
                     <td>
                       <List
@@ -220,7 +220,7 @@ const InstanceDetailPanel: FC = () => {
                   </tr>
                   <tr>
                     <th>
-                      <h5 className="p-muted-heading">Networks</h5>
+                      <h3 className="p-muted-heading p-heading--5">Networks</h3>
                     </th>
                     <td>
                       <List
@@ -241,13 +241,13 @@ const InstanceDetailPanel: FC = () => {
                   </tr>
                   <tr>
                     <td colSpan={2}>
-                      <h5 className="p-muted-heading">
+                      <h3 className="p-muted-heading p-heading--5">
                         <Link
                           to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
                         >
                           Recent snapshots
                         </Link>
-                      </h5>
+                      </h3>
                       {instance.snapshots?.length ? (
                         <List
                           items={instance.snapshots

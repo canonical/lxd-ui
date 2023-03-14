@@ -55,6 +55,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
       <Row>
         <Col size={8}>
           <Select
+            id="securityProtectionDelete"
             label="Prevent the instance from being deleted"
             name="security_protection_delete"
             onBlur={formik.handleBlur}
@@ -63,6 +64,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             value={formik.values.security_protection_delete}
           />
           <Select
+            id="securityPrivileged"
             label="Run the instance in privileged mode (Containers only)"
             name="security_privileged"
             onBlur={formik.handleBlur}
@@ -72,6 +74,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             disabled={isContainerOnlyDisabled}
           />
           <Select
+            id="securityProtectionShift"
             label="Prevent instance file system from being UID/GID shifted on startup (Containers only)"
             name="security_protection_shift"
             onBlur={formik.handleBlur}
@@ -82,6 +85,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
           />
           <hr />
           <Input
+            id="securityIdmapBase"
             label="Base host id (Containers only)"
             placeholder="Enter ID"
             name="security_idmap_base"
@@ -95,6 +99,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             })}
           />
           <Input
+            id="securityIdmapSize"
             label="Idmap size (Containers only)"
             placeholder="Enter number"
             name="security_idmap_size"
@@ -108,6 +113,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             })}
           />
           <Select
+            id="securityIdmapIsolated"
             label="Use unique idmap (Containers only)"
             name="security_idmap_isolated"
             onBlur={formik.handleBlur}
@@ -118,6 +124,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
           />
           <hr />
           <Select
+            id="securityDevlxd"
             label="Allow /dev/lxd in the instance (Containers only)"
             name="security_devlxd"
             onBlur={formik.handleBlur}
@@ -127,6 +134,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
             disabled={isContainerOnlyDisabled}
           />
           <Select
+            id="securityDevlxdImages"
             label="Make /1.0/images API available over /dev/lxd (Containers only)"
             name="security_devlxd_images"
             onBlur={formik.handleBlur}
@@ -137,6 +145,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik, children }) => {
           />
           <hr />
           <Select
+            id="securitySecureboot"
             label="Enable secureboot (VMs only)"
             name="security_secureboot"
             onBlur={formik.handleBlur}

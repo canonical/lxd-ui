@@ -143,9 +143,9 @@ const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
             <td>
               {profile.config["cloud-init.user-data"] && (
                 <Row>
-                  <h5>
+                  <div className="p-heading--5">
                     <code>cloud-init.user-data</code>
-                  </h5>
+                  </div>
                   <CodeSnippet
                     blocks={[
                       {
@@ -158,9 +158,9 @@ const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
               )}
               {profile.config["cloud-init.vendor-data"] && (
                 <Row>
-                  <h5>
+                  <div className="p-heading--5">
                     <code>cloud-init.vendor-data</code>
-                  </h5>
+                  </div>
                   <CodeSnippet
                     blocks={[
                       {
@@ -173,9 +173,9 @@ const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
               )}
               {profile.config["cloud-init.network-config"] && (
                 <Row>
-                  <h5>
+                  <div className="p-heading--5">
                     <code>cloud-init.network-config</code>
-                  </h5>
+                  </div>
                   <CodeSnippet
                     blocks={[
                       {

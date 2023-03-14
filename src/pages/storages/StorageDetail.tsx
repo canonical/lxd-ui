@@ -78,7 +78,7 @@ const StorageDetail: FC = () => {
             </tr>
           </tbody>
         </table>
-        <h5>Used by</h5>
+        <h2 className="p-heading--5">Used by</h2>
         <StorageUsedBy storage={storage} project={project} />
       </Row>
     </BaseLayout>
