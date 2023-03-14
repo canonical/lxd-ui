@@ -153,7 +153,7 @@ const InstanceList: FC = () => {
         !item.status.toLowerCase().includes(q) &&
         !item.type.toLowerCase().includes(q) &&
         !item.description.toLowerCase().includes(q) &&
-        !item.config["image.description"].toLowerCase().includes(q)
+        !item.config["image.description"]?.toLowerCase().includes(q)
       ) {
         return false;
       }
