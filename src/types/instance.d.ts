@@ -63,7 +63,9 @@ interface LxdSnapshot {
 
 export interface LxdInstance {
   architecture: string;
-  config: LxdConfigPair;
+  config: {
+    "image.description"?: string;
+  } & LxdConfigPair;
   created_at: string;
   description: string;
   devices: LxdDevices;
