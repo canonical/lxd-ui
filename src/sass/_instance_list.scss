@@ -1,7 +1,7 @@
 .instance-list {
   .instance-list-header {
     display: flex;
-    margin: $spv--large 0;
+    margin: $spv--large 0 0;
 
     .instance-header-left {
       display: flex;
@@ -49,20 +49,24 @@
     cursor: pointer;
   }
 
+  .instance-actions button {
+    margin-bottom: -3px;
+  }
+
   // show actions only on hover for desktop sized screens
   @media screen and (min-width: 800px) {
-    .u-instance-actions {
+    .instance-actions {
       visibility: hidden;
     }
 
     .u-row:hover {
-      .u-instance-actions {
+      .instance-actions {
         visibility: visible;
       }
     }
 
     .u-row-selected:hover {
-      .u-instance-actions {
+      .instance-actions {
         visibility: hidden;
       }
     }
@@ -77,6 +81,7 @@
     margin-bottom: 0;
 
     td:last-child {
+      padding-bottom: 0;
       padding-right: $sph--large;
     }
 
@@ -135,7 +140,7 @@
     }
 
     .actions {
-      width: 125px;
+      width: 160px;
     }
   }
 

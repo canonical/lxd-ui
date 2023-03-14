@@ -92,7 +92,9 @@ export const freezeInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
       method: "PUT",
-      body: '{"action": "freeze"}',
+      body: JSON.stringify({
+        action: "freeze",
+      }),
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
@@ -107,6 +109,23 @@ export const unfreezeInstance = (instance: LxdInstance) => {
     fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
       method: "PUT",
       body: '{"action": "unfreeze"}',
+    })
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const restartInstance = (instance: LxdInstance, isForce: boolean) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        action: "restart",
+        force: isForce,
+      }),
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {

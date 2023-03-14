@@ -1,10 +1,9 @@
 import React, { FC, useState } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
-import OpenVgaBtn from "./actions/OpenVgaBtn";
+import OpenConsoleBtn from "./actions/OpenConsoleBtn";
 import { Button, Col, List, Row } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
-import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import { Link } from "react-router-dom";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import { instanceCreationTypes } from "util/instanceOptions";
@@ -15,14 +14,14 @@ import Loader from "components/Loader";
 import Aside from "components/Aside";
 import usePanelParams from "util/usePanelParams";
 import { useNotify } from "context/notify";
+import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
+import InstanceLink from "pages/instances/InstanceLink";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const [isStarting, setStarting] = useState<boolean>(false);
-  const [isStopping, setStopping] = useState<boolean>(false);
 
   const {
     data: instance,
@@ -48,21 +47,19 @@ const InstanceDetailPanel: FC = () => {
         .filter((item) => item.family === family)
         .map((item) => {
           return (
-            <Row key={item.address}>
-              <Col size={6} className="u-truncate" title={item.address}>
-                {item.address}
-              </Col>
-            </Row>
+            <div
+              key={item.address}
+              className="ip u-truncate"
+              title={item.address}
+            >
+              {item.address}
+            </div>
           );
         }) ?? []
     );
   };
   const ip4Addresses = getIpAddresses("inet");
   const ip6Addresses = getIpAddresses("inet6");
-  const manageSnapshotLabel =
-    instance?.snapshots && instance.snapshots.length > RECENT_SNAPSHOT_LIMIT
-      ? "View all"
-      : "Manage";
 
   return (
     <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
@@ -87,26 +84,14 @@ const InstanceDetailPanel: FC = () => {
             <div className="actions">
               <List
                 inline
-                className="primary"
+                className="primary actions-list"
                 items={[
                   <OpenTerminalBtn key="terminal" instance={instance} />,
-                  // TODO: update the button upon VD approval of instance detail page
-                  <OpenVgaBtn key="vga" instance={instance} />,
-                  // TODO: update the following with icon-only action buttons upon VD
+                  <OpenConsoleBtn key="console" instance={instance} />,
                 ]}
               />
               <div className="state">
-                <StartStopInstanceBtn
-                  key="startstop"
-                  instance={instance}
-                  hasCaption={true}
-                  onStarting={() => setStarting(true)}
-                  onStopping={() => setStopping(true)}
-                  onFinish={() => {
-                    setStarting(false);
-                    setStopping(false);
-                  }}
-                />
+                <InstanceStateActions instance={instance} />
               </div>
             </div>
             <div className="content-scroll">
@@ -115,11 +100,7 @@ const InstanceDetailPanel: FC = () => {
                   <tr>
                     <th className="u-text--muted">Name</th>
                     <td>
-                      <Link
-                        to={`/ui/${instance.project}/instances/detail/${instance.name}`}
-                      >
-                        {instance.name}
-                      </Link>
+                      <InstanceLink instance={instance} />
                     </td>
                   </tr>
                   <tr>
@@ -136,11 +117,7 @@ const InstanceDetailPanel: FC = () => {
                   <tr>
                     <th className="u-text--muted">Status</th>
                     <td>
-                      <InstanceStatusIcon
-                        instance={instance}
-                        isStarting={isStarting}
-                        isStopping={isStopping}
-                      />
+                      <InstanceStatusIcon instance={instance} />
                     </td>
                   </tr>
                   <tr>
@@ -214,96 +191,103 @@ const InstanceDetailPanel: FC = () => {
                     <td>{isoTimeToString(instance.created_at)}</td>
                   </tr>
                   <tr>
-                    <th className="u-text--muted">Last used</th>
+                    <th className="u-text--muted last-used">Last used</th>
                     <td>{isoTimeToString(instance.last_used_at)}</td>
+                  </tr>
+                  <tr>
+                    <th>
+                      <h5 className="p-muted-heading">
+                        <Link
+                          to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration`}
+                        >
+                          Profiles
+                        </Link>
+                      </h5>
+                    </th>
+                    <td>
+                      <List
+                        className="list"
+                        items={instance.profiles.map((name) => (
+                          <Link
+                            key={name}
+                            to={`/ui/${instance.project}/profiles/detail/${name}`}
+                          >
+                            {name}
+                          </Link>
+                        ))}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>
+                      <h5 className="p-muted-heading">Networks</h5>
+                    </th>
+                    <td>
+                      <List
+                        className="list"
+                        items={Object.values(instance.expanded_devices)
+                          .filter(isNicDevice)
+                          .map((item) => (
+                            // TODO: fix this link to point to the network detail page
+                            <Link
+                              key={item.network}
+                              to={`/ui/${instance.project}/networks`}
+                            >
+                              {item.network}
+                            </Link>
+                          ))}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <h5 className="p-muted-heading">
+                        <Link
+                          to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
+                        >
+                          Recent snapshots
+                        </Link>
+                      </h5>
+                      {instance.snapshots?.length ? (
+                        <List
+                          items={instance.snapshots
+                            .reverse()
+                            .slice(0, RECENT_SNAPSHOT_LIMIT)
+                            .map((snapshot) => (
+                              <Row key={snapshot.name} className="no-grid-gap">
+                                <Col
+                                  size={4}
+                                  className="u-truncate"
+                                  title={snapshot.name}
+                                >
+                                  {snapshot.name}
+                                </Col>
+                                <Col
+                                  size={8}
+                                  className="p-snapshot-creation u-align--right u-text--muted u-no-margin--bottom"
+                                >
+                                  <i>{isoTimeToString(snapshot.created_at)}</i>
+                                </Col>
+                              </Row>
+                            ))}
+                        />
+                      ) : (
+                        <p>
+                          No snapshots found.
+                          <br />
+                          Create one in{" "}
+                          <Link
+                            to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
+                          >
+                            Snapshots
+                          </Link>
+                          .
+                        </p>
+                      )}
+                    </td>
                   </tr>
                 </tbody>
               </table>
-              <Row className="no-grid-gap">
-                <Col size={6}>
-                  <h5 className="p-muted-heading">Profiles</h5>
-                </Col>
-                <Col
-                  size={6}
-                  title="View configurations"
-                  className="p-action-link p-text--small u-align--right u-no-margin--bottom u-truncate"
-                >
-                  <Link
-                    to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration`}
-                  >
-                    View configurations
-                  </Link>
-                </Col>
-              </Row>
-              <List
-                className="u-no-margin--bottom"
-                items={instance.profiles.map((name) => (
-                  <Link
-                    key={name}
-                    to={`/ui/${instance.project}/profiles/detail/${name}`}
-                  >
-                    {name}
-                  </Link>
-                ))}
-              />
-              <hr className="u-spaced-hr p-section-separator" />
-              <h5 className="p-muted-heading">Networks</h5>
-              <List
-                className="u-no-margin--bottom"
-                items={Object.values(instance.expanded_devices)
-                  .filter(isNicDevice)
-                  .map((item) => (
-                    // TODO: fix this link to point to the network detail page
-                    <Link
-                      key={item.network}
-                      to={`/ui/${instance.project}/networks`}
-                    >
-                      {item.network}
-                    </Link>
-                  ))}
-              />
-              <hr className="u-spaced-hr p-section-separator" />
-              <Row className="no-grid-gap">
-                <Col size={8}>
-                  <h5 className="p-muted-heading">Recent Snapshots</h5>
-                </Col>
-                <Col
-                  size={4}
-                  title={manageSnapshotLabel}
-                  className="p-action-link p-text--small u-align--right u-no-margin--bottom u-truncate"
-                >
-                  <Link
-                    to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
-                  >
-                    {manageSnapshotLabel}
-                  </Link>
-                </Col>
-              </Row>
-              <List
-                className="u-no-margin--bottom"
-                items={
-                  instance.snapshots
-                    ?.reverse()
-                    .slice(0, RECENT_SNAPSHOT_LIMIT)
-                    .map((snapshot) => (
-                      <Row key={snapshot.name} className="no-grid-gap">
-                        <Col
-                          size={4}
-                          className="u-truncate"
-                          title={snapshot.name}
-                        >
-                          {snapshot.name}
-                        </Col>
-                        <Col
-                          size={8}
-                          className="p-snapshot-creation u-align--right u-text--muted u-no-margin--bottom"
-                        >
-                          <i>{isoTimeToString(snapshot.created_at)}</i>
-                        </Col>
-                      </Row>
-                    )) ?? ["None"]
-                }
-              />
             </div>
           </div>
         </div>

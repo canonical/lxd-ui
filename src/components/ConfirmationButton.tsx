@@ -14,6 +14,7 @@ interface Props {
   confirmationExtra?: ReactNode;
   confirmationMessage: string;
   posButtonLabel: string;
+  onCancel?: () => void;
   onConfirm: () => void;
   isDense?: boolean;
   isDisabled?: boolean;
@@ -30,11 +31,19 @@ const ConfirmationButton: FC<Props> = ({
   confirmationExtra,
   confirmationMessage,
   posButtonLabel,
+  onCancel,
   onConfirm,
   isDense = true,
   isDisabled = false,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+
+  const handleCancelModal = () => {
+    closePortal();
+    if (onCancel) {
+      onCancel();
+    }
+  };
 
   const handleConfirmModal = () => {
     closePortal();
@@ -61,7 +70,7 @@ const ConfirmationButton: FC<Props> = ({
         <Portal>
           <ConfirmationModal
             title={title}
-            onClose={closePortal}
+            onClose={handleCancelModal}
             confirmationExtra={confirmationExtra}
             confirmationMessage={confirmationMessage}
             posButtonLabel={posButtonLabel}
@@ -76,6 +85,8 @@ const ConfirmationButton: FC<Props> = ({
         dense={isDense}
         disabled={isDisabled}
         onClick={handleShiftClick}
+        aria-label={posButtonLabel}
+        title={posButtonLabel}
         type="button"
       >
         {visibleIcon && <i className={visibleIcon}>{iconDescription}</i>}

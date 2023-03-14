@@ -1,7 +1,6 @@
 import {
   Button,
   Col,
-  List,
   MainTable,
   Row,
   SearchBox,
@@ -15,16 +14,17 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import usePanelParams from "util/usePanelParams";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
 import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
-import StartStopInstanceBtn from "./actions/StartStopInstanceBtn";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
 import EmptyState from "components/EmptyState";
-import { LxdInstance } from "types/instance";
 import classnames from "classnames";
+import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
+import { useInstanceLoading } from "context/instanceLoading";
+import InstanceLink from "pages/instances/InstanceLink";
 import Pagination from "components/Pagination";
 import { paginationOptions } from "util/paginationOptions";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
@@ -47,6 +47,7 @@ const saveHidden = (columns: string[]) => {
 };
 
 const InstanceList: FC = () => {
+  const instanceLoading = useInstanceLoading();
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
@@ -54,8 +55,6 @@ const InstanceList: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [status, setStatus] = useState<string>("any");
   const [type, setType] = useState<string>("any");
-  const [starting, setStarting] = useState<string[]>([]);
-  const [stopping, setStopping] = useState<string[]>([]);
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
   const [pageSize, setPageSize] = useState(paginationOptions[0].value);
@@ -119,19 +118,6 @@ const InstanceList: FC = () => {
     saveHidden(columns);
   };
 
-  const addStarting = (instance: LxdInstance) => {
-    setStarting((prev) => prev.concat(instance.name));
-  };
-
-  const addStopping = (instance: LxdInstance) => {
-    setStopping((prev) => prev.concat(instance.name));
-  };
-
-  const removeLoading = (instance: LxdInstance) => {
-    setStarting((prev) => prev.filter((name) => name !== instance.name));
-    setStopping((prev) => prev.filter((name) => name !== instance.name));
-  };
-
   const filteredInstances = instances.filter((item) => {
     if (query) {
       const q = query.toLowerCase();
@@ -187,13 +173,7 @@ const InstanceList: FC = () => {
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
         columns: [
           {
-            content: (
-              <Link
-                to={`/ui/${instance.project}/instances/detail/${instance.name}`}
-              >
-                {instance.name}
-              </Link>
-            ),
+            content: <InstanceLink instance={instance} />,
             role: "rowheader",
             className: "name",
             "aria-label": NAME,
@@ -250,13 +230,7 @@ const InstanceList: FC = () => {
             onClick: openSummary,
           },
           {
-            content: (
-              <InstanceStatusIcon
-                instance={instance}
-                isStarting={starting.includes(instance.name)}
-                isStopping={stopping.includes(instance.name)}
-              />
-            ),
+            content: <InstanceStatusIcon instance={instance} />,
             role: "rowheader",
             className: "clickable-cell status",
             "aria-label": STATUS,
@@ -264,24 +238,15 @@ const InstanceList: FC = () => {
           },
           {
             content: (
-              <List
-                inline
-                className="u-no-margin--bottom"
-                items={[
-                  <StartStopInstanceBtn
-                    key="startstop"
-                    className={classnames("u-instance-actions", {
-                      "u-hide": starting
-                        .concat(stopping)
-                        .includes(instance.name),
-                    })}
-                    instance={instance}
-                    hasCaption={true}
-                    onStarting={addStarting}
-                    onStopping={addStopping}
-                    onFinish={removeLoading}
-                  />,
-                ]}
+              <InstanceStateActions
+                className={classnames(
+                  "instance-actions",
+                  "u-no-margin--bottom",
+                  {
+                    "u-hide": Boolean(instanceLoading.getType(instance)),
+                  }
+                )}
+                instance={instance}
               />
             ),
             role: "rowheader",
