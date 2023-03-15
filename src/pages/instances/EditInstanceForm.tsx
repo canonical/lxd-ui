@@ -77,6 +77,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   }
 
   const InstanceSchema = Yup.object().shape({
+    name: Yup.string().required("Instance name is required"),
     instanceType: Yup.string().required("Instance type is required"),
   });
 
@@ -90,7 +91,6 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     initialValues: {
       name: instance.name,
       description: instance.description,
-      image: instance.config["image.description"],
       instanceType: instance.type,
       profiles: instance.profiles,
       type: "instance",
@@ -262,7 +262,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           <Col size={12}>
             <SubmitButton
               isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.image}
+              isDisabled={!formik.isValid}
               buttonLabel="Save changes"
               onClick={() => void formik.submitForm()}
             />
