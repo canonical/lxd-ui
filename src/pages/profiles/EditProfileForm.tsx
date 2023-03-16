@@ -33,10 +33,6 @@ import ResourceLimitsForm, {
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { updateProfile } from "api/profiles";
-import ProfileEditDetailsForm, {
-  profileEditDetailPayload,
-  ProfileEditDetailsFormValues,
-} from "pages/profiles/forms/ProfileEditDetailsForm";
 import ProfileFormMenu, {
   CLOUD_INIT,
   STORAGE,
@@ -52,8 +48,12 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import StorageForm from "pages/instances/forms/StorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
+import ProfileDetailsForm, {
+  profileDetailPayload,
+  ProfileDetailsFormValues,
+} from "pages/profiles/forms/ProfileDetailsForm";
 
-export type EditProfileFormValues = ProfileEditDetailsFormValues &
+export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
@@ -150,7 +150,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
 
   const getPayload = (values: EditProfileFormValues) => {
     return {
-      ...profileEditDetailPayload(values),
+      ...profileDetailPayload(values),
       devices: formDeviceToPayload(values.devices),
       config: {
         ...resourceLimitsPayload(values),
@@ -199,7 +199,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {section === PROFILE_DETAILS && (
-              <ProfileEditDetailsForm formik={formik} />
+              <ProfileDetailsForm formik={formik} isCreateMode={false} />
             )}
 
             {section === STORAGE && (
