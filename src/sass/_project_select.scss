@@ -1,0 +1,95 @@
+.project-select-label {
+  margin-left: $sph--large;
+}
+
+.project-select {
+  z-index: 1000;
+
+  .toggle {
+    margin-left: $sph--large;
+    width: 12rem;
+
+    .p-icon--chevron-down {
+      @include vf-icon-chevron($color-x-light);
+    }
+
+    .p-icon--chevron-up {
+      @include vf-icon-chevron($color-x-light);
+    }
+
+    span {
+      display: inline-block;
+      overflow: hidden !important;
+      text-align: left;
+      text-overflow: ellipsis !important;
+      vertical-align: top;
+      white-space: nowrap !important;
+      width: 8.6rem;
+    }
+  }
+
+  .p-search-box .p-search-box__input,
+  .p-search-box .p-search-box__input:hover {
+    background: black !important;
+    border-color: white !important;
+    color: white;
+  }
+
+  .list {
+    box-shadow: 0 $sp-unit $sp-unit 0 rgb(0 0 0 / 50%);
+    padding: 1rem;
+    width: 21rem;
+
+    .projects {
+      max-height: 20rem;
+      overflow-y: auto;
+
+      .link {
+        padding-bottom: $spv--small;
+        padding-top: $spv--small;
+      }
+
+      .name {
+        display: inline-block;
+        vertical-align: top;
+        width: 10rem;
+      }
+
+      .count {
+        color: $color-mid-light;
+      }
+
+      .description {
+        color: $color-mid-light;
+        width: 12rem;
+      }
+    }
+
+    hr {
+      background-color: white;
+      margin-top: $spv--large;
+    }
+  }
+}
+
+@include desktop {
+  .project-select-label {
+    margin-left: $sph--x-large;
+  }
+
+  .project-select {
+    .toggle {
+      background-color: $colors--dark-theme--background-alt;
+      border: 0;
+      border-bottom: 1px solid $colors--dark-theme--border-high-contrast;
+      margin-left: $sph--x-large;
+    }
+  }
+}
+
+.l-navigation.is-collapsed {
+  .project-select-label,
+  .project-select {
+    visibility: hidden;
+  }
+}

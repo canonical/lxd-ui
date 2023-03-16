@@ -25,7 +25,7 @@ const StorageList: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.storage],
+    queryKey: [queryKeys.storage, project],
     queryFn: () => fetchStorages(project),
   });
 

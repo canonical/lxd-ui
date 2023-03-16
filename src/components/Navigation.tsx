@@ -1,9 +1,11 @@
 import React, { FC, MouseEvent, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
+import ProjectSelector from "pages/projects/ProjectSelector";
+import { getProjectFromUrl } from "util/projects";
 
 const isSmallScreen = () => {
   // using the max from both, because there is a bug in chrome, causing a 0 outerWidth for
@@ -12,8 +14,9 @@ const isSmallScreen = () => {
 };
 
 const Navigation: FC = () => {
+  const location = useLocation();
   const [menuCollapsed, setMenuCollapsed] = useState(isSmallScreen());
-  const project = "default";
+  const project = getProjectFromUrl(location.pathname) ?? "default";
 
   const { isAuthenticated } = useAuth();
   const softToggleMenu = () => {
@@ -73,55 +76,68 @@ const Navigation: FC = () => {
                 <ul className="p-side-navigation__list sidenav-top-ul">
                   {isAuthenticated && (
                     <>
-                      <li className="p-side-navigation__item--title">
+                      <li onClick={(e) => e.stopPropagation()}>
+                        <ProjectSelector
+                          key={location.pathname}
+                          activeProject={project}
+                        />
+                      </li>
+                      <li className="p-side-navigation__item--title secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/instances`}
+                          title={`Instances (${project})`}
                         >
                           <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
                           Instances
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item--title secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/profiles`}
+                          title={`Profiles (${project})`}
                         >
                           <i className="p-icon--profile is-light p-side-navigation__icon"></i>{" "}
                           Profiles
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item--title secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/networks`}
+                          title={`Networks (${project})`}
                         >
                           <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
                           Networks
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title">
-                        <NavLink
-                          className="p-side-navigation__link"
-                          to="/ui/projects"
-                        >
-                          <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
-                          Projects
-                        </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item--title secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/storages`}
+                          title={`Storages (${project})`}
                         >
                           <i className="p-icon--pods is-light p-side-navigation__icon"></i>{" "}
                           Storages
                         </NavLink>
                       </li>
+                      <li className="p-side-navigation__item--title secondary">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to={`/ui/${project}/configuration`}
+                          title={`Configuration (${project})`}
+                        >
+                          <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
+                          Configuration
+                        </NavLink>
+                      </li>
+                      <hr className="is-dark navigation-hr" />
                       <li className="p-side-navigation__item--title">
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/cluster"
+                          title="Cluster"
                         >
                           <i className="p-icon--machines is-light p-side-navigation__icon"></i>{" "}
                           Cluster
@@ -131,6 +147,7 @@ const Navigation: FC = () => {
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/warnings"
+                          title="Warnings"
                         >
                           <i className="p-icon--warning-grey is-light p-side-navigation__icon"></i>{" "}
                           Warnings
@@ -140,6 +157,7 @@ const Navigation: FC = () => {
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/settings"
+                          title="Settings"
                         >
                           <i className="p-icon--settings is-light p-side-navigation__icon"></i>{" "}
                           Settings
@@ -153,6 +171,7 @@ const Navigation: FC = () => {
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/certificates/generate"
+                          title="Authentication"
                         >
                           <i className="p-icon--security is-light p-side-navigation__icon"></i>{" "}
                           Authentication
@@ -168,6 +187,7 @@ const Navigation: FC = () => {
                       href="https://linuxcontainers.org/lxd/docs/latest/"
                       target="_blank"
                       rel="noreferrer"
+                      title="Documentation"
                     >
                       <i className="p-icon--information is-light p-side-navigation__icon"></i>{" "}
                       Documentation
@@ -179,6 +199,7 @@ const Navigation: FC = () => {
                       href="https://discuss.linuxcontainers.org/"
                       target="_blank"
                       rel="noreferrer"
+                      title="Discussion"
                     >
                       <i className="p-icon--share is-light p-side-navigation__icon"></i>{" "}
                       Discussion
@@ -190,6 +211,7 @@ const Navigation: FC = () => {
                       href="https://github.com/canonical/lxd-ui/issues/new"
                       target="_blank"
                       rel="noreferrer"
+                      title="Report a bug"
                     >
                       <i className="p-icon--code is-light p-side-navigation__icon"></i>{" "}
                       Report a bug

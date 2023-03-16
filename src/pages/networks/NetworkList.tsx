@@ -23,7 +23,7 @@ const NetworkList: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.networks],
+    queryKey: [queryKeys.networks, project],
     queryFn: () => fetchNetworks(project),
   });
 

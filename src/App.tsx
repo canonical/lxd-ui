@@ -8,7 +8,6 @@ const InstanceList = lazy(() => import("pages/instances/InstanceList"));
 const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
 const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
 const NoMatch = lazy(() => import("components/NoMatch"));
-const ProjectList = lazy(() => import("pages/projects/ProjectList"));
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
@@ -28,6 +27,12 @@ const CreateInstanceForm = lazy(
 );
 const CreateProfileForm = lazy(
   () => import("pages/profiles/CreateProfileForm")
+);
+const CreateProjectForm = lazy(
+  () => import("pages/projects/CreateProjectForm")
+);
+const ProjectConfiguration = lazy(
+  () => import("pages/projects/ProjectConfiguration")
 );
 
 const App: FC = () => {
@@ -87,8 +92,12 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<NetworkMap />} />}
         />
         <Route
-          path="/ui/projects"
-          element={<ProtectedRoute outlet={<ProjectList />} />}
+          path="/ui/:project/configuration"
+          element={<ProtectedRoute outlet={<ProjectConfiguration />} />}
+        />
+        <Route
+          path="/ui/projects/create"
+          element={<ProtectedRoute outlet={<CreateProjectForm />} />}
         />
         <Route
           path="/ui/:project/storages"

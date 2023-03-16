@@ -79,7 +79,7 @@
   position: relative;
 }
 
-@media screen and (min-height: 500px) {
+@media screen and (min-height: 720px) {
   .sidenav-bottom-ul {
     bottom: $spv--x-large;
     position: absolute;
@@ -94,10 +94,45 @@
 }
 
 .l-navigation.is-collapsed .sidenav-toggle {
-  left: 1rem;
+  left: $sph--large;
   rotate: 180deg;
 }
 
 .p-side-navigation__item--title {
   white-space: nowrap;
+}
+
+.navigation-hr {
+  margin-left: $sph--x-large;
+  margin-top: $spv--small;
+}
+
+.l-navigation.is-pinned {
+  .secondary {
+    .p-side-navigation__link {
+      padding-left: 5rem;
+    }
+
+    .p-side-navigation__icon {
+      left: 2.5rem;
+    }
+  }
+}
+
+@include mobile {
+  .navigation-hr {
+    margin-left: $sph--large;
+  }
+
+  .l-navigation.is-pinned {
+    .secondary {
+      .p-side-navigation__link {
+        padding-left: 4.5rem;
+      }
+
+      .p-side-navigation__icon {
+        left: 2rem;
+      }
+    }
+  }
 }
