@@ -18,24 +18,27 @@ export const profileDetailPayload = (values: CreateProfileFormValues) => {
 
 interface Props {
   formik: FormikProps<CreateProfileFormValues>;
+  isCreateMode: boolean;
 }
 
-const ProfileDetailsForm: FC<Props> = ({ formik }) => {
+const ProfileDetailsForm: FC<Props> = ({ formik, isCreateMode }) => {
   return (
     <>
       <Row>
         <Col size={8}>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            label="Profile name"
-            placeholder="Enter name"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            error={formik.touched.name ? formik.errors.name : null}
-          />
+          {isCreateMode && (
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              label="Profile name"
+              placeholder="Enter name"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              error={formik.touched.name ? formik.errors.name : null}
+            />
+          )}
           <Textarea
             id="description"
             name="description"
