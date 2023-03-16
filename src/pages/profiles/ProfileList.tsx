@@ -30,7 +30,7 @@ const ProfileList: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.profiles],
+    queryKey: [queryKeys.profiles, project],
     queryFn: () => fetchProfiles(project),
   });
 
