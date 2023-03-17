@@ -53,7 +53,7 @@ import ProfileDetailsForm, {
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import StorageForm from "pages/instances/forms/StorageForm";
+import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
@@ -179,7 +179,7 @@ const CreateProfileForm: FC = () => {
                 )}
 
                 {section === STORAGE && (
-                  <StorageForm formik={formik} project={project} />
+                  <RootStorageForm formik={formik} project={project} />
                 )}
 
                 {section === NETWORKS && (

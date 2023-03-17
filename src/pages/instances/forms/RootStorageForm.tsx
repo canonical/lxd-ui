@@ -13,7 +13,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const StorageForm: FC<Props> = ({ formik, project, children }) => {
+const RootStorageForm: FC<Props> = ({ formik, project, children }) => {
   const { data: storagePools = [] } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStorages(project),
@@ -72,7 +72,6 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
         <Col size={8}>
           <OverrideField
             formik={formik}
-            id="rootStorage"
             label="Root storage pool"
             name="rootStorage"
             onOverride={addRootStorage}
@@ -82,14 +81,16 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
             {hasRootStorage && (
               <div>
                 <Select
-                  id="rootStoragePool"label="Root storage pool"
+                  id="rootStoragePool"
+                  label="Root storage pool"
                   name={`devices.${index}.pool`}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={(formik.values.devices[index] as LxdDiskDevice).pool}
                   options={getStoragePoolOptions()}
                 />
-                <Inputid="sizeLimit"
+                <Input
+                  id="sizeLimit"
                   label="Size limit in GB"
                   onBlur={formik.handleBlur}
                   onChange={(e) => {
@@ -111,4 +112,4 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
   );
 };
 
-export default StorageForm;
+export default RootStorageForm;

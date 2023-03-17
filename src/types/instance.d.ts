@@ -83,4 +83,5 @@ export interface LxdInstance {
   stateful: boolean;
   status: string;
   type: string;
+  etag?: string;
 }

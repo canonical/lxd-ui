@@ -50,7 +50,7 @@ import InstanceFormMenu, {
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import StorageForm from "pages/instances/forms/StorageForm";
+import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
@@ -130,7 +130,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         ? yamlToObject(values.yaml)
         : getPayload(values);
 
-      updateInstance(JSON.stringify(instancePayload), project)
+      updateInstance(JSON.stringify(instancePayload), project, instance.etag)
         .then(() => {
           notify.success("Saved.");
         })
@@ -215,9 +215,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
             )}
 
             {section === STORAGE && (
-              <StorageForm formik={formik} project={project}>
+              <RootStorageForm formik={formik} project={project}>
                 {overrideNotification}
-              </StorageForm>
+              </RootStorageForm>
             )}
 
             {section === NETWORKS && (

@@ -46,7 +46,7 @@ import ProfileFormMenu, {
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import StorageForm from "pages/instances/forms/StorageForm";
+import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 import ProfileDetailsForm, {
   profileDetailPayload,
@@ -202,7 +202,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
             )}
 
             {section === STORAGE && (
-              <StorageForm formik={formik} project={project} />
+              <RootStorageForm formik={formik} project={project} />
             )}
 
             {section === NETWORKS && (

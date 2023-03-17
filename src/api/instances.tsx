@@ -12,8 +12,15 @@ export const fetchInstance = (
 ): Promise<LxdInstance> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}?project=${project}&recursion=${recursion}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdInstance>) => resolve(data.metadata))
+      .then((response) => {
+        return handleResponse(response)
+          .then((data: LxdApiResponse<LxdInstance>) => {
+            const result = data.metadata;
+            result.etag = response.headers.get("etag") ?? undefined;
+            resolve(result);
+          })
+          .catch(reject);
+      })
       .catch(reject);
   });
 };
@@ -44,12 +51,19 @@ export const createInstance = (
   });
 };
 
-export const updateInstance = (body: string, project: string) => {
+export const updateInstance = (
+  body: string,
+  project: string,
+  etag?: string
+) => {
   const instance = JSON.parse(body) as LxdInstance;
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${project}`, {
       method: "PUT",
       body: body,
+      headers: {
+        "If-Match": etag ?? "invalid-etag",
+      },
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
