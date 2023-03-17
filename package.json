@@ -93,7 +93,7 @@
     "vite": "^4.1.0",
     "vite-tsconfig-paths": "4.0.5",
     "watch-cli": "0.2.3",
-    "webpack": "5.75.0",
+    "webpack": "5.76.0",
     "webpack-cli": "5.0.1"
   },
   "lint-staged": {
