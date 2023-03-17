@@ -16,12 +16,15 @@ import Loader from "components/Loader";
 import { useNotify } from "context/notify";
 
 interface Props {
-  memoryLimit: MemoryLimit;
+  memoryLimit?: MemoryLimit;
   setMemoryLimit: (memoryLimit: MemoryLimit) => void;
 }
 
 const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
   const notify = useNotify();
+  if (!memoryLimit) {
+    return null;
+  }
 
   const {
     data: resources,
@@ -102,7 +105,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
   );
 
   return (
-    <>
+    <div>
       <div className="memory-limit-label">
         <Label className="grow" forId="memLimit">
           Memory limit
@@ -176,7 +179,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           </Col>
         </Row>
       )}
-    </>
+    </div>
   );
 };
 

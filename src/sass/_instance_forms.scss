@@ -32,6 +32,22 @@
       > div:not(:has(.cm-editor)) {
         max-width: 42rem;
       }
+
+      > div:has(.override) {
+        max-width: 50rem;
+      }
+    }
+
+    .override {
+      display: flex;
+
+      > :first-child {
+        margin-right: 2rem;
+      }
+
+      > :last-child {
+        flex-grow: 1;
+      }
     }
 
     .device-form hr {

@@ -43,7 +43,6 @@ import ResourceLimitsForm, {
   ResourceLimitsFormValues,
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
-import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
@@ -192,8 +191,6 @@ const CreateInstanceForm: FC = () => {
       instanceType: "container",
       profiles: ["default"],
       devices: [{ type: "nic", name: "" }],
-      limits_cpu: DEFAULT_CPU_LIMIT,
-      limits_memory: DEFAULT_MEM_LIMIT,
       type: "instance",
     },
     validationSchema: InstanceSchema,
@@ -296,22 +293,14 @@ const CreateInstanceForm: FC = () => {
                 )}
 
                 {section === RESOURCE_LIMITS && (
-                  <ResourceLimitsForm formik={formik}>
-                    {overrideNotification}
-                  </ResourceLimitsForm>
+                  <ResourceLimitsForm formik={formik} />
                 )}
 
                 {section === SECURITY_POLICIES && (
-                  <SecurityPoliciesForm formik={formik}>
-                    {overrideNotification}
-                  </SecurityPoliciesForm>
+                  <SecurityPoliciesForm formik={formik} />
                 )}
 
-                {section === SNAPSHOTS && (
-                  <SnapshotsForm formik={formik}>
-                    {overrideNotification}
-                  </SnapshotsForm>
-                )}
+                {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
 
                 {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

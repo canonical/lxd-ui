@@ -6,7 +6,10 @@ import {
   MemoryLimit,
 } from "types/limits";
 
-export const cpuLimitToPayload = (cpuLimit: CpuLimit) => {
+export const cpuLimitToPayload = (cpuLimit: CpuLimit | undefined) => {
+  if (!cpuLimit) {
+    return undefined;
+  }
   switch (cpuLimit.selectedType) {
     case CPU_LIMIT_TYPE.DYNAMIC:
       if (cpuLimit.dynamicValue) {
@@ -34,8 +37,11 @@ export const cpuLimitToPayload = (cpuLimit: CpuLimit) => {
   }
 };
 
-export const parseCpuLimit = (limit?: string): CpuLimit => {
-  if (limit?.includes("-")) {
+export const parseCpuLimit = (limit?: string): CpuLimit | undefined => {
+  if (!limit) {
+    return undefined;
+  }
+  if (limit.includes("-")) {
     const from = limit.split("-")[0];
     const to = limit.split("-")[1];
     return {
@@ -47,7 +53,7 @@ export const parseCpuLimit = (limit?: string): CpuLimit => {
     };
   }
 
-  if (limit?.includes(",")) {
+  if (limit.includes(",")) {
     return {
       setValue: limit,
       selectedType: CPU_LIMIT_TYPE.FIXED_SET,
@@ -55,13 +61,23 @@ export const parseCpuLimit = (limit?: string): CpuLimit => {
   }
 
   return {
-    dynamicValue: limit ? parseInt(limit) : undefined,
+    dynamicValue: parseInt(limit),
     selectedType: CPU_LIMIT_TYPE.DYNAMIC,
   };
 };
 
-export const parseMemoryLimit = (limit?: string): MemoryLimit => {
-  if (limit?.includes("%") || !limit) {
+export const memoryLimitToPayload = (memoryLimit: MemoryLimit | undefined) => {
+  if (!memoryLimit?.value) {
+    return undefined;
+  }
+  return `${memoryLimit.value}${memoryLimit.unit}`;
+};
+
+export const parseMemoryLimit = (limit?: string): MemoryLimit | undefined => {
+  if (!limit) {
+    return undefined;
+  }
+  if (limit.includes("%") || !limit) {
     return {
       value: limit ? parseInt(limit) : undefined,
       unit: "%",
@@ -69,7 +85,7 @@ export const parseMemoryLimit = (limit?: string): MemoryLimit => {
     };
   }
   return {
-    value: limit ? parseInt(limit) : undefined,
+    value: parseInt(limit),
     unit: limit.replace(/[0-9]/g, "") as BYTES_UNITS,
     selectedType: MEM_LIMIT_TYPE.FIXED,
   };

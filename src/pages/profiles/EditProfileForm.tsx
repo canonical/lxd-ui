@@ -118,10 +118,9 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       snapshots_expiry: profile.config["snapshots.expiry"],
       snapshots_schedule: profile.config["snapshots.schedule"],
       snapshots_schedule_stopped: profile.config["snapshots.schedule.stopped"],
-      ["cloud-init_network-config"]:
-        profile.config["cloud-init.network-config"],
-      ["cloud-init_user-data"]: profile.config["cloud-init.user-data"],
-      ["cloud-init_vendor-data"]: profile.config["cloud-init.vendor-data"],
+      cloud_init_network_config: profile.config["cloud-init.network-config"],
+      cloud_init_user_data: profile.config["cloud-init.user-data"],
+      cloud_init_vendor_data: profile.config["cloud-init.vendor-data"],
     },
     validationSchema: ProfileSchema,
     onSubmit: (values) => {
@@ -211,9 +210,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
             )}
 
             {section === RESOURCE_LIMITS && (
-              <ResourceLimitsForm formik={formik}>
-                {overrideNotification}
-              </ResourceLimitsForm>
+              <ResourceLimitsForm formik={formik} />
             )}
 
             {section === SECURITY_POLICIES && (

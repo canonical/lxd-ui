@@ -5,6 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStorages } from "api/storages";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import OverrideField from "pages/instances/forms/OverrideField";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -33,7 +34,7 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
     formik.setFieldValue("devices", copy);
   };
 
-  const removeRootStorage = (index: number) => {
+  const removeRootStorage = () => {
     const copy = [...formik.values.devices];
     copy.splice(index, 1);
     formik.setFieldValue("devices", copy);
@@ -64,66 +65,46 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
     return size ? parseInt(size) : "";
   };
 
-  const isInstance = formik.values.type === "instance";
-
   return (
     <div className="device-form">
       {children}
       <Row>
         <Col size={8}>
-          <Select
+          <OverrideField
+            formik={formik}
             id="rootStorage"
-            label="Root storage"
+            label="Root storage pool"
             name="rootStorage"
-            onBlur={formik.handleBlur}
-            onChange={(e) => {
-              if (e.target.value === "configure" && !hasRootStorage) {
-                addRootStorage();
-              }
-              if (e.target.value === "inherit" && hasRootStorage) {
-                removeRootStorage(index);
-              }
-            }}
-            value={hasRootStorage ? "configure" : "inherit"}
-            options={[
-              {
-                label: isInstance ? "Inherit from profile" : "Default",
-                value: "inherit",
-              },
-              {
-                label: "Specify root storage",
-                value: "configure",
-              },
-            ]}
-            aria-label="Root storage"
-          />
-          {hasRootStorage && (
-            <>
-              <Select
-                id="rootStoragePool"
-                label="Root storage pool"
-                name={`devices.${index}.pool`}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={(formik.values.devices[index] as LxdDiskDevice).pool}
-                options={getStoragePoolOptions()}
-              />
-              <Input
-                id="sizeLimit"
-                label="Size limit in GB"
-                onBlur={formik.handleBlur}
-                onChange={(e) => {
-                  formik.setFieldValue(
-                    `devices.${index}.size`,
-                    e.target.value + "GB"
-                  );
-                }}
-                value={figureSizeValue()}
-                type="number"
-                placeholder="Enter number"
-              />
-            </>
-          )}
+            onOverride={addRootStorage}
+            onReset={removeRootStorage}
+            isSet={hasRootStorage}
+          >
+            {hasRootStorage && (
+              <div>
+                <Select
+                  id="rootStoragePool"label="Root storage pool"
+                  name={`devices.${index}.pool`}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={(formik.values.devices[index] as LxdDiskDevice).pool}
+                  options={getStoragePoolOptions()}
+                />
+                <Inputid="sizeLimit"
+                  label="Size limit in GB"
+                  onBlur={formik.handleBlur}
+                  onChange={(e) => {
+                    formik.setFieldValue(
+                      `devices.${index}.size`,
+                      e.target.value + "GB"
+                    );
+                  }}
+                  value={figureSizeValue()}
+                  type="number"
+                  placeholder="Enter number"
+                />
+              </div>
+            )}
+          </OverrideField>
         </Col>
       </Row>
     </div>
