@@ -48,11 +48,13 @@ export const updateInstance = (body: string, project: string) => {
   const instance = JSON.parse(body) as LxdInstance;
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${project}`, {
-      method: "PATCH",
+      method: "PUT",
       body: body,
     })
       .then(handleResponse)
-      .then(resolve)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation, 120).then(resolve).catch(reject);
+      })
       .catch(reject);
   });
 };

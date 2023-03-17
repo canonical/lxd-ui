@@ -120,10 +120,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       snapshots_expiry: instance.config["snapshots.expiry"],
       snapshots_schedule: instance.config["snapshots.schedule"],
       snapshots_schedule_stopped: instance.config["snapshots.schedule.stopped"],
-      ["cloud-init_network-config"]:
-        instance.config["cloud-init.network-config"],
-      ["cloud-init_user-data"]: instance.config["cloud-init.user-data"],
-      ["cloud-init_vendor-data"]: instance.config["cloud-init.vendor-data"],
+      cloud_init_network_config: instance.config["cloud-init.network-config"],
+      cloud_init_user_data: instance.config["cloud-init.user-data"],
+      cloud_init_vendor_data: instance.config["cloud-init.vendor-data"],
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
@@ -148,6 +147,12 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   });
 
   const getPayload = (values: EditInstanceFormValues) => {
+    const volatileKeys = Object.fromEntries(
+      Object.entries(instance.config).filter(([key]) =>
+        key.startsWith("volatile.")
+      )
+    );
+
     return {
       ...instanceEditDetailPayload(values),
       devices: formDeviceToPayload(values.devices),
@@ -156,6 +161,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...cloudInitPayload(values),
+        ...volatileKeys,
       },
     };
   };
@@ -221,22 +227,14 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
             )}
 
             {section === RESOURCE_LIMITS && (
-              <ResourceLimitsForm formik={formik}>
-                {overrideNotification}
-              </ResourceLimitsForm>
+              <ResourceLimitsForm formik={formik} />
             )}
 
             {section === SECURITY_POLICIES && (
-              <SecurityPoliciesForm formik={formik}>
-                {overrideNotification}
-              </SecurityPoliciesForm>
+              <SecurityPoliciesForm formik={formik} />
             )}
 
-            {section === SNAPSHOTS && (
-              <SnapshotsForm formik={formik}>
-                {overrideNotification}
-              </SnapshotsForm>
-            )}
+            {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

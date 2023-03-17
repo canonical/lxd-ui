@@ -9,12 +9,12 @@ interface Props {
 
 const CloudInitConfig: FC<Props> = ({ title, config, setConfig }) => {
   return (
-    <>
+    <div>
       <h5>
         <code>{title}</code>
       </h5>
       <YamlForm yaml={config} setYaml={setConfig} autoResize={true} />
-    </>
+    </div>
   );
 };
 

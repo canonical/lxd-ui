@@ -5,16 +5,18 @@ import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import classnames from "classnames";
-import { cpuLimitToPayload } from "util/limits";
+import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
 import { booleanFields } from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
+import OverrideField from "pages/instances/forms/OverrideField";
+import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 
 export interface ResourceLimitsFormValues {
-  limits_cpu: CpuLimit;
-  limits_memory: MemoryLimit;
+  limits_cpu?: CpuLimit;
+  limits_memory?: MemoryLimit;
   limits_memory_swap?: string;
   limits_disk_priority?: number;
   limits_processes?: number;
@@ -23,9 +25,7 @@ export interface ResourceLimitsFormValues {
 export const resourceLimitsPayload = (values: SharedFormTypes) => {
   return {
     ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
-    ["limits.memory"]: values.limits_memory.value
-      ? `${values.limits_memory.value}${values.limits_memory.unit}`
-      : undefined,
+    ["limits.memory"]: memoryLimitToPayload(values.limits_memory),
     ["limits.memory.swap"]: values.limits_memory_swap,
     ["limits.disk.priority"]: values.limits_disk_priority?.toString(),
     ["limits.processes"]: values.limits_processes?.toString(),
@@ -48,56 +48,90 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
       {children}
       <Row>
         <Col size={8}>
-          <CpuLimitSelector
-            cpuLimit={formik.values.limits_cpu}
-            setCpuLimit={(cpuLimit) => {
-              formik.setFieldValue("limits_cpu", cpuLimit);
-            }}
-          />
+          <OverrideField
+            formik={formik}
+            name="limits_cpu"
+            label="Exposed CPUs"
+            defaultValue={DEFAULT_CPU_LIMIT}
+          >
+            <CpuLimitSelector
+              cpuLimit={formik.values.limits_cpu}
+              setCpuLimit={(cpuLimit) => {
+                formik.setFieldValue("limits_cpu", cpuLimit);
+              }}
+            />
+          </OverrideField>
           <hr />
-          <MemoryLimitSelector
-            memoryLimit={formik.values.limits_memory}
-            setMemoryLimit={(memoryLimit) =>
-              formik.setFieldValue("limits_memory", memoryLimit)
-            }
-          />
-          <Select
-            id="limitsMemorySwap"
-            label="Memory swap (Containers only)"
+          <OverrideField
+            formik={formik}
+            name="limits_memory"
+            label="Memory limit"
+            defaultValue={DEFAULT_MEM_LIMIT}
+          >
+            <MemoryLimitSelector
+              memoryLimit={formik.values.limits_memory}
+              setMemoryLimit={(memoryLimit) =>
+                formik.setFieldValue("limits_memory", memoryLimit)
+              }
+            />
+          </OverrideField>
+          <OverrideField
+            formik={formik}
             name="limits_memory_swap"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            options={booleanFields(isInstance)}
-            value={formik.values.limits_memory_swap}
+            label="Memory swap (Containers only)"
+            defaultValue="true"
             disabled={isContainerOnlyDisabled}
-          />
+          >
+            <Select
+              id="limitsMemorySwap"label="Memory swap (Containers only)"
+              name="limits_memory_swap"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              options={booleanFields}
+              value={formik.values.limits_memory_swap}
+              disabled={isContainerOnlyDisabled}
+            />
+          </OverrideField>
           <hr />
-          <Input
-            id="limitsDiskPriority"
-            label="Disk priority"
+          <OverrideField
+            formik={formik}
             name="limits_disk_priority"
-            placeholder="Enter number"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.limits_disk_priority}
-            type="number"
-            help="Controls how much priority to give to the instance’s I/O requests when under load (integer between 0 and 10)"
-          />
+            label="Disk priority"
+            defaultValue="true"
+          >
+            <Input
+              id="limitsDiskPriority"label="Disk priority"
+              name="limits_disk_priority"
+              placeholder="Enter number"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.limits_disk_priority}
+              type="number"
+              help="Controls how much priority to give to the instance’s I/O requests when under load (integer between 0 and 10)"
+            />
+          </OverrideField>
           <hr />
-          <Input
-            id="limitsProcesses"
-            label="Max number of processes (Containers only)"
+          <OverrideField
+            formik={formik}
             name="limits_processes"
-            placeholder="Enter number"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.limits_processes}
-            type="number"
+            label="Max number of processes (Containers only)"
+            defaultValue="true"
             disabled={isContainerOnlyDisabled}
-            labelClassName={classnames({
-              "is-disabled": isContainerOnlyDisabled,
-            })}
-          />
+          >
+            <Input
+              id="limitsProcesses"label="Max number of processes (Containers only)"
+              name="limits_processes"
+              placeholder="Enter number"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.limits_processes}
+              type="number"
+              disabled={isContainerOnlyDisabled}
+              labelClassName={classnames({
+                "is-disabled": isContainerOnlyDisabled,
+              })}
+            />
+          </OverrideField>
         </Col>
       </Row>
     </>

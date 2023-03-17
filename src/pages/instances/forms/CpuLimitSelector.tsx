@@ -8,12 +8,15 @@ import Loader from "components/Loader";
 import { useNotify } from "context/notify";
 
 interface Props {
-  cpuLimit: CpuLimit;
+  cpuLimit?: CpuLimit;
   setCpuLimit: (cpuLimit: CpuLimit) => void;
 }
 
 const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
   const notify = useNotify();
+  if (!cpuLimit) {
+    return null;
+  }
 
   const {
     data: resources,
@@ -40,7 +43,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
   );
 
   return (
-    <>
+    <div>
       <div className="cpu-limit-label">
         <Label className="grow" forId="cpuLimit">
           Exposed CPUs
@@ -88,7 +91,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           help={helpText}
         />
       )}
-    </>
+    </div>
   );
 };
 
