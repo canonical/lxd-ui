@@ -83,7 +83,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             disabled={isContainerOnlyDisabled}
           >
             <Select
-              id="limitsMemorySwap"label="Memory swap (Containers only)"
+              id="limitsMemorySwap"
+              label="Memory swap (Containers only)"
               name="limits_memory_swap"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -100,7 +101,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             defaultValue="true"
           >
             <Input
-              id="limitsDiskPriority"label="Disk priority"
+              id="limitsDiskPriority"
+              label="Disk priority"
               name="limits_disk_priority"
               placeholder="Enter number"
               onBlur={formik.handleBlur}
@@ -119,7 +121,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik, children }) => {
             disabled={isContainerOnlyDisabled}
           >
             <Input
-              id="limitsProcesses"label="Max number of processes (Containers only)"
+              id="limitsProcesses"
+              label="Max number of processes (Containers only)"
               name="limits_processes"
               placeholder="Enter number"
               onBlur={formik.handleBlur}

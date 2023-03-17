@@ -51,7 +51,8 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             defaultValue=""
           >
             <Input
-              id="snapshotsPattern"label="Snapshot name pattern"
+              id="snapshotsPattern"
+              label="Snapshot name pattern"
               placeholder="Enter name pattern"
               help={
                 <>
@@ -81,7 +82,8 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             defaultValue=""
           >
             <Input
-              id="snapshotsExpiry"label="Expire after"
+              id="snapshotsExpiry"
+              label="Expire after"
               name="snapshots_expiry"
               placeholder="Enter expiration expression"
               help="Controls when snapshots are to be deleted (expects an expression like 1M 2H 3d 4w 5m 6y)"
@@ -98,7 +100,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
             defaultValue="false"
           >
             <Select
-            id="snapshotsScheduleStopped"
+              id="snapshotsScheduleStopped"
               label="Snapshot stopped instances"
               name="snapshots_schedule_stopped"
               onBlur={formik.handleBlur}
@@ -136,7 +138,8 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
               </div>
               {cronSyntax ? (
                 <Input
-                  id="snapshotsSchedule"label="Schedule in cron syntax"
+                  id="snapshotsSchedule"
+                  label="Schedule in cron syntax"
                   name="snapshots_schedule"
                   placeholder="Enter cron expression"
                   help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
@@ -147,7 +150,8 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
                 />
               ) : (
                 <>
-                  <Selectid="snapshotsSchedule"
+                  <Select
+                    id="snapshotsSchedule"
                     label="Every"
                     name="snapshots_schedule"
                     value={formik.values.snapshots_schedule}

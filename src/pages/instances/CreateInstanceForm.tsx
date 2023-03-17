@@ -56,7 +56,7 @@ import InstanceFormMenu, {
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import StorageForm from "pages/instances/forms/StorageForm";
+import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
@@ -281,9 +281,9 @@ const CreateInstanceForm: FC = () => {
                 )}
 
                 {section === STORAGE && (
-                  <StorageForm formik={formik} project={project}>
+                  <RootStorageForm formik={formik} project={project}>
                     {overrideNotification}
-                  </StorageForm>
+                  </RootStorageForm>
                 )}
 
                 {section === NETWORKS && (
