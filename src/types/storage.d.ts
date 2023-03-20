@@ -1,24 +1,12 @@
 export interface LxdStorage {
-  config?: {
-    size?: string;
-    source?: string;
+  config: {
+    "volume.block.filesystem": string;
+    "volume.size": string;
   };
   description: string;
   driver: string;
-  locations?: string[];
+  locations: string[];
   name: string;
-  source?: string;
-  status?: string;
+  status: string;
   used_by?: string[];
-}
-
-export interface LxdStorageResources {
-  inodes: {
-    used: number;
-    total: number;
-  };
-  space: {
-    used: number;
-    total: number;
-  };
 }

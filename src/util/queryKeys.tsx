@@ -9,7 +9,6 @@ export const queryKeys = {
   networks: "networks",
   profiles: "profiles",
   projects: "projects",
-  resources: "resources",
   storage: "storage",
   settings: "settings",
   warnings: "warnings",
