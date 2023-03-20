@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import YamlEditor from "@focus-reactive/react-yaml";
+import Editor from "@monaco-editor/react";
 
 export interface YamlFormValues {
   yaml?: string;
@@ -9,14 +9,15 @@ interface Props {
   yaml: string;
   setYaml: (text: string) => void;
   children?: ReactNode;
+  height: string
 }
 
-const YamlForm: FC<Props> = ({ yaml, setYaml, children }) => {
+const YamlForm: FC<Props> = ({ yaml, setYaml, children, height = "32rem" }) => {
   return (
     <>
       {children}
       <div>
-        <YamlEditor text={yaml} onChange={({ text }) => setYaml(text)} />
+        <Editor defaultValue={yaml} language="yaml" onChange={(value) => setYaml(value!)} height={height} />
       </div>
     </>
   );
