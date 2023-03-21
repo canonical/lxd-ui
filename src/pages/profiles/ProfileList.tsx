@@ -15,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { isDiskDevice, isNicDevice } from "util/devices";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -46,12 +47,8 @@ const ProfileList: FC = () => {
   ];
 
   const rows = profiles.map((profile) => {
-    const touchesNetwork = Object.values(profile.devices).some(
-      (device) => device.type === "nic"
-    );
-    const touchesStorage = Object.values(profile.devices).some(
-      (device) => device.type === "disk"
-    );
+    const touchesNetwork = Object.values(profile.devices).some(isNicDevice);
+    const touchesStorage = Object.values(profile.devices).some(isDiskDevice);
     const touchesCloudInit = Object.keys(profile.config).some((config) =>
       config.startsWith("cloud-init")
     );
