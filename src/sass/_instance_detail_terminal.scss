@@ -1,0 +1,8 @@
+.instance-terminal-tab {
+  .p-panel__controls {
+    display: flex;
+    justify-content: end;
+    margin-bottom: $spv--large;
+    padding-top: 0;
+  }
+}

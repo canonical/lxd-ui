@@ -132,7 +132,7 @@ const InstanceDetail: FC = () => {
 
               {activeTab === "terminal" && (
                 <div role="tabpanel" aria-labelledby="terminal">
-                  <InstanceTerminal controlTarget={controlTarget} />
+                  <InstanceTerminal />
                 </div>
               )}
 

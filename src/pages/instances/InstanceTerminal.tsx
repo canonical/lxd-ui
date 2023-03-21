@@ -8,9 +8,17 @@ import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { LxdTerminalPayload } from "types/terminal";
-import { createPortal } from "react-dom";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
+import { Notification } from "types/notification";
+import NotificationRowLegacy from "components/NotificationRowLegacy";
+import { failure } from "context/notify";
+import { updateMaxHeight } from "util/updateMaxHeight";
+
+const XTERM_OPTIONS = {
+  theme: {
+    background: "#292c2f",
+  },
+};
 
 const defaultPayload = {
   command: ["bash"],
@@ -24,18 +32,15 @@ const defaultPayload = {
   user: 1000,
 };
 
-interface Props {
-  controlTarget?: HTMLSpanElement | null;
-}
-
-const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
-  const notify = useNotify();
+const InstanceTerminal: FC = () => {
   const { name, project } = useParams<{
     name: string;
     project: string;
   }>();
   const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
+  const [inTabNotification, setInTabNotification] =
+    useState<Notification | null>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
@@ -47,17 +52,17 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
 
   const handleReconnect = (payload: LxdTerminalPayload) => {
     xtermRef.current?.terminal.clear();
-    notify.clear();
+    setInTabNotification(null);
     setPayload(payload);
   };
 
   const openWebsockets = async (payload: LxdTerminalPayload) => {
     if (!name) {
-      notify.failure("Missing name", new Error());
+      setInTabNotification(failure("Missing name", new Error()));
       return;
     }
     if (!project) {
-      notify.failure("Missing project", new Error());
+      setInTabNotification(failure("Missing project", new Error()));
       return;
     }
 
@@ -65,7 +70,7 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
     const result = await connectInstanceExec(name, project, payload).catch(
       (e) => {
         setLoading(false);
-        notify.failure("Could not open terminal session.", e);
+        setInTabNotification(failure("Could not open terminal session.", e));
       }
     );
     if (!result) {
@@ -84,16 +89,19 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
     };
 
     control.onerror = (e) => {
-      notify.failure("There was an error with the control websocket", e);
+      setInTabNotification(
+        failure("There was an error with the control websocket", e)
+      );
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event.reason);
+        setInTabNotification(failure(getWsErrorMsg(event.code), event.reason));
       }
       setControlWs(null);
     };
 
+    // TODO: remove this and other console.log calls
     control.onmessage = (message) => {
       console.log("control message", message);
     };
@@ -103,12 +111,14 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
     };
 
     data.onerror = (e) => {
-      notify.failure("There was an error with data websocket", e);
+      setInTabNotification(
+        failure("There was an error with data websocket", e)
+      );
     };
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event.reason);
+        setInTabNotification(failure(getWsErrorMsg(event.code), event.reason));
       }
       setDataWs(null);
     };
@@ -143,6 +153,8 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
       return;
     }
 
+    updateMaxHeight("p-terminal", undefined, 10);
+
     xtermRef.current?.terminal.element?.style.setProperty("padding", "1rem");
 
     // ensure options is not undefined. fitAddon.fit will crash otherwise
@@ -166,20 +178,25 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
     );
   };
 
-  useEventListener("resize", handleResize);
+  // calling handleResize again after a timeout to fix a race condition
+  // between updateMaxHeight and fitAddon.fit
+  useEventListener("resize", () => {
+    handleResize();
+    setTimeout(handleResize, 500);
+  });
   useLayoutEffect(() => {
     handleResize();
   }, [controlWs, fitAddon, xtermRef]);
 
   return (
-    <>
-      {controlTarget &&
-        createPortal(
-          <>
-            <ReconnectTerminalBtn onFinish={handleReconnect} />
-          </>,
-          controlTarget
-        )}
+    <div className="instance-terminal-tab">
+      <div className="p-panel__controls">
+        <ReconnectTerminalBtn onFinish={handleReconnect} />
+      </div>
+      <NotificationRowLegacy
+        notification={inTabNotification}
+        onDismiss={() => setInTabNotification(null)}
+      />
       {isLoading && <Loader text="Loading terminal session..." />}
       {controlWs && (
         <XTerm
@@ -189,9 +206,10 @@ const InstanceTerminal: FC<Props> = ({ controlTarget }) => {
           onData={(data) => {
             dataWs?.send(textEncoder.encode(data));
           }}
+          options={XTERM_OPTIONS}
         />
       )}
-    </>
+    </div>
   );
 };
 
