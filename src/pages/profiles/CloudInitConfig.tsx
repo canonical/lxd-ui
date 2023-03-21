@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
+import YamlForm from "pages/instances/forms/YamlForm";
 
 interface Props {
   title: string;
@@ -10,11 +10,10 @@ interface Props {
 const CloudInitConfig: FC<Props> = ({ title, config, setConfig }) => {
   return (
     <>
-      <YamlForm yaml={config} setYaml={setConfig} autoResize={true}>
-        <h5>
-          <code>{title}</code>
-        </h5>
-      </YamlForm>
+      <h5>
+        <code>{title}</code>
+      </h5>
+      <YamlForm yaml={config} setYaml={setConfig} autoResize={true} />
     </>
   );
 };
