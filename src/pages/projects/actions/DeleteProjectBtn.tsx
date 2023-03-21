@@ -41,8 +41,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     <ConfirmationButton
       className="u-no-margin--bottom"
       isLoading={isLoading}
-      iconClass="p-icon--delete"
-      iconDescription="Delete"
+      icon="delete"
       title="Confirm delete"
       toggleCaption="Delete"
       confirmationMessage={`Are you sure you want to delete the project "${project.name}"? This action cannot be undone, and can result in data loss.`}

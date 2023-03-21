@@ -1,13 +1,13 @@
 import React, { FC, MouseEvent, ReactNode } from "react";
-import { Button } from "@canonical/react-components";
+import { Button, Icon, ICONS, ValueOf } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import ConfirmationModal from "./ConfirmationModal";
+import classnames from "classnames";
 
 interface Props {
   className?: string;
   isLoading?: boolean;
-  iconClass?: string;
-  iconDescription?: string;
+  icon?: ValueOf<typeof ICONS> | string;
   title: string;
   toggleAppearance?: string;
   toggleCaption?: string;
@@ -23,8 +23,7 @@ interface Props {
 const ConfirmationButton: FC<Props> = ({
   className,
   isLoading = false,
-  iconClass = null,
-  iconDescription = null,
+  icon = null,
   title,
   toggleAppearance = "",
   toggleCaption,
@@ -58,11 +57,7 @@ const ConfirmationButton: FC<Props> = ({
     }
   };
 
-  const visibleIcon = iconClass
-    ? isLoading
-      ? "p-icon--spinner u-animation--spin"
-      : iconClass
-    : undefined;
+  const iconName = icon ? (isLoading ? "spinner" : icon) : undefined;
 
   return (
     <>
@@ -80,7 +75,7 @@ const ConfirmationButton: FC<Props> = ({
       )}
       <Button
         appearance={toggleAppearance}
-        hasIcon={!!visibleIcon}
+        hasIcon={!!iconName}
         className={className}
         dense={isDense}
         disabled={isDisabled}
@@ -89,7 +84,12 @@ const ConfirmationButton: FC<Props> = ({
         title={posButtonLabel}
         type="button"
       >
-        {visibleIcon && <i className={visibleIcon}>{iconDescription}</i>}
+        {iconName && (
+          <Icon
+            className={classnames({ "u-animation--spin": isLoading })}
+            name={iconName}
+          />
+        )}
         {toggleCaption && <span>{toggleCaption}</span>}
       </Button>
     </>

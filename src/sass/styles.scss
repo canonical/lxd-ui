@@ -22,6 +22,8 @@
 @include vf-p-icon-import;
 @include vf-p-icon-machines;
 @include vf-p-icon-open-terminal;
+@include vf-p-icon-pause;
+@include vf-p-icon-play;
 @include vf-p-icon-pods;
 @include vf-p-icon-power-off;
 @include vf-p-icon-priority-low;
@@ -34,6 +36,7 @@
 @include vf-p-icon-status-queued-small;
 @include vf-p-icon-status-succeeded-small;
 @include vf-p-icon-status-waiting-small;
+@include vf-p-icon-stop;
 @include vf-p-icon-switcher-environments;
 @include vf-p-icon-task-outstanding;
 @include vf-p-icon-video-play;
@@ -121,10 +124,14 @@ $border-thin: 1px solid $color-mid-light !default;
 
 .actions-list {
   display: inline-block;
+  min-width: 8.5rem;
 
   * {
     border-right: $border-thin;
     margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 44px;
   }
 
   *:last-child {

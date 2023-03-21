@@ -52,7 +52,7 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
     <ConfirmationButton
       toggleAppearance="base"
       isLoading={isLoading}
-      iconClass="p-icon--pause-instance"
+      icon="pause"
       title="Confirm pause"
       confirmationMessage={`Are you sure you want to pause instance "${instance.name}"?`}
       posButtonLabel="Pause"

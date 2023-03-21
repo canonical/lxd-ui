@@ -34,8 +34,7 @@ const DeleteImageBtn: FC<Props> = ({ image }) => {
   return (
     <ConfirmationButton
       isLoading={isLoading}
-      iconClass="p-icon--delete"
-      iconDescription="Delete"
+      icon="delete"
       title="Confirm delete"
       confirmationMessage={`Are you sure you want to delete image "${image.properties.description}"? This action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
