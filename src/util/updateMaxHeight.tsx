@@ -1,12 +1,20 @@
-export const updateMaxHeight = (targetClass: string, bottomClass: string) => {
+export const updateMaxHeight = (
+  targetClass: string,
+  bottomClass?: string,
+  additionalOffset = 0
+) => {
   const elements = document.getElementsByClassName(targetClass);
-  const belowElements = document.getElementsByClassName(bottomClass);
-  if (elements.length !== 1 || belowElements.length !== 1) {
+  const belowElements = bottomClass
+    ? document.getElementsByClassName(bottomClass)
+    : null;
+  if (elements.length !== 1 || (belowElements && belowElements.length !== 1)) {
     return;
   }
   const above = elements[0].getBoundingClientRect().top + 1;
-  const below = belowElements[0].getBoundingClientRect().height + 1;
-  const offset = Math.ceil(above + below);
+  const below = belowElements
+    ? belowElements[0].getBoundingClientRect().height + 1
+    : 0;
+  const offset = Math.ceil(above + below + additionalOffset);
   const style = `height: calc(100vh - ${offset}px)`;
   elements[0].setAttribute("style", style);
 };

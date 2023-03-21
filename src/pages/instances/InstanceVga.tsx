@@ -67,6 +67,7 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
       }
     };
 
+    // TODO: remove this and other console.log calls
     control.onmessage = (message) => {
       console.log("control message", message);
     };
