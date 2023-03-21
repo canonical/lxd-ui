@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import YamlEditor from "@focus-reactive/react-yaml";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 
 interface Props {
