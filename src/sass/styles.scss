@@ -131,6 +131,31 @@ $border-thin: 1px solid $color-mid-light !default;
   }
 }
 
+.override-table {
+  width: 45rem;
+
+  .override {
+    width: 5rem;
+  }
+
+  .config {
+    width: 10rem;
+  }
+
+  .value {
+    width: 20rem;
+  }
+
+  .defined {
+    width: 10rem;
+  }
+
+  label {
+    margin-bottom: 0;
+    padding-top: 0;
+  }
+}
+
 @include mobile-and-tablet {
   .u-certificate-button {
     margin-left: 2.5rem;

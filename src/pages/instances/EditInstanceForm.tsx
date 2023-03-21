@@ -215,9 +215,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
             )}
 
             {section === STORAGE && (
-              <RootStorageForm formik={formik} project={project}>
-                {overrideNotification}
-              </RootStorageForm>
+              <RootStorageForm formik={formik} project={project} />
             )}
 
             {section === NETWORKS && (

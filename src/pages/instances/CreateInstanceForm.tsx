@@ -281,9 +281,7 @@ const CreateInstanceForm: FC = () => {
                 )}
 
                 {section === STORAGE && (
-                  <RootStorageForm formik={formik} project={project}>
-                    {overrideNotification}
-                  </RootStorageForm>
+                  <RootStorageForm formik={formik} project={project} />
                 )}
 
                 {section === NETWORKS && (

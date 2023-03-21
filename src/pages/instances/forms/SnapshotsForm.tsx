@@ -1,17 +1,13 @@
 import React, { FC, ReactNode, useState } from "react";
-import {
-  Col,
-  Input,
-  RadioInput,
-  Row,
-  Select,
-} from "@canonical/react-components";
+import { Input, RadioInput, Select } from "@canonical/react-components";
 import { booleanFields } from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import OverrideField from "pages/instances/forms/OverrideField";
+import { getOverrideRow } from "pages/instances/forms/OverrideRow";
+import OverrideTable from "pages/instances/forms/OverrideTable";
+import { snapshotOptions } from "util/snapshotOptions";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -34,25 +30,23 @@ interface Props {
   children?: ReactNode;
 }
 
-const SnapshotsForm: FC<Props> = ({ formik, children }) => {
+const SnapshotsForm: FC<Props> = ({ formik }) => {
   const [cronSyntax, setCronSyntax] = useState(
     !formik.values.snapshots_schedule?.startsWith("@")
   );
 
   return (
-    <>
-      {children}
-      <Row>
-        <Col size={8}>
-          <OverrideField
-            formik={formik}
-            label="Snapshot name pattern"
-            name="snapshots_pattern"
-            defaultValue=""
-          >
+    <OverrideTable
+      rows={[
+        getOverrideRow({
+          formik: formik,
+          label: "Snapshot name pattern",
+          name: "snapshots_pattern",
+          defaultValue: "",
+          children: (
             <Input
-              id="snapshotsPattern"
-              label="Snapshot name pattern"
+              id="snapshots_pattern"
+              name="snapshots_pattern"
               placeholder="Enter name pattern"
               help={
                 <>
@@ -68,22 +62,22 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
                   </a>
                 </>
               }
-              name="snapshots_pattern"
               type="text"
               value={formik.values.snapshots_pattern}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              autoFocus
             />
-          </OverrideField>
-          <OverrideField
-            formik={formik}
-            label="Expire after"
-            name="snapshots_expiry"
-            defaultValue=""
-          >
+          ),
+        }),
+        getOverrideRow({
+          formik: formik,
+          label: "Expire after",
+          name: "snapshots_expiry",
+          defaultValue: "",
+          children: (
             <Input
-              id="snapshotsExpiry"
-              label="Expire after"
+              id="snapshots_expiry"
               name="snapshots_expiry"
               placeholder="Enter expiration expression"
               help="Controls when snapshots are to be deleted (expects an expression like 1M 2H 3d 4w 5m 6y)"
@@ -91,31 +85,33 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
               value={formik.values.snapshots_expiry}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              autoFocus
             />
-          </OverrideField>
-          <OverrideField
-            formik={formik}
-            label="Snapshot stopped instances"
-            name="snapshots_schedule_stopped"
-            defaultValue="false"
-          >
+          ),
+        }),
+        getOverrideRow({
+          formik: formik,
+          label: "Snapshot stopped instances",
+          name: "snapshots_schedule_stopped",
+          defaultValue: "false",
+          children: (
             <Select
-              id="snapshotsScheduleStopped"
-              label="Snapshot stopped instances"
+              id="snapshots_schedule_stopped"
               name="snapshots_schedule_stopped"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               options={booleanFields}
               value={formik.values.snapshots_schedule_stopped}
+              autoFocus
             />
-          </OverrideField>
-          <hr />
-          <OverrideField
-            formik={formik}
-            label="Schedule in cron syntax"
-            name="snapshots_schedule"
-            defaultValue=""
-          >
+          ),
+        }),
+        getOverrideRow({
+          formik: formik,
+          label: "Schedule",
+          name: "snapshots_schedule",
+          defaultValue: "",
+          children: (
             <div>
               <div className="snapshot-schedule">
                 <RadioInput
@@ -138,8 +134,7 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
               </div>
               {cronSyntax ? (
                 <Input
-                  id="snapshotsSchedule"
-                  label="Schedule in cron syntax"
+                  id="snapshots_schedule"
                   name="snapshots_schedule"
                   placeholder="Enter cron expression"
                   help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
@@ -147,50 +142,25 @@ const SnapshotsForm: FC<Props> = ({ formik, children }) => {
                   value={formik.values.snapshots_schedule}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
+                  autoFocus
                 />
               ) : (
-                <>
-                  <Select
-                    id="snapshotsSchedule"
-                    label="Every"
-                    name="snapshots_schedule"
-                    value={formik.values.snapshots_schedule}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    options={[
-                      {
-                        label: "minute",
-                        value: "* * * * *",
-                      },
-                      {
-                        label: "hour",
-                        value: "@hourly",
-                      },
-                      {
-                        label: "day",
-                        value: "@daily",
-                      },
-                      {
-                        label: "week",
-                        value: "@weekly",
-                      },
-                      {
-                        label: "month",
-                        value: "@monthly",
-                      },
-                      {
-                        label: "year",
-                        value: "@yearly",
-                      },
-                    ]}
-                  />
-                </>
+                <Select
+                  id="snapshots_schedule"
+                  label="Every"
+                  name="snapshots_schedule"
+                  value={formik.values.snapshots_schedule}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  options={snapshotOptions}
+                  autoFocus
+                />
               )}
             </div>
-          </OverrideField>
-        </Col>
-      </Row>
-    </>
+          ),
+        }),
+      ]}
+    />
   );
 };
 

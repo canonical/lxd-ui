@@ -179,13 +179,6 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     return dumpYaml(bareProfile);
   };
 
-  const overrideNotification = (
-    <Notification severity="caution" title="Before you add configurations">
-      The custom configuration overrides any settings specified through
-      profiles.
-    </Notification>
-  );
-
   return (
     <div className="edit-profile">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
@@ -214,16 +207,10 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
             )}
 
             {section === SECURITY_POLICIES && (
-              <SecurityPoliciesForm formik={formik}>
-                {overrideNotification}
-              </SecurityPoliciesForm>
+              <SecurityPoliciesForm formik={formik} />
             )}
 
-            {section === SNAPSHOTS && (
-              <SnapshotsForm formik={formik}>
-                {overrideNotification}
-              </SnapshotsForm>
-            )}
+            {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
