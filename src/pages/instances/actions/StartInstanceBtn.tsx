@@ -3,10 +3,11 @@ import { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { startInstance, unfreezeInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
-import { Button } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
+import classnames from "classnames";
 
 interface Props {
   instance: LxdInstance;
@@ -62,12 +63,9 @@ const StartInstanceBtn: FC<Props> = ({ instance }) => {
       aria-label={isLoading ? "Starting" : "Start"}
       title="Start"
     >
-      <i
-        className={
-          isLoading
-            ? "p-icon--spinner u-animation--spin"
-            : "p-icon--start-instance"
-        }
+      <Icon
+        className={classnames({ "u-animation--spin": isLoading })}
+        name={isLoading ? "spinner" : "play"}
       />
     </Button>
   );

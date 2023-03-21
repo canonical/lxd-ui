@@ -1,10 +1,62 @@
 .instance-detail-page {
+  .p-panel__title {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+
+    @include large {
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .p-breadcrumbs {
+      margin-bottom: 0;
+      width: inherit;
+
+      .p-breadcrumbs__items {
+        margin-bottom: 0;
+      }
+
+      .p-breadcrumbs__item {
+        font-size: #{map.get($font-sizes, h4-mobile)}rem;
+        line-height: 2rem;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      .p-breadcrumbs__item:first-of-type {
+        margin-right: $sp-x-small;
+      }
+    }
+
+    .instance-name {
+      margin-right: $sph--x-small;
+      max-width: 33vw;
+      overflow: clip !important;
+    }
+
+    .actions-list {
+      margin: 0 $sph--large;
+    }
+  }
+
+  .p-panel__controls {
+    margin-top: 0.2rem;
+
+    .delete-instance-btn {
+      margin: 0;
+      padding-left: $sph--x-large;
+      padding-right: $sph--x-large;
+    }
+  }
+
   .p-tabs__list {
     margin-bottom: $spv--large !important;
   }
 
   .p-panel__content {
+    margin-top: -$spv--medium;
     padding-bottom: 0;
-    padding-top: $spv--large;
   }
 }

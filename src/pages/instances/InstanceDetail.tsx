@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { List, Row, Tabs } from "@canonical/react-components";
+import { Row, Tabs } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
 import NotificationRow from "components/NotificationRow";
 import { useNotify } from "context/notify";
@@ -71,18 +71,31 @@ const InstanceDetail: FC = () => {
     <main className="l-main">
       <div className="p-panel instance-detail-page">
         <div className="p-panel__header">
+          <h1 className="u-off-screen">{name}</h1>
           {instance ? (
-            <List
-              className="p-panel__title"
-              inline
-              items={[
-                <span key="name">{name}</span>,
-                <i key="status" className="p-text--small">
-                  {instance.status}
-                </i>,
-                <InstanceStateActions key="state" instance={instance} />,
-              ]}
-            />
+            <div className="p-panel__title">
+              <nav
+                key="breadcrumbs"
+                className="p-breadcrumbs"
+                aria-label="Breadcrumbs"
+              >
+                <ol className="p-breadcrumbs__items">
+                  <li className="p-breadcrumbs__item">
+                    <Link to={`/ui/${project}/instances`}>Instances</Link>
+                  </li>
+                  <li
+                    className="p-breadcrumbs__item instance-name u-truncate"
+                    title={name}
+                  >
+                    {name}
+                  </li>
+                </ol>
+              </nav>
+              <div>
+                <i className="u-text--muted">({instance.status})</i>
+                <InstanceStateActions key="state" instance={instance} />
+              </div>
+            </div>
           ) : (
             <h4 className="p-panel__title">{name}</h4>
           )}

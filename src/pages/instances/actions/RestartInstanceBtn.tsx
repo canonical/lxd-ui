@@ -55,7 +55,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
     <ConfirmationButton
       toggleAppearance="base"
       isLoading={isLoading}
-      iconClass="p-icon--restart-instance"
+      icon="restart"
       title="Confirm restart"
       confirmationMessage={`Are you sure you want to restart instance "${instance.name}"?`}
       confirmationExtra={

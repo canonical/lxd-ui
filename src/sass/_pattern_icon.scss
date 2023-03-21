@@ -8,35 +8,3 @@
     @include lxdui-icon-sidebar-collapse;
   }
 }
-
-.p-icon--start-instance {
-  background-image: url("https://assets.ubuntu.com/v1/169dd804-state=start.svg");
-  background-position: center;
-  display: inline-block;
-  min-height: 1rem;
-  min-width: 1rem;
-}
-
-.p-icon--stop-instance {
-  background-image: url("https://assets.ubuntu.com/v1/651b51a3-state=stop.svg");
-  background-position: center;
-  display: inline-block;
-  min-height: 1rem;
-  min-width: 1rem;
-}
-
-.p-icon--pause-instance {
-  background-image: url("https://assets.ubuntu.com/v1/24df595c-state=pause.svg");
-  background-position: center;
-  display: inline-block;
-  min-height: 1rem;
-  min-width: 1rem;
-}
-
-.p-icon--restart-instance {
-  background-image: url("https://assets.ubuntu.com/v1/d205cd5a-state=state4.svg");
-  background-position: center;
-  display: inline-block;
-  min-height: 1rem;
-  min-width: 1rem;
-}

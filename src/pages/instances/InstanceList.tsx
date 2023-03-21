@@ -159,7 +159,7 @@ const InstanceList: FC = () => {
       { content: STATUS, sortKey: "status", className: "status-header status" },
       {
         "aria-label": "Actions",
-        className: "actions",
+        className: classnames("actions", { "u-hide": panelParams.instance }),
       },
     ].filter(
       (item) =>
@@ -256,8 +256,10 @@ const InstanceList: FC = () => {
               />
             ),
             role: "rowheader",
-            className: "u-align--right actions",
-            "aria-label": "Details",
+            className: classnames("u-align--right actions", {
+              "u-hide": panelParams.instance,
+            }),
+            "aria-label": "Actions",
           },
         ].filter((item) => !hiddenCols.includes(item["aria-label"])),
         sortData: {
