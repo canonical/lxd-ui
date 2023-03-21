@@ -1,19 +1,30 @@
-import React, { FC, ReactNode } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import React, { FC } from "react";
+import {
+  CheckboxInput,
+  Input,
+  Label,
+  Select,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStorages } from "api/storages";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
-import OverrideField from "pages/instances/forms/OverrideField";
+import OverrideTable from "pages/instances/forms/OverrideTable";
+import { figureInheritedRootStorage } from "util/formFields";
+import { fetchProfiles } from "api/profiles";
 
 interface Props {
   formik: SharedFormikTypes;
   project: string;
-  children?: ReactNode;
 }
 
-const RootStorageForm: FC<Props> = ({ formik, project, children }) => {
+const RootStorageForm: FC<Props> = ({ formik, project }) => {
+  const { data: profiles = [] } = useQuery({
+    queryKey: [queryKeys.profiles],
+    queryFn: () => fetchProfiles(project),
+  });
+
   const { data: storagePools = [] } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStorages(project),
@@ -65,50 +76,70 @@ const RootStorageForm: FC<Props> = ({ formik, project, children }) => {
     return size ? parseInt(size) : "";
   };
 
+  const [inheritedValue, inheritSource] = figureInheritedRootStorage(
+    formik.values,
+    profiles
+  );
+
   return (
-    <div className="device-form">
-      {children}
-      <Row>
-        <Col size={8}>
-          <OverrideField
-            formik={formik}
-            label="Root storage pool"
-            name="rootStorage"
-            onOverride={addRootStorage}
-            onReset={removeRootStorage}
-            isSet={hasRootStorage}
-          >
-            {hasRootStorage && (
-              <div>
-                <Select
-                  id="rootStoragePool"
-                  label="Root storage pool"
-                  name={`devices.${index}.pool`}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={(formik.values.devices[index] as LxdDiskDevice).pool}
-                  options={getStoragePoolOptions()}
+    <OverrideTable
+      rows={[
+        {
+          columns: [
+            {
+              content: (
+                <CheckboxInput
+                  label={undefined}
+                  checked={hasRootStorage}
+                  onChange={hasRootStorage ? removeRootStorage : addRootStorage}
                 />
-                <Input
-                  id="sizeLimit"
-                  label="Size limit in GB"
-                  onBlur={formik.handleBlur}
-                  onChange={(e) => {
-                    formik.setFieldValue(
-                      `devices.${index}.size`,
-                      e.target.value + "GB"
-                    );
-                  }}
-                  value={figureSizeValue()}
-                  type="number"
-                  placeholder="Enter number"
-                />
-              </div>
-            )}
-          </OverrideField>
-        </Col>
-      </Row>
-    </div>
+              ),
+            },
+            {
+              content: hasRootStorage ? (
+                <Label forId="rootStoragePool">Root storage pool</Label>
+              ) : (
+                "Root storage pool"
+              ),
+            },
+            {
+              content: hasRootStorage ? (
+                <div>
+                  <Select
+                    id="rootStoragePool"
+                    name={`devices.${index}.pool`}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={(formik.values.devices[index] as LxdDiskDevice).pool}
+                    options={getStoragePoolOptions()}
+                    autoFocus
+                  />
+                  <Input
+                    id="sizeLimit"
+                    label="Size limit in GB"
+                    onBlur={formik.handleBlur}
+                    onChange={(e) => {
+                      formik.setFieldValue(
+                        `devices.${index}.size`,
+                        e.target.value + "GB"
+                      );
+                    }}
+                    value={figureSizeValue()}
+                    type="number"
+                    placeholder="Enter number"
+                  />
+                </div>
+              ) : (
+                inheritedValue
+              ),
+            },
+            {
+              content: hasRootStorage ? undefined : inheritSource,
+            },
+          ],
+        },
+      ]}
+    />
   );
 };
 

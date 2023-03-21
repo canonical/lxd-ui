@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import {
   Col,
   Input,
-  Label,
   RadioInput,
   Row,
   Select,
@@ -107,9 +106,6 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
   return (
     <div>
       <div className="memory-limit-label">
-        <Label className="grow" forId="memLimit">
-          Memory limit
-        </Label>
         <RadioInput
           labelClassName="right-margin"
           label="number"
@@ -131,8 +127,8 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
       </div>
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT && (
         <Input
-          id="memLimit"
-          name="percentMemLimit"
+          id="limits_memory"
+          name="limits_memory"
           type="number"
           min="0"
           max="100"
@@ -143,16 +139,17 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           }
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
           help={helpText}
+          autoFocus
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
         <Row>
           <Col size={4}>
             <Input
-              id="memLimit"
-              name="fixedMemLimit"
+              id="limits_memory"
+              name="limits_memory"
               type="number"
-              min="0.0000000001"
+              min="1"
               max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
               step="Any"
               placeholder="Enter value"
@@ -161,6 +158,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
               }
               value={`${memoryLimit.value ? memoryLimit.value : ""}`}
               help={helpText}
+              autoFocus
             />
           </Col>
           <Col size={4}>

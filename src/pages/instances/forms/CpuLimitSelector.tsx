@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Input, Label, RadioInput } from "@canonical/react-components";
+import { Input, RadioInput } from "@canonical/react-components";
 import { fetchResources } from "api/server";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -45,9 +45,6 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
   return (
     <div>
       <div className="cpu-limit-label">
-        <Label className="grow" forId="cpuLimit">
-          Exposed CPUs
-        </Label>
         <RadioInput
           labelClassName="right-margin"
           label="number"
@@ -64,8 +61,8 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
       </div>
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC && (
         <Input
-          id="cpuLimit"
-          name="dynCpuLimit"
+          id="limits_cpu"
+          name="limits_cpu"
           type="number"
           min="1"
           max={numberOfCores}
@@ -76,12 +73,13 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           }
           value={cpuLimit.dynamicValue ?? ""}
           help={helpText}
+          autoFocus
         />
       )}
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET && (
         <Input
-          id="cpuLimit"
-          name="cpuFixedSetLimit"
+          id="limits_cpu"
+          name="limits_cpu"
           type="text"
           placeholder="Comma-separated core numbers"
           onChange={(e) =>
@@ -89,6 +87,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           }
           value={cpuLimit.setValue ?? ""}
           help={helpText}
+          autoFocus
         />
       )}
     </div>

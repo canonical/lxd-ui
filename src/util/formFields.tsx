@@ -2,6 +2,7 @@ import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { SharedFormTypes } from "pages/instances/forms/sharedFormTypes";
 import { LxdProfile } from "types/profile";
+import { isDiskDevice } from "util/devices";
 
 export const formFieldsToPayloadFields: Record<string, string> = {
   rootStorage: "",
@@ -32,7 +33,7 @@ export const figureInheritedValue = (
   values: SharedFormTypes,
   formField: string,
   profiles: LxdProfile[]
-) => {
+): [string, string] => {
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
     const payloadField = formFieldsToPayloadFields[formField];
     const appliedProfiles = [
@@ -41,10 +42,35 @@ export const figureInheritedValue = (
     for (const profileName of appliedProfiles) {
       const profile = profiles.find((profile) => profile.name === profileName);
       if (profile?.config[payloadField]) {
-        return `${profile.config[payloadField]} (from profile "${profileName}")`;
+        return [profile.config[payloadField], `Profile: ${profileName}`];
       }
     }
   }
 
-  return "Default LXD value";
+  return ["", "Default LXD value"];
+};
+
+export const figureInheritedRootStorage = (
+  values: SharedFormTypes,
+  profiles: LxdProfile[]
+): [string, string] => {
+  if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
+    const appliedProfiles = [
+      ...(values as CreateInstanceFormValues | EditInstanceFormValues).profiles,
+    ].reverse();
+    for (const profileName of appliedProfiles) {
+      const profile = profiles.find((profile) => profile.name === profileName);
+      if (!profile) {
+        continue;
+      }
+      const rootDevice = Object.values(profile.devices)
+        .filter(isDiskDevice)
+        .find((device) => device.path === "/");
+      if (rootDevice) {
+        return [rootDevice.pool, `Profile: ${profileName}`];
+      }
+    }
+  }
+
+  return ["", "Default LXD value"];
 };
