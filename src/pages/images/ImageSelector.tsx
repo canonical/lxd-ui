@@ -230,7 +230,10 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
       sortKey: "alias",
       className: "u-hide--small u-hide--medium",
     },
-    { content: "" },
+    {
+      content: "",
+      "aria-label": "Actions",
+    },
   ];
 
   return (
@@ -243,6 +246,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
         <Col size={3}>
           <div className="image-select-filters">
             <Select
+              id="imageFilterDistribution"
               label="Distribution"
               name="distribution"
               onChange={(v) => {
@@ -253,7 +257,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               value={os}
             />
             <Select
-              disabled={os === ""}
+              id="imageFilterRelease"
               label="Release"
               name="release"
               onChange={(v) => {
@@ -264,10 +268,12 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                 (item) => item.os === os
               )}
               value={release}
+              disabled={os === ""}
             />
             <Select
+              id="imageFilterVariant"
               label="Variant"
-              name="type"
+              name="variant"
               onChange={(v) => {
                 setVariant(v.target.value);
               }}
@@ -289,6 +295,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               value={variant}
             />
             <Select
+              id="imageFilterArchitecture"
               label="Architecture"
               name="architecture"
               onChange={(v) => {
@@ -303,6 +310,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
               value={arch}
             />
             <Select
+              id="imageFilterType"
               label="Type"
               name="type"
               onChange={(v) => {
@@ -330,7 +338,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
           <SearchBox
             autoFocus
             className="search-image"
-            id="search-image-catalog"
+            name="search-image"
             type="text"
             onChange={(value) => {
               setQuery(value);

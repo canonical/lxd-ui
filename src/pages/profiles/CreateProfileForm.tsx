@@ -157,7 +157,7 @@ const CreateProfileForm: FC = () => {
     <main className="l-main">
       <div className="p-panel">
         <div className="p-panel__header">
-          <h4 className="p-panel__title">Create new profile</h4>
+          <h1 className="p-panel__title">Create new profile</h1>
         </div>
         <div className="p-panel__content create-profile">
           <Form

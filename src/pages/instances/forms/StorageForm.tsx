@@ -72,6 +72,7 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
       <Row>
         <Col size={8}>
           <Select
+            id="rootStorage"
             label="Root storage"
             name="rootStorage"
             onBlur={formik.handleBlur}
@@ -99,6 +100,7 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
           {hasRootStorage && (
             <>
               <Select
+                id="rootStoragePool"
                 label="Root storage pool"
                 name={`devices.${index}.pool`}
                 onBlur={formik.handleBlur}
@@ -107,6 +109,7 @@ const StorageForm: FC<Props> = ({ formik, project, children }) => {
                 options={getStoragePoolOptions()}
               />
               <Input
+                id="sizeLimit"
                 label="Size limit in GB"
                 onBlur={formik.handleBlur}
                 onChange={(e) => {

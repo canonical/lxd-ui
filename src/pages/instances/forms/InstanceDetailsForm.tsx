@@ -1,12 +1,5 @@
 import React, { FC } from "react";
-import {
-  Col,
-  Input,
-  Label,
-  Row,
-  Select,
-  Textarea,
-} from "@canonical/react-components";
+import { Col, Input, Row, Select, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
@@ -47,6 +40,13 @@ interface Props {
 }
 
 const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
+  function figureBaseImageName() {
+    const image = formik.values.image;
+    return image
+      ? `${image.os} ${image.release} ${image.aliases.split(",")[0]}`
+      : undefined;
+  }
+
   return (
     <>
       <Row>
@@ -77,34 +77,34 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
           />
         </Col>
       </Row>
-      {formik.values.image ? (
+      <Row>
+        <Col size={8}>
+          <Input
+            id="baseImage"
+            name="baseImage"
+            label="Base Image"
+            type="text"
+            value={figureBaseImageName()}
+            placeholder="Select base image"
+            disabled
+            required
+          />
+        </Col>
+        <Col
+          size={4}
+          className={
+            formik.values.image ? "image-change-link" : "image-select-button"
+          }
+        >
+          <SelectImageBtn
+            appearance={formik.values.image ? "link" : "positive"}
+            caption={formik.values.image ? "Change image" : "Browse images"}
+            onSelect={onSelectImage}
+          />
+        </Col>
+      </Row>
+      {formik.values.image && (
         <>
-          <Row>
-            <Col size={8}>
-              <Input
-                id="baseImage"
-                name="baseImage"
-                label="Base Image"
-                type="text"
-                value={
-                  formik.values.image.os +
-                  " " +
-                  formik.values.image.release +
-                  " " +
-                  formik.values.image.aliases.split(",")[0]
-                }
-                disabled
-                required
-              />
-            </Col>
-            <Col size={4} className="image-change-link">
-              <SelectImageBtn
-                appearance="link"
-                caption="Change image"
-                onSelect={onSelectImage}
-              />
-            </Col>
-          </Row>
           <Row>
             <Col size={8}>
               <Select
@@ -122,26 +122,12 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
               />
             </Col>
           </Row>
+          <ProfileSelect
+            project={project}
+            selected={formik.values.profiles}
+            setSelected={(value) => formik.setFieldValue("profiles", value)}
+          />
         </>
-      ) : (
-        <Row>
-          <Col size={8}>
-            <Label required>Base Image</Label>
-            <br />
-            <SelectImageBtn
-              appearance="positive"
-              caption="Select image"
-              onSelect={onSelectImage}
-            />
-          </Col>
-        </Row>
-      )}
-      {formik.values.image && (
-        <ProfileSelect
-          project={project}
-          selected={formik.values.profiles}
-          setSelected={(value) => formik.setFieldValue("profiles", value)}
-        />
       )}
     </>
   );

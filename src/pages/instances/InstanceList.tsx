@@ -157,7 +157,10 @@ const InstanceList: FC = () => {
         className: "u-align--right snapshots",
       },
       { content: STATUS, sortKey: "status", className: "status-header status" },
-      { content: null, className: "actions" },
+      {
+        "aria-label": "Actions",
+        className: "actions",
+      },
     ].filter(
       (item) =>
         typeof item.content !== "string" || !hiddenCols.includes(item.content)
@@ -295,13 +298,14 @@ const InstanceList: FC = () => {
         >
           <div className="p-panel__header instance-list-header">
             <div className="instance-header-left">
-              <h4>
+              <h1 className="p-heading--4">
                 {instances.length}
                 &nbsp;
                 {instances.length === 1 ? "Instance" : "Instances"}
-              </h4>
+              </h1>
               <SearchBox
                 className="search-box margin-right"
+                name="search-instance"
                 type="text"
                 onChange={(value) => {
                   setQuery(value);

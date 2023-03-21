@@ -100,6 +100,7 @@ const InstanceDetail: FC = () => {
             <Row>
               <Tabs
                 links={TABS.map((tab) => ({
+                  id: tabNameToUrl(tab),
                   label: tab,
                   active:
                     tabNameToUrl(tab) === activeTab ||
@@ -109,7 +110,7 @@ const InstanceDetail: FC = () => {
               />
 
               {!activeTab && (
-                <div tabIndex={0} role="tabpanel" aria-labelledby="overview">
+                <div role="tabpanel" aria-labelledby="overview">
                   <InstanceOverview
                     instance={instance}
                     controlTarget={controlTarget}
@@ -118,45 +119,37 @@ const InstanceDetail: FC = () => {
               )}
 
               {activeTab === "configuration" && (
-                <div
-                  tabIndex={1}
-                  role="tabpanel"
-                  aria-labelledby="configuration"
-                >
+                <div role="tabpanel" aria-labelledby="configuration">
                   <InstanceConfiguration instance={instance} />
                 </div>
               )}
 
               {activeTab === "snapshots" && (
-                <div tabIndex={2} role="tabpanel" aria-labelledby="snapshots">
+                <div role="tabpanel" aria-labelledby="snapshots">
                   <InstanceSnapshots instance={instance} />
                 </div>
               )}
 
               {activeTab === "terminal" && (
-                <div tabIndex={3} role="tabpanel" aria-labelledby="terminal">
+                <div role="tabpanel" aria-labelledby="terminal">
                   <InstanceTerminal controlTarget={controlTarget} />
                 </div>
               )}
 
               {activeTab === "text-console" && (
-                <div
-                  tabIndex={4}
-                  role="tabpanel"
-                  aria-labelledby="text console"
-                >
+                <div role="tabpanel" aria-labelledby="text-console">
                   <InstanceTextConsole instance={instance} />
                 </div>
               )}
 
               {activeTab === "vga-console" && (
-                <div tabIndex={5} role="tabpanel" aria-labelledby="vga console">
+                <div role="tabpanel" aria-labelledby="vga-console">
                   <InstanceVga controlTarget={controlTarget} />
                 </div>
               )}
 
               {activeTab === "logs" && (
-                <div tabIndex={6} role="tabpanel" aria-labelledby="logs">
+                <div role="tabpanel" aria-labelledby="logs">
                   <InstanceLogs instance={instance} />
                 </div>
               )}

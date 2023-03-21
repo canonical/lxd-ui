@@ -85,7 +85,7 @@ const Settings: FC = () => {
       return {
         columns: [
           {
-            content: isNewGroup && <h5>{group}</h5>,
+            content: isNewGroup && <h2 className="p-heading--5">{group}</h2>,
             role: "rowheader",
             "aria-label": "Group",
           },
@@ -118,7 +118,7 @@ const Settings: FC = () => {
         <Row>
           <Col size={8}>
             <SearchBox
-              id="search"
+              name="search-setting"
               type="text"
               onChange={(value) => {
                 setQuery(value);
