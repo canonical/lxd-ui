@@ -23,7 +23,7 @@ interface Props {
 
 const ProfileDetailsForm: FC<Props> = ({ formik, isCreateMode }) => {
   return (
-    <>
+    <div className="details">
       <Row>
         <Col size={8}>
           {isCreateMode && (
@@ -54,7 +54,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isCreateMode }) => {
           />
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

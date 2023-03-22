@@ -1,11 +1,5 @@
 import React, { FC } from "react";
-import {
-  Col,
-  Input,
-  RadioInput,
-  Row,
-  Select,
-} from "@canonical/react-components";
+import { Input, RadioInput, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "api/server";
 import { queryKeys } from "util/queryKeys";
@@ -143,39 +137,35 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
-        <Row>
-          <Col size={4}>
-            <Input
-              id="limits_memory"
-              name="limits_memory"
-              type="number"
-              min="1"
-              max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
-              step="Any"
-              placeholder="Enter value"
-              onChange={(e) =>
-                setMemoryLimit({ ...memoryLimit, value: +e.target.value })
-              }
-              value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-              help={helpText}
-              autoFocus
-            />
-          </Col>
-          <Col size={4}>
-            <Select
-              id="memUnitSelect"
-              name="memUnitSelect"
-              options={getMemUnitOptions()}
-              onChange={(e) =>
-                setMemoryLimit({
-                  ...memoryLimit,
-                  unit: e.target.value as BYTES_UNITS,
-                })
-              }
-              value={memoryLimit.unit}
-            />
-          </Col>
-        </Row>
+        <div className="memory-limit-with-unit">
+          <Input
+            id="limits_memory"
+            name="limits_memory"
+            type="number"
+            min="1"
+            max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
+            step="Any"
+            placeholder="Enter value"
+            onChange={(e) =>
+              setMemoryLimit({ ...memoryLimit, value: +e.target.value })
+            }
+            value={`${memoryLimit.value ? memoryLimit.value : ""}`}
+            help={helpText}
+            autoFocus
+          />
+          <Select
+            id="memUnitSelect"
+            name="memUnitSelect"
+            options={getMemUnitOptions()}
+            onChange={(e) =>
+              setMemoryLimit({
+                ...memoryLimit,
+                unit: e.target.value as BYTES_UNITS,
+              })
+            }
+            value={memoryLimit.unit}
+          />
+        </div>
       )}
     </div>
   );

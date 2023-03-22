@@ -43,12 +43,12 @@ export const figureInheritedValue = (
     for (const profileName of appliedProfiles) {
       const profile = profiles.find((profile) => profile.name === profileName);
       if (profile?.config[payloadField]) {
-        return [profile.config[payloadField], `Profile: ${profileName}`];
+        return [profile.config[payloadField], `${profileName} profile`];
       }
     }
   }
 
-  return ["", "Default LXD value"];
+  return ["", "LXD"];
 };
 
 export const figureInheritedRootStorage = (
@@ -68,12 +68,12 @@ export const figureInheritedRootStorage = (
         .filter(isDiskDevice)
         .find((device) => device.path === "/");
       if (rootDevice) {
-        return [rootDevice.pool, `Profile: ${profileName}`];
+        return [rootDevice.pool, `${profileName} profile`];
       }
     }
   }
 
-  return ["", "Default LXD value"];
+  return ["", "LXD"];
 };
 
 interface InheritedNetwork {
@@ -102,7 +102,7 @@ export const figureInheritedNetworks = (
           inheritedNetworks.push({
             key: key,
             network: network as LxdNicDevice,
-            source: `Profile: ${profileName}`,
+            source: `${profileName} profile`,
           });
         });
     }

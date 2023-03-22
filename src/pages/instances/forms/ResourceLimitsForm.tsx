@@ -5,7 +5,7 @@ import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
-import { booleanFields } from "util/instanceOptions";
+import { booleanFieldsAllowDeny, diskPriorities } from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
@@ -87,7 +87,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               name="limits_memory_swap"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsAllowDeny}
               value={formik.values.limits_memory_swap}
               disabled={isContainerOnlyDisabled}
               autoFocus
@@ -101,15 +101,14 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Disk priority",
           defaultValue: "",
           children: (
-            <Input
+            <Select
               id="limits_disk_priority"
               name="limits_disk_priority"
-              placeholder="Enter number"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              options={diskPriorities}
               value={formik.values.limits_disk_priority}
-              type="number"
-              help="Controls how much priority to give to the instance’s I/O requests when under load (integer between 0 and 10)"
+              help="Controls how much priority to give to the instance’s I/O requests when under load"
               autoFocus
             />
           ),
@@ -126,6 +125,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               id="limits_processes"
               name="limits_processes"
               placeholder="Enter number"
+              min={0}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.limits_processes}
