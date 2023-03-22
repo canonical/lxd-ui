@@ -18,4 +18,9 @@ export default defineConfig({
     outDir: "./build/ui",
     minify: "esbuild",
   },
+  experimental: {
+    renderBuiltUrl(filename: string) {
+      return "/ui/" + filename;
+    },
+  },
 });

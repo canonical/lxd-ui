@@ -5,7 +5,7 @@
   "license": "LGPL-3.0-only",
   "scripts": {
     "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle",
-    "build-html": "sed -i 's#assets#ui/assets#' build/ui/index.html && cp build/ui/index.html build/index.html",
+    "build-html": "cp build/ui/index.html build/index.html",
     "build": "npx vite build && yarn build-html",
     "format-js-eslint": "eslint 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --fix",
     "format-js-prettier": "prettier 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --write",
@@ -16,7 +16,7 @@
     "lint-js": "yarn lint-js-eslint && yarn lint-js-prettier",
     "hooks-add": "husky install",
     "hooks-remove": "husky uninstall",
-    "start": "concurrently --kill-others --raw 'vite' 'yarn serve'",
+    "start": "concurrently --kill-others --raw 'vite | grep -v localhost' 'yarn serve'",
     "serve": "./entrypoint"
   },
   "dependencies": {
