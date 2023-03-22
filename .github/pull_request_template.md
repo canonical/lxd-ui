@@ -14,4 +14,4 @@ Fixes [list issues/bugs if needed]
 
 ## Screenshots
 
-[if relevant, include a screenshot]
+[if relevant, include a screenshot or screen capture]
