@@ -1,12 +1,11 @@
 import React, { FC } from "react";
 import {
   Button,
-  Col,
   Icon,
   Input,
   Label,
-  Row,
   Select,
+  Tooltip,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -68,7 +67,11 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
           return {
             columns: [
               {
-                content: "",
+                content: (
+                  <Tooltip message="This network is inherited from a profile or project. To change it, edit it in the profile or project it originates from, or remove the originating item">
+                    <Icon name="warning-grey" />
+                  </Tooltip>
+                ),
               },
               {
                 content: item.key,
@@ -97,8 +100,8 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                 },
                 {
                   content: (
-                    <Row key={index}>
-                      <Col size={8}>
+                    <div className="network-device" key={index}>
+                      <div>
                         <Select
                           label="Network device"
                           name={`devices.${index}.network`}
@@ -123,8 +126,8 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                           type="text"
                           placeholder="Enter name"
                         />
-                      </Col>
-                      <Col size={4}>
+                      </div>
+                      <div>
                         <Button
                           className="delete-device"
                           onClick={() => removeNetwork(index)}
@@ -135,12 +138,12 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                         >
                           <Icon name="delete" />
                         </Button>
-                      </Col>
-                    </Row>
+                      </div>
+                    </div>
                   ),
                 },
                 {
-                  content: "",
+                  content: `Current ${formik.values.type}`,
                 },
               ],
             };

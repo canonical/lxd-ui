@@ -111,7 +111,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       security_privileged: instance.config["security.privileged"],
       security_protection_shift: instance.config["security.protection.shift"],
       security_idmap_base: instance.config["security.idmap.base"],
-      security_idmap_size: instance.config["security.idmap.size"],
+      security_idmap_size: instance.config["security.idmap.size"]
+        ? parseInt(instance.config["security.idmap.size"])
+        : undefined,
       security_idmap_isolated: instance.config["security.idmap.isolated"],
       security_devlxd: instance.config["security.devlxd"],
       security_devlxd_images: instance.config["security.devlxd.images"],
@@ -191,13 +193,6 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     return dumpYaml(bareInstance);
   };
 
-  const overrideNotification = (
-    <Notification severity="caution" title="Before you add configurations">
-      The custom configuration overrides any settings specified through
-      profiles.
-    </Notification>
-  );
-
   return (
     <div className="edit-instance">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
@@ -219,9 +214,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
             )}
 
             {section === NETWORKS && (
-              <NetworkForm formik={formik} project={project}>
-                {overrideNotification}
-              </NetworkForm>
+              <NetworkForm formik={formik} project={project} />
             )}
 
             {section === RESOURCE_LIMITS && (

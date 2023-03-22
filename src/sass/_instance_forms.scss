@@ -14,7 +14,6 @@
 
   .form {
     display: flex;
-    margin-top: 6px;
 
     .form-navigation {
       width: 18rem;
@@ -29,29 +28,18 @@
       overflow-y: auto;
       padding-left: 2.5rem;
 
-      > div:not(:has(.cm-editor)) {
+      .details {
         max-width: 42rem;
-      }
-
-      > div:has(.override) {
-        max-width: 50rem;
       }
     }
 
-    .override {
+    .network-device {
       display: flex;
 
       > :first-child {
-        margin-right: 2rem;
-      }
-
-      > :last-child {
         flex-grow: 1;
+        margin-right: $sph--large;
       }
-    }
-
-    .device-form hr {
-      margin-bottom: $spv--large;
     }
 
     .image-change-link {
@@ -92,15 +80,30 @@
   .cpu-limit-label,
   .memory-limit-label,
   .snapshot-schedule {
-    align-items: flex-end;
+    > * {
+      margin-bottom: $spv--large;
+    }
+  }
+
+  .memory-limit-with-unit {
     display: flex;
 
-    .grow {
-      flex-grow: 1;
+    > :first-child {
+      margin-right: $sph--large;
     }
 
-    .right-margin {
-      margin-right: 2rem;
+    .p-form__group {
+      margin-top: 0;
+    }
+
+    input {
+      min-width: 0;
+    }
+
+    select {
+      margin-top: 0;
+      min-width: 0;
+      width: 6rem;
     }
   }
 }

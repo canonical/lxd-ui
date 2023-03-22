@@ -2,7 +2,11 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import classnames from "classnames";
-import { booleanFields } from "util/instanceOptions";
+import {
+  booleanFieldsAllowDeny,
+  booleanFieldsTrueFalse,
+  booleanFieldsYesNo,
+} from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
@@ -15,7 +19,7 @@ export interface SecurityPoliciesFormValues {
   security_privileged?: string;
   security_protection_shift?: string;
   security_idmap_base?: string;
-  security_idmap_size?: string;
+  security_idmap_size?: number;
   security_idmap_isolated?: string;
   security_devlxd?: string;
   security_devlxd_images?: string;
@@ -28,7 +32,7 @@ export const securityPoliciesPayload = (values: SharedFormTypes) => {
     ["security.privileged"]: values.security_privileged,
     ["security.protection.shift"]: values.security_protection_shift,
     ["security.idmap.base"]: values.security_idmap_base,
-    ["security.idmap.size"]: values.security_idmap_size,
+    ["security.idmap.size"]: values.security_idmap_size?.toString(),
     ["security.idmap.isolated"]: values.security_idmap_isolated,
     ["security.devlxd"]: values.security_devlxd,
     ["security.devlxd.images"]: values.security_devlxd_images,
@@ -64,7 +68,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_protection_delete"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsYesNo}
               value={formik.values.security_protection_delete}
               autoFocus
             />
@@ -82,7 +86,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_privileged"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsAllowDeny}
               value={formik.values.security_privileged}
               disabled={isContainerOnlyDisabled}
               autoFocus
@@ -102,7 +106,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_protection_shift"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsYesNo}
               value={formik.values.security_protection_shift}
               disabled={isContainerOnlyDisabled}
               autoFocus
@@ -143,7 +147,8 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               id="security_idmap_size"
               placeholder="Enter number"
               name="security_idmap_size"
-              type="text"
+              type="number"
+              min={0}
               value={formik.values.security_idmap_size}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
@@ -167,7 +172,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_idmap_isolated"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsTrueFalse}
               value={formik.values.security_idmap_isolated}
               disabled={isContainerOnlyDisabled}
               autoFocus
@@ -186,7 +191,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_devlxd"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsYesNo}
               value={formik.values.security_devlxd}
               disabled={isContainerOnlyDisabled}
               autoFocus
@@ -206,7 +211,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_devlxd_images"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsYesNo}
               value={formik.values.security_devlxd_images}
               disabled={
                 !formik.values.security_devlxd || isContainerOnlyDisabled
@@ -227,7 +232,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_secureboot"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsTrueFalse}
               value={formik.values.security_secureboot}
               disabled={isVmOnlyDisabled}
               autoFocus

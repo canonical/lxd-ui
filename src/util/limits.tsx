@@ -66,7 +66,9 @@ export const parseCpuLimit = (limit?: string): CpuLimit | undefined => {
   };
 };
 
-export const memoryLimitToPayload = (memoryLimit: MemoryLimit | undefined) => {
+export const memoryLimitToPayload = (
+  memoryLimit: MemoryLimit | undefined
+): string | undefined => {
   if (!memoryLimit?.value) {
     return undefined;
   }

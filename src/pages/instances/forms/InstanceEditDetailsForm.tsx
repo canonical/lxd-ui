@@ -28,7 +28,7 @@ interface Props {
 
 const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
   return (
-    <>
+    <div className="details">
       <Row>
         <Col size={8}>
           <Textarea
@@ -51,7 +51,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
         selected={formik.values.profiles}
         setSelected={(value) => formik.setFieldValue("profiles", value)}
       />
-    </>
+    </div>
   );
 };
 

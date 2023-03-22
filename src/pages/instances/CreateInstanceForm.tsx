@@ -247,13 +247,6 @@ const CreateInstanceForm: FC = () => {
     return dumpYaml(payload);
   }
 
-  const overrideNotification = (
-    <Notification severity="caution" title="Before you add configurations">
-      The custom configuration overrides any settings specified through
-      profiles.
-    </Notification>
-  );
-
   return (
     <main className="l-main">
       <div className="p-panel">
@@ -285,9 +278,7 @@ const CreateInstanceForm: FC = () => {
                 )}
 
                 {section === NETWORKS && (
-                  <NetworkForm formik={formik} project={project}>
-                    {overrideNotification}
-                  </NetworkForm>
+                  <NetworkForm formik={formik} project={project} />
                 )}
 
                 {section === RESOURCE_LIMITS && (

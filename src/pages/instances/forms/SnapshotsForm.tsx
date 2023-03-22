@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
-import { booleanFields } from "util/instanceOptions";
+import { booleanFieldsYesNo } from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
@@ -100,7 +100,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
               name="snapshots_schedule_stopped"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFields}
+              options={booleanFieldsYesNo}
               value={formik.values.snapshots_schedule_stopped}
               autoFocus
             />
@@ -115,7 +115,6 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
             <div>
               <div className="snapshot-schedule">
                 <RadioInput
-                  labelClassName="right-margin"
                   label="Cron syntax"
                   checked={cronSyntax}
                   onChange={() => {
@@ -136,8 +135,9 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                 <Input
                   id="snapshots_schedule"
                   name="snapshots_schedule"
+                  label="Cron expression"
                   placeholder="Enter cron expression"
-                  help="Cron expression (<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
+                  help="<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
                   type="text"
                   value={formik.values.snapshots_schedule}
                   onBlur={formik.handleBlur}
@@ -147,8 +147,8 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
               ) : (
                 <Select
                   id="snapshots_schedule"
-                  label="Every"
                   name="snapshots_schedule"
+                  label="Every"
                   value={formik.values.snapshots_schedule}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}

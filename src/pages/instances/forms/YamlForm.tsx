@@ -62,6 +62,7 @@ const YamlForm: FC<Props> = ({
           }}
           onMount={(editor: IStandaloneCodeEditor) => {
             setEditor(editor);
+            editor.focus();
           }}
         />
       </div>

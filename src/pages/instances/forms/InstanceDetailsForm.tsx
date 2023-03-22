@@ -48,7 +48,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
   }
 
   return (
-    <>
+    <div className="details">
       <Row>
         <Col size={8}>
           <Input
@@ -129,7 +129,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 

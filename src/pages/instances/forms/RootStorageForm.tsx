@@ -134,7 +134,9 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
               ),
             },
             {
-              content: hasRootStorage ? undefined : inheritSource,
+              content: hasRootStorage
+                ? `Current ${formik.values.type}`
+                : inheritSource,
             },
           ],
         },

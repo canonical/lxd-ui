@@ -72,7 +72,7 @@ export const getOverrideRow = ({
         content: isOverridden ? children : inheritedValue,
       },
       {
-        content: isOverridden ? undefined : inheritSource,
+        content: isOverridden ? `Current ${formik.values.type}` : inheritSource,
       },
     ],
   };
