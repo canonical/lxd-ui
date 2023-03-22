@@ -13,8 +13,12 @@ import { fetchNetworks } from "api/networks";
 import { LxdNicDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import OverrideTable from "pages/instances/forms/OverrideTable";
-import { figureInheritedNetworks } from "util/formFields";
+import {
+  collapsedViewMaxWidth,
+  figureInheritedNetworks,
+} from "util/formFields";
 import { fetchProfiles } from "api/profiles";
+import useMediaQuery from "context/mediaQuery";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -22,6 +26,10 @@ interface Props {
 }
 
 const NetworkForm: FC<Props> = ({ formik, project }) => {
+  const isCollapsedView = useMediaQuery(
+    `(max-width: ${collapsedViewMaxWidth}px)`
+  );
+
   const { data: profiles = [] } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
@@ -64,6 +72,12 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
     <OverrideTable
       rows={[
         ...inheritedNetworks.map((item) => {
+          const displayLabel = (
+            <div>
+              <b>{item.key}</b>
+            </div>
+          );
+          const displayValue = item.network?.network;
           return {
             columns: [
               {
@@ -74,10 +88,18 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                 ),
               },
               {
-                content: item.key,
+                content: isCollapsedView ? (
+                  <>
+                    {displayLabel}
+                    {displayValue}
+                  </>
+                ) : (
+                  displayLabel
+                ),
               },
               {
-                content: item.network?.network,
+                content: displayValue,
+                className: "value",
               },
               {
                 content: item.source,
@@ -95,8 +117,11 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                 },
                 {
                   content: (
-                    <Label forId={`networkDevice${index}`}>Network</Label>
+                    <Label forId={`networkDevice${index}`}>
+                      <b>Network</b>
+                    </Label>
                   ),
+                  className: "value",
                 },
                 {
                   content: (
@@ -155,6 +180,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
             },
             {
               content: "",
+              className: "value",
             },
             {
               content: (

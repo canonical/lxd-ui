@@ -132,7 +132,7 @@ $border-thin: 1px solid $color-mid-light !default;
 }
 
 .override-table {
-  width: 55rem;
+  width: 50rem;
 
   .override {
     width: 5rem;
@@ -143,7 +143,7 @@ $border-thin: 1px solid $color-mid-light !default;
   }
 
   .value {
-    width: 22rem;
+    width: 17rem;
   }
 
   .defined {
@@ -153,6 +153,28 @@ $border-thin: 1px solid $color-mid-light !default;
   label {
     margin-bottom: 0;
     padding-top: 0;
+  }
+}
+
+@media screen and (max-width: 1340px) {
+  .override-table {
+    width: 30rem;
+
+    .override {
+      width: 2rem;
+    }
+
+    .config {
+      width: 20rem;
+    }
+
+    .value {
+      display: none;
+    }
+
+    .defined {
+      width: 8rem;
+    }
   }
 }
 

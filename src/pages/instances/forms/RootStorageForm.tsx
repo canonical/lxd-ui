@@ -11,8 +11,12 @@ import { fetchStorages } from "api/storages";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import OverrideTable from "pages/instances/forms/OverrideTable";
-import { figureInheritedRootStorage } from "util/formFields";
+import {
+  collapsedViewMaxWidth,
+  figureInheritedRootStorage,
+} from "util/formFields";
 import { fetchProfiles } from "api/profiles";
+import useMediaQuery from "context/mediaQuery";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -20,6 +24,10 @@ interface Props {
 }
 
 const RootStorageForm: FC<Props> = ({ formik, project }) => {
+  const isCollapsedView = useMediaQuery(
+    `(max-width: ${collapsedViewMaxWidth}px)`
+  );
+
   const { data: profiles = [] } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
@@ -81,6 +89,43 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     profiles
   );
 
+  const displayValue = hasRootStorage ? (
+    <div>
+      <Select
+        id="rootStoragePool"
+        name={`devices.${index}.pool`}
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
+        value={(formik.values.devices[index] as LxdDiskDevice).pool}
+        options={getStoragePoolOptions()}
+        autoFocus
+      />
+      <Input
+        id="sizeLimit"
+        label="Size limit in GB"
+        onBlur={formik.handleBlur}
+        onChange={(e) => {
+          formik.setFieldValue(`devices.${index}.size`, e.target.value + "GB");
+        }}
+        value={figureSizeValue()}
+        type="number"
+        placeholder="Enter number"
+      />
+    </div>
+  ) : (
+    inheritedValue
+  );
+
+  const displayLabel = hasRootStorage ? (
+    <Label forId="rootStoragePool">
+      <b>Root storage pool</b>
+    </Label>
+  ) : (
+    <div>
+      <b>Root storage pool</b>
+    </div>
+  );
+
   return (
     <OverrideTable
       rows={[
@@ -96,42 +141,18 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
               ),
             },
             {
-              content: hasRootStorage ? (
-                <Label forId="rootStoragePool">Root storage pool</Label>
+              content: isCollapsedView ? (
+                <>
+                  {displayLabel}
+                  {displayValue}
+                </>
               ) : (
-                "Root storage pool"
+                displayLabel
               ),
             },
             {
-              content: hasRootStorage ? (
-                <div>
-                  <Select
-                    id="rootStoragePool"
-                    name={`devices.${index}.pool`}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={(formik.values.devices[index] as LxdDiskDevice).pool}
-                    options={getStoragePoolOptions()}
-                    autoFocus
-                  />
-                  <Input
-                    id="sizeLimit"
-                    label="Size limit in GB"
-                    onBlur={formik.handleBlur}
-                    onChange={(e) => {
-                      formik.setFieldValue(
-                        `devices.${index}.size`,
-                        e.target.value + "GB"
-                      );
-                    }}
-                    value={figureSizeValue()}
-                    type="number"
-                    placeholder="Enter number"
-                  />
-                </div>
-              ) : (
-                inheritedValue
-              ),
+              content: displayValue,
+              className: "value",
             },
             {
               content: hasRootStorage

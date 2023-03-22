@@ -5,9 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
 import { useParams } from "react-router-dom";
-import { figureInheritedValue } from "util/formFields";
+import { collapsedViewMaxWidth, figureInheritedValue } from "util/formFields";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import useMediaQuery from "context/mediaQuery";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -26,6 +27,10 @@ export const getOverrideRow = ({
   defaultValue,
   disabled = undefined,
 }: Props): MainTableRow => {
+  const isCollapsedView = useMediaQuery(
+    `(max-width: ${collapsedViewMaxWidth}px)`
+  );
+
   const { project } = useParams<{ project: string }>();
   if (!project) {
     return <>Missing project</>;
@@ -53,6 +58,17 @@ export const getOverrideRow = ({
     profiles
   );
 
+  const displayValue = isOverridden ? children : inheritedValue;
+  const displayLabel = isOverridden ? (
+    <Label forId={name}>
+      <b>{label}</b>
+    </Label>
+  ) : (
+    <div>
+      <b>{label}</b>
+    </div>
+  );
+
   return {
     columns: [
       {
@@ -66,10 +82,18 @@ export const getOverrideRow = ({
         ),
       },
       {
-        content: isOverridden ? <Label forId={name}>{label}</Label> : label,
+        content: isCollapsedView ? (
+          <>
+            {displayLabel}
+            {displayValue}
+          </>
+        ) : (
+          displayLabel
+        ),
       },
       {
-        content: isOverridden ? children : inheritedValue,
+        content: displayValue,
+        className: "value",
       },
       {
         content: isOverridden ? `Current ${formik.values.type}` : inheritSource,

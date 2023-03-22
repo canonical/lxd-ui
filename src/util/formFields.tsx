@@ -48,7 +48,7 @@ export const figureInheritedValue = (
     }
   }
 
-  return ["", "LXD"];
+  return ["-", "LXD"];
 };
 
 export const figureInheritedRootStorage = (
@@ -114,3 +114,5 @@ export const figureInheritedNetworks = (
 
   return [];
 };
+
+export const collapsedViewMaxWidth = 1340;
