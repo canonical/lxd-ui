@@ -5,9 +5,16 @@ interface EmptyDevice {
   name: string;
 }
 
+interface UnknownDevice {
+  type: "unknown";
+  name: string;
+  bare: string;
+}
+
 export type FormDevice =
   | (Partial<LxdDiskDevice> & Required<Pick<LxdDiskDevice, "name">>)
   | (Partial<LxdNicDevice> & Required<Pick<LxdNicDevice, "name">>)
+  | UnknownDevice
   | EmptyDevice;
 
 export interface FormDeviceValues {
@@ -23,6 +30,11 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
   return devices
     .filter((item) => !isEmptyDevice(item))
     .reduce((obj, { name, ...item }) => {
+      if (item.type === "unknown") {
+        return {
+          [name]: item.bare,
+        };
+      }
       return {
         ...obj,
         [name]: item,
@@ -50,8 +62,9 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
         };
       default:
         return {
-          type: "",
-          name: "",
+          name: key,
+          bare: item,
+          type: "unknown",
         };
     }
   });

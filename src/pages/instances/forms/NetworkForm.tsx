@@ -108,8 +108,10 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
           };
         }),
         ...formik.values.devices
-          .filter((item) => item.type === "nic")
           .map((formDevice, index) => {
+            if (formDevice.type !== "nic") {
+              return {};
+            }
             return {
               columns: [
                 {
@@ -172,7 +174,8 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                 },
               ],
             };
-          }),
+          })
+          .filter((item) => Object.values(item).length > 0),
         {
           columns: [
             {
