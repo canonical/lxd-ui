@@ -1,6 +1,8 @@
 import React, { FC, ReactNode } from "react";
-import { MainTable } from "@canonical/react-components";
+import { Icon, MainTable, Tooltip } from "@canonical/react-components";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { collapsedViewMaxWidth } from "util/formFields";
+import useMediaQuery from "context/mediaQuery";
 
 interface Props {
   rows: MainTableRow[];
@@ -8,8 +10,23 @@ interface Props {
 }
 
 const OverrideTable: FC<Props> = ({ rows, configurationExtra }) => {
+  const isCollapsedView = useMediaQuery(
+    `(max-width: ${collapsedViewMaxWidth}px)`
+  );
+
+  const getOverrideHeader = () => {
+    if (isCollapsedView) {
+      return (
+        <Tooltip message="Select configuration to override">
+          <Icon name="information" />
+        </Tooltip>
+      );
+    }
+    return "Override";
+  };
+
   const headers = [
-    { content: "Override", className: "override" },
+    { content: getOverrideHeader(), className: "override" },
     { content: <>Configuration{configurationExtra}</>, className: "config" },
     { content: "Value", className: "value" },
     { content: "Defined in", className: "defined" },
