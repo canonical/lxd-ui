@@ -53,13 +53,17 @@
     td {
       &:nth-child(2) {
         width: 80px;
+
+        @include extra-large {
+          width: 85px;
+        }
       }
 
       &:nth-child(3) {
-        width: 94px;
+        width: 114px;
 
         @include extra-large {
-          width: 105px;
+          width: 128px;
         }
       }
     }
@@ -77,9 +81,15 @@
 
   .usage {
     .metric-row {
-      td,
-      th {
-        padding-bottom: $spv--x-large;
+      .p-meter {
+        margin-top: $spv--small;
+      }
+
+      &:first-of-type {
+        td,
+        th {
+          padding-bottom: $spv--x-large;
+        }
       }
     }
   }
