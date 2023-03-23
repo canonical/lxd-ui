@@ -3,7 +3,6 @@ import { List, Row, Tabs } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useNavigate, useParams } from "react-router-dom";
-import InstanceVga from "./InstanceVga";
 import InstanceSnapshots from "./InstanceSnapshots";
 import NotificationRow from "components/NotificationRow";
 import { useNotify } from "context/notify";
@@ -11,18 +10,17 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import InstanceTextConsole from "pages/instances/InstanceTextConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import InstanceConfiguration from "pages/instances/InstanceConfiguration";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
+import InstanceConsole from "./InstanceConsole";
 
 const TABS: string[] = [
   "Overview",
   "Configuration",
   "Snapshots",
   "Terminal",
-  "Text Console",
-  "VGA Console",
+  "Console",
   "Logs",
 ];
 
@@ -136,15 +134,9 @@ const InstanceDetail: FC = () => {
                 </div>
               )}
 
-              {activeTab === "text-console" && (
-                <div role="tabpanel" aria-labelledby="text-console">
-                  <InstanceTextConsole instance={instance} />
-                </div>
-              )}
-
-              {activeTab === "vga-console" && (
-                <div role="tabpanel" aria-labelledby="vga-console">
-                  <InstanceVga controlTarget={controlTarget} />
+              {activeTab === "console" && (
+                <div role="tabpanel" aria-labelledby="console">
+                  <InstanceConsole instance={instance} />
                 </div>
               )}
 

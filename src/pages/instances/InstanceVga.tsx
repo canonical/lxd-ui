@@ -1,13 +1,11 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Icon } from "@canonical/react-components";
 import * as SpiceHtml5 from "../../lib/spice/src/main";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
-import { createPortal } from "react-dom";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
+import { updateMaxHeight } from "util/updateMaxHeight";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -17,11 +15,11 @@ declare global {
 }
 
 interface Props {
-  controlTarget?: HTMLSpanElement | null;
+  onMount: (handler: () => void) => void;
+  onFailure: (message: string, e: unknown) => void;
 }
 
-const InstanceVga: FC<Props> = ({ controlTarget }) => {
-  const notify = useNotify();
+const InstanceVga: FC<Props> = ({ onMount, onFailure }) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -30,23 +28,23 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
   const handleError = (e: object) => {
-    notify.failure("spice error", e);
+    onFailure("spice error", e);
   };
 
   const openVgaConsole = async () => {
     if (!name) {
-      notify.failure("Missing name", new Error());
+      onFailure("Missing name", new Error());
       return;
     }
     if (!project) {
-      notify.failure("Missing project", new Error());
+      onFailure("Missing project", new Error());
       return;
     }
 
     setVgaLoading(true);
     const result = await connectInstanceVga(name, project).catch((e) => {
       setVgaLoading(false);
-      notify.failure("Could not open vga session.", e);
+      onFailure("Could not open vga session.", e);
     });
     if (!result) {
       return;
@@ -58,12 +56,12 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
     const control = new WebSocket(controlUrl);
 
     control.onerror = (e) => {
-      notify.failure("Error on the control websocket.", e);
+      onFailure("Error on the control websocket.", e);
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event.reason);
+        onFailure(getWsErrorMsg(event.code), event.reason);
       }
     };
 
@@ -80,16 +78,20 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
         onsuccess: () => {
           setVgaLoading(false);
           SpiceHtml5.handle_resize();
+          updateMaxHeight("spice-screen", undefined, 10);
         },
       });
     } catch (e) {
-      notify.failure("error connecting", e);
+      onFailure("error connecting", e);
     }
 
     return control;
   };
 
-  useEventListener("resize", SpiceHtml5.handle_resize);
+  useEventListener("resize", () => {
+    SpiceHtml5.handle_resize();
+    updateMaxHeight("spice-screen", undefined, 10);
+  });
   useEffect(() => {
     const websocketPromise = openVgaConsole();
     return () => {
@@ -111,26 +113,13 @@ const InstanceVga: FC<Props> = ({ controlTarget }) => {
       .requestFullscreen()
       .then(SpiceHtml5.handle_resize)
       .catch((e) => {
-        notify.failure("Failed to enter full-screen mode.", e);
+        onFailure("Failed to enter full-screen mode.", e);
       });
   };
+  onMount(handleFullScreen);
 
   return (
     <>
-      {controlTarget &&
-        createPortal(
-          <>
-            <Button
-              className="u-no-margin--bottom"
-              hasIcon
-              onClick={handleFullScreen}
-            >
-              <Icon name="fullscreen" />
-              <span>Fullscreen</span>
-            </Button>
-          </>,
-          controlTarget
-        )}
       {isVgaLoading ? (
         <Loader text="Loading VGA session..." />
       ) : (

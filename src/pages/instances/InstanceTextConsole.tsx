@@ -11,14 +11,14 @@ import { getWsErrorMsg } from "util/helpers";
 import Loader from "components/Loader";
 import useEventListener from "@use-it/event-listener";
 import { LxdInstance } from "types/instance";
-import { useNotify } from "context/notify";
+import { updateMaxHeight } from "util/updateMaxHeight";
 
 interface Props {
   instance: LxdInstance;
+  onFailure: (message: string, e: unknown) => void;
 }
 
-const InstanceTextConsole: FC<Props> = ({ instance }) => {
-  const notify = useNotify();
+const InstanceTextConsole: FC<Props> = ({ instance, onFailure }) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -32,11 +32,11 @@ const InstanceTextConsole: FC<Props> = ({ instance }) => {
 
   const openWebsockets = async () => {
     if (!name) {
-      notify.failure("Missing name", new Error());
+      onFailure("Missing name", new Error());
       return;
     }
     if (!project) {
-      notify.failure("Missing project", new Error());
+      onFailure("Missing project", new Error());
       return;
     }
 
@@ -46,7 +46,7 @@ const InstanceTextConsole: FC<Props> = ({ instance }) => {
       .catch(console.error);
     const result = await connectInstanceConsole(name, project).catch((e) => {
       setLoading(false);
-      notify.failure("Could not open text console.", e);
+      onFailure("Could not open text console.", e);
     });
     if (!result) {
       return;
@@ -63,12 +63,12 @@ const InstanceTextConsole: FC<Props> = ({ instance }) => {
     };
 
     control.onerror = (e) => {
-      notify.failure("There was an error with the control websocket", e);
+      onFailure("There was an error with the control websocket", e);
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event.reason);
+        onFailure(getWsErrorMsg(event.code), event.reason);
       }
     };
 
@@ -82,12 +82,12 @@ const InstanceTextConsole: FC<Props> = ({ instance }) => {
     };
 
     data.onerror = (e) => {
-      notify.failure("There was an error with data websocket", e);
+      onFailure("There was an error with data websocket", e);
     };
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        notify.failure(getWsErrorMsg(event.code), event.reason);
+        onFailure(getWsErrorMsg(event.code), event.reason);
       }
       setDataWs(null);
     };
@@ -126,6 +126,8 @@ const InstanceTextConsole: FC<Props> = ({ instance }) => {
   }, [textBuffer, xtermRef, isLoading]);
 
   const handleResize = () => {
+    updateMaxHeight("p-terminal", undefined, 10);
+
     xtermRef.current?.terminal.element?.style.setProperty("padding", "1rem");
 
     // ensure options is not undefined. fitAddon.fit will crash otherwise
@@ -136,7 +138,12 @@ const InstanceTextConsole: FC<Props> = ({ instance }) => {
     fitAddon.fit();
   };
 
-  useEventListener("resize", handleResize);
+  // calling handleResize again after a timeout to fix a race condition
+  // between updateMaxHeight and fitAddon.fit
+  useEventListener("resize", () => {
+    handleResize();
+    setTimeout(handleResize, 500);
+  });
   useLayoutEffect(() => {
     handleResize();
   }, [fitAddon, xtermRef, isLoading]);

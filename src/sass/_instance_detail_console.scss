@@ -1,0 +1,17 @@
+.instance-console-tab {
+  .p-panel__controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spv--large;
+    padding-top: 0;
+
+    .console-radio-wrapper {
+      align-items: flex-end;
+      display: flex;
+
+      .right-margin {
+        margin-right: $sph--x-large;
+      }
+    }
+  }
+}
