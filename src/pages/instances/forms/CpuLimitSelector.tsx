@@ -73,7 +73,6 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           }
           value={cpuLimit.dynamicValue ?? ""}
           help={helpText}
-          autoFocus
         />
       )}
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET && (
@@ -87,7 +86,6 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           }
           value={cpuLimit.setValue ?? ""}
           help={helpText}
-          autoFocus
         />
       )}
     </div>

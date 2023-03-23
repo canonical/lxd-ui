@@ -133,7 +133,6 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           }
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
           help={helpText}
-          autoFocus
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
@@ -151,7 +150,6 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             }
             value={`${memoryLimit.value ? memoryLimit.value : ""}`}
             help={helpText}
-            autoFocus
           />
           <Select
             id="memUnitSelect"

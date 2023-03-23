@@ -11,8 +11,8 @@ import {
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
-import { getOverrideRow } from "pages/instances/forms/OverrideRow";
-import OverrideTable from "pages/instances/forms/OverrideTable";
+import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 
 export interface ResourceLimitsFormValues {
   limits_cpu?: CpuLimit;
@@ -43,13 +43,17 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
     (formik.values as CreateInstanceFormValues).instanceType !== "container";
 
   return (
-    <OverrideTable
+    <ConfigurationTable
+      formik={formik}
       rows={[
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           name: "limits_cpu",
           label: "Exposed CPUs",
           defaultValue: DEFAULT_CPU_LIMIT,
+          readOnlyValue: formik.values.limits_cpu
+            ? cpuLimitToPayload(formik.values.limits_cpu)
+            : undefined,
           children: (
             <CpuLimitSelector
               cpuLimit={formik.values.limits_cpu}
@@ -60,11 +64,14 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           name: "limits_memory",
           label: "Memory limit",
           defaultValue: DEFAULT_MEM_LIMIT,
+          readOnlyValue: formik.values.limits_memory
+            ? memoryLimitToPayload(formik.values.limits_memory)
+            : undefined,
           children: (
             <MemoryLimitSelector
               memoryLimit={formik.values.limits_memory}
@@ -75,7 +82,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
@@ -90,12 +97,11 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               options={booleanFieldsAllowDeny}
               value={formik.values.limits_memory_swap}
               disabled={isContainerOnlyDisabled}
-              autoFocus
             />
           ),
         }),
 
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           name: "limits_disk_priority",
           label: "Disk priority",
@@ -109,12 +115,11 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               options={diskPriorities}
               value={formik.values.limits_disk_priority}
               help="Controls how much priority to give to the instance’s I/O requests when under load"
-              autoFocus
             />
           ),
         }),
 
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           name: "limits_processes",
           label: "Max number of processes (Containers only)",
@@ -131,7 +136,6 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               value={formik.values.limits_processes}
               type="number"
               disabled={isContainerOnlyDisabled}
-              autoFocus
             />
           ),
         }),

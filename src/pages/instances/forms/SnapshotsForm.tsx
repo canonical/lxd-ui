@@ -5,8 +5,8 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import { getOverrideRow } from "pages/instances/forms/OverrideRow";
-import OverrideTable from "pages/instances/forms/OverrideTable";
+import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { snapshotOptions } from "util/snapshotOptions";
 
 export interface SnapshotFormValues {
@@ -36,9 +36,10 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
   );
 
   return (
-    <OverrideTable
+    <ConfigurationTable
+      formik={formik}
       rows={[
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
@@ -66,11 +67,11 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
               value={formik.values.snapshots_pattern}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Expire after",
           name: "snapshots_expiry",
@@ -85,11 +86,11 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
               value={formik.values.snapshots_expiry}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
@@ -102,11 +103,11 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
               onChange={formik.handleChange}
               options={booleanFieldsYesNo}
               value={formik.values.snapshots_schedule_stopped}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Schedule",
           name: "snapshots_schedule",
@@ -142,7 +143,6 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                   value={formik.values.snapshots_schedule}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  autoFocus
                 />
               ) : (
                 <Select
@@ -153,7 +153,6 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   options={snapshotOptions}
-                  autoFocus
                 />
               )}
             </div>
