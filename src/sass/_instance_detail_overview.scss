@@ -1,0 +1,86 @@
+.instance-overview-tab {
+  overflow: auto;
+
+  .p-muted-heading {
+    color: #757575;
+    font-weight: 500;
+  }
+
+  .row {
+    margin-top: $spv--large;
+  }
+
+  .general,
+  .usage,
+  .networks {
+    border-bottom: 1px solid $color-mid-light;
+
+    table {
+      margin-bottom: $spv--large;
+    }
+  }
+
+  .general,
+  .usage {
+    tr {
+      border: none;
+    }
+
+    td,
+    th {
+      padding-bottom: $spv--x-small;
+      padding-left: 0;
+      padding-top: $spv--x-small;
+    }
+
+    th {
+      width: 30%;
+    }
+  }
+
+  .networks,
+  .profiles {
+    th {
+      color: #757575;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .networks {
+    th,
+    td {
+      &:nth-child(2) {
+        width: 80px;
+      }
+
+      &:nth-child(3) {
+        width: 94px;
+
+        @include extra-large {
+          width: 105px;
+        }
+      }
+    }
+
+    th:nth-child(1) {
+      width: 30%;
+    }
+  }
+
+  .profiles {
+    th:nth-child(1) {
+      width: 30%;
+    }
+  }
+
+  .usage {
+    .metric-row {
+      td,
+      th {
+        padding-bottom: $spv--x-large;
+      }
+    }
+  }
+}

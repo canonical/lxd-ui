@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { List, Row, Tabs } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
@@ -10,10 +10,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
+import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import InstanceConfiguration from "pages/instances/InstanceConfiguration";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
-import InstanceConsole from "./InstanceConsole";
+import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 
 const TABS: string[] = [
   "Overview",
@@ -36,7 +37,6 @@ const InstanceDetail: FC = () => {
     project: string;
     activeTab?: string;
   }>();
-  const [controlTarget, setControlTarget] = useState<HTMLSpanElement | null>();
 
   if (!name) {
     return <>Missing name</>;
@@ -87,7 +87,7 @@ const InstanceDetail: FC = () => {
             <h4 className="p-panel__title">{name}</h4>
           )}
           <div className="p-panel__controls">
-            {<span id="control-target" ref={(ref) => setControlTarget(ref)} />}
+            {instance && <DeleteInstanceBtn instance={instance} />}
           </div>
         </div>
         <div className="p-panel__content">
@@ -109,10 +109,7 @@ const InstanceDetail: FC = () => {
 
               {!activeTab && (
                 <div role="tabpanel" aria-labelledby="overview">
-                  <InstanceOverview
-                    instance={instance}
-                    controlTarget={controlTarget}
-                  />
+                  <InstanceOverview instance={instance} />
                 </div>
               )}
 
