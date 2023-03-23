@@ -1,5 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
-import { Col, Form, Notification, Row } from "@canonical/react-components";
+import {
+  Button,
+  CodeSnippet,
+  CodeSnippetBlockAppearance,
+  Col,
+  Form,
+  Notification,
+  Row,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -71,7 +79,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
   const [section, setSection] = useState(PROFILE_DETAILS);
-  const [isConfigOpen, setConfigOpen] = useState(false);
+  const [isConfigOpen, setConfigOpen] = useState(true);
 
   if (!project) {
     return <>Missing project</>;
@@ -109,7 +117,9 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       security_privileged: profile.config["security.privileged"],
       security_protection_shift: profile.config["security.protection.shift"],
       security_idmap_base: profile.config["security.idmap.base"],
-      security_idmap_size: profile.config["security.idmap.size"],
+      security_idmap_size: profile.config["security.idmap.size"]
+        ? parseInt(profile.config["security.idmap.size"])
+        : undefined,
       security_idmap_isolated: profile.config["security.idmap.isolated"],
       security_devlxd: profile.config["security.devlxd"],
       security_devlxd_images: profile.config["security.devlxd.images"],
@@ -121,6 +131,8 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       cloud_init_network_config: profile.config["cloud-init.network-config"],
       cloud_init_user_data: profile.config["cloud-init.user-data"],
       cloud_init_vendor_data: profile.config["cloud-init.vendor-data"],
+
+      readOnly: true,
     },
     validationSchema: ProfileSchema,
     onSubmit: (values) => {
@@ -179,6 +191,8 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     return dumpYaml(bareProfile);
   };
 
+  const isReadOnly = formik.values.readOnly;
+
   return (
     <div className="edit-profile">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
@@ -214,20 +228,30 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
-            {section === YAML_CONFIGURATION && (
-              <YamlForm
-                yaml={getYaml()}
-                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-              >
-                <Notification
-                  severity="caution"
-                  title="Before you edit the YAML"
+            {section === YAML_CONFIGURATION &&
+              (isReadOnly ? (
+                <CodeSnippet
+                  blocks={[
+                    {
+                      appearance: CodeSnippetBlockAppearance.NUMBERED,
+                      code: getYaml(),
+                    },
+                  ]}
+                />
+              ) : (
+                <YamlForm
+                  yaml={getYaml()}
+                  setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
                 >
-                  Changes will be discarded, when switching back to the guided
-                  forms.
-                </Notification>
-              </YamlForm>
-            )}
+                  <Notification
+                    severity="caution"
+                    title="Before you edit the YAML"
+                  >
+                    Changes will be discarded, when switching back to the guided
+                    forms.
+                  </Notification>
+                </YamlForm>
+              ))}
           </Col>
         </Row>
       </Form>
@@ -235,12 +259,26 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid}
-              buttonLabel="Save changes"
-              onClick={() => void formik.submitForm()}
-            />
+            {isReadOnly ? (
+              <Button
+                appearance="positive"
+                onClick={() => formik.setFieldValue("readOnly", false)}
+              >
+                Edit
+              </Button>
+            ) : (
+              <>
+                <Button onClick={() => formik.setFieldValue("readOnly", true)}>
+                  Cancel
+                </Button>
+                <SubmitButton
+                  isSubmitting={formik.isSubmitting}
+                  isDisabled={!formik.isValid}
+                  buttonLabel="Save changes"
+                  onClick={() => void formik.submitForm()}
+                />
+              </>
+            )}
           </Col>
         </Row>
       </div>

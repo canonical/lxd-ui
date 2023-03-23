@@ -10,13 +10,11 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStorages } from "api/storages";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
-import OverrideTable from "pages/instances/forms/OverrideTable";
-import {
-  collapsedViewMaxWidth,
-  figureInheritedRootStorage,
-} from "util/formFields";
+import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { figureInheritedRootStorage } from "util/formFields";
 import { fetchProfiles } from "api/profiles";
-import useMediaQuery from "context/mediaQuery";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -24,10 +22,6 @@ interface Props {
 }
 
 const RootStorageForm: FC<Props> = ({ formik, project }) => {
-  const isCollapsedView = useMediaQuery(
-    `(max-width: ${collapsedViewMaxWidth}px)`
-  );
-
   const { data: profiles = [] } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
@@ -51,6 +45,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
       path: "/",
     });
     formik.setFieldValue("devices", copy);
+    setTimeout(() => document.getElementById("rootStoragePool")?.focus(), 100);
   };
 
   const removeRootStorage = () => {
@@ -89,78 +84,72 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     profiles
   );
 
-  const displayValue = hasRootStorage ? (
-    <div>
-      <Select
-        id="rootStoragePool"
-        name={`devices.${index}.pool`}
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        value={(formik.values.devices[index] as LxdDiskDevice).pool}
-        options={getStoragePoolOptions()}
-        autoFocus
-      />
-      <Input
-        id="sizeLimit"
-        label="Size limit in GB"
-        onBlur={formik.handleBlur}
-        onChange={(e) => {
-          formik.setFieldValue(`devices.${index}.size`, e.target.value + "GB");
-        }}
-        value={figureSizeValue()}
-        type="number"
-        placeholder="Enter number"
-      />
-    </div>
-  ) : (
-    inheritedValue
-  );
+  const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
 
-  const displayLabel = hasRootStorage ? (
-    <Label forId="rootStoragePool">
-      <b>Root storage pool</b>
-    </Label>
-  ) : (
-    <div>
-      <b>Root storage pool</b>
-    </div>
-  );
+  const getValue = () => {
+    if (!hasRootStorage) {
+      return inheritedValue;
+    }
+    if (isReadOnly) {
+      return (formik.values.devices[index] as LxdDiskDevice).pool;
+    }
+    return (
+      <div>
+        <Select
+          id="rootStoragePool"
+          name={`devices.${index}.pool`}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={(formik.values.devices[index] as LxdDiskDevice).pool}
+          options={getStoragePoolOptions()}
+        />
+        <Input
+          id="sizeLimit"
+          label="Size limit in GB"
+          onBlur={formik.handleBlur}
+          onChange={(e) => {
+            formik.setFieldValue(
+              `devices.${index}.size`,
+              e.target.value + "GB"
+            );
+          }}
+          value={figureSizeValue()}
+          type="number"
+          placeholder="Enter number"
+        />
+      </div>
+    );
+  };
+
+  const getLabel = () =>
+    hasRootStorage ? (
+      <Label forId="rootStoragePool">
+        <b>Root storage pool</b>
+      </Label>
+    ) : (
+      <div>
+        <b>Root storage pool</b>
+      </div>
+    );
 
   return (
-    <OverrideTable
+    <ConfigurationTable
+      formik={formik}
       rows={[
-        {
-          columns: [
-            {
-              content: (
-                <CheckboxInput
-                  label={undefined}
-                  checked={hasRootStorage}
-                  onChange={hasRootStorage ? removeRootStorage : addRootStorage}
-                />
-              ),
-            },
-            {
-              content: isCollapsedView ? (
-                <>
-                  {displayLabel}
-                  {displayValue}
-                </>
-              ) : (
-                displayLabel
-              ),
-            },
-            {
-              content: displayValue,
-              className: "value",
-            },
-            {
-              content: hasRootStorage
-                ? `Current ${formik.values.type}`
-                : inheritSource,
-            },
-          ],
-        },
+        getConfigurationRowBase({
+          override: (
+            <CheckboxInput
+              label={undefined}
+              checked={hasRootStorage}
+              onChange={hasRootStorage ? removeRootStorage : addRootStorage}
+            />
+          ),
+          label: getLabel(),
+          value: getValue(),
+          defined: hasRootStorage
+            ? `Current ${formik.values.type}`
+            : inheritSource,
+        }),
       ]}
     />
   );

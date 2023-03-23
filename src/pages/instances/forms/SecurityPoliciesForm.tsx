@@ -11,8 +11,8 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import { getOverrideRow } from "pages/instances/forms/OverrideRow";
-import OverrideTable from "pages/instances/forms/OverrideTable";
+import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: string;
@@ -55,9 +55,10 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
       "virtual-machine";
 
   return (
-    <OverrideTable
+    <ConfigurationTable
+      formik={formik}
       rows={[
-        getOverrideRow({
+        getConfigurationRow({
           formik: formik,
           label: "Prevent the instance from being deleted",
           name: "security_protection_delete",
@@ -70,11 +71,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               onChange={formik.handleChange}
               options={booleanFieldsYesNo}
               value={formik.values.security_protection_delete}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Run the instance in privileged mode (Containers only)",
           name: "security_privileged",
@@ -89,11 +90,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               options={booleanFieldsAllowDeny}
               value={formik.values.security_privileged}
               disabled={isContainerOnlyDisabled}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label:
             "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
@@ -109,11 +110,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               options={booleanFieldsYesNo}
               value={formik.values.security_protection_shift}
               disabled={isContainerOnlyDisabled}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Base host id (Containers only)",
           name: "security_idmap_base",
@@ -132,11 +133,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               labelClassName={classnames({
                 "is-disabled": isContainerOnlyDisabled,
               })}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Idmap size (Containers only)",
           name: "security_idmap_size",
@@ -156,11 +157,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               labelClassName={classnames({
                 "is-disabled": isContainerOnlyDisabled,
               })}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Use unique idmap (Containers only)",
           name: "security_idmap_isolated",
@@ -175,11 +176,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               options={booleanFieldsTrueFalse}
               value={formik.values.security_idmap_isolated}
               disabled={isContainerOnlyDisabled}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Allow /dev/lxd in the instance (Containers only)",
           name: "security_devlxd",
@@ -194,11 +195,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               options={booleanFieldsYesNo}
               value={formik.values.security_devlxd}
               disabled={isContainerOnlyDisabled}
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label:
             "Make /1.0/images API available over /dev/lxd (Containers only)",
@@ -216,11 +217,11 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               disabled={
                 !formik.values.security_devlxd || isContainerOnlyDisabled
               }
-              autoFocus
             />
           ),
         }),
-        getOverrideRow({
+
+        getConfigurationRow({
           formik: formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",
@@ -235,7 +236,6 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               options={booleanFieldsTrueFalse}
               value={formik.values.security_secureboot}
               disabled={isVmOnlyDisabled}
-              autoFocus
             />
           ),
         }),

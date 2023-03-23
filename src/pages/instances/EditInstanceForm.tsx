@@ -1,5 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
-import { Col, Form, Notification, Row } from "@canonical/react-components";
+import {
+  Button,
+  CodeSnippet,
+  CodeSnippetBlockAppearance,
+  Col,
+  Form,
+  Notification,
+  Row,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { updateInstance } from "api/instances";
@@ -70,7 +78,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
   const [section, setSection] = useState(INSTANCE_DETAILS);
-  const [isConfigOpen, setConfigOpen] = useState(false);
+  const [isConfigOpen, setConfigOpen] = useState(true);
 
   if (!project) {
     return <>Missing project</>;
@@ -125,6 +133,8 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       cloud_init_network_config: instance.config["cloud-init.network-config"],
       cloud_init_user_data: instance.config["cloud-init.user-data"],
       cloud_init_vendor_data: instance.config["cloud-init.vendor-data"],
+
+      readOnly: true,
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
@@ -135,6 +145,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       updateInstance(JSON.stringify(instancePayload), project, instance.etag)
         .then(() => {
           notify.success("Saved.");
+          void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("Could not save", e);
@@ -193,6 +204,8 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     return dumpYaml(bareInstance);
   };
 
+  const isReadOnly = formik.values.readOnly;
+
   return (
     <div className="edit-instance">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
@@ -229,20 +242,30 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
-            {section === YAML_CONFIGURATION && (
-              <YamlForm
-                yaml={getYaml()}
-                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-              >
-                <Notification
-                  severity="caution"
-                  title="Before you edit the YAML"
+            {section === YAML_CONFIGURATION &&
+              (isReadOnly ? (
+                <CodeSnippet
+                  blocks={[
+                    {
+                      appearance: CodeSnippetBlockAppearance.NUMBERED,
+                      code: getYaml(),
+                    },
+                  ]}
+                />
+              ) : (
+                <YamlForm
+                  yaml={getYaml()}
+                  setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
                 >
-                  Changes will be discarded, when switching back to the guided
-                  forms.
-                </Notification>
-              </YamlForm>
-            )}
+                  <Notification
+                    severity="caution"
+                    title="Before you edit the YAML"
+                  >
+                    Changes will be discarded, when switching back to the guided
+                    forms.
+                  </Notification>
+                </YamlForm>
+              ))}
           </Col>
         </Row>
       </Form>
@@ -250,12 +273,27 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid}
-              buttonLabel="Save changes"
-              onClick={() => void formik.submitForm()}
-            />
+            {isReadOnly ? (
+              <Button
+                appearance="positive"
+                onClick={() => formik.setFieldValue("readOnly", false)}
+              >
+                Edit
+              </Button>
+            ) : (
+              <>
+                <Button onClick={() => formik.setFieldValue("readOnly", true)}>
+                  Cancel
+                </Button>
+
+                <SubmitButton
+                  isSubmitting={formik.isSubmitting}
+                  isDisabled={!formik.isValid}
+                  buttonLabel="Save changes"
+                  onClick={() => void formik.submitForm()}
+                />
+              </>
+            )}
           </Col>
         </Row>
       </div>

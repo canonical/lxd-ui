@@ -156,6 +156,16 @@ $border-thin: 1px solid $color-mid-light !default;
   }
 }
 
+.cloud-init .override-table {
+  .config {
+    width: 6rem;
+  }
+
+  .defined {
+    width: 8rem;
+  }
+}
+
 @media screen and (max-width: 1340px) {
   .override-table {
     width: 30rem;
@@ -174,6 +184,16 @@ $border-thin: 1px solid $color-mid-light !default;
 
     .defined {
       width: 8rem;
+    }
+  }
+
+  .cloud-init .override-table {
+    .config {
+      width: 20rem;
+    }
+
+    .defined {
+      width: 5rem;
     }
   }
 }
