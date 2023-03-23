@@ -16,7 +16,8 @@ export const fetchInstance = (
         return handleResponse(response)
           .then((data: LxdApiResponse<LxdInstance>) => {
             const result = data.metadata;
-            result.etag = response.headers.get("etag") ?? undefined;
+            result.etag =
+              response.headers.get("etag")?.replace("W/", "") ?? undefined;
             resolve(result);
           })
           .catch(reject);
