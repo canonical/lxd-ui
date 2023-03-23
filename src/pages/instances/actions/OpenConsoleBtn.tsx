@@ -11,15 +11,9 @@ const OpenConsoleBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    if (instance.type === "virtual-machine" && instance.status === "Running") {
-      navigate(
-        `/ui/${instance.project}/instances/detail/${instance.name}/vga-console`
-      );
-    } else {
-      navigate(
-        `/ui/${instance.project}/instances/detail/${instance.name}/text-console`
-      );
-    }
+    navigate(
+      `/ui/${instance.project}/instances/detail/${instance.name}/console`
+    );
   };
 
   return (
