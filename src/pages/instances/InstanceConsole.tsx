@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { Button, RadioInput } from "@canonical/react-components";
 import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
@@ -6,8 +6,6 @@ import InstanceVga from "./InstanceVga";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
 import { failure } from "context/notify";
-import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
 
 interface Props {
   instance: LxdInstance;
@@ -22,15 +20,6 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const onFailure = (message: string, e: unknown) => {
     setInTabNotification(failure(message, e));
   };
-
-  const handleResize = () => {
-    updateMaxHeight("console-wrapper", undefined, 10);
-  };
-
-  useEventListener("resize", handleResize);
-  useLayoutEffect(() => {
-    handleResize();
-  }, [inTabNotification]);
 
   let handleFullScreen = () => {
     /**/
@@ -71,13 +60,17 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
         notification={inTabNotification}
         onDismiss={() => setInTabNotification(null)}
       />
-      <div className="console-wrapper">
-        {isGraphic ? (
-          <InstanceVga onMount={onChildMount} onFailure={onFailure} />
-        ) : (
-          <InstanceTextConsole instance={instance} onFailure={onFailure} />
-        )}
-      </div>
+      {isGraphic ? (
+        <div className="spice-wrapper">
+          <InstanceVga
+            onMount={onChildMount}
+            onFailure={onFailure}
+            inTabNotification={inTabNotification}
+          />
+        </div>
+      ) : (
+        <InstanceTextConsole instance={instance} onFailure={onFailure} />
+      )}
     </div>
   );
 };

@@ -5,6 +5,8 @@ import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import Loader from "components/Loader";
+import { useNotify } from "context/notify";
+import { Notification } from "types/notification";
 import { updateMaxHeight } from "util/updateMaxHeight";
 
 declare global {
@@ -17,18 +19,25 @@ declare global {
 interface Props {
   onMount: (handler: () => void) => void;
   onFailure: (message: string, e: unknown) => void;
+  inTabNotification: Notification | null;
 }
 
-const InstanceVga: FC<Props> = ({ onMount, onFailure }) => {
+const InstanceVga: FC<Props> = ({ onMount, onFailure, inTabNotification }) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
   }>();
+  const notify = useNotify();
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
   const handleError = (e: object) => {
     onFailure("spice error", e);
+  };
+
+  const handleResize = () => {
+    updateMaxHeight("spice-wrapper", undefined, 10);
+    SpiceHtml5.handle_resize();
   };
 
   const openVgaConsole = async () => {
@@ -77,9 +86,9 @@ const InstanceVga: FC<Props> = ({ onMount, onFailure }) => {
         onerror: handleError,
         onsuccess: () => {
           setVgaLoading(false);
-          SpiceHtml5.handle_resize();
-          updateMaxHeight("spice-screen", undefined, 10);
+          handleResize();
         },
+        onagent: handleResize,
       });
     } catch (e) {
       onFailure("error connecting", e);
@@ -88,10 +97,12 @@ const InstanceVga: FC<Props> = ({ onMount, onFailure }) => {
     return control;
   };
 
-  useEventListener("resize", () => {
-    SpiceHtml5.handle_resize();
-    updateMaxHeight("spice-screen", undefined, 10);
-  });
+  useEventListener("resize", handleResize);
+  useEffect(handleResize, [
+    notify.notification?.message,
+    inTabNotification?.message,
+  ]);
+
   useEffect(() => {
     const websocketPromise = openVgaConsole();
     return () => {
@@ -111,7 +122,7 @@ const InstanceVga: FC<Props> = ({ onMount, onFailure }) => {
     }
     container
       .requestFullscreen()
-      .then(SpiceHtml5.handle_resize)
+      .then(handleResize)
       .catch((e) => {
         onFailure("Failed to enter full-screen mode.", e);
       });

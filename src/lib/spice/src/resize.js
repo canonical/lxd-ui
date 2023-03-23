@@ -46,29 +46,27 @@ function resize_helper(sc)
       || document.mozFullScreenElement
       || document.msFullscreenElement;
 
-    /* Resize vertically; basically we leave a 27 pixel margin
-         at the bottom, and use the position of the wrapper
-         to figure out how to resize */
-    var h = window.innerHeight - wrapper.offsetTop;
-    if (!isFullScreen && wrapper?.parentElement?.parentElement) {
-        var paddingBottom = parseInt(window.getComputedStyle(wrapper.parentElement.parentElement.parentElement).paddingBottom);
-        h = h - paddingBottom;
+    var height = window.innerHeight - wrapper.getBoundingClientRect().top;
+
+    /* leave a margin at the bottom when not in full screen */
+    if (!isFullScreen) {
+        height = height - 20;
     }
 
-    if (h < 400) {
-        h = 400;
+    /* minimum height constraint */
+    if (height < 200) {
+        height = 200;
     }
 
     /* Xorg requires height be a multiple of 8; round down */
-    if (h % 8 > 0)
-        h -= (h % 8);
+    if (height % 8 > 0)
+        height -= (height % 8);
 
     /* Xorg requires width be a multiple of 8; round down */
     if (width % 8 > 0)
         width -= (width % 8);
 
-
-    sc.resize_window(0, width, h, 32, 0, 0);
+    sc.resize_window(0, width, height, 32, 0, 0);
     sc.spice_resize_timer = undefined;
 }
 
