@@ -15,6 +15,8 @@ import { figureInheritedRootStorage } from "util/formFields";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
+import Loader from "components/Loader";
+import { useNotify } from "context/notify";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -22,15 +24,37 @@ interface Props {
 }
 
 const RootStorageForm: FC<Props> = ({ formik, project }) => {
-  const { data: profiles = [] } = useQuery({
+  const notify = useNotify();
+
+  const {
+    data: profiles = [],
+    isLoading,
+    error: profileError,
+  } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
   });
 
-  const { data: storagePools = [] } = useQuery({
+  if (profileError) {
+    notify.failure("Could not load profiles.", profileError);
+  }
+
+  const {
+    data: storagePools = [],
+    isLoading: isStorageLoading,
+    error: storageError,
+  } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStorages(project),
   });
+
+  if (storageError) {
+    notify.failure("Could not load storages.", storageError);
+  }
+
+  if (isLoading || isStorageLoading) {
+    return <Loader />;
+  }
 
   const index = formik.values.devices.findIndex(
     (item) => item.type === "disk" && item.name === "root"
@@ -88,10 +112,10 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
 
   const getValue = () => {
     if (!hasRootStorage) {
-      return inheritedValue;
+      return <div>{inheritedValue}</div>;
     }
     if (isReadOnly) {
-      return (formik.values.devices[index] as LxdDiskDevice).pool;
+      return <div>{(formik.values.devices[index] as LxdDiskDevice).pool}</div>;
     }
     return (
       <div>

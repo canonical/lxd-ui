@@ -1,10 +1,5 @@
 import React, { ReactNode } from "react";
-import {
-  CheckboxInput,
-  CodeSnippet,
-  CodeSnippetBlockAppearance,
-  Label,
-} from "@canonical/react-components";
+import { CheckboxInput, Label } from "@canonical/react-components";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -14,6 +9,8 @@ import { figureInheritedValue } from "util/formFields";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import YamlForm from "pages/instances/forms/YamlForm";
+import { useNotify } from "context/notify";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -31,18 +28,23 @@ export const getConfigurationRow = ({
   label,
   children,
   defaultValue,
-  disabled = undefined,
+  disabled = false,
   readOnlyValue,
 }: Props): MainTableRow => {
+  const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   if (!project) {
     return <>Missing project</>;
   }
 
-  const { data: profiles = [] } = useQuery({
+  const { data: profiles = [], error: profileError } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
   });
+
+  if (profileError) {
+    notify.failure("Could not load profiles.", profileError);
+  }
 
   const values = formik.values as unknown as Record<string, string | undefined>;
   const isOverridden = values[name] !== undefined;
@@ -66,14 +68,7 @@ export const getConfigurationRow = ({
   const figureDisplayValue = (): ReactNode => {
     if (!isOverridden) {
       return name.startsWith("cloud_init") && inheritedValue !== "-" ? (
-        <CodeSnippet
-          blocks={[
-            {
-              appearance: CodeSnippetBlockAppearance.NUMBERED,
-              code: inheritedValue,
-            },
-          ]}
-        />
+        <YamlForm yaml={inheritedValue} autoResize={true} isReadOnly={true} />
       ) : (
         inheritedValue
       );
@@ -90,9 +85,7 @@ export const getConfigurationRow = ({
       <b>{label}</b>
     </Label>
   ) : (
-    <div>
-      <b>{label}</b>
-    </div>
+    <b>{label}</b>
   );
 
   return getConfigurationRowBase({

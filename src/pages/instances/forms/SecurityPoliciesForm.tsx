@@ -163,7 +163,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
 
         getConfigurationRow({
           formik: formik,
-          label: "Use unique idmap (Containers only)",
+          label: "Unique idmap usage (Containers only)",
           name: "security_idmap_isolated",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
@@ -173,7 +173,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               name="security_idmap_isolated"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsTrueFalse}
+              options={booleanFieldsYesNo}
               value={formik.values.security_idmap_isolated}
               disabled={isContainerOnlyDisabled}
             />
@@ -214,9 +214,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
               onChange={formik.handleChange}
               options={booleanFieldsYesNo}
               value={formik.values.security_devlxd_images}
-              disabled={
-                !formik.values.security_devlxd || isContainerOnlyDisabled
-              }
+              disabled={isContainerOnlyDisabled}
             />
           ),
         }),

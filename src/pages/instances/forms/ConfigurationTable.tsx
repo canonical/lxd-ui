@@ -1,20 +1,23 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import { Icon, MainTable, Tooltip } from "@canonical/react-components";
 import {
   MainTableCell,
   MainTableHeader,
   MainTableRow,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { collapsedViewMaxWidth } from "util/formFields";
-import useMediaQuery from "context/mediaQuery";
+import { figureCollapsedScreen } from "util/formFields";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import useEventListener from "@use-it/event-listener";
+import { updateTBodyHeight } from "util/updateTBodyHeight";
+import { useNotify } from "context/notify";
 
 interface Props {
   formik: SharedFormikTypes;
   rows: MainTableRow[];
   configurationExtra?: ReactNode;
   emptyStateMsg?: string;
+  isCollapsedOverride?: boolean;
 }
 
 const ConfigurationTable: FC<Props> = ({
@@ -22,10 +25,18 @@ const ConfigurationTable: FC<Props> = ({
   rows,
   configurationExtra,
   emptyStateMsg,
+  isCollapsedOverride,
 }) => {
-  const isCollapsedView = useMediaQuery(
-    `(max-width: ${collapsedViewMaxWidth}px)`
-  );
+  const notify = useNotify();
+  const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
+  const isCollapsedView = isSmallScreen || isCollapsedOverride;
+
+  const resize = () => {
+    updateTBodyHeight("configuration-table");
+    setSmallScreen(figureCollapsedScreen());
+  };
+  useEventListener("resize", resize);
+  useEffect(resize, [notify.notification]);
 
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
 
@@ -33,14 +44,17 @@ const ConfigurationTable: FC<Props> = ({
     item.className !== "override";
 
   const filterHeaders = (headers: MainTableHeader[]): MainTableHeader[] => {
-    return isReadOnly ? headers.filter(hasOverrideClass) : headers;
+    const prefiltered = isCollapsedView
+      ? headers.filter((header) => header.className !== "value")
+      : headers;
+    return isReadOnly ? prefiltered.filter(hasOverrideClass) : prefiltered;
   };
 
   const filterRows = (rows: MainTableRow[]): MainTableRow[] => {
     return isReadOnly
       ? rows.map((row) => {
-          row.columns = row.columns?.filter(hasOverrideClass);
-          return row;
+          const filteredColumns = row.columns?.filter(hasOverrideClass);
+          return { ...row, columns: filteredColumns };
         })
       : rows;
   };
@@ -48,13 +62,15 @@ const ConfigurationTable: FC<Props> = ({
   const collapseRows = (rows: MainTableRow[]): MainTableRow[] => {
     return isCollapsedView
       ? rows.map((row) => {
-          row.columns = [
+          const collapsedColumns = [
             row.columns?.find((col) => col.className === "override") ?? {},
             {
               content: (
                 <>
-                  {row.columns?.find((col) => col.className === "config")
-                    ?.content ?? ""}
+                  <div>
+                    {row.columns?.find((col) => col.className === "config")
+                      ?.content ?? ""}
+                  </div>
                   {row.columns?.find((col) => col.className === "value")
                     ?.content ?? ""}
                 </>
@@ -63,14 +79,14 @@ const ConfigurationTable: FC<Props> = ({
             },
             row.columns?.find((col) => col.className === "defined") ?? {},
           ];
-          return row;
+          return { ...row, columns: collapsedColumns };
         })
       : rows;
   };
 
   const headers = [
     {
-      content: isCollapsedView ? (
+      content: isSmallScreen ? (
         <Tooltip message="Select configuration to override">
           <Icon name="information" />
         </Tooltip>
@@ -86,7 +102,8 @@ const ConfigurationTable: FC<Props> = ({
 
   return (
     <MainTable
-      className="u-table-layout--fixed override-table"
+      className="u-table-layout--fixed configuration-table"
+      id="configuration-table"
       emptyStateMsg={emptyStateMsg}
       headers={filterHeaders(headers)}
       rows={filterRows(collapseRows(rows))}

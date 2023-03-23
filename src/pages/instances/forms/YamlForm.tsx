@@ -11,9 +11,10 @@ export interface YamlFormValues {
 
 interface Props {
   yaml: string;
-  setYaml: (text: string) => void;
+  setYaml?: (text: string) => void;
   children?: ReactNode;
   autoResize?: boolean;
+  isReadOnly?: boolean;
 }
 
 const YamlForm: FC<Props> = ({
@@ -21,6 +22,7 @@ const YamlForm: FC<Props> = ({
   setYaml,
   children,
   autoResize = false,
+  isReadOnly = false,
 }) => {
   const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -49,7 +51,7 @@ const YamlForm: FC<Props> = ({
           defaultValue={yaml}
           language="yaml"
           theme="vs-dark"
-          onChange={(value) => value && setYaml(value)}
+          onChange={(value) => value && setYaml && setYaml(value)}
           options={{
             fontSize: 18,
             scrollBeyondLastLine: false,
@@ -59,6 +61,7 @@ const YamlForm: FC<Props> = ({
               enabled: false,
             },
             overviewRulerLanes: 0,
+            readOnly: isReadOnly,
           }}
           onMount={(editor: IStandaloneCodeEditor) => {
             setEditor(editor);

@@ -1,10 +1,5 @@
 import React, { FC } from "react";
-import {
-  CodeSnippet,
-  CodeSnippetBlockAppearance,
-  Icon,
-  Tooltip,
-} from "@canonical/react-components";
+import { Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "pages/profiles/CloudInitConfig";
 import {
   SharedFormikTypes,
@@ -12,6 +7,7 @@ import {
 } from "pages/instances/forms/sharedFormTypes";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import YamlForm from "pages/instances/forms/YamlForm";
 
 export interface CloudInitFormValues {
   cloud_init_network_config?: string;
@@ -33,37 +29,27 @@ interface Props {
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
   const codeRenderer = (value?: string) =>
-    value ? (
-      <CodeSnippet
-        blocks={[
-          {
-            appearance: CodeSnippetBlockAppearance.NUMBERED,
-            code: value,
-          },
-        ]}
-      />
-    ) : (
-      "-"
-    );
+    value ? <YamlForm yaml={value} autoResize={true} isReadOnly={true} /> : "-";
 
   return (
     <div className="cloud-init">
       <ConfigurationTable
         formik={formik}
+        isCollapsedOverride={true}
         configurationExtra={
-          <>
-            {" "}
-            <Tooltip message="Applied only to images that have the cloud-init package installed.">
-              <Icon name="warning-grey" />
-            </Tooltip>
-          </>
+          <Tooltip
+            message="Applied only to images that have the cloud-init package installed."
+            className="configuration-extra"
+          >
+            <Icon name="warning-grey" />
+          </Tooltip>
         }
         rows={[
           getConfigurationRow({
             formik: formik,
             label: "Network config",
             name: "cloud_init_network_config",
-            defaultValue: "",
+            defaultValue: "\n\n",
             readOnlyValue: codeRenderer(
               formik.values.cloud_init_network_config
             ),
@@ -81,7 +67,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             formik: formik,
             label: "User data",
             name: "cloud_init_user_data",
-            defaultValue: "",
+            defaultValue: "\n\n",
             readOnlyValue: codeRenderer(formik.values.cloud_init_user_data),
             children: (
               <CloudInitConfig
@@ -97,7 +83,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             formik: formik,
             label: "Vendor data",
             name: "cloud_init_vendor_data",
-            defaultValue: "",
+            defaultValue: "\n\n",
             readOnlyValue: codeRenderer(formik.values.cloud_init_vendor_data),
             children: (
               <CloudInitConfig

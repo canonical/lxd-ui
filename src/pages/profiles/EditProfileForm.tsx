@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import {
   Button,
-  CodeSnippet,
-  CodeSnippetBlockAppearance,
   Col,
   Form,
   Notification,
@@ -17,11 +15,7 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
-import {
-  parseDevices,
-  FormDeviceValues,
-  formDeviceToPayload,
-} from "util/formDevices";
+import { FormDeviceValues, formDeviceToPayload } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
@@ -39,7 +33,6 @@ import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
-import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { updateProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
@@ -60,6 +53,7 @@ import ProfileDetailsForm, {
   profileDetailPayload,
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
+import { getEditValues } from "util/formFields";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -95,45 +89,14 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     name: Yup.string().required("Name is required"),
   });
 
+  const initialValues = {
+    type: "profile",
+    readOnly: true,
+    ...getEditValues(profile),
+  };
+
   const formik = useFormik<EditProfileFormValues>({
-    initialValues: {
-      name: profile.name,
-      description: profile.description,
-      type: "profile",
-
-      devices: parseDevices(profile.devices),
-
-      limits_cpu: parseCpuLimit(profile.config["limits.cpu"]),
-      limits_memory: parseMemoryLimit(profile.config["limits.memory"]),
-      limits_memory_swap: profile.config["limits.memory.swap"],
-      limits_disk_priority: profile.config["limits.disk.priority"]
-        ? parseInt(profile.config["limits.disk.priority"])
-        : undefined,
-      limits_processes: profile.config["limits.processes"]
-        ? parseInt(profile.config["limits.processes"])
-        : undefined,
-
-      security_protection_delete: profile.config["security.protection.delete"],
-      security_privileged: profile.config["security.privileged"],
-      security_protection_shift: profile.config["security.protection.shift"],
-      security_idmap_base: profile.config["security.idmap.base"],
-      security_idmap_size: profile.config["security.idmap.size"]
-        ? parseInt(profile.config["security.idmap.size"])
-        : undefined,
-      security_idmap_isolated: profile.config["security.idmap.isolated"],
-      security_devlxd: profile.config["security.devlxd"],
-      security_devlxd_images: profile.config["security.devlxd.images"],
-      security_secureboot: profile.config["security.secureboot"],
-      snapshots_pattern: profile.config["snapshots.pattern"],
-      snapshots_expiry: profile.config["snapshots.expiry"],
-      snapshots_schedule: profile.config["snapshots.schedule"],
-      snapshots_schedule_stopped: profile.config["snapshots.schedule.stopped"],
-      cloud_init_network_config: profile.config["cloud-init.network-config"],
-      cloud_init_user_data: profile.config["cloud-init.user-data"],
-      cloud_init_vendor_data: profile.config["cloud-init.vendor-data"],
-
-      readOnly: true,
-    },
+    initialValues: initialValues,
     validationSchema: ProfileSchema,
     onSubmit: (values) => {
       const profilePayload = values.yaml
@@ -228,30 +191,21 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
-            {section === YAML_CONFIGURATION &&
-              (isReadOnly ? (
-                <CodeSnippet
-                  blocks={[
-                    {
-                      appearance: CodeSnippetBlockAppearance.NUMBERED,
-                      code: getYaml(),
-                    },
-                  ]}
-                />
-              ) : (
-                <YamlForm
-                  yaml={getYaml()}
-                  setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+            {section === YAML_CONFIGURATION && (
+              <YamlForm
+                yaml={getYaml()}
+                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+                isReadOnly={isReadOnly}
+              >
+                <Notification
+                  severity="caution"
+                  title="Before you edit the YAML"
                 >
-                  <Notification
-                    severity="caution"
-                    title="Before you edit the YAML"
-                  >
-                    Changes will be discarded, when switching back to the guided
-                    forms.
-                  </Notification>
-                </YamlForm>
-              ))}
+                  Changes will be discarded, when switching back to the guided
+                  forms.
+                </Notification>
+              </YamlForm>
+            )}
           </Col>
         </Row>
       </Form>
@@ -264,11 +218,11 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
                 appearance="positive"
                 onClick={() => formik.setFieldValue("readOnly", false)}
               >
-                Edit
+                Edit profile
               </Button>
             ) : (
               <>
-                <Button onClick={() => formik.setFieldValue("readOnly", true)}>
+                <Button onClick={() => formik.setValues(initialValues)}>
                   Cancel
                 </Button>
                 <SubmitButton

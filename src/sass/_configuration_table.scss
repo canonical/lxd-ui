@@ -1,0 +1,84 @@
+.configuration-table {
+  margin-bottom: 0;
+  margin-top: -3px;
+  width: 54rem;
+
+  td:last-child {
+    padding-bottom: 0;
+    padding-right: $sph--large;
+  }
+
+  thead,
+  tbody {
+    display: block;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  tbody {
+    height: calc(100vh - 146px);
+  }
+
+  thead tr,
+  tbody tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .override {
+    width: 5rem;
+  }
+
+  .config {
+    width: 15rem;
+  }
+
+  .value {
+    width: 20rem;
+  }
+
+  .defined {
+    width: 13rem;
+  }
+
+  .configuration-extra {
+    margin-left: $sph--small;
+  }
+
+  label {
+    margin-bottom: 0;
+    padding-top: 0;
+  }
+}
+
+.cloud-init .configuration-table {
+  .config {
+    width: 35rem;
+  }
+}
+
+@media screen and (max-width: 1420px) {
+  .configuration-table {
+    min-width: 32rem;
+    width: 100%;
+
+    .override {
+      width: 2rem;
+    }
+
+    .config {
+      width: 20rem;
+    }
+
+    .defined {
+      width: 8rem;
+    }
+  }
+
+  .cloud-init .configuration-table {
+    .config {
+      width: 20rem;
+    }
+  }
+}

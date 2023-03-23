@@ -16,6 +16,7 @@
     display: flex;
 
     .form-navigation {
+      overflow: auto;
       width: 18rem;
 
       .p-side-navigation__link {
@@ -53,12 +54,10 @@
 
     .profile-action-btn {
       margin-right: $sph--large;
-      margin-top: 2.5rem;
     }
 
     .profile-delete-btn {
       margin-left: $sph--large;
-      margin-top: 2.5rem;
     }
 
     .delete-device {
@@ -78,7 +77,19 @@
   }
 
   .cpu-limit-label,
-  .memory-limit-label,
+  .memory-limit-label {
+    align-items: flex-end;
+    display: flex;
+
+    > * {
+      margin-bottom: $spv--large;
+    }
+
+    > :first-child {
+      margin-right: $sph--x-large;
+    }
+  }
+
   .snapshot-schedule {
     > * {
       margin-bottom: $spv--large;
