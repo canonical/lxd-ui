@@ -130,7 +130,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               id="limits_processes"
               name="limits_processes"
               placeholder="Enter number"
-              min={0}
+              min={1}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.limits_processes}

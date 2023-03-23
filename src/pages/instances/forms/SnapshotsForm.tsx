@@ -52,7 +52,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
               help={
                 <>
                   Pongo2 template string that represents the snapshot name (used
-                  for scheduled snapshots and unnamed snapshots) see{" "}
+                  for scheduled snapshots and unnamed snapshots), see{" "}
                   <a
                     className="p-link--external"
                     href="https://linuxcontainers.org/lxd/docs/latest/reference/instance_options/#instance-options-snapshots-names"
@@ -138,7 +138,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                   name="snapshots_schedule"
                   label="Cron expression"
                   placeholder="Enter cron expression"
-                  help="<minute> <hour> <dom> <month> <dow>), a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
+                  help="<minute> <hour> <dom> <month> <dow>, a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
                   type="text"
                   value={formik.values.snapshots_schedule}
                   onBlur={formik.handleBlur}

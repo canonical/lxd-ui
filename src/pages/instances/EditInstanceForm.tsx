@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import {
   Button,
-  CodeSnippet,
-  CodeSnippetBlockAppearance,
   Col,
   Form,
   Notification,
@@ -19,11 +17,7 @@ import { yamlToObject } from "util/yaml";
 import { useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { useNotify } from "context/notify";
-import {
-  parseDevices,
-  formDeviceToPayload,
-  FormDeviceValues,
-} from "util/formDevices";
+import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
@@ -41,7 +35,6 @@ import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
-import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import InstanceEditDetailsForm, {
   instanceEditDetailPayload,
   InstanceEditDetailsFormValues,
@@ -60,6 +53,7 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
+import { getEditValues } from "util/formFields";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -95,47 +89,16 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
+  const initialValues = {
+    instanceType: instance.type,
+    profiles: instance.profiles,
+    type: "instance",
+    readOnly: true,
+    ...getEditValues(instance),
+  };
+
   const formik = useFormik<EditInstanceFormValues>({
-    initialValues: {
-      name: instance.name,
-      description: instance.description,
-      instanceType: instance.type,
-      profiles: instance.profiles,
-      type: "instance",
-
-      devices: parseDevices(instance.devices),
-
-      limits_cpu: parseCpuLimit(instance.config["limits.cpu"]),
-      limits_memory: parseMemoryLimit(instance.config["limits.memory"]),
-      limits_memory_swap: instance.config["limits.memory.swap"],
-      limits_disk_priority: instance.config["limits.disk.priority"]
-        ? parseInt(instance.config["limits.disk.priority"])
-        : undefined,
-      limits_processes: instance.config["limits.processes"]
-        ? parseInt(instance.config["limits.processes"])
-        : undefined,
-
-      security_protection_delete: instance.config["security.protection.delete"],
-      security_privileged: instance.config["security.privileged"],
-      security_protection_shift: instance.config["security.protection.shift"],
-      security_idmap_base: instance.config["security.idmap.base"],
-      security_idmap_size: instance.config["security.idmap.size"]
-        ? parseInt(instance.config["security.idmap.size"])
-        : undefined,
-      security_idmap_isolated: instance.config["security.idmap.isolated"],
-      security_devlxd: instance.config["security.devlxd"],
-      security_devlxd_images: instance.config["security.devlxd.images"],
-      security_secureboot: instance.config["security.secureboot"],
-      snapshots_pattern: instance.config["snapshots.pattern"],
-      snapshots_expiry: instance.config["snapshots.expiry"],
-      snapshots_schedule: instance.config["snapshots.schedule"],
-      snapshots_schedule_stopped: instance.config["snapshots.schedule.stopped"],
-      cloud_init_network_config: instance.config["cloud-init.network-config"],
-      cloud_init_user_data: instance.config["cloud-init.user-data"],
-      cloud_init_vendor_data: instance.config["cloud-init.vendor-data"],
-
-      readOnly: true,
-    },
+    initialValues: initialValues,
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
       const instancePayload = values.yaml
@@ -242,30 +205,21 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
-            {section === YAML_CONFIGURATION &&
-              (isReadOnly ? (
-                <CodeSnippet
-                  blocks={[
-                    {
-                      appearance: CodeSnippetBlockAppearance.NUMBERED,
-                      code: getYaml(),
-                    },
-                  ]}
-                />
-              ) : (
-                <YamlForm
-                  yaml={getYaml()}
-                  setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+            {section === YAML_CONFIGURATION && (
+              <YamlForm
+                yaml={getYaml()}
+                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+                isReadOnly={isReadOnly}
+              >
+                <Notification
+                  severity="caution"
+                  title="Before you edit the YAML"
                 >
-                  <Notification
-                    severity="caution"
-                    title="Before you edit the YAML"
-                  >
-                    Changes will be discarded, when switching back to the guided
-                    forms.
-                  </Notification>
-                </YamlForm>
-              ))}
+                  Changes will be discarded, when switching back to the guided
+                  forms.
+                </Notification>
+              </YamlForm>
+            )}
           </Col>
         </Row>
       </Form>
@@ -278,14 +232,13 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
                 appearance="positive"
                 onClick={() => formik.setFieldValue("readOnly", false)}
               >
-                Edit
+                Edit instance
               </Button>
             ) : (
               <>
-                <Button onClick={() => formik.setFieldValue("readOnly", true)}>
+                <Button onClick={() => formik.setValues(initialValues)}>
                   Cancel
                 </Button>
-
                 <SubmitButton
                   isSubmitting={formik.isSubmitting}
                   isDisabled={!formik.isValid}

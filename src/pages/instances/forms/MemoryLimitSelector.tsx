@@ -141,7 +141,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             id="limits_memory"
             name="limits_memory"
             type="number"
-            min="1"
+            min="0"
             max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
             step="Any"
             placeholder="Enter value"

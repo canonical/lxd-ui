@@ -17,6 +17,8 @@ import { figureInheritedNetworks } from "util/formFields";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
+import Loader from "components/Loader";
+import { useNotify } from "context/notify";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -24,10 +26,37 @@ interface Props {
 }
 
 const NetworkForm: FC<Props> = ({ formik, project }) => {
-  const { data: profiles = [] } = useQuery({
+  const notify = useNotify();
+
+  const {
+    data: profiles = [],
+    isLoading,
+    error: profileError,
+  } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
   });
+
+  if (profileError) {
+    notify.failure("Could not load profiles.", profileError);
+  }
+
+  const {
+    data: networks = [],
+    isLoading: isNetworkLoading,
+    error: networkError,
+  } = useQuery({
+    queryKey: [queryKeys.networks],
+    queryFn: () => fetchNetworks(project),
+  });
+
+  if (profileError) {
+    notify.failure("Could not load networks.", networkError);
+  }
+
+  if (isLoading || isNetworkLoading) {
+    return <Loader />;
+  }
 
   const removeNetwork = (index: number) => {
     const copy = [...formik.values.devices];
@@ -40,11 +69,6 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
     copy.push({ type: "nic", name: "" });
     formik.setFieldValue("devices", copy);
   };
-
-  const { data: networks = [] } = useQuery({
-    queryKey: [queryKeys.networks],
-    queryFn: () => fetchNetworks(project),
-  });
 
   const getNetworkOptions = () => {
     const options = networks.map((network) => {
@@ -71,7 +95,12 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
         ...inheritedNetworks.map((item) => {
           return getConfigurationRowBase({
             override: (
-              <Tooltip message="This network is inherited from a profile or project. To change it, edit it in the profile or project it originates from, or remove the originating item">
+              <Tooltip
+                message="This network is inherited from a profile or project.
+To change it, edit it in the profile or project it originates from,
+or remove the originating item"
+                position="btm-left"
+              >
                 <Icon name="warning-grey" />
               </Tooltip>
             ),

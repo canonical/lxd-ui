@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { Button, Col, Icon, Row, Select } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Icon,
+  Label,
+  Row,
+  Select,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
@@ -10,9 +17,15 @@ interface Props {
   project: string;
   selected: string[];
   setSelected: (profiles: string[]) => void;
+  isReadOnly: boolean;
 }
 
-const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
+const ProfileSelector: FC<Props> = ({
+  project,
+  selected,
+  setSelected,
+  isReadOnly,
+}) => {
   const notify = useNotify();
 
   const {
@@ -45,6 +58,7 @@ const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
 
   return (
     <>
+      <Label forId="profile-1">Profiles</Label>
       {selected.map((value, index) => (
         <Row key={value}>
           <Col size={8}>
@@ -55,7 +69,6 @@ const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
                 index === selected.length - 1 &&
                 "Each profile overrides the settings specified in previous profiles"
               }
-              label={`Profile ${index + 1}`}
               onChange={(e) => {
                 selected[index] = e.target.value;
                 setSelected(selected);
@@ -73,9 +86,10 @@ const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
                   };
                 })}
               value={value}
+              disabled={isReadOnly}
             ></Select>
           </Col>
-          {(index > 0 || selected.length > 1) && (
+          {!isReadOnly && (index > 0 || selected.length > 1) && (
             <Col size={4}>
               <Button
                 appearance="link"
@@ -125,13 +139,15 @@ const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
           )}
         </Row>
       ))}
-      <Button
-        disabled={unselected.length === 0}
-        onClick={addProfile}
-        type="button"
-      >
-        Add profile
-      </Button>
+      {!isReadOnly && (
+        <Button
+          disabled={unselected.length === 0}
+          onClick={addProfile}
+          type="button"
+        >
+          Add profile
+        </Button>
+      )}
     </>
   );
 };
