@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { Button, RadioInput } from "@canonical/react-components";
 import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
-import InstanceVga from "./InstanceVga";
+import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
 import { failure } from "context/notify";
@@ -62,7 +62,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
       />
       {isGraphic ? (
         <div className="spice-wrapper">
-          <InstanceVga
+          <InstanceGraphicConsole
             onMount={onChildMount}
             onFailure={onFailure}
             inTabNotification={inTabNotification}
