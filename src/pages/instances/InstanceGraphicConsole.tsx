@@ -22,7 +22,11 @@ interface Props {
   inTabNotification: Notification | null;
 }
 
-const InstanceGraphicConsole: FC<Props> = ({ onMount, onFailure, inTabNotification }) => {
+const InstanceGraphicConsole: FC<Props> = ({
+  onMount,
+  onFailure,
+  inTabNotification,
+}) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
