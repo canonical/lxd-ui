@@ -117,6 +117,13 @@
       width: 6rem;
     }
   }
+
+  .cloud-init-config {
+    .code-editor-wrapper {
+      max-height: 35vh;
+      min-height: 7.5rem;
+    }
+  }
 }
 
 .p-panel__content:has(.edit-instance),

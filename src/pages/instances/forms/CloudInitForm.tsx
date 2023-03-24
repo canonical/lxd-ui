@@ -7,7 +7,6 @@ import {
 } from "pages/instances/forms/sharedFormTypes";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import YamlForm from "pages/instances/forms/YamlForm";
 
 export interface CloudInitFormValues {
   cloud_init_network_config?: string;
@@ -29,11 +28,7 @@ interface Props {
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
   const codeRenderer = (value?: unknown) =>
-    value !== "-" ? (
-      <YamlForm yaml={value as string} autoResize={true} isReadOnly={true} />
-    ) : (
-      "-"
-    );
+    value === "-" ? value : <CloudInitConfig config={value as string} />;
 
   return (
     <div className="cloud-init">

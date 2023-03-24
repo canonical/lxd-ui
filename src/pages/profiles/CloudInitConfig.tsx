@@ -3,11 +3,20 @@ import YamlForm from "pages/instances/forms/YamlForm";
 
 interface Props {
   config: string;
-  setConfig: (cloudInitConfig: string) => void;
+  setConfig?: (cloudInitConfig: string) => void;
 }
 
 const CloudInitConfig: FC<Props> = ({ config, setConfig }) => {
-  return <YamlForm yaml={config} setYaml={setConfig} autoResize={true} />;
+  return (
+    <div className="cloud-init-config">
+      <YamlForm
+        yaml={config}
+        setYaml={setConfig}
+        autoResize={true}
+        isReadOnly={!setConfig}
+      />
+    </div>
+  );
 };
 
 export default CloudInitConfig;
