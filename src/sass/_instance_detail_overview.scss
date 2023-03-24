@@ -71,11 +71,21 @@
     th:nth-child(1) {
       width: 30%;
     }
+
+    th:first-of-type,
+    td:first-of-type {
+      padding-left: 0;
+    }
   }
 
   .profiles {
     th:nth-child(1) {
       width: 30%;
+    }
+
+    th:first-of-type,
+    td:first-of-type {
+      padding-left: 0;
     }
   }
 
