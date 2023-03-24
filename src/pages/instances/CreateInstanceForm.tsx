@@ -167,6 +167,11 @@ const CreateInstanceForm: FC = () => {
             })
             .catch((e: Error) => {
               notifyCreatedButStartFailed(instanceLink, e);
+            })
+            .finally(() => {
+              void queryClient.invalidateQueries({
+                queryKey: [queryKeys.instances],
+              });
             });
         } else {
           notifyLaunched(instanceLink);
