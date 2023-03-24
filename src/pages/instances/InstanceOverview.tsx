@@ -30,6 +30,9 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   useEffect(updateContentHeight, [inTabNotification]);
   useEventListener("resize", updateContentHeight);
 
+  const pid =
+    !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
+
   return (
     <div className="instance-overview-tab">
       <NotificationRowLegacy
@@ -64,6 +67,10 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               <tr>
                 <th className="p-muted-heading">Architecture</th>
                 <td>{instance.architecture}</td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">PID</th>
+                <td>{pid}</td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Date created</th>
