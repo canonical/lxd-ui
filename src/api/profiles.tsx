@@ -48,6 +48,24 @@ export const updateProfile = (body: string, project: string) => {
   });
 };
 
+export const renameProfile = (
+  oldName: string,
+  newName: string,
+  project: string
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/profiles/${oldName}?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
 export const deleteProfile = (name: string, project: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}`, {

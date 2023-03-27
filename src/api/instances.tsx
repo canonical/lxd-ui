@@ -74,6 +74,24 @@ export const updateInstance = (
   });
 };
 
+export const renameInstance = (
+  oldName: string,
+  newName: string,
+  project: string
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${oldName}?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
 export const startInstance = (instance: LxdInstance) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {

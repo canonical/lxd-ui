@@ -19,12 +19,10 @@ export const profileDetailPayload = (values: CreateProfileFormValues) => {
 
 interface Props {
   formik: FormikProps<CreateProfileFormValues>;
-  isCreateMode: boolean;
 }
 
-const ProfileDetailsForm: FC<Props> = ({ formik, isCreateMode }) => {
+const ProfileDetailsForm: FC<Props> = ({ formik }) => {
   const isReadOnly = formik.values.readOnly;
-
   return (
     <div className="details">
       <Row>
@@ -40,7 +38,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isCreateMode }) => {
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             required
-            disabled={!isCreateMode}
+            disabled={formik.values.name === "default"}
           />
           <Textarea
             id="description"
