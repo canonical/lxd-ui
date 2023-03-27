@@ -10582,10 +10582,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vanilla-framework@3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.12.1.tgz#b438f76816d1bb558eeea87e56987d755bf264ec"
-  integrity sha512-IbCb7gblPY1A1f89+mcyPvEC+2Zd1z2A0fB+L7tabXuBn/eu6eL8EAq1WY0Jc5hK3hws/YPyrhBzgUVAw2fglg==
+vanilla-framework@3.13.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-3.13.0.tgz#264f6f33e6926e6d1019e7659660f36fa20cd4b4"
+  integrity sha512-L6Z+8q4nbUTl12yCDJ/TqdWRugFeCaPMxUV7o0qrI1/bmuOLGpDaVPhGOcBPIO+uzIxANICVABXvk0qvzAClxA==
   dependencies:
     "@canonical/cookie-policy" "3.4.0"
     "@canonical/latest-news" "1.4.1"
