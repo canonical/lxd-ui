@@ -7,7 +7,6 @@ import {
 } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { figureCollapsedScreen } from "util/formFields";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import useEventListener from "@use-it/event-listener";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import { useNotify } from "context/notify";
@@ -38,7 +37,7 @@ const ConfigurationTable: FC<Props> = ({
   useEventListener("resize", resize);
   useEffect(resize, [notify.notification]);
 
-  const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
+  const isReadOnly = formik.values.readOnly;
 
   const hasOverrideClass = (item: MainTableHeader | MainTableCell) =>
     item.className !== "override";

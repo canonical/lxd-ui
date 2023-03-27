@@ -13,14 +13,45 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { createProject } from "api/projects";
 import ProjectFormMenu, {
+  CLUSTERS,
+  DEVICE_USAGE,
+  INSTANCES,
+  NETWORKS,
   PROJECT_DETAILS,
+  RESOURCE_LIMITS,
 } from "pages/projects/forms/ProjectFormMenu";
 import ProjectDetailsForm, {
   projectDetailPayload,
+  projectDetailRestrictionPayload,
   ProjectDetailsFormValues,
 } from "pages/projects/forms/ProjectDetailsForm";
+import ResourceLimitsForm, {
+  ResourceLimitsFormValues,
+  resourceLimitsPayload,
+} from "pages/projects/forms/ResourceLimitsForm";
+import ClusterRestrictionForm, {
+  ClusterRestrictionFormValues,
+  clusterRestrictionPayload,
+} from "pages/projects/forms/ClusterRestrictionForm";
+import InstanceRestrictionForm, {
+  InstanceRestrictionFormValues,
+  instanceRestrictionPayload,
+} from "pages/projects/forms/InstanceRestrictionForm";
+import DeviceUsageRestrictionForm, {
+  DeviceUsageRestrictionFormValues,
+  deviceUsageRestrictionPayload,
+} from "pages/projects/forms/DeviceusageeRestrictionForm";
+import NetworkRestrictionForm, {
+  NetworkRestrictionFormValues,
+  networkRestrictionPayload,
+} from "pages/projects/forms/NetworkRestrictionForm";
 
-export type CreateProjectFormValues = ProjectDetailsFormValues;
+export type CreateProjectFormValues = ProjectDetailsFormValues &
+  ResourceLimitsFormValues &
+  ClusterRestrictionFormValues &
+  InstanceRestrictionFormValues &
+  DeviceUsageRestrictionFormValues &
+  NetworkRestrictionFormValues;
 
 const CreateProjectForm: FC = () => {
   const navigate = useNavigate();
@@ -28,7 +59,7 @@ const CreateProjectForm: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(PROJECT_DETAILS);
-  const [isConfigOpen, setConfigOpen] = useState(false);
+  const [isRestrictionsOpen, setRestrictionsOpen] = useState(false);
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
@@ -47,12 +78,29 @@ const CreateProjectForm: FC = () => {
   const formik = useFormik<CreateProjectFormValues>({
     initialValues: {
       name: "",
+      restricted: false,
+      readOnly: false,
+      type: "project",
     },
     validationSchema: ProjectSchema,
     onSubmit: (values) => {
+      const restrictions = values.restricted
+        ? {
+            ...clusterRestrictionPayload(values),
+            ...instanceRestrictionPayload(values),
+            ...deviceUsageRestrictionPayload(values),
+            ...networkRestrictionPayload(values),
+          }
+        : {};
+
       createProject(
         JSON.stringify({
           ...projectDetailPayload(values),
+          config: {
+            ...projectDetailRestrictionPayload(values),
+            ...resourceLimitsPayload(values),
+            ...restrictions,
+          },
         })
       )
         .then(() => {
@@ -78,7 +126,7 @@ const CreateProjectForm: FC = () => {
   };
 
   const toggleMenu = () => {
-    setConfigOpen((old) => !old);
+    setRestrictionsOpen((old) => !old);
   };
 
   return (
@@ -92,14 +140,32 @@ const CreateProjectForm: FC = () => {
             <ProjectFormMenu
               active={section}
               setActive={updateSection}
-              isRestrictions={isConfigOpen}
+              isRestrictionsOpen={
+                isRestrictionsOpen && formik.values.restricted
+              }
+              isRestrictionsDisabled={!formik.values.restricted}
               toggleRestrictionsOpen={toggleMenu}
             />
             <Row className="form-contents" key={section}>
               <Col size={12}>
                 <NotificationRow />
                 {section === PROJECT_DETAILS && (
-                  <ProjectDetailsForm formik={formik} isCreateMode={true} />
+                  <ProjectDetailsForm formik={formik} />
+                )}
+                {section === RESOURCE_LIMITS && (
+                  <ResourceLimitsForm formik={formik} />
+                )}
+                {section === CLUSTERS && (
+                  <ClusterRestrictionForm formik={formik} />
+                )}
+                {section === INSTANCES && (
+                  <InstanceRestrictionForm formik={formik} />
+                )}
+                {section === DEVICE_USAGE && (
+                  <DeviceUsageRestrictionForm formik={formik} />
+                )}
+                {section === NETWORKS && (
+                  <NetworkRestrictionForm formik={formik} />
                 )}
               </Col>
             </Row>

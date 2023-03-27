@@ -3,20 +3,23 @@ import MenuItem from "pages/instances/forms/FormMenuItem";
 
 export const PROJECT_DETAILS = "Project details";
 export const RESOURCE_LIMITS = "Resource limits";
-export const CACHED_IMAGES = "Cached images";
-export const RESTRICTIONS = "Restrictions";
+export const CLUSTERS = "Clusters";
+export const INSTANCES = "Instances";
+export const DEVICE_USAGE = "Device usage";
 export const NETWORKS = "Networks";
 
 interface Props {
-  isRestrictions: boolean;
+  isRestrictionsOpen: boolean;
   toggleRestrictionsOpen: () => void;
+  isRestrictionsDisabled: boolean;
   active: string;
   setActive: (val: string) => void;
 }
 
 const ProjectFormMenu: FC<Props> = ({
-  isRestrictions,
+  isRestrictionsOpen,
   toggleRestrictionsOpen,
+  isRestrictionsDisabled,
   active,
   setActive,
 }) => {
@@ -30,26 +33,27 @@ const ProjectFormMenu: FC<Props> = ({
       <nav aria-label="Project form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={PROJECT_DETAILS} {...menuItemProps} />
-          <div className="u-off-screen">
-            <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
-            <MenuItem label={CACHED_IMAGES} {...menuItemProps} />
-            <li className="p-side-navigation__item">
-              <button
-                type="button"
-                className="p-side-navigation__accordion-button"
-                aria-expanded={isRestrictions ? "true" : "false"}
-                onClick={toggleRestrictionsOpen}
-              >
-                Restrictions
-              </button>
-              <ul
-                className="p-side-navigation__list"
-                aria-expanded={isRestrictions ? "true" : "false"}
-              >
-                <MenuItem label={NETWORKS} {...menuItemProps} />
-              </ul>
-            </li>
-          </div>
+          <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
+          <li className="p-side-navigation__item">
+            <button
+              type="button"
+              className="p-side-navigation__accordion-button"
+              aria-expanded={isRestrictionsOpen ? "true" : "false"}
+              onClick={toggleRestrictionsOpen}
+              disabled={isRestrictionsDisabled}
+            >
+              Restrictions
+            </button>
+            <ul
+              className="p-side-navigation__list"
+              aria-expanded={isRestrictionsOpen ? "true" : "false"}
+            >
+              <MenuItem label={CLUSTERS} {...menuItemProps} />
+              <MenuItem label={INSTANCES} {...menuItemProps} />
+              <MenuItem label={DEVICE_USAGE} {...menuItemProps} />
+              <MenuItem label={NETWORKS} {...menuItemProps} />
+            </ul>
+          </li>
         </ul>
       </nav>
     </div>

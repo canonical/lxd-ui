@@ -191,6 +191,7 @@ const CreateInstanceForm: FC = () => {
       instanceType: "container",
       profiles: ["default"],
       devices: [{ type: "nic", name: "" }],
+      readOnly: false,
       type: "instance",
     },
     validationSchema: InstanceSchema,

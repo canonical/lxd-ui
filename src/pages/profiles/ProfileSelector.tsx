@@ -17,14 +17,14 @@ interface Props {
   project: string;
   selected: string[];
   setSelected: (profiles: string[]) => void;
-  isReadOnly: boolean;
+  isReadOnly?: boolean;
 }
 
 const ProfileSelector: FC<Props> = ({
   project,
   selected,
   setSelected,
-  isReadOnly,
+  isReadOnly = false,
 }) => {
   const notify = useNotify();
 
