@@ -1,35 +1,34 @@
-@use "sass:map";
 @import "./breakpoints";
 
 .p-panel__logo {
   margin-top: 0;
 
   .p-panel__logo-image {
-    height: 48px;
+    height: 36px;
+    margin-top: -3px;
     max-width: inherit;
   }
 
   .logo-text {
     color: #fff;
-    font-size: #{map.get($font-sizes, h4)}rem;
-    left: 54px;
+    left: 47px;
     position: absolute;
-    top: 21px;
+    top: $spv--x-small;
   }
 
   @include mobile {
     .logo-text {
-      left: 46px;
+      left: 38px;
     }
   }
 
   @include extra-large {
     .p-panel__logo-image {
-      height: 54px;
+      height: 40px;
     }
 
     .logo-text {
-      left: 61px;
+      left: 52px;
     }
   }
 }

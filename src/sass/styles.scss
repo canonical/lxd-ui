@@ -135,3 +135,9 @@ $border-thin: 1px solid $color-mid-light !default;
     margin-left: 2.5rem;
   }
 }
+
+// smaller padding on top of all pages to have the logo flush on top
+.p-panel__title,
+.p-panel__controls {
+  padding-top: $spv--x-small;
+}
