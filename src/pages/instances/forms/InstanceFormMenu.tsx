@@ -49,7 +49,7 @@ const InstanceFormMenu: FC<Props> = ({
                   : ""
               }
             >
-              Configuration
+              Configuration options
             </Button>
             <ul
               className="p-side-navigation__list"

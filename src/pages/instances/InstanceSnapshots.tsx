@@ -159,7 +159,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
             className="u-float-right"
             onClick={() => setModalOpen(true)}
           >
-            Create new
+            Create snapshot
           </Button>
         </div>
       )}

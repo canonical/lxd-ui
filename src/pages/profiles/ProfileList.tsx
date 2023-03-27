@@ -135,7 +135,7 @@ const ProfileList: FC = () => {
             appearance="positive"
             onClick={() => navigate(`/ui/${project}/profiles/create`)}
           >
-            Create new
+            Create profile
           </Button>
         }
       >

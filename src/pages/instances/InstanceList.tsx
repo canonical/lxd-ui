@@ -288,6 +288,8 @@ const InstanceList: FC = () => {
     currentPage,
   ]);
 
+  const hasInstances = isLoading || instances.length > 0;
+
   return (
     <>
       <main className="l-main instance-list">
@@ -345,29 +347,27 @@ const InstanceList: FC = () => {
                 aria-label="Filter type"
               />
             </div>
-            <Button
-              appearance="positive"
-              onClick={() => navigate(`/ui/${project}/instances/create`)}
-            >
-              Create new
-            </Button>
+            {hasInstances && (
+              <Button
+                appearance="positive"
+                onClick={() => navigate(`/ui/${project}/instances/create`)}
+              >
+                Create instance
+              </Button>
+            )}
           </div>
           <div className="p-panel__content instance-content">
             <NotificationRow />
             <Row className="no-grid-gap">
               <Col size={12}>
-                <TableColumnsSelect
-                  columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
-                  hidden={userHidden}
-                  setHidden={setHidden}
-                  className={
-                    panelParams.instance || instances.length < 1
-                      ? "u-hide"
-                      : undefined
-                  }
-                />
-                {isLoading || instances.length > 0 ? (
+                {hasInstances ? (
                   <>
+                    <TableColumnsSelect
+                      columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                      hidden={userHidden}
+                      setHidden={setHidden}
+                      className={classnames({ "u-hide": panelParams.instance })}
+                    />
                     <MainTable
                       headers={getHeaders(userHidden.concat(sizeHidden))}
                       rows={pageInstances}
@@ -414,7 +414,7 @@ const InstanceList: FC = () => {
                     message="There are no instances in this project. Spin up your first instance!"
                     linkMessage="How to create instances"
                     linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
-                    buttonLabel="Create"
+                    buttonLabel="Create instance"
                     buttonAction={() =>
                       navigate(`/ui/${project}/instances/create`)
                     }
