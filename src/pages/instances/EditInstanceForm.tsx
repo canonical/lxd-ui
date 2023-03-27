@@ -8,13 +8,13 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { updateInstance } from "api/instances";
+import { renameInstance, updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { useNotify } from "context/notify";
 import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
@@ -68,6 +68,7 @@ interface Props {
 }
 
 const EditInstanceForm: FC<Props> = ({ instance }) => {
+  const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
@@ -101,14 +102,37 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     initialValues: initialValues,
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
-      const instancePayload = values.yaml
-        ? yamlToObject(values.yaml)
-        : getPayload(values);
+      const instancePayload = (
+        values.yaml ? yamlToObject(values.yaml) : getPayload(values)
+      ) as LxdInstance;
+
+      const newName = instancePayload.name;
+      const oldName = instance.name;
+
+      // rename will be a second request
+      // keep the old name for the first request persisting other changes
+      instancePayload.name = oldName;
 
       updateInstance(JSON.stringify(instancePayload), project, instance.etag)
         .then(() => {
-          notify.success("Saved.");
-          void formik.setFieldValue("readOnly", true);
+          if (newName !== oldName) {
+            renameInstance(oldName, newName, project)
+              .then(() => {
+                navigate(
+                  `/ui/${instance.project}/instances/detail/${newName}/configuration`,
+                  notify.queue(notify.success("Configuration updated."))
+                );
+              })
+              .catch((e: Error) => {
+                notify.failure(
+                  `Saved changes, but could not rename the instance ${oldName}.`,
+                  e
+                );
+              });
+          } else {
+            notify.success("Configuration updated.");
+            void formik.setFieldValue("readOnly", true);
+          }
         })
         .catch((e: Error) => {
           notify.failure("Could not save", e);

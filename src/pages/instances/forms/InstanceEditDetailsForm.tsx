@@ -37,13 +37,14 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
           <Input
             id="name"
             name="name"
-            label="Instance name"
-            placeholder="Enter name"
             type="text"
+            label="Profile name"
+            placeholder="Enter name"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
-            disabled
+            error={formik.touched.name ? formik.errors.name : null}
+            required
           />
           <Textarea
             id="description"

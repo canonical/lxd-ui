@@ -175,7 +175,7 @@ const CreateProfileForm: FC = () => {
               <Col size={12}>
                 <NotificationRow />
                 {section === PROFILE_DETAILS && (
-                  <ProfileDetailsForm formik={formik} isCreateMode={true} />
+                  <ProfileDetailsForm formik={formik} />
                 )}
 
                 {section === STORAGE && (

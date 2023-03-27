@@ -33,7 +33,7 @@ import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
-import { updateProfile } from "api/profiles";
+import { renameProfile, updateProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
   STORAGE,
@@ -99,16 +99,36 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     initialValues: initialValues,
     validationSchema: ProfileSchema,
     onSubmit: (values) => {
-      const profilePayload = values.yaml
-        ? yamlToObject(values.yaml)
-        : getPayload(values);
+      const profilePayload = (
+        values.yaml ? yamlToObject(values.yaml) : getPayload(values)
+      ) as LxdProfile;
+
+      const newName = profilePayload.name;
+      const oldName = profile.name;
+
+      // rename will be a second request
+      // keep the old name for the first request persisting other changes
+      profilePayload.name = oldName;
 
       updateProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          navigate(
-            `/ui/${project}/profiles/detail/${profile.name}`,
-            notify.queue(notify.success(`Profile "${values.name}" saved.`))
-          );
+          if (newName !== oldName) {
+            renameProfile(oldName, newName, project)
+              .then(() => {
+                navigate(
+                  `/ui/${project}/profiles/detail/${newName}/configuration`,
+                  notify.queue(notify.success("Configuration updated."))
+                );
+              })
+              .catch((e: Error) => {
+                notify.failure(
+                  `Saved changes, but could not rename the profile ${oldName}.`,
+                  e
+                );
+              });
+          } else {
+            notify.success("Configuration updated.");
+          }
         })
         .catch((e: Error) => {
           notify.failure("Could not save", e);
@@ -168,7 +188,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {section === PROFILE_DETAILS && (
-              <ProfileDetailsForm formik={formik} isCreateMode={false} />
+              <ProfileDetailsForm formik={formik} />
             )}
 
             {section === STORAGE && (
