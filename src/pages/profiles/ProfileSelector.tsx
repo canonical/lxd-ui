@@ -53,7 +53,7 @@ const ProfileSelector: FC<Props> = ({ project, selected, setSelected }) => {
               help={
                 index > 0 &&
                 index === selected.length - 1 &&
-                "Additional profiles override settings from profiles above"
+                "Each profile overrides the settings specified in previous profiles"
               }
               label={`Profile ${index + 1}`}
               onChange={(e) => {

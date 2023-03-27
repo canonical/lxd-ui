@@ -41,7 +41,7 @@ const ProfileFormMenu: FC<Props> = ({
               aria-expanded={isConfigOpen ? "true" : "false"}
               onClick={toggleConfigOpen}
             >
-              Configuration
+              Configuration options
             </Button>
             <ul
               className="p-side-navigation__list"

@@ -167,14 +167,14 @@
 }
 
 // hide filters on small screens
-@media screen and (max-width: 1070px) {
+@media screen and (max-width: 1110px) {
   .filter-state,
   .filter-type,
   .search-box {
     display: none;
   }
 }
-@media screen and (max-width: 1430px) {
+@media screen and (max-width: 1500px) {
   .has-side-panel {
     .filter-state,
     .filter-type,

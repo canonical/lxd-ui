@@ -261,7 +261,7 @@ const CreateInstanceForm: FC = () => {
     <main className="l-main">
       <div className="p-panel">
         <div className="p-panel__header">
-          <h1 className="p-panel__title">Create new instance</h1>
+          <h1 className="p-panel__title">Create an instance</h1>
         </div>
         <div className="p-panel__content create-instance">
           <Form onSubmit={() => submit(formik.values)} stacked className="form">
