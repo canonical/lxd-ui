@@ -40,7 +40,6 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
 
   return (
     <ConfirmationButton
-      className="u-no-margin--bottom"
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
@@ -52,7 +51,11 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
           and can result in data loss.
         </>
       }
-      posButtonLabel="Delete"
+      posButtonLabel={
+        project.name === "default"
+          ? "The default project can't be deleted"
+          : "Delete"
+      }
       onConfirm={handleDelete}
       isDense={false}
       isDisabled={project.name === "default"}

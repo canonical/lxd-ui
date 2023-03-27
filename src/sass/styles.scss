@@ -151,6 +151,11 @@ $border-thin: 1px solid $color-mid-light !default;
   padding-top: $spv--x-small;
 }
 
+.u-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .item-name {
   overflow-wrap: anywhere;
 }

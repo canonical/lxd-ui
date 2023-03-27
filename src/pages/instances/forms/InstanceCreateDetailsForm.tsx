@@ -15,6 +15,7 @@ export interface InstanceDetailsFormValues {
   instanceType: string;
   profiles: string[];
   type: string;
+  readOnly: boolean;
 }
 
 export const instanceDetailPayload = (values: CreateInstanceFormValues) => {

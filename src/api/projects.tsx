@@ -1,6 +1,8 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
 import { LxdProject } from "types/project";
 import { LxdApiResponse } from "types/apiResponse";
+import { LxdOperation } from "types/operation";
+import { watchOperation } from "api/operations";
 
 export const fetchProjects = (recursion: number): Promise<LxdProject[]> => {
   return new Promise((resolve, reject) => {
@@ -43,6 +45,22 @@ export const updateProject = (project: LxdProject) => {
     })
       .then(handleResponse)
       .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const renameProject = (oldName: string, newName: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/projects/${oldName}`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    })
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation, 60).then(resolve).catch(reject);
+      })
       .catch(reject);
   });
 };

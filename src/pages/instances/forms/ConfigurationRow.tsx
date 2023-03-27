@@ -9,12 +9,13 @@ import { figureInheritedValue } from "util/formFields";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { LxdProfile } from "types/profile";
 import { useNotify } from "context/notify";
 
 interface Props {
   formik: SharedFormikTypes;
   name: string;
-  label: string;
+  label: string | ReactNode;
   children: ReactNode;
   defaultValue?: string | CpuLimit | MemoryLimit;
   disabled?: boolean;
@@ -32,17 +33,17 @@ export const getConfigurationRow = ({
 }: Props): MainTableRow => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
-  if (!project) {
-    return <>Missing project</>;
-  }
+  let profiles: LxdProfile[] = [];
+  if (project) {
+    const { data = [], error: profileError } = useQuery({
+      queryKey: [queryKeys.profiles],
+      queryFn: () => fetchProfiles(project),
+    });
+    profiles = data;
 
-  const { data: profiles = [], error: profileError } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
-
-  if (profileError) {
-    notify.failure("Could not load profiles.", profileError);
+    if (profileError) {
+      notify.failure("Could not load profiles.", profileError);
+    }
   }
 
   const values = formik.values as unknown as Record<string, string | undefined>;

@@ -1,11 +1,8 @@
+import { LxdConfigPair } from "types/config";
+
 export interface LxdProject {
   name: string;
-  config: {
-    "features.images": boolean;
-    "features.networks": boolean;
-    "features.profiles": boolean;
-    "features.storage.volumes": boolean;
-  };
+  config: LxdConfigPair;
   description: string;
   used_by?: string[];
   etag?: string;
