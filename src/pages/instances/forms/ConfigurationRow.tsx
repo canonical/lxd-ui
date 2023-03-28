@@ -9,7 +9,6 @@ import { figureInheritedValue } from "util/formFields";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
-import YamlForm from "pages/instances/forms/YamlForm";
 import { useNotify } from "context/notify";
 
 interface Props {
@@ -19,7 +18,7 @@ interface Props {
   children: ReactNode;
   defaultValue?: string | CpuLimit | MemoryLimit;
   disabled?: boolean;
-  readOnlyValue?: string | ReactNode;
+  readOnlyRenderer?: (value: unknown) => string | ReactNode;
 }
 
 export const getConfigurationRow = ({
@@ -29,7 +28,7 @@ export const getConfigurationRow = ({
   children,
   defaultValue,
   disabled = false,
-  readOnlyValue,
+  readOnlyRenderer,
 }: Props): MainTableRow => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -67,16 +66,15 @@ export const getConfigurationRow = ({
 
   const figureDisplayValue = (): ReactNode => {
     if (!isOverridden) {
-      return name.startsWith("cloud_init") && inheritedValue !== "-" ? (
-        <YamlForm yaml={inheritedValue} autoResize={true} isReadOnly={true} />
-      ) : (
-        inheritedValue
-      );
+      return readOnlyRenderer
+        ? readOnlyRenderer(inheritedValue)
+        : inheritedValue;
     }
     if (!isReadOnly) {
       return children;
     }
-    return readOnlyValue ? readOnlyValue : values[name];
+    const value = values[name];
+    return readOnlyRenderer ? readOnlyRenderer(value) : value;
   };
 
   const displayValue = figureDisplayValue();

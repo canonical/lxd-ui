@@ -13,6 +13,7 @@ import {
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { boolRenderer } from "util/formFields";
 
 export interface ResourceLimitsFormValues {
   limits_cpu?: CpuLimit;
@@ -51,9 +52,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_cpu",
           label: "Exposed CPUs",
           defaultValue: DEFAULT_CPU_LIMIT,
-          readOnlyValue: formik.values.limits_cpu
-            ? cpuLimitToPayload(formik.values.limits_cpu)
-            : undefined,
+          readOnlyRenderer: (val) =>
+            cpuLimitToPayload(val as CpuLimit | undefined),
           children: (
             <CpuLimitSelector
               cpuLimit={formik.values.limits_cpu}
@@ -69,9 +69,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_memory",
           label: "Memory limit",
           defaultValue: DEFAULT_MEM_LIMIT,
-          readOnlyValue: formik.values.limits_memory
-            ? memoryLimitToPayload(formik.values.limits_memory)
-            : undefined,
+          readOnlyRenderer: (val) =>
+            memoryLimitToPayload(val as MemoryLimit | undefined),
           children: (
             <MemoryLimitSelector
               memoryLimit={formik.values.limits_memory}
@@ -88,6 +87,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Memory swap (Containers only)",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsAllowDeny),
           children: (
             <Select
               id="limits_memory_swap"

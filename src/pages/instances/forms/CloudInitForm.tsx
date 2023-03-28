@@ -28,8 +28,12 @@ interface Props {
 }
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
-  const codeRenderer = (value?: string) =>
-    value ? <YamlForm yaml={value} autoResize={true} isReadOnly={true} /> : "-";
+  const codeRenderer = (value?: unknown) =>
+    value !== "-" ? (
+      <YamlForm yaml={value as string} autoResize={true} isReadOnly={true} />
+    ) : (
+      "-"
+    );
 
   return (
     <div className="cloud-init">
@@ -50,9 +54,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             label: "Network config",
             name: "cloud_init_network_config",
             defaultValue: "\n\n",
-            readOnlyValue: codeRenderer(
-              formik.values.cloud_init_network_config
-            ),
+            readOnlyRenderer: codeRenderer,
             children: (
               <CloudInitConfig
                 config={formik.values.cloud_init_network_config ?? ""}
@@ -68,7 +70,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             label: "User data",
             name: "cloud_init_user_data",
             defaultValue: "\n\n",
-            readOnlyValue: codeRenderer(formik.values.cloud_init_user_data),
+            readOnlyRenderer: codeRenderer,
             children: (
               <CloudInitConfig
                 config={formik.values.cloud_init_user_data ?? ""}
@@ -84,7 +86,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             label: "Vendor data",
             name: "cloud_init_vendor_data",
             defaultValue: "\n\n",
-            readOnlyValue: codeRenderer(formik.values.cloud_init_vendor_data),
+            readOnlyRenderer: codeRenderer,
             children: (
               <CloudInitConfig
                 config={formik.values.cloud_init_vendor_data ?? ""}

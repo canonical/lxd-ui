@@ -8,6 +8,7 @@ import {
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { snapshotOptions } from "util/snapshotOptions";
+import { boolRenderer } from "util/formFields";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -95,6 +96,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
           defaultValue: "false",
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
               id="snapshots_schedule_stopped"
