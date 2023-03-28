@@ -33,6 +33,11 @@ export const instanceStatuses = [
 
 export const booleanFieldsTrueFalse = [
   {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
     label: "true",
     value: "true",
   },
@@ -44,6 +49,11 @@ export const booleanFieldsTrueFalse = [
 
 export const booleanFieldsAllowDeny = [
   {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
     label: "Allow",
     value: "true",
   },
@@ -54,6 +64,11 @@ export const booleanFieldsAllowDeny = [
 ];
 
 export const booleanFieldsYesNo = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
   {
     label: "Yes",
     value: "true",

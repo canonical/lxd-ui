@@ -88,7 +88,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           formik: formik,
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsAllowDeny),
           children: (

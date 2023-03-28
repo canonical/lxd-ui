@@ -96,7 +96,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
-          defaultValue: "false",
+          defaultValue: "",
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
