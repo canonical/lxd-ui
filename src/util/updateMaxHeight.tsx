@@ -1,7 +1,10 @@
+type HeightProperty = "height" | "max-height" | "min-height";
+
 export const updateMaxHeight = (
   targetClass: string,
   bottomClass?: string,
-  additionalOffset = 0
+  additionalOffset = 0,
+  targetProperty: HeightProperty = "height"
 ) => {
   const elements = document.getElementsByClassName(targetClass);
   const belowElements = bottomClass
@@ -15,6 +18,6 @@ export const updateMaxHeight = (
     ? belowElements[0].getBoundingClientRect().height + 1
     : 0;
   const offset = Math.ceil(above + below + additionalOffset);
-  const style = `height: calc(100vh - ${offset}px)`;
+  const style = `${targetProperty}: calc(100vh - ${offset}px)`;
   elements[0].setAttribute("style", style);
 };

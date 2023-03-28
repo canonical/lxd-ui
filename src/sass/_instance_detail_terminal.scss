@@ -5,4 +5,36 @@
     margin-bottom: $spv--large;
     padding-top: 0;
   }
+
+  .p-modal__dialog {
+    overflow: hidden;
+    padding-right: 0;
+
+    @include large {
+      width: 35rem;
+    }
+
+    .p-modal__header {
+      margin-bottom: 0;
+    }
+
+    .content-wrapper {
+      overflow: auto;
+      padding-right: $sph--large;
+    }
+
+    .p-modal__header,
+    .p-modal__footer {
+      margin-right: $sph--large;
+    }
+  }
+
+  .env-variables {
+    display: flex;
+    gap: $sph--large;
+
+    .p-form__group {
+      flex-grow: 1;
+    }
+  }
 }
