@@ -6,10 +6,11 @@ Fixes [list issues/bugs if needed]
 
 ## QA
 
-- Perform the following QA steps:
-  - On the demo server via the link posted by @webteam-app below. This is only available for PRs created by collaborators of the repo. Ask @lorumic or @edlerd for access.
-  - With a local copy of this branch, run as described in the [Readme](https://github.com/canonical/lxd-ui#setting-up-for-development)
-- [List additional steps to QA the new features or prove the bug has been resolved]
+1. Run the LXD-UI:
+    - On the demo server via the link posted by @webteam-app below. This is only available for PRs created by collaborators of the repo. Ask @lorumic or @edlerd for access.
+    - With a local copy of this branch, run as described in the [Readme](https://github.com/canonical/lxd-ui#setting-up-for-development).
+2. Perform the following QA steps:
+    - [List the steps to QA the new feature(s) or prove that a bug has been resolved]
 
 ## Screenshots
 
