@@ -27,8 +27,7 @@ export interface MemoryLimit {
 
 export enum CPU_LIMIT_TYPE {
   DYNAMIC = 0,
-  FIXED_RANGE = 1,
-  FIXED_SET = 2,
+  FIXED = 1,
 }
 
 export interface CpuLimit {

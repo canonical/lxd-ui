@@ -53,10 +53,8 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
         />
         <RadioInput
           label="fixed"
-          checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET}
-          onChange={() =>
-            setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED_SET })
-          }
+          checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED}
+          onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED })}
         />
       </div>
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC && (
@@ -75,7 +73,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           help={helpText}
         />
       )}
-      {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED_SET && (
+      {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED && (
         <Input
           id="limits_cpu"
           name="limits_cpu"
