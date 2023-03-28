@@ -30,7 +30,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
 
   const {
     data: profiles = [],
-    isLoading,
+    isLoading: isProfileLoading,
     error: profileError,
   } = useQuery({
     queryKey: [queryKeys.profiles],
@@ -54,7 +54,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
     notify.failure("Could not load networks.", networkError);
   }
 
-  if (isLoading || isNetworkLoading) {
+  if (isProfileLoading || isNetworkLoading) {
     return <Loader />;
   }
 
@@ -104,11 +104,7 @@ or remove the originating item"
                 <Icon name="warning-grey" />
               </Tooltip>
             ),
-            label: (
-              <div>
-                <b>{item.key}</b>
-              </div>
-            ),
+            label: <b>{item.key}</b>,
             value: item.network?.network,
             defined: item.source,
           });

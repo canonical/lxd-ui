@@ -197,13 +197,15 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
                 isReadOnly={isReadOnly}
               >
-                <Notification
-                  severity="caution"
-                  title="Before you edit the YAML"
-                >
-                  Changes will be discarded, when switching back to the guided
-                  forms.
-                </Notification>
+                {!isReadOnly && (
+                  <Notification
+                    severity="caution"
+                    title="Before you edit the YAML"
+                  >
+                    Changes will be discarded, when switching back to the guided
+                    forms.
+                  </Notification>
+                )}
               </YamlForm>
             )}
           </Col>

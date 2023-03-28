@@ -28,7 +28,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
 
   const {
     data: profiles = [],
-    isLoading,
+    isLoading: isProfileLoading,
     error: profileError,
   } = useQuery({
     queryKey: [queryKeys.profiles],
@@ -52,7 +52,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     notify.failure("Could not load storages.", storageError);
   }
 
-  if (isLoading || isStorageLoading) {
+  if (isProfileLoading || isStorageLoading) {
     return <Loader />;
   }
 
@@ -151,9 +151,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
         <b>Root storage pool</b>
       </Label>
     ) : (
-      <div>
-        <b>Root storage pool</b>
-      </div>
+      <b>Root storage pool</b>
     );
 
   return (
