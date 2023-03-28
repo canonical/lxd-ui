@@ -5,10 +5,11 @@ import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import {
-  stringAllowBlock,
-  stringUnprivilegedIsolatedAllow,
+  optionAllowBlock,
+  optionAllowIsolatedUnprivileged,
 } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { optionRenderer } from "util/formFields";
 
 export interface InstanceRestrictionFormValues {
   restricted_virtual_machines_low_level?: string;
@@ -50,13 +51,14 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_virtual_machines_low_level",
           label: "Low level VM operations",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_virtual_machines_low_level"
               name="restricted_virtual_machines_low_level"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_virtual_machines_low_level}
               help="Prevents use of low-level virtual-machine options like raw.qemu, volatile etc."
             />
@@ -68,13 +70,14 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_containers_low_level",
           label: "Low level container operations",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_containers_low_level"
               name="restricted_containers_low_level"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_containers_low_level}
               help="Prevents use of low-level container options like raw.lxc, raw.idmap, volatile etc."
             />
@@ -86,13 +89,14 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_containers_nesting",
           label: "Container nesting",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_containers_nesting"
               name="restricted_containers_nesting"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_containers_nesting}
               help="Prevents setting security.nesting=true."
             />
@@ -104,13 +108,15 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_containers_privilege",
           label: "Container privilege",
           defaultValue: "",
+          readOnlyRenderer: (val) =>
+            optionRenderer(val, optionAllowIsolatedUnprivileged),
           children: (
             <Select
               id="restricted_containers_privilege"
               name="restricted_containers_privilege"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringUnprivilegedIsolatedAllow}
+              options={optionAllowIsolatedUnprivileged}
               value={formik.values.restricted_containers_privilege}
               help="If unpriviliged, prevents setting security.privileged=true. If isolated, prevents setting security.privileged=true and also security.idmap.isolated=true. If allow, no restriction apply."
             />
@@ -122,13 +128,14 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_container_interception",
           label: "Container interception",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_container_interception"
               name="restricted_container_interception"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_container_interception}
               help="Prevents use for system call interception options. When set to allow usually safe interception options will be allowed (file system mounting will remain blocked)."
             />
@@ -140,13 +147,14 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restrict_snapshots",
           label: "Snapshot creation",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restrict_snapshots"
               name="restrict_snapshots"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restrict_snapshots}
               help="Prevents the creation of any instance or volume snapshots."
             />

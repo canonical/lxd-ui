@@ -3,9 +3,9 @@ import { Input, Select } from "@canonical/react-components";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import classnames from "classnames";
 import {
-  booleanFieldsAllowDeny,
-  booleanFieldsTrueFalse,
-  booleanFieldsYesNo,
+  optionAllowDeny,
+  optionTrueFalse,
+  optionYesNo,
 } from "util/instanceOptions";
 import {
   SharedFormikTypes,
@@ -13,7 +13,7 @@ import {
 } from "pages/instances/forms/sharedFormTypes";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { boolRenderer, getPayloadKey } from "util/formFields";
+import { optionRenderer, getPayloadKey } from "util/formFields";
 
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: string;
@@ -67,14 +67,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Prevent the instance from being deleted",
           name: "security_protection_delete",
           defaultValue: "",
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
+          readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select
               id="security_protection_delete"
               name="security_protection_delete"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsYesNo}
+              options={optionYesNo}
               value={formik.values.security_protection_delete}
             />
           ),
@@ -86,14 +86,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_privileged",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsAllowDeny),
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
               id="security_privileged"
               name="security_privileged"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsAllowDeny}
+              options={optionAllowDeny}
               value={formik.values.security_privileged}
               disabled={isContainerOnlyDisabled}
             />
@@ -107,14 +107,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_protection_shift",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
+          readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select
               id="security_protection_shift"
               name="security_protection_shift"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsYesNo}
+              options={optionYesNo}
               value={formik.values.security_protection_shift}
               disabled={isContainerOnlyDisabled}
             />
@@ -174,14 +174,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_idmap_isolated",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
+          readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select
               id="security_idmap_isolated"
               name="security_idmap_isolated"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsYesNo}
+              options={optionYesNo}
               value={formik.values.security_idmap_isolated}
               disabled={isContainerOnlyDisabled}
             />
@@ -194,14 +194,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_devlxd",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
+          readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select
               id="security_devlxd"
               name="security_devlxd"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsYesNo}
+              options={optionYesNo}
               value={formik.values.security_devlxd}
               disabled={isContainerOnlyDisabled}
             />
@@ -215,14 +215,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_devlxd_images",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
+          readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select
               id="security_devlxd_images"
               name="security_devlxd_images"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsYesNo}
+              options={optionYesNo}
               value={formik.values.security_devlxd_images}
               disabled={isContainerOnlyDisabled}
             />
@@ -235,14 +235,14 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_secureboot",
           defaultValue: "",
           disabled: isVmOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsTrueFalse),
+          readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
           children: (
             <Select
               id="security_secureboot"
               name="security_secureboot"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsTrueFalse}
+              options={optionTrueFalse}
               value={formik.values.security_secureboot}
               disabled={isVmOnlyDisabled}
             />
