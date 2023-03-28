@@ -13,6 +13,7 @@ import {
 } from "pages/instances/forms/sharedFormTypes";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { boolRenderer } from "util/formFields";
 
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: string;
@@ -63,6 +64,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Prevent the instance from being deleted",
           name: "security_protection_delete",
           defaultValue: "true",
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
               id="security_protection_delete"
@@ -81,6 +83,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_privileged",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsAllowDeny),
           children: (
             <Select
               id="security_privileged"
@@ -101,6 +104,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_protection_shift",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
               id="security_protection_shift"
@@ -167,6 +171,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_idmap_isolated",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
               id="security_idmap_isolated"
@@ -186,6 +191,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_devlxd",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
               id="security_devlxd"
@@ -206,6 +212,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_devlxd_images",
           defaultValue: "true",
           disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
               id="security_devlxd_images"
@@ -225,6 +232,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_secureboot",
           defaultValue: "true",
           disabled: isVmOnlyDisabled,
+          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsTrueFalse),
           children: (
             <Select
               id="security_secureboot"

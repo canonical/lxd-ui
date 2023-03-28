@@ -7,6 +7,7 @@ import { LxdNicDevice } from "types/device";
 import { LxdInstance } from "types/instance";
 import { parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
+import { OptionHTMLAttributes } from "react";
 
 const formFieldsToPayloadFields: Record<string, string> = {
   rootStorage: "",
@@ -156,4 +157,16 @@ export const getEditValues = (item: LxdProfile | LxdInstance) => {
     cloud_init_user_data: item.config["cloud-init.user-data"],
     cloud_init_vendor_data: item.config["cloud-init.vendor-data"],
   };
+};
+
+export const boolRenderer = (
+  value?: unknown,
+  map?: OptionHTMLAttributes<HTMLOptionElement>[]
+): string => {
+  const match = map?.find((item) => item.value === value);
+  if (match?.label && value !== "") {
+    return match.label;
+  }
+
+  return "-";
 };
