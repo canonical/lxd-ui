@@ -1,17 +1,10 @@
-import React, { FC, KeyboardEvent } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  Icon,
-  Input,
-  Label,
-  Modal,
-  Row,
-} from "@canonical/react-components";
+import React, { FC, KeyboardEvent, useEffect, useRef } from "react";
+import { Button, Form, Icon, Input, Modal } from "@canonical/react-components";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { LxdTerminalPayload } from "types/terminal";
+import { updateMaxHeight } from "util/updateMaxHeight";
+import useEventListener from "@use-it/event-listener";
 
 interface Props {
   close: () => void;
@@ -19,6 +12,8 @@ interface Props {
 }
 
 const TerminalPayloadForm: FC<Props> = ({ close, onFinish }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   const TerminalSchema = Yup.object().shape({
     command: Yup.string().required("This field is required"),
     environment: Yup.array().of(
@@ -79,16 +74,39 @@ const TerminalPayloadForm: FC<Props> = ({ close, onFinish }) => {
     }
   };
 
+  const updateContentHeight = () => {
+    updateMaxHeight("content-wrapper", "p-modal__footer", 64, "max-height");
+  };
+  useEffect(() => {
+    ref.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "start",
+    });
+    window.dispatchEvent(new Event("resize"));
+  }, [formik.values.environment]);
+  useEventListener("resize", updateContentHeight);
+
   return (
     <Modal
       close={close}
       title="Reconnect terminal"
       buttonRow={
         <>
-          <Button className="u-no-margin--bottom" type="button" onClick={close}>
+          <Button
+            className="u-no-margin--bottom"
+            type="button"
+            aria-label="cancel reconnect"
+            onClick={close}
+          >
             Cancel
           </Button>
-          <Button appearance="positive" onClick={formik.submitForm}>
+          <Button
+            className="u-no-margin--bottom"
+            appearance="positive"
+            aria-label="submit reconnect"
+            onClick={formik.submitForm}
+          >
             Reconnect
           </Button>
         </>
@@ -96,93 +114,88 @@ const TerminalPayloadForm: FC<Props> = ({ close, onFinish }) => {
       onKeyDown={handleEscKey}
     >
       <Form onSubmit={formik.handleSubmit}>
-        <Input
-          id="command"
-          name="command"
-          label="Command"
-          type="text"
-          required
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.command ? formik.errors.command : null}
-          value={formik.values.command}
-          stacked
-        />
-        <Input
-          id="user"
-          name="user"
-          label="User id"
-          type="number"
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.user}
-          stacked
-        />
-        <Input
-          id="group"
-          name="group"
-          label="Group id"
-          type="number"
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.group}
-          stacked
-        />
-        {/* hidden submit to enable enter key in inputs */}
-        <input type="submit" hidden />
-        <Row>
-          <Col size={4}>
-            <Label>Environment variables</Label>
-          </Col>
-          <Col size={3}>Key</Col>
-          <Col size={3}>Value</Col>
-          <Col size={2} />
-        </Row>
-        {formik.values.environment.map((variable, index) => (
-          <Row key={index}>
-            <Col size={4} />
-            <Col size={3}>
-              <input
-                className="p-form-validation__input"
-                style={{ width: "10rem" }}
+        <div className="content-wrapper">
+          <Input
+            id="command"
+            name="command"
+            label="Command"
+            labelClassName="u-no-margin--bottom"
+            type="text"
+            required
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            error={formik.touched.command ? formik.errors.command : null}
+            value={formik.values.command}
+          />
+          <Input
+            id="user"
+            name="user"
+            label="User ID"
+            labelClassName="u-no-margin--bottom"
+            type="number"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.user}
+          />
+          <Input
+            id="group"
+            name="group"
+            label="Group ID"
+            labelClassName="u-no-margin--bottom"
+            type="number"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.group}
+          />
+          {/* hidden submit to enable enter key in inputs */}
+          <Input type="submit" hidden />
+          <p className="u-no-margin--bottom p-form__label">
+            Environment variables
+          </p>
+          {formik.values.environment.map((_variable, index) => (
+            <div key={index} className="env-variables">
+              <Input
                 type="text"
+                placeholder="Key"
+                labelClassName="u-off-screen"
+                label={`Key of variable ${index}`}
+                id={`environment.${index}.key`}
                 name={`environment.${index}.key`}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.environment[index].key}
               />
-            </Col>
-            <Col size={3}>
-              <input
-                className="p-form-validation__input"
-                style={{ width: "10rem" }}
+              <Input
                 type="text"
+                placeholder="Value"
+                labelClassName="u-off-screen"
+                label={`Value of variable ${index}`}
+                id={`environment.${index}.value`}
                 name={`environment.${index}.value`}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.environment[index].value}
               />
-            </Col>
-            <Col size={2}>
               <Button
+                aria-label={`remove variable ${index}`}
                 onClick={() => removeEnvironmentRow(index)}
                 type="button"
                 hasIcon
               >
                 <Icon name="delete" />
               </Button>
-            </Col>
-          </Row>
-        ))}
-        <Row>
-          <Col size={4} />
-          <Col size={8}>
-            <Button onClick={addEnvironmentRow} type="button" hasIcon>
-              <Icon name="plus" />
+            </div>
+          ))}
+          <div ref={ref}>
+            <Button
+              aria-label="add variable"
+              onClick={addEnvironmentRow}
+              type="button"
+            >
               <span>Add variable</span>
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Form>
     </Modal>
   );
