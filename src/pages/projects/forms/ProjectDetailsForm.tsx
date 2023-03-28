@@ -33,20 +33,21 @@ export const projectDetailPayload = (values: ProjectDetailsFormValues) => {
 export const projectDetailRestrictionPayload = (
   values: ProjectDetailsFormValues
 ) => {
+  const boolToPayload = (value?: boolean) => {
+    if (value === undefined) {
+      return undefined;
+    }
+    return value ? "true" : "false";
+  };
+
   return {
-    restricted: values.restricted ? "true" : "false",
-    "features.images": values.features_images ? "true" : "false",
-    "features.profiles": values.features_profiles ? "true" : "false",
-    "features.networks": values.features_networks ? "true" : "false",
-    "features.networks.zones": values.features_networks_zones
-      ? "true"
-      : "false",
-    "features.storage.buckets": values.features_storage_buckets
-      ? "true"
-      : "false",
-    "features.storage.volumes": values.features_storage_volumes
-      ? "true"
-      : "false",
+    restricted: boolToPayload(values.restricted),
+    "features.images": boolToPayload(values.features_images),
+    "features.profiles": boolToPayload(values.features_profiles),
+    "features.networks": boolToPayload(values.features_networks),
+    "features.networks.zones": boolToPayload(values.features_networks_zones),
+    "features.storage.buckets": boolToPayload(values.features_storage_buckets),
+    "features.storage.volumes": boolToPayload(values.features_storage_volumes),
   };
 };
 
@@ -107,12 +108,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
           onChange={(e) => {
             setFeatures(e.target.value);
             if (e.target.value === "default") {
-              formik.setFieldValue("features_images", false);
-              formik.setFieldValue("features_profiles", false);
-              formik.setFieldValue("features_networks", false);
-              formik.setFieldValue("features_networks_zones", false);
-              formik.setFieldValue("features_storage_buckets", false);
-              formik.setFieldValue("features_storage_volumes", false);
+              formik.setFieldValue("features_images", undefined);
+              formik.setFieldValue("features_profiles", undefined);
+              formik.setFieldValue("features_networks", undefined);
+              formik.setFieldValue("features_networks_zones", undefined);
+              formik.setFieldValue("features_storage_buckets", undefined);
+              formik.setFieldValue("features_storage_volumes", undefined);
             }
           }}
           value={features}
