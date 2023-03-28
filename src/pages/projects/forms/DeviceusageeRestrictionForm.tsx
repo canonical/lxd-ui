@@ -56,7 +56,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
               (except the root one)
             </>
           ),
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_disk"
@@ -93,7 +93,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_gpu",
           label: "GPU devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_gpu"
@@ -111,7 +111,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_infiniband",
           label: "Infiniband devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_infiniband"
@@ -129,7 +129,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_nic",
           label: "Network devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_nic"
@@ -147,7 +147,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_pci",
           label: "PCI devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_pci"
@@ -165,7 +165,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_unix_block",
           label: "Unix-block devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_unix_block"
@@ -183,7 +183,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_unix_char",
           label: "Unix-char devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_unix_char"
@@ -201,7 +201,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_unix_hotplug",
           label: "Unix-hotplug devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_unix_hotplug"
@@ -219,7 +219,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_usb",
           label: "USB devices",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_devices_usb"

@@ -66,7 +66,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Prevent the instance from being deleted",
           name: "security_protection_delete",
-          defaultValue: "true",
+          defaultValue: "",
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
             <Select
@@ -84,7 +84,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Run the instance in privileged mode (Containers only)",
           name: "security_privileged",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsAllowDeny),
           children: (
@@ -105,7 +105,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label:
             "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
           name: "security_protection_shift",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
@@ -172,7 +172,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Unique idmap usage (Containers only)",
           name: "security_idmap_isolated",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
@@ -192,7 +192,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Allow /dev/lxd in the instance (Containers only)",
           name: "security_devlxd",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
@@ -213,7 +213,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label:
             "Make /1.0/images API available over /dev/lxd (Containers only)",
           name: "security_devlxd_images",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
           children: (
@@ -233,7 +233,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",
-          defaultValue: "true",
+          defaultValue: "",
           disabled: isVmOnlyDisabled,
           readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsTrueFalse),
           children: (

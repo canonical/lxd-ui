@@ -51,7 +51,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_cluster_target",
           label: "Direct cluster targeting",
-          defaultValue: "allow",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_cluster_target"

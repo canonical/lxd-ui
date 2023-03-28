@@ -49,7 +49,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_virtual_machines_low_level",
           label: "Low level VM operations",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_virtual_machines_low_level"
@@ -67,7 +67,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_low_level",
           label: "Low level container operations",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_containers_low_level"
@@ -85,7 +85,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_nesting",
           label: "Container nesting",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_containers_nesting"
@@ -103,7 +103,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_privilege",
           label: "Container privilege",
-          defaultValue: "unprivileged",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_containers_privilege"
@@ -121,7 +121,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_container_interception",
           label: "Container interception",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restricted_container_interception"
@@ -139,7 +139,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restrict_snapshots",
           label: "Snapshot creation",
-          defaultValue: "block",
+          defaultValue: "",
           children: (
             <Select
               id="restrict_snapshots"

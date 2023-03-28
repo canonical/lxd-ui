@@ -1,5 +1,10 @@
 export const stringAllowBlock = [
   {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
     label: "Allow",
     value: "allow",
   },
@@ -10,6 +15,11 @@ export const stringAllowBlock = [
 ];
 
 export const stringUnprivilegedIsolatedAllow = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
   {
     label: "Unpriviliged",
     value: "unpriviliged",
@@ -25,6 +35,11 @@ export const stringUnprivilegedIsolatedAllow = [
 ];
 
 export const stringBlockManagedAllow = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
   {
     label: "Block",
     value: "block",
