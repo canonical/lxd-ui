@@ -49,7 +49,7 @@ export const parseCpuLimit = (limit?: string): CpuLimit | undefined => {
         from: from ? parseInt(from) : null,
         to: to ? parseInt(to) : null,
       },
-      selectedType: CPU_LIMIT_TYPE.FIXED_RANGE,
+      selectedType: CPU_LIMIT_TYPE.FIXED_SET,
     };
   }
 
