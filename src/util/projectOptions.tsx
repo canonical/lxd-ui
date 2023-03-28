@@ -21,8 +21,8 @@ export const stringUnprivilegedIsolatedAllow = [
     disabled: true,
   },
   {
-    label: "Unpriviliged",
-    value: "unpriviliged",
+    label: "Unprivileged",
+    value: "unprivileged",
   },
   {
     label: "Isolated",
@@ -41,15 +41,15 @@ export const stringBlockManagedAllow = [
     disabled: true,
   },
   {
+    label: "Allow",
+    value: "allow",
+  },
+  {
     label: "Block",
     value: "block",
   },
   {
     label: "Managed",
     value: "managed",
-  },
-  {
-    label: "Allow",
-    value: "allow",
   },
 ];
