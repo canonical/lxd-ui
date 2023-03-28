@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
-import { booleanFieldsYesNo } from "util/instanceOptions";
+import { optionYesNo } from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
@@ -8,7 +8,7 @@ import {
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { snapshotOptions } from "util/snapshotOptions";
-import { boolRenderer, getPayloadKey } from "util/formFields";
+import { optionRenderer, getPayloadKey } from "util/formFields";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -97,14 +97,14 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
           defaultValue: "",
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsYesNo),
+          readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select
               id="snapshots_schedule_stopped"
               name="snapshots_schedule_stopped"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsYesNo}
+              options={optionYesNo}
               value={formik.values.snapshots_schedule_stopped}
             />
           ),

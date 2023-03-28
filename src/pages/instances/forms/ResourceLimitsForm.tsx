@@ -5,7 +5,7 @@ import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
-import { booleanFieldsAllowDeny, diskPriorities } from "util/instanceOptions";
+import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
 import {
   SharedFormikTypes,
   SharedFormTypes,
@@ -13,7 +13,7 @@ import {
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { boolRenderer, getPayloadKey } from "util/formFields";
+import { optionRenderer, getPayloadKey } from "util/formFields";
 
 export interface ResourceLimitsFormValues {
   limits_cpu?: CpuLimit;
@@ -90,14 +90,14 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Memory swap (Containers only)",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          readOnlyRenderer: (val) => boolRenderer(val, booleanFieldsAllowDeny),
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
               id="limits_memory_swap"
               name="limits_memory_swap"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={booleanFieldsAllowDeny}
+              options={optionAllowDeny}
               value={formik.values.limits_memory_swap}
               disabled={isContainerOnlyDisabled}
             />

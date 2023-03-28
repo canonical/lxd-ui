@@ -4,8 +4,9 @@ import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
-import { stringAllowBlock, stringBlockManagedAllow } from "util/projectOptions";
+import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { optionRenderer } from "util/formFields";
 
 export interface DeviceUsageRestrictionFormValues {
   restricted_devices_disk?: string;
@@ -57,13 +58,15 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
             </>
           ),
           defaultValue: "",
+          readOnlyRenderer: (val) =>
+            optionRenderer(val, optionAllowBlockManaged),
           children: (
             <Select
               id="restricted_devices_disk"
               name="restricted_devices_disk"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringBlockManagedAllow}
+              options={optionAllowBlockManaged}
               value={formik.values.restricted_devices_disk}
               help="If block prevent use of disk devices except the root one. If managed allow use of disk devices only if pool= is set. If allow, no restrictions apply."
             />
@@ -94,13 +97,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_gpu",
           label: "GPU devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_gpu"
               name="restricted_devices_gpu"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_gpu}
               help="Prevents use of devices of type gpu."
             />
@@ -112,13 +116,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_infiniband",
           label: "Infiniband devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_infiniband"
               name="restricted_devices_infiniband"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_infiniband}
               help="Prevents use of devices of type infiniband."
             />
@@ -130,13 +135,15 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_nic",
           label: "Network devices",
           defaultValue: "",
+          readOnlyRenderer: (val) =>
+            optionRenderer(val, optionAllowBlockManaged),
           children: (
             <Select
               id="restricted_devices_nic"
               name="restricted_devices_nic"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringBlockManagedAllow}
+              options={optionAllowBlockManaged}
               value={formik.values.restricted_devices_nic}
               help="If block prevent use of all network devices. If managed allow use of network devices only if network= is set. If allow, no restrictions apply. This also controls access to networks."
             />
@@ -148,13 +155,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_pci",
           label: "PCI devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_pci"
               name="restricted_devices_pci"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_pci}
               help="Prevents use of devices of type pci."
             />
@@ -166,13 +174,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_unix_block",
           label: "Unix-block devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_unix_block"
               name="restricted_devices_unix_block"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_unix_block}
               help="Prevents use of devices of type unix-block."
             />
@@ -184,13 +193,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_unix_char",
           label: "Unix-char devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_unix_char"
               name="restricted_devices_unix_char"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_unix_char}
               help="Prevents use of devices of type unix-char."
             />
@@ -202,13 +212,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_unix_hotplug",
           label: "Unix-hotplug devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_unix_hotplug"
               name="restricted_devices_unix_hotplug"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_unix_hotplug}
               help="Prevents use of devices of type unix-hotplug."
             />
@@ -220,13 +231,14 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_devices_usb",
           label: "USB devices",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_devices_usb"
               name="restricted_devices_usb"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_devices_usb}
               help="Prevents use of devices of type usb."
             />

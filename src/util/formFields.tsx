@@ -180,11 +180,11 @@ export const getEditValues = (item: LxdProfile | LxdInstance) => {
   };
 };
 
-export const boolRenderer = (
+export const optionRenderer = (
   value?: unknown,
-  map?: OptionHTMLAttributes<HTMLOptionElement>[]
+  optionList?: OptionHTMLAttributes<HTMLOptionElement>[]
 ): string => {
-  const match = map?.find((item) => item.value === value);
+  const match = optionList?.find((item) => item.value === value);
   if (match?.label && value !== "") {
     return match.label;
   }

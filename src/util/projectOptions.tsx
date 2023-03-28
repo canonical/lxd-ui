@@ -1,51 +1,51 @@
-export const stringAllowBlock = [
+export const optionAllowBlock = [
   {
     label: "Select option",
     value: "",
     disabled: true,
   },
   {
-    label: "Allow",
+    label: "Allowed",
     value: "allow",
   },
   {
-    label: "Block",
+    label: "Blocked",
     value: "block",
   },
 ];
 
-export const stringUnprivilegedIsolatedAllow = [
+export const optionAllowIsolatedUnprivileged = [
   {
     label: "Select option",
     value: "",
     disabled: true,
   },
   {
-    label: "Unprivileged",
-    value: "unprivileged",
+    label: "Allowed",
+    value: "allow",
   },
   {
     label: "Isolated",
     value: "isolated",
   },
   {
-    label: "Allow",
-    value: "allow",
+    label: "Unprivileged",
+    value: "unprivileged",
   },
 ];
 
-export const stringBlockManagedAllow = [
+export const optionAllowBlockManaged = [
   {
     label: "Select option",
     value: "",
     disabled: true,
   },
   {
-    label: "Allow",
+    label: "Allowed",
     value: "allow",
   },
   {
-    label: "Block",
+    label: "Blocked",
     value: "block",
   },
   {

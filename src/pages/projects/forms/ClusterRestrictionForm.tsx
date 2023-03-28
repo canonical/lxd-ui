@@ -4,8 +4,9 @@ import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
-import { stringAllowBlock } from "util/projectOptions";
+import { optionAllowBlock } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { optionRenderer } from "util/formFields";
 
 export interface ClusterRestrictionFormValues {
   restricted_cluster_groups?: string;
@@ -52,13 +53,14 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           name: "restricted_cluster_target",
           label: "Direct cluster targeting",
           defaultValue: "",
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
               id="restricted_cluster_target"
               name="restricted_cluster_target"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              options={stringAllowBlock}
+              options={optionAllowBlock}
               value={formik.values.restricted_cluster_target}
               help="Prevents direct targeting of cluster members when creating or moving instances."
             />
