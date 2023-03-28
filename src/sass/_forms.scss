@@ -124,6 +124,13 @@
       min-height: 7.5rem;
     }
   }
+
+  .checkbox-label-tooltip {
+    > span {
+      display: inherit !important;
+      margin-left: $sph--x-small;
+    }
+  }
 }
 
 .p-panel__content:has(.edit-instance),
