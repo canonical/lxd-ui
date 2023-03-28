@@ -74,7 +74,7 @@ export const getConfigurationRow = ({
     if (!isReadOnly) {
       return children;
     }
-    const value = values[name];
+    const value = values[name] === "" ? "-" : values[name];
     return readOnlyRenderer ? readOnlyRenderer(value) : value;
   };
 

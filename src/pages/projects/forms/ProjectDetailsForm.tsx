@@ -60,12 +60,12 @@ interface Props {
 const ProjectDetailsForm: FC<Props> = ({ formik }) => {
   const figureFeatures = () => {
     if (
-      formik.values.features_images ||
-      formik.values.features_profiles ||
-      formik.values.features_networks ||
-      formik.values.features_networks_zones ||
-      formik.values.features_storage_buckets ||
-      formik.values.features_storage_volumes
+      formik.values.features_images !== true ||
+      formik.values.features_profiles !== true ||
+      formik.values.features_networks !== false ||
+      formik.values.features_networks_zones !== false ||
+      formik.values.features_storage_buckets !== true ||
+      formik.values.features_storage_volumes !== true
     ) {
       return "customized";
     }
@@ -260,7 +260,8 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
             checked={formik.values.restricted}
             disabled={
               formik.values.readOnly ||
-              formik.values.features_profiles === false
+              (formik.values.features_profiles === false &&
+                features === "customized")
             }
           />
         </Col>
