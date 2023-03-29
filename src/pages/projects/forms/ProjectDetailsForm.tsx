@@ -77,7 +77,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
       formik.values.features_storage_buckets !== true ||
       formik.values.features_storage_volumes !== true
     ) {
-      return "customized";
+      return "customised";
     }
     return "default";
   };
@@ -130,12 +130,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
                 formik.setFieldValue("features_storage_buckets", true);
                 formik.setFieldValue("features_storage_volumes", true);
               } else {
-                formik.setFieldValue("features_images", true);
-                formik.setFieldValue("features_profiles", true);
+                formik.setFieldValue("features_images", false);
+                formik.setFieldValue("features_profiles", false);
                 formik.setFieldValue("features_networks", false);
                 formik.setFieldValue("features_networks_zones", false);
-                formik.setFieldValue("features_storage_buckets", true);
-                formik.setFieldValue("features_storage_volumes", true);
+                formik.setFieldValue("features_storage_buckets", false);
+                formik.setFieldValue("features_storage_volumes", false);
               }
             }}
             value={features}
@@ -145,13 +145,13 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
                 value: "default",
               },
               {
-                label: "Customized",
-                value: "customized",
+                label: "Customised",
+                value: "customised",
               },
             ]}
             disabled={formik.values.readOnly}
           />
-          {features === "customized" && (
+          {features === "customised" && (
             <>
               Allow the following features:
               <CheckboxInput
@@ -271,7 +271,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
             disabled={
               formik.values.readOnly ||
               (formik.values.features_profiles === false &&
-                features === "customized")
+                features === "customised")
             }
           />
         </Col>
