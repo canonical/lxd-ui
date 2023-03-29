@@ -11,6 +11,8 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewNetworks from "./InstanceOverviewNetworks";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
+import { getIpAddresses } from "util/networks";
+import ExpandableList from "../../components/ExpandableList";
 
 interface Props {
   instance: LxdInstance;
@@ -29,6 +31,9 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   };
   useEffect(updateContentHeight, [inTabNotification]);
   useEventListener("resize", updateContentHeight);
+
+  const ip4Addresses = getIpAddresses("inet", instance);
+  const ip6Addresses = getIpAddresses("inet6", instance);
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
@@ -62,6 +67,26 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                       (item) => item.value === instance.type
                     )[0].label
                   }
+                </td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">IPv4</th>
+                <td>
+                  {ip4Addresses.length ? (
+                    <ExpandableList items={ip4Addresses} />
+                  ) : (
+                    "-"
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">IPv6</th>
+                <td>
+                  {ip6Addresses.length ? (
+                    <ExpandableList items={ip6Addresses} />
+                  ) : (
+                    "-"
+                  )}
                 </td>
               </tr>
               <tr>

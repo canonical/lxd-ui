@@ -38,36 +38,7 @@
     }
   }
 
-  .networks,
-  .profiles {
-    th {
-      color: #757575;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-    }
-  }
-
   .networks {
-    th,
-    td {
-      &:nth-child(2) {
-        width: 80px;
-
-        @include extra-large {
-          width: 85px;
-        }
-      }
-
-      &:nth-child(3) {
-        width: 114px;
-
-        @include extra-large {
-          width: 128px;
-        }
-      }
-    }
-
     th:nth-child(1) {
       width: 30%;
     }
