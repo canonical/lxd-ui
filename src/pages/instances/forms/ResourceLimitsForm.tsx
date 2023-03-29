@@ -53,7 +53,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Exposed CPUs",
           defaultValue: DEFAULT_CPU_LIMIT,
           readOnlyRenderer: (val) =>
-            cpuLimitToPayload(val as CpuLimit | undefined),
+            cpuLimitToPayload(val as CpuLimit | string | undefined),
           children: (
             <CpuLimitSelector
               cpuLimit={formik.values.limits_cpu}
