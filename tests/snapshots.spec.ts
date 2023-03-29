@@ -28,15 +28,19 @@ const createSnapshot = async (
   await page.getByLabel("Snapshot name").fill(snapshot);
   await page
     .getByRole("dialog", {
-      name: `Create snapshot for ${instance}`,
+      name: `Create snapshot`,
     })
-    .getByRole("button", { name: "Create snapshot" })
+    .getByRole("button", { name: "Create" })
     .click();
 
   await page.waitForSelector(`text=Snapshot ${snapshot} created.`, TIMEOUT);
 };
 
 const restoreSnapshot = async (page: Page, snapshot: string) => {
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .hover();
   await page
     .getByRole("row", { name: "Name" })
     .filter({ hasText: snapshot })
@@ -47,10 +51,14 @@ const restoreSnapshot = async (page: Page, snapshot: string) => {
     .getByRole("button", { name: "Restore" })
     .click();
 
-  await page.waitForSelector("text=Snapshot restored", TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} restored.`, TIMEOUT);
 };
 
 const deleteSnapshot = async (page: Page, snapshot: string) => {
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .hover();
   await page
     .getByRole("row", { name: "Name" })
     .filter({ hasText: snapshot })

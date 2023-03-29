@@ -1,6 +1,6 @@
 import { chromium, FullConfig } from "@playwright/test";
-import { deleteInstance, hasInstance } from "./instances.spec";
 import { INSTANCE_NAME } from "./constants";
+import { deleteInstance, hasInstance } from "./instance-helpers";
 
 async function globalTeardown(config: FullConfig) {
   const browser = await chromium.launch();

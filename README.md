@@ -29,6 +29,10 @@ To enable pre commit checks, after the 1st successful run of `dotrun`, execute `
 
 # End-to-end tests
 
+Install playwright and its browsers
+
+    npx playwright install
+
 The tests expect the environment on localhost to be accessible. Execute `dotrun` and start tests with
 
     npx playwright test
