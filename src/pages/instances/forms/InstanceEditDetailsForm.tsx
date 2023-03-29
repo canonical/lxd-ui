@@ -45,6 +45,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             required
+            disabled={isReadOnly}
           />
           <Textarea
             id="description"

@@ -38,7 +38,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik }) => {
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             required
-            disabled={formik.values.name === "default"}
+            disabled={formik.values.name === "default" || isReadOnly}
           />
           <Textarea
             id="description"

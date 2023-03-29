@@ -22,7 +22,8 @@ const queue = (notification: Notification): QueuedNotification => {
 export const failure = (
   message: string | ReactNode,
   error: unknown,
-  actions?: NotificationAction[]
+  actions?: NotificationAction[],
+  title?: string
 ): Notification => {
   return {
     actions,
@@ -34,6 +35,7 @@ export const failure = (
       ) : (
         message
       ),
+    title,
     type: "negative",
   };
 };
@@ -95,8 +97,8 @@ export const NotifyProvider: FC<NotifyProviderProps> = ({ children }) => {
     notification,
     clear: () => notification !== null && setNotification(null),
     queue,
-    failure: (message, error, actions) =>
-      setDeduplicated(failure(message, error, actions)),
+    failure: (message, error, actions, title) =>
+      setDeduplicated(failure(message, error, actions, title)),
     info: (message, title) => setDeduplicated(info(message, title)),
     success: (message) => setDeduplicated(success(message)),
   };

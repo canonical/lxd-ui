@@ -117,7 +117,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
               .then(() => {
                 navigate(
                   `/ui/${project}/profiles/detail/${newName}/configuration`,
-                  notify.queue(notify.success("Configuration updated."))
+                  notify.queue(notify.success("Profile updated."))
                 );
               })
               .catch((e: Error) => {
@@ -127,11 +127,11 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
                 );
               });
           } else {
-            notify.success("Configuration updated.");
+            notify.success("Profile updated.");
           }
         })
         .catch((e: Error) => {
-          notify.failure("Could not save", e);
+          notify.failure("", e, undefined, "Profile update failed");
         })
         .finally(() => {
           formik.setSubmitting(false);
