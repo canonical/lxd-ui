@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
 import { Button, Col, List, Row } from "@canonical/react-components";
@@ -16,6 +16,8 @@ import usePanelParams from "util/usePanelParams";
 import { useNotify } from "context/notify";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import InstanceLink from "pages/instances/InstanceLink";
+import { getIpAddresses } from "util/networks";
+import ExpandableList from "../../components/ExpandableList";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -38,28 +40,8 @@ const InstanceDetailPanel: FC = () => {
     notify.failure("Could not load instance details.", error);
   }
 
-  const [ip4DisplayCount, setIp4DisplayCount] = useState(5);
-  const [ip6DisplayCount, setIp6DisplayCount] = useState(5);
-
-  const getIpAddresses = (family: string) => {
-    return (
-      instance?.state?.network?.eth0?.addresses
-        .filter((item) => item.family === family)
-        .map((item) => {
-          return (
-            <div
-              key={item.address}
-              className="ip u-truncate"
-              title={item.address}
-            >
-              {item.address}
-            </div>
-          );
-        }) ?? []
-    );
-  };
-  const ip4Addresses = getIpAddresses("inet");
-  const ip6Addresses = getIpAddresses("inet6");
+  const ip4Addresses = getIpAddresses("inet", instance);
+  const ip6Addresses = getIpAddresses("inet6", instance);
 
   return (
     <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
@@ -138,21 +120,7 @@ const InstanceDetailPanel: FC = () => {
                     <th className="u-text--muted">IPv4</th>
                     <td>
                       {ip4Addresses.length ? (
-                        <>
-                          {ip4Addresses.slice(0, ip4DisplayCount)}
-                          {ip4DisplayCount < ip4Addresses.length && (
-                            <Button
-                              appearance="link"
-                              className="u-no-margin--bottom"
-                              small
-                              onClick={() =>
-                                setIp4DisplayCount(ip4Addresses.length)
-                              }
-                            >
-                              Show all
-                            </Button>
-                          )}
-                        </>
+                        <ExpandableList items={ip4Addresses} />
                       ) : (
                         "-"
                       )}
@@ -162,21 +130,7 @@ const InstanceDetailPanel: FC = () => {
                     <th className="u-text--muted">IPv6</th>
                     <td>
                       {ip6Addresses.length ? (
-                        <>
-                          {ip6Addresses.slice(0, ip6DisplayCount)}
-                          {ip6DisplayCount < ip6Addresses.length && (
-                            <Button
-                              appearance="link"
-                              className="u-no-margin--bottom"
-                              small
-                              onClick={() =>
-                                setIp6DisplayCount(ip6Addresses.length)
-                              }
-                            >
-                              Show all
-                            </Button>
-                          )}
-                        </>
+                        <ExpandableList items={ip6Addresses} />
                       ) : (
                         "-"
                       )}

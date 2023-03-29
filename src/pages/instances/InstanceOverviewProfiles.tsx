@@ -27,8 +27,12 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
   }
 
   const profileHeaders = [
-    { content: "Name", sortKey: "name" },
-    { content: "Description", sortKey: "description" },
+    { content: "Name", sortKey: "name", className: "p-muted-heading" },
+    {
+      content: "Description",
+      sortKey: "description",
+      className: "p-muted-heading",
+    },
   ];
 
   const profileRows = instance.profiles.map((profile) => {

@@ -32,11 +32,9 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
     .map((network) => network.network);
 
   const networksHeaders = [
-    { content: "Name", sortKey: "name" },
-    { content: "Type", sortKey: "type" },
-    { content: "Managed", sortKey: "managed" },
-    { content: "IPV4", className: "u-align--right" },
-    { content: "IPV6" },
+    { content: "Name", sortKey: "name", className: "p-muted-heading" },
+    { content: "Type", sortKey: "type", className: "p-muted-heading" },
+    { content: "Managed", sortKey: "managed", className: "p-muted-heading" },
   ];
 
   const networksRows = networks
@@ -66,19 +64,6 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
             content: network.managed ? "Yes" : "No",
             role: "rowheader",
             "aria-label": "Managed",
-          },
-          {
-            content: network.config["ipv4.address"],
-            className: "u-align--right",
-            role: "rowheader",
-            title: network.config["ipv4.address"],
-            "aria-label": "IPV4",
-          },
-          {
-            content: network.config["ipv6.address"],
-            role: "rowheader",
-            title: network.config["ipv6.address"],
-            "aria-label": "IPV6",
           },
         ],
         sortData: {
