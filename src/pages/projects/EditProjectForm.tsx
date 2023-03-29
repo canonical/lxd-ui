@@ -47,11 +47,10 @@ const EditProjectForm: FC<Props> = ({ project }) => {
     },
     validationSchema: ProjectSchema,
     onSubmit: (values) => {
-      updateProject(
-        JSON.stringify({
-          ...projectDetailPayload(values),
-        })
-      )
+      const projectPayload = JSON.stringify({
+        ...projectDetailPayload(values),
+      });
+      updateProject(projectPayload, project.etag)
         .then(() => {
           notify.success(`Project ${values.name} saved.`);
         })

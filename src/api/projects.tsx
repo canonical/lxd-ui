@@ -1,4 +1,4 @@
-import { handleResponse } from "util/helpers";
+import { handleEtagResponse, handleResponse } from "util/helpers";
 import { LxdProject } from "types/project";
 import { LxdApiResponse } from "types/apiResponse";
 
@@ -14,8 +14,8 @@ export const fetchProjects = (recursion: number): Promise<LxdProject[]> => {
 export const fetchProject = (name: string): Promise<LxdProject> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${name}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProject>) => resolve(data.metadata))
+      .then(handleEtagResponse)
+      .then((data) => resolve(data as LxdProject))
       .catch(reject);
   });
 };
@@ -32,12 +32,15 @@ export const createProject = (body: string) => {
   });
 };
 
-export const updateProject = (body: string) => {
+export const updateProject = (body: string, etag?: string) => {
   const project = JSON.parse(body) as LxdProject;
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${project.name}`, {
       method: "PUT",
       body: body,
+      headers: {
+        "If-Match": etag ?? "invalid-etag",
+      },
     })
       .then(handleResponse)
       .then((data) => resolve(data))

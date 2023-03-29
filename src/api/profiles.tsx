@@ -1,4 +1,4 @@
-import { handleResponse } from "util/helpers";
+import { handleEtagResponse, handleResponse } from "util/helpers";
 import { LxdProfile } from "types/profile";
 import { LxdApiResponse } from "types/apiResponse";
 
@@ -8,8 +8,8 @@ export const fetchProfile = (
 ): Promise<LxdProfile> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}&recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProfile>) => resolve(data.metadata))
+      .then(handleEtagResponse)
+      .then((data) => resolve(data as LxdProfile))
       .catch(reject);
   });
 };
@@ -35,12 +35,15 @@ export const createProfile = (body: string, project: string) => {
   });
 };
 
-export const updateProfile = (body: string, project: string) => {
+export const updateProfile = (body: string, project: string, etag?: string) => {
   const profile = JSON.parse(body) as LxdProfile;
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
       method: "PUT",
       body: body,
+      headers: {
+        "If-Match": etag ?? "invalid-etag",
+      },
     })
       .then(handleResponse)
       .then(resolve)

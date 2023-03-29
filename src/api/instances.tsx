@@ -1,5 +1,9 @@
 import { watchOperation } from "./operations";
-import { handleResponse, handleTextResponse } from "util/helpers";
+import {
+  handleEtagResponse,
+  handleResponse,
+  handleTextResponse,
+} from "util/helpers";
 import { LxdInstance } from "types/instance";
 import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
@@ -12,16 +16,8 @@ export const fetchInstance = (
 ): Promise<LxdInstance> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}?project=${project}&recursion=${recursion}`)
-      .then((response) => {
-        return handleResponse(response)
-          .then((data: LxdApiResponse<LxdInstance>) => {
-            const result = data.metadata;
-            result.etag =
-              response.headers.get("etag")?.replace("W/", "") ?? undefined;
-            resolve(result);
-          })
-          .catch(reject);
-      })
+      .then(handleEtagResponse)
+      .then((data) => resolve(data as LxdInstance))
       .catch(reject);
   });
 };

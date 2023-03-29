@@ -1,4 +1,8 @@
 import React from "react";
+import { LxdApiResponse } from "types/apiResponse";
+import { LxdInstance } from "types/instance";
+import { LxdProject } from "types/project";
+import { LxdProfile } from "types/profile";
 
 export const isoTimeToString = (isoTime: string) => {
   if (isoTime.startsWith("0001-01-01T00")) {
@@ -41,6 +45,15 @@ export const handleResponse = async (response: Response) => {
     throw Error(result.error);
   }
   return response.json();
+};
+
+export const handleEtagResponse = async (response: Response) => {
+  const data = (await handleResponse(response)) as LxdApiResponse<
+    LxdInstance | LxdProject | LxdProfile
+  >;
+  const result = data.metadata;
+  result.etag = response.headers.get("etag")?.replace("W/", "") ?? undefined;
+  return result;
 };
 
 export const handleTextResponse = async (response: Response) => {
