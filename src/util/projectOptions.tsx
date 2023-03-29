@@ -5,11 +5,11 @@ export const optionAllowBlock = [
     disabled: true,
   },
   {
-    label: "Allowed",
+    label: "Allow",
     value: "allow",
   },
   {
-    label: "Blocked",
+    label: "Block",
     value: "block",
   },
 ];
@@ -21,7 +21,7 @@ export const optionAllowIsolatedUnprivileged = [
     disabled: true,
   },
   {
-    label: "Allowed",
+    label: "Allow",
     value: "allow",
   },
   {
@@ -41,11 +41,11 @@ export const optionAllowBlockManaged = [
     disabled: true,
   },
   {
-    label: "Allowed",
+    label: "Allow",
     value: "allow",
   },
   {
-    label: "Blocked",
+    label: "Block",
     value: "block",
   },
   {

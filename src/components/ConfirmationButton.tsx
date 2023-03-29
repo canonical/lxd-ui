@@ -18,6 +18,7 @@ interface Props {
   onConfirm: () => void;
   isDense?: boolean;
   isDisabled?: boolean;
+  hasShiftHint?: boolean;
 }
 
 const ConfirmationButton: FC<Props> = ({
@@ -34,6 +35,7 @@ const ConfirmationButton: FC<Props> = ({
   onConfirm,
   isDense = true,
   isDisabled = false,
+  hasShiftHint = true,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
@@ -70,6 +72,7 @@ const ConfirmationButton: FC<Props> = ({
             confirmationMessage={confirmationMessage}
             posButtonLabel={posButtonLabel}
             onConfirm={handleConfirmModal}
+            hasShiftHint={hasShiftHint}
           />
         </Portal>
       )}

@@ -58,6 +58,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       }
       onConfirm={handleDelete}
       isDense={false}
+      hasShiftHint={false}
       isDisabled={project.name === "default"}
     />
   );
