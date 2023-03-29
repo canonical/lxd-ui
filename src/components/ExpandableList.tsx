@@ -18,7 +18,10 @@ const ExpandableList: FC<Props> = ({ items }) => {
           appearance="link"
           className="u-no-margin--bottom"
           small
-          onClick={() => setDisplayCount(items.length)}
+          onClick={(e) => {
+            setDisplayCount(items.length);
+            e.stopPropagation();
+          }}
         >
           Show all
         </Button>
