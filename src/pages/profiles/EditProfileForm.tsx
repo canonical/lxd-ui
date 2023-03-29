@@ -111,9 +111,9 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       profilePayload.name = oldName;
 
       updateProfile(JSON.stringify(profilePayload), project)
-        .then(() => {
+        .then(async () => {
           if (newName !== oldName) {
-            renameProfile(oldName, newName, project)
+            await renameProfile(oldName, newName, project)
               .then(() => {
                 navigate(
                   `/ui/${project}/profiles/detail/${newName}/configuration`,
