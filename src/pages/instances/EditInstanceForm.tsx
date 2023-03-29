@@ -114,9 +114,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       instancePayload.name = oldName;
 
       updateInstance(JSON.stringify(instancePayload), project, instance.etag)
-        .then(() => {
+        .then(async () => {
           if (newName !== oldName) {
-            renameInstance(oldName, newName, project)
+            await renameInstance(oldName, newName, project)
               .then(() => {
                 navigate(
                   `/ui/${instance.project}/instances/detail/${newName}/configuration`,
