@@ -60,6 +60,16 @@ interface Props {
 const ProjectDetailsForm: FC<Props> = ({ formik }) => {
   const figureFeatures = () => {
     if (
+      formik.values.features_images === undefined &&
+      formik.values.features_profiles === undefined &&
+      formik.values.features_networks === undefined &&
+      formik.values.features_networks_zones === undefined &&
+      formik.values.features_storage_buckets === undefined &&
+      formik.values.features_storage_volumes === undefined
+    ) {
+      return "default";
+    }
+    if (
       formik.values.features_images !== true ||
       formik.values.features_profiles !== true ||
       formik.values.features_networks !== false ||
@@ -113,12 +123,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
             onChange={(e) => {
               setFeatures(e.target.value);
               if (e.target.value === "default") {
-                formik.setFieldValue("features_images", undefined);
-                formik.setFieldValue("features_profiles", undefined);
+                formik.setFieldValue("features_images", true);
+                formik.setFieldValue("features_profiles", true);
                 formik.setFieldValue("features_networks", undefined);
                 formik.setFieldValue("features_networks_zones", undefined);
-                formik.setFieldValue("features_storage_buckets", undefined);
-                formik.setFieldValue("features_storage_volumes", undefined);
+                formik.setFieldValue("features_storage_buckets", true);
+                formik.setFieldValue("features_storage_volumes", true);
               } else {
                 formik.setFieldValue("features_images", true);
                 formik.setFieldValue("features_profiles", true);
