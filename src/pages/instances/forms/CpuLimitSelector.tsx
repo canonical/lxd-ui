@@ -80,9 +80,9 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
           type="text"
           placeholder="Comma-separated core numbers"
           onChange={(e) =>
-            setCpuLimit({ ...cpuLimit, setValue: e.target.value })
+            setCpuLimit({ ...cpuLimit, fixedValue: e.target.value })
           }
-          value={cpuLimit.setValue ?? ""}
+          value={cpuLimit.fixedValue ?? ""}
           help={helpText}
         />
       )}

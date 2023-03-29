@@ -32,10 +32,6 @@ export enum CPU_LIMIT_TYPE {
 
 export interface CpuLimit {
   dynamicValue?: number;
-  rangeValue?: {
-    from: number | null;
-    to: number | null;
-  };
-  setValue?: string;
+  fixedValue?: string;
   selectedType: CPU_LIMIT_TYPE;
 }
