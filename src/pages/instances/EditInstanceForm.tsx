@@ -120,22 +120,19 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
               .then(() => {
                 navigate(
                   `/ui/${instance.project}/instances/detail/${newName}/configuration`,
-                  notify.queue(notify.success("Configuration updated."))
+                  notify.queue(notify.success("Instance updated."))
                 );
               })
               .catch((e: Error) => {
-                notify.failure(
-                  `Saved changes, but could not rename the instance ${oldName}.`,
-                  e
-                );
+                notify.failure(`Failed to rename the instance ${oldName}`, e);
               });
           } else {
-            notify.success("Configuration updated.");
+            notify.success("Instance updated.");
             void formik.setFieldValue("readOnly", true);
           }
         })
         .catch((e: Error) => {
-          notify.failure("Could not save", e);
+          notify.failure("", e, undefined, "Instance update failed");
         })
         .finally(() => {
           formik.setSubmitting(false);
