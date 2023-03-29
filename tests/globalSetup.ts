@@ -1,6 +1,6 @@
 import { chromium, FullConfig } from "@playwright/test";
-import { createInstance, hasInstance } from "./instances.spec";
 import { INSTANCE_NAME } from "./constants";
+import { createInstance, hasInstance } from "./instance-helpers";
 
 async function globalSetup(config: FullConfig) {
   const browser = await chromium.launch();
