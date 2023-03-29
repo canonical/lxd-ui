@@ -36,7 +36,7 @@ import InstanceRestrictionForm, {
 } from "pages/projects/forms/InstanceRestrictionForm";
 import DeviceUsageRestrictionForm, {
   deviceUsageRestrictionPayload,
-} from "pages/projects/forms/DeviceusageeRestrictionForm";
+} from "pages/projects/forms/DeviceUsageeRestrictionForm";
 import NetworkRestrictionForm, {
   networkRestrictionPayload,
 } from "pages/projects/forms/NetworkRestrictionForm";
@@ -167,7 +167,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
       updateProject(projectPayload)
         .then(() => {
           notify.success(`Project updated.`);
-          void formik.setFieldValue("readOnly", true);
+          formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("", e, undefined, "Project update failed");
