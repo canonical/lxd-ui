@@ -7,4 +7,5 @@ export interface LxdProfile {
   devices: LxdDevices;
   name: string;
   used_by?: string[];
+  etag?: string;
 }

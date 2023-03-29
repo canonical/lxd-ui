@@ -8,4 +8,5 @@ export interface LxdProject {
   };
   description: string;
   used_by?: string[];
+  etag?: string;
 }
