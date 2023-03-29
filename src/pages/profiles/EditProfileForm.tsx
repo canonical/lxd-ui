@@ -121,13 +121,11 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
                 );
               })
               .catch((e: Error) => {
-                notify.failure(
-                  `Saved changes, but could not rename the profile ${oldName}.`,
-                  e
-                );
+                notify.failure(`Failed to rename the profile ${oldName}`, e);
               });
           } else {
             notify.success("Profile updated.");
+            void formik.setFieldValue("readOnly", true);
           }
         })
         .catch((e: Error) => {

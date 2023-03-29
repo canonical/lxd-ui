@@ -87,7 +87,9 @@ export const renameInstance = (
       }),
     })
       .then(handleResponse)
-      .then(resolve)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation, 120).then(resolve).catch(reject);
+      })
       .catch(reject);
   });
 };
