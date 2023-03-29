@@ -171,6 +171,21 @@ const InstanceList: FC = () => {
       const openSummary = () =>
         panelParams.openInstanceSummary(instance.name, project);
 
+      const ipv4 =
+        instance.state?.network?.eth0?.addresses
+          .filter(
+            (item) => item.family === "inet" && !item.address.startsWith("127")
+          )
+          .map((item) => item.address) ?? [];
+
+      const ipv6 =
+        instance.state?.network?.eth0?.addresses
+          .filter(
+            (item) =>
+              item.family === "inet6" && !item.address.startsWith("fe80")
+          )
+          .map((item) => item.address) ?? [];
+
       return {
         className:
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
@@ -200,26 +215,14 @@ const InstanceList: FC = () => {
             className: "clickable-cell description",
           },
           {
-            content: instance.state?.network?.eth0?.addresses
-              .filter(
-                (item) =>
-                  item.family === "inet" && !item.address.startsWith("127")
-              )
-              .map((item) => item.address)
-              .join(" "),
+            content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
             role: "rowheader",
             className: "u-align--right clickable-cell ipv4",
             "aria-label": IPV4,
             onClick: openSummary,
           },
           {
-            content: instance.state?.network?.eth0?.addresses
-              .filter(
-                (item) =>
-                  item.family === "inet6" && !item.address.startsWith("fe80")
-              )
-              .map((item) => item.address)
-              .join(" "),
+            content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
             role: "rowheader",
             "aria-label": IPV6,
             onClick: openSummary,
