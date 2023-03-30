@@ -26,10 +26,11 @@ const defaultPayload = {
   "wait-for-websocket": true,
   environment: {
     TERM: "xterm-256color",
+    HOME: "/root",
   },
   interactive: true,
-  group: 1000,
-  user: 1000,
+  group: 0,
+  user: 0,
 };
 
 const InstanceTerminal: FC = () => {
