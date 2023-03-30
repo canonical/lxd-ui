@@ -21,10 +21,10 @@ import { yamlToObject } from "util/yaml";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { Location } from "history";
-import InstanceDetailsForm, {
+import InstanceCreateDetailsForm, {
   instanceDetailPayload,
   InstanceDetailsFormValues,
-} from "pages/instances/forms/InstanceDetailsForm";
+} from "pages/instances/forms/InstanceCreateDetailsForm";
 import { useNotify } from "context/notify";
 import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
@@ -266,7 +266,7 @@ const CreateInstanceForm: FC = () => {
               <Col size={12}>
                 <NotificationRow />
                 {section === INSTANCE_DETAILS && (
-                  <InstanceDetailsForm
+                  <InstanceCreateDetailsForm
                     formik={formik}
                     project={project}
                     onSelectImage={handleSelectImage}

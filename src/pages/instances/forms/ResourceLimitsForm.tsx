@@ -13,7 +13,7 @@ import {
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { boolRenderer } from "util/formFields";
+import { boolRenderer, getPayloadKey } from "util/formFields";
 
 export interface ResourceLimitsFormValues {
   limits_cpu?: CpuLimit;
@@ -25,11 +25,14 @@ export interface ResourceLimitsFormValues {
 
 export const resourceLimitsPayload = (values: SharedFormTypes) => {
   return {
-    ["limits.cpu"]: cpuLimitToPayload(values.limits_cpu),
-    ["limits.memory"]: memoryLimitToPayload(values.limits_memory),
-    ["limits.memory.swap"]: values.limits_memory_swap,
-    ["limits.disk.priority"]: values.limits_disk_priority?.toString(),
-    ["limits.processes"]: values.limits_processes?.toString(),
+    [getPayloadKey("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
+    [getPayloadKey("limits_memory")]: memoryLimitToPayload(
+      values.limits_memory
+    ),
+    [getPayloadKey("limits_memory_swap")]: values.limits_memory_swap,
+    [getPayloadKey("limits_disk_priority")]:
+      values.limits_disk_priority?.toString(),
+    [getPayloadKey("limits_processes")]: values.limits_processes?.toString(),
   };
 };
 

@@ -97,6 +97,7 @@ const CreateProfileForm: FC = () => {
       devices: [{ type: "nic", name: "" }],
       limits_cpu: DEFAULT_CPU_LIMIT,
       limits_memory: DEFAULT_MEM_LIMIT,
+      readOnly: false,
       type: "profile",
     },
     validationSchema: ProfileSchema,

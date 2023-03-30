@@ -34,13 +34,24 @@ const formFieldsToPayloadFields: Record<string, string> = {
   cloud_init_vendor_data: "cloud-init.vendor-data",
 };
 
+export const getPayloadKey = (formField: string) => {
+  if (!(formField in formFieldsToPayloadFields)) {
+    throw new Error(`Could not find ${formField} in formFieldsToPayloadFields`);
+  }
+  return formFieldsToPayloadFields[formField];
+};
+
+export const getSupportedConfigKeys = () => {
+  return new Set(Object.values(formFieldsToPayloadFields));
+};
+
 export const figureInheritedValue = (
   values: SharedFormTypes,
   formField: string,
   profiles: LxdProfile[]
 ): [string, string] => {
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
-    const payloadField = formFieldsToPayloadFields[formField];
+    const payloadField = getPayloadKey(formField);
     const appliedProfiles = [
       ...(values as CreateInstanceFormValues | EditInstanceFormValues).profiles,
     ].reverse();

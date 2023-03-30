@@ -13,7 +13,7 @@ import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
 import { FormDeviceValues, formDeviceToPayload } from "util/formDevices";
 import SecurityPoliciesForm, {
@@ -33,7 +33,7 @@ import ResourceLimitsForm, {
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
-import { renameProfile, updateProfile } from "api/profiles";
+import { updateProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
   STORAGE,
@@ -53,7 +53,7 @@ import ProfileDetailsForm, {
   profileDetailPayload,
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
-import { getEditValues } from "util/formFields";
+import { getEditValues, getSupportedConfigKeys } from "util/formFields";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -68,7 +68,6 @@ interface Props {
 }
 
 const EditProfileForm: FC<Props> = ({ profile }) => {
-  const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
@@ -103,31 +102,13 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         values.yaml ? yamlToObject(values.yaml) : getPayload(values)
       ) as LxdProfile;
 
-      const newName = profilePayload.name;
-      const oldName = profile.name;
-
-      // rename will be a second request
-      // keep the old name for the first request persisting other changes
-      profilePayload.name = oldName;
+      // ensure the etag is set (it is missing on the yaml)
       profilePayload.etag = profile.etag;
 
       updateProfile(profilePayload, project)
-        .then(async () => {
-          if (newName !== oldName) {
-            await renameProfile(oldName, newName, project)
-              .then(() => {
-                navigate(
-                  `/ui/${project}/profiles/detail/${newName}/configuration`,
-                  notify.queue(notify.success("Profile updated."))
-                );
-              })
-              .catch((e: Error) => {
-                notify.failure(`Failed to rename the profile ${oldName}`, e);
-              });
-          } else {
-            notify.success("Profile updated.");
-            void formik.setFieldValue("readOnly", true);
-          }
+        .then(() => {
+          notify.success("Profile updated.");
+          void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("", e, undefined, "Profile update failed");
@@ -142,6 +123,23 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   });
 
   const getPayload = (values: EditProfileFormValues) => {
+    const supportedConfigKeys = getSupportedConfigKeys();
+    const additionalConfigKeys = Object.fromEntries(
+      Object.entries(profile.config).filter(
+        ([key]) => !supportedConfigKeys.has(key)
+      )
+    );
+
+    const supportedMainKeys = new Set([
+      "name",
+      "description",
+      "devices",
+      "config",
+    ]);
+    const additionalMainKeys = Object.fromEntries(
+      Object.entries(profile).filter(([key]) => !supportedMainKeys.has(key))
+    );
+
     return {
       ...profileDetailPayload(values),
       devices: formDeviceToPayload(values.devices),
@@ -150,7 +148,9 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...cloudInitPayload(values),
+        ...additionalConfigKeys,
       },
+      ...additionalMainKeys,
     };
   };
 
@@ -166,7 +166,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   };
 
   const getYaml = () => {
-    const exclude = new Set(["used_by"]);
+    const exclude = new Set(["used_by", "etag"]);
     const bareProfile = Object.fromEntries(
       Object.entries(profile).filter((e) => !exclude.has(e[0]))
     );

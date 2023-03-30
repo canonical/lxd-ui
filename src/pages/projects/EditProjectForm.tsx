@@ -55,10 +55,11 @@ const EditProjectForm: FC<Props> = ({ project }) => {
 
       updateProject(projectPayload)
         .then(() => {
-          notify.success(`Project ${values.name} saved.`);
+          notify.success(`Project updated.`);
+          void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
-          notify.failure("Could not save project", e);
+          notify.failure("", e, undefined, "Project update failed");
         })
         .finally(() => {
           formik.setSubmitting(false);
