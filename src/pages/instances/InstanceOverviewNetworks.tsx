@@ -33,13 +33,29 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
 
   const networksHeaders = [
     { content: "Name", sortKey: "name", className: "p-muted-heading" },
+    {
+      content: "Interface",
+      sortKey: "interfaceName",
+      className: "p-muted-heading",
+    },
     { content: "Type", sortKey: "type", className: "p-muted-heading" },
-    { content: "Managed", sortKey: "managed", className: "p-muted-heading" },
+    {
+      content: "Managed",
+      sortKey: "managed",
+      className: "p-muted-heading u-hide--small u-hide--medium",
+    },
   ];
 
   const networksRows = networks
     .filter((network) => instanceNetworks.includes(network.name))
     .map((network) => {
+      const interfaceNames = Object.entries(instance.expanded_devices)
+        .filter(
+          ([_key, value]) =>
+            value.type === "nic" && value.network === network.name
+        )
+        .map(([key]) => key);
+
       return {
         columns: [
           {
@@ -56,6 +72,11 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
             "aria-label": "Name",
           },
           {
+            content: interfaceNames.length > 0 ? interfaceNames.join(" ") : "-",
+            role: "rowheader",
+            "aria-label": "Interface",
+          },
+          {
             content: network.type,
             role: "rowheader",
             "aria-label": "Type",
@@ -70,6 +91,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
           name: network.name,
           type: network.type,
           managed: network.managed,
+          interfaceName: interfaceNames.join(" "),
         },
       };
     });
