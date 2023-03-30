@@ -13,6 +13,7 @@ import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { failure } from "context/notify";
 import { updateMaxHeight } from "util/updateMaxHeight";
+import { LxdInstance } from "types/instance";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -33,7 +34,11 @@ const defaultPayload = {
   user: 0,
 };
 
-const InstanceTerminal: FC = () => {
+interface Props {
+  instance: LxdInstance;
+}
+
+const InstanceTerminal: FC<Props> = ({ instance }) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -52,8 +57,6 @@ const InstanceTerminal: FC = () => {
   const [fitAddon] = useState<FitAddon>(new FitAddon());
 
   const handleReconnect = (payload: LxdTerminalPayload) => {
-    xtermRef.current?.terminal.clear();
-    setInTabNotification(null);
     setPayload(payload);
   };
 
@@ -141,13 +144,15 @@ const InstanceTerminal: FC = () => {
     if (!payload) {
       return;
     }
+    xtermRef.current?.terminal.clear();
+    setInTabNotification(null);
     const websocketPromise = openWebsockets(payload);
     return () => {
       void websocketPromise.then((websockets) => {
         websockets?.map((websocket) => websocket.close());
       });
     };
-  }, [payload]);
+  }, [payload, instance.status]);
 
   const handleResize = () => {
     if (controlWs?.readyState === WebSocket.CLOSED) {
