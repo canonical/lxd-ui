@@ -1,71 +1,37 @@
 import React, { FC, KeyboardEvent, useEffect, useRef } from "react";
 import { Button, Form, Icon, Input, Modal } from "@canonical/react-components";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { LxdTerminalPayload } from "types/terminal";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
+import { FormikProps } from "formik/dist/types";
+
+export interface TerminalPayloadFormValues {
+  command: string;
+  environment: {
+    key: string;
+    value: string;
+  }[];
+  user: number;
+  group: number;
+}
 
 interface Props {
   close: () => void;
-  onFinish: (data: LxdTerminalPayload) => void;
+  formik: FormikProps<TerminalPayloadFormValues>;
 }
 
-const TerminalPayloadForm: FC<Props> = ({ close, onFinish }) => {
+const TerminalPayloadForm: FC<Props> = ({ close, formik }) => {
   const ref = useRef<HTMLDivElement>(null);
-
-  const TerminalSchema = Yup.object().shape({
-    command: Yup.string().required("This field is required"),
-    environment: Yup.array().of(
-      Yup.object().shape({
-        key: Yup.string(),
-        value: Yup.string(),
-      })
-    ),
-    user: Yup.number(),
-    group: Yup.number(),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      command: "bash",
-      environment: [
-        {
-          key: "TERM",
-          value: "xterm-256color",
-        },
-      ],
-      user: 1000,
-      group: 1000,
-    },
-    validationSchema: TerminalSchema,
-    onSubmit: (values) => {
-      const result = {
-        command: [values.command],
-        "record-output": true,
-        "wait-for-websocket": true,
-        environment: values.environment.reduce(
-          (a, v) => ({ ...a, [v.key]: v.value }),
-          {}
-        ),
-        interactive: true,
-        group: values.group,
-        user: values.user,
-      };
-      onFinish(result);
-    },
-  });
 
   const addEnvironmentRow = () => {
     const copy = [...formik.values.environment];
     copy.push({ key: "", value: "" });
-    void formik.setFieldValue("environment", copy);
+    formik.setFieldValue("environment", copy);
   };
 
   const removeEnvironmentRow = (index: number) => {
     const copy = [...formik.values.environment];
     copy.splice(index, 1);
-    void formik.setFieldValue("environment", copy);
+    formik.setFieldValue("environment", copy);
   };
 
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
