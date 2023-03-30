@@ -39,7 +39,11 @@ interface Props {
   project: string;
 }
 
-const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
+const InstanceCreateDetailsForm: FC<Props> = ({
+  formik,
+  onSelectImage,
+  project,
+}) => {
   function figureBaseImageName() {
     const image = formik.values.image;
     return image
@@ -126,6 +130,7 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
             project={project}
             selected={formik.values.profiles}
             setSelected={(value) => formik.setFieldValue("profiles", value)}
+            isReadOnly={false}
           />
         </>
       )}
@@ -133,4 +138,4 @@ const InstanceDetailsForm: FC<Props> = ({ formik, onSelectImage, project }) => {
   );
 };
 
-export default InstanceDetailsForm;
+export default InstanceCreateDetailsForm;

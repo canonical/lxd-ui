@@ -8,13 +8,13 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { renameInstance, updateInstance } from "api/instances";
+import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { useNotify } from "context/notify";
 import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
@@ -53,7 +53,7 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
-import { getEditValues } from "util/formFields";
+import { getEditValues, getSupportedConfigKeys } from "util/formFields";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -68,7 +68,6 @@ interface Props {
 }
 
 const EditInstanceForm: FC<Props> = ({ instance }) => {
-  const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
@@ -106,31 +105,13 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         values.yaml ? yamlToObject(values.yaml) : getPayload(values)
       ) as LxdInstance;
 
-      const newName = instancePayload.name;
-      const oldName = instance.name;
-
-      // rename will be a second request
-      // keep the old name for the first request persisting other changes
-      instancePayload.name = oldName;
+      // ensure the etag is set (it is missing on the yaml)
       instancePayload.etag = instance.etag;
 
       updateInstance(instancePayload, project)
-        .then(async () => {
-          if (newName !== oldName) {
-            await renameInstance(oldName, newName, project)
-              .then(() => {
-                navigate(
-                  `/ui/${instance.project}/instances/detail/${newName}/configuration`,
-                  notify.queue(notify.success("Instance updated."))
-                );
-              })
-              .catch((e: Error) => {
-                notify.failure(`Failed to rename the instance ${oldName}`, e);
-              });
-          } else {
-            notify.success("Instance updated.");
-            void formik.setFieldValue("readOnly", true);
-          }
+        .then(() => {
+          notify.success("Instance updated.");
+          void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("", e, undefined, "Instance update failed");
@@ -145,10 +126,23 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   });
 
   const getPayload = (values: EditInstanceFormValues) => {
-    const volatileKeys = Object.fromEntries(
-      Object.entries(instance.config).filter(([key]) =>
-        key.startsWith("volatile.")
+    const supportedConfigKeys = getSupportedConfigKeys();
+    const additionalConfigKeys = Object.fromEntries(
+      Object.entries(instance.config).filter(
+        ([key]) => !supportedConfigKeys.has(key)
       )
+    );
+
+    const supportedMainKeys = new Set([
+      "name",
+      "description",
+      "type",
+      "profiles",
+      "devices",
+      "config",
+    ]);
+    const additionalMainKeys = Object.fromEntries(
+      Object.entries(instance).filter(([key]) => !supportedMainKeys.has(key))
     );
 
     return {
@@ -159,8 +153,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...cloudInitPayload(values),
-        ...volatileKeys,
+        ...additionalConfigKeys,
       },
+      ...additionalMainKeys,
     };
   };
 
@@ -182,6 +177,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       "state",
       "expanded_config",
       "expanded_devices",
+      "etag",
     ]);
     const bareInstance = Object.fromEntries(
       Object.entries(instance).filter((e) => !exclude.has(e[0]))

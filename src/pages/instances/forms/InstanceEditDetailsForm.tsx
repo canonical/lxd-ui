@@ -38,7 +38,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
             id="name"
             name="name"
             type="text"
-            label="Profile name"
+            label="Instance name"
             placeholder="Enter name"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
