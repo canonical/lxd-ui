@@ -48,18 +48,13 @@ export const createInstance = (
   });
 };
 
-export const updateInstance = (
-  body: string,
-  project: string,
-  etag?: string
-) => {
-  const instance = JSON.parse(body) as LxdInstance;
+export const updateInstance = (instance: LxdInstance, project: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${project}`, {
       method: "PUT",
-      body: body,
+      body: JSON.stringify(instance),
       headers: {
-        "If-Match": etag ?? "invalid-etag",
+        "If-Match": instance.etag ?? "invalid-etag",
       },
     })
       .then(handleResponse)
