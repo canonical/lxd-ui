@@ -8,6 +8,7 @@ import Loader from "components/Loader";
 import { useNotify } from "context/notify";
 import { Notification } from "types/notification";
 import { updateMaxHeight } from "util/updateMaxHeight";
+import { LxdInstance } from "types/instance";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -17,15 +18,19 @@ declare global {
 }
 
 interface Props {
+  instance: LxdInstance;
   onMount: (handler: () => void) => void;
   onFailure: (message: string, e: unknown) => void;
   inTabNotification: Notification | null;
+  clearNotification: () => void;
 }
 
 const InstanceGraphicConsole: FC<Props> = ({
+  instance,
   onMount,
   onFailure,
   inTabNotification,
+  clearNotification,
 }) => {
   const { name, project } = useParams<{
     name: string;
@@ -108,6 +113,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   ]);
 
   useEffect(() => {
+    clearNotification();
     const websocketPromise = openVgaConsole();
     return () => {
       try {
@@ -117,7 +123,7 @@ const InstanceGraphicConsole: FC<Props> = ({
       }
       void websocketPromise.then((websocket) => websocket?.close());
     };
-  }, []);
+  }, [instance.status]);
 
   const handleFullScreen = () => {
     const container = spiceRef.current;

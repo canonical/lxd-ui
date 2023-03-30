@@ -16,9 +16,14 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 interface Props {
   instance: LxdInstance;
   onFailure: (message: string, e: unknown) => void;
+  clearNotification: () => void;
 }
 
-const InstanceTextConsole: FC<Props> = ({ instance, onFailure }) => {
+const InstanceTextConsole: FC<Props> = ({
+  instance,
+  onFailure,
+  clearNotification,
+}) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -109,6 +114,7 @@ const InstanceTextConsole: FC<Props> = ({ instance, onFailure }) => {
     if (dataWs) {
       return;
     }
+    clearNotification();
     const websocketPromise = openWebsockets();
     return () => {
       void websocketPromise.then((websockets) => {

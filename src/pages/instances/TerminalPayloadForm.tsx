@@ -43,6 +43,9 @@ const TerminalPayloadForm: FC<Props> = ({ close, formik }) => {
   const updateContentHeight = () => {
     updateMaxHeight("content-wrapper", "p-modal__footer", 64, "max-height");
   };
+  useEventListener("resize", updateContentHeight);
+  useEffect(updateContentHeight, []);
+
   useEffect(() => {
     ref.current?.scrollIntoView({
       behavior: "smooth",
@@ -51,7 +54,6 @@ const TerminalPayloadForm: FC<Props> = ({ close, formik }) => {
     });
     window.dispatchEvent(new Event("resize"));
   }, [formik.values.environment]);
-  useEventListener("resize", updateContentHeight);
 
   return (
     <Modal

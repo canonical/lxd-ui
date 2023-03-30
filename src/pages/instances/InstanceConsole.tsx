@@ -63,13 +63,19 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
       {isGraphic ? (
         <div className="spice-wrapper">
           <InstanceGraphicConsole
+            instance={instance}
             onMount={onChildMount}
             onFailure={onFailure}
             inTabNotification={inTabNotification}
+            clearNotification={() => setInTabNotification(null)}
           />
         </div>
       ) : (
-        <InstanceTextConsole instance={instance} onFailure={onFailure} />
+        <InstanceTextConsole
+          instance={instance}
+          onFailure={onFailure}
+          clearNotification={() => setInTabNotification(null)}
+        />
       )}
     </div>
   );
