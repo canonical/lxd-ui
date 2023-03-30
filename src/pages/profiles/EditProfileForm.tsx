@@ -109,8 +109,9 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
       // rename will be a second request
       // keep the old name for the first request persisting other changes
       profilePayload.name = oldName;
+      profilePayload.etag = profile.etag;
 
-      updateProfile(JSON.stringify(profilePayload), project, profile.etag)
+      updateProfile(profilePayload, project)
         .then(async () => {
           if (newName !== oldName) {
             await renameProfile(oldName, newName, project)

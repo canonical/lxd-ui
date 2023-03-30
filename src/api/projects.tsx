@@ -32,14 +32,13 @@ export const createProject = (body: string) => {
   });
 };
 
-export const updateProject = (body: string, etag?: string) => {
-  const project = JSON.parse(body) as LxdProject;
+export const updateProject = (project: LxdProject) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${project.name}`, {
       method: "PUT",
-      body: body,
+      body: JSON.stringify(project),
       headers: {
-        "If-Match": etag ?? "invalid-etag",
+        "If-Match": project.etag ?? "invalid-etag",
       },
     })
       .then(handleResponse)

@@ -35,14 +35,13 @@ export const createProfile = (body: string, project: string) => {
   });
 };
 
-export const updateProfile = (body: string, project: string, etag?: string) => {
-  const profile = JSON.parse(body) as LxdProfile;
+export const updateProfile = (profile: LxdProfile, project: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
       method: "PUT",
-      body: body,
+      body: JSON.stringify(profile),
       headers: {
-        "If-Match": etag ?? "invalid-etag",
+        "If-Match": profile.etag ?? "invalid-etag",
       },
     })
       .then(handleResponse)

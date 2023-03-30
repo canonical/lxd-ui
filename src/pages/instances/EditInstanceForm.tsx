@@ -112,8 +112,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       // rename will be a second request
       // keep the old name for the first request persisting other changes
       instancePayload.name = oldName;
+      instancePayload.etag = instance.etag;
 
-      updateInstance(JSON.stringify(instancePayload), project, instance.etag)
+      updateInstance(instancePayload, project)
         .then(async () => {
           if (newName !== oldName) {
             await renameInstance(oldName, newName, project)
