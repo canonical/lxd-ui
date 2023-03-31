@@ -39,7 +39,7 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      confirmationMessage={`Are you sure you want to delete storage "${storage.name}"? This action cannot be undone, and can result in data loss.`}
+      confirmationMessage={`Are you sure you want to delete storage "${storage.name}"?\nThis action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
       onConfirm={handleDelete}
       isDense={true}

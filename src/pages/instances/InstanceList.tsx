@@ -191,7 +191,11 @@ const InstanceList: FC = () => {
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
         columns: [
           {
-            content: <InstanceLink instance={instance} />,
+            content: (
+              <div className="u-truncate" title={instance.name}>
+                <InstanceLink instance={instance} />
+              </div>
+            ),
             role: "rowheader",
             className: "name",
             "aria-label": NAME,

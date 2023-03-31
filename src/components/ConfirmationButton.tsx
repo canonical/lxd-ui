@@ -12,7 +12,7 @@ interface Props {
   toggleAppearance?: string;
   toggleCaption?: string;
   confirmationExtra?: ReactNode;
-  confirmationMessage: string;
+  confirmationMessage: string | ReactNode;
   posButtonLabel: string;
   onCancel?: () => void;
   onConfirm: () => void;

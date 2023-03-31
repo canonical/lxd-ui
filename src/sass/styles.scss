@@ -150,3 +150,7 @@ $border-thin: 1px solid $color-mid-light !default;
 .p-panel__controls {
   padding-top: $spv--x-small;
 }
+
+.u-break-long-names {
+  overflow-wrap: anywhere;
+}

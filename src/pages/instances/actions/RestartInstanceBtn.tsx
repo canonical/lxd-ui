@@ -8,6 +8,7 @@ import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import ConfirmationForce from "components/ConfirmationForce";
+import InstanceName from "pages/instances/InstanceName";
 
 interface Props {
   instance: LxdInstance;
@@ -57,7 +58,12 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       isLoading={isLoading}
       icon="restart"
       title="Confirm restart"
-      confirmationMessage={`Are you sure you want to restart instance "${instance.name}"?`}
+      confirmationMessage={
+        <>
+          Are you sure you want to restart instance{" "}
+          <InstanceName instance={instance} bold />?
+        </>
+      }
       confirmationExtra={
         <ConfirmationForce label="Force restart" force={[isForce, setForce]} />
       }

@@ -5,7 +5,7 @@ interface Props {
   title: string;
   onClose: () => void;
   confirmationExtra?: ReactNode;
-  confirmationMessage: string;
+  confirmationMessage: string | ReactNode;
   negButtonLabel?: string;
   posButtonLabel: string;
   onConfirm: (e: MouseEvent<HTMLElement>) => void;
