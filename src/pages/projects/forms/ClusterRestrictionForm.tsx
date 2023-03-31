@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
@@ -13,7 +13,7 @@ export interface ClusterRestrictionFormValues {
   restricted_cluster_target?: string;
 }
 
-export const clusterRestrictionPayload = (values: CreateProjectFormValues) => {
+export const clusterRestrictionPayload = (values: ProjectFormValues) => {
   return {
     ["restricted.cluster.groups"]: values.restricted_cluster_groups,
     ["restricted.cluster.target"]: values.restricted_cluster_target,
@@ -21,7 +21,7 @@ export const clusterRestrictionPayload = (values: CreateProjectFormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<CreateProjectFormValues>;
+  formik: FormikProps<ProjectFormValues>;
 }
 
 const ClusterRestrictionForm: FC<Props> = ({ formik }) => {

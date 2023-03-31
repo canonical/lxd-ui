@@ -46,7 +46,7 @@ import NetworkRestrictionForm, {
   networkRestrictionPayload,
 } from "pages/projects/forms/NetworkRestrictionForm";
 
-export type CreateProjectFormValues = ProjectDetailsFormValues &
+export type ProjectFormValues = ProjectDetailsFormValues &
   ResourceLimitsFormValues &
   ClusterRestrictionFormValues &
   InstanceRestrictionFormValues &
@@ -75,7 +75,7 @@ const CreateProjectForm: FC = () => {
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
-  const formik = useFormik<CreateProjectFormValues>({
+  const formik = useFormik<ProjectFormValues>({
     initialValues: {
       name: "",
       restricted: false,

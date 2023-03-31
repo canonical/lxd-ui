@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input } from "@canonical/react-components";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 
@@ -17,7 +17,7 @@ export interface ResourceLimitsFormValues {
   limits_processes?: number;
 }
 
-export const resourceLimitsPayload = (values: CreateProjectFormValues) => {
+export const resourceLimitsPayload = (values: ProjectFormValues) => {
   return {
     ["limits.instances"]: values.limits_instances?.toString(),
     ["limits.containers"]: values.limits_containers?.toString(),
@@ -31,7 +31,7 @@ export const resourceLimitsPayload = (values: CreateProjectFormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<CreateProjectFormValues>;
+  formik: FormikProps<ProjectFormValues>;
 }
 
 const ResourceLimitsForm: FC<Props> = ({ formik }) => {

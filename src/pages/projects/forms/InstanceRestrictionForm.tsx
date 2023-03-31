@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import {
   optionAllowBlock,
@@ -22,7 +22,7 @@ export interface InstanceRestrictionFormValues {
   restricted_idmap_gid?: string;
 }
 
-export const instanceRestrictionPayload = (values: CreateProjectFormValues) => {
+export const instanceRestrictionPayload = (values: ProjectFormValues) => {
   return {
     ["restricted.virtual-machines.lowlevel"]:
       values.restricted_virtual_machines_low_level,
@@ -38,7 +38,7 @@ export const instanceRestrictionPayload = (values: CreateProjectFormValues) => {
 };
 
 interface Props {
-  formik: FormikProps<CreateProjectFormValues>;
+  formik: FormikProps<ProjectFormValues>;
 }
 
 const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
