@@ -44,7 +44,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       icon="delete"
       title="Confirm delete"
       toggleCaption="Delete"
-      confirmationMessage={`Are you sure you want to delete the project "${project.name}"? This action cannot be undone, and can result in data loss.`}
+      confirmationMessage={`Are you sure you want to delete the project "${project.name}"?\nThis action cannot be undone, and can result in data loss.`}
       posButtonLabel="Delete"
       onConfirm={handleDelete}
       isDense={false}
