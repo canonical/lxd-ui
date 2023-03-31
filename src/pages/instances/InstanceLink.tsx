@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import InstanceName from "pages/instances/InstanceName";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: {
@@ -12,7 +12,7 @@ interface Props {
 const InstanceLink: FC<Props> = ({ instance }) => {
   return (
     <Link to={`/ui/${instance.project}/instances/detail/${instance.name}`}>
-      <InstanceName instance={instance} />
+      <ItemName item={instance} />
     </Link>
   );
 };

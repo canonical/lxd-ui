@@ -8,7 +8,7 @@ import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import ConfirmationForce from "components/ConfirmationForce";
-import InstanceName from "pages/instances/InstanceName";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: LxdInstance;
@@ -58,7 +58,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationMessage={
         <>
           Are you sure you want to stop instance{" "}
-          <InstanceName instance={instance} bold />?
+          <ItemName item={instance} bold />?
         </>
       }
       confirmationExtra={

@@ -7,7 +7,7 @@ import { freezeInstance } from "api/instances";
 import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
-import InstanceName from "pages/instances/InstanceName";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: LxdInstance;
@@ -58,7 +58,7 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationMessage={
         <>
           Are you sure you want to pause instance{" "}
-          <InstanceName instance={instance} bold />?
+          <ItemName item={instance} bold />?
         </>
       }
       posButtonLabel="Pause"

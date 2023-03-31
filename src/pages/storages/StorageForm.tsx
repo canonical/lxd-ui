@@ -21,6 +21,7 @@ import usePanelParams from "util/usePanelParams";
 import { LxdStorage } from "types/storage";
 import { createStoragePool } from "api/storages";
 import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
+import ItemName from "components/ItemName";
 
 const StorageForm: FC = () => {
   const panelParams = usePanelParams();
@@ -69,7 +70,11 @@ const StorageForm: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          notify.success(`Storage ${storagePool.name} created.`);
+          notify.success(
+            <>
+              Storage <ItemName item={storagePool} bold /> created.
+            </>
+          );
           panelParams.clear();
         })
         .catch((e) => {

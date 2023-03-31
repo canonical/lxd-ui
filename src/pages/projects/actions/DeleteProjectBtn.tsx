@@ -6,6 +6,7 @@ import { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import ItemName from "components/ItemName";
 
 interface Props {
   project: LxdProject;
@@ -44,7 +45,13 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       icon="delete"
       title="Confirm delete"
       toggleCaption="Delete"
-      confirmationMessage={`Are you sure you want to delete the project "${project.name}"?\nThis action cannot be undone, and can result in data loss.`}
+      confirmationMessage={
+        <>
+          Are you sure you want to delete the project{" "}
+          <ItemName item={project} bold />?{"\n"}This action cannot be undone,
+          and can result in data loss.
+        </>
+      }
       posButtonLabel="Delete"
       onConfirm={handleDelete}
       isDense={false}

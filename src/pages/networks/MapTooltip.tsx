@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from "react";
 import { LxdInstance } from "types/instance";
 import { LxdNetwork } from "types/network";
 import { createRoot } from "react-dom/client";
-import InstanceName from "pages/instances/InstanceName";
+import ItemName from "components/ItemName";
 
 export interface MapTooltipProps {
   type: string;
@@ -24,7 +24,7 @@ const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
     return (
       <div className="p-text--small tooltip">
         <a href={`/ui/${instance.project}/instances/detail/${instance.name}`}>
-          <InstanceName instance={instance} />
+          <ItemName item={instance} />
         </a>
         <br />
         Status: <i>{instance.status}</i>

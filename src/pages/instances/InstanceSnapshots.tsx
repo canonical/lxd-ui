@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   Button,
   MainTable,
@@ -17,6 +17,7 @@ import useEventListener from "@use-it/event-listener";
 import Pagination from "components/Pagination";
 import { paginationOptions } from "util/paginationOptions";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: LxdInstance;
@@ -29,11 +30,11 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     useState<Notification | null>(null);
   const [pageSize, setPageSize] = useState(paginationOptions[0].value);
 
-  const onSuccess = (message: string) => {
+  const onSuccess = (message: ReactNode) => {
     setInTabNotification(success(message));
   };
 
-  const onFailure = (message: string, e: unknown) => {
+  const onFailure = (message: ReactNode, e: unknown) => {
     setInTabNotification(failure(message, e));
   };
 
@@ -75,7 +76,11 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       className: "u-row",
       columns: [
         {
-          content: snapshot.name,
+          content: (
+            <div className="u-truncate" title={snapshot.name}>
+              <ItemName item={snapshot} />
+            </div>
+          ),
           role: "rowheader",
           "aria-label": "Name",
           className: "name",

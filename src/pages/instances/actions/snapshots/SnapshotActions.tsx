@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { LxdInstance, LxdSnapshot } from "types/instance";
 import { deleteSnapshot, restoreSnapshot } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
@@ -6,12 +6,13 @@ import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
 import { List } from "@canonical/react-components";
 import classnames from "classnames";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: LxdInstance;
   snapshot: LxdSnapshot;
-  onSuccess: (message: string) => void;
-  onFailure: (message: string, e: unknown) => void;
+  onSuccess: (message: ReactNode) => void;
+  onFailure: (message: ReactNode, e: unknown) => void;
 }
 
 const SnapshotActions: FC<Props> = ({
@@ -26,7 +27,13 @@ const SnapshotActions: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     deleteSnapshot(instance, snapshot)
-      .then(() => onSuccess(`Snapshot ${snapshot.name} deleted.`))
+      .then(() =>
+        onSuccess(
+          <>
+            Snapshot <ItemName item={snapshot} bold /> deleted.
+          </>
+        )
+      )
       .catch((e) => onFailure("Error on snapshot delete.", e))
       .finally(() => {
         setLoading(false);
@@ -39,7 +46,13 @@ const SnapshotActions: FC<Props> = ({
   const handleRestore = () => {
     setLoading(true);
     restoreSnapshot(instance, snapshot)
-      .then(() => onSuccess(`Snapshot ${snapshot.name} restored.`))
+      .then(() =>
+        onSuccess(
+          <>
+            Snapshot <ItemName item={snapshot} bold /> restored.
+          </>
+        )
+      )
       .catch((e) => onFailure("Error on snapshot restore.", e))
       .finally(() => {
         setLoading(false);
@@ -61,7 +74,13 @@ const SnapshotActions: FC<Props> = ({
           isLoading={isLoading}
           title="Confirm delete"
           toggleCaption="Delete"
-          confirmationMessage={`Are you sure you want to delete snapshot "${snapshot.name}"?\nThis action cannot be undone, and can result in data loss.`}
+          confirmationMessage={
+            <>
+              Are you sure you want to delete snapshot{" "}
+              <ItemName item={snapshot} bold />?{"\n"}This action cannot be
+              undone, and can result in data loss.
+            </>
+          }
           posButtonLabel="Delete"
           onConfirm={handleDelete}
           isDisabled={isLoading}
@@ -71,7 +90,13 @@ const SnapshotActions: FC<Props> = ({
           isLoading={isLoading}
           title="Confirm restore"
           toggleCaption="Restore"
-          confirmationMessage={`Are you sure you want to restore snapshot "${snapshot.name}"?\nThis action cannot be undone, and can result in data loss.`}
+          confirmationMessage={
+            <>
+              Are you sure you want to restore snapshot{" "}
+              <ItemName item={snapshot} bold />?{"\n"}This action cannot be
+              undone, and can result in data loss.
+            </>
+          }
           posButtonLabel="Restore"
           onConfirm={handleRestore}
           isDisabled={isLoading}

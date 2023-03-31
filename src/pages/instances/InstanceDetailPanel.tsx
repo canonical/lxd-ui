@@ -18,6 +18,7 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import InstanceLink from "pages/instances/InstanceLink";
 import { getIpAddresses } from "util/networks";
 import ExpandableList from "../../components/ExpandableList";
+import ItemName from "components/ItemName";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -214,7 +215,7 @@ const InstanceDetailPanel: FC = () => {
                                   className="u-truncate"
                                   title={snapshot.name}
                                 >
-                                  {snapshot.name}
+                                  <ItemName item={snapshot} />
                                 </Col>
                                 <Col
                                   size={8}
