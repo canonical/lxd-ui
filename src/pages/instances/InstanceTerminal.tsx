@@ -7,7 +7,7 @@ import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
-import { LxdTerminalPayload } from "types/terminal";
+import { TerminalConnectPayload } from "types/terminal";
 import Loader from "components/Loader";
 import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
@@ -21,17 +21,20 @@ const XTERM_OPTIONS = {
   },
 };
 
-const defaultPayload = {
-  command: ["bash"],
-  "record-output": true,
-  "wait-for-websocket": true,
-  environment: {
-    TERM: "xterm-256color",
-    HOME: "/root",
-  },
-  interactive: true,
-  group: 0,
+export const defaultPayload: TerminalConnectPayload = {
+  command: "bash",
+  environment: [
+    {
+      key: "TERM",
+      value: "xterm-256color",
+    },
+    {
+      key: "HOME",
+      value: "/root",
+    },
+  ],
   user: 0,
+  group: 0,
 };
 
 interface Props {
@@ -47,20 +50,13 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   const textEncoder = new TextEncoder();
   const [inTabNotification, setInTabNotification] =
     useState<Notification | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
-  const [payload, setPayload] = useState<LxdTerminalPayload | null>(
-    defaultPayload
-  );
-
+  const [payload, setPayload] = useState(defaultPayload);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
 
-  const handleReconnect = (payload: LxdTerminalPayload) => {
-    setPayload(payload);
-  };
-
-  const openWebsockets = async (payload: LxdTerminalPayload) => {
+  const openWebsockets = async (payload: TerminalConnectPayload) => {
     if (!name) {
       setInTabNotification(failure("Missing name", new Error()));
       return;
@@ -197,7 +193,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   return (
     <div className="instance-terminal-tab">
       <div className="p-panel__controls">
-        <ReconnectTerminalBtn onFinish={handleReconnect} />
+        <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
       </div>
       <NotificationRowLegacy
         notification={inTabNotification}

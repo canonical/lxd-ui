@@ -2,36 +2,47 @@ import React, { FC, KeyboardEvent, useEffect, useRef } from "react";
 import { Button, Form, Icon, Input, Modal } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import { FormikProps } from "formik/dist/types";
-
-export interface TerminalPayloadFormValues {
-  command: string;
-  environment: {
-    key: string;
-    value: string;
-  }[];
-  user: number;
-  group: number;
-}
+import { TerminalConnectPayload } from "types/terminal";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 interface Props {
+  payload: TerminalConnectPayload;
   close: () => void;
-  formik: FormikProps<TerminalPayloadFormValues>;
+  reconnect: (val: TerminalConnectPayload) => void;
 }
 
-const TerminalPayloadForm: FC<Props> = ({ close, formik }) => {
+const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const TerminalSchema = Yup.object().shape({
+    command: Yup.string().required("This field is required"),
+    environment: Yup.array().of(
+      Yup.object().shape({
+        key: Yup.string(),
+        value: Yup.string(),
+      })
+    ),
+    user: Yup.number(),
+    group: Yup.number(),
+  });
+
+  const formik = useFormik<TerminalConnectPayload>({
+    initialValues: payload,
+    validationSchema: TerminalSchema,
+    onSubmit: reconnect,
+  });
 
   const addEnvironmentRow = () => {
     const copy = [...formik.values.environment];
     copy.push({ key: "", value: "" });
-    formik.setFieldValue("environment", copy);
+    void formik.setFieldValue("environment", copy);
   };
 
   const removeEnvironmentRow = (index: number) => {
     const copy = [...formik.values.environment];
     copy.splice(index, 1);
-    formik.setFieldValue("environment", copy);
+    void formik.setFieldValue("environment", copy);
   };
 
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
