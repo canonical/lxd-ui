@@ -10,12 +10,12 @@ export interface LxdTerminal {
   };
 }
 
-export interface LxdTerminalPayload {
-  command: string[];
-  "record-output": boolean;
-  "wait-for-websocket": boolean;
-  interactive: boolean;
-  environment: Record<string, string>;
-  user?: number;
-  group?: number;
+export interface TerminalConnectPayload {
+  command: string;
+  environment: {
+    key: string;
+    value: string;
+  }[];
+  user: number;
+  group: number;
 }

@@ -1,7 +1,7 @@
 import { watchOperation } from "./operations";
 import { handleResponse, handleTextResponse } from "util/helpers";
 import { LxdInstance } from "types/instance";
-import { LxdTerminal, LxdTerminalPayload } from "types/terminal";
+import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperation } from "types/operation";
 
@@ -168,12 +168,23 @@ export const deleteInstance = (instance: LxdInstance) => {
 export const connectInstanceExec = (
   name: string,
   project: string,
-  payload: LxdTerminalPayload
+  payload: TerminalConnectPayload
 ): Promise<LxdTerminal> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/exec?project=${project}&wait=10`, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        command: [payload.command],
+        "record-output": true,
+        "wait-for-websocket": true,
+        environment: payload.environment.reduce(
+          (a, v) => ({ ...a, [v.key]: v.value }),
+          {}
+        ),
+        interactive: true,
+        group: payload.group,
+        user: payload.user,
+      }),
     })
       .then(handleResponse)
       .then((data: LxdTerminal) => resolve(data))
