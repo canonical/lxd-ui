@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ interface Props {
   formik: SharedFormikTypes;
   name: string;
   label: string | ReactNode;
-  children: ReactNode;
+  children: ReactElement;
   defaultValue?: string | CpuLimit | MemoryLimit;
   disabled?: boolean;
   readOnlyRenderer?: (value: unknown) => string | ReactNode;
@@ -72,7 +72,13 @@ export const getConfigurationRow = ({
         : inheritedValue;
     }
     if (!isReadOnly) {
-      return children;
+      return React.cloneElement(children, {
+        id: name,
+        name: name,
+        onBlur: formik.handleBlur,
+        onChange: formik.handleChange,
+        value: values[name],
+      });
     }
     const value = values[name] === "" ? "-" : values[name];
     return readOnlyRenderer ? readOnlyRenderer(value) : value;

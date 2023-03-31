@@ -44,18 +44,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_instances",
           label: "Max number of instances",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_instances"
-              name="limits_instances"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_instances}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -63,18 +52,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_containers",
           label: "Max number of containers",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_containers"
-              name="limits_containers"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_containers}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -82,18 +60,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_virtual_machines",
           label: "Max number of VMs",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_virtual_machines"
-              name="limits_virtual_machines"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_virtual_machines}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -101,18 +68,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_disk",
           label: "Max disk space (used by all instances)",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_disk"
-              name="limits_disk" // todo: gb
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_disk}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -120,18 +76,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_networks",
           label: "Max number of networks",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_networks"
-              name="limits_networks"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_networks}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -139,18 +84,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_cpu",
           label: "Max sum of individual CPU configurations",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_cpu"
-              name="limits_cpu"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_cpu}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -158,18 +92,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_memory",
           label: "Max sum of individual memory limits",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_memory"
-              name="limits_memory"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_memory}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getConfigurationRow({
@@ -177,18 +100,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_processes",
           label: "Max sum of individual processes configurations",
           defaultValue: "",
-          children: (
-            <Input
-              id="limits_processes"
-              name="limits_processes"
-              placeholder="Enter number"
-              min={0}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_processes}
-              type="number"
-            />
-          ),
+          children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
       ]}
     />

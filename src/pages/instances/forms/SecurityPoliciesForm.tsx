@@ -68,16 +68,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_protection_delete",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
-          children: (
-            <Select
-              id="security_protection_delete"
-              name="security_protection_delete"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionYesNo}
-              value={formik.values.security_protection_delete}
-            />
-          ),
+          children: <Select options={optionYesNo} />,
         }),
 
         getConfigurationRow({
@@ -89,12 +80,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
-              id="security_privileged"
-              name="security_privileged"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowDeny}
-              value={formik.values.security_privileged}
               disabled={isContainerOnlyDisabled}
             />
           ),
@@ -109,15 +95,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
-            <Select
-              id="security_protection_shift"
-              name="security_protection_shift"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionYesNo}
-              value={formik.values.security_protection_shift}
-              disabled={isContainerOnlyDisabled}
-            />
+            <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
           ),
         }),
 
@@ -129,13 +107,8 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           children: (
             <Input
-              id="security_idmap_base"
               placeholder="Enter ID"
-              name="security_idmap_base"
               type="text"
-              value={formik.values.security_idmap_base}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               disabled={isContainerOnlyDisabled}
               labelClassName={classnames({
                 "is-disabled": isContainerOnlyDisabled,
@@ -152,14 +125,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           children: (
             <Input
-              id="security_idmap_size"
               placeholder="Enter number"
-              name="security_idmap_size"
               type="number"
               min={0}
-              value={formik.values.security_idmap_size}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               disabled={isContainerOnlyDisabled}
               labelClassName={classnames({
                 "is-disabled": isContainerOnlyDisabled,
@@ -176,15 +144,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
-            <Select
-              id="security_idmap_isolated"
-              name="security_idmap_isolated"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionYesNo}
-              value={formik.values.security_idmap_isolated}
-              disabled={isContainerOnlyDisabled}
-            />
+            <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
           ),
         }),
 
@@ -196,15 +156,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
-            <Select
-              id="security_devlxd"
-              name="security_devlxd"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionYesNo}
-              value={formik.values.security_devlxd}
-              disabled={isContainerOnlyDisabled}
-            />
+            <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
           ),
         }),
 
@@ -217,15 +169,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
-            <Select
-              id="security_devlxd_images"
-              name="security_devlxd_images"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionYesNo}
-              value={formik.values.security_devlxd_images}
-              disabled={isContainerOnlyDisabled}
-            />
+            <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
           ),
         }),
 
@@ -237,15 +181,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           disabled: isVmOnlyDisabled,
           readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
           children: (
-            <Select
-              id="security_secureboot"
-              name="security_secureboot"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionTrueFalse}
-              value={formik.values.security_secureboot}
-              disabled={isVmOnlyDisabled}
-            />
+            <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />
           ),
         }),
       ]}
