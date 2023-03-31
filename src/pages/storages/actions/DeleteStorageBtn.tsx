@@ -5,6 +5,7 @@ import { deleteStoragePool } from "api/storages";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
+import ItemName from "components/ItemName";
 
 interface Props {
   storage: LxdStorage;
@@ -24,7 +25,11 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
-        notify.success(`Storage pool ${storage.name} deleted.`);
+        notify.success(
+          <>
+            Storage pool <ItemName item={storage} bold /> deleted.
+          </>
+        );
       })
       .catch((e) => {
         setLoading(false);
@@ -39,7 +44,13 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      confirmationMessage={`Are you sure you want to delete storage "${storage.name}"?\nThis action cannot be undone, and can result in data loss.`}
+      confirmationMessage={
+        <>
+          Are you sure you want to delete storage{" "}
+          <ItemName item={storage} bold />?{"\n"}This action cannot be undone,
+          and can result in data loss.
+        </>
+      }
       posButtonLabel="Delete"
       onConfirm={handleDelete}
       isDense={true}

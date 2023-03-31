@@ -4,6 +4,7 @@ import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import { LxdProfile } from "types/profile";
 import { useNotify } from "context/notify";
+import ItemName from "components/ItemName";
 
 interface Props {
   profile: LxdProfile;
@@ -38,7 +39,13 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
       icon="delete"
       title="Confirm delete"
       toggleCaption="Delete"
-      confirmationMessage={`Are you sure you want to delete profile "${profile.name}"?\nThis action cannot be undone, and can result in data loss.`}
+      confirmationMessage={
+        <>
+          Are you sure you want to delete profile{" "}
+          <ItemName item={profile} bold />?{"\n"}This action cannot be undone,
+          and can result in data loss.
+        </>
+      }
       posButtonLabel="Delete"
       onConfirm={handleDelete}
       isDense={false}

@@ -16,6 +16,7 @@ import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { isDiskDevice, isNicDevice } from "util/devices";
+import ItemName from "components/ItemName";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -90,9 +91,11 @@ const ProfileList: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/${project}/profiles/detail/${profile.name}`}>
-              {profile.name}
-            </Link>
+            <div className="u-truncate" title={profile.name}>
+              <Link to={`/ui/${project}/profiles/detail/${profile.name}`}>
+                <ItemName item={profile} />
+              </Link>
+            </div>
           ),
           role: "rowheader",
           "aria-label": "Name",

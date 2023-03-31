@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent, useState } from "react";
+import React, { FC, KeyboardEvent, ReactNode, useState } from "react";
 import {
   Button,
   Col,
@@ -20,13 +20,14 @@ import { LxdInstance } from "types/instance";
 import SubmitButton from "components/SubmitButton";
 import { useNotify } from "context/notify";
 import NotificationRow from "components/NotificationRow";
+import ItemName from "components/ItemName";
 
 const TOOLTIP_OVER_MODAL_ZINDEX = 150;
 
 interface Props {
   instance: LxdInstance;
   close: () => void;
-  onSuccess: (message: string) => void;
+  onSuccess: (message: ReactNode) => void;
 }
 
 const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
@@ -115,7 +116,11 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
           void queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.instances,
           });
-          onSuccess(`Snapshot ${values.name} created.`);
+          onSuccess(
+            <>
+              Snapshot <ItemName item={values} bold /> created.
+            </>
+          );
           close();
         })
         .catch((e) => {

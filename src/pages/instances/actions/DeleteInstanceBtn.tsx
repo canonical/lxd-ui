@@ -4,7 +4,7 @@ import { LxdInstance } from "types/instance";
 import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
 import { useNotify } from "context/notify";
-import InstanceName from "pages/instances/InstanceName";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: LxdInstance;
@@ -27,7 +27,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       .catch((e) => {
         notify.failure(
           <>
-            Error deleting instance <InstanceName instance={instance} bold />.
+            Error deleting instance <ItemName item={instance} bold />.
           </>,
           e
         );
@@ -49,8 +49,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationMessage={
         <>
           Are you sure you want to delete instance{" "}
-          <InstanceName instance={instance} bold />?{"\n"}This action cannot be
-          undone, and can result in data loss.
+          <ItemName item={instance} bold />?{"\n"}This action cannot be undone,
+          and can result in data loss.
         </>
       }
       posButtonLabel="Delete"

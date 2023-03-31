@@ -11,6 +11,7 @@ import {
 import { isDiskDevice, isNicDevice } from "util/devices";
 import { LxdProfile } from "types/profile";
 import { createPortal } from "react-dom";
+import ItemName from "components/ItemName";
 
 interface Props {
   controlTarget?: HTMLSpanElement | null;
@@ -49,7 +50,9 @@ const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
         <tbody>
           <tr>
             <th className="u-text--muted">Name</th>
-            <td>{profile.name}</td>
+            <td>
+              <ItemName item={profile} />
+            </td>
           </tr>
           <tr>
             <th className="u-text--muted">Description</th>
