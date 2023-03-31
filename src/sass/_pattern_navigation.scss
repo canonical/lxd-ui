@@ -64,6 +64,10 @@
   }
 }
 
+.l-navigation .p-panel__header {
+  z-index: 1001;
+}
+
 .sidenav-top-ul::after {
   display: none;
 }
