@@ -218,19 +218,21 @@ const Navigation: FC = () => {
                     </a>
                   </li>
                 </ul>
-                <Button
-                  appearance="base"
-                  aria-label={`${
-                    menuCollapsed ? "expand" : "collapse"
-                  } main navigation`}
-                  hasIcon
-                  dense
-                  className="sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small"
-                  onClick={hardToggleMenu}
-                >
-                  <Icon light name="sidebar-toggle" />
-                </Button>
               </div>
+            </div>
+            <div className="sidenav-toggle-wrapper">
+              <Button
+                appearance="base"
+                aria-label={`${
+                  menuCollapsed ? "expand" : "collapse"
+                } main navigation`}
+                hasIcon
+                dense
+                className="sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small"
+                onClick={hardToggleMenu}
+              >
+                <Icon light name="sidebar-toggle" />
+              </Button>
             </div>
           </div>
         </div>
