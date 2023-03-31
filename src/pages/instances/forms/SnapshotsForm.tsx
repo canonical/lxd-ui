@@ -48,8 +48,6 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Input
-              id="snapshots_pattern"
-              name="snapshots_pattern"
               placeholder="Enter name pattern"
               help={
                 <>
@@ -66,9 +64,6 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                 </>
               }
               type="text"
-              value={formik.values.snapshots_pattern}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
             />
           ),
         }),
@@ -80,14 +75,9 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Input
-              id="snapshots_expiry"
-              name="snapshots_expiry"
               placeholder="Enter expiration expression"
               help="Controls when snapshots are to be deleted (expects an expression like 1M 2H 3d 4w 5m 6y)"
               type="text"
-              value={formik.values.snapshots_expiry}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
             />
           ),
         }),
@@ -98,16 +88,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           name: "snapshots_schedule_stopped",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
-          children: (
-            <Select
-              id="snapshots_schedule_stopped"
-              name="snapshots_schedule_stopped"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              options={optionYesNo}
-              value={formik.values.snapshots_schedule_stopped}
-            />
-          ),
+          children: <Select options={optionYesNo} />,
         }),
 
         getConfigurationRow({

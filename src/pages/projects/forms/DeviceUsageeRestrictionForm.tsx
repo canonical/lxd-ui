@@ -62,12 +62,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
             optionRenderer(val, optionAllowBlockManaged),
           children: (
             <Select
-              id="restricted_devices_disk"
-              name="restricted_devices_disk"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlockManaged}
-              value={formik.values.restricted_devices_disk}
               help="If block prevent use of disk devices except the root one. If managed allow use of disk devices only if pool= is set. If allow, no restrictions apply."
             />
           ),
@@ -80,12 +75,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Input
-              id="restricted_devices_disk_paths"
-              name="restricted_devices_disk_paths"
               placeholder="Enter paths"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.restricted_devices_disk_paths}
               type="text"
               help="If restricted.devices.disk is set to allow, this sets a comma-separated list of path prefixes that restrict the source setting on disk devices. If empty then all paths are allowed."
             />
@@ -100,12 +90,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_gpu"
-              name="restricted_devices_gpu"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_gpu}
               help="Prevents use of devices of type gpu."
             />
           ),
@@ -119,12 +104,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_infiniband"
-              name="restricted_devices_infiniband"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_infiniband}
               help="Prevents use of devices of type infiniband."
             />
           ),
@@ -139,12 +119,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
             optionRenderer(val, optionAllowBlockManaged),
           children: (
             <Select
-              id="restricted_devices_nic"
-              name="restricted_devices_nic"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlockManaged}
-              value={formik.values.restricted_devices_nic}
               help="If block prevent use of all network devices. If managed allow use of network devices only if network= is set. If allow, no restrictions apply. This also controls access to networks."
             />
           ),
@@ -158,12 +133,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_pci"
-              name="restricted_devices_pci"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_pci}
               help="Prevents use of devices of type pci."
             />
           ),
@@ -177,12 +147,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_unix_block"
-              name="restricted_devices_unix_block"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_unix_block}
               help="Prevents use of devices of type unix-block."
             />
           ),
@@ -196,12 +161,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_unix_char"
-              name="restricted_devices_unix_char"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_unix_char}
               help="Prevents use of devices of type unix-char."
             />
           ),
@@ -215,12 +175,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_unix_hotplug"
-              name="restricted_devices_unix_hotplug"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_unix_hotplug}
               help="Prevents use of devices of type unix-hotplug."
             />
           ),
@@ -234,12 +189,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_devices_usb"
-              name="restricted_devices_usb"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_devices_usb}
               help="Prevents use of devices of type usb."
             />
           ),

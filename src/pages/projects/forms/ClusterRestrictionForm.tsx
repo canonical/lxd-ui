@@ -36,12 +36,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Input
-              id="restricted_cluster_groups"
-              name="restricted_cluster_groups"
               placeholder="Enter value"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.restricted_cluster_groups}
               type="text"
               help="Prevents targeting cluster groups other than the provided ones."
             />
@@ -56,12 +51,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: (
             <Select
-              id="restricted_cluster_target"
-              name="restricted_cluster_target"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowBlock}
-              value={formik.values.restricted_cluster_target}
               help="Prevents direct targeting of cluster members when creating or moving instances."
             />
           ),

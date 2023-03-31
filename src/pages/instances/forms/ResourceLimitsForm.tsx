@@ -93,12 +93,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
-              id="limits_memory_swap"
-              name="limits_memory_swap"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={optionAllowDeny}
-              value={formik.values.limits_memory_swap}
               disabled={isContainerOnlyDisabled}
             />
           ),
@@ -111,12 +106,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Select
-              id="limits_disk_priority"
-              name="limits_disk_priority"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
               options={diskPriorities}
-              value={formik.values.limits_disk_priority}
               help="Controls how much priority to give to the instance’s I/O requests when under load"
             />
           ),
@@ -130,13 +120,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           disabled: isContainerOnlyDisabled,
           children: (
             <Input
-              id="limits_processes"
-              name="limits_processes"
               placeholder="Enter number"
               min={1}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.limits_processes}
               type="number"
               disabled={isContainerOnlyDisabled}
             />

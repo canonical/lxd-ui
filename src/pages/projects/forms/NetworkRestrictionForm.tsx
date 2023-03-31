@@ -40,12 +40,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Input
-              id="restricted_network_access"
-              name="restricted_network_access"
               placeholder="Enter network names"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.restricted_network_access}
               type="text"
               help="Comma-delimited list of network names that are allowed for use in this project. If not set, all networks are accessible (depending on the restricted.devices.nic setting)."
             />
@@ -59,12 +54,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Textarea
-              id="restricted_network_subnets"
-              name="restricted_network_subnets"
               placeholder="Enter network subnets"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.restricted_network_subnets}
               help="Comma-delimited list of network subnets from the uplink networks (in the form <uplink>:<subnet>) that are allocated for use in this project."
             />
           ),
@@ -77,12 +67,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Textarea
-              id="restricted_network_uplinks"
-              name="restricted_network_uplinks"
               placeholder="Enter network names"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.restricted_network_uplinks}
               help="Comma-delimited list of network names that can be used as uplink for networks in this project."
             />
           ),
@@ -95,12 +80,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Textarea
-              id="restricted_network_zones"
-              name="restricted_network_zones"
               placeholder="Enter network zones"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.restricted_network_zones}
               help="Comma-delimited list of network zones that can be used (or something under them) in this project."
             />
           ),
