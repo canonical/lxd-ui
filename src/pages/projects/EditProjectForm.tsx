@@ -20,7 +20,7 @@ import ProjectDetailsForm, {
 } from "pages/projects/forms/ProjectDetailsForm";
 import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
-import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import * as Yup from "yup";
 import { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -141,7 +141,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
     restricted_network_zones: project.config["restricted.networks.zones"],
   };
 
-  const formik: FormikProps<CreateProjectFormValues> = useFormik({
+  const formik: FormikProps<ProjectFormValues> = useFormik({
     initialValues: initialValues,
     validationSchema: ProjectSchema,
     onSubmit: (values) => {

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { CreateProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
@@ -39,7 +39,7 @@ export const deviceUsageRestrictionPayload = (
 };
 
 interface Props {
-  formik: FormikProps<CreateProjectFormValues>;
+  formik: FormikProps<ProjectFormValues>;
 }
 
 const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
