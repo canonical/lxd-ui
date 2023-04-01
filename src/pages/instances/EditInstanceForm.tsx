@@ -7,7 +7,6 @@ import {
   Row,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -17,45 +16,42 @@ import { yamlToObject } from "util/yaml";
 import { useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { useNotify } from "context/notify";
-import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
+import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
-  securityPoliciesPayload,
 } from "pages/instances/forms/SecurityPoliciesForm";
 import SnapshotsForm, {
   SnapshotFormValues,
-  snapshotsPayload,
 } from "pages/instances/forms/SnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
-  cloudInitPayload,
 } from "pages/instances/forms/CloudInitForm";
 import ResourceLimitsForm, {
   ResourceLimitsFormValues,
-  resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import InstanceEditDetailsForm, {
-  instanceEditDetailPayload,
   InstanceEditDetailsFormValues,
 } from "pages/instances/forms/InstanceEditDetailsForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
-  STORAGE,
   INSTANCE_DETAILS,
+  NETWORKS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
+  STORAGE,
   YAML_CONFIGURATION,
-  NETWORKS,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
-import { getUnhandledKeyValues } from "util/formFields";
-import { getInstanceConfigKeys } from "util/instanceConfigFields";
-import { getInstanceEdit } from "util/instanceEdit";
+import {
+  getInstanceEditValues,
+  getInstancePayload,
+  InstanceEditSchema,
+} from "util/instanceEdit";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -80,31 +76,20 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     return <>Missing project</>;
   }
 
-  const InstanceSchema = Yup.object().shape({
-    name: Yup.string().required("Instance name is required"),
-    instanceType: Yup.string().required("Instance type is required"),
-  });
-
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
-  const initialValues = {
-    instanceType: instance.type,
-    profiles: instance.profiles,
-    type: "instance",
-    readOnly: true,
-    ...getInstanceEdit(instance),
-  };
-
   const formik = useFormik<EditInstanceFormValues>({
-    initialValues: initialValues,
-    validationSchema: InstanceSchema,
+    initialValues: getInstanceEditValues(instance),
+    validationSchema: InstanceEditSchema,
     onSubmit: (values) => {
       const instancePayload = (
-        values.yaml ? yamlToObject(values.yaml) : getPayload(values)
+        values.yaml
+          ? yamlToObject(values.yaml)
+          : getInstancePayload(instance, values)
       ) as LxdInstance;
 
       // ensure the etag is set (it is missing on the yaml)
@@ -126,31 +111,6 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         });
     },
   });
-
-  const getPayload = (values: EditInstanceFormValues) => {
-    const handledConfigKeys = getInstanceConfigKeys();
-    const handledKeys = new Set([
-      "name",
-      "description",
-      "type",
-      "profiles",
-      "devices",
-      "config",
-    ]);
-
-    return {
-      ...instanceEditDetailPayload(values),
-      devices: formDeviceToPayload(values.devices),
-      config: {
-        ...resourceLimitsPayload(values),
-        ...securityPoliciesPayload(values),
-        ...snapshotsPayload(values),
-        ...cloudInitPayload(values),
-        ...getUnhandledKeyValues(instance.config, handledConfigKeys),
-      },
-      ...getUnhandledKeyValues(instance, handledKeys),
-    };
-  };
 
   const updateSection = (newItem: string) => {
     if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
@@ -249,7 +209,11 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
               </Button>
             ) : (
               <>
-                <Button onClick={() => formik.setValues(initialValues)}>
+                <Button
+                  onClick={() =>
+                    formik.setValues(getInstanceEditValues(instance))
+                  }
+                >
                   Cancel
                 </Button>
                 <SubmitButton

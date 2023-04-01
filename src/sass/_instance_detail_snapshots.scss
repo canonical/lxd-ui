@@ -112,4 +112,11 @@
   .p-pagination__items {
     justify-content: flex-end;
   }
+
+  .edit-snapshot-config {
+    tbody {
+      height: inherit !important;
+      min-height: inherit !important;
+    }
+  }
 }

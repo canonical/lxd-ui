@@ -18,6 +18,7 @@ import Pagination from "components/Pagination";
 import { paginationOptions } from "util/paginationOptions";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import ItemName from "components/ItemName";
+import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSnapshotsBtn";
 
 interface Props {
   instance: LxdInstance;
@@ -159,6 +160,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
               aria-label="Search for snapshots"
             />
           </div>
+          <ConfigureSnapshotsBtn instance={instance} />
           <Button
             appearance="positive"
             className="u-float-right"

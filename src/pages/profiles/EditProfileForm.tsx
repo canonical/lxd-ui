@@ -55,7 +55,7 @@ import ProfileDetailsForm, {
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import { getProfileConfigKeys } from "util/instanceConfigFields";
-import { getProfileEdit } from "util/instanceEdit";
+import { getProfileEditValues } from "util/instanceEdit";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -90,14 +90,8 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     name: Yup.string().required("Name is required"),
   });
 
-  const initialValues = {
-    type: "profile",
-    readOnly: true,
-    ...getProfileEdit(profile),
-  };
-
   const formik = useFormik<EditProfileFormValues>({
-    initialValues: initialValues,
+    initialValues: getProfileEditValues(profile),
     validationSchema: ProfileSchema,
     onSubmit: (values) => {
       const profilePayload = (
@@ -231,7 +225,11 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
               </Button>
             ) : (
               <>
-                <Button onClick={() => formik.setValues(initialValues)}>
+                <Button
+                  onClick={() =>
+                    formik.setValues(getProfileEditValues(profile))
+                  }
+                >
                   Cancel
                 </Button>
                 <SubmitButton

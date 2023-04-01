@@ -10,6 +10,7 @@ import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import useEventListener from "@use-it/event-listener";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import { useNotify } from "context/notify";
+import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -86,7 +87,10 @@ const ConfigurationTable: FC<Props> = ({
   const headers = [
     {
       content: isSmallScreen ? (
-        <Tooltip message="Select configuration to override">
+        <Tooltip
+          message="Select configuration to override"
+          zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
+        >
           <Icon name="information" />
         </Tooltip>
       ) : (
