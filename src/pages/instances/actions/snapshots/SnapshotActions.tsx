@@ -21,11 +21,12 @@ const SnapshotActions: FC<Props> = ({
   onSuccess,
   onFailure,
 }) => {
-  const [isLoading, setLoading] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
+  const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
-    setLoading(true);
+    setDeleting(true);
     deleteSnapshot(instance, snapshot)
       .then(() =>
         onSuccess(
@@ -36,7 +37,7 @@ const SnapshotActions: FC<Props> = ({
       )
       .catch((e) => onFailure("Error on snapshot delete.", e))
       .finally(() => {
-        setLoading(false);
+        setDeleting(false);
         void queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
@@ -44,7 +45,7 @@ const SnapshotActions: FC<Props> = ({
   };
 
   const handleRestore = () => {
-    setLoading(true);
+    setRestoring(true);
     restoreSnapshot(instance, snapshot)
       .then(() =>
         onSuccess(
@@ -55,7 +56,7 @@ const SnapshotActions: FC<Props> = ({
       )
       .catch((e) => onFailure("Error on snapshot restore.", e))
       .finally(() => {
-        setLoading(false);
+        setRestoring(false);
         void queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
@@ -66,12 +67,13 @@ const SnapshotActions: FC<Props> = ({
     <List
       inline
       className={classnames("u-no-margin--bottom", {
-        "u-snapshot-actions": !isLoading,
+        "u-snapshot-actions": !isDeleting && !isRestoring,
       })}
       items={[
         <ConfirmationButton
           key="delete"
-          isLoading={isLoading}
+          isLoading={isDeleting}
+          icon={isDeleting ? "spinner" : undefined}
           title="Confirm delete"
           toggleCaption="Delete"
           confirmationMessage={
@@ -83,11 +85,12 @@ const SnapshotActions: FC<Props> = ({
           }
           posButtonLabel="Delete"
           onConfirm={handleDelete}
-          isDisabled={isLoading}
+          isDisabled={isDeleting || isRestoring}
         />,
         <ConfirmationButton
           key="restore"
-          isLoading={isLoading}
+          isLoading={isRestoring}
+          icon={isRestoring ? "spinner" : undefined}
           title="Confirm restore"
           toggleCaption="Restore"
           confirmationMessage={
@@ -99,7 +102,7 @@ const SnapshotActions: FC<Props> = ({
           }
           posButtonLabel="Restore"
           onConfirm={handleRestore}
-          isDisabled={isLoading}
+          isDisabled={isDeleting || isRestoring}
         />,
       ]}
     />

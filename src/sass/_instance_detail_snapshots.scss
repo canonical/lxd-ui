@@ -45,6 +45,15 @@
   .snapshots-table {
     margin-bottom: 0;
 
+    th,
+    td {
+      display: table-cell;
+    }
+
+    th:last-child {
+      display: none;
+    }
+
     td:last-child {
       padding-right: $sph--large;
     }
@@ -67,24 +76,33 @@
       width: 100%;
     }
 
+    .select {
+      padding-right: 0;
+      width: 70px;
+
+      button {
+        margin-left: -15px;
+      }
+    }
+
     .name {
-      width: 170px;
+      min-width: 170px;
     }
 
     .created {
-      width: 200px;
+      min-width: 200px;
     }
 
     .expiration {
-      width: 200px;
+      min-width: 200px;
     }
 
     .stateful {
-      width: 80px;
+      width: 105px;
     }
 
     .actions {
-      width: 220px;
+      width: 240px;
 
       .p-inline-list__item:not(:last-of-type) {
         margin-right: $sph--small;

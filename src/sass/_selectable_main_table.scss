@@ -1,0 +1,27 @@
+.select-header {
+  padding-bottom: 0;
+  padding-top: 4px;
+
+  .multiselect-checkbox {
+    display: inline-block;
+  }
+}
+
+.select-notification {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.selected-row {
+  background-color: #e6f2ff;
+}
+
+.processing-row {
+  opacity: 0.5;
+
+  .actions > * {
+    display: none;
+  }
+}

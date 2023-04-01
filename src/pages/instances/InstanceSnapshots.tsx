@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Button, MainTable, SearchBox } from "@canonical/react-components";
+import { Button, Icon, SearchBox } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { LxdInstance } from "types/instance";
 import EmptyState from "components/EmptyState";
@@ -13,6 +13,8 @@ import Pagination from "components/Pagination";
 import { usePagination } from "util/pagination";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import ItemName from "components/ItemName";
+import SelectableMainTable from "components/SelectableMainTable";
+import SnapshotBulkDelete from "pages/instances/actions/snapshots/SnapshotBulkDelete";
 import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSnapshotsBtn";
 
 interface Props {
@@ -24,6 +26,20 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [inTabNotification, setInTabNotification] =
     useState<Notification | null>(null);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [processingNames, setProcessingNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    const validNames = new Set(
+      instance.snapshots?.map((snapshot) => snapshot.name)
+    );
+    const validSelections = selectedNames.filter((name) =>
+      validNames.has(name)
+    );
+    if (validSelections.length !== selectedNames.length) {
+      setSelectedNames(validSelections);
+    }
+  }, [instance.snapshots]);
 
   const onSuccess = (message: ReactNode) => {
     setInTabNotification(success(message));
@@ -69,6 +85,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
 
     return {
       className: "u-row",
+      name: snapshot.name,
       columns: [
         {
           content: (
@@ -140,27 +157,51 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       )}
       {hasSnapshots && (
         <div className="upper-controls-bar">
-          <div className="search-box-wrapper">
-            <SearchBox
-              name="search-snapshot"
-              className="search-box margin-right"
-              type="text"
-              onChange={(value) => {
-                setQuery(value);
-              }}
-              placeholder="Search for snapshots"
-              value={query}
-              aria-label="Search for snapshots"
-            />
-          </div>
-          <ConfigureSnapshotsBtn instance={instance} />
-          <Button
-            appearance="positive"
-            className="u-float-right"
-            onClick={() => setModalOpen(true)}
-          >
-            Create snapshot
-          </Button>
+          {selectedNames.length === 0 ? (
+            <>
+              <div className="search-box-wrapper">
+                <SearchBox
+                  name="search-snapshot"
+                  className="search-box margin-right"
+                  type="text"
+                  onChange={(value) => {
+                    setQuery(value);
+                  }}
+                  placeholder="Search for snapshots"
+                  value={query}
+                  aria-label="Search for snapshots"
+                />
+              </div>
+              <ConfigureSnapshotsBtn instance={instance} />
+              <Button
+                appearance="positive"
+                className="u-float-right"
+                onClick={() => setModalOpen(true)}
+              >
+                Create snapshot
+              </Button>
+            </>
+          ) : (
+            <>
+              <SnapshotBulkDelete
+                instance={instance}
+                snapshotNames={selectedNames}
+                onStart={() => setProcessingNames(selectedNames)}
+                onFinish={() => setProcessingNames([])}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+              />
+              <Button
+                appearance="link"
+                className="u-no-padding--top"
+                hasIcon
+                onClick={() => setSelectedNames([])}
+              >
+                <span>Clear selection</span>
+                <Icon name="close" className="clear-selection-icon" />
+              </Button>
+            </>
+          )}
         </div>
       )}
       <NotificationRowLegacy
@@ -169,13 +210,21 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       />
       {hasSnapshots ? (
         <>
-          <MainTable
+          <SelectableMainTable
             headers={headers}
             rows={pagination.pageData}
             sortable
             className="snapshots-table"
             id="snapshots-table-wrapper"
             emptyStateMsg="No snapshot found matching this search"
+            itemName="snapshot"
+            parentName="instance"
+            selectedNames={selectedNames}
+            setSelectedNames={setSelectedNames}
+            processingNames={processingNames}
+            allNames={
+              instance.snapshots?.map((snapshot) => snapshot.name) ?? []
+            }
           />
           <Pagination
             {...pagination}
