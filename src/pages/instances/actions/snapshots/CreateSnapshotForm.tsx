@@ -21,8 +21,7 @@ import SubmitButton from "components/SubmitButton";
 import { useNotify } from "context/notify";
 import NotificationRow from "components/NotificationRow";
 import ItemName from "components/ItemName";
-
-const TOOLTIP_OVER_MODAL_ZINDEX = 150;
+import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 
 interface Props {
   instance: LxdInstance;

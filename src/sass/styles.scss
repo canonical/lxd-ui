@@ -160,6 +160,10 @@ $border-thin: 1px solid $color-mid-light !default;
   justify-content: space-between;
 }
 
+.u-flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
 .item-name {
   overflow-wrap: anywhere;
 }

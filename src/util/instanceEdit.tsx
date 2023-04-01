@@ -1,9 +1,18 @@
 import { LxdProfile } from "types/profile";
 import { LxdInstance } from "types/instance";
-import { parseDevices } from "util/formDevices";
+import { formDeviceToPayload, parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
+import { getInstanceConfigKeys } from "util/instanceConfigFields";
+import { instanceEditDetailPayload } from "pages/instances/forms/InstanceEditDetailsForm";
+import { resourceLimitsPayload } from "pages/instances/forms/ResourceLimitsForm";
+import { securityPoliciesPayload } from "pages/instances/forms/SecurityPoliciesForm";
+import { snapshotsPayload } from "pages/instances/forms/SnapshotsForm";
+import { cloudInitPayload } from "pages/instances/forms/CloudInitForm";
+import { getUnhandledKeyValues } from "util/formFields";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import * as Yup from "yup";
 
-const getEdit = (item: LxdProfile | LxdInstance) => {
+const getEditValues = (item: LxdProfile | LxdInstance) => {
   return {
     name: item.name,
     description: item.description,
@@ -43,6 +52,53 @@ const getEdit = (item: LxdProfile | LxdInstance) => {
   };
 };
 
-export const getInstanceEdit = getEdit;
+export const getInstanceEditValues = (instance: LxdInstance) => {
+  return {
+    instanceType: instance.type,
+    profiles: instance.profiles,
+    readOnly: true,
+    type: "instance",
+    ...getEditValues(instance),
+  };
+};
 
-export const getProfileEdit = getEdit;
+export const getProfileEditValues = (profile: LxdProfile) => {
+  return {
+    readOnly: true,
+    type: "profile",
+    ...getEditValues(profile),
+  };
+};
+
+export const getInstancePayload = (
+  instance: LxdInstance,
+  values: EditInstanceFormValues
+) => {
+  const handledConfigKeys = getInstanceConfigKeys();
+  const handledKeys = new Set([
+    "name",
+    "description",
+    "type",
+    "profiles",
+    "devices",
+    "config",
+  ]);
+
+  return {
+    ...instanceEditDetailPayload(values),
+    devices: formDeviceToPayload(values.devices),
+    config: {
+      ...resourceLimitsPayload(values),
+      ...securityPoliciesPayload(values),
+      ...snapshotsPayload(values),
+      ...cloudInitPayload(values),
+      ...getUnhandledKeyValues(instance.config, handledConfigKeys),
+    },
+    ...getUnhandledKeyValues(instance, handledKeys),
+  };
+};
+
+export const InstanceEditSchema = Yup.object().shape({
+  name: Yup.string().required("Instance name is required"),
+  instanceType: Yup.string().required("Instance type is required"),
+});
