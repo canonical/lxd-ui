@@ -8,6 +8,7 @@ import { LxdInstance } from "types/instance";
 import { parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { OptionHTMLAttributes } from "react";
+import { LxdConfigPair } from "types/config";
 
 const formFieldsToPayloadFields: Record<string, string> = {
   rootStorage: "",
@@ -41,8 +42,17 @@ export const getPayloadKey = (formField: string) => {
   return formFieldsToPayloadFields[formField];
 };
 
-export const getSupportedConfigKeys = () => {
+export const getHandledConfigKeys = () => {
   return new Set(Object.values(formFieldsToPayloadFields));
+};
+
+export const getUnhandledKeyValues = (
+  item: LxdInstance | LxdProfile | LxdConfigPair,
+  handledKeys: Set<string>
+) => {
+  return Object.fromEntries(
+    Object.entries(item).filter(([key]) => !handledKeys.has(key))
+  );
 };
 
 export const figureInheritedValue = (
