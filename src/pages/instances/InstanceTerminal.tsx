@@ -137,9 +137,6 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   };
 
   useEffect(() => {
-    if (!payload) {
-      return;
-    }
     xtermRef.current?.terminal.clear();
     setInTabNotification(null);
     const websocketPromise = openWebsockets(payload);
