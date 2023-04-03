@@ -1,4 +1,4 @@
-import { watchOperation } from "./operations";
+import { TIMEOUT_300, watchOperation } from "./operations";
 import { handleResponse } from "util/helpers";
 import { ImportImage, LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
@@ -55,7 +55,7 @@ export const importImage = (remoteImage: ImportImage) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 300).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_300).then(resolve).catch(reject);
       })
       .catch(reject);
   });
