@@ -53,7 +53,11 @@ import ProfileDetailsForm, {
   profileDetailPayload,
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
-import { getEditValues, getSupportedConfigKeys } from "util/formFields";
+import {
+  getEditValues,
+  getHandledConfigKeys,
+  getUnhandledKeyValues,
+} from "util/formFields";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -123,22 +127,8 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   });
 
   const getPayload = (values: EditProfileFormValues) => {
-    const supportedConfigKeys = getSupportedConfigKeys();
-    const additionalConfigKeys = Object.fromEntries(
-      Object.entries(profile.config).filter(
-        ([key]) => !supportedConfigKeys.has(key)
-      )
-    );
-
-    const supportedMainKeys = new Set([
-      "name",
-      "description",
-      "devices",
-      "config",
-    ]);
-    const additionalMainKeys = Object.fromEntries(
-      Object.entries(profile).filter(([key]) => !supportedMainKeys.has(key))
-    );
+    const handledConfigKeys = getHandledConfigKeys();
+    const handledKeys = new Set(["name", "description", "devices", "config"]);
 
     return {
       ...profileDetailPayload(values),
@@ -148,9 +138,9 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...cloudInitPayload(values),
-        ...additionalConfigKeys,
+        ...getUnhandledKeyValues(profile.config, handledConfigKeys),
       },
-      ...additionalMainKeys,
+      ...getUnhandledKeyValues(profile, handledKeys),
     };
   };
 

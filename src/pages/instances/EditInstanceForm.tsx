@@ -53,7 +53,11 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
-import { getEditValues, getSupportedConfigKeys } from "util/formFields";
+import {
+  getEditValues,
+  getHandledConfigKeys,
+  getUnhandledKeyValues,
+} from "util/formFields";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -126,14 +130,8 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   });
 
   const getPayload = (values: EditInstanceFormValues) => {
-    const supportedConfigKeys = getSupportedConfigKeys();
-    const additionalConfigKeys = Object.fromEntries(
-      Object.entries(instance.config).filter(
-        ([key]) => !supportedConfigKeys.has(key)
-      )
-    );
-
-    const supportedMainKeys = new Set([
+    const handledConfigKeys = getHandledConfigKeys();
+    const handledKeys = new Set([
       "name",
       "description",
       "type",
@@ -141,9 +139,6 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       "devices",
       "config",
     ]);
-    const additionalMainKeys = Object.fromEntries(
-      Object.entries(instance).filter(([key]) => !supportedMainKeys.has(key))
-    );
 
     return {
       ...instanceEditDetailPayload(values),
@@ -153,9 +148,9 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...cloudInitPayload(values),
-        ...additionalConfigKeys,
+        ...getUnhandledKeyValues(instance.config, handledConfigKeys),
       },
-      ...additionalMainKeys,
+      ...getUnhandledKeyValues(instance, handledKeys),
     };
   };
 
