@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
+import { getProjectKey } from "util/projectConfigFields";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -43,13 +44,23 @@ export const projectDetailRestrictionPayload = (
   };
 
   return {
-    restricted: boolToPayload(values.restricted),
-    "features.images": boolToPayload(values.features_images),
-    "features.profiles": boolToPayload(values.features_profiles),
-    "features.networks": boolToPayload(values.features_networks),
-    "features.networks.zones": boolToPayload(values.features_networks_zones),
-    "features.storage.buckets": boolToPayload(values.features_storage_buckets),
-    "features.storage.volumes": boolToPayload(values.features_storage_volumes),
+    [getProjectKey("restricted")]: boolToPayload(values.restricted),
+    [getProjectKey("features_images")]: boolToPayload(values.features_images),
+    [getProjectKey("features_profiles")]: boolToPayload(
+      values.features_profiles
+    ),
+    [getProjectKey("features_networks")]: boolToPayload(
+      values.features_networks
+    ),
+    [getProjectKey("features_networks_zones")]: boolToPayload(
+      values.features_networks_zones
+    ),
+    [getProjectKey("features_storage_buckets")]: boolToPayload(
+      values.features_storage_buckets
+    ),
+    [getProjectKey("features_storage_volumes")]: boolToPayload(
+      values.features_storage_volumes
+    ),
   };
 };
 
@@ -254,9 +265,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
                 Allow custom restrictions on a project level
                 <Tooltip
                   className="checkbox-label-tooltip"
-                  message={
-                    "Custom restrictions are only available\n to projects with enabled profiles"
-                  }
+                  message={`Custom restrictions are only available${"\n"}to projects with enabled profiles`}
                 >
                   <Icon name="information" />
                 </Tooltip>

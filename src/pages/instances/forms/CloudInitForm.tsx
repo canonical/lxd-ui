@@ -7,7 +7,7 @@ import {
 } from "pages/instances/forms/sharedFormTypes";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { getPayloadKey } from "util/formFields";
+import { getInstanceKey } from "util/instanceConfigFields";
 
 export interface CloudInitFormValues {
   cloud_init_network_config?: string;
@@ -17,10 +17,10 @@ export interface CloudInitFormValues {
 
 export const cloudInitPayload = (values: SharedFormTypes) => {
   return {
-    [getPayloadKey("cloud_init_network_config")]:
+    [getInstanceKey("cloud_init_network_config")]:
       values.cloud_init_network_config,
-    [getPayloadKey("cloud_init_user_data")]: values.cloud_init_user_data,
-    [getPayloadKey("cloud_init_vendor_data")]: values.cloud_init_vendor_data,
+    [getInstanceKey("cloud_init_user_data")]: values.cloud_init_user_data,
+    [getInstanceKey("cloud_init_vendor_data")]: values.cloud_init_vendor_data,
   };
 };
 

@@ -13,12 +13,12 @@ import { fetchNetworks } from "api/networks";
 import { LxdNicDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { figureInheritedNetworks } from "util/formFields";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
 import Loader from "components/Loader";
 import { useNotify } from "context/notify";
+import { figureInheritedNetworks } from "util/instanceConfigInheritance";
 
 interface Props {
   formik: SharedFormikTypes;

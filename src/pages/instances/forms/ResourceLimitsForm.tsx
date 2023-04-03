@@ -13,7 +13,8 @@ import {
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { optionRenderer, getPayloadKey } from "util/formFields";
+import { getInstanceKey } from "util/instanceConfigFields";
+import { optionRenderer } from "util/formFields";
 
 export interface ResourceLimitsFormValues {
   limits_cpu?: CpuLimit;
@@ -25,14 +26,14 @@ export interface ResourceLimitsFormValues {
 
 export const resourceLimitsPayload = (values: SharedFormTypes) => {
   return {
-    [getPayloadKey("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
-    [getPayloadKey("limits_memory")]: memoryLimitToPayload(
+    [getInstanceKey("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
+    [getInstanceKey("limits_memory")]: memoryLimitToPayload(
       values.limits_memory
     ),
-    [getPayloadKey("limits_memory_swap")]: values.limits_memory_swap,
-    [getPayloadKey("limits_disk_priority")]:
+    [getInstanceKey("limits_memory_swap")]: values.limits_memory_swap,
+    [getInstanceKey("limits_disk_priority")]:
       values.limits_disk_priority?.toString(),
-    [getPayloadKey("limits_processes")]: values.limits_processes?.toString(),
+    [getInstanceKey("limits_processes")]: values.limits_processes?.toString(),
   };
 };
 

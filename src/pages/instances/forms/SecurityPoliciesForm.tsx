@@ -13,7 +13,8 @@ import {
 } from "pages/instances/forms/sharedFormTypes";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { optionRenderer, getPayloadKey } from "util/formFields";
+import { getInstanceKey } from "util/instanceConfigFields";
+import { optionRenderer } from "util/formFields";
 
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: string;
@@ -29,18 +30,18 @@ export interface SecurityPoliciesFormValues {
 
 export const securityPoliciesPayload = (values: SharedFormTypes) => {
   return {
-    [getPayloadKey("security_protection_delete")]:
+    [getInstanceKey("security_protection_delete")]:
       values.security_protection_delete,
-    [getPayloadKey("security_privileged")]: values.security_privileged,
-    [getPayloadKey("security_protection_shift")]:
+    [getInstanceKey("security_privileged")]: values.security_privileged,
+    [getInstanceKey("security_protection_shift")]:
       values.security_protection_shift,
-    [getPayloadKey("security_idmap_base")]: values.security_idmap_base,
-    [getPayloadKey("security_idmap_size")]:
+    [getInstanceKey("security_idmap_base")]: values.security_idmap_base,
+    [getInstanceKey("security_idmap_size")]:
       values.security_idmap_size?.toString(),
-    [getPayloadKey("security_idmap_isolated")]: values.security_idmap_isolated,
-    [getPayloadKey("security_devlxd")]: values.security_devlxd,
-    [getPayloadKey("security_devlxd_images")]: values.security_devlxd_images,
-    [getPayloadKey("security_secureboot")]: values.security_secureboot,
+    [getInstanceKey("security_idmap_isolated")]: values.security_idmap_isolated,
+    [getInstanceKey("security_devlxd")]: values.security_devlxd,
+    [getInstanceKey("security_devlxd_images")]: values.security_devlxd_images,
+    [getInstanceKey("security_secureboot")]: values.security_secureboot,
   };
 };
 

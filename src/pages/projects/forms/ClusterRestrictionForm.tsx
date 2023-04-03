@@ -7,6 +7,7 @@ import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { optionRenderer } from "util/formFields";
+import { getProjectKey } from "util/projectConfigFields";
 
 export interface ClusterRestrictionFormValues {
   restricted_cluster_groups?: string;
@@ -15,8 +16,10 @@ export interface ClusterRestrictionFormValues {
 
 export const clusterRestrictionPayload = (values: ProjectFormValues) => {
   return {
-    ["restricted.cluster.groups"]: values.restricted_cluster_groups,
-    ["restricted.cluster.target"]: values.restricted_cluster_target,
+    [getProjectKey("restricted_cluster_groups")]:
+      values.restricted_cluster_groups,
+    [getProjectKey("restricted_cluster_target")]:
+      values.restricted_cluster_target,
   };
 };
 

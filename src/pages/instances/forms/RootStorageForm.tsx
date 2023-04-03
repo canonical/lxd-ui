@@ -11,12 +11,12 @@ import { fetchStorages } from "api/storages";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
-import { figureInheritedRootStorage } from "util/formFields";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
 import Loader from "components/Loader";
 import { useNotify } from "context/notify";
+import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
 
 interface Props {
   formik: SharedFormikTypes;

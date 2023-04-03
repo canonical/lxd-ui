@@ -8,7 +8,8 @@ import {
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { snapshotOptions } from "util/snapshotOptions";
-import { optionRenderer, getPayloadKey } from "util/formFields";
+import { getInstanceKey } from "util/instanceConfigFields";
+import { optionRenderer } from "util/formFields";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -19,11 +20,11 @@ export interface SnapshotFormValues {
 
 export const snapshotsPayload = (values: SharedFormTypes) => {
   return {
-    [getPayloadKey("snapshots_pattern")]: values.snapshots_pattern,
-    [getPayloadKey("snapshots_schedule_stopped")]:
+    [getInstanceKey("snapshots_pattern")]: values.snapshots_pattern,
+    [getInstanceKey("snapshots_schedule_stopped")]:
       values.snapshots_schedule_stopped,
-    [getPayloadKey("snapshots_schedule")]: values.snapshots_schedule,
-    [getPayloadKey("snapshots_expiry")]: values.snapshots_expiry,
+    [getInstanceKey("snapshots_schedule")]: values.snapshots_schedule,
+    [getInstanceKey("snapshots_expiry")]: values.snapshots_expiry,
   };
 };
 

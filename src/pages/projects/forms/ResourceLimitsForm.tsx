@@ -6,6 +6,7 @@ import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
+import { getProjectKey } from "util/projectConfigFields";
 
 export interface ResourceLimitsFormValues {
   limits_instances?: number;
@@ -20,14 +21,15 @@ export interface ResourceLimitsFormValues {
 
 export const resourceLimitsPayload = (values: ProjectFormValues) => {
   return {
-    ["limits.instances"]: values.limits_instances?.toString(),
-    ["limits.containers"]: values.limits_containers?.toString(),
-    ["limits.virtual-machines"]: values.limits_virtual_machines?.toString(),
-    ["limits.disk"]: values.limits_disk?.toString(),
-    ["limits.networks"]: values.limits_networks?.toString(),
-    ["limits.cpu"]: values.limits_cpu?.toString(),
-    ["limits.memory"]: values.limits_memory?.toString(),
-    ["limits.processes"]: values.limits_processes?.toString(),
+    [getProjectKey("limits_instances")]: values.limits_instances?.toString(),
+    [getProjectKey("limits_containers")]: values.limits_containers?.toString(),
+    [getProjectKey("limits_virtual_machines")]:
+      values.limits_virtual_machines?.toString(),
+    [getProjectKey("limits_disk")]: values.limits_disk?.toString(),
+    [getProjectKey("limits_networks")]: values.limits_networks?.toString(),
+    [getProjectKey("limits_cpu")]: values.limits_cpu?.toString(),
+    [getProjectKey("limits_memory")]: values.limits_memory?.toString(),
+    [getProjectKey("limits_processes")]: values.limits_processes?.toString(),
   };
 };
 

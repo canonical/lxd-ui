@@ -10,6 +10,7 @@ import {
 } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { optionRenderer } from "util/formFields";
+import { getProjectKey } from "util/projectConfigFields";
 
 export interface InstanceRestrictionFormValues {
   restricted_virtual_machines_low_level?: string;
@@ -24,16 +25,19 @@ export interface InstanceRestrictionFormValues {
 
 export const instanceRestrictionPayload = (values: ProjectFormValues) => {
   return {
-    ["restricted.virtual-machines.lowlevel"]:
+    [getProjectKey("restricted_virtual_machines_low_level")]:
       values.restricted_virtual_machines_low_level,
-    ["restricted.containers.lowlevel"]: values.restricted_containers_low_level,
-    ["restricted.containers.nesting"]: values.restricted_containers_nesting,
-    ["restricted.containers.privilege"]: values.restricted_containers_privilege,
-    ["restricted.containers.interception"]:
+    [getProjectKey("restricted_containers_low_level")]:
+      values.restricted_containers_low_level,
+    [getProjectKey("restricted_containers_nesting")]:
+      values.restricted_containers_nesting,
+    [getProjectKey("restricted_containers_privilege")]:
+      values.restricted_containers_privilege,
+    [getProjectKey("restricted_container_interception")]:
       values.restricted_container_interception,
-    ["restricted.snapshots"]: values.restrict_snapshots,
-    ["restricted.idmap.uid"]: values.restricted_idmap_uid,
-    ["restricted.idmap.gid"]: values.restricted_idmap_gid,
+    [getProjectKey("restrict_snapshots")]: values.restrict_snapshots,
+    [getProjectKey("restricted_idmap_uid")]: values.restricted_idmap_uid,
+    [getProjectKey("restricted_idmap_gid")]: values.restricted_idmap_gid,
   };
 };
 

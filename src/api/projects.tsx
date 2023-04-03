@@ -2,7 +2,7 @@ import { handleEtagResponse, handleResponse } from "util/helpers";
 import { LxdProject } from "types/project";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperation } from "types/operation";
-import { watchOperation } from "api/operations";
+import { TIMEOUT_60, watchOperation } from "api/operations";
 
 export const fetchProjects = (recursion: number): Promise<LxdProject[]> => {
   return new Promise((resolve, reject) => {
@@ -59,7 +59,7 @@ export const renameProject = (oldName: string, newName: string) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
