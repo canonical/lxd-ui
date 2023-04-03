@@ -7,6 +7,7 @@ import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { optionRenderer } from "util/formFields";
+import { getProjectKey } from "util/projectConfigFields";
 
 export interface DeviceUsageRestrictionFormValues {
   restricted_devices_disk?: string;
@@ -25,16 +26,21 @@ export const deviceUsageRestrictionPayload = (
   values: DeviceUsageRestrictionFormValues
 ) => {
   return {
-    ["restricted.devices.disk"]: values.restricted_devices_disk,
-    ["restricted.devices.disk.paths"]: values.restricted_devices_disk_paths,
-    ["restricted.devices.gpu"]: values.restricted_devices_gpu,
-    ["restricted.devices.infiniband"]: values.restricted_devices_infiniband,
-    ["restricted.devices.nic"]: values.restricted_devices_nic,
-    ["restricted.devices.pci"]: values.restricted_devices_pci,
-    ["restricted.devices.unix-block"]: values.restricted_devices_unix_block,
-    ["restricted.devices.unix-char"]: values.restricted_devices_unix_char,
-    ["restricted.devices.unix-hotplug"]: values.restricted_devices_unix_hotplug,
-    ["restricted.devices.usb"]: values.restricted_devices_usb,
+    [getProjectKey("restricted_devices_disk")]: values.restricted_devices_disk,
+    [getProjectKey("restricted_devices_disk_paths")]:
+      values.restricted_devices_disk_paths,
+    [getProjectKey("restricted_devices_gpu")]: values.restricted_devices_gpu,
+    [getProjectKey("restricted_devices_infiniband")]:
+      values.restricted_devices_infiniband,
+    [getProjectKey("restricted_devices_nic")]: values.restricted_devices_nic,
+    [getProjectKey("restricted_devices_pci")]: values.restricted_devices_pci,
+    [getProjectKey("restricted_devices_unix_block")]:
+      values.restricted_devices_unix_block,
+    [getProjectKey("restricted_devices_unix_char")]:
+      values.restricted_devices_unix_char,
+    [getProjectKey("restricted_devices_unix_hotplug")]:
+      values.restricted_devices_unix_hotplug,
+    [getProjectKey("restricted_devices_usb")]: values.restricted_devices_usb,
   };
 };
 

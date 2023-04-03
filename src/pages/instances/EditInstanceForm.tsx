@@ -53,11 +53,9 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
-import {
-  getEditValues,
-  getHandledConfigKeys,
-  getUnhandledKeyValues,
-} from "util/formFields";
+import { getUnhandledKeyValues } from "util/formFields";
+import { getInstanceConfigKeys } from "util/instanceConfigFields";
+import { getInstanceEdit } from "util/instanceEdit";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -98,7 +96,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     profiles: instance.profiles,
     type: "instance",
     readOnly: true,
-    ...getEditValues(instance),
+    ...getInstanceEdit(instance),
   };
 
   const formik = useFormik<EditInstanceFormValues>({
@@ -130,7 +128,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   });
 
   const getPayload = (values: EditInstanceFormValues) => {
-    const handledConfigKeys = getHandledConfigKeys();
+    const handledConfigKeys = getInstanceConfigKeys();
     const handledKeys = new Set([
       "name",
       "description",

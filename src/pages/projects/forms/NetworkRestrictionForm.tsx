@@ -5,6 +5,7 @@ import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { getProjectKey } from "util/projectConfigFields";
 
 export interface NetworkRestrictionFormValues {
   restricted_network_access?: string;
@@ -17,10 +18,14 @@ export const networkRestrictionPayload = (
   values: NetworkRestrictionFormValues
 ) => {
   return {
-    ["restricted.networks.access"]: values.restricted_network_access,
-    ["restricted.networks.subnets"]: values.restricted_network_subnets,
-    ["restricted.networks.uplinks"]: values.restricted_network_uplinks,
-    ["restricted.networks.zones"]: values.restricted_network_zones,
+    [getProjectKey("restricted_network_access")]:
+      values.restricted_network_access,
+    [getProjectKey("restricted_network_subnets")]:
+      values.restricted_network_subnets,
+    [getProjectKey("restricted_network_uplinks")]:
+      values.restricted_network_uplinks,
+    [getProjectKey("restricted_network_zones")]:
+      values.restricted_network_zones,
   };
 };
 

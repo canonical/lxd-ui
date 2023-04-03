@@ -26,6 +26,8 @@ import classnames from "classnames";
 import { getProjectEditValues } from "util/projectEdit";
 import { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
+import { getUnhandledKeyValues } from "util/formFields";
+import { getProjectConfigKeys } from "util/projectConfigFields";
 
 interface Props {
   project: LxdProject;
@@ -52,22 +54,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
     initialValues: initialValues,
     validationSchema: ProjectSchema,
     onSubmit: (values) => {
-      const restrictions = values.restricted
-        ? {
-            ...clusterRestrictionPayload(values),
-            ...instanceRestrictionPayload(values),
-            ...deviceUsageRestrictionPayload(values),
-            ...networkRestrictionPayload(values),
-          }
-        : {};
-      const projectPayload = {
-        ...projectDetailPayload(values),
-        config: {
-          ...projectDetailRestrictionPayload(values),
-          ...resourceLimitsPayload(values),
-          ...restrictions,
-        },
-      } as LxdProject;
+      const projectPayload = getPayload(values) as LxdProject;
 
       projectPayload.etag = project.etag;
 
@@ -87,6 +74,29 @@ const EditProjectForm: FC<Props> = ({ project }) => {
         });
     },
   });
+
+  const getPayload = (values: ProjectFormValues) => {
+    const handledConfigKeys = getProjectConfigKeys();
+    const handledKeys = new Set(["name", "description", "config"]);
+
+    return {
+      ...projectDetailPayload(values),
+      config: {
+        ...projectDetailRestrictionPayload(values),
+        ...resourceLimitsPayload(values),
+        ...(values.restricted
+          ? {
+              ...clusterRestrictionPayload(values),
+              ...instanceRestrictionPayload(values),
+              ...deviceUsageRestrictionPayload(values),
+              ...networkRestrictionPayload(values),
+            }
+          : {}),
+        ...getUnhandledKeyValues(project.config, handledConfigKeys),
+      },
+      ...getUnhandledKeyValues(project, handledKeys),
+    };
+  };
 
   return (
     <main className="l-main">

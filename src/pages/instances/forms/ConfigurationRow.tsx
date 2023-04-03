@@ -5,12 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
 import { useParams } from "react-router-dom";
-import { figureInheritedValue } from "util/formFields";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { LxdProfile } from "types/profile";
 import { useNotify } from "context/notify";
+import { figureInheritedValue } from "util/instanceConfigInheritance";
 
 interface Props {
   formik: SharedFormikTypes;

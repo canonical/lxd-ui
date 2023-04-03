@@ -53,11 +53,9 @@ import ProfileDetailsForm, {
   profileDetailPayload,
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
-import {
-  getEditValues,
-  getHandledConfigKeys,
-  getUnhandledKeyValues,
-} from "util/formFields";
+import { getUnhandledKeyValues } from "util/formFields";
+import { getProfileConfigKeys } from "util/instanceConfigFields";
+import { getProfileEdit } from "util/instanceEdit";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -95,7 +93,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   const initialValues = {
     type: "profile",
     readOnly: true,
-    ...getEditValues(profile),
+    ...getProfileEdit(profile),
   };
 
   const formik = useFormik<EditProfileFormValues>({
@@ -127,7 +125,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   });
 
   const getPayload = (values: EditProfileFormValues) => {
-    const handledConfigKeys = getHandledConfigKeys();
+    const handledConfigKeys = getProfileConfigKeys();
     const handledKeys = new Set(["name", "description", "devices", "config"]);
 
     return {
