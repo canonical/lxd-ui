@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "@canonical/react-components";
+import { Button, Col, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import NotificationRow from "components/NotificationRow";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
@@ -12,39 +11,33 @@ import { useNotify } from "context/notify";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { createProject } from "api/projects";
-import ProjectFormMenu, {
-  CLUSTERS,
-  DEVICE_USAGE,
-  INSTANCES,
-  NETWORKS,
-  PROJECT_DETAILS,
-  RESOURCE_LIMITS,
-} from "pages/projects/forms/ProjectFormMenu";
-import ProjectDetailsForm, {
+import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
+import {
   projectDetailPayload,
   projectDetailRestrictionPayload,
   ProjectDetailsFormValues,
 } from "pages/projects/forms/ProjectDetailsForm";
-import ResourceLimitsForm, {
+import {
   ResourceLimitsFormValues,
   resourceLimitsPayload,
 } from "pages/projects/forms/ResourceLimitsForm";
-import ClusterRestrictionForm, {
+import {
   ClusterRestrictionFormValues,
   clusterRestrictionPayload,
 } from "pages/projects/forms/ClusterRestrictionForm";
-import InstanceRestrictionForm, {
+import {
   InstanceRestrictionFormValues,
   instanceRestrictionPayload,
 } from "pages/projects/forms/InstanceRestrictionForm";
-import DeviceUsageRestrictionForm, {
+import {
   DeviceUsageRestrictionFormValues,
   deviceUsageRestrictionPayload,
 } from "pages/projects/forms/DeviceUsageRestrictionForm";
-import NetworkRestrictionForm, {
+import {
   NetworkRestrictionFormValues,
   networkRestrictionPayload,
 } from "pages/projects/forms/NetworkRestrictionForm";
+import ProjectForm from "pages/projects/forms/ProjectForm";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ResourceLimitsFormValues &
@@ -59,7 +52,6 @@ const CreateProjectForm: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(PROJECT_DETAILS);
-  const [isRestrictionsOpen, setRestrictionsOpen] = useState(false);
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
@@ -121,14 +113,6 @@ const CreateProjectForm: FC = () => {
     },
   });
 
-  const updateSection = (newItem: string) => {
-    setSection(newItem);
-  };
-
-  const toggleMenu = () => {
-    setRestrictionsOpen((old) => !old);
-  };
-
   return (
     <main className="l-main">
       <div className="p-panel">
@@ -136,40 +120,11 @@ const CreateProjectForm: FC = () => {
           <h4 className="p-panel__title">Create a project</h4>
         </div>
         <div className="p-panel__content create-project">
-          <Form onSubmit={formik.handleSubmit} stacked className="form">
-            <ProjectFormMenu
-              active={section}
-              setActive={updateSection}
-              isRestrictionsOpen={
-                isRestrictionsOpen && formik.values.restricted
-              }
-              isRestrictionsDisabled={!formik.values.restricted}
-              toggleRestrictionsOpen={toggleMenu}
-            />
-            <Row className="form-contents" key={section}>
-              <Col size={12}>
-                <NotificationRow />
-                {section === PROJECT_DETAILS && (
-                  <ProjectDetailsForm formik={formik} />
-                )}
-                {section === RESOURCE_LIMITS && (
-                  <ResourceLimitsForm formik={formik} />
-                )}
-                {section === CLUSTERS && (
-                  <ClusterRestrictionForm formik={formik} />
-                )}
-                {section === INSTANCES && (
-                  <InstanceRestrictionForm formik={formik} />
-                )}
-                {section === DEVICE_USAGE && (
-                  <DeviceUsageRestrictionForm formik={formik} />
-                )}
-                {section === NETWORKS && (
-                  <NetworkRestrictionForm formik={formik} />
-                )}
-              </Col>
-            </Row>
-          </Form>
+          <ProjectForm
+            formik={formik}
+            section={section}
+            updateSection={setSection}
+          />
           <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">
