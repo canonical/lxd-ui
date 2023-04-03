@@ -5,6 +5,7 @@ import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
 
 export interface ResourceLimitsFormValues {
   limits_instances?: number;
@@ -90,11 +91,11 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Max disk space (used by all instances)",
           defaultValue: "",
           children: (
-            <Input
-              placeholder="Enter number"
-              min={0}
-              type="number"
-              help="Maximum value of aggregate disk space used by all instances volumes, custom volumes and images of the project"
+            <DiskSizeSelector
+              setMemoryLimit={(val?: string) =>
+                formik.setFieldValue("limits_disk", val)
+              }
+              helpText="Maximum value of aggregate disk space used by all instances volumes, custom volumes and images of the project"
             />
           ),
         }),
