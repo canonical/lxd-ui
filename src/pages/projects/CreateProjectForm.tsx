@@ -40,7 +40,7 @@ import InstanceRestrictionForm, {
 import DeviceUsageRestrictionForm, {
   DeviceUsageRestrictionFormValues,
   deviceUsageRestrictionPayload,
-} from "pages/projects/forms/DeviceUsageeRestrictionForm";
+} from "pages/projects/forms/DeviceUsageRestrictionForm";
 import NetworkRestrictionForm, {
   NetworkRestrictionFormValues,
   networkRestrictionPayload,

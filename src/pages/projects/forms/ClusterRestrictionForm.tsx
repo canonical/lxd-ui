@@ -52,7 +52,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents direct targeting of cluster members when creating or moving instances."
+              help="Direct targeting of cluster members when creating or moving instances."
             />
           ),
         }),

@@ -175,9 +175,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
                     Profiles
                     <Tooltip
                       className="checkbox-label-tooltip"
-                      message={
-                        "Allow profiles to enable custom\n restrictions on a project level"
-                      }
+                      message={`Allow profiles to enable custom${"\n"}restrictions on a project level`}
                     >
                       <Icon name="information" />
                     </Tooltip>
