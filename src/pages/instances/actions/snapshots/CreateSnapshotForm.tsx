@@ -103,6 +103,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
       expirationDate: null,
       expirationTime: null,
     },
+    validateOnMount: true,
     validationSchema: SnapshotSchema,
     onSubmit: (values) => {
       notify.clear();
@@ -146,7 +147,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
           </Button>
           <SubmitButton
             isSubmitting={formik.isSubmitting}
-            isDisabled={false}
+            isDisabled={!formik.isValid}
             buttonLabel="Create"
             onClick={submitForm}
           />
