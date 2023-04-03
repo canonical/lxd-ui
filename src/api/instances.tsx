@@ -1,4 +1,4 @@
-import { watchOperation } from "./operations";
+import { TIMEOUT_120, TIMEOUT_60, watchOperation } from "./operations";
 import {
   handleEtagResponse,
   handleResponse,
@@ -42,7 +42,7 @@ export const createInstance = (
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 120).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -59,7 +59,7 @@ export const updateInstance = (instance: LxdInstance, project: string) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 120).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -79,7 +79,7 @@ export const renameInstance = (
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 120).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -93,7 +93,7 @@ export const startInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -110,7 +110,7 @@ export const stopInstance = (instance: LxdInstance, isForce: boolean) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -126,7 +126,7 @@ export const freezeInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -140,7 +140,7 @@ export const unfreezeInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
@@ -157,7 +157,7 @@ export const restartInstance = (instance: LxdInstance, isForce: boolean) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });

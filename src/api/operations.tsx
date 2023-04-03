@@ -1,9 +1,14 @@
 import { handleResponse } from "util/helpers";
 import { LxdOperation } from "types/operation";
 
+export const TIMEOUT_300 = 300;
+export const TIMEOUT_120 = 120;
+export const TIMEOUT_60 = 60;
+export const TIMEOUT_10 = 10;
+
 export const watchOperation = (
   operationUrl: string,
-  timeout = 10
+  timeout = TIMEOUT_10
 ): Promise<LxdOperation> => {
   return new Promise((resolve, reject) => {
     fetch(`${operationUrl}/wait?timeout=${timeout}`)

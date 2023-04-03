@@ -1,4 +1,4 @@
-import { watchOperation } from "./operations";
+import { TIMEOUT_60, watchOperation } from "./operations";
 import { handleResponse } from "util/helpers";
 import { LxdInstance, LxdSnapshot } from "types/instance";
 import { LxdOperation } from "types/operation";
@@ -23,7 +23,7 @@ export const createSnapshot = (
     )
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation, 60).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
   });
