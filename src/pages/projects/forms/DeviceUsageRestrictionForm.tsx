@@ -91,7 +91,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type gpu."
+              help="Use of devices of type gpu."
             />
           ),
         }),
@@ -105,7 +105,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type infiniband."
+              help="Use of devices of type infiniband."
             />
           ),
         }),
@@ -134,7 +134,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type pci."
+              help="Use of devices of type pci."
             />
           ),
         }),
@@ -148,7 +148,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type unix-block."
+              help="Use of devices of type unix-block."
             />
           ),
         }),
@@ -162,7 +162,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type unix-char."
+              help="Use of devices of type unix-char."
             />
           ),
         }),
@@ -176,7 +176,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type unix-hotplug."
+              help="Use of devices of type unix-hotplug."
             />
           ),
         }),
@@ -190,7 +190,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of devices of type usb."
+              help="Use of devices of type usb."
             />
           ),
         }),

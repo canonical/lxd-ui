@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Input, Textarea } from "@canonical/react-components";
+import { Textarea } from "@canonical/react-components";
 import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
@@ -39,9 +39,8 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           label: "Available networks",
           defaultValue: "",
           children: (
-            <Input
+            <Textarea
               placeholder="Enter network names"
-              type="text"
               help="Comma-delimited list of network names that are allowed for use in this project. If not set, all networks are accessible (depending on the restricted.devices.nic setting)."
             />
           ),

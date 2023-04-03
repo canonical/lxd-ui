@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import MenuItem from "pages/instances/forms/FormMenuItem";
+import { Button } from "@canonical/react-components";
 
 export const PROJECT_DETAILS = "Project details";
 export const RESOURCE_LIMITS = "Resource limits";
@@ -35,7 +36,7 @@ const ProjectFormMenu: FC<Props> = ({
           <MenuItem label={PROJECT_DETAILS} {...menuItemProps} />
           <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
           <li className="p-side-navigation__item">
-            <button
+            <Button
               type="button"
               className="p-side-navigation__accordion-button"
               aria-expanded={isRestrictionsOpen ? "true" : "false"}
@@ -43,7 +44,7 @@ const ProjectFormMenu: FC<Props> = ({
               disabled={isRestrictionsDisabled}
             >
               Restrictions
-            </button>
+            </Button>
             <ul
               className="p-side-navigation__list"
               aria-expanded={isRestrictionsOpen ? "true" : "false"}

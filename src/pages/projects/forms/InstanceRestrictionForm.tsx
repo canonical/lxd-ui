@@ -55,7 +55,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of low-level virtual-machine options like raw.qemu, volatile etc."
+              help="Use of low-level virtual-machine options like raw.qemu, volatile etc."
             />
           ),
         }),
@@ -69,7 +69,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use of low-level container options like raw.lxc, raw.idmap, volatile etc."
+              help="Use of low-level container options like raw.lxc, raw.idmap, volatile etc."
             />
           ),
         }),
@@ -83,7 +83,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents setting security.nesting=true."
+              help="Setting security.nesting=true."
             />
           ),
         }),
@@ -112,7 +112,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents use for system call interception options. When set to allow usually safe interception options will be allowed (file system mounting will remain blocked)."
+              help="Use for system call interception options. When set to allow usually safe interception options will be allowed (file system mounting will remain blocked)."
             />
           ),
         }),
@@ -126,7 +126,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: (
             <Select
               options={optionAllowBlock}
-              help="Prevents the creation of any instance or volume snapshots."
+              help="Creation of instance or volume snapshots."
             />
           ),
         }),
@@ -140,7 +140,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
             <Input
               placeholder="Enter UID ranges"
               type="text"
-              help="Specifies the allowed host UID ranges allowed in the instance raw.idmap setting."
+              help="Specifies the allowed host UID ranges in the instance raw.idmap setting."
             />
           ),
         }),
@@ -154,7 +154,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
             <Input
               placeholder="Enter GID ranges"
               type="text"
-              help="Specifies the allowed host GID ranges allowed in the instance raw.idmap setting."
+              help="Specifies the allowed host GID ranges in the instance raw.idmap setting."
             />
           ),
         }),
