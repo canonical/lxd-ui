@@ -201,32 +201,53 @@ const InstanceDetailPanel: FC = () => {
                         <Link
                           to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
                         >
-                          Recent snapshots
+                          Snapshots
                         </Link>
                       </h3>
                       {instance.snapshots?.length ? (
-                        <List
-                          items={instance.snapshots
-                            .reverse()
-                            .slice(0, RECENT_SNAPSHOT_LIMIT)
-                            .map((snapshot) => (
-                              <Row key={snapshot.name} className="no-grid-gap">
-                                <Col
-                                  size={4}
-                                  className="u-truncate"
-                                  title={snapshot.name}
+                        <>
+                          <List
+                            className="u-no-margin--bottom"
+                            items={instance.snapshots
+                              .slice()
+                              .sort((snap1, snap2) => {
+                                const a = snap1.created_at;
+                                const b = snap2.created_at;
+                                return a > b ? -1 : a < b ? 1 : 0;
+                              })
+                              .slice(0, RECENT_SNAPSHOT_LIMIT)
+                              .map((snapshot) => (
+                                <Row
+                                  key={snapshot.name}
+                                  className="no-grid-gap"
                                 >
-                                  <ItemName item={snapshot} />
-                                </Col>
-                                <Col
-                                  size={8}
-                                  className="p-snapshot-creation u-align--right u-text--muted u-no-margin--bottom"
-                                >
-                                  <i>{isoTimeToString(snapshot.created_at)}</i>
-                                </Col>
-                              </Row>
-                            ))}
-                        />
+                                  <Col
+                                    size={4}
+                                    className="u-truncate"
+                                    title={snapshot.name}
+                                  >
+                                    <ItemName item={snapshot} />
+                                  </Col>
+                                  <Col
+                                    size={8}
+                                    className="p-snapshot-creation u-align--right u-text--muted u-no-margin--bottom"
+                                  >
+                                    <i>
+                                      {isoTimeToString(snapshot.created_at)}
+                                    </i>
+                                  </Col>
+                                </Row>
+                              ))}
+                          />
+                          {instance.snapshots.length >
+                            RECENT_SNAPSHOT_LIMIT && (
+                            <Link
+                              to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
+                            >
+                              {`View all (${instance.snapshots.length})`}
+                            </Link>
+                          )}
+                        </>
                       ) : (
                         <p>
                           No snapshots found.
