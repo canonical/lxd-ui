@@ -36,12 +36,12 @@
   }
 
   th {
-    padding: $sp-x-small !important;
+    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
     width: 9rem;
   }
 
   td {
-    padding: $sp-x-small !important;
+    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
   }
 
   tr {
@@ -51,6 +51,18 @@
 
   tr:last-child {
     border: 0;
+  }
+
+  .snapshots-header {
+    padding-bottom: 0 !important;
+  }
+
+  .snapshot-name {
+    display: inline-block;
+  }
+
+  .no-snapshots {
+    padding-top: 0;
   }
 
   .content-scroll {
