@@ -273,13 +273,7 @@ const InstanceList: FC = () => {
       };
     });
 
-  const {
-    pageData: pageInstances,
-    currentPage,
-    paginate: setCurrentPage,
-    pageSize,
-    setPageSize,
-  } = usePagination(getRows(userHidden.concat(sizeHidden)));
+  const pagination = usePagination(getRows(userHidden.concat(sizeHidden)));
 
   useEventListener("resize", () => updateTBodyHeight("instance-table-wrapper"));
   useEffect(() => {
@@ -290,8 +284,8 @@ const InstanceList: FC = () => {
     query,
     status,
     type,
-    pageSize,
-    currentPage,
+    pagination.pageSize,
+    pagination.currentPage,
   ]);
 
   const hasInstances = isLoading || instances.length > 0;
@@ -376,7 +370,7 @@ const InstanceList: FC = () => {
                     />
                     <MainTable
                       headers={getHeaders(userHidden.concat(sizeHidden))}
-                      rows={pageInstances}
+                      rows={pagination.pageData}
                       sortable
                       className="instance-table"
                       id="instance-table-wrapper"
@@ -389,17 +383,11 @@ const InstanceList: FC = () => {
                       }
                     />
                     <Pagination
-                      currentPage={currentPage}
-                      setCurrentPage={setCurrentPage}
-                      pageSize={pageSize}
-                      setPageSize={setPageSize}
+                      {...pagination}
                       totalCount={instances.length}
-                      totalPages={Math.ceil(
-                        filteredInstances.length / pageSize
-                      )}
                       visibleCount={
                         filteredInstances.length === instances.length
-                          ? pageInstances.length
+                          ? pagination.pageData.length
                           : filteredInstances.length
                       }
                       keyword="instance"

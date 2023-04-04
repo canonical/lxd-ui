@@ -6,7 +6,7 @@ interface Props {
   pageSize: number;
   setPageSize: (val: number) => void;
   currentPage: number;
-  setCurrentPage: (val: number) => void;
+  paginate: (val: number) => void;
   visibleCount: number;
   totalCount: number;
   totalPages: number;
@@ -17,7 +17,7 @@ const Pagination: FC<Props> = ({
   pageSize,
   setPageSize,
   currentPage,
-  setCurrentPage,
+  paginate,
   visibleCount,
   totalCount,
   totalPages,
@@ -37,7 +37,7 @@ const Pagination: FC<Props> = ({
         disabled={currentPage === 1}
         onClick={() => {
           if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+            paginate(currentPage - 1);
           }
         }}
       >
@@ -54,7 +54,7 @@ const Pagination: FC<Props> = ({
             Math.max(1, parseInt(e.target.value))
           );
 
-          setCurrentPage(newPage);
+          paginate(newPage);
         }}
         value={currentPage}
         type="number"
@@ -68,7 +68,7 @@ const Pagination: FC<Props> = ({
         disabled={currentPage === totalPages}
         onClick={() => {
           if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+            paginate(currentPage + 1);
           }
         }}
       >

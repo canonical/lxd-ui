@@ -114,20 +114,20 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     };
   });
 
-  const {
-    pageData: pageSnapshots,
-    currentPage,
-    paginate: setCurrentPage,
-    pageSize,
-    setPageSize,
-  } = usePagination(rows);
+  const pagination = usePagination(rows);
 
   useEventListener("resize", () =>
     updateTBodyHeight("snapshots-table-wrapper")
   );
   useEffect(() => {
     updateTBodyHeight("snapshots-table-wrapper");
-  }, [instance.snapshots, inTabNotification, query, pageSize, currentPage]);
+  }, [
+    instance.snapshots,
+    inTabNotification,
+    query,
+    pagination.pageSize,
+    pagination.currentPage,
+  ]);
 
   return (
     <div className="snapshot-list">
@@ -171,22 +171,18 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         <>
           <MainTable
             headers={headers}
-            rows={pageSnapshots}
+            rows={pagination.pageData}
             sortable
             className="snapshots-table"
             id="snapshots-table-wrapper"
             emptyStateMsg="No snapshot found matching this search"
           />
           <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
+            {...pagination}
             totalCount={instance.snapshots?.length ?? 0}
-            totalPages={Math.ceil(filteredSnapshots.length / pageSize)}
             visibleCount={
               filteredSnapshots.length === instance.snapshots?.length
-                ? pageSnapshots.length
+                ? pagination.pageData.length
                 : filteredSnapshots.length
             }
             keyword="snapshot"
