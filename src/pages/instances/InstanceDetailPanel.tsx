@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
-import { Button, Col, Icon, List, Row } from "@canonical/react-components";
+import { Button, Icon, List } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import { Link } from "react-router-dom";
@@ -195,8 +195,8 @@ const InstanceDetailPanel: FC = () => {
                       />
                     </td>
                   </tr>
-                  <tr>
-                    <td colSpan={2}>
+                  <tr className="u-no-border">
+                    <th colSpan={2} className="snapshots-header">
                       <h3 className="p-muted-heading p-heading--5">
                         <Link
                           to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
@@ -204,52 +204,47 @@ const InstanceDetailPanel: FC = () => {
                           Snapshots
                         </Link>
                       </h3>
-                      {instance.snapshots?.length ? (
-                        <>
-                          <List
-                            className="u-no-margin--bottom"
-                            items={instance.snapshots
-                              .slice()
-                              .sort((snap1, snap2) => {
-                                const a = snap1.created_at;
-                                const b = snap2.created_at;
-                                return a > b ? -1 : a < b ? 1 : 0;
-                              })
-                              .slice(0, RECENT_SNAPSHOT_LIMIT)
-                              .map((snapshot) => (
-                                <Row
-                                  key={snapshot.name}
-                                  className="no-grid-gap"
-                                >
-                                  <Col
-                                    size={4}
-                                    className="u-truncate"
-                                    title={snapshot.name}
-                                  >
-                                    <ItemName item={snapshot} />
-                                  </Col>
-                                  <Col
-                                    size={8}
-                                    className="p-snapshot-creation u-align--right u-text--muted u-no-margin--bottom"
-                                  >
-                                    <i>
-                                      {isoTimeToString(snapshot.created_at)}
-                                    </i>
-                                  </Col>
-                                </Row>
-                              ))}
-                          />
-                          {instance.snapshots.length >
-                            RECENT_SNAPSHOT_LIMIT && (
+                    </th>
+                  </tr>
+                  {instance.snapshots?.length ? (
+                    <>
+                      {instance.snapshots
+                        .slice()
+                        .sort((snap1, snap2) => {
+                          const a = snap1.created_at;
+                          const b = snap2.created_at;
+                          return a > b ? -1 : a < b ? 1 : 0;
+                        })
+                        .slice(0, RECENT_SNAPSHOT_LIMIT)
+                        .map((snapshot) => (
+                          <tr key={snapshot.name} className="u-no-border">
+                            <th
+                              title={snapshot.name}
+                              className="snapshot-name u-truncate"
+                            >
+                              <ItemName item={snapshot} />
+                            </th>
+                            <td className="u-text--muted">
+                              <i>{isoTimeToString(snapshot.created_at)}</i>
+                            </td>
+                          </tr>
+                        ))}
+                      {instance.snapshots.length > RECENT_SNAPSHOT_LIMIT && (
+                        <tr>
+                          <td colSpan={2}>
                             <Link
                               to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
                             >
                               {`View all (${instance.snapshots.length})`}
                             </Link>
-                          )}
-                        </>
-                      ) : (
-                        <p>
+                          </td>
+                        </tr>
+                      )}
+                    </>
+                  ) : (
+                    <tr>
+                      <td colSpan={2}>
+                        <p className="no-snapshots">
                           No snapshots found.
                           <br />
                           Create one in{" "}
@@ -260,9 +255,9 @@ const InstanceDetailPanel: FC = () => {
                           </Link>
                           .
                         </p>
-                      )}
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
