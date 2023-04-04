@@ -25,6 +25,7 @@ export const usePagination = (
   paginate: (pageNumber: number) => void;
   pageSize: number;
   setPageSize: (newSize: number) => void;
+  totalPages: number;
 } => {
   const [_pageSize, _setPageSize] = useState(paginationOptions[0].value);
 
@@ -38,5 +39,10 @@ export const usePagination = (
     _setPageSize(val);
   };
 
-  return { ...usePagination, pageSize: _pageSize, setPageSize };
+  return {
+    ...usePagination,
+    pageSize: _pageSize,
+    setPageSize,
+    totalPages: Math.ceil(data.length / _pageSize),
+  };
 };
