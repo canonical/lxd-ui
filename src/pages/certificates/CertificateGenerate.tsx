@@ -73,9 +73,15 @@ const CertificateGenerate: FC = () => {
                   appearance="positive"
                   disabled={isGenerating || certs !== null}
                   hasIcon={isGenerating}
+                  aria-label={`${
+                    isGenerating ? "Generating" : "Generate"
+                  } certificate`}
                 >
                   {isGenerating && (
-                    <i className="p-icon--spinner is-light u-animation--spin"></i>
+                    <Icon
+                      className="is-light u-animation--spin"
+                      name="spinner"
+                    />
                   )}
                   <span>{isGenerating ? "Generating" : "Generate"}</span>
                 </Button>

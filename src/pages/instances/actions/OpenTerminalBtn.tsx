@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { LxdInstance } from "types/instance";
-import { Button } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
@@ -26,8 +26,9 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
       onClick={handleOpen}
       disabled={isDisabled}
       title="Terminal"
+      aria-label="Open Terminal"
     >
-      <i className="p-icon--code">Open Terminal</i>
+      <Icon name="code" />
     </Button>
   );
 };

@@ -36,7 +36,7 @@ const EmptyState: FC<Props> = ({
             rel="noreferrer"
           >
             {linkMessage}
-            <i className="p-icon--external-link external-link-icon"></i>
+            <Icon className="external-link-icon" name="external-link" />
           </a>
         </p>
         <Button

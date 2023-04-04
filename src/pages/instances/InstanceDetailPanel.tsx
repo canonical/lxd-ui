@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
-import { Button, Col, List, Row } from "@canonical/react-components";
+import { Button, Col, Icon, List, Row } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import { Link } from "react-router-dom";
@@ -58,8 +58,9 @@ const InstanceDetailPanel: FC = () => {
                 className="u-no-margin--bottom"
                 hasIcon
                 onClick={panelParams.clear}
+                aria-label="Close"
               >
-                <i className="p-icon--close">Close</i>
+                <Icon name="close" />
               </Button>
             </div>
           </div>

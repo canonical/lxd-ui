@@ -66,6 +66,7 @@ const Navigation: FC = () => {
                   hasIcon
                   className="u-no-margin"
                   aria-label="close navigation"
+                  onClick={hardToggleMenu}
                 >
                   <Icon name="close" />
                 </Button>
@@ -88,7 +89,10 @@ const Navigation: FC = () => {
                           to={`/ui/${project}/instances`}
                           title={`Instances (${project})`}
                         >
-                          <i className="p-icon--containers is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="containers"
+                          />{" "}
                           Instances
                         </NavLink>
                       </li>
@@ -98,7 +102,10 @@ const Navigation: FC = () => {
                           to={`/ui/${project}/profiles`}
                           title={`Profiles (${project})`}
                         >
-                          <i className="p-icon--profile is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="profile"
+                          />{" "}
                           Profiles
                         </NavLink>
                       </li>
@@ -108,7 +115,10 @@ const Navigation: FC = () => {
                           to={`/ui/${project}/networks`}
                           title={`Networks (${project})`}
                         >
-                          <i className="p-icon--connected is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="connected"
+                          />{" "}
                           Networks
                         </NavLink>
                       </li>
@@ -118,7 +128,10 @@ const Navigation: FC = () => {
                           to={`/ui/${project}/storages`}
                           title={`Storages (${project})`}
                         >
-                          <i className="p-icon--pods is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="pods"
+                          />{" "}
                           Storages
                         </NavLink>
                       </li>
@@ -128,7 +141,10 @@ const Navigation: FC = () => {
                           to={`/ui/${project}/configuration`}
                           title={`Configuration (${project})`}
                         >
-                          <i className="p-icon--switcher-environments is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="switcher-environments"
+                          />{" "}
                           Configuration
                         </NavLink>
                       </li>
@@ -139,7 +155,10 @@ const Navigation: FC = () => {
                           to="/ui/cluster"
                           title="Cluster"
                         >
-                          <i className="p-icon--machines is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="machines"
+                          />{" "}
                           Cluster
                         </NavLink>
                       </li>
@@ -149,7 +168,10 @@ const Navigation: FC = () => {
                           to="/ui/warnings"
                           title="Warnings"
                         >
-                          <i className="p-icon--warning-grey is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="warning-grey"
+                          />{" "}
                           Warnings
                         </NavLink>
                       </li>
@@ -159,7 +181,10 @@ const Navigation: FC = () => {
                           to="/ui/settings"
                           title="Settings"
                         >
-                          <i className="p-icon--settings is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="settings"
+                          />{" "}
                           Settings
                         </NavLink>
                       </li>
@@ -173,7 +198,10 @@ const Navigation: FC = () => {
                           to="/ui/certificates/generate"
                           title="Authentication"
                         >
-                          <i className="p-icon--security is-light p-side-navigation__icon"></i>{" "}
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="security"
+                          />{" "}
                           Authentication
                         </NavLink>
                       </li>
@@ -189,7 +217,10 @@ const Navigation: FC = () => {
                       rel="noreferrer"
                       title="Documentation"
                     >
-                      <i className="p-icon--information is-light p-side-navigation__icon"></i>{" "}
+                      <Icon
+                        className="is-light p-side-navigation__icon"
+                        name="information"
+                      />{" "}
                       Documentation
                     </a>
                   </li>
@@ -201,7 +232,10 @@ const Navigation: FC = () => {
                       rel="noreferrer"
                       title="Discussion"
                     >
-                      <i className="p-icon--share is-light p-side-navigation__icon"></i>{" "}
+                      <Icon
+                        className="is-light p-side-navigation__icon"
+                        name="share"
+                      />{" "}
                       Discussion
                     </a>
                   </li>
@@ -213,7 +247,10 @@ const Navigation: FC = () => {
                       rel="noreferrer"
                       title="Report a bug"
                     >
-                      <i className="p-icon--code is-light p-side-navigation__icon"></i>{" "}
+                      <Icon
+                        className="is-light p-side-navigation__icon"
+                        name="code"
+                      />{" "}
                       Report a bug
                     </a>
                   </li>
