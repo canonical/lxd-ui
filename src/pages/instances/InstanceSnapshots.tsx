@@ -1,10 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import {
-  Button,
-  MainTable,
-  SearchBox,
-  usePagination,
-} from "@canonical/react-components";
+import { Button, MainTable, SearchBox } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { LxdInstance } from "types/instance";
 import EmptyState from "components/EmptyState";
@@ -15,7 +10,7 @@ import { failure, success } from "context/notify";
 import SnapshotActions from "./actions/snapshots/SnapshotActions";
 import useEventListener from "@use-it/event-listener";
 import Pagination from "components/Pagination";
-import { paginationOptions } from "util/paginationOptions";
+import { usePagination } from "util/pagination";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import ItemName from "components/ItemName";
 import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSnapshotsBtn";
@@ -29,7 +24,6 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [inTabNotification, setInTabNotification] =
     useState<Notification | null>(null);
-  const [pageSize, setPageSize] = useState(paginationOptions[0].value);
 
   const onSuccess = (message: ReactNode) => {
     setInTabNotification(success(message));
@@ -124,10 +118,9 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     pageData: pageSnapshots,
     currentPage,
     paginate: setCurrentPage,
-  } = usePagination(rows, {
-    itemsPerPage: pageSize,
-    autoResetPage: true,
-  });
+    pageSize,
+    setPageSize,
+  } = usePagination(rows);
 
   useEventListener("resize", () =>
     updateTBodyHeight("snapshots-table-wrapper")
