@@ -126,15 +126,19 @@ $border-thin: 1px solid $color-mid-light !default;
   display: inline-block;
   min-width: 8.5rem;
 
-  * {
+  & > * {
     border-right: $border-thin;
     margin: 0;
     padding-left: 0;
     padding-right: 0;
-    width: 44px;
+
+    button {
+      margin: 0;
+      width: 44px;
+    }
   }
 
-  *:last-child {
+  & > *:last-child {
     border-right: none;
   }
 }
