@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent, ReactNode } from "react";
 import usePanelParams from "util/usePanelParams";
-import { Button } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 
 interface Props {
   title: ReactNode;
@@ -20,7 +20,7 @@ const PanelHeader: FC<Props> = ({ title, onClose }: Props) => {
           onClick={onClose ?? panelParams.clear}
           aria-label="close panel"
         >
-          <i className="p-icon--close"></i>
+          <Icon name="close" />
         </Button>
       </div>
     </div>

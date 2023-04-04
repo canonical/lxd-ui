@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Button } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
+import classnames from "classnames";
 
 interface Props {
   isSubmitting: boolean;
@@ -20,13 +21,12 @@ const SubmitButton: FC<Props> = ({
 }) => {
   return isSubmitting ? (
     <Button appearance={appearance} type="submit" hasIcon disabled>
-      <i
-        className={
-          appearance === "positive"
-            ? "p-icon--spinner is-light u-animation--spin"
-            : "p-icon--spinner u-animation--spin"
-        }
-      ></i>{" "}
+      <Icon
+        name="spinner"
+        className={classnames("u-animation--spin", {
+          "is-light": appearance === "positive",
+        })}
+      />{" "}
       <span>{processingText}</span>
     </Button>
   ) : (
