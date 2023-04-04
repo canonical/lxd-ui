@@ -28,7 +28,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         );
       })
       .catch((e) => {
-        notify.failure(`Error deleting project ${project.name}.`, e);
+        notify.failure("Project deletion failed", e);
       })
       .finally(() => {
         setLoading(false);

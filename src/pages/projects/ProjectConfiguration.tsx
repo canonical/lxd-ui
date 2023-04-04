@@ -29,13 +29,13 @@ const ProjectConfiguration: FC = () => {
   }
 
   if (error) {
-    notify.failure("Could not load project details.", error);
+    notify.failure("Loading project failed", error);
   }
 
   return project ? (
     <EditProjectForm project={project} key={project.name} />
   ) : (
-    <>Could not load project</>
+    <>Loading project failed</>
   );
 };
 

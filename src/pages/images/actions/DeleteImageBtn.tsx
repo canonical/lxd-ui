@@ -27,7 +27,7 @@ const DeleteImageBtn: FC<Props> = ({ image }) => {
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Error on image delete.", e);
+        notify.failure("Image deletion failed", e);
       });
   };
 

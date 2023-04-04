@@ -25,10 +25,10 @@ export interface NotificationHelper {
   notification: Notification | null;
   clear: () => void;
   failure: (
-    message: string | ReactNode,
+    title: string,
     error: unknown,
-    actions?: NotificationAction[],
-    title?: string
+    message?: string | ReactNode,
+    actions?: NotificationAction[]
   ) => Notification;
   info: (message: string | ReactNode, title?: string) => Notification;
   success: (message: string | ReactNode) => Notification;

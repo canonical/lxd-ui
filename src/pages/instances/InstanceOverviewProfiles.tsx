@@ -23,7 +23,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
   });
 
   if (error) {
-    onFailure("Could not load profiles.", error);
+    onFailure("Loading profiles failed", error);
   }
 
   const profileHeaders = [

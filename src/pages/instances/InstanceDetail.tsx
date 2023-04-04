@@ -55,7 +55,7 @@ const InstanceDetail: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load instance details.", error);
+    notify.failure("Loading instance failed", error);
   }
 
   const handleTabChange = (newTab: string) => {
@@ -106,7 +106,7 @@ const InstanceDetail: FC = () => {
         <div className="p-panel__content">
           <NotificationRow />
           {isLoading && <Loader text="Loading instance details..." />}
-          {!isLoading && !instance && <>Could not load instance details.</>}
+          {!isLoading && !instance && <>Loading instance failed</>}
           {!isLoading && instance && (
             <Row>
               <Tabs

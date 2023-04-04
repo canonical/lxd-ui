@@ -43,7 +43,7 @@ const ProfileDetail: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load profile details.", error);
+    notify.failure("Loading profile failed", error);
   }
 
   const handleTabChange = (newTab: string) => {
@@ -67,7 +67,7 @@ const ProfileDetail: FC = () => {
         <div className="p-panel__content">
           <NotificationRow />
           {isLoading && <Loader text="Loading profile details..." />}
-          {!isLoading && !profile && <>Could not load profile details.</>}
+          {!isLoading && !profile && <>Loading profile failed</>}
           {!isLoading && profile && (
             <Row>
               <Tabs

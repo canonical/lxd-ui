@@ -22,7 +22,7 @@ const WarningList: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load warnings.", error);
+    notify.failure("Loading warnings failed", error);
   }
 
   const headers = [

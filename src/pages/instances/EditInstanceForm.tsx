@@ -101,7 +101,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
-          notify.failure("", e, undefined, "Instance update failed");
+          notify.failure("Instance update failed", e);
         })
         .finally(() => {
           formik.setSubmitting(false);

@@ -23,7 +23,7 @@ const ImageList: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load images.", error);
+    notify.failure("Loading images failed", error);
   }
 
   const headers = [

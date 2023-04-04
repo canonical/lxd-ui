@@ -12,7 +12,7 @@ interface Props {
   instance: LxdInstance;
   snapshot: LxdSnapshot;
   onSuccess: (message: ReactNode) => void;
-  onFailure: (message: ReactNode, e: unknown) => void;
+  onFailure: (title: string, e: unknown) => void;
 }
 
 const SnapshotActions: FC<Props> = ({
@@ -35,7 +35,7 @@ const SnapshotActions: FC<Props> = ({
           </>
         )
       )
-      .catch((e) => onFailure("Error on snapshot delete.", e))
+      .catch((e) => onFailure("Snapshot deletion failed", e))
       .finally(() => {
         setDeleting(false);
         void queryClient.invalidateQueries({
@@ -54,7 +54,7 @@ const SnapshotActions: FC<Props> = ({
           </>
         )
       )
-      .catch((e) => onFailure("Error on snapshot restore.", e))
+      .catch((e) => onFailure("Snapshot restore failed", e))
       .finally(() => {
         setRestoring(false);
         void queryClient.invalidateQueries({

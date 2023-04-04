@@ -42,7 +42,7 @@ const ProfileSelector: FC<Props> = ({
   }
 
   if (error) {
-    notify.failure("Could not load profiles.", error);
+    notify.failure("Loading profiles failed", error);
   }
 
   const unselected = profiles.filter(

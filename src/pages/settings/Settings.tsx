@@ -40,7 +40,7 @@ const Settings: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load settings.", error);
+    notify.failure("Loading settings failed", error);
   }
 
   const getValue = (option: LxdConfigOption): string | undefined => {

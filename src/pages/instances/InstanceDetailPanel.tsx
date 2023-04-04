@@ -38,7 +38,7 @@ const InstanceDetailPanel: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load instance details.", error);
+    notify.failure("Loading instance failed", error);
   }
 
   const ip4Addresses = getIpAddresses("inet", instance);
@@ -47,7 +47,7 @@ const InstanceDetailPanel: FC = () => {
   return (
     <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
       {isLoading && <Loader />}
-      {!isLoading && !instance && <>Could not load instance details.</>}
+      {!isLoading && !instance && <>Loading instance failed</>}
       {instance && (
         <div className="p-panel instance-detail-panel">
           <div className="p-panel__header">

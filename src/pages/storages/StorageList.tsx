@@ -30,7 +30,7 @@ const StorageList: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load storages.", error);
+    notify.failure("Loading storage pools failed", error);
   }
 
   const headers = [

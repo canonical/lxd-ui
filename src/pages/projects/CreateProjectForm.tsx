@@ -102,7 +102,7 @@ const CreateProjectForm: FC = () => {
           );
         })
         .catch((e: Error) => {
-          notify.failure("Could not save project", e);
+          notify.failure("Project creation failed", e);
         })
         .finally(() => {
           formik.setSubmitting(false);

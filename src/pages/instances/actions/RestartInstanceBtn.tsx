@@ -35,10 +35,11 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         notify.failure(
+          "Instance restart failed",
+          e,
           <>
-            Error restarting instance <InstanceLink instance={instance} />.
-          </>,
-          e
+            Instance <ItemName item={instance} bold />:
+          </>
         );
       })
       .finally(() => {

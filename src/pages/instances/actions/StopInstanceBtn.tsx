@@ -35,10 +35,11 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         notify.failure(
+          "Instance stop failed",
+          e,
           <>
-            Error stopping instance <InstanceLink instance={instance} />.
-          </>,
-          e
+            Instance <ItemName item={instance} bold />:
+          </>
         );
       })
       .finally(() => {

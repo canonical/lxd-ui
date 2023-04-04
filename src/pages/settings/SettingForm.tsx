@@ -54,12 +54,12 @@ const SettingForm: FC<Props> = ({ option, value }) => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.settings],
           });
-          notify.success("Setting saved.");
+          notify.success("Setting updated.");
           setEditMode(false);
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure("Error on save.", e);
+          notify.failure("Setting update failed", e);
         });
     },
   });

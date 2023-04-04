@@ -21,7 +21,7 @@ const ClusterList: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load cluster members.", error);
+    notify.failure("Loading cluster members failed", error);
   }
 
   const headers = [

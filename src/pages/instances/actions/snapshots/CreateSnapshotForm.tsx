@@ -124,7 +124,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
           close();
         })
         .catch((e) => {
-          notify.failure("Error on snapshot create.", e);
+          notify.failure("Snapshot creation failed", e);
           formik.setSubmitting(false);
         });
     },

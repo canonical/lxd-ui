@@ -42,7 +42,7 @@ export const getConfigurationRow = ({
     profiles = data;
 
     if (profileError) {
-      notify.failure("Could not load profiles.", profileError);
+      notify.failure("Loading profiles failed", profileError);
     }
   }
 

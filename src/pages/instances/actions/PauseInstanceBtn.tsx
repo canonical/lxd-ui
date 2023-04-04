@@ -33,10 +33,11 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         notify.failure(
+          "Instance pause failed",
+          e,
           <>
-            Error pausing instance <InstanceLink instance={instance} />.
-          </>,
-          e
+            Instance <ItemName item={instance} bold />:
+          </>
         );
       })
       .finally(() => {

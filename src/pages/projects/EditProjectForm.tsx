@@ -64,7 +64,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
           formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
-          notify.failure("", e, undefined, "Project update failed");
+          notify.failure("Project update failed", e);
         })
         .finally(() => {
           formik.setSubmitting(false);

@@ -8,6 +8,7 @@ import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import classnames from "classnames";
+import ItemName from "components/ItemName";
 
 interface Props {
   instance: LxdInstance;
@@ -38,10 +39,11 @@ const StartInstanceBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         notify.failure(
+          "Instance start failed",
+          e,
           <>
-            Error starting instance <InstanceLink instance={instance} />.
-          </>,
-          e
+            Instance <ItemName item={instance} bold />:
+          </>
         );
       })
       .finally(() => {

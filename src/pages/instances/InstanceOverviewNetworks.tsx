@@ -24,7 +24,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
   });
 
   if (error) {
-    onFailure("Could not load networks.", error);
+    onFailure("Loading networks failed", error);
   }
 
   const instanceNetworks = Object.values(instance.expanded_devices)

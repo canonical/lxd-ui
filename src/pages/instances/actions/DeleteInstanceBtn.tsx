@@ -26,10 +26,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         notify.failure(
+          "Instance deletion failed",
+          e,
           <>
-            Error deleting instance <ItemName item={instance} bold />.
-          </>,
-          e
+            Instance <ItemName item={instance} bold />:
+          </>
         );
       })
       .finally(() => {

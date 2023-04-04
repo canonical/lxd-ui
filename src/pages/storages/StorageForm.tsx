@@ -79,7 +79,7 @@ const StorageForm: FC = () => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure("Error on storage pool creation.", e);
+          notify.failure("Storage pool creation failed", e);
         });
     },
   });

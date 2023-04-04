@@ -17,8 +17,8 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
 
-  const onFailure = (message: string, e: unknown) => {
-    setInTabNotification(failure(message, e));
+  const onFailure = (title: string, e: unknown, message?: string) => {
+    setInTabNotification(failure(title, e, message));
   };
 
   let handleFullScreen = () => {
