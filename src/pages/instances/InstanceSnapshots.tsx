@@ -29,8 +29,8 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     setInTabNotification(success(message));
   };
 
-  const onFailure = (message: ReactNode, e: unknown) => {
-    setInTabNotification(failure(message, e));
+  const onFailure = (title: string, e: unknown) => {
+    setInTabNotification(failure(title, e));
   };
 
   const filteredSnapshots =

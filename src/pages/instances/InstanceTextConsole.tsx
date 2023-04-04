@@ -15,7 +15,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 
 interface Props {
   instance: LxdInstance;
-  onFailure: (message: string, e: unknown) => void;
+  onFailure: (title: string, e: unknown, message?: string) => void;
   clearNotification: () => void;
 }
 
@@ -51,7 +51,7 @@ const InstanceTextConsole: FC<Props> = ({
       .catch(console.error);
     const result = await connectInstanceConsole(name, project).catch((e) => {
       setLoading(false);
-      onFailure("Could not open text console.", e);
+      onFailure("Connection failed", e);
     });
     if (!result) {
       return;
@@ -68,12 +68,12 @@ const InstanceTextConsole: FC<Props> = ({
     };
 
     control.onerror = (e) => {
-      onFailure("There was an error with the control websocket", e);
+      onFailure("Error", e);
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure(getWsErrorMsg(event.code), event.reason);
+        onFailure("Error", event.reason, getWsErrorMsg(event.code));
       }
     };
 
@@ -87,12 +87,12 @@ const InstanceTextConsole: FC<Props> = ({
     };
 
     data.onerror = (e) => {
-      onFailure("There was an error with data websocket", e);
+      onFailure("Error", e);
     };
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure(getWsErrorMsg(event.code), event.reason);
+        onFailure("Error", event.reason, getWsErrorMsg(event.code));
       }
       setDataWs(null);
     };

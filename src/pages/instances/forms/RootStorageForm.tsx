@@ -36,7 +36,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (profileError) {
-    notify.failure("Could not load profiles.", profileError);
+    notify.failure("Loading profiles failed", profileError);
   }
 
   const {
@@ -49,7 +49,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (storageError) {
-    notify.failure("Could not load storages.", storageError);
+    notify.failure("Loading storage pools failed", storageError);
   }
 
   if (isProfileLoading || isStorageLoading) {

@@ -33,7 +33,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
   }
 
   if (error) {
-    notify.failure("Could not load resources.", error);
+    notify.failure("Loading resources failed", error);
   }
 
   const maxMemory = resources?.memory.total;

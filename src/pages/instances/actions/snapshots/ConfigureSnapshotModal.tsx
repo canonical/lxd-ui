@@ -36,11 +36,11 @@ const ConfigureSnapshotModal: FC<Props> = ({ instance, close }) => {
 
       updateInstance(instancePayload, project ?? "")
         .then(() => {
-          notify.success("Snapshot configuration updated.");
+          notify.success("Configuration updated.");
           close();
         })
         .catch((e: Error) => {
-          notify.failure("Snapshot configuration update failed", e);
+          notify.failure("Configuration update failed", e);
         })
         .finally(() => {
           void queryClient.invalidateQueries({

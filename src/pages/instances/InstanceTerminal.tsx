@@ -70,7 +70,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     const result = await connectInstanceExec(name, project, payload).catch(
       (e) => {
         setLoading(false);
-        setInTabNotification(failure("Could not open terminal session.", e));
+        setInTabNotification(failure("Connection failed", e));
       }
     );
     if (!result) {
@@ -89,14 +89,14 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     };
 
     control.onerror = (e) => {
-      setInTabNotification(
-        failure("There was an error with the control websocket", e)
-      );
+      setInTabNotification(failure("Error", e));
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        setInTabNotification(failure(getWsErrorMsg(event.code), event.reason));
+        setInTabNotification(
+          failure("Error", event.reason, getWsErrorMsg(event.code))
+        );
       }
       setControlWs(null);
     };
@@ -111,14 +111,14 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     };
 
     data.onerror = (e) => {
-      setInTabNotification(
-        failure("There was an error with data websocket", e)
-      );
+      setInTabNotification(failure("Error", e));
     };
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        setInTabNotification(failure(getWsErrorMsg(event.code), event.reason));
+        setInTabNotification(
+          failure("Error", event.reason, getWsErrorMsg(event.code))
+        );
       }
       setDataWs(null);
     };

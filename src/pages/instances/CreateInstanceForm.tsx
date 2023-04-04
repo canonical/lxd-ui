@@ -109,8 +109,9 @@ const CreateInstanceForm: FC = () => {
 
   function notifyCreatedButStartFailed(instanceLink: ReactNode, e: Error) {
     notify.failure(
-      <>The instance {instanceLink} was created, but could not be started.</>,
-      e
+      "Error",
+      e,
+      <>The instance {instanceLink} was created, but could not be started.</>
     );
   }
 
@@ -123,7 +124,7 @@ const CreateInstanceForm: FC = () => {
     formUrl: string,
     values: CreateInstanceFormValues
   ) {
-    notify.failure(<>Instance creation failed.</>, e, [
+    notify.failure("Instance creation failed", e, null, [
       {
         label: "Check configuration",
         onClick: () =>
@@ -196,11 +197,6 @@ const CreateInstanceForm: FC = () => {
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {
-      if (!values.image) {
-        formik.setSubmitting(false);
-        notify.failure("", new Error("No image selected"));
-        return;
-      }
       submit(values);
     },
   });

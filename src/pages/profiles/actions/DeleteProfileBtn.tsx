@@ -28,7 +28,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Error on profile delete.", e);
+        notify.failure("Profile deletion failed", e);
       });
   };
 

@@ -33,7 +33,7 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("", e);
+        notify.failure("Storage pool deletion failed", e);
       });
   };
 

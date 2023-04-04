@@ -35,7 +35,7 @@ const StorageSelector: FC<Props> = ({
   }
 
   if (error) {
-    notify.failure("Could not load storage pools.", error);
+    notify.failure("Loading storage pools failed", error);
   }
 
   const getStoragePoolOptions = () => {

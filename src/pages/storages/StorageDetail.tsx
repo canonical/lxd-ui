@@ -35,13 +35,13 @@ const StorageDetail: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load storage details.", error);
+    notify.failure("Loading storage details failed", error);
   }
 
   if (isLoading) {
     return <Loader text="Loading storage details..." />;
   } else if (!storage) {
-    return <>Could not load storage details.</>;
+    return <>Loading storage details failed</>;
   }
 
   return (

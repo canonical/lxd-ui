@@ -107,7 +107,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
           void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
-          notify.failure("", e, undefined, "Profile update failed");
+          notify.failure("Profile update failed", e);
         })
         .finally(() => {
           formik.setSubmitting(false);

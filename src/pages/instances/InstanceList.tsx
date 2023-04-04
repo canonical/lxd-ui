@@ -71,7 +71,7 @@ const InstanceList: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load instances.", error);
+    notify.failure("Loading instances failed", error);
   }
 
   const figureSizeHidden = () => {

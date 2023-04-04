@@ -10,7 +10,7 @@ import { LxdInstance } from "types/instance";
 
 interface Props {
   instance: LxdInstance;
-  onFailure: (message: string, e: unknown) => void;
+  onFailure: (title: string, e: unknown) => void;
 }
 
 const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
@@ -25,7 +25,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   });
 
   if (error) {
-    onFailure("Could not load metrics.", error);
+    onFailure("Loading metrics failed", error);
   }
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);

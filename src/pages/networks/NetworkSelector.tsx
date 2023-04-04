@@ -29,7 +29,7 @@ const NetworkSelector: FC<Props> = ({ nicDevice, project, setNicDevice }) => {
   }
 
   if (error) {
-    notify.failure("Could not load networks.", error);
+    notify.failure("Loading networks failed", error);
   }
 
   const getNetworkOptions = () => {

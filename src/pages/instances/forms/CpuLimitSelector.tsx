@@ -32,7 +32,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
   }
 
   if (error) {
-    notify.failure("Could not load resources.", error);
+    notify.failure("Loading resources failed", error);
   }
 
   const numberOfCores = resources?.cpu.total;

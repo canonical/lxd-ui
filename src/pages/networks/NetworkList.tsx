@@ -28,7 +28,7 @@ const NetworkList: FC = () => {
   });
 
   if (error) {
-    notify.failure("Could not load networks.", error);
+    notify.failure("Loading networks failed", error);
   }
 
   const headers = [

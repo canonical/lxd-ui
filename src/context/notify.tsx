@@ -20,10 +20,10 @@ const queue = (notification: Notification): QueuedNotification => {
 };
 
 export const failure = (
-  message: string | ReactNode,
+  title: string,
   error: unknown,
-  actions?: NotificationAction[],
-  title?: string
+  message?: string | ReactNode,
+  actions?: NotificationAction[]
 ): Notification => {
   return {
     actions,
@@ -97,8 +97,8 @@ export const NotifyProvider: FC<NotifyProviderProps> = ({ children }) => {
     notification,
     clear: () => notification !== null && setNotification(null),
     queue,
-    failure: (message, error, actions, title) =>
-      setDeduplicated(failure(message, error, actions, title)),
+    failure: (title, error, message, actions) =>
+      setDeduplicated(failure(title, error, message, actions)),
     info: (message, title) => setDeduplicated(info(message, title)),
     success: (message) => setDeduplicated(success(message)),
   };

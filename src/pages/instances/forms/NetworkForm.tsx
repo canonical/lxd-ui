@@ -38,7 +38,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (profileError) {
-    notify.failure("Could not load profiles.", profileError);
+    notify.failure("Loading profiles failed", profileError);
   }
 
   const {
@@ -51,7 +51,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (profileError) {
-    notify.failure("Could not load networks.", networkError);
+    notify.failure("Loading networks failed", networkError);
   }
 
   if (isProfileLoading || isNetworkLoading) {

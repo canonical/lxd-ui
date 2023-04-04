@@ -20,7 +20,7 @@ declare global {
 interface Props {
   instance: LxdInstance;
   onMount: (handler: () => void) => void;
-  onFailure: (message: string, e: unknown) => void;
+  onFailure: (title: string, e: unknown, message?: string) => void;
   inTabNotification: Notification | null;
   clearNotification: () => void;
 }
@@ -41,7 +41,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
   const handleError = (e: object) => {
-    onFailure("spice error", e);
+    onFailure("Error", e);
   };
 
   const handleResize = () => {
@@ -62,7 +62,7 @@ const InstanceGraphicConsole: FC<Props> = ({
     setVgaLoading(true);
     const result = await connectInstanceVga(name, project).catch((e) => {
       setVgaLoading(false);
-      onFailure("Could not open vga session.", e);
+      onFailure("Connection failed", e);
     });
     if (!result) {
       return;
@@ -74,12 +74,12 @@ const InstanceGraphicConsole: FC<Props> = ({
     const control = new WebSocket(controlUrl);
 
     control.onerror = (e) => {
-      onFailure("Error on the control websocket.", e);
+      onFailure("Error", e);
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure(getWsErrorMsg(event.code), event.reason);
+        onFailure("Error", event.reason, getWsErrorMsg(event.code));
       }
     };
 
@@ -100,7 +100,7 @@ const InstanceGraphicConsole: FC<Props> = ({
         onagent: handleResize,
       });
     } catch (e) {
-      onFailure("error connecting", e);
+      onFailure("Connection failed", e);
     }
 
     return control;
@@ -134,7 +134,7 @@ const InstanceGraphicConsole: FC<Props> = ({
       .requestFullscreen()
       .then(handleResize)
       .catch((e) => {
-        onFailure("Failed to enter full-screen mode.", e);
+        onFailure("Failed to enter full-screen mode", e);
       });
   };
   onMount(handleFullScreen);

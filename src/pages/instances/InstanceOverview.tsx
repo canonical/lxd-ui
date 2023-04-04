@@ -22,8 +22,8 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   const [inTabNotification, setInTabNotification] =
     useState<Notification | null>(null);
 
-  const onFailure = (message: string, e: unknown) => {
-    setInTabNotification(failure(message, e));
+  const onFailure = (title: string, e: unknown) => {
+    setInTabNotification(failure(title, e));
   };
 
   const updateContentHeight = () => {

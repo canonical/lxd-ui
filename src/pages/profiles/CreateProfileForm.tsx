@@ -114,7 +114,7 @@ const CreateProfileForm: FC = () => {
           );
         })
         .catch((e: Error) => {
-          notify.failure("Could not save profile", e);
+          notify.failure("Profile creation failed", e);
         })
         .finally(() => {
           formik.setSubmitting(false);
