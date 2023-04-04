@@ -5,7 +5,6 @@ import {
   Row,
   SearchBox,
   Select,
-  usePagination,
 } from "@canonical/react-components";
 import React, { FC, useEffect, useState } from "react";
 import { fetchInstances } from "api/instances";
@@ -26,7 +25,7 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import Pagination from "components/Pagination";
-import { paginationOptions } from "util/paginationOptions";
+import { usePagination } from "util/pagination";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 
 const STATUS = "Status";
@@ -57,7 +56,6 @@ const InstanceList: FC = () => {
   const [type, setType] = useState<string>("any");
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
-  const [pageSize, setPageSize] = useState(paginationOptions[0].value);
 
   if (!project) {
     return <>Missing project</>;
@@ -279,10 +277,9 @@ const InstanceList: FC = () => {
     pageData: pageInstances,
     currentPage,
     paginate: setCurrentPage,
-  } = usePagination(getRows(userHidden.concat(sizeHidden)), {
-    itemsPerPage: pageSize,
-    autoResetPage: true,
-  });
+    pageSize,
+    setPageSize,
+  } = usePagination(getRows(userHidden.concat(sizeHidden)));
 
   useEventListener("resize", () => updateTBodyHeight("instance-table-wrapper"));
   useEffect(() => {

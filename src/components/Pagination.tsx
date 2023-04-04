@@ -1,6 +1,6 @@
 import { Button, Icon, Input, Select } from "@canonical/react-components";
 import React, { FC } from "react";
-import { paginationOptions } from "util/paginationOptions";
+import { paginationOptions } from "util/pagination";
 
 interface Props {
   pageSize: number;
