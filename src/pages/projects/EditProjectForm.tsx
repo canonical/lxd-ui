@@ -109,6 +109,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
             formik={formik}
             section={section}
             updateSection={setSection}
+            isEdit={true}
           />
           <div className="p-bottom-controls">
             <hr />

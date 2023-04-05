@@ -22,9 +22,15 @@ interface Props {
   formik: FormikProps<ProjectFormValues>;
   updateSection: (val: string) => void;
   section: string;
+  isEdit?: boolean;
 }
 
-const ProjectForm: FC<Props> = ({ formik, updateSection, section }) => {
+const ProjectForm: FC<Props> = ({
+  formik,
+  updateSection,
+  section,
+  isEdit = false,
+}) => {
   const [isRestrictionsOpen, setRestrictionsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -44,7 +50,7 @@ const ProjectForm: FC<Props> = ({ formik, updateSection, section }) => {
         <Col size={12}>
           <NotificationRow />
           {section === PROJECT_DETAILS && (
-            <ProjectDetailsForm formik={formik} />
+            <ProjectDetailsForm formik={formik} isEdit={isEdit} />
           )}
           {section === RESOURCE_LIMITS && (
             <ResourceLimitsForm formik={formik} />

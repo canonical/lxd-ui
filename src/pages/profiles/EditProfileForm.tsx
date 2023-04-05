@@ -169,7 +169,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {section === PROFILE_DETAILS && (
-              <ProfileDetailsForm formik={formik} />
+              <ProfileDetailsForm formik={formik} isEdit={true} />
             )}
 
             {section === STORAGE && (

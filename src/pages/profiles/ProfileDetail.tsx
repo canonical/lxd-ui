@@ -5,10 +5,11 @@ import { fetchProfile } from "api/profiles";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
-import { Row, Tabs } from "@canonical/react-components";
+import { Row, Tabs, Tooltip } from "@canonical/react-components";
 import Loader from "components/Loader";
 import EditProfileForm from "pages/profiles/EditProfileForm";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
+import ProfileRename from "pages/profiles/forms/ProfileRename";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -25,6 +26,7 @@ const ProfileDetail: FC = () => {
     activeTab?: string;
   }>();
   const [controlTarget, setControlTarget] = useState<HTMLSpanElement | null>();
+  const [isRename, setRename] = useState(false);
 
   if (!name) {
     return <>Missing name</>;
@@ -55,11 +57,31 @@ const ProfileDetail: FC = () => {
     }
   };
 
+  const isDefaultProfile = profile?.name === "default";
+
   return (
     <main className="l-main">
-      <div className="p-panel">
+      <div className="p-panel profile-detail-page">
         <div className="p-panel__header">
-          <h1 className="p-panel__title">{name}</h1>
+          {isRename && profile ? (
+            <ProfileRename
+              profile={profile}
+              project={project}
+              closeForm={() => setRename(false)}
+            />
+          ) : (
+            <Tooltip
+              message={isDefaultProfile && "Cannot rename the default profile"}
+              position="btm-left"
+            >
+              <h1
+                className="p-panel__title profile-name"
+                onClick={() => !isDefaultProfile && setRename(true)}
+              >
+                {name}
+              </h1>
+            </Tooltip>
+          )}
           <div className="p-panel__controls">
             {<span id="control-target" ref={(ref) => setControlTarget(ref)} />}
           </div>

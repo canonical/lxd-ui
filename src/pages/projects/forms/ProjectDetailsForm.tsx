@@ -66,9 +66,10 @@ export const projectDetailRestrictionPayload = (
 
 interface Props {
   formik: FormikProps<ProjectDetailsFormValues>;
+  isEdit: boolean;
 }
 
-const ProjectDetailsForm: FC<Props> = ({ formik }) => {
+const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
   const figureFeatures = () => {
     if (
       formik.values.features_images === undefined &&
@@ -108,9 +109,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik }) => {
             onChange={formik.handleChange}
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
-            disabled={
-              formik.values.name === "default" || formik.values.readOnly
-            }
+            disabled={formik.values.name === "default" || isEdit}
             required
           />
           <Textarea
