@@ -17,19 +17,22 @@ import InstanceRestrictionForm from "pages/projects/forms/InstanceRestrictionFor
 import DeviceUsageRestrictionForm from "pages/projects/forms/DeviceUsageRestrictionForm";
 import NetworkRestrictionForm from "pages/projects/forms/NetworkRestrictionForm";
 import { FormikProps } from "formik/dist/types";
+import { LxdProject } from "types/project";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
   updateSection: (val: string) => void;
   section: string;
-  isEdit?: boolean;
+  project?: LxdProject;
+  isEdit: boolean;
 }
 
 const ProjectForm: FC<Props> = ({
   formik,
   updateSection,
   section,
-  isEdit = false,
+  project,
+  isEdit,
 }) => {
   const [isRestrictionsOpen, setRestrictionsOpen] = useState(false);
 
@@ -50,7 +53,11 @@ const ProjectForm: FC<Props> = ({
         <Col size={12}>
           <NotificationRow />
           {section === PROJECT_DETAILS && (
-            <ProjectDetailsForm formik={formik} isEdit={isEdit} />
+            <ProjectDetailsForm
+              formik={formik}
+              project={project}
+              isEdit={isEdit}
+            />
           )}
           {section === RESOURCE_LIMITS && (
             <ResourceLimitsForm formik={formik} />

@@ -124,6 +124,7 @@ const CreateProjectForm: FC = () => {
             formik={formik}
             section={section}
             updateSection={setSection}
+            isEdit={false}
           />
           <div className="p-bottom-controls">
             <hr />

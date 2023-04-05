@@ -107,6 +107,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
         <div className="p-panel__content edit-project">
           <ProjectForm
             formik={formik}
+            project={project}
             section={section}
             updateSection={setSection}
             isEdit={true}
