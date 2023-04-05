@@ -76,7 +76,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           children: (
             <Input
-              placeholder="Enter expiration expression"
+              placeholder="Enter expiry expression"
               help="Controls when snapshots are to be deleted (expects an expression like 1M 2H 3d 4w 5m 6y)"
               type="text"
             />
