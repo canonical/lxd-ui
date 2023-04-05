@@ -11,6 +11,8 @@ import {
 } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
+import { isProjectEmpty } from "util/projects";
+import { LxdProject } from "types/project";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -66,10 +68,11 @@ export const projectDetailRestrictionPayload = (
 
 interface Props {
   formik: FormikProps<ProjectDetailsFormValues>;
+  project?: LxdProject;
   isEdit: boolean;
 }
 
-const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
+const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
   const figureFeatures = () => {
     if (
       formik.values.features_images === undefined &&
@@ -94,6 +97,13 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
     return "default";
   };
   const [features, setFeatures] = useState(figureFeatures());
+
+  const isDefaultProject = formik.values.name === "default";
+  const isReadOnly = formik.values.readOnly;
+  const isNonEmpty = project ? !isProjectEmpty(project) : false;
+  const hadFeaturesNetwork = project?.config["features.networks"] === "true";
+  const hadFeaturesNetworkZones =
+    project?.config["features.networks.zones"] === "true";
 
   return (
     <div className="details">
@@ -132,21 +142,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             label="Features"
             onChange={(e) => {
               setFeatures(e.target.value);
-              if (e.target.value === "default") {
-                formik.setFieldValue("features_images", true);
-                formik.setFieldValue("features_profiles", true);
-                formik.setFieldValue("features_networks", undefined);
-                formik.setFieldValue("features_networks_zones", undefined);
-                formik.setFieldValue("features_storage_buckets", true);
-                formik.setFieldValue("features_storage_volumes", true);
-              } else {
-                formik.setFieldValue("features_images", false);
-                formik.setFieldValue("features_profiles", false);
-                formik.setFieldValue("features_networks", false);
-                formik.setFieldValue("features_networks_zones", false);
-                formik.setFieldValue("features_storage_buckets", false);
-                formik.setFieldValue("features_storage_volumes", false);
-              }
+              formik.setFieldValue("features_images", true);
+              formik.setFieldValue("features_profiles", true);
+              formik.setFieldValue("features_networks", false);
+              formik.setFieldValue("features_networks_zones", false);
+              formik.setFieldValue("features_storage_buckets", true);
+              formik.setFieldValue("features_storage_volumes", true);
             }}
             value={features}
             options={[
@@ -159,7 +160,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                 value: "customised",
               },
             ]}
-            disabled={formik.values.readOnly}
+            disabled={
+              isReadOnly ||
+              isDefaultProject ||
+              (isNonEmpty && hadFeaturesNetwork) ||
+              (isNonEmpty && hadFeaturesNetworkZones)
+            }
           />
           {features === "customised" && (
             <>
@@ -175,7 +181,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                   )
                 }
                 checked={formik.values.features_images}
-                disabled={formik.values.readOnly}
+                disabled={isReadOnly || isDefaultProject || isNonEmpty}
               />
               <CheckboxInput
                 id="features_profiles"
@@ -199,7 +205,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                   }
                 }}
                 checked={formik.values.features_profiles}
-                disabled={formik.values.readOnly}
+                disabled={isReadOnly || isDefaultProject || isNonEmpty}
               />
               <CheckboxInput
                 id="features_networks"
@@ -212,7 +218,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                   )
                 }
                 checked={formik.values.features_networks}
-                disabled={formik.values.readOnly}
+                disabled={isReadOnly || isDefaultProject || isNonEmpty}
               />
               <CheckboxInput
                 id="features_networks_zones"
@@ -225,7 +231,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                   )
                 }
                 checked={formik.values.features_networks_zones}
-                disabled={formik.values.readOnly}
+                disabled={
+                  isReadOnly ||
+                  isDefaultProject ||
+                  (isNonEmpty && hadFeaturesNetworkZones)
+                }
               />
               <CheckboxInput
                 id="features_storage_buckets"
@@ -238,7 +248,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                   )
                 }
                 checked={formik.values.features_storage_buckets}
-                disabled={formik.values.readOnly}
+                disabled={isReadOnly || isDefaultProject || isNonEmpty}
               />
               <CheckboxInput
                 id="features_storage_volumes"
@@ -251,7 +261,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, isEdit }) => {
                   )
                 }
                 checked={formik.values.features_storage_volumes}
-                disabled={formik.values.readOnly}
+                disabled={isReadOnly || isDefaultProject || isNonEmpty}
               />
             </>
           )}

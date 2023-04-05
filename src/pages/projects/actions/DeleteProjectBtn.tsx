@@ -7,6 +7,7 @@ import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import ItemName from "components/ItemName";
+import { isProjectEmpty } from "util/projects";
 
 interface Props {
   project: LxdProject;
@@ -59,7 +60,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       onConfirm={handleDelete}
       isDense={false}
       hasShiftHint={false}
-      isDisabled={project.name === "default"}
+      isDisabled={project.name === "default" || !isProjectEmpty(project)}
     />
   );
 };

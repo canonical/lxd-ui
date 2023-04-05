@@ -1,3 +1,5 @@
+import { LxdProject } from "types/project";
+
 export const projectSubpages = [
   "instances",
   "profiles",
@@ -20,4 +22,13 @@ export const getSubpageFromUrl = (url: string) => {
     return parts[3];
   }
   return undefined;
+};
+
+export const isProjectEmpty = (project: LxdProject) => {
+  if (!project.used_by) {
+    return true;
+  }
+
+  const defaultProfile = `/1.0/profiles/default?project=${project.name}`;
+  return !project.used_by.some((item) => item !== defaultProfile);
 };
