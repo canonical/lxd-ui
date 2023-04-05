@@ -9,6 +9,7 @@ interface Props {
   appearance?: string;
   processingText?: string;
   onClick?: () => void;
+  dense?: boolean;
 }
 
 const SubmitButton: FC<Props> = ({
@@ -18,9 +19,16 @@ const SubmitButton: FC<Props> = ({
   appearance = "positive",
   processingText = "Processing...",
   onClick,
+  dense,
 }) => {
   return isSubmitting ? (
-    <Button appearance={appearance} type="submit" hasIcon disabled>
+    <Button
+      appearance={appearance}
+      type="submit"
+      hasIcon
+      disabled
+      dense={dense}
+    >
       <Icon
         name="spinner"
         className={classnames("u-animation--spin", {
@@ -35,6 +43,7 @@ const SubmitButton: FC<Props> = ({
       type="submit"
       disabled={isDisabled}
       onClick={onClick}
+      dense={dense}
     >
       {buttonLabel}
     </Button>

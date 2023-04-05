@@ -19,10 +19,13 @@ export const profileDetailPayload = (values: CreateProfileFormValues) => {
 
 interface Props {
   formik: FormikProps<CreateProfileFormValues>;
+  isEdit: boolean;
 }
 
-const ProfileDetailsForm: FC<Props> = ({ formik }) => {
+const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
   const isReadOnly = formik.values.readOnly;
+  const isDefaultProfile = formik.values.name === "default";
+
   return (
     <div className="details">
       <Row>
@@ -33,12 +36,17 @@ const ProfileDetailsForm: FC<Props> = ({ formik }) => {
             type="text"
             label="Profile name"
             placeholder="Enter name"
+            help={
+              isEdit &&
+              !isDefaultProfile &&
+              "Click the name in the header to rename the profile"
+            }
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             required
-            disabled={formik.values.name === "default" || isReadOnly}
+            disabled={isEdit}
           />
           <Textarea
             id="description"

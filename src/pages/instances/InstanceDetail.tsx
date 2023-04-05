@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Row, Tabs } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
 import NotificationRow from "components/NotificationRow";
 import { useNotify } from "context/notify";
@@ -13,8 +13,7 @@ import Loader from "components/Loader";
 import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import InstanceConfiguration from "pages/instances/InstanceConfiguration";
-import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
-import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
+import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 
 const TABS: string[] = [
   "Overview",
@@ -70,39 +69,11 @@ const InstanceDetail: FC = () => {
   return (
     <main className="l-main">
       <div className="p-panel instance-detail-page">
-        <div className="p-panel__header">
-          <h1 className="u-off-screen">{name}</h1>
-          {instance ? (
-            <div className="p-panel__title">
-              <nav
-                key="breadcrumbs"
-                className="p-breadcrumbs"
-                aria-label="Breadcrumbs"
-              >
-                <ol className="p-breadcrumbs__items">
-                  <li className="p-breadcrumbs__item">
-                    <Link to={`/ui/${project}/instances`}>Instances</Link>
-                  </li>
-                  <li
-                    className="p-breadcrumbs__item instance-name u-truncate"
-                    title={name}
-                  >
-                    {name}
-                  </li>
-                </ol>
-              </nav>
-              <div>
-                <i className="u-text--muted">({instance.status})</i>
-                <InstanceStateActions key="state" instance={instance} />
-              </div>
-            </div>
-          ) : (
-            <h4 className="p-panel__title">{name}</h4>
-          )}
-          <div className="p-panel__controls">
-            {instance && <DeleteInstanceBtn instance={instance} />}
-          </div>
-        </div>
+        <InstanceDetailHeader
+          name={name}
+          project={project}
+          instance={instance}
+        />
         <div className="p-panel__content">
           <NotificationRow />
           {isLoading && <Loader text="Loading instance details..." />}

@@ -1,0 +1,17 @@
+.profile-detail-page {
+  .profile-name {
+    &:hover {
+      background-color: $colors--light-theme--background-hover;
+    }
+  }
+
+  .profile-rename {
+    display: flex;
+    margin-top: $spv--x-small;
+
+    .cancel {
+      margin-left: $sph--small;
+      margin-right: $sph--small;
+    }
+  }
+}

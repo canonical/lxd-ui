@@ -39,13 +39,14 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
             name="name"
             type="text"
             label="Instance name"
+            help="Click the name in the header to rename the instance"
             placeholder="Enter name"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             required
-            disabled={isReadOnly}
+            disabled={true}
           />
           <Textarea
             id="description"
