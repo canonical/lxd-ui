@@ -1,6 +1,15 @@
 import { Button, Icon, Input, Select } from "@canonical/react-components";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { paginationOptions } from "util/pagination";
+import useEventListener from "@use-it/event-listener";
+
+const figureSmallScreen = () => {
+  const descriptionElement = document.getElementById("pagination-description");
+  if (!descriptionElement) {
+    return true;
+  }
+  return descriptionElement.getBoundingClientRect().width < 230;
+};
 
 interface Props {
   pageSize: number;
@@ -23,11 +32,22 @@ const Pagination: FC<Props> = ({
   totalPages,
   keyword,
 }) => {
+  const [isSmallScreen, setSmallScreen] = useState(figureSmallScreen());
+
+  const resize = () => {
+    setSmallScreen(figureSmallScreen());
+  };
+  useEventListener("resize", resize);
+  useEffect(resize, []);
+
   return (
     <div className="pagination">
-      <div className="description">
-        Showing {visibleCount} out of {totalCount} {keyword}
-        {totalCount !== 1 && "s"}
+      <div className="description" id="pagination-description">
+        {isSmallScreen
+          ? `${visibleCount}\xa0out\xa0of\xa0${totalCount}`
+          : `Showing ${visibleCount} out of ${totalCount} ${keyword}${
+              totalCount !== 1 ? "s" : ""
+            }`}
       </div>
       <Button
         aria-label="Previous page"
