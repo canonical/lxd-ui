@@ -174,7 +174,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
               id="expirationDate"
               name="expirationDate"
               type="date"
-              label="Expiration date"
+              label="Expiry date"
               min={getTomorrow()}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -185,7 +185,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
               id="expirationTime"
               name="expirationTime"
               type="time"
-              label="Expiration time"
+              label="Expiry time"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />

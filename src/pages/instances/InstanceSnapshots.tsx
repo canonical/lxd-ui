@@ -49,7 +49,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     { content: "Name", sortKey: "name", className: "name" },
     { content: "Date created", sortKey: "created_at", className: "created" },
     {
-      content: "Expiration date",
+      content: "Expiry date",
       sortKey: "expires_at",
       className: "expiration",
     },
