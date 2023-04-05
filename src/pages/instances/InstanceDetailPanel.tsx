@@ -247,13 +247,12 @@ const InstanceDetailPanel: FC = () => {
                         <p className="no-snapshots">
                           No snapshots found.
                           <br />
-                          Create one in{" "}
                           <Link
                             to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
                           >
-                            Snapshots
-                          </Link>
-                          .
+                            Manage
+                          </Link>{" "}
+                          instance snapshots.
                         </p>
                       </td>
                     </tr>
