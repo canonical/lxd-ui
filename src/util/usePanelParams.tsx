@@ -22,6 +22,10 @@ type ParamMap = Record<string, string>;
 const usePanelParams = (): PanelHelper => {
   const [params, setParams] = useSearchParams();
 
+  const craftResizeEvent = () => {
+    setTimeout(() => window.dispatchEvent(new Event("resize")), 100);
+  };
+
   const setPanelParams = (panel: string, args: ParamMap = {}) => {
     const newParams = new URLSearchParams();
     newParams.set("panel", panel);
@@ -29,6 +33,12 @@ const usePanelParams = (): PanelHelper => {
       newParams.set(key, value);
     }
     setParams(newParams);
+    craftResizeEvent();
+  };
+
+  const clearParams = () => {
+    setParams(new URLSearchParams());
+    craftResizeEvent();
   };
 
   return {
@@ -38,7 +48,7 @@ const usePanelParams = (): PanelHelper => {
     project: params.get("project") ?? "default",
 
     clear: () => {
-      setParams(new URLSearchParams());
+      clearParams();
     },
 
     openInstanceSummary: (instance, project) => {
