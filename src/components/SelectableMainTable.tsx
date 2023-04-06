@@ -163,7 +163,7 @@ const SelectableMainTable: FC<Props> = ({
               ) : (
                 <>
                   <b>{selectedNames.length}</b> {itemName}
-                  {selectedNames.length > 1 && "s"} selected{" "}
+                  {selectedNames.length > 1 && "s"} selected.{" "}
                   <Button
                     appearance="link"
                     className="u-no-margin--bottom u-no-padding--top"
