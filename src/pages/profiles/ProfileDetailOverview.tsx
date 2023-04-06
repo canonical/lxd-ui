@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Link, useParams } from "react-router-dom";
-import DeleteProfileBtn from "./actions/DeleteProfileBtn";
 import {
   CodeSnippet,
   CodeSnippetBlockAppearance,
@@ -10,15 +9,13 @@ import {
 } from "@canonical/react-components";
 import { isDiskDevice, isNicDevice } from "util/devices";
 import { LxdProfile } from "types/profile";
-import { createPortal } from "react-dom";
 import ItemName from "components/ItemName";
 
 interface Props {
-  controlTarget?: HTMLSpanElement | null;
   profile: LxdProfile;
 }
 
-const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
+const ProfileDetail: FC<Props> = ({ profile }) => {
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -37,15 +34,6 @@ const ProfileDetail: FC<Props> = ({ controlTarget, profile }) => {
 
   return (
     <>
-      {controlTarget &&
-        createPortal(
-          <>
-            {profile.name !== "default" && (
-              <DeleteProfileBtn profile={profile} project={project} />
-            )}
-          </>,
-          controlTarget
-        )}
       <table>
         <tbody>
           <tr>

@@ -21,7 +21,13 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       .then(() => {
         navigate(
           `/ui/${instance.project}/instances`,
-          notify.queue(notify.success(`Instance ${instance.name} deleted.`))
+          notify.queue(
+            notify.success(
+              <>
+                Instance <ItemName item={instance} bold /> deleted.
+              </>
+            )
+          )
         );
       })
       .catch((e) => {
@@ -33,9 +39,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
           </>
         );
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   };
 
   const isDisabled = isLoading || instance.status !== "Stopped";
@@ -56,8 +60,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       }
       posButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDense={true}
       isDisabled={isDisabled}
+      isDense
     />
   );
 };

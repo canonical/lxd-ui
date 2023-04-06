@@ -1,17 +1,52 @@
 .profile-detail-page {
-  .profile-name {
-    &:hover {
-      background-color: $colors--light-theme--background-hover;
+  .p-panel__title {
+    .profile-name {
+      margin-right: $sph--large;
+      max-width: 33vw;
+      overflow: clip !important;
+
+      > span > span {
+        display: inherit !important;
+      }
+
+      &:hover {
+        background: linear-gradient(
+            45deg,
+            $colors--light-theme--background-hover,
+            $colors--light-theme--background-hover
+          )
+          no-repeat 1rem;
+      }
+    }
+
+    .profile-rename {
+      display: inline-flex;
+      max-width: 33vw;
+      min-width: 33rem;
+
+      .name-input {
+        margin-left: -1rem;
+      }
+
+      .cancel {
+        margin-left: $sph--small;
+        margin-right: $sph--small;
+      }
     }
   }
 
-  .profile-rename {
-    display: flex;
-    margin-top: $spv--x-small;
+  .p-panel__controls {
+    margin-top: 0.2rem;
 
-    .cancel {
-      margin-left: $sph--small;
-      margin-right: $sph--small;
+    .delete-profile-btn {
+      margin: 0;
+      padding-left: $sph--x-large;
+      padding-right: $sph--x-large;
     }
+  }
+
+  .p-panel__content {
+    margin-top: -$spv--medium;
+    padding-bottom: 0;
   }
 }

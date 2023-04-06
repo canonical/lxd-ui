@@ -161,6 +161,31 @@ $border-thin: 1px solid $color-mid-light !default;
   padding-top: $spv--x-small;
 }
 
+.p-breadcrumbs {
+  margin-bottom: 0;
+  width: inherit;
+
+  .p-breadcrumbs__items {
+    margin-bottom: 0;
+  }
+
+  .p-breadcrumbs__item {
+    font-size: #{map.get($font-sizes, h4-mobile)}rem;
+    line-height: 2rem;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .p-breadcrumbs__item:first-of-type {
+    margin-right: $sp-x-small;
+  }
+}
+
+.p-tabs__list {
+  margin-bottom: $spv--large !important;
+}
+
 .u-space-between {
   display: flex;
   justify-content: space-between;
