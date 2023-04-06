@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "api/profiles";
 import NotificationRow from "components/NotificationRow";
@@ -10,6 +10,7 @@ import Loader from "components/Loader";
 import EditProfileForm from "pages/profiles/EditProfileForm";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileRename from "pages/profiles/forms/ProfileRename";
+import DeleteProfileBtn from "./actions/DeleteProfileBtn";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -25,7 +26,6 @@ const ProfileDetail: FC = () => {
     project: string;
     activeTab?: string;
   }>();
-  const [controlTarget, setControlTarget] = useState<HTMLSpanElement | null>();
   const [isRename, setRename] = useState(false);
 
   if (!name) {
@@ -57,33 +57,58 @@ const ProfileDetail: FC = () => {
     }
   };
 
-  const isDefaultProfile = profile?.name === "default";
+  const canRename = profile?.name !== "default";
 
   return (
     <main className="l-main">
       <div className="p-panel profile-detail-page">
         <div className="p-panel__header">
-          {isRename && profile ? (
-            <ProfileRename
-              profile={profile}
-              project={project}
-              closeForm={() => setRename(false)}
-            />
-          ) : (
-            <Tooltip
-              message={isDefaultProfile && "Cannot rename the default profile"}
-              position="btm-left"
-            >
-              <h1
-                className="p-panel__title profile-name"
-                onClick={() => !isDefaultProfile && setRename(true)}
+          <h1 className="u-off-screen">{name}</h1>
+          {profile ? (
+            <div className="p-panel__title">
+              <nav
+                key="breadcrumbs"
+                className="p-breadcrumbs"
+                aria-label="Breadcrumbs"
               >
-                {name}
-              </h1>
-            </Tooltip>
+                <ol className="p-breadcrumbs__items">
+                  <li className="p-breadcrumbs__item">
+                    <Link to={`/ui/${project}/profiles`}>Profiles</Link>
+                  </li>
+                  {isRename ? (
+                    <li className="p-breadcrumbs__item profile-rename">
+                      <ProfileRename
+                        profile={profile}
+                        project={project}
+                        closeForm={() => setRename(false)}
+                      />
+                    </li>
+                  ) : (
+                    <li
+                      className="p-breadcrumbs__item profile-name u-truncate"
+                      onClick={() => canRename && setRename(true)}
+                      title={name}
+                    >
+                      <Tooltip
+                        message={
+                          !canRename && "Cannot rename the default profile"
+                        }
+                        position="btm-left"
+                      >
+                        {name}
+                      </Tooltip>
+                    </li>
+                  )}
+                </ol>
+              </nav>
+            </div>
+          ) : (
+            <h4 className="p-panel__title">{name}</h4>
           )}
           <div className="p-panel__controls">
-            {<span id="control-target" ref={(ref) => setControlTarget(ref)} />}
+            {profile && !isRename && (
+              <DeleteProfileBtn profile={profile} project={project} />
+            )}
           </div>
         </div>
         <div className="p-panel__content">
@@ -105,10 +130,7 @@ const ProfileDetail: FC = () => {
 
               {!activeTab && (
                 <div role="tabpanel" aria-labelledby="overview">
-                  <ProfileDetailOverview
-                    profile={profile}
-                    controlTarget={controlTarget}
-                  />
+                  <ProfileDetailOverview profile={profile} />
                 </div>
               )}
 

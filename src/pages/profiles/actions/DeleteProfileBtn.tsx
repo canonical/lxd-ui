@@ -23,22 +23,26 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
         setLoading(false);
         navigate(
           `/ui/${project}/profiles`,
-          notify.queue(notify.success(`Profile ${profile.name} deleted.`))
+          notify.queue(
+            notify.success(
+              <>
+                Profile <ItemName item={profile} bold /> deleted.
+              </>
+            )
+          )
         );
       })
-      .catch((e) => {
-        setLoading(false);
-        notify.failure("Profile deletion failed", e);
-      });
+      .catch((e) => notify.failure("Profile deletion failed", e))
+      .finally(() => setLoading(false));
   };
 
   return (
     <ConfirmationButton
-      className="u-no-margin--bottom"
+      toggleAppearance="base"
+      className="delete-profile-btn"
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      toggleCaption="Delete"
       confirmationMessage={
         <>
           Are you sure you want to delete profile{" "}
@@ -48,7 +52,8 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
       }
       posButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDense={false}
+      isDisabled={profile.name === "default"}
+      isDense
     />
   );
 };
