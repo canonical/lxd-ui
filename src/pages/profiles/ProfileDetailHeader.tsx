@@ -1,25 +1,24 @@
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
-import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
-import { LxdInstance } from "types/instance";
-import InstanceRename from "pages/instances/forms/InstanceRename";
+import DeleteProfileBtn from "./actions/DeleteProfileBtn";
+import { LxdProfile } from "types/profile";
+import ProfileRename from "pages/profiles/forms/ProfileRename";
 import { Tooltip } from "@canonical/react-components";
 
 interface Props {
   name: string;
-  instance?: LxdInstance;
+  profile?: LxdProfile;
   project: string;
 }
 
-const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
+const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
   const [isRename, setRename] = useState(false);
-  const canRename = instance?.status === "Stopped";
+  const canRename = profile?.name !== "default";
 
   return (
     <div className="p-panel__header">
       <h1 className="u-off-screen">{name}</h1>
-      {instance ? (
+      {profile ? (
         <div className="p-panel__title">
           <nav
             key="breadcrumbs"
@@ -28,24 +27,24 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
           >
             <ol className="p-breadcrumbs__items">
               <li className="p-breadcrumbs__item">
-                <Link to={`/ui/${project}/instances`}>Instances</Link>
+                <Link to={`/ui/${project}/profiles`}>Profiles</Link>
               </li>
               {isRename ? (
-                <li className="p-breadcrumbs__item instance-rename">
-                  <InstanceRename
-                    instance={instance}
+                <li className="p-breadcrumbs__item profile-rename">
+                  <ProfileRename
+                    profile={profile}
                     project={project}
                     closeForm={() => setRename(false)}
                   />
                 </li>
               ) : (
                 <li
-                  className="p-breadcrumbs__item instance-name u-truncate"
+                  className="p-breadcrumbs__item profile-name u-truncate"
                   onClick={() => canRename && setRename(true)}
                   title={name}
                 >
                   <Tooltip
-                    message={!canRename && "Stop the instance to rename"}
+                    message={!canRename && "Cannot rename the default profile"}
                     position="btm-left"
                   >
                     {name}
@@ -54,21 +53,17 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
               )}
             </ol>
           </nav>
-          {!isRename && (
-            <div>
-              <i className="status u-text--muted">{instance.status}</i>
-              <InstanceStateActions key="state" instance={instance} />
-            </div>
-          )}
         </div>
       ) : (
         <h4 className="p-panel__title">{name}</h4>
       )}
       <div className="p-panel__controls">
-        {instance && !isRename && <DeleteInstanceBtn instance={instance} />}
+        {profile && !isRename && (
+          <DeleteProfileBtn profile={profile} project={project} />
+        )}
       </div>
     </div>
   );
 };
 
-export default InstanceDetailHeader;
+export default ProfileDetailHeader;

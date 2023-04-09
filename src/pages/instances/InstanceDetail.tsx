@@ -71,8 +71,8 @@ const InstanceDetail: FC = () => {
       <div className="p-panel instance-detail-page">
         <InstanceDetailHeader
           name={name}
-          project={project}
           instance={instance}
+          project={project}
         />
         <div className="p-panel__content">
           <NotificationRow />
