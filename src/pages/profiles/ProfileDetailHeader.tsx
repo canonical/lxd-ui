@@ -13,7 +13,7 @@ interface Props {
 
 const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
   const [isRename, setRename] = useState(false);
-  const canRename = profile?.name !== "default";
+  const canRename = profile && profile.name !== "default";
 
   return (
     <div className="p-panel__header">
@@ -57,11 +57,11 @@ const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
       ) : (
         <h4 className="p-panel__title">{name}</h4>
       )}
-      <div className="p-panel__controls">
-        {profile && !isRename && (
+      {profile && !isRename && (
+        <div className="p-panel__controls">
           <DeleteProfileBtn profile={profile} project={project} />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

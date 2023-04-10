@@ -9,6 +9,7 @@ import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ItemName from "components/ItemName";
+import { getProfileInstances } from "util/usedBy";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -39,7 +40,12 @@ const ProfileList: FC = () => {
   ];
 
   const rows = profiles.map((profile) => {
-    const usedBy = <span>{profile.used_by?.length ?? "0"}</span>;
+    const isDefaultProject = project === "default";
+    const usedBy = (
+      <span>
+        {getProfileInstances(project, isDefaultProject, profile.used_by).length}
+      </span>
+    );
 
     return {
       columns: [

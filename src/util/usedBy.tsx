@@ -4,6 +4,11 @@ export interface LxdUsedBy {
   instance: string;
 }
 
+export interface UsedByProject {
+  project: string;
+  usedBys: LxdUsedBy[];
+}
+
 /**
  * filter a usedBy path list by a specific type and parse into a LxdUsedBy object list
  *
@@ -49,5 +54,20 @@ export const filterUsedByType = (
           ? 1
           : 0;
       }) ?? []
+  );
+};
+
+export const getProfileInstances = (
+  project: string,
+  isDefaultProject: boolean,
+  usedByPaths?: string[]
+): LxdUsedBy[] => {
+  return filterUsedByType("instances", "default", usedByPaths).filter(
+    (usedByObj) => {
+      if (isDefaultProject) {
+        return true;
+      }
+      return project === usedByObj.project;
+    }
   );
 };

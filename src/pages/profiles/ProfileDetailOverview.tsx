@@ -1,191 +1,187 @@
-import React, { FC } from "react";
-import { Link, useParams } from "react-router-dom";
-import {
-  CodeSnippet,
-  CodeSnippetBlockAppearance,
-  Col,
-  List,
-  Row,
-} from "@canonical/react-components";
-import { isDiskDevice, isNicDevice } from "util/devices";
+import React, { FC, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Col, Row } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
-import ItemName from "components/ItemName";
+import { isDiskDevice, isNicDevice } from "util/devices";
+import InstanceLink from "pages/instances/InstanceLink";
+import { UsedByProject, getProfileInstances } from "util/usedBy";
+import useEventListener from "@use-it/event-listener";
+import { updateMaxHeight } from "util/updateMaxHeight";
+import ProfileUsedByProject from "./ProfileUsedByProject";
+import ExpandableList from "components/ExpandableList";
 
 interface Props {
   profile: LxdProfile;
 }
 
-const ProfileDetail: FC<Props> = ({ profile }) => {
+const ProfileDetailOverview: FC<Props> = ({ profile }) => {
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
   }
 
-  const usedByNames = profile.used_by?.map(
-    (path) => path.split("/").slice(-1)[0]
-  );
-
-  const getCloudInitConfig = (
-    type: "user-data" | "vendor-data" | "network-config"
-  ) => {
-    return profile.config[`cloud-init.${type}`].replace("|\n", "");
+  const updateContentHeight = () => {
+    updateMaxHeight("profile-overview-tab");
   };
+  useEffect(updateContentHeight, []);
+  useEventListener("resize", updateContentHeight);
+
+  const isDefaultProject = project === "default";
+  const usedByInstances = getProfileInstances(
+    project,
+    isDefaultProject,
+    profile.used_by
+  );
+  const otherProjects = isDefaultProject
+    ? [
+        ...new Set(
+          usedByInstances
+            .filter((usedByObj) => usedByObj.project !== "default")
+            .map((usedByObj) => usedByObj.project)
+        ),
+      ]
+    : [];
+  const usedByProject: UsedByProject[] = [
+    {
+      project: "default",
+      usedBys: usedByInstances.filter(
+        (usedByObj) => usedByObj.project === "default"
+      ),
+    },
+    ...otherProjects.map((project) => {
+      return {
+        project: project,
+        usedBys: usedByInstances.filter(
+          (usedByObj) => usedByObj.project === project
+        ),
+      };
+    }),
+  ];
 
   return (
-    <>
-      <table>
-        <tbody>
-          <tr>
-            <th className="u-text--muted">Name</th>
-            <td>
-              <ItemName item={profile} />
-            </td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">Description</th>
-            <td>{profile.description ? profile.description : "-"}</td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">Instances using this profile</th>
-            <td>
-              {usedByNames?.length ? (
-                <List
-                  className="u-no-margin--bottom"
-                  items={usedByNames.map((name) => (
-                    <Link
-                      key={name}
-                      to={`/ui/${project}/instances/detail/${name}`}
+    <div className="profile-overview-tab">
+      <Row className="general">
+        <Col size={3}>
+          <h2 className="p-heading--4">General</h2>
+        </Col>
+        <Col size={7}>
+          <table>
+            <tbody>
+              <tr>
+                <th className="p-muted-heading">Name</th>
+                <td>{profile.name}</td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">Description</th>
+                <td>{profile.description ? profile.description : "-"}</td>
+              </tr>
+            </tbody>
+          </table>
+        </Col>
+      </Row>
+      <Row className="devices">
+        <Col size={3}>
+          <h2 className="p-heading--4">Devices</h2>
+        </Col>
+        <Col size={7}>
+          <table>
+            <tbody>
+              <tr className="list-wrapper">
+                <th className="p-muted-heading">Networks</th>
+                <td>
+                  {Object.values(profile.devices).some(isNicDevice) ? (
+                    <ExpandableList
+                      progressive
+                      items={Object.values(profile.devices)
+                        .filter(isNicDevice)
+                        .map((device, i) => (
+                          <div
+                            key={`nic-${i}`}
+                            className="u-truncate list-item"
+                            title={device.network}
+                          >
+                            {device.network}
+                          </div>
+                        ))}
+                    />
+                  ) : (
+                    <>-</>
+                  )}
+                </td>
+              </tr>
+              <tr className="list-wrapper">
+                <th className="p-muted-heading">Storage</th>
+                <td>
+                  {Object.values(profile.devices).some(isDiskDevice) ? (
+                    <ExpandableList
+                      progressive
+                      items={Object.values(profile.devices)
+                        .filter(isDiskDevice)
+                        .map((device, i) => (
+                          <div
+                            key={`disk-${i}`}
+                            className="u-truncate list-item"
+                            title={device.pool}
+                          >
+                            {device.pool}
+                          </div>
+                        ))}
+                    />
+                  ) : (
+                    <>-</>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Col>
+      </Row>
+      <Row className="instances list-wrapper">
+        <Col size={3}>
+          <h2 className="p-heading--4">Instances</h2>
+        </Col>
+        <Col size={7}>
+          {usedByInstances.length === 0 && <>-</>}
+          {usedByInstances.length > 0 && (
+            <>
+              {isDefaultProject && (
+                <table>
+                  <tbody>
+                    {usedByProject.map((usedByProjObj) => (
+                      <ProfileUsedByProject
+                        key={usedByProjObj.project}
+                        usedByProjObj={usedByProjObj}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              )}
+              {!isDefaultProject && (
+                <ExpandableList
+                  progressive
+                  items={usedByInstances.map((usedByObj) => (
+                    <div
+                      key={usedByObj.name}
+                      className="u-truncate list-item"
+                      title={usedByObj.name}
                     >
-                      {name}
-                    </Link>
+                      <InstanceLink
+                        instance={{
+                          name: usedByObj.name,
+                          project: usedByObj.project,
+                        }}
+                      />
+                    </div>
                   ))}
                 />
-              ) : (
-                <>-</>
               )}
-            </td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">Network devices</th>
-            <td>
-              {Object.values(profile.devices).some(isNicDevice) ? (
-                Object.values(profile.devices)
-                  .filter(isNicDevice)
-                  .map((device) => (
-                    <Row key={device.network}>
-                      <Col size={6}>
-                        <span>
-                          Name in instance:{" "}
-                          <b>{device.name ?? device.network}</b>
-                        </span>
-                      </Col>
-                      <Col size={6}>
-                        <span>
-                          Device: <b>{device.network}</b>
-                        </span>
-                      </Col>
-                    </Row>
-                  ))
-              ) : (
-                <>-</>
-              )}
-            </td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">Storage devices</th>
-            <td>
-              {Object.values(profile.devices).some(isDiskDevice) ? (
-                Object.values(profile.devices)
-                  .filter(isDiskDevice)
-                  .map((device) => (
-                    <Row key={device.path}>
-                      <Col size={6}>
-                        <span>
-                          Path:{" "}
-                          <b>
-                            {device.path}
-                            {device.path === "/" && <span> (root)</span>}
-                          </b>
-                        </span>
-                      </Col>
-                      <Col size={6}>
-                        <span>
-                          Pool: <b>{device.pool}</b>
-                        </span>
-                      </Col>
-                    </Row>
-                  ))
-              ) : (
-                <>-</>
-              )}
-            </td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">Memory limit</th>
-            <td>{profile.config["limits.memory"] || "-"}</td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">CPU limit</th>
-            <td>{profile.config["limits.cpu"] || "-"}</td>
-          </tr>
-          <tr>
-            <th className="u-text--muted">cloud-init config</th>
-            <td>
-              {profile.config["cloud-init.user-data"] && (
-                <Row>
-                  <div className="p-heading--5">
-                    <code>cloud-init.user-data</code>
-                  </div>
-                  <CodeSnippet
-                    blocks={[
-                      {
-                        appearance: CodeSnippetBlockAppearance.NUMBERED,
-                        code: getCloudInitConfig("user-data"),
-                      },
-                    ]}
-                  />
-                </Row>
-              )}
-              {profile.config["cloud-init.vendor-data"] && (
-                <Row>
-                  <div className="p-heading--5">
-                    <code>cloud-init.vendor-data</code>
-                  </div>
-                  <CodeSnippet
-                    blocks={[
-                      {
-                        appearance: CodeSnippetBlockAppearance.NUMBERED,
-                        code: getCloudInitConfig("vendor-data"),
-                      },
-                    ]}
-                  />
-                </Row>
-              )}
-              {profile.config["cloud-init.network-config"] && (
-                <Row>
-                  <div className="p-heading--5">
-                    <code>cloud-init.network-config</code>
-                  </div>
-                  <CodeSnippet
-                    blocks={[
-                      {
-                        appearance: CodeSnippetBlockAppearance.NUMBERED,
-                        code: getCloudInitConfig("network-config"),
-                      },
-                    ]}
-                  />
-                </Row>
-              )}
-              {!Object.keys(profile.config).some((key) =>
-                key.startsWith("cloud-init.")
-              ) && <>-</>}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </>
+            </>
+          )}
+        </Col>
+      </Row>
+    </div>
   );
 };
 
-export default ProfileDetail;
+export default ProfileDetailOverview;
