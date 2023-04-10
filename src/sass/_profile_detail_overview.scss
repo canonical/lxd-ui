@@ -1,4 +1,4 @@
-.instance-overview-tab {
+.profile-overview-tab {
   overflow: auto;
 
   .p-muted-heading {
@@ -11,8 +11,7 @@
   }
 
   .general,
-  .usage,
-  .networks {
+  .devices {
     border-bottom: 1px solid $color-mid-light;
 
     table {
@@ -21,7 +20,8 @@
   }
 
   .general,
-  .usage {
+  .devices,
+  .instances {
     tr {
       border: none;
     }
@@ -43,40 +43,17 @@
     }
   }
 
-  .networks {
-    th:nth-child(1) {
-      width: 30%;
+  .list-wrapper {
+    .list-item {
+      padding-bottom: $spv--small;
     }
 
-    th:first-of-type,
-    td:first-of-type {
-      padding-left: 0;
-    }
-  }
-
-  .profiles {
-    th:nth-child(1) {
-      width: 30%;
-    }
-
-    th:first-of-type,
-    td:first-of-type {
-      padding-left: 0;
+    .p-button--link {
+      padding: $spv--small 0;
     }
   }
 
-  .usage {
-    .metric-row {
-      .p-meter {
-        margin-top: $spv--small;
-      }
-
-      &:first-of-type {
-        td,
-        th {
-          padding-bottom: $spv--x-large;
-        }
-      }
-    }
+  .instances-by-project:not(:last-of-type) {
+    border-bottom: 1px solid $color-mid-light !important;
   }
 }

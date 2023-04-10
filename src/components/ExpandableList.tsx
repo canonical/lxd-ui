@@ -5,9 +5,10 @@ const DISPLAY_COUNT = 5;
 
 interface Props {
   items: ReactNode[];
+  progressive?: boolean;
 }
 
-const ExpandableList: FC<Props> = ({ items }) => {
+const ExpandableList: FC<Props> = ({ items, progressive = false }) => {
   const [displayCount, setDisplayCount] = useState(DISPLAY_COUNT);
 
   return (
@@ -19,11 +20,13 @@ const ExpandableList: FC<Props> = ({ items }) => {
           className="u-no-margin--bottom"
           small
           onClick={(e) => {
-            setDisplayCount(items.length);
+            setDisplayCount(
+              progressive ? displayCount + DISPLAY_COUNT : items.length
+            );
             e.stopPropagation();
           }}
         >
-          Show all
+          Show {progressive ? "more" : "all"}
         </Button>
       )}
     </>
