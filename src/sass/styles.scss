@@ -121,7 +121,7 @@ $border-thin: 1px solid $color-mid-light !default;
 }
 
 .p-empty-snapshots {
-  @include vf-icon-settings($color-mid-light);
+  @include vf-icon-containers($color-mid-light);
 }
 
 .clear-selection-icon {

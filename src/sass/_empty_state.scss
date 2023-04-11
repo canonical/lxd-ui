@@ -1,9 +1,19 @@
 .empty-state {
+  margin-top: min(5vh, $spv--strip-regular);
+
   .empty-state-icon {
     height: $sp-xx-large;
     margin-bottom: $spv--large;
     margin-top: $spv--x-large;
     width: $sp-xx-large;
+  }
+
+  h4 {
+    margin-bottom: $spv--x-small;
+  }
+
+  p {
+    margin-bottom: $spv--medium;
   }
 
   .empty-state-button {
