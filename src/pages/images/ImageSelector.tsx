@@ -17,6 +17,7 @@ import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import Loader from "components/Loader";
 import { fetchSettings } from "api/server";
 import { getArchitectureAliases } from "util/architectures";
+import { instanceCreationTypes } from "util/instanceOptions";
 
 interface Props {
   onClose: () => void;
@@ -321,14 +322,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                   label: "Any",
                   value: ANY,
                 },
-                {
-                  label: "container",
-                  value: CONTAINER,
-                },
-                {
-                  label: "virtual-machine",
-                  value: VM,
-                },
+                ...instanceCreationTypes,
               ]}
               value={type}
             />

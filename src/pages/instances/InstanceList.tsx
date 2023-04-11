@@ -15,7 +15,11 @@ import { useNotify } from "context/notify";
 import usePanelParams from "util/usePanelParams";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
-import { instanceStatuses, instanceListTypes } from "util/instanceOptions";
+import {
+  instanceStatuses,
+  instanceListTypes,
+  instanceCreationTypes,
+} from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
@@ -199,7 +203,15 @@ const InstanceList: FC = () => {
             "aria-label": NAME,
           },
           {
-            content: instance.type,
+            content: (
+              <>
+                {
+                  instanceCreationTypes.find(
+                    (item) => item.value === instance.type
+                  )?.label
+                }
+              </>
+            ),
             role: "rowheader",
             "aria-label": TYPE,
             onClick: openSummary,
