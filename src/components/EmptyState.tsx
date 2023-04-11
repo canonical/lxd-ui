@@ -5,13 +5,13 @@ interface Props {
   iconName: string;
   iconClass: string;
   title: string;
-  message: string;
-  linkMessage: string;
-  linkURL: string;
-  buttonLabel: string;
-  buttonAction: () => void;
+  message: string | ReactNode;
+  linkMessage?: string;
+  linkURL?: string;
+  buttonLabel?: string;
+  buttonAction?: () => void;
   isDisabled?: boolean;
-  extraButton?: ReactNode;
+  customButton?: ReactNode;
 }
 
 const EmptyState: FC<Props> = ({
@@ -24,7 +24,7 @@ const EmptyState: FC<Props> = ({
   buttonLabel,
   buttonAction,
   isDisabled = false,
-  extraButton,
+  customButton,
 }) => {
   return (
     <Row className="empty-state">
@@ -32,26 +32,30 @@ const EmptyState: FC<Props> = ({
         <Icon name={iconName} className={`empty-state-icon ${iconClass}`} />
         <h4>{title}</h4>
         <p>{message}</p>
-        <p>
-          <a
-            className="p-link--external"
-            href={linkURL}
-            target="_blank"
-            rel="noreferrer"
+        {linkMessage && linkURL && (
+          <p>
+            <a
+              className="p-link--external"
+              href={linkURL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {linkMessage}
+              <Icon className="external-link-icon" name="external-link" />
+            </a>
+          </p>
+        )}
+        {customButton}
+        {buttonLabel && buttonAction && (
+          <Button
+            className="empty-state-button"
+            appearance="positive"
+            onClick={buttonAction}
+            disabled={isDisabled}
           >
-            {linkMessage}
-            <Icon className="external-link-icon" name="external-link" />
-          </a>
-        </p>
-        {extraButton}
-        <Button
-          className="empty-state-button"
-          appearance="positive"
-          onClick={buttonAction}
-          disabled={isDisabled}
-        >
-          {buttonLabel}
-        </Button>
+            {buttonLabel}
+          </Button>
+        )}
       </Col>
     </Row>
   );

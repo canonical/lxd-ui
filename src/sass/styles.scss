@@ -120,7 +120,7 @@ $border-thin: 1px solid $color-mid-light !default;
   @include vf-icon-external-link($color-link);
 }
 
-.p-empty-snapshots {
+.p-empty-instances {
   @include vf-icon-containers($color-mid-light);
 }
 

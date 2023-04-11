@@ -54,6 +54,8 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     onFailure("Loading project failed", error);
   }
 
+  const snapshotsDisabled = project?.config["restricted.snapshots"] === "block";
+
   useEffect(() => {
     const validNames = new Set(
       instance.snapshots?.map((snapshot) => snapshot.name)
@@ -262,15 +264,29 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       ) : (
         <EmptyState
           iconName="containers"
-          iconClass="p-empty-snapshots"
+          iconClass="p-empty-instances"
           title="No snapshots found"
-          message="There are no snapshots of this instance."
+          message={
+            snapshotsDisabled ? (
+              <>
+                Snapshots are disabled for project{" "}
+                <ItemName item={project} bold />.
+              </>
+            ) : (
+              "There are no snapshots of this instance."
+            )
+          }
           linkMessage="Learn more about snapshots"
           linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
           buttonLabel="Create snapshot"
           buttonAction={() => setModalOpen(true)}
-          isDisabled={project?.config["restricted.snapshots"] === "block"}
-          extraButton={<ConfigureSnapshotsBtn instance={instance} />}
+          isDisabled={snapshotsDisabled}
+          customButton={
+            <ConfigureSnapshotsBtn
+              instance={instance}
+              isDisabled={snapshotsDisabled}
+            />
+          }
         />
       )}
     </div>
