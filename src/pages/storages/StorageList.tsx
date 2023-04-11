@@ -40,7 +40,7 @@ const StorageList: FC = () => {
     { content: "Description", sortKey: "description" },
     { content: "Used by", sortKey: "usedBy", className: "u-align--right" },
     { content: "State", sortKey: "state" },
-    { content: "Actions", className: "u-align--center" },
+    { "aria-label": "Actions", className: "u-align--right" },
   ];
 
   const rows = storages.map((storage) => {
@@ -84,7 +84,7 @@ const StorageList: FC = () => {
         {
           content: <DeleteStorageBtn storage={storage} project={project} />,
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Actions",
         },
       ],

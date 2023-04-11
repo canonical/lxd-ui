@@ -40,7 +40,7 @@ const NetworkList: FC = () => {
     { content: "Description", sortKey: "description" },
     { content: "Used by", sortKey: "usedBy", className: "u-align--right" },
     { content: "State", sortKey: "state" },
-    { content: "Actions", className: "u-align--center" },
+    { "aria-label": "Actions", className: "u-align--right" },
   ];
 
   const rows = networks.map((network) => {
@@ -91,7 +91,7 @@ const NetworkList: FC = () => {
         {
           content: <></>,
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Actions",
         },
       ],

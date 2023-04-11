@@ -1,12 +1,5 @@
 import React, { FC } from "react";
-import {
-  Icon,
-  List,
-  MainTable,
-  Row,
-  Tooltip,
-  Button,
-} from "@canonical/react-components";
+import { MainTable, Row, Button } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchProfiles } from "api/profiles";
 import BaseLayout from "components/BaseLayout";
@@ -15,7 +8,6 @@ import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { isDiskDevice, isNicDevice } from "util/devices";
 import ItemName from "components/ItemName";
 
 const ProfileList: FC = () => {
@@ -43,48 +35,10 @@ const ProfileList: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
-    { content: "Effects", className: "u-align--center" },
-    { content: "Used by", sortKey: "used_by", className: "u-align--center" },
+    { content: "Used by", sortKey: "used_by", className: "u-align--right" },
   ];
 
   const rows = profiles.map((profile) => {
-    const touchesNetwork = Object.values(profile.devices).some(isNicDevice);
-    const touchesStorage = Object.values(profile.devices).some(isDiskDevice);
-    const touchesCloudInit = Object.keys(profile.config).some((config) =>
-      config.startsWith("cloud-init")
-    );
-    const touchesLimits = Object.keys(profile.config).some((config) =>
-      config.startsWith("limits")
-    );
-
-    const effects = (
-      <List
-        inline
-        items={[
-          touchesNetwork ? (
-            <Tooltip message="Network" key="1" position="btm-center">
-              <Icon name="connected" />
-            </Tooltip>
-          ) : null,
-          touchesStorage ? (
-            <Tooltip message="Storage" key="2" position="btm-center">
-              <Icon name="pods" />
-            </Tooltip>
-          ) : null,
-          touchesCloudInit ? (
-            <Tooltip message="Cloud init" key="3" position="btm-center">
-              <Icon name="restart" />
-            </Tooltip>
-          ) : null,
-          touchesLimits ? (
-            <Tooltip message="Limit resources" key="4" position="btm-center">
-              <Icon name="priority-low" />
-            </Tooltip>
-          ) : null,
-        ].filter((n) => n)}
-      />
-    );
-
     const usedBy = <span>{profile.used_by?.length ?? "0"}</span>;
 
     return {
@@ -106,15 +60,9 @@ const ProfileList: FC = () => {
           "aria-label": "Description",
         },
         {
-          content: effects,
-          role: "rowheader",
-          className: "u-align--center",
-          "aria-label": "Effects",
-        },
-        {
           content: usedBy,
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Used by",
         },
       ],
