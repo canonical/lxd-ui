@@ -300,11 +300,7 @@ const InstanceList: FC = () => {
         >
           <div className="p-panel__header instance-list-header">
             <div className="instance-header-left">
-              <h1 className="p-heading--4">
-                {instances.length}
-                &nbsp;
-                {instances.length === 1 ? "Instance" : "Instances"}
-              </h1>
+              <h1 className="p-heading--4">Instances</h1>
               <SearchBox
                 className="search-box margin-right"
                 name="search-instance"
