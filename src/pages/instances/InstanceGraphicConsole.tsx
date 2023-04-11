@@ -40,6 +40,8 @@ const InstanceGraphicConsole: FC<Props> = ({
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
 
+  const isRunning = instance.status === "Running";
+
   const handleError = (e: object) => {
     onFailure("Error", e);
   };
@@ -62,7 +64,9 @@ const InstanceGraphicConsole: FC<Props> = ({
     setVgaLoading(true);
     const result = await connectInstanceVga(name, project).catch((e) => {
       setVgaLoading(false);
-      onFailure("Connection failed", e);
+      if (isRunning) {
+        onFailure("Connection failed", e);
+      }
     });
     if (!result) {
       return;
@@ -100,7 +104,9 @@ const InstanceGraphicConsole: FC<Props> = ({
         onagent: handleResize,
       });
     } catch (e) {
-      onFailure("Connection failed", e);
+      if (isRunning) {
+        onFailure("Connection failed", e);
+      }
     }
 
     return control;
