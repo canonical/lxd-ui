@@ -15,7 +15,7 @@ export const instanceCreationTypes = [
     value: "container",
   },
   {
-    label: "Virtual Machine",
+    label: "VM",
     value: "virtual-machine",
   },
 ];
