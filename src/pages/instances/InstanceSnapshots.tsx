@@ -16,6 +16,10 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import SnapshotBulkDelete from "pages/instances/actions/snapshots/SnapshotBulkDelete";
 import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSnapshotsBtn";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "components/Loader";
+import { fetchProject } from "api/projects";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   instance: LxdInstance;
@@ -29,6 +33,27 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
 
+  const onSuccess = (message: ReactNode) => {
+    setInTabNotification(success(message));
+  };
+
+  const onFailure = (title: string, e: unknown) => {
+    setInTabNotification(failure(title, e));
+  };
+
+  const {
+    data: project,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: [queryKeys.projects, instance.project],
+    queryFn: () => fetchProject(instance.project),
+  });
+
+  if (error) {
+    onFailure("Loading project failed", error);
+  }
+
   useEffect(() => {
     const validNames = new Set(
       instance.snapshots?.map((snapshot) => snapshot.name)
@@ -40,14 +65,6 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       setSelectedNames(validSelections);
     }
   }, [instance.snapshots]);
-
-  const onSuccess = (message: ReactNode) => {
-    setInTabNotification(success(message));
-  };
-
-  const onFailure = (title: string, e: unknown) => {
-    setInTabNotification(failure(title, e));
-  };
 
   const filteredSnapshots =
     instance.snapshots?.filter((item) => {
@@ -146,7 +163,9 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     pagination.currentPage,
   ]);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="snapshot-list">
       {isModalOpen && (
         <CreateSnapshotForm
@@ -172,7 +191,10 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
                   aria-label="Search for snapshots"
                 />
               </div>
-              <ConfigureSnapshotsBtn instance={instance} />
+              <ConfigureSnapshotsBtn
+                instance={instance}
+                className="u-no-margin--right"
+              />
               <Button
                 appearance="positive"
                 className="u-float-right"
@@ -239,15 +261,16 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         </>
       ) : (
         <EmptyState
-          iconName="settings"
+          iconName="containers"
           iconClass="p-empty-snapshots"
           title="No snapshots found"
-          message="A snapshot is the state of an instance at a particular point
-                  in time. It can be used to restore the instance to that state."
-          linkMessage="Read the documentation on snapshots"
+          message="There are no snapshots of this instance."
+          linkMessage="Learn more about snapshots"
           linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
           buttonLabel="Create snapshot"
           buttonAction={() => setModalOpen(true)}
+          isDisabled={project?.config["restricted.snapshots"] === "block"}
+          extraButton={<ConfigureSnapshotsBtn instance={instance} />}
         />
       )}
     </div>

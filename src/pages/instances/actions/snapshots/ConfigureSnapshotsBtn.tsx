@@ -5,9 +5,10 @@ import { LxdInstance } from "types/instance";
 
 interface Props {
   instance: LxdInstance;
+  className?: string;
 }
 
-const ConfigureSnapshotsBtn: FC<Props> = ({ instance }) => {
+const ConfigureSnapshotsBtn: FC<Props> = ({ instance, className }) => {
   const [isModal, setModal] = useState(false);
 
   const closeModal = () => {
@@ -23,7 +24,7 @@ const ConfigureSnapshotsBtn: FC<Props> = ({ instance }) => {
       {isModal && (
         <ConfigureSnapshotModal close={closeModal} instance={instance} />
       )}
-      <Button onClick={openModal} className="u-no-margin--right">
+      <Button onClick={openModal} className={className}>
         See configuration
       </Button>
     </>

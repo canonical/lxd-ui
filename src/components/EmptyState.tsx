@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 
 interface Props {
@@ -10,6 +10,8 @@ interface Props {
   linkURL: string;
   buttonLabel: string;
   buttonAction: () => void;
+  isDisabled?: boolean;
+  extraButton?: ReactNode;
 }
 
 const EmptyState: FC<Props> = ({
@@ -21,6 +23,8 @@ const EmptyState: FC<Props> = ({
   linkURL,
   buttonLabel,
   buttonAction,
+  isDisabled = false,
+  extraButton,
 }) => {
   return (
     <Row className="empty-state">
@@ -39,10 +43,12 @@ const EmptyState: FC<Props> = ({
             <Icon className="external-link-icon" name="external-link" />
           </a>
         </p>
+        {extraButton}
         <Button
           className="empty-state-button"
           appearance="positive"
           onClick={buttonAction}
+          disabled={isDisabled}
         >
           {buttonLabel}
         </Button>
