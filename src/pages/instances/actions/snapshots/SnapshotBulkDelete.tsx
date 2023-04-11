@@ -11,7 +11,7 @@ interface Props {
   onStart: () => void;
   onFinish: () => void;
   onSuccess: (message: ReactNode) => void;
-  onFailure: (message: ReactNode, e: unknown) => void;
+  onFailure: (title: string, e: unknown) => void;
 }
 
 const SnapshotBulkDelete: FC<Props> = ({
@@ -37,7 +37,7 @@ const SnapshotBulkDelete: FC<Props> = ({
           </>
         )
       )
-      .catch((e) => onFailure("Error on snapshot delete.", e))
+      .catch((e) => onFailure("Snapshot deletion failed.", e))
       .finally(() => {
         setLoading(false);
         onFinish();
