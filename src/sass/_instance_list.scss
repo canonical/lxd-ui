@@ -167,7 +167,7 @@
 }
 
 // hide filters on small screens
-@media screen and (max-width: 1110px) {
+@media screen and (max-width: $breakpoint-large) {
   .filter-state,
   .filter-type,
   .search-box {
