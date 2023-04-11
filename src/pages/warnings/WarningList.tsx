@@ -28,9 +28,9 @@ const WarningList: FC = () => {
   const headers = [
     { content: "Type", sortKey: "type" },
     { content: "Last message", sortKey: "lastMessage" },
-    { content: "Status", sortKey: "status", className: "u-align--center" },
-    { content: "Severity", sortKey: "severity", className: "u-align--center" },
-    { content: "Count", sortKey: "count", className: "u-align--center" },
+    { content: "Status", sortKey: "status" },
+    { content: "Severity", sortKey: "severity" },
+    { content: "Count", sortKey: "count", className: "u-align--right" },
     { content: "Project", sortKey: "project" },
     { content: "First seen", sortKey: "firstSeen" },
     { content: "Last seen", sortKey: "lastSeen" },
@@ -52,19 +52,17 @@ const WarningList: FC = () => {
         {
           content: warning.status,
           role: "rowheader",
-          className: "u-align--center",
           "aria-label": "Status",
         },
         {
           content: warning.severity,
           role: "rowheader",
-          className: "u-align--center",
           "aria-label": "Severity",
         },
         {
           content: warning.count,
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Count",
         },
         {

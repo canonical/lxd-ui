@@ -27,13 +27,13 @@ const ClusterList: FC = () => {
   const headers = [
     { content: "Name" },
     { content: "Url", sortKey: "url" },
-    { content: "Roles", sortKey: "roles", className: "u-align--center" },
+    { content: "Roles", sortKey: "roles" },
     { content: "Architecture", sortKey: "architecture" },
     { content: "Failure Domain", sortKey: "failureDomain" },
     { content: "Description", sortKey: "description" },
-    { content: "State", sortKey: "state", className: "u-align--center" },
+    { content: "State", sortKey: "state" },
     { content: "Message", sortKey: "message" },
-    { content: "Actions", className: "u-align--center" },
+    { "aria-label": "Actions", className: "u-align--right" },
   ];
 
   const rows = members.map((member) => {
@@ -82,7 +82,7 @@ const ClusterList: FC = () => {
         {
           content: <></>,
           role: "rowheader",
-          className: "u-align--center",
+          className: "u-align--right",
           "aria-label": "Actions",
         },
       ],
