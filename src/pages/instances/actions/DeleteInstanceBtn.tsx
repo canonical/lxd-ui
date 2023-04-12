@@ -21,13 +21,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       .then(() => {
         navigate(
           `/ui/${instance.project}/instances`,
-          notify.queue(
-            notify.success(
-              <>
-                Instance <ItemName item={instance} bold /> deleted.
-              </>
-            )
-          )
+          notify.queue(notify.success(`Instance ${instance.name} deleted.`))
         );
       })
       .catch((e) => {

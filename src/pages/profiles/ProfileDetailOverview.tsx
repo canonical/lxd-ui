@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import { Col, Row } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
 import { isDiskDevice, isNicDevice } from "util/devices";
-import InstanceLink from "pages/instances/InstanceLink";
-import { UsedByProject, getProfileInstances } from "util/usedBy";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ProfileUsedByProject from "./ProfileUsedByProject";
 import ExpandableList from "components/ExpandableList";
+import ItemName from "components/ItemName";
 
 interface Props {
   profile: LxdProfile;
@@ -27,38 +26,6 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
   useEffect(updateContentHeight, []);
   useEventListener("resize", updateContentHeight);
 
-  const isDefaultProject = project === "default";
-  const usedByInstances = getProfileInstances(
-    project,
-    isDefaultProject,
-    profile.used_by
-  );
-  const otherProjects = isDefaultProject
-    ? [
-        ...new Set(
-          usedByInstances
-            .filter((usedByObj) => usedByObj.project !== "default")
-            .map((usedByObj) => usedByObj.project)
-        ),
-      ]
-    : [];
-  const usedByProject: UsedByProject[] = [
-    {
-      project: "default",
-      usedBys: usedByInstances.filter(
-        (usedByObj) => usedByObj.project === "default"
-      ),
-    },
-    ...otherProjects.map((project) => {
-      return {
-        project: project,
-        usedBys: usedByInstances.filter(
-          (usedByObj) => usedByObj.project === project
-        ),
-      };
-    }),
-  ];
-
   return (
     <div className="profile-overview-tab">
       <Row className="general">
@@ -70,7 +37,9 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
             <tbody>
               <tr>
                 <th className="p-muted-heading">Name</th>
-                <td>{profile.name}</td>
+                <td>
+                  <ItemName item={profile} />
+                </td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Description</th>
@@ -95,9 +64,9 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                       progressive
                       items={Object.values(profile.devices)
                         .filter(isNicDevice)
-                        .map((device, i) => (
+                        .map((device) => (
                           <div
-                            key={`nic-${i}`}
+                            key={device.name}
                             className="u-truncate list-item"
                             title={device.network}
                           >
@@ -118,9 +87,9 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                       progressive
                       items={Object.values(profile.devices)
                         .filter(isDiskDevice)
-                        .map((device, i) => (
+                        .map((device) => (
                           <div
-                            key={`disk-${i}`}
+                            key={device.path}
                             className="u-truncate list-item"
                             title={device.pool}
                           >
@@ -142,42 +111,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
           <h2 className="p-heading--4">Instances</h2>
         </Col>
         <Col size={7}>
-          {usedByInstances.length === 0 && <>-</>}
-          {usedByInstances.length > 0 && (
-            <>
-              {isDefaultProject && (
-                <table>
-                  <tbody>
-                    {usedByProject.map((usedByProjObj) => (
-                      <ProfileUsedByProject
-                        key={usedByProjObj.project}
-                        usedByProjObj={usedByProjObj}
-                      />
-                    ))}
-                  </tbody>
-                </table>
-              )}
-              {!isDefaultProject && (
-                <ExpandableList
-                  progressive
-                  items={usedByInstances.map((usedByObj) => (
-                    <div
-                      key={usedByObj.name}
-                      className="u-truncate list-item"
-                      title={usedByObj.name}
-                    >
-                      <InstanceLink
-                        instance={{
-                          name: usedByObj.name,
-                          project: usedByObj.project,
-                        }}
-                      />
-                    </div>
-                  ))}
-                />
-              )}
-            </>
-          )}
+          <ProfileUsedByProject profile={profile} project={project} />
         </Col>
       </Row>
     </div>
