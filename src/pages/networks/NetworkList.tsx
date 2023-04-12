@@ -96,10 +96,10 @@ const NetworkList: FC = () => {
         },
       ],
       sortData: {
-        name: network.name,
+        name: network.name.toLowerCase(),
         type: network.type,
         managed: network.managed,
-        description: network.description,
+        description: network.description.toLowerCase(),
         state: network.status,
         usedBy: network.used_by?.length ?? 0,
       },

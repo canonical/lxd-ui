@@ -212,9 +212,9 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
           },
         ],
         sortData: {
-          os: item.os,
-          release: item.release,
-          variant: item.variant,
+          os: item.os.toLowerCase(),
+          release: item.release.toLowerCase(),
+          variant: item.variant?.toLowerCase(),
           type: itemType,
           alias: item.aliases,
         },

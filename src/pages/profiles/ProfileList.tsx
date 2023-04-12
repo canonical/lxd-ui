@@ -72,8 +72,8 @@ const ProfileList: FC = () => {
         },
       ],
       sortData: {
-        name: profile.name,
-        description: profile.description,
+        name: profile.name.toLowerCase(),
+        description: profile.description.toLowerCase(),
         used_by: profile.used_by,
       },
     };

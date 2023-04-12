@@ -88,7 +88,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
           },
         ],
         sortData: {
-          name: network.name,
+          name: network.name.toLowerCase(),
           type: network.type,
           managed: network.managed,
           interfaceName: interfaceNames.join(" "),

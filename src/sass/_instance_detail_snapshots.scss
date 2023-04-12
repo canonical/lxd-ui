@@ -86,6 +86,11 @@
       }
     }
 
+    .created-header--collapsed {
+      display: inline-block;
+      padding-top: 1px;
+    }
+
     .name {
       min-width: 170px;
     }
@@ -99,7 +104,7 @@
     }
 
     .stateful {
-      width: 95px;
+      width: 105px;
     }
 
     .actions {

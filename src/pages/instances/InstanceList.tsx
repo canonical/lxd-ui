@@ -159,7 +159,11 @@ const InstanceList: FC = () => {
         sortKey: "snapshots",
         className: "u-align--right snapshots",
       },
-      { content: STATUS, sortKey: "status", className: "status-header status" },
+      {
+        content: <span>{STATUS}</span>,
+        sortKey: "status",
+        className: "status-header status",
+      },
       {
         "aria-label": "Actions",
         className: classnames("actions", { "u-hide": panelParams.instance }),
@@ -278,7 +282,8 @@ const InstanceList: FC = () => {
           },
         ].filter((item) => !hiddenCols.includes(item["aria-label"])),
         sortData: {
-          name: instance.name,
+          name: instance.name.toLowerCase(),
+          description: instance.description.toLowerCase(),
           status: instance.status,
           type: instance.type,
           snapshots: instance.snapshots?.length ?? 0,
@@ -393,6 +398,7 @@ const InstanceList: FC = () => {
                           <>No instance found matching this search</>
                         )
                       }
+                      onUpdateSort={pagination.updateSort}
                     />
                     <Pagination
                       {...pagination}

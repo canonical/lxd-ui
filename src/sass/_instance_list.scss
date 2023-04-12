@@ -87,6 +87,17 @@
 
     .status-header {
       padding-left: 3.33rem;
+      pointer-events: none;
+
+      > * {
+        pointer-events: all;
+      }
+    }
+
+    th::before {
+      content: "";
+      display: inline-block;
+      height: 1rem;
     }
 
     thead,
@@ -132,7 +143,7 @@
     }
 
     .snapshots {
-      width: 100px;
+      width: 110px;
     }
 
     .actions {

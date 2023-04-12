@@ -65,8 +65,8 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
         },
       ],
       sortData: {
-        name: profile,
-        description: description,
+        name: profile.toLowerCase(),
+        description: description.toLowerCase(),
       },
     };
   });

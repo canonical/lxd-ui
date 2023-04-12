@@ -84,11 +84,11 @@ const WarningList: FC = () => {
       ],
       sortData: {
         type: warning.type,
-        lastMessage: warning.last_message,
+        lastMessage: warning.last_message.toLowerCase(),
         status: warning.status,
         severity: warning.severity,
         count: warning.count,
-        project: warning.project,
+        project: warning.project.toLowerCase(),
         firstSeen: warning.first_seen_at,
         lastSeen: warning.last_seen_at,
       },
