@@ -40,6 +40,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
 
   return (
     <ConfirmationButton
+      onHoverText="Delete instance"
       toggleAppearance="base"
       className="delete-instance-btn"
       isLoading={isLoading}

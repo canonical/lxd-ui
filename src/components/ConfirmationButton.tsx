@@ -11,6 +11,7 @@ interface Props {
   title: string;
   toggleAppearance?: string;
   toggleCaption?: string;
+  onHoverText?: string;
   confirmationExtra?: ReactNode;
   confirmationMessage: string | ReactNode;
   posButtonLabel: string;
@@ -28,6 +29,7 @@ const ConfirmationButton: FC<Props> = ({
   title,
   toggleAppearance = "",
   toggleCaption,
+  onHoverText,
   confirmationExtra,
   confirmationMessage,
   posButtonLabel,
@@ -84,7 +86,7 @@ const ConfirmationButton: FC<Props> = ({
         disabled={isDisabled}
         onClick={handleShiftClick}
         aria-label={posButtonLabel}
-        title={posButtonLabel}
+        title={onHoverText ?? posButtonLabel}
         type="button"
       >
         {iconName && (
