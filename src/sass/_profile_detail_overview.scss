@@ -6,12 +6,15 @@
     font-weight: 500;
   }
 
-  .row {
+  .row:first-of-type {
     margin-top: $spv--x-large;
   }
 
-  .general,
-  .devices {
+  .row:not(:first-of-type) {
+    margin-top: $spv--large;
+  }
+
+  .section {
     border-bottom: 1px solid $color-mid-light;
 
     table {
@@ -19,9 +22,8 @@
     }
   }
 
-  .general,
-  .devices,
-  .instances {
+  .section,
+  .usage {
     tr {
       border: none;
     }
@@ -41,6 +43,10 @@
     th:first-of-type {
       padding-top: $spv--small;
     }
+  }
+
+  .view-config {
+    margin-top: $spv--x-small;
   }
 
   .list-wrapper {
