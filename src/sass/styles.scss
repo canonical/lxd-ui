@@ -162,6 +162,10 @@ $border-thin: 1px solid $color-mid-light !default;
   padding-top: $spv--x-small;
 }
 
+.p-panel__title {
+  padding-bottom: $spv--medium;
+}
+
 .p-breadcrumbs {
   margin-bottom: 0;
   width: inherit;

@@ -313,9 +313,9 @@ const InstanceList: FC = () => {
         >
           <div className="p-panel__header instance-list-header">
             <div className="instance-header-left">
-              <h1 className="p-heading--4">Instances</h1>
+              <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
               <SearchBox
-                className="search-box margin-right"
+                className="search-box margin-right u-no-margin--bottom"
                 name="search-instance"
                 type="text"
                 onChange={(value) => {
@@ -326,6 +326,7 @@ const InstanceList: FC = () => {
                 aria-label="Search"
               />
               <Select
+                className="u-no-margin--bottom"
                 wrapperClassName="margin-right filter-state"
                 onChange={(v) => {
                   setStatus(v.target.value);
@@ -341,6 +342,7 @@ const InstanceList: FC = () => {
                 aria-label="Filter status"
               />
               <Select
+                className="u-no-margin--bottom"
                 wrapperClassName="margin-right filter-type"
                 onChange={(v) => {
                   setType(v.target.value);
@@ -359,6 +361,7 @@ const InstanceList: FC = () => {
             {hasInstances && (
               <Button
                 appearance="positive"
+                className="u-no-margin--bottom"
                 onClick={() => navigate(`/ui/${project}/instances/create`)}
               >
                 Create instance

@@ -169,6 +169,10 @@
   .search-box {
     display: none;
   }
+
+  .instance-list-header {
+    margin-bottom: 0 !important;
+  }
 }
 @media screen and (max-width: 1500px) {
   .has-side-panel {
