@@ -10,12 +10,9 @@ import Loader from "components/Loader";
 import EditProfileForm from "pages/profiles/EditProfileForm";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
+import { slugify } from "util/slugify";
 
 const TABS: string[] = ["Overview", "Configuration"];
-
-const tabNameToUrl = (name: string) => {
-  return name.replace(" ", "-").toLowerCase();
-};
 
 const ProfileDetail: FC = () => {
   const navigate = useNavigate();
@@ -68,11 +65,11 @@ const ProfileDetail: FC = () => {
               <Tabs
                 links={TABS.map((tab) => ({
                   label: tab,
-                  id: tabNameToUrl(tab),
+                  id: slugify(tab),
                   active:
-                    tabNameToUrl(tab) === activeTab ||
+                    slugify(tab) === activeTab ||
                     (tab === "Overview" && !activeTab),
-                  onClick: () => handleTabChange(tabNameToUrl(tab)),
+                  onClick: () => handleTabChange(slugify(tab)),
                 }))}
               />
 
