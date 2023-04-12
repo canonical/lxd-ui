@@ -32,6 +32,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
 
   return (
     <ConfirmationButton
+      onHoverText="Delete profile"
       toggleAppearance="base"
       className="delete-profile-btn"
       isLoading={isLoading}
