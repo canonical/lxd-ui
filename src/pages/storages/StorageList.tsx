@@ -89,9 +89,9 @@ const StorageList: FC = () => {
         },
       ],
       sortData: {
-        name: storage.name,
+        name: storage.name.toLowerCase(),
         driver: storage.driver,
-        description: storage.description,
+        description: storage.description.toLowerCase(),
         state: storage.status,
         usedBy: storage.used_by?.length ?? 0,
       },

@@ -91,12 +91,12 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         <>
           Name
           <br />
-          Date created
+          <div className="created-header--collapsed">Date created</div>
         </>
       ) : (
         "Name"
       ),
-      sortKey: "name",
+      sortKey: isSmallScreen ? "created_at" : undefined,
       className: "name",
     },
     ...(isSmallScreen
@@ -178,7 +178,6 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         },
       ],
       sortData: {
-        name: snapshot.name,
         created_at: snapshot.created_at,
         expires_at: snapshot.expires_at,
         stateful: snapshot.stateful,
@@ -186,7 +185,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     };
   });
 
-  const pagination = usePagination(rows);
+  const pagination = usePagination(rows, "created_at", "descending");
 
   const resize = () => {
     updateTBodyHeight("snapshots-table-wrapper");
@@ -287,6 +286,9 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
             allNames={
               instance.snapshots?.map((snapshot) => snapshot.name) ?? []
             }
+            onUpdateSort={pagination.updateSort}
+            defaultSort="created_at"
+            defaultSortDirection="descending"
           />
           <Pagination
             {...pagination}

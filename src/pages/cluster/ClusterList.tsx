@@ -87,7 +87,7 @@ const ClusterList: FC = () => {
         },
       ],
       sortData: {
-        name: member.server_name,
+        name: member.server_name.toLowerCase(),
       },
     };
   });
