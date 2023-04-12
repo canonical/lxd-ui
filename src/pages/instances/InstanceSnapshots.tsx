@@ -21,6 +21,10 @@ import Loader from "components/Loader";
 import { fetchProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
 
+const collapsedViewMaxWidth = 1250;
+export const figureCollapsedScreen = (): boolean =>
+  window.innerWidth <= collapsedViewMaxWidth;
+
 interface Props {
   instance: LxdInstance;
 }
@@ -32,6 +36,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     useState<Notification | null>(null);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
+  const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
 
   const onSuccess = (message: ReactNode) => {
     setInTabNotification(success(message));
@@ -81,8 +86,28 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
   const hasSnapshots = instance.snapshots && instance.snapshots.length > 0;
 
   const headers = [
-    { content: "Name", sortKey: "name", className: "name" },
-    { content: "Date created", sortKey: "created_at", className: "created" },
+    {
+      content: isSmallScreen ? (
+        <>
+          Name
+          <br />
+          Date created
+        </>
+      ) : (
+        "Name"
+      ),
+      sortKey: "name",
+      className: "name",
+    },
+    ...(isSmallScreen
+      ? []
+      : [
+          {
+            content: "Date created",
+            sortKey: "created_at",
+            className: "created",
+          },
+        ]),
     {
       content: "Expiry date",
       sortKey: "expires_at",
@@ -108,20 +133,31 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       columns: [
         {
           content: (
-            <div className="u-truncate" title={snapshot.name}>
-              <ItemName item={snapshot} />
-            </div>
+            <>
+              <div className="u-truncate" title={snapshot.name}>
+                <ItemName item={snapshot} />
+              </div>
+              {isSmallScreen && (
+                <div className="u-text--muted">
+                  {isoTimeToString(snapshot.created_at)}
+                </div>
+              )}
+            </>
           ),
           role: "rowheader",
           "aria-label": "Name",
           className: "name",
         },
-        {
-          content: isoTimeToString(snapshot.created_at),
-          role: "rowheader",
-          "aria-label": "Created at",
-          className: "created",
-        },
+        ...(isSmallScreen
+          ? []
+          : [
+              {
+                content: isoTimeToString(snapshot.created_at),
+                role: "rowheader",
+                "aria-label": "Created at",
+                className: "created",
+              },
+            ]),
         {
           content: isoTimeToString(snapshot.expires_at),
           role: "rowheader",
@@ -152,12 +188,12 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
 
   const pagination = usePagination(rows);
 
-  useEventListener("resize", () =>
-    updateTBodyHeight("snapshots-table-wrapper")
-  );
-  useEffect(() => {
+  const resize = () => {
     updateTBodyHeight("snapshots-table-wrapper");
-  }, [
+    setSmallScreen(figureCollapsedScreen());
+  };
+  useEventListener("resize", resize);
+  useEffect(resize, [
     instance.snapshots,
     inTabNotification,
     query,
