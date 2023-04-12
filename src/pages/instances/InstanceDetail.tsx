@@ -14,6 +14,7 @@ import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import InstanceConfiguration from "pages/instances/InstanceConfiguration";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
+import { slugify } from "util/slugify";
 
 const TABS: string[] = [
   "Overview",
@@ -23,10 +24,6 @@ const TABS: string[] = [
   "Console",
   "Logs",
 ];
-
-const tabNameToUrl = (name: string) => {
-  return name.replace(" ", "-").toLowerCase();
-};
 
 const InstanceDetail: FC = () => {
   const notify = useNotify();
@@ -82,12 +79,12 @@ const InstanceDetail: FC = () => {
             <Row>
               <Tabs
                 links={TABS.map((tab) => ({
-                  id: tabNameToUrl(tab),
+                  id: slugify(tab),
                   label: tab,
                   active:
-                    tabNameToUrl(tab) === activeTab ||
+                    slugify(tab) === activeTab ||
                     (tab === "Overview" && !activeTab),
-                  onClick: () => handleTabChange(tabNameToUrl(tab)),
+                  onClick: () => handleTabChange(slugify(tab)),
                 }))}
               />
 

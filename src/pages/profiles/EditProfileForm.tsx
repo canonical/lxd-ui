@@ -13,7 +13,7 @@ import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
 import { FormDeviceValues, formDeviceToPayload } from "util/formDevices";
 import SecurityPoliciesForm, {
@@ -56,6 +56,7 @@ import ProfileDetailsForm, {
 import { getUnhandledKeyValues } from "util/formFields";
 import { getProfileConfigKeys } from "util/instanceConfigFields";
 import { getProfileEditValues } from "util/instanceEdit";
+import { slugify } from "util/slugify";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -71,9 +72,12 @@ interface Props {
 
 const EditProfileForm: FC<Props> = ({ profile }) => {
   const notify = useNotify();
-  const { project } = useParams<{ project: string }>();
+  const { project, activeSection } = useParams<{
+    project: string;
+    activeSection?: string;
+  }>();
   const queryClient = useQueryClient();
-  const [section, setSection] = useState(PROFILE_DETAILS);
+  const navigate = useNavigate();
   const [isConfigOpen, setConfigOpen] = useState(true);
 
   if (!project) {
@@ -83,7 +87,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEffect(updateFormHeight, [notify.notification?.message, activeSection]);
   useEventListener("resize", updateFormHeight);
 
   const ProfileSchema = Yup.object().shape({
@@ -136,11 +140,20 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     };
   };
 
-  const updateSection = (newItem: string) => {
-    if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
+  const updateSection = (newSection: string) => {
+    if (
+      activeSection === slugify(YAML_CONFIGURATION) &&
+      newSection !== slugify(YAML_CONFIGURATION)
+    ) {
       void formik.setFieldValue("yaml", undefined);
     }
-    setSection(newItem);
+    if (newSection === slugify(PROFILE_DETAILS)) {
+      navigate(`/ui/${project}/profiles/detail/${profile.name}/configuration`);
+    } else {
+      navigate(
+        `/ui/${project}/profiles/detail/${profile.name}/configuration/${newSection}`
+      );
+    }
   };
 
   const toggleMenu = () => {
@@ -161,38 +174,42 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
     <div className="edit-profile">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
         <ProfileFormMenu
-          active={section}
-          setActive={updateSection}
+          active={activeSection ?? slugify(PROFILE_DETAILS)}
+          setActive={(val) => updateSection(slugify(val))}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
         />
-        <Row className="form-contents" key={section}>
+        <Row className="form-contents" key={activeSection}>
           <Col size={12}>
-            {section === PROFILE_DETAILS && (
+            {(activeSection === slugify(PROFILE_DETAILS) || !activeSection) && (
               <ProfileDetailsForm formik={formik} isEdit={true} />
             )}
 
-            {section === STORAGE && (
+            {activeSection === slugify(STORAGE) && (
               <RootStorageForm formik={formik} project={project} />
             )}
 
-            {section === NETWORKS && (
+            {activeSection === slugify(NETWORKS) && (
               <NetworkForm formik={formik} project={project} />
             )}
 
-            {section === RESOURCE_LIMITS && (
+            {activeSection === slugify(RESOURCE_LIMITS) && (
               <ResourceLimitsForm formik={formik} />
             )}
 
-            {section === SECURITY_POLICIES && (
+            {activeSection === slugify(SECURITY_POLICIES) && (
               <SecurityPoliciesForm formik={formik} />
             )}
 
-            {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
+            {activeSection === slugify(SNAPSHOTS) && (
+              <SnapshotsForm formik={formik} />
+            )}
 
-            {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+            {activeSection === slugify(CLOUD_INIT) && (
+              <CloudInitForm formik={formik} />
+            )}
 
-            {section === YAML_CONFIGURATION && (
+            {activeSection === slugify(YAML_CONFIGURATION) && (
               <YamlForm
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}

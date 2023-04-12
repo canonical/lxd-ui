@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { slugify } from "util/slugify";
 
 interface Props {
   active: string;
@@ -12,7 +13,7 @@ const FormMenuItem: FC<Props> = ({ active, setActive, label }) => {
       <a
         className="p-side-navigation__link"
         onClick={() => setActive(label)}
-        aria-current={label === active ? "page" : undefined}
+        aria-current={slugify(label) === active ? "page" : undefined}
       >
         {label}
       </a>

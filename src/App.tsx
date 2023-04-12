@@ -64,6 +64,10 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
+          path="/ui/:project/instances/detail/:name/:activeTab/:activeSection"
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
+        />
+        <Route
           path="/ui/images"
           element={<ProtectedRoute outlet={<ImageList />} />}
         />
@@ -81,6 +85,10 @@ const App: FC = () => {
         />
         <Route
           path="/ui/:project/profiles/detail/:name/:activeTab"
+          element={<ProtectedRoute outlet={<ProfileDetail />} />}
+        />
+        <Route
+          path="/ui/:project/profiles/detail/:name/:activeTab/:activeSection"
           element={<ProtectedRoute outlet={<ProfileDetail />} />}
         />
         <Route
