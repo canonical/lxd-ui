@@ -276,18 +276,33 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
               "There are no snapshots of this instance."
             )
           }
-          linkMessage="Learn more about snapshots"
-          linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
-          buttonLabel="Create snapshot"
-          buttonAction={() => setModalOpen(true)}
-          isDisabled={snapshotsDisabled}
-          customButton={
+        >
+          <>
+            <p>
+              <a
+                className="p-link--external"
+                href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Learn more about snapshots
+                <Icon className="external-link-icon" name="external-link" />
+              </a>
+            </p>
             <ConfigureSnapshotsBtn
               instance={instance}
               isDisabled={snapshotsDisabled}
             />
-          }
-        />
+            <Button
+              className="empty-state-button"
+              appearance="positive"
+              onClick={() => setModalOpen(true)}
+              disabled={snapshotsDisabled}
+            >
+              Create snapshot
+            </Button>
+          </>
+        </EmptyState>
       )}
     </div>
   );
