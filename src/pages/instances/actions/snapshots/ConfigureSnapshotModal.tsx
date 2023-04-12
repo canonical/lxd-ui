@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent } from "react";
+import React, { FC, KeyboardEvent, ReactNode } from "react";
 import { Button, Modal } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
@@ -6,7 +6,6 @@ import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNotify } from "context/notify";
 import SnapshotsForm from "pages/instances/forms/SnapshotsForm";
 import { useParams } from "react-router-dom";
 import {
@@ -19,10 +18,16 @@ import SubmitButton from "components/SubmitButton";
 interface Props {
   instance: LxdInstance;
   close: () => void;
+  onSuccess: (message: ReactNode) => void;
+  onFailure: (title: string, e: unknown) => void;
 }
 
-const ConfigureSnapshotModal: FC<Props> = ({ instance, close }) => {
-  const notify = useNotify();
+const ConfigureSnapshotModal: FC<Props> = ({
+  instance,
+  close,
+  onSuccess,
+  onFailure,
+}) => {
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
 
@@ -37,10 +42,10 @@ const ConfigureSnapshotModal: FC<Props> = ({ instance, close }) => {
 
       updateInstance(instancePayload, project ?? "")
         .then(() => {
-          notify.success("Configuration updated.");
+          onSuccess("Configuration updated.");
         })
         .catch((e: Error) => {
-          notify.failure("Configuration update failed", e);
+          onFailure("Configuration update failed", e);
         })
         .finally(() => {
           close();
