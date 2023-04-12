@@ -12,7 +12,7 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
-import InstanceConfiguration from "pages/instances/InstanceConfiguration";
+import EditInstanceForm from "./EditInstanceForm";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 import { slugify } from "util/slugify";
 
@@ -96,7 +96,7 @@ const InstanceDetail: FC = () => {
 
               {activeTab === "configuration" && (
                 <div role="tabpanel" aria-labelledby="configuration">
-                  <InstanceConfiguration instance={instance} />
+                  <EditInstanceForm instance={instance} />
                 </div>
               )}
 
