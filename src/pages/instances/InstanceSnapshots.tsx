@@ -196,6 +196,8 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
               <ConfigureSnapshotsBtn
                 instance={instance}
                 className="u-no-margin--right"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
               />
               <Button
                 appearance="positive"
@@ -292,6 +294,8 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
             <ConfigureSnapshotsBtn
               instance={instance}
               isDisabled={snapshotsDisabled}
+              onSuccess={onSuccess}
+              onFailure={onFailure}
             />
             <Button
               className="empty-state-button"

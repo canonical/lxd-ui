@@ -9,7 +9,7 @@ import { fetchProfiles } from "api/profiles";
 
 interface Props {
   instance: LxdInstance;
-  onFailure: (message: string, e: unknown) => void;
+  onFailure: (title: string, e: unknown) => void;
 }
 
 const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {

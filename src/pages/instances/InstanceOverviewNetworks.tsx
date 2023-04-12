@@ -10,7 +10,7 @@ import { isNicDevice } from "util/devices";
 
 interface Props {
   instance: LxdInstance;
-  onFailure: (message: string, e: unknown) => void;
+  onFailure: (title: string, e: unknown) => void;
 }
 
 const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
