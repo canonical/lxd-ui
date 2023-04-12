@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Col, Row } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
 import { isDiskDevice, isNicDevice } from "util/devices";
@@ -8,6 +8,9 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import ProfileUsedByProject from "./ProfileUsedByProject";
 import ExpandableList from "components/ExpandableList";
 import ItemName from "components/ItemName";
+import classnames from "classnames";
+import { CLOUD_INIT } from "./forms/ProfileFormMenu";
+import { slugify } from "util/slugify";
 
 interface Props {
   profile: LxdProfile;
@@ -26,9 +29,14 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
   useEffect(updateContentHeight, []);
   useEventListener("resize", updateContentHeight);
 
+  const hasCloudInit =
+    profile.config["cloud-init.user-data"] ||
+    profile.config["cloud-init.vendor-data"] ||
+    profile.config["cloud-init.network-config"];
+
   return (
     <div className="profile-overview-tab">
-      <Row className="general">
+      <Row className="section">
         <Col size={3}>
           <h2 className="p-heading--4">General</h2>
         </Col>
@@ -49,7 +57,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
           </table>
         </Col>
       </Row>
-      <Row className="devices">
+      <Row className="section">
         <Col size={3}>
           <h2 className="p-heading--4">Devices</h2>
         </Col>
@@ -106,9 +114,48 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
           </table>
         </Col>
       </Row>
-      <Row className="instances list-wrapper">
+      <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--4">Instances</h2>
+          <h2 className="p-heading--4">Limits</h2>
+        </Col>
+        <Col size={7}>
+          <table>
+            <tbody>
+              <tr>
+                <th className="p-muted-heading">CPU</th>
+                <td>{profile.config["limits.cpu"] || "-"}</td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">Memory</th>
+                <td>{profile.config["limits.memory"] || "-"}</td>
+              </tr>
+            </tbody>
+          </table>
+        </Col>
+      </Row>
+      <Row
+        className={classnames("section", {
+          "u-hide": !hasCloudInit,
+        })}
+      >
+        <Col size={3}>
+          <h2 className="p-heading--4">Cloud init</h2>
+        </Col>
+        <Col size={7} className="view-config">
+          <Link
+            to={`/ui/${project}/profiles/detail/${
+              profile.name
+            }/configuration/${slugify(CLOUD_INIT)}`}
+          >
+            View configuration
+          </Link>
+        </Col>
+      </Row>
+      <Row className="usage list-wrapper">
+        <Col size={3}>
+          <h2 className="p-heading--4">
+            Usage ({profile.used_by?.length ?? 0})
+          </h2>
         </Col>
         <Col size={7}>
           <ProfileUsedByProject profile={profile} project={project} />

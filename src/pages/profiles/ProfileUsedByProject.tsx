@@ -3,6 +3,9 @@ import InstanceLink from "pages/instances/InstanceLink";
 import { getProfileInstances } from "util/usedBy";
 import ExpandableList from "components/ExpandableList";
 import { LxdProfile } from "types/profile";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProjects } from "api/projects";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   profile: LxdProfile;
@@ -18,37 +21,33 @@ const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
     profile.used_by
   );
 
-  const otherProjects = isDefaultProject
+  const affectedProjects = isDefaultProject
     ? [
-        ...new Set(
-          usedByInstances
-            .filter((instance) => instance.project !== "default")
-            .map((instance) => instance.project)
-        ),
-      ]
-    : [];
-
-  const usedByProjectList = isDefaultProject
-    ? otherProjects.map((project) => {
-        return {
-          project: project,
+        {
+          name: project,
           instances: usedByInstances.filter(
             (instance) => instance.project === project
           ),
-        };
-      })
-    : [];
+        },
+      ]
+    : undefined;
 
   if (isDefaultProject) {
-    const defaultProjectInstances = usedByInstances.filter(
-      (instance) => instance.project === "default"
-    );
-    if (defaultProjectInstances.length > 0) {
-      usedByProjectList.unshift({
-        project: "default",
-        instances: defaultProjectInstances,
-      });
-    }
+    const { data: projects = [] } = useQuery({
+      queryKey: [queryKeys.projects, 1],
+      queryFn: () => fetchProjects(1),
+    });
+    projects
+      .filter((project) => project.config["features.profiles"] === "false")
+      .map((project) => project.name)
+      .forEach((project) =>
+        affectedProjects?.push({
+          name: project,
+          instances: usedByInstances.filter(
+            (instance) => instance.project === project
+          ),
+        })
+      );
   }
 
   return (
@@ -59,27 +58,32 @@ const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
           {isDefaultProject && (
             <table>
               <tbody>
-                {usedByProjectList.map((item) => (
-                  <tr key={item.project} className="instances-by-project">
+                {affectedProjects?.map((project) => (
+                  <tr key={project.name} className="instances-by-project">
                     <th className="p-muted-heading">
-                      <span title={item.project} className="u-truncate">
-                        {item.project}
+                      <span title={project.name} className="u-truncate">
+                        {project.name}
                       </span>{" "}
-                      ({item.instances.length})
+                      ({project.instances.length})
                     </th>
                     <td>
-                      <ExpandableList
-                        progressive
-                        items={item.instances.map((instance) => (
-                          <div
-                            key={instance.name}
-                            className="u-truncate list-item"
-                            title={instance.name}
-                          >
-                            <InstanceLink instance={instance} />
-                          </div>
-                        ))}
-                      />
+                      {project.instances.length === 0 && (
+                        <i className="u-text--muted">No instances</i>
+                      )}
+                      {project.instances.length > 0 && (
+                        <ExpandableList
+                          progressive
+                          items={project.instances.map((instance) => (
+                            <div
+                              key={instance.name}
+                              className="u-truncate list-item"
+                              title={instance.name}
+                            >
+                              <InstanceLink instance={instance} />
+                            </div>
+                          ))}
+                        />
+                      )}
                     </td>
                   </tr>
                 ))}
