@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  Icon,
   MainTable,
   Row,
   SearchBox,
@@ -414,13 +415,33 @@ const InstanceList: FC = () => {
                     iconClass="p-empty-instances"
                     title="No instances found"
                     message="There are no instances in this project. Spin up your first instance!"
-                    linkMessage="How to create instances"
-                    linkURL="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
-                    buttonLabel="Create instance"
-                    buttonAction={() =>
-                      navigate(`/ui/${project}/instances/create`)
-                    }
-                  />
+                  >
+                    <>
+                      <p>
+                        <a
+                          className="p-link--external"
+                          href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          How to create instances
+                          <Icon
+                            className="external-link-icon"
+                            name="external-link"
+                          />
+                        </a>
+                      </p>
+                      <Button
+                        className="empty-state-button"
+                        appearance="positive"
+                        onClick={() =>
+                          navigate(`/ui/${project}/instances/create`)
+                        }
+                      >
+                        Create instance
+                      </Button>
+                    </>
+                  </EmptyState>
                 )}
               </Col>
             </Row>

@@ -1,17 +1,12 @@
 import React, { FC, ReactNode } from "react";
-import { Button, Col, Icon, Row } from "@canonical/react-components";
+import { Col, Icon, Row } from "@canonical/react-components";
 
 interface Props {
   iconName: string;
   iconClass: string;
   title: string;
   message: string | ReactNode;
-  linkMessage?: string;
-  linkURL?: string;
-  buttonLabel?: string;
-  buttonAction?: () => void;
-  isDisabled?: boolean;
-  customButton?: ReactNode;
+  children: ReactNode;
 }
 
 const EmptyState: FC<Props> = ({
@@ -19,12 +14,7 @@ const EmptyState: FC<Props> = ({
   iconClass,
   title,
   message,
-  linkMessage,
-  linkURL,
-  buttonLabel,
-  buttonAction,
-  isDisabled = false,
-  customButton,
+  children,
 }) => {
   return (
     <Row className="empty-state">
@@ -32,30 +22,7 @@ const EmptyState: FC<Props> = ({
         <Icon name={iconName} className={`empty-state-icon ${iconClass}`} />
         <h4>{title}</h4>
         <p>{message}</p>
-        {linkMessage && linkURL && (
-          <p>
-            <a
-              className="p-link--external"
-              href={linkURL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {linkMessage}
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
-          </p>
-        )}
-        {customButton}
-        {buttonLabel && buttonAction && (
-          <Button
-            className="empty-state-button"
-            appearance="positive"
-            onClick={buttonAction}
-            disabled={isDisabled}
-          >
-            {buttonLabel}
-          </Button>
-        )}
+        {children}
       </Col>
     </Row>
   );
