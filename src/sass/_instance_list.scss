@@ -53,8 +53,8 @@
     margin-bottom: -3px;
   }
 
-  // show actions only on hover for desktop sized screens
-  @media screen and (min-width: 800px) {
+  // show actions only on hover if a pointing device is used
+  @media screen and (pointer: fine) {
     .instance-actions {
       visibility: hidden;
     }

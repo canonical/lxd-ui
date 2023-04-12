@@ -48,6 +48,7 @@
     th,
     td {
       display: table-cell;
+      vertical-align: middle;
     }
 
     th:last-child {
@@ -98,7 +99,7 @@
     }
 
     .stateful {
-      width: 105px;
+      width: 95px;
     }
 
     .actions {
@@ -113,8 +114,8 @@
       background-color: $colors--light-theme--background-hover;
     }
 
-    // show actions only on hover for desktop sized screens
-    @media screen and (min-width: 800px) {
+    // show actions only on hover if a pointing device is used
+    @media screen and (pointer: fine) {
       .u-snapshot-actions {
         visibility: hidden;
       }
