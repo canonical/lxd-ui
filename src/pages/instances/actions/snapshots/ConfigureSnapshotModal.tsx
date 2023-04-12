@@ -14,6 +14,7 @@ import {
   getInstancePayload,
   InstanceEditSchema,
 } from "util/instanceEdit";
+import SubmitButton from "components/SubmitButton";
 
 interface Props {
   instance: LxdInstance;
@@ -37,12 +38,12 @@ const ConfigureSnapshotModal: FC<Props> = ({ instance, close }) => {
       updateInstance(instancePayload, project ?? "")
         .then(() => {
           notify.success("Configuration updated.");
-          close();
         })
         .catch((e: Error) => {
           notify.failure("Configuration update failed", e);
         })
         .finally(() => {
+          close();
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
           });
@@ -87,13 +88,13 @@ const ConfigureSnapshotModal: FC<Props> = ({ instance, close }) => {
             >
               Cancel
             </Button>
-            <Button
-              appearance="positive"
+            <SubmitButton
+              buttonLabel="Save"
               className="u-no-margin--bottom"
+              isSubmitting={formik.isSubmitting}
+              isDisabled={formik.isSubmitting}
               onClick={() => void formik.submitForm()}
-            >
-              Save
-            </Button>
+            />
           </>
         )
       }
