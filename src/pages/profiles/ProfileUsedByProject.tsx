@@ -72,7 +72,6 @@ const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
                       )}
                       {project.instances.length > 0 && (
                         <ExpandableList
-                          progressive
                           items={project.instances.map((instance) => (
                             <div
                               key={instance.name}
@@ -92,7 +91,6 @@ const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
           )}
           {!isDefaultProject && (
             <ExpandableList
-              progressive
               items={usedByInstances.map((instance) => (
                 <div
                   key={instance.name}
