@@ -16,12 +16,14 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 interface Props {
   instance: LxdInstance;
   onFailure: (title: string, e: unknown, message?: string) => void;
+  showNotRunningInfo: () => void;
   clearNotification: () => void;
 }
 
 const InstanceTextConsole: FC<Props> = ({
   instance,
   onFailure,
+  showNotRunningInfo,
   clearNotification,
 }) => {
   const { name, project } = useParams<{
@@ -34,6 +36,12 @@ const InstanceTextConsole: FC<Props> = ({
   const [textBuffer, setTextBuffer] = useState("");
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
+
+  const isRunning = instance.status === "Running";
+
+  const handleError = (e: object) => {
+    onFailure("Error", e);
+  };
 
   const openWebsockets = async () => {
     if (!name) {
@@ -51,7 +59,11 @@ const InstanceTextConsole: FC<Props> = ({
       .catch(console.error);
     const result = await connectInstanceConsole(name, project).catch((e) => {
       setLoading(false);
-      onFailure("Connection failed", e);
+      if (isRunning) {
+        onFailure("Connection failed", e);
+      } else {
+        showNotRunningInfo();
+      }
     });
     if (!result) {
       return;
@@ -67,9 +79,7 @@ const InstanceTextConsole: FC<Props> = ({
       setLoading(false);
     };
 
-    control.onerror = (e) => {
-      onFailure("Error", e);
-    };
+    control.onerror = handleError;
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
@@ -86,9 +96,7 @@ const InstanceTextConsole: FC<Props> = ({
       setDataWs(data);
     };
 
-    data.onerror = (e) => {
-      onFailure("Error", e);
-    };
+    data.onerror = handleError;
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
