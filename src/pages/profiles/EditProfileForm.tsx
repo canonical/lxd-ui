@@ -68,9 +68,10 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
 
 interface Props {
   profile: LxdProfile;
+  featuresProfiles: boolean;
 }
 
-const EditProfileForm: FC<Props> = ({ profile }) => {
+const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
   const notify = useNotify();
   const { project, activeSection } = useParams<{
     project: string;
@@ -172,6 +173,11 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
 
   return (
     <div className="edit-profile">
+      {!featuresProfiles && (
+        <Notification severity="caution" title="Inherited profile">
+          Modifications are only available in the default project.
+        </Notification>
+      )}
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
         <ProfileFormMenu
           active={activeSection ?? slugify(PROFILE_DETAILS)}
@@ -236,6 +242,7 @@ const EditProfileForm: FC<Props> = ({ profile }) => {
             {isReadOnly ? (
               <Button
                 appearance="positive"
+                disabled={!featuresProfiles}
                 onClick={() => formik.setFieldValue("readOnly", false)}
               >
                 Edit profile

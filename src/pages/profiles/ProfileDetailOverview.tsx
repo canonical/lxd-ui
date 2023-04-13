@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Row } from "@canonical/react-components";
+import { Col, Notification, Row } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
 import { isDiskDevice, isNicDevice } from "util/devices";
 import useEventListener from "@use-it/event-listener";
@@ -11,12 +11,14 @@ import ItemName from "components/ItemName";
 import classnames from "classnames";
 import { CLOUD_INIT } from "./forms/ProfileFormMenu";
 import { slugify } from "util/slugify";
+import { getProfileInstances } from "util/usedBy";
 
 interface Props {
   profile: LxdProfile;
+  featuresProfiles: boolean;
 }
 
-const ProfileDetailOverview: FC<Props> = ({ profile }) => {
+const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -34,8 +36,20 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
     profile.config["cloud-init.vendor-data"] ||
     profile.config["cloud-init.network-config"];
 
+  const isDefaultProject = project === "default";
+  const usageCount = getProfileInstances(
+    project,
+    isDefaultProject,
+    profile.used_by
+  ).length;
+
   return (
     <div className="profile-overview-tab">
+      {!featuresProfiles && (
+        <Notification severity="caution" title="Inherited profile">
+          Modifications are only available in the default project.
+        </Notification>
+      )}
       <Row className="section">
         <Col size={3}>
           <h2 className="p-heading--4">General</h2>
@@ -73,7 +87,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                         .filter(isNicDevice)
                         .map((device) => (
                           <div
-                            key={device.name}
+                            key={device.network}
                             className="u-truncate list-item"
                             title={device.network}
                           >
@@ -151,9 +165,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
       </Row>
       <Row className="usage list-wrapper">
         <Col size={3}>
-          <h2 className="p-heading--4">
-            Usage ({profile.used_by?.length ?? 0})
-          </h2>
+          <h2 className="p-heading--4">Usage ({usageCount})</h2>
         </Col>
         <Col size={7}>
           <ProfileUsedByProject profile={profile} project={project} />
