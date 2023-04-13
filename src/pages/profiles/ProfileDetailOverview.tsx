@@ -69,7 +69,6 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                 <td>
                   {Object.values(profile.devices).some(isNicDevice) ? (
                     <ExpandableList
-                      progressive
                       items={Object.values(profile.devices)
                         .filter(isNicDevice)
                         .map((device) => (
@@ -92,7 +91,6 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                 <td>
                   {Object.values(profile.devices).some(isDiskDevice) ? (
                     <ExpandableList
-                      progressive
                       items={Object.values(profile.devices)
                         .filter(isDiskDevice)
                         .map((device) => (
