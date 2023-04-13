@@ -9,9 +9,15 @@ interface Props {
   name: string;
   profile?: LxdProfile;
   project: string;
+  featuresProfiles: boolean;
 }
 
-const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
+const ProfileDetailHeader: FC<Props> = ({
+  name,
+  profile,
+  project,
+  featuresProfiles,
+}) => {
   const [isRename, setRename] = useState(false);
   const canRename = profile && profile.name !== "default";
 
@@ -59,7 +65,11 @@ const ProfileDetailHeader: FC<Props> = ({ name, profile, project }) => {
       )}
       {profile && !isRename && (
         <div className="p-panel__controls">
-          <DeleteProfileBtn profile={profile} project={project} />
+          <DeleteProfileBtn
+            profile={profile}
+            project={project}
+            featuresProfiles={featuresProfiles}
+          />
         </div>
       )}
     </div>

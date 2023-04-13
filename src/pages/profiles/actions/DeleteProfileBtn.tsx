@@ -9,9 +9,14 @@ import ItemName from "components/ItemName";
 interface Props {
   profile: LxdProfile;
   project: string;
+  featuresProfiles: boolean;
 }
 
-const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
+const DeleteProfileBtn: FC<Props> = ({
+  profile,
+  project,
+  featuresProfiles,
+}) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -47,7 +52,7 @@ const DeleteProfileBtn: FC<Props> = ({ profile, project }) => {
       }
       posButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDisabled={profile.name === "default"}
+      isDisabled={profile.name === "default" || !featuresProfiles}
       isDense
     />
   );

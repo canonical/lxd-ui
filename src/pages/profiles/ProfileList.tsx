@@ -41,11 +41,6 @@ const ProfileList: FC = () => {
 
   const rows = profiles.map((profile) => {
     const isDefaultProject = project === "default";
-    const usedBy = (
-      <span>
-        {getProfileInstances(project, isDefaultProject, profile.used_by).length}
-      </span>
-    );
 
     return {
       columns: [
@@ -66,7 +61,11 @@ const ProfileList: FC = () => {
           "aria-label": "Description",
         },
         {
-          content: usedBy,
+          content: getProfileInstances(
+            project,
+            isDefaultProject,
+            profile.used_by
+          ).length,
           role: "rowheader",
           className: "u-align--right",
           "aria-label": "Used by",

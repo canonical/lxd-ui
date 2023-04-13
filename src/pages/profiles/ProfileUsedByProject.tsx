@@ -94,7 +94,7 @@ const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
               items={usedByInstances.map((instance) => (
                 <div
                   key={instance.name}
-                  className="u-truncate list-item"
+                  className="u-truncate list-item non-default-project-item"
                   title={instance.name}
                 >
                   <InstanceLink instance={instance} />
