@@ -43,7 +43,7 @@ const DeleteProfileBtn: FC<Props> = ({
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to delete profile{" "}
           <ItemName item={profile} bold />?{"\n"}This action cannot be undone,

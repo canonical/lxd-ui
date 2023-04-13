@@ -36,7 +36,7 @@ const DeleteImageBtn: FC<Props> = ({ image }) => {
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      confirmationMessage={`Are you sure you want to delete image "${image.properties.description}"?\nThis action cannot be undone, and can result in data loss.`}
+      confirmMessage={`Are you sure you want to delete image "${image.properties.description}"?\nThis action cannot be undone, and can result in data loss.`}
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDisabled={isLoading}

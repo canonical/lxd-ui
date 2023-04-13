@@ -61,6 +61,22 @@ interface LxdSnapshot {
   stateful: boolean;
 }
 
+export type LxdInstanceAction =
+  | "freeze"
+  | "restart"
+  | "start"
+  | "stop"
+  | "unfreeze";
+
+export type LxdInstanceStatus =
+  | "Freezing"
+  | "Frozen"
+  | "Restarting"
+  | "Running"
+  | "Starting"
+  | "Stopped"
+  | "Stopping";
+
 export interface LxdInstance {
   architecture: string;
   config: {
@@ -81,7 +97,7 @@ export interface LxdInstance {
   snapshots: LxdSnapshot[] | null;
   state?: LxdInstanceState;
   stateful: boolean;
-  status: string;
+  status: LxdInstanceStatus;
   type: string;
   etag?: string;
 }

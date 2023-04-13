@@ -1,28 +1,27 @@
 import React, { FC, MouseEvent, ReactNode } from "react";
-import { Button, Modal } from "@canonical/react-components";
+import { Button, Modal, ValueOf } from "@canonical/react-components";
+import { ButtonAppearance } from "@canonical/react-components/dist/components/Button/Button";
 
 interface Props {
-  title: string;
-  onClose: () => void;
-  confirmationExtra?: ReactNode;
-  confirmationMessage: string | ReactNode;
-  cancelButtonLabel?: string;
+  confirmButtonAppearance?: ValueOf<typeof ButtonAppearance> | string;
   confirmButtonLabel: string;
-  confirmButtonAppearance?: string;
-  onConfirm: (e: MouseEvent<HTMLElement>) => void;
+  confirmExtra?: ReactNode;
+  confirmMessage: string | ReactNode;
   hasShiftHint?: boolean;
+  onClose: () => void;
+  onConfirm: (e: MouseEvent<HTMLElement>) => void;
+  title: string;
 }
 
 const ConfirmationModal: FC<Props> = ({
-  title,
-  onClose,
-  confirmationExtra,
-  confirmationMessage,
-  cancelButtonLabel = "Cancel",
-  confirmButtonLabel,
   confirmButtonAppearance = "negative",
-  onConfirm,
+  confirmButtonLabel,
+  confirmExtra,
+  confirmMessage,
   hasShiftHint = true,
+  onClose,
+  onConfirm,
+  title,
 }) => {
   return (
     <Modal
@@ -30,9 +29,9 @@ const ConfirmationModal: FC<Props> = ({
       title={title}
       buttonRow={
         <>
-          {confirmationExtra}
+          {confirmExtra}
           <Button className="u-no-margin--bottom" onClick={onClose}>
-            {cancelButtonLabel}
+            Cancel
           </Button>
           <Button
             appearance={confirmButtonAppearance}
@@ -45,7 +44,7 @@ const ConfirmationModal: FC<Props> = ({
       }
     >
       <p style={{ textAlign: "start", whiteSpace: "pre-line" }}>
-        {confirmationMessage}
+        {confirmMessage}
       </p>
       {hasShiftHint && (
         <p className="u-text--muted u-hide--small">

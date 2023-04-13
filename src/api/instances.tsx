@@ -4,7 +4,7 @@ import {
   handleResponse,
   handleTextResponse,
 } from "util/helpers";
-import { LxdInstance } from "types/instance";
+import { LxdInstance, LxdInstanceAction } from "types/instance";
 import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperation } from "types/operation";
@@ -86,72 +86,36 @@ export const renameInstance = (
 };
 
 export const startInstance = (instance: LxdInstance) => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
-      method: "PUT",
-      body: '{"action": "start"}',
-    })
-      .then(handleResponse)
-      .then((data: LxdOperation) => {
-        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
-      })
-      .catch(reject);
-  });
+  return putInstanceAction(instance.name, instance.project, "start");
 };
 
 export const stopInstance = (instance: LxdInstance, isForce: boolean) => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        action: "stop",
-        force: isForce,
-      }),
-    })
-      .then(handleResponse)
-      .then((data: LxdOperation) => {
-        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
-      })
-      .catch(reject);
-  });
+  return putInstanceAction(instance.name, instance.project, "stop", isForce);
 };
 
 export const freezeInstance = (instance: LxdInstance) => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        action: "freeze",
-      }),
-    })
-      .then(handleResponse)
-      .then((data: LxdOperation) => {
-        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
-      })
-      .catch(reject);
-  });
+  return putInstanceAction(instance.name, instance.project, "freeze");
 };
 
 export const unfreezeInstance = (instance: LxdInstance) => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
-      method: "PUT",
-      body: '{"action": "unfreeze"}',
-    })
-      .then(handleResponse)
-      .then((data: LxdOperation) => {
-        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
-      })
-      .catch(reject);
-  });
+  return putInstanceAction(instance.name, instance.project, "unfreeze");
 };
 
 export const restartInstance = (instance: LxdInstance, isForce: boolean) => {
+  return putInstanceAction(instance.name, instance.project, "restart", isForce);
+};
+
+const putInstanceAction = (
+  instance: string,
+  project: string,
+  action: LxdInstanceAction,
+  isForce?: boolean
+) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${instance.name}/state?project=${instance.project}`, {
+    fetch(`/1.0/instances/${instance}/state?project=${project}`, {
       method: "PUT",
       body: JSON.stringify({
-        action: "restart",
+        action: action,
         force: isForce,
       }),
     })
@@ -159,6 +123,27 @@ export const restartInstance = (instance: LxdInstance, isForce: boolean) => {
       .then((data: LxdOperation) => {
         watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
+      .catch(reject);
+  });
+};
+
+export interface InstanceBulkAction {
+  name: string;
+  project: string;
+  action: LxdInstanceAction;
+}
+
+export const updateInstanceBulkAction = (
+  actions: InstanceBulkAction[],
+  isForce: boolean
+) => {
+  return new Promise((resolve, reject) => {
+    Promise.all(
+      actions.map(async ({ name, project, action }) => {
+        await putInstanceAction(name, project, action, isForce);
+      })
+    )
+      .then(resolve)
       .catch(reject);
   });
 };

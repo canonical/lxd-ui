@@ -3,6 +3,20 @@
     display: flex;
     margin: $spv--x-small 0 $spv--large 0;
 
+    .bulk-actions {
+      display: inline-block;
+      margin-right: $sph--x-large;
+
+      > .bulk-action-frame {
+        border: 1px solid #0000008f;
+        border-radius: 2.25px;
+
+        > .bulk-action {
+          border-left: 1px solid rgb(0 0 0 / 10%);
+        }
+      }
+    }
+
     .instance-header-left {
       display: flex;
       flex-grow: 1;
@@ -78,6 +92,15 @@
 
   .instance-table {
     margin-bottom: 0;
+
+    th,
+    td {
+      display: table-cell;
+    }
+
+    th:last-child {
+      display: none;
+    }
 
     td:last-child {
       padding-bottom: 0;

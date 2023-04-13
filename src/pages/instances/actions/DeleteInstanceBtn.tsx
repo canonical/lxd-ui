@@ -46,7 +46,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to delete instance{" "}
           <ItemName item={instance} bold />?{"\n"}This action cannot be undone,

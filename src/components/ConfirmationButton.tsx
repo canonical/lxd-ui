@@ -3,43 +3,44 @@ import { Button, Icon, ICONS, ValueOf } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import ConfirmationModal from "./ConfirmationModal";
 import classnames from "classnames";
+import { ButtonAppearance } from "@canonical/react-components/dist/components/Button/Button";
 
 interface Props {
   className?: string;
-  isLoading?: boolean;
-  icon?: ValueOf<typeof ICONS> | string;
-  title: string;
-  toggleAppearance?: string;
-  toggleCaption?: string;
-  onHoverText?: string;
-  confirmationExtra?: ReactNode;
-  confirmationMessage: string | ReactNode;
+  confirmButtonAppearance?: ValueOf<typeof ButtonAppearance> | string;
   confirmButtonLabel: string;
-  confirmButtonAppearance?: string;
-  onCancel?: () => void;
-  onConfirm: () => void;
+  confirmExtra?: ReactNode;
+  confirmMessage: string | ReactNode;
+  hasShiftHint?: boolean;
   isDense?: boolean;
   isDisabled?: boolean;
-  hasShiftHint?: boolean;
+  isLoading?: boolean;
+  icon?: ValueOf<typeof ICONS> | string;
+  onCancel?: () => void;
+  onConfirm: () => void;
+  onHoverText?: string;
+  title: string;
+  toggleAppearance?: ValueOf<typeof ButtonAppearance> | string;
+  toggleCaption?: string;
 }
 
 const ConfirmationButton: FC<Props> = ({
   className,
-  isLoading = false,
+  confirmButtonAppearance,
+  confirmButtonLabel,
+  confirmExtra,
+  confirmMessage,
+  hasShiftHint = true,
   icon = null,
+  isDense = true,
+  isDisabled = false,
+  isLoading = false,
+  onCancel,
+  onConfirm,
+  onHoverText,
   title,
   toggleAppearance = "",
   toggleCaption,
-  onHoverText,
-  confirmationExtra,
-  confirmationMessage,
-  confirmButtonLabel,
-  confirmButtonAppearance,
-  onCancel,
-  onConfirm,
-  isDense = true,
-  isDisabled = false,
-  hasShiftHint = true,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
@@ -72,8 +73,8 @@ const ConfirmationButton: FC<Props> = ({
           <ConfirmationModal
             title={title}
             onClose={handleCancelModal}
-            confirmationExtra={confirmationExtra}
-            confirmationMessage={confirmationMessage}
+            confirmExtra={confirmExtra}
+            confirmMessage={confirmMessage}
             confirmButtonLabel={confirmButtonLabel}
             confirmButtonAppearance={confirmButtonAppearance}
             onConfirm={handleConfirmModal}

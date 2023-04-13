@@ -53,7 +53,7 @@ const SnapshotBulkDelete: FC<Props> = ({
       icon={isLoading ? "spinner" : undefined}
       title="Confirm delete"
       toggleCaption="Delete"
-      confirmationMessage={
+      confirmMessage={
         snapshotNames.length === 1 ? (
           <>
             <b>1</b> snapshot selected.{"\n"}Are you sure you want to delete it?
