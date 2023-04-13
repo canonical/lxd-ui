@@ -56,7 +56,7 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       isLoading={isLoading}
       icon="pause"
       title="Confirm pause"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to pause instance{" "}
           <ItemName item={instance} bold />?

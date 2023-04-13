@@ -18,8 +18,17 @@
   background-color: #e6f2ff;
 }
 
-.select label {
-  padding-top: 0.2rem !important;
+.select {
+  padding-right: 0;
+  width: 70px;
+
+  button {
+    margin-left: -15px;
+  }
+
+  label {
+    padding-top: 0.2rem !important;
+  }
 }
 
 .processing-row {

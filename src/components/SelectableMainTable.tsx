@@ -14,7 +14,8 @@ import {
 import classnames from "classnames";
 
 interface SelectableMainTableProps {
-  allNames: string[];
+  totalCount: number;
+  filteredNames: string[];
   itemName: string;
   parentName: string;
   selectedNames: string[];
@@ -26,7 +27,8 @@ interface SelectableMainTableProps {
 type Props = SelectableMainTableProps & MainTableProps;
 
 const SelectableMainTable: FC<Props> = ({
-  allNames,
+  totalCount,
+  filteredNames,
   itemName,
   parentName,
   selectedNames,
@@ -36,11 +38,12 @@ const SelectableMainTable: FC<Props> = ({
   headers,
   ...props
 }: Props) => {
-  const isAllSelected = selectedNames.length === allNames.length;
+  const isAllSelected =
+    selectedNames.length === filteredNames.length && selectedNames.length > 0;
   const isSomeSelected = selectedNames.length > 0;
 
   const selectAll = () => {
-    setSelectedNames(allNames);
+    setSelectedNames(filteredNames);
   };
 
   const selectPage = () => {
@@ -142,14 +145,13 @@ const SelectableMainTable: FC<Props> = ({
             >
               {isAllSelected ? (
                 <>
-                  {allNames.length === 1 ? (
+                  {filteredNames.length === 1 ? (
                     <>
-                      <b>1</b> {itemName} of this {parentName} is selected.{" "}
+                      <b>1</b> {itemName} is selected.{" "}
                     </>
                   ) : (
                     <>
-                      All <b>{allNames.length}</b> {itemName}s of this{" "}
-                      {parentName} are selected.{" "}
+                      All <b>{filteredNames.length}</b> {itemName}s selected.{" "}
                     </>
                   )}
                   <Button
@@ -169,7 +171,11 @@ const SelectableMainTable: FC<Props> = ({
                     className="u-no-margin--bottom u-no-padding--top"
                     onClick={selectAll}
                   >
-                    Select all <b>{allNames.length}</b> {parentName} {itemName}s
+                    Select all <b>{filteredNames.length}</b>{" "}
+                    {filteredNames.length === totalCount
+                      ? parentName
+                      : "filtered"}{" "}
+                    {itemName}s
                   </Button>
                 </>
               )}

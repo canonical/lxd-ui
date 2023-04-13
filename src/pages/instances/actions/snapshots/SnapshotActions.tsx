@@ -102,7 +102,7 @@ const SnapshotActions: FC<Props> = ({
             isLoading={isRestoring}
             icon="change-version"
             title="Confirm restore"
-            confirmationMessage={
+            confirmMessage={
               <>
                 Are you sure you want to restore snapshot{" "}
                 <ItemName item={snapshot} bold />?{"\n"}This action cannot be
@@ -130,7 +130,7 @@ const SnapshotActions: FC<Props> = ({
             isLoading={isDeleting}
             icon="delete"
             title="Confirm delete"
-            confirmationMessage={
+            confirmMessage={
               <>
                 Are you sure you want to delete snapshot{" "}
                 <ItemName item={snapshot} bold />?{"\n"}This action cannot be

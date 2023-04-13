@@ -45,7 +45,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       icon="delete"
       title="Confirm delete"
       toggleCaption="Delete"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to delete the project{" "}
           <ItemName item={project} bold />?{"\n"}This action cannot be undone,

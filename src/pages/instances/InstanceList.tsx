@@ -2,7 +2,6 @@ import {
   Button,
   Col,
   Icon,
-  MainTable,
   Row,
   SearchBox,
   Select,
@@ -32,6 +31,8 @@ import InstanceLink from "pages/instances/InstanceLink";
 import Pagination from "components/Pagination";
 import { usePagination } from "util/pagination";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
+import SelectableMainTable from "components/SelectableMainTable";
+import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -61,6 +62,8 @@ const InstanceList: FC = () => {
   const [type, setType] = useState<string>("any");
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [processingNames, setProcessingNames] = useState<string[]>([]);
 
   if (!project) {
     return <>Missing project</>;
@@ -81,17 +84,16 @@ const InstanceList: FC = () => {
 
   const figureSizeHidden = () => {
     const wrapper = document.getElementById("instance-table-measure");
-    const table = wrapper?.children[0];
-    const columns = table?.firstChild?.firstChild;
+    const tableHead = wrapper?.children[0]?.children[0]?.children[0];
 
-    if (!wrapper || !table || !columns) {
+    if (!wrapper || !tableHead) {
       return;
     }
 
     const wrapWidth = wrapper.getBoundingClientRect().width;
-    const tableWidth = table.getBoundingClientRect().width;
+    const tableWidth = tableHead.getBoundingClientRect().width;
     const colWidth = new Map();
-    columns.childNodes.forEach((item) => {
+    tableHead.childNodes.forEach((item) => {
       const col = item as Element;
       const name = col.innerHTML;
       const width = col.getBoundingClientRect().width;
@@ -142,6 +144,18 @@ const InstanceList: FC = () => {
     }
     return true;
   });
+
+  useEffect(() => {
+    const validNames = new Set(
+      filteredInstances.map((instance) => instance.name)
+    );
+    const validSelections = selectedNames.filter((name) =>
+      validNames.has(name)
+    );
+    if (validSelections.length !== selectedNames.length) {
+      setSelectedNames(validSelections);
+    }
+  }, [filteredInstances]);
 
   const getHeaders = (hiddenCols: string[]) =>
     [
@@ -196,6 +210,7 @@ const InstanceList: FC = () => {
       return {
         className:
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
+        name: instance.name,
         columns: [
           {
             content: (
@@ -319,51 +334,73 @@ const InstanceList: FC = () => {
           <div className="p-panel__header instance-list-header">
             <div className="instance-header-left">
               <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
-              <SearchBox
-                className="search-box margin-right u-no-margin--bottom"
-                name="search-instance"
-                type="text"
-                onChange={(value) => {
-                  setQuery(value);
-                }}
-                placeholder="Search"
-                value={query}
-                aria-label="Search"
-              />
-              <Select
-                className="u-no-margin--bottom"
-                wrapperClassName="margin-right filter-state"
-                onChange={(v) => {
-                  setStatus(v.target.value);
-                }}
-                options={[
-                  {
-                    label: "All statuses",
-                    value: "any",
-                  },
-                  ...instanceStatuses,
-                ]}
-                value={status}
-                aria-label="Filter status"
-              />
-              <Select
-                className="u-no-margin--bottom"
-                wrapperClassName="margin-right filter-type"
-                onChange={(v) => {
-                  setType(v.target.value);
-                }}
-                options={[
-                  {
-                    label: "Containers and VMs",
-                    value: "any",
-                  },
-                  ...instanceListTypes,
-                ]}
-                value={type}
-                aria-label="Filter type"
-              />
+              {selectedNames.length > 0 ? (
+                <>
+                  <InstanceBulkActions
+                    instances={instances.filter((instance) =>
+                      selectedNames.includes(instance.name)
+                    )}
+                    onStart={() => setProcessingNames(selectedNames)}
+                    onFinish={() => setProcessingNames([])}
+                  />
+                  <Button
+                    appearance="link"
+                    hasIcon
+                    onClick={() => setSelectedNames([])}
+                  >
+                    <span>Clear selection</span>
+                    <Icon name="close" className="clear-selection-icon" />
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <SearchBox
+                    className="search-box margin-right u-no-margin--bottom"
+                    name="search-instance"
+                    type="text"
+                    onChange={(value) => {
+                      setQuery(value);
+                    }}
+                    placeholder="Search"
+                    value={query}
+                    aria-label="Search"
+                  />
+                  <Select
+                    className="u-no-margin--bottom"
+                    wrapperClassName="margin-right filter-state"
+                    onChange={(v) => {
+                      setStatus(v.target.value);
+                    }}
+                    options={[
+                      {
+                        label: "All statuses",
+                        value: "any",
+                      },
+                      ...instanceStatuses,
+                    ]}
+                    value={status}
+                    aria-label="Filter status"
+                  />
+                  <Select
+                    className="u-no-margin--bottom"
+                    wrapperClassName="margin-right filter-type"
+                    onChange={(v) => {
+                      setType(v.target.value);
+                    }}
+                    options={[
+                      {
+                        label: "Containers and VMs",
+                        value: "any",
+                      },
+                      ...instanceListTypes,
+                    ]}
+                    value={type}
+                    aria-label="Filter type"
+                  />
+                </>
+              )}
             </div>
-            {hasInstances && (
+            {hasInstances && selectedNames.length === 0 && (
               <Button
                 appearance="positive"
                 className="u-no-margin--bottom"
@@ -385,7 +422,7 @@ const InstanceList: FC = () => {
                       setHidden={setHidden}
                       className={classnames({ "u-hide": panelParams.instance })}
                     />
-                    <MainTable
+                    <SelectableMainTable
                       headers={getHeaders(userHidden.concat(sizeHidden))}
                       rows={pagination.pageData}
                       sortable
@@ -398,6 +435,15 @@ const InstanceList: FC = () => {
                           <>No instance found matching this search</>
                         )
                       }
+                      itemName="instance"
+                      parentName="project"
+                      selectedNames={selectedNames}
+                      setSelectedNames={setSelectedNames}
+                      processingNames={processingNames}
+                      totalCount={instances.length}
+                      filteredNames={filteredInstances.map(
+                        (instance) => instance.name
+                      )}
                       onUpdateSort={pagination.updateSort}
                     />
                     <Pagination
@@ -411,10 +457,19 @@ const InstanceList: FC = () => {
                       keyword="instance"
                     />
                     <div id="instance-table-measure">
-                      <MainTable
+                      <SelectableMainTable
                         headers={getHeaders(userHidden)}
                         rows={getRows(userHidden)}
                         className="instance-table u-table-layout--auto"
+                        itemName="instance"
+                        parentName="project"
+                        selectedNames={selectedNames}
+                        setSelectedNames={setSelectedNames}
+                        processingNames={processingNames}
+                        totalCount={instances.length}
+                        filteredNames={filteredInstances.map(
+                          (instance) => instance.name
+                        )}
                       />
                     </div>
                   </>

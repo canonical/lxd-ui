@@ -56,13 +56,13 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       isLoading={isLoading}
       icon="stop"
       title="Confirm stop"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to stop instance{" "}
           <ItemName item={instance} bold />?
         </>
       }
-      confirmationExtra={
+      confirmExtra={
         <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
       }
       confirmButtonLabel="Stop"

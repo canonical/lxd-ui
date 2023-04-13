@@ -59,13 +59,13 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       isLoading={isLoading}
       icon="restart"
       title="Confirm restart"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to restart instance{" "}
           <ItemName item={instance} bold />?
         </>
       }
-      confirmationExtra={
+      confirmExtra={
         <ConfirmationForce label="Force restart" force={[isForce, setForce]} />
       }
       confirmButtonLabel="Restart"

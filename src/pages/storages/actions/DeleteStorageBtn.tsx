@@ -44,7 +44,7 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
       isLoading={isLoading}
       icon="delete"
       title="Confirm delete"
-      confirmationMessage={
+      confirmMessage={
         <>
           Are you sure you want to delete storage{" "}
           <ItemName item={storage} bold />?{"\n"}This action cannot be undone,
