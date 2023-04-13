@@ -9,7 +9,7 @@ import { LxdInstance } from "types/instance";
 
 type LoadingTypes = "Starting" | "Stopping" | "Restarting" | "Pausing";
 
-interface InstanceLoadingType {
+export interface InstanceLoadingType {
   getType: (instance: LxdInstance) => LoadingTypes | undefined;
   setLoading: (instance: LxdInstance, loadingType: LoadingTypes) => void;
   setFinish: (instance: LxdInstance) => void;
