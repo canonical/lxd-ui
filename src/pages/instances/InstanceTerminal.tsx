@@ -14,6 +14,9 @@ import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { failure } from "context/notify";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
+import EmptyState from "components/EmptyState";
+import SubmitButton from "components/SubmitButton";
+import { useInstanceStart } from "util/instanceStart";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -55,6 +58,8 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
   const [payload, setPayload] = useState(defaultPayload);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
+
+  const isRunning = instance.status === "Running";
 
   const openWebsockets = async (payload: TerminalConnectPayload) => {
     if (!name) {
@@ -187,26 +192,47 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     handleResize();
   }, [controlWs, fitAddon, xtermRef]);
 
+  const { handleStart, isLoading: isStartLoading } = useInstanceStart(instance);
+
   return (
     <div className="instance-terminal-tab">
-      <div className="p-panel__controls">
-        <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
-      </div>
-      <NotificationRowLegacy
-        notification={inTabNotification}
-        onDismiss={() => setInTabNotification(null)}
-      />
-      {isLoading && <Loader text="Loading terminal session..." />}
-      {controlWs && (
-        <XTerm
-          ref={xtermRef}
-          addons={[fitAddon]}
-          className="p-terminal"
-          onData={(data) => {
-            dataWs?.send(textEncoder.encode(data));
-          }}
-          options={XTERM_OPTIONS}
-        />
+      {isRunning && (
+        <>
+          <div className="p-panel__controls">
+            <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
+          </div>
+          <NotificationRowLegacy
+            notification={inTabNotification}
+            onDismiss={() => setInTabNotification(null)}
+          />
+          {isLoading && <Loader text="Loading terminal session..." />}
+          {controlWs && (
+            <XTerm
+              ref={xtermRef}
+              addons={[fitAddon]}
+              className="p-terminal"
+              onData={(data) => {
+                dataWs?.send(textEncoder.encode(data));
+              }}
+              options={XTERM_OPTIONS}
+            />
+          )}
+        </>
+      )}
+      {!isRunning && (
+        <EmptyState
+          iconName="containers"
+          iconClass="p-empty-instances"
+          title="Instance stopped"
+          message="Start the instance to access the terminal."
+        >
+          <SubmitButton
+            isSubmitting={isStartLoading}
+            isDisabled={false}
+            buttonLabel="Start instance"
+            onClick={handleStart}
+          />
+        </EmptyState>
       )}
     </div>
   );
