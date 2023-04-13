@@ -77,9 +77,7 @@ const InstanceGraphicConsole: FC<Props> = ({
 
     const control = new WebSocket(controlUrl);
 
-    control.onerror = (e) => {
-      onFailure("Error", e);
-    };
+    control.onerror = handleError;
 
     control.onclose = (event) => {
       if (1005 !== event.code) {

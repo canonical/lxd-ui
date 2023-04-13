@@ -5,7 +5,7 @@ import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
-import { failure } from "context/notify";
+import { failure, info } from "context/notify";
 import EmptyState from "components/EmptyState";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
@@ -24,6 +24,15 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
 
   const onFailure = (title: string, e: unknown, message?: string) => {
     setInTabNotification(failure(title, e, message));
+  };
+
+  const showNotRunningInfo = () => {
+    setInTabNotification(
+      info(
+        "Start the instance to interact with the text console.",
+        "Instance not running"
+      )
+    );
   };
 
   let handleFullScreen = () => {
@@ -102,6 +111,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
         <InstanceTextConsole
           instance={instance}
           onFailure={onFailure}
+          showNotRunningInfo={showNotRunningInfo}
           clearNotification={() => setInTabNotification(null)}
         />
       )}
