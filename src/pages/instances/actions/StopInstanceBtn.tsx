@@ -65,7 +65,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationExtra={
         <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
       }
-      posButtonLabel="Stop"
+      confirmButtonLabel="Stop"
       onCancel={() => setForce(false)}
       onConfirm={handleStop}
       isDense={true}

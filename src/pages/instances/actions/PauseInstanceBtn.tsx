@@ -62,7 +62,7 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
           <ItemName item={instance} bold />?
         </>
       }
-      posButtonLabel="Pause"
+      confirmButtonLabel="Pause"
       onConfirm={handlePause}
       isDense={true}
       isDisabled={isDisabled}

@@ -68,7 +68,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationExtra={
         <ConfirmationForce label="Force restart" force={[isForce, setForce]} />
       }
-      posButtonLabel="Restart"
+      confirmButtonLabel="Restart"
       onCancel={() => setForce(false)}
       onConfirm={handleRestart}
       isDense={true}
