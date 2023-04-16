@@ -52,7 +52,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
           and can result in data loss.
         </>
       }
-      posButtonLabel={
+      confirmButtonLabel={
         project.name === "default"
           ? "The default project can't be deleted"
           : "Delete"

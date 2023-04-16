@@ -51,7 +51,7 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
           and can result in data loss.
         </>
       }
-      posButtonLabel="Delete"
+      confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDense={true}
     />

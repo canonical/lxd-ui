@@ -53,7 +53,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
           and can result in data loss.
         </>
       }
-      posButtonLabel="Delete"
+      confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDisabled={isDisabled}
       isDense

@@ -14,7 +14,7 @@ interface Props {
   onHoverText?: string;
   confirmationExtra?: ReactNode;
   confirmationMessage: string | ReactNode;
-  posButtonLabel: string;
+  confirmButtonLabel: string;
   onCancel?: () => void;
   onConfirm: () => void;
   isDense?: boolean;
@@ -32,7 +32,7 @@ const ConfirmationButton: FC<Props> = ({
   onHoverText,
   confirmationExtra,
   confirmationMessage,
-  posButtonLabel,
+  confirmButtonLabel,
   onCancel,
   onConfirm,
   isDense = true,
@@ -72,7 +72,7 @@ const ConfirmationButton: FC<Props> = ({
             onClose={handleCancelModal}
             confirmationExtra={confirmationExtra}
             confirmationMessage={confirmationMessage}
-            posButtonLabel={posButtonLabel}
+            confirmButtonLabel={confirmButtonLabel}
             onConfirm={handleConfirmModal}
             hasShiftHint={hasShiftHint}
           />
@@ -85,8 +85,8 @@ const ConfirmationButton: FC<Props> = ({
         dense={isDense}
         disabled={isDisabled}
         onClick={handleShiftClick}
-        aria-label={posButtonLabel}
-        title={onHoverText ?? posButtonLabel}
+        aria-label={confirmButtonLabel}
+        title={onHoverText ?? confirmButtonLabel}
         type="button"
       >
         {iconName && (

@@ -50,7 +50,7 @@ const DeleteProfileBtn: FC<Props> = ({
           and can result in data loss.
         </>
       }
-      posButtonLabel="Delete"
+      confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDisabled={profile.name === "default" || !featuresProfiles}
       isDense

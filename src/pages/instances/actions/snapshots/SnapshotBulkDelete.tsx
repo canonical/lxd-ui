@@ -65,7 +65,7 @@ const SnapshotBulkDelete: FC<Props> = ({
           </>
         )
       }
-      posButtonLabel="Delete"
+      confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDisabled={isLoading}
       isDense={false}
