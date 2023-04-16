@@ -8,6 +8,7 @@ interface Props {
   confirmationMessage: string | ReactNode;
   cancelButtonLabel?: string;
   confirmButtonLabel: string;
+  confirmButtonAppearance?: string;
   onConfirm: (e: MouseEvent<HTMLElement>) => void;
   hasShiftHint?: boolean;
 }
@@ -19,6 +20,7 @@ const ConfirmationModal: FC<Props> = ({
   confirmationMessage,
   cancelButtonLabel = "Cancel",
   confirmButtonLabel,
+  confirmButtonAppearance = "negative",
   onConfirm,
   hasShiftHint = true,
 }) => {
@@ -33,7 +35,7 @@ const ConfirmationModal: FC<Props> = ({
             {cancelButtonLabel}
           </Button>
           <Button
-            appearance="negative"
+            appearance={confirmButtonAppearance}
             className="u-no-margin--bottom"
             onClick={onConfirm}
           >

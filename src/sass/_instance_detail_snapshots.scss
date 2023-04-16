@@ -18,6 +18,8 @@
   }
 
   .snapshot-creation-modal {
+    text-align: left !important;
+
     .p-modal__dialog {
       min-width: 30rem;
       padding-bottom: 0;
@@ -109,10 +111,6 @@
 
     .actions {
       width: 240px;
-
-      .p-inline-list__item:not(:last-of-type) {
-        margin-right: $sph--small;
-      }
     }
 
     .u-row:hover {
