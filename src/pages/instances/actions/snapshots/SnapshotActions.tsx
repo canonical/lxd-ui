@@ -4,9 +4,11 @@ import { deleteSnapshot, restoreSnapshot } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
-import { List } from "@canonical/react-components";
+import { Button, Icon, List } from "@canonical/react-components";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
+import ConfirmationForce from "components/ConfirmationForce";
+import EditSnapshotForm from "./EditSnapshotForm";
 
 interface Props {
   instance: LxdInstance;
@@ -21,8 +23,10 @@ const SnapshotActions: FC<Props> = ({
   onSuccess,
   onFailure,
 }) => {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
+  const [restoreState, setRestoreState] = useState(true);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
@@ -46,7 +50,7 @@ const SnapshotActions: FC<Props> = ({
 
   const handleRestore = () => {
     setRestoring(true);
-    restoreSnapshot(instance, snapshot)
+    restoreSnapshot(instance, snapshot, restoreState)
       .then(() =>
         onSuccess(
           <>
@@ -64,48 +68,82 @@ const SnapshotActions: FC<Props> = ({
   };
 
   return (
-    <List
-      inline
-      className={classnames("u-no-margin--bottom", {
-        "u-snapshot-actions": !isDeleting && !isRestoring,
-      })}
-      items={[
-        <ConfirmationButton
-          key="delete"
-          isLoading={isDeleting}
-          icon={isDeleting ? "spinner" : undefined}
-          title="Confirm delete"
-          toggleCaption="Delete"
-          confirmationMessage={
-            <>
-              Are you sure you want to delete snapshot{" "}
-              <ItemName item={snapshot} bold />?{"\n"}This action cannot be
-              undone, and can result in data loss.
-            </>
-          }
-          confirmButtonLabel="Delete"
-          onConfirm={handleDelete}
-          isDisabled={isDeleting || isRestoring}
-        />,
-        <ConfirmationButton
-          key="restore"
-          isLoading={isRestoring}
-          icon={isRestoring ? "spinner" : undefined}
-          title="Confirm restore"
-          toggleCaption="Restore"
-          confirmationMessage={
-            <>
-              Are you sure you want to restore snapshot{" "}
-              <ItemName item={snapshot} bold />?{"\n"}This action cannot be
-              undone, and can result in data loss.
-            </>
-          }
-          confirmButtonLabel="Restore"
-          onConfirm={handleRestore}
-          isDisabled={isDeleting || isRestoring}
-        />,
-      ]}
-    />
+    <>
+      {isModalOpen && (
+        <EditSnapshotForm
+          instance={instance}
+          snapshot={snapshot}
+          close={() => setModalOpen(false)}
+          onSuccess={onSuccess}
+        />
+      )}
+      <List
+        inline
+        className={classnames("u-no-margin--bottom", "actions-list", {
+          "u-snapshot-actions": !isDeleting && !isRestoring,
+        })}
+        items={[
+          <Button
+            key="edit"
+            appearance="base"
+            hasIcon
+            dense={true}
+            disabled={isDeleting || isRestoring}
+            onClick={() => setModalOpen(true)}
+            type="button"
+            aria-label="Edit snapshot"
+            title="Edit"
+          >
+            <Icon name="edit" />
+          </Button>,
+          <ConfirmationButton
+            key="restore"
+            toggleAppearance="base"
+            isLoading={isRestoring}
+            icon="change-version"
+            title="Confirm restore"
+            confirmationMessage={
+              <>
+                Are you sure you want to restore snapshot{" "}
+                <ItemName item={snapshot} bold />?{"\n"}This action cannot be
+                undone, and can result in data loss.
+              </>
+            }
+            confirmationExtra={
+              <ConfirmationForce
+                label="Restore the instance state"
+                force={[restoreState, setRestoreState]}
+                isDisabled={!snapshot.stateful}
+              />
+            }
+            confirmButtonLabel="Restore"
+            confirmButtonAppearance="positive"
+            onCancel={() => setRestoreState(true)}
+            onConfirm={handleRestore}
+            isDense={true}
+            isDisabled={isDeleting || isRestoring}
+          />,
+          <ConfirmationButton
+            key="delete"
+            toggleAppearance="base"
+            isLoading={isDeleting}
+            icon="delete"
+            title="Confirm delete"
+            confirmationMessage={
+              <>
+                Are you sure you want to delete snapshot{" "}
+                <ItemName item={snapshot} bold />?{"\n"}This action cannot be
+                undone, and can result in data loss.
+              </>
+            }
+            confirmButtonLabel="Delete"
+            onConfirm={handleDelete}
+            isDense={true}
+            isDisabled={isDeleting || isRestoring}
+          />,
+        ]}
+      />
+    </>
   );
 };
 

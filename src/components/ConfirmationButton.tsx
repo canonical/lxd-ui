@@ -15,6 +15,7 @@ interface Props {
   confirmationExtra?: ReactNode;
   confirmationMessage: string | ReactNode;
   confirmButtonLabel: string;
+  confirmButtonAppearance?: string;
   onCancel?: () => void;
   onConfirm: () => void;
   isDense?: boolean;
@@ -33,6 +34,7 @@ const ConfirmationButton: FC<Props> = ({
   confirmationExtra,
   confirmationMessage,
   confirmButtonLabel,
+  confirmButtonAppearance,
   onCancel,
   onConfirm,
   isDense = true,
@@ -73,6 +75,7 @@ const ConfirmationButton: FC<Props> = ({
             confirmationExtra={confirmationExtra}
             confirmationMessage={confirmationMessage}
             confirmButtonLabel={confirmButtonLabel}
+            confirmButtonAppearance={confirmButtonAppearance}
             onConfirm={handleConfirmModal}
             hasShiftHint={hasShiftHint}
           />

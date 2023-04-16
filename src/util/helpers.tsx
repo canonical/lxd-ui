@@ -34,6 +34,13 @@ export const getTomorrow = (date: Date = new Date()) => {
   return new Date(date.getTime() - tzOffset).toISOString().slice(0, 10);
 };
 
+const pad = (v: number) => `0${v}`.slice(-2);
+
+export const getBrowserFormatDate = (d: Date) =>
+  `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(
+    d.getHours()
+  )}:${pad(d.getMinutes())}`;
+
 interface ErrorResponse {
   error: string;
 }

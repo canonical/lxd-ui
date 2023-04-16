@@ -76,15 +76,63 @@ export const deleteSnapshotBulk = (
 
 export const restoreSnapshot = (
   instance: LxdInstance,
-  snapshot: LxdSnapshot
+  snapshot: LxdSnapshot,
+  stateful: boolean
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
       method: "PUT",
       body: JSON.stringify({
         restore: snapshot.name,
+        stateful: stateful,
       }),
     })
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const renameSnapshot = (
+  instance: LxdInstance,
+  snapshot: LxdSnapshot,
+  newName: string
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          name: newName,
+        }),
+      }
+    )
+      .then(handleResponse)
+      .then((data: LxdOperation) => {
+        watchOperation(data.operation).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const updateSnapshot = (
+  instance: LxdInstance,
+  snapshot: LxdSnapshot,
+  expiresAt: string
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          expires_at: expiresAt,
+        }),
+      }
+    )
       .then(handleResponse)
       .then((data: LxdOperation) => {
         watchOperation(data.operation).then(resolve).catch(reject);
