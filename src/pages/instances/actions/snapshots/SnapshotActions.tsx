@@ -8,10 +8,7 @@ import { Button, Icon, List } from "@canonical/react-components";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
 import ConfirmationForce from "components/ConfirmationForce";
-<<<<<<< HEAD
 import EditSnapshotForm from "./EditSnapshotForm";
-=======
->>>>>>> 74f84a0 (feat(restore-snapshot) allow the user to opt out restoring the state)
 
 interface Props {
   instance: LxdInstance;
@@ -113,11 +110,12 @@ const SnapshotActions: FC<Props> = ({
               </>
             }
             confirmationExtra={
-              <ConfirmationForce
-                label="Restore the instance state"
-                force={[restoreState, setRestoreState]}
-                isDisabled={!snapshot.stateful}
-              />
+              snapshot.stateful ? (
+                <ConfirmationForce
+                  label="Restore the instance state"
+                  force={[restoreState, setRestoreState]}
+                />
+              ) : undefined
             }
             confirmButtonLabel="Restore"
             confirmButtonAppearance="positive"

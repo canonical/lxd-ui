@@ -31,7 +31,6 @@ const EditSnapshotForm: FC<Props> = ({
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  console.log(snapshot);
 
   const SnapshotSchema = Yup.object().shape({
     name: Yup.string()
@@ -58,6 +57,8 @@ const EditSnapshotForm: FC<Props> = ({
           return !(value.includes(" ") || value.includes("/"));
         }
       ),
+    expirationDate: Yup.string().optional(),
+    expirationTime: Yup.string().optional(),
     stateful: Yup.boolean(),
   });
 
@@ -74,7 +75,12 @@ const EditSnapshotForm: FC<Props> = ({
   };
 
   const update = (expiresAt?: string, newName?: string) => {
-    if (!expiresAt) return;
+    // skip the update if it was not defined before and still is not defined
+    if (snapshot.expires_at === "0001-01-01T00:00:00Z" && !expiresAt) return;
+    if (!expiresAt) {
+      // reset the expiry date to not defined
+      expiresAt = "0001-01-01T00:00:00Z";
+    }
     const targetSnapshot = newName
       ? ({
           name: newName,

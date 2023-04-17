@@ -4,10 +4,9 @@ import { CheckboxInput } from "@canonical/react-components";
 interface Props {
   label: string;
   force: [boolean, Dispatch<SetStateAction<boolean>>];
-  isDisabled?: boolean;
 }
 
-const ConfirmationForce: FC<Props> = ({ label, force, isDisabled = false }) => {
+const ConfirmationForce: FC<Props> = ({ label, force }) => {
   const [isForce, setForce] = force;
 
   return (
@@ -18,7 +17,6 @@ const ConfirmationForce: FC<Props> = ({ label, force, isDisabled = false }) => {
         tabIndex={-1}
         defaultChecked={isForce}
         onClick={() => setForce((prev) => !prev)}
-        disabled={isDisabled}
       />
     </span>
   );
