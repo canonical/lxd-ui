@@ -1,13 +1,22 @@
 import React, { FC, ReactNode, useState } from "react";
 import { useFormik } from "formik";
-import { checkDuplicateName, stringToIsoTime } from "util/helpers";
+import {
+  UNDEFINED_DATE,
+  checkDuplicateName,
+  getTomorrow,
+  stringToIsoTime,
+} from "util/helpers";
 import { createSnapshot } from "api/snapshots";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance } from "types/instance";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
-import { CreateEditSnapshotFormValues, getExpiresAt } from "util/snapshotEdit";
+import {
+  SnapshotFormValues,
+  getExpiresAt,
+  testForbiddenChars,
+} from "util/snapshots";
 import SnapshotForm from "./SnapshotForm";
 import * as Yup from "yup";
 
@@ -22,7 +31,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const SnapshotSchema = Yup.object().shape({
+  const SnapshotSchema: unknown = Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
       .test("deduplicate", "Snapshot name already in use", (value) =>
@@ -33,20 +42,39 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
           `instances/${instance.name}/snapshots`
         )
       )
-      .test(
-        "forbiddenChars",
-        `The snapshot name cannot contain spaces or "/" characters`,
-        (value) => {
-          if (!value) {
-            return true;
-          }
-          return !(value.includes(" ") || value.includes("/"));
+      .test(...testForbiddenChars()),
+    expirationDate: Yup.string()
+      .nullable()
+      .optional()
+      .test("valid", "Invalid date format", (value) => {
+        if (!value) {
+          return !formik.values.expirationTime;
         }
-      ),
+        return new Date(value).toString() !== "Invalid Date";
+      })
+      .test("future", "The date must be in the future", (value) => {
+        if (!value) return true;
+        const date = new Date(value).getTime();
+        const tomorrow = new Date(getTomorrow()).getTime();
+        return date >= tomorrow;
+      }),
+    expirationTime: Yup.string()
+      .nullable()
+      .optional()
+      .test("valid", "Invalid time format", (value) => {
+        if (!value) {
+          return !formik.values.expirationDate;
+        }
+        const [hours, minutes] = value.split(":");
+        const date = new Date();
+        date.setHours(+hours);
+        date.setMinutes(+minutes);
+        return date.toString() !== "Invalid Date";
+      }),
     stateful: Yup.boolean(),
   });
 
-  const formik = useFormik<CreateEditSnapshotFormValues>({
+  const formik = useFormik<SnapshotFormValues>({
     initialValues: {
       name: "",
       stateful: false,
@@ -57,11 +85,12 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
     validationSchema: SnapshotSchema,
     onSubmit: (values) => {
       notify.clear();
-      const expiresAt = values.expirationDate
-        ? stringToIsoTime(
-            getExpiresAt(values.expirationDate, values.expirationTime)
-          )
-        : null;
+      const expiresAt =
+        values.expirationDate && values.expirationTime
+          ? stringToIsoTime(
+              getExpiresAt(values.expirationDate, values.expirationTime)
+            )
+          : UNDEFINED_DATE;
       createSnapshot(instance, values.name, expiresAt, values.stateful)
         .then(() => {
           void queryClient.invalidateQueries({

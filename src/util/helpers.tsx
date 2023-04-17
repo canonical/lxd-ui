@@ -4,8 +4,10 @@ import { LxdInstance } from "types/instance";
 import { LxdProject } from "types/project";
 import { LxdProfile } from "types/profile";
 
+export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
+
 export const isoTimeToString = (isoTime: string) => {
-  if (isoTime.startsWith("0001-01-01T00")) {
+  if (isoTime === UNDEFINED_DATE) {
     return "";
   }
 

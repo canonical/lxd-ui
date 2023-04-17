@@ -1,8 +1,10 @@
 import React, { FC, ReactNode, useState } from "react";
 import { useFormik } from "formik";
 import {
+  UNDEFINED_DATE,
   checkDuplicateName,
   getBrowserFormatDate,
+  getTomorrow,
   stringToIsoTime,
 } from "util/helpers";
 import { renameSnapshot, updateSnapshot } from "api/snapshots";
@@ -11,7 +13,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance, LxdSnapshot } from "types/instance";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
-import { CreateEditSnapshotFormValues, getExpiresAt } from "util/snapshotEdit";
+import {
+  SnapshotFormValues,
+  getExpiresAt,
+  testForbiddenChars,
+} from "util/snapshots";
 import SnapshotForm from "./SnapshotForm";
 import * as Yup from "yup";
 
@@ -32,7 +38,7 @@ const EditSnapshotForm: FC<Props> = ({
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const SnapshotSchema = Yup.object().shape({
+  const SnapshotSchema: unknown = Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
       .test(
@@ -47,18 +53,35 @@ const EditSnapshotForm: FC<Props> = ({
             `instances/${instance.name}/snapshots`
           )
       )
-      .test(
-        "forbiddenChars",
-        `The snapshot name cannot contain spaces or "/" characters`,
-        (value) => {
-          if (!value) {
-            return true;
-          }
-          return !(value.includes(" ") || value.includes("/"));
+      .test(...testForbiddenChars()),
+    expirationDate: Yup.string()
+      .nullable()
+      .optional()
+      .test("valid", "Invalid date format", (value) => {
+        if (!value) {
+          return !formik.values.expirationTime;
         }
-      ),
-    expirationDate: Yup.string().optional(),
-    expirationTime: Yup.string().optional(),
+        return new Date(value).toString() !== "Invalid Date";
+      })
+      .test("future", "The date must be in the future", (value) => {
+        if (!value) return true;
+        const date = new Date(value).getTime();
+        const tomorrow = new Date(getTomorrow()).getTime();
+        return date >= tomorrow;
+      }),
+    expirationTime: Yup.string()
+      .nullable()
+      .optional()
+      .test("valid", "Invalid time format", (value) => {
+        if (!value) {
+          return !formik.values.expirationDate;
+        }
+        const [hours, minutes] = value.split(":");
+        const date = new Date();
+        date.setHours(+hours);
+        date.setMinutes(+minutes);
+        return date.toString() !== "Invalid Date";
+      }),
     stateful: Yup.boolean(),
   });
 
@@ -74,13 +97,7 @@ const EditSnapshotForm: FC<Props> = ({
     close();
   };
 
-  const update = (expiresAt?: string, newName?: string) => {
-    // skip the update if it was not defined before and still is not defined
-    if (snapshot.expires_at === "0001-01-01T00:00:00Z" && !expiresAt) return;
-    if (!expiresAt) {
-      // reset the expiry date to not defined
-      expiresAt = "0001-01-01T00:00:00Z";
-    }
+  const update = (expiresAt: string, newName?: string) => {
     const targetSnapshot = newName
       ? ({
           name: newName,
@@ -111,15 +128,14 @@ const EditSnapshotForm: FC<Props> = ({
       });
   };
 
-  const [expiryDate, expiryTime] = snapshot.expires_at.startsWith(
-    "0001-01-01T00"
-  )
-    ? [null, null]
-    : getBrowserFormatDate(new Date(snapshot.expires_at))
-        .slice(0, 16)
-        .split(" ");
+  const [expiryDate, expiryTime] =
+    snapshot.expires_at === UNDEFINED_DATE
+      ? [null, null]
+      : getBrowserFormatDate(new Date(snapshot.expires_at))
+          .slice(0, 16)
+          .split(" ");
 
-  const formik = useFormik<CreateEditSnapshotFormValues>({
+  const formik = useFormik<SnapshotFormValues>({
     initialValues: {
       name: snapshot.name,
       stateful: snapshot.stateful,
@@ -131,21 +147,20 @@ const EditSnapshotForm: FC<Props> = ({
     onSubmit: (values) => {
       notify.clear();
       const newName = values.name;
-      const expiresAt = values.expirationDate
-        ? stringToIsoTime(
-            getExpiresAt(values.expirationDate, values.expirationTime)
-          )
-        : undefined;
+      const expiresAt =
+        values.expirationDate && values.expirationTime
+          ? stringToIsoTime(
+              getExpiresAt(values.expirationDate, values.expirationTime)
+            )
+          : UNDEFINED_DATE;
       const shouldRename = newName !== snapshot.name;
       const shouldUpdate = expiresAt !== snapshot.expires_at;
       if (shouldRename && shouldUpdate) {
         rename(newName, expiresAt);
       } else if (shouldRename) {
         rename(newName);
-      } else if (shouldUpdate) {
-        update(expiresAt);
       } else {
-        close();
+        update(expiresAt);
       }
     },
   });
