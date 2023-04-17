@@ -14,12 +14,12 @@ import { getTomorrow } from "util/helpers";
 import SubmitButton from "components/SubmitButton";
 import NotificationRow from "components/NotificationRow";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
-import { CreateEditSnapshotFormValues } from "util/snapshotEdit";
+import { SnapshotFormValues } from "util/snapshots";
 import { FormikProps } from "formik/dist/types";
 
 interface Props {
   isEdit: boolean;
-  formik: FormikProps<CreateEditSnapshotFormValues>;
+  formik: FormikProps<SnapshotFormValues>;
   close: () => void;
   isStateful: boolean;
   isRunning?: boolean;
@@ -89,7 +89,7 @@ const SnapshotForm: FC<Props> = ({
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
-          error={formik.touched.name ? formik.errors.name : null}
+          error={formik.touched.name || isEdit ? formik.errors.name : null}
           takeFocus
         />
         <Row className="expiration-wrapper">
@@ -103,6 +103,7 @@ const SnapshotForm: FC<Props> = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.expirationDate ?? ""}
+              error={formik.errors.expirationDate}
             />
           </Col>
           <Col size={6}>
@@ -114,6 +115,7 @@ const SnapshotForm: FC<Props> = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.expirationTime ?? ""}
+              error={formik.errors.expirationTime}
             />
           </Col>
         </Row>
