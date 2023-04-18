@@ -3,6 +3,7 @@ import {
   MainTable,
   Row,
   Button,
+  Notification,
   SearchBox,
   Col,
 } from "@canonical/react-components";
@@ -21,6 +22,7 @@ import useEventListener from "@use-it/event-listener";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import Pagination from "components/Pagination";
 import NotificationRow from "components/NotificationRow";
+import { fetchProject } from "api/projects";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -37,15 +39,45 @@ const ProfileList: FC = () => {
   const {
     data: profiles = [],
     error,
-    isLoading,
+    isLoading: isProfilesLoading,
   } = useQuery({
     queryKey: [queryKeys.profiles, project],
     queryFn: () => fetchProfiles(project),
   });
 
+  const {
+    data: projectObj,
+    error: projectError,
+    isLoading: isProjectLoading,
+  } = useQuery({
+    queryKey: [queryKeys.projects, project],
+    queryFn: () => fetchProject(project),
+  });
+
   if (error) {
     notify.failure("Loading profiles failed", error);
   }
+
+  if (projectError) {
+    notify.failure("Loading project failed", error);
+  }
+  const isLoading = isProfilesLoading || isProjectLoading;
+
+  const featuresProfiles = projectObj?.config["features.profiles"] === "true";
+
+  const instanceCountMap = profiles.map((profile) => {
+    const usedByInstances = getProfileInstances(
+      project,
+      isDefaultProject,
+      profile.used_by
+    );
+    return {
+      name: profile.name,
+      count: usedByInstances.filter((instance) => instance.project === project)
+        .length,
+      total: usedByInstances.length,
+    };
+  });
 
   const filteredProfiles = profiles.filter((item) => {
     if (query) {
@@ -63,10 +95,26 @@ const ProfileList: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
-    { content: "Used by", sortKey: "used_by", className: "u-align--right" },
+    {
+      content: isDefaultProject ? (
+        <>
+          Total instances
+          <br />
+          <div className="header-second-row">Used by</div>
+        </>
+      ) : (
+        "Used by"
+      ),
+      sortKey: "used_by",
+    },
   ];
 
   const rows = filteredProfiles.map((profile) => {
+    const usedBy =
+      instanceCountMap.find((item) => profile.name === item.name)?.count ?? 0;
+    const total =
+      instanceCountMap.find((item) => profile.name === item.name)?.total ?? 0;
+
     return {
       columns: [
         {
@@ -81,25 +129,35 @@ const ProfileList: FC = () => {
           "aria-label": "Name",
         },
         {
-          content: profile.description,
+          content: (
+            <div className="u-truncate" title={profile.description}>
+              {profile.description}
+            </div>
+          ),
           role: "rowheader",
           "aria-label": "Description",
         },
         {
-          content: getProfileInstances(
-            project,
-            isDefaultProject,
-            profile.used_by
-          ).length,
+          content: (
+            <>
+              {isDefaultProject && (
+                <>
+                  {total} in all projects
+                  <br />
+                </>
+              )}
+              {usedBy} instances
+            </>
+          ),
           role: "rowheader",
-          className: "u-align--right",
+          className: "u-text--muted",
           "aria-label": "Used by",
         },
       ],
       sortData: {
         name: profile.name.toLowerCase(),
         description: profile.description.toLowerCase(),
-        used_by: profile.used_by,
+        used_by: usedBy,
       },
     };
   });
@@ -139,7 +197,9 @@ const ProfileList: FC = () => {
           />
           <Button
             appearance="positive"
-            className="u-no-margin--bottom"
+            className={classnames("u-no-margin--bottom", {
+              "profiles-disabled": !featuresProfiles,
+            })}
             onClick={() => navigate(`/ui/${project}/profiles/create`)}
           >
             Create profile
@@ -149,6 +209,12 @@ const ProfileList: FC = () => {
           <NotificationRow />
           <Row className="no-grid-gap">
             <Col size={12}>
+              {!featuresProfiles && (
+                <Notification severity="caution" title="Profiles disabled">
+                  The feature has been disabled on a project level. All the
+                  available profiles are inherited from the default project.
+                </Notification>
+              )}
               <MainTable
                 headers={headers}
                 rows={pagination.pageData}

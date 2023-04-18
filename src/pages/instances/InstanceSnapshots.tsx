@@ -91,7 +91,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         <>
           Name
           <br />
-          <div className="created-header--collapsed">Date created</div>
+          <div className="header-second-row">Date created</div>
         </>
       ) : (
         "Name"
