@@ -50,3 +50,23 @@ export const hasInstance = async (page: Page, instance: string) => {
   await page.getByPlaceholder("Search").fill(instance);
   return await page.getByRole("link", { name: instance }).first().isVisible();
 };
+
+export const renameInstance = async (
+  page: Page,
+  oldName: string,
+  newName: string
+) => {
+  await page.goto(`/`);
+  await page.getByPlaceholder("Search").click();
+  await page.getByPlaceholder("Search").fill(oldName);
+  await page.getByRole("link", { name: oldName }).first().click();
+
+  await page
+    .getByRole("listitem", { name: oldName })
+    .getByText(oldName)
+    .click();
+  await page.getByRole("textbox").press("Control+a");
+  await page.getByRole("textbox").fill(newName);
+  await page.getByRole("button", { name: "Save" }).click();
+  await page.getByText("Instance renamed.").click();
+};
