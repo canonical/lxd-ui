@@ -26,8 +26,8 @@ const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit, helpText }) => {
     <div>
       <div className="memory-limit-with-unit">
         <Input
-          id="limits_memory"
-          name="limits_memory"
+          id="limits_disk"
+          name="limits_disk"
           type="number"
           min="0"
           step="Any"
