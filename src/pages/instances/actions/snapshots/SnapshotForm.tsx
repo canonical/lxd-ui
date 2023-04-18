@@ -119,35 +119,37 @@ const SnapshotForm: FC<Props> = ({
             />
           </Col>
         </Row>
-        <List
-          inline
-          items={[
-            <Input
-              key="stateful"
-              id="stateful"
-              name="stateful"
-              type="checkbox"
-              label="Stateful"
-              wrapperClassName="u-inline-block"
-              disabled={isEdit || !isStateful || !isRunning}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              defaultChecked={formik.values.stateful}
-            />,
-            ...(statefulInfoMessage
-              ? [
-                  <Tooltip
-                    key="stateful-info"
-                    position="btm-left"
-                    message={statefulInfoMessage}
-                    zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
-                  >
-                    <Icon name="information" />
-                  </Tooltip>,
-                ]
-              : []),
-          ]}
-        />
+        {!isEdit && (
+          <List
+            inline
+            items={[
+              <Input
+                key="stateful"
+                id="stateful"
+                name="stateful"
+                type="checkbox"
+                label="Stateful"
+                wrapperClassName="u-inline-block"
+                disabled={!isStateful || !isRunning}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                defaultChecked={formik.values.stateful}
+              />,
+              ...(statefulInfoMessage
+                ? [
+                    <Tooltip
+                      key="stateful-info"
+                      position="btm-left"
+                      message={statefulInfoMessage}
+                      zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
+                    >
+                      <Icon name="information" />
+                    </Tooltip>,
+                  ]
+                : []),
+            ]}
+          />
+        )}
       </Form>
     </Modal>
   );
