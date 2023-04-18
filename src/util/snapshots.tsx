@@ -1,5 +1,7 @@
+import { LxdInstance } from "types/instance";
 import { TestFunction } from "yup";
 import { AnyObject } from "yup/lib/types";
+import { checkDuplicateName, getTomorrow } from "./helpers";
 
 export interface SnapshotFormValues {
   name: string;
@@ -16,6 +18,31 @@ export const getExpiresAt = (
   return `${expirationDate}T${expirationTime}`;
 };
 
+export const testDuplicateName = (
+  instance: LxdInstance,
+  controllerState: [
+    AbortController | null,
+    React.Dispatch<React.SetStateAction<AbortController | null>>
+  ],
+  excludeName?: string
+): [string, string, TestFunction<string | undefined, AnyObject>] => {
+  return [
+    "deduplicate",
+    "Snapshot name already in use",
+    (value?: string) => {
+      return (
+        (excludeName && value === excludeName) ||
+        checkDuplicateName(
+          value,
+          instance.project,
+          controllerState,
+          `instances/${instance.name}/snapshots`
+        )
+      );
+    },
+  ];
+};
+
 export const testForbiddenChars = (): [
   string,
   string,
@@ -29,6 +56,23 @@ export const testForbiddenChars = (): [
         return true;
       }
       return !(value.includes(" ") || value.includes("/"));
+    },
+  ];
+};
+
+export const testFutureDate = (): [
+  string,
+  string,
+  TestFunction<string | null | undefined, AnyObject>
+] => {
+  return [
+    "future",
+    "The date must be in the future",
+    (value?: string | null) => {
+      if (!value) return true;
+      const date = new Date(value).getTime();
+      const tomorrow = new Date(getTomorrow()).getTime();
+      return date >= tomorrow;
     },
   ];
 };
