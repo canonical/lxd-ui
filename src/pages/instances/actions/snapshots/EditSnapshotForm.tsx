@@ -2,9 +2,7 @@ import React, { FC, ReactNode, useState } from "react";
 import { useFormik } from "formik";
 import {
   UNDEFINED_DATE,
-  checkDuplicateName,
   getBrowserFormatDate,
-  getTomorrow,
   stringToIsoTime,
 } from "util/helpers";
 import { renameSnapshot, updateSnapshot } from "api/snapshots";
@@ -16,7 +14,9 @@ import ItemName from "components/ItemName";
 import {
   SnapshotFormValues,
   getExpiresAt,
+  testDuplicateName,
   testForbiddenChars,
+  testFutureDate,
 } from "util/snapshots";
 import SnapshotForm from "./SnapshotForm";
 import * as Yup from "yup";
@@ -41,18 +41,7 @@ const EditSnapshotForm: FC<Props> = ({
   const SnapshotSchema: unknown = Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
-      .test(
-        "deduplicate",
-        "Snapshot name already in use",
-        (value) =>
-          value === snapshot.name ||
-          checkDuplicateName(
-            value,
-            instance.project,
-            controllerState,
-            `instances/${instance.name}/snapshots`
-          )
-      )
+      .test(...testDuplicateName(instance, controllerState, snapshot.name))
       .test(...testForbiddenChars()),
     expirationDate: Yup.string()
       .nullable()
@@ -63,12 +52,7 @@ const EditSnapshotForm: FC<Props> = ({
         }
         return new Date(value).toString() !== "Invalid Date";
       })
-      .test("future", "The date must be in the future", (value) => {
-        if (!value) return true;
-        const date = new Date(value).getTime();
-        const tomorrow = new Date(getTomorrow()).getTime();
-        return date >= tomorrow;
-      }),
+      .test(...testFutureDate()),
     expirationTime: Yup.string()
       .nullable()
       .optional()
