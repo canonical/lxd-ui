@@ -208,3 +208,8 @@ $border-thin: 1px solid $color-mid-light !default;
 .item-name {
   overflow-wrap: anywhere;
 }
+
+.header-second-row {
+  display: inline-block;
+  padding-top: 1px;
+}

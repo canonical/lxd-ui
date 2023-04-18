@@ -164,14 +164,6 @@
     min-height: auto;
   }
 
-  .table-column-select-list {
-    min-width: 12rem;
-
-    label {
-      margin-left: 1rem;
-    }
-  }
-
   // hide filters on small screens
   @media screen and (max-width: $breakpoint-large) {
     .filter-state,
@@ -211,5 +203,13 @@
         display: none;
       }
     }
+  }
+}
+
+.table-column-select-list {
+  min-width: 12rem;
+
+  label {
+    margin-left: 1rem;
   }
 }

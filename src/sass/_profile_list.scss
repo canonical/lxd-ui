@@ -16,11 +16,23 @@
     .margin-right {
       margin-right: $sph--large;
     }
+
+    .profiles-disabled {
+      visibility: hidden;
+    }
   }
 
   .profile-content {
     padding-bottom: 0;
     padding-top: $spv--large;
+
+    .p-notification--caution {
+      background-image: none;
+      border: 0;
+      margin-bottom: $spv--small;
+      margin-top: -$spv--small;
+      padding-left: $spv--large;
+    }
 
     .p-notification--positive,
     .p-notification--negative {
@@ -31,9 +43,21 @@
   .profile-table {
     margin-bottom: 0;
 
+    th,
+    td {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
     td:last-child {
       padding-bottom: 0;
       padding-right: $sph--large;
+    }
+
+    th::before {
+      content: "";
+      display: inline-block;
+      height: 1rem;
     }
 
     thead,
