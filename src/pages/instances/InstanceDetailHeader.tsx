@@ -1,10 +1,11 @@
 import React, { FC, useState } from "react";
-import { Link } from "react-router-dom";
-import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
+import { Link, useNavigate } from "react-router-dom";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import { LxdInstance } from "types/instance";
-import InstanceRename from "pages/instances/forms/InstanceRename";
-import { Tooltip } from "@canonical/react-components";
+import RenameHeader from "components/RenameHeader";
+import { renameInstance } from "api/instances";
+import { useNotify } from "context/notify";
+import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 
 interface Props {
   name: string;
@@ -13,61 +14,56 @@ interface Props {
 }
 
 const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
-  const [isRename, setRename] = useState(false);
-  const canRename = instance?.status === "Stopped";
+  const navigate = useNavigate();
+  const notify = useNotify();
+  const [isSubmitting, setSubmitting] = useState(false);
+
+  const handleRename = (newName: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      if (name === newName) {
+        return resolve();
+      }
+      setSubmitting(true);
+      renameInstance(name, newName, project)
+        .then(() => {
+          navigate(
+            `/ui/${project}/instances/detail/${newName}`,
+            notify.queue(notify.success("Instance renamed."))
+          );
+          resolve();
+        })
+        .catch((e) => {
+          notify.failure("Renaming failed", e);
+          reject();
+        })
+        .finally(() => setSubmitting(false));
+    });
+  };
 
   return (
-    <div className="p-panel__header">
-      <h1 className="u-off-screen">{name}</h1>
-      {instance ? (
-        <div className="p-panel__title">
-          <nav
-            key="breadcrumbs"
-            className="p-breadcrumbs"
-            aria-label="Breadcrumbs"
-          >
-            <ol className="p-breadcrumbs__items">
-              <li className="p-breadcrumbs__item">
-                <Link to={`/ui/${project}/instances`}>Instances</Link>
-              </li>
-              {isRename ? (
-                <li className="p-breadcrumbs__item instance-rename">
-                  <InstanceRename
-                    instance={instance}
-                    project={project}
-                    closeForm={() => setRename(false)}
-                  />
-                </li>
-              ) : (
-                <li
-                  className="p-breadcrumbs__item instance-name u-truncate"
-                  onClick={() => canRename && setRename(true)}
-                  title={name}
-                >
-                  <Tooltip
-                    message={!canRename && "Stop the instance to rename"}
-                    position="btm-left"
-                  >
-                    {name}
-                  </Tooltip>
-                </li>
-              )}
-            </ol>
-          </nav>
-          {!isRename && (
-            <div>
-              <i className="status u-text--muted">{instance.status}</i>
-              <InstanceStateActions key="state" instance={instance} />
-            </div>
-          )}
-        </div>
-      ) : (
-        <h4 className="p-panel__title">{name}</h4>
-      )}
-      <div className="p-panel__controls">
-        {instance && !isRename && <DeleteInstanceBtn instance={instance} />}
-      </div>
-    </div>
+    <RenameHeader
+      name={name}
+      link={<Link to={`/ui/${project}/instances`}>Instances</Link>}
+      renameDisabledReason={
+        !instance || instance.status !== "Stopped"
+          ? "Stop the instance to rename"
+          : undefined
+      }
+      centerControls={
+        instance ? (
+          <div>
+            <i className="status u-text--muted">{instance.status}</i>
+            <InstanceStateActions key="state" instance={instance} />
+          </div>
+        ) : null
+      }
+      controls={
+        instance ? <DeleteInstanceBtn key="delete" instance={instance} /> : null
+      }
+      isLoaded={Boolean(instance)}
+      onRename={handleRename}
+      isRenaming={isSubmitting}
+    />
   );
 };
 
