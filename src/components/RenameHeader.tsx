@@ -4,7 +4,7 @@ import SubmitButton from "components/SubmitButton";
 
 interface Props {
   name: string;
-  link: ReactNode;
+  parentItem: ReactNode;
   centerControls?: ReactNode;
   controls?: ReactNode;
   isLoaded: boolean;
@@ -15,7 +15,7 @@ interface Props {
 
 const RenameHeader: FC<Props> = ({
   name,
-  link,
+  parentItem,
   centerControls,
   controls,
   isLoaded,
@@ -44,7 +44,7 @@ const RenameHeader: FC<Props> = ({
             aria-label="Breadcrumbs"
           >
             <ol className="p-breadcrumbs__items">
-              <li className="p-breadcrumbs__item">{link}</li>
+              <li className="p-breadcrumbs__item">{parentItem}</li>
               {isRename ? (
                 <li className="p-breadcrumbs__item rename">
                   <Input

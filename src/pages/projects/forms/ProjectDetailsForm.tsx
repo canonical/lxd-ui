@@ -120,6 +120,10 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             disabled={formik.values.name === "default" || isEdit}
+            help={
+              formik.values.name !== "default" &&
+              "Click the name in the header to rename the project"
+            }
             required
           />
           <Textarea
