@@ -43,7 +43,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   return (
     <RenameHeader
       name={name}
-      link={<Link to={`/ui/${project}/instances`}>Instances</Link>}
+      parentItem={<Link to={`/ui/${project}/instances`}>Instances</Link>}
       renameDisabledReason={
         !instance || instance.status !== "Stopped"
           ? "Stop the instance to rename"

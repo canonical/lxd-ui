@@ -28,6 +28,7 @@ import { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import { getProjectConfigKeys } from "util/projectConfigFields";
+import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 
 interface Props {
   project: LxdProject;
@@ -101,9 +102,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
   return (
     <main className="l-main">
       <div className="p-panel">
-        <div className="p-panel__header">
-          <h4 className="p-panel__title">Project configuration</h4>
-        </div>
+        <ProjectConfigurationHeader project={project} />
         <div className="p-panel__content edit-project">
           <ProjectForm
             formik={formik}
