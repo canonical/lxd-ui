@@ -27,8 +27,11 @@
   }
 
   .instance-content {
+    margin-top: -$spv--large;
     padding-bottom: 0;
-    padding-top: $spv--large;
+    @media screen and (max-width: $breakpoint-large) {
+      margin-top: 0;
+    }
 
     .p-notification--positive,
     .p-notification--negative {

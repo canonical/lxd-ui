@@ -18,7 +18,11 @@ const TABS: string[] = ["Overview", "Configuration"];
 const ProfileDetail: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
-  const { name, project, activeTab } = useParams<{
+  const {
+    name,
+    project: projectName,
+    activeTab,
+  } = useParams<{
     name: string;
     project: string;
     activeTab?: string;
@@ -27,7 +31,7 @@ const ProfileDetail: FC = () => {
   if (!name) {
     return <>Missing name</>;
   }
-  if (!project) {
+  if (!projectName) {
     return <>Missing project</>;
   }
 
@@ -37,16 +41,16 @@ const ProfileDetail: FC = () => {
     isLoading: isProfileLoading,
   } = useQuery({
     queryKey: [queryKeys.profiles, "detail", name],
-    queryFn: () => fetchProfile(name, project),
+    queryFn: () => fetchProfile(name, projectName),
   });
 
   const {
-    data: projectObj,
+    data: project,
     error: projectError,
     isLoading: isProjectLoading,
   } = useQuery({
-    queryKey: [queryKeys.projects, project],
-    queryFn: () => fetchProject(project),
+    queryKey: [queryKeys.projects, projectName],
+    queryFn: () => fetchProject(projectName),
   });
 
   if (error) {
@@ -58,14 +62,14 @@ const ProfileDetail: FC = () => {
   }
   const isLoading = isProfileLoading || isProjectLoading;
 
-  const featuresProfiles = projectObj?.config["features.profiles"] === "true";
+  const featuresProfiles = project?.config["features.profiles"] === "true";
 
   const handleTabChange = (newTab: string) => {
     notify.clear();
     if (newTab === "overview") {
-      navigate(`/ui/${project}/profiles/detail/${name}`);
+      navigate(`/ui/${projectName}/profiles/detail/${name}`);
     } else {
-      navigate(`/ui/${project}/profiles/detail/${name}/${newTab}`);
+      navigate(`/ui/${projectName}/profiles/detail/${name}/${newTab}`);
     }
   };
 
@@ -75,7 +79,7 @@ const ProfileDetail: FC = () => {
         <ProfileDetailHeader
           name={name}
           profile={profile}
-          project={project}
+          project={projectName}
           featuresProfiles={featuresProfiles}
         />
         <div className="p-panel__content">

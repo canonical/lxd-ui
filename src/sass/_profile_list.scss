@@ -4,29 +4,36 @@
     justify-content: space-between;
     margin: $spv--x-small 0 $spv--large 0;
 
-    .search-box {
-      max-width: 20rem;
-      width: 100%;
+    .profile-header-left {
+      display: flex;
+      flex-grow: 1;
+
+      h1 {
+        margin-right: 2rem;
+      }
+
+      .search-box {
+        max-width: 20rem;
+        width: 100%;
+      }
     }
 
     .margin-right {
       margin-right: $sph--large;
     }
-
-    .profiles-disabled {
-      visibility: hidden;
-    }
   }
 
   .profile-content {
+    margin-top: -$spv--large;
     padding-bottom: 0;
-    padding-top: $spv--large;
+    @media screen and (max-width: 860px) {
+      margin-top: 0;
+    }
 
     .p-notification--caution {
       background-image: none;
       border: 0;
       margin-bottom: $spv--small;
-      margin-top: -$spv--small;
       padding-left: $spv--large;
     }
 
@@ -38,17 +45,6 @@
 
   .profile-table {
     margin-bottom: 0;
-
-    th,
-    td {
-      display: table-cell;
-      vertical-align: top;
-    }
-
-    td:last-child {
-      padding-bottom: 0;
-      padding-right: $sph--large;
-    }
 
     th::before {
       content: "";
