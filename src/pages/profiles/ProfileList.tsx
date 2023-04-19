@@ -28,30 +28,30 @@ const ProfileList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { project } = useParams<{ project: string }>();
+  const { project: projectName } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
 
-  if (!project) {
+  if (!projectName) {
     return <>Missing project</>;
   }
-  const isDefaultProject = project === "default";
+  const isDefaultProject = projectName === "default";
 
   const {
     data: profiles = [],
     error,
     isLoading: isProfilesLoading,
   } = useQuery({
-    queryKey: [queryKeys.profiles, project],
-    queryFn: () => fetchProfiles(project),
+    queryKey: [queryKeys.profiles, projectName],
+    queryFn: () => fetchProfiles(projectName),
   });
 
   const {
-    data: projectObj,
+    data: project,
     error: projectError,
     isLoading: isProjectLoading,
   } = useQuery({
-    queryKey: [queryKeys.projects, project],
-    queryFn: () => fetchProject(project),
+    queryKey: [queryKeys.projects, projectName],
+    queryFn: () => fetchProject(projectName),
   });
 
   if (error) {
@@ -63,18 +63,19 @@ const ProfileList: FC = () => {
   }
   const isLoading = isProfilesLoading || isProjectLoading;
 
-  const featuresProfiles = projectObj?.config["features.profiles"] === "true";
+  const featuresProfiles = project?.config["features.profiles"] === "true";
 
   const instanceCountMap = profiles.map((profile) => {
     const usedByInstances = getProfileInstances(
-      project,
+      projectName,
       isDefaultProject,
       profile.used_by
     );
     return {
       name: profile.name,
-      count: usedByInstances.filter((instance) => instance.project === project)
-        .length,
+      count: usedByInstances.filter(
+        (instance) => instance.project === projectName
+      ).length,
       total: usedByInstances.length,
     };
   });
@@ -96,15 +97,7 @@ const ProfileList: FC = () => {
     { content: "Name", sortKey: "name" },
     { content: "Description", sortKey: "description" },
     {
-      content: isDefaultProject ? (
-        <>
-          Total instances
-          <br />
-          <div className="header-second-row">Used by</div>
-        </>
-      ) : (
-        "Used by"
-      ),
+      content: "Used by",
       sortKey: "used_by",
     },
   ];
@@ -120,7 +113,7 @@ const ProfileList: FC = () => {
         {
           content: (
             <div className="u-truncate" title={profile.name}>
-              <Link to={`/ui/${project}/profiles/detail/${profile.name}`}>
+              <Link to={`/ui/${projectName}/profiles/detail/${profile.name}`}>
                 <ItemName item={profile} />
               </Link>
             </div>
@@ -140,17 +133,15 @@ const ProfileList: FC = () => {
         {
           content: (
             <>
+              {usedBy} {usedBy === 1 ? "instance" : "instances"}
               {isDefaultProject && (
                 <>
-                  {total} in all projects
-                  <br />
+                  <div className="u-text--muted">{total} in all projects</div>
                 </>
               )}
-              {usedBy} instances
             </>
           ),
           role: "rowheader",
-          className: "u-text--muted",
           "aria-label": "Used by",
         },
       ],
@@ -183,27 +174,29 @@ const ProfileList: FC = () => {
         })}
       >
         <div className="p-panel__header profile-list-header">
-          <h1 className="p-heading--4 u-no-margin--bottom">Profiles</h1>
-          <SearchBox
-            className="search-box margin-right u-no-margin--bottom"
-            name="search-profile"
-            type="text"
-            onChange={(value) => {
-              setQuery(value);
-            }}
-            placeholder="Search"
-            value={query}
-            aria-label="Search"
-          />
-          <Button
-            appearance="positive"
-            className={classnames("u-no-margin--bottom", {
-              "profiles-disabled": !featuresProfiles,
-            })}
-            onClick={() => navigate(`/ui/${project}/profiles/create`)}
-          >
-            Create profile
-          </Button>
+          <div className="profile-header-left">
+            <h1 className="p-heading--4 u-no-margin--bottom">Profiles</h1>
+            <SearchBox
+              className="search-box margin-right u-no-margin--bottom"
+              name="search-profile"
+              type="text"
+              onChange={(value) => {
+                setQuery(value);
+              }}
+              placeholder="Search"
+              value={query}
+              aria-label="Search"
+            />
+          </div>
+          {featuresProfiles && (
+            <Button
+              appearance="positive"
+              className="u-no-margin--bottom"
+              onClick={() => navigate(`/ui/${projectName}/profiles/create`)}
+            >
+              Create profile
+            </Button>
+          )}
         </div>
         <div className="p-panel__content profile-content">
           <NotificationRow />
