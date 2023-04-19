@@ -4,10 +4,6 @@
     justify-content: space-between;
     margin: $spv--x-small 0 $spv--large 0;
 
-    h1 {
-      margin-right: 2rem;
-    }
-
     .search-box {
       max-width: 20rem;
       width: 100%;
@@ -46,7 +42,7 @@
     th,
     td {
       display: table-cell;
-      vertical-align: middle;
+      vertical-align: top;
     }
 
     td:last-child {

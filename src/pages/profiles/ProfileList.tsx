@@ -209,7 +209,7 @@ const ProfileList: FC = () => {
           <NotificationRow />
           <Row className="no-grid-gap">
             <Col size={12}>
-              {!featuresProfiles && (
+              {!isLoading && !featuresProfiles && (
                 <Notification severity="caution" title="Profiles disabled">
                   The feature has been disabled on a project level. All the
                   available profiles are inherited from the default project.
