@@ -1,0 +1,50 @@
+.rename-header {
+  .p-panel__title {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+
+    @include large {
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .name {
+      margin-right: $sph--large;
+      max-width: 33vw;
+      overflow: clip !important;
+
+      > span > span {
+        display: inherit !important;
+      }
+
+      &:hover {
+        background: linear-gradient(
+            45deg,
+            $colors--light-theme--background-hover,
+            $colors--light-theme--background-hover
+          )
+          no-repeat 1rem;
+      }
+    }
+
+    .rename {
+      display: inline-flex;
+      max-width: 33vw;
+      min-width: 33rem;
+
+      .name-input {
+        margin-left: -1rem;
+      }
+
+      .cancel {
+        margin-left: $sph--small;
+        margin-right: $sph--small;
+      }
+    }
+  }
+
+  .p-panel__controls {
+    margin-top: 0.2rem;
+  }
+}
