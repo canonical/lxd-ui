@@ -77,14 +77,14 @@ export const deleteSnapshotBulk = (
 export const restoreSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
-  stateful: boolean
+  restoreState: boolean
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
       method: "PUT",
       body: JSON.stringify({
         restore: snapshot.name,
-        stateful: stateful,
+        stateful: snapshot.stateful ? restoreState : false,
       }),
     })
       .then(handleResponse)

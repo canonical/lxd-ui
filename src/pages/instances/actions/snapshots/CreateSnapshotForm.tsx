@@ -10,6 +10,7 @@ import ItemName from "components/ItemName";
 import {
   SnapshotFormValues,
   getExpiresAt,
+  isInstanceStateful,
   testDuplicateName,
   testForbiddenChars,
   testFutureDate,
@@ -100,7 +101,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
       isEdit={false}
       formik={formik}
       close={close}
-      isStateful={!!instance.config["migration.stateful"]}
+      isStateful={isInstanceStateful(instance)}
       isRunning={instance.status === "Running"}
     />
   );

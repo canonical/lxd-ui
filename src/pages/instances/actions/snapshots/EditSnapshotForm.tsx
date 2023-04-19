@@ -14,6 +14,7 @@ import ItemName from "components/ItemName";
 import {
   SnapshotFormValues,
   getExpiresAt,
+  isInstanceStateful,
   testDuplicateName,
   testForbiddenChars,
   testFutureDate,
@@ -154,7 +155,7 @@ const EditSnapshotForm: FC<Props> = ({
       isEdit
       formik={formik}
       close={close}
-      isStateful={!!instance.config["migration.stateful"]}
+      isStateful={isInstanceStateful(instance)}
     />
   );
 };
