@@ -27,7 +27,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
     onFailure("Loading networks failed", error);
   }
 
-  const instanceNetworks = Object.values(instance.expanded_devices)
+  const instanceNetworks = Object.values(instance.expanded_devices ?? {})
     .filter(isNicDevice)
     .map((network) => network.network);
 
@@ -101,7 +101,12 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
       {isLoading ? (
         <Loader text="Loading networks..." />
       ) : (
-        <MainTable headers={networksHeaders} rows={networksRows} sortable />
+        <MainTable
+          headers={networksHeaders}
+          rows={networksRows}
+          sortable
+          emptyStateMsg="No data to display"
+        />
       )}
     </>
   );

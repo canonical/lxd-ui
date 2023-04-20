@@ -113,7 +113,7 @@ const NetworkMap: FC = () => {
 
   const edges: EdgeDefinition[] = [];
   instances.map((instance) =>
-    Object.values(instance.expanded_devices)
+    Object.values(instance.expanded_devices ?? {})
       .filter(isNicDevice)
       .map((network) => {
         edges.push({
