@@ -34,7 +34,6 @@ import ResourceLimitsForm, {
   ResourceLimitsFormValues,
   resourceLimitsPayload,
 } from "pages/instances/forms/ResourceLimitsForm";
-import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
@@ -95,8 +94,6 @@ const CreateProfileForm: FC = () => {
     initialValues: {
       name: "",
       devices: [{ type: "nic", name: "" }],
-      limits_cpu: DEFAULT_CPU_LIMIT,
-      limits_memory: DEFAULT_MEM_LIMIT,
       readOnly: false,
       type: "profile",
     },
@@ -139,7 +136,7 @@ const CreateProfileForm: FC = () => {
   };
 
   const updateSection = (newItem: string) => {
-    if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
+    if (Boolean(formik.values.yaml) && newItem !== YAML_CONFIGURATION) {
       void formik.setFieldValue("yaml", undefined);
     }
     setSection(newItem);

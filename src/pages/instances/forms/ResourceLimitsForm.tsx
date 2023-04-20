@@ -74,7 +74,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Memory limit",
           defaultValue: DEFAULT_MEM_LIMIT,
           readOnlyRenderer: (val) =>
-            memoryLimitToPayload(val as MemoryLimit | undefined),
+            memoryLimitToPayload(val as MemoryLimit | undefined) ?? "-",
           children: (
             <MemoryLimitSelector
               memoryLimit={formik.values.limits_memory}

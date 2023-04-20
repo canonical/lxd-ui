@@ -142,19 +142,14 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
   };
 
   const updateSection = (newSection: string) => {
-    if (
-      activeSection === slugify(YAML_CONFIGURATION) &&
-      newSection !== slugify(YAML_CONFIGURATION)
-    ) {
+    if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
       void formik.setFieldValue("yaml", undefined);
     }
-    if (newSection === slugify(PROFILE_DETAILS)) {
-      navigate(`/ui/${project}/profiles/detail/${profile.name}/configuration`);
-    } else {
-      navigate(
-        `/ui/${project}/profiles/detail/${profile.name}/configuration/${newSection}`
-      );
-    }
+
+    const baseUrl = `/ui/${project}/profiles/detail/${profile.name}/configuration`;
+    newSection === PROFILE_DETAILS
+      ? navigate(baseUrl)
+      : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
 
   const toggleMenu = () => {
@@ -181,7 +176,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
         <ProfileFormMenu
           active={activeSection ?? slugify(PROFILE_DETAILS)}
-          setActive={(val) => updateSection(slugify(val))}
+          setActive={updateSection}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
         />
