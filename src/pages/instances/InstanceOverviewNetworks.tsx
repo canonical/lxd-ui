@@ -49,7 +49,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
   const networksRows = networks
     .filter((network) => instanceNetworks.includes(network.name))
     .map((network) => {
-      const interfaceNames = Object.entries(instance.expanded_devices)
+      const interfaceNames = Object.entries(instance.expanded_devices ?? {})
         .filter(
           ([_key, value]) =>
             value.type === "nic" && value.network === network.name
