@@ -30,8 +30,8 @@
 
     .rename {
       display: inline-flex;
-      max-width: 33vw;
       min-width: 33rem;
+      white-space: nowrap;
 
       .name-input {
         margin-left: -1rem;

@@ -28,6 +28,15 @@ const RenameHeader: FC<Props> = ({
   renameDisabledReason,
 }) => {
   const canRename = renameDisabledReason === undefined;
+  const enableRename = () => {
+    if (!canRename) {
+      return;
+    }
+    formik.setValues({
+      isRenaming: true,
+      name: name,
+    });
+  };
 
   return (
     <div className="p-panel__header rename-header">
@@ -78,9 +87,7 @@ const RenameHeader: FC<Props> = ({
               ) : (
                 <li
                   className="p-breadcrumbs__item name u-truncate"
-                  onClick={() =>
-                    canRename && formik.setFieldValue("isRenaming", true)
-                  }
+                  onClick={enableRename}
                   title={name}
                 >
                   <Tooltip
