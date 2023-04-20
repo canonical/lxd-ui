@@ -44,6 +44,10 @@ const InstanceDetailPanel: FC = () => {
   const ip4Addresses = getIpAddresses("inet", instance);
   const ip6Addresses = getIpAddresses("inet6", instance);
 
+  const networkDevices = Object.values(instance?.expanded_devices ?? {}).filter(
+    isNicDevice
+  );
+
   return (
     <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
       {isLoading && <Loader />}
@@ -179,11 +183,10 @@ const InstanceDetailPanel: FC = () => {
                       <h3 className="p-muted-heading p-heading--5">Networks</h3>
                     </th>
                     <td>
-                      <List
-                        className="list"
-                        items={Object.values(instance.expanded_devices)
-                          .filter(isNicDevice)
-                          .map((item) => (
+                      {networkDevices.length > 0 ? (
+                        <List
+                          className="list"
+                          items={networkDevices.map((item) => (
                             // TODO: fix this link to point to the network detail page
                             <Link
                               key={item.network}
@@ -192,7 +195,10 @@ const InstanceDetailPanel: FC = () => {
                               {item.network}
                             </Link>
                           ))}
-                      />
+                        />
+                      ) : (
+                        <>-</>
+                      )}
                     </td>
                   </tr>
                   <tr className="u-no-border">
