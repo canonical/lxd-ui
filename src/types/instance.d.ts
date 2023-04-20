@@ -87,7 +87,7 @@ export interface LxdInstance {
   devices: LxdDevices;
   ephemeral: boolean;
   expanded_config: LxdConfigPair;
-  expanded_devices: LxdDevices;
+  expanded_devices?: LxdDevices;
   last_used_at: string;
   location: string;
   name: string;

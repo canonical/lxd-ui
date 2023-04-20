@@ -178,12 +178,14 @@ const InstanceDetailPanel: FC = () => {
                       />
                     </td>
                   </tr>
-                  <tr>
-                    <th>
-                      <h3 className="p-muted-heading p-heading--5">Networks</h3>
-                    </th>
-                    <td>
-                      {networkDevices.length > 0 ? (
+                  {networkDevices.length > 0 ? (
+                    <tr>
+                      <th>
+                        <h3 className="p-muted-heading p-heading--5">
+                          Networks
+                        </h3>
+                      </th>
+                      <td>
                         <List
                           className="list"
                           items={networkDevices.map((item) => (
@@ -196,11 +198,27 @@ const InstanceDetailPanel: FC = () => {
                             </Link>
                           ))}
                         />
-                      ) : (
-                        <>-</>
-                      )}
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr>
+                      <td colSpan={2}>
+                        <h3 className="p-muted-heading p-heading--5">
+                          Networks
+                        </h3>
+                        <p>
+                          No networks found.
+                          <br />
+                          <Link
+                            to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration/networks`}
+                          >
+                            Configure
+                          </Link>{" "}
+                          instance networks.
+                        </p>
+                      </td>
+                    </tr>
+                  )}
                   <tr className="u-no-border">
                     <th colSpan={2} className="snapshots-header">
                       <h3 className="p-muted-heading p-heading--5">
