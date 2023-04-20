@@ -8,12 +8,14 @@ export interface PanelHelper {
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
   openImageImport: () => void;
+  openProfileSummary: (profile: string, project: string) => void;
   openStorageForm: (project: string) => void;
 }
 
 export const panels = {
   instanceSummary: "instance-summary",
   imageImport: "image-import",
+  profileSummary: "profile-summary",
   storageForm: "storage-form",
 };
 
@@ -57,6 +59,10 @@ const usePanelParams = (): PanelHelper => {
 
     openImageImport: () => {
       setPanelParams(panels.imageImport);
+    },
+
+    openProfileSummary: (profile, project) => {
+      setPanelParams(panels.profileSummary, { profile, project });
     },
 
     openStorageForm: (project) => {

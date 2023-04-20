@@ -12,6 +12,7 @@ import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
 import { slugify } from "util/slugify";
 import { fetchProject } from "api/projects";
+import { isProjectWithProfiles } from "util/projects";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -62,7 +63,7 @@ const ProfileDetail: FC = () => {
   }
   const isLoading = isProfileLoading || isProjectLoading;
 
-  const featuresProfiles = project?.config["features.profiles"] === "true";
+  const featuresProfiles = isProjectWithProfiles(project);
 
   const handleTabChange = (newTab: string) => {
     notify.clear();

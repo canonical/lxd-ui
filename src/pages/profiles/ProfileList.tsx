@@ -8,13 +8,11 @@ import {
   Col,
 } from "@canonical/react-components";
 import { fetchProfiles } from "api/profiles";
-import classnames from "classnames";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import Loader from "components/Loader";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ItemName from "components/ItemName";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams from "util/usePanelParams";
 import { usePagination } from "util/pagination";
@@ -24,6 +22,8 @@ import Pagination from "components/Pagination";
 import NotificationRow from "components/NotificationRow";
 import { fetchProject } from "api/projects";
 import { defaultFirst } from "util/helpers";
+import ProfileLink from "./ProfileLink";
+import { isProjectWithProfiles } from "util/projects";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ const ProfileList: FC = () => {
   }
   const isLoading = isProfilesLoading || isProjectLoading;
 
-  const featuresProfiles = project?.config["features.profiles"] === "true";
+  const featuresProfiles = isProjectWithProfiles(project);
 
   profiles.sort(defaultFirst);
 
@@ -106,19 +106,24 @@ const ProfileList: FC = () => {
   ];
 
   const rows = filteredProfiles.map((profile) => {
+    const openSummary = () =>
+      panelParams.openProfileSummary(profile.name, projectName);
+
     const usedBy =
       instanceCountMap.find((item) => profile.name === item.name)?.count ?? 0;
     const total =
       instanceCountMap.find((item) => profile.name === item.name)?.total ?? 0;
 
     return {
+      className:
+        panelParams.profile === profile.name ? "u-row-selected" : "u-row",
       columns: [
         {
           content: (
             <div className="u-truncate" title={profile.name}>
-              <Link to={`/ui/${projectName}/profiles/detail/${profile.name}`}>
-                <ItemName item={profile} />
-              </Link>
+              <ProfileLink
+                profile={{ name: profile.name, project: projectName }}
+              />
             </div>
           ),
           role: "rowheader",
@@ -132,6 +137,8 @@ const ProfileList: FC = () => {
           ),
           role: "rowheader",
           "aria-label": "Description",
+          onClick: openSummary,
+          className: "clickable-cell",
         },
         {
           content: (
@@ -146,6 +153,8 @@ const ProfileList: FC = () => {
           ),
           role: "rowheader",
           "aria-label": "Used by",
+          onClick: openSummary,
+          className: "clickable-cell",
         },
       ],
       sortData: {
@@ -171,11 +180,7 @@ const ProfileList: FC = () => {
 
   return (
     <main className="l-main profile-list">
-      <div
-        className={classnames("p-panel", {
-          "has-side-panel": !!panelParams.profile,
-        })}
-      >
+      <div className="p-panel">
         <div className="p-panel__header profile-list-header">
           <div className="profile-header-left">
             <h1 className="p-heading--4 u-no-margin--bottom">Profiles</h1>

@@ -1,4 +1,4 @@
-.instance-detail-panel {
+.profile-detail-panel {
   .row {
     padding-left: 0;
     padding-right: 0;
@@ -7,23 +7,9 @@
   .panel-content {
     margin-left: $sp-large;
     padding-bottom: 0;
-
-    .actions {
-      display: flex;
-      margin-right: $sp-large;
-
-      .primary {
-        flex-grow: 1;
-      }
-    }
   }
 
-  .base-image,
-  .ip {
-    max-width: 10rem;
-  }
-
-  .last-used {
+  .last-of-section {
     padding-bottom: 1.25rem !important;
   }
 
@@ -36,40 +22,48 @@
   }
 
   th {
+    max-width: 9rem;
     padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
     width: 9rem;
   }
 
   td {
+    max-width: 12.65rem;
     padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
   }
 
   tr {
     border-bottom: $border-thin;
     border-color: $color-mid-x-light;
+
+    &:nth-child(7) {
+      border-bottom: none !important;
+    }
+
+    &:nth-child(8) {
+      border-top: none !important;
+    }
   }
 
   tr:last-child {
     border: 0;
   }
 
-  .snapshots-header {
-    padding-bottom: 0 !important;
-  }
-
-  .snapshot-name {
-    display: inline-block;
-  }
-
-  .no-snapshots {
-    padding-top: 0;
-  }
-
   .content-scroll {
-    max-height: calc(100vh - 142px);
+    max-height: calc(100vh - 89px);
     overflow-x: hidden;
     overflow-y: auto;
     padding-right: $sp-large;
+  }
+
+  .list-wrapper {
+    .list-item {
+      padding-bottom: $spv--small;
+    }
+
+    .p-button--link {
+      padding: $spv--small 0;
+    }
   }
 
   @include extra-large {

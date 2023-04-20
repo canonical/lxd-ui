@@ -168,7 +168,11 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           <h2 className="p-heading--4">Usage ({usageCount})</h2>
         </Col>
         <Col size={7}>
-          <ProfileUsedByProject profile={profile} project={project} />
+          <ProfileUsedByProject
+            profile={profile}
+            project={project}
+            headingClassName="p-muted-heading"
+          />
         </Col>
       </Row>
     </div>

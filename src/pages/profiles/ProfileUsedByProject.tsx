@@ -6,13 +6,21 @@ import { LxdProfile } from "types/profile";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProjects } from "api/projects";
 import { queryKeys } from "util/queryKeys";
+import classnames from "classnames";
 
 interface Props {
   profile: LxdProfile;
   project: string;
+  headingClassName?: string;
+  hasTableParent?: boolean;
 }
 
-const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
+const ProfileUsedByProject: FC<Props> = ({
+  profile,
+  project,
+  headingClassName,
+  hasTableParent = false,
+}) => {
   const isDefaultProject = project === "default";
 
   const usedByInstances = getProfileInstances(
@@ -50,57 +58,69 @@ const ProfileUsedByProject: FC<Props> = ({ profile, project }) => {
       );
   }
 
+  const tableRows = affectedProjects?.map((project) => (
+    <tr
+      key={project.name}
+      className={classnames("instances-by-project", {
+        "list-wrapper": hasTableParent,
+      })}
+    >
+      <th className={headingClassName}>
+        <span title={project.name} className="u-truncate">
+          {project.name}
+        </span>{" "}
+        ({project.instances.length})
+      </th>
+      <td>
+        {project.instances.length === 0 && (
+          <i className="u-text--muted">No instances</i>
+        )}
+        {project.instances.length > 0 && (
+          <ExpandableList
+            items={project.instances.map((instance) => (
+              <div
+                key={instance.name}
+                className="u-truncate list-item"
+                title={instance.name}
+              >
+                <InstanceLink instance={instance} />
+              </div>
+            ))}
+          />
+        )}
+      </td>
+    </tr>
+  ));
+
   return (
     <>
-      {usedByInstances.length === 0 && <>-</>}
+      {usedByInstances.length === 0 && (hasTableParent ? <></> : <>-</>)}
       {usedByInstances.length > 0 && (
         <>
-          {isDefaultProject && (
+          {isDefaultProject && hasTableParent && <>{tableRows}</>}
+          {isDefaultProject && !hasTableParent && (
             <table>
-              <tbody>
-                {affectedProjects?.map((project) => (
-                  <tr key={project.name} className="instances-by-project">
-                    <th className="p-muted-heading">
-                      <span title={project.name} className="u-truncate">
-                        {project.name}
-                      </span>{" "}
-                      ({project.instances.length})
-                    </th>
-                    <td>
-                      {project.instances.length === 0 && (
-                        <i className="u-text--muted">No instances</i>
-                      )}
-                      {project.instances.length > 0 && (
-                        <ExpandableList
-                          items={project.instances.map((instance) => (
-                            <div
-                              key={instance.name}
-                              className="u-truncate list-item"
-                              title={instance.name}
-                            >
-                              <InstanceLink instance={instance} />
-                            </div>
-                          ))}
-                        />
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              <tbody>{tableRows}</tbody>
             </table>
           )}
           {!isDefaultProject && (
-            <ExpandableList
-              items={usedByInstances.map((instance) => (
-                <div
-                  key={instance.name}
-                  className="u-truncate list-item non-default-project-item"
-                  title={instance.name}
-                >
-                  <InstanceLink instance={instance} />
-                </div>
-              ))}
-            />
+            <div
+              className={classnames({
+                "list-wrapper": hasTableParent,
+              })}
+            >
+              <ExpandableList
+                items={usedByInstances.map((instance) => (
+                  <div
+                    key={instance.name}
+                    className="u-truncate list-item non-default-project-item"
+                    title={instance.name}
+                  >
+                    <InstanceLink instance={instance} />
+                  </div>
+                ))}
+              />
+            </div>
           )}
         </>
       )}

@@ -32,3 +32,6 @@ export const isProjectEmpty = (project: LxdProject) => {
   const defaultProfile = `/1.0/profiles/default?project=${project.name}`;
   return !project.used_by.some((item) => item !== defaultProfile);
 };
+
+export const isProjectWithProfiles = (project?: LxdProject) =>
+  project?.config["features.profiles"] === "true";
