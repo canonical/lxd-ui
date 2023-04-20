@@ -1,6 +1,12 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode } from "react";
 import { Button, Input, Tooltip } from "@canonical/react-components";
 import SubmitButton from "components/SubmitButton";
+import { FormikProps } from "formik/dist/types";
+
+export interface RenameHeaderValues {
+  name: string;
+  isRenaming: boolean;
+}
 
 interface Props {
   name: string;
@@ -9,8 +15,7 @@ interface Props {
   controls?: ReactNode;
   isLoaded: boolean;
   renameDisabledReason?: string;
-  onRename: (newName: string) => Promise<void>;
-  isRenaming: boolean;
+  formik: FormikProps<RenameHeaderValues>;
 }
 
 const RenameHeader: FC<Props> = ({
@@ -19,19 +24,10 @@ const RenameHeader: FC<Props> = ({
   centerControls,
   controls,
   isLoaded,
-  onRename,
+  formik,
   renameDisabledReason,
-  isRenaming,
 }) => {
-  const [newName, setNewName] = useState(name);
-  const [isRename, setRename] = useState(false);
   const canRename = renameDisabledReason === undefined;
-
-  const handleRename = () => {
-    onRename(newName)
-      .then(() => setRename(false))
-      .catch(console.log);
-  };
 
   return (
     <div className="p-panel__header rename-header">
@@ -45,36 +41,46 @@ const RenameHeader: FC<Props> = ({
           >
             <ol className="p-breadcrumbs__items">
               <li className="p-breadcrumbs__item">{parentItem}</li>
-              {isRename ? (
+              {formik.values.isRenaming ? (
                 <li className="p-breadcrumbs__item rename">
                   <Input
                     autoFocus
-                    className="u-no-margin--bottom name-input"
-                    onChange={(e) => setNewName(e.target.value)}
-                    onKeyUp={(e) => e.key === "Enter" && handleRename()}
+                    id="name"
+                    name="name"
+                    className="name-input"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
+                    error={formik.touched.name ? formik.errors.name : null}
+                    onKeyUp={(e) =>
+                      e.key === "Enter" && void formik.submitForm()
+                    }
                     type="text"
-                    value={newName}
                   />
-                  <Button
-                    appearance="base"
-                    className="cancel"
-                    dense
-                    onClick={handleRename}
-                  >
-                    Cancel
-                  </Button>
-                  <SubmitButton
-                    isSubmitting={isRenaming}
-                    isDisabled={false}
-                    buttonLabel="Save"
-                    onClick={handleRename}
-                    dense
-                  />
+                  <div>
+                    <Button
+                      appearance="base"
+                      className="cancel"
+                      onClick={() => formik.setFieldValue("isRenaming", false)}
+                    >
+                      Cancel
+                    </Button>
+                    <SubmitButton
+                      isSubmitting={formik.isSubmitting}
+                      isDisabled={
+                        !formik.isValid || name === formik.values.name
+                      }
+                      buttonLabel="Save"
+                      onClick={() => void formik.submitForm()}
+                    />
+                  </div>
                 </li>
               ) : (
                 <li
                   className="p-breadcrumbs__item name u-truncate"
-                  onClick={() => canRename && setRename(true)}
+                  onClick={() =>
+                    canRename && formik.setFieldValue("isRenaming", true)
+                  }
                   title={name}
                 >
                   <Tooltip
@@ -87,12 +93,12 @@ const RenameHeader: FC<Props> = ({
               )}
             </ol>
           </nav>
-          {!isRename && centerControls}
+          {!formik.values.isRenaming && centerControls}
         </div>
       ) : (
         <h4 className="p-panel__title">{name}</h4>
       )}
-      {isLoaded && !isRename && (
+      {isLoaded && !formik.values.isRenaming && (
         <div className="p-panel__controls">{controls}</div>
       )}
     </div>

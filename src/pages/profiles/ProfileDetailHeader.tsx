@@ -2,9 +2,12 @@ import React, { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteProfileBtn from "./actions/DeleteProfileBtn";
 import { LxdProfile } from "types/profile";
-import RenameHeader from "components/RenameHeader";
+import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { renameProfile } from "api/profiles";
 import { useNotify } from "context/notify";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { checkDuplicateName } from "util/helpers";
 
 interface Props {
   name: string;
@@ -21,29 +24,46 @@ const ProfileDetailHeader: FC<Props> = ({
 }) => {
   const navigate = useNavigate();
   const notify = useNotify();
-  const [isSubmitting, setSubmitting] = useState(false);
+  const controllerState = useState<AbortController | null>(null);
 
-  const handleRename = (newName: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (name === newName) {
-        return resolve();
+  const RenameSchema = Yup.object().shape({
+    name: Yup.string()
+      .test(
+        "deduplicate",
+        "An profile with this name already exists",
+        (value) =>
+          profile?.name === value ||
+          checkDuplicateName(value, project, controllerState, "profiles")
+      )
+      .required("Profile name is required"),
+  });
+
+  const formik = useFormik<RenameHeaderValues>({
+    initialValues: {
+      name,
+      isRenaming: false,
+    },
+    validationSchema: RenameSchema,
+    onSubmit: (values) => {
+      if (name === values.name) {
+        void formik.setFieldValue("isRenaming", false);
+        formik.setSubmitting(false);
+        return;
       }
-      setSubmitting(true);
-      renameProfile(name, newName, project)
+      renameProfile(name, values.name, project)
         .then(() => {
           navigate(
-            `/ui/${project}/profiles/detail/${newName}`,
+            `/ui/${project}/profiles/detail/${values.name}`,
             notify.queue(notify.success("Profile renamed."))
           );
-          return resolve();
+          void formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);
-          reject();
         })
-        .finally(() => setSubmitting(false));
-    });
-  };
+        .finally(() => formik.setSubmitting(false));
+    },
+  });
 
   return (
     <RenameHeader
@@ -65,8 +85,7 @@ const ProfileDetailHeader: FC<Props> = ({
         )
       }
       isLoaded={Boolean(profile)}
-      onRename={handleRename}
-      isRenaming={isSubmitting}
+      formik={formik}
     />
   );
 };
