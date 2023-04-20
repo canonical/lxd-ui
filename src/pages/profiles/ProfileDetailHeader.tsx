@@ -30,7 +30,7 @@ const ProfileDetailHeader: FC<Props> = ({
     name: Yup.string()
       .test(
         "deduplicate",
-        "An profile with this name already exists",
+        "A profile with this name already exists",
         (value) =>
           profile?.name === value ||
           checkDuplicateName(value, project, controllerState, "profiles")
