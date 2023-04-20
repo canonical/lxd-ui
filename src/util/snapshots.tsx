@@ -1,7 +1,11 @@
 import { LxdInstance } from "types/instance";
 import { TestFunction } from "yup";
 import { AnyObject } from "yup/lib/types";
-import { checkDuplicateName, getTomorrow } from "./helpers";
+import {
+  AbortControllerState,
+  checkDuplicateName,
+  getTomorrow,
+} from "./helpers";
 import * as Yup from "yup";
 
 export interface SnapshotFormValues {
@@ -20,10 +24,7 @@ export const getExpiresAt = (expirationDate: string, expirationTime: string) =>
 
 export const testDuplicateName = (
   instance: LxdInstance,
-  controllerState: [
-    AbortController | null,
-    React.Dispatch<React.SetStateAction<AbortController | null>>
-  ],
+  controllerState: AbortControllerState,
   excludeName?: string
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
@@ -117,10 +118,7 @@ export const testValidTime = (): [
 
 export const getSnapshotSchema = (
   instance: LxdInstance,
-  controllerState: [
-    AbortController | null,
-    React.Dispatch<React.SetStateAction<AbortController | null>>
-  ],
+  controllerState: AbortControllerState,
   snapshotName?: string
 ) => {
   return Yup.object().shape({

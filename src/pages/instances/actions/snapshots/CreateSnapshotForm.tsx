@@ -26,8 +26,6 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const SnapshotSchema = getSnapshotSchema(instance, controllerState);
-
   const formik = useFormik<SnapshotFormValues>({
     initialValues: {
       name: "",
@@ -36,7 +34,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
       expirationTime: null,
     },
     validateOnMount: true,
-    validationSchema: SnapshotSchema,
+    validationSchema: getSnapshotSchema(instance, controllerState),
     onSubmit: (values) => {
       notify.clear();
       const expiresAt =
