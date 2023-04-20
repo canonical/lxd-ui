@@ -324,117 +324,142 @@ const InstanceList: FC = () => {
   const hasInstances = isLoading || instances.length > 0;
 
   return (
-    <>
-      <main className="l-main instance-list">
-        <div
-          className={classnames("p-panel", {
-            "has-side-panel": !!panelParams.instance,
-          })}
-        >
-          <div className="p-panel__header instance-list-header">
-            <div className="instance-header-left">
-              <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
-              {selectedNames.length > 0 ? (
-                <>
-                  <InstanceBulkActions
-                    instances={instances.filter((instance) =>
-                      selectedNames.includes(instance.name)
-                    )}
-                    onStart={() => setProcessingNames(selectedNames)}
-                    onFinish={() => setProcessingNames([])}
-                  />
-                  <Button
-                    appearance="link"
-                    hasIcon
-                    onClick={() => setSelectedNames([])}
-                  >
-                    <span>Clear selection</span>
-                    <Icon name="close" className="clear-selection-icon" />
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <SearchBox
-                    className="search-box margin-right u-no-margin--bottom"
-                    name="search-instance"
-                    type="text"
-                    onChange={(value) => {
-                      setQuery(value);
-                    }}
-                    placeholder="Search"
-                    value={query}
-                    aria-label="Search"
-                  />
-                  <Select
-                    className="u-no-margin--bottom"
-                    wrapperClassName="margin-right filter-state"
-                    onChange={(v) => {
-                      setStatus(v.target.value);
-                    }}
-                    options={[
-                      {
-                        label: "All statuses",
-                        value: "any",
-                      },
-                      ...instanceStatuses,
-                    ]}
-                    value={status}
-                    aria-label="Filter status"
-                  />
-                  <Select
-                    className="u-no-margin--bottom"
-                    wrapperClassName="margin-right filter-type"
-                    onChange={(v) => {
-                      setType(v.target.value);
-                    }}
-                    options={[
-                      {
-                        label: "Containers and VMs",
-                        value: "any",
-                      },
-                      ...instanceListTypes,
-                    ]}
-                    value={type}
-                    aria-label="Filter type"
-                  />
-                </>
-              )}
-            </div>
-            {hasInstances && selectedNames.length === 0 && (
-              <Button
-                appearance="positive"
-                className="u-no-margin--bottom"
-                onClick={() => navigate(`/ui/${project}/instances/create`)}
-              >
-                Create instance
-              </Button>
+    <main className="l-main instance-list">
+      <div
+        className={classnames("p-panel", {
+          "has-side-panel": !!panelParams.instance,
+        })}
+      >
+        <div className="p-panel__header instance-list-header">
+          <div className="instance-header-left">
+            <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
+            {selectedNames.length > 0 ? (
+              <>
+                <InstanceBulkActions
+                  instances={instances.filter((instance) =>
+                    selectedNames.includes(instance.name)
+                  )}
+                  onStart={() => setProcessingNames(selectedNames)}
+                  onFinish={() => setProcessingNames([])}
+                />
+                <Button
+                  appearance="link"
+                  hasIcon
+                  onClick={() => setSelectedNames([])}
+                >
+                  <span>Clear selection</span>
+                  <Icon name="close" className="clear-selection-icon" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <SearchBox
+                  className="search-box margin-right u-no-margin--bottom"
+                  name="search-instance"
+                  type="text"
+                  onChange={(value) => {
+                    setQuery(value);
+                  }}
+                  placeholder="Search"
+                  value={query}
+                  aria-label="Search"
+                />
+                <Select
+                  className="u-no-margin--bottom"
+                  wrapperClassName="margin-right filter-state"
+                  onChange={(v) => {
+                    setStatus(v.target.value);
+                  }}
+                  options={[
+                    {
+                      label: "All statuses",
+                      value: "any",
+                    },
+                    ...instanceStatuses,
+                  ]}
+                  value={status}
+                  aria-label="Filter status"
+                />
+                <Select
+                  className="u-no-margin--bottom"
+                  wrapperClassName="margin-right filter-type"
+                  onChange={(v) => {
+                    setType(v.target.value);
+                  }}
+                  options={[
+                    {
+                      label: "Containers and VMs",
+                      value: "any",
+                    },
+                    ...instanceListTypes,
+                  ]}
+                  value={type}
+                  aria-label="Filter type"
+                />
+              </>
             )}
           </div>
-          <div className="p-panel__content instance-content">
-            <NotificationRow />
-            <Row className="no-grid-gap">
-              <Col size={12}>
-                {hasInstances ? (
-                  <>
-                    <TableColumnsSelect
-                      columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
-                      hidden={userHidden}
-                      setHidden={setHidden}
-                      className={classnames({ "u-hide": panelParams.instance })}
-                    />
+          {hasInstances && selectedNames.length === 0 && (
+            <Button
+              appearance="positive"
+              className="u-no-margin--bottom"
+              onClick={() => navigate(`/ui/${project}/instances/create`)}
+            >
+              Create instance
+            </Button>
+          )}
+        </div>
+        <div className="p-panel__content instance-content">
+          <NotificationRow />
+          <Row className="no-grid-gap">
+            <Col size={12}>
+              {hasInstances && (
+                <>
+                  <TableColumnsSelect
+                    columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                    hidden={userHidden}
+                    setHidden={setHidden}
+                    className={classnames({ "u-hide": panelParams.instance })}
+                  />
+                  <SelectableMainTable
+                    headers={getHeaders(userHidden.concat(sizeHidden))}
+                    rows={pagination.pageData}
+                    sortable
+                    className="instance-table"
+                    id="instance-table-wrapper"
+                    emptyStateMsg={
+                      isLoading ? (
+                        <Loader text="Loading instances..." />
+                      ) : (
+                        <>No instance found matching this search</>
+                      )
+                    }
+                    itemName="instance"
+                    parentName="project"
+                    selectedNames={selectedNames}
+                    setSelectedNames={setSelectedNames}
+                    processingNames={processingNames}
+                    totalCount={instances.length}
+                    filteredNames={filteredInstances.map(
+                      (instance) => instance.name
+                    )}
+                    onUpdateSort={pagination.updateSort}
+                  />
+                  <Pagination
+                    {...pagination}
+                    totalCount={instances.length}
+                    visibleCount={
+                      filteredInstances.length === instances.length
+                        ? pagination.pageData.length
+                        : filteredInstances.length
+                    }
+                    keyword="instance"
+                  />
+                  <div id="instance-table-measure">
                     <SelectableMainTable
-                      headers={getHeaders(userHidden.concat(sizeHidden))}
-                      rows={pagination.pageData}
-                      sortable
-                      className="instance-table"
-                      id="instance-table-wrapper"
-                      emptyStateMsg={
-                        isLoading ? (
-                          <Loader text="Loading instances..." />
-                        ) : (
-                          <>No instance found matching this search</>
-                        )
-                      }
+                      headers={getHeaders(userHidden)}
+                      rows={getRows(userHidden)}
+                      className="instance-table u-table-layout--auto"
                       itemName="instance"
                       parentName="project"
                       selectedNames={selectedNames}
@@ -444,75 +469,49 @@ const InstanceList: FC = () => {
                       filteredNames={filteredInstances.map(
                         (instance) => instance.name
                       )}
-                      onUpdateSort={pagination.updateSort}
                     />
-                    <Pagination
-                      {...pagination}
-                      totalCount={instances.length}
-                      visibleCount={
-                        filteredInstances.length === instances.length
-                          ? pagination.pageData.length
-                          : filteredInstances.length
-                      }
-                      keyword="instance"
-                    />
-                    <div id="instance-table-measure">
-                      <SelectableMainTable
-                        headers={getHeaders(userHidden)}
-                        rows={getRows(userHidden)}
-                        className="instance-table u-table-layout--auto"
-                        itemName="instance"
-                        parentName="project"
-                        selectedNames={selectedNames}
-                        setSelectedNames={setSelectedNames}
-                        processingNames={processingNames}
-                        totalCount={instances.length}
-                        filteredNames={filteredInstances.map(
-                          (instance) => instance.name
-                        )}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <EmptyState
-                    iconName="containers"
-                    iconClass="p-empty-instances"
-                    title="No instances found"
-                    message="There are no instances in this project. Spin up your first instance!"
-                  >
-                    <>
-                      <p>
-                        <a
-                          className="p-link--external"
-                          href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          How to create instances
-                          <Icon
-                            className="external-link-icon"
-                            name="external-link"
-                          />
-                        </a>
-                      </p>
-                      <Button
-                        className="empty-state-button"
-                        appearance="positive"
-                        onClick={() =>
-                          navigate(`/ui/${project}/instances/create`)
-                        }
+                  </div>
+                </>
+              )}
+              {!hasInstances && (
+                <EmptyState
+                  iconName="containers"
+                  iconClass="p-empty-instances"
+                  title="No instances found"
+                  message="There are no instances in this project. Spin up your first instance!"
+                >
+                  <>
+                    <p>
+                      <a
+                        className="p-link--external"
+                        href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
+                        target="_blank"
+                        rel="noreferrer"
                       >
-                        Create instance
-                      </Button>
-                    </>
-                  </EmptyState>
-                )}
-              </Col>
-            </Row>
-          </div>
+                        How to create instances
+                        <Icon
+                          className="external-link-icon"
+                          name="external-link"
+                        />
+                      </a>
+                    </p>
+                    <Button
+                      className="empty-state-button"
+                      appearance="positive"
+                      onClick={() =>
+                        navigate(`/ui/${project}/instances/create`)
+                      }
+                    >
+                      Create instance
+                    </Button>
+                  </>
+                </EmptyState>
+              )}
+            </Col>
+          </Row>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
 
