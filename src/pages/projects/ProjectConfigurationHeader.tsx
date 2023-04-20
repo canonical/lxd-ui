@@ -21,7 +21,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     name: Yup.string()
       .test(
         "deduplicate",
-        "An profile with this name already exists",
+        "A project with this name already exists",
         (value) =>
           project.name === value ||
           checkDuplicateName(value, "", controllerState, "projects")
