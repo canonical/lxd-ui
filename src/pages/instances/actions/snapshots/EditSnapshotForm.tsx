@@ -36,12 +36,6 @@ const EditSnapshotForm: FC<Props> = ({
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const SnapshotSchema = getSnapshotSchema(
-    instance,
-    controllerState,
-    snapshot.name
-  );
-
   const notifyUpdateSuccess = (name: string) => {
     void queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.instances,
@@ -100,7 +94,11 @@ const EditSnapshotForm: FC<Props> = ({
       expirationTime: expiryTime,
     },
     validateOnMount: true,
-    validationSchema: SnapshotSchema,
+    validationSchema: getSnapshotSchema(
+      instance,
+      controllerState,
+      snapshot.name
+    ),
     onSubmit: (values) => {
       notify.clear();
       const newName = values.name;

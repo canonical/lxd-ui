@@ -125,13 +125,15 @@ export const getWsErrorMsg = (code: number) => {
   else return "Unknown reason";
 };
 
+export type AbortControllerState = [
+  AbortController | null,
+  React.Dispatch<React.SetStateAction<AbortController | null>>
+];
+
 export const checkDuplicateName = (
   candidate: string | undefined,
   project: string,
-  controllerState: [
-    AbortController | null,
-    React.Dispatch<React.SetStateAction<AbortController | null>>
-  ],
+  controllerState: AbortControllerState,
   target: string
 ) => {
   if (!candidate) {
