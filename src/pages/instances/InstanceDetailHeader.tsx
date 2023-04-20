@@ -2,10 +2,13 @@ import React, { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import { LxdInstance } from "types/instance";
-import RenameHeader from "components/RenameHeader";
+import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { renameInstance } from "api/instances";
 import { useNotify } from "context/notify";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { checkDuplicateName } from "util/helpers";
 
 interface Props {
   name: string;
@@ -16,29 +19,46 @@ interface Props {
 const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
-  const [isSubmitting, setSubmitting] = useState(false);
+  const controllerState = useState<AbortController | null>(null);
 
-  const handleRename = (newName: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (name === newName) {
-        return resolve();
+  const RenameSchema = Yup.object().shape({
+    name: Yup.string()
+      .test(
+        "deduplicate",
+        "An instance with this name already exists",
+        (value) =>
+          instance?.name === value ||
+          checkDuplicateName(value, project, controllerState, "instances")
+      )
+      .required("Instance name is required"),
+  });
+
+  const formik = useFormik<RenameHeaderValues>({
+    initialValues: {
+      name,
+      isRenaming: false,
+    },
+    validationSchema: RenameSchema,
+    onSubmit: (values) => {
+      if (name === values.name) {
+        void formik.setFieldValue("isRenaming", false);
+        formik.setSubmitting(false);
+        return;
       }
-      setSubmitting(true);
-      renameInstance(name, newName, project)
+      renameInstance(name, values.name, project)
         .then(() => {
           navigate(
-            `/ui/${project}/instances/detail/${newName}`,
+            `/ui/${project}/instances/detail/${values.name}`,
             notify.queue(notify.success("Instance renamed."))
           );
-          resolve();
+          void formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);
-          reject();
         })
-        .finally(() => setSubmitting(false));
-    });
-  };
+        .finally(() => formik.setSubmitting(false));
+    },
+  });
 
   return (
     <RenameHeader
@@ -61,8 +81,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
         instance ? <DeleteInstanceBtn key="delete" instance={instance} /> : null
       }
       isLoaded={Boolean(instance)}
-      onRename={handleRename}
-      isRenaming={isSubmitting}
+      formik={formik}
     />
   );
 };
