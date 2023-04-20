@@ -1,5 +1,6 @@
 import { LxdProject } from "types/project";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
+import { isProjectWithProfiles } from "./projects";
 
 export const getProjectEditValues = (
   project: LxdProject
@@ -10,7 +11,7 @@ export const getProjectEditValues = (
     description: project.description,
     restricted: project.config.restricted === "true",
     features_images: project.config["features.images"] === "true",
-    features_profiles: project.config["features.profiles"] === "true",
+    features_profiles: isProjectWithProfiles(project),
     features_networks: project.config["features.networks"] === "true",
     features_networks_zones:
       project.config["features.networks.zones"] === "true",

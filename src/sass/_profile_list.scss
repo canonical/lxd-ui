@@ -43,6 +43,15 @@
     }
   }
 
+  .u-row:hover,
+  .u-row-selected {
+    background-color: $colors--light-theme--background-hover;
+  }
+
+  .clickable-cell {
+    cursor: pointer;
+  }
+
   .profile-table {
     margin-bottom: 0;
 
