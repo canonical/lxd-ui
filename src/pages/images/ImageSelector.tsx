@@ -80,6 +80,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   const images = isLoading
     ? []
     : canonicalImages
+        .reverse()
         .concat(linuxContainerImages)
         .filter((image) => archSupported.includes(image.arch))
         .sort((a, b) => {
