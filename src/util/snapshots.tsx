@@ -2,6 +2,7 @@ import { LxdInstance } from "types/instance";
 import { TestFunction } from "yup";
 import { AnyObject } from "yup/lib/types";
 import { checkDuplicateName, getTomorrow } from "./helpers";
+import * as Yup from "yup";
 
 export interface SnapshotFormValues {
   name: string;
@@ -59,6 +60,23 @@ export const testForbiddenChars = (): [
   ];
 };
 
+export const testValidDate = (): [
+  string,
+  string,
+  TestFunction<string | null | undefined, AnyObject>
+] => {
+  return [
+    "valid",
+    "Invalid date format",
+    (value, context) => {
+      if (!value) {
+        return !(context.parent as SnapshotFormValues).expirationTime;
+      }
+      return new Date(value).toString() !== "Invalid Date";
+    },
+  ];
+};
+
 export const testFutureDate = (): [
   string,
   string,
@@ -74,4 +92,51 @@ export const testFutureDate = (): [
       return date >= tomorrow;
     },
   ];
+};
+
+export const testValidTime = (): [
+  string,
+  string,
+  TestFunction<string | null | undefined, AnyObject>
+] => {
+  return [
+    "valid",
+    "Invalid time format",
+    (value, context) => {
+      if (!value) {
+        return !(context.parent as SnapshotFormValues).expirationDate;
+      }
+      const [hours, minutes] = value.split(":");
+      const date = new Date();
+      date.setHours(+hours);
+      date.setMinutes(+minutes);
+      return date.toString() !== "Invalid Date";
+    },
+  ];
+};
+
+export const getSnapshotSchema = (
+  instance: LxdInstance,
+  controllerState: [
+    AbortController | null,
+    React.Dispatch<React.SetStateAction<AbortController | null>>
+  ],
+  snapshotName?: string
+) => {
+  return Yup.object().shape({
+    name: Yup.string()
+      .required("This field is required")
+      .test(...testDuplicateName(instance, controllerState, snapshotName))
+      .test(...testForbiddenChars()),
+    expirationDate: Yup.string()
+      .nullable()
+      .optional()
+      .test(...testValidDate())
+      .test(...testFutureDate()),
+    expirationTime: Yup.string()
+      .nullable()
+      .optional()
+      .test(...testValidTime()),
+    stateful: Yup.boolean(),
+  });
 };

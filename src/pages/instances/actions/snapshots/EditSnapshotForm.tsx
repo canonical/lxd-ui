@@ -14,13 +14,10 @@ import ItemName from "components/ItemName";
 import {
   SnapshotFormValues,
   getExpiresAt,
+  getSnapshotSchema,
   isInstanceStateful,
-  testDuplicateName,
-  testForbiddenChars,
-  testFutureDate,
 } from "util/snapshots";
 import SnapshotForm from "./SnapshotForm";
-import * as Yup from "yup";
 
 interface Props {
   instance: LxdInstance;
@@ -39,36 +36,11 @@ const EditSnapshotForm: FC<Props> = ({
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const SnapshotSchema: unknown = Yup.object().shape({
-    name: Yup.string()
-      .required("This field is required")
-      .test(...testDuplicateName(instance, controllerState, snapshot.name))
-      .test(...testForbiddenChars()),
-    expirationDate: Yup.string()
-      .nullable()
-      .optional()
-      .test("valid", "Invalid date format", (value) => {
-        if (!value) {
-          return !formik.values.expirationTime;
-        }
-        return new Date(value).toString() !== "Invalid Date";
-      })
-      .test(...testFutureDate()),
-    expirationTime: Yup.string()
-      .nullable()
-      .optional()
-      .test("valid", "Invalid time format", (value) => {
-        if (!value) {
-          return !formik.values.expirationDate;
-        }
-        const [hours, minutes] = value.split(":");
-        const date = new Date();
-        date.setHours(+hours);
-        date.setMinutes(+minutes);
-        return date.toString() !== "Invalid Date";
-      }),
-    stateful: Yup.boolean(),
-  });
+  const SnapshotSchema = getSnapshotSchema(
+    instance,
+    controllerState,
+    snapshot.name
+  );
 
   const notifyUpdateSuccess = (name: string) => {
     void queryClient.invalidateQueries({
