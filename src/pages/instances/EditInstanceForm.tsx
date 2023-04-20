@@ -117,21 +117,14 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   });
 
   const updateSection = (newSection: string) => {
-    if (
-      activeSection === slugify(YAML_CONFIGURATION) &&
-      newSection !== slugify(YAML_CONFIGURATION)
-    ) {
+    if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
       void formik.setFieldValue("yaml", undefined);
     }
-    if (newSection === slugify(INSTANCE_DETAILS)) {
-      navigate(
-        `/ui/${project}/instances/detail/${instance.name}/configuration`
-      );
-    } else {
-      navigate(
-        `/ui/${project}/instances/detail/${instance.name}/configuration/${newSection}`
-      );
-    }
+
+    const baseUrl = `/ui/${project}/instances/detail/${instance.name}/configuration`;
+    newSection === INSTANCE_DETAILS
+      ? navigate(baseUrl)
+      : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
 
   const toggleMenu = () => {
@@ -160,7 +153,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
         <InstanceFormMenu
           active={activeSection ?? slugify(INSTANCE_DETAILS)}
-          setActive={(val) => updateSection(slugify(val))}
+          setActive={updateSection}
           isConfigDisabled={false}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}

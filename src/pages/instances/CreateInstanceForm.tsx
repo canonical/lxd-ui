@@ -229,7 +229,7 @@ const CreateInstanceForm: FC = () => {
   };
 
   const updateSection = (newItem: string) => {
-    if (section === YAML_CONFIGURATION && newItem !== YAML_CONFIGURATION) {
+    if (Boolean(formik.values.yaml) && newItem !== YAML_CONFIGURATION) {
       void formik.setFieldValue("yaml", undefined);
     }
     setSection(newItem);
