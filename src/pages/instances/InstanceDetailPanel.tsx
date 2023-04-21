@@ -212,9 +212,8 @@ const InstanceDetailPanel: FC = () => {
                           <Link
                             to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration/networks`}
                           >
-                            Configure
-                          </Link>{" "}
-                          instance networks.
+                            Configure instance networks
+                          </Link>
                         </p>
                       </td>
                     </tr>
@@ -274,9 +273,8 @@ const InstanceDetailPanel: FC = () => {
                           <Link
                             to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
                           >
-                            Manage
-                          </Link>{" "}
-                          instance snapshots.
+                            Manage instance snapshots
+                          </Link>
                         </p>
                       </td>
                     </tr>
