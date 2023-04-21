@@ -66,10 +66,12 @@ const ProfileUsedByProject: FC<Props> = ({
       })}
     >
       <th className={headingClassName}>
-        <span title={project.name} className="u-truncate">
-          {project.name}
-        </span>{" "}
-        ({project.instances.length})
+        <div className="flexible-container">
+          <div title={project.name} className="u-truncate">
+            {project.name}
+          </div>
+          <div className="u-float-right">({project.instances.length})</div>
+        </div>
       </th>
       <td>
         {project.instances.length === 0 && (
