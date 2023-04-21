@@ -1,0 +1,23 @@
+name: update demo
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  updateBranch:
+    name: Update demo branch
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: demo
+    - name: Fetch rebase and push
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git config --global user.email "github-action@example.com"
+        git config --global user.name "GitHub Action"
+        git fetch origin main --depth 1
+        git checkout demo
+        git rebase -X ours origin/main # in rebase ours is the incoming branch
+        git push --force
