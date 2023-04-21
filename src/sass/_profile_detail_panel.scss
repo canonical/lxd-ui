@@ -57,6 +57,15 @@
   }
 
   .list-wrapper {
+    .flexible-container {
+      display: flex;
+
+      .u-float-right {
+        flex-grow: 1;
+        margin-left: $sph--x-small;
+      }
+    }
+
     .list-item {
       padding-bottom: $spv--small;
     }
