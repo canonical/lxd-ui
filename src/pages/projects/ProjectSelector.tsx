@@ -24,6 +24,10 @@ const ProjectSelector: FC<Props> = ({ activeProject }): JSX.Element => {
     queryFn: () => fetchProjects(1),
   });
 
+  projects.sort((p1, p2) =>
+    p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0
+  );
+
   let updateQuery = (_val: string) => {
     /**/
   };

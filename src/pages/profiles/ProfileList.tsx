@@ -65,6 +65,10 @@ const ProfileList: FC = () => {
 
   const featuresProfiles = project?.config["features.profiles"] === "true";
 
+  profiles.sort((p1, p2) =>
+    p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0
+  );
+
   const instanceCountMap = profiles.map((profile) => {
     const usedByInstances = getProfileInstances(
       projectName,
