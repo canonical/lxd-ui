@@ -75,7 +75,7 @@ const ProfileUsedByProject: FC<Props> = ({
       </th>
       <td>
         {project.instances.length === 0 && (
-          <i className="u-text--muted">No instances</i>
+          <i className="u-text--muted no-instances">No instances</i>
         )}
         {project.instances.length > 0 && (
           <ExpandableList
