@@ -31,6 +31,8 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
     .filter(isNicDevice)
     .map((network) => network.network);
 
+  const hasNetworks = instanceNetworks.length > 0;
+
   const networksHeaders = [
     { content: "Name", sortKey: "name", className: "p-muted-heading" },
     {
@@ -98,16 +100,11 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loader text="Loading networks..." />
-      ) : (
-        <MainTable
-          headers={networksHeaders}
-          rows={networksRows}
-          sortable
-          emptyStateMsg="No data to display"
-        />
+      {isLoading && <Loader text="Loading networks..." />}
+      {!isLoading && hasNetworks && (
+        <MainTable headers={networksHeaders} rows={networksRows} sortable />
       )}
+      {!isLoading && !hasNetworks && <>-</>}
     </>
   );
 };
