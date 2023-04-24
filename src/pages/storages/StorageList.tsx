@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { MainTable, Row } from "@canonical/react-components";
+import { Icon, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchStorages } from "api/storages";
 import BaseLayout from "components/BaseLayout";
@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storages/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storages/actions/DeleteStorageBtn";
 import StorageSize from "pages/storages/StorageSize";
+import EmptyState from "components/EmptyState";
 
 const StorageList: FC = () => {
   const notify = useNotify();
@@ -32,6 +33,8 @@ const StorageList: FC = () => {
   if (error) {
     notify.failure("Loading storage pools failed", error);
   }
+
+  const hasStorages = storages.length > 0;
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -102,25 +105,57 @@ const StorageList: FC = () => {
     <>
       <BaseLayout
         title="Storages"
-        controls={<AddStorageBtn project={project} />}
+        controls={
+          hasStorages && (
+            <AddStorageBtn project={project} className="u-no-margin--bottom" />
+          )
+        }
       >
         <NotificationRow />
         <Row>
-          <MainTable
-            headers={headers}
-            rows={rows}
-            paginate={30}
-            responsive
-            sortable
-            className="u-table-layout--auto"
-            emptyStateMsg={
-              isLoading ? (
-                <Loader text="Loading storages..." />
-              ) : (
-                "No data to display"
-              )
-            }
-          />
+          {hasStorages && (
+            <MainTable
+              headers={headers}
+              rows={rows}
+              paginate={30}
+              responsive
+              sortable
+              className="u-table-layout--auto"
+              emptyStateMsg={
+                isLoading ? (
+                  <Loader text="Loading storages..." />
+                ) : (
+                  "No data to display"
+                )
+              }
+            />
+          )}
+          {!isLoading && !hasStorages && (
+            <EmptyState
+              iconName="pods"
+              iconClass="empty-storages-icon"
+              title="No storages found"
+              message="There are no storages in this project."
+            >
+              <>
+                <p>
+                  <a
+                    className="p-link--external"
+                    href="https://linuxcontainers.org/lxd/docs/latest/explanation/storage/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn more about storages
+                    <Icon className="external-link-icon" name="external-link" />
+                  </a>
+                </p>
+                <AddStorageBtn
+                  project={project}
+                  className="empty-state-button"
+                />
+              </>
+            </EmptyState>
+          )}
         </Row>
       </BaseLayout>
     </>

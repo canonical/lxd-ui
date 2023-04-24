@@ -84,7 +84,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
       {isGraphic && !isRunning && (
         <EmptyState
           iconName="containers"
-          iconClass="p-empty-instances"
+          iconClass="empty-instances-icon"
           title="Instance stopped"
           message="Start the instance to access the graphic console."
         >

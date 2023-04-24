@@ -124,8 +124,16 @@ $border-thin: 1px solid $color-mid-light !default;
   @include vf-icon-external-link($color-link);
 }
 
-.p-empty-instances {
+.empty-instances-icon {
   @include vf-icon-containers($color-mid-light);
+}
+
+.empty-networks-icon {
+  @include vf-icon-connected($color-mid-light);
+}
+
+.empty-storages-icon {
+  @include vf-icon-pods($color-mid-light);
 }
 
 .clear-selection-icon {

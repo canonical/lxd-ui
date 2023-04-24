@@ -303,7 +303,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       ) : (
         <EmptyState
           iconName="containers"
-          iconClass="p-empty-instances"
+          iconClass="empty-instances-icon"
           title="No snapshots found"
           message={
             snapshotsDisabled ? (

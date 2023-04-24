@@ -222,7 +222,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
       {!isRunning && (
         <EmptyState
           iconName="containers"
-          iconClass="p-empty-instances"
+          iconClass="empty-instances-icon"
           title="Instance stopped"
           message="Start the instance to access the terminal."
         >
