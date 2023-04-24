@@ -45,6 +45,10 @@ const ProfileSelector: FC<Props> = ({
     notify.failure("Loading profiles failed", error);
   }
 
+  profiles.sort((p1, p2) =>
+    p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0
+  );
+
   const unselected = profiles.filter(
     (profile) => !selected.includes(profile.name)
   );
