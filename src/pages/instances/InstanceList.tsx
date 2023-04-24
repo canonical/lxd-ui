@@ -333,7 +333,7 @@ const InstanceList: FC = () => {
         <div className="p-panel__header instance-list-header">
           <div className="instance-header-left">
             <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
-            {selectedNames.length > 0 ? (
+            {selectedNames.length > 0 && (
               <>
                 <InstanceBulkActions
                   instances={instances.filter((instance) =>
@@ -351,7 +351,8 @@ const InstanceList: FC = () => {
                   <Icon name="close" className="clear-selection-icon" />
                 </Button>
               </>
-            ) : (
+            )}
+            {hasInstances && selectedNames.length === 0 && (
               <>
                 <SearchBox
                   className="search-box margin-right u-no-margin--bottom"
@@ -476,7 +477,7 @@ const InstanceList: FC = () => {
               {!hasInstances && (
                 <EmptyState
                   iconName="containers"
-                  iconClass="p-empty-instances"
+                  iconClass="empty-instances-icon"
                   title="No instances found"
                   message="There are no instances in this project. Spin up your first instance!"
                 >

@@ -4,15 +4,16 @@ import usePanelParams from "util/usePanelParams";
 
 interface Props {
   project: string;
+  className?: string;
 }
 
-const AddStorageBtn: FC<Props> = ({ project }) => {
+const AddStorageBtn: FC<Props> = ({ project, className }) => {
   const panelParams = usePanelParams();
 
   return (
     <Button
       appearance="positive"
-      className="u-no-margin--bottom"
+      className={className}
       hasIcon
       onClick={() => panelParams.openStorageForm(project)}
     >

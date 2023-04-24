@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, MainTable, Row } from "@canonical/react-components";
+import { Button, Icon, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { fetchNetworks } from "api/networks";
 import BaseLayout from "components/BaseLayout";
@@ -8,6 +8,7 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
+import EmptyState from "components/EmptyState";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const NetworkList: FC = () => {
   if (error) {
     notify.failure("Loading networks failed", error);
   }
+
+  const hasNetworks = networks.length > 0;
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -111,31 +114,57 @@ const NetworkList: FC = () => {
       <BaseLayout
         title="Networks"
         controls={
-          <Button
-            className="u-no-margin--bottom"
-            onClick={() => navigate(`/ui/${project}/networks/map`)}
-          >
-            See map
-          </Button>
+          hasNetworks && (
+            <Button
+              className="u-no-margin--bottom"
+              onClick={() => navigate(`/ui/${project}/networks/map`)}
+            >
+              See map
+            </Button>
+          )
         }
       >
         <NotificationRow />
         <Row>
-          <MainTable
-            headers={headers}
-            rows={rows}
-            paginate={30}
-            responsive
-            sortable
-            className="u-table-layout--auto"
-            emptyStateMsg={
-              isLoading ? (
-                <Loader text="Loading networks..." />
-              ) : (
-                "No data to display"
-              )
-            }
-          />
+          {hasNetworks && (
+            <MainTable
+              headers={headers}
+              rows={rows}
+              paginate={30}
+              responsive
+              sortable
+              className="u-table-layout--auto"
+              emptyStateMsg={
+                isLoading ? (
+                  <Loader text="Loading networks..." />
+                ) : (
+                  "No data to display"
+                )
+              }
+            />
+          )}
+          {!isLoading && !hasNetworks && (
+            <EmptyState
+              iconName="connected"
+              iconClass="empty-networks-icon"
+              title="No networks found"
+              message="There are no networks in this project."
+            >
+              <>
+                <p>
+                  <a
+                    className="p-link--external"
+                    href="https://linuxcontainers.org/lxd/docs/latest/explanation/networks/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn more about networks
+                    <Icon className="external-link-icon" name="external-link" />
+                  </a>
+                </p>
+              </>
+            </EmptyState>
+          )}
         </Row>
       </BaseLayout>
     </>
