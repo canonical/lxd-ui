@@ -124,7 +124,7 @@ const ProfileDetailPanel: FC = () => {
                             ))}
                         />
                       ) : (
-                        <>-</>
+                        <div className="list-item">-</div>
                       )}
                     </td>
                   </tr>
@@ -146,7 +146,7 @@ const ProfileDetailPanel: FC = () => {
                             ))}
                         />
                       ) : (
-                        <>-</>
+                        <div className="list-item">-</div>
                       )}
                     </td>
                   </tr>

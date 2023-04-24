@@ -62,6 +62,7 @@
       .u-float-right {
         flex-grow: 1;
         margin-left: $sph--x-small;
+        margin-right: $sph--small;
       }
     }
 
@@ -72,6 +73,11 @@
     .p-button--link {
       padding: $spv--small 0;
     }
+  }
+
+  .no-instances {
+    display: block;
+    padding-bottom: $spv--small;
   }
 
   .instances-by-project:not(:last-of-type) {
