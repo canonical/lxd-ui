@@ -68,6 +68,26 @@
   z-index: 1001;
 }
 
+.l-navigation .server-version {
+  color: $color-mid-light;
+}
+
+.l-navigation .server-version:hover {
+  background: $colors--dark-theme--background-default !important;
+  color: $color-mid-light !important;
+}
+
+.version-warning .p-tooltip__message {
+  bottom: 1rem;
+  left: -3rem;
+}
+
+@include desktop {
+  .version-warning .p-tooltip__message {
+    left: -3.5rem;
+  }
+}
+
 .sidenav-top-ul::after {
   display: none;
 }
