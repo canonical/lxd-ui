@@ -104,7 +104,7 @@ const Navigation: FC = () => {
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="profile"
+                            name="units"
                           />{" "}
                           Profiles
                         </NavLink>
