@@ -128,6 +128,7 @@ const ProfileList: FC = () => {
           ),
           role: "rowheader",
           "aria-label": "Name",
+          onClick: openSummary,
         },
         {
           content: (

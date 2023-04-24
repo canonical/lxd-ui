@@ -11,7 +11,10 @@ interface Props {
 
 const ProfileLink: FC<Props> = ({ profile }) => {
   return (
-    <Link to={`/ui/${profile.project}/profiles/detail/${profile.name}`}>
+    <Link
+      to={`/ui/${profile.project}/profiles/detail/${profile.name}`}
+      onClick={(e) => e.stopPropagation()}
+    >
       <ItemName item={profile} />
     </Link>
   );

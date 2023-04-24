@@ -221,6 +221,7 @@ const InstanceList: FC = () => {
             role: "rowheader",
             className: "name",
             "aria-label": NAME,
+            onClick: openSummary,
           },
           {
             content: (
