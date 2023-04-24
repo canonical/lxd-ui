@@ -52,7 +52,8 @@ const SnapshotBulkDelete: FC<Props> = ({
       isLoading={isLoading}
       icon={isLoading ? "spinner" : undefined}
       title="Confirm delete"
-      toggleCaption="Delete"
+      toggleCaption="Delete snapshots"
+      onHoverText="Delete snapshots"
       confirmMessage={
         snapshotNames.length === 1 ? (
           <>
