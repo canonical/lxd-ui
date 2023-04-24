@@ -5,5 +5,6 @@ export interface LxdSettings {
   config: LxdConfigPair;
   environment?: {
     architectures: string[];
+    server_version: ?string;
   };
 }

@@ -6,6 +6,7 @@ import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
 import { getProjectFromUrl } from "util/projects";
+import ServerVersion from "components/ServerVersion";
 
 const isSmallScreen = () => {
   // using the max from both, because there is a bug in chrome, causing a 0 outerWidth for
@@ -254,6 +255,7 @@ const Navigation: FC = () => {
                       Report a bug
                     </a>
                   </li>
+                  <ServerVersion />
                 </ul>
               </div>
             </div>
