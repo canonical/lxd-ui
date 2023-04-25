@@ -102,7 +102,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       updateInstance(instancePayload, project)
         .then(() => {
           notify.success("Instance updated.");
-          void formik.setFieldValue("readOnly", true);
+          void formik.setValues(getInstanceEditValues(instancePayload));
         })
         .catch((e: Error) => {
           notify.failure("Instance update failed", e);

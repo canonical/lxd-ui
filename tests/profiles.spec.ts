@@ -1,5 +1,4 @@
-import { Page, test } from "@playwright/test";
-import { TIMEOUT } from "./constants";
+import { test } from "@playwright/test";
 import {
   assertCode,
   assertReadMode,
@@ -8,7 +7,17 @@ import {
   setInput,
   setMemLimit,
   setOption,
-} from "./configuration-helpers";
+  setSchedule,
+} from "./helpers/configuration";
+import {
+  createProfile,
+  deleteProfile,
+  editProfile,
+  randomProfileName,
+  renameProfile,
+  saveProfile,
+  visitProfile,
+} from "./helpers/profile";
 
 test("profile create and remove", async ({ page }) => {
   const profile = randomProfileName();
@@ -26,19 +35,44 @@ test("profile rename", async ({ page }) => {
   await deleteProfile(page, newName);
 });
 
+test("profile edit basic details", async ({ page }) => {
+  const profile = randomProfileName();
+  await createProfile(page, profile);
+  await editProfile(page, profile);
+
+  await page.getByPlaceholder("Enter description").fill("A-new-description");
+
+  await saveProfile(page);
+
+  await page.getByText("DescriptionA-new-description").click();
+
+  await deleteProfile(page, profile);
+});
+
 test("profile cpu and memory", async ({ page }) => {
   const profile = randomProfileName();
   await createProfile(page, profile);
-
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Profiles" }).click();
-  await page.getByRole("link", { name: profile }).first().click();
+  await visitProfile(page, profile);
 
   await setCpuLimit(page, "number", "42");
+  await saveProfile(page);
+  await assertReadMode(page, "Exposed CPUs 42");
+
   await setCpuLimit(page, "fixed", "1,2,3,4");
+  await saveProfile(page);
+  await assertReadMode(page, "Exposed CPUs 1,2,3,4");
+
   await setCpuLimit(page, "fixed", "1-23");
+  await saveProfile(page);
+  await assertReadMode(page, "Exposed CPUs 1-23");
+
   await setMemLimit(page, "number", "2");
+  await saveProfile(page);
+  await assertReadMode(page, "Memory limit 2%");
+
   await setMemLimit(page, "fixed", "3");
+  await saveProfile(page);
+  await assertReadMode(page, "Memory limit 3GiB");
 
   await deleteProfile(page, profile);
 });
@@ -116,11 +150,14 @@ test("profile snapshots", async ({ page }) => {
   await setInput(page, "Snapshot name", "Enter name pattern", "snap123");
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
   await setOption(page, "Snapshot stopped instances", "true");
+  await setSchedule(page, "@daily");
+
   await saveProfile(page);
 
   await assertReadMode(page, "Snapshot name pattern snap123");
   await assertReadMode(page, "Expire after 3m");
   await assertReadMode(page, "Snapshot stopped instances Yes");
+  await assertReadMode(page, "Schedule @daily");
 
   await deleteProfile(page, profile);
 });
@@ -143,53 +180,22 @@ test("profile cloud init", async ({ page }) => {
   await deleteProfile(page, profile);
 });
 
-const randomProfileName = (): string => {
-  const r = (Math.random() + 1).toString(36).substring(7);
-  return `playwright-profile-${r}`;
-};
+test("profile yaml edit", async ({ page }) => {
+  const profile = randomProfileName();
+  await createProfile(page, profile);
+  await editProfile(page, profile);
+  await page.getByText("YAML configuration").click();
 
-async function createProfile(page: Page, profile: string) {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Profiles" }).click();
-  await page.getByRole("button", { name: "Create profile" }).click();
-  await page.getByLabel("Profile name").click();
-  await page.getByLabel("Profile name").fill(profile);
-  await page.getByRole("button", { name: "Create" }).click();
-  await page.waitForSelector(`text=Profile ${profile} created.`, TIMEOUT);
-}
+  await page.locator(".view-lines").click();
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type(`config: {}
+description: 'A-new-description'
+devices: {}
+name: ${profile}`);
+  await saveProfile(page);
 
-async function deleteProfile(page: Page, profile: string) {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Profiles" }).click();
-  await page.getByRole("link", { name: profile }).first().click();
-  await page.getByRole("button", { name: "Delete" }).click();
-  await page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: "Delete" })
-    .click();
-  await page.waitForSelector(`text=Profile ${profile} deleted.`, TIMEOUT);
-}
+  await page.getByText("Profile details").click();
+  await page.getByText("DescriptionA-new-description").click();
 
-async function renameProfile(page: Page, old: string, newName: string) {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Profiles" }).click();
-  await page.getByRole("link", { name: old }).first().click();
-  await page.getByRole("listitem", { name: old }).getByText(old).click();
-  await page.getByRole("textbox").press("Control+a");
-  await page.getByRole("textbox").fill(newName);
-  await page.getByRole("button", { name: "Save" }).click();
-  await page.getByText("Profile renamed.").click();
-}
-
-async function saveProfile(page: Page) {
-  await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Profile updated.`, TIMEOUT);
-}
-
-async function editProfile(page: Page, profile: string) {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Profiles" }).click();
-  await page.getByRole("link", { name: profile }).first().click();
-  await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit profile" }).click();
-}
+  await deleteProfile(page, profile);
+});

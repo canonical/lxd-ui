@@ -1,11 +1,31 @@
-import { Page, test } from "@playwright/test";
-import { TIMEOUT } from "./constants";
-import { assertReadMode, setInput, setOption } from "./configuration-helpers";
+import { expect, test } from "@playwright/test";
+import {
+  assertReadMode,
+  setInput,
+  setOption,
+  setTextarea,
+} from "./helpers/configuration";
+import {
+  createProject,
+  deleteProject,
+  randomProjectName,
+  renameProject,
+} from "./helpers/projects";
 
 test("project create and remove", async ({ page }) => {
   const project = randomProjectName();
   await createProject(page, project);
   await deleteProject(page, project);
+});
+
+test("project rename", async ({ page }) => {
+  const project = randomProjectName();
+  await createProject(page, project);
+
+  const newName = project + "-rename";
+  await renameProject(page, project, newName);
+
+  await deleteProject(page, newName);
 });
 
 test("project edit configuration", async ({ page }) => {
@@ -14,7 +34,7 @@ test("project edit configuration", async ({ page }) => {
 
   await page.getByRole("link", { name: "Configuration" }).click();
   await page.getByRole("button", { name: "Edit configuration" }).click();
-  await page.getByPlaceholder("Enter description").fill("desc");
+  await page.getByPlaceholder("Enter description").fill("A-new-description");
   await page
     .getByRole("combobox", { name: "Features" })
     .selectOption("customised");
@@ -62,8 +82,27 @@ test("project edit configuration", async ({ page }) => {
   await setOption(page, "Unix-hotplug devices", "allow");
   await setOption(page, "USB devices", "allow");
 
+  await page
+    .getByRole("navigation", { name: "Project form navigation" })
+    .getByText("Networks")
+    .click();
+  await setTextarea(
+    page,
+    "Available networks",
+    "Enter network names",
+    "lxcbr0"
+  );
+  await setTextarea(page, "Network uplinks", "Enter network names", "lxcbr0");
+  await setTextarea(page, "Network zones", "Enter network zones", "foo,bar");
+
   await page.getByRole("button", { name: "Save changes" }).click();
   await page.getByText("Project updated.").click();
+
+  await page.getByText("Project details").click();
+
+  await page.getByText("DescriptionA-new-description").click();
+  await expect(page.locator("input#features_networks")).toHaveValue("on");
+  await expect(page.locator("input#features_networks_zones")).toHaveValue("on");
 
   await page.getByText("Resource limits").click();
   await assertReadMode(page, "Max number of instances 1");
@@ -86,17 +125,17 @@ test("project edit configuration", async ({ page }) => {
     .getByRole("navigation", { name: "Project form navigation" })
     .getByText("Instances")
     .click();
-  await assertReadMode(page, "Low level VM operations allow");
-  await assertReadMode(page, "Low level container operations allow");
-  await assertReadMode(page, "Container nesting allow");
-  await assertReadMode(page, "Container privilege allow");
-  await assertReadMode(page, "Container interception allow");
-  await assertReadMode(page, "Snapshot creation allow");
+  await assertReadMode(page, "Low level VM operations Allow");
+  await assertReadMode(page, "Low level container operations Allow");
+  await assertReadMode(page, "Container nesting Allow");
+  await assertReadMode(page, "Container privilege Allow");
+  await assertReadMode(page, "Container interception Allow");
+  await assertReadMode(page, "Snapshot creation Allow");
   await assertReadMode(page, "Idmap UID 10");
   await assertReadMode(page, "Idmap GID 11");
 
   await page.getByText("Device usage").click();
-  await assertReadMode(page, "Disk devices (except the root one) allow");
+  await assertReadMode(page, "Disk devices (except the root one) Allow");
   await assertReadMode(page, "Disk devices path /");
   await assertReadMode(page, "GPU devices Allow");
   await assertReadMode(page, "Infiniband devices Allow");
@@ -107,35 +146,13 @@ test("project edit configuration", async ({ page }) => {
   await assertReadMode(page, "Unix-hotplug devices Allow");
   await assertReadMode(page, "USB devices Allow");
 
+  await page
+    .getByRole("navigation", { name: "Project form navigation" })
+    .getByText("Networks")
+    .click();
+  await assertReadMode(page, "Available networks lxcbr0");
+  await assertReadMode(page, "Network uplinks lxcbr0");
+  await assertReadMode(page, "Network zones foo,bar");
+
   await deleteProject(page, project);
 });
-
-const randomProjectName = (): string => {
-  const r = (Math.random() + 1).toString(36).substring(7);
-  return `playwright-project-${r}`;
-};
-
-async function createProject(page: Page, project: string) {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Instances" }).click();
-  await page.getByRole("button", { name: "default" }).click();
-  await page.getByRole("button", { name: "Create project" }).click();
-  await page.getByPlaceholder("Enter name").click();
-  await page.getByPlaceholder("Enter name").fill(project);
-  await page.getByRole("button", { name: "Create" }).click();
-  await page.waitForSelector(`text=Project ${project} created.`, TIMEOUT);
-}
-
-async function deleteProject(page: Page, project: string) {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Instances" }).click();
-  await page.getByRole("button", { name: "default" }).click();
-  await page.getByRole("link", { name: project }).click();
-  await page.getByRole("link", { name: "Configuration" }).click();
-  await page.getByRole("button", { name: "Delete" }).click();
-  await page
-    .getByRole("dialog", { name: "Confirm delete" })
-    .getByRole("button", { name: "Delete" })
-    .click();
-  await page.waitForSelector(`text=Project ${project} deleted.`, TIMEOUT);
-}
