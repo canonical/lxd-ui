@@ -1,6 +1,7 @@
 import React, { FC, lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
+import ProjectRedirect from "pages/projects/ProjectRedirect";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const ImageList = lazy(() => import("pages/images/ImageList"));
@@ -49,7 +50,7 @@ const App: FC = () => {
         />
         <Route
           path="/ui/:project"
-          element={<ProtectedRoute outlet={<InstanceList />} />}
+          element={<ProtectedRoute outlet={<ProjectRedirect />} />}
         />
         <Route
           path="/ui/:project/instances"
