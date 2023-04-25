@@ -157,13 +157,17 @@ const ProfileDetailPanel: FC = () => {
                       </h3>
                     </th>
                   </tr>
-                  {!isDefaultProject && <th />}
                   <ProfileUsedByProject
                     profile={profile}
                     project={projectName}
                     headingClassName="u-text--muted"
                     hasTableParent
                   />
+                  {usageCount === 0 && (
+                    <tr>
+                      <td colSpan={2}>No items found.</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

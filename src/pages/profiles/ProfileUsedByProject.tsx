@@ -94,6 +94,26 @@ const ProfileUsedByProject: FC<Props> = ({
     </tr>
   ));
 
+  const singleProjectList = (
+    <div
+      className={classnames({
+        "list-wrapper": hasTableParent,
+      })}
+    >
+      <ExpandableList
+        items={usedByInstances.map((instance) => (
+          <div
+            key={instance.name}
+            className="u-truncate list-item non-default-project-item"
+            title={instance.name}
+          >
+            <InstanceLink instance={instance} />
+          </div>
+        ))}
+      />
+    </div>
+  );
+
   return (
     <>
       {usedByInstances.length === 0 && (hasTableParent ? <></> : <>-</>)}
@@ -105,25 +125,13 @@ const ProfileUsedByProject: FC<Props> = ({
               <tbody>{tableRows}</tbody>
             </table>
           )}
-          {!isDefaultProject && (
-            <div
-              className={classnames({
-                "list-wrapper": hasTableParent,
-              })}
-            >
-              <ExpandableList
-                items={usedByInstances.map((instance) => (
-                  <div
-                    key={instance.name}
-                    className="u-truncate list-item non-default-project-item"
-                    title={instance.name}
-                  >
-                    <InstanceLink instance={instance} />
-                  </div>
-                ))}
-              />
-            </div>
+          {!isDefaultProject && hasTableParent && (
+            <tr className="u-no-border">
+              <th />
+              <td>{singleProjectList}</td>
+            </tr>
           )}
+          {!isDefaultProject && !hasTableParent && <>{singleProjectList}</>}
         </>
       )}
     </>
