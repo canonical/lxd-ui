@@ -142,7 +142,7 @@ const ProfileDetailPanel: FC = () => {
               profile={profile}
               project={projectName}
               headingClassName="u-text--muted"
-              hasTableParent
+              alignRight
             />
             {usageCount === 0 && (
               <tr>
