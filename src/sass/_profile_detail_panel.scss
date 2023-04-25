@@ -1,41 +1,9 @@
 .profile-detail-panel {
-  .row {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .panel-content {
-    margin-left: $sp-large;
-    padding-bottom: 0;
-  }
-
   .last-of-section {
     padding-bottom: 1.25rem !important;
   }
 
-  .p-muted-heading {
-    padding: 0;
-  }
-
-  .list {
-    margin: $spv--large 0;
-  }
-
-  th {
-    max-width: 9rem;
-    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
-    width: 9rem;
-  }
-
-  td {
-    max-width: 12.65rem;
-    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
-  }
-
   tr {
-    border-bottom: $border-thin;
-    border-color: $color-mid-x-light;
-
     &:nth-child(7) {
       border-bottom: none !important;
     }
@@ -51,9 +19,6 @@
 
   .content-scroll {
     max-height: calc(100vh - 89px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-right: $sp-large;
   }
 
   .list-wrapper {
@@ -79,11 +44,5 @@
   .no-instances {
     display: block;
     padding-bottom: $spv--small;
-  }
-
-  @include extra-large {
-    .content-scroll {
-      max-height: calc(100vh - 160px);
-    }
   }
 }

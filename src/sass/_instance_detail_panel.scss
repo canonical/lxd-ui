@@ -1,13 +1,5 @@
 .instance-detail-panel {
-  .row {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
   .panel-content {
-    margin-left: $sp-large;
-    padding-bottom: 0;
-
     .actions {
       display: flex;
       margin-right: $sp-large;
@@ -25,28 +17,6 @@
 
   .last-used {
     padding-bottom: 1.25rem !important;
-  }
-
-  .p-muted-heading {
-    padding: 0;
-  }
-
-  .list {
-    margin: $spv--large 0;
-  }
-
-  th {
-    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
-    width: 9rem;
-  }
-
-  td {
-    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
-  }
-
-  tr {
-    border-bottom: $border-thin;
-    border-color: $color-mid-x-light;
   }
 
   tr:last-child {
@@ -67,14 +37,5 @@
 
   .content-scroll {
     max-height: calc(100vh - 142px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-right: $sp-large;
-  }
-
-  @include extra-large {
-    .content-scroll {
-      max-height: calc(100vh - 160px);
-    }
   }
 }
