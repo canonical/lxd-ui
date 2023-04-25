@@ -114,7 +114,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       className: "expiration",
     },
     { content: "Stateful", sortKey: "stateful", className: "stateful" },
-    { content: "", className: "actions" },
+    { "aria-label": "Actions", className: "actions" },
   ];
 
   const rows = filteredSnapshots.map((snapshot) => {

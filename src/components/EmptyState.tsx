@@ -20,7 +20,7 @@ const EmptyState: FC<Props> = ({
     <Row className="empty-state">
       <Col size={6} className="col-start-large-4">
         <Icon name={iconName} className={`empty-state-icon ${iconClass}`} />
-        <h4>{title}</h4>
+        <h2 className="p-heading--4">{title}</h2>
         <p>{message}</p>
         {children}
       </Col>

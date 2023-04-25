@@ -59,12 +59,11 @@ const SelectableMainTable: FC<Props> = ({
       content: (
         <>
           <CheckboxInput
-            label=""
+            label={<div className="u-off-screen">Select all</div>}
             labelClassName="multiselect-checkbox"
             checked={isAllSelected}
             indeterminate={isSomeSelected && !isAllSelected}
             onChange={isSomeSelected ? selectNone : selectPage}
-            aria-label="Select all"
           />
           <ContextualMenu
             position="left"
@@ -108,12 +107,13 @@ const SelectableMainTable: FC<Props> = ({
       {
         content: (
           <CheckboxInput
-            label=""
+            label={
+              <div className="u-off-screen">Select {row.name ?? "row"}</div>
+            }
             labelClassName="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}
             disabled={isRowProcessing}
-            aria-label={`Select ${row.name ?? ""}`}
           />
         ),
         role: "rowheader",
