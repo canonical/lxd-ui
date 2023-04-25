@@ -1,9 +1,12 @@
 import { test, Page } from "@playwright/test";
-import { INSTANCE_NAME, TIMEOUT } from "./constants";
+import { TIMEOUT } from "./constants";
+import { createInstance, randomInstanceName } from "./instance-helpers";
 
 test("snapshot create restore and remove ", async ({ page }) => {
+  const instance = randomInstanceName();
+  await createInstance(page, instance);
   const snapshot = randomSnapshotName();
-  await createSnapshot(page, INSTANCE_NAME, snapshot);
+  await createSnapshot(page, instance, snapshot);
   await restoreSnapshot(page, snapshot);
   await deleteSnapshot(page, snapshot);
 });

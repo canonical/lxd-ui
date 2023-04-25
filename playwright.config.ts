@@ -6,8 +6,6 @@ import { devices } from "@playwright/test";
  */
 const config: PlaywrightTestConfig = {
   testDir: "./tests",
-  globalSetup: "./tests/globalSetup",
-  globalTeardown: "./tests/globalTeardown",
   /* Maximum time one test can run for. */
   timeout: 60 * 1000,
   expect: {
