@@ -155,3 +155,6 @@ export const getUrlParam = (paramName: string, url?: string): string | null => {
 
   return browserUrl.searchParams.get(paramName);
 };
+
+export const defaultFirst = (p1: { name: string }, p2: { name: string }) =>
+  p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0;

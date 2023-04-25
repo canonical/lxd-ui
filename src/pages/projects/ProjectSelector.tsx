@@ -10,6 +10,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchProjects } from "api/projects";
 import { useNavigate } from "react-router-dom";
 import ProjectSelectorList from "pages/projects/ProjectSelectorList";
+import { defaultFirst } from "util/helpers";
 
 interface Props {
   activeProject: string;
@@ -24,9 +25,7 @@ const ProjectSelector: FC<Props> = ({ activeProject }): JSX.Element => {
     queryFn: () => fetchProjects(1),
   });
 
-  projects.sort((p1, p2) =>
-    p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0
-  );
+  projects.sort(defaultFirst);
 
   let updateQuery = (_val: string) => {
     /**/
