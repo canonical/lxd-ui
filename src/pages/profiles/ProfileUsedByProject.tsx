@@ -1,25 +1,24 @@
 import React, { FC } from "react";
-import InstanceLink from "pages/instances/InstanceLink";
 import { getProfileInstances } from "util/usedBy";
-import ExpandableList from "components/ExpandableList";
 import { LxdProfile } from "types/profile";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProjects } from "api/projects";
 import { queryKeys } from "util/queryKeys";
-import classnames from "classnames";
+import ProfileUsedByDefaultProject from "./ProfileUsedByDefaultProject";
+import ProfileUsedByRegularProject from "./ProfileUsedByRegularProject";
 
 interface Props {
   profile: LxdProfile;
   project: string;
   headingClassName?: string;
-  hasTableParent?: boolean;
+  alignRight?: boolean;
 }
 
 const ProfileUsedByProject: FC<Props> = ({
   profile,
   project,
   headingClassName,
-  hasTableParent = false,
+  alignRight,
 }) => {
   const isDefaultProject = project === "default";
 
@@ -58,80 +57,21 @@ const ProfileUsedByProject: FC<Props> = ({
       );
   }
 
-  const tableRows = affectedProjects?.map((project) => (
-    <tr
-      key={project.name}
-      className={classnames("instances-by-project", {
-        "list-wrapper": hasTableParent,
-      })}
-    >
-      <th className={headingClassName}>
-        <div className="flexible-container">
-          <div title={project.name} className="u-truncate">
-            {project.name}
-          </div>
-          <div className="u-float-right">({project.instances.length})</div>
-        </div>
-      </th>
-      <td>
-        {project.instances.length === 0 && (
-          <i className="u-text--muted no-instances">No instances</i>
-        )}
-        {project.instances.length > 0 && (
-          <ExpandableList
-            items={project.instances.map((instance) => (
-              <div
-                key={instance.name}
-                className="u-truncate list-item"
-                title={instance.name}
-              >
-                <InstanceLink instance={instance} />
-              </div>
-            ))}
-          />
-        )}
-      </td>
-    </tr>
-  ));
-
-  const singleProjectList = (
-    <div
-      className={classnames({
-        "list-wrapper": hasTableParent,
-      })}
-    >
-      <ExpandableList
-        items={usedByInstances.map((instance) => (
-          <div
-            key={instance.name}
-            className="u-truncate list-item non-default-project-item"
-            title={instance.name}
-          >
-            <InstanceLink instance={instance} />
-          </div>
-        ))}
-      />
-    </div>
-  );
-
   return (
     <>
-      {usedByInstances.length === 0 && (hasTableParent ? <></> : <>-</>)}
       {usedByInstances.length > 0 && (
         <>
-          {isDefaultProject && hasTableParent && <>{tableRows}</>}
-          {isDefaultProject && !hasTableParent && (
-            <table>
-              <tbody>{tableRows}</tbody>
-            </table>
+          {isDefaultProject ? (
+            <ProfileUsedByDefaultProject
+              affectedProjects={affectedProjects}
+              headingClassName={headingClassName}
+            />
+          ) : (
+            <ProfileUsedByRegularProject
+              usedByInstances={usedByInstances}
+              alignRight={alignRight}
+            />
           )}
-          {!isDefaultProject && hasTableParent && (
-            <tr className="u-no-border">
-              <th />
-              <td>{singleProjectList}</td>
-            </tr>
-          )}
-          {!isDefaultProject && !hasTableParent && <>{singleProjectList}</>}
         </>
       )}
     </>
