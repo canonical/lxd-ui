@@ -1,4 +1,4 @@
-name: update demo
+name: Demo update
 on:
   push:
     branches:
