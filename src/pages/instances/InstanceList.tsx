@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import usePanelParams from "util/usePanelParams";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
 import {
   instanceStatuses,
@@ -53,6 +53,7 @@ const saveHidden = (columns: string[]) => {
 
 const InstanceList: FC = () => {
   const instanceLoading = useInstanceLoading();
+  const location = useLocation();
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
@@ -67,6 +68,10 @@ const InstanceList: FC = () => {
 
   if (!project) {
     return <>Missing project</>;
+  }
+
+  if (!location.pathname.endsWith("/instances")) {
+    navigate(`/ui/${project}/instances`, { replace: true });
   }
 
   const {
