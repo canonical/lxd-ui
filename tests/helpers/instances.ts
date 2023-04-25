@@ -1,12 +1,16 @@
 import { Page } from "@playwright/test";
 import { TIMEOUT } from "./constants";
+import { randomNameSuffix } from "./name";
 
 export const randomInstanceName = (): string => {
-  const r = (Math.random() + 1).toString(36).substring(7);
-  return `playwright-instance-${r}`;
+  return `playwright-instance-${randomNameSuffix()}`;
 };
 
-export const createInstance = async (page: Page, instance: string) => {
+export const createInstance = async (
+  page: Page,
+  instance: string,
+  type = "container"
+) => {
   await page.goto("/ui/");
   await page.getByRole("link", { name: "Instances" }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
@@ -22,30 +26,44 @@ export const createInstance = async (page: Page, instance: string) => {
     .getByRole("button", { name: "Select" })
     .first()
     .click();
+  await page
+    .getByRole("combobox", { name: "Instance type" })
+    .selectOption(type);
   await page.getByRole("button", { name: "Create" }).first().click();
 
   await page.waitForSelector(`text=Launched instance ${instance}.`, TIMEOUT);
 };
 
-export const deleteInstance = async (page: Page, instance: string) => {
-  await page.goto(`/`);
+export const visitInstance = async (page: Page, instance: string) => {
+  await page.goto("/ui/");
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();
+};
 
-  await page.waitForTimeout(10000).then(async () => {
-    await page.getByRole("button", { name: "Delete" }).click();
-    await page
-      .getByRole("dialog", { name: "Confirm delete" })
-      .getByRole("button", { name: "Delete" })
-      .click();
+export const editInstance = async (page: Page, instance: string) => {
+  await visitInstance(page, instance);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByRole("button", { name: "Edit instance" }).click();
+};
 
-    await page.waitForSelector(`text=Instance ${instance} deleted.`, TIMEOUT);
-  });
+export const saveInstance = async (page: Page) => {
+  await page.getByRole("button", { name: "Save changes" }).click();
+  await page.waitForSelector(`text=Instance updated.`, TIMEOUT);
+};
+
+export const deleteInstance = async (page: Page, instance: string) => {
+  await visitInstance(page, instance);
+  await page.getByRole("button", { name: "Delete" }).click();
+  await page
+    .getByRole("dialog", { name: "Confirm delete" })
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await page.waitForSelector(`text=Instance ${instance} deleted.`, TIMEOUT);
 };
 
 export const hasInstance = async (page: Page, instance: string) => {
-  await page.goto(`/`);
+  await page.goto("/ui/");
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   return await page.getByRole("link", { name: instance }).first().isVisible();
@@ -56,11 +74,7 @@ export const renameInstance = async (
   oldName: string,
   newName: string
 ) => {
-  await page.goto(`/`);
-  await page.getByPlaceholder("Search").click();
-  await page.getByPlaceholder("Search").fill(oldName);
-  await page.getByRole("link", { name: oldName }).first().click();
-
+  await visitInstance(page, oldName);
   await page
     .getByRole("listitem", { name: oldName })
     .getByText(oldName)

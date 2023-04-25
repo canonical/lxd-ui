@@ -1,44 +1,58 @@
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
-export async function setOption(page: Page, field: string, value: string) {
+export const setOption = async (page: Page, field: string, value: string) => {
   await page.getByRole("row", { name: field }).locator("span").first().click();
   await page.getByRole("combobox", { name: field }).selectOption(value);
-}
+};
 
-export async function setInput(
+export const setInput = async (
   page: Page,
   field: string,
   placeholder: string,
   value: string
-) {
+) => {
   await page.getByRole("row", { name: field }).locator("span").first().click();
   await page
     .getByRole("row", { name: field })
     .locator("xpath=//input[@type='text' or @type='number']")
     .click();
   await page.getByPlaceholder(placeholder).last().fill(value);
-}
+};
 
-export async function setCodeInput(page: Page, field: string, value: string) {
+export const setTextarea = async (
+  page: Page,
+  field: string,
+  placeholder: string,
+  value: string
+) => {
+  await page.getByRole("row", { name: field }).locator("span").first().click();
+  await page.getByRole("row", { name: field }).getByRole("textbox").click();
+  await page.getByRole("textbox", { name: field }).fill(value);
+};
+
+export const setCodeInput = async (
+  page: Page,
+  field: string,
+  value: string
+) => {
   await page.getByRole("row", { name: field }).locator("span").first().click();
   await page.getByRole("row", { name: field }).locator(".view-lines").click();
   await page.keyboard.type(value);
-}
+};
 
-export async function assertCode(page: Page, field: string, value: string) {
+export const assertCode = async (page: Page, field: string, value: string) => {
   await page.getByRole("row", { name: field }).locator(".view-lines").click();
   await page.getByText(value).click();
-}
+};
 
-export async function setCpuLimit(
+export const setCpuLimit = async (
   page: Page,
   type: "fixed" | "number",
   limit: string
-) {
+) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await page.getByRole("button", { name: "Edit profile" }).click();
+  await page.getByRole("button", { name: "Edit" }).click();
   if (
     !(await page
       .getByRole("row", { name: "Exposed CPUs" })
@@ -60,20 +74,16 @@ export async function setCpuLimit(
   await page.getByPlaceholder(placeholder).click();
   await page.getByPlaceholder(placeholder).press("Control+a");
   await page.getByPlaceholder(placeholder).fill(limit);
-  await page.getByRole("button", { name: "Save changes" }).click();
-  await page.getByTestId("tab-link-Configuration").click();
-  await page.getByText("Resource limits").click();
-  await page.getByRole("gridcell", { name: `Exposed CPUs ${limit}` }).click();
-}
+};
 
-export async function setMemLimit(
+export const setMemLimit = async (
   page: Page,
   type: "fixed" | "number",
   limit: string
-) {
+) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await page.getByRole("button", { name: "Edit profile" }).click();
+  await page.getByRole("button", { name: "Edit" }).click();
   if (
     !(await page
       .getByRole("row", { name: "Memory limit" })
@@ -95,19 +105,25 @@ export async function setMemLimit(
   await page.getByPlaceholder(text).click();
   await page.getByPlaceholder(text).press("Control+a");
   await page.getByPlaceholder(text).fill(limit);
-  await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Profile updated.`, TIMEOUT);
+};
 
-  const unit = type === "number" ? "%" : "GiB";
+export const setSchedule = async (page: Page, value: string) => {
   await page
-    .getByRole("gridcell", { name: `Memory limit ${limit}${unit}` })
+    .getByRole("row", { name: "Schedule - LXD" })
+    .locator("span")
+    .first()
     .click();
-}
+  await page
+    .getByRole("row", { name: "Schedule Cron syntax" })
+    .locator("xpath=//input[@type='text' or @type='number']")
+    .click();
+  await page.getByPlaceholder("Enter cron expression").last().fill(value);
+};
 
-export async function assertReadMode(page: Page, text: string) {
+export const assertReadMode = async (page: Page, text: string) => {
   await page
     .getByRole("gridcell", {
       name: text,
     })
     .click();
-}
+};

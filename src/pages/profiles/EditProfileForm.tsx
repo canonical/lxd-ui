@@ -109,7 +109,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
       updateProfile(profilePayload, project)
         .then(() => {
           notify.success("Profile updated.");
-          void formik.setFieldValue("readOnly", true);
+          void formik.setValues(getProfileEditValues(profilePayload));
         })
         .catch((e: Error) => {
           notify.failure("Profile update failed", e);
