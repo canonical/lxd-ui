@@ -22,7 +22,7 @@ const BrowserImport: FC = () => {
 
         {activeTab === FIREFOX && (
           <div tabIndex={0} role="tabpanel" aria-label="firefox">
-            <ul className="p-list--divided">
+            <ul className="p-list--divided u-no-margin--bottom">
               <li className="p-list__item">
                 Paste this link into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -40,7 +40,8 @@ const BrowserImport: FC = () => {
                 <code>Import</code>.
               </li>
               <li className="p-list__item">
-                Select the <code>lxd-ui.pfx</code> file you just downloaded
+                Select the <code>lxd-ui.pfx</code> file you just downloaded.
+                Confirm an empty password.
               </li>
             </ul>
           </div>
@@ -48,7 +49,7 @@ const BrowserImport: FC = () => {
 
         {activeTab === CHROME_LINUX && (
           <div tabIndex={1} role="tabpanel" aria-label="chrome linux">
-            <ul className="p-list--divided">
+            <ul className="p-list--divided u-no-margin--bottom">
               <li className="p-list__item">
                 Paste into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -59,8 +60,9 @@ const BrowserImport: FC = () => {
               </li>
 
               <li className="p-list__item">
-                Click the blue <code>Import</code> button and select the{" "}
-                <code>lxd-ui.pfx</code> file you just downloaded
+                Click the <code>Import</code> button and select the{" "}
+                <code>lxd-ui.pfx</code> file you just downloaded. Confirm an
+                empty password.
               </li>
             </ul>
           </div>
@@ -68,7 +70,7 @@ const BrowserImport: FC = () => {
 
         {activeTab === CHROME_WINDOWS && (
           <div tabIndex={1} role="tabpanel" aria-label="chrome windows">
-            <ul className="p-list--divided">
+            <ul className="p-list--divided u-no-margin--bottom">
               <li className="p-list__item">
                 Paste into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -83,7 +85,8 @@ const BrowserImport: FC = () => {
               </li>
               <li className="p-list__item">
                 Click the <code>Import</code> button and select the{" "}
-                <code>lxd-ui.pfx</code> file you just downloaded
+                <code>lxd-ui.pfx</code> file you just downloaded. Confirm an
+                empty password.
               </li>
             </ul>
           </div>

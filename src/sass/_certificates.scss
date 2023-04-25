@@ -1,0 +1,19 @@
+.certificate-generate {
+  .p-panel__header {
+    background: white;
+    z-index: 10;
+  }
+
+  .p-panel__content {
+    max-width: 65rem !important;
+    padding-bottom: 0;
+
+    .p-list__item:first-child {
+      box-shadow: none;
+    }
+
+    .p-stepped-list__item:first-child::after {
+      display: none;
+    }
+  }
+}

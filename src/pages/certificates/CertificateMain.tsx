@@ -1,8 +1,10 @@
 import React, { FC } from "react";
-import { Row, Col, Button } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
+import BaseLayout from "components/BaseLayout";
+import EmptyState from "components/EmptyState";
 
 const CertificateMain: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -17,24 +19,21 @@ const CertificateMain: FC = () => {
   }
 
   return (
-    <main className="l-main">
-      <div className="p-strip">
-        <Row className="certificate-main">
-          <Col size={12}>
-            <h1>LXD UI</h1>
-            <p>
-              A valid certificate is needed to access the UI from your browser.
-            </p>
-            <Button
-              appearance="positive"
-              onClick={() => navigate("/ui/certificates/generate")}
-            >
-              Setup certificates
-            </Button>
-          </Col>
-        </Row>
-      </div>
-    </main>
+    <BaseLayout title="">
+      <EmptyState
+        iconName="containers"
+        iconClass="lxd-icon"
+        title="LXD UI"
+        message="To access the user interface, create a certificate."
+      >
+        <Button
+          appearance="positive"
+          onClick={() => navigate("/ui/certificates/generate")}
+        >
+          Setup
+        </Button>
+      </EmptyState>
+    </BaseLayout>
   );
 };
 
