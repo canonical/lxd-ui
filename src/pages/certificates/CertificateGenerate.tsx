@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
 import { generateCert } from "util/certificate";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
-import BaseLayout from "components/BaseLayout";
 import BrowserImport from "pages/certificates/BrowserImport";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
@@ -55,97 +54,123 @@ const CertificateGenerate: FC = () => {
   };
 
   return (
-    <BaseLayout title="Certificate generation">
-      <Row className="p-certificate-generate">
-        <ol className="p-stepped-list">
-          <li className="p-stepped-list__item">
-            <Row>
-              <Col size={8}>
-                <h3 className="p-stepped-list__title">Generate</h3>
-                <div className="p-stepped-list__content">
-                  <p>Click generate to create a new certificate</p>
-                </div>
-              </Col>
-              <Col size={4}>
-                <Button
-                  className="u-certificate-button"
-                  onClick={createCert}
-                  appearance="positive"
-                  disabled={isGenerating || certs !== null}
-                  hasIcon={isGenerating}
-                  aria-label={`${
-                    isGenerating ? "Generating" : "Generate"
-                  } certificate`}
-                >
-                  {isGenerating && (
-                    <Icon
-                      className="is-light u-animation--spin"
-                      name="spinner"
-                    />
-                  )}
-                  <span>{isGenerating ? "Generating" : "Generate"}</span>
-                </Button>
-              </Col>
-            </Row>
-          </li>
-          <li className="p-stepped-list__item">
-            <Row>
-              <Col size={8}>
-                <h3 className="p-stepped-list__title">Trust</h3>
-                <div className="p-stepped-list__content">
-                  Download <code>lxd-ui.crt</code> and add it to the LXD trust
-                  store
-                  <div className="p-code-snippet">
-                    <pre className="p-code-snippet__block--icon">
-                      <code>lxc config trust add Downloads/lxd-ui.crt</code>{" "}
-                    </pre>
-                  </div>
-                </div>
-              </Col>
-              <Col size={4}>
-                {certs && (
-                  <Button
-                    className="u-certificate-button"
-                    onClick={() => downloadText("lxd-ui.crt", certs.crt)}
-                  >
-                    Download crt
-                  </Button>
-                )}
-              </Col>
-            </Row>
-          </li>
-          <li className="p-stepped-list__item">
-            <Row>
-              <Col size={8}>
-                <h3 className="p-stepped-list__title">Import</h3>
-                <div className="p-stepped-list__content">
-                  <p>
-                    Download <code>lxd-ui.pfx</code> and import it into your
-                    browser.
-                  </p>
-                  <BrowserImport />
-                </div>
-              </Col>
-              <Col size={4}>
-                {certs && (
-                  <Button
-                    className="u-certificate-button"
-                    onClick={() => downloadBase64("lxd-ui.pfx", certs.pfx)}
-                  >
-                    Download pfx
-                  </Button>
-                )}
-              </Col>
-            </Row>
-          </li>
-          <li className="p-stepped-list__item">
-            <h3 className="p-stepped-list__title">
-              All done <Icon name="success" />
-            </h3>
-          </li>
-        </ol>
-      </Row>
-    </BaseLayout>
+    <main className="l-main certificate-generate">
+      <div className="p-panel">
+        <div className="p-panel__header is-sticky">
+          <h1 className="p-panel__title">Setup LXD UI</h1>
+        </div>
+        <div className="p-panel__content">
+          <Row className="u-no-margin--left">
+            <Col size={12}>
+              <ol className="p-stepped-list--detailed">
+                <li className="p-stepped-list__item">
+                  <Row>
+                    <Col size={3}>
+                      <h3 className="p-stepped-list__title">Generate</h3>
+                    </Col>
+                    <Col size={6}>
+                      <div className="p-stepped-list__content">
+                        <p>Create a new certificate</p>
+                      </div>
+                    </Col>
+                    <Col size={3}>
+                      <Button
+                        onClick={createCert}
+                        appearance="positive"
+                        disabled={isGenerating || certs !== null}
+                        hasIcon={isGenerating}
+                        aria-label={`${
+                          isGenerating ? "Generating" : "Generate"
+                        } certificate`}
+                      >
+                        {isGenerating && (
+                          <Icon
+                            className="is-light u-animation--spin"
+                            name="spinner"
+                          />
+                        )}
+                        <span>{isGenerating ? "Generating" : "Generate"}</span>
+                      </Button>
+                      {certs !== null && <Icon name="success" />}
+                    </Col>
+                  </Row>
+                </li>
+                <li className="p-stepped-list__item">
+                  <Row>
+                    <Col size={3}>
+                      <h3 className="p-stepped-list__title">Trust</h3>
+                    </Col>
+                    <Col size={6}>
+                      <div className="p-stepped-list__content">
+                        <p>
+                          Download <code>lxd-ui.crt</code> and add it to the LXD
+                          trust store
+                        </p>
+                        <div className="p-code-snippet">
+                          <pre className="p-code-snippet__block--icon">
+                            <code>
+                              lxc config trust add Downloads/lxd-ui.crt
+                            </code>
+                          </pre>
+                        </div>
+                      </div>
+                    </Col>
+                    {certs && (
+                      <Col size={3}>
+                        <Button
+                          onClick={() => downloadText("lxd-ui.crt", certs.crt)}
+                        >
+                          Download crt
+                        </Button>
+                      </Col>
+                    )}
+                  </Row>
+                </li>
+                <li className="p-stepped-list__item">
+                  <Row>
+                    <Col size={3}>
+                      <h3 className="p-stepped-list__title">Import</h3>
+                    </Col>
+                    <Col size={6}>
+                      <div className="p-stepped-list__content">
+                        <p>
+                          Download <code>lxd-ui.pfx</code> and import it into
+                          your browser.
+                        </p>
+                        <BrowserImport />
+                      </div>
+                    </Col>
+                    {certs && (
+                      <Col size={3}>
+                        <Button
+                          onClick={() =>
+                            downloadBase64("lxd-ui.pfx", certs.pfx)
+                          }
+                        >
+                          Download pfx
+                        </Button>
+                      </Col>
+                    )}
+                  </Row>
+                </li>
+                <li className="p-stepped-list__item u-no-margin--bottom">
+                  <Row>
+                    <Col size={3}>
+                      <h3 className="p-stepped-list__title">Done</h3>
+                    </Col>
+                    <Col size={6}>
+                      <div className="p-stepped-list__content">
+                        <p>Enjoy LXD UI.</p>
+                      </div>
+                    </Col>
+                  </Row>
+                </li>
+              </ol>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </main>
   );
 };
 
