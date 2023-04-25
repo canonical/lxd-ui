@@ -48,6 +48,10 @@ const App: FC = () => {
           element={<Navigate to="/ui/default/instances" replace={true} />}
         />
         <Route
+          path="/ui/:project"
+          element={<ProtectedRoute outlet={<InstanceList />} />}
+        />
+        <Route
           path="/ui/:project/instances"
           element={<ProtectedRoute outlet={<InstanceList />} />}
         />
