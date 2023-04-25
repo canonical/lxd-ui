@@ -12,6 +12,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
 import { useNotify } from "context/notify";
+import { defaultFirst } from "util/helpers";
 
 interface Props {
   project: string;
@@ -45,9 +46,7 @@ const ProfileSelector: FC<Props> = ({
     notify.failure("Loading profiles failed", error);
   }
 
-  profiles.sort((p1, p2) =>
-    p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0
-  );
+  profiles.sort(defaultFirst);
 
   const unselected = profiles.filter(
     (profile) => !selected.includes(profile.name)

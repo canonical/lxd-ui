@@ -23,6 +23,7 @@ import { updateTBodyHeight } from "util/updateTBodyHeight";
 import Pagination from "components/Pagination";
 import NotificationRow from "components/NotificationRow";
 import { fetchProject } from "api/projects";
+import { defaultFirst } from "util/helpers";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -65,9 +66,7 @@ const ProfileList: FC = () => {
 
   const featuresProfiles = project?.config["features.profiles"] === "true";
 
-  profiles.sort((p1, p2) =>
-    p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0
-  );
+  profiles.sort(defaultFirst);
 
   const instanceCountMap = profiles.map((profile) => {
     const usedByInstances = getProfileInstances(
