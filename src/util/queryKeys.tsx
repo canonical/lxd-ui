@@ -14,5 +14,6 @@ export const queryKeys = {
   resources: "resources",
   storage: "storage",
   settings: "settings",
+  volumes: "volumes",
   warnings: "warnings",
 };
