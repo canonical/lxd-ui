@@ -49,11 +49,11 @@ const InstanceDetailPanel: FC = () => {
 
   return (
     <DetailPanel
-      entityName="instance"
-      entity={instance}
+      title="Instance summary"
+      hasLoadingError={!instance}
       className="instance-detail-panel"
       isLoading={isLoading}
-      stickyChildren={
+      actions={
         instance && (
           <div className="actions">
             <List

@@ -38,10 +38,4 @@
     overflow-y: auto;
     padding-right: $sp-large;
   }
-
-  @include extra-large {
-    .content-scroll {
-      max-height: calc(100vh - 160px);
-    }
-  }
 }

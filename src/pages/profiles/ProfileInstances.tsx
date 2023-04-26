@@ -14,7 +14,7 @@ interface Props {
   alignRight?: boolean;
 }
 
-const ProfileUsedByProject: FC<Props> = ({
+const ProfileInstances: FC<Props> = ({
   profile,
   project,
   headingClassName,
@@ -57,25 +57,17 @@ const ProfileUsedByProject: FC<Props> = ({
       );
   }
 
-  return (
-    <>
-      {usedByInstances.length > 0 && (
-        <>
-          {isDefaultProject ? (
-            <ProfileUsedByDefaultProject
-              affectedProjects={affectedProjects}
-              headingClassName={headingClassName}
-            />
-          ) : (
-            <ProfileUsedByRegularProject
-              usedByInstances={usedByInstances}
-              alignRight={alignRight}
-            />
-          )}
-        </>
-      )}
-    </>
+  return isDefaultProject ? (
+    <ProfileUsedByDefaultProject
+      affectedProjects={affectedProjects}
+      headingClassName={headingClassName}
+    />
+  ) : (
+    <ProfileUsedByRegularProject
+      usedByInstances={usedByInstances}
+      alignRight={alignRight}
+    />
   );
 };
 
-export default ProfileUsedByProject;
+export default ProfileInstances;

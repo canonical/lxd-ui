@@ -7,11 +7,11 @@ import { fetchProfile } from "api/profiles";
 import ProfileLink from "./ProfileLink";
 import { fetchProject } from "api/projects";
 import { isProjectWithProfiles } from "util/projects";
-import ExpandableList from "components/ExpandableList";
-import { isDiskDevice, isNicDevice } from "util/devices";
 import { getProfileInstances } from "util/usedBy";
-import ProfileUsedByProject from "./ProfileUsedByProject";
+import ProfileInstances from "./ProfileInstances";
 import DetailPanel from "components/DetailPanel";
+import ProfileNetworkList from "./ProfileNetworkList";
+import ProfileStorageList from "./ProfileStorageList";
 
 const ProfileDetailPanel: FC = () => {
   const notify = useNotify();
@@ -58,8 +58,8 @@ const ProfileDetailPanel: FC = () => {
 
   return (
     <DetailPanel
-      entityName="profile"
-      entity={profile}
+      title="Profile summary"
+      hasLoadingError={!profile}
       className="profile-detail-panel"
       isLoading={isLoading}
     >
@@ -90,61 +90,30 @@ const ProfileDetailPanel: FC = () => {
             <tr className="u-no-border list-wrapper">
               <th className="u-text--muted">Networks</th>
               <td>
-                {Object.values(profile.devices).some(isNicDevice) ? (
-                  <ExpandableList
-                    items={Object.values(profile.devices)
-                      .filter(isNicDevice)
-                      .map((device) => (
-                        <div
-                          key={device.network}
-                          className="u-truncate list-item"
-                          title={device.network}
-                        >
-                          {device.network}
-                        </div>
-                      ))}
-                  />
-                ) : (
-                  <div className="list-item">-</div>
-                )}
+                <ProfileNetworkList profile={profile} />
               </td>
             </tr>
             <tr className="u-no-border list-wrapper">
               <th className="u-text--muted last-of-section">Storage</th>
               <td>
-                {Object.values(profile.devices).some(isDiskDevice) ? (
-                  <ExpandableList
-                    items={Object.values(profile.devices)
-                      .filter(isDiskDevice)
-                      .map((device) => (
-                        <div
-                          key={device.path}
-                          className="u-truncate list-item"
-                          title={device.pool}
-                        >
-                          {device.pool}
-                        </div>
-                      ))}
-                  />
-                ) : (
-                  <div className="list-item">-</div>
-                )}
+                <ProfileStorageList profile={profile} />
               </td>
             </tr>
-            <tr>
+            <tr className="used-by-header">
               <th colSpan={2}>
                 <h3 className="p-muted-heading p-heading--5">
                   Used by ({usageCount})
                 </h3>
               </th>
             </tr>
-            <ProfileUsedByProject
-              profile={profile}
-              project={projectName}
-              headingClassName="u-text--muted"
-              alignRight
-            />
-            {usageCount === 0 && (
+            {usageCount > 0 ? (
+              <ProfileInstances
+                profile={profile}
+                project={projectName}
+                headingClassName="u-text--muted"
+                alignRight
+              />
+            ) : (
               <tr>
                 <td colSpan={2}>No items found.</td>
               </tr>
