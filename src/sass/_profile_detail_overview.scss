@@ -55,26 +55,6 @@
     margin-top: $spv--x-small;
   }
 
-  .list-wrapper {
-    .flexible-container {
-      display: flex;
-
-      .u-float-right {
-        flex-grow: 1;
-        margin-left: $sph--x-small;
-        margin-right: $sph--small;
-      }
-    }
-
-    .list-item {
-      padding-bottom: $spv--small;
-    }
-
-    .p-button--link {
-      padding: $spv--small 0;
-    }
-  }
-
   .no-instances {
     display: block;
     padding-bottom: $spv--small;

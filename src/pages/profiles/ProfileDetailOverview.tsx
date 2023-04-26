@@ -2,16 +2,16 @@ import React, { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Col, Notification, Row } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
-import { isDiskDevice, isNicDevice } from "util/devices";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import ProfileUsedByProject from "./ProfileUsedByProject";
-import ExpandableList from "components/ExpandableList";
+import ProfileInstances from "./ProfileInstances";
 import ItemName from "components/ItemName";
 import classnames from "classnames";
 import { CLOUD_INIT } from "./forms/ProfileFormMenu";
 import { slugify } from "util/slugify";
 import { getProfileInstances } from "util/usedBy";
+import ProfileNetworkList from "./ProfileNetworkList";
+import ProfileStorageList from "./ProfileStorageList";
 
 interface Props {
   profile: LxdProfile;
@@ -81,45 +81,13 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
               <tr className="list-wrapper">
                 <th className="p-muted-heading">Networks</th>
                 <td>
-                  {Object.values(profile.devices).some(isNicDevice) ? (
-                    <ExpandableList
-                      items={Object.values(profile.devices)
-                        .filter(isNicDevice)
-                        .map((device) => (
-                          <div
-                            key={device.network}
-                            className="u-truncate list-item"
-                            title={device.network}
-                          >
-                            {device.network}
-                          </div>
-                        ))}
-                    />
-                  ) : (
-                    <>-</>
-                  )}
+                  <ProfileNetworkList profile={profile} />
                 </td>
               </tr>
               <tr className="list-wrapper">
                 <th className="p-muted-heading">Storage</th>
                 <td>
-                  {Object.values(profile.devices).some(isDiskDevice) ? (
-                    <ExpandableList
-                      items={Object.values(profile.devices)
-                        .filter(isDiskDevice)
-                        .map((device) => (
-                          <div
-                            key={device.path}
-                            className="u-truncate list-item"
-                            title={device.pool}
-                          >
-                            {device.pool}
-                          </div>
-                        ))}
-                    />
-                  ) : (
-                    <>-</>
-                  )}
+                  <ProfileStorageList profile={profile} />
                 </td>
               </tr>
             </tbody>
@@ -171,7 +139,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           {usageCount > 0 ? (
             <table>
               <tbody>
-                <ProfileUsedByProject
+                <ProfileInstances
                   profile={profile}
                   project={project}
                   headingClassName="p-muted-heading"

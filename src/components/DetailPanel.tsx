@@ -1,38 +1,42 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useEffect } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
-import { LxdProfile } from "types/profile";
 import classnames from "classnames";
 import Aside from "./Aside";
 import Loader from "./Loader";
 import usePanelParams from "util/usePanelParams";
+import useEventListener from "@use-it/event-listener";
+import { updateMaxHeight } from "util/updateMaxHeight";
 
 interface Props {
-  entityName: string;
-  entity?: LxdInstance | LxdProfile;
+  title: string;
+  hasLoadingError: boolean;
   className: string;
   isLoading: boolean;
-  stickyChildren?: ReactNode;
+  actions?: ReactNode;
   children: ReactNode;
 }
 
 const DetailPanel: FC<Props> = ({
-  entityName,
-  entity,
+  title,
+  hasLoadingError,
   className,
   isLoading,
-  stickyChildren,
+  actions,
   children,
 }) => {
   const panelParams = usePanelParams();
 
-  const title = `${entityName[0].toUpperCase() + entityName.slice(1)} summary`;
+  const updateContentHeight = () => {
+    updateMaxHeight("content-scroll");
+  };
+  useEffect(updateContentHeight, []);
+  useEventListener("resize", updateContentHeight);
 
   return (
     <Aside width="narrow" pinned className="u-hide--medium u-hide--small">
       {isLoading && <Loader />}
-      {!isLoading && !entity && <>Loading {entityName} failed</>}
-      {entity && (
+      {!isLoading && hasLoadingError && <>Loading failed</>}
+      {!hasLoadingError && (
         <div className={classnames("p-panel", "detail-panel", className)}>
           <div className="p-panel__header">
             <h2 className="p-panel__title">{title}</h2>
@@ -49,7 +53,7 @@ const DetailPanel: FC<Props> = ({
             </div>
           </div>
           <div className="p-panel__content panel-content">
-            {stickyChildren}
+            {actions}
             <div className="content-scroll">{children}</div>
           </div>
         </div>

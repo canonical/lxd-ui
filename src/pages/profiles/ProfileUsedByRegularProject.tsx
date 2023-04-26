@@ -13,24 +13,28 @@ const ProfileUsedByRegularProject: FC<Props> = ({
   alignRight = false,
 }) => {
   return (
-    <tr>
-      {alignRight && <th />}
-      <td>
-        <div className="list-wrapper">
-          <ExpandableList
-            items={usedByInstances.map((instance) => (
-              <div
-                key={instance.name}
-                className="u-truncate list-item non-default-project-item"
-                title={instance.name}
-              >
-                <InstanceLink instance={instance} />
-              </div>
-            ))}
-          />
-        </div>
-      </td>
-    </tr>
+    <>
+      {usedByInstances.length > 0 && (
+        <tr>
+          {alignRight && <th />}
+          <td>
+            <div className="list-wrapper">
+              <ExpandableList
+                items={usedByInstances.map((instance) => (
+                  <div
+                    key={instance.name}
+                    className="u-truncate list-item non-default-project-item"
+                    title={instance.name}
+                  >
+                    <InstanceLink instance={instance} />
+                  </div>
+                ))}
+              />
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
   );
 };
 
