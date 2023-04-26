@@ -1,0 +1,15 @@
+.no-match {
+  margin-top: 3.75rem;
+
+  @include large {
+    margin-top: 4.5rem;
+  }
+
+  h1 {
+    margin-bottom: $spv--x-small;
+  }
+
+  p {
+    padding-top: 0;
+  }
+}
