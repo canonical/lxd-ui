@@ -1,13 +1,19 @@
 import { handleResponse } from "util/helpers";
-import { LxdStoragePool, LxdStoragePoolResources } from "types/storage";
+import {
+  LxdStoragePool,
+  LxdStoragePoolResources,
+  LxdStorageVolume,
+} from "types/storage";
 import { LxdApiResponse } from "types/apiResponse";
+import { LxdOperationResponse } from "types/operation";
+import { TIMEOUT_300, watchOperation } from "api/operations";
 
 export const fetchStoragePool = (
-  storage: string,
+  pool: string,
   project: string
 ): Promise<LxdStoragePool> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${storage}?project=${project}&recursion=1`)
+    fetch(`/1.0/storage-pools/${pool}?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
@@ -26,10 +32,10 @@ export const fetchStoragePools = (
 };
 
 export const fetchStoragePoolResources = (
-  storage: string
+  pool: string
 ): Promise<LxdStoragePoolResources> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${storage}/resources`)
+    fetch(`/1.0/storage-pools/${pool}/resources`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePoolResources>) =>
         resolve(data.metadata)
@@ -38,11 +44,11 @@ export const fetchStoragePoolResources = (
   });
 };
 
-export const createStoragePool = (storage: LxdStoragePool, project: string) => {
+export const createStoragePool = (pool: LxdStoragePool, project: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?project=${project}`, {
       method: "POST",
-      body: JSON.stringify(storage),
+      body: JSON.stringify(pool),
     })
       .then(handleResponse)
       .then((data) => resolve(data))
@@ -68,13 +74,88 @@ export const renameStoragePool = (
   });
 };
 
-export const deleteStoragePool = (name: string, project: string) => {
+export const deleteStoragePool = (pool: string, project: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${name}?project=${project}`, {
+    fetch(`/1.0/storage-pools/${pool}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
       .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const fetchStorageVolumes = (
+  pool: string,
+  project: string
+): Promise<LxdStorageVolume[]> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
+        resolve(data.metadata)
+      )
+      .catch(reject);
+  });
+};
+
+export const createStorageVolume = (
+  volume: string,
+  pool: string,
+  project: string
+): Promise<LxdStorageVolume> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        content_type: "filesystem",
+        name: volume,
+        type: "custom",
+      }),
+    })
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageVolume>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const createIsoStorageVolume = (
+  pool: string,
+  isoFile: File,
+  project: string
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool}/volumes/custom?project=${project}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/octet-stream",
+        "X-LXD-name": isoFile.name,
+        "X-LXD-type": "iso",
+      },
+      body: isoFile,
+    })
+      .then(handleResponse)
+      .then((data: LxdOperationResponse) => {
+        watchOperation(data.operation, TIMEOUT_300).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const deleteStorageVolume = (
+  volume: string,
+  pool: string,
+  project: string
+): Promise<LxdStorageVolume> => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes/custom/${volume}?project=${project}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageVolume>) => resolve(data.metadata))
       .catch(reject);
   });
 };

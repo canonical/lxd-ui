@@ -31,6 +31,7 @@ export interface RemoteImage {
     secureboot: boolean;
   };
   os: string;
+  pool?: string;
   release: string;
   release_title?: string;
   variant?: string;
