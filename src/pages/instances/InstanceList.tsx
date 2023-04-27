@@ -1,12 +1,5 @@
-import {
-  Button,
-  Col,
-  Icon,
-  Row,
-  SearchBox,
-  Select,
-} from "@canonical/react-components";
 import React, { FC, useEffect, useState } from "react";
+import { Button, Col, Icon, Row } from "@canonical/react-components";
 import { fetchInstances } from "api/instances";
 import NotificationRow from "components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
@@ -15,11 +8,7 @@ import { useNotify } from "context/notify";
 import usePanelParams from "util/usePanelParams";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
-import {
-  instanceStatuses,
-  instanceListTypes,
-  instanceCreationTypes,
-} from "util/instanceOptions";
+import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
@@ -35,6 +24,9 @@ import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
+import InstanceSearchFilter from "./InstanceSearchFilter";
+import { InstanceFilters } from "util/instanceFilter";
+import { isWidthBelow } from "util/helpers";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -53,15 +45,22 @@ const saveHidden = (columns: string[]) => {
   localStorage.setItem("instanceListHiddenColumns", JSON.stringify(columns));
 };
 
+const isMediumScreen = () => isWidthBelow(820);
+
 const InstanceList: FC = () => {
   const instanceLoading = useInstanceLoading();
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
   const { project } = useParams<{ project: string }>();
-  const [query, setQuery] = useState<string>("");
-  const [status, setStatus] = useState<string>("any");
-  const [type, setType] = useState<string>("any");
+  const [createButtonLabel, _setCreateButtonLabel] =
+    useState<string>("Create instance");
+  const [filters, setFilters] = useState<InstanceFilters>({
+    queries: [],
+    statuses: [],
+    types: [],
+    profileQueries: [],
+  });
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
@@ -83,6 +82,11 @@ const InstanceList: FC = () => {
   if (error) {
     notify.failure("Loading instances failed", error);
   }
+
+  const setCreateButtonLabel = () => {
+    _setCreateButtonLabel(isMediumScreen() ? "Create" : "Create instance");
+  };
+  useEventListener("resize", setCreateButtonLabel);
 
   const figureSizeHidden = () => {
     const wrapper = document.getElementById("instance-table-measure");
@@ -126,22 +130,31 @@ const InstanceList: FC = () => {
   };
 
   const filteredInstances = instances.filter((item) => {
-    if (query) {
-      const q = query.toLowerCase();
-      if (
-        !item.name.toLowerCase().includes(q) &&
-        !item.status.toLowerCase().includes(q) &&
-        !item.type.toLowerCase().includes(q) &&
-        !item.description.toLowerCase().includes(q) &&
-        !item.config["image.description"]?.toLowerCase().includes(q)
-      ) {
-        return false;
-      }
-    }
-    if (type !== "any" && item.type !== type) {
+    if (
+      !filters.queries.every(
+        (q) =>
+          item.name.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.config["image.description"]?.toLowerCase().includes(q)
+      )
+    ) {
       return false;
     }
-    if (status !== "any" && item.status !== status) {
+    if (
+      filters.statuses.length > 0 &&
+      !filters.statuses.includes(item.status)
+    ) {
+      return false;
+    }
+    if (filters.types.length > 0 && !filters.types.includes(item.type)) {
+      return false;
+    }
+    if (
+      filters.profileQueries.length > 0 &&
+      !filters.profileQueries.every((profile) =>
+        item.profiles.includes(profile)
+      )
+    ) {
       return false;
     }
     return true;
@@ -303,15 +316,16 @@ const InstanceList: FC = () => {
 
   const pagination = usePagination(getRows(userHidden.concat(sizeHidden)));
 
-  useEventListener("resize", () => updateTBodyHeight("instance-table-wrapper"));
-  useEffect(() => {
-    updateTBodyHeight("instance-table-wrapper");
-  }, [
+  const updateTableHeight = () => updateTBodyHeight("instance-table-wrapper");
+
+  useEventListener("resize", updateTableHeight);
+  useEffect(updateTableHeight, [
     instances,
     notify.notification,
-    query,
-    status,
-    type,
+    filters.queries,
+    filters.statuses,
+    filters.types,
+    filters.profileQueries,
     pagination.pageSize,
     pagination.currentPage,
   ]);
@@ -355,61 +369,23 @@ const InstanceList: FC = () => {
               </>
             )}
             {hasInstances && selectedNames.length === 0 && (
-              <>
-                <SearchBox
-                  className="search-box margin-right u-no-margin--bottom"
-                  name="search-instance"
-                  type="text"
-                  onChange={(value) => {
-                    setQuery(value);
-                  }}
-                  placeholder="Search"
-                  value={query}
-                  aria-label="Search"
-                />
-                <Select
-                  className="u-no-margin--bottom"
-                  wrapperClassName="margin-right filter-state"
-                  onChange={(v) => {
-                    setStatus(v.target.value);
-                  }}
-                  options={[
-                    {
-                      label: "All statuses",
-                      value: "any",
-                    },
-                    ...instanceStatuses,
-                  ]}
-                  value={status}
-                  aria-label="Filter status"
-                />
-                <Select
-                  className="u-no-margin--bottom"
-                  wrapperClassName="margin-right filter-type"
-                  onChange={(v) => {
-                    setType(v.target.value);
-                  }}
-                  options={[
-                    {
-                      label: "Containers and VMs",
-                      value: "any",
-                    },
-                    ...instanceListTypes,
-                  ]}
-                  value={type}
-                  aria-label="Filter type"
-                />
-              </>
+              <InstanceSearchFilter
+                key={project}
+                instances={instances}
+                setFilters={setFilters}
+              />
             )}
           </div>
           {hasInstances && selectedNames.length === 0 && (
-            <Button
-              appearance="positive"
-              className="u-no-margin--bottom"
-              onClick={() => navigate(`/ui/${project}/instances/create`)}
-            >
-              Create instance
-            </Button>
+            <div className="create-button-wrapper">
+              <Button
+                appearance="positive"
+                className="u-float-right u-no-margin--bottom"
+                onClick={() => navigate(`/ui/${project}/instances/create`)}
+              >
+                {createButtonLabel}
+              </Button>
+            </div>
           )}
         </div>
         <div className="p-panel__content instance-content">

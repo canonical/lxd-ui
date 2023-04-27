@@ -41,14 +41,14 @@
 
     .instance-header-left {
       display: flex;
-      flex-grow: 1;
+      flex: 2;
 
       h1 {
         margin-right: 2rem;
       }
 
-      .search-box {
-        max-width: 20rem;
+      .search-wrapper {
+        max-width: 70vw;
         width: 100%;
       }
     }
@@ -57,8 +57,21 @@
       margin-right: $sph--large;
     }
 
-    .filter-type {
-      min-width: 183px;
+    .create-button-wrapper {
+      align-self: flex-start;
+      flex: 1;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-large) and (max-width: 1135px) {
+    .has-side-panel {
+      .instance-header-left {
+        flex: 1;
+
+        .search-wrapper {
+          display: none;
+        }
+      }
     }
   }
 
@@ -212,44 +225,19 @@
   .p-panel {
     min-height: auto;
   }
-
-  // hide filters on small screens
-  @media screen and (max-width: $breakpoint-large) {
-    .filter-state,
-    .filter-type,
-    .search-box {
-      display: none;
-    }
-
-    .instance-list-header {
-      margin-bottom: 0 !important;
-    }
-  }
-  @media screen and (max-width: 1500px) {
-    .has-side-panel {
-      .filter-state,
-      .filter-type,
-      .search-box {
-        display: none;
-      }
-    }
-  }
 }
 
 .l-navigation.is-collapsed + .instance-list {
-  @media screen and (min-width: 900px) {
-    .filter-state,
-    .filter-type,
-    .search-box {
-      display: flex;
-    }
+  .search-wrapper {
+    max-width: 80vw;
   }
-  @media screen and (max-width: 1250px) {
-    .has-side-panel {
-      .filter-state,
-      .filter-type,
-      .search-box {
-        display: none;
+
+  .has-side-panel {
+    .instance-header-left {
+      flex: 2;
+
+      .search-wrapper {
+        display: initial;
       }
     }
   }
