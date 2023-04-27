@@ -7,12 +7,10 @@ import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
 import { getProjectFromUrl } from "util/projects";
 import ServerVersion from "components/ServerVersion";
+import useEventListener from "@use-it/event-listener";
+import { isWidthBelow } from "util/helpers";
 
-const isSmallScreen = () => {
-  // using the max from both, because there is a bug in chrome, causing a 0 outerWidth for
-  // background tabs: https://bugs.chromium.org/p/chromium/issues/detail?id=719296
-  return Math.max(window.outerWidth, window.innerWidth) < 620;
-};
+const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
   const location = useLocation();
@@ -30,6 +28,12 @@ const Navigation: FC = () => {
     setMenuCollapsed((prev) => !prev);
     e.stopPropagation();
   };
+
+  const collapseOnMediumScreen = () => {
+    setMenuCollapsed(isWidthBelow(820));
+  };
+
+  useEventListener("resize", collapseOnMediumScreen);
 
   return (
     <>
