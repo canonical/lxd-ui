@@ -8,6 +8,7 @@ jobs:
   updateBranch:
     name: Update demo branch
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'canonical' }}
     steps:
     - uses: actions/checkout@v3
       with:
