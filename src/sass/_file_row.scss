@@ -3,7 +3,7 @@
     align-items: center;
     display: flex;
     justify-content: flex-start;
-    padding: $sp-small;
+    padding: $spv--small $sph--small $spv--small $sph--small;
 
     .file-row-toggle {
       flex-grow: 1;
