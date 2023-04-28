@@ -96,7 +96,7 @@ $border-thin: 1px solid $color-mid-light !default;
 }
 
 .u-loader {
-  margin: $sp-large;
+  margin: $spv--x-large $sph--x-large $spv--x-large $sph--x-large;
 }
 
 .p-bottom-controls {
@@ -185,7 +185,7 @@ $border-thin: 1px solid $color-mid-light !default;
   }
 
   .p-breadcrumbs__item:first-of-type {
-    margin-right: $sp-x-small;
+    margin-right: $sph--x-small;
   }
 }
 
