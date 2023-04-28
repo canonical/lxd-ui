@@ -1,11 +1,18 @@
 .detail-panel {
+  .sticky-wrapper {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
   .row {
     padding-left: 0;
     padding-right: 0;
   }
 
-  .panel-content {
-    margin-left: $sp-large;
+  .p-panel__content {
+    margin-left: $sph--x-large;
     padding-bottom: 0;
   }
 
@@ -19,23 +26,17 @@
 
   th {
     max-width: 9rem;
-    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
+    padding: $spv--x-small $sph--x-small $spv--x-small 0 !important;
     width: 9rem;
   }
 
   td {
     max-width: 12.65rem;
-    padding: $sp-x-small $sp-x-small $sp-x-small 0 !important;
+    padding: $spv--x-small $sph--x-small $spv--x-small 0 !important;
   }
 
   tr {
     border-bottom: $border-thin;
     border-color: $color-mid-x-light;
-  }
-
-  .content-scroll {
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-right: $sp-large;
   }
 }

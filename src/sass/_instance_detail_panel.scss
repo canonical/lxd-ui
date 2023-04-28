@@ -1,13 +1,17 @@
 .instance-detail-panel {
-  .panel-content {
-    .actions {
-      display: flex;
-      margin-right: $sp-large;
+  .actions {
+    display: flex;
+    margin-left: $sph--x-large;
+    margin-right: $sph--x-large;
+    padding-top: $spv--x-large;
 
-      .primary {
-        flex-grow: 1;
-      }
+    .primary {
+      flex-grow: 1;
     }
+  }
+
+  .p-panel__content {
+    padding-top: 0;
   }
 
   .base-image,
