@@ -119,6 +119,12 @@ const InstanceTextConsole: FC<Props> = ({
   };
 
   useEffect(() => {
+    if (isRunning) {
+      xtermRef.current?.terminal.focus();
+    }
+  }, [isRunning, xtermRef.current]);
+
+  useEffect(() => {
     if (dataWs) {
       return;
     }
