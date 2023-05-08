@@ -30,7 +30,7 @@ const StorageDetail: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.storage, name],
+    queryKey: [queryKeys.storage, project, name],
     queryFn: () => fetchStorage(name, project),
   });
 
