@@ -66,7 +66,9 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item">
                   <Row>
                     <Col size={3}>
-                      <h3 className="p-stepped-list__title">Generate</h3>
+                      <h2 className="p-stepped-list__title p-heading--3">
+                        Generate
+                      </h2>
                     </Col>
                     <Col size={6}>
                       <div className="p-stepped-list__content">
@@ -98,7 +100,9 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item">
                   <Row>
                     <Col size={3}>
-                      <h3 className="p-stepped-list__title">Trust</h3>
+                      <h2 className="p-stepped-list__title p-heading--3">
+                        Trust
+                      </h2>
                     </Col>
                     <Col size={6}>
                       <div className="p-stepped-list__content">
@@ -129,7 +133,9 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item">
                   <Row>
                     <Col size={3}>
-                      <h3 className="p-stepped-list__title">Import</h3>
+                      <h2 className="p-stepped-list__title p-heading--3">
+                        Import
+                      </h2>
                     </Col>
                     <Col size={6}>
                       <div className="p-stepped-list__content">
@@ -137,7 +143,6 @@ const CertificateGenerate: FC = () => {
                           Download <code>lxd-ui.pfx</code> and import it into
                           your browser.
                         </p>
-                        <BrowserImport />
                       </div>
                     </Col>
                     {certs && (
@@ -152,11 +157,18 @@ const CertificateGenerate: FC = () => {
                       </Col>
                     )}
                   </Row>
+                  <Row>
+                    <Col emptyLarge={4} size={8}>
+                      <BrowserImport />
+                    </Col>
+                  </Row>
                 </li>
                 <li className="p-stepped-list__item u-no-margin--bottom">
                   <Row>
                     <Col size={3}>
-                      <h3 className="p-stepped-list__title">Done</h3>
+                      <h2 className="p-stepped-list__title p-heading--3">
+                        Done
+                      </h2>
                     </Col>
                     <Col size={6}>
                       <div className="p-stepped-list__content">
