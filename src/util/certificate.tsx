@@ -25,7 +25,7 @@ const details = [
   },
 ];
 
-export const generateCert = () => {
+export const generateCert = (password: string) => {
   const validDays = 1000;
 
   const keys = forge.pki.rsa.generateKeyPair(2048);
@@ -44,7 +44,7 @@ export const generateCert = () => {
 
   const crt = forge.pki.certificateToPem(cert);
 
-  const asn1 = forge.pkcs12.toPkcs12Asn1(keys.privateKey, [cert], "", {
+  const asn1 = forge.pkcs12.toPkcs12Asn1(keys.privateKey, [cert], password, {
     generateLocalKeyId: true,
     friendlyName: "LXD-UI",
   });
