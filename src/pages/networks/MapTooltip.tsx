@@ -3,6 +3,7 @@ import { LxdInstance } from "types/instance";
 import { LxdNetwork } from "types/network";
 import { createRoot } from "react-dom/client";
 import ItemName from "components/ItemName";
+import { getIpAddresses } from "util/networks";
 
 export interface MapTooltipProps {
   type: string;
@@ -21,6 +22,13 @@ export const mountElement = (component: ReactNode) => {
 const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
   if (type === "instance") {
     const instance = item as LxdInstance;
+
+    const ipAddresses = getIpAddresses(instance).map((address) => (
+      <li key={address} className="p-list__item">
+        {address}
+      </li>
+    ));
+
     return (
       <div className="p-text--small tooltip">
         <a href={`/ui/${instance.project}/instances/detail/${instance.name}`}>
@@ -31,11 +39,7 @@ const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
         <br />
         IPs:{" "}
         <ul className="p-list u-no-margin--bottom">
-          {instance.state?.network?.eth0?.addresses.map((item) => (
-            <li key={item.address} className="p-list__item">
-              {item.address}
-            </li>
-          )) ?? <li>None</li>}
+          {ipAddresses.length > 0 ? ipAddresses : <li>None</li>}
         </ul>
       </div>
     );

@@ -11,7 +11,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewNetworks from "./InstanceOverviewNetworks";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
-import { getIpAddresses } from "util/networks";
+import { getIpAddressElements } from "util/networks";
 import ExpandableList from "../../components/ExpandableList";
 
 interface Props {
@@ -32,8 +32,8 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   useEffect(updateContentHeight, [inTabNotification]);
   useEventListener("resize", updateContentHeight);
 
-  const ip4Addresses = getIpAddresses("inet", instance);
-  const ip6Addresses = getIpAddresses("inet6", instance);
+  const ip4Addresses = getIpAddressElements(instance, "inet");
+  const ip6Addresses = getIpAddressElements(instance, "inet6");
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
