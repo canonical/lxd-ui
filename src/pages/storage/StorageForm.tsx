@@ -19,7 +19,7 @@ import SubmitButton from "components/SubmitButton";
 import { checkDuplicateName } from "util/helpers";
 import usePanelParams from "util/usePanelParams";
 import { LxdStorage } from "types/storage";
-import { createStoragePool } from "api/storages";
+import { createStoragePool } from "api/storage-pools";
 import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
 import ItemName from "components/ItemName";
 

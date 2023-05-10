@@ -2,7 +2,7 @@ import { handleResponse } from "util/helpers";
 import { LxdStorage, LxdStorageResources } from "types/storage";
 import { LxdApiResponse } from "types/apiResponse";
 
-export const fetchStorage = (
+export const fetchStoragePool = (
   storage: string,
   project: string
 ): Promise<LxdStorage> => {
@@ -14,7 +14,7 @@ export const fetchStorage = (
   });
 };
 
-export const fetchStorages = (project: string): Promise<LxdStorage[]> => {
+export const fetchStoragePools = (project: string): Promise<LxdStorage[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?project=${project}&recursion=1`)
       .then(handleResponse)
@@ -23,7 +23,7 @@ export const fetchStorages = (project: string): Promise<LxdStorage[]> => {
   });
 };
 
-export const fetchStorageResources = (
+export const fetchStoragePoolResources = (
   storage: string
 ): Promise<LxdStorageResources> => {
   return new Promise((resolve, reject) => {

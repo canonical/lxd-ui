@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
 import { LxdStorage } from "types/storage";
-import { deleteStoragePool } from "api/storages";
+import { deleteStoragePool } from "api/storage-pools";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";

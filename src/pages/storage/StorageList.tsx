@@ -1,16 +1,16 @@
 import React, { FC } from "react";
 import { Icon, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
-import { fetchStorages } from "api/storages";
+import { fetchStoragePools } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
-import AddStorageBtn from "pages/storages/actions/AddStorageBtn";
-import DeleteStorageBtn from "pages/storages/actions/DeleteStorageBtn";
-import StorageSize from "pages/storages/StorageSize";
+import AddStorageBtn from "pages/storage/actions/AddStorageBtn";
+import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
+import StorageSize from "pages/storage/StorageSize";
 import EmptyState from "components/EmptyState";
 
 const StorageList: FC = () => {
@@ -22,19 +22,19 @@ const StorageList: FC = () => {
   }
 
   const {
-    data: storages = [],
+    data: storagePools = [],
     error,
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage, project],
-    queryFn: () => fetchStorages(project),
+    queryFn: () => fetchStoragePools(project),
   });
 
   if (error) {
     notify.failure("Loading storage pools failed", error);
   }
 
-  const hasStorages = storages.length > 0;
+  const hasStoragePools = storagePools.length > 0;
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -46,12 +46,12 @@ const StorageList: FC = () => {
     { "aria-label": "Actions", className: "u-align--right" },
   ];
 
-  const rows = storages.map((storage) => {
+  const rows = storagePools.map((storage) => {
     return {
       columns: [
         {
           content: (
-            <Link to={`/ui/${project}/storages/${storage.name}`}>
+            <Link to={`/ui/${project}/storage/${storage.name}`}>
               {storage.name}
             </Link>
           ),
@@ -104,16 +104,16 @@ const StorageList: FC = () => {
   return (
     <>
       <BaseLayout
-        title="Storages"
+        title="Storage pools"
         controls={
-          hasStorages && (
+          hasStoragePools && (
             <AddStorageBtn project={project} className="u-no-margin--bottom" />
           )
         }
       >
         <NotificationRow />
         <Row>
-          {hasStorages && (
+          {hasStoragePools && (
             <MainTable
               headers={headers}
               rows={rows}
@@ -123,19 +123,19 @@ const StorageList: FC = () => {
               className="u-table-layout--auto"
               emptyStateMsg={
                 isLoading ? (
-                  <Loader text="Loading storages..." />
+                  <Loader text="Loading storage pools..." />
                 ) : (
                   "No data to display"
                 )
               }
             />
           )}
-          {!isLoading && !hasStorages && (
+          {!isLoading && !hasStoragePools && (
             <EmptyState
               iconName="pods"
-              iconClass="empty-storages-icon"
-              title="No storages found"
-              message="There are no storages in this project."
+              iconClass="empty-storage-icon"
+              title="No storage found"
+              message="There are no storage pools in this project."
             >
               <>
                 <p>
@@ -145,7 +145,7 @@ const StorageList: FC = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Learn more about storages
+                    Learn more about storage
                     <Icon className="external-link-icon" name="external-link" />
                   </a>
                 </p>

@@ -125,7 +125,7 @@ $border-thin: 1px solid $color-mid-light !default;
   @include vf-icon-connected($color-mid-light);
 }
 
-.empty-storages-icon {
+.empty-storage-icon {
   @include vf-icon-pods($color-mid-light);
 }
 

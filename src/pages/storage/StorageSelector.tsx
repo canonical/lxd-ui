@@ -3,7 +3,7 @@ import { Input, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { LxdDiskDevice } from "types/device";
-import { fetchStorages } from "api/storages";
+import { fetchStoragePools } from "api/storage-pools";
 import Loader from "components/Loader";
 import { useNotify } from "context/notify";
 
@@ -27,7 +27,7 @@ const StorageSelector: FC<Props> = ({
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStorages(project),
+    queryFn: () => fetchStoragePools(project),
   });
 
   if (isLoading) {

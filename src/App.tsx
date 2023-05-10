@@ -12,7 +12,7 @@ const NoMatch = lazy(() => import("components/NoMatch"));
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
-const StorageList = lazy(() => import("pages/storages/StorageList"));
+const StorageList = lazy(() => import("pages/storage/StorageList"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const CertificateGenerate = lazy(
   () => import("pages/certificates/CertificateGenerate")
@@ -21,7 +21,7 @@ const CertificateMain = lazy(
   () => import("pages/certificates/CertificateMain")
 );
 const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
-const StorageDetail = lazy(() => import("pages/storages/StorageDetail"));
+const StorageDetail = lazy(() => import("pages/storage/StorageDetail"));
 const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
 const CreateInstanceForm = lazy(
   () => import("pages/instances/CreateInstanceForm")
@@ -113,11 +113,11 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<CreateProjectForm />} />}
         />
         <Route
-          path="/ui/:project/storages"
+          path="/ui/:project/storage"
           element={<ProtectedRoute outlet={<StorageList />} />}
         />
         <Route
-          path="/ui/:project/storages/:name"
+          path="/ui/:project/storage/:name"
           element={<ProtectedRoute outlet={<StorageDetail />} />}
         />
         <Route
