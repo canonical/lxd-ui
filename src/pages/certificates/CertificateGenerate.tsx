@@ -5,6 +5,7 @@ import BrowserImport from "pages/certificates/BrowserImport";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
+import PasswordModal from "pages/certificates/PasswordModal";
 
 interface Certs {
   crt: string;
@@ -13,6 +14,7 @@ interface Certs {
 
 const CertificateGenerate: FC = () => {
   const [isGenerating, setGenerating] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [certs, setCerts] = useState<Certs | null>(null);
   const { isAuthenticated, isAuthLoading } = useAuth();
 
@@ -24,11 +26,20 @@ const CertificateGenerate: FC = () => {
     return <Navigate to="/ui" replace={true} />;
   }
 
-  const createCert = () => {
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const createCert = (password: string) => {
+    closeModal();
     setGenerating(true);
     // using timeout to avoid compute heavy generation in the main ui thread
     setTimeout(() => {
-      const certs = generateCert();
+      const certs = generateCert(password);
       setCerts(certs);
       setGenerating(false);
     }, 10);
@@ -76,8 +87,14 @@ const CertificateGenerate: FC = () => {
                       </div>
                     </Col>
                     <Col size={3}>
+                      {isModalOpen && (
+                        <PasswordModal
+                          onClose={closeModal}
+                          onConfirm={createCert}
+                        />
+                      )}
                       <Button
-                        onClick={createCert}
+                        onClick={openModal}
                         appearance="positive"
                         disabled={isGenerating || certs !== null}
                         hasIcon={isGenerating}
