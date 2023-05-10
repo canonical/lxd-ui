@@ -33,6 +33,7 @@ import { usePagination } from "util/pagination";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
+import { getIpAddresses } from "util/networks";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -192,20 +193,8 @@ const InstanceList: FC = () => {
       const openSummary = () =>
         panelParams.openInstanceSummary(instance.name, project);
 
-      const ipv4 =
-        instance.state?.network?.eth0?.addresses
-          .filter(
-            (item) => item.family === "inet" && !item.address.startsWith("127")
-          )
-          .map((item) => item.address) ?? [];
-
-      const ipv6 =
-        instance.state?.network?.eth0?.addresses
-          .filter(
-            (item) =>
-              item.family === "inet6" && !item.address.startsWith("fe80")
-          )
-          .map((item) => item.address) ?? [];
+      const ip4Addresses = getIpAddresses(instance, "inet", false);
+      const ip6Addresses = getIpAddresses(instance, "inet6", false);
 
       return {
         className:
@@ -250,14 +239,20 @@ const InstanceList: FC = () => {
             className: "clickable-cell description",
           },
           {
-            content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
+            content:
+              ip4Addresses.length > 1
+                ? `${ip4Addresses.length} addresses`
+                : ip4Addresses,
             role: "rowheader",
             className: "u-align--right clickable-cell ipv4",
             "aria-label": IPV4,
             onClick: openSummary,
           },
           {
-            content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
+            content:
+              ip6Addresses.length > 1
+                ? `${ip6Addresses.length} addresses`
+                : ip6Addresses,
             role: "rowheader",
             "aria-label": IPV6,
             onClick: openSummary,

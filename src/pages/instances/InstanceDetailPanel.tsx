@@ -14,7 +14,7 @@ import usePanelParams from "util/usePanelParams";
 import { useNotify } from "context/notify";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import InstanceLink from "pages/instances/InstanceLink";
-import { getIpAddresses } from "util/networks";
+import { getIpAddressElements } from "util/networks";
 import ExpandableList from "../../components/ExpandableList";
 import ItemName from "components/ItemName";
 import DetailPanel from "components/DetailPanel";
@@ -40,8 +40,8 @@ const InstanceDetailPanel: FC = () => {
     notify.failure("Loading instance failed", error);
   }
 
-  const ip4Addresses = getIpAddresses("inet", instance);
-  const ip6Addresses = getIpAddresses("inet6", instance);
+  const ip4Addresses = instance ? getIpAddressElements(instance, "inet") : [];
+  const ip6Addresses = instance ? getIpAddressElements(instance, "inet6") : [];
 
   const networkDevices = Object.values(instance?.expanded_devices ?? {}).filter(
     isNicDevice

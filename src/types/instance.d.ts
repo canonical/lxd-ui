@@ -46,9 +46,7 @@ interface LxdInstanceState {
     root: LxdInstanceUsageProp;
   } & Record<string, LxdInstanceUsageProp>;
   memory: LxdInstanceMemory;
-  network?: {
-    eth0?: LxdInstanceNetwork;
-  } & Record<string, LxdInstanceNetwork>;
+  network?: Record<string, LxdInstanceNetwork>;
   pid: number;
   processes: number;
   status: string;
