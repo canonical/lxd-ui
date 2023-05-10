@@ -1,18 +1,20 @@
 import React, { FC, useState } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
-import { LxdStorage } from "types/storage";
+import { LxdStoragePool } from "types/storage";
 import { deleteStoragePool } from "api/storage-pools";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
-  storage: LxdStorage;
+  storage: LxdStoragePool;
   project: string;
 }
 
 const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
+  const navigate = useNavigate();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -25,10 +27,9 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
-        notify.success(
-          <>
-            Storage pool <ItemName item={storage} bold /> deleted.
-          </>
+        navigate(
+          `/ui/${project}/storage`,
+          notify.queue(notify.success(`Storage pool ${storage.name} deleted.`))
         );
       })
       .catch((e) => {

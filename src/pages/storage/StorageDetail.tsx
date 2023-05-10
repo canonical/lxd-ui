@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
@@ -10,6 +9,7 @@ import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
 import StorageSize from "pages/storage/StorageSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
+import StorageDetailHeader from "pages/storage/StorageDetailHeader";
 
 const StorageDetail: FC = () => {
   const notify = useNotify();
@@ -26,7 +26,7 @@ const StorageDetail: FC = () => {
   }
 
   const {
-    data: storage,
+    data: storagePool,
     error,
     isLoading,
   } = useQuery({
@@ -40,48 +40,59 @@ const StorageDetail: FC = () => {
 
   if (isLoading) {
     return <Loader text="Loading storage details..." />;
-  } else if (!storage) {
+  } else if (!storagePool) {
     return <>Loading storage details failed</>;
   }
 
   return (
-    <BaseLayout title={`Storage details for ${name}`}>
-      <NotificationRow />
-      <Row>
-        <table className="storage-detail-table">
-          <tbody>
-            <tr>
-              <th className="u-text--muted">Name</th>
-              <td>{storage.name}</td>
-            </tr>
-            <tr>
-              <th className="u-text--muted">Status</th>
-              <td>{storage.status}</td>
-            </tr>
-            <tr>
-              <th className="u-text--muted">Size</th>
-              <td>
-                <StorageSize storage={storage} />
-              </td>
-            </tr>
-            <tr>
-              <th className="u-text--muted">Source</th>
-              <td>{storage.config?.source ?? "-"}</td>
-            </tr>
-            <tr>
-              <th className="u-text--muted">Description</th>
-              <td>{storage.description ? storage.description : "-"}</td>
-            </tr>
-            <tr>
-              <th className="u-text--muted">Driver</th>
-              <td>{storage.driver}</td>
-            </tr>
-          </tbody>
-        </table>
-        <h2 className="p-heading--5">Used by</h2>
-        <StorageUsedBy storage={storage} project={project} />
-      </Row>
-    </BaseLayout>
+    <main className="l-main">
+      <div className="p-panel instance-detail-page">
+        <StorageDetailHeader
+          name={name}
+          storagePool={storagePool}
+          project={project}
+        />
+        <div className="p-panel__content">
+          <NotificationRow />
+          <Row>
+            <table className="storage-detail-table">
+              <tbody>
+                <tr>
+                  <th className="u-text--muted">Name</th>
+                  <td>{storagePool.name}</td>
+                </tr>
+                <tr>
+                  <th className="u-text--muted">Status</th>
+                  <td>{storagePool.status}</td>
+                </tr>
+                <tr>
+                  <th className="u-text--muted">Size</th>
+                  <td>
+                    <StorageSize storage={storagePool} />
+                  </td>
+                </tr>
+                <tr>
+                  <th className="u-text--muted">Source</th>
+                  <td>{storagePool.config?.source ?? "-"}</td>
+                </tr>
+                <tr>
+                  <th className="u-text--muted">Description</th>
+                  <td>
+                    {storagePool.description ? storagePool.description : "-"}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="u-text--muted">Driver</th>
+                  <td>{storagePool.driver}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h2 className="p-heading--5">Used by</h2>
+            <StorageUsedBy storage={storagePool} project={project} />
+          </Row>
+        </div>
+      </div>
+    </main>
   );
 };
 

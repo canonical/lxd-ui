@@ -1,4 +1,4 @@
-export interface LxdStorage {
+export interface LxdStoragePool {
   config?: {
     size?: string;
     source?: string;
@@ -12,7 +12,7 @@ export interface LxdStorage {
   used_by?: string[];
 }
 
-export interface LxdStorageResources {
+export interface LxdStoragePoolResources {
   inodes: {
     used: number;
     total: number;

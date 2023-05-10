@@ -16,12 +16,12 @@ import { useNotify } from "context/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
-import { checkDuplicateName } from "util/helpers";
 import usePanelParams from "util/usePanelParams";
-import { LxdStorage } from "types/storage";
+import { LxdStoragePool } from "types/storage";
 import { createStoragePool } from "api/storage-pools";
 import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
 import ItemName from "components/ItemName";
+import { testDuplicateName } from "util/storage";
 
 const StorageForm: FC = () => {
   const panelParams = usePanelParams();
@@ -31,17 +31,7 @@ const StorageForm: FC = () => {
 
   const StorageSchema = Yup.object().shape({
     name: Yup.string()
-      .test(
-        "deduplicate",
-        "A storage pool with this name already exists",
-        (value) =>
-          checkDuplicateName(
-            value,
-            panelParams.project,
-            controllerState,
-            "storage-pools"
-          )
-      )
+      .test(...testDuplicateName(panelParams.project, controllerState))
       .required("This field is required"),
   });
 
@@ -55,7 +45,7 @@ const StorageForm: FC = () => {
     },
     validationSchema: StorageSchema,
     onSubmit: ({ name, description, driver, source, size }) => {
-      const storagePool: LxdStorage = {
+      const storagePool: LxdStoragePool = {
         name,
         description,
         driver,

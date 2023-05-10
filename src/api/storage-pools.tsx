@@ -1,42 +1,44 @@
 import { handleResponse } from "util/helpers";
-import { LxdStorage, LxdStorageResources } from "types/storage";
+import { LxdStoragePool, LxdStoragePoolResources } from "types/storage";
 import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchStoragePool = (
   storage: string,
   project: string
-): Promise<LxdStorage> => {
+): Promise<LxdStoragePool> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${storage}?project=${project}&recursion=1`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorage>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const fetchStoragePools = (project: string): Promise<LxdStorage[]> => {
+export const fetchStoragePools = (
+  project: string
+): Promise<LxdStoragePool[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?project=${project}&recursion=1`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorage[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdStoragePool[]>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
 export const fetchStoragePoolResources = (
   storage: string
-): Promise<LxdStorageResources> => {
+): Promise<LxdStoragePoolResources> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${storage}/resources`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageResources>) =>
+      .then((data: LxdApiResponse<LxdStoragePoolResources>) =>
         resolve(data.metadata)
       )
       .catch(reject);
   });
 };
 
-export const createStoragePool = (storage: LxdStorage, project: string) => {
+export const createStoragePool = (storage: LxdStoragePool, project: string) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?project=${project}`, {
       method: "POST",
@@ -44,6 +46,24 @@ export const createStoragePool = (storage: LxdStorage, project: string) => {
     })
       .then(handleResponse)
       .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const renameStoragePool = (
+  oldName: string,
+  newName: string,
+  project: string
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${oldName}?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
       .catch(reject);
   });
 };
