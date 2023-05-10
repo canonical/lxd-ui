@@ -2,12 +2,12 @@ import React, { FC, Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { List, Tabs } from "@canonical/react-components";
 import ImageName from "pages/images/ImageName";
-import { LxdStorage } from "types/storage";
+import { LxdStoragePool } from "types/storage";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
 import InstanceLink from "pages/instances/InstanceLink";
 
 interface Props {
-  storage: LxdStorage;
+  storage: LxdStoragePool;
   project: string;
 }
 
