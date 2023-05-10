@@ -23,11 +23,13 @@ const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
   if (type === "instance") {
     const instance = item as LxdInstance;
 
-    const ipAddresses = getIpAddresses(instance).map((address) => (
-      <li key={address} className="p-list__item">
-        {address}
-      </li>
-    ));
+    const ipAddresses = getIpAddresses(instance, "inet")
+      .concat(getIpAddresses(instance, "inet6"))
+      .map((address) => (
+        <li key={address} className="p-list__item">
+          {address}
+        </li>
+      ));
 
     return (
       <div className="p-text--small tooltip">

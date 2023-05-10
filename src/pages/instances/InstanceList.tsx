@@ -193,8 +193,12 @@ const InstanceList: FC = () => {
       const openSummary = () =>
         panelParams.openInstanceSummary(instance.name, project);
 
-      const ip4Addresses = getIpAddresses(instance, "inet", false);
-      const ip6Addresses = getIpAddresses(instance, "inet6", false);
+      const ipv4 = getIpAddresses(instance, "inet").filter(
+        (val) => !val.startsWith("127")
+      );
+      const ipv6 = getIpAddresses(instance, "inet6").filter(
+        (val) => !val.startsWith("fe80")
+      );
 
       return {
         className:
@@ -239,20 +243,14 @@ const InstanceList: FC = () => {
             className: "clickable-cell description",
           },
           {
-            content:
-              ip4Addresses.length > 1
-                ? `${ip4Addresses.length} addresses`
-                : ip4Addresses,
+            content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
             role: "rowheader",
             className: "u-align--right clickable-cell ipv4",
             "aria-label": IPV4,
             onClick: openSummary,
           },
           {
-            content:
-              ip6Addresses.length > 1
-                ? `${ip6Addresses.length} addresses`
-                : ip6Addresses,
+            content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
             role: "rowheader",
             "aria-label": IPV6,
             onClick: openSummary,
