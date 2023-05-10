@@ -7,9 +7,9 @@ import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import { Row } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { fetchStorage } from "api/storages";
-import StorageSize from "pages/storages/StorageSize";
-import StorageUsedBy from "pages/storages/StorageUsedBy";
+import { fetchStoragePool } from "api/storage-pools";
+import StorageSize from "pages/storage/StorageSize";
+import StorageUsedBy from "pages/storage/StorageUsedBy";
 
 const StorageDetail: FC = () => {
   const notify = useNotify();
@@ -31,7 +31,7 @@ const StorageDetail: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage, project, name],
-    queryFn: () => fetchStorage(name, project),
+    queryFn: () => fetchStoragePool(name, project),
   });
 
   if (error) {

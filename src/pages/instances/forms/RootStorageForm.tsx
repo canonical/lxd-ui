@@ -7,7 +7,7 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { fetchStorages } from "api/storages";
+import { fetchStoragePools } from "api/storage-pools";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
@@ -45,7 +45,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     error: storageError,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStorages(project),
+    queryFn: () => fetchStoragePools(project),
   });
 
   if (storageError) {

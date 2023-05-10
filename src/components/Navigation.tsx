@@ -126,14 +126,14 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item--title secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/storages`}
-                          title={`Storages (${project})`}
+                          to={`/ui/${project}/storage`}
+                          title={`Storage (${project})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="pods"
                           />{" "}
-                          Storages
+                          Storage
                         </NavLink>
                       </li>
                       <li className="p-side-navigation__item--title secondary">

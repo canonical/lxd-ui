@@ -3,7 +3,7 @@ import useEventListener from "@use-it/event-listener";
 import usePanelParams, { panels } from "util/usePanelParams";
 import InstanceDetailPanel from "pages/instances/InstanceDetailPanel";
 import ProfileDetailPanel from "pages/profiles/ProfileDetailPanel";
-import StorageForm from "pages/storages/StorageForm";
+import StorageForm from "pages/storage/StorageForm";
 
 export default function Panels() {
   const panelParams = usePanelParams();

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { fetchStorageResources } from "api/storages";
+import { fetchStoragePoolResources } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { LxdStorage } from "types/storage";
@@ -13,7 +13,7 @@ interface Props {
 const StorageSize: FC<Props> = ({ storage }) => {
   const { data: resources } = useQuery({
     queryKey: [queryKeys.storage, storage.name, queryKeys.resources],
-    queryFn: () => fetchStorageResources(storage.name),
+    queryFn: () => fetchStoragePoolResources(storage.name),
   });
 
   if (!resources) {
