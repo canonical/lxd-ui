@@ -7,7 +7,7 @@ import {
 import { LxdInstance, LxdInstanceAction } from "types/instance";
 import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperation } from "types/operation";
+import { LxdOperationResponse } from "types/operation";
 
 export const fetchInstance = (
   name: string,
@@ -34,14 +34,14 @@ export const fetchInstances = (project: string): Promise<LxdInstance[]> => {
 export const createInstance = (
   body: string,
   project: string
-): Promise<LxdOperation> => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances?project=${project}`, {
       method: "POST",
       body: body,
     })
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -58,7 +58,7 @@ export const updateInstance = (instance: LxdInstance, project: string) => {
       },
     })
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -78,7 +78,7 @@ export const renameInstance = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -120,7 +120,7 @@ const putInstanceAction = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -154,7 +154,7 @@ export const deleteInstance = (instance: LxdInstance) => {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);

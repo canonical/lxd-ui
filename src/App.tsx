@@ -14,6 +14,7 @@ const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const StorageList = lazy(() => import("pages/storage/StorageList"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
+const OperationList = lazy(() => import("pages/operations/OperationList"));
 const CertificateGenerate = lazy(
   () => import("pages/certificates/CertificateGenerate")
 );
@@ -103,6 +104,10 @@ const App: FC = () => {
         <Route
           path="/ui/:project/networks/map"
           element={<ProtectedRoute outlet={<NetworkMap />} />}
+        />
+        <Route
+          path="/ui/:project/operations"
+          element={<ProtectedRoute outlet={<OperationList />} />}
         />
         <Route
           path="/ui/:project/configuration"

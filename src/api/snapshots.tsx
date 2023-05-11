@@ -1,7 +1,7 @@
 import { TIMEOUT_120, TIMEOUT_60, watchOperation } from "./operations";
 import { handleResponse } from "util/helpers";
 import { LxdInstance, LxdSnapshot } from "types/instance";
-import { LxdOperation } from "types/operation";
+import { LxdOperationResponse } from "types/operation";
 
 export const createSnapshot = (
   instance: LxdInstance,
@@ -22,7 +22,7 @@ export const createSnapshot = (
       }
     )
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -41,7 +41,7 @@ export const deleteSnapshot = (
       }
     )
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -88,7 +88,7 @@ export const restoreSnapshot = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -111,7 +111,7 @@ export const renameSnapshot = (
       }
     )
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
@@ -134,7 +134,7 @@ export const updateSnapshot = (
       }
     )
       .then(handleResponse)
-      .then((data: LxdOperation) => {
+      .then((data: LxdOperationResponse) => {
         watchOperation(data.operation).then(resolve).catch(reject);
       })
       .catch(reject);
