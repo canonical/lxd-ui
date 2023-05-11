@@ -11,7 +11,10 @@ export const watchOperation = (
   timeout = TIMEOUT_10
 ): Promise<LxdOperation> => {
   return new Promise((resolve, reject) => {
-    fetch(`${operationUrl}/wait?timeout=${timeout}`)
+    const operationParts = operationUrl.split("?");
+    const baseUrl = operationParts[0];
+    const queryString = operationParts.length === 1 ? "" : operationParts[1];
+    fetch(`${baseUrl}/wait?timeout=${timeout}&${queryString}`)
       .then(handleResponse)
       .then((data: LxdOperation) => {
         if (data.metadata.status === "Success") {
