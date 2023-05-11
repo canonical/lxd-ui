@@ -155,8 +155,20 @@ export const deleteInstance = (instance: LxdInstance) => {
     })
       .then(handleResponse)
       .then((data: LxdOperation) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
+        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
       })
+      .catch(reject);
+  });
+};
+
+export const deleteInstanceBulk = (instances: LxdInstance[]) => {
+  return new Promise((resolve, reject) => {
+    Promise.all(
+      instances.map(async (instance) => {
+        await deleteInstance(instance);
+      })
+    )
+      .then(resolve)
       .catch(reject);
   });
 };

@@ -99,7 +99,9 @@ const ConfirmationButton: FC<Props> = ({
             name={iconName}
           />
         )}
-        {toggleCaption && <span>{toggleCaption}</span>}
+        {toggleCaption && (
+          <span className="confirmation-toggle-caption">{toggleCaption}</span>
+        )}
       </Button>
     </>
   );

@@ -34,6 +34,7 @@ import { updateTBodyHeight } from "util/updateTBodyHeight";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
+import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 
 const STATUS = "Status";
 const NAME = "Name";
@@ -316,6 +317,9 @@ const InstanceList: FC = () => {
   ]);
 
   const hasInstances = isLoading || instances.length > 0;
+  const selectedInstances = instances.filter((instance) =>
+    selectedNames.includes(instance.name)
+  );
 
   return (
     <main className="l-main instance-list">
@@ -330,14 +334,18 @@ const InstanceList: FC = () => {
             {selectedNames.length > 0 && (
               <>
                 <InstanceBulkActions
-                  instances={instances.filter((instance) =>
-                    selectedNames.includes(instance.name)
-                  )}
+                  instances={selectedInstances}
                   onStart={() => setProcessingNames(selectedNames)}
+                  onFinish={() => setProcessingNames([])}
+                />
+                <InstanceBulkDelete
+                  instances={selectedInstances}
+                  onStart={setProcessingNames}
                   onFinish={() => setProcessingNames([])}
                 />
                 <Button
                   appearance="link"
+                  className="clear-selection-btn"
                   hasIcon
                   onClick={() => setSelectedNames([])}
                 >

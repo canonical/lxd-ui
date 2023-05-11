@@ -5,7 +5,7 @@
 
     .bulk-actions {
       display: inline-block;
-      margin-right: $sph--x-large;
+      margin-right: $sph--large;
 
       > .bulk-action-frame {
         border: 1px solid #0000008f;
@@ -15,6 +15,28 @@
           border-left: 1px solid rgb(0 0 0 / 10%);
         }
       }
+    }
+
+    @media screen and (max-width: $breakpoint-large) {
+      .bulk-actions {
+        .confirmation-toggle-caption {
+          display: none;
+        }
+
+        .has-icon > i {
+          margin: 0;
+        }
+      }
+    }
+
+    @media screen and (max-width: 830px) {
+      .clear-selection-btn {
+        display: none;
+      }
+    }
+
+    .clear-selection-btn {
+      padding-top: 8px;
     }
 
     .instance-header-left {
