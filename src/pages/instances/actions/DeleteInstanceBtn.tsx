@@ -5,6 +5,7 @@ import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
+import { deletableStatuses } from "util/instanceDelete";
 
 interface Props {
   instance: LxdInstance;
@@ -36,7 +37,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       .finally(() => setLoading(false));
   };
 
-  const isDisabled = isLoading || instance.status !== "Stopped";
+  const isDisabled = isLoading || !deletableStatuses.includes(instance.status);
 
   return (
     <ConfirmationButton

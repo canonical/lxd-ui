@@ -67,6 +67,7 @@ export type LxdInstanceAction =
   | "unfreeze";
 
 export type LxdInstanceStatus =
+  | "Error"
   | "Freezing"
   | "Frozen"
   | "Restarting"
