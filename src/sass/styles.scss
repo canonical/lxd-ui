@@ -31,6 +31,7 @@
 @include vf-p-icon-restart;
 @include vf-p-icon-security;
 @include vf-p-icon-settings;
+@include vf-p-icon-status;
 @include vf-p-icon-status-failed-small;
 @include vf-p-icon-status-in-progress-small;
 @include vf-p-icon-status-queued-small;
@@ -123,6 +124,10 @@ $border-thin: 1px solid $color-mid-light !default;
 
 .empty-networks-icon {
   @include vf-icon-connected($color-mid-light);
+}
+
+.empty-operations-icon {
+  @include vf-icon-status($color-mid-light);
 }
 
 .empty-storage-icon {

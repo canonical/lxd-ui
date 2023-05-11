@@ -6,7 +6,7 @@ interface Props {
   iconClass: string;
   title: string;
   message: string | ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const EmptyState: FC<Props> = ({

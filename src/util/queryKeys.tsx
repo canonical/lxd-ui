@@ -7,6 +7,7 @@ export const queryKeys = {
   members: "members",
   metrics: "metrics",
   networks: "networks",
+  operations: "operations",
   profiles: "profiles",
   projects: "projects",
   resources: "resources",
