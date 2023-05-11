@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { MainTable, Row } from "@canonical/react-components";
+import { Icon, MainTable, Row } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +11,8 @@ import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import { useParams } from "react-router-dom";
 import { isoTimeToString } from "util/helpers";
+import { LxdOperationStatus } from "types/operation";
+import OperationInstanceName from "pages/operations/OperationInstanceName";
 
 const OperationList: FC = () => {
   const notify = useNotify();
@@ -25,7 +27,7 @@ const OperationList: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.networks],
+    queryKey: [queryKeys.operations, project],
     queryFn: () => fetchOperations(project),
   });
 
@@ -39,37 +41,52 @@ const OperationList: FC = () => {
   const operations = failure.concat(running).concat(success);
 
   const headers = [
-    { content: "Date created", sortKey: "created_at" },
-    { content: "Date updated", sortKey: "updated_at" },
-    { content: "Action", sortKey: "action" },
-    { content: "Item" },
-    { content: "Info" },
-    { content: "Status", sortKey: "status" },
-    { "aria-label": "Actions", className: "u-align--right" },
+    { content: "Time", className: "time", sortKey: "created_at" },
+    { content: "Action", className: "action", sortKey: "action" },
+    { content: "Info", className: "info" },
+    { content: "Status", className: "status", sortKey: "status" },
+    { "aria-label": "Cancel", className: "cancel u-align--right" },
   ];
+
+  const getIconNameForStatus = (status: LxdOperationStatus) => {
+    return (
+      {
+        Cancelled: "status-failed-small",
+        Failure: "status-failed-small",
+        Running: "status-in-progress-small",
+        Success: "status-succeeded-small",
+      }[status] ?? ""
+    );
+  };
 
   const rows = operations.map((operation) => {
     return {
       columns: [
         {
-          content: isoTimeToString(operation.created_at),
+          content: (
+            <>
+              <div>Initiated: {isoTimeToString(operation.created_at)}</div>
+              <div className="u-text--muted">
+                Last update: {isoTimeToString(operation.updated_at)}
+              </div>
+            </>
+          ),
           role: "rowheader",
-          "aria-label": "Date created",
+          "aria-label": "Time",
+          className: "time",
         },
         {
-          content: isoTimeToString(operation.updated_at),
+          content: (
+            <>
+              <div>{operation.description}</div>
+              <div className="u-truncate u-text--muted">
+                <OperationInstanceName operation={operation} />
+              </div>
+            </>
+          ),
           role: "rowheader",
-          "aria-label": "Date updated",
-        },
-        {
-          content: operation.description,
-          role: "rowheader",
-          "aria-label": "action",
-        },
-        {
-          content: operation.resources.instances?.join(" "),
-          role: "rowheader",
-          "aria-label": "item",
+          "aria-label": "Action",
+          className: "action",
         },
         {
           content: (
@@ -77,25 +94,36 @@ const OperationList: FC = () => {
               <div>{operation.err}</div>
               {Object.entries(operation.metadata ?? {}).map(
                 ([key, value], index) => (
-                  <div key={index}>
+                  <span key={index} title={JSON.stringify(value)}>
                     {key}: {JSON.stringify(value)}
-                  </div>
+                  </span>
                 )
               )}
             </>
           ),
           role: "rowheader",
-          "aria-label": "info",
+          "aria-label": "Info",
+          className: "info",
         },
         {
-          content: operation.status,
+          content: (
+            <>
+              <Icon
+                name={getIconNameForStatus(operation.status)}
+                className="status-icon"
+              />
+              {operation.status}
+            </>
+          ),
           role: "rowheader",
-          "aria-label": "status",
+          "aria-label": "Status",
+          className: "status",
         },
         {
           content: <CancelOperationBtn operation={operation} />,
           role: "rowheader",
-          "aria-label": "action",
+          className: "u-align--right cancel",
+          "aria-label": "Cancel",
         },
       ],
       sortData: {
@@ -118,7 +146,7 @@ const OperationList: FC = () => {
               paginate={30}
               responsive
               sortable
-              className="u-table-layout--auto"
+              className="operation-list"
               emptyStateMsg={
                 isLoading ? (
                   <Loader text="Loading operations..." />

@@ -16,7 +16,7 @@ const CancelOperationBtn: FC<Props> = ({ operation }) => {
     setLoading(true);
     cancelOperation(operation.id)
       .then(() => {
-        notify.success(`Operation cancelled.`);
+        notify.success("Operation cancelled");
       })
       .catch((e) => {
         notify.failure("Operation cancellation failed", e);
@@ -24,18 +24,22 @@ const CancelOperationBtn: FC<Props> = ({ operation }) => {
       .finally(() => setLoading(false));
   };
 
-  return (
+  return operation.status !== "Running" ? null : (
     <ConfirmationButton
-      onHoverText="Cancel operation"
+      onHoverText={
+        operation.may_cancel
+          ? "Cancel operation"
+          : "Cannot cancel operation at this stage"
+      }
+      className="u-no-margin--bottom"
       toggleAppearance=""
       isLoading={isLoading}
       title="Confirm cancel"
-      confirmMessage={<>Are you sure you want to cancel the operation?</>}
+      confirmMessage="Are you sure you want to cancel the operation?"
       confirmButtonLabel="Cancel"
       toggleCaption="Cancel"
       onConfirm={handleCancel}
-      isDisabled={operation.status !== "Running"}
-      isDense={false}
+      isDisabled={!operation.may_cancel}
     />
   );
 };

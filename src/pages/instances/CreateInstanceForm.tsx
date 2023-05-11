@@ -135,10 +135,7 @@ const CreateInstanceForm: FC = () => {
 
   const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
     const formUrl = location.pathname + location.search;
-    navigate(
-      `/ui/${project}/instances`,
-      notify.queue(notify.info("Creating the instance.", "Processing"))
-    );
+    navigate(`/ui/${project}/instances`);
 
     const instancePayload = values.yaml
       ? yamlToObject(values.yaml)
@@ -146,7 +143,7 @@ const CreateInstanceForm: FC = () => {
 
     createInstance(JSON.stringify(instancePayload), project)
       .then((operation) => {
-        const instanceName = operation.metadata.resources.instances?.[0]
+        const instanceName = operation.metadata.resources?.instances?.[0]
           .split("/")
           .pop();
         if (!instanceName) {
@@ -178,6 +175,9 @@ const CreateInstanceForm: FC = () => {
         }
       })
       .catch((e: Error) => {
+        if (e.message === "Cancelled") {
+          return;
+        }
         notifyLaunchFailed(e, formUrl, values);
       })
       .finally(() => {

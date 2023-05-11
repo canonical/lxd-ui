@@ -88,6 +88,7 @@ const SelectableMainTable: FC<Props> = ({
         </>
       ),
       className: "select select-header",
+      "aria-label": "select",
     },
     ...(headers ?? []),
   ];
@@ -113,7 +114,7 @@ const SelectableMainTable: FC<Props> = ({
             labelClassName="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}
-            disabled={isRowProcessing}
+            disabled={isRowProcessing || !row.name}
           />
         ),
         role: "rowheader",

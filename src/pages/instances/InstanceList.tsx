@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Icon, Row } from "@canonical/react-components";
+import { Button, Col, Icon, Row, Spinner } from "@canonical/react-components";
 import { fetchInstances } from "api/instances";
 import NotificationRow from "components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
@@ -27,14 +27,23 @@ import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
 import { InstanceFilters } from "util/instanceFilter";
 import { isWidthBelow } from "util/helpers";
-
-const STATUS = "Status";
-const NAME = "Name";
-const TYPE = "Type";
-const DESCRIPTION = "Description";
-const IPV4 = "IPv4";
-const IPV6 = "IPv6";
-const SNAPSHOTS = "Snapshots";
+import { fetchOperations } from "api/operations";
+import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import {
+  ACTIONS,
+  COLUMN_WIDTHS,
+  CREATION_SPAN_COLUMNS,
+  DESCRIPTION,
+  IPV4,
+  IPV6,
+  NAME,
+  SIZE_HIDEABLE_COLUMNS,
+  SNAPSHOTS,
+  STATUS,
+  TYPE,
+} from "util/instanceTable";
+import { getInstanceName } from "util/operations";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -88,42 +97,6 @@ const InstanceList: FC = () => {
   };
   useEventListener("resize", setCreateButtonLabel);
 
-  const figureSizeHidden = () => {
-    const wrapper = document.getElementById("instance-table-measure");
-    const tableHead = wrapper?.children[0]?.children[0]?.children[0];
-
-    if (!wrapper || !tableHead) {
-      return;
-    }
-
-    const wrapWidth = wrapper.getBoundingClientRect().width;
-    const tableWidth = tableHead.getBoundingClientRect().width;
-    const colWidth = new Map();
-    tableHead.childNodes.forEach((item) => {
-      const col = item as Element;
-      const name = col.innerHTML;
-      const width = col.getBoundingClientRect().width;
-      colWidth.set(name, width);
-    });
-
-    let gainedSpace = 0;
-    const sizeHiddenNew: string[] = [];
-    [SNAPSHOTS, IPV6, IPV4, DESCRIPTION, TYPE].forEach((column) => {
-      if (
-        tableWidth - gainedSpace > wrapWidth &&
-        !userHidden.includes(column)
-      ) {
-        gainedSpace += colWidth.get(column);
-        sizeHiddenNew.push(column);
-      }
-    });
-    if (JSON.stringify(sizeHiddenNew) !== JSON.stringify(sizeHidden)) {
-      setSizeHidden(sizeHiddenNew);
-    }
-  };
-  useEventListener("resize", figureSizeHidden);
-  useEffect(figureSizeHidden, [panelParams.instance, userHidden, instances]);
-
   const setHidden = (columns: string[]) => {
     setUserHidden(columns);
     saveHidden(columns);
@@ -174,36 +147,142 @@ const InstanceList: FC = () => {
 
   const getHeaders = (hiddenCols: string[]) =>
     [
-      { content: NAME, sortKey: "name", className: "name" },
-      { content: TYPE, sortKey: "type", className: "type" },
+      {
+        content: NAME,
+        sortKey: "name",
+        style: { width: `${COLUMN_WIDTHS[NAME]}px` },
+      },
+      {
+        content: TYPE,
+        sortKey: "type",
+        style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
+      },
       {
         content: DESCRIPTION,
         sortKey: "description",
-        className: "description",
+        style: { width: `${COLUMN_WIDTHS[DESCRIPTION]}px` },
       },
-      { content: IPV4, className: "u-align--right ipv4" },
-      { content: IPV6, id: "header-ipv6", className: "ipv6" },
+      {
+        content: IPV4,
+        className: "u-align--right",
+        style: { width: `${COLUMN_WIDTHS[IPV4]}px` },
+      },
+      {
+        content: IPV6,
+        id: "header-ipv6",
+        style: { width: `${COLUMN_WIDTHS[IPV6]}px` },
+      },
       {
         content: SNAPSHOTS,
         sortKey: "snapshots",
-        className: "u-align--right snapshots",
+        className: "u-align--right",
+        style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
       },
       {
-        content: <span>{STATUS}</span>,
+        content: STATUS,
         sortKey: "status",
         className: "status-header status",
+        style: { width: `${COLUMN_WIDTHS[STATUS]}px` },
       },
       {
         "aria-label": "Actions",
-        className: classnames("actions", { "u-hide": panelParams.instance }),
+        className: classnames({ "u-hide": panelParams.instance }),
+        style: { width: `${COLUMN_WIDTHS[ACTIONS]}px` },
       },
     ].filter(
       (item) =>
         typeof item.content !== "string" || !hiddenCols.includes(item.content)
     );
 
-  const getRows = (hiddenCols: string[]) =>
-    filteredInstances.map((instance) => {
+  const { data: operationList } = useQuery({
+    queryKey: [queryKeys.operations, project],
+    queryFn: () => fetchOperations(project),
+    refetchInterval: 1000,
+  });
+
+  if (error) {
+    notify.failure("Loading operations failed", error);
+  }
+
+  const instanceNames = instances.map((instance) => instance.name);
+  const creationOperations = (operationList?.running ?? []).filter(
+    (operation) => {
+      const createInstanceName = getInstanceName(operation);
+      return (
+        operation.description === "Creating instance" &&
+        !instanceNames.includes(createInstanceName)
+      );
+    }
+  );
+
+  const getRows = (hiddenCols: string[]): MainTableRow[] => {
+    const spannedWidth = CREATION_SPAN_COLUMNS.filter(
+      (col) => !hiddenCols.includes(col)
+    ).reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
+
+    const creationRows: MainTableRow[] = creationOperations.map((operation) => {
+      return {
+        className: "u-row",
+        columns: [
+          {
+            content: operation.resources?.instances?.map((item) =>
+              item.split("/").pop()
+            ),
+            role: "rowheader",
+            "aria-label": NAME,
+            style: { width: `${COLUMN_WIDTHS[NAME]}px` },
+          },
+          ...(hiddenCols.length < 5
+            ? [
+                {
+                  content: (
+                    <i>
+                      {Object.entries(operation.metadata ?? {})
+                        .slice(0, 1)
+                        .map(([key, value], index) => (
+                          <div key={index}>
+                            {key}: {value}
+                          </div>
+                        ))}
+                    </i>
+                  ),
+                  role: "rowheader",
+                  colSpan: 5 - hiddenCols.length,
+                  style: { width: `${spannedWidth}px` },
+                },
+              ]
+            : []),
+          ...(sizeHidden.includes(STATUS)
+            ? []
+            : [
+                {
+                  content: (
+                    <>
+                      <Spinner className="status-icon" /> Setting up
+                    </>
+                  ),
+                  role: "rowheader",
+                  "aria-label": STATUS,
+                  style: { width: `${COLUMN_WIDTHS[STATUS]}px` },
+                },
+              ]),
+          {
+            content: <CancelOperationBtn operation={operation} />,
+            role: "rowheader",
+            className: classnames("u-align--right", {
+              "u-hide": panelParams.instance,
+            }),
+            "aria-label": "Actions",
+            style: { width: `${COLUMN_WIDTHS[ACTIONS]}px` },
+          },
+        ],
+        sortData: {
+          name: null, // we want the creating instances always on top
+        },
+      };
+    });
+
+    const instanceRows: MainTableRow[] = filteredInstances.map((instance) => {
       const openSummary = () =>
         panelParams.openInstanceSummary(instance.name, project);
 
@@ -226,7 +305,7 @@ const InstanceList: FC = () => {
               </div>
             ),
             role: "rowheader",
-            className: "name",
+            style: { width: `${COLUMN_WIDTHS[NAME]}px` },
             "aria-label": NAME,
             onClick: openSummary,
           },
@@ -243,7 +322,8 @@ const InstanceList: FC = () => {
             role: "rowheader",
             "aria-label": TYPE,
             onClick: openSummary,
-            className: "clickable-cell type",
+            className: "clickable-cell",
+            style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
           },
           {
             content: (
@@ -254,35 +334,40 @@ const InstanceList: FC = () => {
             role: "rowheader",
             "aria-label": DESCRIPTION,
             onClick: openSummary,
-            className: "clickable-cell description",
+            className: "clickable-cell",
+            style: { width: `${COLUMN_WIDTHS[DESCRIPTION]}px` },
           },
           {
             content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
             role: "rowheader",
-            className: "u-align--right clickable-cell ipv4",
+            className: "u-align--right clickable-cell",
             "aria-label": IPV4,
             onClick: openSummary,
+            style: { width: `${COLUMN_WIDTHS[IPV4]}px` },
           },
           {
             content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
             role: "rowheader",
             "aria-label": IPV6,
             onClick: openSummary,
-            className: "clickable-cell ipv6",
+            className: "clickable-cell",
+            style: { width: `${COLUMN_WIDTHS[IPV6]}px` },
           },
           {
             content: instance.snapshots?.length ?? "0",
             role: "rowheader",
-            className: "u-align--right clickable-cell, snapshots",
+            className: "u-align--right clickable-cell",
             "aria-label": SNAPSHOTS,
             onClick: openSummary,
+            style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
           },
           {
             content: <InstanceStatusIcon instance={instance} />,
             role: "rowheader",
-            className: "clickable-cell status",
+            className: "clickable-cell",
             "aria-label": STATUS,
             onClick: openSummary,
+            style: { width: `${COLUMN_WIDTHS[STATUS]}px` },
           },
           {
             content: (
@@ -298,10 +383,11 @@ const InstanceList: FC = () => {
               />
             ),
             role: "rowheader",
-            className: classnames("u-align--right actions", {
+            className: classnames("u-align--right", {
               "u-hide": panelParams.instance,
             }),
             "aria-label": "Actions",
+            style: { width: `${COLUMN_WIDTHS[ACTIONS]}px` },
           },
         ].filter((item) => !hiddenCols.includes(item["aria-label"])),
         sortData: {
@@ -314,13 +400,57 @@ const InstanceList: FC = () => {
       };
     });
 
+    return creationRows.concat(instanceRows);
+  };
+
   const pagination = usePagination(getRows(userHidden.concat(sizeHidden)));
 
-  const updateTableHeight = () => updateTBodyHeight("instance-table-wrapper");
+  const figureSizeHidden = () => {
+    const wrapper = document.getElementById("instance-table-measure");
+    const tableHead = wrapper?.children[0]?.children[0]?.children[0];
 
+    if (!wrapper || !tableHead) {
+      return;
+    }
+
+    const wrapWidth = wrapper.getBoundingClientRect().width;
+    const tableWidth = tableHead.getBoundingClientRect().width;
+    const colWidth = new Map();
+    tableHead.childNodes.forEach((item) => {
+      const col = item as Element;
+      const name = col.innerHTML;
+      const width = col.getBoundingClientRect().width;
+      colWidth.set(name, width);
+    });
+
+    let gainedSpace = 0;
+    const sizeHiddenNew: string[] = [];
+    SIZE_HIDEABLE_COLUMNS.forEach((column) => {
+      if (
+        tableWidth - gainedSpace > wrapWidth &&
+        !userHidden.includes(column)
+      ) {
+        gainedSpace += colWidth.get(column);
+        sizeHiddenNew.push(column);
+      }
+    });
+    if (JSON.stringify(sizeHiddenNew) !== JSON.stringify(sizeHidden)) {
+      setSizeHidden(sizeHiddenNew);
+    }
+  };
+  useEventListener("resize", figureSizeHidden);
+  useEffect(figureSizeHidden, [
+    panelParams.instance,
+    userHidden,
+    instances,
+    creationOperations,
+  ]);
+
+  const updateTableHeight = () => updateTBodyHeight("instance-table-wrapper");
   useEventListener("resize", updateTableHeight);
   useEffect(updateTableHeight, [
     instances,
+    creationOperations,
     notify.notification,
     filters.queries,
     filters.statuses,
@@ -330,7 +460,8 @@ const InstanceList: FC = () => {
     pagination.currentPage,
   ]);
 
-  const hasInstances = isLoading || instances.length > 0;
+  const hasInstances =
+    isLoading || instances.length > 0 || creationOperations.length > 0;
   const selectedInstances = instances.filter((instance) =>
     selectedNames.includes(instance.name)
   );
@@ -426,7 +557,7 @@ const InstanceList: FC = () => {
                   />
                   <Pagination
                     {...pagination}
-                    totalCount={instances.length}
+                    totalCount={instances.length + creationOperations.length}
                     visibleCount={
                       filteredInstances.length === instances.length
                         ? pagination.pageData.length
