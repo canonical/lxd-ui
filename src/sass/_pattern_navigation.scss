@@ -116,8 +116,8 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-x-large) and (min-height: 600px),
-  screen and (min-width: $breakpoint-x-large) and (min-height: 720px) {
+@media screen and (max-width: $breakpoint-x-large) and (min-height: 670px),
+  screen and (min-width: $breakpoint-x-large) and (min-height: 800px) {
   .sidenav-bottom-ul {
     bottom: $spv--x-large;
     position: absolute;

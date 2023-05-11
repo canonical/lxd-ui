@@ -1,5 +1,9 @@
 import { handleResponse } from "util/helpers";
-import { LxdOperationList, LxdOperationResponse } from "types/operation";
+import {
+  LxdOperation,
+  LxdOperationList,
+  LxdOperationResponse,
+} from "types/operation";
 import { LxdApiResponse } from "types/apiResponse";
 
 export const TIMEOUT_300 = 300;
@@ -25,6 +29,8 @@ export const watchOperation = (
           throw Error(
             "Timeout while waiting for the operation to succeed. Watched operation continues in the background."
           );
+        } else if (data.metadata.status === "Cancelled") {
+          throw new Error("Cancelled");
         } else {
           throw Error(data.metadata.err);
         }
@@ -37,7 +43,19 @@ export const fetchOperations = (project: string): Promise<LxdOperationList> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/operations?project=${project}&recursion=1`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdOperationList>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdOperationList>) => {
+        const newestFirst = (a: LxdOperation, b: LxdOperation) => {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        };
+
+        data.metadata.failure?.sort(newestFirst);
+        data.metadata.success?.sort(newestFirst);
+        data.metadata.running?.sort(newestFirst);
+
+        return resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

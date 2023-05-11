@@ -1,3 +1,9 @@
+export type LxdOperationStatus =
+  | "Cancelled"
+  | "Failure"
+  | "Running"
+  | "Success";
+
 export interface LxdOperation {
   class: string;
   created_at: string;
@@ -7,10 +13,10 @@ export interface LxdOperation {
   location: string;
   metadata?: Record<string, string>;
   may_cancel: boolean;
-  resources: {
+  resources?: {
     instances?: string[];
   };
-  status: "Success" | "Running" | "Started";
+  status: LxdOperationStatus;
   status_code: string;
   updated_at: string;
 }
@@ -21,7 +27,7 @@ export interface LxdOperationResponse {
 }
 
 export interface LxdOperationList {
-  failure: LxdOperation[];
-  running: LxdOperation[];
-  success: LxdOperation[];
+  failure?: LxdOperation[];
+  running?: LxdOperation[];
+  success?: LxdOperation[];
 }
