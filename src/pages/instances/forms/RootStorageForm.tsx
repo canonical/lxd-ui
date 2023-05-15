@@ -67,6 +67,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
       type: "disk",
       name: "root",
       path: "/",
+      pool: storagePools[0]?.name ?? undefined,
     });
     formik.setFieldValue("devices", copy);
     setTimeout(() => document.getElementById("rootStoragePool")?.focus(), 100);
@@ -83,6 +84,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
       return {
         label: storagePool.name,
         value: storagePool.name,
+        disabled: false,
       };
     });
     options.unshift({
@@ -91,6 +93,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
           ? "No storage pool available"
           : "Select option",
       value: "",
+      disabled: true,
     });
     return options;
   };
