@@ -51,6 +51,11 @@
         max-width: 70vw;
         width: 100%;
       }
+
+      .p-search-and-filter__panel {
+        min-width: 100%;
+        width: 45vw;
+      }
     }
 
     .margin-right {
@@ -229,7 +234,11 @@
 
 .l-navigation.is-collapsed + .instance-list {
   .search-wrapper {
-    max-width: 80vw;
+    width: 50vw;
+  }
+
+  .p-search-and-filter__panel {
+    width: 130% !important;
   }
 
   .has-side-panel {
