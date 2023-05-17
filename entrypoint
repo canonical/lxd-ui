@@ -11,6 +11,12 @@ if [[ ! -z "$LXD_UI_BACKEND_KEY_PEM" ]]; then
 # dev config
 else
   cp haproxy-dev.cfg haproxy-local.cfg
+  set -o allexport; source .env; set +o allexport
+  if [ -f .env.local ]
+  then
+    set -o allexport; source .env.local; set +o allexport
+  fi
+  sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
   # generate certificates for dev environment
   if [ ! -d "keys" ]; then
     mkdir -p keys
