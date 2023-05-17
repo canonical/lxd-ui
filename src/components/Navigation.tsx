@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import { useAuth } from "context/auth";
@@ -15,8 +15,13 @@ const isSmallScreen = () => isWidthBelow(620);
 const Navigation: FC = () => {
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
+  const [projectName, setProjectName] = useState(
+    project && !isLoading ? project.name : "default"
+  );
 
-  const projectName = project && !isLoading ? project.name : "default";
+  useEffect(() => {
+    project && project.name !== projectName && setProjectName(project.name);
+  }, [project?.name]);
 
   const { isAuthenticated } = useAuth();
   const softToggleMenu = () => {

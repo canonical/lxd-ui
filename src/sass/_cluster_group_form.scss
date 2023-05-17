@@ -1,0 +1,54 @@
+.cluster-group-form {
+  .cluster-group-metadata {
+    max-width: 30rem;
+  }
+
+  .choose-label {
+    margin-bottom: $spv--large;
+    margin-top: $spv--large;
+  }
+
+  .name {
+    width: 15rem;
+  }
+
+  .status {
+    width: 10rem;
+  }
+
+  .actions {
+    display: none !important;
+  }
+
+  .cluster-group-select-members {
+    .select-notification {
+      display: none;
+    }
+
+    .multiselect-checkbox {
+      margin-top: $spv--large;
+    }
+
+    .select-context-menu {
+      display: none;
+    }
+
+    thead tr,
+    tbody tr {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    th,
+    td {
+      display: table-cell;
+      vertical-align: top;
+    }
+
+    th:last-child,
+    td:last-child {
+      display: none !important;
+    }
+  }
+}

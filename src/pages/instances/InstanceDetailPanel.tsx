@@ -17,12 +17,14 @@ import InstanceLink from "pages/instances/InstanceLink";
 import ItemName from "components/ItemName";
 import DetailPanel from "components/DetailPanel";
 import InstanceIps from "pages/instances/InstanceIps";
+import { useSettings } from "context/useSettings";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
+  const { data: settings } = useSettings();
 
   const {
     data: instance,
@@ -122,6 +124,14 @@ const InstanceDetailPanel: FC = () => {
             <tr>
               <th className="u-text--muted">Architecture</th>
               <td>{instance.architecture}</td>
+            </tr>
+            <tr>
+              <th className="u-text--muted">Location</th>
+              <td>
+                {settings?.environment?.server_clustered
+                  ? instance.location
+                  : "-"}
+              </td>
             </tr>
             <tr>
               <th className="u-text--muted">Created</th>

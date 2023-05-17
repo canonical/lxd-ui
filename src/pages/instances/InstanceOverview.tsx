@@ -12,6 +12,7 @@ import InstanceOverviewNetworks from "./InstanceOverviewNetworks";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
 import InstanceIps from "pages/instances/InstanceIps";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   instance: LxdInstance;
@@ -20,6 +21,7 @@ interface Props {
 const InstanceOverview: FC<Props> = ({ instance }) => {
   const [inTabNotification, setInTabNotification] =
     useState<Notification | null>(null);
+  const { data: settings } = useSettings();
 
   const onFailure = (title: string, e: unknown) => {
     setInTabNotification(failure(title, e));
@@ -80,6 +82,14 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               <tr>
                 <th className="p-muted-heading">Architecture</th>
                 <td>{instance.architecture}</td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">Location</th>
+                <td>
+                  {settings?.environment?.server_clustered
+                    ? instance.location
+                    : "-"}
+                </td>
               </tr>
               <tr>
                 <th className="p-muted-heading">PID</th>

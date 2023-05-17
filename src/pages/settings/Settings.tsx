@@ -2,14 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 import { Col, MainTable, Row, SearchBox } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
-import { fetchSettings } from "api/server";
 import { handleResponse } from "util/helpers";
 import { LxdConfigOption } from "types/config";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
+import { useSettings } from "context/useSettings";
 
 const configOptionsUrl = "/ui/assets/data/config-options.json";
 
@@ -30,14 +28,7 @@ const Settings: FC = () => {
     loadConfigOptions();
   }, []);
 
-  const {
-    data: settings,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.settings],
-    queryFn: fetchSettings,
-  });
+  const { data: settings, error, isLoading } = useSettings();
 
   if (error) {
     notify.failure("Loading settings failed", error);

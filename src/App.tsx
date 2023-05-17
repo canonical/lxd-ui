@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
+import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const ImageList = lazy(() => import("pages/images/ImageList"));
@@ -37,6 +38,10 @@ const CreateProjectForm = lazy(
 const ProjectConfiguration = lazy(
   () => import("pages/projects/ProjectConfiguration")
 );
+const CreateClusterGroup = lazy(
+  () => import("pages/cluster/CreateClusterGroup")
+);
+const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
 
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
@@ -200,6 +205,26 @@ const App: FC = () => {
         <Route
           path="/ui/cluster"
           element={<ProtectedRoute outlet={<ClusterList />} />}
+        />
+        <Route
+          path="/ui/cluster/groups/create"
+          element={<ProtectedRoute outlet={<CreateClusterGroup />} />}
+        />
+        <Route
+          path="/ui/cluster/groups/detail/:group"
+          element={
+            <ProtectedRoute
+              outlet={<ClusterGroupLoader outlet={<ClusterList />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/cluster/groups/detail/:group/edit"
+          element={
+            <ProtectedRoute
+              outlet={<ClusterGroupLoader outlet={<EditClusterGroup />} />}
+            />
+          }
         />
         <Route
           path="/ui/warnings"

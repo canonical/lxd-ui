@@ -1,0 +1,124 @@
+@use "sass:map";
+
+.cluster-list {
+  .cluster-content {
+    margin-top: -$spv--large;
+    padding-bottom: 0;
+    @media screen and (max-width: 860px) {
+      margin-top: 0;
+    }
+  }
+
+  .p-panel {
+    min-height: auto;
+  }
+
+  .name {
+    width: 15rem;
+  }
+
+  .status {
+    width: 10rem;
+  }
+
+  .actions {
+    width: 8rem;
+  }
+
+  .u-row:hover {
+    background-color: $colors--light-theme--background-hover;
+  }
+
+  .empty-state {
+    text-align: left;
+
+    .empty-state-icon {
+      opacity: 0.5;
+    }
+  }
+
+  // show actions only on hover if a pointing device is used
+  @media screen and (pointer: fine) {
+    .cluster-actions {
+      visibility: hidden;
+    }
+
+    .u-row:hover {
+      .cluster-actions {
+        visibility: visible;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1300px) {
+    .architecture {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1100px) {
+    .description {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .roles {
+      display: none;
+    }
+  }
+
+  .cluster-group-select {
+    .toggle {
+      background-color: $colors--light-theme--background-hover;
+      border-bottom: 1px solid $colors--light-theme--border-high-contrast;
+      font-size: #{map.get($font-sizes, h4-mobile)}rem;
+      margin-bottom: $spv--small;
+      width: 50vw;
+
+      span {
+        display: inline-block;
+        overflow: hidden !important;
+        text-align: left;
+        text-overflow: ellipsis !important;
+        vertical-align: top;
+        white-space: nowrap !important;
+        width: calc(50vw - 3rem);
+      }
+
+      @include desktop {
+        width: 15rem;
+
+        span {
+          width: 12rem;
+        }
+      }
+    }
+  }
+}
+
+.cluster-group-list {
+  box-shadow: 0 $sp-unit $sp-unit 0 rgb(0 0 0 / 25%);
+  padding: 1rem;
+  width: 21rem;
+
+  .link {
+    padding-bottom: $spv--small;
+    padding-top: $spv--small;
+  }
+
+  .name {
+    display: inline-block;
+    vertical-align: top;
+    width: 10rem;
+  }
+
+  .count {
+    color: $color-mid;
+  }
+
+  .description {
+    color: $color-mid;
+    width: 12rem;
+  }
+}
