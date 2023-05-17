@@ -111,7 +111,6 @@ const ProfileDetailPanel: FC = () => {
                 profile={profile}
                 project={projectName}
                 headingClassName="u-text--muted"
-                alignRight
               />
             ) : (
               <tr>

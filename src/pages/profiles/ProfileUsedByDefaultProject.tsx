@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { LxdUsedBy } from "util/usedBy";
-import ExpandableList from "components/ExpandableList";
-import InstanceLink from "pages/instances/InstanceLink";
+import ViewProfileInstancesBtn from "./actions/ViewProfileInstancesBtn";
 
 interface Props {
+  profile: string;
   affectedProjects?: {
     name: string;
     instances: LxdUsedBy[];
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const ProfileUsedByDefaultProject: FC<Props> = ({
+  profile,
   affectedProjects,
   headingClassName,
 }) => {
@@ -32,16 +33,9 @@ const ProfileUsedByDefaultProject: FC<Props> = ({
               <i className="u-text--muted no-instances">No instances</i>
             )}
             {project.instances.length > 0 && (
-              <ExpandableList
-                items={project.instances.map((instance) => (
-                  <div
-                    key={instance.name}
-                    className="u-truncate list-item"
-                    title={instance.name}
-                  >
-                    <InstanceLink instance={instance} />
-                  </div>
-                ))}
+              <ViewProfileInstancesBtn
+                profile={profile}
+                project={project.name}
               />
             )}
           </td>

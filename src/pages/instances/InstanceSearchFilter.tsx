@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { LxdInstance, LxdInstanceStatus } from "types/instance";
 import {
   InstanceFilters,
@@ -11,6 +11,13 @@ import {
   SearchAndFilterData,
   SearchAndFilterChip,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";
+import { useLocation } from "react-router-dom";
+
+interface ProfileFilterState {
+  state?: {
+    appliedProfile: string;
+  };
+}
 
 interface Props {
   instances: LxdInstance[];
@@ -18,6 +25,10 @@ interface Props {
 }
 
 const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
+  const { state } = useLocation() as ProfileFilterState;
+
+  useEffect(() => window.history.replaceState({}, ""), [state]);
+
   const profileSet = [
     ...new Set(instances.flatMap((instance) => instance.profiles)),
   ];
@@ -68,6 +79,16 @@ const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
   return (
     <div className="search-wrapper margin-right u-no-margin--bottom">
       <SearchAndFilter
+        existingSearchData={
+          state?.appliedProfile
+            ? [
+                {
+                  lead: "profile",
+                  value: state.appliedProfile,
+                },
+              ]
+            : undefined
+        }
         filterPanelData={searchAndFilterData}
         returnSearchData={onSearchDataChange}
       />
