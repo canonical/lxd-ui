@@ -11,14 +11,12 @@ interface Props {
   profile: LxdProfile;
   project: string;
   headingClassName?: string;
-  alignRight?: boolean;
 }
 
 const ProfileInstances: FC<Props> = ({
   profile,
   project,
   headingClassName,
-  alignRight,
 }) => {
   const isDefaultProject = project === "default";
 
@@ -59,13 +57,15 @@ const ProfileInstances: FC<Props> = ({
 
   return isDefaultProject ? (
     <ProfileUsedByDefaultProject
+      profile={profile.name}
       affectedProjects={affectedProjects}
       headingClassName={headingClassName}
     />
   ) : (
     <ProfileUsedByRegularProject
+      profile={profile.name}
+      project={project}
       usedByInstances={usedByInstances}
-      alignRight={alignRight}
     />
   );
 };
