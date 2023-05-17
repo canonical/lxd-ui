@@ -15,9 +15,9 @@ import { queryKeys } from "util/queryKeys";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import Loader from "components/Loader";
-import { fetchSettings } from "api/server";
 import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   onClose: () => void;
@@ -57,10 +57,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     });
   };
 
-  const { data: settings, isLoading: isSettingsLoading } = useQuery({
-    queryKey: [queryKeys.settings],
-    queryFn: fetchSettings,
-  });
+  const { data: settings, isLoading: isSettingsLoading } = useSettings();
 
   const { data: linuxContainerImages = [], isLoading: isLciLoading } = useQuery(
     {

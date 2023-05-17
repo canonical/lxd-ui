@@ -66,6 +66,7 @@ const SelectableMainTable: FC<Props> = ({
             onChange={isSomeSelected ? selectNone : selectPage}
           />
           <ContextualMenu
+            className="select-context-menu"
             position="left"
             title="Multiselect"
             toggleAppearance="base"

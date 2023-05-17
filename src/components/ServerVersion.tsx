@@ -1,14 +1,9 @@
 import React, { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchSettings } from "api/server";
+import { useSettings } from "context/useSettings";
 
 const ServerVersion: FC = () => {
-  const { data: settings } = useQuery({
-    queryKey: [queryKeys.settings],
-    queryFn: fetchSettings,
-  });
+  const { data: settings } = useSettings();
 
   const version = settings?.environment?.server_version;
   if (!version) {

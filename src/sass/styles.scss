@@ -47,6 +47,8 @@
 $border-thin: 1px solid $color-mid-light !default;
 
 @import "certificates";
+@import "cluster_group_form";
+@import "cluster_list";
 @import "configuration_table";
 @import "detail_panels";
 @import "empty_state";

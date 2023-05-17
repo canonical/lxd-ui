@@ -6,5 +6,6 @@ export interface LxdSettings {
   environment?: {
     architectures: string[];
     server_version: ?string;
+    server_clustered: boolean;
   };
 }
