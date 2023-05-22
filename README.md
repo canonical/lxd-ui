@@ -7,6 +7,7 @@ Targets small and large scale private clouds.
 
 <details>
   <summary>Setup LXD - Linux (with snap)</summary>
+  <br/>
   <pre><code>snap install lxd
 lxd init # can accept all defaults
 lxc config set core.https_address "[::]:8443"</code></pre>
@@ -14,6 +15,9 @@ lxc config set core.https_address "[::]:8443"</code></pre>
 
 <details>
   <summary>Setup LXD - Mac</summary>
+  <br/>
+
+  > :warning: **VM instances cannot be created with LXC + Multipass on a Mac**. Nested virtualization is unsupported.
 
   First, if you have not already, you need to install [Homebrew](https://brew.sh/).
 
