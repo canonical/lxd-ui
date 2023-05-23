@@ -490,7 +490,7 @@ const InstanceList: FC = () => {
                 />
                 <Button
                   appearance="link"
-                  className="clear-selection-btn"
+                  className="clear-selection-btn u-no-margin--bottom u-no-padding--top"
                   hasIcon
                   onClick={() => setSelectedNames([])}
                 >
