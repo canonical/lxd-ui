@@ -60,7 +60,7 @@ const ProfileList: FC = () => {
   }
 
   if (projectError) {
-    notify.failure("Loading project failed", error);
+    notify.failure("Loading project failed", projectError);
   }
   const isLoading = isProfilesLoading || isProjectLoading;
 

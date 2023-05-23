@@ -2,6 +2,7 @@ import React, { FC, lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
+import ProjectLoader from "pages/projects/ProjectLoader";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const ImageList = lazy(() => import("pages/images/ImageList"));
@@ -51,27 +52,51 @@ const App: FC = () => {
         />
         <Route
           path="/ui/:project"
-          element={<ProtectedRoute outlet={<ProjectRedirect />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProjectRedirect />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/instances"
-          element={<ProtectedRoute outlet={<InstanceList />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<InstanceList />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/instances/create"
-          element={<ProtectedRoute outlet={<CreateInstanceForm />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateInstanceForm />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/instances/detail/:name"
-          element={<ProtectedRoute outlet={<InstanceDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/instances/detail/:name/:activeTab"
-          element={<ProtectedRoute outlet={<InstanceDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/instances/detail/:name/:activeTab/:activeSection"
-          element={<ProtectedRoute outlet={<InstanceDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/images"
@@ -79,39 +104,75 @@ const App: FC = () => {
         />
         <Route
           path="/ui/:project/profiles"
-          element={<ProtectedRoute outlet={<ProfileList />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProfileList />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/profiles/create"
-          element={<ProtectedRoute outlet={<CreateProfileForm />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateProfileForm />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/profiles/detail/:name"
-          element={<ProtectedRoute outlet={<ProfileDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProfileDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/profiles/detail/:name/:activeTab"
-          element={<ProtectedRoute outlet={<ProfileDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProfileDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/profiles/detail/:name/:activeTab/:activeSection"
-          element={<ProtectedRoute outlet={<ProfileDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProfileDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/networks"
-          element={<ProtectedRoute outlet={<NetworkList />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkList />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/networks/map"
-          element={<ProtectedRoute outlet={<NetworkMap />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkMap />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/operations"
-          element={<ProtectedRoute outlet={<OperationList />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<OperationList />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/configuration"
-          element={<ProtectedRoute outlet={<ProjectConfiguration />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProjectConfiguration />} />}
+            />
+          }
         />
         <Route
           path="/ui/projects/create"
@@ -119,11 +180,19 @@ const App: FC = () => {
         />
         <Route
           path="/ui/:project/storage"
-          element={<ProtectedRoute outlet={<StorageList />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<StorageList />} />}
+            />
+          }
         />
         <Route
           path="/ui/:project/storage/:name"
-          element={<ProtectedRoute outlet={<StorageDetail />} />}
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<StorageDetail />} />}
+            />
+          }
         />
         <Route
           path="/ui/cluster"

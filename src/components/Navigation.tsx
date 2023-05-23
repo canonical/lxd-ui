@@ -1,21 +1,23 @@
 import React, { FC, MouseEvent, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
-import { getProjectFromUrl } from "util/projects";
 import ServerVersion from "components/ServerVersion";
 import useEventListener from "@use-it/event-listener";
 import { isWidthBelow } from "util/helpers";
+import { useProject } from "context/project";
 
 const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
-  const location = useLocation();
   const [menuCollapsed, setMenuCollapsed] = useState(isSmallScreen());
-  const project = getProjectFromUrl(location.pathname) ?? "default";
+
+  const { project, isLoading } = useProject();
+
+  const projectName = project && !isLoading ? project.name : "default";
 
   const { isAuthenticated } = useAuth();
   const softToggleMenu = () => {
@@ -85,14 +87,14 @@ const Navigation: FC = () => {
                       <li onClick={(e) => e.stopPropagation()}>
                         <ProjectSelector
                           key={location.pathname}
-                          activeProject={project}
+                          activeProject={projectName}
                         />
                       </li>
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/instances`}
-                          title={`Instances (${project})`}
+                          to={`/ui/${projectName}/instances`}
+                          title={`Instances (${projectName})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -104,8 +106,8 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/profiles`}
-                          title={`Profiles (${project})`}
+                          to={`/ui/${projectName}/profiles`}
+                          title={`Profiles (${projectName})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -117,8 +119,8 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/networks`}
-                          title={`Networks (${project})`}
+                          to={`/ui/${projectName}/networks`}
+                          title={`Networks (${projectName})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -130,8 +132,8 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/storage`}
-                          title={`Storage pools (${project})`}
+                          to={`/ui/${projectName}/storage`}
+                          title={`Storage pools (${projectName})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -143,8 +145,8 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/operations`}
-                          title={`Operations (${project})`}
+                          to={`/ui/${projectName}/operations`}
+                          title={`Operations (${projectName})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -156,8 +158,8 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${project}/configuration`}
-                          title={`Configuration (${project})`}
+                          to={`/ui/${projectName}/configuration`}
+                          title={`Configuration (${projectName})`}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
