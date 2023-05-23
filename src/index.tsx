@@ -8,6 +8,7 @@ import { AuthProvider } from "context/auth";
 import { NotifyProvider } from "context/notify";
 import App from "./App";
 import "./sass/styles.scss";
+import { ProjectProvider } from "context/project";
 import { InstanceLoadingProvider } from "context/instanceLoading";
 
 const queryClient = new QueryClient();
@@ -20,13 +21,15 @@ root.render(
     <NotifyProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <InstanceLoadingProvider>
-            <div className="l-application" role="presentation">
-              <Navigation />
-              <App />
-              <Panels />
-            </div>
-          </InstanceLoadingProvider>
+          <ProjectProvider>
+            <InstanceLoadingProvider>
+              <div className="l-application" role="presentation">
+                <Navigation />
+                <App />
+                <Panels />
+              </div>
+            </InstanceLoadingProvider>
+          </ProjectProvider>
         </AuthProvider>
       </QueryClientProvider>
     </NotifyProvider>

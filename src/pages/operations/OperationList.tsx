@@ -49,14 +49,12 @@ const OperationList: FC = () => {
   ];
 
   const getIconNameForStatus = (status: LxdOperationStatus) => {
-    return (
-      {
-        Cancelled: "status-failed-small",
-        Failure: "status-failed-small",
-        Running: "status-in-progress-small",
-        Success: "status-succeeded-small",
-      }[status] ?? ""
-    );
+    return {
+      Cancelled: "status-failed-small",
+      Failure: "status-failed-small",
+      Running: "status-in-progress-small",
+      Success: "status-succeeded-small",
+    }[status];
   };
 
   const rows = operations.map((operation) => {

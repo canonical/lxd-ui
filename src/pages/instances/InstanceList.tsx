@@ -529,7 +529,9 @@ const InstanceList: FC = () => {
                     columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
                     hidden={userHidden}
                     setHidden={setHidden}
-                    className={classnames({ "u-hide": panelParams.instance })}
+                    className={classnames({
+                      "u-hide": panelParams.instance,
+                    })}
                   />
                   <SelectableMainTable
                     headers={getHeaders(userHidden.concat(sizeHidden))}
