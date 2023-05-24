@@ -123,7 +123,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
         </Col>
         <Col size={7} className="view-config">
           <Link
-            to={`/ui/${project}/profiles/detail/${
+            to={`/ui/project/${project}/profiles/detail/${
               profile.name
             }/configuration/${slugify(CLOUD_INIT)}`}
           >

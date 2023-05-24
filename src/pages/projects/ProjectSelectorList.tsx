@@ -41,7 +41,7 @@ const ProjectSelectorList: FC<Props> = ({ projects, onMount }): JSX.Element => {
         .map((project) => (
           <div key={project.name} className="p-contextual-menu__group">
             <Link
-              to={`/ui/${project.name}/${targetSection}`}
+              to={`/ui/project/${project.name}/${targetSection}`}
               className="p-contextual-menu__link link"
             >
               <div title={project.name} className="u-truncate name">

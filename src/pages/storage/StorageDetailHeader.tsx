@@ -41,7 +41,7 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
       renameStoragePool(name, values.name, project)
         .then(() => {
           navigate(
-            `/ui/${project}/storage/${values.name}`,
+            `/ui/project/${project}/storage/${values.name}`,
             notify.queue(notify.success("Storage pool renamed."))
           );
           void formik.setFieldValue("isRenaming", false);
@@ -56,7 +56,9 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
   return (
     <RenameHeader
       name={name}
-      parentItem={<Link to={`/ui/${project}/storage`}>Storage pools</Link>}
+      parentItem={
+        <Link to={`/ui/project/${project}/storage`}>Storage pools</Link>
+      }
       controls={
         <DeleteStorageBtn
           key="delete"

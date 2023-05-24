@@ -16,7 +16,7 @@ const ViewProfileInstancesBtn: FC<Props> = ({ profile, project }) => {
       className="u-no-margin u-no-padding"
       small
       onClick={() => {
-        navigate(`/ui/${project}/instances`, {
+        navigate(`/ui/project/${project}/instances`, {
           state: {
             appliedProfile: profile,
           },

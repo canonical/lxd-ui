@@ -51,7 +51,7 @@ const StorageList: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/${project}/storage/${storage.name}`}>
+            <Link to={`/ui/project/${project}/storage/${storage.name}`}>
               {storage.name}
             </Link>
           ),

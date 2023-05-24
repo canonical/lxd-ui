@@ -117,7 +117,7 @@ const NetworkList: FC = () => {
           hasNetworks && (
             <Button
               className="u-no-margin--bottom"
-              onClick={() => navigate(`/ui/${project}/networks/map`)}
+              onClick={() => navigate(`/ui/project/${project}/networks/map`)}
             >
               See map
             </Button>

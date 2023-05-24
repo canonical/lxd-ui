@@ -64,7 +64,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
             content: (
               // TODO: fix this link to point to the network detail page
               <Link
-                to={`/ui/${instance.project}/networks`}
+                to={`/ui/project/${instance.project}/networks`}
                 title={network.name}
               >
                 {network.name}

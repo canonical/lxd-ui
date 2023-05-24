@@ -28,7 +28,7 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
           queryKey: [queryKeys.storage],
         });
         navigate(
-          `/ui/${project}/storage`,
+          `/ui/project/${project}/storage`,
           notify.queue(notify.success(`Storage pool ${storage.name} deleted.`))
         );
       })

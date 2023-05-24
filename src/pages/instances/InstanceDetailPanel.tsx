@@ -135,7 +135,7 @@ const InstanceDetailPanel: FC = () => {
               <th>
                 <h3 className="p-muted-heading p-heading--5">
                   <Link
-                    to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration`}
+                    to={`/ui/project/${instance.project}/instances/detail/${instance.name}/configuration`}
                   >
                     Profiles
                   </Link>
@@ -147,7 +147,7 @@ const InstanceDetailPanel: FC = () => {
                   items={instance.profiles.map((name) => (
                     <Link
                       key={name}
-                      to={`/ui/${instance.project}/profiles/detail/${name}`}
+                      to={`/ui/project/${instance.project}/profiles/detail/${name}`}
                     >
                       {name}
                     </Link>
@@ -167,7 +167,7 @@ const InstanceDetailPanel: FC = () => {
                       // TODO: fix this link to point to the network detail page
                       <Link
                         key={item.network}
-                        to={`/ui/${instance.project}/networks`}
+                        to={`/ui/project/${instance.project}/networks`}
                       >
                         {item.network}
                       </Link>
@@ -183,7 +183,7 @@ const InstanceDetailPanel: FC = () => {
                     No networks found.
                     <br />
                     <Link
-                      to={`/ui/${instance.project}/instances/detail/${instance.name}/configuration/networks`}
+                      to={`/ui/project/${instance.project}/instances/detail/${instance.name}/configuration/networks`}
                     >
                       Configure instance networks
                     </Link>
@@ -195,7 +195,7 @@ const InstanceDetailPanel: FC = () => {
               <th colSpan={2} className="snapshots-header">
                 <h3 className="p-muted-heading p-heading--5">
                   <Link
-                    to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
+                    to={`/ui/project/${instance.project}/instances/detail/${instance.name}/snapshots`}
                   >
                     Snapshots
                   </Link>
@@ -229,7 +229,7 @@ const InstanceDetailPanel: FC = () => {
                   <tr>
                     <td colSpan={2}>
                       <Link
-                        to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
+                        to={`/ui/project/${instance.project}/instances/detail/${instance.name}/snapshots`}
                       >
                         {`View all (${instance.snapshots.length})`}
                       </Link>
@@ -244,7 +244,7 @@ const InstanceDetailPanel: FC = () => {
                     No snapshots found.
                     <br />
                     <Link
-                      to={`/ui/${instance.project}/instances/detail/${instance.name}/snapshots`}
+                      to={`/ui/project/${instance.project}/instances/detail/${instance.name}/snapshots`}
                     >
                       Manage instance snapshots
                     </Link>

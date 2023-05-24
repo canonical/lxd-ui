@@ -97,7 +97,7 @@ const CreateProjectForm: FC = () => {
       )
         .then(() => {
           navigate(
-            `/ui/${values.name}/instances`,
+            `/ui/project/${values.name}/instances`,
             notify.queue(notify.success(`Project ${values.name} created.`))
           );
         })

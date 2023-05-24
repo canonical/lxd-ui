@@ -121,7 +121,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       void formik.setFieldValue("yaml", undefined);
     }
 
-    const baseUrl = `/ui/${project}/instances/detail/${instance.name}/configuration`;
+    const baseUrl = `/ui/project/${project}/instances/detail/${instance.name}/configuration`;
     newSection === INSTANCE_DETAILS
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);

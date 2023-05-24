@@ -48,7 +48,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
       renameInstance(name, values.name, project)
         .then(() => {
           navigate(
-            `/ui/${project}/instances/detail/${values.name}`,
+            `/ui/project/${project}/instances/detail/${values.name}`,
             notify.queue(notify.success("Instance renamed."))
           );
           void formik.setFieldValue("isRenaming", false);
@@ -63,7 +63,9 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   return (
     <RenameHeader
       name={name}
-      parentItem={<Link to={`/ui/${project}/instances`}>Instances</Link>}
+      parentItem={
+        <Link to={`/ui/project/${project}/instances`}>Instances</Link>
+      }
       renameDisabledReason={
         instance?.status !== "Stopped"
           ? "Stop the instance to rename"

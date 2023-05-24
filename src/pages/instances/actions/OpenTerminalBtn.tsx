@@ -12,7 +12,7 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
 
   const handleOpen = () => {
     navigate(
-      `/ui/${instance.project}/instances/detail/${instance.name}/terminal`
+      `/ui/project/${instance.project}/instances/detail/${instance.name}/terminal`
     );
   };
 

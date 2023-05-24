@@ -12,7 +12,7 @@ interface Props {
 const InstanceLink: FC<Props> = ({ instance }) => {
   return (
     <Link
-      to={`/ui/${instance.project}/instances/detail/${instance.name}`}
+      to={`/ui/project/${instance.project}/instances/detail/${instance.name}`}
       onClick={(e) => e.stopPropagation()}
     >
       <ItemName item={instance} />

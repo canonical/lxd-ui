@@ -53,7 +53,7 @@ const ProfileDetailHeader: FC<Props> = ({
       renameProfile(name, values.name, project)
         .then(() => {
           navigate(
-            `/ui/${project}/profiles/detail/${values.name}`,
+            `/ui/project/${project}/profiles/detail/${values.name}`,
             notify.queue(notify.success("Profile renamed."))
           );
           void formik.setFieldValue("isRenaming", false);
@@ -68,7 +68,7 @@ const ProfileDetailHeader: FC<Props> = ({
   return (
     <RenameHeader
       name={name}
-      parentItem={<Link to={`/ui/${project}/profiles`}>Profiles</Link>}
+      parentItem={<Link to={`/ui/project/${project}/profiles`}>Profiles</Link>}
       renameDisabledReason={
         profile && profile.name === "default"
           ? "Cannot rename the default profile"
