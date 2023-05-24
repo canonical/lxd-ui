@@ -30,6 +30,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
     queryKey: [queryKeys.projects, project],
     queryFn: () => fetchProject(project),
     retry: false,
+    enabled: project.length > 0,
   });
 
   return (
