@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import {
-  MainTable,
-  Row,
   Button,
-  Notification,
-  SearchBox,
   Col,
+  MainTable,
+  Notification,
+  Row,
+  SearchBox,
 } from "@canonical/react-components";
 import { fetchProfiles } from "api/profiles";
 import { useQuery } from "@tanstack/react-query";
@@ -16,14 +16,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams from "util/usePanelParams";
 import { usePagination } from "util/pagination";
-import useEventListener from "@use-it/event-listener";
-import { updateTBodyHeight } from "util/updateTBodyHeight";
 import Pagination from "components/Pagination";
 import NotificationRow from "components/NotificationRow";
 import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
 import { useProject } from "context/project";
+import ScrollableTable from "components/ScrollableTable";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -158,17 +157,6 @@ const ProfileList: FC = () => {
 
   const pagination = usePagination(rows);
 
-  useEventListener("resize", () => updateTBodyHeight("profile-table-wrapper"));
-  useEffect(() => {
-    updateTBodyHeight("profile-table-wrapper");
-  }, [
-    profiles,
-    notify.notification,
-    query,
-    pagination.pageSize,
-    pagination.currentPage,
-  ]);
-
   return (
     <main className="l-main profile-list">
       <div className="p-panel">
@@ -209,23 +197,27 @@ const ProfileList: FC = () => {
                   available profiles are inherited from the default project.
                 </Notification>
               )}
-              <MainTable
-                headers={headers}
-                rows={pagination.pageData}
-                sortable
-                className="profile-table"
-                id="profile-table-wrapper"
-                emptyStateMsg={
-                  isLoading ? (
-                    <Loader text="Loading profiles..." />
-                  ) : (
-                    <>No profile found matching this search</>
-                  )
-                }
-                onUpdateSort={pagination.updateSort}
-              />
+              <ScrollableTable
+                dependencies={[filteredProfiles, notify.notification]}
+                belowId="pagination"
+              >
+                <MainTable
+                  headers={headers}
+                  rows={pagination.pageData}
+                  sortable
+                  emptyStateMsg={
+                    isLoading ? (
+                      <Loader text="Loading profiles..." />
+                    ) : (
+                      <>No profile found matching this search</>
+                    )
+                  }
+                  onUpdateSort={pagination.updateSort}
+                />
+              </ScrollableTable>
               <Pagination
                 {...pagination}
+                id="pagination"
                 totalCount={profiles.length}
                 visibleCount={
                   filteredProfiles.length === profiles.length

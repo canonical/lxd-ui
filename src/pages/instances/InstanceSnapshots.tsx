@@ -11,13 +11,13 @@ import SnapshotActions from "./actions/snapshots/SnapshotActions";
 import useEventListener from "@use-it/event-listener";
 import Pagination from "components/Pagination";
 import { usePagination } from "util/pagination";
-import { updateTBodyHeight } from "util/updateTBodyHeight";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import SnapshotBulkDelete from "pages/instances/actions/snapshots/SnapshotBulkDelete";
 import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSnapshotsBtn";
 import Loader from "components/Loader";
 import { useProject } from "context/project";
+import ScrollableTable from "components/ScrollableTable";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -175,17 +175,9 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
   const pagination = usePagination(rows, "created_at", "descending");
 
   const resize = () => {
-    updateTBodyHeight("snapshots-table-wrapper");
     setSmallScreen(figureCollapsedScreen());
   };
   useEventListener("resize", resize);
-  useEffect(resize, [
-    instance.snapshots,
-    inTabNotification,
-    query,
-    pagination.pageSize,
-    pagination.currentPage,
-  ]);
 
   return isLoading ? (
     <Loader />
@@ -258,26 +250,30 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       />
       {hasSnapshots ? (
         <>
-          <SelectableMainTable
-            headers={headers}
-            rows={pagination.pageData}
-            sortable
-            className="snapshots-table"
-            id="snapshots-table-wrapper"
-            emptyStateMsg="No snapshot found matching this search"
-            itemName="snapshot"
-            parentName="instance"
-            selectedNames={selectedNames}
-            setSelectedNames={setSelectedNames}
-            processingNames={processingNames}
-            totalCount={instance.snapshots?.length ?? 0}
-            filteredNames={filteredSnapshots.map((snapshot) => snapshot.name)}
-            onUpdateSort={pagination.updateSort}
-            defaultSort="created_at"
-            defaultSortDirection="descending"
-          />
+          <ScrollableTable
+            dependencies={[filteredSnapshots, inTabNotification]}
+            belowId="pagination"
+          >
+            <SelectableMainTable
+              headers={headers}
+              rows={pagination.pageData}
+              sortable
+              emptyStateMsg="No snapshot found matching this search"
+              itemName="snapshot"
+              parentName="instance"
+              selectedNames={selectedNames}
+              setSelectedNames={setSelectedNames}
+              processingNames={processingNames}
+              totalCount={instance.snapshots?.length ?? 0}
+              filteredNames={filteredSnapshots.map((snapshot) => snapshot.name)}
+              onUpdateSort={pagination.updateSort}
+              defaultSort="created_at"
+              defaultSortDirection="descending"
+            />
+          </ScrollableTable>
           <Pagination
             {...pagination}
+            id="pagination"
             totalCount={instance.snapshots?.length ?? 0}
             visibleCount={
               filteredSnapshots.length === instance.snapshots?.length
