@@ -88,7 +88,7 @@ const Navigation: FC = () => {
                           activeProject={project}
                         />
                       </li>
-                      <li className="p-side-navigation__item--title secondary">
+                      <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/instances`}
@@ -101,7 +101,7 @@ const Navigation: FC = () => {
                           Instances
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title secondary">
+                      <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/profiles`}
@@ -114,7 +114,7 @@ const Navigation: FC = () => {
                           Profiles
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title secondary">
+                      <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/networks`}
@@ -127,7 +127,7 @@ const Navigation: FC = () => {
                           Networks
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title secondary">
+                      <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/storage`}
@@ -140,7 +140,7 @@ const Navigation: FC = () => {
                           Storage pools
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title secondary">
+                      <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/operations`}
@@ -153,7 +153,7 @@ const Navigation: FC = () => {
                           Operations
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title secondary">
+                      <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
                           to={`/ui/${project}/configuration`}
@@ -167,7 +167,7 @@ const Navigation: FC = () => {
                         </NavLink>
                       </li>
                       <hr className="is-dark navigation-hr" />
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/cluster"
@@ -180,7 +180,7 @@ const Navigation: FC = () => {
                           Cluster
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/warnings"
@@ -193,7 +193,7 @@ const Navigation: FC = () => {
                           Warnings
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/settings"
@@ -210,7 +210,7 @@ const Navigation: FC = () => {
                   )}
                   {!isAuthenticated && (
                     <>
-                      <li className="p-side-navigation__item--title">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
                           to="/ui/certificates/generate"
@@ -227,7 +227,7 @@ const Navigation: FC = () => {
                   )}
                 </ul>
                 <ul className="p-side-navigation__list sidenav-bottom-ul">
-                  <li className="p-side-navigation__item--title">
+                  <li className="p-side-navigation__item">
                     <a
                       className="p-side-navigation__link"
                       href="https://linuxcontainers.org/lxd/docs/latest/"
@@ -242,7 +242,7 @@ const Navigation: FC = () => {
                       Documentation
                     </a>
                   </li>
-                  <li className="p-side-navigation__item--title">
+                  <li className="p-side-navigation__item">
                     <a
                       className="p-side-navigation__link"
                       href="https://discuss.linuxcontainers.org/"
@@ -257,7 +257,7 @@ const Navigation: FC = () => {
                       Discussion
                     </a>
                   </li>
-                  <li className="p-side-navigation__item--title">
+                  <li className="p-side-navigation__item">
                     <a
                       className="p-side-navigation__link"
                       href="https://github.com/canonical/lxd-ui/issues/new"
