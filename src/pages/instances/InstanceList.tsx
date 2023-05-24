@@ -19,7 +19,6 @@ import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import Pagination from "components/Pagination";
 import { usePagination } from "util/pagination";
-import { updateTBodyHeight } from "util/updateTBodyHeight";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
@@ -44,6 +43,7 @@ import {
   TYPE,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
+import ScrollableTable from "components/ScrollableTable";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -446,20 +446,6 @@ const InstanceList: FC = () => {
     creationOperations,
   ]);
 
-  const updateTableHeight = () => updateTBodyHeight("instance-table-wrapper");
-  useEventListener("resize", updateTableHeight);
-  useEffect(updateTableHeight, [
-    instances,
-    creationOperations,
-    notify.notification,
-    filters.queries,
-    filters.statuses,
-    filters.types,
-    filters.profileQueries,
-    pagination.pageSize,
-    pagination.currentPage,
-  ]);
-
   const hasInstances =
     isLoading || instances.length > 0 || creationOperations.length > 0;
   const selectedInstances = instances.filter((instance) =>
@@ -535,32 +521,36 @@ const InstanceList: FC = () => {
                       "u-hide": panelParams.instance,
                     })}
                   />
-                  <SelectableMainTable
-                    headers={getHeaders(userHidden.concat(sizeHidden))}
-                    rows={pagination.pageData}
-                    sortable
-                    className="instance-table"
-                    id="instance-table-wrapper"
-                    emptyStateMsg={
-                      isLoading ? (
-                        <Loader text="Loading instances..." />
-                      ) : (
-                        <>No instance found matching this search</>
-                      )
-                    }
-                    itemName="instance"
-                    parentName="project"
-                    selectedNames={selectedNames}
-                    setSelectedNames={setSelectedNames}
-                    processingNames={processingNames}
-                    totalCount={instances.length}
-                    filteredNames={filteredInstances.map(
-                      (instance) => instance.name
-                    )}
-                    onUpdateSort={pagination.updateSort}
-                  />
+                  <ScrollableTable
+                    belowId="pagination"
+                    dependencies={[filteredInstances, notify.notification]}
+                  >
+                    <SelectableMainTable
+                      headers={getHeaders(userHidden.concat(sizeHidden))}
+                      rows={pagination.pageData}
+                      sortable
+                      emptyStateMsg={
+                        isLoading ? (
+                          <Loader text="Loading instances..." />
+                        ) : (
+                          <>No instance found matching this search</>
+                        )
+                      }
+                      itemName="instance"
+                      parentName="project"
+                      selectedNames={selectedNames}
+                      setSelectedNames={setSelectedNames}
+                      processingNames={processingNames}
+                      totalCount={instances.length}
+                      filteredNames={filteredInstances.map(
+                        (instance) => instance.name
+                      )}
+                      onUpdateSort={pagination.updateSort}
+                    />
+                  </ScrollableTable>
                   <Pagination
                     {...pagination}
+                    id="pagination"
                     totalCount={instances.length + creationOperations.length}
                     visibleCount={
                       filteredInstances.length === instances.length
@@ -573,7 +563,7 @@ const InstanceList: FC = () => {
                     <SelectableMainTable
                       headers={getHeaders(userHidden)}
                       rows={getRows(userHidden)}
-                      className="instance-table u-table-layout--auto"
+                      className="scrollable-table"
                       itemName="instance"
                       parentName="project"
                       selectedNames={selectedNames}

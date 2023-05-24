@@ -1,5 +1,5 @@
 import { Button, Icon, Input, Select } from "@canonical/react-components";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, HTMLAttributes, useEffect, useState } from "react";
 import { paginationOptions } from "util/pagination";
 import useEventListener from "@use-it/event-listener";
 
@@ -11,7 +11,7 @@ const figureSmallScreen = () => {
   return descriptionElement.getBoundingClientRect().width < 230;
 };
 
-interface Props {
+type Props = {
   pageSize: number;
   setPageSize: (val: number) => void;
   currentPage: number;
@@ -20,7 +20,7 @@ interface Props {
   totalCount: number;
   totalPages: number;
   keyword: string;
-}
+} & HTMLAttributes<HTMLDivElement>;
 
 const Pagination: FC<Props> = ({
   pageSize,
@@ -31,6 +31,7 @@ const Pagination: FC<Props> = ({
   totalCount,
   totalPages,
   keyword,
+  ...divProps
 }) => {
   const [isSmallScreen, setSmallScreen] = useState(figureSmallScreen());
 
@@ -41,7 +42,7 @@ const Pagination: FC<Props> = ({
   useEffect(resize, []);
 
   return (
-    <div className="pagination">
+    <div className="pagination" {...divProps}>
       <div className="description" id="pagination-description">
         {isSmallScreen
           ? `${visibleCount}\xa0out\xa0of\xa0${totalCount}`

@@ -1,0 +1,36 @@
+.scrollable-table {
+  table {
+    margin-bottom: 0;
+  }
+
+  th,
+  td {
+    display: table-cell;
+    vertical-align: top;
+  }
+
+  th::before {
+    content: "";
+    display: inline-block;
+    height: 1rem;
+  }
+
+  thead,
+  tbody {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  tbody {
+    height: calc(100vh - 323px);
+  }
+
+  thead tr,
+  tbody tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+}

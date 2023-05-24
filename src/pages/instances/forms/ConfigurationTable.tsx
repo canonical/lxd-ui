@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { Icon, MainTable, Tooltip } from "@canonical/react-components";
 import {
   MainTableCell,
@@ -8,9 +8,9 @@ import {
 import { figureCollapsedScreen } from "util/formFields";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import useEventListener from "@use-it/event-listener";
-import { updateTBodyHeight } from "util/updateTBodyHeight";
 import { useNotify } from "context/notify";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
+import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -32,11 +32,9 @@ const ConfigurationTable: FC<Props> = ({
   const isCollapsedView = isSmallScreen || isCollapsedOverride;
 
   const resize = () => {
-    updateTBodyHeight("configuration-table");
     setSmallScreen(figureCollapsedScreen());
   };
   useEventListener("resize", resize);
-  useEffect(resize, [notify.notification]);
 
   const isReadOnly = formik.values.readOnly;
 
@@ -104,13 +102,14 @@ const ConfigurationTable: FC<Props> = ({
   ];
 
   return (
-    <MainTable
-      className="u-table-layout--fixed configuration-table"
-      id="configuration-table"
-      emptyStateMsg={emptyStateMsg}
-      headers={filterHeaders(headers)}
-      rows={filterRows(collapseRows(rows))}
-    />
+    <ScrollableTable dependencies={[notify.notification]}>
+      <MainTable
+        className="configuration-table"
+        emptyStateMsg={emptyStateMsg}
+        headers={filterHeaders(headers)}
+        rows={filterRows(collapseRows(rows))}
+      />
+    </ScrollableTable>
   );
 };
 

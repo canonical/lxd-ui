@@ -44,75 +44,44 @@
     }
   }
 
-  .snapshots-table {
-    margin-bottom: 0;
+  th:last-child,
+  td:last-child {
+    display: none !important;
+  }
 
-    th,
-    td {
-      display: table-cell;
-      vertical-align: top;
-    }
+  .name {
+    min-width: 170px;
+  }
 
-    th:last-child {
-      display: none;
-    }
+  .created {
+    min-width: 200px;
+  }
 
-    td:last-child {
-      padding-right: $sph--large;
-    }
+  .expiration {
+    min-width: 200px;
+  }
 
-    thead,
-    tbody {
-      display: block;
-      overflow-y: auto;
-      scrollbar-gutter: stable;
-    }
+  .stateful {
+    width: 105px;
+  }
 
-    tbody {
-      height: calc(100vh - 323px);
-    }
+  .actions {
+    width: 240px;
+  }
 
-    thead tr,
-    tbody tr {
-      display: table;
-      table-layout: fixed;
-      width: 100%;
-    }
+  .u-row:hover {
+    background-color: $colors--light-theme--background-hover;
+  }
 
-    .name {
-      min-width: 170px;
-    }
-
-    .created {
-      min-width: 200px;
-    }
-
-    .expiration {
-      min-width: 200px;
-    }
-
-    .stateful {
-      width: 105px;
-    }
-
-    .actions {
-      width: 240px;
+  // show actions only on hover if a pointing device is used
+  @media screen and (pointer: fine) {
+    .u-snapshot-actions {
+      visibility: hidden;
     }
 
     .u-row:hover {
-      background-color: $colors--light-theme--background-hover;
-    }
-
-    // show actions only on hover if a pointing device is used
-    @media screen and (pointer: fine) {
       .u-snapshot-actions {
-        visibility: hidden;
-      }
-
-      .u-row:hover {
-        .u-snapshot-actions {
-          visibility: visible;
-        }
+        visibility: visible;
       }
     }
   }

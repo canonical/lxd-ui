@@ -52,34 +52,6 @@
     cursor: pointer;
   }
 
-  .profile-table {
-    margin-bottom: 0;
-
-    th::before {
-      content: "";
-      display: inline-block;
-      height: 1rem;
-    }
-
-    thead,
-    tbody {
-      display: block;
-      overflow-y: auto;
-      scrollbar-gutter: stable;
-    }
-
-    tbody {
-      height: calc(100vh - 323px);
-    }
-
-    thead tr,
-    tbody tr {
-      display: table;
-      table-layout: fixed;
-      width: 100%;
-    }
-  }
-
   .p-pagination__items {
     justify-content: flex-end;
   }
