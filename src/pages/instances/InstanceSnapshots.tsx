@@ -16,10 +16,8 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import SnapshotBulkDelete from "pages/instances/actions/snapshots/SnapshotBulkDelete";
 import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSnapshotsBtn";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
-import { fetchProject } from "api/projects";
-import { queryKeys } from "util/queryKeys";
+import { useProject } from "context/project";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -46,18 +44,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     setInTabNotification(failure(title, e));
   };
 
-  const {
-    data: project,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: [queryKeys.projects, instance.project],
-    queryFn: () => fetchProject(instance.project),
-  });
-
-  if (error) {
-    onFailure("Loading project failed", error);
-  }
+  const { project, isLoading } = useProject();
 
   const snapshotsDisabled = project?.config["restricted.snapshots"] === "block";
 

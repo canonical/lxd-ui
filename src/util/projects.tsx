@@ -9,13 +9,9 @@ export const projectSubpages = [
   "configuration",
 ];
 
-export const getProjectFromUrl = (url: string) => {
-  return url.split("/")[3] ?? "";
-};
-
 export const getSubpageFromUrl = (url: string) => {
   const parts = url.split("/");
-  if (projectSubpages.includes(parts[3])) {
+  if (projectSubpages.includes(parts[4])) {
     return parts[4];
   }
   return undefined;

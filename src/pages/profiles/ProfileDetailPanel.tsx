@@ -5,13 +5,13 @@ import usePanelParams from "util/usePanelParams";
 import { useNotify } from "context/notify";
 import { fetchProfile } from "api/profiles";
 import ProfileLink from "./ProfileLink";
-import { fetchProject } from "api/projects";
 import { isProjectWithProfiles } from "util/projects";
 import { getProfileInstances } from "util/usedBy";
 import ProfileInstances from "./ProfileInstances";
 import DetailPanel from "components/DetailPanel";
 import ProfileNetworkList from "./ProfileNetworkList";
 import ProfileStorageList from "./ProfileStorageList";
+import { useProject } from "context/project";
 
 const ProfileDetailPanel: FC = () => {
   const notify = useNotify();
@@ -19,6 +19,8 @@ const ProfileDetailPanel: FC = () => {
 
   const profileName = panelParams.profile;
   const projectName = panelParams.project;
+
+  const { project, isLoading: isProjectLoading } = useProject();
 
   const {
     data: profile,
@@ -29,22 +31,10 @@ const ProfileDetailPanel: FC = () => {
     queryFn: () => fetchProfile(profileName ?? "", projectName),
   });
 
-  const {
-    data: project,
-    error: projectError,
-    isLoading: isProjectLoading,
-  } = useQuery({
-    queryKey: [queryKeys.projects, projectName],
-    queryFn: () => fetchProject(projectName),
-  });
-
   if (error) {
     notify.failure("Loading profile failed", error);
   }
 
-  if (projectError) {
-    notify.failure("Loading project failed", error);
-  }
   const isLoading = isProfileLoading || isProjectLoading;
 
   const featuresProfiles = isProjectWithProfiles(project);

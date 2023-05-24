@@ -4,7 +4,6 @@ import { queryKeys } from "util/queryKeys";
 import { fetchProject } from "api/projects";
 import { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
-import { getProjectFromUrl } from "util/projects";
 
 interface ContextProps {
   project?: LxdProject;
@@ -24,7 +23,8 @@ interface ProviderProps {
 
 export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const location = useLocation();
-  const project = getProjectFromUrl(location.pathname);
+  const url = location.pathname;
+  const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
 
   const { data, isLoading } = useQuery({
     queryKey: [queryKeys.projects, project],

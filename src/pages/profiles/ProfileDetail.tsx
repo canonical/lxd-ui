@@ -11,8 +11,8 @@ import EditProfileForm from "pages/profiles/EditProfileForm";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
 import { slugify } from "util/slugify";
-import { fetchProject } from "api/projects";
 import { isProjectWithProfiles } from "util/projects";
+import { useProject } from "context/project";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -36,6 +36,8 @@ const ProfileDetail: FC = () => {
     return <>Missing project</>;
   }
 
+  const { project, isLoading: isProjectLoading } = useProject();
+
   const {
     data: profile,
     error,
@@ -45,22 +47,10 @@ const ProfileDetail: FC = () => {
     queryFn: () => fetchProfile(name, projectName),
   });
 
-  const {
-    data: project,
-    error: projectError,
-    isLoading: isProjectLoading,
-  } = useQuery({
-    queryKey: [queryKeys.projects, projectName],
-    queryFn: () => fetchProject(projectName),
-  });
-
   if (error) {
     notify.failure("Loading profile failed", error);
   }
 
-  if (projectError) {
-    notify.failure("Loading project failed", projectError);
-  }
   const isLoading = isProfileLoading || isProjectLoading;
 
   const featuresProfiles = isProjectWithProfiles(project);

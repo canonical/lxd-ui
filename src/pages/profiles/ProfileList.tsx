@@ -20,10 +20,10 @@ import useEventListener from "@use-it/event-listener";
 import { updateTBodyHeight } from "util/updateTBodyHeight";
 import Pagination from "components/Pagination";
 import NotificationRow from "components/NotificationRow";
-import { fetchProject } from "api/projects";
 import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
+import { useProject } from "context/project";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -37,6 +37,8 @@ const ProfileList: FC = () => {
   }
   const isDefaultProject = projectName === "default";
 
+  const { project, isLoading: isProjectLoading } = useProject();
+
   const {
     data: profiles = [],
     error,
@@ -46,22 +48,10 @@ const ProfileList: FC = () => {
     queryFn: () => fetchProfiles(projectName),
   });
 
-  const {
-    data: project,
-    error: projectError,
-    isLoading: isProjectLoading,
-  } = useQuery({
-    queryKey: [queryKeys.projects, projectName],
-    queryFn: () => fetchProject(projectName),
-  });
-
   if (error) {
     notify.failure("Loading profiles failed", error);
   }
 
-  if (projectError) {
-    notify.failure("Loading project failed", projectError);
-  }
   const isLoading = isProfilesLoading || isProjectLoading;
 
   const featuresProfiles = isProjectWithProfiles(project);
