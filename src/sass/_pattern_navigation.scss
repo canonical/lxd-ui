@@ -117,10 +117,10 @@
 
 .l-navigation.is-collapsed .sidenav-toggle-wrapper {
   text-align: left;
+}
 
-  .sidenav-toggle {
-    rotate: 180deg;
-  }
+.sidenav-toggle.is-rotated {
+  rotate: 180deg;
 }
 
 @media screen and (max-width: $breakpoint-x-large) and (max-height: 680px),

@@ -17,6 +17,7 @@ const Navigation: FC = () => {
   const { isRestricted } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
+  const [isHover, setHover] = useState(false);
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default"
   );
@@ -35,6 +36,7 @@ const Navigation: FC = () => {
 
   const hardToggleMenu = (e: MouseEvent<HTMLElement>) => {
     setMenuCollapsed((prev) => !prev);
+    setHover(false);
     e.stopPropagation();
   };
 
@@ -59,10 +61,12 @@ const Navigation: FC = () => {
       <nav
         aria-label="main navigation"
         className={classnames("l-navigation", {
-          "is-collapsed": menuCollapsed,
-          "is-pinned": !menuCollapsed,
+          "is-collapsed": menuCollapsed && (isSmallScreen() || !isHover),
+          "is-pinned": !menuCollapsed || (!isSmallScreen() && isHover),
         })}
         onClick={softToggleMenu}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
       >
         <div className="l-navigation__drawer">
           <div className="p-panel is-dark">
@@ -315,7 +319,10 @@ const Navigation: FC = () => {
                 } main navigation`}
                 hasIcon
                 dense
-                className="sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small"
+                className={classnames(
+                  "sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small",
+                  { "is-rotated": menuCollapsed }
+                )}
                 onClick={hardToggleMenu}
               >
                 <Icon light name="sidebar-toggle" />
