@@ -33,7 +33,9 @@ const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
 
     return (
       <div className="p-text--small tooltip">
-        <a href={`/ui/${instance.project}/instances/detail/${instance.name}`}>
+        <a
+          href={`/ui/project/${instance.project}/instances/detail/${instance.name}`}
+        >
           <ItemName item={instance} />
         </a>
         <br />

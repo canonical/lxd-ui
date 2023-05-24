@@ -135,7 +135,7 @@ const CreateInstanceForm: FC = () => {
 
   const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
     const formUrl = location.pathname + location.search;
-    navigate(`/ui/${project}/instances`);
+    navigate(`/ui/project/${project}/instances`);
 
     const instancePayload = values.yaml
       ? yamlToObject(values.yaml)
@@ -150,7 +150,7 @@ const CreateInstanceForm: FC = () => {
           return;
         }
         const instanceLink = (
-          <Link to={`/ui/${project}/instances/detail/${instanceName}`}>
+          <Link to={`/ui/project/${project}/instances/detail/${instanceName}`}>
             {instanceName}
           </Link>
         );
@@ -313,7 +313,7 @@ const CreateInstanceForm: FC = () => {
               <Col size={12}>
                 <Button
                   appearance="base"
-                  onClick={() => navigate(`/ui/${project}/instances`)}
+                  onClick={() => navigate(`/ui/project/${project}/instances`)}
                 >
                   Cancel
                 </Button>

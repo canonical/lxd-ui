@@ -44,7 +44,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
       renameProject(project.name, values.name)
         .then(() => {
           navigate(
-            `/ui/${values.name}/configuration`,
+            `/ui/project/${values.name}/configuration`,
             notify.queue(notify.success("Project renamed."))
           );
           void formik.setFieldValue("isRenaming", false);

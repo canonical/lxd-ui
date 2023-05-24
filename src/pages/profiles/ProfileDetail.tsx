@@ -68,9 +68,9 @@ const ProfileDetail: FC = () => {
   const handleTabChange = (newTab: string) => {
     notify.clear();
     if (newTab === "overview") {
-      navigate(`/ui/${projectName}/profiles/detail/${name}`);
+      navigate(`/ui/project/${projectName}/profiles/detail/${name}`);
     } else {
-      navigate(`/ui/${projectName}/profiles/detail/${name}/${newTab}`);
+      navigate(`/ui/project/${projectName}/profiles/detail/${name}/${newTab}`);
     }
   };
 

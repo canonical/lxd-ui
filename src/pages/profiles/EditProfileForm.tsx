@@ -146,7 +146,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
       void formik.setFieldValue("yaml", undefined);
     }
 
-    const baseUrl = `/ui/${project}/profiles/detail/${profile.name}/configuration`;
+    const baseUrl = `/ui/project/${project}/profiles/detail/${profile.name}/configuration`;
     newSection === PROFILE_DETAILS
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);

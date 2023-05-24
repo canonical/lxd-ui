@@ -106,7 +106,7 @@ const CreateProfileForm: FC = () => {
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
           navigate(
-            `/ui/${project}/profiles`,
+            `/ui/project/${project}/profiles`,
             notify.queue(notify.success(`Profile ${values.name} created.`))
           );
         })
@@ -219,7 +219,7 @@ const CreateProfileForm: FC = () => {
               <Col size={12}>
                 <Button
                   appearance="base"
-                  onClick={() => navigate(`/ui/${project}/profiles`)}
+                  onClick={() => navigate(`/ui/project/${project}/profiles`)}
                 >
                   Cancel
                 </Button>

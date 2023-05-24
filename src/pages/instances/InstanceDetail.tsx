@@ -57,9 +57,9 @@ const InstanceDetail: FC = () => {
   const handleTabChange = (newTab: string) => {
     notify.clear();
     if (newTab === "overview") {
-      navigate(`/ui/${project}/instances/detail/${name}`);
+      navigate(`/ui/project/${project}/instances/detail/${name}`);
     } else {
-      navigate(`/ui/${project}/instances/detail/${name}/${newTab}`);
+      navigate(`/ui/project/${project}/instances/detail/${name}/${newTab}`);
     }
   };
 

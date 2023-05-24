@@ -24,7 +24,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     deleteProject(project)
       .then(() => {
         navigate(
-          `/ui/default/instances`,
+          `/ui/project/default/instances`,
           notify.queue(notify.success(`Project ${project.name} deleted.`))
         );
       })

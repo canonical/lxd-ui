@@ -58,7 +58,9 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             className="u-no-margin--bottom"
             items={data[PROFILES].map((item) => (
               <Fragment key={item.name}>
-                <Link to={`/ui/${item.project}/profiles/detail/${item.name}`}>
+                <Link
+                  to={`/ui/project/${item.project}/profiles/detail/${item.name}`}
+                >
                   {item.name}
                 </Link>
                 {item.project !== project && ` (project ${item.project})`}
@@ -92,7 +94,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             items={data[SNAPSHOTS].map((item) => (
               <Fragment key={item.name}>
                 <Link
-                  to={`/ui/${item.project}/instances/detail/${item.instance}/snapshots`}
+                  to={`/ui/project/${item.project}/instances/detail/${item.instance}/snapshots`}
                 >
                   {`${item.instance} ${item.name}`}
                 </Link>

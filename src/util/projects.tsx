@@ -10,13 +10,13 @@ export const projectSubpages = [
 ];
 
 export const getProjectFromUrl = (url: string) => {
-  return url.split("/")[2] ?? "";
+  return url.split("/")[3] ?? "";
 };
 
 export const getSubpageFromUrl = (url: string) => {
   const parts = url.split("/");
   if (projectSubpages.includes(parts[3])) {
-    return parts[3];
+    return parts[4];
   }
   return undefined;
 };

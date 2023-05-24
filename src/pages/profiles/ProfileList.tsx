@@ -201,7 +201,9 @@ const ProfileList: FC = () => {
             <Button
               appearance="positive"
               className="u-no-margin--bottom"
-              onClick={() => navigate(`/ui/${projectName}/profiles/create`)}
+              onClick={() =>
+                navigate(`/ui/project/${projectName}/profiles/create`)
+              }
             >
               Create profile
             </Button>

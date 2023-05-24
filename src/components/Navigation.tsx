@@ -93,7 +93,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${projectName}/instances`}
+                          to={`/ui/project/${projectName}/instances`}
                           title={`Instances (${projectName})`}
                         >
                           <Icon
@@ -106,7 +106,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${projectName}/profiles`}
+                          to={`/ui/project/${projectName}/profiles`}
                           title={`Profiles (${projectName})`}
                         >
                           <Icon
@@ -119,7 +119,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${projectName}/networks`}
+                          to={`/ui/project/${projectName}/networks`}
                           title={`Networks (${projectName})`}
                         >
                           <Icon
@@ -132,7 +132,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${projectName}/storage`}
+                          to={`/ui/project/${projectName}/storage`}
                           title={`Storage pools (${projectName})`}
                         >
                           <Icon
@@ -145,7 +145,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${projectName}/operations`}
+                          to={`/ui/project/${projectName}/operations`}
                           title={`Operations (${projectName})`}
                         >
                           <Icon
@@ -158,7 +158,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/${projectName}/configuration`}
+                          to={`/ui/project/${projectName}/configuration`}
                           title={`Configuration (${projectName})`}
                         >
                           <Icon
