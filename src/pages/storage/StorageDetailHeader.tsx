@@ -64,6 +64,7 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
           key="delete"
           storage={storagePool}
           project={project}
+          shouldExpand={true}
         />
       }
       isLoaded={true}

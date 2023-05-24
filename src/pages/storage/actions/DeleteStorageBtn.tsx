@@ -7,13 +7,20 @@ import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import { useNavigate } from "react-router-dom";
+import { useDeleteIcon } from "context/useDeleteIcon";
 
 interface Props {
   storage: LxdStoragePool;
   project: string;
+  shouldExpand?: boolean;
 }
 
-const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
+const DeleteStorageBtn: FC<Props> = ({
+  storage,
+  project,
+  shouldExpand = false,
+}) => {
+  const isSmallScreen = useDeleteIcon();
   const navigate = useNavigate();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
@@ -40,11 +47,13 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
 
   return (
     <ConfirmationButton
-      toggleAppearance="base"
+      toggleAppearance={!isSmallScreen && shouldExpand ? "default" : "base"}
       className="u-no-margin--bottom"
       isLoading={isLoading}
-      icon="delete"
       title="Confirm delete"
+      toggleCaption={
+        !isSmallScreen && shouldExpand ? "Delete storage" : undefined
+      }
       confirmMessage={
         <>
           Are you sure you want to delete storage{" "}
@@ -54,7 +63,8 @@ const DeleteStorageBtn: FC<Props> = ({ storage, project }) => {
       }
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDense={true}
+      isDense={!shouldExpand}
+      icon={!isSmallScreen && shouldExpand ? undefined : "delete"}
     />
   );
 };

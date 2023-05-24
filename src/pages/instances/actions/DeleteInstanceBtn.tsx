@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
+import { useDeleteIcon } from "context/useDeleteIcon";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
+  const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -42,11 +44,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   return (
     <ConfirmationButton
       onHoverText="Delete instance"
-      toggleAppearance="base"
-      className="delete-instance-btn"
+      toggleAppearance={isDeleteIcon ? "base" : "default"}
+      className="u-no-margin--bottom"
       isLoading={isLoading}
-      icon="delete"
       title="Confirm delete"
+      toggleCaption={isDeleteIcon ? undefined : "Delete instance"}
       confirmMessage={
         <>
           Are you sure you want to delete instance{" "}
@@ -57,7 +59,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDisabled={isDisabled}
-      isDense
+      isDense={false}
+      icon={isDeleteIcon ? "delete" : undefined}
     />
   );
 };
