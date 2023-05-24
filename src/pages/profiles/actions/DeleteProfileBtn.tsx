@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { LxdProfile } from "types/profile";
 import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
+import { useDeleteIcon } from "context/useDeleteIcon";
 
 interface Props {
   profile: LxdProfile;
@@ -17,6 +18,7 @@ const DeleteProfileBtn: FC<Props> = ({
   project,
   featuresProfiles,
 }) => {
+  const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -38,11 +40,11 @@ const DeleteProfileBtn: FC<Props> = ({
   return (
     <ConfirmationButton
       onHoverText="Delete profile"
-      toggleAppearance="base"
-      className="delete-profile-btn"
+      toggleAppearance={isDeleteIcon ? "base" : "default"}
+      className="u-no-margin--bottom"
       isLoading={isLoading}
-      icon="delete"
       title="Confirm delete"
+      toggleCaption={isDeleteIcon ? undefined : "Delete profile"}
       confirmMessage={
         <>
           Are you sure you want to delete profile{" "}
@@ -53,7 +55,8 @@ const DeleteProfileBtn: FC<Props> = ({
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
       isDisabled={profile.name === "default" || !featuresProfiles}
-      isDense
+      isDense={false}
+      icon={isDeleteIcon ? "delete" : undefined}
     />
   );
 };

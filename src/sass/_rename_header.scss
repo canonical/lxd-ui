@@ -4,7 +4,7 @@
     flex-direction: column;
     max-width: none;
 
-    @include large {
+    @include extra-large {
       align-items: center;
       flex-direction: row;
     }
