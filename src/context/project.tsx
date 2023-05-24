@@ -29,6 +29,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const { data, isLoading } = useQuery({
     queryKey: [queryKeys.projects, project],
     queryFn: () => fetchProject(project),
+    retry: false,
   });
 
   return (
