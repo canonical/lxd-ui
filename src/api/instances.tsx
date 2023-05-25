@@ -41,9 +41,7 @@ export const createInstance = (
       body: body,
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };

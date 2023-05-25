@@ -10,7 +10,7 @@ interface Props {
 
 const InstanceStatusIcon: FC<Props> = ({ instance }) => {
   const instanceLoading = useInstanceLoading();
-  const loadingState = instanceLoading.getType(instance);
+  const loadingType = instanceLoading.getType(instance);
 
   const getIconNameForStatus = (status: string) => {
     return (
@@ -25,10 +25,10 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
     );
   };
 
-  return loadingState ? (
+  return loadingType ? (
     <>
       <Icon className="u-animation--spin status-icon" name="spinner" />
-      <i>{loadingState}</i>
+      <i>{loadingType}</i>
     </>
   ) : (
     <>
