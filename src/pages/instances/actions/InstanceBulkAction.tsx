@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, Fragment, ReactNode } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
 import {
   LxdInstance,
@@ -70,11 +70,11 @@ const InstanceBulkAction: FC<Props> = ({
       const instance = count === 1 ? "instance that is" : "instances that are";
       const already = desiredAction !== "restart" ? "already " : "";
       return (
-        <>
+        <Fragment key={currentState + desiredAction}>
           - No action for <b>{count}</b> {instance} {already}
           {currentState.toLowerCase().replace("frozen", "paused")}.
           <br />
-        </>
+        </Fragment>
       );
     }
 
@@ -82,12 +82,12 @@ const InstanceBulkAction: FC<Props> = ({
     const action = instanceActionLabel(actionRaw);
 
     return (
-      <>
+      <Fragment key={currentState + desiredAction}>
         {indent}
         <b>{count}</b>
         {` ${status} ${pluralizeInstance(count)} will be ${action}.`}
         <br />
-      </>
+      </Fragment>
     );
   };
 
