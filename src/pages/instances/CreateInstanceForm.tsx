@@ -58,6 +58,7 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
+import { useEventQueue } from "context/eventQueue";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -72,6 +73,7 @@ interface RetryFormState {
 }
 
 const CreateInstanceForm: FC = () => {
+  const eventQueue = useEventQueue();
   const location = useLocation() as Location<RetryFormState | null>;
   const navigate = useNavigate();
   const notify = useNotify();
@@ -133,6 +135,37 @@ const CreateInstanceForm: FC = () => {
     ]);
   }
 
+  const creationCompletedHandler = (
+    instanceName: string,
+    shouldStart: boolean
+  ) => {
+    const instanceLink = (
+      <Link to={`/ui/project/${project}/instances/detail/${instanceName}`}>
+        {instanceName}
+      </Link>
+    );
+
+    if (shouldStart) {
+      startInstance({
+        name: instanceName,
+        project: project,
+      } as LxdInstance)
+        .then(() => {
+          notifyLaunchedAndStarted(instanceLink);
+        })
+        .catch((e: Error) => {
+          notifyCreatedButStartFailed(instanceLink, e);
+        })
+        .finally(() => {
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances],
+          });
+        });
+    } else {
+      notifyLaunched(instanceLink);
+    }
+  };
+
   const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
     const formUrl = location.pathname + location.search;
     navigate(`/ui/project/${project}/instances`);
@@ -149,30 +182,11 @@ const CreateInstanceForm: FC = () => {
         if (!instanceName) {
           return;
         }
-        const instanceLink = (
-          <Link to={`/ui/project/${project}/instances/detail/${instanceName}`}>
-            {instanceName}
-          </Link>
+        eventQueue.set(
+          operation.metadata.id,
+          () => creationCompletedHandler(instanceName, shouldStart),
+          (msg) => notifyLaunchFailed(new Error(msg), formUrl, values)
         );
-        if (shouldStart) {
-          startInstance({
-            name: instanceName,
-            project: project,
-          } as LxdInstance)
-            .then(() => {
-              notifyLaunchedAndStarted(instanceLink);
-            })
-            .catch((e: Error) => {
-              notifyCreatedButStartFailed(instanceLink, e);
-            })
-            .finally(() => {
-              void queryClient.invalidateQueries({
-                queryKey: [queryKeys.instances],
-              });
-            });
-        } else {
-          notifyLaunched(instanceLink);
-        }
       })
       .catch((e: Error) => {
         if (e.message === "Cancelled") {

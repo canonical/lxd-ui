@@ -10,6 +10,8 @@ import App from "./App";
 import "./sass/styles.scss";
 import { ProjectProvider } from "context/project";
 import { InstanceLoadingProvider } from "context/instanceLoading";
+import Events from "pages/instances/Events";
+import { EventQueueProvider } from "context/eventQueue";
 
 const queryClient = new QueryClient();
 
@@ -23,11 +25,14 @@ root.render(
         <AuthProvider>
           <ProjectProvider>
             <InstanceLoadingProvider>
-              <div className="l-application" role="presentation">
-                <Navigation />
-                <App />
-                <Panels />
-              </div>
+              <EventQueueProvider>
+                <div className="l-application" role="presentation">
+                  <Navigation />
+                  <App />
+                  <Panels />
+                  <Events />
+                </div>
+              </EventQueueProvider>
             </InstanceLoadingProvider>
           </ProjectProvider>
         </AuthProvider>
