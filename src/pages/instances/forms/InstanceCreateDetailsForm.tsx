@@ -49,7 +49,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
     const image = formik.values.image;
     return image
       ? `${image.os} ${image.release} ${image.aliases.split(",")[0]}`
-      : undefined;
+      : "";
   }
 
   return (
