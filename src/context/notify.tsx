@@ -77,12 +77,14 @@ export const NotifyProvider: FC<NotifyProviderProps> = ({ children }) => {
   const [notification, setNotification] = useState<Notification | null>(null);
   const { state, pathname } = useLocation() as QueuedNotification;
 
+  const clear = () => notification !== null && setNotification(null);
+
   useEffect(() => {
     if (state?.queuedNotification) {
       setDeduplicated(state.queuedNotification);
       window.history.replaceState({}, "");
     } else {
-      notification !== null && setNotification(null);
+      clear();
     }
   }, [state, pathname]);
 
@@ -95,7 +97,7 @@ export const NotifyProvider: FC<NotifyProviderProps> = ({ children }) => {
 
   const helper: NotificationHelper = {
     notification,
-    clear: () => notification !== null && setNotification(null),
+    clear,
     queue,
     failure: (title, error, message, actions) =>
       setDeduplicated(failure(title, error, message, actions)),
