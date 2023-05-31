@@ -159,8 +159,4 @@ export const getUrlParam = (paramName: string, url?: string): string | null => {
 export const defaultFirst = (p1: { name: string }, p2: { name: string }) =>
   p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0;
 
-export const isWidthBelow = (width: number) => {
-  // using the max from both, because there is a bug in chrome, causing a 0 outerWidth for
-  // background tabs: https://bugs.chromium.org/p/chromium/issues/detail?id=719296
-  return Math.max(window.outerWidth, window.innerWidth) < width;
-};
+export const isWidthBelow = (width: number) => window.innerWidth < width;

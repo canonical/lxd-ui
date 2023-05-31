@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useState } from "react";
+import React, { FC, MouseEvent } from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import { useAuth } from "context/auth";
@@ -9,12 +9,12 @@ import ServerVersion from "components/ServerVersion";
 import useEventListener from "@use-it/event-listener";
 import { isWidthBelow } from "util/helpers";
 import { useProject } from "context/project";
+import { useMenuCollapsed } from "context/menuCollapsed";
 
 const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
-  const [menuCollapsed, setMenuCollapsed] = useState(isSmallScreen());
-
+  const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
 
   const projectName = project && !isLoading ? project.name : "default";
@@ -22,12 +22,12 @@ const Navigation: FC = () => {
   const { isAuthenticated } = useAuth();
   const softToggleMenu = () => {
     if (isSmallScreen()) {
-      setMenuCollapsed((prev) => !prev);
+      setMenuCollapsed(!menuCollapsed);
     }
   };
 
   const hardToggleMenu = (e: MouseEvent<HTMLElement>) => {
-    setMenuCollapsed((prev) => !prev);
+    setMenuCollapsed(!menuCollapsed);
     e.stopPropagation();
   };
 
