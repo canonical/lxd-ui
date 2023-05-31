@@ -31,8 +31,10 @@ const Navigation: FC = () => {
     e.stopPropagation();
   };
 
-  const collapseOnMediumScreen = () => {
-    setMenuCollapsed(isWidthBelow(820));
+  const collapseOnMediumScreen = (e: Event) => {
+    if (!("detail" in e) || e.detail !== "search-and-filter") {
+      setMenuCollapsed(isWidthBelow(820));
+    }
   };
 
   useEventListener("resize", collapseOnMediumScreen);

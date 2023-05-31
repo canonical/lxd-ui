@@ -91,6 +91,11 @@ const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
         }
         filterPanelData={searchAndFilterData}
         returnSearchData={onSearchDataChange}
+        onExpandChange={() => {
+          window.dispatchEvent(
+            new CustomEvent("resize", { detail: "search-and-filter" })
+          );
+        }}
       />
     </div>
   );
