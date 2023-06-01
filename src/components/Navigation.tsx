@@ -6,7 +6,6 @@ import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
 import ServerVersion from "components/ServerVersion";
-import useEventListener from "@use-it/event-listener";
 import { isWidthBelow } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
@@ -22,22 +21,14 @@ const Navigation: FC = () => {
   const { isAuthenticated } = useAuth();
   const softToggleMenu = () => {
     if (isSmallScreen()) {
-      setMenuCollapsed(!menuCollapsed);
+      setMenuCollapsed((prev) => !prev);
     }
   };
 
   const hardToggleMenu = (e: MouseEvent<HTMLElement>) => {
-    setMenuCollapsed(!menuCollapsed);
+    setMenuCollapsed((prev) => !prev);
     e.stopPropagation();
   };
-
-  const collapseOnMediumScreen = (e: Event) => {
-    if (!("detail" in e) || e.detail !== "search-and-filter") {
-      setMenuCollapsed(isWidthBelow(820));
-    }
-  };
-
-  useEventListener("resize", collapseOnMediumScreen);
 
   return (
     <>

@@ -1,44 +1,27 @@
-import React, {
-  createContext,
-  Dispatch,
-  FC,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { useState } from "react";
+import useEventListener from "@use-it/event-listener";
+import { isWidthBelow } from "util/helpers";
 
-interface ContextProps {
-  menuCollapsed: boolean;
-  setMenuCollapsed: Dispatch<SetStateAction<boolean>>;
-}
+const isSmallScreen = () => isWidthBelow(620);
 
-const initialState: ContextProps = {
-  menuCollapsed: false,
-  setMenuCollapsed: () => undefined,
-};
-
-export const MenuCollapsedContext = createContext<ContextProps>(initialState);
-
-interface ProviderProps {
-  children: ReactNode;
-}
-
-export const MenuCollapsedProvider: FC<ProviderProps> = ({ children }) => {
+export const useMenuCollapsed = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(false);
 
-  return (
-    <MenuCollapsedContext.Provider
-      value={{
-        menuCollapsed,
-        setMenuCollapsed,
-      }}
-    >
-      {children}
-    </MenuCollapsedContext.Provider>
-  );
-};
+  const collapseOnMediumScreen = (e: Event) => {
+    if (!("detail" in e) || e.detail !== "search-and-filter") {
+      setMenuCollapsed(isWidthBelow(820));
+    }
+  };
 
-export function useMenuCollapsed() {
-  return useContext(MenuCollapsedContext);
-}
+  useEventListener("resize", collapseOnMediumScreen);
+
+  const onSearchFilterPanelToggle = () => {
+    if (!menuCollapsed && isSmallScreen()) {
+      setMenuCollapsed(true);
+    }
+  };
+
+  useEventListener("sfp-toggle", onSearchFilterPanelToggle);
+
+  return { menuCollapsed, setMenuCollapsed };
+};
