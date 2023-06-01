@@ -12,8 +12,6 @@ import {
   SearchAndFilterChip,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";
 import { useLocation } from "react-router-dom";
-import { useMenuCollapsed } from "context/menuCollapsed";
-import { isWidthBelow } from "util/helpers";
 
 interface ProfileFilterState {
   state?: {
@@ -26,10 +24,7 @@ interface Props {
   setFilters: (newFilters: InstanceFilters) => void;
 }
 
-const isSmallScreen = () => isWidthBelow(620);
-
 const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
-  const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { state } = useLocation() as ProfileFilterState;
 
   useEffect(() => window.history.replaceState({}, ""), [state]);
@@ -102,17 +97,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
           );
         }}
         onPanelToggle={() => {
-          const searchAndFilterPanel = document.querySelector(
-            ".p-search-and-filter__panel"
-          );
-          if (!searchAndFilterPanel) {
-            return;
-          }
-          const isShowing =
-            searchAndFilterPanel.getAttribute("aria-hidden") === "false";
-          if (!menuCollapsed && isShowing && isSmallScreen()) {
-            setMenuCollapsed(true);
-          }
+          window.dispatchEvent(new CustomEvent("sfp-toggle"));
         }}
       />
     </div>
