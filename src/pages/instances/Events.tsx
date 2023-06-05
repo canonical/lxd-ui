@@ -22,7 +22,7 @@ const Events: FC = () => {
   };
 
   const connectEventWs = () => {
-    const wsUrl = `wss://${location.host}/1.0/events?type=operation,lifecycle`;
+    const wsUrl = `wss://${location.host}/1.0/events?type=operation,lifecycle&all-projects=true`;
     const ws = new WebSocket(wsUrl);
     ws.onopen = () => {
       setEventWs(ws);
