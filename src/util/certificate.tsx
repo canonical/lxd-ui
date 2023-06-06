@@ -45,6 +45,7 @@ export const generateCert = (password: string) => {
   const crt = forge.pki.certificateToPem(cert);
 
   const asn1 = forge.pkcs12.toPkcs12Asn1(keys.privateKey, [cert], password, {
+    algorithm: "3des", // would like to use aes, but macOS keychain only supports 3des
     generateLocalKeyId: true,
     friendlyName: "LXD-UI",
   });

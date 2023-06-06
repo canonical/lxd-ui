@@ -1,13 +1,24 @@
 import React, { FC, useState } from "react";
-import { Col, Row, Tabs } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Notification,
+  Row,
+  Tabs,
+} from "@canonical/react-components";
 
 const FIREFOX = "Firefox";
 const CHROME_LINUX = "Chrome (Linux)";
 const CHROME_WINDOWS = "Chrome (Windows)";
 const EDGE = "Edge";
-const TABS: string[] = [FIREFOX, CHROME_LINUX, CHROME_WINDOWS, EDGE];
+const MACOS = "macOS";
+const TABS: string[] = [FIREFOX, CHROME_LINUX, CHROME_WINDOWS, EDGE, MACOS];
 
-const BrowserImport: FC = () => {
+interface Props {
+  sendPfx?: () => void;
+}
+
+const BrowserImport: FC<Props> = ({ sendPfx }) => {
   const [activeTab, handleTabChange] = useState(FIREFOX);
 
   const windowsDialogSteps = (
@@ -27,6 +38,17 @@ const BrowserImport: FC = () => {
     </>
   );
 
+  const downloadPfx = (
+    <li className="p-list__item u-clearfix">
+      Download <code>lxd-ui.pfx</code>
+      {sendPfx && (
+        <div className="u-float-right--large">
+          <Button onClick={sendPfx}>Download pfx</Button>
+        </div>
+      )}
+    </li>
+  );
+
   return (
     <Row>
       <Col size={8}>
@@ -41,6 +63,7 @@ const BrowserImport: FC = () => {
         {activeTab === FIREFOX && (
           <div role="tabpanel" aria-label="firefox">
             <ul className="p-list--divided u-no-margin--bottom">
+              {downloadPfx}
               <li className="p-list__item">
                 Paste this link into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -72,6 +95,7 @@ const BrowserImport: FC = () => {
         {activeTab === CHROME_LINUX && (
           <div role="tabpanel" aria-label="chrome linux">
             <ul className="p-list--divided u-no-margin--bottom">
+              {downloadPfx}
               <li className="p-list__item">
                 Paste into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -96,6 +120,7 @@ const BrowserImport: FC = () => {
         {activeTab === CHROME_WINDOWS && (
           <div role="tabpanel" aria-label="chrome windows">
             <ul className="p-list--divided u-no-margin--bottom">
+              {downloadPfx}
               <li className="p-list__item">
                 Paste into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -114,8 +139,9 @@ const BrowserImport: FC = () => {
         )}
 
         {activeTab === EDGE && (
-          <div role="tabpanel" aria-label="chrome windows">
+          <div role="tabpanel" aria-label="edge windows">
             <ul className="p-list--divided u-no-margin--bottom">
+              {downloadPfx}
               <li className="p-list__item">
                 Paste into the address bar:
                 <div className="p-code-snippet u-no-margin--bottom">
@@ -129,6 +155,39 @@ const BrowserImport: FC = () => {
                 <code>Manage Certificates</code>
               </li>
               {windowsDialogSteps}
+            </ul>
+          </div>
+        )}
+
+        {activeTab === MACOS && (
+          <div role="tabpanel" aria-label="safari macos">
+            <ul className="p-list--divided u-no-margin--bottom">
+              <li className="p-list__item">
+                <Notification
+                  severity="caution"
+                  className="u-no-margin--bottom"
+                >
+                  The certificate must be protected by password. An empty
+                  password will fail to be imported on macOS.
+                </Notification>
+              </li>
+              {downloadPfx}
+              <li className="p-list__item">
+                Start the Keychain Access app on your Mac, select the login
+                keychain.
+              </li>
+              <li className="p-list__item">
+                Drag the <code>lxd-ui.pfx</code> file onto the Keychain Access
+                app.
+              </li>
+              <li className="p-list__item">
+                If you are asked to provide a name and password, type the name
+                and password for an administrator user on this computer.
+              </li>
+              <li className="p-list__item">
+                Restart the browser and open LXD-UI. Select the LXD-UI
+                certificate.
+              </li>
             </ul>
           </div>
         )}

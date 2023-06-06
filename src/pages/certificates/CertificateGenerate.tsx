@@ -154,29 +154,14 @@ const CertificateGenerate: FC = () => {
                         Import
                       </h2>
                     </Col>
-                    <Col size={6}>
-                      <div className="p-stepped-list__content">
-                        <p>
-                          Download <code>lxd-ui.pfx</code> and import it into
-                          your browser.
-                        </p>
-                      </div>
-                    </Col>
-                    {certs && (
-                      <Col size={3}>
-                        <Button
-                          onClick={() =>
-                            downloadBase64("lxd-ui.pfx", certs.pfx)
-                          }
-                        >
-                          Download pfx
-                        </Button>
-                      </Col>
-                    )}
-                  </Row>
-                  <Row>
-                    <Col emptyLarge={4} size={8}>
-                      <BrowserImport />
+                    <Col size={8}>
+                      <BrowserImport
+                        sendPfx={
+                          certs
+                            ? () => downloadBase64("lxd-ui.pfx", certs.pfx)
+                            : undefined
+                        }
+                      />
                     </Col>
                   </Row>
                 </li>

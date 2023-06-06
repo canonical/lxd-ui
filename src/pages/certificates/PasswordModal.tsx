@@ -64,6 +64,7 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
         onChange={formik.handleChange}
         value={formik.values.password}
         error={formik.touched.password ? formik.errors.password : null}
+        help="For macOS an empty password is not allowed. On other systems this step can be skipped."
       />
       <Input
         id="passwordConfirm"
