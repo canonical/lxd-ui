@@ -3,11 +3,15 @@ import { Col, Input, Row, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { useSettings } from "context/useSettings";
+import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
+import { Notification } from "types/notification";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
   description?: string;
   instanceType: string;
+  location: string;
   profiles: string[];
   type: string;
   readOnly: boolean;
@@ -25,10 +29,17 @@ export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;
   project: string;
+  setInTabNotification: (msg: Notification) => void;
 }
 
-const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
+const InstanceEditDetailsForm: FC<Props> = ({
+  formik,
+  project,
+  setInTabNotification,
+}) => {
   const isReadOnly = formik.values.readOnly;
+  const { data: settings } = useSettings();
+  const isClustered = settings?.environment?.server_clustered;
 
   return (
     <div className="details">
@@ -64,6 +75,34 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
           />
         </Col>
       </Row>
+      {isClustered && (
+        <Row>
+          <Col size={8}>
+            <Input
+              id="target"
+              name="target"
+              type="text"
+              label="Instance location"
+              value={formik.values.location}
+              required
+              disabled={true}
+            />
+          </Col>
+          {!isReadOnly && (
+            <Col size={4}>
+              <MigrateInstanceBtn
+                instance={formik.values.name}
+                location={formik.values.location}
+                project={project}
+                setInTabNotification={setInTabNotification}
+                onFinish={(newLocation: string) =>
+                  formik.setFieldValue("location", newLocation)
+                }
+              />
+            </Col>
+          )}
+        </Row>
+      )}
       <ProfileSelect
         project={project}
         selected={formik.values.profiles}
