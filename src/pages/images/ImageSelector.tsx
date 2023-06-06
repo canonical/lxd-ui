@@ -342,10 +342,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             value={query}
           />
           <div className="image-list">
-            <ScrollableTable
-              belowId="modal-bottom-space"
-              dependencies={[images]}
-            >
+            <ScrollableTable dependencies={[images]}>
               <MainTable
                 className="table-image-select"
                 emptyStateMsg={
@@ -361,7 +358,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
                 sortable
               />
             </ScrollableTable>
-            <div id="modal-bottom-space" />
           </div>
         </Col>
       </Row>
