@@ -160,3 +160,15 @@ export const defaultFirst = (p1: { name: string }, p2: { name: string }) =>
   p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0;
 
 export const isWidthBelow = (width: number) => window.innerWidth < width;
+
+export const getParentsBottomSpacing = (element: HTMLElement) => {
+  let sum = 0;
+  while (element.parentElement) {
+    element = element.parentElement;
+    const style = window.getComputedStyle(element);
+    const margin = parseInt(style.marginBottom);
+    const padding = parseInt(style.paddingBottom);
+    sum += margin + padding;
+  }
+  return sum;
+};

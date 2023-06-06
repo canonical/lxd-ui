@@ -1,5 +1,6 @@
 import React, { DependencyList, FC, ReactNode, useEffect, useRef } from "react";
 import useEventListener from "@use-it/event-listener";
+import { getParentsBottomSpacing } from "util/helpers";
 
 interface Props {
   children: ReactNode;
@@ -28,7 +29,8 @@ const ScrollableTable: FC<Props> = ({ dependencies, children, belowId }) => {
     const tBody = table.children[1];
     const above = tBody.getBoundingClientRect().top + 1;
     const below = getAbsoluteHeightBelow();
-    const offset = Math.ceil(above + below);
+    const parentsBottomSpacing = getParentsBottomSpacing(table as HTMLElement);
+    const offset = Math.ceil(above + below + parentsBottomSpacing);
     const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
     tBody.setAttribute("style", style);
   };
