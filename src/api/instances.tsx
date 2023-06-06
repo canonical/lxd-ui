@@ -84,6 +84,24 @@ export const renameInstance = (
   });
 };
 
+export const migrateInstance = (
+  name: string,
+  project: string,
+  target: string
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${name}?project=${project}&target=${target}`, {
+      method: "POST",
+      body: JSON.stringify({
+        migration: true,
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
 export const startInstance = (instance: LxdInstance) => {
   return putInstanceAction(instance.name, instance.project, "start");
 };

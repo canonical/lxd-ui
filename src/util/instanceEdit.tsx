@@ -56,6 +56,7 @@ export const getInstanceEditValues = (instance: LxdInstance) => {
   return {
     instanceType: instance.type,
     profiles: instance.profiles,
+    location: instance.location,
     readOnly: true,
     type: "instance",
     ...getEditValues(instance),

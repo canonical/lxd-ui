@@ -170,7 +170,11 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           <Col size={12}>
             {(activeSection === slugify(INSTANCE_DETAILS) ||
               !activeSection) && (
-              <InstanceEditDetailsForm formik={formik} project={project} />
+              <InstanceEditDetailsForm
+                formik={formik}
+                project={project}
+                setInTabNotification={setInTabNotification}
+              />
             )}
 
             {activeSection === slugify(STORAGE) && (
