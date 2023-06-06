@@ -174,7 +174,7 @@ const CreateInstanceForm: FC = () => {
       ? yamlToObject(values.yaml)
       : getPayload(values);
 
-    createInstance(JSON.stringify(instancePayload), project)
+    createInstance(JSON.stringify(instancePayload), project, values.target)
       .then((operation) => {
         const instanceName = operation.metadata.resources?.instances?.[0]
           .split("/")
