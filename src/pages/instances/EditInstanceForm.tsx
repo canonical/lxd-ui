@@ -15,7 +15,8 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
-import { useNotify } from "context/notify";
+import { Notification as NotificationComponent } from "types/notification";
+import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
@@ -53,6 +54,7 @@ import {
   InstanceEditSchema,
 } from "util/instanceEdit";
 import { slugify } from "util/slugify";
+import { failure, success, useNotify } from "context/notify";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -75,6 +77,8 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isConfigOpen, setConfigOpen] = useState(true);
+  const [inTabNotification, setInTabNotification] =
+    useState<NotificationComponent | null>(null);
 
   if (!project) {
     return <>Missing project</>;
@@ -101,11 +105,11 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
       updateInstance(instancePayload, project)
         .then(() => {
-          notify.success("Instance updated.");
+          setInTabNotification(success("Instance updated."));
           void formik.setValues(getInstanceEditValues(instancePayload));
         })
         .catch((e: Error) => {
-          notify.failure("Instance update failed", e);
+          setInTabNotification(failure("Instance update failed", e));
         })
         .finally(() => {
           formik.setSubmitting(false);
@@ -159,6 +163,10 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           toggleConfigOpen={toggleMenu}
         />
         <Row className="form-contents" key={activeSection}>
+          <NotificationRowLegacy
+            notification={inTabNotification}
+            onDismiss={() => setInTabNotification(null)}
+          />
           <Col size={12}>
             {(activeSection === slugify(INSTANCE_DETAILS) ||
               !activeSection) && (
