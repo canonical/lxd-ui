@@ -141,6 +141,10 @@
 }
 
 .image-select-modal {
+  .p-modal__dialog {
+    overflow-y: hidden;
+  }
+
   > section {
     min-height: 100%;
   }
@@ -192,7 +196,7 @@
 
   .image-list {
     max-height: calc(100vh - 140px);
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 
   @include large {
@@ -210,5 +214,9 @@
     .image-list {
       max-height: calc(100vh - 250px);
     }
+  }
+
+  #modal-bottom-space {
+    margin-bottom: 2rem;
   }
 }

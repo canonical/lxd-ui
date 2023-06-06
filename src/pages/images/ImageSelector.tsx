@@ -18,6 +18,7 @@ import Loader from "components/Loader";
 import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
+import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
   onClose: () => void;
@@ -341,20 +342,26 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             value={query}
           />
           <div className="image-list">
-            <MainTable
-              className="table-image-select"
-              emptyStateMsg={
-                isLoading ? (
-                  <Loader text="Loading images..." />
-                ) : (
-                  "No matching images found"
-                )
-              }
-              headers={headers}
-              rows={rows}
-              paginate={null}
-              sortable
-            />
+            <ScrollableTable
+              belowId="modal-bottom-space"
+              dependencies={[images]}
+            >
+              <MainTable
+                className="table-image-select"
+                emptyStateMsg={
+                  isLoading ? (
+                    <Loader text="Loading images..." />
+                  ) : (
+                    "No matching images found"
+                  )
+                }
+                headers={headers}
+                rows={rows}
+                paginate={null}
+                sortable
+              />
+            </ScrollableTable>
+            <div id="modal-bottom-space" />
           </div>
         </Col>
       </Row>
