@@ -33,10 +33,11 @@ export const fetchInstances = (project: string): Promise<LxdInstance[]> => {
 
 export const createInstance = (
   body: string,
-  project: string
+  project: string,
+  target?: string
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances?project=${project}`, {
+    fetch(`/1.0/instances?project=${project}&target=${target ?? ""}`, {
       method: "POST",
       body: body,
     })

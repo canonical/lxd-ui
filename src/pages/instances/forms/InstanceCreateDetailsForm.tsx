@@ -7,6 +7,7 @@ import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { RemoteImage } from "types/image";
+import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -14,6 +15,7 @@ export interface InstanceDetailsFormValues {
   image?: RemoteImage;
   instanceType: string;
   profiles: string[];
+  target?: string;
   type: string;
   readOnly: boolean;
 }
@@ -125,6 +127,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                   isVmOnlyImage(formik.values.image)
                 }
               />
+              <InstanceLocationSelect formik={formik} />
             </Col>
           </Row>
           <ProfileSelect
