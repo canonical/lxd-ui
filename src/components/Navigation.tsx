@@ -213,7 +213,7 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
-                          to="/ui/certificates/generate"
+                          to="/ui/certificates"
                           title="Authentication"
                         >
                           <Icon

@@ -17,6 +17,7 @@ const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const StorageList = lazy(() => import("pages/storage/StorageList"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
+const CertificateAdd = lazy(() => import("pages/certificates/CertificateAdd"));
 const CertificateGenerate = lazy(
   () => import("pages/certificates/CertificateGenerate")
 );
@@ -245,6 +246,7 @@ const App: FC = () => {
           path="/ui/certificates/generate"
           element={<CertificateGenerate />}
         />
+        <Route path="/ui/certificates/add" element={<CertificateAdd />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>
