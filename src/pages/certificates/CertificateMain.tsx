@@ -32,6 +32,13 @@ const CertificateMain: FC = () => {
         >
           Setup
         </Button>
+        <p>
+          If you have imported a client certificate to your browser previously,
+          add it to this LXD instance using tokens.
+        </p>
+        <Button onClick={() => navigate("/ui/certificates/add")}>
+          Add cert
+        </Button>
       </EmptyState>
     </BaseLayout>
   );
