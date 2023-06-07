@@ -226,7 +226,14 @@ const Navigation: FC = () => {
                     </>
                   )}
                 </ul>
-                <ul className="p-side-navigation__list sidenav-bottom-ul">
+                <ul
+                  className={classnames(
+                    "p-side-navigation__list sidenav-bottom-ul",
+                    {
+                      "authenticated-nav": isAuthenticated,
+                    }
+                  )}
+                >
                   <li className="p-side-navigation__item">
                     <a
                       className="p-side-navigation__link"
@@ -276,7 +283,11 @@ const Navigation: FC = () => {
                 </ul>
               </div>
             </div>
-            <div className="sidenav-toggle-wrapper">
+            <div
+              className={classnames("sidenav-toggle-wrapper", {
+                "authenticated-nav": isAuthenticated,
+              })}
+            >
               <Button
                 appearance="base"
                 aria-label={`${

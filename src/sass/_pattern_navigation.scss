@@ -93,6 +93,8 @@
 }
 
 .sidenav-bottom-ul {
+  bottom: $spv--x-large;
+  position: absolute;
   width: 15rem;
 }
 
@@ -100,8 +102,9 @@
   background: $colors--dark-theme--background-default;
   bottom: 0;
   padding: $spv--small $sph--x-large $spv--large $sph--large;
-  position: sticky;
+  position: absolute;
   text-align: right;
+  width: 100%;
 
   .sidenav-toggle {
     background-color: #444 !important;
@@ -116,17 +119,17 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-x-large) and (min-height: 670px),
-  screen and (min-width: $breakpoint-x-large) and (min-height: 800px) {
-  .sidenav-bottom-ul {
-    bottom: $spv--x-large;
-    position: absolute;
+@media screen and (max-width: $breakpoint-x-large) and (max-height: 670px),
+  screen and (min-width: $breakpoint-x-large) and (max-height: 800px) {
+  .sidenav-bottom-ul.authenticated-nav {
+    bottom: initial;
+    position: initial;
   }
 
-  .sidenav-toggle-wrapper {
-    bottom: 0;
-    position: absolute;
-    width: 100%;
+  .sidenav-toggle-wrapper.authenticated-nav {
+    bottom: initial;
+    position: initial;
+    width: initial;
   }
 }
 
