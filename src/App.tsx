@@ -47,7 +47,13 @@ const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
 const App: FC = () => {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense
+      fallback={
+        <main className="l-main">
+          <Loader />
+        </main>
+      }
+    >
       <Routes>
         {HOME_REDIRECT_PATHS.map((path) => (
           <Route
