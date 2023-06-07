@@ -103,7 +103,11 @@ const SnapshotForm: FC<Props> = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.expirationDate ?? ""}
-              error={formik.errors.expirationDate}
+              error={
+                formik.touched.expirationDate
+                  ? formik.errors.expirationDate
+                  : null
+              }
             />
           </Col>
           <Col size={6}>
@@ -115,7 +119,11 @@ const SnapshotForm: FC<Props> = ({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.expirationTime ?? ""}
-              error={formik.errors.expirationTime}
+              error={
+                formik.touched.expirationTime
+                  ? formik.errors.expirationTime
+                  : null
+              }
             />
           </Col>
         </Row>
