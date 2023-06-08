@@ -69,8 +69,9 @@ const InstanceTextConsole: FC<Props> = ({
       return;
     }
 
-    const dataUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
-    const controlUrl = `wss://${location.host}${result.operation}/websocket?secret=${result.metadata.metadata.fds.control}`;
+    const operationUrl = result.operation.split("?")[0];
+    const dataUrl = `wss://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds["0"]}`;
+    const controlUrl = `wss://${location.host}${operationUrl}/websocket?secret=${result.metadata.metadata.fds.control}`;
 
     const data = new WebSocket(dataUrl);
     const control = new WebSocket(controlUrl);
