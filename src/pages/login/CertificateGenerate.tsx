@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import { generateCert } from "util/certificate";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
-import BrowserImport from "pages/certificates/BrowserImport";
+import BrowserImport from "pages/login/BrowserImport";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
-import PasswordModal from "pages/certificates/PasswordModal";
+import PasswordModal from "pages/login/PasswordModal";
 
 interface Certs {
   crt: string;

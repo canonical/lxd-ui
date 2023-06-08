@@ -119,8 +119,8 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-x-large) and (max-height: 670px),
-  screen and (min-width: $breakpoint-x-large) and (max-height: 800px) {
+@media screen and (max-width: $breakpoint-x-large) and (max-height: 700px),
+  screen and (min-width: $breakpoint-x-large) and (max-height: 840px) {
   .sidenav-bottom-ul.authenticated-nav {
     bottom: initial;
     position: initial;
