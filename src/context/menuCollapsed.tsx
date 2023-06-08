@@ -3,13 +3,17 @@ import useEventListener from "@use-it/event-listener";
 import { isWidthBelow } from "util/helpers";
 
 const isSmallScreen = () => isWidthBelow(620);
+const isMediumScreen = () => isWidthBelow(820);
 
 export const useMenuCollapsed = () => {
-  const [menuCollapsed, setMenuCollapsed] = useState(false);
+  const [menuCollapsed, setMenuCollapsed] = useState(isMediumScreen());
 
   const collapseOnMediumScreen = (e: Event) => {
+    if (isSmallScreen()) {
+      return;
+    }
     if (!("detail" in e) || e.detail !== "search-and-filter") {
-      setMenuCollapsed(isWidthBelow(820));
+      setMenuCollapsed(isMediumScreen());
     }
   };
 
