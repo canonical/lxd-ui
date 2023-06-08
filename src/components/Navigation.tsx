@@ -9,15 +9,20 @@ import ServerVersion from "components/ServerVersion";
 import { isWidthBelow } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
+import { useSettings } from "context/useSettings";
+import { getCookie } from "util/cookies";
 
 const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
+  const { data: settings } = useSettings();
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default"
   );
+  const hasOidcCookie = Boolean(getCookie("oidc_access"));
+  const hasLogout = hasOidcCookie || settings?.auth_user_method === "oidc";
 
   useEffect(() => {
     project && project.name !== projectName && setProjectName(project.name);
@@ -206,6 +211,25 @@ const Navigation: FC = () => {
                           Settings
                         </NavLink>
                       </li>
+                      {hasLogout && (
+                        <li className="p-side-navigation__item">
+                          <a
+                            className="p-side-navigation__link"
+                            title="Log out"
+                            onClick={() =>
+                              void fetch("/oidc/logout").then(() =>
+                                window.location.reload()
+                              )
+                            }
+                          >
+                            <Icon
+                              className="is-light p-side-navigation__icon"
+                              name="power-off"
+                            />{" "}
+                            Log out
+                          </a>
+                        </li>
+                      )}
                     </>
                   )}
                   {!isAuthenticated && (
@@ -213,14 +237,14 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
-                          to="/ui/certificates"
-                          title="Authentication"
+                          to="/ui/login"
+                          title="Login"
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="security"
+                            name="profile"
                           />{" "}
-                          Authentication
+                          Login
                         </NavLink>
                       </li>
                     </>

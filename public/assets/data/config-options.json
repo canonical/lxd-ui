@@ -378,6 +378,27 @@
     "description": "OVN northbound database connection string"
   },
   {
+    "key": "oidc.client.id",
+    "type": "string",
+    "scope": "global",
+    "default": "-",
+    "description": "OpenID Connect client ID"
+  },
+  {
+    "key": "oidc.issuer",
+    "type": "string",
+    "scope": "global",
+    "default": "-",
+    "description": "OpenID Connect Discovery URL for the provider"
+  },
+  {
+    "key": "oidc.audience",
+    "type": "string",
+    "scope": "global",
+    "default": "-",
+    "description": "Expected audience value for the application (required by some providers)"
+  },
+  {
     "key": "rbac.agent.private_key",
     "type": "string",
     "scope": "global",

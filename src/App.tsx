@@ -17,13 +17,11 @@ const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const StorageList = lazy(() => import("pages/storage/StorageList"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
-const CertificateAdd = lazy(() => import("pages/certificates/CertificateAdd"));
+const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
-  () => import("pages/certificates/CertificateGenerate")
+  () => import("pages/login/CertificateGenerate")
 );
-const CertificateMain = lazy(
-  () => import("pages/certificates/CertificateMain")
-);
+const Login = lazy(() => import("pages/login/Login"));
 const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
 const StorageDetail = lazy(() => import("pages/storage/StorageDetail"));
 const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
@@ -241,12 +239,12 @@ const App: FC = () => {
           path="/ui/settings"
           element={<ProtectedRoute outlet={<Settings />} />}
         />
-        <Route path="/ui/certificates" element={<CertificateMain />} />
+        <Route path="/ui/login" element={<Login />} />
         <Route
-          path="/ui/certificates/generate"
+          path="/ui/login/certificate-generate"
           element={<CertificateGenerate />}
         />
-        <Route path="/ui/certificates/add" element={<CertificateAdd />} />
+        <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>

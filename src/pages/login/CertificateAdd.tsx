@@ -1,13 +1,15 @@
 import React, { FC } from "react";
-import { Col, Row } from "@canonical/react-components";
+import { Col, Notification, Row } from "@canonical/react-components";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
-import CertificateAddForm from "pages/certificates/CertificateAddForm";
+import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
+import { useNotify } from "context/notify";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
+  const notify = useNotify();
 
   if (isAuthLoading) {
     return <Loader />;
@@ -24,7 +26,16 @@ const CertificateAdd: FC = () => {
           <h1 className="p-panel__title">Add existing certificate</h1>
         </div>
         <div className="p-panel__content">
-          <NotificationRow />
+          {notify.notification ? (
+            <NotificationRow />
+          ) : (
+            <Row>
+              <Notification severity="caution">
+                A client certificate must be present and selected in your
+                browser
+              </Notification>
+            </Row>
+          )}
           <Row className="u-no-margin--left">
             <Col size={12}>
               <ol className="p-stepped-list--detailed">
