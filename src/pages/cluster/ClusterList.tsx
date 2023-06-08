@@ -72,78 +72,82 @@ const ClusterList: FC = () => {
         <div className="p-panel__content cluster-content">
           <NotificationRow />
           <Row>
-            <ScrollableTable
-              dependencies={[filteredMembers, notify.notification]}
-              belowId="pagination"
-            >
-              <MainTable
-                headers={headers}
-                rows={pagination.pageData}
-                sortable
-                onUpdateSort={pagination.updateSort}
-                emptyStateMsg={
-                  isLoading && isClustered ? (
-                    <Loader text="Loading cluster members..." />
-                  ) : activeGroup ? (
-                    <EmptyState
-                      iconClass=""
-                      iconName="machines"
-                      title="Cluster group empty"
-                      message="Add cluster members to this group."
+            {isClustered && filteredMembers.length > 0 && (
+              <>
+                <ScrollableTable
+                  dependencies={[filteredMembers, notify.notification]}
+                  belowId="pagination"
+                >
+                  <MainTable
+                    headers={headers}
+                    rows={pagination.pageData}
+                    sortable
+                    onUpdateSort={pagination.updateSort}
+                    emptyStateMsg={
+                      isLoading && <Loader text="Loading cluster members..." />
+                    }
+                  />
+                </ScrollableTable>
+                <Pagination
+                  {...pagination}
+                  id="pagination"
+                  totalCount={members.length}
+                  visibleCount={
+                    filteredMembers.length === members.length
+                      ? pagination.pageData.length
+                      : filteredMembers.length
+                  }
+                  keyword="cluster member"
+                />
+              </>
+            )}
+            {!isLoading &&
+              isClustered &&
+              activeGroup &&
+              filteredMembers.length < 1 && (
+                <EmptyState
+                  iconClass=""
+                  iconName="machines"
+                  title="Cluster group empty"
+                  message="Add cluster members to this group."
+                >
+                  <p>
+                    <a
+                      className="p-link--external"
+                      href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <p>
-                        <a
-                          className="p-link--external"
-                          href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Learn more about clustering
-                          <Icon
-                            className="external-link-icon"
-                            name="external-link"
-                          />
-                        </a>
-                      </p>
-                      <DeleteClusterGroupBtn group={activeGroup} />
-                    </EmptyState>
-                  ) : (
-                    <EmptyState
-                      iconClass=""
-                      iconName="machines"
-                      title="This server is not clustered"
-                      message="Creating cluster members is not supported in LXD UI. Create one using LXD CLI"
-                    >
-                      <p>
-                        <a
-                          className="p-link--external"
-                          href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Learn more about clustering
-                          <Icon
-                            className="external-link-icon"
-                            name="external-link"
-                          />
-                        </a>
-                      </p>
-                    </EmptyState>
-                  )
-                }
-              />
-            </ScrollableTable>
-            <Pagination
-              {...pagination}
-              id="pagination"
-              totalCount={members.length}
-              visibleCount={
-                filteredMembers.length === members.length
-                  ? pagination.pageData.length
-                  : filteredMembers.length
-              }
-              keyword="cluster member"
-            />
+                      Learn more about clustering
+                      <Icon
+                        className="external-link-icon"
+                        name="external-link"
+                      />
+                    </a>
+                  </p>
+                  <DeleteClusterGroupBtn group={activeGroup} />
+                </EmptyState>
+              )}
+            {!isClustered && (
+              <EmptyState
+                iconClass=""
+                iconName="machines"
+                title="This server is not clustered"
+                message="Creating cluster members is not supported in LXD UI. Create one using LXD CLI"
+              >
+                <p>
+                  <a
+                    className="p-link--external"
+                    href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn more about clustering
+                    <Icon className="external-link-icon" name="external-link" />
+                  </a>
+                </p>
+              </EmptyState>
+            )}
           </Row>
         </div>
       </div>
