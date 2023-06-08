@@ -172,3 +172,15 @@ export const getParentsBottomSpacing = (element: HTMLElement) => {
   }
   return sum;
 };
+
+export const getPromiseSettledCounts = (
+  results: PromiseSettledResult<void>[]
+) => {
+  const fulfilledCount = results.filter(
+    (result) => result.status === "fulfilled"
+  ).length;
+  const rejectedCount = results.filter(
+    (result) => result.status === "rejected"
+  ).length;
+  return { fulfilledCount, rejectedCount };
+};
