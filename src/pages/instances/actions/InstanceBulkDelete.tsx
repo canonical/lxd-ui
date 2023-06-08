@@ -7,6 +7,7 @@ import { pluralizeInstance } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { deletableStatuses } from "util/instanceDelete";
+import { getPromiseSettledCounts } from "util/helpers";
 
 interface Props {
   instances: LxdInstance[];
@@ -29,22 +30,40 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const handleDelete = () => {
     setLoading(true);
     onStart(deletableInstances.map((item) => item.name));
-    deleteInstanceBulk(deletableInstances)
-      .then(() => {
+    void deleteInstanceBulk(deletableInstances).then((results) => {
+      const { fulfilledCount, rejectedCount } =
+        getPromiseSettledCounts(results);
+      if (fulfilledCount === deleteCount) {
         notify.success(
           `${deleteCount} ${pluralizeInstance(deleteCount)} deleted`
         );
-      })
-      .catch((e) => {
-        notify.failure("Instance bulk deletion failed", e);
-      })
-      .finally(() => {
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
-        setLoading(false);
-        onFinish();
+      } else if (rejectedCount === deleteCount) {
+        notify.failure(
+          "Instance bulk deletion failed",
+          undefined,
+          <>
+            <b>{deleteCount}</b> {pluralizeInstance(deleteCount)} could not be
+            deleted.
+          </>
+        );
+      } else {
+        notify.failure(
+          "Instance bulk deletion partially failed",
+          undefined,
+          <>
+            <b>{fulfilledCount}</b> {pluralizeInstance(fulfilledCount)} deleted.
+            <br />
+            <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could not
+            be deleted.
+          </>
+        );
+      }
+      void queryClient.invalidateQueries({
+        queryKey: [queryKeys.instances],
       });
+      setLoading(false);
+      onFinish();
+    });
   };
 
   return (

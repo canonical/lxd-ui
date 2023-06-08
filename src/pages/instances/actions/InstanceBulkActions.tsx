@@ -11,6 +11,7 @@ import {
   pluralizeInstance,
 } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
+import { getPromiseSettledCounts } from "util/helpers";
 
 interface Props {
   instances: LxdInstance[];
@@ -31,25 +32,44 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     onStart();
     const actions = instanceActions(instances, desiredAction);
 
-    updateInstanceBulkAction(actions, isForce)
-      .then(() => {
-        const count = actions.length;
-        const action = instanceActionLabel(desiredAction);
+    void updateInstanceBulkAction(actions, isForce).then((results) => {
+      const action = instanceActionLabel(desiredAction);
+      const count = actions.length;
+      const { fulfilledCount, rejectedCount } =
+        getPromiseSettledCounts(results);
+      if (fulfilledCount === count) {
         notify.success(
           <>
             <b>{count}</b> {pluralizeInstance(count)} {action}.
           </>
         );
-      })
-      .catch((e) => notify.failure(`Instance ${desiredAction} failed`, e))
-      .finally(() => {
-        setForce(false);
-        onFinish();
-        setActiveAction(null);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
+      } else if (rejectedCount === count) {
+        notify.failure(
+          `Instance ${desiredAction} failed`,
+          undefined,
+          <>
+            <b>{count}</b> {pluralizeInstance(count)} could not be {action}.
+          </>
+        );
+      } else {
+        notify.failure(
+          `Instance ${desiredAction} partially failed`,
+          undefined,
+          <>
+            <b>{fulfilledCount}</b> {pluralizeInstance(fulfilledCount)} {action}
+            .<br />
+            <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could not
+            be {action}.
+          </>
+        );
+      }
+      setForce(false);
+      onFinish();
+      setActiveAction(null);
+      void queryClient.invalidateQueries({
+        queryKey: [queryKeys.instances],
       });
+    });
   };
 
   return (

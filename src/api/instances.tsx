@@ -153,15 +153,13 @@ export interface InstanceBulkAction {
 export const updateInstanceBulkAction = (
   actions: InstanceBulkAction[],
   isForce: boolean
-) => {
-  return new Promise((resolve, reject) => {
-    Promise.all(
+): Promise<PromiseSettledResult<void>[]> => {
+  return new Promise((resolve) => {
+    void Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
         await putInstanceAction(name, project, action, isForce);
       })
-    )
-      .then(resolve)
-      .catch(reject);
+    ).then((results) => resolve(results));
   });
 };
 
@@ -178,15 +176,15 @@ export const deleteInstance = (instance: LxdInstance) => {
   });
 };
 
-export const deleteInstanceBulk = (instances: LxdInstance[]) => {
-  return new Promise((resolve, reject) => {
-    Promise.all(
+export const deleteInstanceBulk = (
+  instances: LxdInstance[]
+): Promise<PromiseSettledResult<void>[]> => {
+  return new Promise((resolve) => {
+    void Promise.allSettled(
       instances.map(async (instance) => {
         await deleteInstance(instance);
       })
-    )
-      .then(resolve)
-      .catch(reject);
+    ).then((results) => resolve(results));
   });
 };
 
