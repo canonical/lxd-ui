@@ -1,5 +1,9 @@
 import React, { FC, useState } from "react";
-import { Button, RadioInput } from "@canonical/react-components";
+import {
+  Button,
+  ContextualMenu,
+  RadioInput,
+} from "@canonical/react-components";
 import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
@@ -9,6 +13,11 @@ import { failure, info } from "context/notify";
 import EmptyState from "components/EmptyState";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
+import {
+  sendAltF4,
+  sendAltTab,
+  sendCtrlAltDel,
+} from "../../lib/spice/src/inputs";
 
 interface Props {
   instance: LxdInstance;
@@ -68,12 +77,33 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
             />
           </div>
           {isGraphic && isRunning && (
-            <Button
-              className="u-no-margin--bottom"
-              onClick={() => handleFullScreen()}
-            >
-              <span>Fullscreen</span>
-            </Button>
+            <div>
+              <Button
+                className="u-no-margin--bottom"
+                onClick={() => handleFullScreen()}
+              >
+                <span>Fullscreen</span>
+              </Button>
+              <ContextualMenu
+                hasToggleIcon
+                toggleLabel="Shortcuts"
+                toggleClassName="u-no-margin--bottom"
+                links={[
+                  {
+                    children: "Send Ctrl + Alt + Del",
+                    onClick: () => sendCtrlAltDel(window.spice_connection),
+                  },
+                  {
+                    children: "Send Alt + TAB",
+                    onClick: () => sendAltTab(window.spice_connection),
+                  },
+                  {
+                    children: "Send Alt + F4",
+                    onClick: () => sendAltF4(window.spice_connection),
+                  },
+                ]}
+              />
+            </div>
           )}
         </div>
       )}
