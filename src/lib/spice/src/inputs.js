@@ -190,22 +190,45 @@ function handle_keyup(e)
     e.preventDefault();
 }
 
+function send_key(sc, keyCode)
+{
+    var msg = new Messages.SpiceMiniData();
+    var key = new Messages.SpiceMsgcKeyDown();
+
+    key.code = keyCode;
+    msg.build_msg(Constants.SPICE_MSGC_INPUTS_KEY_DOWN, key);
+    sc.inputs.send_msg(msg);
+
+    key.code = 0x80|keyCode;
+    msg.build_msg(Constants.SPICE_MSGC_INPUTS_KEY_UP, key);
+    sc.inputs.send_msg(msg);
+}
+
 function sendCtrlAltDel(sc)
 {
     if (sc && sc.inputs && sc.inputs.state === "ready"){
-        var key = new Messages.SpiceMsgcKeyDown();
-        var msg = new Messages.SpiceMiniData();
-
         update_modifier(true, KeyNames.KEY_LCtrl, sc);
         update_modifier(true, KeyNames.KEY_Alt, sc);
-
-        key.code = KeyNames.KEY_KP_Decimal;
-        msg.build_msg(Constants.SPICE_MSGC_INPUTS_KEY_DOWN, key);
-        sc.inputs.send_msg(msg);
-        msg.build_msg(Constants.SPICE_MSGC_INPUTS_KEY_UP, key);
-        sc.inputs.send_msg(msg);
-
+        send_key(sc, KeyNames.KEY_KP_Decimal);
         if(Ctrl_state == false) update_modifier(false, KeyNames.KEY_LCtrl, sc);
+        if(Alt_state == false) update_modifier(false, KeyNames.KEY_Alt, sc);
+    }
+}
+
+function sendAltF4(sc)
+{
+    if (sc && sc.inputs && sc.inputs.state === "ready"){
+        update_modifier(true, KeyNames.KEY_Alt, sc);
+        send_key(sc, KeyNames.KEY_F4);
+        if(Alt_state == false) update_modifier(false, KeyNames.KEY_Alt, sc);
+    }
+}
+
+function sendAltTab(sc)
+{
+    if (sc && sc.inputs && sc.inputs.state === "ready"){
+        update_modifier(true, KeyNames.KEY_Alt, sc);
+        send_key(sc, KeyNames.KEY_Tab);
         if(Alt_state == false) update_modifier(false, KeyNames.KEY_Alt, sc);
     }
 }
@@ -295,4 +318,6 @@ export {
   handle_keydown,
   handle_keyup,
   sendCtrlAltDel,
+  sendAltTab,
+  sendAltF4,
 };
