@@ -74,9 +74,10 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "profile_list";
 @import "profile_used_by_default_project";
 @import "project_select";
-@import "scrollable_table";
 @import "rename_header";
+@import "scrollable_table";
 @import "selectable_main_table";
+@import "settings_page";
 
 .l-main .row {
   max-width: none;

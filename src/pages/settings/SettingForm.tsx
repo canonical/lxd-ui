@@ -112,7 +112,7 @@ const SettingForm: FC<Props> = ({ option, value }) => {
         <>
           <Button
             appearance="base"
-            className="u-no-margin"
+            className="readmode-button u-no-margin"
             onClick={() => {
               setEditMode(true);
               notify.clear();
