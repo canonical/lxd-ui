@@ -7,6 +7,7 @@ import { renameProject } from "api/projects";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
+import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 
 interface Props {
   project: LxdProject;
@@ -65,6 +66,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           ? "Cannot rename the default project"
           : undefined
       }
+      controls={<DeleteProjectBtn project={project} />}
       isLoaded={Boolean(project)}
       formik={formik}
     />

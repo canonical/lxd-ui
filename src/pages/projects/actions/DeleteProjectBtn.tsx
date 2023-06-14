@@ -8,12 +8,14 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import ItemName from "components/ItemName";
 import { isProjectEmpty } from "util/projects";
+import { useDeleteIcon } from "context/useDeleteIcon";
 
 interface Props {
   project: LxdProject;
 }
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
+  const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
@@ -41,10 +43,12 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
 
   return (
     <ConfirmationButton
+      onHoverText="Delete project"
+      toggleAppearance={isDeleteIcon ? "base" : "default"}
+      className="u-no-margin--bottom"
       isLoading={isLoading}
-      icon="delete"
       title="Confirm delete"
-      toggleCaption="Delete"
+      toggleCaption={isDeleteIcon ? undefined : "Delete project"}
       confirmMessage={
         <>
           Are you sure you want to delete the project{" "}
@@ -52,15 +56,11 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
           and can result in data loss.
         </>
       }
-      confirmButtonLabel={
-        project.name === "default"
-          ? "The default project can't be deleted"
-          : "Delete"
-      }
+      confirmButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDense={false}
-      hasShiftHint={false}
       isDisabled={project.name === "default" || !isProjectEmpty(project)}
+      isDense={false}
+      icon={isDeleteIcon ? "delete" : undefined}
     />
   );
 };
