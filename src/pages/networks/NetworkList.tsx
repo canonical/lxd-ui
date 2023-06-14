@@ -12,7 +12,7 @@ import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 
 const NetworkList: FC = () => {
@@ -55,7 +55,11 @@ const NetworkList: FC = () => {
     return {
       columns: [
         {
-          content: network.name,
+          content: (
+            <Link to={`/ui/project/${project}/networks/detail/${network.name}`}>
+              {network.name}
+            </Link>
+          ),
           role: "rowheader",
           "aria-label": "Name",
         },
@@ -119,14 +123,23 @@ const NetworkList: FC = () => {
       <BaseLayout
         title="Networks"
         controls={
-          hasNetworks && (
+          <>
+            {hasNetworks && (
+              <Button
+                className="u-no-margin--bottom"
+                onClick={() => navigate(`/ui/project/${project}/networks/map`)}
+              >
+                See map
+              </Button>
+            )}
             <Button
+              appearance="positive"
               className="u-no-margin--bottom"
-              onClick={() => navigate(`/ui/project/${project}/networks/map`)}
+              onClick={() => navigate(`/ui/project/${project}/networks/create`)}
             >
-              See map
+              Create network
             </Button>
-          )
+          </>
         }
       >
         <NotificationRow />
