@@ -4,7 +4,6 @@ import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
-import DeleteProjectBtn from "pages/projects/actions/DeleteProjectBtn";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import {
   projectDetailPayload,
@@ -22,7 +21,6 @@ import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestricti
 import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
 import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
 import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
-import classnames from "classnames";
 import { getProjectEditValues } from "util/projectEdit";
 import { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
@@ -114,16 +112,9 @@ const EditProjectForm: FC<Props> = ({ project }) => {
           <div className="p-bottom-controls">
             <hr />
             <Row>
-              <Col
-                size={12}
-                className={classnames({
-                  "u-align--right": !formik.values.readOnly,
-                  "u-space-between": formik.values.readOnly,
-                })}
-              >
+              <Col size={12} className="u-align--right">
                 {formik.values.readOnly ? (
                   <>
-                    <DeleteProjectBtn project={project} />
                     <Button
                       appearance="positive"
                       onClick={() => formik.setFieldValue("readOnly", false)}
