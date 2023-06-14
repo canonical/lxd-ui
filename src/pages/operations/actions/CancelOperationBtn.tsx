@@ -35,8 +35,9 @@ const CancelOperationBtn: FC<Props> = ({ operation }) => {
       toggleAppearance=""
       isLoading={isLoading}
       title="Confirm cancel"
+      cancelButtonLabel="No"
       confirmMessage="Are you sure you want to cancel the operation?"
-      confirmButtonLabel="Cancel"
+      confirmButtonLabel="Yes, cancel operation"
       toggleCaption="Cancel"
       onConfirm={handleCancel}
       isDisabled={!operation.may_cancel}

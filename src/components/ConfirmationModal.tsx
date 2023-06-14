@@ -3,6 +3,7 @@ import { Button, Modal, ValueOf } from "@canonical/react-components";
 import { ButtonAppearance } from "@canonical/react-components/dist/components/Button/Button";
 
 interface Props {
+  cancelButtonLabel?: string;
   confirmButtonAppearance?: ValueOf<typeof ButtonAppearance> | string;
   confirmButtonLabel: string;
   confirmExtra?: ReactNode;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const ConfirmationModal: FC<Props> = ({
+  cancelButtonLabel,
   confirmButtonAppearance = "negative",
   confirmButtonLabel,
   confirmExtra,
@@ -31,7 +33,7 @@ const ConfirmationModal: FC<Props> = ({
         <>
           {confirmExtra}
           <Button className="u-no-margin--bottom" onClick={onClose}>
-            Cancel
+            {cancelButtonLabel ?? "Cancel"}
           </Button>
           <Button
             appearance={confirmButtonAppearance}
