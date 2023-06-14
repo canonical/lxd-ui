@@ -11,6 +11,8 @@ const ImageList = lazy(() => import("pages/images/ImageList"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
 const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
 const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
+const CreateNetwork = lazy(() => import("pages/networks/CreateNetwork"));
+const NetworkDetail = lazy(() => import("pages/networks/NetworkDetail"));
 const NoMatch = lazy(() => import("components/NoMatch"));
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
@@ -174,6 +176,22 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkList />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/networks/create"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateNetwork />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/networks/detail/:name"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkDetail />} />}
             />
           }
         />
