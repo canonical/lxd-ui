@@ -6,6 +6,7 @@ import classnames from "classnames";
 import { ButtonAppearance } from "@canonical/react-components/dist/components/Button/Button";
 
 interface Props {
+  cancelButtonLabel?: string;
   className?: string;
   confirmButtonAppearance?: ValueOf<typeof ButtonAppearance> | string;
   confirmButtonLabel: string;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const ConfirmationButton: FC<Props> = ({
+  cancelButtonLabel,
   className,
   confirmButtonAppearance,
   confirmButtonLabel,
@@ -73,6 +75,7 @@ const ConfirmationButton: FC<Props> = ({
           <ConfirmationModal
             title={title}
             onClose={handleCancelModal}
+            cancelButtonLabel={cancelButtonLabel}
             confirmExtra={confirmExtra}
             confirmMessage={confirmMessage}
             confirmButtonLabel={confirmButtonLabel}
