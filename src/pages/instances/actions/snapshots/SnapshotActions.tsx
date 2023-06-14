@@ -109,7 +109,7 @@ const SnapshotActions: FC<Props> = ({
                 undone, and can result in data loss.
               </>
             }
-            confirmationExtra={
+            confirmExtra={
               snapshot.stateful ? (
                 <ConfirmationForce
                   label="Restore the instance state"
