@@ -118,7 +118,9 @@ const OperationList: FC = () => {
           className: "status",
         },
         {
-          content: <CancelOperationBtn operation={operation} />,
+          content: (
+            <CancelOperationBtn operation={operation} project={project} />
+          ),
           role: "rowheader",
           className: "u-align--right cancel",
           "aria-label": "Cancel",

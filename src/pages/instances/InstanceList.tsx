@@ -267,7 +267,9 @@ const InstanceList: FC = () => {
                 },
               ]),
           {
-            content: <CancelOperationBtn operation={operation} />,
+            content: (
+              <CancelOperationBtn operation={operation} project={project} />
+            ),
             role: "rowheader",
             className: classnames("u-align--right", {
               "u-hide": panelParams.instance,
