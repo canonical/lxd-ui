@@ -3,14 +3,18 @@ import ConfirmationButton from "components/ConfirmationButton";
 import { useNotify } from "context/notify";
 import { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   operation: LxdOperation;
+  project: string;
 }
 
-const CancelOperationBtn: FC<Props> = ({ operation }) => {
+const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleCancel = () => {
     setLoading(true);
@@ -21,7 +25,12 @@ const CancelOperationBtn: FC<Props> = ({ operation }) => {
       .catch((e) => {
         notify.failure("Operation cancellation failed", e);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.operations, project],
+        });
+      });
   };
 
   return operation.status !== "Running" ? null : (
