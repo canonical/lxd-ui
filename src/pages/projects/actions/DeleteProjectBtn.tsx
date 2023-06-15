@@ -21,6 +21,16 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const getHoverText = () => {
+    if (project.name === "default") {
+      return "The default project cannot be deleted";
+    }
+    if (!isProjectEmpty(project)) {
+      return "Non-empty projects cannot be deleted";
+    }
+    return "Delete project";
+  };
+
   const handleDelete = () => {
     setLoading(true);
     deleteProject(project)
@@ -43,7 +53,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
 
   return (
     <ConfirmationButton
-      onHoverText="Delete project"
+      onHoverText={getHoverText()}
       toggleAppearance={isDeleteIcon ? "base" : "default"}
       className="u-no-margin--bottom"
       isLoading={isLoading}
