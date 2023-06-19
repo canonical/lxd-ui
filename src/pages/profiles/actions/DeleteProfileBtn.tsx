@@ -37,9 +37,20 @@ const DeleteProfileBtn: FC<Props> = ({
       .finally(() => setLoading(false));
   };
 
+  const isDefaultProfile = profile.name === "default";
+  const getHoverText = () => {
+    if (!featuresProfiles) {
+      return "Modifications are only available in the default project";
+    }
+    if (isDefaultProfile) {
+      return "The default profile cannot be deleted";
+    }
+    return "Delete profile";
+  };
+
   return (
     <ConfirmationButton
-      onHoverText="Delete profile"
+      onHoverText={getHoverText()}
       toggleAppearance={isDeleteIcon ? "base" : "default"}
       className="u-no-margin--bottom"
       isLoading={isLoading}
@@ -54,7 +65,7 @@ const DeleteProfileBtn: FC<Props> = ({
       }
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDisabled={profile.name === "default" || !featuresProfiles}
+      isDisabled={isDefaultProfile || !featuresProfiles}
       isDense={false}
       icon={isDeleteIcon ? "delete" : undefined}
     />

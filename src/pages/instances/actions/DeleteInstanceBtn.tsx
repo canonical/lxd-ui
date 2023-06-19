@@ -39,11 +39,18 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       .finally(() => setLoading(false));
   };
 
-  const isDisabled = isLoading || !deletableStatuses.includes(instance.status);
+  const isDeletableStatus = deletableStatuses.includes(instance.status);
+  const isDisabled = isLoading || !isDeletableStatus;
+  const getHoverText = () => {
+    if (!isDeletableStatus) {
+      return "Stop the instance to delete it";
+    }
+    return "Delete instance";
+  };
 
   return (
     <ConfirmationButton
-      onHoverText="Delete instance"
+      onHoverText={getHoverText()}
       toggleAppearance={isDeleteIcon ? "base" : "default"}
       className="u-no-margin--bottom"
       isLoading={isLoading}

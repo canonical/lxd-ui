@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNotify } from "context/notify";
 import Loader from "components/Loader";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams from "util/usePanelParams";
 import { usePagination } from "util/pagination";
@@ -194,7 +194,9 @@ const ProfileList: FC = () => {
               {!isLoading && !featuresProfiles && (
                 <Notification severity="caution" title="Profiles disabled">
                   The feature has been disabled on a project level. All the
-                  available profiles are inherited from the default project.
+                  available profiles are inherited from the{" "}
+                  <Link to="/ui/project/default/profiles">default project</Link>
+                  .
                 </Notification>
               )}
               <ScrollableTable

@@ -36,9 +36,17 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       });
   };
 
+  const isDefaultGroup = group === "default";
+  const getHoverText = () => {
+    if (isDefaultGroup) {
+      return "The default cluster group cannot be deleted";
+    }
+    return "Delete cluster group";
+  };
+
   return (
     <ConfirmationButton
-      onHoverText="Delete cluster group"
+      onHoverText={getHoverText()}
       toggleAppearance=""
       toggleCaption="Delete cluster group"
       isLoading={isLoading}
@@ -52,7 +60,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       }
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
-      isDisabled={group === "default"}
+      isDisabled={isDefaultGroup}
       isDense={false}
     />
   );
