@@ -13,7 +13,7 @@ import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useNotify } from "context/notify";
 import { FormDeviceValues, formDeviceToPayload } from "util/formDevices";
 import SecurityPoliciesForm, {
@@ -170,7 +170,13 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
     <div className="edit-profile">
       {!featuresProfiles && (
         <Notification severity="caution" title="Inherited profile">
-          Modifications are only available in the default project.
+          Modifications are only available in the{" "}
+          <Link
+            to={`/ui/project/default/profiles/detail/${profile.name}/configuration`}
+          >
+            default project
+          </Link>
+          .
         </Notification>
       )}
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
