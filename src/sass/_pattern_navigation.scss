@@ -64,6 +64,10 @@
   }
 }
 
+.l-navigation .p-panel__content {
+  padding-bottom: 0;
+}
+
 .l-navigation .p-panel__header {
   z-index: 1001;
 }
@@ -119,10 +123,11 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-x-large) and (max-height: 700px),
-  screen and (min-width: $breakpoint-x-large) and (max-height: 840px) {
+@media screen and (max-width: $breakpoint-x-large) and (max-height: 680px),
+  screen and (min-width: $breakpoint-x-large) and (max-height: 810px) {
   .sidenav-bottom-ul.authenticated-nav {
     bottom: initial;
+    margin-bottom: 0;
     position: initial;
   }
 
