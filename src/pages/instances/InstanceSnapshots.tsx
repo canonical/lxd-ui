@@ -302,7 +302,6 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
           <>
             <p>
               <a
-                className="p-link--external"
                 href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
                 target="_blank"
                 rel="noreferrer"
