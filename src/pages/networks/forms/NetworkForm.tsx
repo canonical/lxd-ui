@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -26,6 +26,9 @@ import NetworkFormMenu, {
   USER,
 } from "pages/networks/forms/NetworkFormMenu";
 import { FormikProps } from "formik/dist/types";
+import { updateMaxHeight } from "util/updateMaxHeight";
+import useEventListener from "@use-it/event-listener";
+import { useNotify } from "context/notify";
 
 export interface NetworkFormValues {
   name: string;
@@ -131,7 +134,14 @@ interface Props {
 }
 
 const NetworkForm: FC<Props> = ({ formik }) => {
+  const notify = useNotify();
   const [section, setSection] = useState(NETWORK_DETAILS);
+
+  const updateFormHeight = () => {
+    updateMaxHeight("form-contents", "p-bottom-controls");
+  };
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEventListener("resize", updateFormHeight);
 
   const getFormProps = (id: keyof Omit<NetworkFormValues, "user">) => {
     return {

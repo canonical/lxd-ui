@@ -1,5 +1,5 @@
 import { handleResponse } from "util/helpers";
-import { LxdNetwork } from "types/network";
+import { LxdNetwork, LxdNetworkState } from "types/network";
 import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
@@ -19,6 +19,18 @@ export const fetchNetwork = (
     fetch(`/1.0/networks/${name}?project=${project}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdNetwork>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchNetworkState = (
+  name: string,
+  project: string
+): Promise<LxdNetworkState> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/networks/${name}/state?project=${project}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdNetworkState>) => resolve(data.metadata))
       .catch(reject);
   });
 };
