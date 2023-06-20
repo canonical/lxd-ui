@@ -111,7 +111,7 @@ const NetworkList: FC = () => {
         name: network.name.toLowerCase(),
         type: network.type,
         managed: network.managed,
-        description: network.description.toLowerCase(),
+        description: network.description?.toLowerCase(),
         state: network.status,
         usedBy: network.used_by?.length ?? 0,
       },
