@@ -153,7 +153,6 @@ const NetworkList: FC = () => {
               <>
                 <p>
                   <a
-                    className="p-link--external"
                     href="https://linuxcontainers.org/lxd/docs/latest/explanation/networks/"
                     target="_blank"
                     rel="noreferrer"

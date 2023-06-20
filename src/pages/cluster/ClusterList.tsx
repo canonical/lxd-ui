@@ -113,7 +113,6 @@ const ClusterList: FC = () => {
                 >
                   <p>
                     <a
-                      className="p-link--external"
                       href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
                       target="_blank"
                       rel="noreferrer"
@@ -137,7 +136,6 @@ const ClusterList: FC = () => {
               >
                 <p>
                   <a
-                    className="p-link--external"
                     href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
                     target="_blank"
                     rel="noreferrer"

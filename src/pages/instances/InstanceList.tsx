@@ -589,7 +589,6 @@ const InstanceList: FC = () => {
                   <>
                     <p>
                       <a
-                        className="p-link--external"
                         href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
                         target="_blank"
                         rel="noreferrer"

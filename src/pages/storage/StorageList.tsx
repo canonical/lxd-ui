@@ -140,7 +140,6 @@ const StorageList: FC = () => {
               <>
                 <p>
                   <a
-                    className="p-link--external"
                     href="https://linuxcontainers.org/lxd/docs/latest/explanation/storage/"
                     target="_blank"
                     rel="noreferrer"

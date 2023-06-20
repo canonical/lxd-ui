@@ -55,7 +55,6 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                   Pongo2 template string that represents the snapshot name (used
                   for scheduled snapshots and unnamed snapshots), see{" "}
                   <a
-                    className="p-link--external"
                     href="https://linuxcontainers.org/lxd/docs/latest/reference/instance_options/#instance-options-snapshots-names"
                     target="_blank"
                     rel="noreferrer"
