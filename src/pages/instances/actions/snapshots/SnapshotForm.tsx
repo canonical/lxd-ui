@@ -98,6 +98,7 @@ const SnapshotForm: FC<Props> = ({
               id="expirationDate"
               name="expirationDate"
               type="date"
+              lang="en-GB"
               label="Expiry date"
               min={getTomorrow()}
               onChange={formik.handleChange}
