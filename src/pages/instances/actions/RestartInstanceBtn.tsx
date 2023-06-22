@@ -61,8 +61,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       title="Confirm restart"
       confirmMessage={
         <>
-          Are you sure you want to restart instance{" "}
-          <ItemName item={instance} bold />?
+          This will restart instance <ItemName item={instance} bold />.
         </>
       }
       confirmExtra={

@@ -53,8 +53,8 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       title="Confirm delete"
       confirmMessage={
         <>
-          Are you sure you want to delete cluster group{" "}
-          <ItemName item={{ name: group }} bold />?{"\n"}This action cannot be
+          This will permanently delete cluster group{" "}
+          <ItemName item={{ name: group }} bold />.{"\n"}This action cannot be
           undone, and can result in data loss.
         </>
       }

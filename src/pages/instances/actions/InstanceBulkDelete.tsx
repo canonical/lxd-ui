@@ -95,8 +95,8 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
                   <br />
                 </>
               )}
-              Are you sure you want to delete <b>{deleteCount}</b>{" "}
-              {pluralizeInstance(deleteCount)}?{"\n"}This action cannot be
+              This will permanently delete <b>{deleteCount}</b>{" "}
+              {pluralizeInstance(deleteCount)}.{"\n"}This action cannot be
               undone, and can result in data loss.
             </>
           }

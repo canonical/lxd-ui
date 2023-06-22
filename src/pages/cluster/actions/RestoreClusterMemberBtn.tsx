@@ -40,8 +40,8 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
       title="Confirm restore"
       confirmMessage={
         <>
-          Are you sure you want to restore cluster member{" "}
-          <ItemName item={{ name: member.server_name }} bold />?
+          This will restore cluster member{" "}
+          <ItemName item={{ name: member.server_name }} bold />.
         </>
       }
       confirmButtonLabel="Restore"

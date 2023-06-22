@@ -58,9 +58,8 @@ const DeleteProfileBtn: FC<Props> = ({
       toggleCaption={isDeleteIcon ? undefined : "Delete profile"}
       confirmMessage={
         <>
-          Are you sure you want to delete profile{" "}
-          <ItemName item={profile} bold />?{"\n"}This action cannot be undone,
-          and can result in data loss.
+          This will permanently delete profile <ItemName item={profile} bold />.
+          {"\n"}This action cannot be undone, and can result in data loss.
         </>
       }
       confirmButtonLabel="Delete"
