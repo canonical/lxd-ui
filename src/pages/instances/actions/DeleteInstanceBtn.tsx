@@ -58,8 +58,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       toggleCaption={isDeleteIcon ? undefined : "Delete instance"}
       confirmMessage={
         <>
-          Are you sure you want to delete instance{" "}
-          <ItemName item={instance} bold />?{"\n"}This action cannot be undone,
+          This will permanently delete instance{" "}
+          <ItemName item={instance} bold />.{"\n"}This action cannot be undone,
           and can result in data loss.
         </>
       }

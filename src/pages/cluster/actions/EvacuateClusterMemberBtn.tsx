@@ -42,8 +42,8 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
       title="Confirm evacuation"
       confirmMessage={
         <>
-          Are you sure you want to evacuate{" "}
-          <ItemName item={{ name: member.server_name }} bold />?
+          This will evacuate cluster member{" "}
+          <ItemName item={{ name: member.server_name }} bold />.
         </>
       }
       confirmButtonLabel="Evacuate"

@@ -58,8 +58,7 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       title="Confirm pause"
       confirmMessage={
         <>
-          Are you sure you want to pause instance{" "}
-          <ItemName item={instance} bold />?
+          This will pause instance <ItemName item={instance} bold />.
         </>
       }
       confirmButtonLabel="Pause"

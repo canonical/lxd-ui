@@ -7,8 +7,6 @@ import {
 } from "types/instance";
 import {
   instanceAction,
-  instanceActionLabel,
-  instanceActions,
   pluralizeInstance,
   statusLabel,
 } from "util/instanceBulkActions";
@@ -79,13 +77,12 @@ const InstanceBulkAction: FC<Props> = ({
     }
 
     const indent = hasDifferentStates ? "- " : "";
-    const action = instanceActionLabel(actionRaw);
 
     return (
       <Fragment key={currentState + desiredAction}>
         {indent}
-        <b>{count}</b>
-        {` ${status} ${pluralizeInstance(count)} will be ${action}.`}
+        This will {desiredAction.replace("freeze", "pause")} <b>{count}</b>
+        {` ${status} ${pluralizeInstance(count)}.`}
         <br />
       </Fragment>
     );
@@ -117,12 +114,6 @@ const InstanceBulkAction: FC<Props> = ({
         <>
           {selectedSummary}
           {getLineOrder().map((state) => statusLine(state, action))}
-          <br />
-          Are you sure you want to {confirmLabel.toLowerCase()}{" "}
-          {instanceActions(instances, action).length === 1
-            ? "this instance"
-            : "these instances"}
-          ?
         </>
       }
       icon={icon}

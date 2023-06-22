@@ -72,6 +72,10 @@ export const pluralizeInstance = (count: number) => {
   return count === 1 ? "instance" : "instances";
 };
 
+export const pluralizeSnapshot = (count: number) => {
+  return count === 1 ? "snapshot" : "snapshots";
+};
+
 export const statusLabel = (status: LxdInstanceStatus) => {
   const statusToLabel: Partial<Record<LxdInstanceStatus, string>> = {
     Frozen: "paused",

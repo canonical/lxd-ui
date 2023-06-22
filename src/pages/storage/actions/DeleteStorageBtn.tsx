@@ -56,9 +56,8 @@ const DeleteStorageBtn: FC<Props> = ({
       }
       confirmMessage={
         <>
-          Are you sure you want to delete storage{" "}
-          <ItemName item={storage} bold />?{"\n"}This action cannot be undone,
-          and can result in data loss.
+          This will permanently delete storage <ItemName item={storage} bold />.
+          {"\n"}This action cannot be undone, and can result in data loss.
         </>
       }
       confirmButtonLabel="Delete"

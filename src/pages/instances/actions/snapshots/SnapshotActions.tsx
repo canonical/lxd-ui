@@ -104,9 +104,8 @@ const SnapshotActions: FC<Props> = ({
             title="Confirm restore"
             confirmMessage={
               <>
-                Are you sure you want to restore snapshot{" "}
-                <ItemName item={snapshot} bold />?{"\n"}This action cannot be
-                undone, and can result in data loss.
+                This will restore snapshot <ItemName item={snapshot} bold />.
+                {"\n"}This action cannot be undone, and can result in data loss.
               </>
             }
             confirmExtra={
@@ -132,8 +131,8 @@ const SnapshotActions: FC<Props> = ({
             title="Confirm delete"
             confirmMessage={
               <>
-                Are you sure you want to delete snapshot{" "}
-                <ItemName item={snapshot} bold />?{"\n"}This action cannot be
+                This will permanently delete snapshot{" "}
+                <ItemName item={snapshot} bold />.{"\n"}This action cannot be
                 undone, and can result in data loss.
               </>
             }

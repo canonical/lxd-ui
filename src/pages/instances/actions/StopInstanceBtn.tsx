@@ -58,8 +58,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       title="Confirm stop"
       confirmMessage={
         <>
-          Are you sure you want to stop instance{" "}
-          <ItemName item={instance} bold />?
+          This will stop instance <ItemName item={instance} bold />.
         </>
       }
       confirmExtra={

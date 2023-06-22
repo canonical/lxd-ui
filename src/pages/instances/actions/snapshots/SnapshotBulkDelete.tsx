@@ -4,6 +4,7 @@ import { deleteSnapshotBulk } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
+import { pluralizeSnapshot } from "util/instanceBulkActions";
 
 interface Props {
   instance: LxdInstance;
@@ -24,6 +25,8 @@ const SnapshotBulkDelete: FC<Props> = ({
 }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+
+  const count = snapshotNames.length;
 
   const handleDelete = () => {
     setLoading(true);
@@ -55,16 +58,10 @@ const SnapshotBulkDelete: FC<Props> = ({
       toggleCaption="Delete snapshots"
       onHoverText="Delete snapshots"
       confirmMessage={
-        snapshotNames.length === 1 ? (
-          <>
-            <b>1</b> snapshot selected.{"\n"}Are you sure you want to delete it?
-          </>
-        ) : (
-          <>
-            <b>{snapshotNames.length}</b> snapshots selected.{"\n"}Are you sure
-            you want to delete them?
-          </>
-        )
+        <>
+          This will permanently delete <b>{count}</b> {pluralizeSnapshot(count)}
+          .{"\n"}This action cannot be undone, and can result in data loss.
+        </>
       }
       confirmButtonLabel="Delete"
       onConfirm={handleDelete}
