@@ -6,6 +6,7 @@ import {
   Icon,
   Input,
   Label,
+  Notification,
   Row,
   Select,
 } from "@canonical/react-components";
@@ -19,16 +20,22 @@ import {
 } from "types/network";
 import { optionYesNo } from "util/instanceOptions";
 import NetworkFormMenu, {
+  ADVANCED_OVN,
+  BRIDGE,
   DNS,
   IPV4,
   IPV6,
   NETWORK_DETAILS,
   USER,
+  YAML_CONFIGURATION,
 } from "pages/networks/forms/NetworkFormMenu";
 import { FormikProps } from "formik/dist/types";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { useNotify } from "context/notify";
+import { useSettings } from "context/useSettings";
+import Loader from "components/Loader";
+import YamlForm from "pages/instances/forms/YamlForm";
 
 export interface NetworkFormValues {
   name: string;
@@ -54,6 +61,7 @@ export interface NetworkFormValues {
   ipv4_dhcp_gateway?: string;
   ipv4_dhcp_ranges?: string;
   ipv4_firewall?: string;
+  ipv4_l3only?: string;
   ipv4_nat?: string;
   ipv4_nat_address?: string;
   ipv4_nat_order?: string;
@@ -66,6 +74,7 @@ export interface NetworkFormValues {
   ipv6_dhcp_ranges?: string;
   ipv6_dhcp_stateful?: string;
   ipv6_firewall?: string;
+  ipv6_l3only?: string;
   ipv6_nat?: string;
   ipv6_nat_address?: string;
   ipv6_nat_order?: string;
@@ -76,6 +85,7 @@ export interface NetworkFormValues {
     key: string;
     value: string;
   }[];
+  yaml?: string;
 }
 
 export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
@@ -101,6 +111,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["ipv4.dhcp.gateway"]: values.ipv4_dhcp_gateway,
       ["ipv4.dhcp.ranges"]: values.ipv4_dhcp_ranges,
       ["ipv4.firewall"]: values.ipv4_firewall,
+      ["ipv4.l3only"]: values.ipv4_l3only,
       ["ipv4.nat"]: values.ipv4_nat,
       ["ipv4.nat.address"]: values.ipv4_nat_address,
       ["ipv4.nat.order"]: values.ipv4_nat_order,
@@ -113,6 +124,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["ipv6.dhcp.ranges"]: values.ipv6_dhcp_ranges,
       ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful,
       ["ipv6.firewall"]: values.ipv6_firewall,
+      ["ipv6.l3only"]: values.ipv6_l3only,
       ["ipv6.nat"]: values.ipv6_nat,
       ["ipv6.nat.address"]: values.ipv6_nat_address,
       ["ipv6.nat.order"]: values.ipv6_nat_order,
@@ -131,11 +143,21 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
+  getYaml: () => string;
 }
 
-const NetworkForm: FC<Props> = ({ formik }) => {
+const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
   const notify = useNotify();
   const [section, setSection] = useState(NETWORK_DETAILS);
+  const { data: settings, isLoading } = useSettings();
+  const hasOvn = Boolean(settings?.config["network.ovn.northbound_connection"]);
+  const hasFan = settings?.environment?.os_name
+    ?.toLowerCase()
+    .includes("ubuntu");
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -160,7 +182,12 @@ const NetworkForm: FC<Props> = ({ formik }) => {
       className="form network-form"
       onSubmit={() => void formik.submitForm()}
     >
-      <NetworkFormMenu active={section} setActive={setSection} />
+      <NetworkFormMenu
+        active={section}
+        setActive={setSection}
+        networkType={formik.values.type}
+        hasName={formik.values.name.length > 0}
+      />
       <Row className="form-contents" key={section}>
         <Col size={12}>
           {section === NETWORK_DETAILS && (
@@ -177,10 +204,12 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                   {
                     label: "Bridge (fan)",
                     value: "bridge-fan",
+                    disabled: !hasFan,
                   },
                   {
                     label: "OVN",
                     value: "ovn",
+                    disabled: !hasOvn,
                   },
                   {
                     label: "Macvlan",
@@ -224,6 +253,40 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                 type="text"
                 label="Description"
               />
+              {formik.values.bridge_mode !== "fan" && (
+                <Input
+                  {...getFormProps("ipv4_address")}
+                  type="text"
+                  label="IPv4 address"
+                  help="IPv4 address for the bridge (use none to turn off IPv4 or auto to generate a new random unused subnet) (CIDR)"
+                />
+              )}
+              <Select
+                {...getFormProps("ipv4_nat")}
+                label="IPv4 NAT"
+                help="Whether to NAT"
+                options={optionYesNo}
+                disabled={formik.values.ipv4_address === "none"}
+              />
+              {formik.values.bridge_mode !== "fan" && (
+                <Input
+                  {...getFormProps("ipv6_address")}
+                  type="text"
+                  label="IPv6 address"
+                  help="IPv6 address for the bridge (use none to turn off IPv6 or auto to generate a new random unused subnet) (CIDR)"
+                />
+              )}
+              <Select
+                {...getFormProps("ipv6_nat")}
+                label="IPv6 NAT"
+                help="Whether to NAT"
+                options={optionYesNo}
+                disabled={formik.values.ipv6_address === "none"}
+              />
+            </React.Fragment>
+          )}
+          {[BRIDGE, ADVANCED_OVN].includes(section) && (
+            <>
               <Input
                 {...getFormProps("bridge_mtu")}
                 type="text"
@@ -306,9 +369,9 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                   )}
                 </>
               )}
-            </React.Fragment>
+            </>
           )}
-          {section === DNS && (
+          {[DNS, ADVANCED_OVN].includes(section) && (
             <>
               <Input
                 {...getFormProps("dns_domain")}
@@ -350,38 +413,10 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                 help="Full comma-separated domain search list, defaulting to DNS domain value"
                 disabled={formik.values.dns_mode === "none"}
               />
-              <Input
-                {...getFormProps("dns_zone_forward")}
-                type="text"
-                label="DNS zone forward"
-                help="Comma-separated list of DNS zone names for forward DNS records"
-                disabled={formik.values.dns_mode === "none"}
-              />
-              <Input
-                {...getFormProps("dns_zone_reverse_ipv4")}
-                type="text"
-                label="DNS zone reverse ipv4"
-                help="DNS zone name for IPv4 reverse DNS records"
-                disabled={formik.values.dns_mode === "none"}
-              />
-              <Input
-                {...getFormProps("dns_zone_reverse_ipv6")}
-                type="text"
-                label="DNS zone reverse ipv6"
-                help="DNS zone name for IPv6 reverse DNS records"
-                disabled={formik.values.dns_mode === "none"}
-              />
             </>
           )}
-          {section === IPV4 && (
+          {[IPV4, ADVANCED_OVN].includes(section) && (
             <>
-              <Input
-                {...getFormProps("ipv4_address")}
-                type="text"
-                label="IPv4 address"
-                help="IPv4 address for the bridge (use none to turn off IPv4 or auto to generate a new random unused subnet) (CIDR)"
-                disabled={formik.values.bridge_mode !== "standard"}
-              />
               <Select
                 {...getFormProps("ipv4_dhcp")}
                 label="IPv4 DHCP"
@@ -389,45 +424,49 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                 options={optionYesNo}
                 disabled={formik.values.ipv4_address === "none"}
               />
-              {formik.values.ipv4_dhcp === "true" && (
-                <>
-                  <Input
-                    {...getFormProps("ipv4_dhcp_expiry")}
-                    type="text"
-                    label="IPv4 DHCP expiry"
-                    help="When to expire DHCP leases"
-                    disabled={formik.values.ipv4_dhcp !== "true"}
-                  />
-                  <Input
-                    {...getFormProps("ipv4_dhcp_gateway")}
-                    type="text"
-                    label="IPv4 DHCP gateway"
-                    help="Address of the gateway for the subnet"
-                    disabled={formik.values.ipv4_dhcp !== "true"}
-                  />
-                  <Input
-                    {...getFormProps("ipv4_dhcp_ranges")}
-                    type="text"
-                    label="IPv4 DHCP ranges"
-                    help="Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)"
-                    disabled={formik.values.ipv4_dhcp !== "true"}
-                  />
-                </>
+              {formik.values.type !== "ovn" &&
+                formik.values.ipv4_dhcp === "true" && (
+                  <>
+                    <Input
+                      {...getFormProps("ipv4_dhcp_expiry")}
+                      type="text"
+                      label="IPv4 DHCP expiry"
+                      help="When to expire DHCP leases"
+                      disabled={formik.values.ipv4_dhcp !== "true"}
+                    />
+                    <Input
+                      {...getFormProps("ipv4_dhcp_gateway")}
+                      type="text"
+                      label="IPv4 DHCP gateway"
+                      help="Address of the gateway for the subnet"
+                      disabled={formik.values.ipv4_dhcp !== "true"}
+                    />
+                    <Input
+                      {...getFormProps("ipv4_dhcp_ranges")}
+                      type="text"
+                      label="IPv4 DHCP ranges"
+                      help="Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)"
+                      disabled={formik.values.ipv4_dhcp !== "true"}
+                    />
+                  </>
+                )}
+              {formik.values.type === "ovn" && (
+                <Select
+                  {...getFormProps("ipv4_l3only")}
+                  label="IPv4 L3 only"
+                  help="Whether to enable layer 3 only mode."
+                  options={optionYesNo}
+                />
               )}
-              <Select
-                {...getFormProps("ipv4_firewall")}
-                label="IPv4 firewall"
-                help="Whether to generate filtering firewall rules for this network"
-                options={optionYesNo}
-                disabled={formik.values.ipv4_address === "none"}
-              />
-              <Select
-                {...getFormProps("ipv4_nat")}
-                label="IPv4 NAT"
-                help="Whether to NAT"
-                options={optionYesNo}
-                disabled={formik.values.ipv4_address === "none"}
-              />
+              {formik.values.type !== "ovn" && (
+                <Select
+                  {...getFormProps("ipv4_firewall")}
+                  label="IPv4 firewall"
+                  help="Whether to generate filtering firewall rules for this network"
+                  options={optionYesNo}
+                  disabled={formik.values.ipv4_address === "none"}
+                />
+              )}
               {formik.values.ipv4_nat === "true" && (
                 <>
                   <Input
@@ -440,62 +479,59 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                       formik.values.ipv4_nat !== "true"
                     }
                   />
+                  {formik.values.type !== "ovn" && (
+                    <Select
+                      {...getFormProps("ipv4_nat_order")}
+                      label="IPv4 NAT order"
+                      help="Whether to add the required NAT rules before or after any pre-existing rules"
+                      options={[
+                        {
+                          label: "Select option",
+                          value: "",
+                          disabled: true,
+                        },
+                        {
+                          label: "Before",
+                          value: "before",
+                        },
+                        {
+                          label: "After",
+                          value: "after",
+                        },
+                      ]}
+                      disabled={formik.values.ipv4_address === "none"}
+                    />
+                  )}
+                </>
+              )}
+              {formik.values.type !== "ovn" && (
+                <>
+                  <Input
+                    {...getFormProps("ipv4_ovn_ranges")}
+                    type="text"
+                    label="IPv4 OVN ranges"
+                    help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)"
+                  />
+                  <Input
+                    {...getFormProps("ipv4_routes")}
+                    type="text"
+                    label="IPv4 routes"
+                    help="Comma-separated list of additional IPv4 CIDR subnets to route to the bridge"
+                    disabled={formik.values.ipv4_address === "none"}
+                  />
                   <Select
-                    {...getFormProps("ipv4_nat_order")}
-                    label="IPv4 NAT order"
-                    help="Whether to add the required NAT rules before or after any pre-existing rules"
-                    options={[
-                      {
-                        label: "Select option",
-                        value: "",
-                        disabled: true,
-                      },
-                      {
-                        label: "Before",
-                        value: "before",
-                      },
-                      {
-                        label: "After",
-                        value: "after",
-                      },
-                    ]}
-                    disabled={
-                      formik.values.ipv4_address === "none" ||
-                      formik.values.ipv4_nat !== "true"
-                    }
+                    {...getFormProps("ipv4_routing")}
+                    label="IPv4 routing"
+                    help="Whether to route traffic in and out of the bridge"
+                    options={optionYesNo}
+                    disabled={formik.values.ipv4_address === "none"}
                   />
                 </>
               )}
-              <Input
-                {...getFormProps("ipv4_ovn_ranges")}
-                type="text"
-                label="IPv4 OVN ranges"
-                help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)"
-              />
-              <Input
-                {...getFormProps("ipv4_routes")}
-                type="text"
-                label="IPv4 routes"
-                help="Comma-separated list of additional IPv4 CIDR subnets to route to the bridge"
-                disabled={formik.values.ipv4_address === "none"}
-              />
-              <Select
-                {...getFormProps("ipv4_routing")}
-                label="IPv4 routing"
-                help="Whether to route traffic in and out of the bridge"
-                options={optionYesNo}
-                disabled={formik.values.ipv4_address === "none"}
-              />
             </>
           )}
-          {section === IPV6 && (
+          {[IPV6, ADVANCED_OVN].includes(section) && (
             <>
-              <Input
-                {...getFormProps("ipv6_address")}
-                type="text"
-                label="IPv6 address"
-                help="IPv6 address for the bridge (use none to turn off IPv6 or auto to generate a new random unused subnet) (CIDR)"
-              />
               <Select
                 {...getFormProps("ipv6_dhcp")}
                 label="IPv6 DHCP"
@@ -505,26 +541,30 @@ const NetworkForm: FC<Props> = ({ formik }) => {
               />
               {formik.values.ipv6_dhcp === "true" && (
                 <>
-                  <Input
-                    {...getFormProps("ipv6_dhcp_expiry")}
-                    type="text"
-                    label="IPv6 DHCP expiry"
-                    help="When to expire DHCP leases"
-                    disabled={
-                      formik.values.ipv6_address === "none" ||
-                      formik.values.ipv6_dhcp !== "true"
-                    }
-                  />
-                  <Input
-                    {...getFormProps("ipv6_dhcp_ranges")}
-                    type="text"
-                    label="IPv6 DHCP ranges"
-                    help="Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)"
-                    disabled={
-                      formik.values.ipv6_address === "none" ||
-                      formik.values.ipv6_dhcp !== "true"
-                    }
-                  />
+                  {formik.values.type !== "ovn" && (
+                    <>
+                      <Input
+                        {...getFormProps("ipv6_dhcp_expiry")}
+                        type="text"
+                        label="IPv6 DHCP expiry"
+                        help="When to expire DHCP leases"
+                        disabled={
+                          formik.values.ipv6_address === "none" ||
+                          formik.values.ipv6_dhcp !== "true"
+                        }
+                      />
+                      <Input
+                        {...getFormProps("ipv6_dhcp_ranges")}
+                        type="text"
+                        label="IPv6 DHCP ranges"
+                        help="Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)"
+                        disabled={
+                          formik.values.ipv6_address === "none" ||
+                          formik.values.ipv6_dhcp !== "true"
+                        }
+                      />
+                    </>
+                  )}
                   <Select
                     {...getFormProps("ipv6_dhcp_stateful")}
                     label="IPv6 DHCP stateful"
@@ -537,20 +577,23 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                   />
                 </>
               )}
-              <Select
-                {...getFormProps("ipv6_firewall")}
-                label="IPv6 firewall"
-                help="Whether to generate filtering firewall rules for this network"
-                options={optionYesNo}
-                disabled={formik.values.ipv6_address === "none"}
-              />
-              <Select
-                {...getFormProps("ipv6_nat")}
-                label="IPv6 NAT"
-                help="Whether to NAT"
-                options={optionYesNo}
-                disabled={formik.values.ipv6_address === "none"}
-              />
+              {formik.values.type === "ovn" && (
+                <Select
+                  {...getFormProps("ipv6_l3only")}
+                  label="IPv6 L3 only"
+                  help="Whether to enable layer 3 only mode."
+                  options={optionYesNo}
+                />
+              )}
+              {formik.values.type !== "ovn" && (
+                <Select
+                  {...getFormProps("ipv6_firewall")}
+                  label="IPv6 firewall"
+                  help="Whether to generate filtering firewall rules for this network"
+                  options={optionYesNo}
+                  disabled={formik.values.ipv6_address === "none"}
+                />
+              )}
               {formik.values.ipv6_nat === "true" && (
                 <>
                   <Input
@@ -563,60 +606,64 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                       formik.values.ipv6_nat !== "true"
                     }
                   />
-                  <Select
-                    {...getFormProps("ipv6_nat_order")}
-                    label="IPv6 NAT order"
-                    help="Whether to add the required NAT rules before or after any pre-existing rules"
-                    options={[
-                      {
-                        label: "Select option",
-                        value: "",
-                        disabled: true,
-                      },
-                      {
-                        label: "Before",
-                        value: "before",
-                      },
-                      {
-                        label: "After",
-                        value: "after",
-                      },
-                    ]}
-                    disabled={
-                      formik.values.ipv6_address === "none" ||
-                      formik.values.ipv6_nat !== "true"
-                    }
+                  {formik.values.type !== "ovn" && (
+                    <Select
+                      {...getFormProps("ipv6_nat_order")}
+                      label="IPv6 NAT order"
+                      help="Whether to add the required NAT rules before or after any pre-existing rules"
+                      options={[
+                        {
+                          label: "Select option",
+                          value: "",
+                          disabled: true,
+                        },
+                        {
+                          label: "Before",
+                          value: "before",
+                        },
+                        {
+                          label: "After",
+                          value: "after",
+                        },
+                      ]}
+                      disabled={
+                        formik.values.ipv6_address === "none" ||
+                        formik.values.ipv6_nat !== "true"
+                      }
+                    />
+                  )}
+                </>
+              )}
+              {formik.values.type !== "ovn" && (
+                <>
+                  <Input
+                    {...getFormProps("ipv6_ovn_ranges")}
+                    type="text"
+                    label="IPv6 ovn ranges"
+                    help="Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)"
+                    disabled={formik.values.ipv6_address === "none"}
+                  />
+                  <Input
+                    {...getFormProps("ipv6_ovn_routes")}
+                    type="text"
+                    label="IPv6 ovn routes"
+                    help="Comma-separated list of additional IPv6 CIDR subnets to route to the bridge"
+                    disabled={formik.values.ipv6_address === "none"}
+                  />
+                  <Input
+                    {...getFormProps("ipv6_ovn_routing")}
+                    type="text"
+                    label="IPv6 ovn routing"
+                    help="Whether to route traffic in and out of the bridge"
+                    disabled={formik.values.ipv6_address === "none"}
                   />
                 </>
               )}
-              <Input
-                {...getFormProps("ipv6_ovn_ranges")}
-                type="text"
-                label="IPv6 ovn ranges"
-                help="Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)"
-                disabled={formik.values.ipv6_address === "none"}
-              />
-              <Input
-                {...getFormProps("ipv6_ovn_routes")}
-                type="text"
-                label="IPv6 ovn routes"
-                help="Comma-separated list of additional IPv6 CIDR subnets to route to the bridge"
-                disabled={formik.values.ipv6_address === "none"}
-              />
-              <Input
-                {...getFormProps("ipv6_ovn_routing")}
-                type="text"
-                label="IPv6 ovn routing"
-                help="Whether to route traffic in and out of the bridge"
-                disabled={formik.values.ipv6_address === "none"}
-              />
             </>
           )}
-          {section === USER && (
+          {[USER, ADVANCED_OVN].includes(section) && (
             <>
-              {formik.values.user.length > 0 && (
-                <Label>User-provided free-form key/value pairs</Label>
-              )}
+              <Label>User-provided free-form key/value pairs</Label>
               {formik.values.user.map((userPair, index) => (
                 <div key={index} className="user-key-values">
                   <Input
@@ -652,18 +699,32 @@ const NetworkForm: FC<Props> = ({ formik }) => {
                   </Button>
                 </div>
               ))}
-              <Button
-                aria-label="add user key value pair"
-                onClick={() => {
-                  const copy = [...formik.values.user];
-                  copy.push({ key: "", value: "" });
-                  formik.setFieldValue("user", copy);
-                }}
-                type="button"
-              >
-                <span>Add key/value pair</span>
-              </Button>
+              <div>
+                <Button
+                  aria-label="add user key value pair"
+                  onClick={() => {
+                    const copy = [...formik.values.user];
+                    copy.push({ key: "", value: "" });
+                    formik.setFieldValue("user", copy);
+                  }}
+                  type="button"
+                >
+                  <span>Add</span>
+                </Button>
+              </div>
             </>
+          )}
+
+          {section === YAML_CONFIGURATION && (
+            <YamlForm
+              yaml={getYaml()}
+              setYaml={(yaml) => formik.setFieldValue("yaml", yaml)}
+            >
+              <Notification severity="caution" title="Before you edit the YAML">
+                Changes will be discarded, when switching back to the guided
+                forms.
+              </Notification>
+            </YamlForm>
           )}
         </Col>
       </Row>

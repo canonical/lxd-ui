@@ -24,6 +24,8 @@
       width: 18rem;
 
       .p-side-navigation__link {
+        justify-content: flex-start;
+        margin-bottom: 0;
         min-width: 13rem;
         text-align: left;
       }
