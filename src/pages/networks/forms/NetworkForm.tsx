@@ -18,7 +18,7 @@ import {
   LxdNetworkFanType,
   LxdNetworkType,
 } from "types/network";
-import { optionYesNo } from "util/instanceOptions";
+import { optionEnableDisable, optionYesNo } from "util/instanceOptions";
 import NetworkFormMenu, {
   ADVANCED_OVN,
   BRIDGE,
@@ -265,8 +265,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
               <Select
                 {...getFormProps("ipv4_nat")}
                 label="IPv4 NAT"
-                help="Whether to NAT"
-                options={optionYesNo}
+                help="Network address translation for IPv4"
+                options={optionEnableDisable}
                 disabled={formik.values.ipv4_address === "none"}
               />
               {formik.values.bridge_mode !== "fan" && (
@@ -280,8 +280,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
               <Select
                 {...getFormProps("ipv6_nat")}
                 label="IPv6 NAT"
-                help="Whether to NAT"
-                options={optionYesNo}
+                help="Network address translation for IPv6"
+                options={optionEnableDisable}
                 disabled={formik.values.ipv6_address === "none"}
               />
             </React.Fragment>
@@ -651,10 +651,10 @@ const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
                     help="Comma-separated list of additional IPv6 CIDR subnets to route to the bridge"
                     disabled={formik.values.ipv6_address === "none"}
                   />
-                  <Input
+                  <Select
                     {...getFormProps("ipv6_ovn_routing")}
-                    type="text"
                     label="IPv6 ovn routing"
+                    options={optionYesNo}
                     help="Whether to route traffic in and out of the bridge"
                     disabled={formik.values.ipv6_address === "none"}
                   />
