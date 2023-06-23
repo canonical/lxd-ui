@@ -14,6 +14,8 @@ import NetworkForm, {
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import { LxdNetwork } from "types/network";
+import { yamlToObject } from "util/yaml";
+import { dump as dumpYaml } from "js-yaml";
 
 interface Props {
   network: LxdNetwork;
@@ -63,6 +65,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       ipv4_dhcp_gateway: network.config["ipv4.dhcp.gateway"],
       ipv4_dhcp_ranges: network.config["ipv4.dhcp.ranges"],
       ipv4_firewall: network.config["ipv4.firewall"],
+      ipv4_l3only: network.config["ipv4.l3only"],
       ipv4_nat: network.config["ipv4.nat"],
       ipv4_nat_address: network.config["ipv4.nat.address"],
       ipv4_nat_order: network.config["ipv4.nat.order"],
@@ -75,6 +78,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       ipv6_dhcp_ranges: network.config["ipv6.dhcp.ranges"],
       ipv6_dhcp_stateful: network.config["ipv6.dhcp.stateful"],
       ipv6_firewall: network.config["ipv6.firewall"],
+      ipv6_l3only: network.config["ipv6.l3only"],
       ipv6_nat: network.config["ipv6.nat"],
       ipv6_nat_address: network.config["ipv6.nat.address"],
       ipv6_nat_order: network.config["ipv6.nat.order"],
@@ -89,9 +93,11 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {
-      const network = toNetwork(values);
-      updateNetwork(network, project)
+      const yaml = values.yaml ? values.yaml : getYaml();
+      const saveNetwork = yamlToObject(yaml);
+      updateNetwork({ ...saveNetwork, etag: network.etag }, project)
         .then(() => {
+          formik.setSubmitting(false);
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.networks],
           });
@@ -104,9 +110,24 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     },
   });
 
+  const getYaml = () => {
+    const exclude = new Set([
+      "used_by",
+      "etag",
+      "status",
+      "locations",
+      "managed",
+    ]);
+    const bareNetwork = Object.fromEntries(
+      Object.entries(network).filter((e) => !exclude.has(e[0]))
+    );
+    const formValues = toNetwork(formik.values);
+    return dumpYaml({ ...bareNetwork, ...formValues });
+  };
+
   return (
     <>
-      <NetworkForm formik={formik} />
+      <NetworkForm formik={formik} getYaml={getYaml} />
       <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">

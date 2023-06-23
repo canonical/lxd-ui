@@ -14,6 +14,10 @@ import NetworkForm, {
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import NotificationRow from "components/NotificationRow";
+import { useSettings } from "context/useSettings";
+import Loader from "components/Loader";
+import { yamlToObject } from "util/yaml";
+import { dump as dumpYaml } from "js-yaml";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -21,9 +25,15 @@ const CreateNetwork: FC = () => {
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
   const controllerState = useState<AbortController | null>(null);
+  const { data: settings, isLoading } = useSettings();
+  const hasOvn = Boolean(settings?.config["network.ovn.northbound_connection"]);
 
   if (!project) {
     return <>Missing project</>;
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   const NetworkSchema = Yup.object().shape({
@@ -37,13 +47,15 @@ const CreateNetwork: FC = () => {
   const formik = useFormik<NetworkFormValues>({
     initialValues: {
       name: "",
-      type: "bridge",
-      bridge_mode: "standard",
+      type: hasOvn ? "ovn" : "bridge",
+      bridge_mode: hasOvn ? undefined : "standard",
       user: [],
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {
-      const network = toNetwork(values);
+      const network = values.yaml
+        ? yamlToObject(values.yaml)
+        : toNetwork(values);
       createNetwork(network, project)
         .then(() => {
           void queryClient.invalidateQueries({
@@ -61,6 +73,11 @@ const CreateNetwork: FC = () => {
     },
   });
 
+  const getYaml = () => {
+    const payload = toNetwork(formik.values);
+    return dumpYaml(payload);
+  };
+
   return (
     <main className="l-main">
       <div className="p-panel">
@@ -69,7 +86,7 @@ const CreateNetwork: FC = () => {
         </div>
         <div className="p-panel__content create-network">
           <NotificationRow />
-          <NetworkForm formik={formik} />
+          <NetworkForm formik={formik} getYaml={getYaml} />
           <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">

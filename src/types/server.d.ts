@@ -7,6 +7,7 @@ export interface LxdSettings {
   config: LxdConfigPair;
   environment?: {
     architectures: string[];
+    os_name?: string;
     server_version: ?string;
     server_clustered: boolean;
   };
