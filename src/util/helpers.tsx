@@ -3,6 +3,7 @@ import { LxdApiResponse } from "types/apiResponse";
 import { LxdInstance } from "types/instance";
 import { LxdProject } from "types/project";
 import { LxdProfile } from "types/profile";
+import { getCookie } from "./cookies";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -44,6 +45,7 @@ export const getBrowserFormatDate = (d: Date) =>
   )}:${pad(d.getMinutes())}`;
 
 interface ErrorResponse {
+  error_code: number;
   error: string;
 }
 
@@ -51,7 +53,14 @@ export const handleResponse = async (response: Response) => {
   if (!response.ok) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result: ErrorResponse = await response.json();
-    throw Error(result.error);
+    const errorCode = result.error_code;
+    const isAuthError = errorCode === 401 || errorCode === 403;
+    const hasOidcCookie = Boolean(getCookie("oidc_access"));
+    if (isAuthError && hasOidcCookie) {
+      logout();
+    } else {
+      throw Error(result.error);
+    }
   }
   return response.json();
 };
@@ -184,3 +193,6 @@ export const getPromiseSettledCounts = (
   ).length;
   return { fulfilledCount, rejectedCount };
 };
+
+export const logout = () =>
+  void fetch("/oidc/logout").then(() => window.location.reload());

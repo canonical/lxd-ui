@@ -6,10 +6,9 @@ import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
 import ServerVersion from "components/ServerVersion";
-import { isWidthBelow } from "util/helpers";
+import { isWidthBelow, logout } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
-import { useSettings } from "context/useSettings";
 import { getCookie } from "util/cookies";
 
 const isSmallScreen = () => isWidthBelow(620);
@@ -17,12 +16,10 @@ const isSmallScreen = () => isWidthBelow(620);
 const Navigation: FC = () => {
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
-  const { data: settings } = useSettings();
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default"
   );
   const hasOidcCookie = Boolean(getCookie("oidc_access"));
-  const hasLogout = hasOidcCookie || settings?.auth_user_method === "oidc";
 
   useEffect(() => {
     project && project.name !== projectName && setProjectName(project.name);
@@ -211,16 +208,12 @@ const Navigation: FC = () => {
                           Settings
                         </NavLink>
                       </li>
-                      {hasLogout && (
+                      {hasOidcCookie && (
                         <li className="p-side-navigation__item">
                           <a
                             className="p-side-navigation__link"
                             title="Log out"
-                            onClick={() =>
-                              void fetch("/oidc/logout").then(() =>
-                                window.location.reload()
-                              )
-                            }
+                            onClick={logout}
                           >
                             <Icon
                               className="is-light p-side-navigation__icon"
