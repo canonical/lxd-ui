@@ -4,7 +4,8 @@ import { Button } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { useNotify } from "context/notify";
-import { LxdNetworkType } from "types/network";
+import { FormikProps } from "formik/dist/types";
+import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
 export const NETWORK_DETAILS = "Network details";
 export const ADVANCED_OVN = "Advanced";
@@ -18,22 +19,22 @@ export const YAML_CONFIGURATION = "YAML configuration";
 interface Props {
   active: string;
   setActive: (val: string) => void;
-  networkType: LxdNetworkType;
-  hasName: boolean;
+  formik: FormikProps<NetworkFormValues>;
 }
 
-const NetworkFormMenu: FC<Props> = ({
-  active,
-  setActive,
-  networkType,
-  hasName,
-}) => {
+const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
   const notify = useNotify();
   const [isConfigOpen, setConfigOpen] = useState(false);
   const menuItemProps = {
     active,
     setActive,
   };
+
+  const networkType = formik.values.type;
+  const hasName = formik.values.name.length > 0;
+  const disableReason = hasName
+    ? undefined
+    : "Please enter a network name to enable this section";
 
   const resize = () => {
     updateMaxHeight("form-navigation", "p-bottom-controls");
@@ -53,11 +54,7 @@ const NetworkFormMenu: FC<Props> = ({
                 aria-expanded={isConfigOpen ? "true" : "false"}
                 onClick={() => setConfigOpen(!isConfigOpen)}
                 disabled={!hasName}
-                title={
-                  hasName
-                    ? ""
-                    : "Please select an image before adding custom configuration"
-                }
+                title={disableReason}
               >
                 Configuration options
               </Button>
@@ -68,39 +65,28 @@ const NetworkFormMenu: FC<Props> = ({
               >
                 <MenuItem label={BRIDGE} {...menuItemProps} />
                 <MenuItem label={DNS} {...menuItemProps} />
-                <MenuItem label={IPV4} {...menuItemProps} />
-                <MenuItem label={IPV6} {...menuItemProps} />
+                {formik.values.ipv4_address !== "none" && (
+                  <MenuItem label={IPV4} {...menuItemProps} />
+                )}
+                {formik.values.ipv6_address !== "none" && (
+                  <MenuItem label={IPV6} {...menuItemProps} />
+                )}
                 <MenuItem label={USER} {...menuItemProps} />
               </ul>
             </li>
           )}
-          {networkType === "ovn" &&
-            (hasName ? (
-              <MenuItem label={ADVANCED_OVN} {...menuItemProps} />
-            ) : (
-              <li className="p-side-navigation__item">
-                <Button
-                  className="p-side-navigation__link p-button--base"
-                  disabled={true}
-                  title="Please enter a name before adding custom configuration"
-                >
-                  {ADVANCED_OVN}
-                </Button>
-              </li>
-            ))}
-          {hasName ? (
-            <MenuItem label={YAML_CONFIGURATION} {...menuItemProps} />
-          ) : (
-            <li className="p-side-navigation__item">
-              <Button
-                className="p-side-navigation__link p-button--base"
-                disabled={true}
-                title="Please enter a name before adding custom configuration"
-              >
-                {YAML_CONFIGURATION}
-              </Button>
-            </li>
+          {networkType === "ovn" && (
+            <MenuItem
+              label={ADVANCED_OVN}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
           )}
+          <MenuItem
+            label={YAML_CONFIGURATION}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
         </ul>
       </nav>
     </div>
