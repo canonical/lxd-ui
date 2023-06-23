@@ -25,7 +25,7 @@ const SettingForm: FC<Props> = ({ option, value }) => {
   const queryClient = useQueryClient();
 
   const toFormikKey = (key: string) => {
-    return key.replace(".", "___");
+    return key.replaceAll(".", "___");
   };
 
   const toApiFormat = (input: boolean | string | undefined): string => {
