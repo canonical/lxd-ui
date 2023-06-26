@@ -44,8 +44,9 @@ export interface LxdNetwork {
     "ipv6.nat.address"?: string;
     "ipv6.nat.order"?: string;
     "ipv6.ovn.ranges"?: string;
-    "ipv6.ovn.routes"?: string;
-    "ipv6.ovn.routing"?: string;
+    "ipv6.routes"?: string;
+    "ipv6.routing"?: string;
+    network?: string;
     [key: `user.${string}`]: string;
   };
   description?: string;

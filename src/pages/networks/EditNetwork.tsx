@@ -15,7 +15,8 @@ import NetworkForm, {
 import { LxdNetwork } from "types/network";
 import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
-import { getNetworkEditValues } from "util/networkEdit";
+import { getNetworkEditValues, handleConfigKeys } from "util/networkEdit";
+import { StringSchema } from "yup";
 
 interface Props {
   network: LxdNetwork;
@@ -38,6 +39,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
           checkDuplicateName(value, project, controllerState, "networks")
       )
       .required("Network name is required"),
+    network: Yup.string().when("type", (type: string, schema: StringSchema) =>
+      type === "ovn" ? schema.required("Uplink network is required") : schema
+    ),
   });
 
   const formik = useFormik<NetworkFormValues>({
@@ -45,12 +49,19 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     validationSchema: NetworkSchema,
     onSubmit: (values) => {
       const yaml = values.yaml ? values.yaml : getYaml();
-      const saveNetwork = yamlToObject(yaml);
+      const saveNetwork = yamlToObject(yaml) as LxdNetwork;
       updateNetwork({ ...saveNetwork, etag: network.etag }, project)
         .then(() => {
+          setReadOnly(true);
           formik.setSubmitting(false);
+          void formik.setValues(getNetworkEditValues(saveNetwork));
           void queryClient.invalidateQueries({
-            queryKey: [queryKeys.networks],
+            queryKey: [
+              queryKeys.projects,
+              project,
+              queryKeys.networks,
+              network.name,
+            ],
           });
           notify.success("Network updated.");
         })
@@ -61,24 +72,53 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     },
   });
 
-  const getYaml = () => {
-    const exclude = new Set([
+  const getPayload = (values: NetworkFormValues) => {
+    const formNetwork = toNetwork(values);
+
+    const excludeMainKeys = new Set([
       "used_by",
       "etag",
       "status",
       "locations",
       "managed",
+      "name",
+      "description",
+      "config",
+      "type",
     ]);
-    const bareNetwork = Object.fromEntries(
-      Object.entries(network).filter((e) => !exclude.has(e[0]))
+    const missingMainFields = Object.fromEntries(
+      Object.entries(network).filter((e) => !excludeMainKeys.has(e[0]))
     );
-    const formValues = toNetwork(formik.values);
-    return dumpYaml({ ...bareNetwork, ...formValues });
+
+    const excludeConfigKeys = new Set(handleConfigKeys);
+    const missingConfigFields = Object.fromEntries(
+      Object.entries(network.config).filter(
+        (e) => !excludeConfigKeys.has(e[0]) && !e[0].startsWith("volatile")
+      )
+    );
+
+    return {
+      ...missingMainFields,
+      ...formNetwork,
+      config: {
+        ...formNetwork.config,
+        ...missingConfigFields,
+      },
+    };
+  };
+
+  const getYaml = () => {
+    return dumpYaml(getPayload(formik.values));
   };
 
   return (
     <>
-      <NetworkForm formik={formik} getYaml={getYaml} isReadOnly={isReadOnly} />
+      <NetworkForm
+        formik={formik}
+        getYaml={getYaml}
+        isReadOnly={isReadOnly}
+        project={project}
+      />
       <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">
