@@ -8,12 +8,10 @@ import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
 export const NETWORK_DETAILS = "Network details";
-export const ADVANCED_OVN = "Advanced";
 export const BRIDGE = "Bridge";
 export const DNS = "DNS";
 export const IPV4 = "IPv4";
 export const IPV6 = "IPv6";
-export const USER = "User";
 export const YAML_CONFIGURATION = "YAML configuration";
 
 interface Props {
@@ -30,10 +28,13 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
     setActive,
   };
 
-  const networkType = formik.values.type;
   const hasName = formik.values.name.length > 0;
+  const hasOvnTypeMissingUplink =
+    formik.values.type === "ovn" && (formik.values.network?.length ?? 0) < 1;
   const disableReason = hasName
-    ? undefined
+    ? hasOvnTypeMissingUplink
+      ? "Please select an uplink network"
+      : undefined
     : "Please enter a network name to enable this section";
 
   const resize = () => {
@@ -46,42 +47,48 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
       <nav aria-label="Network form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={NETWORK_DETAILS} {...menuItemProps} />
-          {networkType !== "ovn" && (
-            <li className="p-side-navigation__item">
-              <Button
-                type="button"
-                className="p-side-navigation__accordion-button"
-                aria-expanded={isConfigOpen ? "true" : "false"}
-                onClick={() => setConfigOpen(!isConfigOpen)}
-                disabled={!hasName}
-                title={disableReason}
-              >
-                Configuration options
-              </Button>
+          <li className="p-side-navigation__item">
+            <Button
+              type="button"
+              className="p-side-navigation__accordion-button"
+              aria-expanded={isConfigOpen ? "true" : "false"}
+              onClick={() => setConfigOpen(!isConfigOpen)}
+              disabled={Boolean(disableReason)}
+              title={disableReason}
+            >
+              Configuration options
+            </Button>
 
-              <ul
-                className="p-side-navigation__list"
-                aria-expanded={isConfigOpen ? "true" : "false"}
-              >
-                <MenuItem label={BRIDGE} {...menuItemProps} />
-                <MenuItem label={DNS} {...menuItemProps} />
-                {formik.values.ipv4_address !== "none" && (
-                  <MenuItem label={IPV4} {...menuItemProps} />
-                )}
-                {formik.values.ipv6_address !== "none" && (
-                  <MenuItem label={IPV6} {...menuItemProps} />
-                )}
-                <MenuItem label={USER} {...menuItemProps} />
-              </ul>
-            </li>
-          )}
-          {networkType === "ovn" && (
-            <MenuItem
-              label={ADVANCED_OVN}
-              {...menuItemProps}
-              disableReason={disableReason}
-            />
-          )}
+            <ul
+              className="p-side-navigation__list"
+              aria-expanded={isConfigOpen ? "true" : "false"}
+            >
+              <MenuItem
+                label={BRIDGE}
+                {...menuItemProps}
+                disableReason={disableReason}
+              />
+              <MenuItem
+                label={DNS}
+                {...menuItemProps}
+                disableReason={disableReason}
+              />
+              {formik.values.ipv4_address !== "none" && (
+                <MenuItem
+                  label={IPV4}
+                  {...menuItemProps}
+                  disableReason={disableReason}
+                />
+              )}
+              {formik.values.ipv6_address !== "none" && (
+                <MenuItem
+                  label={IPV6}
+                  {...menuItemProps}
+                  disableReason={disableReason}
+                />
+              )}
+            </ul>
+          </li>
           <MenuItem
             label={YAML_CONFIGURATION}
             {...menuItemProps}
