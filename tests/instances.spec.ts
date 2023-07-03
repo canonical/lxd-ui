@@ -199,6 +199,7 @@ test("instance edit cloud init configuration", async ({ page }) => {
 });
 
 test("instance create vm", async ({ page }) => {
+  test.skip(Boolean(process.env.CI), "github runners lack vm support");
   const instance = randomInstanceName();
   await createInstance(page, instance, "virtual-machine");
   await editInstance(page, instance);
@@ -214,6 +215,7 @@ test("instance create vm", async ({ page }) => {
 });
 
 test("instance yaml edit", async ({ page }) => {
+  test.skip(Boolean(process.env.CI), "github runners lack vm support");
   const instance = randomInstanceName();
   await createInstance(page, instance, "virtual-machine");
   await editInstance(page, instance);
