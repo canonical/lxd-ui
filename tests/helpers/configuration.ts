@@ -66,7 +66,7 @@ export const setCpuLimit = async (
       .first()
       .click();
   }
-  await page.getByText(type).click();
+  await page.getByText(type).first().click();
   const placeholder =
     type === "fixed"
       ? "Comma-separated core numbers"

@@ -39,3 +39,75 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
           fail-on-error: true
+
+  e2e:
+    name: e2e-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Install Dotrun
+        run: |
+          sudo pip3 install dotrun
+
+      - name: Restore cached keys
+        uses: actions/cache/restore@v3
+        with:
+          path: keys
+          key: keys-folder
+
+      - name: Install LXD-UI dependencies
+        run: |
+          set -x
+          sudo chmod 0777 ../lxd-ui
+          dotrun install
+
+      - name: Run LXD-UI
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          LXD_UI_BACKEND_IP: 172.17.0.1
+        run: |
+          dotrun &
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
+
+      - name: Set keys permissions
+        run: |
+          set -x
+          sudo chmod -R 0666 keys
+          sudo chmod 0777 keys
+          
+      - name: Save keys
+        uses: actions/cache/save@v3
+        with:
+          path: keys
+          key: keys-folder
+
+      - name: Install LXD
+        uses: canonical/setup-lxd@v0.1.1
+        with:
+          channel: latest/stable
+
+      - name: Setup LXD
+        shell: bash
+        run: |
+          set -x
+          sudo lxc config set core.https_address "[::]:8443"
+          sudo lxc config trust add keys/lxd-ui.crt
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
