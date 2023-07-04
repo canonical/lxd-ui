@@ -86,7 +86,7 @@ jobs:
       - name: Install LXD
         uses: canonical/setup-lxd@v0.1.1
         with:
-          channel: latest/stable
+          channel: latest/edge
 
       - name: Setup LXD
         shell: bash
@@ -94,6 +94,8 @@ jobs:
           set -x
           sudo lxc config set core.https_address "[::]:8443"
           sudo lxc config trust add keys/lxd-ui.crt
+          sudo lxc config set cluster.https_address "127.0.0.1"
+          sudo lxc cluster enable local
 
       - uses: actions/setup-node@v3
         with:
