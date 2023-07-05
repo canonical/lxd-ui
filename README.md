@@ -13,7 +13,7 @@ Or refresh to ensure at least version 5.14 is installed
 
     sudo snap refresh --stable lxd
 
-Follow the guide to [access the LXD web UI](https://linuxcontainers.org/lxd/docs/latest/howto/access_ui/).
+Follow the guide to [access the LXD web UI](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/).
 
 # Contributing
 
