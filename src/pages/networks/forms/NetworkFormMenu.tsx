@@ -7,7 +7,7 @@ import { useNotify } from "context/notify";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
-export const NETWORK_DETAILS = "Network details";
+export const MAIN_CONFIGURATION = "Main configuration";
 export const BRIDGE = "Bridge";
 export const DNS = "DNS";
 export const IPV4 = "IPv4";
@@ -46,7 +46,7 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
     <div className="p-side-navigation--accordion form-navigation">
       <nav aria-label="Network form navigation">
         <ul className="p-side-navigation__list">
-          <MenuItem label={NETWORK_DETAILS} {...menuItemProps} />
+          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
           <li className="p-side-navigation__item">
             <Button
               type="button"
@@ -80,13 +80,14 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
                   disableReason={disableReason}
                 />
               )}
-              {formik.values.ipv6_address !== "none" && (
-                <MenuItem
-                  label={IPV6}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
+              {formik.values.ipv6_address !== "none" &&
+                formik.values.bridge_mode !== "fan" && (
+                  <MenuItem
+                    label={IPV6}
+                    {...menuItemProps}
+                    disableReason={disableReason}
+                  />
+                )}
             </ul>
           </li>
           <MenuItem
