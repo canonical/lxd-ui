@@ -21,10 +21,10 @@ type Props = {
   totalCount: number;
   totalPages: number;
   keyword: string;
-  pageData: MainTableRow[];
-  itemsPerPage: number;
-  totalItems: number;
-  updateSort: (sort?: string | null) => void;
+  pageData?: MainTableRow[];
+  itemsPerPage?: number;
+  totalItems?: number;
+  updateSort?: (sort?: string | null) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const Pagination: FC<Props> = ({
