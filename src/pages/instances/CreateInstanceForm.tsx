@@ -59,6 +59,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 import { useEventQueue } from "context/eventQueue";
+import { getInstanceName } from "util/operations";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -105,27 +106,36 @@ const CreateInstanceForm: FC = () => {
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
-  function notifyLaunchedAndStarted(instanceLink: ReactNode) {
-    notify.success(<>Launched and started instance {instanceLink}.</>);
-  }
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.instances],
+    });
+  };
 
-  function notifyCreatedButStartFailed(instanceLink: ReactNode, e: Error) {
+  const notifyLaunchedAndStarted = (instanceLink: ReactNode) => {
+    notify.success(<>Launched and started instance {instanceLink}.</>);
+    clearCache();
+  };
+
+  const notifyCreatedButStartFailed = (instanceLink: ReactNode, e: Error) => {
     notify.failure(
       "Error",
       e,
       <>The instance {instanceLink} was created, but could not be started.</>
     );
-  }
+    clearCache();
+  };
 
-  function notifyLaunched(instanceLink: ReactNode) {
+  const notifyLaunched = (instanceLink: ReactNode) => {
     notify.success(<>Launched instance {instanceLink}.</>);
-  }
+    clearCache();
+  };
 
-  function notifyLaunchFailed(
+  const notifyLaunchFailed = (
     e: Error,
     formUrl: string,
     values: CreateInstanceFormValues
-  ) {
+  ) => {
     notify.failure("Instance creation failed", e, null, [
       {
         label: "Check configuration",
@@ -133,7 +143,8 @@ const CreateInstanceForm: FC = () => {
           navigate(formUrl, { state: { retryFormValues: values } }),
       },
     ]);
-  }
+    clearCache();
+  };
 
   const creationCompletedHandler = (
     instanceName: string,
@@ -155,11 +166,6 @@ const CreateInstanceForm: FC = () => {
         })
         .catch((e: Error) => {
           notifyCreatedButStartFailed(instanceLink, e);
-        })
-        .finally(() => {
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
         });
     } else {
       notifyLaunched(instanceLink);
@@ -176,9 +182,7 @@ const CreateInstanceForm: FC = () => {
 
     createInstance(JSON.stringify(instancePayload), project, values.target)
       .then((operation) => {
-        const instanceName = operation.metadata.resources?.instances?.[0]
-          .split("/")
-          .pop();
+        const instanceName = getInstanceName(operation.metadata);
         if (!instanceName) {
           return;
         }
@@ -193,11 +197,6 @@ const CreateInstanceForm: FC = () => {
           return;
         }
         notifyLaunchFailed(e, formUrl, values);
-      })
-      .finally(() => {
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
       });
   };
 

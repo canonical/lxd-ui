@@ -225,9 +225,7 @@ const InstanceList: FC = () => {
         className: "u-row",
         columns: [
           {
-            content: operation.resources?.instances?.map((item) =>
-              item.split("/").pop()
-            ),
+            content: getInstanceName(operation),
             role: "rowheader",
             "aria-label": NAME,
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
