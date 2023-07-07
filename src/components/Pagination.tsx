@@ -2,6 +2,7 @@ import { Button, Icon, Input, Select } from "@canonical/react-components";
 import React, { FC, HTMLAttributes, useEffect, useState } from "react";
 import { paginationOptions } from "util/pagination";
 import useEventListener from "@use-it/event-listener";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 const figureSmallScreen = () => {
   const descriptionElement = document.getElementById("pagination-description");
@@ -20,6 +21,10 @@ type Props = {
   totalCount: number;
   totalPages: number;
   keyword: string;
+  pageData: MainTableRow[];
+  itemsPerPage: number;
+  totalItems: number;
+  updateSort: (sort?: string | null) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const Pagination: FC<Props> = ({
@@ -31,6 +36,10 @@ const Pagination: FC<Props> = ({
   totalCount,
   totalPages,
   keyword,
+  pageData: _pageData,
+  itemsPerPage: _itemsPerPage,
+  totalItems: _totalItems,
+  updateSort: _updateSort,
   ...divProps
 }) => {
   const [isSmallScreen, setSmallScreen] = useState(figureSmallScreen());
