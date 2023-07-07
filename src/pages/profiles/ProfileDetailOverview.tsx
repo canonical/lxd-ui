@@ -56,7 +56,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
       )}
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--4">General</h2>
+          <h2 className="p-heading--5">General</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -77,7 +77,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
       </Row>
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--4">Devices</h2>
+          <h2 className="p-heading--5">Devices</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -100,7 +100,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
       </Row>
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--4">Limits</h2>
+          <h2 className="p-heading--5">Limits</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -123,7 +123,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
         })}
       >
         <Col size={3}>
-          <h2 className="p-heading--4">Cloud init</h2>
+          <h2 className="p-heading--5">Cloud init</h2>
         </Col>
         <Col size={7} className="view-config">
           <Link
@@ -137,7 +137,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
       </Row>
       <Row className="usage list-wrapper">
         <Col size={3}>
-          <h2 className="p-heading--4">Usage ({usageCount})</h2>
+          <h2 className="p-heading--5">Usage ({usageCount})</h2>
         </Col>
         <Col size={7}>
           {usageCount > 0 ? (
