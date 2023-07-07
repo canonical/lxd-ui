@@ -77,7 +77,7 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item">
                   <Row>
                     <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--3">
+                      <h2 className="p-stepped-list__title p-heading--5">
                         Generate
                       </h2>
                     </Col>
@@ -117,7 +117,7 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item">
                   <Row>
                     <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--3">
+                      <h2 className="p-stepped-list__title p-heading--5">
                         Trust
                       </h2>
                     </Col>
@@ -150,7 +150,7 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item">
                   <Row>
                     <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--3">
+                      <h2 className="p-stepped-list__title p-heading--5">
                         Import
                       </h2>
                     </Col>
@@ -168,7 +168,7 @@ const CertificateGenerate: FC = () => {
                 <li className="p-stepped-list__item u-no-margin--bottom">
                   <Row>
                     <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--3">
+                      <h2 className="p-stepped-list__title p-heading--5">
                         Done
                       </h2>
                     </Col>

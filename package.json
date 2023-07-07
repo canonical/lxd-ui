@@ -38,7 +38,7 @@
     "react-scripts": "5.0.1",
     "react-useportal": "^1.0.17",
     "serve": "14.1.2",
-    "vanilla-framework": "3.15.1",
+    "vanilla-framework": "4.0.0",
     "xterm-addon-fit": "0.6.0",
     "xterm-for-react": "1.0.4",
     "yup": "0.32.11"

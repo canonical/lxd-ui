@@ -44,7 +44,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       />
       <Row className="general">
         <Col size={3}>
-          <h2 className="p-heading--4">General</h2>
+          <h2 className="p-heading--5">General</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -109,7 +109,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="usage">
         <Col size={3}>
-          <h2 className="p-heading--4">Usage</h2>
+          <h2 className="p-heading--5">Usage</h2>
         </Col>
         <Col size={7}>
           <InstanceOverviewMetrics instance={instance} onFailure={onFailure} />
@@ -117,7 +117,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="networks">
         <Col size={3}>
-          <h2 className="p-heading--4">Networks</h2>
+          <h2 className="p-heading--5">Networks</h2>
         </Col>
         <Col size={7}>
           <InstanceOverviewNetworks instance={instance} onFailure={onFailure} />
@@ -125,7 +125,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="profiles">
         <Col size={3}>
-          <h2 className="p-heading--4">Profiles</h2>
+          <h2 className="p-heading--5">Profiles</h2>
         </Col>
         <Col size={7}>
           <InstanceOverviewProfiles instance={instance} onFailure={onFailure} />

@@ -80,6 +80,10 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "selectable_main_table";
 @import "settings_page";
 
+.p-heading--4 {
+  padding: 0;
+}
+
 .l-main .row {
   max-width: none;
 }
@@ -189,6 +193,7 @@ $border-thin: 1px solid $color-mid-light !default;
 
   .p-breadcrumbs__item {
     font-size: #{map.get($font-sizes, h4-mobile)}rem;
+    font-weight: 275;
     line-height: 2rem;
     margin-bottom: 0;
     margin-top: 0;

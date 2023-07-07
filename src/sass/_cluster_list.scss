@@ -73,6 +73,7 @@
       background-color: $colors--light-theme--background-hover;
       border-bottom: 1px solid $colors--light-theme--border-high-contrast;
       font-size: #{map.get($font-sizes, h4-mobile)}rem;
+      font-weight: 275;
       margin-bottom: $spv--small;
       width: 50vw;
 
