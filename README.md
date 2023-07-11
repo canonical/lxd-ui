@@ -20,8 +20,12 @@ Follow the guide to [access the LXD web UI](https://documentation.ubuntu.com/lxd
 You might want to:
 
 - [View the source](https://github.com/canonical/lxd-ui) on GitHub.
-- Read about [running the UI from git checkout](https://github.com/canonical/lxd-ui/blob/main/HACKING.md), tests and advanced setup.
-    
+- Read about [running the UI from git checkout](HACKING.md), tests and advanced setup.
+
+# Architecture
+
+LXD-UI is a single page application written in TypeScript and React. See [Architecture](ARCHITECTURE.MD) for details on bundling with [LXD](https://github.com/canonical/lxd) and the dev setup. 
+
 # Examples
 
 | Create an instance                                                                                  | Instance list                                                                                                  | Instance terminal                                                                                          |
