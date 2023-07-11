@@ -102,4 +102,5 @@ Generate new tests with helper
 Learn how to 
 - [Setup local LXD cluster](https://github.com/canonical/lxd-ui/wiki/Setup-local-LXD-cluster) inside LXD to enable clustering features
 - [Setup oidc login](https://github.com/canonical/lxd-ui/wiki/Setup-oidc-login) to enable SSO authentication
+- See [Architecture](ARCHITECTURE.MD) for details on the dev setup. 
 

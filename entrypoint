@@ -8,6 +8,10 @@ if [[ ! -z "$LXD_UI_BACKEND_KEY_PEM" ]]; then
   sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
   sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" haproxy-local.cfg
   . /usr/local/nvm/nvm.sh
+
+  haproxy -f haproxy-local.cfg
+  npx serve --single --no-clipboard -l 3000 build
+
 # dev config
 else
   cp haproxy-dev.cfg haproxy-local.cfg
@@ -28,7 +32,7 @@ else
     echo 'please add the certificates to your local LXD as explained in README.md'
   fi
   echo 'booting on https://localhost:8407'
-fi
 
-haproxy -f haproxy-local.cfg >> haproxy.log
-npx serve --single --no-clipboard -l 3000 build >> serve.log
+  haproxy -f haproxy-local.cfg -db
+
+fi

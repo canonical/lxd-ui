@@ -4,7 +4,7 @@
   "author": "Canonical Webteam",
   "license": "LGPL-3.0-only",
   "scripts": {
-    "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle",
+    "clean": "rm -rf node_modules yarn-error.log *.log build/ .jekyll-metadata .bundle playwright-report test-results haproxy-local.cfg",
     "build-html": "cp build/ui/index.html build/index.html",
     "build": "npx vite build && yarn build-html",
     "format-js-eslint": "eslint 'src/**/*.{json,jsx,tsx,ts}' 'tests/**/*.ts' --fix",
