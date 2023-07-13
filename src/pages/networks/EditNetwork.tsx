@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Col, Row } from "@canonical/react-components";
+import { Col, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNotify } from "context/notify";
@@ -27,7 +27,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [isReadOnly, setReadOnly] = useState(true);
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
@@ -52,7 +51,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       const saveNetwork = yamlToObject(yaml) as LxdNetwork;
       updateNetwork({ ...saveNetwork, etag: network.etag }, project)
         .then(() => {
-          setReadOnly(true);
           formik.setSubmitting(false);
           void formik.setValues(getNetworkEditValues(saveNetwork));
           void queryClient.invalidateQueries({
@@ -113,39 +111,17 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
 
   return (
     <>
-      <NetworkForm
-        formik={formik}
-        getYaml={getYaml}
-        isReadOnly={isReadOnly}
-        project={project}
-      />
+      <NetworkForm formik={formik} getYaml={getYaml} project={project} />
       <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {isReadOnly ? (
-              <Button appearance="positive" onClick={() => setReadOnly(false)}>
-                Edit network
-              </Button>
-            ) : (
-              <>
-                <Button
-                  appearance="base"
-                  onClick={() => {
-                    setReadOnly(true);
-                    void formik.setValues(getNetworkEditValues(network));
-                  }}
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Update"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Update"
+              onClick={() => void formik.submitForm()}
+            />
           </Col>
         </Row>
       </div>
