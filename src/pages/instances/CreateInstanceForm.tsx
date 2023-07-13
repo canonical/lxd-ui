@@ -47,7 +47,7 @@ import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
   STORAGE,
-  INSTANCE_DETAILS,
+  MAIN_CONFIGURATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
@@ -83,7 +83,7 @@ const CreateInstanceForm: FC = () => {
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [section, setSection] = useState(INSTANCE_DETAILS);
+  const [section, setSection] = useState(MAIN_CONFIGURATION);
   const [isConfigOpen, setConfigOpen] = useState(false);
 
   if (!project) {
@@ -323,7 +323,7 @@ const CreateInstanceForm: FC = () => {
             <Row className="form-contents" key={section}>
               <Col size={12}>
                 <NotificationRow />
-                {section === INSTANCE_DETAILS && (
+                {section === MAIN_CONFIGURATION && (
                   <InstanceCreateDetailsForm
                     formik={formik}
                     project={project}
@@ -368,7 +368,7 @@ const CreateInstanceForm: FC = () => {
               </Col>
             </Row>
           </Form>
-          <div className="p-bottom-controls">
+          <div className="p-bottom-controls" id="form-footer">
             <hr />
             <Row className="u-align--right">
               <Col size={12}>

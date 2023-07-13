@@ -4,7 +4,7 @@ import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 
-export const INSTANCE_DETAILS = "Instance details";
+export const MAIN_CONFIGURATION = "Main configuration";
 export const STORAGE = "Storage";
 export const NETWORKS = "Networks";
 export const RESOURCE_LIMITS = "Resource limits";
@@ -44,7 +44,7 @@ const InstanceFormMenu: FC<Props> = ({
     <div className="p-side-navigation--accordion form-navigation">
       <nav aria-label="Instance form navigation">
         <ul className="p-side-navigation__list">
-          <MenuItem label={INSTANCE_DETAILS} {...menuItemProps} />
+          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
           <li className="p-side-navigation__item">
             <Button
               type="button"
@@ -58,7 +58,7 @@ const InstanceFormMenu: FC<Props> = ({
                   : ""
               }
             >
-              Configuration options
+              Advanced
             </Button>
             <ul
               className="p-side-navigation__list"

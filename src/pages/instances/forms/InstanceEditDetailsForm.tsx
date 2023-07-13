@@ -1,11 +1,5 @@
 import React, { FC } from "react";
-import {
-  Col,
-  Input,
-  NotificationType,
-  Row,
-  Textarea,
-} from "@canonical/react-components";
+import { Col, Input, Row, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
@@ -34,14 +28,9 @@ export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;
   project: string;
-  setInTabNotification: (msg: NotificationType) => void;
 }
 
-const InstanceEditDetailsForm: FC<Props> = ({
-  formik,
-  project,
-  setInTabNotification,
-}) => {
+const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
   const isReadOnly = formik.values.readOnly;
   const { data: settings } = useSettings();
   const isClustered = settings?.environment?.server_clustered;
@@ -99,7 +88,6 @@ const InstanceEditDetailsForm: FC<Props> = ({
                 instance={formik.values.name}
                 location={formik.values.location}
                 project={project}
-                setInTabNotification={setInTabNotification}
                 onFinish={(newLocation: string) =>
                   formik.setFieldValue("location", newLocation)
                 }

@@ -106,8 +106,15 @@ or remove the originating item"
               </Tooltip>
             ),
             label: <b>{item.key}</b>,
-            value: item.network?.network,
-            defined: item.source,
+            value: (
+              <div>
+                <div>
+                  <b>{item.network?.network}</b>
+                </div>
+                <div>From: {item.source}</div>
+              </div>
+            ),
+            defined: "-",
           });
         }),
 
@@ -130,7 +137,8 @@ or remove the originating item"
                 </b>
               </Label>
             ),
-            value:
+            value: "",
+            defined:
               device.type === "custom-nic" ? (
                 <>
                   custom network{" "}
@@ -181,7 +189,6 @@ or remove the originating item"
                   </div>
                 </div>
               ),
-            defined: `Current ${formik.values.type}`,
           });
         }),
 
@@ -190,13 +197,13 @@ or remove the originating item"
           : getConfigurationRowBase({
               override: "",
               label: "",
-              value: (
+              value: "",
+              defined: (
                 <Button onClick={addNetwork} type="button" hasIcon>
                   <Icon name="plus" />
                   <span>Add network</span>
                 </Button>
               ),
-              defined: "",
             }),
       ].filter((row) => Object.values(row).length > 0)}
       emptyStateMsg="No networks defined"
