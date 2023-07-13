@@ -89,16 +89,19 @@
   }
 
   .cpu-limit-label,
+  .ip-address-selector,
   .memory-limit-label {
     align-items: flex-end;
     display: flex;
 
     > * {
       margin-bottom: $spv--large;
+      margin-right: $sph--x-large;
     }
 
-    > :first-child {
-      margin-right: $sph--x-large;
+    > :last-child {
+      flex-grow: 1;
+      margin-right: 0;
     }
   }
 
