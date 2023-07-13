@@ -232,3 +232,7 @@ $border-thin: 1px solid $color-mid-light !default;
     min-width: 30rem;
   }
 }
+
+.u-text--line-through {
+  text-decoration: line-through;
+}

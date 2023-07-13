@@ -8,7 +8,7 @@
   }
 
   .override {
-    width: 5rem;
+    width: 8rem;
   }
 
   .config {
@@ -16,11 +16,11 @@
   }
 
   .value {
-    width: 20rem;
+    width: 10rem;
   }
 
   .defined {
-    width: 13rem;
+    width: 20rem;
   }
 
   .configuration-extra {
@@ -33,33 +33,27 @@
   }
 }
 
-.cloud-init .configuration-table {
-  .config {
-    width: 35rem;
-  }
-}
-
 @media screen and (max-width: 1420px) {
   .configuration-table {
     min-width: 32rem;
     width: 100%;
 
-    .override {
-      width: 2rem;
-    }
-
     .config {
-      width: 20rem;
+      width: 10rem;
     }
 
     .defined {
-      width: 8rem;
+      width: 12rem;
     }
   }
+}
 
-  .cloud-init .configuration-table {
-    .config {
-      width: 20rem;
-    }
+@media screen and (pointer: fine) {
+  .override-btn {
+    display: none;
+  }
+
+  .configuration-table tr:hover .override-btn {
+    display: inline-block;
   }
 }
