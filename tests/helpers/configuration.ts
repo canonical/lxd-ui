@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 
 export const setOption = async (page: Page, field: string, value: string) => {
-  await page.getByRole("row", { name: field }).locator("span").first().click();
+  await activateOverride(page, field);
   await page.getByRole("combobox", { name: field }).selectOption(value);
 };
 
@@ -11,7 +11,7 @@ export const setInput = async (
   placeholder: string,
   value: string
 ) => {
-  await page.getByRole("row", { name: field }).locator("span").first().click();
+  await activateOverride(page, field);
   await page
     .getByRole("row", { name: field })
     .locator("xpath=//input[@type='text' or @type='number']")
@@ -25,7 +25,7 @@ export const setTextarea = async (
   placeholder: string,
   value: string
 ) => {
-  await page.getByRole("row", { name: field }).locator("span").first().click();
+  await activateOverride(page, field);
   await page.getByRole("row", { name: field }).getByRole("textbox").click();
   await page.getByRole("textbox", { name: field }).fill(value);
 };
@@ -35,7 +35,7 @@ export const setCodeInput = async (
   field: string,
   value: string
 ) => {
-  await page.getByRole("row", { name: field }).locator("span").first().click();
+  await activateOverride(page, field);
   await page.getByRole("row", { name: field }).locator(".view-lines").click();
   await page.keyboard.type(value);
 };
@@ -53,19 +53,7 @@ export const setCpuLimit = async (
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
   await page.getByRole("button", { name: "Edit" }).click();
-  if (
-    !(await page
-      .getByRole("row", { name: "Exposed CPUs" })
-      .locator("input")
-      .first()
-      .isChecked())
-  ) {
-    await page
-      .getByRole("row", { name: "Exposed CPUs" })
-      .locator("span")
-      .first()
-      .click();
-  }
+  await activateOverride(page, "Exposed CPUs");
   await page.getByText(type).first().click();
   const placeholder =
     type === "fixed"
@@ -84,19 +72,7 @@ export const setMemLimit = async (
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
   await page.getByRole("button", { name: "Edit" }).click();
-  if (
-    !(await page
-      .getByRole("row", { name: "Memory limit" })
-      .locator("input")
-      .first()
-      .isChecked())
-  ) {
-    await page
-      .getByRole("row", { name: "Memory limit" })
-      .locator("span")
-      .first()
-      .click();
-  }
+  await activateOverride(page, "Memory limit");
   await page
     .getByRole("gridcell", { name: "Memory limit" })
     .getByText(type)
@@ -108,22 +84,33 @@ export const setMemLimit = async (
 };
 
 export const setSchedule = async (page: Page, value: string) => {
+  await activateOverride(page, "Schedule - From: LXD");
   await page
-    .getByRole("row", { name: "Schedule - LXD" })
-    .locator("span")
-    .first()
-    .click();
-  await page
-    .getByRole("row", { name: "Schedule Cron syntax" })
-    .locator("xpath=//input[@type='text' or @type='number']")
+    .getByRole("row", { name: "Schedule" })
+    .getByText("Cron syntax")
     .click();
   await page.getByPlaceholder("Enter cron expression").last().fill(value);
 };
 
-export const assertReadMode = async (page: Page, text: string) => {
-  await page
-    .getByRole("gridcell", {
-      name: text,
-    })
-    .click();
+export const activateOverride = async (page: Page, field: string) => {
+  await page.getByRole("row", { name: field }).hover();
+  if (
+    !(await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Clear" })
+      .isVisible())
+  ) {
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Override" })
+      .click();
+  }
+};
+
+export const assertReadMode = async (
+  page: Page,
+  field: string,
+  value: string
+) => {
+  await page.getByRole("row", { name: field }).getByText(value).click();
 };
