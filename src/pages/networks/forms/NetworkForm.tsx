@@ -50,9 +50,6 @@ export interface NetworkFormValues {
   dns_domain?: string;
   dns_mode?: LxdNetworkDnsMode;
   dns_search?: string;
-  dns_zone_forward?: string;
-  dns_zone_reverse_ipv4?: string;
-  dns_zone_reverse_ipv6?: string;
   fan_type?: LxdNetworkFanType;
   fan_overlay_subnet?: string;
   fan_underlay_subnet?: string;
@@ -63,7 +60,6 @@ export interface NetworkFormValues {
   ipv4_l3only?: boolean;
   ipv4_nat?: boolean;
   ipv4_nat_address?: string;
-  ipv4_nat_order?: string;
   ipv4_ovn_ranges?: string;
   ipv6_address?: string;
   ipv6_dhcp?: boolean;
@@ -73,7 +69,6 @@ export interface NetworkFormValues {
   ipv6_l3only?: boolean;
   ipv6_nat?: boolean;
   ipv6_nat_address?: string;
-  ipv6_nat_order?: string;
   ipv6_ovn_ranges?: string;
   network?: string;
   yaml?: string;
@@ -92,9 +87,6 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["dns.domain"]: values.dns_domain,
       ["dns.mode"]: values.dns_mode,
       ["dns.search"]: values.dns_search,
-      ["dns.zone.forward"]: values.dns_zone_forward,
-      ["dns.zone.reverse.ipv4"]: values.dns_zone_reverse_ipv4,
-      ["dns.zone.reverse.ipv6"]: values.dns_zone_reverse_ipv6,
       ["fan.overlay_subnet"]: values.fan_overlay_subnet,
       ["fan.type"]: values.fan_type,
       ["fan.underlay_subnet"]: values.fan_underlay_subnet,
@@ -105,7 +97,6 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["ipv4.l3only"]: values.ipv4_l3only?.toString(),
       ["ipv4.nat"]: values.ipv4_nat?.toString(),
       ["ipv4.nat.address"]: values.ipv4_nat_address,
-      ["ipv4.nat.order"]: values.ipv4_nat_order,
       ["ipv4.ovn.ranges"]: values.ipv4_ovn_ranges,
       ["ipv6.address"]: values.ipv6_address,
       ["ipv6.dhcp"]: values.ipv6_dhcp?.toString(),
@@ -115,7 +106,6 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["ipv6.l3only"]: values.ipv6_l3only?.toString(),
       ["ipv6.nat"]: values.ipv6_nat?.toString(),
       ["ipv6.nat.address"]: values.ipv6_nat_address,
-      ["ipv6.nat.order"]: values.ipv6_nat_order,
       ["ipv6.ovn.ranges"]: values.ipv6_ovn_ranges,
       ["network"]: values.network,
     },
@@ -259,14 +249,10 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                     formik.setFieldValue("dns_mode", undefined);
                     formik.setFieldValue("ipv4_dhcp_expiry", undefined);
                     formik.setFieldValue("ipv4_dhcp_ranges", undefined);
-                    formik.setFieldValue("ipv4_nat_order", undefined);
                     formik.setFieldValue("ipv4_ovn_ranges", undefined);
                     formik.setFieldValue("ipv6_dhcp_expiry", undefined);
                     formik.setFieldValue("ipv6_dhcp_ranges", undefined);
-                    formik.setFieldValue("ipv6_nat_order", undefined);
                     formik.setFieldValue("ipv6_ovn_ranges", undefined);
-                    formik.setFieldValue("ipv6_ovn_routes", undefined);
-                    formik.setFieldValue("ipv6_ovn_routing", undefined);
                   }
                 }}
                 value={
