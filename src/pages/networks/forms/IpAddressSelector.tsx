@@ -17,13 +17,11 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress }) => {
           label="auto"
           checked={address === "auto"}
           onChange={() => setAddress("auto")}
-          labelClassName="u-no-margin--bottom"
         />
         <RadioInput
           label="off"
           checked={address === "none"}
           onChange={() => setAddress("none")}
-          labelClassName="u-no-margin--bottom"
         />
       </div>
       <div className="ip-address-selector">

@@ -57,21 +57,21 @@ export interface NetworkFormValues {
   fan_overlay_subnet?: string;
   fan_underlay_subnet?: string;
   ipv4_address?: string;
-  ipv4_dhcp?: string;
+  ipv4_dhcp?: boolean;
   ipv4_dhcp_expiry?: string;
   ipv4_dhcp_ranges?: string;
-  ipv4_l3only?: string;
-  ipv4_nat?: string;
+  ipv4_l3only?: boolean;
+  ipv4_nat?: boolean;
   ipv4_nat_address?: string;
   ipv4_nat_order?: string;
   ipv4_ovn_ranges?: string;
   ipv6_address?: string;
-  ipv6_dhcp?: string;
+  ipv6_dhcp?: boolean;
   ipv6_dhcp_expiry?: string;
   ipv6_dhcp_ranges?: string;
-  ipv6_dhcp_stateful?: string;
-  ipv6_l3only?: string;
-  ipv6_nat?: string;
+  ipv6_dhcp_stateful?: boolean;
+  ipv6_l3only?: boolean;
+  ipv6_nat?: boolean;
   ipv6_nat_address?: string;
   ipv6_nat_order?: string;
   ipv6_ovn_ranges?: string;
@@ -99,21 +99,21 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["fan.type"]: values.fan_type,
       ["fan.underlay_subnet"]: values.fan_underlay_subnet,
       ["ipv4.address"]: values.ipv4_address,
-      ["ipv4.dhcp"]: values.ipv4_dhcp,
+      ["ipv4.dhcp"]: values.ipv4_dhcp?.toString(),
       ["ipv4.dhcp.expiry"]: values.ipv4_dhcp_expiry,
       ["ipv4.dhcp.ranges"]: values.ipv4_dhcp_ranges,
-      ["ipv4.l3only"]: values.ipv4_l3only,
-      ["ipv4.nat"]: values.ipv4_nat,
+      ["ipv4.l3only"]: values.ipv4_l3only?.toString(),
+      ["ipv4.nat"]: values.ipv4_nat?.toString(),
       ["ipv4.nat.address"]: values.ipv4_nat_address,
       ["ipv4.nat.order"]: values.ipv4_nat_order,
       ["ipv4.ovn.ranges"]: values.ipv4_ovn_ranges,
       ["ipv6.address"]: values.ipv6_address,
-      ["ipv6.dhcp"]: values.ipv6_dhcp,
+      ["ipv6.dhcp"]: values.ipv6_dhcp?.toString(),
       ["ipv6.dhcp.expiry"]: values.ipv6_dhcp_expiry,
       ["ipv6.dhcp.ranges"]: values.ipv6_dhcp_ranges,
-      ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful,
-      ["ipv6.l3only"]: values.ipv6_l3only,
-      ["ipv6.nat"]: values.ipv6_nat,
+      ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful?.toString(),
+      ["ipv6.l3only"]: values.ipv6_l3only?.toString(),
+      ["ipv6.nat"]: values.ipv6_nat?.toString(),
       ["ipv6.nat.address"]: values.ipv6_nat_address,
       ["ipv6.nat.order"]: values.ipv6_nat_order,
       ["ipv6.ovn.ranges"]: values.ipv6_ovn_ranges,
@@ -166,7 +166,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
     return options;
   };
 
-  const getFormProps = (id: keyof Omit<NetworkFormValues, "user">) => {
+  const getFormProps = (id: "type" | "network" | "name" | "description") => {
     return {
       id: id,
       name: id,
@@ -309,7 +309,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                           children: (
                             <IpAddressSelector
                               id="ipv4_address"
-                              label="IPv4 Address"
                               address={formik.values.ipv4_address}
                               setAddress={(value) => {
                                 formik.setFieldValue("ipv4_address", value);
@@ -342,8 +341,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                           defaultValue: "",
                           children: (
                             <CheckboxInput
-                              {...getFormProps("ipv4_nat")}
                               label="Ipv4 NAT"
+                              checked={formik.values.ipv4_nat}
                             />
                           ),
                         }),
@@ -360,7 +359,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                           children: (
                             <IpAddressSelector
                               id="ipv6_address"
-                              label="IPv6 Address"
                               address={formik.values.ipv6_address}
                               setAddress={(value) => {
                                 formik.setFieldValue("ipv6_address", value);
@@ -395,8 +393,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                           defaultValue: "",
                           children: (
                             <CheckboxInput
-                              {...getFormProps("ipv6_nat")}
                               label="Ipv6 NAT"
+                              checked={formik.values.ipv6_nat}
                             />
                           ),
                         }),
@@ -441,240 +439,301 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
             </React.Fragment>
           )}
           {section === BRIDGE && (
-            <>
-              <Input
-                {...getFormProps("bridge_mtu")}
-                type="text"
-                label="MTU"
-                help="Bridge MTU (default varies if tunnel or fan setup)"
-              />
-              <Input
-                {...getFormProps("bridge_hwaddr")}
-                type="text"
-                label="Hardware address"
-                help="MAC address for the bridge"
-              />
-              {formik.values.type === "bridge" && (
-                <>
-                  <Select
-                    {...getFormProps("bridge_driver")}
-                    label="Bridge Driver"
-                    help="Bridge driver: native or openvswitch"
-                    options={[
-                      {
-                        label: "Select option",
-                        value: "",
-                        disabled: true,
-                      },
-                      {
-                        label: "Native",
-                        value: "native",
-                      },
-                      {
-                        label: "Openvswitch",
-                        value: "openvswitch",
-                      },
-                    ]}
-                  />
-                </>
-              )}
-            </>
+            <ConfigurationTable
+              formik={formik}
+              rows={[
+                getConfigurationRow({
+                  formik: formik,
+                  name: "bridge_mtu",
+                  label: "MTU",
+                  defaultValue: "",
+                  children: (
+                    <Input
+                      type="text"
+                      help="Bridge MTU (default varies if tunnel or fan setup)"
+                    />
+                  ),
+                }),
+
+                getConfigurationRow({
+                  formik: formik,
+                  name: "bridge_hwaddr",
+                  label: "Hardware address",
+                  defaultValue: "",
+                  children: (
+                    <Input type="text" help="MAC address for the bridge" />
+                  ),
+                }),
+
+                ...(formik.values.type === "bridge"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "bridge_driver",
+                        label: "Bridge Driver",
+                        defaultValue: "",
+                        children: (
+                          <Select
+                            help="Bridge driver: native or openvswitch"
+                            options={[
+                              {
+                                label: "Select option",
+                                value: "",
+                                disabled: true,
+                              },
+                              {
+                                label: "Native",
+                                value: "native",
+                              },
+                              {
+                                label: "Openvswitch",
+                                value: "openvswitch",
+                              },
+                            ]}
+                          />
+                        ),
+                      }),
+                    ]
+                  : []),
+              ]}
+            />
           )}
           {section === DNS && (
-            <>
-              <Input
-                {...getFormProps("dns_domain")}
-                type="text"
-                label="DNS domain"
-                help="Domain to advertise to DHCP clients and use for DNS resolution"
-              />
-              {formik.values.type === "bridge" && (
-                <Select
-                  {...getFormProps("dns_mode")}
-                  label="DNS mode"
-                  help="DNS registration mode: none for no DNS record, managed for LXD-generated static records or dynamic for client-generated records"
-                  options={[
-                    {
-                      label: "Select option",
-                      value: "",
-                      disabled: true,
-                    },
-                    {
-                      label: "None",
-                      value: "none",
-                    },
-                    {
-                      label: "Managed",
-                      value: "managed",
-                    },
-                    {
-                      label: "Dynamic",
-                      value: "dynamic",
-                    },
-                  ]}
-                />
-              )}
-              <Textarea
-                {...getFormProps("dns_search")}
-                label="DNS search"
-                help="Full comma-separated domain search list, defaulting to DNS domain value"
-                disabled={formik.values.dns_mode === "none"}
-              />
-            </>
+            <ConfigurationTable
+              formik={formik}
+              rows={[
+                getConfigurationRow({
+                  formik: formik,
+                  name: "dns_domain",
+                  label: "DNS domain",
+                  defaultValue: "",
+                  children: (
+                    <Input
+                      type="text"
+                      help="Domain to advertise to DHCP clients and use for DNS resolution"
+                    />
+                  ),
+                }),
+
+                ...(formik.values.type === "bridge"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "dns_mode",
+                        label: "DNS mode",
+                        defaultValue: "",
+                        children: (
+                          <Select
+                            options={[
+                              {
+                                label: "Select option",
+                                value: "",
+                                disabled: true,
+                              },
+                              {
+                                label: "None",
+                                value: "none",
+                              },
+                              {
+                                label: "Managed",
+                                value: "managed",
+                              },
+                              {
+                                label: "Dynamic",
+                                value: "dynamic",
+                              },
+                            ]}
+                          />
+                        ),
+                      }),
+                    ]
+                  : []),
+
+                getConfigurationRow({
+                  formik: formik,
+                  name: "dns_search",
+                  label: "DNS search",
+                  defaultValue: "",
+                  children: (
+                    <Textarea help="Full comma-separated domain search list, defaulting to DNS domain value" />
+                  ),
+                }),
+              ]}
+            />
           )}
           {section === IPV4 && (
-            <>
-              {formik.values.ipv4_address !== "none" && (
-                <CheckboxInput
-                  {...getFormProps("ipv4_dhcp")}
-                  label="IPv4 DHCP"
-                />
-              )}
-              {formik.values.type !== "ovn" &&
-                formik.values.ipv4_dhcp === "true" && (
-                  <>
-                    <Input
-                      {...getFormProps("ipv4_dhcp_expiry")}
-                      type="text"
-                      label="IPv4 DHCP expiry"
-                      help="When to expire DHCP leases"
+            <ConfigurationTable
+              formik={formik}
+              rows={[
+                getConfigurationRow({
+                  formik: formik,
+                  name: "ipv4_dhcp",
+                  label: "IPv4 DHCP",
+                  defaultValue: "",
+                  children: (
+                    <CheckboxInput
+                      label="IPv4 DHCP"
+                      checked={formik.values.ipv4_dhcp}
                     />
-                    <Textarea
-                      {...getFormProps("ipv4_dhcp_ranges")}
-                      label="IPv4 DHCP ranges"
-                      help="Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)"
-                    />
-                  </>
-                )}
-              {formik.values.type === "ovn" && (
-                <CheckboxInput
-                  {...getFormProps("ipv4_l3only")}
-                  label="IPv4 L3 only"
-                />
-              )}
-              {formik.values.ipv4_nat === "true" && (
-                <>
-                  <Input
-                    {...getFormProps("ipv4_nat_address")}
-                    type="text"
-                    label="IPv4 NAT address"
-                    help="The source address used for outbound traffic from the bridge"
-                  />
-                  {formik.values.type !== "ovn" && (
-                    <Select
-                      {...getFormProps("ipv4_nat_order")}
-                      label="IPv4 NAT order"
-                      help="Whether to add the required NAT rules before or after any pre-existing rules"
-                      options={[
-                        {
-                          label: "Select option",
-                          value: "",
-                          disabled: true,
-                        },
-                        {
-                          label: "Before",
-                          value: "before",
-                        },
-                        {
-                          label: "After",
-                          value: "after",
-                        },
-                      ]}
-                    />
-                  )}
-                </>
-              )}
-              {formik.values.type !== "ovn" &&
-                formik.values.bridge_mode !== "fan" && (
-                  <>
-                    <Textarea
-                      {...getFormProps("ipv4_ovn_ranges")}
-                      label="IPv4 OVN ranges"
-                      help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)"
-                    />
-                  </>
-                )}
-            </>
+                  ),
+                }),
+
+                ...(formik.values.type !== "ovn" &&
+                formik.values.ipv4_dhcp === true
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv4_dhcp_expiry",
+                        label: "IPv4 DHCP expiry",
+                        defaultValue: "",
+                        children: (
+                          <Input
+                            type="text"
+                            help="When to expire DHCP leases"
+                          />
+                        ),
+                      }),
+
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv4_dhcp_ranges",
+                        label: "IPv4 DHCP ranges",
+                        defaultValue: "",
+                        children: (
+                          <Textarea help="Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)" />
+                        ),
+                      }),
+                    ]
+                  : []),
+
+                ...(formik.values.type === "ovn"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv4_l3only",
+                        label: "IPv4 L3 only",
+                        defaultValue: "",
+                        children: (
+                          <CheckboxInput
+                            label="IPv4 L3 only"
+                            checked={formik.values.ipv4_l3only}
+                          />
+                        ),
+                      }),
+                    ]
+                  : []),
+
+                ...(formik.values.type !== "ovn" &&
+                formik.values.bridge_mode !== "fan"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv4_ovn_ranges",
+                        label: "IPv4 OVN ranges",
+                        defaultValue: "",
+                        children: (
+                          <Textarea help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)" />
+                        ),
+                      }),
+                    ]
+                  : []),
+              ]}
+            />
           )}
           {section === IPV6 && (
-            <>
-              {formik.values.ipv6_address !== "none" && (
-                <CheckboxInput
-                  {...getFormProps("ipv6_dhcp")}
-                  label="IPv6 DHCP"
-                />
-              )}
-              {formik.values.ipv6_dhcp === "true" && (
-                <>
-                  {formik.values.type !== "ovn" && (
-                    <>
-                      <Input
-                        {...getFormProps("ipv6_dhcp_expiry")}
-                        type="text"
-                        label="IPv6 DHCP expiry"
-                        help="When to expire DHCP leases"
-                      />
-                      <Textarea
-                        {...getFormProps("ipv6_dhcp_ranges")}
-                        label="IPv6 DHCP ranges"
-                        help="Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)"
-                      />
-                    </>
-                  )}
-                  <CheckboxInput
-                    {...getFormProps("ipv6_dhcp_stateful")}
-                    label="IPv6 DHCP stateful"
-                  />
-                </>
-              )}
-              {formik.values.type === "ovn" && (
-                <CheckboxInput
-                  {...getFormProps("ipv6_l3only")}
-                  label="IPv6 L3 only"
-                />
-              )}
-              {formik.values.ipv6_nat === "true" && (
-                <>
-                  <Input
-                    {...getFormProps("ipv6_nat_address")}
-                    type="text"
-                    label="IPv6 NAT address"
-                    help="The source address used for outbound traffic from the bridge"
-                  />
-                  {formik.values.type !== "ovn" && (
-                    <Select
-                      {...getFormProps("ipv6_nat_order")}
-                      label="IPv6 NAT order"
-                      help="Whether to add the required NAT rules before or after any pre-existing rules"
-                      options={[
-                        {
-                          label: "Select option",
-                          value: "",
-                          disabled: true,
-                        },
-                        {
-                          label: "Before",
-                          value: "before",
-                        },
-                        {
-                          label: "After",
-                          value: "after",
-                        },
-                      ]}
+            <ConfigurationTable
+              formik={formik}
+              rows={[
+                getConfigurationRow({
+                  formik: formik,
+                  name: "ipv6_dhcp",
+                  label: "IPv6 DHCP",
+                  defaultValue: "",
+                  children: (
+                    <CheckboxInput
+                      label="IPv6 DHCP"
+                      checked={formik.values.ipv6_dhcp}
                     />
-                  )}
-                </>
-              )}
-              {formik.values.type !== "ovn" && (
-                <>
-                  <Textarea
-                    {...getFormProps("ipv6_ovn_ranges")}
-                    label="IPv6 OVN ranges"
-                    help="Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)"
-                  />
-                </>
-              )}
-            </>
+                  ),
+                }),
+
+                ...(formik.values.ipv6_dhcp === true &&
+                formik.values.type !== "ovn"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv6_dhcp_expiry",
+                        label: "IPv6 DHCP expiry",
+                        defaultValue: "",
+                        children: (
+                          <Input
+                            type="text"
+                            help="When to expire DHCP leases"
+                          />
+                        ),
+                      }),
+
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv6_dhcp_ranges",
+                        label: "IPv6 DHCP ranges",
+                        defaultValue: "",
+                        children: (
+                          <Textarea help="Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)" />
+                        ),
+                      }),
+                    ]
+                  : []),
+
+                ...(formik.values.ipv6_dhcp === true
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv6_dhcp_stateful",
+                        label: "IPv6 DHCP stateful",
+                        defaultValue: "",
+                        children: (
+                          <CheckboxInput
+                            label="IPv6 DHCP stateful"
+                            checked={formik.values.ipv6_dhcp_stateful}
+                          />
+                        ),
+                      }),
+                    ]
+                  : []),
+
+                ...(formik.values.type === "ovn"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv6_l3only",
+                        label: "IPv6 L3 only",
+                        defaultValue: "",
+                        children: (
+                          <CheckboxInput
+                            label="IPv6 L3 only"
+                            checked={formik.values.ipv6_l3only}
+                          />
+                        ),
+                      }),
+                    ]
+                  : []),
+
+                ...(formik.values.type !== "ovn"
+                  ? [
+                      getConfigurationRow({
+                        formik: formik,
+                        name: "ipv6_ovn_ranges",
+                        label: "IPv6 OVN ranges",
+                        defaultValue: "",
+                        children: (
+                          <Textarea help="Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)" />
+                        ),
+                      }),
+                    ]
+                  : []),
+              ]}
+            />
           )}
           {section === YAML_CONFIGURATION && (
             <YamlForm
