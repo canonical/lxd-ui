@@ -57,22 +57,6 @@ export const optionYesNo = [
   },
 ];
 
-export const optionEnableDisable = [
-  {
-    label: "Select option",
-    value: "",
-    disabled: true,
-  },
-  {
-    label: "Enable",
-    value: "true",
-  },
-  {
-    label: "Disable",
-    value: "false",
-  },
-];
-
 export const diskPriorities = [...Array(11).keys()].map((i) => {
   return { label: i.toString(), value: i };
 });
