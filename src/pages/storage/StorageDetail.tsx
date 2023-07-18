@@ -1,15 +1,14 @@
 import React, { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
-import { Row } from "@canonical/react-components";
+import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
 import StorageSize from "pages/storage/StorageSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import StorageDetailHeader from "pages/storage/StorageDetailHeader";
+import NotificationRow from "components/NotificationRow";
 
 const StorageDetail: FC = () => {
   const notify = useNotify();

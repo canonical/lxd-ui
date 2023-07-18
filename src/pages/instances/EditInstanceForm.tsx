@@ -4,7 +4,11 @@ import {
   Col,
   Form,
   Notification,
+  NotificationType,
   Row,
+  failure,
+  success,
+  useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
@@ -15,7 +19,6 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
-import { Notification as NotificationComponent } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
@@ -54,7 +57,6 @@ import {
   InstanceEditSchema,
 } from "util/instanceEdit";
 import { slugify } from "util/slugify";
-import { failure, success, useNotify } from "context/notify";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -78,7 +80,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
   const [isConfigOpen, setConfigOpen] = useState(true);
   const [inTabNotification, setInTabNotification] =
-    useState<NotificationComponent | null>(null);
+    useState<NotificationType | null>(null);
 
   if (!project) {
     return <>Missing project</>;

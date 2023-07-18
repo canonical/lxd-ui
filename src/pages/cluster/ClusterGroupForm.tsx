@@ -1,6 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Form, Input, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  useNotify,
+} from "@canonical/react-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -12,13 +18,13 @@ import { LxdClusterGroup } from "types/cluster";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useFormik } from "formik";
-import { useNotify } from "context/notify";
 import SubmitButton from "components/SubmitButton";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { useNavigate, useParams } from "react-router-dom";
 import { getClusterHeaders, getClusterRows } from "util/clusterGroups";
 import SelectableMainTable from "components/SelectableMainTable";
+import NotificationRow from "components/NotificationRow";
 
 export interface ClusterGroupFormValues {
   description: string;

@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { Col, Notification, Row } from "@canonical/react-components";
+import { Col, Notification, Row, useNotify } from "@canonical/react-components";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
-import { useNotify } from "context/notify";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();

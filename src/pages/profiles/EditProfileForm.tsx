@@ -5,6 +5,7 @@ import {
   Form,
   Notification,
   Row,
+  useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -14,7 +15,6 @@ import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useNotify } from "context/notify";
 import { FormDeviceValues, formDeviceToPayload } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,

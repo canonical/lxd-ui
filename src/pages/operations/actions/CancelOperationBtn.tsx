@@ -1,10 +1,10 @@
 import React, { FC, useState } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
-import { useNotify } from "context/notify";
 import { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   operation: LxdOperation;

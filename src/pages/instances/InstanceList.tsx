@@ -1,10 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Icon, Row, Spinner } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Icon,
+  Row,
+  Spinner,
+  useNotify,
+} from "@canonical/react-components";
 import { fetchInstances } from "api/instances";
-import NotificationRow from "components/NotificationRow";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
 import usePanelParams from "util/usePanelParams";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "components/Loader";
@@ -44,6 +49,7 @@ import {
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
+import NotificationRow from "components/NotificationRow";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");

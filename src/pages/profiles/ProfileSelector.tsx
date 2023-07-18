@@ -6,12 +6,12 @@ import {
   Label,
   Row,
   Select,
+  useNotify,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
 import { defaultFirst } from "util/helpers";
 
 interface Props {

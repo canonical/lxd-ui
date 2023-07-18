@@ -1,11 +1,9 @@
 import React, { FC } from "react";
-import { Row, Tabs } from "@canonical/react-components";
+import { Row, Tabs, useNotify } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useNavigate, useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
-import NotificationRow from "components/NotificationRow";
-import { useNotify } from "context/notify";
 import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
@@ -15,6 +13,7 @@ import InstanceLogs from "pages/instances/InstanceLogs";
 import EditInstanceForm from "./EditInstanceForm";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 import { slugify } from "util/slugify";
+import NotificationRow from "components/NotificationRow";
 
 const TABS: string[] = [
   "Overview",

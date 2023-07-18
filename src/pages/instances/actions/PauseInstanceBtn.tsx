@@ -4,10 +4,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationButton from "components/ConfirmationButton";
 import { freezeInstance } from "api/instances";
-import { useNotify } from "context/notify";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import ItemName from "components/ItemName";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;

@@ -1,5 +1,10 @@
 import React, { FC, ReactNode, useState } from "react";
-import { Icon, MainTable, Tooltip } from "@canonical/react-components";
+import {
+  Icon,
+  MainTable,
+  Tooltip,
+  useNotify,
+} from "@canonical/react-components";
 import {
   MainTableCell,
   MainTableHeader,
@@ -8,7 +13,6 @@ import {
 import { figureCollapsedScreen } from "util/formFields";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import useEventListener from "@use-it/event-listener";
-import { useNotify } from "context/notify";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import ScrollableTable from "components/ScrollableTable";
 

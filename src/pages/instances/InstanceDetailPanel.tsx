@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
-import { List } from "@canonical/react-components";
+import { List, useNotify } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { isNicDevice } from "util/devices";
 import { Link } from "react-router-dom";
@@ -11,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
-import { useNotify } from "context/notify";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import InstanceLink from "pages/instances/InstanceLink";
 import ItemName from "components/ItemName";

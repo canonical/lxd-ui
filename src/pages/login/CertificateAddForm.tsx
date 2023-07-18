@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
-import { Button, Form, Textarea } from "@canonical/react-components";
+import { Button, Form, Textarea, useNotify } from "@canonical/react-components";
 import { addCertificate } from "api/certificates";
-import { useNotify } from "context/notify";
 
 const CertificateAddForm: FC = () => {
   const notify = useNotify();

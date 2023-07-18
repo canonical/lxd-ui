@@ -4,10 +4,10 @@ import { LxdStoragePool } from "types/storage";
 import { deleteStoragePool } from "api/storage-pools";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import { useNavigate } from "react-router-dom";
 import { useDeleteIcon } from "context/useDeleteIcon";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   storage: LxdStoragePool;

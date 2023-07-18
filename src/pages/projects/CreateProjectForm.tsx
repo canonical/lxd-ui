@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Row } from "@canonical/react-components";
+import { Button, Col, Row, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,7 +7,6 @@ import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { checkDuplicateName } from "util/helpers";
 import { useNavigate } from "react-router-dom";
-import { useNotify } from "context/notify";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { createProject } from "api/projects";

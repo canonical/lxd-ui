@@ -1,11 +1,16 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Textarea } from "@canonical/react-components";
+import {
+  Col,
+  Input,
+  NotificationType,
+  Row,
+  Textarea,
+} from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { useSettings } from "context/useSettings";
 import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
-import { Notification } from "types/notification";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -29,7 +34,7 @@ export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;
   project: string;
-  setInTabNotification: (msg: Notification) => void;
+  setInTabNotification: (msg: NotificationType) => void;
 }
 
 const InstanceEditDetailsForm: FC<Props> = ({

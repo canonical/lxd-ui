@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
-import { CheckboxInput, Label } from "@canonical/react-components";
+import { CheckboxInput, Label, useNotify } from "@canonical/react-components";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -9,7 +9,6 @@ import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { LxdProfile } from "types/profile";
-import { useNotify } from "context/notify";
 import { figureInheritedValue } from "util/instanceConfigInheritance";
 
 interface Props {

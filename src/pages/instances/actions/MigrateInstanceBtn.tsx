@@ -1,22 +1,26 @@
 import React, { FC } from "react";
-import { Button } from "@canonical/react-components";
+import {
+  Button,
+  NotificationType,
+  failure,
+  info,
+  success,
+} from "@canonical/react-components";
 import MigrateInstanceForm from "pages/instances/MigrateInstanceForm";
 import usePortal from "react-useportal";
 import { migrateInstance } from "api/instances";
-import { failure, info, success } from "context/notify";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchClusterMembers } from "api/cluster";
 import Loader from "components/Loader";
 import { useEventQueue } from "context/eventQueue";
-import { Notification } from "types/notification";
 import ItemName from "components/ItemName";
 
 interface Props {
   instance: string;
   location: string;
   project: string;
-  setInTabNotification: (msg: Notification) => void;
+  setInTabNotification: (msg: NotificationType) => void;
   onFinish: (newLocation: string) => void;
 }
 

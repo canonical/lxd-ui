@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { Input, Select } from "@canonical/react-components";
+import { Input, Select, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { LxdDiskDevice } from "types/device";
 import { fetchStoragePools } from "api/storage-pools";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
 
 interface Props {
   project: string;

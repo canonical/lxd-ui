@@ -1,12 +1,17 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Button, Icon, SearchBox } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  NotificationType,
+  SearchBox,
+  failure,
+  success,
+} from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { LxdInstance } from "types/instance";
 import EmptyState from "components/EmptyState";
 import CreateSnapshotForm from "pages/instances/actions/snapshots/CreateSnapshotForm";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
-import { Notification } from "types/notification";
-import { failure, success } from "context/notify";
 import SnapshotActions from "./actions/snapshots/SnapshotActions";
 import useEventListener from "@use-it/event-listener";
 import Pagination from "components/Pagination";
@@ -31,7 +36,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
   const [query, setQuery] = useState<string>("");
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [inTabNotification, setInTabNotification] =
-    useState<Notification | null>(null);
+    useState<NotificationType | null>(null);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());

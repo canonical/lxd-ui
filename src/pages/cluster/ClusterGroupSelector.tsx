@@ -1,12 +1,16 @@
 import React, { FC } from "react";
-import { Button, ContextualMenu, Icon } from "@canonical/react-components";
+import {
+  Button,
+  ContextualMenu,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate } from "react-router-dom";
 import { defaultFirst } from "util/helpers";
 import { fetchClusterGroups } from "api/cluster";
 import ClusterGroupSelectorList from "pages/cluster/ClusterGroupSelectorList";
-import { useNotify } from "context/notify";
 
 interface Props {
   activeGroup?: string;

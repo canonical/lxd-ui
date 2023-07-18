@@ -2,14 +2,15 @@ import React, { FC, useState } from "react";
 import {
   Button,
   ContextualMenu,
+  NotificationType,
   RadioInput,
+  failure,
+  info,
 } from "@canonical/react-components";
-import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
-import { failure, info } from "context/notify";
 import EmptyState from "components/EmptyState";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
@@ -25,7 +26,7 @@ interface Props {
 
 const InstanceConsole: FC<Props> = ({ instance }) => {
   const [inTabNotification, setInTabNotification] =
-    useState<Notification | null>(null);
+    useState<NotificationType | null>(null);
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
 

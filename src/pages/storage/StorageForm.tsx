@@ -6,13 +6,12 @@ import {
   Input,
   Row,
   Select,
+  useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Aside from "components/Aside";
-import NotificationRow from "components/NotificationRow";
 import PanelHeader from "components/PanelHeader";
-import { useNotify } from "context/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
@@ -22,6 +21,7 @@ import { createStoragePool } from "api/storage-pools";
 import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
 import ItemName from "components/ItemName";
 import { testDuplicateName } from "util/storage";
+import NotificationRow from "components/NotificationRow";
 
 const StorageForm: FC = () => {
   const panelParams = usePanelParams();
