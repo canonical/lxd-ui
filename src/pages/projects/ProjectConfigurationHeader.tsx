@@ -1,13 +1,13 @@
 import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
-import { useNotify } from "context/notify";
 import { LxdProject } from "types/project";
 import { renameProject } from "api/projects";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   project: LxdProject;

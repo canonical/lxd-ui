@@ -1,11 +1,9 @@
 import React, { FC } from "react";
-import { Icon, MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
+import { Icon, MainTable, Row, useNotify } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
 import EmptyState from "components/EmptyState";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
@@ -13,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { isoTimeToString } from "util/helpers";
 import { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
+import NotificationRow from "components/NotificationRow";
 
 const OperationList: FC = () => {
   const notify = useNotify();

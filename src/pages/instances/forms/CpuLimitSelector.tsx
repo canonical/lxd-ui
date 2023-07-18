@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { Input, RadioInput } from "@canonical/react-components";
+import { Input, RadioInput, useNotify } from "@canonical/react-components";
 import { fetchResources } from "api/server";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
 
 interface Props {
   cpuLimit?: CpuLimit;

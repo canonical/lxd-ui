@@ -1,12 +1,16 @@
 import React, { FC } from "react";
-import { Input, RadioInput, Select } from "@canonical/react-components";
+import {
+  Input,
+  RadioInput,
+  Select,
+  useNotify,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "api/server";
 import { queryKeys } from "util/queryKeys";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
 
 interface Props {
   memoryLimit?: MemoryLimit;

@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Row } from "@canonical/react-components";
+import { Button, Col, Row, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import {
   projectDetailPayload,

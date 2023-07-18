@@ -5,11 +5,11 @@ import {
   Form,
   Notification,
   Row,
+  useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createInstance, startInstance } from "api/instances";
-import NotificationRow from "components/NotificationRow";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
@@ -25,7 +25,6 @@ import InstanceCreateDetailsForm, {
   instanceDetailPayload,
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceCreateDetailsForm";
-import { useNotify } from "context/notify";
 import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
@@ -60,6 +59,7 @@ import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 import { useEventQueue } from "context/eventQueue";
 import { getInstanceName } from "util/operations";
+import NotificationRow from "components/NotificationRow";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &

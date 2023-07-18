@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
-import { useNotify } from "context/notify";
 import { fetchProfile } from "api/profiles";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
@@ -12,6 +11,7 @@ import DetailPanel from "components/DetailPanel";
 import ProfileNetworkList from "./ProfileNetworkList";
 import ProfileStorageList from "./ProfileStorageList";
 import { useProject } from "context/project";
+import { useNotify } from "@canonical/react-components";
 
 const ProfileDetailPanel: FC = () => {
   const notify = useNotify();

@@ -5,10 +5,10 @@ import {
   Form,
   Notification,
   Row,
+  useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import NotificationRow from "components/NotificationRow";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
@@ -16,7 +16,6 @@ import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
-import { useNotify } from "context/notify";
 import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
@@ -54,6 +53,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
+import NotificationRow from "components/NotificationRow";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &

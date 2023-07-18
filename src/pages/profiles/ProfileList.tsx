@@ -6,23 +6,23 @@ import {
   Notification,
   Row,
   SearchBox,
+  useNotify,
 } from "@canonical/react-components";
 import { fetchProfiles } from "api/profiles";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams from "util/usePanelParams";
 import { usePagination } from "util/pagination";
 import Pagination from "components/Pagination";
-import NotificationRow from "components/NotificationRow";
 import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
 import { useProject } from "context/project";
 import ScrollableTable from "components/ScrollableTable";
+import NotificationRow from "components/NotificationRow";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();

@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
-import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import { postClusterMemberState } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdClusterMember } from "types/cluster";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   member: LxdClusterMember;

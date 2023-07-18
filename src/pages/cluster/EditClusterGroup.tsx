@@ -4,8 +4,8 @@ import { queryKeys } from "util/queryKeys";
 import { useParams } from "react-router-dom";
 import { fetchClusterGroup } from "api/cluster";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
-import { useNotify } from "context/notify";
 import Loader from "components/Loader";
+import { useNotify } from "@canonical/react-components";
 
 const EditClusterGroup: FC = () => {
   const notify = useNotify();

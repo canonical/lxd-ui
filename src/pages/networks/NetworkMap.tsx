@@ -1,6 +1,5 @@
 import React, { FC, useRef } from "react";
 import { Col, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -18,6 +17,7 @@ import MapTooltip, {
   mountElement,
 } from "pages/networks/MapTooltip";
 import MapLegend from "pages/networks/MapLegend";
+import NotificationRow from "components/NotificationRow";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 Cytoscape.use(popper);

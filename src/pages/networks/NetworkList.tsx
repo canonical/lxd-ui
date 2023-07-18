@@ -1,14 +1,19 @@
 import React, { FC } from "react";
-import { Button, Icon, MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
+import {
+  Button,
+  Icon,
+  MainTable,
+  Row,
+  useNotify,
+} from "@canonical/react-components";
 import { fetchNetworks } from "api/networks";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useNavigate, useParams } from "react-router-dom";
-import { useNotify } from "context/notify";
 import EmptyState from "components/EmptyState";
+import NotificationRow from "components/NotificationRow";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();

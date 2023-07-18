@@ -3,10 +3,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { unfreezeInstance, startInstance } from "api/instances";
 import ItemName from "components/ItemName";
 import { useInstanceLoading } from "context/instanceLoading";
-import { useNotify } from "context/notify";
 import InstanceLink from "pages/instances/InstanceLink";
 import { LxdInstance } from "types/instance";
 import { queryKeys } from "./queryKeys";
+import { useNotify } from "@canonical/react-components";
 
 export const useInstanceStart = (instance: LxdInstance) => {
   const instanceLoading = useInstanceLoading();

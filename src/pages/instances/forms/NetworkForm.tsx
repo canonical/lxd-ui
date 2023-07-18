@@ -6,6 +6,7 @@ import {
   Label,
   Select,
   Tooltip,
+  useNotify,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -17,7 +18,6 @@ import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
 import { figureInheritedNetworks } from "util/instanceConfigInheritance";
 
 interface Props {

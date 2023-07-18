@@ -9,7 +9,6 @@ import { renameSnapshot, updateSnapshot } from "api/snapshots";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdInstance, LxdSnapshot } from "types/instance";
-import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import {
   SnapshotFormValues,
@@ -18,6 +17,7 @@ import {
   isInstanceStateful,
 } from "util/snapshots";
 import SnapshotForm from "./SnapshotForm";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;

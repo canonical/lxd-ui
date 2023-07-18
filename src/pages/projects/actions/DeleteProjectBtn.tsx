@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
-import { useNotify } from "context/notify";
 import { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
@@ -9,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import ItemName from "components/ItemName";
 import { isProjectEmpty } from "util/projects";
 import { useDeleteIcon } from "context/useDeleteIcon";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   project: LxdProject;

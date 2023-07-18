@@ -5,13 +5,13 @@ import Navigation from "components/Navigation";
 import Panels from "components/Panels";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
-import { NotifyProvider } from "context/notify";
 import App from "./App";
 import "./sass/styles.scss";
 import { ProjectProvider } from "context/project";
 import { InstanceLoadingProvider } from "context/instanceLoading";
 import Events from "pages/instances/Events";
 import { EventQueueProvider } from "context/eventQueue";
+import { NotificationProvider } from "@canonical/react-components";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +20,7 @@ if (!rootElement) throw new Error("Failed to find the root element");
 const root = createRoot(rootElement);
 root.render(
   <Router>
-    <NotifyProvider>
+    <NotificationProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ProjectProvider>
@@ -37,6 +37,6 @@ root.render(
           </ProjectProvider>
         </AuthProvider>
       </QueryClientProvider>
-    </NotifyProvider>
+    </NotificationProvider>
   </Router>
 );

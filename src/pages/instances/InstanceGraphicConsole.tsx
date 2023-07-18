@@ -5,10 +5,9 @@ import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
-import { Notification } from "types/notification";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
+import { NotificationType, useNotify } from "@canonical/react-components";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -21,7 +20,7 @@ interface Props {
   instance: LxdInstance;
   onMount: (handler: () => void) => void;
   onFailure: (title: string, e: unknown, message?: string) => void;
-  inTabNotification: Notification | null;
+  inTabNotification: NotificationType | null;
   clearNotification: () => void;
 }
 

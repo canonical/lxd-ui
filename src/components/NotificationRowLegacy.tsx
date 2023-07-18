@@ -2,11 +2,11 @@ import React, { FC, useEffect, useRef } from "react";
 import {
   Row,
   Notification as NotificationComponent,
+  NotificationType,
 } from "@canonical/react-components";
-import { Notification } from "types/notification";
 
 interface Props {
-  notification: Notification | null;
+  notification: NotificationType | null;
   onDismiss: () => void;
 }
 

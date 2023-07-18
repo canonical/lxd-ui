@@ -3,9 +3,9 @@ import ConfirmationButton from "components/ConfirmationButton";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import { LxdProfile } from "types/profile";
-import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import { useDeleteIcon } from "context/useDeleteIcon";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   profile: LxdProfile;

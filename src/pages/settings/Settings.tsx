@@ -1,13 +1,18 @@
 import React, { FC, useEffect, useState } from "react";
-import { Col, MainTable, Row, SearchBox } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
+import {
+  Col,
+  MainTable,
+  Row,
+  SearchBox,
+  useNotify,
+} from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
-import { useNotify } from "context/notify";
 import { handleResponse } from "util/helpers";
 import { LxdConfigOption } from "types/config";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
+import NotificationRow from "components/NotificationRow";
 
 const configOptionsUrl = "/ui/assets/data/config-options.json";
 

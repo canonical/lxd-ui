@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import { Col, Form, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
 import ProjectFormMenu, {
   CLUSTERS,
   DEVICE_USAGE,
@@ -18,6 +17,7 @@ import DeviceUsageRestrictionForm from "pages/projects/forms/DeviceUsageRestrict
 import NetworkRestrictionForm from "pages/projects/forms/NetworkRestrictionForm";
 import { FormikProps } from "formik/dist/types";
 import { LxdProject } from "types/project";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;

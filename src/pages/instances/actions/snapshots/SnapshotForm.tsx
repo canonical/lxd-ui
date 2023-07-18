@@ -12,10 +12,10 @@ import {
 } from "@canonical/react-components";
 import { getTomorrow } from "util/helpers";
 import SubmitButton from "components/SubmitButton";
-import NotificationRow from "components/NotificationRow";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import { SnapshotFormValues } from "util/snapshots";
 import { FormikProps } from "formik/dist/types";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   isEdit: boolean;

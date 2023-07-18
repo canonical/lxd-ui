@@ -1,10 +1,8 @@
 import React, { FC } from "react";
-import { Icon, MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
+import { Icon, MainTable, Row, useNotify } from "@canonical/react-components";
 import { fetchClusterMembers } from "api/cluster";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import ClusterGroupSelector from "pages/cluster/ClusterGroupSelector";
 import { useParams } from "react-router-dom";
@@ -20,6 +18,7 @@ import {
 } from "util/clusterGroups";
 import Pagination from "components/Pagination";
 import { useSettings } from "context/useSettings";
+import NotificationRow from "components/NotificationRow";
 
 const ClusterList: FC = () => {
   const notify = useNotify();

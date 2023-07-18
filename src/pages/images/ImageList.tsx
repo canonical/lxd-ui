@@ -1,14 +1,18 @@
 import React, { FC } from "react";
-import { MainTable, Row, Tooltip } from "@canonical/react-components";
+import {
+  MainTable,
+  Row,
+  Tooltip,
+  useNotify,
+} from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import { fetchImageList } from "api/images";
-import NotificationRow from "components/NotificationRow";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
-import { useNotify } from "context/notify";
 import Loader from "components/Loader";
+import NotificationRow from "components/NotificationRow";
 
 const ImageList: FC = () => {
   const notify = useNotify();

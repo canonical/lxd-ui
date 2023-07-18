@@ -2,10 +2,8 @@ import React, { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProfile } from "api/profiles";
-import NotificationRow from "components/NotificationRow";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
-import { Row, Tabs } from "@canonical/react-components";
+import { Row, Tabs, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import EditProfileForm from "pages/profiles/EditProfileForm";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
@@ -13,6 +11,7 @@ import ProfileDetailHeader from "./ProfileDetailHeader";
 import { slugify } from "util/slugify";
 import { isProjectWithProfiles } from "util/projects";
 import { useProject } from "context/project";
+import NotificationRow from "components/NotificationRow";
 
 const TABS: string[] = ["Overview", "Configuration"];
 

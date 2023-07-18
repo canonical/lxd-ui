@@ -9,14 +9,13 @@ import useEventListener from "@use-it/event-listener";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { TerminalConnectPayload } from "types/terminal";
 import Loader from "components/Loader";
-import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
-import { failure } from "context/notify";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
 import EmptyState from "components/EmptyState";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
+import { NotificationType, failure } from "@canonical/react-components";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -52,7 +51,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
   const [inTabNotification, setInTabNotification] =
-    useState<Notification | null>(null);
+    useState<NotificationType | null>(null);
   const [isLoading, setLoading] = useState(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);

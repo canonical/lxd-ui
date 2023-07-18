@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import { updateInstanceBulkAction } from "api/instances";
-import { useNotify } from "context/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationForce from "components/ConfirmationForce";
@@ -12,6 +11,7 @@ import {
 } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   instances: LxdInstance[];

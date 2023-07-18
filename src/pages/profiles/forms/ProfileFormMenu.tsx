@@ -1,9 +1,8 @@
 import React, { FC, useEffect } from "react";
 import MenuItem from "pages/instances/forms/FormMenuItem";
-import { Button } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import { useNotify } from "context/notify";
 
 export const PROFILE_DETAILS = "Profile details";
 export const STORAGE = "Storage";

@@ -1,11 +1,16 @@
 import React, { FC, useState } from "react";
-import { Button, Form, Icon, Input } from "@canonical/react-components";
+import {
+  Button,
+  Form,
+  Icon,
+  Input,
+  useNotify,
+} from "@canonical/react-components";
 import { updateSettings } from "api/server";
 import { useFormik } from "formik";
 import { LxdConfigOption } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNotify } from "context/notify";
 
 interface Props {
   option: LxdConfigOption;

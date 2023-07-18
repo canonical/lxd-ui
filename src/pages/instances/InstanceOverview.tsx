@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState } from "react";
 import { isoTimeToString } from "util/helpers";
-import { Col, Row } from "@canonical/react-components";
+import {
+  Col,
+  NotificationType,
+  Row,
+  failure,
+} from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
-import { Notification } from "types/notification";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
-import { failure } from "context/notify";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewNetworks from "./InstanceOverviewNetworks";
@@ -20,7 +23,7 @@ interface Props {
 
 const InstanceOverview: FC<Props> = ({ instance }) => {
   const [inTabNotification, setInTabNotification] =
-    useState<Notification | null>(null);
+    useState<NotificationType | null>(null);
   const { data: settings } = useSettings();
 
   const onFailure = (title: string, e: unknown) => {

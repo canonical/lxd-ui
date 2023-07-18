@@ -4,11 +4,11 @@ import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import { LxdInstance } from "types/instance";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { renameInstance } from "api/instances";
-import { useNotify } from "context/notify";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   name: string;

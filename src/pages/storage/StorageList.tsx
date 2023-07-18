@@ -1,17 +1,16 @@
 import React, { FC } from "react";
-import { Icon, MainTable, Row } from "@canonical/react-components";
-import NotificationRow from "components/NotificationRow";
+import { Icon, MainTable, Row, useNotify } from "@canonical/react-components";
 import { fetchStoragePools } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "context/notify";
 import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storage/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
 import StorageSize from "pages/storage/StorageSize";
 import EmptyState from "components/EmptyState";
+import NotificationRow from "components/NotificationRow";
 
 const StorageList: FC = () => {
   const notify = useNotify();

@@ -2,12 +2,12 @@ import React, { FC, useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import { LxdInstance } from "types/instance";
 import ConfirmationButton from "components/ConfirmationButton";
-import { useNotify } from "context/notify";
 import { pluralizeInstance } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { deletableStatuses } from "util/instanceDelete";
 import { getPromiseSettledCounts } from "util/helpers";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   instances: LxdInstance[];
