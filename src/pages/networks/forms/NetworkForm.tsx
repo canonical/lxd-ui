@@ -8,6 +8,7 @@ import {
   Row,
   Select,
   Textarea,
+  useNotify,
 } from "@canonical/react-components";
 import {
   LxdNetwork,
@@ -28,7 +29,6 @@ import NetworkFormMenu, {
 import { FormikProps } from "formik/dist/types";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import { useNotify } from "context/notify";
 import { useSettings } from "context/useSettings";
 import Loader from "components/Loader";
 import YamlForm from "pages/instances/forms/YamlForm";

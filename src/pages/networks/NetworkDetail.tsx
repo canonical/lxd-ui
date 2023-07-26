@@ -7,8 +7,7 @@ import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
 import Loader from "components/Loader";
-import { useNotify } from "context/notify";
-import { Row, Tabs } from "@canonical/react-components";
+import { Row, Tabs, useNotify } from "@canonical/react-components";
 import { slugify } from "util/slugify";
 import NetworkDetailOverview from "pages/networks/NetworkDetailOverview";
 

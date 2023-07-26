@@ -1,13 +1,13 @@
 import React, { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
-import { useNotify } from "context/notify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   name: string;
