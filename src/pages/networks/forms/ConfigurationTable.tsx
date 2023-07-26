@@ -18,7 +18,7 @@ const ConfigurationTable: FC<Props> = ({ rows, emptyStateMsg }) => {
       className: "override",
     },
     { content: "Configuration", className: "config" },
-    { content: "Inherited", className: "value" },
+    { content: "Inherited", className: "inherited" },
     { content: "Override", className: "defined" },
   ];
 

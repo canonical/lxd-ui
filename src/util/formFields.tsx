@@ -26,5 +26,5 @@ export const optionRenderer = (
     return match.label;
   }
 
-  return "-";
+  return "";
 };

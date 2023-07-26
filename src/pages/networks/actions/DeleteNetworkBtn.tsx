@@ -1,12 +1,12 @@
 import React, { FC, useState } from "react";
 import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
-import { useNotify } from "context/notify";
 import ItemName from "components/ItemName";
 import { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   network: LxdNetwork;
