@@ -36,7 +36,6 @@ interface Props {
 const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
-      formik={formik as unknown as SharedFormikTypes}
       rows={[
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
