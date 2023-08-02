@@ -35,7 +35,6 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
   return (
     <div className="cloud-init">
       <ConfigurationTable
-        formik={formik}
         configurationExtra={
           <Tooltip
             message="Applied only to images that have the cloud-init package installed."

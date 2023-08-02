@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
-import { Button, Label } from "@canonical/react-components";
+import { Button, Icon, Label } from "@canonical/react-components";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
@@ -42,13 +42,30 @@ export const getConfigurationRow = ({
     if (isReadOnly) {
       return "-";
     }
-    return React.cloneElement(children, {
-      id: name,
-      name: name,
-      onBlur: formik.handleBlur,
-      onChange: formik.handleChange,
-      value: values[name],
-    });
+    return (
+      <div className="override-form">
+        <div>
+          {React.cloneElement(children, {
+            id: name,
+            name: name,
+            onBlur: formik.handleBlur,
+            onChange: formik.handleChange,
+            value: values[name],
+          })}
+        </div>
+        <div>
+          <Button
+            onClick={toggleDefault}
+            className="override-btn"
+            type="button"
+            appearance="base"
+            title="Clear override"
+          >
+            <Icon name="close" className="clear-configuration-icon" />
+          </Button>
+        </div>
+      </div>
+    );
   };
 
   const getInheritedValue = (): ReactNode => {
@@ -56,8 +73,7 @@ export const getConfigurationRow = ({
   };
 
   const getOverrideValue = (): ReactNode => {
-    const value = values[name] === "" ? "-" : values[name];
-    return value;
+    return values[name] === "" ? "-" : values[name];
   };
 
   const displayLabel = isOverridden ? (
@@ -69,27 +85,8 @@ export const getConfigurationRow = ({
   );
 
   return getConfigurationRowBase({
-    override: isOverridden ? (
-      <Button
-        onClick={toggleDefault}
-        className="override-btn u-no-margin--bottom"
-        appearance="negative"
-        type="button"
-      >
-        Clear
-      </Button>
-    ) : (
-      <Button
-        onClick={toggleDefault}
-        className="override-btn u-no-margin--bottom"
-        type="button"
-        disabled={disabled}
-      >
-        Override
-      </Button>
-    ),
-    label: displayLabel,
-    value: (
+    configuration: displayLabel,
+    inherited: (
       <div
         className={classnames({
           "u-text--muted": isOverridden,
@@ -102,44 +99,49 @@ export const getConfigurationRow = ({
         <div>From: {inheritSource}</div>
       </div>
     ),
-    defined: isReadOnly
-      ? getOverrideValue()
-      : isOverridden
-      ? getDisplayForm()
-      : "-",
+    override: isReadOnly ? (
+      getOverrideValue()
+    ) : isOverridden ? (
+      getDisplayForm()
+    ) : (
+      <Button
+        onClick={toggleDefault}
+        className="override-btn"
+        type="button"
+        disabled={disabled}
+        appearance="base"
+        title="Create override"
+      >
+        <Icon name="edit" />
+      </Button>
+    ),
   });
 };
 
 interface BaseProps {
+  configuration: ReactNode;
+  inherited: ReactNode;
   override: ReactNode;
-  label: ReactNode;
-  value: ReactNode;
-  defined: ReactNode;
 }
 
 export const getConfigurationRowBase = ({
+  configuration,
+  inherited,
   override,
-  label,
-  value,
-  defined,
 }: BaseProps): MainTableRow => {
   return {
     columns: [
       {
+        content: configuration,
+        className: "configuration",
+      },
+      {
+        content: inherited,
+        className: "inherited",
+      },
+      {
         content: override,
         className: "override",
-      },
-      {
-        content: label,
-        className: "config",
-      },
-      {
-        content: value,
-        className: "value",
-      },
-      {
-        content: defined,
-        className: "defined",
       },
     ],
   };

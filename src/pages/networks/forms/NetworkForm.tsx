@@ -283,7 +283,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
               />
 
               <ConfigurationTable
-                formik={formik}
                 rows={[
                   ...(formik.values.bridge_mode !== "fan"
                     ? [
@@ -426,7 +425,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
           )}
           {section === BRIDGE && (
             <ConfigurationTable
-              formik={formik}
               rows={[
                 getConfigurationRow({
                   formik: formik,
@@ -486,7 +484,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
           )}
           {section === DNS && (
             <ConfigurationTable
-              formik={formik}
               rows={[
                 getConfigurationRow({
                   formik: formik,
@@ -549,7 +546,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
           )}
           {section === IPV4 && (
             <ConfigurationTable
-              formik={formik}
               rows={[
                 getConfigurationRow({
                   formik: formik,
@@ -628,7 +624,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
           )}
           {section === IPV6 && (
             <ConfigurationTable
-              formik={formik}
               rows={[
                 getConfigurationRow({
                   formik: formik,
