@@ -40,6 +40,7 @@ import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
 import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
 
 export interface NetworkFormValues {
+  readOnly: boolean;
   name: string;
   description?: string;
   type: LxdNetworkType;
@@ -247,6 +248,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                         ? `bridge-${formik.values.bridge_mode ?? "standard"}`
                         : formik.values.type
                     }
+                    disabled={formik.values.readOnly}
                   />
                   {formik.values.type === "ovn" && (
                     <Select
@@ -255,6 +257,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                       help="Uplink network to use for external network access"
                       options={getNetworkOptions()}
                       required
+                      disabled={formik.values.readOnly}
                     />
                   )}
                   <Input
@@ -262,11 +265,13 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                     type="text"
                     label="Name"
                     required
+                    disabled={formik.values.readOnly}
                   />
                   <Input
                     {...getFormProps("description")}
                     type="text"
                     label="Description"
+                    disabled={formik.values.readOnly}
                   />
                 </Col>
               </Row>
@@ -549,7 +554,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                 }),
 
                 ...(formik.values.type !== "ovn" &&
-                formik.values.ipv4_dhcp === true
+                (formik.values.ipv4_dhcp === true ||
+                  formik.values.ipv4_dhcp === undefined)
                   ? [
                       getConfigurationRow({
                         formik: formik,
@@ -654,7 +660,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                     ]
                   : []),
 
-                ...(formik.values.ipv6_dhcp === true
+                ...(formik.values.ipv6_dhcp === true ||
+                formik.values.ipv4_dhcp === undefined
                   ? [
                       getConfigurationRow({
                         formik: formik,
@@ -708,6 +715,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
             <YamlForm
               yaml={getYaml()}
               setYaml={(yaml) => formik.setFieldValue("yaml", yaml)}
+              isReadOnly={formik.values.readOnly}
             >
               <Notification severity="caution" title="Before you edit the YAML">
                 Changes will be discarded, when switching back to the guided
