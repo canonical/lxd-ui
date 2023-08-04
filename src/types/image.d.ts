@@ -27,6 +27,7 @@ export interface ImportImage {
 export interface RemoteImage {
   aliases: string;
   arch: string;
+  created_at: number;
   lxd_requirements?: {
     secureboot: boolean;
   };

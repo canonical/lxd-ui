@@ -121,6 +121,7 @@ export const createStorageVolume = (
 export const createIsoStorageVolume = (
   pool: string,
   isoFile: File,
+  name: string,
   project: string
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
@@ -128,7 +129,7 @@ export const createIsoStorageVolume = (
       method: "POST",
       headers: {
         "Content-Type": "application/octet-stream",
-        "X-LXD-name": isoFile.name,
+        "X-LXD-name": name,
         "X-LXD-type": "iso",
       },
       body: isoFile,

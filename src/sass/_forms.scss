@@ -196,13 +196,22 @@
     }
   }
 
+  .image-select-header {
+    display: flex;
+
+    > :first-child {
+      flex-grow: 1;
+    }
+  }
+
   .image-list {
     max-height: calc(100vh - 140px);
     overflow-y: hidden;
   }
 
   @include large {
-    .search-image {
+    .search-image,
+    .upload-btn {
       margin-top: calc(2.5rem + 3px);
       max-width: 30rem;
     }
