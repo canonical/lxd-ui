@@ -94,8 +94,7 @@ export const getConfigurationRow = ({
   };
 
   const getInheritedValue = (): ReactNode => {
-    const value = inheritedValue === "-" ? "" : inheritedValue;
-    return readOnlyRenderer ? readOnlyRenderer(value) : value;
+    return readOnlyRenderer ? readOnlyRenderer(inheritedValue) : inheritedValue;
   };
 
   const getOverrideValue = (): ReactNode => {
