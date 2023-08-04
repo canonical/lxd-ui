@@ -84,16 +84,15 @@ export const setMemLimit = async (
 };
 
 export const setSchedule = async (page: Page, value: string) => {
-  await activateOverride(page, "Schedule From: LXD");
+  await activateOverride(page, "Schedule - From: LXD");
   await page
-    .getByRole("row", { name: "Schedule" })
+    .getByRole("row", { name: "Schedule - From: LXD" })
     .getByText("Cron syntax")
     .click();
   await page.getByPlaceholder("Enter cron expression").last().fill(value);
 };
 
 export const activateOverride = async (page: Page, field: string) => {
-  await page.getByRole("row", { name: field }).hover();
   if (
     !(await page
       .getByRole("row", { name: field })
@@ -112,5 +111,9 @@ export const assertReadMode = async (
   field: string,
   value: string
 ) => {
-  await page.getByRole("row", { name: field }).getByText(value).click();
+  await page
+    .getByRole("row", { name: field })
+    .getByRole("gridcell", { name: value, exact: true })
+    .getByText(value)
+    .click();
 };
