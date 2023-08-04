@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { Button } from "@canonical/react-components";
-import ImageSelector from "../ImageSelector";
 import usePortal from "react-useportal";
 import { RemoteImage } from "types/image";
+import ImageSelectorModal from "pages/images/ImageSelectorModal";
 
 interface Props {
   appearance: string;
@@ -25,7 +25,7 @@ const SelectImageBtn: FC<Props> = ({ appearance, caption, onSelect }) => {
       </Button>
       {isOpen && (
         <Portal>
-          <ImageSelector onClose={closePortal} onSelect={handleSelect} />
+          <ImageSelectorModal onClose={closePortal} onSelect={handleSelect} />
         </Portal>
       )}
     </>

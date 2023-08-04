@@ -126,8 +126,12 @@ const CreateInstanceForm: FC = () => {
     clearCache();
   };
 
-  const notifyLaunched = (instanceLink: ReactNode) => {
-    notify.success(<>Launched instance {instanceLink}.</>);
+  const notifyLaunched = (instanceLink: ReactNode, message?: ReactNode) => {
+    notify.success(
+      <>
+        Launched instance {instanceLink}.{message}
+      </>
+    );
     clearCache();
   };
 
@@ -148,7 +152,8 @@ const CreateInstanceForm: FC = () => {
 
   const creationCompletedHandler = (
     instanceName: string,
-    shouldStart: boolean
+    shouldStart: boolean,
+    isIsoImage: boolean
   ) => {
     const instanceLink = (
       <Link to={`/ui/project/${project}/instances/detail/${instanceName}`}>
@@ -168,7 +173,19 @@ const CreateInstanceForm: FC = () => {
           notifyCreatedButStartFailed(instanceLink, e);
         });
     } else {
-      notifyLaunched(instanceLink);
+      const message = isIsoImage && (
+        <>
+          <br />
+          Continue the installation process for the custom ISO image from its{" "}
+          <Link
+            to={`/ui/project/${project}/instances/detail/${instanceName}/console`}
+          >
+            console
+          </Link>{" "}
+          .
+        </>
+      );
+      notifyLaunched(instanceLink, message);
     }
   };
 
@@ -186,9 +203,10 @@ const CreateInstanceForm: FC = () => {
         if (!instanceName) {
           return;
         }
+        const isIsoImage = values.image?.server === "local-iso";
         eventQueue.set(
           operation.metadata.id,
-          () => creationCompletedHandler(instanceName, shouldStart),
+          () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
           (msg) => notifyLaunchFailed(new Error(msg), formUrl, values)
         );
       })
@@ -213,6 +231,8 @@ const CreateInstanceForm: FC = () => {
       submit(values);
     },
   });
+
+  const isLocalIsoImage = formik.values.image?.server === "local-iso";
 
   const handleSelectImage = (image: RemoteImage, type: string | null) => {
     void formik.setFieldValue("image", image);
@@ -352,15 +372,17 @@ const CreateInstanceForm: FC = () => {
                   isSubmitting={formik.isSubmitting}
                   isDisabled={!formik.isValid || !formik.values.image}
                   buttonLabel="Create"
-                  appearance="default"
+                  appearance={isLocalIsoImage ? "positive" : "default"}
                   onClick={() => submit(formik.values, false)}
                 />
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.image}
-                  buttonLabel="Create and start"
-                  onClick={() => submit(formik.values)}
-                />
+                {!isLocalIsoImage && (
+                  <SubmitButton
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={!formik.isValid || !formik.values.image}
+                    buttonLabel="Create and start"
+                    onClick={() => submit(formik.values)}
+                  />
+                )}
               </Col>
             </Row>
           </div>
