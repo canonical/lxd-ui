@@ -18,6 +18,7 @@ interface Props {
   toggleConfigOpen: () => void;
   active: string;
   setActive: (val: string) => void;
+  hasName: boolean;
 }
 
 const ProfileFormMenu: FC<Props> = ({
@@ -25,12 +26,17 @@ const ProfileFormMenu: FC<Props> = ({
   toggleConfigOpen,
   active,
   setActive,
+  hasName,
 }) => {
   const notify = useNotify();
   const menuItemProps = {
     active,
     setActive,
   };
+
+  const disableReason = hasName
+    ? undefined
+    : "Please enter a profile name to enable this section";
 
   const resize = () => {
     updateMaxHeight("form-navigation", "p-bottom-controls");
@@ -49,6 +55,8 @@ const ProfileFormMenu: FC<Props> = ({
               className="p-side-navigation__accordion-button"
               aria-expanded={isConfigOpen ? "true" : "false"}
               onClick={toggleConfigOpen}
+              disabled={Boolean(disableReason)}
+              title={disableReason}
             >
               Advanced
             </Button>
@@ -64,7 +72,11 @@ const ProfileFormMenu: FC<Props> = ({
               <MenuItem label={CLOUD_INIT} {...menuItemProps} />
             </ul>
           </li>
-          <MenuItem label={YAML_CONFIGURATION} {...menuItemProps} />
+          <MenuItem
+            label={YAML_CONFIGURATION}
+            disableReason={disableReason}
+            {...menuItemProps}
+          />
         </ul>
       </nav>
     </div>
