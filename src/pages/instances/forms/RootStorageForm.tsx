@@ -157,7 +157,6 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
         <div>
           <Button
             onClick={removeRootStorage}
-            className="override-btn"
             type="button"
             appearance="base"
             title="Clear override"
@@ -203,7 +202,6 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
           ) : (
             <Button
               onClick={addRootStorage}
-              className="override-btn"
               type="button"
               appearance="base"
               title="Create override"

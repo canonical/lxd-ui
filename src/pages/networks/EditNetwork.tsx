@@ -118,7 +118,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             <SubmitButton
               isSubmitting={formik.isSubmitting}
               isDisabled={!formik.isValid || !formik.values.name}
-              buttonLabel="Update"
+              buttonLabel="Save changes"
               onClick={() => void formik.submitForm()}
             />
           </Col>

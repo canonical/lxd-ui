@@ -182,106 +182,94 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
         <Col size={12}>
           {section === MAIN_CONFIGURATION && (
             <React.Fragment>
-              <Select
-                {...getFormProps("type")}
-                label="Type"
-                help="Bridge (FAN) is only available on ubuntu, OVN needs to be configured to be available, Macvlan,  SR-IOV and Physical not available in the UI"
-                required
-                options={[
-                  {
-                    label: "Bridge (standard)",
-                    value: "bridge-standard",
-                  },
-                  {
-                    label: "Bridge (FAN)",
-                    value: "bridge-fan",
-                    disabled: !hasFan,
-                  },
-                  {
-                    label: "OVN",
-                    value: "ovn",
-                    disabled: !hasOvn,
-                  },
-                  {
-                    label: "Macvlan",
-                    value: "macvlan",
-                    disabled: true,
-                  },
-                  {
-                    label: "SR-IOV",
-                    value: "sriov",
-                    disabled: true,
-                  },
-                  {
-                    label: "Physical",
-                    value: "physical",
-                    disabled: true,
-                  },
-                ]}
-                onChange={(e) => {
-                  if (e.target.value === "bridge-standard") {
-                    formik.setFieldValue("type", "bridge");
-                    formik.setFieldValue("bridge_mode", "standard");
-                    formik.setFieldValue("fan_type", undefined);
-                    formik.setFieldValue("fan_overlay_subnet", undefined);
-                    formik.setFieldValue("fan_underlay_subnet", undefined);
-                    formik.setFieldValue("network", undefined);
-                    formik.setFieldValue("ipv4_l3only", undefined);
-                    formik.setFieldValue("ipv6_l3only", undefined);
-                  }
-                  if (e.target.value === "bridge-fan") {
-                    formik.setFieldValue("type", "bridge");
-                    formik.setFieldValue("bridge_mode", "fan");
-                    formik.setFieldValue("ipv4_address", undefined);
-                    formik.setFieldValue("ipv6_address", undefined);
-                    formik.setFieldValue("ipv6_nat", undefined);
-                    formik.setFieldValue("network", undefined);
-                    formik.setFieldValue("ipv4_l3only", undefined);
-                    formik.setFieldValue("ipv6_l3only", undefined);
-                  }
-                  if (e.target.value === "ovn") {
-                    formik.setFieldValue("type", "ovn");
-                    formik.setFieldValue("bridge_mode", undefined);
-                    formik.setFieldValue("fan_type", undefined);
-                    formik.setFieldValue("fan_overlay_subnet", undefined);
-                    formik.setFieldValue("fan_underlay_subnet", undefined);
-                    formik.setFieldValue("bridge_driver", undefined);
-                    formik.setFieldValue("dns_mode", undefined);
-                    formik.setFieldValue("ipv4_dhcp_expiry", undefined);
-                    formik.setFieldValue("ipv4_dhcp_ranges", undefined);
-                    formik.setFieldValue("ipv4_ovn_ranges", undefined);
-                    formik.setFieldValue("ipv6_dhcp_expiry", undefined);
-                    formik.setFieldValue("ipv6_dhcp_ranges", undefined);
-                    formik.setFieldValue("ipv6_ovn_ranges", undefined);
-                  }
-                }}
-                value={
-                  formik.values.type === "bridge"
-                    ? `bridge-${formik.values.bridge_mode ?? "standard"}`
-                    : formik.values.type
-                }
-              />
-              {formik.values.type === "ovn" && (
-                <Select
-                  {...getFormProps("network")}
-                  label="Uplink"
-                  help="Uplink network to use for external network access"
-                  options={getNetworkOptions()}
-                  required
-                />
-              )}
-              <Input
-                {...getFormProps("name")}
-                type="text"
-                label="Name"
-                required
-              />
-              <Input
-                {...getFormProps("description")}
-                type="text"
-                label="Description"
-              />
-
+              <Row>
+                <Col size={8}>
+                  <Select
+                    {...getFormProps("type")}
+                    label="Type"
+                    help="Bridge (FAN) is only available on ubuntu, OVN needs to be configured to be available, Macvlan,  SR-IOV and Physical not available in the UI"
+                    required
+                    options={[
+                      {
+                        label: "Bridge (standard)",
+                        value: "bridge-standard",
+                      },
+                      {
+                        label: "Bridge (FAN)",
+                        value: "bridge-fan",
+                        disabled: !hasFan,
+                      },
+                      {
+                        label: "OVN",
+                        value: "ovn",
+                        disabled: !hasOvn,
+                      },
+                    ]}
+                    onChange={(e) => {
+                      if (e.target.value === "bridge-standard") {
+                        formik.setFieldValue("type", "bridge");
+                        formik.setFieldValue("bridge_mode", "standard");
+                        formik.setFieldValue("fan_type", undefined);
+                        formik.setFieldValue("fan_overlay_subnet", undefined);
+                        formik.setFieldValue("fan_underlay_subnet", undefined);
+                        formik.setFieldValue("network", undefined);
+                        formik.setFieldValue("ipv4_l3only", undefined);
+                        formik.setFieldValue("ipv6_l3only", undefined);
+                      }
+                      if (e.target.value === "bridge-fan") {
+                        formik.setFieldValue("type", "bridge");
+                        formik.setFieldValue("bridge_mode", "fan");
+                        formik.setFieldValue("ipv4_address", undefined);
+                        formik.setFieldValue("ipv6_address", undefined);
+                        formik.setFieldValue("ipv6_nat", undefined);
+                        formik.setFieldValue("network", undefined);
+                        formik.setFieldValue("ipv4_l3only", undefined);
+                        formik.setFieldValue("ipv6_l3only", undefined);
+                      }
+                      if (e.target.value === "ovn") {
+                        formik.setFieldValue("type", "ovn");
+                        formik.setFieldValue("bridge_mode", undefined);
+                        formik.setFieldValue("fan_type", undefined);
+                        formik.setFieldValue("fan_overlay_subnet", undefined);
+                        formik.setFieldValue("fan_underlay_subnet", undefined);
+                        formik.setFieldValue("bridge_driver", undefined);
+                        formik.setFieldValue("dns_mode", undefined);
+                        formik.setFieldValue("ipv4_dhcp_expiry", undefined);
+                        formik.setFieldValue("ipv4_dhcp_ranges", undefined);
+                        formik.setFieldValue("ipv4_ovn_ranges", undefined);
+                        formik.setFieldValue("ipv6_dhcp_expiry", undefined);
+                        formik.setFieldValue("ipv6_dhcp_ranges", undefined);
+                        formik.setFieldValue("ipv6_ovn_ranges", undefined);
+                      }
+                    }}
+                    value={
+                      formik.values.type === "bridge"
+                        ? `bridge-${formik.values.bridge_mode ?? "standard"}`
+                        : formik.values.type
+                    }
+                  />
+                  {formik.values.type === "ovn" && (
+                    <Select
+                      {...getFormProps("network")}
+                      label="Uplink"
+                      help="Uplink network to use for external network access"
+                      options={getNetworkOptions()}
+                      required
+                    />
+                  )}
+                  <Input
+                    {...getFormProps("name")}
+                    type="text"
+                    label="Name"
+                    required
+                  />
+                  <Input
+                    {...getFormProps("description")}
+                    type="text"
+                    label="Description"
+                  />
+                </Col>
+              </Row>
               <ConfigurationTable
                 rows={[
                   ...(formik.values.bridge_mode !== "fan"
