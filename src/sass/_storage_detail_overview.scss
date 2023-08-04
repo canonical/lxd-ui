@@ -1,0 +1,47 @@
+.storage-overview-tab {
+  overflow: auto;
+
+  .p-muted-heading {
+    color: #757575;
+    font-weight: 500;
+  }
+
+  .row:first-of-type {
+    margin-top: $spv--x-large;
+  }
+
+  .row:not(:first-of-type) {
+    margin-top: $spv--large;
+  }
+
+  .section {
+    border-bottom: 1px solid $color-mid-light;
+
+    table {
+      margin-bottom: $spv--large;
+    }
+  }
+
+  .section,
+  .usage {
+    tr {
+      border: none;
+    }
+
+    td,
+    th {
+      padding-bottom: $spv--x-small;
+      padding-left: 0;
+      padding-top: $spv--x-small;
+    }
+
+    th {
+      width: 30%;
+    }
+
+    td:first-of-type,
+    th:first-of-type {
+      padding-top: $spv--small;
+    }
+  }
+}

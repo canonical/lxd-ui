@@ -13,7 +13,7 @@ export interface LxdUsedBy {
  * "/1.0/profiles/default?project=foo"
  */
 export const filterUsedByType = (
-  type: "instances" | "profiles" | "snapshots" | "images",
+  type: "instances" | "profiles" | "snapshots" | "images" | "storage-pools",
   defaultProject: string,
   usedByPaths?: string[]
 ): LxdUsedBy[] => {
