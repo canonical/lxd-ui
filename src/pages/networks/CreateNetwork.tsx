@@ -49,6 +49,7 @@ const CreateNetwork: FC = () => {
 
   const formik = useFormik<NetworkFormValues>({
     initialValues: {
+      readOnly: false,
       name: "",
       type: hasOvn ? "ovn" : "bridge",
       bridge_mode: hasOvn ? undefined : "standard",

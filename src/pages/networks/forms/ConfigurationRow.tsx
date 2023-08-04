@@ -73,6 +73,9 @@ export const getConfigurationRow = ({
   };
 
   const getOverrideValue = (): ReactNode => {
+    if (typeof values[name] === "boolean") {
+      return values[name] ? "true" : "false";
+    }
     return values[name] === "" ? "-" : values[name];
   };
 
