@@ -79,6 +79,8 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "scrollable_table";
 @import "selectable_main_table";
 @import "settings_page";
+@import "storage_detail_overview";
+@import "storage_detail_volumes";
 
 .p-heading--4 {
   padding: 0;
