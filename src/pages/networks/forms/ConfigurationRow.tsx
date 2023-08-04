@@ -6,6 +6,7 @@ import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import classnames from "classnames";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { getLxdDefault } from "util/networks";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -36,7 +37,7 @@ export const getConfigurationRow = ({
     }
   };
 
-  const [inheritedValue, inheritSource] = ["", "LXD"];
+  const [inheritedValue, inheritSource] = [getLxdDefault(name), "LXD"];
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
   const getDisplayForm = (): ReactNode => {
     if (isReadOnly) {
