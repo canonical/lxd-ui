@@ -26,6 +26,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
   const [isLoading, setLoading] = useState(false);
   const [pool, setPool] = useState("");
   const [uploadState, setUploadState] = useState<UploadState | null>(null);
+  const [uploadAbort, setUploadAbort] = useState<AbortController | null>(null);
 
   useEffect(() => {
     notify.clear();
@@ -53,18 +54,26 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
     setPool(storagePools[0].name);
   }
 
+  const handleCancel = () => {
+    uploadAbort?.abort();
+    onCancel();
+  };
+
   const importIsoFile = () => {
     if (!file) {
       return;
     }
     notify.clear();
     setLoading(true);
+    const uploadController = new AbortController();
+    setUploadAbort(uploadController);
     createIsoStorageVolume(
       pool,
       file,
       name,
       project?.name ?? "",
-      setUploadState
+      setUploadState,
+      uploadController
     )
       .then(() => {
         onFinish(file.name, pool);
@@ -138,7 +147,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
         </>
       )}
       <footer className="p-modal__footer">
-        <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={handleCancel}>Cancel</Button>
         <SubmitButton
           isSubmitting={isLoading}
           isDisabled={!file}
