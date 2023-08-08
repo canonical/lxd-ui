@@ -28,12 +28,8 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
   };
 
   const hasName = formik.values.name.length > 0;
-  const hasOvnTypeMissingUplink =
-    formik.values.type === "ovn" && (formik.values.network?.length ?? 0) < 1;
   const disableReason = hasName
-    ? hasOvnTypeMissingUplink
-      ? "Please select an uplink network"
-      : undefined
+    ? undefined
     : "Please enter a network name to enable this section";
 
   const resize = () => {
