@@ -125,7 +125,8 @@ export const createIsoStorageVolume = (
   isoFile: File,
   name: string,
   project: string,
-  setUploadState: (value: UploadState) => void
+  setUploadState: (value: UploadState) => void,
+  uploadController: AbortController
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     axios
@@ -145,6 +146,7 @@ export const createIsoStorageVolume = (
               total: event.total,
             });
           },
+          signal: uploadController.signal,
         }
       )
       .then((response: AxiosResponse<LxdOperationResponse>) => response.data)
