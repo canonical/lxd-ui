@@ -86,7 +86,33 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
 
   return (
     <>
-      <NotificationRow />
+      {!notify.notification ? (
+        <Notification
+          severity="caution"
+          title="Image must be prepared with distrobuilder"
+        >
+          For a windows image with name <code>WindowsIsoImage.iso</code> use the
+          command
+          <pre className="p-code-snippet__block--icon">
+            <code>
+              sudo distrobuilder repack-windows WindowsIsoImage.iso
+              win11.lxd.iso
+            </code>
+          </pre>
+          <p>
+            and upload the resulting <code>win11.lxd.iso</code> file.
+          </p>
+          <a
+            href="https://discourse.ubuntu.com/t/how-to-install-a-windows-11-vm-using-lxd/28940"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Learn how to install a Windows 11 VM using LXD
+          </a>
+        </Notification>
+      ) : (
+        <NotificationRow />
+      )}
       <Input
         name="iso"
         type="file"
@@ -116,16 +142,6 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
         value={pool}
         disabled={file === null}
       />
-      <Notification severity="caution" title="Custom ISO images">
-        Image must be prepared with distrobuilder.{" "}
-        <a
-          href="https://discourse.ubuntu.com/t/how-to-install-a-windows-11-vm-using-lxd/28940"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Learn more
-        </a>
-      </Notification>
       <footer className="p-modal__footer">
         <Button onClick={onCancel}>Cancel</Button>
         <SubmitButton
