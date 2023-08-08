@@ -1,18 +1,16 @@
 import React, { FC, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import {
-  Button,
-  Input,
-  Notification,
-  Select,
-  useNotify,
-} from "@canonical/react-components";
+import { Button, Input, Select, useNotify } from "@canonical/react-components";
 import { createIsoStorageVolume, fetchStoragePools } from "api/storage-pools";
 import SubmitButton from "components/SubmitButton";
 import { useProject } from "context/project";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
+import ProgressBar from "components/ProgressBar";
+import { UploadState } from "types/storage";
+import { humanFileSize } from "util/helpers";
+import UploadIsoImageHint from "pages/storage/UploadIsoImageHint";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -27,6 +25,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
   const [name, setName] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
   const [pool, setPool] = useState("");
+  const [uploadState, setUploadState] = useState<UploadState | null>(null);
 
   useEffect(() => {
     notify.clear();
@@ -58,8 +57,15 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
     if (!file) {
       return;
     }
+    notify.clear();
     setLoading(true);
-    createIsoStorageVolume(pool, file, name, project?.name ?? "")
+    createIsoStorageVolume(
+      pool,
+      file,
+      name,
+      project?.name ?? "",
+      setUploadState
+    )
       .then(() => {
         onFinish(file.name, pool);
       })
@@ -68,6 +74,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
       })
       .finally(() => {
         setLoading(false);
+        setUploadState(null);
         void queryClient.invalidateQueries([
           queryKeys.storage,
           pool,
@@ -86,62 +93,50 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
 
   return (
     <>
-      {!notify.notification ? (
-        <Notification
-          severity="caution"
-          title="Image must be prepared with distrobuilder"
-        >
-          For a windows image with name <code>WindowsIsoImage.iso</code> use the
-          command
-          <pre className="p-code-snippet__block--icon">
-            <code>
-              sudo distrobuilder repack-windows WindowsIsoImage.iso
-              win11.lxd.iso
-            </code>
-          </pre>
+      {notify.notification ? <NotificationRow /> : <UploadIsoImageHint />}
+      <div className={uploadState === null ? "" : "u-hide"}>
+        <Input
+          name="iso"
+          type="file"
+          id="iso-image"
+          label="ISO image"
+          onChange={changeFile}
+        />
+        <Input
+          name="name"
+          type="text"
+          id="name"
+          label="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          disabled={file === null}
+        />
+        <Select
+          label="Storage pool"
+          id="storagePool"
+          options={storagePools.map((pool) => ({
+            label: pool.name,
+            value: pool.name,
+          }))}
+          onChange={(e) => {
+            setPool(e.target.value);
+          }}
+          value={pool}
+          disabled={file === null}
+        />
+      </div>
+      {uploadState && (
+        <>
+          <ProgressBar percentage={Math.floor(uploadState.percentage)} />
           <p>
-            and upload the resulting <code>win11.lxd.iso</code> file.
+            {humanFileSize(uploadState.loaded)} loaded of{" "}
+            {humanFileSize(uploadState.total ?? 0)}
           </p>
-          <a
-            href="https://discourse.ubuntu.com/t/how-to-install-a-windows-11-vm-using-lxd/28940"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Learn how to install a Windows 11 VM using LXD
-          </a>
-        </Notification>
-      ) : (
-        <NotificationRow />
+          {uploadState.loaded === uploadState.total && (
+            <Loader text="Validating ISO" />
+          )}
+        </>
       )}
-      <Input
-        name="iso"
-        type="file"
-        id="iso-image"
-        label="ISO image"
-        onChange={changeFile}
-      />
-      <Input
-        name="name"
-        type="text"
-        id="name"
-        label="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        disabled={file === null}
-      />
-      <Select
-        label="Storage pool"
-        id="storagePool"
-        options={storagePools.map((pool) => ({
-          label: pool.name,
-          value: pool.name,
-        }))}
-        onChange={(e) => {
-          setPool(e.target.value);
-        }}
-        value={pool}
-        disabled={file === null}
-      />
       <footer className="p-modal__footer">
         <Button onClick={onCancel}>Cancel</Button>
         <SubmitButton
