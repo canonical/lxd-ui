@@ -102,14 +102,14 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                 <th className="p-muted-heading">RX</th>
                 <td>
                   {humanFileSize(networkState?.counters.bytes_received ?? 0)} (
-                  {networkState?.counters.packets_received} packets)
+                  {networkState?.counters.packets_received ?? 0} packets)
                 </td>
               </tr>
               <tr className="list-wrapper">
                 <th className="p-muted-heading">TX</th>
                 <td>
                   {humanFileSize(networkState?.counters.bytes_sent ?? 0)} (
-                  {networkState?.counters.packets_sent} packets)
+                  {networkState?.counters.packets_sent ?? 0} packets)
                 </td>
               </tr>
               <tr className="list-wrapper">

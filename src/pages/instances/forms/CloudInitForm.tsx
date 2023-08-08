@@ -30,7 +30,11 @@ interface Props {
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
   const codeRenderer = (value?: unknown) =>
-    value === "" ? value : <CloudInitConfig config={value as string} />;
+    value === "" || value === undefined ? (
+      value
+    ) : (
+      <CloudInitConfig config={value as string} />
+    );
 
   return (
     <div className="cloud-init">
