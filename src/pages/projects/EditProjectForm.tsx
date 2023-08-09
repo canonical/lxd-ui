@@ -26,12 +26,14 @@ import ProjectForm from "pages/projects/forms/ProjectForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import { getProjectConfigKeys } from "util/projectConfigFields";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
+import { useAuth } from "context/auth";
 
 interface Props {
   project: LxdProject;
 }
 
 const EditProjectForm: FC<Props> = ({ project }) => {
+  const { isRestricted } = useAuth();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const [section, setSection] = useState(PROJECT_DETAILS);
@@ -108,35 +110,37 @@ const EditProjectForm: FC<Props> = ({ project }) => {
             updateSection={setSection}
             isEdit={true}
           />
-          <div className="p-bottom-controls">
-            <hr />
-            <Row>
-              <Col size={12} className="u-align--right">
-                {formik.values.readOnly ? (
-                  <>
-                    <Button
-                      appearance="positive"
-                      onClick={() => formik.setFieldValue("readOnly", false)}
-                    >
-                      Edit configuration
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button onClick={() => formik.setValues(initialValues)}>
-                      Cancel
-                    </Button>
-                    <SubmitButton
-                      isSubmitting={formik.isSubmitting}
-                      isDisabled={!formik.isValid || !formik.values.name}
-                      buttonLabel="Save changes"
-                      onClick={() => void formik.submitForm()}
-                    />
-                  </>
-                )}
-              </Col>
-            </Row>
-          </div>
+          {!isRestricted && (
+            <div className="p-bottom-controls">
+              <hr />
+              <Row>
+                <Col size={12} className="u-align--right">
+                  {formik.values.readOnly ? (
+                    <>
+                      <Button
+                        appearance="positive"
+                        onClick={() => formik.setFieldValue("readOnly", false)}
+                      >
+                        Edit configuration
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button onClick={() => formik.setValues(initialValues)}>
+                        Cancel
+                      </Button>
+                      <SubmitButton
+                        isSubmitting={formik.isSubmitting}
+                        isDisabled={!formik.isValid || !formik.values.name}
+                        buttonLabel="Save changes"
+                        onClick={() => void formik.submitForm()}
+                      />
+                    </>
+                  )}
+                </Col>
+              </Row>
+            </div>
+          )}
         </div>
       </div>
     </main>

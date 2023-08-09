@@ -4,6 +4,7 @@ import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
 import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
+import { useAuth } from "context/auth";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const ImageList = lazy(() => import("pages/images/ImageList"));
@@ -45,6 +46,12 @@ const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
 const App: FC = () => {
+  const { defaultProject, isAuthLoading } = useAuth();
+
+  if (isAuthLoading) {
+    return <Loader />;
+  }
+
   return (
     <Suspense
       fallback={
@@ -59,7 +66,10 @@ const App: FC = () => {
             key={path}
             path={path}
             element={
-              <Navigate to="/ui/project/default/instances" replace={true} />
+              <Navigate
+                to={`/ui/project/${defaultProject}/instances`}
+                replace={true}
+              />
             }
           />
         ))}
