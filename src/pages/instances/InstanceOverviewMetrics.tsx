@@ -7,6 +7,7 @@ import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import Loader from "components/Loader";
 import { LxdInstance } from "types/instance";
+import { useAuth } from "context/auth";
 
 interface Props {
   instance: LxdInstance;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
+  const { isRestricted } = useAuth();
+
   const {
     data: metrics = [],
     error,
@@ -22,6 +25,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
     queryKey: [queryKeys.metrics],
     queryFn: fetchMetrics,
     refetchInterval: 15 * 1000, // 15 seconds
+    enabled: !isRestricted,
   });
 
   if (error) {
@@ -29,6 +33,14 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   }
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);
+
+  if (isRestricted) {
+    return (
+      <div className="u-text--muted">
+        Usage details unavailable for restricted users
+      </div>
+    );
+  }
 
   return (
     <>

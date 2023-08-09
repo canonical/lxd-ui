@@ -1,7 +1,15 @@
 import { handleResponse } from "util/helpers";
+import { LxdApiResponse } from "types/apiResponse";
+import { LxdCertificate } from "types/certificate";
 
-export const checkAuth = () =>
-  fetch("/1.0/certificates").then((response) => response.status !== 403);
+export const fetchCertificates = (): Promise<LxdCertificate[]> => {
+  return new Promise((resolve, reject) => {
+    fetch("/1.0/certificates?recursion=1")
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdCertificate[]>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
 
 export const addCertificate = (token: string) => {
   return new Promise((resolve, reject) => {

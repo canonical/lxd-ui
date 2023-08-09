@@ -10,7 +10,8 @@ export interface LxdSettings {
     server_version: ?string;
     server_clustered: boolean;
   };
-  auth?: "trusted";
+  auth?: "trusted" | "untrusted";
   auth_methods?: LXDAuthMethods;
   auth_user_method?: LXDAuthMethods;
+  auth_user_name?: string;
 }

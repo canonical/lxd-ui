@@ -14,6 +14,7 @@ import { getCookie } from "util/cookies";
 const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
+  const { isRestricted } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
   const [projectName, setProjectName] = useState(
@@ -182,19 +183,21 @@ const Navigation: FC = () => {
                           Cluster
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item">
-                        <NavLink
-                          className="p-side-navigation__link"
-                          to="/ui/warnings"
-                          title="Warnings"
-                        >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="warning-grey"
-                          />{" "}
-                          Warnings
-                        </NavLink>
-                      </li>
+                      {!isRestricted && (
+                        <li className="p-side-navigation__item">
+                          <NavLink
+                            className="p-side-navigation__link"
+                            to="/ui/warnings"
+                            title="Warnings"
+                          >
+                            <Icon
+                              className="is-light p-side-navigation__icon"
+                              name="warning-grey"
+                            />{" "}
+                            Warnings
+                          </NavLink>
+                        </li>
+                      )}
                       <li className="p-side-navigation__item">
                         <NavLink
                           className="p-side-navigation__link"
