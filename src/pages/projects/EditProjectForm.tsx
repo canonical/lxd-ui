@@ -111,7 +111,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
             isEdit={true}
           />
           {!isRestricted && (
-            <div className="p-bottom-controls">
+            <div className="p-bottom-controls" id="form-footer">
               <hr />
               <Row>
                 <Col size={12} className="u-align--right">

@@ -102,14 +102,10 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik: formik,
           name: "limits_disk_priority",
+          help: "Controls how much priority to give to the instance’s I/O requests when under load",
           label: "Disk priority",
           defaultValue: "",
-          children: (
-            <Select
-              options={diskPriorities}
-              help="Controls how much priority to give to the instance’s I/O requests when under load"
-            />
-          ),
+          children: <Select options={diskPriorities} />,
         }),
 
         getConfigurationRow({
