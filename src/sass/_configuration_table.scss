@@ -39,6 +39,17 @@
   .clear-configuration-icon {
     @include vf-icon-close($color-link);
   }
+
+  .mono-font {
+    font-family: unquote($font-monospace);
+  }
+
+  .configuration-help {
+    @extend %small-text;
+
+    color: $color-mid-dark;
+    margin-top: $sp-unit;
+  }
 }
 
 @media screen and (max-width: 1420px) {

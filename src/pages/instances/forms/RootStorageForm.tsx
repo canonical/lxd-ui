@@ -189,7 +189,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
                 "u-text--line-through": hasRootStorage,
               })}
             >
-              <div>
+              <div className="mono-font">
                 <b>{getInheritedValue()}</b>
               </div>
               <div>From: {inheritSource}</div>

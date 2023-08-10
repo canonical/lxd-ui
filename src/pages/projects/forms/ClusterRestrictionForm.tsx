@@ -35,28 +35,19 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_cluster_groups",
           label: "Cluster groups targeting",
+          help: "Prevents targeting cluster groups other than the provided ones.",
           defaultValue: "",
-          children: (
-            <Input
-              placeholder="Enter value"
-              type="text"
-              help="Prevents targeting cluster groups other than the provided ones."
-            />
-          ),
+          children: <Input placeholder="Enter value" type="text" />,
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_cluster_target",
           label: "Direct cluster targeting",
+          help: "Direct targeting of cluster members when creating or moving instances.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
-          children: (
-            <Select
-              options={optionAllowBlock}
-              help="Direct targeting of cluster members when creating or moving instances."
-            />
-          ),
+          children: <Select options={optionAllowBlock} />,
         }),
       ]}
     />

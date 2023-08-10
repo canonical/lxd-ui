@@ -397,13 +397,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                           formik: formik,
                           name: "fan_overlay_subnet",
                           label: "Fan overlay subnet",
+                          help: "Subnet to use as the overlay for the FAN (CIDR)",
                           defaultValue: "",
-                          children: (
-                            <Input
-                              type="text"
-                              help="Subnet to use as the overlay for the FAN (CIDR)"
-                            />
-                          ),
+                          children: <Input type="text" />,
                         }),
                       ]
                     : []),
@@ -414,13 +410,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                           formik: formik,
                           name: "fan_underlay_subnet",
                           label: "Fan underlay subnet",
+                          help: "Subnet to use as the underlay for the FAN (use auto to use default gateway subnet) (CIDR)",
                           defaultValue: "",
-                          children: (
-                            <Input
-                              type="text"
-                              help="Subnet to use as the underlay for the FAN (use auto to use default gateway subnet) (CIDR)"
-                            />
-                          ),
+                          children: <Input type="text" />,
                         }),
                       ]
                     : []),
@@ -435,23 +427,18 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                   formik: formik,
                   name: "bridge_mtu",
                   label: "MTU",
+                  help: "Bridge MTU (default varies if tunnel or fan setup)",
                   defaultValue: "",
-                  children: (
-                    <Input
-                      type="text"
-                      help="Bridge MTU (default varies if tunnel or fan setup)"
-                    />
-                  ),
+                  children: <Input type="text" />,
                 }),
 
                 getConfigurationRow({
                   formik: formik,
                   name: "bridge_hwaddr",
                   label: "Hardware address",
+                  help: "MAC address for the bridge",
                   defaultValue: "",
-                  children: (
-                    <Input type="text" help="MAC address for the bridge" />
-                  ),
+                  children: <Input type="text" />,
                 }),
 
                 ...(formik.values.type === "bridge"
@@ -460,10 +447,10 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                         formik: formik,
                         name: "bridge_driver",
                         label: "Bridge Driver",
+                        help: "Bridge driver: native or openvswitch",
                         defaultValue: "",
                         children: (
                           <Select
-                            help="Bridge driver: native or openvswitch"
                             options={[
                               {
                                 label: "Select option",
@@ -494,13 +481,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                   formik: formik,
                   name: "dns_domain",
                   label: "DNS domain",
+                  help: "Domain to advertise to DHCP clients and use for DNS resolution",
                   defaultValue: "",
-                  children: (
-                    <Input
-                      type="text"
-                      help="Domain to advertise to DHCP clients and use for DNS resolution"
-                    />
-                  ),
+                  children: <Input type="text" />,
                 }),
 
                 ...(formik.values.type === "bridge"
@@ -541,10 +524,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                   formik: formik,
                   name: "dns_search",
                   label: "DNS search",
+                  help: "Full comma-separated domain search list, defaulting to DNS domain value",
                   defaultValue: "",
-                  children: (
-                    <Textarea help="Full comma-separated domain search list, defaulting to DNS domain value" />
-                  ),
+                  children: <Textarea />,
                 }),
               ]}
             />
@@ -573,23 +555,18 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                         formik: formik,
                         name: "ipv4_dhcp_expiry",
                         label: "IPv4 DHCP expiry",
+                        help: "When to expire DHCP leases",
                         defaultValue: "",
-                        children: (
-                          <Input
-                            type="text"
-                            help="When to expire DHCP leases"
-                          />
-                        ),
+                        children: <Input type="text" />,
                       }),
 
                       getConfigurationRow({
                         formik: formik,
                         name: "ipv4_dhcp_ranges",
                         label: "IPv4 DHCP ranges",
+                        help: "Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)",
                         defaultValue: "",
-                        children: (
-                          <Textarea help="Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)" />
-                        ),
+                        children: <Textarea />,
                       }),
                     ]
                   : []),
@@ -618,10 +595,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                         formik: formik,
                         name: "ipv4_ovn_ranges",
                         label: "IPv4 OVN ranges",
+                        help: "Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)",
                         defaultValue: "",
-                        children: (
-                          <Textarea help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)" />
-                        ),
+                        children: <Textarea />,
                       }),
                     ]
                   : []),
@@ -651,23 +627,18 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                         formik: formik,
                         name: "ipv6_dhcp_expiry",
                         label: "IPv6 DHCP expiry",
+                        help: "When to expire DHCP leases",
                         defaultValue: "",
-                        children: (
-                          <Input
-                            type="text"
-                            help="When to expire DHCP leases"
-                          />
-                        ),
+                        children: <Input type="text" />,
                       }),
 
                       getConfigurationRow({
                         formik: formik,
                         name: "ipv6_dhcp_ranges",
                         label: "IPv6 DHCP ranges",
+                        help: "Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)",
                         defaultValue: "",
-                        children: (
-                          <Textarea help="Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)" />
-                        ),
+                        children: <Textarea />,
                       }),
                     ]
                   : []),
@@ -713,10 +684,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                         formik: formik,
                         name: "ipv6_ovn_ranges",
                         label: "IPv6 OVN ranges",
+                        help: "Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)",
                         defaultValue: "",
-                        children: (
-                          <Textarea help="Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)" />
-                        ),
+                        children: <Textarea />,
                       }),
                     ]
                   : []),
