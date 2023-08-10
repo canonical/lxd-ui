@@ -1,10 +1,15 @@
 import React, { FC } from "react";
-import { Icon, MainTable, Row, useNotify } from "@canonical/react-components";
+import {
+  EmptyState,
+  Icon,
+  MainTable,
+  Row,
+  useNotify,
+} from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import EmptyState from "components/EmptyState";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import { useParams } from "react-router-dom";
@@ -157,11 +162,12 @@ const OperationList: FC = () => {
           )}
           {!isLoading && operations.length === 0 && (
             <EmptyState
-              iconName="status"
-              iconClass="empty-operations-icon"
+              className="empty-state"
+              image={<Icon name="status" className="empty-state-icon" />}
               title="No operations found"
-              message="There are no ongoing operations in this project."
-            />
+            >
+              <p>There are no ongoing operations in this project.</p>
+            </EmptyState>
           )}
         </Row>
       </BaseLayout>
