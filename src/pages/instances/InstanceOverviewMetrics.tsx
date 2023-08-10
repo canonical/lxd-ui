@@ -37,7 +37,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   if (isRestricted) {
     return (
       <div className="u-text--muted">
-        Usage details unavailable for restricted users
+        Details are not available for restricted users
       </div>
     );
   }
