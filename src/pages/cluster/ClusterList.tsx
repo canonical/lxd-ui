@@ -1,5 +1,11 @@
 import React, { FC } from "react";
-import { Icon, MainTable, Row, useNotify } from "@canonical/react-components";
+import {
+  EmptyState,
+  Icon,
+  MainTable,
+  Row,
+  useNotify,
+} from "@canonical/react-components";
 import { fetchClusterMembers } from "api/cluster";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -7,7 +13,6 @@ import Loader from "components/Loader";
 import ClusterGroupSelector from "pages/cluster/ClusterGroupSelector";
 import { useParams } from "react-router-dom";
 import EditClusterGroupBtn from "pages/cluster/actions/EditClusterGroupBtn";
-import EmptyState from "components/EmptyState";
 import DeleteClusterGroupBtn from "pages/cluster/actions/DeleteClusterGroupBtn";
 import ScrollableTable from "components/ScrollableTable";
 import { usePagination } from "util/pagination";
@@ -105,11 +110,11 @@ const ClusterList: FC = () => {
               activeGroup &&
               filteredMembers.length < 1 && (
                 <EmptyState
-                  iconClass=""
-                  iconName="machines"
+                  className="empty-state"
+                  image={<Icon name="machines" className="empty-state-icon" />}
                   title="Cluster group empty"
-                  message="Add cluster members to this group."
                 >
+                  <p>Add cluster members to this group.</p>
                   <p>
                     <a
                       href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
@@ -128,11 +133,14 @@ const ClusterList: FC = () => {
               )}
             {!isClustered && (
               <EmptyState
-                iconClass=""
-                iconName="machines"
+                className="empty-state"
+                image={<Icon name="machines" className="empty-state-icon" />}
                 title="This server is not clustered"
-                message="Creating cluster members is not supported in LXD UI. Create one using LXD CLI"
               >
+                <p>
+                  Creating cluster members is not supported in LXD UI. Create
+                  one using LXD CLI
+                </p>
                 <p>
                   <a
                     href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"

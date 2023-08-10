@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import {
   Button,
   Col,
+  EmptyState,
   Icon,
   Row,
   Spinner,
@@ -17,7 +18,6 @@ import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import TableColumnsSelect from "components/TableColumnsSelect";
 import useEventListener from "@use-it/event-listener";
-import EmptyState from "components/EmptyState";
 import classnames from "classnames";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useInstanceLoading } from "context/instanceLoading";
@@ -585,35 +585,38 @@ const InstanceList: FC = () => {
               )}
               {!hasInstances && (
                 <EmptyState
-                  iconName="containers"
-                  iconClass="empty-instances-icon"
+                  className="empty-state"
+                  image={
+                    <Icon name="containers" className="empty-state-icon" />
+                  }
                   title="No instances found"
-                  message="There are no instances in this project. Spin up your first instance!"
                 >
-                  <>
-                    <p>
-                      <a
-                        href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        How to create instances
-                        <Icon
-                          className="external-link-icon"
-                          name="external-link"
-                        />
-                      </a>
-                    </p>
-                    <Button
-                      className="empty-state-button"
-                      appearance="positive"
-                      onClick={() =>
-                        navigate(`/ui/project/${project}/instances/create`)
-                      }
+                  <p>
+                    There are no instances in this project. Spin up your first
+                    instance!
+                  </p>
+                  <p>
+                    <a
+                      href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      Create instance
-                    </Button>
-                  </>
+                      How to create instances
+                      <Icon
+                        className="external-link-icon"
+                        name="external-link"
+                      />
+                    </a>
+                  </p>
+                  <Button
+                    className="empty-state-button"
+                    appearance="positive"
+                    onClick={() =>
+                      navigate(`/ui/project/${project}/instances/create`)
+                    }
+                  >
+                    Create instance
+                  </Button>
                 </EmptyState>
               )}
             </Col>
