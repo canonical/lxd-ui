@@ -4,6 +4,7 @@ export const queryKeys = {
   groups: "groups",
   images: "images",
   instances: "instances",
+  isoImages: "isoImages",
   logs: "logs",
   members: "members",
   metrics: "metrics",

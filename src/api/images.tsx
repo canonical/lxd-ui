@@ -16,18 +16,18 @@ export const fetchImage = (
   });
 };
 
-export const fetchImageList = (): Promise<LxdImage[]> => {
+export const fetchImageList = (project: string): Promise<LxdImage[]> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/images?recursion=1")
+    fetch(`/1.0/images?recursion=1&project=${project}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const deleteImage = (image: LxdImage) => {
+export const deleteImage = (image: LxdImage, project: string) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/images/${image.fingerprint}`, {
+    fetch(`/1.0/images/${image.fingerprint}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)

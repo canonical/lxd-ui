@@ -122,7 +122,11 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/images"
+          path="/ui/project/:project/images"
+          element={<ProtectedRoute outlet={<ImageList />} />}
+        />
+        <Route
+          path="/ui/project/:project/images/:activeTab"
           element={<ProtectedRoute outlet={<ImageList />} />}
         />
         <Route
