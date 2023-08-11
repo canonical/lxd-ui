@@ -3,8 +3,9 @@ import { LxdInstance } from "types/instance";
 import { deleteSnapshotBulk } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import ConfirmationButton from "components/ConfirmationButton";
 import { pluralizeSnapshot } from "util/instanceBulkActions";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
+import classnames from "classnames";
 
 interface Props {
   instance: LxdInstance;
@@ -52,22 +53,29 @@ const SnapshotBulkDelete: FC<Props> = ({
 
   return (
     <ConfirmationButton
-      isLoading={isLoading}
-      icon={isLoading ? "spinner" : undefined}
-      title="Confirm delete"
-      toggleCaption="Delete snapshots"
+      loading={isLoading}
+      confirmationModalProps={{
+        title: "Confirm delete",
+        children: (
+          <>
+            This will permanently delete <b>{count}</b>
+            {pluralizeSnapshot(count)}
+            .<br />
+            This action cannot be undone, and can result in data loss.
+          </>
+        ),
+        confirmButtonLabel: "Delete",
+        onConfirm: handleDelete,
+      }}
+      disabled={isLoading}
+      className={classnames({ "has-icon": isLoading })}
       onHoverText="Delete snapshots"
-      confirmMessage={
-        <>
-          This will permanently delete <b>{count}</b> {pluralizeSnapshot(count)}
-          .{"\n"}This action cannot be undone, and can result in data loss.
-        </>
-      }
-      confirmButtonLabel="Delete"
-      onConfirm={handleDelete}
-      isDisabled={isLoading}
-      isDense={false}
-    />
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      {isLoading && <Icon name="spinner" />}
+      <span>Delete snapshots</span>
+    </ConfirmationButton>
   );
 };
 

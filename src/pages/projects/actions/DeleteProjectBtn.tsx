@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
 import { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
@@ -8,7 +7,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import ItemName from "components/ItemName";
 import { isProjectEmpty } from "util/projects";
 import { useDeleteIcon } from "context/useDeleteIcon";
-import { useNotify } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
+import classnames from "classnames";
 
 interface Props {
   project: LxdProject;
@@ -56,23 +60,30 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      toggleAppearance={isDeleteIcon ? "base" : "default"}
-      className="u-no-margin--bottom"
-      isLoading={isLoading}
-      title="Confirm delete"
-      toggleCaption={isDeleteIcon ? undefined : "Delete project"}
-      confirmMessage={
-        <>
-          This will permanently delete project <ItemName item={project} bold />.
-          {"\n"}This action cannot be undone, and can result in data loss.
-        </>
-      }
-      confirmButtonLabel="Delete"
-      onConfirm={handleDelete}
-      isDisabled={isDefaultProject || !isEmpty}
-      isDense={false}
-      icon={isDeleteIcon ? "delete" : undefined}
-    />
+      appearance={isDeleteIcon ? "base" : "default"}
+      className={classnames("u-no-margin--bottom", {
+        "has-icon": isDeleteIcon,
+      })}
+      loading={isLoading}
+      disabled={isDefaultProject || !isEmpty}
+      confirmationModalProps={{
+        title: "Confirm delete",
+        confirmButtonLabel: "Delete",
+        onConfirm: handleDelete,
+        children: (
+          <>
+            This will permanently delete project{" "}
+            <ItemName item={project} bold />.<br />
+            This action cannot be undone, and can result in data loss.
+          </>
+        ),
+      }}
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      {isDeleteIcon && <Icon name="delete" />}
+      {!isDeleteIcon && <span>Delete project</span>}
+    </ConfirmationButton>
   );
 };
 

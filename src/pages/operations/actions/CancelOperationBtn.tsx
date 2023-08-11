@@ -1,10 +1,9 @@
 import React, { FC, useState } from "react";
-import ConfirmationButton from "components/ConfirmationButton";
 import { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "@canonical/react-components";
+import { ConfirmationButton, useNotify } from "@canonical/react-components";
 
 interface Props {
   operation: LxdOperation;
@@ -41,16 +40,20 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
           : "Cannot cancel operation at this stage"
       }
       className="u-no-margin--bottom"
-      toggleAppearance=""
-      isLoading={isLoading}
-      title="Confirm cancel"
-      cancelButtonLabel="Go back"
-      confirmMessage="This will cancel the operation."
-      confirmButtonLabel="Cancel operation"
-      toggleCaption="Cancel"
-      onConfirm={handleCancel}
-      isDisabled={!operation.may_cancel}
-    />
+      loading={isLoading}
+      disabled={!operation.may_cancel}
+      confirmationModalProps={{
+        title: "Confirm cancel",
+        children: <p>This will cancel the operation.</p>,
+        confirmButtonLabel: "Cancel operation",
+        onConfirm: handleCancel,
+        cancelButtonLabel: "Go back",
+      }}
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      <span>Cancel</span>
+    </ConfirmationButton>
   );
 };
 

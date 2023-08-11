@@ -1,11 +1,10 @@
 import React, { FC, useState } from "react";
-import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deleteClusterGroup } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNotify } from "@canonical/react-components";
+import { ConfirmationButton, useNotify } from "@canonical/react-components";
 
 interface Props {
   group: string;
@@ -47,22 +46,26 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      toggleAppearance=""
-      toggleCaption="Delete cluster group"
-      isLoading={isLoading}
-      title="Confirm delete"
-      confirmMessage={
-        <>
-          This will permanently delete cluster group{" "}
-          <ItemName item={{ name: group }} bold />.{"\n"}This action cannot be
-          undone, and can result in data loss.
-        </>
-      }
-      confirmButtonLabel="Delete"
-      onConfirm={handleDelete}
-      isDisabled={isDefaultGroup}
-      isDense={false}
-    />
+      appearance=""
+      loading={isLoading}
+      confirmationModalProps={{
+        title: "Confirm delete",
+        confirmMessage: (
+          <>
+            This will permanently delete cluster group{" "}
+            <ItemName item={{ name: group }} bold />. <br />
+            This action cannot be undone, and can result in data loss.
+          </>
+        ),
+        confirmButtonLabel: "Delete",
+        onConfirm: handleDelete,
+      }}
+      disabled={isDefaultGroup}
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      <span>Delete cluster group</span>
+    </ConfirmationButton>
   );
 };
 

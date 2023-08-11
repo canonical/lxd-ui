@@ -1,11 +1,15 @@
 import React, { FC, useState } from "react";
-import ConfirmationButton from "components/ConfirmationButton";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import { LxdProfile } from "types/profile";
 import ItemName from "components/ItemName";
 import { useDeleteIcon } from "context/useDeleteIcon";
-import { useNotify } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
+import classnames from "classnames";
 
 interface Props {
   profile: LxdProfile;
@@ -51,23 +55,30 @@ const DeleteProfileBtn: FC<Props> = ({
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      toggleAppearance={isDeleteIcon ? "base" : "default"}
-      className="u-no-margin--bottom"
-      isLoading={isLoading}
-      title="Confirm delete"
-      toggleCaption={isDeleteIcon ? undefined : "Delete profile"}
-      confirmMessage={
-        <>
-          This will permanently delete profile <ItemName item={profile} bold />.
-          {"\n"}This action cannot be undone, and can result in data loss.
-        </>
-      }
-      confirmButtonLabel="Delete"
-      onConfirm={handleDelete}
-      isDisabled={isDefaultProfile || !featuresProfiles}
-      isDense={false}
-      icon={isDeleteIcon ? "delete" : undefined}
-    />
+      appearance={isDeleteIcon ? "base" : "default"}
+      className={classnames("u-no-margin--bottom", {
+        "has-icon": isDeleteIcon,
+      })}
+      disabled={isDefaultProfile || !featuresProfiles}
+      loading={isLoading}
+      confirmationModalProps={{
+        title: "Confirm delete",
+        confirmButtonLabel: "Delete",
+        onConfirm: handleDelete,
+        children: (
+          <p>
+            This will permanently delete profile{" "}
+            <ItemName item={profile} bold />.<br />
+            This action cannot be undone, and can result in data loss.
+          </p>
+        ),
+      }}
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      {isDeleteIcon && <Icon name="delete" />}
+      {!isDeleteIcon && <span>Delete</span>}
+    </ConfirmationButton>
   );
 };
 
