@@ -38,6 +38,7 @@ import { fetchNetworks } from "api/networks";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
 import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
+import { supportsFanNetwork, supportsOvnNetwork } from "util/settings";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -123,10 +124,8 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
   const notify = useNotify();
   const [section, setSection] = useState(MAIN_CONFIGURATION);
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
-  const hasOvn = Boolean(settings?.config["network.ovn.northbound_connection"]);
-  const hasFan = settings?.environment?.os_name
-    ?.toLowerCase()
-    .includes("ubuntu");
+  const hasOvn = supportsOvnNetwork(settings);
+  const hasFan = supportsFanNetwork(settings);
 
   const { data: networks = [], isLoading: isNetworkLoading } = useQuery({
     queryKey: [queryKeys.networks],

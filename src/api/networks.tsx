@@ -1,6 +1,7 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
 import { LxdNetwork, LxdNetworkState } from "types/network";
 import { LxdApiResponse } from "types/apiResponse";
+import { LxdClusterMember } from "types/cluster";
 
 export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
   return new Promise((resolve, reject) => {
@@ -35,12 +36,48 @@ export const fetchNetworkState = (
   });
 };
 
-export const createNetwork = (
+export const createClusterBridge = (
   network: Partial<LxdNetwork>,
-  project: string
+  project: string,
+  clusterMembers: LxdClusterMember[]
 ) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks?project=${project}`, {
+    const memberNetwork = {
+      name: network.name,
+      description: network.description,
+      type: network.type,
+    };
+
+    void Promise.allSettled(
+      clusterMembers.map(async (member) => {
+        await createNetwork(memberNetwork, project, member.server_name);
+      })
+    )
+      .then((results) => {
+        const error = (
+          results.find((res) => res.status === "rejected") as
+            | PromiseRejectedResult
+            | undefined
+        )?.reason as Error | undefined;
+
+        if (error) {
+          reject(error);
+          return;
+        }
+        createNetwork(network, project).then(resolve).catch(reject);
+      })
+      .catch(reject);
+  });
+};
+
+export const createNetwork = (
+  network: Partial<LxdNetwork>,
+  project: string,
+  target?: string
+) => {
+  return new Promise((resolve, reject) => {
+    const targetParam = target ? `&target=${target}` : "";
+    fetch(`/1.0/networks?project=${project}${targetParam}`, {
       method: "POST",
       body: JSON.stringify(network),
     })

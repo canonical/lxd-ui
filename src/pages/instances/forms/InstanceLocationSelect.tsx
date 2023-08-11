@@ -7,6 +7,7 @@ import { useSettings } from "context/useSettings";
 import { fetchClusterGroups } from "api/cluster";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
+import { isClusteredServer } from "util/settings";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -28,7 +29,7 @@ const figureDefaultMember = (target?: string) => {
 
 const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const { data: settings } = useSettings();
-  const isClustered = settings?.environment?.server_clustered;
+  const isClustered = isClusteredServer(settings);
 
   if (!isClustered) {
     return <></>;

@@ -2,12 +2,12 @@ import React, { FC, useState } from "react";
 import { Button, Col, Row, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
-import { createNetwork } from "api/networks";
+import { createClusterBridge, createNetwork } from "api/networks";
 import NetworkForm, {
   NetworkFormValues,
   toNetwork,
@@ -17,6 +17,8 @@ import { useSettings } from "context/useSettings";
 import Loader from "components/Loader";
 import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
+import { isClusteredServer, supportsOvnNetwork } from "util/settings";
+import { fetchClusterMembers } from "api/cluster";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -25,7 +27,14 @@ const CreateNetwork: FC = () => {
   const { project } = useParams<{ project: string }>();
   const controllerState = useState<AbortController | null>(null);
   const { data: settings, isLoading } = useSettings();
-  const hasOvn = Boolean(settings?.config["network.ovn.northbound_connection"]);
+  const isClustered = isClusteredServer(settings);
+  const hasOvn = supportsOvnNetwork(settings);
+
+  const { data: clusterMembers = [] } = useQuery({
+    queryKey: [queryKeys.cluster, queryKeys.members],
+    queryFn: fetchClusterMembers,
+    enabled: isClustered,
+  });
 
   if (!project) {
     return <>Missing project</>;
@@ -55,7 +64,13 @@ const CreateNetwork: FC = () => {
       const network = values.yaml
         ? yamlToObject(values.yaml)
         : toNetwork(values);
-      createNetwork(network, project)
+
+      const mutation =
+        isClustered && values.type !== "ovn"
+          ? () => createClusterBridge(network, project, clusterMembers)
+          : () => createNetwork(network, project);
+
+      mutation()
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.networks],
