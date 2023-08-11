@@ -11,22 +11,23 @@ import {
 
 interface Props {
   image: LxdImage;
+  project: string;
 }
 
-const DeleteImageBtn: FC<Props> = ({ image }) => {
+const DeleteCachedImageBtn: FC<Props> = ({ image, project }) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteImage(image)
+    deleteImage(image, project)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.images],
         });
-        notify.success("Image deleted.");
+        notify.success(`Image ${image.properties.description} deleted.`);
       })
       .catch((e) => {
         setLoading(false);
@@ -39,10 +40,18 @@ const DeleteImageBtn: FC<Props> = ({ image }) => {
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
-        confirmMessage: `This will permanently delete image "${image.properties.description}".\nThis action cannot be undone, and can result in data loss.`,
+        children: (
+          <p>
+            This will permanently delete image{" "}
+            <b>{image.properties.description}</b>.<br />
+            This action cannot be undone, and can result in data loss.
+          </p>
+        ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
+      className="has-icon"
+      appearance="base"
       disabled={isLoading}
       shiftClickEnabled
       showShiftClickHint
@@ -52,4 +61,4 @@ const DeleteImageBtn: FC<Props> = ({ image }) => {
   );
 };
 
-export default DeleteImageBtn;
+export default DeleteCachedImageBtn;

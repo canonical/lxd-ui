@@ -1,4 +1,4 @@
-import { RemoteImage } from "types/image";
+import { LxdImage, RemoteImage } from "types/image";
 import { LxdStorageVolume } from "types/storage";
 
 export const isVmOnlyImage = (image: RemoteImage) => {
@@ -32,5 +32,17 @@ export const isoToRemoteImage = (
     server: "local-iso",
     variant: "iso",
     created_at: new Date(volume.created_at).getTime(),
+    volume: volume,
+  };
+};
+
+export const cachedLxdToRemoteImage = (image: LxdImage): RemoteImage => {
+  return {
+    aliases: image.update_source?.alias ?? image.fingerprint,
+    arch: image.architecture,
+    os: image.properties.os,
+    created_at: new Date(image.uploaded_at).getTime(),
+    release: image.properties.release,
+    server: image.update_source?.server,
   };
 };

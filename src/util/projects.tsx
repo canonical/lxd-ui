@@ -4,6 +4,7 @@ export const projectSubpages = [
   "instances",
   "profiles",
   "networks",
+  "images",
   "storage",
   "operations",
   "configuration",
