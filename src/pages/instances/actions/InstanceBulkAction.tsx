@@ -1,5 +1,4 @@
 import React, { FC, Fragment, ReactNode } from "react";
-import ConfirmationButton from "components/ConfirmationButton";
 import {
   LxdInstance,
   LxdInstanceAction,
@@ -10,14 +9,19 @@ import {
   pluralizeInstance,
   statusLabel,
 } from "util/instanceBulkActions";
-import { ICONS, ValueOf } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  ICONS,
+  Icon,
+  ValueOf,
+} from "@canonical/react-components";
 
 interface Props {
   action: LxdInstanceAction;
   confirmAppearance?: string;
   confirmExtra?: ReactNode;
   confirmLabel: string;
-  icon?: ValueOf<typeof ICONS> | string;
+  icon: ValueOf<typeof ICONS> | string;
   instances: LxdInstance[];
   isLoading: boolean;
   isDisabled: boolean;
@@ -106,25 +110,29 @@ const InstanceBulkAction: FC<Props> = ({
 
   return (
     <ConfirmationButton
-      className="u-no-margin--right u-no-margin--bottom bulk-action"
-      confirmButtonAppearance={confirmAppearance}
-      confirmButtonLabel={confirmLabel}
-      confirmExtra={confirmExtra}
-      confirmMessage={
-        <>
-          {selectedSummary}
-          {getLineOrder().map((state) => statusLine(state, action))}
-        </>
-      }
-      icon={icon}
-      isDense={false}
-      isDisabled={isDisabled || !hasChangedStates}
-      isLoading={isLoading}
-      onConfirm={onClick}
-      title={`Confirm ${confirmLabel.toLowerCase()}`}
-      toggleAppearance="base"
-      toggleCaption={confirmLabel}
-    />
+      appearance="base"
+      disabled={isDisabled || !hasChangedStates}
+      loading={isLoading}
+      className="u-no-margin--right u-no-margin--bottom bulk-action has-icon"
+      confirmationModalProps={{
+        title: `Confirm ${confirmLabel.toLowerCase()}`,
+        children: (
+          <>
+            {selectedSummary}
+            {getLineOrder().map((state) => statusLine(state, action))}
+          </>
+        ),
+        confirmExtra: confirmExtra,
+        onConfirm: onClick,
+        confirmButtonLabel: confirmLabel,
+        confirmButtonAppearance: confirmAppearance,
+      }}
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      <Icon name={icon} />
+      <span>{confirmLabel}</span>
+    </ConfirmationButton>
   );
 };
 

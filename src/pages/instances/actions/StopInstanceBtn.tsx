@@ -3,12 +3,15 @@ import { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { stopInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
-import ConfirmationButton from "components/ConfirmationButton";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import ConfirmationForce from "components/ConfirmationForce";
 import ItemName from "components/ItemName";
-import { useNotify } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
@@ -52,24 +55,29 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
 
   return (
     <ConfirmationButton
-      toggleAppearance="base"
-      isLoading={isLoading}
-      icon="stop"
-      title="Confirm stop"
-      confirmMessage={
-        <>
-          This will stop instance <ItemName item={instance} bold />.
-        </>
-      }
-      confirmExtra={
-        <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
-      }
-      confirmButtonLabel="Stop"
-      onCancel={() => setForce(false)}
-      onConfirm={handleStop}
-      isDense={true}
-      isDisabled={instance.status === "Stopped"}
-    />
+      appearance="base"
+      loading={isLoading}
+      disabled={instance.status === "Stopped"}
+      confirmationModalProps={{
+        title: "Confirm stop",
+        children: (
+          <>
+            This will stop instance <ItemName item={instance} bold />.
+          </>
+        ),
+        confirmExtra: (
+          <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
+        ),
+        onConfirm: handleStop,
+        close: () => setForce(false),
+        confirmButtonLabel: "Stop",
+      }}
+      className="has-icon is-dense"
+      shiftClickEnabled
+      showShiftClickHint
+    >
+      <Icon name="stop" />
+    </ConfirmationButton>
   );
 };
 
