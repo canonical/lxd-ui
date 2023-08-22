@@ -597,7 +597,7 @@ const InstanceList: FC = () => {
                   </p>
                   <p>
                     <a
-                      href="https://linuxcontainers.org/lxd/docs/latest/howto/instances_create/"
+                      href="https://documentation.ubuntu.com/lxd/en/latest/howto/instances_create/"
                       target="_blank"
                       rel="noreferrer"
                     >
