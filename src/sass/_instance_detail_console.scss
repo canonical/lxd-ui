@@ -18,4 +18,8 @@
   .spice-wrapper {
     overflow: auto;
   }
+
+  #spice-screen canvas {
+    background: black;
+  }
 }

@@ -3,6 +3,7 @@ import {
   Button,
   Col,
   Form,
+  Icon,
   Notification,
   Row,
   useNotify,
@@ -174,16 +175,17 @@ const CreateInstanceForm: FC = () => {
           notifyCreatedButStartFailed(instanceLink, e);
         });
     } else {
+      const consoleUrl = `/ui/project/${project}/instances/detail/${instanceName}/console`;
       const message = isIsoImage && (
         <>
-          <br />
-          Continue the installation process for the custom ISO image from its{" "}
-          <Link
-            to={`/ui/project/${project}/instances/detail/${instanceName}/console`}
-          >
-            console
-          </Link>{" "}
-          .
+          <p>
+            Continue the installation process for the custom image from its{" "}
+            <Link to={consoleUrl}>console.</Link>
+          </p>
+          <Button onClick={() => navigate(consoleUrl)} hasIcon>
+            <Icon name="canvas" />
+            <span>Open console</span>
+          </Button>
         </>
       );
       notifyLaunched(instanceLink, message);
