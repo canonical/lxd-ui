@@ -20,10 +20,12 @@ import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
 import { loadIsoImages } from "context/loadIsoImages";
 import { useProject } from "context/project";
+import { IsoImage } from "pages/images/ImageSelectorModal";
 
 interface Props {
   onSelect: (image: RemoteImage, type: string | null) => void;
   onUpload: () => void;
+  primaryImage: IsoImage | null;
 }
 
 const canonicalJson = "/ui/assets/data/canonical-images.json";
@@ -35,7 +37,11 @@ const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
 
-const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
+const RemoteImageSelector: FC<Props> = ({
+  primaryImage,
+  onSelect,
+  onUpload,
+}) => {
   const [query, setQuery] = useState<string>("");
   const [os, setOs] = useState<string>("");
   const [release, setRelease] = useState<string>("");
@@ -229,6 +235,12 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
           {
             content: (
               <Button
+                appearance={
+                  primaryImage?.name === item.aliases &&
+                  primaryImage.pool === item.pool
+                    ? "positive"
+                    : ""
+                }
                 onClick={selectImage}
                 type="button"
                 dense
@@ -379,7 +391,7 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
                 type="button"
                 className="upload-btn"
               >
-                <span>Upload custom ISO</span>
+                <span>Upload custom image</span>
               </Button>
             </div>
           </div>

@@ -6,8 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import CachedImageList from "pages/images/CachedImageList";
 import IsoImageList from "pages/images/IsoImageList";
+import UploadCustomImageBtn from "pages/images/actions/UploadCustomImageBtn";
 
-const TABS: string[] = ["Cached images", "Custom ISOs"];
+const TABS: string[] = ["Cached", "Custom"];
 
 const ImageList: FC = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const ImageList: FC = () => {
   };
 
   return (
-    <BaseLayout title="Images">
+    <BaseLayout title="Images" controls={<UploadCustomImageBtn />}>
       <NotificationRow />
       <Row>
         <Tabs
@@ -50,7 +51,7 @@ const ImageList: FC = () => {
           </div>
         )}
 
-        {activeTab === "custom-isos" && (
+        {activeTab === "custom" && (
           <div role="tabpanel">
             <IsoImageList project={project} />
           </div>

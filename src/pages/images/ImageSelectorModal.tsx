@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Modal } from "@canonical/react-components";
 import { RemoteImage } from "types/image";
 import RemoteImageSelector from "pages/images/RemoteImageSelector";
@@ -9,21 +9,29 @@ interface Props {
   onSelect: (image: RemoteImage, type: string | null) => void;
 }
 
+export interface IsoImage {
+  name: string;
+  pool: string;
+}
+
 const REMOTE_IMAGES = "remoteImages";
 const UPLOAD = "upload";
 
 const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
-  const [content, setContent] = React.useState(REMOTE_IMAGES);
+  const [content, setContent] = useState(REMOTE_IMAGES);
+  const [primary, setPrimary] = useState<IsoImage | null>(null);
+
   return (
     <Modal
       close={onClose}
       title={
-        content === REMOTE_IMAGES ? "Select base image" : "Upload custom ISO"
+        content === REMOTE_IMAGES ? "Select base image" : "Upload custom image"
       }
       className={content === REMOTE_IMAGES ? "image-select-modal" : null}
     >
       {content === REMOTE_IMAGES && (
         <RemoteImageSelector
+          primaryImage={primary}
           onSelect={onSelect}
           onUpload={() => setContent(UPLOAD)}
         />
@@ -31,7 +39,10 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
       {content === UPLOAD && (
         <UploadIsoImage
           onCancel={() => setContent(REMOTE_IMAGES)}
-          onFinish={() => setContent(REMOTE_IMAGES)}
+          onFinish={(name, pool) => {
+            setContent(REMOTE_IMAGES);
+            setPrimary({ name, pool });
+          }}
         />
       )}
     </Modal>
