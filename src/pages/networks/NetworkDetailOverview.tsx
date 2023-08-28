@@ -1,6 +1,6 @@
-import React, { FC, Fragment, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, List, Row } from "@canonical/react-components";
+import { Col, Row } from "@canonical/react-components";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ItemName from "components/ItemName";
@@ -12,6 +12,7 @@ import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
 import InstanceLink from "pages/instances/InstanceLink";
+import ExpandableList from "components/ExpandableList";
 
 interface Props {
   network: LxdNetwork;
@@ -132,17 +133,18 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
           <table>
             <tbody>
               <tr className="list-wrapper">
-                <th className="p-muted-heading">Instances</th>
+                <th className="p-muted-heading">
+                  Instances ({data.instances.length})
+                </th>
                 <td>
                   {data.instances.length > 0 ? (
-                    <List
-                      className="u-no-margin--bottom"
+                    <ExpandableList
                       items={data.instances.map((item) => (
-                        <Fragment key={item.name}>
+                        <div key={item.name}>
                           <InstanceLink instance={item} />
                           {item.project !== project &&
                             ` (project ${item.project})`}
-                        </Fragment>
+                        </div>
                       ))}
                     />
                   ) : (
@@ -151,13 +153,14 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                 </td>
               </tr>
               <tr className="list-wrapper">
-                <th className="p-muted-heading">Profiles</th>
+                <th className="p-muted-heading">
+                  Profiles ({data.profiles.length})
+                </th>
                 <td>
                   {data.profiles.length > 0 ? (
-                    <List
-                      className="u-no-margin--bottom"
+                    <ExpandableList
                       items={data.profiles.map((item) => (
-                        <Fragment key={item.name}>
+                        <div key={item.name}>
                           <Link
                             to={`/ui/project/${item.project}/profiles/detail/${item.name}`}
                           >
@@ -165,7 +168,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                           </Link>
                           {item.project !== project &&
                             ` (project ${item.project})`}
-                        </Fragment>
+                        </div>
                       ))}
                     />
                   ) : (
