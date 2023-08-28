@@ -10,14 +10,14 @@ import NotificationRow from "components/NotificationRow";
 import ProgressBar from "components/ProgressBar";
 import { UploadState } from "types/storage";
 import { humanFileSize } from "util/helpers";
-import UploadIsoImageHint from "pages/storage/UploadIsoImageHint";
+import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
   onCancel: () => void;
 }
 
-const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
+const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const { project } = useProject();
@@ -33,25 +33,25 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
   }, []);
 
   const {
-    data: storagePools = [],
-    isLoading: isStorageLoading,
-    error: storageError,
+    data: pools = [],
+    isLoading: arePoolsLoading,
+    error: poolError,
   } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStoragePools(project?.name ?? ""),
   });
 
-  if (storageError) {
-    notify.failure("Loading storage pools failed", storageError);
+  if (poolError) {
+    notify.failure("Loading storage pools failed", poolError);
     onCancel();
   }
 
-  if (isStorageLoading) {
+  if (arePoolsLoading) {
     return <Loader />;
   }
 
-  if (storagePools.length > 0 && !pool) {
-    setPool(storagePools[0].name);
+  if (pools.length > 0 && !pool) {
+    setPool(pools[0].name);
   }
 
   const handleCancel = () => {
@@ -59,7 +59,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
     onCancel();
   };
 
-  const importIsoFile = () => {
+  const importFile = () => {
     if (!file) {
       return;
     }
@@ -102,7 +102,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
 
   return (
     <>
-      {notify.notification ? <NotificationRow /> : <UploadIsoImageHint />}
+      {notify.notification ? <NotificationRow /> : <UploadCustomImageHint />}
       <div className={uploadState === null ? "" : "u-hide"}>
         <Input
           name="iso"
@@ -125,7 +125,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
         <Select
           label="Storage pool"
           id="storagePool"
-          options={storagePools.map((pool) => ({
+          options={pools.map((pool) => ({
             label: pool.name,
             value: pool.name,
           }))}
@@ -158,11 +158,11 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
           isDisabled={!file}
           buttonLabel="Upload"
           className="u-no-margin--bottom"
-          onClick={importIsoFile}
+          onClick={importFile}
         />
       </footer>
     </>
   );
 };
 
-export default UploadIsoImage;
+export default UploadCustomImage;

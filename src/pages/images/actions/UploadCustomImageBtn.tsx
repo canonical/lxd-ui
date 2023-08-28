@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Button, Modal, useNotify } from "@canonical/react-components";
-import UploadIsoImage from "pages/storage/UploadIsoImage";
+import UploadCustomImage from "pages/storage/UploadCustomImage";
 import usePortal from "react-useportal";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -30,7 +30,10 @@ const UploadCustomImageBtn: FC = () => {
       {isOpen && (
         <Portal>
           <Modal close={closePortal} title="Upload custom image">
-            <UploadIsoImage onCancel={handleCancel} onFinish={handleFinish} />
+            <UploadCustomImage
+              onCancel={handleCancel}
+              onFinish={handleFinish}
+            />
           </Modal>
         </Portal>
       )}
