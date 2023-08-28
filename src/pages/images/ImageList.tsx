@@ -5,7 +5,7 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import CachedImageList from "pages/images/CachedImageList";
-import IsoImageList from "pages/images/IsoImageList";
+import CustomImageList from "pages/images/CustomImageList";
 import UploadCustomImageBtn from "pages/images/actions/UploadCustomImageBtn";
 
 const TABS: string[] = ["Cached", "Custom"];
@@ -53,7 +53,7 @@ const ImageList: FC = () => {
 
         {activeTab === "custom" && (
           <div role="tabpanel">
-            <IsoImageList project={project} />
+            <CustomImageList project={project} />
           </div>
         )}
       </Row>

@@ -86,7 +86,7 @@ const StorageDetail: FC = () => {
             )}
 
             {activeTab === "volumes" && (
-              <div role="tabpanel" aria-labelledby="Volumes">
+              <div role="tabpanel" aria-labelledby="volumes">
                 <StorageVolumes />
               </div>
             )}

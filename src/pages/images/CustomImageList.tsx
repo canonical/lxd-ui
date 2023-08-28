@@ -12,9 +12,9 @@ interface Props {
   project: string;
 }
 
-const IsoImageList: FC<Props> = ({ project }) => {
-  const { data: isoImages = [], isLoading } = useQuery({
-    queryKey: [queryKeys.isoImages],
+const CustomImageList: FC<Props> = ({ project }) => {
+  const { data: images = [], isLoading } = useQuery({
+    queryKey: [queryKeys.isoImages, project],
     queryFn: () => loadIsoImages(project),
   });
 
@@ -27,7 +27,7 @@ const IsoImageList: FC<Props> = ({ project }) => {
     { "aria-label": "Actions", className: "actions" },
   ];
 
-  const rows = isoImages.map((image) => {
+  const rows = images.map((image) => {
     const actions = image.volume && (
       <List
         inline
@@ -94,7 +94,7 @@ const IsoImageList: FC<Props> = ({ project }) => {
     };
   });
 
-  return !isLoading && isoImages.length === 0 ? (
+  return !isLoading && images.length === 0 ? (
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
@@ -117,4 +117,4 @@ const IsoImageList: FC<Props> = ({ project }) => {
   );
 };
 
-export default IsoImageList;
+export default CustomImageList;
