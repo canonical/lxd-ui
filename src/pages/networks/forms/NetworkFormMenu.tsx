@@ -53,7 +53,6 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
             >
               Advanced
             </Button>
-
             <ul
               className="p-side-navigation__list"
               aria-expanded={isAdvancedOpen ? "true" : "false"}

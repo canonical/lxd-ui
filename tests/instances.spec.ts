@@ -70,15 +70,15 @@ test("instance cpu and memory", async ({ page }) => {
 
   await setCpuLimit(page, "number", "42");
   await saveInstance(page);
-  await assertReadMode(page, "Exposed CPUs", "42");
+  await assertReadMode(page, "Exposed CPU limit", "42");
 
   await setCpuLimit(page, "fixed", "1,2,3,4");
   await saveInstance(page);
-  await assertReadMode(page, "Exposed CPUs", "1,2,3,4");
+  await assertReadMode(page, "Exposed CPU limit", "1,2,3,4");
 
   await setCpuLimit(page, "fixed", "1-23");
   await saveInstance(page);
-  await assertReadMode(page, "Exposed CPUs", "1-23");
+  await assertReadMode(page, "Exposed CPU limit", "1-23");
 
   await setMemLimit(page, "percentage", "2");
   await saveInstance(page);
