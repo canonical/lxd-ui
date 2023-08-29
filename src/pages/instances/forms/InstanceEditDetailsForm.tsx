@@ -13,7 +13,7 @@ export interface InstanceEditDetailsFormValues {
   instanceType: string;
   location: string;
   profiles: string[];
-  type: string;
+  type: "instance";
   readOnly: boolean;
 }
 
