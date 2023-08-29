@@ -66,10 +66,7 @@ export const getConfigurationRow = ({
     profiles
   );
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
-  const getDisplayForm = (): ReactNode => {
-    if (isReadOnly) {
-      return "-";
-    }
+  const getForm = (): ReactNode => {
     return (
       <div className="override-form">
         <div>
@@ -143,7 +140,7 @@ export const getConfigurationRow = ({
     override: isReadOnly ? (
       getOverrideValue()
     ) : isOverridden ? (
-      getDisplayForm()
+      getForm()
     ) : (
       <Button
         onClick={toggleDefault}
