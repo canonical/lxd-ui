@@ -112,7 +112,9 @@ or remove the originating item"
                 <div className="mono-font">
                   <b>{item.network?.network}</b>
                 </div>
-                <div>From: {item.source}</div>
+                <div className="p-text--small u-text--muted">
+                  From: {item.source}
+                </div>
               </div>
             ),
             override: "",
