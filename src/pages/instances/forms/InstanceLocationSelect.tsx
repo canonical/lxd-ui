@@ -80,6 +80,12 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
             disabled: group.members.length < 1,
           };
         })}
+        disabled={!formik.values.image}
+        title={
+          formik.values.image
+            ? ""
+            : "Please select an image before adding a location group"
+        }
       />
       <Select
         id="locationMember"
@@ -92,6 +98,12 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
             return { label: member, value: member };
           }),
         ]}
+        disabled={!formik.values.image}
+        title={
+          formik.values.image
+            ? ""
+            : "Please select an image before adding a location member"
+        }
       />
     </>
   );

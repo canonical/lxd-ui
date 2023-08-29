@@ -18,6 +18,7 @@ interface Props {
   project: string;
   selected: string[];
   setSelected: (profiles: string[]) => void;
+  title?: string;
   isReadOnly?: boolean;
 }
 
@@ -25,6 +26,7 @@ const ProfileSelector: FC<Props> = ({
   project,
   selected,
   setSelected,
+  title,
   isReadOnly = false,
 }) => {
   const notify = useNotify();
@@ -90,6 +92,7 @@ const ProfileSelector: FC<Props> = ({
                 })}
               value={value}
               disabled={isReadOnly}
+              title={title}
             ></Select>
           </Col>
           {!isReadOnly && (index > 0 || selected.length > 1) && (
