@@ -66,6 +66,29 @@ const getLxdDefault = (configKey: string): string => {
   return "-";
 };
 
+const getInstanceDefaults = (
+  values: CreateInstanceFormValues | EditInstanceFormValues,
+  formField: string
+): [string, string] => {
+  if (formField === "limits_cpu") {
+    if (values.instanceType === "container") {
+      return ["-", "LXD (container)"];
+    } else {
+      return ["1", "LXD (VM)"];
+    }
+  }
+
+  if (formField === "limits_memory") {
+    if (values.instanceType === "container") {
+      return ["-", "LXD (container)"];
+    } else {
+      return ["1GB", "LXD (VM)"];
+    }
+  }
+
+  return [getLxdDefault(formField), "LXD"];
+};
+
 export const figureInheritedValue = (
   values: SharedFormTypes,
   formField: string,
@@ -82,6 +105,10 @@ export const figureInheritedValue = (
         return [profile.config[configKey], `${profileName} profile`];
       }
     }
+  }
+
+  if (values.type === "instance") {
+    return getInstanceDefaults(values, formField);
   }
 
   return [getLxdDefault(formField), "LXD"];

@@ -16,7 +16,7 @@ export interface InstanceDetailsFormValues {
   instanceType: string;
   profiles: string[];
   target?: string;
-  type: string;
+  type: "instance";
   readOnly: boolean;
 }
 
