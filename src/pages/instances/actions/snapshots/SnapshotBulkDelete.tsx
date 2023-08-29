@@ -58,7 +58,7 @@ const SnapshotBulkDelete: FC<Props> = ({
         title: "Confirm delete",
         children: (
           <>
-            This will permanently delete <b>{count}</b>
+            This will permanently delete <b>{count}</b>{" "}
             {pluralizeSnapshot(count)}
             .<br />
             This action cannot be undone, and can result in data loss.

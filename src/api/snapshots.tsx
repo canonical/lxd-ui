@@ -59,18 +59,7 @@ export const deleteSnapshotBulk = (
       )
     )
       .then(resolve)
-      .catch((e: Error) => {
-        // A hack to ignore this error, should be removed once fixed in
-        // @see https://github.com/lxc/lxd/issues/11538
-        const msg =
-          "Instance snapshot record count doesn't match instance snapshot volume record count";
-        const isNotError = e.toString().includes(msg);
-        if (isNotError) {
-          setTimeout(() => resolve(e), 1000);
-        } else {
-          reject(e);
-        }
-      });
+      .catch(reject);
   });
 };
 
