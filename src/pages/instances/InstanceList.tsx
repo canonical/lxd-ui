@@ -108,7 +108,34 @@ const InstanceList: FC = () => {
     saveHidden(columns);
   };
 
+  const { data: operationList } = useQuery({
+    queryKey: [queryKeys.operations, project],
+    queryFn: () => fetchOperations(project),
+    refetchInterval: 1000,
+  });
+
+  if (error) {
+    notify.failure("Loading operations failed", error);
+  }
+
+  const creationNames: string[] = [];
+  const creationOperations = (operationList?.running ?? []).filter(
+    (operation) => {
+      const isCreating =
+        operation.description === "Creating instance" &&
+        operation.status === "Running";
+      if (isCreating) {
+        const createInstanceName = getInstanceName(operation);
+        creationNames.push(createInstanceName);
+      }
+      return isCreating;
+    }
+  );
+
   const filteredInstances = instances.filter((item) => {
+    if (creationNames.includes(item.name)) {
+      return false;
+    }
     if (
       !filters.queries.every(
         (q) =>
@@ -199,27 +226,6 @@ const InstanceList: FC = () => {
       (item) =>
         typeof item.content !== "string" || !hiddenCols.includes(item.content)
     );
-
-  const { data: operationList } = useQuery({
-    queryKey: [queryKeys.operations, project],
-    queryFn: () => fetchOperations(project),
-    refetchInterval: 1000,
-  });
-
-  if (error) {
-    notify.failure("Loading operations failed", error);
-  }
-
-  const instanceNames = instances.map((instance) => instance.name);
-  const creationOperations = (operationList?.running ?? []).filter(
-    (operation) => {
-      const createInstanceName = getInstanceName(operation);
-      return (
-        operation.description === "Creating instance" &&
-        !instanceNames.includes(createInstanceName)
-      );
-    }
-  );
 
   const getRows = (hiddenCols: string[]): MainTableRow[] => {
     const spannedWidth = CREATION_SPAN_COLUMNS.filter(
