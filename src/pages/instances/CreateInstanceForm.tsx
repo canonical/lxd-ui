@@ -73,6 +73,7 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
 interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
   selectedImage?: RemoteImage;
+  cancelLocation?: string;
 }
 
 const CreateInstanceForm: FC = () => {
@@ -374,7 +375,12 @@ const CreateInstanceForm: FC = () => {
               <Col size={12}>
                 <Button
                   appearance="base"
-                  onClick={() => navigate(`/ui/project/${project}/instances`)}
+                  onClick={() =>
+                    navigate(
+                      location.state?.cancelLocation ??
+                        `/ui/project/${project}/instances`
+                    )
+                  }
                 >
                   Cancel
                 </Button>
