@@ -101,7 +101,10 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[CUSTOM].map((item) => (
-                <div key={item.name}>{item.name}</div>
+                <div key={item.name}>
+                  {item.name}
+                  {item.project !== project && ` (project ${item.project})`}
+                </div>
               ))}
             />
           </td>
