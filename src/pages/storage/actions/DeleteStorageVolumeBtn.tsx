@@ -45,6 +45,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({ pool, project, volume }) => {
           queryKeys.storage,
           pool,
           queryKeys.volumes,
+          project,
         ]);
       });
   };

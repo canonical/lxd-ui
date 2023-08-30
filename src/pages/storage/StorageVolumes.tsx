@@ -29,8 +29,8 @@ const StorageVolumes: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.storage, pool, queryKeys.volumes],
-    queryFn: () => fetchStorageVolumes(pool),
+    queryKey: [queryKeys.storage, pool, queryKeys.volumes, project],
+    queryFn: () => fetchStorageVolumes(pool, project),
   });
 
   if (error) {
