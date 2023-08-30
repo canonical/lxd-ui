@@ -115,6 +115,10 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
     .sort();
   const variantAll = [...new Set(images.map((item) => item.variant))].sort();
 
+  if (!isLoading && !archAll.includes(arch)) {
+    setArch(archAll[0]);
+  }
+
   const getOptionList: (
     mapper: (item: RemoteImage) => string,
     filter?: (item: RemoteImage) => boolean
