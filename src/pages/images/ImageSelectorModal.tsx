@@ -14,22 +14,20 @@ export interface IsoImage {
   pool: string;
 }
 
-const REMOTE_IMAGES = "remoteImages";
+const SELECT = "select";
 const UPLOAD = "upload";
 
 const ImageSelectorModal: FC<Props> = ({ onClose, onSelect }) => {
-  const [content, setContent] = useState(REMOTE_IMAGES);
+  const [content, setContent] = useState(SELECT);
   const [primary, setPrimary] = useState<IsoImage | null>(null);
 
   return (
     <Modal
       close={onClose}
-      title={
-        content === REMOTE_IMAGES ? "Select base image" : "Upload custom image"
-      }
-      className={content === REMOTE_IMAGES ? "image-select-modal" : null}
+      title={content === SELECT ? "Select base image" : "Upload custom image"}
+      className={content === SELECT ? "image-select-modal" : null}
     >
-      {content === REMOTE_IMAGES && (
+      {content === SELECT && (
         <ImageSelector
           primaryImage={primary}
           onSelect={onSelect}
@@ -38,9 +36,9 @@ const ImageSelectorModal: FC<Props> = ({ onClose, onSelect }) => {
       )}
       {content === UPLOAD && (
         <UploadCustomImage
-          onCancel={() => setContent(REMOTE_IMAGES)}
+          onCancel={() => setContent(SELECT)}
           onFinish={(name, pool) => {
-            setContent(REMOTE_IMAGES);
+            setContent(SELECT);
             setPrimary({ name, pool });
           }}
         />
