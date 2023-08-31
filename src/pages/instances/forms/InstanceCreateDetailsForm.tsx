@@ -1,5 +1,13 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Select, Textarea } from "@canonical/react-components";
+import {
+  Button,
+  Col,
+  Icon,
+  Input,
+  Row,
+  Select,
+  Textarea,
+} from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
@@ -8,6 +16,7 @@ import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
+import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -101,17 +110,27 @@ const InstanceCreateDetailsForm: FC<Props> = ({
           </label>
           <div className="p-form__control u-clearfix base-image">
             {formik.values.image && (
-              <span className="u-text--muted u-truncate u-sv3 image-name">
-                {figureBaseImageName()}
-              </span>
+              <>
+                <span className="u-text--muted u-truncate u-sv3 image-name">
+                  {figureBaseImageName()}
+                </span>
+                <Button
+                  appearance="base"
+                  type="button"
+                  onClick={() => formik.setFieldValue("image", undefined)}
+                  title="Clear"
+                  hasIcon
+                >
+                  <Icon name="close" />
+                </Button>
+              </>
             )}
-            <SelectImageBtn
-              appearance={formik.values.image ? "" : "positive"}
-              caption={
-                formik.values.image ? <>Change&nbsp;image</> : "Browse images"
-              }
-              onSelect={onSelectImage}
-            />
+            {!formik.values.image && (
+              <>
+                <SelectImageBtn onSelect={onSelectImage} />
+                <UseCustomIsoBtn onSelect={onSelectImage} />
+              </>
+            )}
           </div>
           <Select
             id="instanceType"

@@ -13,7 +13,7 @@ import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
-import UploadCustomIsoBtn from "pages/images/actions/UploadCustomImageBtn";
+import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
 
 interface Props {
   project: string;

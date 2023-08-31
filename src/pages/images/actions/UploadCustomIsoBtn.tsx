@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Button, Modal, useNotify } from "@canonical/react-components";
-import UploadCustomImage from "pages/storage/UploadCustomImage";
+import UploadCustomIso from "pages/storage/UploadCustomIso";
 import usePortal from "react-useportal";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 
-const UploadCustomImageBtn: FC = () => {
+const UploadCustomIsoBtn: FC = () => {
   const notify = useNotify();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
@@ -30,10 +30,7 @@ const UploadCustomImageBtn: FC = () => {
       {isOpen && (
         <Portal>
           <Modal close={closePortal} title="Upload custom ISO">
-            <UploadCustomImage
-              onCancel={handleCancel}
-              onFinish={handleFinish}
-            />
+            <UploadCustomIso onCancel={handleCancel} onFinish={handleFinish} />
           </Modal>
         </Portal>
       )}
@@ -41,4 +38,4 @@ const UploadCustomImageBtn: FC = () => {
   );
 };
 
-export default UploadCustomImageBtn;
+export default UploadCustomIsoBtn;

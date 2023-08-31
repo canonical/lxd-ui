@@ -3,6 +3,7 @@ import {
   Button,
   Col,
   MainTable,
+  Modal,
   Row,
   SearchBox,
   Select,
@@ -18,14 +19,10 @@ import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
-import { loadIsoImages } from "context/loadIsoImages";
-import { useProject } from "context/project";
-import { IsoImage } from "pages/images/ImageSelectorModal";
 
 interface Props {
   onSelect: (image: RemoteImage, type: string | null) => void;
-  onUpload: () => void;
-  primaryImage: IsoImage | null;
+  onClose: () => void;
 }
 
 const canonicalJson = "/ui/assets/data/canonical-images.json";
@@ -38,7 +35,7 @@ const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
 
-const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
+const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [query, setQuery] = useState<string>("");
   const [os, setOs] = useState<string>("");
   const [release, setRelease] = useState<string>("");
@@ -76,21 +73,13 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
     queryFn: () => loadImages(canonicalJson, canonicalServer),
   });
 
-  const { project } = useProject();
-  const projectName = project?.name ?? "";
-  const { data: isoImages = [], isLoading: isIsoImageLoading } = useQuery({
-    queryKey: [queryKeys.isoImages, projectName],
-    queryFn: () => loadIsoImages(projectName),
-  });
-
-  const isLoading =
-    isCiLoading || isLciLoading || isSettingsLoading || isIsoImageLoading;
+  const isLoading = isCiLoading || isLciLoading || isSettingsLoading;
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? []
   );
   const images = isLoading
     ? []
-    : canonicalImages
+    : [...canonicalImages]
         .reverse()
         .concat(linuxContainerImages)
         .filter((image) => archSupported.includes(image.arch))
@@ -103,13 +92,6 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
           }
           return 0;
         });
-
-  isoImages.sort((a, b) => {
-    return a.created_at - b.created_at;
-  });
-  if (!isLoading) {
-    images.unshift(...isoImages);
-  }
 
   const archAll = [...new Set(images.map((item) => item.arch))]
     .filter((arch) => arch !== "")
@@ -239,12 +221,6 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
           {
             content: (
               <Button
-                appearance={
-                  primaryImage?.name === item.aliases &&
-                  primaryImage.pool === item.pool
-                    ? "positive"
-                    : ""
-                }
                 onClick={selectImage}
                 type="button"
                 dense
@@ -285,139 +261,135 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
   ];
 
   return (
-    <Row className="u-no-padding--left u-no-padding--right">
-      <Col size={3}>
-        <div className="image-select-filters">
-          <Select
-            id="imageFilterDistribution"
-            label="Distribution"
-            name="distribution"
-            onChange={(v) => {
-              setOs(v.target.value);
-              setRelease("");
-            }}
-            options={getOptionList((item: RemoteImage) => item.os)}
-            value={os}
-          />
-          <Select
-            id="imageFilterRelease"
-            label="Release"
-            name="release"
-            onChange={(v) => {
-              setRelease(v.target.value);
-            }}
-            options={getOptionList(
-              (item) => item.release,
-              (item) => item.os === os
-            )}
-            value={release}
-            disabled={os === ""}
-          />
-          <Select
-            id="imageFilterVariant"
-            label="Variant"
-            name="variant"
-            onChange={(v) => {
-              setVariant(v.target.value);
-            }}
-            options={[
-              {
-                label: "Any",
-                value: ANY,
-              },
-            ].concat(
-              variantAll
-                .filter((item) => Boolean(item))
-                .map((item) => {
-                  return {
-                    label: item ?? "",
-                    value: item ?? "",
-                  };
-                })
-            )}
-            value={variant}
-          />
-          <Select
-            id="imageFilterArchitecture"
-            label="Architecture"
-            name="architecture"
-            onChange={(v) => {
-              setArch(v.target.value);
-            }}
-            options={archAll.map((item) => {
-              return {
-                label: item,
-                value: item,
-              };
-            })}
-            value={arch}
-          />
-          <Select
-            id="imageFilterType"
-            label="Type"
-            name="type"
-            onChange={(v) => {
-              setType(v.target.value);
-            }}
-            options={[
-              {
-                label: "Any",
-                value: ANY,
-              },
-              ...instanceCreationTypes,
-            ]}
-            value={type}
-          />
-        </div>
-      </Col>
-      <Col size={9}>
-        <div className="image-select-header">
-          <div>
-            <SearchBox
-              autoFocus
-              className="search-image"
-              name="search-image"
-              type="text"
-              onChange={(value) => {
-                setQuery(value);
-                setOs("");
+    <Modal
+      close={onClose}
+      title="Select base image"
+      className="image-select-modal"
+    >
+      <Row className="u-no-padding--left u-no-padding--right">
+        <Col size={3}>
+          <div className="image-select-filters">
+            <Select
+              id="imageFilterDistribution"
+              label="Distribution"
+              name="distribution"
+              onChange={(v) => {
+                setOs(v.target.value);
                 setRelease("");
               }}
-              placeholder="Search an image"
-              value={query}
+              options={getOptionList((item: RemoteImage) => item.os)}
+              value={os}
+            />
+            <Select
+              id="imageFilterRelease"
+              label="Release"
+              name="release"
+              onChange={(v) => {
+                setRelease(v.target.value);
+              }}
+              options={getOptionList(
+                (item) => item.release,
+                (item) => item.os === os
+              )}
+              value={release}
+              disabled={os === ""}
+            />
+            <Select
+              id="imageFilterVariant"
+              label="Variant"
+              name="variant"
+              onChange={(v) => {
+                setVariant(v.target.value);
+              }}
+              options={[
+                {
+                  label: "Any",
+                  value: ANY,
+                },
+              ].concat(
+                variantAll
+                  .filter((item) => Boolean(item))
+                  .map((item) => {
+                    return {
+                      label: item ?? "",
+                      value: item ?? "",
+                    };
+                  })
+              )}
+              value={variant}
+            />
+            <Select
+              id="imageFilterArchitecture"
+              label="Architecture"
+              name="architecture"
+              onChange={(v) => {
+                setArch(v.target.value);
+              }}
+              options={archAll.map((item) => {
+                return {
+                  label: item,
+                  value: item,
+                };
+              })}
+              value={arch}
+            />
+            <Select
+              id="imageFilterType"
+              label="Type"
+              name="type"
+              onChange={(v) => {
+                setType(v.target.value);
+              }}
+              options={[
+                {
+                  label: "Any",
+                  value: ANY,
+                },
+                ...instanceCreationTypes,
+              ]}
+              value={type}
             />
           </div>
-          <div>
-            <Button
-              appearance="default"
-              onClick={onUpload}
-              type="button"
-              className="upload-btn"
-            >
-              <span>Upload custom ISO</span>
-            </Button>
+        </Col>
+        <Col size={9}>
+          <div className="image-select-header">
+            <div>
+              <SearchBox
+                autoFocus
+                className="search-image"
+                name="search-image"
+                type="text"
+                onChange={(value) => {
+                  setQuery(value);
+                  setOs("");
+                  setRelease("");
+                }}
+                placeholder="Search an image"
+                value={query}
+              />
+            </div>
           </div>
-        </div>
-        <div className="image-list">
-          <ScrollableTable dependencies={[images]}>
-            <MainTable
-              className="table-image-select"
-              emptyStateMsg={
-                isLoading ? (
-                  <Loader text="Loading images..." />
-                ) : (
-                  "No matching images found"
-                )
-              }
-              headers={headers}
-              rows={rows}
-              paginate={null}
-              sortable
-            />
-          </ScrollableTable>
-        </div>
-      </Col>
-    </Row>
+          <div className="image-list">
+            <ScrollableTable dependencies={[images]}>
+              <MainTable
+                className="table-image-select"
+                emptyStateMsg={
+                  isLoading ? (
+                    <Loader text="Loading images..." />
+                  ) : (
+                    "No matching images found"
+                  )
+                }
+                headers={headers}
+                rows={rows}
+                paginate={null}
+                sortable
+              />
+            </ScrollableTable>
+          </div>
+        </Col>
+      </Row>
+    </Modal>
   );
 };
 
