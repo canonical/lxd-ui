@@ -5,12 +5,12 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import CachedImageList from "pages/images/CachedImageList";
-import CustomImageList from "pages/images/CustomImageList";
-import UploadCustomImageBtn from "pages/images/actions/UploadCustomImageBtn";
+import CustomIsoList from "pages/storage/CustomIsoList";
+import StoragePools from "pages/storage/StoragePools";
 
-const TABS: string[] = ["Cached", "Custom"];
+const TABS: string[] = ["Storage pools", "Cached images", "Custom ISO"];
 
-const ImageList: FC = () => {
+const Storage: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const { project, activeTab } = useParams<{
@@ -25,14 +25,14 @@ const ImageList: FC = () => {
   const handleTabChange = (newTab: string) => {
     notify.clear();
     if (newTab === slugify(TABS[0])) {
-      navigate(`/ui/project/${project}/images`);
+      navigate(`/ui/project/${project}/storage`);
     } else {
-      navigate(`/ui/project/${project}/images/${newTab}`);
+      navigate(`/ui/project/${project}/storage/${newTab}`);
     }
   };
 
   return (
-    <BaseLayout title="Images" controls={<UploadCustomImageBtn />}>
+    <BaseLayout title="Storage">
       <NotificationRow />
       <Row>
         <Tabs
@@ -47,13 +47,19 @@ const ImageList: FC = () => {
 
         {!activeTab && (
           <div role="tabpanel">
+            <StoragePools />
+          </div>
+        )}
+
+        {activeTab === "cached-images" && (
+          <div role="tabpanel">
             <CachedImageList />
           </div>
         )}
 
-        {activeTab === "custom" && (
+        {activeTab === "custom-iso" && (
           <div role="tabpanel">
-            <CustomImageList project={project} />
+            <CustomIsoList project={project} />
           </div>
         )}
       </Row>
@@ -61,4 +67,4 @@ const ImageList: FC = () => {
   );
 };
 
-export default ImageList;
+export default Storage;

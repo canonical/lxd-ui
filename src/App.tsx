@@ -7,7 +7,6 @@ import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
-const ImageList = lazy(() => import("pages/images/ImageList"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
 const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
 const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
@@ -17,7 +16,7 @@ const NoMatch = lazy(() => import("components/NoMatch"));
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
-const StorageList = lazy(() => import("pages/storage/StorageList"));
+const Storage = lazy(() => import("pages/storage/Storage"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
@@ -124,14 +123,6 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/images"
-          element={<ProtectedRoute outlet={<ImageList />} />}
-        />
-        <Route
-          path="/ui/project/:project/images/:activeTab"
-          element={<ProtectedRoute outlet={<ImageList />} />}
-        />
-        <Route
           path="/ui/project/:project/profiles"
           element={
             <ProtectedRoute
@@ -234,9 +225,13 @@ const App: FC = () => {
         <Route
           path="/ui/project/:project/storage"
           element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<StorageList />} />}
-            />
+            <ProtectedRoute outlet={<ProjectLoader outlet={<Storage />} />} />
+          }
+        />
+        <Route
+          path="/ui/project/:project/storage/:activeTab"
+          element={
+            <ProtectedRoute outlet={<ProjectLoader outlet={<Storage />} />} />
           }
         />
         <Route

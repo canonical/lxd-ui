@@ -394,7 +394,7 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
               type="button"
               className="upload-btn"
             >
-              <span>Upload custom image</span>
+              <span>Upload custom ISO</span>
             </Button>
           </div>
         </div>

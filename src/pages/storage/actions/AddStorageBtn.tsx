@@ -17,7 +17,7 @@ const AddStorageBtn: FC<Props> = ({ project, className }) => {
       hasIcon
       onClick={() => panelParams.openStorageForm(project)}
     >
-      Add storage
+      Create storage pool
     </Button>
   );
 };
