@@ -7,7 +7,6 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { fetchStoragePools } from "api/storage-pools";
-import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
@@ -15,9 +14,8 @@ import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storage/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
 import StorageSize from "pages/storage/StorageSize";
-import NotificationRow from "components/NotificationRow";
 
-const StorageList: FC = () => {
+const StoragePools: FC = () => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
@@ -107,17 +105,12 @@ const StorageList: FC = () => {
 
   return (
     <>
-      <BaseLayout
-        title="Storage pools"
-        controls={
-          hasStoragePools && (
-            <AddStorageBtn project={project} className="u-no-margin--bottom" />
-          )
-        }
-      >
-        <NotificationRow />
-        <Row>
-          {hasStoragePools && (
+      <Row>
+        {hasStoragePools && (
+          <>
+            <div className="u-align--right">
+              <AddStorageBtn project={project} />
+            </div>
             <MainTable
               headers={headers}
               rows={rows}
@@ -133,31 +126,31 @@ const StorageList: FC = () => {
                 )
               }
             />
-          )}
-          {!isLoading && !hasStoragePools && (
-            <EmptyState
-              className="empty-state"
-              image={<Icon name="pods" className="empty-state-icon" />}
-              title="No storage found"
-            >
-              <p>There are no storage pools in this project.</p>
-              <p>
-                <a
-                  href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Learn more about storage
-                  <Icon className="external-link-icon" name="external-link" />
-                </a>
-              </p>
-              <AddStorageBtn project={project} className="empty-state-button" />
-            </EmptyState>
-          )}
-        </Row>
-      </BaseLayout>
+          </>
+        )}
+        {!isLoading && !hasStoragePools && (
+          <EmptyState
+            className="empty-state"
+            image={<Icon name="pods" className="empty-state-icon" />}
+            title="No storage found"
+          >
+            <p>There are no storage pools in this project.</p>
+            <p>
+              <a
+                href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Learn more about storage
+                <Icon className="external-link-icon" name="external-link" />
+              </a>
+            </p>
+            <AddStorageBtn project={project} className="empty-state-button" />
+          </EmptyState>
+        )}
+      </Row>
     </>
   );
 };
 
-export default StorageList;
+export default StoragePools;

@@ -7,12 +7,13 @@ import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
+import UploadCustomIsoBtn from "pages/images/actions/UploadCustomImageBtn";
 
 interface Props {
   project: string;
 }
 
-const CustomImageList: FC<Props> = ({ project }) => {
+const CustomIsoList: FC<Props> = ({ project }) => {
   const { data: images = [], isLoading } = useQuery({
     queryKey: [queryKeys.isoImages, project],
     queryFn: () => loadIsoImages(project),
@@ -98,12 +99,15 @@ const CustomImageList: FC<Props> = ({ project }) => {
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
-      title="No custom images found"
+      title="No custom ISOs found"
     >
-      <p>Custom images will appear here</p>
+      <p>Custom ISOs will appear here</p>
     </EmptyState>
   ) : (
     <>
+      <div className="u-align--right">
+        <UploadCustomIsoBtn />
+      </div>
       <MainTable
         headers={headers}
         rows={rows}
@@ -117,4 +121,4 @@ const CustomImageList: FC<Props> = ({ project }) => {
   );
 };
 
-export default CustomImageList;
+export default CustomIsoList;

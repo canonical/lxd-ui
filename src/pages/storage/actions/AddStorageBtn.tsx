@@ -23,7 +23,7 @@ const AddStorageBtn: FC<Props> = ({ project, className }) => {
       hasIcon
       onClick={handleAdd}
     >
-      Add storage
+      Create storage pool
     </Button>
   );
 };
