@@ -17,7 +17,7 @@ interface Props {
   onCancel: () => void;
 }
 
-const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
+const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const { project } = useProject();
@@ -168,4 +168,4 @@ const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
   );
 };
 
-export default UploadCustomImage;
+export default UploadCustomIso;
