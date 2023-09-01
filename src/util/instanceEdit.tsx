@@ -53,7 +53,9 @@ const getEditValues = (item: LxdProfile | LxdInstance) => {
   };
 };
 
-export const getInstanceEditValues = (instance: LxdInstance) => {
+export const getInstanceEditValues = (
+  instance: LxdInstance
+): EditInstanceFormValues => {
   return {
     instanceType: instance.type,
     profiles: instance.profiles,
