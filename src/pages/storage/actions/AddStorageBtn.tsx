@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import usePanelParams from "util/usePanelParams";
 
 interface Props {
@@ -8,14 +8,20 @@ interface Props {
 }
 
 const AddStorageBtn: FC<Props> = ({ project, className }) => {
+  const notify = useNotify();
   const panelParams = usePanelParams();
+
+  const handleAdd = () => {
+    notify.clear();
+    panelParams.openStorageForm(project);
+  };
 
   return (
     <Button
       appearance="positive"
       className={className}
       hasIcon
-      onClick={() => panelParams.openStorageForm(project)}
+      onClick={handleAdd}
     >
       Add storage
     </Button>
