@@ -8,7 +8,7 @@ import CachedImageList from "pages/images/CachedImageList";
 import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
 
-const TABS: string[] = ["Storage pools", "Cached images", "Custom ISO"];
+const TABS: string[] = ["Storage pools", "Cached images", "Custom ISOs"];
 
 const Storage: FC = () => {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const Storage: FC = () => {
           </div>
         )}
 
-        {activeTab === "custom-iso" && (
+        {activeTab === "custom-isos" && (
           <div role="tabpanel">
             <CustomIsoList project={project} />
           </div>
