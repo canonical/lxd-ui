@@ -173,10 +173,9 @@ const InstanceDetailPanel: FC = () => {
                   <List
                     className="list"
                     items={networkDevices.map((item) => (
-                      // TODO: fix this link to point to the network detail page
                       <Link
                         key={item.network}
-                        to={`/ui/project/${instance.project}/networks`}
+                        to={`/ui/project/${instance.project}/networks/detail/${item.network}`}
                       >
                         {item.network}
                       </Link>
