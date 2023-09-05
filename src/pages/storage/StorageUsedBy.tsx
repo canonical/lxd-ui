@@ -19,11 +19,11 @@ const CUSTOM = "Custom";
 
 const StorageUsedBy: FC<Props> = ({ storage, project }) => {
   const data: Record<string, LxdUsedBy[]> = {
-    [INSTANCES]: filterUsedByType("instances", project, storage.used_by),
-    [PROFILES]: filterUsedByType("profiles", project, storage.used_by),
-    [IMAGES]: filterUsedByType("images", project, storage.used_by),
-    [SNAPSHOTS]: filterUsedByType("snapshots", project, storage.used_by),
-    [CUSTOM]: filterUsedByType("storage-pools", project, storage.used_by),
+    [INSTANCES]: filterUsedByType("instances", storage.used_by),
+    [PROFILES]: filterUsedByType("profiles", storage.used_by),
+    [IMAGES]: filterUsedByType("images", storage.used_by),
+    [SNAPSHOTS]: filterUsedByType("snapshots", storage.used_by),
+    [CUSTOM]: filterUsedByType("storage-pools", storage.used_by),
   };
 
   return (

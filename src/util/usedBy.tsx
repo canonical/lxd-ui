@@ -14,7 +14,6 @@ export interface LxdUsedBy {
  */
 export const filterUsedByType = (
   type: "instances" | "profiles" | "snapshots" | "images" | "storage-pools",
-  defaultProject: string,
   usedByPaths?: string[]
 ): LxdUsedBy[] => {
   return (
@@ -34,7 +33,7 @@ export const filterUsedByType = (
         const url = new URL(`http://localhost/${path}`);
         return {
           name: url.pathname.split("/").slice(-1)[0] ?? "",
-          project: url.searchParams.get("project") ?? defaultProject,
+          project: url.searchParams.get("project") ?? "default",
           instance: type === "snapshots" ? url.pathname.split("/")[4] : "",
         };
       })
@@ -57,12 +56,10 @@ export const getProfileInstances = (
   isDefaultProject: boolean,
   usedByPaths?: string[]
 ): LxdUsedBy[] => {
-  return filterUsedByType("instances", "default", usedByPaths).filter(
-    (instance) => {
-      if (isDefaultProject) {
-        return true;
-      }
-      return project === instance.project;
+  return filterUsedByType("instances", usedByPaths).filter((instance) => {
+    if (isDefaultProject) {
+      return true;
     }
-  );
+    return project === instance.project;
+  });
 };
