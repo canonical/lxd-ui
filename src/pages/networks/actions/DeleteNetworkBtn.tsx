@@ -52,11 +52,11 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         confirmButtonAppearance: "negative",
         confirmButtonLabel: "Delete",
         children: (
-          <>
+          <p>
             Are you sure you want to delete the network{" "}
             <ItemName item={network} bold />?<br />
             This action cannot be undone, and can result in data loss.
-          </>
+          </p>
         ),
         onConfirm: handleDelete,
       }}

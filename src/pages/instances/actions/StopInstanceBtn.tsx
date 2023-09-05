@@ -61,9 +61,9 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationModalProps={{
         title: "Confirm stop",
         children: (
-          <>
+          <p>
             This will stop instance <ItemName item={instance} bold />.
-          </>
+          </p>
         ),
         confirmExtra: (
           <ConfirmationForce label="Force stop" force={[isForce, setForce]} />

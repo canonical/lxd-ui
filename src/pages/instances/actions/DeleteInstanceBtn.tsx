@@ -63,11 +63,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
-          <>
+          <p>
             This will permanently delete instance{" "}
             <ItemName item={instance} bold />.<br />
             This action cannot be undone, and can result in data loss.
-          </>
+          </p>
         ),
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
