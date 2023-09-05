@@ -198,7 +198,6 @@ export const connectInstanceExec = (
       method: "POST",
       body: JSON.stringify({
         command: [payload.command],
-        "record-output": true,
         "wait-for-websocket": true,
         environment: payload.environment.reduce(
           (a, v) => ({ ...a, [v.key]: v.value }),
