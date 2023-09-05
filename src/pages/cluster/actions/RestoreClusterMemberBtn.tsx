@@ -38,10 +38,10 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
       confirmationModalProps={{
         title: "Confirm restore",
         children: (
-          <>
+          <p>
             This will restore cluster member{" "}
             <ItemName item={{ name: member.server_name }} bold />.
-          </>
+          </p>
         ),
         confirmButtonLabel: "Restore",
         onConfirm: handleRestore,

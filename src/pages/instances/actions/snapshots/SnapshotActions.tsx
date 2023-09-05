@@ -109,11 +109,11 @@ const SnapshotActions: FC<Props> = ({
             confirmationModalProps={{
               title: "Confirm restore",
               children: (
-                <>
+                <p>
                   This will restore snapshot <ItemName item={snapshot} bold />.
                   <br />
                   This action cannot be undone, and can result in data loss.
-                </>
+                </p>
               ),
               confirmExtra: snapshot.stateful ? (
                 <ConfirmationForce
@@ -140,11 +140,11 @@ const SnapshotActions: FC<Props> = ({
             confirmationModalProps={{
               title: "Confirm delete",
               children: (
-                <>
+                <p>
                   This will permanently delete snapshot{" "}
                   <ItemName item={snapshot} bold />.<br />
                   This action cannot be undone, and can result in data loss.
-                </>
+                </p>
               ),
               confirmButtonLabel: "Delete",
               onConfirm: handleDelete,

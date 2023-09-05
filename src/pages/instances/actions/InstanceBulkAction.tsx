@@ -117,10 +117,10 @@ const InstanceBulkAction: FC<Props> = ({
       confirmationModalProps={{
         title: `Confirm ${confirmLabel.toLowerCase()}`,
         children: (
-          <>
+          <p>
             {selectedSummary}
             {getLineOrder().map((state) => statusLine(state, action))}
-          </>
+          </p>
         ),
         confirmExtra: confirmExtra,
         onConfirm: onClick,

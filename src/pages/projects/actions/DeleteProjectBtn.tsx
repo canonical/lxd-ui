@@ -71,11 +71,11 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
         children: (
-          <>
+          <p>
             This will permanently delete project{" "}
             <ItemName item={project} bold />.<br />
             This action cannot be undone, and can result in data loss.
-          </>
+          </p>
         ),
       }}
       shiftClickEnabled
