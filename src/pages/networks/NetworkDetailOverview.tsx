@@ -39,7 +39,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
   const updateContentHeight = () => {
     updateMaxHeight("network-overview-tab");
   };
-  useEffect(updateContentHeight, []);
+  useEffect(updateContentHeight, [project, networkState]);
   useEventListener("resize", updateContentHeight);
 
   const usageCount = network.used_by?.length ?? 0;
