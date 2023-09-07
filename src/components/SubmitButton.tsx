@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, MouseEventHandler } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 
@@ -8,7 +8,7 @@ interface Props {
   buttonLabel: string;
   appearance?: string;
   processingText?: string;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   dense?: boolean;
   className?: string;
 }

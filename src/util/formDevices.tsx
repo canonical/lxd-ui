@@ -4,6 +4,7 @@ import {
   LxdIsoDevice,
   LxdNicDevice,
 } from "types/device";
+import { RemoteImage } from "types/image";
 
 interface EmptyDevice {
   type: "";
@@ -115,4 +116,17 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
         };
     }
   });
+};
+
+export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
+  return {
+    type: "iso-volume",
+    name: "iso-volume",
+    bare: {
+      "boot.priority": "10",
+      pool: image.pool ?? "",
+      source: image.aliases,
+      type: "disk",
+    },
+  };
 };

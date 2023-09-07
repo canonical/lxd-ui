@@ -26,7 +26,11 @@ import InstanceCreateDetailsForm, {
   instanceDetailPayload,
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceCreateDetailsForm";
-import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
+import {
+  formDeviceToPayload,
+  FormDeviceValues,
+  remoteImageToIsoDevice,
+} from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
@@ -245,16 +249,8 @@ const CreateInstanceForm: FC = () => {
       (item) => item.type !== "iso-volume"
     );
     if (image.server === LOCAL_ISO) {
-      devices.push({
-        type: "iso-volume",
-        name: "iso-volume",
-        bare: {
-          "boot.priority": "10",
-          pool: image.pool ?? "",
-          source: image.aliases,
-          type: "disk",
-        },
-      });
+      const isoDevice = remoteImageToIsoDevice(image);
+      devices.push(isoDevice);
     }
     void formik.setFieldValue("devices", devices);
 
