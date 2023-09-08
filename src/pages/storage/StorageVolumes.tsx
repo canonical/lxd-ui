@@ -7,7 +7,6 @@ import Loader from "components/Loader";
 import { fetchStorageVolumes } from "api/storage-pools";
 import { isoTimeToString } from "util/helpers";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
-import ScrollableTable from "components/ScrollableTable";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -67,27 +66,27 @@ const StorageVolumes: FC = () => {
       columns: [
         {
           content: volume.name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {
           content: volume.content_type,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Content type",
         },
         {
           content: volume.type,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Type",
         },
         {
           content: isoTimeToString(volume.created_at),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Created at",
         },
         {
           content: volume.location,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Location",
         },
         {
@@ -96,16 +95,14 @@ const StorageVolumes: FC = () => {
               {key}: {val}
             </div>
           )),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Config",
         },
         {
           content: volume.used_by?.map((entry) => (
-            <div key={entry} className="u-truncate" title={entry}>
-              {entry}
-            </div>
+            <div key={entry}>{entry}</div>
           )),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Used by",
         },
         {
@@ -118,7 +115,7 @@ const StorageVolumes: FC = () => {
               />
             </>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Actions",
         },
       ],
@@ -145,9 +142,7 @@ const StorageVolumes: FC = () => {
         value={query}
         aria-label="Search for volumes"
       />
-      <ScrollableTable dependencies={[notify.notification]}>
-        <MainTable headers={headers} rows={rows} sortable />
-      </ScrollableTable>
+      <MainTable headers={headers} rows={rows} sortable />
     </>
   );
 };

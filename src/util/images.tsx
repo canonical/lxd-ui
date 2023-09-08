@@ -2,7 +2,7 @@ import { RemoteImage } from "types/image";
 import { LxdStorageVolume } from "types/storage";
 
 export const isVmOnlyImage = (image: RemoteImage) => {
-  return image.variant?.includes("desktop") || image.server === "local-iso";
+  return image.variant?.includes("desktop") ?? image.server === "local-iso";
 };
 
 export const isContainerOnlyImage = (image: RemoteImage) => {

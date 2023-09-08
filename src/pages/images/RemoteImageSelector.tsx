@@ -103,7 +103,9 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
   isoImages.sort((a, b) => {
     return a.created_at - b.created_at;
   });
-  images.unshift(...isoImages);
+  isoImages.forEach((image) => {
+    images.unshift(image);
+  });
 
   const archAll = [...new Set(images.map((item) => item.arch))]
     .filter((arch) => arch !== "")
