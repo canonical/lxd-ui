@@ -22,7 +22,7 @@ interface Props {
 
 const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
   const notify = useNotify();
-  const [isAdvancedOpen, setAdvancedOpen] = useState(false);
+  const [isConfigOpen, setConfigOpen] = useState(false);
   const menuItemProps = {
     active,
     setActive,
@@ -51,8 +51,8 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
             <Button
               type="button"
               className="p-side-navigation__accordion-button"
-              aria-expanded={isAdvancedOpen ? "true" : "false"}
-              onClick={() => setAdvancedOpen(!isAdvancedOpen)}
+              aria-expanded={isConfigOpen ? "true" : "false"}
+              onClick={() => setConfigOpen(!isConfigOpen)}
               disabled={Boolean(disableReason)}
               title={disableReason}
             >
@@ -61,7 +61,7 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
 
             <ul
               className="p-side-navigation__list"
-              aria-expanded={isAdvancedOpen ? "true" : "false"}
+              aria-expanded={isConfigOpen ? "true" : "false"}
             >
               <MenuItem
                 label={BRIDGE}
