@@ -157,7 +157,7 @@ const NetworkList: FC = () => {
               <p>There are no networks in this project.</p>
               <p>
                 <a
-                  href="https://documentation.ubuntu.com/lxd/en/latest/explanation/networks/"
+                  href="https://linuxcontainers.org/lxd/docs/latest/explanation/networks/"
                   target="_blank"
                   rel="noreferrer"
                 >

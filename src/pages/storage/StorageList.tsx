@@ -143,7 +143,7 @@ const StorageList: FC = () => {
               <p>There are no storage pools in this project.</p>
               <p>
                 <a
-                  href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+                  href="https://linuxcontainers.org/lxd/docs/latest/explanation/storage/"
                   target="_blank"
                   rel="noreferrer"
                 >

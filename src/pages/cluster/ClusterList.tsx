@@ -117,7 +117,7 @@ const ClusterList: FC = () => {
                   <p>Add cluster members to this group.</p>
                   <p>
                     <a
-                      href="https://documentation.ubuntu.com/lxd/en/latest/explanation/clustering/"
+                      href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -143,7 +143,7 @@ const ClusterList: FC = () => {
                 </p>
                 <p>
                   <a
-                    href="https://documentation.ubuntu.com/lxd/en/latest/explanation/clustering/"
+                    href="https://linuxcontainers.org/lxd/docs/latest/explanation/clustering/"
                     target="_blank"
                     rel="noreferrer"
                   >
