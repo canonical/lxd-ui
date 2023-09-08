@@ -99,6 +99,9 @@ const CreateInstanceForm: FC = () => {
         (value) =>
           checkDuplicateName(value, project, controllerState, "instances")
       )
+      .matches(/^[A-Za-z0-9-]+$/, {
+        message: "Only alphanumeric and hyphen characters are allowed",
+      })
       .optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
