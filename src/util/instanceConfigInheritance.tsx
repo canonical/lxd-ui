@@ -6,66 +6,6 @@ import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { isDiskDevice, isNicDevice } from "util/devices";
 import { LxdNicDevice } from "types/device";
 
-const lxdDefaults: Record<string, string> = {
-  limits_cpu: "-",
-  limits_memory: "-",
-  limits_memory_swap: "true",
-  limits_disk_priority: "5",
-  limits_processes: "-",
-  security_protection_delete: "false",
-  security_privileged: "false",
-  security_protection_shift: "false",
-  security_idmap_base: "-",
-  security_idmap_size: "-",
-  security_idmap_isolated: "false",
-  security_devlxd: "true",
-  security_devlxd_images: "false",
-  security_secureboot: "true",
-  snapshots_pattern: "snap%d",
-  snapshots_expiry: "-",
-  snapshots_schedule: "-",
-  snapshots_schedule_stopped: "false",
-  cloud_init_network_config: "",
-  cloud_init_user_data: "",
-  cloud_init_vendor_data: "",
-  limits_instances: "-",
-  limits_containers: "-",
-  limits_virtual_machines: "-",
-  limits_disk: "-",
-  limits_networks: "-",
-  restricted_cluster_groups: "-",
-  restricted_cluster_target: "block",
-  restricted_virtual_machines_low_level: "block",
-  restricted_containers_low_level: "block",
-  restricted_containers_nesting: "block",
-  restricted_containers_privilege: "unprivileged",
-  restricted_container_interception: "block",
-  restrict_snapshots: "block",
-  restricted_idmap_uid: "-",
-  restricted_idmap_gid: "-",
-  restricted_devices_disk: "managed",
-  restricted_devices_disk_paths: "-",
-  restricted_devices_gpu: "block",
-  restricted_devices_infiniband: "block",
-  restricted_devices_nic: "managed",
-  restricted_devices_pci: "block",
-  restricted_devices_unix_block: "block",
-  restricted_devices_unix_char: "block",
-  restricted_devices_unix_hotplug: "block",
-  restricted_devices_usb: "block",
-  restricted_network_access: "-",
-  restricted_network_subnets: "block",
-  restricted_network_uplinks: "block",
-  restricted_network_zones: "block",
-};
-
-const getLxdDefault = (configKey: string): string => {
-  if (Object.keys(lxdDefaults).includes(configKey)) {
-    return lxdDefaults[configKey];
-  }
-  return "-";
-};
-
 export const figureInheritedValue = (
   values: SharedFormTypes,
   formField: string,
@@ -84,7 +24,7 @@ export const figureInheritedValue = (
     }
   }
 
-  return [getLxdDefault(formField), "LXD"];
+  return ["-", "LXD"];
 };
 
 export const figureInheritedRootStorage = (

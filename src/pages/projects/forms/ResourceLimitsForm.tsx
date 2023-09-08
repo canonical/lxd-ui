@@ -150,7 +150,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_processes",
           label: "Max sum of individual processes configurations",
-          defaultValue: "-",
+          defaultValue: "",
           children: (
             <Input
               placeholder="Enter number"
