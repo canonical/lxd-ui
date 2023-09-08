@@ -113,39 +113,36 @@ const InstanceCreateDetailsForm: FC<Props> = ({
               onSelect={onSelectImage}
             />
           </div>
-          <Select
-            id="instanceType"
-            label="Instance type"
-            name="instanceType"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            options={instanceCreationTypes}
-            value={formik.values.instanceType}
-            disabled={
-              !formik.values.image ||
-              isContainerOnlyImage(formik.values.image) ||
-              isVmOnlyImage(formik.values.image)
-            }
-            title={
-              !formik.values.image
-                ? "Please select an image before adding a type"
-                : ""
-            }
-          />
-          <InstanceLocationSelect formik={formik} />
         </Col>
       </Row>
-      <ProfileSelect
-        project={project}
-        selected={formik.values.profiles}
-        setSelected={(value) => formik.setFieldValue("profiles", value)}
-        isReadOnly={!formik.values.image}
-        title={
-          !formik.values.image
-            ? "Please select an image before adding profiles"
-            : ""
-        }
-      />
+      {formik.values.image && (
+        <>
+          <Row>
+            <Col size={8}>
+              <Select
+                id="instanceType"
+                label="Instance type"
+                name="instanceType"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                options={instanceCreationTypes}
+                value={formik.values.instanceType}
+                disabled={
+                  isContainerOnlyImage(formik.values.image) ||
+                  isVmOnlyImage(formik.values.image)
+                }
+              />
+              <InstanceLocationSelect formik={formik} />
+            </Col>
+          </Row>
+          <ProfileSelect
+            project={project}
+            selected={formik.values.profiles}
+            setSelected={(value) => formik.setFieldValue("profiles", value)}
+            isReadOnly={false}
+          />
+        </>
+      )}
     </div>
   );
 };
