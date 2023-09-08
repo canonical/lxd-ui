@@ -111,7 +111,7 @@ const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
           name="iso"
           type="file"
           id="iso-image"
-          label="Local ISO"
+          label="Local image"
           onChange={changeFile}
           stacked
         />

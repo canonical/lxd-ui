@@ -24,7 +24,7 @@ const ImageSelectorModal: FC<Props> = ({ onClose, onSelect }) => {
   return (
     <Modal
       close={onClose}
-      title={content === SELECT ? "Select base image" : "Upload custom ISO"}
+      title={content === SELECT ? "Select base image" : "Upload custom image"}
       className={content === SELECT ? "image-select-modal" : null}
     >
       {content === SELECT && (

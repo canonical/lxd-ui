@@ -5,12 +5,12 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import CachedImageList from "pages/images/CachedImageList";
-import CustomIsoList from "pages/storage/CustomIsoList";
-import StoragePools from "pages/storage/StoragePools";
+import CustomImageList from "pages/images/CustomImageList";
+import UploadCustomImageBtn from "pages/images/actions/UploadCustomImageBtn";
 
-const TABS: string[] = ["Storage pools", "Cached images", "Custom ISO"];
+const TABS: string[] = ["Cached", "Custom"];
 
-const Storage: FC = () => {
+const ImageList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const { project, activeTab } = useParams<{
@@ -25,14 +25,14 @@ const Storage: FC = () => {
   const handleTabChange = (newTab: string) => {
     notify.clear();
     if (newTab === slugify(TABS[0])) {
-      navigate(`/ui/project/${project}/storage`);
+      navigate(`/ui/project/${project}/images`);
     } else {
-      navigate(`/ui/project/${project}/storage/${newTab}`);
+      navigate(`/ui/project/${project}/images/${newTab}`);
     }
   };
 
   return (
-    <BaseLayout title="Storage">
+    <BaseLayout title="Images" controls={<UploadCustomImageBtn />}>
       <NotificationRow />
       <Row>
         <Tabs
@@ -47,19 +47,13 @@ const Storage: FC = () => {
 
         {!activeTab && (
           <div role="tabpanel">
-            <StoragePools />
-          </div>
-        )}
-
-        {activeTab === "cached-images" && (
-          <div role="tabpanel">
             <CachedImageList />
           </div>
         )}
 
-        {activeTab === "custom-iso" && (
+        {activeTab === "custom" && (
           <div role="tabpanel">
-            <CustomIsoList project={project} />
+            <CustomImageList project={project} />
           </div>
         )}
       </Row>
@@ -67,4 +61,4 @@ const Storage: FC = () => {
   );
 };
 
-export default Storage;
+export default ImageList;

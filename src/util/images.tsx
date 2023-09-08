@@ -28,7 +28,7 @@ export const isoToRemoteImage = (
   return {
     aliases: volume.name,
     arch: "",
-    os: "Custom ISO",
+    os: "Local image",
     pool: pool,
     release: "-",
     server: LOCAL_ISO,

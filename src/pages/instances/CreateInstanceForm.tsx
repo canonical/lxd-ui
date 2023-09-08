@@ -179,7 +179,10 @@ const CreateInstanceForm: FC = () => {
       const consoleUrl = `/ui/project/${project}/instances/detail/${instanceName}/console`;
       const message = isIsoImage && (
         <>
-          <p>Continue the installation process from its console.</p>
+          <p>
+            Continue the installation process for the custom image from its{" "}
+            <Link to={consoleUrl}>console.</Link>
+          </p>
           <Button onClick={() => navigate(consoleUrl)} hasIcon>
             <Icon name="canvas" />
             <span>Open console</span>

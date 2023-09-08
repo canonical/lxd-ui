@@ -25,11 +25,11 @@ const UploadCustomImageBtn: FC = () => {
   return (
     <>
       <Button appearance="positive" onClick={openPortal}>
-        Upload custom ISO
+        Upload custom image
       </Button>
       {isOpen && (
         <Portal>
-          <Modal close={closePortal} title="Upload custom ISO">
+          <Modal close={closePortal} title="Upload custom image">
             <UploadCustomImage
               onCancel={handleCancel}
               onFinish={handleFinish}
