@@ -12,14 +12,10 @@ import Loader from "components/Loader";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
+import EmptyState from "components/EmptyState";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
-import {
-  EmptyState,
-  Icon,
-  NotificationType,
-  failure,
-} from "@canonical/react-components";
+import { NotificationType, failure } from "@canonical/react-components";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -229,11 +225,11 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
       )}
       {!isRunning && (
         <EmptyState
-          className="empty-state"
-          image={<Icon name="containers" className="empty-state-icon" />}
+          iconName="containers"
+          iconClass="empty-instances-icon"
           title="Instance stopped"
+          message="Start the instance to access the terminal."
         >
-          <p>Start the instance to access the terminal.</p>
           <SubmitButton
             isSubmitting={isStartLoading}
             isDisabled={false}

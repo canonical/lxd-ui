@@ -1,11 +1,5 @@
 import React, { FC } from "react";
-import {
-  EmptyState,
-  Icon,
-  MainTable,
-  Row,
-  useNotify,
-} from "@canonical/react-components";
+import { Icon, MainTable, Row, useNotify } from "@canonical/react-components";
 import { fetchStoragePools } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import AddStorageBtn from "pages/storage/actions/AddStorageBtn";
 import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
 import StorageSize from "pages/storage/StorageSize";
+import EmptyState from "components/EmptyState";
 import NotificationRow from "components/NotificationRow";
 
 const StorageList: FC = () => {
@@ -136,22 +131,27 @@ const StorageList: FC = () => {
           )}
           {!isLoading && !hasStoragePools && (
             <EmptyState
-              className="empty-state"
-              image={<Icon name="pods" className="empty-state-icon" />}
+              iconName="pods"
+              iconClass="empty-storage-icon"
               title="No storage found"
+              message="There are no storage pools in this project."
             >
-              <p>There are no storage pools in this project.</p>
-              <p>
-                <a
-                  href="https://linuxcontainers.org/lxd/docs/latest/explanation/storage/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Learn more about storage
-                  <Icon className="external-link-icon" name="external-link" />
-                </a>
-              </p>
-              <AddStorageBtn project={project} className="empty-state-button" />
+              <>
+                <p>
+                  <a
+                    href="https://linuxcontainers.org/lxd/docs/latest/explanation/storage/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn more about storage
+                    <Icon className="external-link-icon" name="external-link" />
+                  </a>
+                </p>
+                <AddStorageBtn
+                  project={project}
+                  className="empty-state-button"
+                />
+              </>
             </EmptyState>
           )}
         </Row>

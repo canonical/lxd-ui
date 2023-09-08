@@ -2,8 +2,6 @@ import React, { FC, useState } from "react";
 import {
   Button,
   ContextualMenu,
-  EmptyState,
-  Icon,
   NotificationType,
   RadioInput,
   failure,
@@ -13,6 +11,7 @@ import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
+import EmptyState from "components/EmptyState";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
 import {
@@ -115,11 +114,11 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
       />
       {isGraphic && !isRunning && (
         <EmptyState
-          className="empty-state"
-          image={<Icon name="containers" className="empty-state-icon" />}
+          iconName="containers"
+          iconClass="empty-instances-icon"
           title="Instance stopped"
+          message="Start the instance to access the graphic console."
         >
-          <p>Start the instance to access the graphic console.</p>
           <SubmitButton
             isSubmitting={isLoading}
             isDisabled={false}

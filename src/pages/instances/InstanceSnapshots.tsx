@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   Button,
-  EmptyState,
   Icon,
   NotificationType,
   SearchBox,
@@ -10,6 +9,7 @@ import {
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { LxdInstance } from "types/instance";
+import EmptyState from "components/EmptyState";
 import CreateSnapshotForm from "pages/instances/actions/snapshots/CreateSnapshotForm";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import SnapshotActions from "./actions/snapshots/SnapshotActions";
@@ -290,44 +290,46 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         </>
       ) : (
         <EmptyState
-          className="empty-state"
-          image={<Icon name="containers" className="empty-state-icon" />}
+          iconName="containers"
+          iconClass="empty-instances-icon"
           title="No snapshots found"
-        >
-          <p>
-            {snapshotsDisabled ? (
+          message={
+            snapshotsDisabled ? (
               <>
                 Snapshots are disabled for project{" "}
                 <ItemName item={project} bold />.
               </>
             ) : (
               "There are no snapshots of this instance."
-            )}
-          </p>
-          <p>
-            <a
-              href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
-              target="_blank"
-              rel="noreferrer"
+            )
+          }
+        >
+          <>
+            <p>
+              <a
+                href="https://linuxcontainers.org/lxd/docs/latest/howto/storage_backup_volume/#storage-backup-snapshots"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Learn more about snapshots
+                <Icon className="external-link-icon" name="external-link" />
+              </a>
+            </p>
+            <ConfigureSnapshotsBtn
+              instance={instance}
+              isDisabled={snapshotsDisabled}
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+            />
+            <Button
+              className="empty-state-button"
+              appearance="positive"
+              onClick={() => setModalOpen(true)}
+              disabled={snapshotsDisabled}
             >
-              Learn more about snapshots
-              <Icon className="external-link-icon" name="external-link" />
-            </a>
-          </p>
-          <ConfigureSnapshotsBtn
-            instance={instance}
-            isDisabled={snapshotsDisabled}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-          />
-          <Button
-            className="empty-state-button"
-            appearance="positive"
-            onClick={() => setModalOpen(true)}
-            disabled={snapshotsDisabled}
-          >
-            Create snapshot
-          </Button>
+              Create snapshot
+            </Button>
+          </>
         </EmptyState>
       )}
     </div>

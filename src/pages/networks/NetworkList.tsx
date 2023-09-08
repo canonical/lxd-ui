@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import {
   Button,
-  EmptyState,
   Icon,
   MainTable,
   Row,
@@ -13,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useNavigate, useParams } from "react-router-dom";
+import EmptyState from "components/EmptyState";
 import NotificationRow from "components/NotificationRow";
 
 const NetworkList: FC = () => {
@@ -150,21 +150,23 @@ const NetworkList: FC = () => {
           )}
           {!isLoading && !hasNetworks && (
             <EmptyState
-              className="empty-state"
-              image={<Icon className="empty-state-icon" name="connected" />}
+              iconName="connected"
+              iconClass="empty-networks-icon"
               title="No networks found"
+              message="There are no networks in this project."
             >
-              <p>There are no networks in this project.</p>
-              <p>
-                <a
-                  href="https://linuxcontainers.org/lxd/docs/latest/explanation/networks/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Learn more about networks
-                  <Icon className="external-link-icon" name="external-link" />
-                </a>
-              </p>
+              <>
+                <p>
+                  <a
+                    href="https://linuxcontainers.org/lxd/docs/latest/explanation/networks/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn more about networks
+                    <Icon className="external-link-icon" name="external-link" />
+                  </a>
+                </p>
+              </>
             </EmptyState>
           )}
         </Row>
