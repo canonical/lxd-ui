@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
-import { Col, Row, useNotify } from "@canonical/react-components";
+import { Col, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNotify } from "context/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";

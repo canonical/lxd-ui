@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import MenuItem from "pages/instances/forms/FormMenuItem";
-import { Button, useNotify } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
+import { useNotify } from "context/notify";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 

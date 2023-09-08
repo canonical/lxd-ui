@@ -9,20 +9,4 @@
     display: flex;
     gap: 1rem;
   }
-
-  @media screen and (max-width: 1420px) {
-    .configuration-table {
-      .config {
-        width: 7rem;
-      }
-
-      .value {
-        width: 7rem;
-      }
-
-      .defined {
-        width: 18rem;
-      }
-    }
-  }
 }

@@ -36,7 +36,7 @@ export const getConfigurationRow = ({
     }
   };
 
-  const [inheritedValue, inheritSource] = ["", "LXD"];
+  const [inheritedValue, inheritSource] = ["-", "LXD"];
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
   const getDisplayForm = (): ReactNode => {
     if (isReadOnly) {

@@ -84,7 +84,7 @@ export const setMemLimit = async (
 };
 
 export const setSchedule = async (page: Page, value: string) => {
-  await activateOverride(page, "Schedule From: LXD");
+  await activateOverride(page, "Schedule - From: LXD");
   await page
     .getByRole("row", { name: "Schedule" })
     .getByText("Cron syntax")
