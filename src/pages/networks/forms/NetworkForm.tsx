@@ -1,6 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
-  CheckboxInput,
   Col,
   Form,
   Input,
@@ -17,6 +16,7 @@ import {
   LxdNetworkFanType,
   LxdNetworkType,
 } from "types/network";
+import { optionEnableDisable, optionYesNo } from "util/instanceOptions";
 import NetworkFormMenu, {
   BRIDGE,
   DNS,
@@ -35,7 +35,6 @@ import YamlForm from "pages/instances/forms/YamlForm";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
-import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 
 export interface NetworkFormValues {
   name: string;
@@ -174,6 +173,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
       value: formik.values[id] ?? "",
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
       placeholder: `Enter ${id.replaceAll("_", " ")}`,
+      stacked: true,
       disabled: isReadOnly,
     };
   };
@@ -296,13 +296,13 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                 label="Description"
               />
               {formik.values.bridge_mode !== "fan" && (
-                <IpAddressSelector
-                  id="ipv4_address"
-                  label="IPv4 Address"
-                  address={formik.values.ipv4_address}
-                  setAddress={(value) => {
-                    formik.setFieldValue("ipv4_address", value);
-
+                <Input
+                  {...getFormProps("ipv4_address")}
+                  type="text"
+                  label="IPv4 address"
+                  help="IPv4 address for the bridge (use none to turn off IPv4 or auto to generate a new random unused subnet) (CIDR)"
+                  onChange={(e) => {
+                    const value = e.target.value;
                     if (value === "none") {
                       const nullFields = [
                         "ipv4_nat",
@@ -314,24 +314,27 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                         formik.setFieldValue(field, undefined)
                       );
                     }
+                    formik.handleChange(e);
                   }}
                 />
               )}
               {formik.values.bridge_mode !== "fan" && (
                 <>
                   {formik.values.ipv4_address !== "none" && (
-                    <CheckboxInput
+                    <Select
                       {...getFormProps("ipv4_nat")}
-                      label="Ipv4 NAT"
+                      label="IPv4 NAT"
+                      help="Network address translation for IPv4"
+                      options={optionEnableDisable}
                     />
                   )}
-                  <IpAddressSelector
-                    id="ipv6_address"
-                    label="IPv6 Address"
-                    address={formik.values.ipv6_address}
-                    setAddress={(value) => {
-                      formik.setFieldValue("ipv6_address", value);
-
+                  <Input
+                    {...getFormProps("ipv6_address")}
+                    type="text"
+                    label="IPv6 address"
+                    help="IPv6 address for the bridge (use none to turn off IPv6 or auto to generate a new random unused subnet) (CIDR)"
+                    onChange={(e) => {
+                      const value = e.target.value;
                       if (value === "none") {
                         const nullFields = [
                           "ipv6_nat",
@@ -345,12 +348,15 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                           formik.setFieldValue(field, undefined)
                         );
                       }
+                      formik.handleChange(e);
                     }}
                   />
                   {formik.values.ipv6_address !== "none" && (
-                    <CheckboxInput
+                    <Select
                       {...getFormProps("ipv6_nat")}
-                      label="Ipv6 NAT"
+                      label="IPv6 NAT"
+                      help="Network address translation for IPv6"
+                      options={optionEnableDisable}
                     />
                   )}
                 </>
@@ -458,9 +464,11 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
           {section === IPV4 && (
             <>
               {formik.values.ipv4_address !== "none" && (
-                <CheckboxInput
+                <Select
                   {...getFormProps("ipv4_dhcp")}
                   label="IPv4 DHCP"
+                  help="Whether to allocate addresses using DHCP"
+                  options={optionYesNo}
                 />
               )}
               {formik.values.type !== "ovn" &&
@@ -480,9 +488,11 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                   </>
                 )}
               {formik.values.type === "ovn" && (
-                <CheckboxInput
+                <Select
                   {...getFormProps("ipv4_l3only")}
                   label="IPv4 L3 only"
+                  help="Whether to enable layer 3 only mode."
+                  options={optionYesNo}
                 />
               )}
               {formik.values.ipv4_nat === "true" && (
@@ -532,9 +542,11 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
           {section === IPV6 && (
             <>
               {formik.values.ipv6_address !== "none" && (
-                <CheckboxInput
+                <Select
                   {...getFormProps("ipv6_dhcp")}
                   label="IPv6 DHCP"
+                  help="Whether to provide additional network configuration over DHCP"
+                  options={optionYesNo}
                 />
               )}
               {formik.values.ipv6_dhcp === "true" && (
@@ -554,16 +566,20 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                       />
                     </>
                   )}
-                  <CheckboxInput
+                  <Select
                     {...getFormProps("ipv6_dhcp_stateful")}
                     label="IPv6 DHCP stateful"
+                    help="Whether to allocate addresses using DHCP"
+                    options={optionYesNo}
                   />
                 </>
               )}
               {formik.values.type === "ovn" && (
-                <CheckboxInput
+                <Select
                   {...getFormProps("ipv6_l3only")}
                   label="IPv6 L3 only"
+                  help="Whether to enable layer 3 only mode."
+                  options={optionYesNo}
                 />
               )}
               {formik.values.ipv6_nat === "true" && (
