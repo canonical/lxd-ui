@@ -88,17 +88,6 @@
     }
   }
 
-  @media screen and (max-width: 1400px) {
-    .cpu-limit-label,
-    .memory-limit-label {
-      display: block !important;
-
-      > * {
-        margin-right: 0 !important;
-      }
-    }
-  }
-
   .cpu-limit-label,
   .ip-address-selector,
   .memory-limit-label {
@@ -155,17 +144,6 @@
     > span {
       display: inherit !important;
       margin-left: $sph--x-small;
-    }
-  }
-}
-
-.cloud-init {
-  .override-form {
-    align-items: flex-end;
-    flex-direction: column-reverse;
-
-    > :first-child {
-      width: 100%;
     }
   }
 }

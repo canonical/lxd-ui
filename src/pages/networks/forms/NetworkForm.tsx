@@ -188,20 +188,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                   <Select
                     {...getFormProps("type")}
                     label="Type"
-                    help={
-                      <>
-                        Bridge (FAN) is only available on ubuntu, OVN needs to
-                        be configured in LXD as{" "}
-                        <code>network.ovn.northbound_connection</code>{" "}
-                        <a
-                          href="https://documentation.ubuntu.com/lxd/en/latest/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Learn how to set up a LXD cluster on OVN
-                        </a>
-                      </>
-                    }
+                    help="Bridge (FAN) is only available on ubuntu, OVN needs to be configured to be available, Macvlan,  SR-IOV and Physical not available in the UI"
                     required
                     options={[
                       {
@@ -263,6 +250,16 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                     }
                     disabled={formik.values.readOnly}
                   />
+                  {formik.values.type === "ovn" && (
+                    <Select
+                      {...getFormProps("network")}
+                      label="Uplink"
+                      help="Uplink network to use for external network access"
+                      options={getNetworkOptions()}
+                      required
+                      disabled={formik.values.readOnly}
+                    />
+                  )}
                   <Input
                     {...getFormProps("name")}
                     type="text"
@@ -276,15 +273,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                     label="Description"
                     disabled={formik.values.readOnly}
                   />
-                  {formik.values.type === "ovn" && (
-                    <Select
-                      {...getFormProps("network")}
-                      label="Uplink"
-                      help="Uplink network to use for external network access"
-                      options={getNetworkOptions()}
-                      disabled={formik.values.readOnly}
-                    />
-                  )}
                 </Col>
               </Row>
               <ConfigurationTable
