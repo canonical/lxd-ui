@@ -168,7 +168,6 @@ const CreateProfileForm: FC = () => {
               setActive={updateSection}
               isConfigOpen={isConfigOpen}
               toggleConfigOpen={toggleMenu}
-              hasName={Boolean(formik.values.name)}
             />
             <Row className="form-contents" key={section}>
               <Col size={12}>

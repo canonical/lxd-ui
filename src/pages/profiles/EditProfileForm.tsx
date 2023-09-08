@@ -185,7 +185,6 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
           setActive={updateSection}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
-          hasName={true}
         />
         <Row className="form-contents" key={activeSection}>
           <Col size={12}>
