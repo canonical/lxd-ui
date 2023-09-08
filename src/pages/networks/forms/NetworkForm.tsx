@@ -32,11 +32,13 @@ import useEventListener from "@use-it/event-listener";
 import { useSettings } from "context/useSettings";
 import Loader from "components/Loader";
 import YamlForm from "pages/instances/forms/YamlForm";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
+import { fetchNetworks } from "api/networks";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
 import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
 import { supportsFanNetwork, supportsOvnNetwork } from "util/settings";
-import NetworkSelector from "pages/networks/forms/NetworkSelector";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -125,15 +127,38 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
   const hasOvn = supportsOvnNetwork(settings);
   const hasFan = supportsFanNetwork(settings);
 
+  const { data: networks = [], isLoading: isNetworkLoading } = useQuery({
+    queryKey: [queryKeys.networks],
+    queryFn: () => fetchNetworks(project),
+  });
+
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEffect(updateFormHeight, [
+    notify.notification?.message,
+    section,
+    networks,
+  ]);
   useEventListener("resize", updateFormHeight);
 
-  if (isSettingsLoading) {
+  if (isSettingsLoading || isNetworkLoading) {
     return <Loader />;
   }
+
+  const getNetworkOptions = () => {
+    const options = networks.map((network) => {
+      return {
+        label: network.name,
+        value: network.name,
+      };
+    });
+    options.unshift({
+      label: networks.length === 0 ? "No networks available" : "Select option",
+      value: "",
+    });
+    return options;
+  };
 
   const getFormProps = (id: "type" | "network" | "name" | "description") => {
     return {
@@ -255,10 +280,12 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                     disabled={formik.values.readOnly}
                   />
                   {formik.values.type === "ovn" && (
-                    <NetworkSelector
-                      props={getFormProps("network")}
-                      project={project}
-                      isDisabled={formik.values.readOnly}
+                    <Select
+                      {...getFormProps("network")}
+                      label="Uplink"
+                      help="Uplink network to use for external network access"
+                      options={getNetworkOptions()}
+                      disabled={formik.values.readOnly}
                     />
                   )}
                 </Col>
