@@ -2,7 +2,7 @@ import { LxdImage, RemoteImage } from "types/image";
 import { LxdStorageVolume } from "types/storage";
 
 export const isVmOnlyImage = (image: RemoteImage) => {
-  return image.variant?.includes("desktop") || image.server === LOCAL_ISO;
+  return image.variant?.includes("desktop") || image.server === "local-iso";
 };
 
 export const isContainerOnlyImage = (image: RemoteImage) => {
@@ -19,8 +19,6 @@ export const isContainerOnlyImage = (image: RemoteImage) => {
   );
 };
 
-export const LOCAL_ISO = "local-iso";
-
 export const isoToRemoteImage = (
   volume: LxdStorageVolume,
   pool: string
@@ -31,7 +29,7 @@ export const isoToRemoteImage = (
     os: "Local image",
     pool: pool,
     release: "-",
-    server: LOCAL_ISO,
+    server: "local-iso",
     variant: "iso",
     created_at: new Date(volume.created_at).getTime(),
     volume: volume,

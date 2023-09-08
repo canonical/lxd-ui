@@ -12,7 +12,7 @@ import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
+import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import Loader from "components/Loader";
 import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
@@ -139,7 +139,7 @@ const ImageSelector: FC<Props> = ({ primaryImage, onSelect, onUpload }) => {
 
   const rows: MainTableRow[] = images
     .filter((item) => {
-      const isLocalIso = item.server === LOCAL_ISO;
+      const isLocalIso = item.server === "local-iso";
       if (type === VM && isContainerOnlyImage(item)) {
         return false;
       }

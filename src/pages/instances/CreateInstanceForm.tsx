@@ -15,7 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { RemoteImage } from "types/image";
-import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
+import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
@@ -206,7 +206,7 @@ const CreateInstanceForm: FC = () => {
         if (!instanceName) {
           return;
         }
-        const isIsoImage = values.image?.server === LOCAL_ISO;
+        const isIsoImage = values.image?.server === "local-iso";
         eventQueue.set(
           operation.metadata.id,
           () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
@@ -235,7 +235,7 @@ const CreateInstanceForm: FC = () => {
     },
   });
 
-  const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
+  const isLocalIsoImage = formik.values.image?.server === "local-iso";
 
   const handleSelectImage = (image: RemoteImage, type: string | null) => {
     void formik.setFieldValue("image", image);
@@ -243,7 +243,7 @@ const CreateInstanceForm: FC = () => {
     const devices = formik.values.devices.filter(
       (item) => item.type !== "iso-volume"
     );
-    if (image.server === LOCAL_ISO) {
+    if (image.server === "local-iso") {
       devices.push({
         type: "iso-volume",
         name: "iso-volume",

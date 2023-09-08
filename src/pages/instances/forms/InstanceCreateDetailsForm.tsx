@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Col, Input, Row, Select, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
-import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
+import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
@@ -35,7 +35,7 @@ export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
     },
   };
 
-  if (values.image?.server === LOCAL_ISO) {
+  if (values.image?.server === "local-iso") {
     payload.source = {
       type: "none",
       certificate: "",
