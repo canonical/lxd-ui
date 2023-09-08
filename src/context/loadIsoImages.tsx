@@ -12,7 +12,7 @@ export const loadIsoImages = async (
 
     volumes.forEach((volume) => {
       if (volume.content_type === "iso") {
-        const image = isoToRemoteImage(volume, pool.name);
+        const image = isoToRemoteImage(volume.name, pool.name);
         result.push(image);
       }
     });

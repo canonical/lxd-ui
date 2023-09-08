@@ -3,6 +3,7 @@ import {
   Button,
   Col,
   MainTable,
+  Modal,
   Row,
   SearchBox,
   Select,
@@ -22,8 +23,8 @@ import { loadIsoImages } from "context/loadIsoImages";
 import { useProject } from "context/project";
 
 interface Props {
+  onClose: () => void;
   onSelect: (image: RemoteImage, type: string | null) => void;
-  onUpload: () => void;
 }
 
 const canonicalJson = "/ui/assets/data/canonical-images.json";
@@ -35,7 +36,7 @@ const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
 
-const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
+const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
   const [query, setQuery] = useState<string>("");
   const [os, setOs] = useState<string>("");
   const [release, setRelease] = useState<string>("");
@@ -100,9 +101,6 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
           return 0;
         });
 
-  isoImages.sort((a, b) => {
-    return a.created_at - b.created_at;
-  });
   isoImages.forEach((image) => {
     images.unshift(image);
   });
@@ -271,7 +269,11 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
   ];
 
   return (
-    <>
+    <Modal
+      close={onClose}
+      title="Select base image"
+      className="image-select-modal"
+    >
       <Row className="u-no-padding--left u-no-padding--right">
         <Col size={3}>
           <div className="image-select-filters">
@@ -358,33 +360,19 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
           </div>
         </Col>
         <Col size={9}>
-          <div className="image-select-header">
-            <div>
-              <SearchBox
-                autoFocus
-                className="search-image"
-                name="search-image"
-                type="text"
-                onChange={(value) => {
-                  setQuery(value);
-                  setOs("");
-                  setRelease("");
-                }}
-                placeholder="Search an image"
-                value={query}
-              />
-            </div>
-            <div>
-              <Button
-                appearance="default"
-                onClick={onUpload}
-                type="button"
-                className="upload-btn"
-              >
-                <span>Upload custom ISO</span>
-              </Button>
-            </div>
-          </div>
+          <SearchBox
+            autoFocus
+            className="search-image"
+            name="search-image"
+            type="text"
+            onChange={(value) => {
+              setQuery(value);
+              setOs("");
+              setRelease("");
+            }}
+            placeholder="Search an image"
+            value={query}
+          />
           <div className="image-list">
             <ScrollableTable dependencies={[images]}>
               <MainTable
@@ -405,8 +393,8 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
           </div>
         </Col>
       </Row>
-    </>
+    </Modal>
   );
 };
 
-export default RemoteImageSelector;
+export default ImageSelector;

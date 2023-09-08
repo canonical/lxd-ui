@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
-  Button,
   Input,
+  Modal,
   Notification,
   Select,
   useNotify,
@@ -12,7 +12,6 @@ import { createIsoStorageVolume, fetchStoragePools } from "api/storage-pools";
 import SubmitButton from "components/SubmitButton";
 import { useProject } from "context/project";
 import Loader from "components/Loader";
-import NotificationRow from "components/NotificationRow";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -24,13 +23,8 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
   const queryClient = useQueryClient();
   const { project } = useProject();
   const [file, setFile] = useState<File | null>(null);
-  const [name, setName] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
   const [pool, setPool] = useState("");
-
-  useEffect(() => {
-    notify.clear();
-  }, []);
 
   const {
     data: storagePools = [],
@@ -38,7 +32,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
     error: storageError,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project?.name ?? ""),
+    queryFn: () => fetchStoragePools(project?.name || ""),
   });
 
   if (storageError) {
@@ -59,12 +53,13 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
       return;
     }
     setLoading(true);
-    createIsoStorageVolume(pool, file, name, project?.name ?? "")
+    createIsoStorageVolume(pool, file, project?.name ?? "")
       .then(() => {
         onFinish(file.name, pool);
       })
       .catch((e) => {
         notify.failure("ISO import failed", e);
+        onCancel();
       })
       .finally(() => {
         setLoading(false);
@@ -80,42 +75,15 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setFile(file);
-      setName(file.name);
     }
   };
 
   return (
-    <>
-      <NotificationRow />
-      <Input
-        name="iso"
-        type="file"
-        id="iso-image"
-        label="ISO image"
-        onChange={changeFile}
-      />
-      <Input
-        name="name"
-        type="text"
-        id="name"
-        label="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        disabled={file === null}
-      />
-      <Select
-        label="Storage pool"
-        id="storagePool"
-        options={storagePools.map((pool) => ({
-          label: pool.name,
-          value: pool.name,
-        }))}
-        onChange={(e) => {
-          setPool(e.target.value);
-        }}
-        value={pool}
-        disabled={file === null}
-      />
+    <Modal
+      close={onCancel}
+      title="Upload ISO image"
+      className="upload-iso-image"
+    >
       <Notification severity="caution" title="Custom ISO images">
         Image must be prepared with distrobuilder.{" "}
         <a
@@ -126,16 +94,32 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
           Learn more
         </a>
       </Notification>
-      <footer className="p-modal__footer">
-        <Button onClick={onCancel}>Cancel</Button>
-        <SubmitButton
-          isSubmitting={isLoading}
-          isDisabled={!file}
-          buttonLabel="Upload"
-          onClick={importIsoFile}
-        />
-      </footer>
-    </>
+      <Input
+        name="iso"
+        type="file"
+        id="iso-image"
+        label="ISO image"
+        onChange={changeFile}
+      />
+      <Select
+        label="Storage target"
+        id="storagePool"
+        options={storagePools.map((pool) => ({
+          label: pool.name,
+          value: pool.name,
+        }))}
+        onChange={(e) => {
+          setPool(e.target.value);
+        }}
+        value={pool}
+      />
+      <SubmitButton
+        isSubmitting={isLoading}
+        isDisabled={!file}
+        buttonLabel="Upload"
+        onClick={importIsoFile}
+      />
+    </Modal>
   );
 };
 
