@@ -36,8 +36,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
-import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
 
 export interface NetworkFormValues {
   name: string;
@@ -124,11 +122,12 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
+  isReadOnly?: boolean;
   getYaml: () => string;
   project: string;
 }
 
-const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
+const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
   const notify = useNotify();
   const [section, setSection] = useState(MAIN_CONFIGURATION);
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
@@ -175,6 +174,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
       value: formik.values[id] ?? "",
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
       placeholder: `Enter ${id.replaceAll("_", " ")}`,
+      disabled: isReadOnly,
     };
   };
 
@@ -295,149 +295,82 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                 type="text"
                 label="Description"
               />
+              {formik.values.bridge_mode !== "fan" && (
+                <IpAddressSelector
+                  id="ipv4_address"
+                  label="IPv4 Address"
+                  address={formik.values.ipv4_address}
+                  setAddress={(value) => {
+                    formik.setFieldValue("ipv4_address", value);
 
-              <ConfigurationTable
-                formik={formik}
-                rows={[
-                  ...(formik.values.bridge_mode !== "fan"
-                    ? [
-                        getConfigurationRow({
-                          formik: formik,
-                          name: "ipv4_address",
-                          label: "IPv4 Address",
-                          defaultValue: "auto",
-                          children: (
-                            <IpAddressSelector
-                              id="ipv4_address"
-                              label="IPv4 Address"
-                              address={formik.values.ipv4_address}
-                              setAddress={(value) => {
-                                formik.setFieldValue("ipv4_address", value);
+                    if (value === "none") {
+                      const nullFields = [
+                        "ipv4_nat",
+                        "ipv4_dhcp",
+                        "ipv4_dhcp_expiry",
+                        "ipv4_dhcp_ranges",
+                      ];
+                      nullFields.forEach((field) =>
+                        formik.setFieldValue(field, undefined)
+                      );
+                    }
+                  }}
+                />
+              )}
+              {formik.values.bridge_mode !== "fan" && (
+                <>
+                  {formik.values.ipv4_address !== "none" && (
+                    <CheckboxInput
+                      {...getFormProps("ipv4_nat")}
+                      label="Ipv4 NAT"
+                    />
+                  )}
+                  <IpAddressSelector
+                    id="ipv6_address"
+                    label="IPv6 Address"
+                    address={formik.values.ipv6_address}
+                    setAddress={(value) => {
+                      formik.setFieldValue("ipv6_address", value);
 
-                                if (value === "none") {
-                                  const nullFields = [
-                                    "ipv4_nat",
-                                    "ipv4_dhcp",
-                                    "ipv4_dhcp_expiry",
-                                    "ipv4_dhcp_ranges",
-                                  ];
-                                  nullFields.forEach((field) =>
-                                    formik.setFieldValue(field, undefined)
-                                  );
-                                }
-                              }}
-                            />
-                          ),
-                        }),
-                      ]
-                    : []),
-
-                  ...(formik.values.bridge_mode !== "fan" &&
-                  formik.values.ipv4_address !== "none"
-                    ? [
-                        getConfigurationRow({
-                          formik: formik,
-                          name: "ipv4_nat",
-                          label: "Ipv4 NAT",
-                          defaultValue: "",
-                          children: (
-                            <CheckboxInput
-                              {...getFormProps("ipv4_nat")}
-                              label="Ipv4 NAT"
-                            />
-                          ),
-                        }),
-                      ]
-                    : []),
-
-                  ...(formik.values.bridge_mode !== "fan"
-                    ? [
-                        getConfigurationRow({
-                          formik: formik,
-                          name: "ipv6_address",
-                          label: "IPv6 Address",
-                          defaultValue: "auto",
-                          children: (
-                            <IpAddressSelector
-                              id="ipv6_address"
-                              label="IPv6 Address"
-                              address={formik.values.ipv6_address}
-                              setAddress={(value) => {
-                                formik.setFieldValue("ipv6_address", value);
-
-                                if (value === "none") {
-                                  const nullFields = [
-                                    "ipv6_nat",
-                                    "ipv6_dhcp",
-                                    "ipv6_dhcp_expiry",
-                                    "ipv6_dhcp_ranges",
-                                    "ipv6_dhcp_stateful",
-                                    "ipv6_ovn_ranges",
-                                  ];
-                                  nullFields.forEach((field) =>
-                                    formik.setFieldValue(field, undefined)
-                                  );
-                                }
-                              }}
-                            />
-                          ),
-                        }),
-                      ]
-                    : []),
-
-                  ...(formik.values.bridge_mode !== "fan" &&
-                  formik.values.ipv6_address !== "none"
-                    ? [
-                        getConfigurationRow({
-                          formik: formik,
-                          name: "ipv6_nat",
-                          label: "Ipv6 NAT",
-                          defaultValue: "",
-                          children: (
-                            <CheckboxInput
-                              {...getFormProps("ipv6_nat")}
-                              label="Ipv6 NAT"
-                            />
-                          ),
-                        }),
-                      ]
-                    : []),
-
-                  ...(formik.values.bridge_mode === "fan"
-                    ? [
-                        getConfigurationRow({
-                          formik: formik,
-                          name: "fan_overlay_subnet",
-                          label: "Fan overlay subnet",
-                          defaultValue: "",
-                          children: (
-                            <Input
-                              type="text"
-                              help="Subnet to use as the overlay for the FAN (CIDR)"
-                            />
-                          ),
-                        }),
-                      ]
-                    : []),
-
-                  ...(formik.values.bridge_mode === "fan"
-                    ? [
-                        getConfigurationRow({
-                          formik: formik,
-                          name: "fan_underlay_subnet",
-                          label: "Fan underlay subnet",
-                          defaultValue: "",
-                          children: (
-                            <Input
-                              type="text"
-                              help="Subnet to use as the underlay for the FAN (use auto to use default gateway subnet) (CIDR)"
-                            />
-                          ),
-                        }),
-                      ]
-                    : []),
-                ]}
-              />
+                      if (value === "none") {
+                        const nullFields = [
+                          "ipv6_nat",
+                          "ipv6_dhcp",
+                          "ipv6_dhcp_expiry",
+                          "ipv6_dhcp_ranges",
+                          "ipv6_dhcp_stateful",
+                          "ipv6_ovn_ranges",
+                        ];
+                        nullFields.forEach((field) =>
+                          formik.setFieldValue(field, undefined)
+                        );
+                      }
+                    }}
+                  />
+                  {formik.values.ipv6_address !== "none" && (
+                    <CheckboxInput
+                      {...getFormProps("ipv6_nat")}
+                      label="Ipv6 NAT"
+                    />
+                  )}
+                </>
+              )}
+              {formik.values.bridge_mode === "fan" && (
+                <>
+                  <Input
+                    {...getFormProps("fan_overlay_subnet")}
+                    type="text"
+                    label="Fan overlay subnet"
+                    help="Subnet to use as the overlay for the FAN (CIDR)"
+                  />
+                  <Input
+                    {...getFormProps("fan_underlay_subnet")}
+                    type="text"
+                    label="Fan underlay subnet"
+                    help="Subnet to use as the underlay for the FAN (use auto to use default gateway subnet) (CIDR)"
+                  />
+                </>
+              )}
             </React.Fragment>
           )}
           {section === BRIDGE && (
@@ -518,7 +451,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
                 {...getFormProps("dns_search")}
                 label="DNS search"
                 help="Full comma-separated domain search list, defaulting to DNS domain value"
-                disabled={formik.values.dns_mode === "none"}
+                disabled={formik.values.dns_mode === "none" || isReadOnly}
               />
             </>
           )}
@@ -680,6 +613,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
             <YamlForm
               yaml={getYaml()}
               setYaml={(yaml) => formik.setFieldValue("yaml", yaml)}
+              isReadOnly={isReadOnly}
             >
               <Notification severity="caution" title="Before you edit the YAML">
                 Changes will be discarded, when switching back to the guided
