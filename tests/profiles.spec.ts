@@ -56,23 +56,23 @@ test("profile cpu and memory", async ({ page }) => {
 
   await setCpuLimit(page, "number", "42");
   await saveProfile(page);
-  await assertReadMode(page, "Exposed CPUs", "42");
+  await assertReadMode(page, "Exposed CPUs 42");
 
   await setCpuLimit(page, "fixed", "1,2,3,4");
   await saveProfile(page);
-  await assertReadMode(page, "Exposed CPUs", "1,2,3,4");
+  await assertReadMode(page, "Exposed CPUs 1,2,3,4");
 
   await setCpuLimit(page, "fixed", "1-23");
   await saveProfile(page);
-  await assertReadMode(page, "Exposed CPUs", "1-23");
+  await assertReadMode(page, "Exposed CPUs 1-23");
 
   await setMemLimit(page, "percentage", "2");
   await saveProfile(page);
-  await assertReadMode(page, "Memory limit", "2%");
+  await assertReadMode(page, "Memory limit 2%");
 
   await setMemLimit(page, "absolute", "3");
   await saveProfile(page);
-  await assertReadMode(page, "Memory limit", "3GiB");
+  await assertReadMode(page, "Memory limit 3GiB");
 
   await deleteProfile(page, profile);
 });
@@ -88,9 +88,9 @@ test("profile resource limits", async ({ page }) => {
   await setInput(page, "Max number of processes", "Enter number", "2");
   await saveProfile(page);
 
-  await assertReadMode(page, "Memory swap (Containers only)", "Allow");
-  await assertReadMode(page, "Disk priority", "1");
-  await assertReadMode(page, "Max number of processes (Containers only)", "2");
+  await assertReadMode(page, "Memory swap (Containers only)	Allow");
+  await assertReadMode(page, "Disk priority 1");
+  await assertReadMode(page, "Max number of processes (Containers only) 2");
 
   await deleteProfile(page, profile);
 });
@@ -116,31 +116,27 @@ test("profile security policies", async ({ page }) => {
   await setOption(page, "Enable secureboot", "true");
   await saveProfile(page);
 
-  await assertReadMode(page, "Prevent the instance from being deleted", "Yes");
+  await assertReadMode(page, "Prevent the instance from being deleted Yes");
   await assertReadMode(
     page,
-    "Run the instance in privileged mode (Containers only)",
-    "Allow"
+    "Run the instance in privileged mode (Containers only) Allow"
   );
   await assertReadMode(
     page,
-    "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
-    "Yes"
+    "Prevent instance file system from being UID/GID shifted on startup (Containers only) Yes"
   );
-  await assertReadMode(page, "Base host id (Containers only)", "11");
-  await assertReadMode(page, "Idmap size (Containers only)", "22");
-  await assertReadMode(page, "Unique idmap usage (Containers only)", "Yes");
+  await assertReadMode(page, "Base host id (Containers only) 11");
+  await assertReadMode(page, "Idmap size (Containers only) 22");
+  await assertReadMode(page, "Unique idmap usage (Containers only) Yes");
   await assertReadMode(
     page,
-    "Allow /dev/lxd in the instance (Containers only)",
-    "Yes"
+    "Allow /dev/lxd in the instance (Containers only) Yes"
   );
   await assertReadMode(
     page,
-    "Make /1.0/images API available over /dev/lxd (Containers only)",
-    "Yes"
+    "Make /1.0/images API available over /dev/lxd (Containers only) Yes"
   );
-  await assertReadMode(page, "Enable secureboot (VMs only)", "true");
+  await assertReadMode(page, "Enable secureboot (VMs only) true");
 
   await deleteProfile(page, profile);
 });
@@ -158,10 +154,10 @@ test("profile snapshots", async ({ page }) => {
 
   await saveProfile(page);
 
-  await assertReadMode(page, "Snapshot name pattern", "snap123");
-  await assertReadMode(page, "Expire after", "3m");
-  await assertReadMode(page, "Snapshot stopped instances", "Yes");
-  await assertReadMode(page, "Schedule", "@daily");
+  await assertReadMode(page, "Snapshot name pattern snap123");
+  await assertReadMode(page, "Expire after 3m");
+  await assertReadMode(page, "Snapshot stopped instances Yes");
+  await assertReadMode(page, "Schedule @daily");
 
   await deleteProfile(page, profile);
 });
@@ -198,7 +194,7 @@ devices: {}
 name: ${profile}`);
   await saveProfile(page);
 
-  await page.getByText("Main configuration").click();
+  await page.getByText("Profile details").click();
   await page.getByText("DescriptionA-new-description").click();
 
   await deleteProfile(page, profile);
