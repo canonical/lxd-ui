@@ -91,23 +91,22 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
 
   return (
     <ConfigurationTable
+      formik={formik}
       rows={[
         ...inheritedNetworks.map((item) => {
           return getConfigurationRowBase({
-            configuration: (
-              <>
-                <Tooltip
-                  message="This network is inherited from a profile or project.
+            override: (
+              <Tooltip
+                message="This network is inherited from a profile or project.
 To change it, edit it in the profile or project it originates from,
 or remove the originating item"
-                  position="btm-left"
-                >
-                  <Icon name="warning-grey" />
-                </Tooltip>{" "}
-                <b>{item.key}</b>
-              </>
+                position="btm-left"
+              >
+                <Icon name="warning-grey" />
+              </Tooltip>
             ),
-            inherited: (
+            label: <b>{item.key}</b>,
+            value: (
               <div>
                 <div>
                   <b>{item.network?.network}</b>
@@ -115,7 +114,7 @@ or remove the originating item"
                 <div>From: {item.source}</div>
               </div>
             ),
-            override: "",
+            defined: "-",
           });
         }),
 
@@ -128,7 +127,8 @@ or remove the originating item"
             | CustomNetworkDevice;
 
           return getConfigurationRowBase({
-            configuration: (
+            override: "",
+            label: (
               <Label forId={`networkDevice${index}`}>
                 <b>
                   {isReadOnly || device.type === "custom-nic"
@@ -137,8 +137,8 @@ or remove the originating item"
                 </b>
               </Label>
             ),
-            inherited: "",
-            override:
+            value: "",
+            defined:
               device.type === "custom-nic" ? (
                 <>
                   custom network{" "}
@@ -195,9 +195,10 @@ or remove the originating item"
         isReadOnly
           ? {}
           : getConfigurationRowBase({
-              configuration: "",
-              inherited: "",
-              override: (
+              override: "",
+              label: "",
+              value: "",
+              defined: (
                 <Button onClick={addNetwork} type="button" hasIcon>
                   <Icon name="plus" />
                   <span>Add network</span>

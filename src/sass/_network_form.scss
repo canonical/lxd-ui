@@ -12,15 +12,15 @@
 
   @media screen and (max-width: 1420px) {
     .configuration-table {
-      .configuration {
+      .config {
         width: 7rem;
       }
 
-      .inherited {
+      .value {
         width: 7rem;
       }
 
-      .override {
+      .defined {
         width: 18rem;
       }
     }

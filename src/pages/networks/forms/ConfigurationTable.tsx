@@ -1,8 +1,11 @@
 import React, { FC, ReactNode } from "react";
 import { MainTable } from "@canonical/react-components";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { FormikProps } from "formik/dist/types";
 
 interface Props {
+  formik: FormikProps<NetworkFormValues>;
   rows: MainTableRow[];
   configurationExtra?: ReactNode;
   emptyStateMsg?: string;
@@ -10,9 +13,13 @@ interface Props {
 
 const ConfigurationTable: FC<Props> = ({ rows, emptyStateMsg }) => {
   const headers = [
-    { content: "Configuration", className: "configuration" },
+    {
+      content: "",
+      className: "override",
+    },
+    { content: "Configuration", className: "config" },
     { content: "Inherited", className: "inherited" },
-    { content: "Override", className: "override" },
+    { content: "Override", className: "defined" },
   ];
 
   return (

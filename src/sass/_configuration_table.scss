@@ -7,15 +7,19 @@
     padding-right: $sph--large;
   }
 
-  .configuration {
+  .override {
+    width: 8rem;
+  }
+
+  .config {
     width: 15rem;
   }
 
-  .inherited {
+  .value {
     width: 10rem;
   }
 
-  .override {
+  .defined {
     width: 20rem;
   }
 
@@ -27,19 +31,6 @@
     margin-bottom: 0;
     padding-top: 0;
   }
-
-  .override-form {
-    align-items: center;
-    display: flex;
-
-    :first-child {
-      flex-grow: 1;
-    }
-  }
-
-  .clear-configuration-icon {
-    @include vf-icon-close($color-link);
-  }
 }
 
 @media screen and (max-width: 1420px) {
@@ -47,12 +38,22 @@
     min-width: 32rem;
     width: 100%;
 
-    .configuration {
+    .config {
       width: 10rem;
     }
 
-    .override {
+    .defined {
       width: 12rem;
     }
+  }
+}
+
+@media screen and (pointer: fine) {
+  .override-btn {
+    display: none;
+  }
+
+  .configuration-table tr:hover .override-btn {
+    display: inline-block;
   }
 }

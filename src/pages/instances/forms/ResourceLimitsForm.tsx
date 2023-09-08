@@ -49,6 +49,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
 
   return (
     <ConfigurationTable
+      formik={formik}
       rows={[
         getConfigurationRow({
           formik: formik,

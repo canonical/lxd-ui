@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import {
   Button,
-  Icon,
   Input,
   Label,
   Select,
@@ -129,42 +128,29 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
 
   const getDisplayForm = () => {
     return (
-      <div className="override-form">
-        <div>
-          <Select
-            id="rootStoragePool"
-            name={`devices.${index}.pool`}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={(formik.values.devices[index] as LxdDiskDevice).pool}
-            options={getStoragePoolOptions()}
-          />
-          <Input
-            id="sizeLimit"
-            label="Size limit in GB"
-            onBlur={formik.handleBlur}
-            onChange={(e) => {
-              formik.setFieldValue(
-                `devices.${index}.size`,
-                e.target.value + "GB"
-              );
-            }}
-            value={figureSizeValue()}
-            type="number"
-            placeholder="Enter number"
-          />
-        </div>
-        <div>
-          <Button
-            onClick={removeRootStorage}
-            className="override-btn"
-            type="button"
-            appearance="base"
-            title="Clear override"
-          >
-            <Icon name="close" className="clear-configuration-icon" />
-          </Button>
-        </div>
+      <div>
+        <Select
+          id="rootStoragePool"
+          name={`devices.${index}.pool`}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={(formik.values.devices[index] as LxdDiskDevice).pool}
+          options={getStoragePoolOptions()}
+        />
+        <Input
+          id="sizeLimit"
+          label="Size limit in GB"
+          onBlur={formik.handleBlur}
+          onChange={(e) => {
+            formik.setFieldValue(
+              `devices.${index}.size`,
+              e.target.value + "GB"
+            );
+          }}
+          value={figureSizeValue()}
+          type="number"
+          placeholder="Enter number"
+        />
       </div>
     );
   };
@@ -180,10 +166,29 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
 
   return (
     <ConfigurationTable
+      formik={formik}
       rows={[
         getConfigurationRowBase({
-          configuration: getLabel(),
-          inherited: (
+          override: hasRootStorage ? (
+            <Button
+              onClick={removeRootStorage}
+              className="u-no-margin--bottom"
+              appearance="negative"
+              type="button"
+            >
+              Clear
+            </Button>
+          ) : (
+            <Button
+              onClick={addRootStorage}
+              className="u-no-margin--bottom"
+              type="button"
+            >
+              Override
+            </Button>
+          ),
+          label: getLabel(),
+          value: (
             <div
               className={classnames({
                 "u-text--muted": hasRootStorage,
@@ -196,21 +201,11 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
               <div>From: {inheritSource}</div>
             </div>
           ),
-          override: isReadOnly ? (
-            getOverrideValue()
-          ) : hasRootStorage ? (
-            getDisplayForm()
-          ) : (
-            <Button
-              onClick={addRootStorage}
-              className="override-btn"
-              type="button"
-              appearance="base"
-              title="Create override"
-            >
-              <Icon name="edit" />
-            </Button>
-          ),
+          defined: isReadOnly
+            ? getOverrideValue()
+            : hasRootStorage
+            ? getDisplayForm()
+            : "-",
         }),
       ]}
     />
