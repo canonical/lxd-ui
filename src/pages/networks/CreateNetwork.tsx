@@ -18,7 +18,6 @@ import { useSettings } from "context/useSettings";
 import Loader from "components/Loader";
 import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
-import { StringSchema } from "yup";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -43,9 +42,6 @@ const CreateNetwork: FC = () => {
         checkDuplicateName(value, project, controllerState, "networks")
       )
       .required("Network name is required"),
-    network: Yup.string().when("type", (type: string, schema: StringSchema) =>
-      type === "ovn" ? schema.required("Uplink network is required") : schema
-    ),
   });
 
   const formik = useFormik<NetworkFormValues>({
@@ -53,6 +49,7 @@ const CreateNetwork: FC = () => {
       name: "",
       type: hasOvn ? "ovn" : "bridge",
       bridge_mode: hasOvn ? undefined : "standard",
+      user: [],
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {
@@ -89,7 +86,7 @@ const CreateNetwork: FC = () => {
         </div>
         <div className="p-panel__content create-network">
           <NotificationRow />
-          <NetworkForm formik={formik} getYaml={getYaml} project={project} />
+          <NetworkForm formik={formik} getYaml={getYaml} />
           <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">
