@@ -55,6 +55,7 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
         item.type === "iso-volume"
       ) {
         return {
+          ...obj,
           [name]: item.bare,
         };
       }
