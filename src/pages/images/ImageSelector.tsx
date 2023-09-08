@@ -160,21 +160,6 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
 
       const selectImage = () => onSelect(item, type === ANY ? null : type);
 
-      const displayRelease =
-        item.os === "Ubuntu" &&
-        item.release_title &&
-        !item.release.includes(item.release_title)
-          ? item.release_title
-          : item.release;
-
-      const displayVariant =
-        item.os === "Ubuntu" &&
-        item.release_title &&
-        !item.variant &&
-        !item.release.includes(item.release_title)
-          ? item.release
-          : item.variant;
-
       return {
         className: "u-row",
         columns: [
@@ -185,13 +170,13 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
             onClick: selectImage,
           },
           {
-            content: displayRelease,
+            content: item.release,
             role: "rowheader",
             "aria-label": "Release",
             onClick: selectImage,
           },
           {
-            content: displayVariant,
+            content: item.variant,
             role: "rowheader",
             "aria-label": "Variant",
             onClick: selectImage,
@@ -227,8 +212,8 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
         ],
         sortData: {
           os: item.os.toLowerCase(),
-          release: displayRelease.toLowerCase(),
-          variant: displayVariant?.toLowerCase(),
+          release: item.release.toLowerCase(),
+          variant: item.variant?.toLowerCase(),
           type: itemType,
           alias: item.aliases,
         },
