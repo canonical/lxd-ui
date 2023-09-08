@@ -18,13 +18,7 @@ import SubmitButton from "components/SubmitButton";
 import usePanelParams from "util/usePanelParams";
 import { LxdStoragePool } from "types/storage";
 import { createStoragePool } from "api/storage-pools";
-import {
-  btrfsDriver,
-  dirDriver,
-  getSourceHelpForDriver,
-  storageDrivers,
-  zfsDriver,
-} from "util/storageOptions";
+import { getSourceHelpForDriver, storageDrivers } from "util/storageOptions";
 import ItemName from "components/ItemName";
 import { testDuplicateName } from "util/storage";
 import NotificationRow from "components/NotificationRow";
@@ -45,7 +39,7 @@ const StorageForm: FC = () => {
     initialValues: {
       name: "",
       description: "",
-      driver: zfsDriver,
+      driver: "zfs",
       source: "",
       size: "",
     },
@@ -55,7 +49,7 @@ const StorageForm: FC = () => {
         name,
         description,
         driver,
-        source: driver !== btrfsDriver ? source : undefined,
+        source: driver !== "btrfs" ? source : undefined,
         config: {
           size: size ? `${size}GiB` : undefined,
         },
@@ -123,22 +117,13 @@ const StorageForm: FC = () => {
                 id="driver"
                 name="driver"
                 help={
-                  formik.values.driver === zfsDriver
+                  formik.values.driver === "zfs"
                     ? "ZFS gives best performance and reliability"
                     : undefined
                 }
                 label="Driver"
                 options={storageDrivers}
-                onChange={(target) => {
-                  const val = target.target.value;
-                  if (val === dirDriver) {
-                    void formik.setFieldValue("size", "");
-                  }
-                  if (val === btrfsDriver) {
-                    void formik.setFieldValue("source", "");
-                  }
-                  void formik.setFieldValue("driver", val);
-                }}
+                onChange={formik.handleChange}
                 value={formik.values.driver}
                 required
                 stacked
@@ -147,24 +132,19 @@ const StorageForm: FC = () => {
                 id="size"
                 name="size"
                 type="number"
-                help={
-                  formik.values.driver === dirDriver
-                    ? "Not available"
-                    : "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
-                }
+                help="When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
                 label="Size in GiB"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.size}
                 error={formik.touched.size ? formik.errors.size : null}
-                disabled={formik.values.driver === dirDriver}
                 stacked
               />
               <Input
                 id="source"
                 name="source"
                 type="text"
-                disabled={formik.values.driver === btrfsDriver}
+                disabled={formik.values.driver === "btrfs"}
                 help={getSourceHelpForDriver(formik.values.driver)}
                 label="Source"
                 onBlur={formik.handleBlur}

@@ -1,24 +1,19 @@
-export const dirDriver = "dir";
-export const btrfsDriver = "btrfs";
-export const lvmDriver = "lvm";
-export const zfsDriver = "zfs";
-
 export const storageDrivers = [
   {
     label: "Directory",
-    value: dirDriver,
+    value: "dir",
   },
   {
     label: "Btrfs",
-    value: btrfsDriver,
+    value: "btrfs",
   },
   {
     label: "LVM",
-    value: lvmDriver,
+    value: "lvm",
   },
   {
     label: "ZFS",
-    value: zfsDriver,
+    value: "zfs",
   },
 ];
 
