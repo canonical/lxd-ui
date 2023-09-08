@@ -1,10 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import { LxdEvent } from "types/event";
 import { useEventQueue } from "context/eventQueue";
-import { useAuth } from "context/auth";
 
 const Events: FC = () => {
-  const { isAuthenticated } = useAuth();
   const eventQueue = useEventQueue();
   const [eventWs, setEventWs] = useState<WebSocket | null>(null);
 
@@ -43,10 +41,10 @@ const Events: FC = () => {
   };
 
   useEffect(() => {
-    if (!eventWs && isAuthenticated) {
+    if (!eventWs) {
       connectEventWs();
     }
-  }, [eventWs, isAuthenticated]);
+  }, [eventWs]);
   return <></>;
 };
 

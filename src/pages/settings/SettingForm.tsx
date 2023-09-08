@@ -11,7 +11,6 @@ import { useFormik } from "formik";
 import { LxdConfigOption } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "context/auth";
 
 interface Props {
   option: LxdConfigOption;
@@ -19,7 +18,6 @@ interface Props {
 }
 
 const SettingForm: FC<Props> = ({ option, value }) => {
-  const { isRestricted } = useAuth();
   const [isEditMode, setEditMode] = useState(false);
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -115,8 +113,6 @@ const SettingForm: FC<Props> = ({ option, value }) => {
             Save
           </Button>
         </Form>
-      ) : isRestricted ? (
-        <span>{value ?? "-"}</span>
       ) : (
         <>
           <Button
