@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { Col, Row, useNotify } from "@canonical/react-components";
@@ -6,8 +6,6 @@ import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
 import StorageSize from "pages/storage/StorageSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
-import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
 
 interface Props {
   name: string;
@@ -35,12 +33,6 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
   } else if (!pool) {
     return <>Loading storage details failed</>;
   }
-
-  const updateContentHeight = () => {
-    updateMaxHeight("storage-overview-tab");
-  };
-  useEffect(updateContentHeight, [project, pool]);
-  useEventListener("resize", updateContentHeight);
 
   return (
     <div className="storage-overview-tab">
