@@ -108,7 +108,7 @@ test("project edit configuration", async ({ page }) => {
   await assertReadMode(page, "Max number of instances", "1");
   await assertReadMode(page, "Max number of containers", "2");
   await assertReadMode(page, "Max number of VMs", "3");
-  await assertReadMode(page, "Max disk space (used by all instances)", "4GiB");
+  await assertReadMode(page, "Max disk space (used by all instances)", "4Gib");
   await assertReadMode(page, "Max number of networks", "5");
   await assertReadMode(page, "Max sum of individual CPU configurations", "6");
   await assertReadMode(page, "Max sum of individual memory limits", "7");
