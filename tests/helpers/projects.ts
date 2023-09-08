@@ -8,6 +8,7 @@ export const randomProjectName = (): string => {
 
 export const createProject = async (page: Page, project: string) => {
   await page.goto("/ui/");
+  await page.getByRole("link", { name: "Instances" }).click();
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("button", { name: "Create project" }).click();
   await page.getByPlaceholder("Enter name").click();
@@ -34,6 +35,7 @@ export const renameProject = async (
 
 export const deleteProject = async (page: Page, project: string) => {
   await page.goto("/ui/");
+  await page.getByRole("link", { name: "Instances" }).click();
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("link", { name: project }).click();
   await page.getByRole("link", { name: "Configuration" }).click();

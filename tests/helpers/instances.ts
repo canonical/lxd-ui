@@ -12,7 +12,7 @@ export const createInstance = async (
   type = "container"
 ) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Instances" }).first().click();
+  await page.getByRole("link", { name: "Instances" }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByLabel("Instance name").click();
   await page.getByLabel("Instance name").fill(instance);
