@@ -108,20 +108,17 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
           name="iso"
           type="file"
           id="iso-image"
-          label="Local image"
-          accept=".iso"
+          label="ISO image"
           onChange={changeFile}
-          stacked
         />
         <Input
           name="name"
           type="text"
           id="name"
-          label="Alias"
+          label="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           disabled={file === null}
-          stacked
         />
         <Select
           label="Storage pool"
@@ -135,7 +132,6 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
           }}
           value={pool}
           disabled={file === null}
-          stacked
         />
       </div>
       {uploadState && (
@@ -151,14 +147,11 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
         </>
       )}
       <footer className="p-modal__footer">
-        <Button onClick={handleCancel} className="u-no-margin--bottom">
-          Cancel
-        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
         <SubmitButton
           isSubmitting={isLoading}
           isDisabled={!file}
           buttonLabel="Upload"
-          className="u-no-margin--bottom"
           onClick={importIsoFile}
         />
       </footer>
