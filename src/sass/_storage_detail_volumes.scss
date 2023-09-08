@@ -1,3 +1,19 @@
-.search-volumes {
-  max-width: 25rem;
+.storage-volumes {
+  .upper-controls-bar {
+    display: flex;
+    gap: $sph--large;
+
+    .search-box-wrapper {
+      display: flex;
+      flex-grow: 1;
+
+      .search-box {
+        max-width: 25rem;
+        width: 100%;
+        @media screen and (max-width: 1070px) {
+          display: flex;
+        }
+      }
+    }
+  }
 }

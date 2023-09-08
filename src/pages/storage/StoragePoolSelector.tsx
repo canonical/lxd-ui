@@ -1,23 +1,23 @@
 import React, { FC } from "react";
-import { Input, Select, useNotify } from "@canonical/react-components";
+import { Select, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdDiskDevice } from "types/device";
 import { fetchStoragePools } from "api/storage-pools";
 import Loader from "components/Loader";
+import { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
 
 interface Props {
   project: string;
-  diskDevice: LxdDiskDevice;
-  setDiskDevice: (diskDevice: LxdDiskDevice) => void;
-  hasPathInput?: boolean;
+  value: string;
+  setValue: (value: string) => void;
+  selectProps?: SelectProps;
 }
 
-const StorageSelector: FC<Props> = ({
+const StoragePoolSelector: FC<Props> = ({
   project,
-  diskDevice: diskDevice,
-  setDiskDevice: setDiskDevice,
-  hasPathInput = true,
+  value,
+  setValue,
+  selectProps,
 }) => {
   const notify = useNotify();
   const {
@@ -57,30 +57,14 @@ const StorageSelector: FC<Props> = ({
   };
 
   return (
-    <>
-      <Select
-        name="pool"
-        label="Storage pool"
-        options={getStoragePoolOptions()}
-        onChange={(e) => setDiskDevice({ ...diskDevice, pool: e.target.value })}
-        value={diskDevice.pool}
-        stacked
-      />
-      {hasPathInput && (
-        <Input
-          id="path"
-          name="path"
-          type="text"
-          label="Path"
-          onChange={(e) =>
-            setDiskDevice({ ...diskDevice, path: e.target.value })
-          }
-          value={diskDevice.path}
-          stacked
-        />
-      )}
-    </>
+    <Select
+      name="pool"
+      options={getStoragePoolOptions()}
+      onChange={(e) => setValue(e.target.value)}
+      value={value}
+      {...selectProps}
+    />
   );
 };
 
-export default StorageSelector;
+export default StoragePoolSelector;

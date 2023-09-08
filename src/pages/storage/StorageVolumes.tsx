@@ -8,6 +8,7 @@ import { fetchStorageVolumes } from "api/storage-pools";
 import { isoTimeToString } from "util/helpers";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import ScrollableTable from "components/ScrollableTable";
+import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -129,22 +130,29 @@ const StorageVolumes: FC = () => {
   });
 
   return (
-    <>
-      <SearchBox
-        name="search-volumes"
-        className="search-volumes margin-right"
-        type="text"
-        onChange={(value) => {
-          setQuery(value);
-        }}
-        placeholder="Search for volumes"
-        value={query}
-        aria-label="Search for volumes"
-      />
+    <div className="storage-volumes">
+      <div className="upper-controls-bar">
+        <div className="search-box-wrapper">
+          <SearchBox
+            name="search-volumes"
+            className="search-box margin-right"
+            type="text"
+            onChange={(value) => {
+              setQuery(value);
+            }}
+            placeholder="Search for volumes"
+            value={query}
+            aria-label="Search for volumes"
+          />
+        </div>
+        <div className="u-align--right">
+          <CreateVolumeBtn project={project} pool={pool} />
+        </div>
+      </div>
       <ScrollableTable dependencies={[notify.notification]}>
         <MainTable headers={headers} rows={rows} sortable />
       </ScrollableTable>
-    </>
+    </div>
   );
 };
 

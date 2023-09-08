@@ -20,7 +20,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({ pool, project, volume }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  if (volume.content_type !== "iso") {
+  if (volume.type !== "custom") {
     return null;
   }
 

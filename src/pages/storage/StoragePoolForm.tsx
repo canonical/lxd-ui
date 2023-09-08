@@ -26,10 +26,10 @@ import {
   zfsDriver,
 } from "util/storageOptions";
 import ItemName from "components/ItemName";
-import { testDuplicateName } from "util/storage";
+import { testDuplicateName } from "util/storagePool";
 import NotificationRow from "components/NotificationRow";
 
-const StorageForm: FC = () => {
+const StoragePoolForm: FC = () => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -197,4 +197,4 @@ const StorageForm: FC = () => {
   );
 };
 
-export default StorageForm;
+export default StoragePoolForm;
