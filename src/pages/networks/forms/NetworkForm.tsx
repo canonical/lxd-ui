@@ -22,7 +22,7 @@ import NetworkFormMenu, {
   DNS,
   IPV4,
   IPV6,
-  MAIN_CONFIGURATION,
+  NETWORK_DETAILS,
   YAML_CONFIGURATION,
 } from "pages/networks/forms/NetworkFormMenu";
 import { FormikProps } from "formik/dist/types";
@@ -41,6 +41,7 @@ export interface NetworkFormValues {
   description?: string;
   type: LxdNetworkType;
   bridge_driver?: LxdNetworkBridgeDriver;
+  bridge_external_interfaces?: string;
   bridge_hwaddr?: string;
   bridge_mode?: LxdNetworkBridgeMode;
   bridge_mtu?: string;
@@ -56,22 +57,29 @@ export interface NetworkFormValues {
   ipv4_address?: string;
   ipv4_dhcp?: string;
   ipv4_dhcp_expiry?: string;
+  ipv4_dhcp_gateway?: string;
   ipv4_dhcp_ranges?: string;
+  ipv4_firewall?: string;
   ipv4_l3only?: string;
   ipv4_nat?: string;
   ipv4_nat_address?: string;
   ipv4_nat_order?: string;
   ipv4_ovn_ranges?: string;
+  ipv4_routes?: string;
+  ipv4_routing?: string;
   ipv6_address?: string;
   ipv6_dhcp?: string;
   ipv6_dhcp_expiry?: string;
   ipv6_dhcp_ranges?: string;
   ipv6_dhcp_stateful?: string;
+  ipv6_firewall?: string;
   ipv6_l3only?: string;
   ipv6_nat?: string;
   ipv6_nat_address?: string;
   ipv6_nat_order?: string;
   ipv6_ovn_ranges?: string;
+  ipv6_routes?: string;
+  ipv6_routing?: string;
   network?: string;
   yaml?: string;
 }
@@ -83,6 +91,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
     type: values.type,
     config: {
       ["bridge.driver"]: values.bridge_driver,
+      ["bridge.external_interfaces"]: values.bridge_external_interfaces,
       ["bridge.hwaddr"]: values.bridge_hwaddr,
       ["bridge.mode"]: values.bridge_mode,
       ["bridge.mtu"]: values.bridge_mtu,
@@ -98,22 +107,29 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["ipv4.address"]: values.ipv4_address,
       ["ipv4.dhcp"]: values.ipv4_dhcp,
       ["ipv4.dhcp.expiry"]: values.ipv4_dhcp_expiry,
+      ["ipv4.dhcp.gateway"]: values.ipv4_dhcp_gateway,
       ["ipv4.dhcp.ranges"]: values.ipv4_dhcp_ranges,
+      ["ipv4.firewall"]: values.ipv4_firewall,
       ["ipv4.l3only"]: values.ipv4_l3only,
       ["ipv4.nat"]: values.ipv4_nat,
       ["ipv4.nat.address"]: values.ipv4_nat_address,
       ["ipv4.nat.order"]: values.ipv4_nat_order,
       ["ipv4.ovn.ranges"]: values.ipv4_ovn_ranges,
+      ["ipv4.routes"]: values.ipv4_routes,
+      ["ipv4.routing"]: values.ipv4_routing,
       ["ipv6.address"]: values.ipv6_address,
       ["ipv6.dhcp"]: values.ipv6_dhcp,
       ["ipv6.dhcp.expiry"]: values.ipv6_dhcp_expiry,
       ["ipv6.dhcp.ranges"]: values.ipv6_dhcp_ranges,
       ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful,
+      ["ipv6.firewall"]: values.ipv6_firewall,
       ["ipv6.l3only"]: values.ipv6_l3only,
       ["ipv6.nat"]: values.ipv6_nat,
       ["ipv6.nat.address"]: values.ipv6_nat_address,
       ["ipv6.nat.order"]: values.ipv6_nat_order,
       ["ipv6.ovn.ranges"]: values.ipv6_ovn_ranges,
+      ["ipv6.routes"]: values.ipv6_routes,
+      ["ipv6.routing"]: values.ipv6_routing,
       ["network"]: values.network,
     },
   };
@@ -128,7 +144,7 @@ interface Props {
 
 const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
   const notify = useNotify();
-  const [section, setSection] = useState(MAIN_CONFIGURATION);
+  const [section, setSection] = useState(NETWORK_DETAILS);
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
   const hasOvn = Boolean(settings?.config["network.ovn.northbound_connection"]);
   const hasFan = settings?.environment?.os_name
@@ -190,7 +206,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
       />
       <Row className="form-contents" key={section}>
         <Col size={12}>
-          {section === MAIN_CONFIGURATION && (
+          {section === NETWORK_DETAILS && (
             <React.Fragment>
               <Select
                 {...getFormProps("type")}
@@ -256,13 +272,22 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                     formik.setFieldValue("fan_overlay_subnet", undefined);
                     formik.setFieldValue("fan_underlay_subnet", undefined);
                     formik.setFieldValue("bridge_driver", undefined);
+                    formik.setFieldValue(
+                      "bridge_external_interfaces",
+                      undefined
+                    );
                     formik.setFieldValue("dns_mode", undefined);
                     formik.setFieldValue("ipv4_dhcp_expiry", undefined);
+                    formik.setFieldValue("ipv4_dhcp_gateway", undefined);
                     formik.setFieldValue("ipv4_dhcp_ranges", undefined);
+                    formik.setFieldValue("ipv4_firewall", undefined);
                     formik.setFieldValue("ipv4_nat_order", undefined);
                     formik.setFieldValue("ipv4_ovn_ranges", undefined);
+                    formik.setFieldValue("ipv4_routes", undefined);
+                    formik.setFieldValue("ipv4_routing", undefined);
                     formik.setFieldValue("ipv6_dhcp_expiry", undefined);
                     formik.setFieldValue("ipv6_dhcp_ranges", undefined);
+                    formik.setFieldValue("ipv6_firewall", undefined);
                     formik.setFieldValue("ipv6_nat_order", undefined);
                     formik.setFieldValue("ipv6_ovn_ranges", undefined);
                     formik.setFieldValue("ipv6_ovn_routes", undefined);
@@ -308,7 +333,11 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                         "ipv4_nat",
                         "ipv4_dhcp",
                         "ipv4_dhcp_expiry",
+                        "ipv4_dhcp_gateway",
                         "ipv4_dhcp_ranges",
+                        "ipv4_firewall",
+                        "ipv4_routes",
+                        "ipv4_routing",
                       ];
                       nullFields.forEach((field) =>
                         formik.setFieldValue(field, undefined)
@@ -318,16 +347,16 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                   }}
                 />
               )}
+              {formik.values.ipv4_address !== "none" && (
+                <Select
+                  {...getFormProps("ipv4_nat")}
+                  label="IPv4 NAT"
+                  help="Network address translation for IPv4"
+                  options={optionEnableDisable}
+                />
+              )}
               {formik.values.bridge_mode !== "fan" && (
                 <>
-                  {formik.values.ipv4_address !== "none" && (
-                    <Select
-                      {...getFormProps("ipv4_nat")}
-                      label="IPv4 NAT"
-                      help="Network address translation for IPv4"
-                      options={optionEnableDisable}
-                    />
-                  )}
                   <Input
                     {...getFormProps("ipv6_address")}
                     type="text"
@@ -342,7 +371,10 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                           "ipv6_dhcp_expiry",
                           "ipv6_dhcp_ranges",
                           "ipv6_dhcp_stateful",
+                          "ipv6_firewall",
                           "ipv6_ovn_ranges",
+                          "ipv6_routes",
+                          "ipv6_routing",
                         ];
                         nullFields.forEach((field) =>
                           formik.setFieldValue(field, undefined)
@@ -361,22 +393,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                   )}
                 </>
               )}
-              {formik.values.bridge_mode === "fan" && (
-                <>
-                  <Input
-                    {...getFormProps("fan_overlay_subnet")}
-                    type="text"
-                    label="Fan overlay subnet"
-                    help="Subnet to use as the overlay for the FAN (CIDR)"
-                  />
-                  <Input
-                    {...getFormProps("fan_underlay_subnet")}
-                    type="text"
-                    label="Fan underlay subnet"
-                    help="Subnet to use as the underlay for the FAN (use auto to use default gateway subnet) (CIDR)"
-                  />
-                </>
-              )}
             </React.Fragment>
           )}
           {section === BRIDGE && (
@@ -390,7 +406,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
               <Input
                 {...getFormProps("bridge_hwaddr")}
                 type="text"
-                label="Hardware address"
+                label="MAC address"
                 help="MAC address for the bridge"
               />
               {formik.values.type === "bridge" && (
@@ -414,6 +430,46 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                         value: "openvswitch",
                       },
                     ]}
+                  />
+                  <Textarea
+                    {...getFormProps("bridge_external_interfaces")}
+                    label="Bridge external interfaces"
+                    help="Comma-separated list of unconfigured network interfaces to include in the bridge"
+                  />
+                </>
+              )}
+              {formik.values.bridge_mode === "fan" && (
+                <>
+                  <Select
+                    {...getFormProps("fan_type")}
+                    label="Fan type"
+                    options={[
+                      {
+                        label: "Select option",
+                        value: "",
+                        disabled: true,
+                      },
+                      {
+                        label: "vxlan",
+                        value: "vxlan",
+                      },
+                      {
+                        label: "ipip",
+                        value: "ipip",
+                      },
+                    ]}
+                  />
+                  <Input
+                    {...getFormProps("fan_overlay_subnet")}
+                    type="text"
+                    label="Fan overlay subnet"
+                    help="Subnet to use as the overlay for the FAN (CIDR)"
+                  />
+                  <Input
+                    {...getFormProps("fan_underlay_subnet")}
+                    type="text"
+                    label="Fan underlay subnet"
+                    help="Subnet to use as the underlay for the FAN (use auto to use default gateway subnet) (CIDR)"
                   />
                 </>
               )}
@@ -480,6 +536,12 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                       label="IPv4 DHCP expiry"
                       help="When to expire DHCP leases"
                     />
+                    <Input
+                      {...getFormProps("ipv4_dhcp_gateway")}
+                      type="text"
+                      label="IPv4 DHCP gateway"
+                      help="Address of the gateway for the subnet"
+                    />
                     <Textarea
                       {...getFormProps("ipv4_dhcp_ranges")}
                       label="IPv4 DHCP ranges"
@@ -495,6 +557,15 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                   options={optionYesNo}
                 />
               )}
+              {formik.values.type !== "ovn" &&
+                formik.values.ipv4_address !== "none" && (
+                  <Select
+                    {...getFormProps("ipv4_firewall")}
+                    label="IPv4 firewall"
+                    help="Whether to generate filtering firewall rules for this network"
+                    options={optionYesNo}
+                  />
+                )}
               {formik.values.ipv4_nat === "true" && (
                 <>
                   <Input
@@ -527,16 +598,30 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                   )}
                 </>
               )}
-              {formik.values.type !== "ovn" &&
-                formik.values.bridge_mode !== "fan" && (
-                  <>
-                    <Textarea
-                      {...getFormProps("ipv4_ovn_ranges")}
-                      label="IPv4 OVN ranges"
-                      help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)"
-                    />
-                  </>
-                )}
+              {formik.values.type !== "ovn" && (
+                <>
+                  <Textarea
+                    {...getFormProps("ipv4_ovn_ranges")}
+                    label="IPv4 OVN ranges"
+                    help="Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)"
+                  />
+                  {formik.values.ipv4_address !== "none" && (
+                    <>
+                      <Textarea
+                        {...getFormProps("ipv4_routes")}
+                        label="IPv4 routes"
+                        help="Comma-separated list of additional IPv4 CIDR subnets to route to the bridge"
+                      />
+                      <Select
+                        {...getFormProps("ipv4_routing")}
+                        label="IPv4 routing"
+                        help="Whether to route traffic in and out of the bridge"
+                        options={optionYesNo}
+                      />
+                    </>
+                  )}
+                </>
+              )}
             </>
           )}
           {section === IPV6 && (
@@ -582,6 +667,15 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                   options={optionYesNo}
                 />
               )}
+              {formik.values.type !== "ovn" &&
+                formik.values.ipv6_address !== "none" && (
+                  <Select
+                    {...getFormProps("ipv6_firewall")}
+                    label="IPv6 firewall"
+                    help="Whether to generate filtering firewall rules for this network"
+                    options={optionYesNo}
+                  />
+                )}
               {formik.values.ipv6_nat === "true" && (
                 <>
                   <Input
@@ -618,9 +712,24 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, isReadOnly, project }) => {
                 <>
                   <Textarea
                     {...getFormProps("ipv6_ovn_ranges")}
-                    label="IPv6 OVN ranges"
+                    label="IPv6 ovn ranges"
                     help="Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)"
                   />
+                  {formik.values.ipv6_address === "none" && (
+                    <>
+                      <Textarea
+                        {...getFormProps("ipv6_routes")}
+                        label="IPv6 ovn routes"
+                        help="Comma-separated list of additional IPv6 CIDR subnets to route to the bridge"
+                      />
+                      <Select
+                        {...getFormProps("ipv6_routing")}
+                        label="IPv6 ovn routing"
+                        options={optionYesNo}
+                        help="Whether to route traffic in and out of the bridge"
+                      />
+                    </>
+                  )}
                 </>
               )}
             </>
