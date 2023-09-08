@@ -54,35 +54,3 @@ export interface LxdNetwork {
   type: LxdNetworkType;
   used_by?: string[];
 }
-
-export interface LxdNetworkStateAddress {
-  family: string;
-  address: string;
-  netmask: string;
-  scope: string;
-}
-
-export interface LxdNetworkState {
-  addresses: LxdNetworkStateAddress[];
-  bond?: string;
-  bridge: {
-    forward_delay: number;
-    id: string;
-    stp: boolean;
-    upper_devices: string[];
-    vlan_default: number;
-    vlan_filtering: boolean;
-  };
-  counters: {
-    bytes_received: number;
-    bytes_sent: number;
-    packets_received: number;
-    packets_sent: number;
-  };
-  hwaddr: string;
-  mtu: number;
-  ovn?: string;
-  state: string;
-  type: string;
-  vlan?: string;
-}
