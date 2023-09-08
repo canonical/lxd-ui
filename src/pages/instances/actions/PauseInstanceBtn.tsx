@@ -60,9 +60,9 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationModalProps={{
         title: "Confirm pause",
         children: (
-          <p>
+          <>
             This will pause instance <ItemName item={instance} bold />.
-          </p>
+          </>
         ),
         onConfirm: handlePause,
         confirmButtonLabel: "Pause",

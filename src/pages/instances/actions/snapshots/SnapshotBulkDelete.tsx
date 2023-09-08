@@ -57,12 +57,12 @@ const SnapshotBulkDelete: FC<Props> = ({
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
-          <p>
+          <>
             This will permanently delete <b>{count}</b>{" "}
             {pluralizeSnapshot(count)}
             .<br />
             This action cannot be undone, and can result in data loss.
-          </p>
+          </>
         ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,

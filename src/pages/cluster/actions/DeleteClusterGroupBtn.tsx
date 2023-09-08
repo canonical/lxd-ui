@@ -51,11 +51,11 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       confirmationModalProps={{
         title: "Confirm delete",
         confirmMessage: (
-          <p>
+          <>
             This will permanently delete cluster group{" "}
             <ItemName item={{ name: group }} bold />. <br />
             This action cannot be undone, and can result in data loss.
-          </p>
+          </>
         ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,

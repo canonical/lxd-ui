@@ -64,9 +64,9 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
       confirmationModalProps={{
         title: "Confirm restart",
         children: (
-          <p>
+          <>
             This will restart instance <ItemName item={instance} bold />.
-          </p>
+          </>
         ),
         onConfirm: handleRestart,
         close: () => setForce(false),

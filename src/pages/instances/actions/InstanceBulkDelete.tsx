@@ -80,7 +80,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
           confirmationModalProps={{
             title: "Confirm delete",
             children: (
-              <p>
+              <>
                 {ignoredCount > 0 && (
                   <>
                     <b>{totalCount}</b> instances selected:
@@ -100,7 +100,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
                 This will permanently delete <b>{deleteCount}</b>{" "}
                 {pluralizeInstance(deleteCount)}.{"\n"}This action cannot be
                 undone, and can result in data loss.
-              </p>
+              </>
             ),
             confirmButtonLabel: "Delete",
             onConfirm: handleDelete,
