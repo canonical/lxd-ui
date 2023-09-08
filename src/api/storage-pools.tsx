@@ -100,6 +100,26 @@ export const fetchStorageVolumes = (
   });
 };
 
+export const createStorageVolume = (
+  volume: string,
+  pool: string,
+  project: string
+): Promise<LxdStorageVolume> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        content_type: "filesystem",
+        name: volume,
+        type: "custom",
+      }),
+    })
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageVolume>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
 export const createIsoStorageVolume = (
   pool: string,
   isoFile: File,

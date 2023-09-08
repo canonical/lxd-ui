@@ -16,7 +16,7 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
   const notify = useNotify();
 
   const {
-    data: pool,
+    data: storagePool,
     error,
     isLoading,
   } = useQuery({
@@ -30,7 +30,7 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
 
   if (isLoading) {
     return <Loader text="Loading storage details..." />;
-  } else if (!pool) {
+  } else if (!storagePool) {
     return <>Loading storage details failed</>;
   }
 
@@ -45,29 +45,31 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
             <tbody>
               <tr>
                 <th className="p-muted-heading">Name</th>
-                <td>{pool.name}</td>
+                <td>{storagePool.name}</td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Status</th>
-                <td>{pool.status}</td>
+                <td>{storagePool.status}</td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Size</th>
                 <td>
-                  <StorageSize storage={pool} />
+                  <StorageSize storage={storagePool} />
                 </td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Source</th>
-                <td>{pool.config?.source ?? "-"}</td>
+                <td>{storagePool.config?.source ?? "-"}</td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Description</th>
-                <td>{pool.description ? pool.description : "-"}</td>
+                <td>
+                  {storagePool.description ? storagePool.description : "-"}
+                </td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Driver</th>
-                <td>{pool.driver}</td>
+                <td>{storagePool.driver}</td>
               </tr>
             </tbody>
           </table>
@@ -76,11 +78,11 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
       <Row className="section">
         <Col size={3}>
           <h2 className="p-heading--5">
-            Used by ({pool.used_by?.length ?? 0})
+            Used by ({storagePool.used_by?.length ?? 0})
           </h2>
         </Col>
         <Col size={7}>
-          <StorageUsedBy storage={pool} project={project} />
+          <StorageUsedBy storage={storagePool} project={project} />
         </Col>
       </Row>
     </div>

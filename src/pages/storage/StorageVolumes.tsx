@@ -100,7 +100,11 @@ const StorageVolumes: FC = () => {
           "aria-label": "Config",
         },
         {
-          content: volume.used_by?.length ?? 0,
+          content: volume.used_by?.map((entry) => (
+            <div key={entry} className="u-truncate" title={entry}>
+              {entry}
+            </div>
+          )),
           role: "cell",
           "aria-label": "Used by",
         },

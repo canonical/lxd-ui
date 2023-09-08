@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-const UploadCustomImageHint: FC = () => {
+const UploadIsoImageHint: FC = () => {
   return (
     <>
       <div className={`p-notification--information`}>
@@ -37,4 +37,4 @@ const UploadCustomImageHint: FC = () => {
   );
 };
 
-export default UploadCustomImageHint;
+export default UploadIsoImageHint;
