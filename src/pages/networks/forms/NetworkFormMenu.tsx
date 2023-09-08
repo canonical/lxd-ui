@@ -56,7 +56,7 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
               disabled={Boolean(disableReason)}
               title={disableReason}
             >
-              Advanced
+              Configuration options
             </Button>
 
             <ul
