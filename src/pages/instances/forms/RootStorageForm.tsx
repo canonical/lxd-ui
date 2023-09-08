@@ -192,11 +192,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
               <div className="mono-font">
                 <b>{getInheritedValue()}</b>
               </div>
-              {inheritSource !== "LXD" && (
-                <div className="p-text--small u-text--muted">
-                  From: {inheritSource}
-                </div>
-              )}
+              <div>From: {inheritSource}</div>
             </div>
           ),
           override: isReadOnly ? (

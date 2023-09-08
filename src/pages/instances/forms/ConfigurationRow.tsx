@@ -133,11 +133,7 @@ export const getConfigurationRow = ({
         <div className="mono-font">
           <b>{getInheritedValue()}</b>
         </div>
-        {inheritedValue && (
-          <div className="p-text--small u-text--muted">
-            From: {inheritSource}
-          </div>
-        )}
+        <div>From: {inheritSource}</div>
       </div>
     ),
     override: isReadOnly ? (
