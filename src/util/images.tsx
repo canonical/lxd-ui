@@ -1,13 +1,10 @@
 import { RemoteImage } from "types/image";
 
 export const isVmOnlyImage = (image: RemoteImage) => {
-  return image.variant?.includes("desktop") || image.server === "local-iso";
+  return image.variant?.includes("desktop");
 };
 
 export const isContainerOnlyImage = (image: RemoteImage) => {
-  if (isVmOnlyImage(image)) {
-    return false;
-  }
   const vmFiles = ["disk1.img", "disk-kvm.img", "uefi1.img"];
   return (
     Object.entries(image.versions ?? {}).find((version) =>
@@ -16,16 +13,4 @@ export const isContainerOnlyImage = (image: RemoteImage) => {
       )
     ) === undefined
   );
-};
-
-export const isoToRemoteImage = (name: string, pool: string): RemoteImage => {
-  return {
-    aliases: name,
-    arch: "",
-    os: "Local image",
-    pool: pool,
-    release: "-",
-    server: "local-iso",
-    variant: "iso",
-  };
 };

@@ -216,24 +216,6 @@ const CreateInstanceForm: FC = () => {
 
   const handleSelectImage = (image: RemoteImage, type: string | null) => {
     void formik.setFieldValue("image", image);
-
-    const devices = formik.values.devices.filter(
-      (item) => item.type !== "iso-volume"
-    );
-    if (image.server === "local-iso") {
-      devices.push({
-        type: "iso-volume",
-        name: "iso-volume",
-        bare: {
-          "boot.priority": "10",
-          pool: image.pool ?? "",
-          source: image.aliases,
-          type: "disk",
-        },
-      });
-    }
-    void formik.setFieldValue("devices", devices);
-
     if (type) {
       void formik.setFieldValue("instanceType", type);
     }

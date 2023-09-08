@@ -1,9 +1,4 @@
-import {
-  LxdDevices,
-  LxdDiskDevice,
-  LxdIsoDevice,
-  LxdNicDevice,
-} from "types/device";
+import { LxdDevices, LxdDiskDevice, LxdNicDevice } from "types/device";
 
 interface EmptyDevice {
   type: "";
@@ -14,12 +9,6 @@ interface UnknownDevice {
   type: "unknown";
   name: string;
   bare: string;
-}
-
-export interface IsoVolumeDevice {
-  type: "iso-volume";
-  name: string;
-  bare: LxdIsoDevice;
 }
 
 export interface CustomNetworkDevice {
@@ -33,7 +22,6 @@ export type FormDevice =
   | (Partial<LxdNicDevice> & Required<Pick<LxdNicDevice, "name">>)
   | UnknownDevice
   | CustomNetworkDevice
-  | IsoVolumeDevice
   | EmptyDevice;
 
 export interface FormDeviceValues {
@@ -49,11 +37,7 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
   return devices
     .filter((item) => !isEmptyDevice(item))
     .reduce((obj, { name, ...item }) => {
-      if (
-        item.type === "unknown" ||
-        item.type === "custom-nic" ||
-        item.type === "iso-volume"
-      ) {
+      if (item.type === "unknown" || item.type === "custom-nic") {
         return {
           [name]: item.bare,
         };
@@ -93,9 +77,9 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
       case "disk":
         return {
           name: key,
-          path: "path" in item ? item.path : undefined,
+          path: item.path,
           pool: item.pool,
-          size: "size" in item ? item.size : undefined,
+          size: item.size,
           type: "disk",
         };
       default:

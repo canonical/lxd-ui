@@ -19,8 +19,6 @@ import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
-import { loadIsoImages } from "context/loadIsoImages";
-import { useProject } from "context/project";
 
 interface Props {
   onClose: () => void;
@@ -73,15 +71,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
     queryKey: [queryKeys.images, canonicalServer],
     queryFn: () => loadImages(canonicalJson, canonicalServer),
   });
-
-  const { project } = useProject();
-  const { data: isoImages = [], isLoading: isIsoImageLoading } = useQuery({
-    queryKey: ["isoImages"],
-    queryFn: () => loadIsoImages(project?.name ?? ""),
-  });
-
-  const isLoading =
-    isCiLoading || isLciLoading || isSettingsLoading || isIsoImageLoading;
+  const isLoading = isCiLoading || isLciLoading || isSettingsLoading;
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? []
   );
@@ -101,13 +91,7 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
           return 0;
         });
 
-  isoImages.forEach((image) => {
-    images.unshift(image);
-  });
-
-  const archAll = [...new Set(images.map((item) => item.arch))]
-    .filter((arch) => arch !== "")
-    .sort();
+  const archAll = [...new Set(images.map((item) => item.arch))].sort();
   const variantAll = [...new Set(images.map((item) => item.variant))].sort();
 
   const getOptionList: (
@@ -134,14 +118,13 @@ const ImageSelector: FC<Props> = ({ onClose, onSelect }) => {
 
   const rows: MainTableRow[] = images
     .filter((item) => {
-      const isLocalIso = item.server === "local-iso";
       if (type === VM && isContainerOnlyImage(item)) {
         return false;
       }
       if (type === CONTAINER && isVmOnlyImage(item)) {
         return false;
       }
-      if (arch !== item.arch && !isLocalIso) {
+      if (arch !== item.arch) {
         return false;
       }
       if (variant !== ANY && variant !== item.variant) {

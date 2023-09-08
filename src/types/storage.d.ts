@@ -12,32 +12,6 @@ export interface LxdStoragePool {
   used_by?: string[];
 }
 
-export interface LxdStorageVolume {
-  config: {
-    "block.filesystem"?: string;
-    "block.mount_options"?: string;
-    "volatile.rootfs.size"?: number;
-  };
-  content_type: string;
-  created_at: string;
-  description: string;
-  location: string;
-  name: string;
-  project: string;
-  type: string;
-  used_by?: string[];
-}
-
-export interface LxdStorageVolumeMigration {
-  operation: string;
-  metadata: {
-    metadata: {
-      control: string;
-      fs: string;
-    };
-  };
-}
-
 export interface LxdStoragePoolResources {
   inodes: {
     used: number;

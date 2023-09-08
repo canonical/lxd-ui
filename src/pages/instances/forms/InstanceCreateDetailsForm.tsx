@@ -2,17 +2,12 @@ import React, { FC } from "react";
 import { Col, Input, Row, Select, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
-import {
-  isContainerOnlyImage,
-  isVmOnlyImage,
-  isoToRemoteImage,
-} from "util/images";
+import { isContainerOnlyImage, isVmOnlyImage } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
-import UploadIsoBtn from "pages/storage/actions/UploadIsoBtn";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -26,7 +21,7 @@ export interface InstanceDetailsFormValues {
 }
 
 export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
-  const payload: Record<string, string | undefined | object> = {
+  return {
     name: values.name,
     description: values.description,
     type: values.instanceType,
@@ -39,16 +34,6 @@ export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
       type: "image",
     },
   };
-
-  if (values.image?.server === "local-iso") {
-    payload.source = {
-      type: "none",
-      certificate: "",
-      allow_inconsistent: false,
-    };
-  }
-
-  return payload;
 };
 
 interface Props {
@@ -122,11 +107,6 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             appearance={formik.values.image ? "link" : "positive"}
             caption={formik.values.image ? "Change image" : "Browse images"}
             onSelect={onSelectImage}
-          />
-          <UploadIsoBtn
-            onFinish={(name, pool) =>
-              onSelectImage(isoToRemoteImage(name, pool), null)
-            }
           />
         </Col>
       </Row>

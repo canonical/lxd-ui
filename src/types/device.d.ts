@@ -6,20 +6,10 @@ export interface LxdDiskDevice {
   type: "disk";
 }
 
-export interface LxdIsoDevice {
-  "boot.priority": string;
-  pool: string;
-  source: string;
-  type: "disk";
-}
-
 export interface LxdNicDevice {
   name?: string;
   network: string;
   type: "nic";
 }
 
-export type LxdDevices = Record<
-  string,
-  LxdDiskDevice | LxdIsoDevice | LxdNicDevice
->;
+export type LxdDevices = Record<string, LxdDiskDevice | LxdNicDevice>;

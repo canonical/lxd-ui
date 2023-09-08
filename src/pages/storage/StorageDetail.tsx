@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { Row, Strip, useNotify } from "@canonical/react-components";
+import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
 import StorageSize from "pages/storage/StorageSize";
@@ -88,11 +88,6 @@ const StorageDetail: FC = () => {
             </table>
             <h2 className="p-heading--5">Used by</h2>
             <StorageUsedBy storage={storagePool} project={project} />
-            <Strip className="u-no-padding--bottom">
-              <Link to={`/ui/${project}/storages/${storagePool.name}/volumes`}>
-                Volume details
-              </Link>
-            </Strip>
           </Row>
         </div>
       </div>
