@@ -9,7 +9,7 @@ const UploadIsoImageHint: FC = () => {
             Image must be prepared with distrobuilder
           </h5>
           <p>
-            For a Windows image with name <code>WindowsIsoImage.iso</code>, use
+            For a windows image with name <code>WindowsIsoImage.iso</code> use
             the command below and upload the resulting{" "}
             <code>win11.lxd.iso</code> file.
           </p>
