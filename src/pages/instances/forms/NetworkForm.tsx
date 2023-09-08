@@ -102,7 +102,7 @@ To change it, edit it in the profile or project it originates from,
 or remove the originating item"
                   position="btm-left"
                 >
-                  <Icon name="warning-grey" />
+                  <Icon name="information" />
                 </Tooltip>{" "}
                 <b>{item.key}</b>
               </>
