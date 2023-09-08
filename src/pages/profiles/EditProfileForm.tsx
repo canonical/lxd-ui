@@ -37,7 +37,7 @@ import { updateProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
   STORAGE,
-  MAIN_CONFIGURATION,
+  PROFILE_DETAILS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
@@ -147,7 +147,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
     }
 
     const baseUrl = `/ui/project/${project}/profiles/detail/${profile.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
+    newSection === PROFILE_DETAILS
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
@@ -181,15 +181,14 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
       )}
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
         <ProfileFormMenu
-          active={activeSection ?? slugify(MAIN_CONFIGURATION)}
+          active={activeSection ?? slugify(PROFILE_DETAILS)}
           setActive={updateSection}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
         />
         <Row className="form-contents" key={activeSection}>
           <Col size={12}>
-            {(activeSection === slugify(MAIN_CONFIGURATION) ||
-              !activeSection) && (
+            {(activeSection === slugify(PROFILE_DETAILS) || !activeSection) && (
               <ProfileDetailsForm formik={formik} isEdit={true} />
             )}
 
@@ -237,7 +236,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
           </Col>
         </Row>
       </Form>
-      <div className="p-bottom-controls" id="form-footer">
+      <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">
           <Col size={12}>

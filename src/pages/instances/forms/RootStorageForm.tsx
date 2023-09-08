@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import {
-  Button,
+  CheckboxInput,
   Input,
   Label,
   Select,
@@ -17,7 +17,6 @@ import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
 import Loader from "components/Loader";
 import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
-import classnames from "classnames";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -114,19 +113,13 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
 
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
 
-  const getInheritedValue = () => {
-    return <div>{inheritedValue}</div>;
-  };
-
-  const getOverrideValue = () => {
-    return hasRootStorage ? (
-      <div>{(formik.values.devices[index] as LxdDiskDevice).pool}</div>
-    ) : (
-      "-"
-    );
-  };
-
-  const getDisplayForm = () => {
+  const getValue = () => {
+    if (!hasRootStorage) {
+      return <div>{inheritedValue}</div>;
+    }
+    if (isReadOnly) {
+      return <div>{(formik.values.devices[index] as LxdDiskDevice).pool}</div>;
+    }
     return (
       <div>
         <Select
@@ -169,43 +162,18 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
       formik={formik}
       rows={[
         getConfigurationRowBase({
-          override: hasRootStorage ? (
-            <Button
-              onClick={removeRootStorage}
-              className="u-no-margin--bottom"
-              appearance="negative"
-              type="button"
-            >
-              Clear
-            </Button>
-          ) : (
-            <Button
-              onClick={addRootStorage}
-              className="u-no-margin--bottom"
-              type="button"
-            >
-              Override
-            </Button>
+          override: (
+            <CheckboxInput
+              label={undefined}
+              checked={hasRootStorage}
+              onChange={hasRootStorage ? removeRootStorage : addRootStorage}
+            />
           ),
           label: getLabel(),
-          value: (
-            <div
-              className={classnames({
-                "u-text--muted": hasRootStorage,
-                "u-text--line-through": hasRootStorage,
-              })}
-            >
-              <div>
-                <b>{getInheritedValue()}</b>
-              </div>
-              <div>From: {inheritSource}</div>
-            </div>
-          ),
-          defined: isReadOnly
-            ? getOverrideValue()
-            : hasRootStorage
-            ? getDisplayForm()
-            : "-",
+          value: getValue(),
+          defined: hasRootStorage
+            ? `Current ${formik.values.type}`
+            : inheritSource,
         }),
       ]}
     />

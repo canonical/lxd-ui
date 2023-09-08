@@ -4,7 +4,7 @@ import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 
-export const MAIN_CONFIGURATION = "Main configuration";
+export const PROFILE_DETAILS = "Profile details";
 export const STORAGE = "Storage";
 export const NETWORKS = "Networks";
 export const RESOURCE_LIMITS = "Resource limits";
@@ -42,7 +42,7 @@ const ProfileFormMenu: FC<Props> = ({
     <div className="p-side-navigation--accordion form-navigation">
       <nav aria-label="Profile form navigation">
         <ul className="p-side-navigation__list">
-          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
+          <MenuItem label={PROFILE_DETAILS} {...menuItemProps} />
           <li className="p-side-navigation__item">
             <Button
               type="button"
@@ -50,7 +50,7 @@ const ProfileFormMenu: FC<Props> = ({
               aria-expanded={isConfigOpen ? "true" : "false"}
               onClick={toggleConfigOpen}
             >
-              Advanced
+              Configuration options
             </Button>
             <ul
               className="p-side-navigation__list"

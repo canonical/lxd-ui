@@ -38,7 +38,7 @@ import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
   STORAGE,
-  MAIN_CONFIGURATION,
+  PROFILE_DETAILS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
@@ -69,7 +69,7 @@ const CreateProfileForm: FC = () => {
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [section, setSection] = useState(MAIN_CONFIGURATION);
+  const [section, setSection] = useState(PROFILE_DETAILS);
   const [isConfigOpen, setConfigOpen] = useState(false);
 
   if (!project) {
@@ -172,7 +172,7 @@ const CreateProfileForm: FC = () => {
             <Row className="form-contents" key={section}>
               <Col size={12}>
                 <NotificationRow />
-                {section === MAIN_CONFIGURATION && (
+                {section === PROFILE_DETAILS && (
                   <ProfileDetailsForm formik={formik} isEdit={false} />
                 )}
 
@@ -213,7 +213,7 @@ const CreateProfileForm: FC = () => {
               </Col>
             </Row>
           </Form>
-          <div className="p-bottom-controls" id="form-footer">
+          <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">
               <Col size={12}>

@@ -4,7 +4,10 @@ import {
   Col,
   Form,
   Notification,
+  NotificationType,
   Row,
+  failure,
+  success,
   useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -16,6 +19,7 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
+import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
@@ -35,7 +39,7 @@ import InstanceEditDetailsForm, {
 } from "pages/instances/forms/InstanceEditDetailsForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
-  MAIN_CONFIGURATION,
+  INSTANCE_DETAILS,
   NETWORKS,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
@@ -75,6 +79,8 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isConfigOpen, setConfigOpen] = useState(true);
+  const [inTabNotification, setInTabNotification] =
+    useState<NotificationType | null>(null);
 
   if (!project) {
     return <>Missing project</>;
@@ -101,11 +107,11 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
       updateInstance(instancePayload, project)
         .then(() => {
-          notify.success("Instance updated.");
+          setInTabNotification(success("Instance updated."));
           void formik.setValues(getInstanceEditValues(instancePayload));
         })
         .catch((e: Error) => {
-          notify.failure("Instance update failed", e);
+          setInTabNotification(failure("Instance update failed", e));
         })
         .finally(() => {
           formik.setSubmitting(false);
@@ -122,7 +128,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     }
 
     const baseUrl = `/ui/project/${project}/instances/detail/${instance.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
+    newSection === INSTANCE_DETAILS
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
@@ -152,17 +158,25 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
     <div className="edit-instance">
       <Form onSubmit={() => void formik.submitForm()} stacked className="form">
         <InstanceFormMenu
-          active={activeSection ?? slugify(MAIN_CONFIGURATION)}
+          active={activeSection ?? slugify(INSTANCE_DETAILS)}
           setActive={updateSection}
           isConfigDisabled={false}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
         />
         <Row className="form-contents" key={activeSection}>
+          <NotificationRowLegacy
+            notification={inTabNotification}
+            onDismiss={() => setInTabNotification(null)}
+          />
           <Col size={12}>
-            {(activeSection === slugify(MAIN_CONFIGURATION) ||
+            {(activeSection === slugify(INSTANCE_DETAILS) ||
               !activeSection) && (
-              <InstanceEditDetailsForm formik={formik} project={project} />
+              <InstanceEditDetailsForm
+                formik={formik}
+                project={project}
+                setInTabNotification={setInTabNotification}
+              />
             )}
 
             {activeSection === slugify(STORAGE) && (
@@ -209,17 +223,14 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           </Col>
         </Row>
       </Form>
-      <div className="p-bottom-controls" id="form-footer">
+      <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
             {isReadOnly ? (
               <Button
                 appearance="positive"
-                onClick={() => {
-                  void formik.setFieldValue("readOnly", false);
-                  notify.clear();
-                }}
+                onClick={() => formik.setFieldValue("readOnly", false)}
               >
                 Edit instance
               </Button>

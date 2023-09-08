@@ -1,5 +1,11 @@
 import React, { FC } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import {
+  Button,
+  NotificationType,
+  failure,
+  info,
+  success,
+} from "@canonical/react-components";
 import MigrateInstanceForm from "pages/instances/MigrateInstanceForm";
 import usePortal from "react-useportal";
 import { migrateInstance } from "api/instances";
@@ -14,6 +20,7 @@ interface Props {
   instance: string;
   location: string;
   project: string;
+  setInTabNotification: (msg: NotificationType) => void;
   onFinish: (newLocation: string) => void;
 }
 
@@ -21,10 +28,10 @@ const MigrateInstanceBtn: FC<Props> = ({
   instance,
   location,
   project,
+  setInTabNotification,
   onFinish,
 }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
 
@@ -38,11 +45,13 @@ const MigrateInstanceBtn: FC<Props> = ({
   }
 
   const handleSuccess = (newTarget: string) => {
-    notify.success(
-      <>
-        Migration finished for instance{" "}
-        <ItemName item={{ name: instance }} bold />
-      </>
+    setInTabNotification(
+      success(
+        <>
+          Migration finished for instance{" "}
+          <ItemName item={{ name: instance }} bold />
+        </>
+      )
     );
     onFinish(newTarget);
     void queryClient.invalidateQueries({
@@ -51,7 +60,9 @@ const MigrateInstanceBtn: FC<Props> = ({
   };
 
   const notifyFailure = (e: unknown) => {
-    notify.failure(`Migration failed on instance ${instance}`, e);
+    setInTabNotification(
+      failure(`Migration failed on instance ${instance}`, e)
+    );
   };
 
   const handleFailure = (msg: string) => {
@@ -69,7 +80,7 @@ const MigrateInstanceBtn: FC<Props> = ({
           () => handleSuccess(target),
           handleFailure
         );
-        notify.info("Migration started");
+        setInTabNotification(info("Migration started"));
         closePortal();
       })
       .catch((e) => {

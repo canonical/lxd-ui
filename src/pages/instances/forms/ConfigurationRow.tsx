@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
-import { Button, Label, useNotify } from "@canonical/react-components";
+import { CheckboxInput, Label, useNotify } from "@canonical/react-components";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -10,7 +10,6 @@ import { MainTableRow } from "@canonical/react-components/dist/components/MainTa
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { LxdProfile } from "types/profile";
 import { figureInheritedValue } from "util/instanceConfigInheritance";
-import classnames from "classnames";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -64,28 +63,27 @@ export const getConfigurationRow = ({
     profiles
   );
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
-  const getDisplayForm = (): ReactNode => {
-    if (isReadOnly) {
-      return "-";
+
+  const figureDisplayValue = (): ReactNode => {
+    if (!isOverridden) {
+      return readOnlyRenderer
+        ? readOnlyRenderer(inheritedValue)
+        : inheritedValue;
     }
-    return React.cloneElement(children, {
-      id: name,
-      name: name,
-      onBlur: formik.handleBlur,
-      onChange: formik.handleChange,
-      value: values[name],
-    });
-  };
-
-  const getInheritedValue = (): ReactNode => {
-    return readOnlyRenderer ? readOnlyRenderer(inheritedValue) : inheritedValue;
-  };
-
-  const getOverrideValue = (): ReactNode => {
+    if (!isReadOnly) {
+      return React.cloneElement(children, {
+        id: name,
+        name: name,
+        onBlur: formik.handleBlur,
+        onChange: formik.handleChange,
+        value: values[name],
+      });
+    }
     const value = values[name] === "" ? "-" : values[name];
     return readOnlyRenderer ? readOnlyRenderer(value) : value;
   };
 
+  const displayValue = figureDisplayValue();
   const displayLabel = isOverridden ? (
     <Label forId={name}>
       <b>{label}</b>
@@ -95,44 +93,17 @@ export const getConfigurationRow = ({
   );
 
   return getConfigurationRowBase({
-    override: isOverridden ? (
-      <Button
-        onClick={toggleDefault}
-        className="override-btn u-no-margin--bottom"
-        appearance="negative"
-        type="button"
-      >
-        Clear
-      </Button>
-    ) : (
-      <Button
-        onClick={toggleDefault}
-        className="override-btn u-no-margin--bottom"
-        type="button"
+    override: (
+      <CheckboxInput
+        label={undefined}
+        checked={isOverridden}
+        onChange={toggleDefault}
         disabled={disabled}
-      >
-        Override
-      </Button>
+      />
     ),
     label: displayLabel,
-    value: (
-      <div
-        className={classnames({
-          "u-text--muted": isOverridden,
-          "u-text--line-through": isOverridden,
-        })}
-      >
-        <div>
-          <b>{getInheritedValue()}</b>
-        </div>
-        <div>From: {inheritSource}</div>
-      </div>
-    ),
-    defined: isReadOnly
-      ? getOverrideValue()
-      : isOverridden
-      ? getDisplayForm()
-      : "-",
+    value: displayValue,
+    defined: isOverridden ? `Current ${formik.values.type}` : inheritSource,
   });
 };
 

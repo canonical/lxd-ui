@@ -1,5 +1,10 @@
 import React, { FC, ReactNode, useState } from "react";
-import { MainTable, useNotify } from "@canonical/react-components";
+import {
+  Icon,
+  MainTable,
+  Tooltip,
+  useNotify,
+} from "@canonical/react-components";
 import {
   MainTableCell,
   MainTableHeader,
@@ -8,6 +13,7 @@ import {
 import { figureCollapsedScreen } from "util/formFields";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import useEventListener from "@use-it/event-listener";
+import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
@@ -82,16 +88,25 @@ const ConfigurationTable: FC<Props> = ({
 
   const headers = [
     {
-      content: "",
+      content: isSmallScreen ? (
+        <Tooltip
+          message="Select configuration to override"
+          zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
+        >
+          <Icon name="information" />
+        </Tooltip>
+      ) : (
+        "Override"
+      ),
       className: "override",
     },
     { content: <>Configuration{configurationExtra}</>, className: "config" },
-    { content: "Inherited", className: "value" },
-    { content: "Override", className: "defined" },
+    { content: "Value", className: "value" },
+    { content: "Defined in", className: "defined" },
   ];
 
   return (
-    <ScrollableTable dependencies={[notify.notification]} belowId="form-footer">
+    <ScrollableTable dependencies={[notify.notification]}>
       <MainTable
         className="configuration-table"
         emptyStateMsg={emptyStateMsg}
