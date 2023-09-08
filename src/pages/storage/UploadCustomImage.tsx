@@ -32,15 +32,13 @@ const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
     notify.clear();
   }, []);
 
-  const projectName = project?.name ?? "";
-
   const {
     data: pools = [],
     isLoading: arePoolsLoading,
     error: poolError,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(projectName),
+    queryFn: () => fetchStoragePools(project?.name ?? ""),
   });
 
   if (poolError) {
@@ -73,7 +71,7 @@ const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
       pool,
       file,
       name,
-      projectName,
+      project?.name ?? "",
       setUploadState,
       uploadController
     )
@@ -90,7 +88,6 @@ const UploadCustomImage: FC<Props> = ({ onCancel, onFinish }) => {
           queryKeys.storage,
           pool,
           queryKeys.volumes,
-          projectName,
         ]);
       });
   };

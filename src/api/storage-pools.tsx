@@ -88,11 +88,10 @@ export const deleteStoragePool = (pool: string, project: string) => {
 };
 
 export const fetchStorageVolumes = (
-  pool: string,
-  project: string
+  pool: string
 ): Promise<LxdStorageVolume[]> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1`)
+    fetch(`/1.0/storage-pools/${pool}/volumes?all-projects=true&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
         resolve(data.metadata)
