@@ -49,8 +49,8 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
   }
 
   const data: Record<string, LxdUsedBy[]> = {
-    instances: filterUsedByType("instances", network.used_by),
-    profiles: filterUsedByType("profiles", network.used_by),
+    instances: filterUsedByType("instances", project, network.used_by),
+    profiles: filterUsedByType("profiles", project, network.used_by),
   };
 
   return (

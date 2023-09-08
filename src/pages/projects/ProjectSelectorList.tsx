@@ -18,7 +18,7 @@ const ProjectSelectorList: FC<Props> = ({ projects, onMount }): JSX.Element => {
   const targetSection = getSubpageFromUrl(location.pathname) ?? "instances";
 
   function getInstanceCount(project: LxdProject) {
-    const count = filterUsedByType("instances", project.used_by).length;
+    const count = filterUsedByType("instances", "", project.used_by).length;
     return count === 1 ? "1 instance" : `${count} instances`;
   }
 
