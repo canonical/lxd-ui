@@ -48,9 +48,3 @@ export interface LxdStoragePoolResources {
     total: number;
   };
 }
-
-export interface UploadState {
-  percentage: number;
-  loaded: number;
-  total?: number;
-}
