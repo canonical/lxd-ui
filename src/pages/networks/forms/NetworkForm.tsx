@@ -173,7 +173,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
       onChange: formik.handleChange,
       value: formik.values[id] ?? "",
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-      placeholder: `Enter ${id.replaceAll("_", " ")}`,
       stacked: true,
     };
   };
@@ -674,7 +673,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
                     onChange={formik.handleChange}
                     value={userPair.key}
                     type="text"
-                    placeholder="Enter key"
                     help={`Key ${index + 1}`}
                   />
                   <Input
@@ -684,7 +682,6 @@ const NetworkForm: FC<Props> = ({ formik, getYaml }) => {
                     onChange={formik.handleChange}
                     value={userPair.value}
                     type="text"
-                    placeholder="Enter value"
                     help={`Value ${index + 1}`}
                   />
                   <Button
