@@ -15,7 +15,6 @@ const CreateInstanceFromImageBtn: FC<Props> = ({ image, project }) => {
     navigate(`/ui/project/${project}/instances/create`, {
       state: {
         selectedImage: image,
-        cancelLocation: window.location.pathname,
       },
     });
   };
