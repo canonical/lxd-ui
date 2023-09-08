@@ -1,10 +1,11 @@
 import React, { FC, useState } from "react";
+import ConfirmationButton from "components/ConfirmationButton";
 import ItemName from "components/ItemName";
 import { postClusterMemberState } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdClusterMember } from "types/cluster";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   member: LxdClusterMember;
@@ -35,24 +36,20 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
 
   return (
     <ConfirmationButton
-      appearance=""
-      loading={isLoading}
-      confirmationModalProps={{
-        title: "Confirm evacuation",
-        children: (
-          <>
-            This will evacuate cluster member{" "}
-            <ItemName item={{ name: member.server_name }} bold />.
-          </>
-        ),
-        confirmButtonLabel: "Evacuate",
-        onConfirm: handleEvacuate,
-      }}
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      <span>Evacuate</span>
-    </ConfirmationButton>
+      toggleAppearance=""
+      isLoading={isLoading}
+      toggleCaption="Evacuate"
+      title="Confirm evacuation"
+      confirmMessage={
+        <>
+          This will evacuate cluster member{" "}
+          <ItemName item={{ name: member.server_name }} bold />.
+        </>
+      }
+      confirmButtonLabel="Evacuate"
+      onConfirm={handleEvacuate}
+      isDense={false}
+    />
   );
 };
 

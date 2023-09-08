@@ -1,17 +1,13 @@
 import React, { FC, useState } from "react";
-import {
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
-import { useQueryClient } from "@tanstack/react-query";
-import { deleteStoragePool } from "api/storage-pools";
-import classnames from "classnames";
-import ItemName from "components/ItemName";
-import { useDeleteIcon } from "context/useDeleteIcon";
-import { useNavigate } from "react-router-dom";
+import ConfirmationButton from "components/ConfirmationButton";
 import { LxdStoragePool } from "types/storage";
+import { deleteStoragePool } from "api/storage-pools";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import ItemName from "components/ItemName";
+import { useNavigate } from "react-router-dom";
+import { useDeleteIcon } from "context/useDeleteIcon";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   storage: LxdStoragePool;
@@ -51,31 +47,24 @@ const DeleteStorageBtn: FC<Props> = ({
 
   return (
     <ConfirmationButton
-      confirmationModalProps={{
-        title: "Confirm delete",
-        children: (
-          <p>
-            This will permanently delete storage{" "}
-            <ItemName item={storage} bold />.<br />
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ),
-        confirmButtonLabel: "Delete storage",
-        onConfirm: handleDelete,
-        message: "Delete storage",
-      }}
-      appearance={!isSmallScreen && shouldExpand ? "default" : "base"}
-      className={classnames("u-no-margin--bottom", {
-        "is-dense": !shouldExpand,
-        "has-icon": !isSmallScreen && shouldExpand,
-      })}
-      loading={isLoading}
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      {!isSmallScreen && shouldExpand ? undefined : <Icon name="delete" />}
-      {!isSmallScreen && shouldExpand && "Delete"}
-    </ConfirmationButton>
+      toggleAppearance={!isSmallScreen && shouldExpand ? "default" : "base"}
+      className="u-no-margin--bottom"
+      isLoading={isLoading}
+      title="Confirm delete"
+      toggleCaption={
+        !isSmallScreen && shouldExpand ? "Delete storage" : undefined
+      }
+      confirmMessage={
+        <>
+          This will permanently delete storage <ItemName item={storage} bold />.
+          {"\n"}This action cannot be undone, and can result in data loss.
+        </>
+      }
+      confirmButtonLabel="Delete"
+      onConfirm={handleDelete}
+      isDense={!shouldExpand}
+      icon={!isSmallScreen && shouldExpand ? undefined : "delete"}
+    />
   );
 };
 

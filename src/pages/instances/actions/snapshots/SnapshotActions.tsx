@@ -3,12 +3,8 @@ import { LxdInstance, LxdSnapshot } from "types/instance";
 import { deleteSnapshot, restoreSnapshot } from "api/snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import {
-  Button,
-  ConfirmationButton,
-  Icon,
-  List,
-} from "@canonical/react-components";
+import ConfirmationButton from "components/ConfirmationButton";
+import { Button, Icon, List } from "@canonical/react-components";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
 import ConfirmationForce from "components/ConfirmationForce";
@@ -102,59 +98,49 @@ const SnapshotActions: FC<Props> = ({
           </Button>,
           <ConfirmationButton
             key="restore"
-            appearance="base"
-            loading={isRestoring}
-            className="has-icon is-dense"
+            toggleAppearance="base"
+            isLoading={isRestoring}
+            icon="change-version"
             title="Confirm restore"
-            confirmationModalProps={{
-              title: "Confirm restore",
-              children: (
-                <>
-                  This will restore snapshot <ItemName item={snapshot} bold />.
-                  <br />
-                  This action cannot be undone, and can result in data loss.
-                </>
-              ),
-              confirmExtra: snapshot.stateful ? (
+            confirmMessage={
+              <>
+                This will restore snapshot <ItemName item={snapshot} bold />.
+                {"\n"}This action cannot be undone, and can result in data loss.
+              </>
+            }
+            confirmExtra={
+              snapshot.stateful ? (
                 <ConfirmationForce
                   label="Restore the instance state"
                   force={[restoreState, setRestoreState]}
                 />
-              ) : undefined,
-              confirmButtonLabel: "Restore",
-              confirmButtonAppearance: "positive",
-              close: () => setRestoreState(true),
-              onConfirm: handleRestore,
-            }}
-            disabled={isDeleting || isRestoring}
-            shiftClickEnabled
-            showShiftClickHint
-          >
-            <Icon name="change-version" />
-          </ConfirmationButton>,
+              ) : undefined
+            }
+            confirmButtonLabel="Restore"
+            confirmButtonAppearance="positive"
+            onCancel={() => setRestoreState(true)}
+            onConfirm={handleRestore}
+            isDense={true}
+            isDisabled={isDeleting || isRestoring}
+          />,
           <ConfirmationButton
             key="delete"
-            appearance="base"
-            loading={isDeleting}
-            className="has-icon is-dense"
-            confirmationModalProps={{
-              title: "Confirm delete",
-              children: (
-                <>
-                  This will permanently delete snapshot{" "}
-                  <ItemName item={snapshot} bold />.<br />
-                  This action cannot be undone, and can result in data loss.
-                </>
-              ),
-              confirmButtonLabel: "Delete",
-              onConfirm: handleDelete,
-            }}
-            disabled={isDeleting || isRestoring}
-            shiftClickEnabled
-            showShiftClickHint
-          >
-            <Icon name="delete" />
-          </ConfirmationButton>,
+            toggleAppearance="base"
+            isLoading={isDeleting}
+            icon="delete"
+            title="Confirm delete"
+            confirmMessage={
+              <>
+                This will permanently delete snapshot{" "}
+                <ItemName item={snapshot} bold />.{"\n"}This action cannot be
+                undone, and can result in data loss.
+              </>
+            }
+            confirmButtonLabel="Delete"
+            onConfirm={handleDelete}
+            isDense={true}
+            isDisabled={isDeleting || isRestoring}
+          />,
         ]}
       />
     </>
