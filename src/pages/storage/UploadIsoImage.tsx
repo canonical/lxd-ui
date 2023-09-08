@@ -76,10 +76,10 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
       uploadController
     )
       .then(() => {
-        onFinish(name, pool);
+        onFinish(file.name, pool);
       })
       .catch((e) => {
-        notify.failure("Image import failed", e);
+        notify.failure("ISO import failed", e);
       })
       .finally(() => {
         setLoading(false);
@@ -109,6 +109,7 @@ const UploadIsoImage: FC<Props> = ({ onCancel, onFinish }) => {
           type="file"
           id="iso-image"
           label="Local image"
+          accept=".iso"
           onChange={changeFile}
           stacked
         />

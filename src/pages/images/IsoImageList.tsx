@@ -98,9 +98,11 @@ const IsoImageList: FC<Props> = ({ project }) => {
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
-      title="No custom images found"
+      title="No custom ISO images found"
     >
-      <p>Custom images will appear here</p>
+      <p>
+        Images will appear here, when uploading a custom ISO on instance launch.
+      </p>
     </EmptyState>
   ) : (
     <>

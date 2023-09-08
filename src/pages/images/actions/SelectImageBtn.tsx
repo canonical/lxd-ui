@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { Button } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import { RemoteImage } from "types/image";
@@ -6,7 +6,7 @@ import ImageSelectorModal from "pages/images/ImageSelectorModal";
 
 interface Props {
   appearance: string;
-  caption: ReactNode;
+  caption: string;
   onSelect: (image: RemoteImage, type: string | null) => void;
 }
 
@@ -20,13 +20,7 @@ const SelectImageBtn: FC<Props> = ({ appearance, caption, onSelect }) => {
 
   return (
     <>
-      <Button
-        appearance={appearance}
-        onClick={openPortal}
-        type="button"
-        id="base-image"
-        className="image-btn"
-      >
+      <Button appearance={appearance} onClick={openPortal} type="button">
         <span>{caption}</span>
       </Button>
       {isOpen && (

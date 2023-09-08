@@ -96,23 +96,28 @@ const InstanceCreateDetailsForm: FC<Props> = ({
       </Row>
       <Row>
         <Col size={8}>
-          <label className="p-form__label" htmlFor="base-image">
-            Base Image*
-          </label>
-          <div className="p-form__control u-clearfix base-image">
-            {formik.values.image && (
-              <span className="u-text--muted u-truncate u-sv3 image-name">
-                {figureBaseImageName()}
-              </span>
-            )}
-            <SelectImageBtn
-              appearance={formik.values.image ? "" : "positive"}
-              caption={
-                formik.values.image ? <>Change&nbsp;image</> : "Browse images"
-              }
-              onSelect={onSelectImage}
-            />
-          </div>
+          <Input
+            id="baseImage"
+            name="baseImage"
+            label="Base Image"
+            type="text"
+            value={figureBaseImageName()}
+            placeholder="Select base image"
+            disabled
+            required
+          />
+        </Col>
+        <Col
+          size={4}
+          className={
+            formik.values.image ? "image-change-link" : "image-select-button"
+          }
+        >
+          <SelectImageBtn
+            appearance={formik.values.image ? "link" : "positive"}
+            caption={formik.values.image ? "Change image" : "Browse images"}
+            onSelect={onSelectImage}
+          />
         </Col>
       </Row>
       {formik.values.image && (
