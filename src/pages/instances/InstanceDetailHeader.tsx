@@ -30,6 +30,9 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
           instance?.name === value ||
           checkDuplicateName(value, project, controllerState, "instances")
       )
+      .matches(/^[A-Za-z0-9-]+$/, {
+        message: "Only alphanumeric and hyphen characters are allowed",
+      })
       .required("Instance name is required"),
   });
 
