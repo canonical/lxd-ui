@@ -24,13 +24,12 @@ import {
 import Pagination from "components/Pagination";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
-import { isClusteredServer } from "util/settings";
 
 const ClusterList: FC = () => {
   const notify = useNotify();
   const { group: activeGroup } = useParams<{ group: string }>();
   const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = settings?.environment?.server_clustered;
 
   const {
     data: members = [],

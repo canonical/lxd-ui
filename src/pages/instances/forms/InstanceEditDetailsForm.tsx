@@ -5,7 +5,6 @@ import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { useSettings } from "context/useSettings";
 import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
-import { isClusteredServer } from "util/settings";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -34,7 +33,7 @@ interface Props {
 const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
   const isReadOnly = formik.values.readOnly;
   const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = settings?.environment?.server_clustered;
 
   return (
     <div className="details">
