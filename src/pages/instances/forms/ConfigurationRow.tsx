@@ -20,7 +20,6 @@ interface Props {
   defaultValue?: string | CpuLimit | MemoryLimit;
   disabled?: boolean;
   readOnlyRenderer?: (value: unknown) => string | ReactNode;
-  help?: string;
 }
 
 export const getConfigurationRow = ({
@@ -31,7 +30,6 @@ export const getConfigurationRow = ({
   defaultValue,
   disabled = false,
   readOnlyRenderer,
-  help,
 }: Props): MainTableRow => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -112,17 +110,8 @@ export const getConfigurationRow = ({
     <b>{label}</b>
   );
 
-  const helpText = help ? (
-    <div className="configuration-help">{help}</div>
-  ) : null;
-
   return getConfigurationRowBase({
-    configuration: (
-      <>
-        {displayLabel}
-        {helpText}
-      </>
-    ),
+    configuration: displayLabel,
     inherited: (
       <div
         className={classnames({
@@ -130,7 +119,7 @@ export const getConfigurationRow = ({
           "u-text--line-through": isOverridden,
         })}
       >
-        <div className="mono-font">
+        <div>
           <b>{getInheritedValue()}</b>
         </div>
         <div>From: {inheritSource}</div>

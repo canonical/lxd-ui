@@ -41,36 +41,52 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_access",
           label: "Available networks",
-          help: "Comma-delimited list of network names that are allowed for use in this project. If not set, all networks are accessible (depending on the restricted.devices.nic setting).",
           defaultValue: "",
-          children: <Textarea placeholder="Enter network names" />,
+          children: (
+            <Textarea
+              placeholder="Enter network names"
+              help="Comma-delimited list of network names that are allowed for use in this project. If not set, all networks are accessible (depending on the restricted.devices.nic setting)."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_subnets",
           label: "Network subnets",
-          help: "Comma-delimited list of network subnets from the uplink networks (in the form <uplink>:<subnet>) that are allocated for use in this project.",
           defaultValue: "",
-          children: <Textarea placeholder="Enter network subnets" />,
+          children: (
+            <Textarea
+              placeholder="Enter network subnets"
+              help="Comma-delimited list of network subnets from the uplink networks (in the form <uplink>:<subnet>) that are allocated for use in this project."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_uplinks",
           label: "Network uplinks",
-          help: "Comma-delimited list of network names that can be used as uplink for networks in this project.",
           defaultValue: "",
-          children: <Textarea placeholder="Enter network names" />,
+          children: (
+            <Textarea
+              placeholder="Enter network names"
+              help="Comma-delimited list of network names that can be used as uplink for networks in this project."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_zones",
           label: "Network zones",
-          help: "Comma-delimited list of network zones that can be used (or something under them) in this project.",
           defaultValue: "",
-          children: <Textarea placeholder="Enter network zones" />,
+          children: (
+            <Textarea
+              placeholder="Enter network zones"
+              help="Comma-delimited list of network zones that can be used (or something under them) in this project."
+            />
+          ),
         }),
       ]}
     />

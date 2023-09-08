@@ -125,7 +125,7 @@ const CreateProjectForm: FC = () => {
             updateSection={setSection}
             isEdit={false}
           />
-          <div className="p-bottom-controls" id="form-footer">
+          <div className="p-bottom-controls">
             <hr />
             <Row className="u-align--right">
               <Col size={12}>

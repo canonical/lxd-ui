@@ -15,7 +15,6 @@ interface Props {
   children: ReactElement;
   defaultValue?: string | CpuLimit | MemoryLimit;
   disabled?: boolean;
-  help?: string;
 }
 
 export const getConfigurationRow = ({
@@ -25,7 +24,6 @@ export const getConfigurationRow = ({
   children,
   defaultValue,
   disabled = false,
-  help,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
   const isOverridden = values[name] !== undefined;
@@ -89,17 +87,8 @@ export const getConfigurationRow = ({
     <b>{label}</b>
   );
 
-  const helpText = help ? (
-    <div className="configuration-help">{help}</div>
-  ) : null;
-
   return getConfigurationRowBase({
-    configuration: (
-      <>
-        {displayLabel}
-        {helpText}
-      </>
-    ),
+    configuration: displayLabel,
     inherited: (
       <div
         className={classnames({
@@ -107,7 +96,7 @@ export const getConfigurationRow = ({
           "u-text--line-through": isOverridden,
         })}
       >
-        <div className="mono-font">
+        <div>
           <b>{getInheritedValue()}</b>
         </div>
         <div>From: {inheritSource}</div>

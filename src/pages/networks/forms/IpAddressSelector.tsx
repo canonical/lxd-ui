@@ -24,9 +24,9 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress }) => {
           onChange={() => setAddress("none")}
         />
       </div>
-      <div className="ip-address-selector ip-address-custom">
+      <div className="ip-address-selector">
         <RadioInput
-          label=""
+          label="custom"
           checked={isCustom}
           onChange={() => setAddress("")}
         />

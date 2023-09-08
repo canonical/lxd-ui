@@ -116,15 +116,6 @@
     }
   }
 
-  .ip-address-custom {
-    align-items: flex-start;
-
-    > :nth-child(2) {
-      margin-left: -65px;
-      margin-top: -5px;
-    }
-  }
-
   .snapshot-schedule {
     > * {
       margin-bottom: $spv--large;

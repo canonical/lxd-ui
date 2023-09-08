@@ -109,7 +109,7 @@ or remove the originating item"
             ),
             inherited: (
               <div>
-                <div className="mono-font">
+                <div>
                   <b>{item.network?.network}</b>
                 </div>
                 <div>From: {item.source}</div>

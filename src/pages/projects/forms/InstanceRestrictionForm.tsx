@@ -53,79 +53,113 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_virtual_machines_low_level",
           label: "Low level VM operations",
-          help: "Use of low-level virtual-machine options like raw.qemu, volatile etc.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
-          children: <Select options={optionAllowBlock} />,
+          children: (
+            <Select
+              options={optionAllowBlock}
+              help="Use of low-level virtual-machine options like raw.qemu, volatile etc."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_low_level",
           label: "Low level container operations",
-          help: "Use of low-level container options like raw.lxc, raw.idmap, volatile etc.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
-          children: <Select options={optionAllowBlock} />,
+          children: (
+            <Select
+              options={optionAllowBlock}
+              help="Use of low-level container options like raw.lxc, raw.idmap, volatile etc."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_nesting",
           label: "Container nesting",
-          help: "Setting security.nesting=true.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
-          children: <Select options={optionAllowBlock} />,
+          children: (
+            <Select
+              options={optionAllowBlock}
+              help="Setting security.nesting=true."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_privilege",
           label: "Container privilege",
-          help: "If unpriviliged, prevents setting security.privileged=true. If isolated, prevents setting security.privileged=true and also security.idmap.isolated=true. If allow, no restriction apply.",
           defaultValue: "",
           readOnlyRenderer: (val) =>
             optionRenderer(val, optionAllowIsolatedUnprivileged),
-          children: <Select options={optionAllowIsolatedUnprivileged} />,
+          children: (
+            <Select
+              options={optionAllowIsolatedUnprivileged}
+              help="If unpriviliged, prevents setting security.privileged=true. If isolated, prevents setting security.privileged=true and also security.idmap.isolated=true. If allow, no restriction apply."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_container_interception",
           label: "Container interception",
-          help: "Use for system call interception options. When set to allow usually safe interception options will be allowed (file system mounting will remain blocked).",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
-          children: <Select options={optionAllowBlock} />,
+          children: (
+            <Select
+              options={optionAllowBlock}
+              help="Use for system call interception options. When set to allow usually safe interception options will be allowed (file system mounting will remain blocked)."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restrict_snapshots",
           label: "Snapshot creation",
-          help: "Creation of instance or volume snapshots.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
-          children: <Select options={optionAllowBlock} />,
+          children: (
+            <Select
+              options={optionAllowBlock}
+              help="Creation of instance or volume snapshots."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_idmap_uid",
           label: "Idmap UID",
-          help: "Specifies the allowed host UID ranges in the instance raw.idmap setting.",
           defaultValue: "",
-          children: <Input placeholder="Enter UID ranges" type="text" />,
+          children: (
+            <Input
+              placeholder="Enter UID ranges"
+              type="text"
+              help="Specifies the allowed host UID ranges in the instance raw.idmap setting."
+            />
+          ),
         }),
 
         getConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_idmap_gid",
           label: "Idmap GID",
-          help: "Specifies the allowed host GID ranges in the instance raw.idmap setting.",
           defaultValue: "",
-          children: <Input placeholder="Enter GID ranges" type="text" />,
+          children: (
+            <Input
+              placeholder="Enter GID ranges"
+              type="text"
+              help="Specifies the allowed host GID ranges in the instance raw.idmap setting."
+            />
+          ),
         }),
       ]}
     />
