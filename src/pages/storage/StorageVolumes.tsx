@@ -1,16 +1,17 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTable, SearchBox, useNotify } from "@canonical/react-components";
+import { Col, MainTable, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStorageVolumes } from "api/storage-pools";
 import { isoTimeToString } from "util/helpers";
+import BaseLayout from "components/BaseLayout";
+import NotificationRow from "components/NotificationRow";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
-  const [query, setQuery] = useState("");
   const { name: pool, project } = useParams<{
     name: string;
     project: string;
@@ -29,7 +30,7 @@ const StorageVolumes: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage, pool, queryKeys.volumes],
-    queryFn: () => fetchStorageVolumes(pool),
+    queryFn: () => fetchStorageVolumes(pool, project),
   });
 
   if (error) {
@@ -44,11 +45,12 @@ const StorageVolumes: FC = () => {
   }
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Content type", sortKey: "contentType" },
-    { content: "Type", sortKey: "type" },
-    { content: "Created at", sortKey: "createdAt" },
-    { content: "Location", sortKey: "location" },
+    { content: "Name" },
+    { content: "Content type" },
+    { content: "Type" },
+    { content: "Created at" },
+    { content: "Description" },
+    { content: "Location" },
     { content: "Config" },
     { content: "Used by" },
     {
@@ -57,11 +59,7 @@ const StorageVolumes: FC = () => {
     },
   ];
 
-  const filteredVolumes = volumes.filter((volume) => {
-    return volume.name.toLowerCase().includes(query.toLowerCase());
-  });
-
-  const rows = filteredVolumes.map((volume) => {
+  const rows = volumes.map((volume) => {
     return {
       columns: [
         {
@@ -83,6 +81,11 @@ const StorageVolumes: FC = () => {
           content: isoTimeToString(volume.created_at),
           role: "rowheader",
           "aria-label": "Created at",
+        },
+        {
+          content: volume.description,
+          role: "rowheader",
+          "aria-label": "Description",
         },
         {
           content: volume.location,
@@ -119,31 +122,18 @@ const StorageVolumes: FC = () => {
           "aria-label": "Actions",
         },
       ],
-      sortData: {
-        name: volume.name,
-        contentType: volume.content_type,
-        type: volume.type,
-        createdAt: volume.created_at,
-        location: volume.location,
-      },
     };
   });
 
   return (
-    <>
-      <SearchBox
-        name="search-volumes"
-        className="search-volumes margin-right"
-        type="text"
-        onChange={(value) => {
-          setQuery(value);
-        }}
-        placeholder="Search for volumes"
-        value={query}
-        aria-label="Search for volumes"
-      />
-      <MainTable headers={headers} rows={rows} sortable />
-    </>
+    <BaseLayout title={`Storage Volumes in pool ${pool}`}>
+      <NotificationRow />
+      <Row>
+        <Col size={12}>
+          <MainTable headers={headers} rows={rows} />
+        </Col>
+      </Row>
+    </BaseLayout>
   );
 };
 

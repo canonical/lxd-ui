@@ -8,7 +8,7 @@ export const loadIsoImages = async (
   const result: RemoteImage[] = [];
   const pools = await fetchStoragePools(project);
   for (const pool of pools) {
-    const volumes = await fetchStorageVolumes(pool.name);
+    const volumes = await fetchStorageVolumes(pool.name, project);
 
     volumes.forEach((volume) => {
       if (volume.content_type === "iso") {

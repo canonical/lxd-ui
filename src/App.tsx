@@ -2,6 +2,7 @@ import React, { FC, lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
+import StorageVolumes from "pages/storage/StorageVolumes";
 import ProjectLoader from "pages/projects/ProjectLoader";
 import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
@@ -210,7 +211,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/detail/:name"
+          path="/ui/project/:project/storage/:name"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StorageDetail />} />}
@@ -218,8 +219,8 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/detail/:name/:activeTab"
-          element={<ProtectedRoute outlet={<StorageDetail />} />}
+          path="/ui/:project/storages/:name/volumes"
+          element={<ProtectedRoute outlet={<StorageVolumes />} />}
         />
         <Route
           path="/ui/cluster"
