@@ -75,7 +75,7 @@ const RemoteImageSelector: FC<Props> = ({ onSelect, onUpload }) => {
 
   const { project } = useProject();
   const { data: isoImages = [], isLoading: isIsoImageLoading } = useQuery({
-    queryKey: [queryKeys.isoImages],
+    queryKey: ["isoImages"],
     queryFn: () => loadIsoImages(project?.name ?? ""),
   });
 

@@ -1,5 +1,3 @@
-import { LxdStorageVolume } from "types/storage";
-
 interface LxdImageAlias {
   name: string;
   description: string;
@@ -13,11 +11,6 @@ export interface LxdImage {
     os: string;
     release: string;
     variant?: string;
-  };
-  update_source?: {
-    alias: string;
-    protocol: string;
-    server: string;
   };
   architecture: string;
   type: string;
@@ -55,7 +48,6 @@ export interface RemoteImage {
     }
   >;
   server?: string;
-  volume?: LxdStorageVolume;
 }
 
 export interface RemoteImageList {

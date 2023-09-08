@@ -69,14 +69,13 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
-interface PresetFormState {
-  retryFormValues?: CreateInstanceFormValues;
-  selectedImage?: RemoteImage;
+interface RetryFormState {
+  retryFormValues: CreateInstanceFormValues;
 }
 
 const CreateInstanceForm: FC = () => {
   const eventQueue = useEventQueue();
-  const location = useLocation() as Location<PresetFormState | null>;
+  const location = useLocation() as Location<RetryFormState | null>;
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -266,13 +265,6 @@ const CreateInstanceForm: FC = () => {
     }
     notify.clear();
   };
-
-  useEffect(() => {
-    if (location.state?.selectedImage) {
-      const type = location.state.selectedImage.volume ? "iso-volume" : null;
-      handleSelectImage(location.state.selectedImage, type);
-    }
-  }, [location.state?.selectedImage]);
 
   const getPayload = (values: CreateInstanceFormValues) => {
     return {
