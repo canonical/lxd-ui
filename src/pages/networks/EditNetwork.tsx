@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Col, Row, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -108,8 +108,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     return dumpYaml(getPayload(formik.values));
   };
 
-  const isReadOnly = formik.values.readOnly;
-
   return (
     <>
       <NetworkForm formik={formik} getYaml={getYaml} project={project} />
@@ -117,30 +115,12 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {isReadOnly ? (
-              <Button
-                appearance="positive"
-                onClick={() => formik.setFieldValue("readOnly", false)}
-              >
-                Edit network
-              </Button>
-            ) : (
-              <>
-                <Button
-                  onClick={() =>
-                    formik.setValues(getNetworkEditValues(network))
-                  }
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Save changes"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Save changes"
+              onClick={() => void formik.submitForm()}
+            />
           </Col>
         </Row>
       </div>

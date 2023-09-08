@@ -2,7 +2,6 @@ import { LxdNetwork } from "types/network";
 
 export const getNetworkEditValues = (network: LxdNetwork) => {
   return {
-    readOnly: true,
     name: network.name,
     description: network.description,
     type: network.type,
