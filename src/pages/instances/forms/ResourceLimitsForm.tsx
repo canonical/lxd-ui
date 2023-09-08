@@ -53,7 +53,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik: formik,
           name: "limits_cpu",
-          label: "Exposed CPU limit",
+          label: "Exposed CPUs",
           defaultValue: DEFAULT_CPU_LIMIT,
           readOnlyRenderer: (val) =>
             cpuLimitToPayload(val as CpuLimit | string | undefined),

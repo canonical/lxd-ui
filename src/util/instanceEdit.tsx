@@ -11,7 +11,6 @@ import { cloudInitPayload } from "pages/instances/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import * as Yup from "yup";
-import { EditProfileFormValues } from "pages/profiles/EditProfileForm";
 
 const getEditValues = (item: LxdProfile | LxdInstance) => {
   return {
@@ -64,9 +63,7 @@ export const getInstanceEditValues = (instance: LxdInstance) => {
   };
 };
 
-export const getProfileEditValues = (
-  profile: LxdProfile
-): EditProfileFormValues => {
+export const getProfileEditValues = (profile: LxdProfile) => {
   return {
     readOnly: true,
     type: "profile",

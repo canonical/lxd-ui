@@ -6,7 +6,7 @@ import { CreateProfileFormValues } from "pages/profiles/CreateProfileForm";
 export interface ProfileDetailsFormValues {
   name: string;
   description?: string;
-  type: "profile";
+  type: string;
   readOnly: boolean;
 }
 
