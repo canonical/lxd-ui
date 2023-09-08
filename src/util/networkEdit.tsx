@@ -1,11 +1,7 @@
 import { LxdNetwork } from "types/network";
 
-const toBool = (value: string | undefined): boolean | undefined => {
-  if (value === undefined) {
-    return undefined;
-  }
-  return value === "true";
-};
+const toBool = (value: string | undefined): boolean | undefined =>
+  value !== undefined ? Boolean(value) : undefined;
 
 export const getNetworkEditValues = (network: LxdNetwork) => {
   return {

@@ -8,7 +8,7 @@ export const randomNetworkName = (): string => {
 
 export const createNetwork = async (page: Page, network: string) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
+  await page.getByRole("link", { name: "Networks" }).click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
   await page.getByLabel("Name").click();
@@ -29,7 +29,7 @@ export const deleteNetwork = async (page: Page, network: string) => {
 
 export const visitNetwork = async (page: Page, network: string) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
+  await page.getByRole("link", { name: "Networks" }).click();
   await page.getByRole("link", { name: network }).first().click();
 };
 
