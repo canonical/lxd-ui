@@ -127,7 +127,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     );
   };
 
-  const getForm = () => {
+  const getDisplayForm = () => {
     return (
       <div className="override-form">
         <div>
@@ -202,7 +202,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
           override: isReadOnly ? (
             getOverrideValue()
           ) : hasRootStorage ? (
-            getForm()
+            getDisplayForm()
           ) : (
             <Button
               onClick={addRootStorage}

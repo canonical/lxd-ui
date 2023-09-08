@@ -53,7 +53,7 @@ export const setCpuLimit = async (
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
   await page.getByRole("button", { name: "Edit" }).click();
-  await activateOverride(page, "Exposed CPU limit");
+  await activateOverride(page, "Exposed CPUs");
   await page.getByText(type).first().click();
   const placeholder =
     type === "fixed"

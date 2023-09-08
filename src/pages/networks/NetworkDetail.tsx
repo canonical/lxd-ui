@@ -54,6 +54,7 @@ const NetworkDetail: FC = () => {
         <NetworkDetailHeader network={network} project={project} name={name} />
         <div className="p-panel__content edit-network">
           <NotificationRow />
+
           <Row>
             <Tabs
               links={TABS.filter(
@@ -67,11 +68,13 @@ const NetworkDetail: FC = () => {
                 onClick: () => handleTabChange(slugify(tab)),
               }))}
             />
+
             {!activeTab && (
               <div role="tabpanel" aria-labelledby="overview">
                 {network && <NetworkDetailOverview network={network} />}
               </div>
             )}
+
             {activeTab === "configuration" && (
               <div role="tabpanel" aria-labelledby="configuration">
                 {network && <EditNetwork network={network} project={project} />}

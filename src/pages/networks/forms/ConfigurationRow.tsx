@@ -2,6 +2,7 @@ import React, { ReactElement, ReactNode } from "react";
 import { Button, Icon, Label } from "@canonical/react-components";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import classnames from "classnames";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
@@ -39,8 +40,11 @@ export const getConfigurationRow = ({
   };
 
   const [inheritedValue, inheritSource] = [getLxdDefault(name), "LXD"];
-  const isReadOnly = formik.values.readOnly;
-  const getForm = (): ReactNode => {
+  const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
+  const getDisplayForm = (): ReactNode => {
+    if (isReadOnly) {
+      return "-";
+    }
     return (
       <div className="override-form">
         <div>
@@ -112,7 +116,7 @@ export const getConfigurationRow = ({
     override: isReadOnly ? (
       getOverrideValue()
     ) : isOverridden ? (
-      getForm()
+      getDisplayForm()
     ) : (
       <Button
         onClick={toggleDefault}

@@ -135,11 +135,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [
-    notify.notification?.message,
-    section,
-    networks,
-  ]);
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
   if (isSettingsLoading || isNetworkLoading) {
