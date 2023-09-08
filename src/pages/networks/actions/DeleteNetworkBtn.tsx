@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
+import ConfirmationButton from "components/ConfirmationButton";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   network: LxdNetwork;
@@ -47,27 +48,23 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
           ? "Can not delete, network is currently in use"
           : "Delete network"
       }
-      confirmationModalProps={{
-        title: "Confirm delete",
-        confirmButtonAppearance: "negative",
-        confirmButtonLabel: "Delete",
-        children: (
-          <>
-            Are you sure you want to delete the network{" "}
-            <ItemName item={network} bold />?<br />
-            This action cannot be undone, and can result in data loss.
-          </>
-        ),
-        onConfirm: handleDelete,
-      }}
+      toggleAppearance="bare"
+      toggleCaption="Delete network"
       className="u-no-margin--bottom"
-      loading={isLoading}
-      disabled={isUsed || !isManaged}
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      Delete network
-    </ConfirmationButton>
+      isLoading={isLoading}
+      title="Confirm delete"
+      confirmMessage={
+        <>
+          Are you sure you want to delete the network{" "}
+          <ItemName item={network} bold />?{"\n"}This action cannot be undone,
+          and can result in data loss.
+        </>
+      }
+      confirmButtonLabel="Delete"
+      onConfirm={handleDelete}
+      isDense={false}
+      isDisabled={isUsed || !isManaged}
+    />
   );
 };
 
