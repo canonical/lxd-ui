@@ -57,9 +57,7 @@ const NetworkDetail: FC = () => {
 
           <Row>
             <Tabs
-              links={TABS.filter(
-                (tab) => tab !== "Configuration" || network?.managed === true
-              ).map((tab) => ({
+              links={TABS.map((tab) => ({
                 label: tab,
                 id: slugify(tab),
                 active:
