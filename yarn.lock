@@ -1130,10 +1130,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@canonical/react-components@0.47.0":
-  version "0.47.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.47.0.tgz#1c6c29052eb07cb794ab0e9f50e206ab523b8232"
-  integrity sha512-6iIaw5qqJ7bD3M9mGbmh9Ej/uRl6Zi3BsHtotThXQKvvJr4aA7qhh8cISS+zLh/zfJ2a7J1MLc/151PlcSsK6g==
+"@canonical/react-components@0.46.0":
+  version "0.46.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.46.0.tgz#1013f826fee440db571f5f462781bb78e50d66cb"
+  integrity sha512-SnGTflRfbigxpa+wQHqBgZucIQ0iM41w7sBztjC6TYEYDM4VlFRiyyALfscDApc0RqRYdQ2d5xH/2gFKn/nVgg==
   dependencies:
     "@types/jest" "27.5.2"
     "@types/node" "18.16.18"
