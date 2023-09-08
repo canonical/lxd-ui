@@ -138,6 +138,22 @@ export const createIsoStorageVolume = (
   });
 };
 
+export const createStorageVolume = (
+  pool: string,
+  project: string,
+  volume: Partial<LxdStorageVolume>
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify(volume),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
 export const deleteStorageVolume = (
   volume: string,
   pool: string,

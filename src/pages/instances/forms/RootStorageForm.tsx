@@ -4,7 +4,6 @@ import {
   Icon,
   Input,
   Label,
-  Select,
   useNotify,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +18,7 @@ import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow"
 import Loader from "components/Loader";
 import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
 import classnames from "classnames";
+import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -81,25 +81,6 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     formik.setFieldValue("devices", copy);
   };
 
-  const getStoragePoolOptions = () => {
-    const options = storagePools.map((storagePool) => {
-      return {
-        label: storagePool.name,
-        value: storagePool.name,
-        disabled: false,
-      };
-    });
-    options.unshift({
-      label:
-        storagePools.length === 0
-          ? "No storage pool available"
-          : "Select option",
-      value: "",
-      disabled: true,
-    });
-    return options;
-  };
-
   const figureSizeValue = () => {
     if (!hasRootStorage) {
       return "";
@@ -131,13 +112,12 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     return (
       <div className="override-form">
         <div>
-          <Select
-            id="rootStoragePool"
-            name={`devices.${index}.pool`}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
+          <StoragePoolSelector
+            project={project}
             value={(formik.values.devices[index] as LxdDiskDevice).pool}
-            options={getStoragePoolOptions()}
+            setValue={(value) =>
+              formik.setFieldValue(`devices.${index}.pool`, value)
+            }
           />
           <Input
             id="sizeLimit"

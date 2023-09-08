@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
 import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
-import { testDuplicateName } from "util/storage";
+import { testDuplicateName } from "util/storagePool";
 import { useNotify } from "@canonical/react-components";
 
 interface Props {

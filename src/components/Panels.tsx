@@ -3,7 +3,7 @@ import useEventListener from "@use-it/event-listener";
 import usePanelParams, { panels } from "util/usePanelParams";
 import InstanceDetailPanel from "pages/instances/InstanceDetailPanel";
 import ProfileDetailPanel from "pages/profiles/ProfileDetailPanel";
-import StorageForm from "pages/storage/StorageForm";
+import StoragePoolForm from "pages/storage/StoragePoolForm";
 
 export default function Panels() {
   const panelParams = usePanelParams();
@@ -20,7 +20,7 @@ export default function Panels() {
       case panels.profileSummary:
         return <ProfileDetailPanel />;
       case panels.storageForm:
-        return <StorageForm />;
+        return <StoragePoolForm />;
       default:
         return null;
     }
