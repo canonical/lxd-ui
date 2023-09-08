@@ -13,7 +13,7 @@ interface EmptyDevice {
 interface UnknownDevice {
   type: "unknown";
   name: string;
-  bare: unknown;
+  bare: string;
 }
 
 export interface IsoVolumeDevice {
@@ -75,24 +75,16 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
         (key) => !["type", "name", "network"].includes(key)
       );
 
-    if (isCustomNetwork) {
-      return {
-        name: key,
-        bare: item,
-        type: "custom-nic",
-      };
-    }
-
-    if (key === "iso-volume") {
-      return {
-        name: key,
-        bare: item as unknown,
-        type: "unknown",
-      };
-    }
-
     switch (item.type) {
       case "nic":
+        if (isCustomNetwork) {
+          return {
+            name: key,
+            bare: item,
+            type: "custom-nic",
+          };
+        }
+
         return {
           name: key,
           network: item.network,
