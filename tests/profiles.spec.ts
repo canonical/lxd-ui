@@ -66,11 +66,11 @@ test("profile cpu and memory", async ({ page }) => {
   await saveProfile(page);
   await assertReadMode(page, "Exposed CPUs 1-23");
 
-  await setMemLimit(page, "percentage", "2");
+  await setMemLimit(page, "number", "2");
   await saveProfile(page);
   await assertReadMode(page, "Memory limit 2%");
 
-  await setMemLimit(page, "absolute", "3");
+  await setMemLimit(page, "fixed", "3");
   await saveProfile(page);
   await assertReadMode(page, "Memory limit 3GiB");
 

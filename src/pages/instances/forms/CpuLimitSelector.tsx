@@ -45,6 +45,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
     <div>
       <div className="cpu-limit-label">
         <RadioInput
+          labelClassName="right-margin"
           label="number"
           checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC}
           onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.DYNAMIC })}

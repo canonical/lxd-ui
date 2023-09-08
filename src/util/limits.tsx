@@ -62,7 +62,7 @@ export const parseMemoryLimit = (limit?: string): MemoryLimit | undefined => {
   if (!limit) {
     return undefined;
   }
-  if (limit.includes("%")) {
+  if (limit.includes("%") || !limit) {
     return {
       value: limit ? parseInt(limit) : undefined,
       unit: "%",

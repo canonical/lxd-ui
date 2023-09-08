@@ -105,20 +105,21 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
     <div>
       <div className="memory-limit-label">
         <RadioInput
-          label="absolute"
+          labelClassName="right-margin"
+          label="number"
+          checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT}
+          onChange={() =>
+            setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT })
+          }
+        />
+        <RadioInput
+          label="fixed"
           checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED}
           onChange={() =>
             setMemoryLimit({
               unit: BYTES_UNITS.GIB,
               selectedType: MEM_LIMIT_TYPE.FIXED,
             })
-          }
-        />
-        <RadioInput
-          label="percentage"
-          checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT}
-          onChange={() =>
-            setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT })
           }
         />
       </div>

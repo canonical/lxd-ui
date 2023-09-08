@@ -78,7 +78,7 @@ export const setCpuLimit = async (
 
 export const setMemLimit = async (
   page: Page,
-  type: "absolute" | "percentage",
+  type: "fixed" | "number",
   limit: string
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
@@ -101,7 +101,7 @@ export const setMemLimit = async (
     .getByRole("gridcell", { name: "Memory limit" })
     .getByText(type)
     .click();
-  const text = type === "percentage" ? "Enter percentage" : "Enter value";
+  const text = type === "number" ? "Enter percentage" : "Enter value";
   await page.getByPlaceholder(text).click();
   await page.getByPlaceholder(text).press("Control+a");
   await page.getByPlaceholder(text).fill(limit);
