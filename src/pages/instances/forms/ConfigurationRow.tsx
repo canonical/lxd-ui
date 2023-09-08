@@ -82,6 +82,7 @@ export const getConfigurationRow = ({
         <div>
           <Button
             onClick={toggleDefault}
+            className="override-btn"
             type="button"
             appearance="base"
             title="Clear override"
@@ -133,7 +134,7 @@ export const getConfigurationRow = ({
     ) : (
       <Button
         onClick={toggleDefault}
-        className="u-no-margin--bottom"
+        className="override-btn u-no-margin--bottom"
         type="button"
         disabled={disabled}
         appearance="base"
