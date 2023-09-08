@@ -3,7 +3,6 @@ import { LxdApiResponse } from "types/apiResponse";
 import { LxdInstance } from "types/instance";
 import { LxdProject } from "types/project";
 import { LxdProfile } from "types/profile";
-import { LxdNetwork } from "types/network";
 import { getCookie } from "./cookies";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
@@ -68,7 +67,7 @@ export const handleResponse = async (response: Response) => {
 
 export const handleEtagResponse = async (response: Response) => {
   const data = (await handleResponse(response)) as LxdApiResponse<
-    LxdInstance | LxdProject | LxdProfile | LxdNetwork
+    LxdInstance | LxdProject | LxdProfile
   >;
   const result = data.metadata;
   result.etag = response.headers.get("etag")?.replace("W/", "") ?? undefined;

@@ -1,4 +1,4 @@
-import { handleEtagResponse, handleResponse } from "util/helpers";
+import { handleResponse } from "util/helpers";
 import { LxdNetwork, LxdNetworkState } from "types/network";
 import { LxdApiResponse } from "types/apiResponse";
 
@@ -17,8 +17,8 @@ export const fetchNetwork = (
 ): Promise<LxdNetwork> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${name}?project=${project}`)
-      .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdNetwork))
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdNetwork>) => resolve(data.metadata))
       .catch(reject);
   });
 };
@@ -58,9 +58,6 @@ export const updateNetwork = (
     fetch(`/1.0/networks/${network.name ?? ""}?project=${project}`, {
       method: "PUT",
       body: JSON.stringify(network),
-      headers: {
-        "If-Match": network.etag ?? "invalid-etag",
-      },
     })
       .then(handleResponse)
       .then((data) => resolve(data))

@@ -1,5 +1,5 @@
 export type LxdNetworkBridgeDriver = "native" | "openvswitch";
-export type LxdNetworkType = "bridge" | "ovn";
+export type LxdNetworkType = "bridge";
 export type LxdNetworkBridgeMode = "standard" | "fan";
 export type LxdNetworkDnsMode = "none" | "managed" | "dynamic";
 export type LxdNetworkFanType = "vxlan" | "ipip";
@@ -26,7 +26,6 @@ export interface LxdNetwork {
     "ipv4.dhcp.gateway"?: string;
     "ipv4.dhcp.ranges"?: string;
     "ipv4.firewall"?: string;
-    "ipv4.l3only"?: string;
     "ipv4.nat"?: string;
     "ipv4.nat.address"?: string;
     "ipv4.nat.order"?: string;
@@ -39,7 +38,6 @@ export interface LxdNetwork {
     "ipv6.dhcp.ranges"?: string;
     "ipv6.dhcp.stateful"?: string;
     "ipv6.firewall"?: string;
-    "ipv6.l3only"?: string;
     "ipv6.nat"?: string;
     "ipv6.nat.address"?: string;
     "ipv6.nat.order"?: string;
@@ -55,7 +53,6 @@ export interface LxdNetwork {
   status?: string;
   type: LxdNetworkType;
   used_by?: string[];
-  etag?: string;
 }
 
 export interface LxdNetworkStateAddress {
