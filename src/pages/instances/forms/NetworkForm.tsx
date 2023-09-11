@@ -72,12 +72,14 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
   };
 
   const getNetworkOptions = () => {
-    const options = networks.map((network) => {
-      return {
-        label: network.name,
-        value: network.name,
-      };
-    });
+    const options = networks
+      .filter((network) => network.managed)
+      .map((network) => {
+        return {
+          label: network.name,
+          value: network.name,
+        };
+      });
     options.unshift({
       label: networks.length === 0 ? "No networks available" : "Select option",
       value: "",
@@ -154,7 +156,7 @@ or remove the originating item"
                 <div className="network-device" key={index}>
                   <div>
                     <Select
-                      label="Network device"
+                      label="Network"
                       name={`devices.${index}.network`}
                       id={`networkDevice${index}`}
                       onBlur={formik.handleBlur}
@@ -165,7 +167,7 @@ or remove the originating item"
                       options={getNetworkOptions()}
                     />
                     <Input
-                      label="Network name"
+                      label="Device name"
                       name={`devices.${index}.name`}
                       id={`networkName${index}`}
                       onBlur={formik.handleBlur}
@@ -183,8 +185,8 @@ or remove the originating item"
                       onClick={() => removeNetwork(index)}
                       type="button"
                       appearance="base"
-                      aria-label="delete network"
                       hasIcon
+                      title="Detach network"
                     >
                       <Icon name="delete" />
                     </Button>
@@ -202,7 +204,7 @@ or remove the originating item"
               override: (
                 <Button onClick={addNetwork} type="button" hasIcon>
                   <Icon name="plus" />
-                  <span>Add network</span>
+                  <span>Attach network</span>
                 </Button>
               ),
             }),
