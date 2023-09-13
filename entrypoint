@@ -4,23 +4,23 @@ set -e
 # demo config
 if [[ ! -z "$LXD_UI_BACKEND_KEY_PEM" ]]; then
   printf %s "$LXD_UI_BACKEND_KEY_PEM" > key.pem
-  cp haproxy-demo.cfg haproxy-local.cfg
-  sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
-  sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" haproxy-local.cfg
+  cp haproxy-demo.cfg /tmp/haproxy-local.cfg
+  sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" /tmp/haproxy-local.cfg
+  sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" /tmp/haproxy-local.cfg
   . /usr/local/nvm/nvm.sh
 
-  haproxy -f haproxy-local.cfg
+  haproxy -f /tmp/haproxy-local.cfg
   npx serve --single --no-clipboard -l 3000 build
 
 # dev config
 else
-  cp haproxy-dev.cfg haproxy-local.cfg
+  cp haproxy-dev.cfg /tmp/haproxy-local.cfg
   set -o allexport; source .env; set +o allexport
   if [ -f .env.local ]
   then
     set -o allexport; source .env.local; set +o allexport
   fi
-  sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" haproxy-local.cfg
+  sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" /tmp/haproxy-local.cfg
   # generate certificates for dev environment
   if [ ! -d "keys" ]; then
     mkdir -p keys
@@ -33,6 +33,6 @@ else
   fi
   echo 'booting on https://localhost:8407'
 
-  haproxy -f haproxy-local.cfg -db
+  haproxy -f /tmp/haproxy-local.cfg -db
 
 fi
