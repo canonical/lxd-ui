@@ -7,7 +7,7 @@ import { ConfirmationButton, useNotify } from "@canonical/react-components";
 
 interface Props {
   operation: LxdOperation;
-  project: string;
+  project?: string;
 }
 
 const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
@@ -27,7 +27,9 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
       .finally(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
-          queryKey: [queryKeys.operations, project],
+          queryKey: project
+            ? [queryKeys.operations, project]
+            : [queryKeys.operations],
         });
       });
   };

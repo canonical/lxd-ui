@@ -39,21 +39,33 @@ export const watchOperation = (
   });
 };
 
+const sortOperationList = (operations: LxdOperationList) => {
+  const newestFirst = (a: LxdOperation, b: LxdOperation) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  };
+  operations.failure?.sort(newestFirst);
+  operations.success?.sort(newestFirst);
+  operations.running?.sort(newestFirst);
+};
+
 export const fetchOperations = (project: string): Promise<LxdOperationList> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/operations?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdOperationList>) => {
-        const newestFirst = (a: LxdOperation, b: LxdOperation) => {
-          return (
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-          );
-        };
+        sortOperationList(data.metadata);
+        return resolve(data.metadata);
+      })
+      .catch(reject);
+  });
+};
 
-        data.metadata.failure?.sort(newestFirst);
-        data.metadata.success?.sort(newestFirst);
-        data.metadata.running?.sort(newestFirst);
-
+export const fetchAllOperations = (): Promise<LxdOperationList> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/operations?all-projects=true&recursion=1`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdOperationList>) => {
+        sortOperationList(data.metadata);
         return resolve(data.metadata);
       })
       .catch(reject);
