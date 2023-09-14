@@ -5,7 +5,7 @@ import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
-import ServerVersion from "components/ServerVersion";
+import Version from "components/Version";
 import { isWidthBelow, logout } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
@@ -299,7 +299,7 @@ const Navigation: FC = () => {
                       Report a bug
                     </a>
                   </li>
-                  <ServerVersion />
+                  <Version />
                 </ul>
               </div>
             </div>

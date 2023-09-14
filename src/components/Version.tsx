@@ -1,26 +1,30 @@
 import React, { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
 import { useSettings } from "context/useSettings";
+import { RECENT_MAJOR_SERVER_VERSION, UI_VERSION } from "util/version";
 
-const ServerVersion: FC = () => {
+const Version: FC = () => {
   const { data: settings } = useSettings();
 
-  const version = settings?.environment?.server_version;
-  if (!version) {
+  const serverVersion = settings?.environment?.server_version;
+  if (!serverVersion) {
     return null;
   }
 
-  const major = version.includes(".") ? version.split(".")[0] : undefined;
-  const recentMajor = 5;
-  const isOutdated = major ? parseInt(major) < recentMajor : false;
+  const serverMajor = serverVersion.includes(".")
+    ? serverVersion.split(".")[0]
+    : undefined;
+  const isOutdated = serverMajor
+    ? parseInt(serverMajor) < RECENT_MAJOR_SERVER_VERSION
+    : false;
 
   return (
     <>
       <hr className="p-side-navigation__list is-dark navigation-hr" />
-      <li className="p-side-navigation__link server-version">
+      <li className="p-side-navigation__link server-version p-text--x-small">
         {isOutdated && (
           <Tooltip
-            message="You are using an outdated version.
+            message="You are using an outdated server version.
 Update your LXD server to benefit from the latest features."
             tooltipClassName="version-warning"
             zIndex={1000}
@@ -28,10 +32,10 @@ Update your LXD server to benefit from the latest features."
             <Icon name="warning" className="p-side-navigation__icon" />
           </Tooltip>
         )}
-        Server {version}
+        Version {serverVersion}-ui-{UI_VERSION}
       </li>
     </>
   );
 };
 
-export default ServerVersion;
+export default Version;
