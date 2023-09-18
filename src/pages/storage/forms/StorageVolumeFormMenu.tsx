@@ -4,7 +4,7 @@ import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik/dist/types";
-import { StorageVolumeFormValues } from "pages/storage/StorageVolumeForm";
+import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const SNAPSHOTS = "Snapshots";

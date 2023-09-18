@@ -2,7 +2,11 @@
   padding-bottom: 0;
 
   .form-contents {
-    max-width: 42rem;
     width: 100%;
+  }
+
+  .form-contents > div {
+    margin-left: 0;
+    max-width: 42rem !important;
   }
 }
