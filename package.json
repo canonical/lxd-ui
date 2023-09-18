@@ -17,8 +17,8 @@
     "hooks-add": "husky install",
     "hooks-remove": "husky uninstall",
     "start": "concurrently --kill-others --raw 'vite | grep -v localhost' 'yarn serve'",
-    "serve": "./entrypoint"
-  },
+    "serve": "./entrypoint",
+    "test-js": "react-scripts test src/ --watchAll=false"},
   "dependencies": {
     "@canonical/react-components": "0.47.0",
     "@monaco-editor/react": "^4.4.6",

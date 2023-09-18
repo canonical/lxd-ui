@@ -113,3 +113,22 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+  js-tests:
+    name: js-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Install Dotrun
+        run: |
+          sudo pip3 install dotrun
+
+      - name: Install LXD-UI dependencies
+        run: |
+          set -x
+          sudo chmod 0777 ../lxd-ui
+          dotrun install
+
+      - name: Run Javascript tests
+        run: dotrun test-js
