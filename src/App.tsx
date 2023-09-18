@@ -18,7 +18,9 @@ const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const Storage = lazy(() => import("pages/storage/Storage"));
-const StorageVolumeForm = lazy(() => import("pages/storage/StorageVolumeForm"));
+const StorageVolumeForm = lazy(
+  () => import("pages/storage/forms/StorageVolumeForm")
+);
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
