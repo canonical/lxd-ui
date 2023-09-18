@@ -460,5 +460,12 @@
     "scope": "local",
     "default": "-",
     "description": "Volume to use to store the image tarballs (syntax is POOL/VOLUME)"
+  },
+  {
+    "key": "user.ui_title",
+    "type": "string",
+    "scope": "local",
+    "default": "-",
+    "description": "Custom identifier for the title of the UI when used on this server"
   }
 ]

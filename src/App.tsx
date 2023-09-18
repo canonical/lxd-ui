@@ -5,6 +5,7 @@ import ProjectRedirect from "pages/projects/ProjectRedirect";
 import ProjectLoader from "pages/projects/ProjectLoader";
 import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
+import { setTitle } from "util/title";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
@@ -48,6 +49,7 @@ const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
 const App: FC = () => {
   const { defaultProject, isAuthLoading } = useAuth();
+  setTitle();
 
   if (isAuthLoading) {
     return <Loader />;
