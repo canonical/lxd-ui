@@ -106,6 +106,9 @@ const CreateInstanceForm: FC = () => {
       .matches(/^[A-Za-z0-9-]+$/, {
         message: "Only alphanumeric and hyphen characters are allowed",
       })
+      .matches(/^[A-Za-z].*$/, {
+        message: "Instance name must start with a letter",
+      })
       .optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
