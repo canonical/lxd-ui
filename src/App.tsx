@@ -240,7 +240,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/volumes/add"
+          path="/ui/project/:project/storage/detail/:pool/volumes/create"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StorageVolumeForm />} />}

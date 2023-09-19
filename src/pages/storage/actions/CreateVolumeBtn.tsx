@@ -11,7 +11,8 @@ const CreateVolumeBtn: FC<Props> = ({ project, pool }) => {
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    navigate(`/ui/project/${project}/storage/detail/${pool}/volumes/add`);
+    navigate(`/ui/project/${project}/storage/detail/${pool}/volumes/create
+    `);
   };
 
   return (
