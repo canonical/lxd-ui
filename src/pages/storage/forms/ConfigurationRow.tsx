@@ -6,6 +6,9 @@ import classnames from "classnames";
 import { FormikProps } from "formik/dist/types";
 import { getLxdDefault } from "util/storageVolume";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
+import { fetchStoragePool } from "api/storage-pools";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -29,6 +32,13 @@ export const getConfigurationRow = ({
   const values = formik.values as unknown as Record<string, string | undefined>;
   const isOverridden = values[name] !== undefined;
 
+  // when creating the defaults can be set on the storage pool
+  const { data: storagePool } = useQuery({
+    queryKey: [queryKeys.storage, formik.values.pool, formik.values.project],
+    queryFn: () => fetchStoragePool(formik.values.pool, formik.values.project),
+    enabled: formik.values.isCreating,
+  });
+
   const toggleDefault = () => {
     if (isOverridden) {
       formik.setFieldValue(name, undefined);
@@ -38,7 +48,7 @@ export const getConfigurationRow = ({
     }
   };
 
-  const [inheritedValue, inheritSource] = [getLxdDefault(name), "LXD"];
+  const [inheritedValue, inheritSource] = getLxdDefault(name, storagePool);
   const isReadOnly = formik.values.isReadOnly;
   const getForm = (): ReactNode => {
     return (

@@ -17,7 +17,7 @@ import StorageVolumeFormMenu, {
   SNAPSHOTS,
   ZFS,
 } from "pages/storage/forms/StorageVolumeFormMenu";
-import { testDuplicateName } from "util/storageVolume";
+import { getVolumeKey, testDuplicateName } from "util/storageVolume";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
@@ -27,6 +27,7 @@ import { FormikProps } from "formik/dist/types";
 
 export interface StorageVolumeFormValues {
   name: string;
+  project: string;
   pool: string;
   size?: string;
   content_type: "filesystem" | "block";
@@ -46,6 +47,7 @@ export interface StorageVolumeFormValues {
   zfs_use_refquota?: boolean;
   zfs_reserve_space?: boolean;
   isReadOnly: boolean;
+  isCreating: boolean;
 }
 
 export const getFormProps = (
@@ -104,9 +106,11 @@ const StorageVolumeForm: FC = () => {
     initialValues: {
       content_type: "filesystem",
       name: "",
+      project: project,
       pool: pool,
       size: "",
       isReadOnly: false,
+      isCreating: true,
     },
     validationSchema: StorageSchema,
     onSubmit: (values) => {
@@ -114,21 +118,27 @@ const StorageVolumeForm: FC = () => {
         name: values.name,
         config: {
           size: values.size ? `${values.size}GiB` : undefined,
-          "security.shifted": values.security_shifted?.toString(),
-          "security.unmapped": values.security_unmapped?.toString(),
-          "snapshots.expiry": values.snapshots_expiry,
-          "snapshots.pattern": values.snapshots_pattern,
-          "snapshots.schedule": values.snapshots_schedule,
-          "block.filesystem": values.block_filesystem,
-          "block.mount_options": values.block_mount_options,
-          "lvm.stripes": values.lvm_stripes?.toString(),
-          "lvm.stripes_size": values.lvm_stripes_size?.toString(),
-          "zfs.blocksize": values.zfs_blocksize,
-          "zfs.block_mode": values.zfs_block_mode?.toString(),
-          "zfs.delegate": values.zfs_delegate?.toString(),
-          "zfs.remove_snapshots": values.zfs_remove_snapshots?.toString(),
-          "zfs.use_refquota": values.zfs_use_refquota?.toString(),
-          "zfs.reserve_space": values.zfs_reserve_space?.toString(),
+          [getVolumeKey("security_shifted")]:
+            values.security_shifted?.toString(),
+          [getVolumeKey("security_unmapped")]:
+            values.security_unmapped?.toString(),
+          [getVolumeKey("snapshots_expiry")]: values.snapshots_expiry,
+          [getVolumeKey("snapshots_pattern")]: values.snapshots_pattern,
+          [getVolumeKey("snapshots_schedule")]: values.snapshots_schedule,
+          [getVolumeKey("block_filesystem")]: values.block_filesystem,
+          [getVolumeKey("block_mount_options")]: values.block_mount_options,
+          [getVolumeKey("lvm_stripes")]: values.lvm_stripes?.toString(),
+          [getVolumeKey("lvm_stripes_size")]:
+            values.lvm_stripes_size?.toString(),
+          [getVolumeKey("zfs_blocksize")]: values.zfs_blocksize,
+          [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode?.toString(),
+          [getVolumeKey("zfs_delegate")]: values.zfs_delegate?.toString(),
+          [getVolumeKey("zfs_remove_snapshots")]:
+            values.zfs_remove_snapshots?.toString(),
+          [getVolumeKey("zfs_use_refquota")]:
+            values.zfs_use_refquota?.toString(),
+          [getVolumeKey("zfs_reserve_space")]:
+            values.zfs_reserve_space?.toString(),
         },
         project: project,
         type: "custom",
