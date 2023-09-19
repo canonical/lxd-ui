@@ -57,7 +57,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
     <div className="network-overview-tab">
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--4">General</h2>
+          <h2 className="p-heading--5">General</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -94,7 +94,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
       </Row>
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--4">Status</h2>
+          <h2 className="p-heading--5">Status</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -127,7 +127,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
       </Row>
       <Row className="usage list-wrapper">
         <Col size={3}>
-          <h2 className="p-heading--4">Usage ({usageCount})</h2>
+          <h2 className="p-heading--5">Usage ({usageCount})</h2>
         </Col>
         <Col size={7}>
           <table>
