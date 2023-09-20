@@ -67,7 +67,11 @@ const StorageVolumes: FC = () => {
     return {
       columns: [
         {
-          content: volume.name,
+          content: (
+            <div className="u-truncate" title={volume.name}>
+              {volume.name}
+            </div>
+          ),
           role: "cell",
           "aria-label": "Name",
         },
