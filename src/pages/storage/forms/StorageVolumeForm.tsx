@@ -22,6 +22,7 @@ import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSna
 import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
+import BaseLayout from "components/BaseLayout";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -165,58 +166,51 @@ const StorageVolumeForm: FC = () => {
     storagePools.find((item) => item.name === pool)?.driver ?? "";
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">Create volume</h1>
+    <BaseLayout title="Create volume" contentClassName="storage-volume-form">
+      <NotificationRow />
+      <Form onSubmit={formik.handleSubmit} stacked className="form">
+        <StorageVolumeFormMenu
+          active={section}
+          setActive={setSection}
+          formik={formik}
+          poolDriver={poolDriver}
+          contentType={formik.values.content_type}
+        />
+        <div className="form-contents">
+          {section === MAIN_CONFIGURATION && (
+            <StorageVolumeFormMain formik={formik} />
+          )}
+          {section === SNAPSHOTS && (
+            <StorageVolumeFormSnapshots formik={formik} />
+          )}
+          {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
+          {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
         </div>
-        <div className="p-panel__content storage-volume-form">
-          <NotificationRow />
-          <Form onSubmit={formik.handleSubmit} stacked className="form">
-            <StorageVolumeFormMenu
-              active={section}
-              setActive={setSection}
-              formik={formik}
-              poolDriver={poolDriver}
-              contentType={formik.values.content_type}
+      </Form>
+      <div className="l-footer--sticky p-bottom-controls">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button
+              appearance="base"
+              onClick={() =>
+                navigate(
+                  `/ui/project/${project}/storage/detail/${pool}/volumes`
+                )
+              }
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid}
+              onClick={submitForm}
+              buttonLabel="Create"
             />
-            <div className="form-contents">
-              {section === MAIN_CONFIGURATION && (
-                <StorageVolumeFormMain formik={formik} />
-              )}
-              {section === SNAPSHOTS && (
-                <StorageVolumeFormSnapshots formik={formik} />
-              )}
-              {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
-              {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
-            </div>
-          </Form>
-          <div className="l-footer--sticky p-bottom-controls">
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button
-                  appearance="base"
-                  onClick={() =>
-                    navigate(
-                      `/ui/project/${project}/storage/detail/${pool}/volumes`
-                    )
-                  }
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
-                  onClick={submitForm}
-                  buttonLabel="Create"
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
-    </main>
+    </BaseLayout>
   );
 };
 
