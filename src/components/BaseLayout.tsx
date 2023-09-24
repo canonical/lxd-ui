@@ -20,12 +20,14 @@ const BaseLayout: FC<Props> = ({
     <main className="l-main">
       <div className="p-panel">
         {hasHeader && (
-          <div className={classnames("p-panel__header", contentClassName)}>
+          <div className="p-panel__header">
             {title && <h1 className="p-panel__title">{title}</h1>}
             {controls && <div className="p-panel__controls">{controls}</div>}
           </div>
         )}
-        <div className="p-panel__content">{children}</div>
+        <div className={classnames("p-panel__content", contentClassName)}>
+          {children}
+        </div>
       </div>
     </main>
   );
