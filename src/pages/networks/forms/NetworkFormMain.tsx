@@ -2,8 +2,8 @@ import React, { FC, ReactNode } from "react";
 import { CheckboxInput, Col, Input, Row } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
-import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
-import { getConfigurationRowNetwork } from "pages/networks/forms/ConfigurationRowNetwork";
+import ConfigurationTable from "components/ConfigurationTable";
+import { getNetworkConfigurationRow } from "pages/networks/forms/NetworkConfigurationRow";
 import NetworkSelector from "pages/networks/forms/NetworkSelector";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
@@ -57,7 +57,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
         rows={[
           ...(formik.values.bridge_mode !== "fan"
             ? [
-                getConfigurationRowNetwork({
+                getNetworkConfigurationRow({
                   formik: formik,
                   name: "ipv4_address",
                   label: "IPv4 Address",
@@ -90,7 +90,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
           ...(formik.values.bridge_mode !== "fan" &&
           formik.values.ipv4_address !== "none"
             ? [
-                getConfigurationRowNetwork({
+                getNetworkConfigurationRow({
                   formik: formik,
                   name: "ipv4_nat",
                   label: "Ipv4 NAT",
@@ -107,7 +107,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
 
           ...(formik.values.bridge_mode !== "fan"
             ? [
-                getConfigurationRowNetwork({
+                getNetworkConfigurationRow({
                   formik: formik,
                   name: "ipv6_address",
                   label: "IPv6 Address",
@@ -142,7 +142,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
           ...(formik.values.bridge_mode !== "fan" &&
           formik.values.ipv6_address !== "none"
             ? [
-                getConfigurationRowNetwork({
+                getNetworkConfigurationRow({
                   formik: formik,
                   name: "ipv6_nat",
                   label: "Ipv6 NAT",
@@ -159,7 +159,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
 
           ...(formik.values.bridge_mode === "fan"
             ? [
-                getConfigurationRowNetwork({
+                getNetworkConfigurationRow({
                   formik: formik,
                   name: "fan_overlay_subnet",
                   label: "Fan overlay subnet",
@@ -172,7 +172,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
 
           ...(formik.values.bridge_mode === "fan"
             ? [
-                getConfigurationRowNetwork({
+                getNetworkConfigurationRow({
                   formik: formik,
                   name: "fan_underlay_subnet",
                   label: "Fan underlay subnet",

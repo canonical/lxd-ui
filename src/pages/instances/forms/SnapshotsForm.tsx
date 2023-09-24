@@ -5,8 +5,8 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { snapshotOptions } from "util/snapshotOptions";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
@@ -39,9 +39,9 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
   );
 
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
@@ -67,7 +67,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           label: "Expire after",
           name: "snapshots_expiry",
@@ -76,7 +76,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter expiry expression" type="text" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
@@ -85,7 +85,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionYesNo} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           label: "Schedule",
           name: "snapshots_schedule",

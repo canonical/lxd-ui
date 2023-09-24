@@ -24,7 +24,7 @@ interface Props {
   help?: string;
 }
 
-export const getConfigurationRowInstance = ({
+export const getInstanceConfigurationRow = ({
   formik,
   name,
   label,

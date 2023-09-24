@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Input } from "@canonical/react-components";
-import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
@@ -39,9 +39,9 @@ interface Props {
 
 const ResourceLimitsForm: FC<Props> = ({ formik }) => {
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_instances",
           label: "Max number of instances",
@@ -50,7 +50,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_containers",
           label: "Max number of containers",
@@ -59,7 +59,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_virtual_machines",
           label: "Max number of VMs",
@@ -68,7 +68,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_disk",
           label: "Max disk space (used by all instances)",
@@ -83,7 +83,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_networks",
           label: "Max number of networks",
@@ -92,7 +92,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_cpu",
           label: "Max sum of individual CPU configurations",
@@ -101,7 +101,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_memory",
           label: "Max sum of individual memory limits",
@@ -110,7 +110,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "limits_processes",
           label: "Max sum of individual processes configurations",

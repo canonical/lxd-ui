@@ -11,8 +11,8 @@ import {
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
-import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
@@ -48,9 +48,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
     (formik.values as CreateInstanceFormValues).instanceType !== "container";
 
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           name: "limits_cpu",
           label: "Exposed CPU limit",
@@ -67,7 +67,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           name: "limits_memory",
           label: "Memory limit",
@@ -84,7 +84,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
@@ -99,7 +99,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           name: "limits_disk_priority",
           help: "Controls how much priority to give to the instance’s I/O requests when under load",
@@ -108,7 +108,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Select options={diskPriorities} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik,
           name: "limits_processes",
           label: "Max number of processes (Containers only)",

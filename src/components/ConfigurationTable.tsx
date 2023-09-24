@@ -1,7 +1,6 @@
 import React, { FC, ReactNode } from "react";
-import { MainTable, useNotify } from "@canonical/react-components";
+import { MainTable } from "@canonical/react-components";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
   rows: MainTableRow[];
@@ -14,8 +13,6 @@ const ConfigurationTable: FC<Props> = ({
   configurationExtra,
   emptyStateMsg,
 }) => {
-  const notify = useNotify();
-
   const headers = [
     {
       content: <>Configuration{configurationExtra}</>,
@@ -26,14 +23,12 @@ const ConfigurationTable: FC<Props> = ({
   ];
 
   return (
-    <ScrollableTable dependencies={[notify.notification]} belowId="form-footer">
-      <MainTable
-        className="configuration-table"
-        emptyStateMsg={emptyStateMsg}
-        headers={headers}
-        rows={rows}
-      />
-    </ScrollableTable>
+    <MainTable
+      className="configuration-table"
+      emptyStateMsg={emptyStateMsg}
+      headers={headers}
+      rows={rows}
+    />
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
@@ -50,9 +50,9 @@ interface Props {
 
 const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_disk",
           label: (
@@ -69,7 +69,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlockManaged} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_disk_paths",
           label: "Disk devices path",
@@ -78,7 +78,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter paths" type="text" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_gpu",
           label: "GPU devices",
@@ -88,7 +88,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_infiniband",
           label: "Infiniband devices",
@@ -98,7 +98,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_nic",
           label: "Network devices",
@@ -109,7 +109,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlockManaged} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_pci",
           label: "PCI devices",
@@ -119,7 +119,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_unix_block",
           label: "Unix-block devices",
@@ -129,7 +129,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_unix_char",
           label: "Unix-char devices",
@@ -139,7 +139,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_unix_hotplug",
           label: "Unix-hotplug devices",
@@ -149,7 +149,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_devices_usb",
           label: "USB devices",
