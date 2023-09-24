@@ -11,7 +11,7 @@ import {
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
-import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
@@ -50,7 +50,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           name: "limits_cpu",
           label: "Exposed CPU limit",
@@ -67,7 +67,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           name: "limits_memory",
           label: "Memory limit",
@@ -84,7 +84,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
@@ -99,7 +99,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           name: "limits_disk_priority",
           help: "Controls how much priority to give to the instance’s I/O requests when under load",
@@ -108,7 +108,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Select options={diskPriorities} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           name: "limits_processes",
           label: "Max number of processes (Containers only)",

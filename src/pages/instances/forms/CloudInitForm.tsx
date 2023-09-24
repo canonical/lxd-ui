@@ -5,7 +5,7 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 
@@ -48,7 +48,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           </Tooltip>
         }
         rows={[
-          getConfigurationRow({
+          getConfigurationRowInstance({
             formik: formik,
             label: "Network config",
             name: "cloud_init_network_config",
@@ -64,7 +64,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             ),
           }),
 
-          getConfigurationRow({
+          getConfigurationRowInstance({
             formik: formik,
             label: "User data",
             name: "cloud_init_user_data",
@@ -80,7 +80,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             ),
           }),
 
-          getConfigurationRow({
+          getConfigurationRowInstance({
             formik: formik,
             label: "Vendor data",
             name: "cloud_init_vendor_data",

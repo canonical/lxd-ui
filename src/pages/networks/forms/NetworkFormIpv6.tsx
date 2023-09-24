@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { CheckboxInput, Input, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
+import { getConfigurationRowNetwork } from "pages/networks/forms/ConfigurationRowNetwork";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
 interface Props {
@@ -16,7 +16,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowNetwork({
           formik: formik,
           name: "ipv6_dhcp",
           label: "IPv6 DHCP",
@@ -31,7 +31,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
 
         ...(hasDhcp && formik.values.type !== "ovn"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv6_dhcp_expiry",
                 label: "IPv6 DHCP expiry",
@@ -40,7 +40,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 children: <Input type="text" />,
               }),
 
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv6_dhcp_ranges",
                 label: "IPv6 DHCP ranges",
@@ -53,7 +53,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
 
         ...(hasDhcp
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv6_dhcp_stateful",
                 label: "IPv6 DHCP stateful",
@@ -70,7 +70,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type === "ovn"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv6_l3only",
                 label: "IPv6 L3 only",
@@ -87,7 +87,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type !== "ovn"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv6_ovn_ranges",
                 label: "IPv6 OVN ranges",

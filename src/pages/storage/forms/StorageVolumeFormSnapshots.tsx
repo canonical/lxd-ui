@@ -3,7 +3,7 @@ import { Input, RadioInput, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { snapshotOptions } from "util/snapshotOptions";
 import ConfigurationTable from "pages/storage/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/storage/forms/ConfigurationRow";
+import { getConfigurationRowStorage } from "pages/storage/forms/ConfigurationRowStorage";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 interface Props {
@@ -18,7 +18,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
@@ -44,7 +44,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "Expire after",
           name: "snapshots_expiry",
@@ -53,7 +53,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter expiry expression" type="text" />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "Schedule",
           name: "snapshots_schedule",

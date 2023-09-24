@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
+import { getConfigurationRowNetwork } from "pages/networks/forms/ConfigurationRowNetwork";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
 interface Props {
@@ -13,7 +13,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowNetwork({
           formik: formik,
           name: "bridge_mtu",
           label: "MTU",
@@ -22,7 +22,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
           children: <Input type="text" />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowNetwork({
           formik: formik,
           name: "bridge_hwaddr",
           label: "Hardware address",
@@ -33,7 +33,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type === "bridge"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "bridge_driver",
                 label: "Bridge Driver",

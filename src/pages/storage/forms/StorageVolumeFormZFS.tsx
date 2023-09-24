@@ -3,7 +3,7 @@ import { CheckboxInput, Select } from "@canonical/react-components";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "pages/storage/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/storage/forms/ConfigurationRow";
+import { getConfigurationRowStorage } from "pages/storage/forms/ConfigurationRowStorage";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -13,7 +13,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "ZFS blocksize",
           name: "zfs_blocksize",
@@ -55,7 +55,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "ZFS block mode",
           name: "zfs_block_mode",
@@ -69,7 +69,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "ZFS delegate",
           name: "zfs_delegate",
@@ -83,7 +83,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "ZFS remove snapshots",
           name: "zfs_remove_snapshots",
@@ -97,7 +97,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "ZFS use refquota",
           name: "zfs_use_refquota",
@@ -111,7 +111,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "ZFS reserve space",
           name: "zfs_reserve_space",
