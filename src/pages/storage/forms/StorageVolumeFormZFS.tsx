@@ -59,7 +59,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "ZFS block mode",
           name: "zfs_block_mode",
-          defaultValue: "",
+          defaultValue: true,
           help: "Whether to use a formatted zvol rather than a dataset (zfs.block_mode can be set only for custom storage volumes; use volume.zfs.block_mode to enable ZFS block mode for all storage volumes in the pool, including instance volumes)",
           children: (
             <CheckboxInput
@@ -73,7 +73,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "ZFS delegate",
           name: "zfs_delegate",
-          defaultValue: "",
+          defaultValue: true,
           help: "Controls whether to delegate the ZFS dataset and anything underneath it to the container(s) using it. Allows the use of the zfs command in the container.",
           children: (
             <CheckboxInput
@@ -87,7 +87,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "ZFS remove snapshots",
           name: "zfs_remove_snapshots",
-          defaultValue: "",
+          defaultValue: true,
           help: "Remove snapshots as needed",
           children: (
             <CheckboxInput
@@ -101,7 +101,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "ZFS use refquota",
           name: "zfs_use_refquota",
-          defaultValue: "",
+          defaultValue: true,
           help: "Use refquota instead of quota for space",
           children: (
             <CheckboxInput
@@ -115,7 +115,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "ZFS reserve space",
           name: "zfs_reserve_space",
-          defaultValue: "",
+          defaultValue: true,
           help: "Use reservation/refreservation along with quota/refquota",
           children: (
             <CheckboxInput

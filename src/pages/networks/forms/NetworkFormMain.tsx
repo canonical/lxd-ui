@@ -94,7 +94,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                   formik: formik,
                   name: "ipv4_nat",
                   label: "Ipv4 NAT",
-                  defaultValue: "",
+                  defaultValue: true,
                   children: (
                     <CheckboxInput
                       label="Ipv4 NAT"
@@ -146,7 +146,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                   formik: formik,
                   name: "ipv6_nat",
                   label: "Ipv6 NAT",
-                  defaultValue: "",
+                  defaultValue: true,
                   children: (
                     <CheckboxInput
                       label="Ipv6 NAT"

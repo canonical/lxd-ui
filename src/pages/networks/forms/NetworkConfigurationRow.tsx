@@ -11,7 +11,7 @@ interface Props {
   name: string;
   label: string | ReactNode;
   children: ReactElement;
-  defaultValue?: string | CpuLimit | MemoryLimit;
+  defaultValue?: string | CpuLimit | MemoryLimit | boolean;
   disabled?: boolean;
   help?: string;
 }

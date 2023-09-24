@@ -20,7 +20,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
           formik: formik,
           name: "ipv6_dhcp",
           label: "IPv6 DHCP",
-          defaultValue: "",
+          defaultValue: true,
           children: (
             <CheckboxInput
               label="IPv6 DHCP"
@@ -57,7 +57,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 formik: formik,
                 name: "ipv6_dhcp_stateful",
                 label: "IPv6 DHCP stateful",
-                defaultValue: "",
+                defaultValue: true,
                 children: (
                   <CheckboxInput
                     label="IPv6 DHCP stateful"
@@ -74,7 +74,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 formik: formik,
                 name: "ipv6_l3only",
                 label: "IPv6 L3 only",
-                defaultValue: "",
+                defaultValue: true,
                 children: (
                   <CheckboxInput
                     label="IPv6 L3 only"
