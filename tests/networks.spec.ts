@@ -47,17 +47,14 @@ test("network edit basic details", async ({ page }) => {
 
   await page.getByText("IPv4").click();
   await activateOverride(page, "IPv4 DHCP true");
-  await clickCheckbox(page, "IPv4 DHCP");
   await activateOverride(page, "IPv4 DHCP expiry");
   await page.getByLabel("IPv4 DHCP expiry").fill("2h");
 
   await page.getByText("IPv6").click();
   await activateOverride(page, "IPv6 DHCP true");
-  await clickCheckbox(page, "IPv6 DHCP");
   await activateOverride(page, "IPv6 DHCP expiry");
   await page.getByLabel("IPv6 DHCP expiry").fill("3h");
   await activateOverride(page, "IPv6 DHCP stateful");
-  await clickCheckbox(page, "IPv6 DHCP stateful");
 
   await saveNetwork(page);
 

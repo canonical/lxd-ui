@@ -68,7 +68,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               formik: formik,
               label: "Security shifted",
               name: "security_shifted",
-              defaultValue: "",
+              defaultValue: true,
               help: "Enable id shifting overlay (allows attach to multiple isolated instances)",
               children: (
                 <CheckboxInput
@@ -82,7 +82,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               formik: formik,
               label: "Security unmapped",
               name: "security_unmapped",
-              defaultValue: "",
+              defaultValue: true,
               help: "Disable id mapping for the volume",
               children: (
                 <CheckboxInput

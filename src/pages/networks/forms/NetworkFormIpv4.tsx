@@ -20,7 +20,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
           formik: formik,
           name: "ipv4_dhcp",
           label: "IPv4 DHCP",
-          defaultValue: "",
+          defaultValue: true,
           children: (
             <CheckboxInput
               label="IPv4 DHCP"
@@ -57,7 +57,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
                 formik: formik,
                 name: "ipv4_l3only",
                 label: "IPv4 L3 only",
-                defaultValue: "",
+                defaultValue: true,
                 children: (
                   <CheckboxInput
                     label="IPv4 L3 only"
