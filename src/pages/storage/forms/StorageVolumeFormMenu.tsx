@@ -10,7 +10,6 @@ export const MAIN_CONFIGURATION = "Main configuration";
 export const SNAPSHOTS = "Snapshots";
 export const BLOCK = "Block";
 export const ZFS = "ZFS";
-export const LVM = "LVM";
 
 interface Props {
   active: string;
@@ -80,13 +79,6 @@ const StorageVolumeFormMenu: FC<Props> = ({
               {poolDriver === "zfs" && (
                 <MenuItem
                   label={ZFS}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
-              {poolDriver === "lvm" && (
-                <MenuItem
-                  label={LVM}
                   {...menuItemProps}
                   disableReason={disableReason}
                 />

@@ -1,5 +1,11 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import {
+  CheckboxInput,
+  Col,
+  Input,
+  Row,
+  Select,
+} from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import {
   getFormProps,
@@ -42,7 +48,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               },
             ]}
             label="Content type"
-            help="Filesystem is ready to use, block can be formatted and only be used on VMs"
+            help="Filesystem is ready to use, block can be formatted and used only on VMs"
             onChange={(e) => {
               if (e.target.value === "block") {
                 formik.setFieldValue("block_filesystem", undefined);
@@ -64,7 +70,12 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               name: "security_shifted",
               defaultValue: "",
               help: "Enable id shifting overlay (allows attach to multiple isolated instances)",
-              children: <Input type="checkbox" label="Security shifted" />,
+              children: (
+                <CheckboxInput
+                  label="Security shifted"
+                  checked={formik.values.security_shifted}
+                />
+              ),
             }),
 
             getConfigurationRow({
@@ -73,7 +84,12 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               name: "security_unmapped",
               defaultValue: "",
               help: "Disable id mapping for the volume",
-              children: <Input type="checkbox" label="Security unmapped" />,
+              children: (
+                <CheckboxInput
+                  label="Security unmapped"
+                  checked={formik.values.security_unmapped}
+                />
+              ),
             }),
           ]}
         />

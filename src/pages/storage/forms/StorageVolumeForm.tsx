@@ -12,7 +12,6 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import StorageVolumeFormMenu, {
   BLOCK,
-  LVM,
   MAIN_CONFIGURATION,
   SNAPSHOTS,
   ZFS,
@@ -21,7 +20,6 @@ import { getVolumeKey, testDuplicateName } from "util/storageVolume";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
-import StorageVolumeFormLVM from "pages/storage/forms/StorageVolumeFormLVM";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
 
@@ -38,8 +36,6 @@ export interface StorageVolumeFormValues {
   snapshots_schedule?: string;
   block_filesystem?: string;
   block_mount_options?: string;
-  lvm_stripes?: string;
-  lvm_stripes_size?: string;
   zfs_blocksize?: string;
   zfs_block_mode?: boolean;
   zfs_delegate?: boolean;
@@ -127,9 +123,6 @@ const StorageVolumeForm: FC = () => {
           [getVolumeKey("snapshots_schedule")]: values.snapshots_schedule,
           [getVolumeKey("block_filesystem")]: values.block_filesystem,
           [getVolumeKey("block_mount_options")]: values.block_mount_options,
-          [getVolumeKey("lvm_stripes")]: values.lvm_stripes?.toString(),
-          [getVolumeKey("lvm_stripes_size")]:
-            values.lvm_stripes_size?.toString(),
           [getVolumeKey("zfs_blocksize")]: values.zfs_blocksize,
           [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode?.toString(),
           [getVolumeKey("zfs_delegate")]: values.zfs_delegate?.toString(),
@@ -195,7 +188,6 @@ const StorageVolumeForm: FC = () => {
                 <StorageVolumeFormSnapshots formik={formik} />
               )}
               {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
-              {section === LVM && <StorageVolumeFormLVM formik={formik} />}
               {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
             </div>
           </Form>

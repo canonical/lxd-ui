@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Input, Select } from "@canonical/react-components";
+import { CheckboxInput, Select } from "@canonical/react-components";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "pages/storage/forms/ConfigurationTable";
@@ -61,7 +61,12 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_block_mode",
           defaultValue: "",
           help: "Whether to use a formatted zvol rather than a dataset (zfs.block_mode can be set only for custom storage volumes; use volume.zfs.block_mode to enable ZFS block mode for all storage volumes in the pool, including instance volumes)",
-          children: <Input type="checkbox" label="ZFS block mode" />,
+          children: (
+            <CheckboxInput
+              label="ZFS block mode"
+              checked={formik.values.zfs_block_mode}
+            />
+          ),
         }),
 
         getConfigurationRow({
@@ -70,7 +75,12 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_delegate",
           defaultValue: "",
           help: "Controls whether to delegate the ZFS dataset and anything underneath it to the container(s) using it. Allows the use of the zfs command in the container.",
-          children: <Input type="checkbox" label="ZFS delegate" />,
+          children: (
+            <CheckboxInput
+              label="ZFS delegate"
+              checked={formik.values.zfs_delegate}
+            />
+          ),
         }),
 
         getConfigurationRow({
@@ -79,7 +89,12 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_remove_snapshots",
           defaultValue: "",
           help: "Remove snapshots as needed",
-          children: <Input type="checkbox" label="ZFS remove snapshots" />,
+          children: (
+            <CheckboxInput
+              label="ZFS remove snapshots"
+              checked={formik.values.zfs_remove_snapshots}
+            />
+          ),
         }),
 
         getConfigurationRow({
@@ -88,7 +103,12 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_use_refquota",
           defaultValue: "",
           help: "Use refquota instead of quota for space",
-          children: <Input type="checkbox" label="ZFS use refquota" />,
+          children: (
+            <CheckboxInput
+              label="ZFS use refquota"
+              checked={formik.values.zfs_use_refquota}
+            />
+          ),
         }),
 
         getConfigurationRow({
@@ -97,7 +117,12 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_reserve_space",
           defaultValue: "",
           help: "Use reservation/refreservation along with quota/refquota",
-          children: <Input type="checkbox" label="ZFS reserve space" />,
+          children: (
+            <CheckboxInput
+              label="ZFS reserve space"
+              checked={formik.values.zfs_reserve_space}
+            />
+          ),
         }),
       ]}
     />
