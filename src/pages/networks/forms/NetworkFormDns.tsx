@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
+import { getConfigurationRowNetwork } from "pages/networks/forms/ConfigurationRowNetwork";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
 interface Props {
@@ -13,7 +13,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowNetwork({
           formik: formik,
           name: "dns_domain",
           label: "DNS domain",
@@ -24,7 +24,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type === "bridge"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "dns_mode",
                 label: "DNS mode",
@@ -56,7 +56,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
             ]
           : []),
 
-        getConfigurationRow({
+        getConfigurationRowNetwork({
           formik: formik,
           name: "dns_search",
           label: "DNS search",

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
@@ -31,7 +31,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_cluster_groups",
           label: "Cluster groups targeting",
@@ -40,7 +40,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter value" type="text" />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_cluster_target",
           label: "Direct cluster targeting",

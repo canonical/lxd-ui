@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
@@ -49,7 +49,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_virtual_machines_low_level",
           label: "Low level VM operations",
@@ -59,7 +59,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_low_level",
           label: "Low level container operations",
@@ -69,7 +69,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_nesting",
           label: "Container nesting",
@@ -79,7 +79,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_containers_privilege",
           label: "Container privilege",
@@ -90,7 +90,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowIsolatedUnprivileged} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_container_interception",
           label: "Container interception",
@@ -100,7 +100,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restrict_snapshots",
           label: "Snapshot creation",
@@ -110,7 +110,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionAllowBlock} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_idmap_uid",
           label: "Idmap UID",
@@ -119,7 +119,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter UID ranges" type="text" />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_idmap_gid",
           label: "Idmap GID",

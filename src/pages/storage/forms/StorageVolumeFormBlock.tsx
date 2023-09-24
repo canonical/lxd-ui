@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import { getConfigurationRow } from "pages/storage/forms/ConfigurationRow";
+import { getConfigurationRowStorage } from "pages/storage/forms/ConfigurationRowStorage";
 import ConfigurationTable from "pages/storage/forms/ConfigurationTable";
 
 interface Props {
@@ -13,7 +13,7 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "Block filesystem",
           name: "block_filesystem",
@@ -43,7 +43,7 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowStorage({
           formik: formik,
           label: "Block mount options",
           name: "block_mount_options",

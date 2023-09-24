@@ -14,7 +14,7 @@ import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
-import { getConfigurationRowBase } from "pages/instances/forms/ConfigurationRow";
+import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
 import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
 import classnames from "classnames";

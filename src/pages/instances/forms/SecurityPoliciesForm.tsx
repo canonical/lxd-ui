@@ -11,7 +11,7 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import { getConfigurationRow } from "pages/instances/forms/ConfigurationRow";
+import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
 import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
@@ -62,7 +62,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Prevent the instance from being deleted",
           name: "security_protection_delete",
@@ -71,7 +71,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionYesNo} />,
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Run the instance in privileged mode (Containers only)",
           name: "security_privileged",
@@ -86,7 +86,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label:
             "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
@@ -99,7 +99,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Base host id (Containers only)",
           name: "security_idmap_base",
@@ -117,7 +117,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Idmap size (Containers only)",
           name: "security_idmap_size",
@@ -136,7 +136,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Unique idmap usage (Containers only)",
           name: "security_idmap_isolated",
@@ -148,7 +148,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Allow /dev/lxd in the instance (Containers only)",
           name: "security_devlxd",
@@ -160,7 +160,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label:
             "Make /1.0/images API available over /dev/lxd (Containers only)",
@@ -173,7 +173,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getConfigurationRow({
+        getConfigurationRowInstance({
           formik: formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { CheckboxInput, Input, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "pages/networks/forms/ConfigurationTable";
-import { getConfigurationRow } from "pages/networks/forms/ConfigurationRow";
+import { getConfigurationRowNetwork } from "pages/networks/forms/ConfigurationRowNetwork";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
 interface Props {
@@ -16,7 +16,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getConfigurationRow({
+        getConfigurationRowNetwork({
           formik: formik,
           name: "ipv4_dhcp",
           label: "IPv4 DHCP",
@@ -31,7 +31,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type !== "ovn" && hasDhcp
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv4_dhcp_expiry",
                 label: "IPv4 DHCP expiry",
@@ -40,7 +40,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
                 children: <Input type="text" />,
               }),
 
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv4_dhcp_ranges",
                 label: "IPv4 DHCP ranges",
@@ -53,7 +53,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type === "ovn"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv4_l3only",
                 label: "IPv4 L3 only",
@@ -70,7 +70,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
 
         ...(formik.values.type !== "ovn" && formik.values.bridge_mode !== "fan"
           ? [
-              getConfigurationRow({
+              getConfigurationRowNetwork({
                 formik: formik,
                 name: "ipv4_ovn_ranges",
                 label: "IPv4 OVN ranges",
