@@ -11,8 +11,8 @@ import {
   getFormProps,
   StorageVolumeFormValues,
 } from "pages/storage/forms/StorageVolumeForm";
-import ConfigurationTable from "pages/storage/forms/ConfigurationTable";
-import { getConfigurationRowStorage } from "pages/storage/forms/ConfigurationRowStorage";
+import ConfigurationTable from "components/ConfigurationTable";
+import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -64,7 +64,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
       {formik.values.content_type === "filesystem" && (
         <ConfigurationTable
           rows={[
-            getConfigurationRowStorage({
+            getStorageConfigurationRow({
               formik: formik,
               label: "Security shifted",
               name: "security_shifted",
@@ -78,7 +78,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               ),
             }),
 
-            getConfigurationRowStorage({
+            getStorageConfigurationRow({
               formik: formik,
               label: "Security unmapped",
               name: "security_unmapped",

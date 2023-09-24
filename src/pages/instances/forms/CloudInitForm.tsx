@@ -5,8 +5,8 @@ import {
   SharedFormikTypes,
   SharedFormTypes,
 } from "pages/instances/forms/sharedFormTypes";
-import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 
 export interface CloudInitFormValues {
@@ -38,7 +38,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
 
   return (
     <div className="cloud-init">
-      <ConfigurationTable
+      <InstanceConfigurationTable
         configurationExtra={
           <Tooltip
             message="Applied only to images that have the cloud-init package installed."
@@ -48,7 +48,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           </Tooltip>
         }
         rows={[
-          getConfigurationRowInstance({
+          getInstanceConfigurationRow({
             formik: formik,
             label: "Network config",
             name: "cloud_init_network_config",
@@ -64,7 +64,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             ),
           }),
 
-          getConfigurationRowInstance({
+          getInstanceConfigurationRow({
             formik: formik,
             label: "User data",
             name: "cloud_init_user_data",
@@ -80,7 +80,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             ),
           }),
 
-          getConfigurationRowInstance({
+          getInstanceConfigurationRow({
             formik: formik,
             label: "Vendor data",
             name: "cloud_init_vendor_data",

@@ -13,7 +13,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import { LxdNicDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -92,7 +92,7 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
 
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
         ...inheritedNetworks.map((item) => {
           return getConfigurationRowBase({

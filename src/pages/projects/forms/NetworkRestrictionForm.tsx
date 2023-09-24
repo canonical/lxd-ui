@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Textarea } from "@canonical/react-components";
-import { getConfigurationRowInstance } from "pages/instances/forms/ConfigurationRowInstance";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
@@ -35,9 +35,9 @@ interface Props {
 
 const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_access",
           label: "Available networks",
@@ -46,7 +46,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Textarea placeholder="Enter network names" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_subnets",
           label: "Network subnets",
@@ -55,7 +55,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Textarea placeholder="Enter network subnets" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_uplinks",
           label: "Network uplinks",
@@ -64,7 +64,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Textarea placeholder="Enter network names" />,
         }),
 
-        getConfigurationRowInstance({
+        getInstanceConfigurationRow({
           formik: formik as unknown as SharedFormikTypes,
           name: "restricted_network_zones",
           label: "Network zones",

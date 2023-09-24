@@ -11,7 +11,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
-import ConfigurationTable from "pages/instances/forms/ConfigurationTable";
+import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -158,7 +158,7 @@ const RootStorageForm: FC<Props> = ({ formik, project }) => {
     );
 
   return (
-    <ConfigurationTable
+    <InstanceConfigurationTable
       rows={[
         getConfigurationRowBase({
           configuration: getLabel(),
