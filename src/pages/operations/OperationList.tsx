@@ -16,6 +16,7 @@ import { isoTimeToString } from "util/helpers";
 import { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
+import { getProjectName } from "util/operations";
 
 const OperationList: FC = () => {
   const notify = useNotify();
@@ -77,6 +78,9 @@ const OperationList: FC = () => {
               <div>{operation.description}</div>
               <div className="u-truncate u-text--muted">
                 <OperationInstanceName operation={operation} />
+              </div>
+              <div className="u-text--muted">
+                Project name: {getProjectName(operation)}
               </div>
             </>
           ),
