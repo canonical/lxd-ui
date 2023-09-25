@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Form, useNotify } from "@canonical/react-components";
+import { Col, Form, Row, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
@@ -46,10 +46,12 @@ export const volumeFormToPayload = (
   values: StorageVolumeFormValues,
   project: string
 ) => {
+  const hasValidSize = values.size?.match(/^\d/);
+
   return {
     name: values.name,
     config: {
-      size: values.size ? `${values.size}GiB` : undefined,
+      size: hasValidSize ? values.size : undefined,
       [getVolumeKey("security_shifted")]: values.security_shifted?.toString(),
       [getVolumeKey("security_unmapped")]: values.security_unmapped?.toString(),
       [getVolumeKey("snapshots_expiry")]: values.snapshots_expiry,
@@ -126,16 +128,18 @@ const StorageVolumeForm: FC<Props> = ({ formik }) => {
         poolDriver={poolDriver}
         contentType={formik.values.content_type}
       />
-      <div className="form-contents">
-        {section === MAIN_CONFIGURATION && (
-          <StorageVolumeFormMain formik={formik} />
-        )}
-        {section === SNAPSHOTS && (
-          <StorageVolumeFormSnapshots formik={formik} />
-        )}
-        {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
-        {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
-      </div>
+      <Row className="form-contents">
+        <Col size={12}>
+          {section === MAIN_CONFIGURATION && (
+            <StorageVolumeFormMain formik={formik} />
+          )}
+          {section === SNAPSHOTS && (
+            <StorageVolumeFormSnapshots formik={formik} />
+          )}
+          {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
+          {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
+        </Col>
+      </Row>
     </Form>
   );
 };
