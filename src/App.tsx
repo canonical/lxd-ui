@@ -18,8 +18,8 @@ const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const Storage = lazy(() => import("pages/storage/Storage"));
-const StorageVolumeForm = lazy(
-  () => import("pages/storage/forms/StorageVolumeForm")
+const StorageVolumeCreate = lazy(
+  () => import("pages/storage/forms/StorageVolumeCreate")
 );
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
@@ -235,7 +235,7 @@ const App: FC = () => {
           path="/ui/project/:project/storage/detail/:pool/volumes/create"
           element={
             <ProtectedRoute
-              outlet={<ProjectLoader outlet={<StorageVolumeForm />} />}
+              outlet={<ProjectLoader outlet={<StorageVolumeCreate />} />}
             />
           }
         />

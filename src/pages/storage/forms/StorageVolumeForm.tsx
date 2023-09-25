@@ -1,13 +1,9 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Button, Col, Form, Row, useNotify } from "@canonical/react-components";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Form, useNotify } from "@canonical/react-components";
+import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
-import { createStorageVolume, fetchStoragePools } from "api/storage-pools";
-import NotificationRow from "components/NotificationRow";
-import { useNavigate, useParams } from "react-router-dom";
+import { fetchStoragePools } from "api/storage-pools";
+import { useParams } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import StorageVolumeFormMenu, {
@@ -16,13 +12,12 @@ import StorageVolumeFormMenu, {
   SNAPSHOTS,
   ZFS,
 } from "pages/storage/forms/StorageVolumeFormMenu";
-import { getVolumeKey, testDuplicateName } from "util/storageVolume";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
-import BaseLayout from "components/BaseLayout";
+import { getVolumeKey } from "util/storageVolume";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -47,6 +42,35 @@ export interface StorageVolumeFormValues {
   isCreating: boolean;
 }
 
+export const volumeFormToPayload = (
+  values: StorageVolumeFormValues,
+  project: string
+) => {
+  return {
+    name: values.name,
+    config: {
+      size: values.size ? `${values.size}GiB` : undefined,
+      [getVolumeKey("security_shifted")]: values.security_shifted?.toString(),
+      [getVolumeKey("security_unmapped")]: values.security_unmapped?.toString(),
+      [getVolumeKey("snapshots_expiry")]: values.snapshots_expiry,
+      [getVolumeKey("snapshots_pattern")]: values.snapshots_pattern,
+      [getVolumeKey("snapshots_schedule")]: values.snapshots_schedule,
+      [getVolumeKey("block_filesystem")]: values.block_filesystem,
+      [getVolumeKey("block_mount_options")]: values.block_mount_options,
+      [getVolumeKey("zfs_blocksize")]: values.zfs_blocksize,
+      [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode?.toString(),
+      [getVolumeKey("zfs_delegate")]: values.zfs_delegate?.toString(),
+      [getVolumeKey("zfs_remove_snapshots")]:
+        values.zfs_remove_snapshots?.toString(),
+      [getVolumeKey("zfs_use_refquota")]: values.zfs_use_refquota?.toString(),
+      [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space?.toString(),
+    },
+    project: project,
+    type: "custom",
+    content_type: values.content_type,
+  };
+};
+
 export const getFormProps = (
   formik: FormikProps<StorageVolumeFormValues>,
   id: keyof StorageVolumeFormValues
@@ -62,20 +86,17 @@ export const getFormProps = (
   };
 };
 
-const StorageVolumeForm: FC = () => {
-  const navigate = useNavigate();
+interface Props {
+  formik: FormikProps<StorageVolumeFormValues>;
+}
+
+const StorageVolumeForm: FC<Props> = ({ formik }) => {
   const notify = useNotify();
   const [section, setSection] = useState(MAIN_CONFIGURATION);
-  const queryClient = useQueryClient();
-  const controllerState = useState<AbortController | null>(null);
-  const { project, pool } = useParams<{ project: string; pool: string }>();
+  const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
-  }
-
-  if (!pool) {
-    return <>Missing storage pool name</>;
   }
 
   const { data: storagePools = [], error } = useQuery({
@@ -93,124 +114,29 @@ const StorageVolumeForm: FC = () => {
   useEffect(updateFormHeight, [notify.notification?.message]);
   useEventListener("resize", updateFormHeight);
 
-  const StorageSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(...testDuplicateName(project, pool, controllerState))
-      .required("This field is required"),
-  });
-
-  const formik = useFormik<StorageVolumeFormValues>({
-    initialValues: {
-      content_type: "filesystem",
-      name: "",
-      project: project,
-      pool: pool,
-      size: "",
-      isReadOnly: false,
-      isCreating: true,
-    },
-    validationSchema: StorageSchema,
-    onSubmit: (values) => {
-      const volume = {
-        name: values.name,
-        config: {
-          size: values.size ? `${values.size}GiB` : undefined,
-          [getVolumeKey("security_shifted")]:
-            values.security_shifted?.toString(),
-          [getVolumeKey("security_unmapped")]:
-            values.security_unmapped?.toString(),
-          [getVolumeKey("snapshots_expiry")]: values.snapshots_expiry,
-          [getVolumeKey("snapshots_pattern")]: values.snapshots_pattern,
-          [getVolumeKey("snapshots_schedule")]: values.snapshots_schedule,
-          [getVolumeKey("block_filesystem")]: values.block_filesystem,
-          [getVolumeKey("block_mount_options")]: values.block_mount_options,
-          [getVolumeKey("zfs_blocksize")]: values.zfs_blocksize,
-          [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode?.toString(),
-          [getVolumeKey("zfs_delegate")]: values.zfs_delegate?.toString(),
-          [getVolumeKey("zfs_remove_snapshots")]:
-            values.zfs_remove_snapshots?.toString(),
-          [getVolumeKey("zfs_use_refquota")]:
-            values.zfs_use_refquota?.toString(),
-          [getVolumeKey("zfs_reserve_space")]:
-            values.zfs_reserve_space?.toString(),
-        },
-        project: project,
-        type: "custom",
-        content_type: values.content_type,
-      };
-
-      createStorageVolume(pool, project, volume)
-        .then(() => {
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage],
-          });
-          navigate(
-            `/ui/project/${project}/storage/detail/${pool}/volumes`,
-            notify.queue(
-              notify.success(`Storage volume ${values.name} created.`)
-            )
-          );
-        })
-        .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure("Storage volume creation failed", e);
-        });
-    },
-  });
-
-  const submitForm = () => {
-    void formik.submitForm();
-  };
-
   const poolDriver =
-    storagePools.find((item) => item.name === pool)?.driver ?? "";
+    storagePools.find((item) => item.name === formik.values.pool)?.driver ?? "";
 
   return (
-    <BaseLayout title="Create volume" contentClassName="storage-volume-form">
-      <NotificationRow />
-      <Form onSubmit={formik.handleSubmit} stacked className="form">
-        <StorageVolumeFormMenu
-          active={section}
-          setActive={setSection}
-          formik={formik}
-          poolDriver={poolDriver}
-          contentType={formik.values.content_type}
-        />
-        <div className="form-contents">
-          {section === MAIN_CONFIGURATION && (
-            <StorageVolumeFormMain formik={formik} />
-          )}
-          {section === SNAPSHOTS && (
-            <StorageVolumeFormSnapshots formik={formik} />
-          )}
-          {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
-          {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
-        </div>
-      </Form>
-      <div className="l-footer--sticky p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() =>
-                navigate(
-                  `/ui/project/${project}/storage/detail/${pool}/volumes`
-                )
-              }
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid}
-              onClick={submitForm}
-              buttonLabel="Create"
-            />
-          </Col>
-        </Row>
+    <Form onSubmit={formik.handleSubmit} stacked className="form">
+      <StorageVolumeFormMenu
+        active={section}
+        setActive={setSection}
+        formik={formik}
+        poolDriver={poolDriver}
+        contentType={formik.values.content_type}
+      />
+      <div className="form-contents">
+        {section === MAIN_CONFIGURATION && (
+          <StorageVolumeFormMain formik={formik} />
+        )}
+        {section === SNAPSHOTS && (
+          <StorageVolumeFormSnapshots formik={formik} />
+        )}
+        {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
+        {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
       </div>
-    </BaseLayout>
+    </Form>
   );
 };
 
