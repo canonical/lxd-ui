@@ -57,6 +57,7 @@ const OperationList: FC = () => {
   };
 
   const rows = operations.map((operation) => {
+    const projectName = getProjectName(operation);
     return {
       columns: [
         {
@@ -79,8 +80,8 @@ const OperationList: FC = () => {
               <div className="u-truncate u-text--muted">
                 <OperationInstanceName operation={operation} />
               </div>
-              <div className="u-text--muted u-truncate" title={getProjectName(operation)}>
-                Project: {getProjectName(operation)}
+              <div className="u-text--muted u-truncate" title={projectName}>
+                Project: {projectName}
               </div>
             </>
           ),
