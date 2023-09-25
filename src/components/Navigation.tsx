@@ -146,19 +146,6 @@ const Navigation: FC = () => {
                       <li className="p-side-navigation__item secondary">
                         <NavLink
                           className="p-side-navigation__link"
-                          to={`/ui/project/${projectName}/operations`}
-                          title={`Operations (${projectName})`}
-                        >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="status"
-                          />{" "}
-                          Operations
-                        </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item secondary">
-                        <NavLink
-                          className="p-side-navigation__link"
                           to={`/ui/project/${projectName}/configuration`}
                           title={`Configuration (${projectName})`}
                         >
@@ -181,6 +168,19 @@ const Navigation: FC = () => {
                             name="machines"
                           />{" "}
                           Cluster
+                        </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item">
+                        <NavLink
+                          className="p-side-navigation__link"
+                          to={`/ui/operations`}
+                          title={`Operations (${projectName})`}
+                        >
+                          <Icon
+                            className="is-light p-side-navigation__icon"
+                            name="status"
+                          />{" "}
+                          Operations
                         </NavLink>
                       </li>
                       {!isRestricted && (

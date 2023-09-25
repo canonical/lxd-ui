@@ -2,17 +2,14 @@ import React, { FC } from "react";
 import ItemName from "components/ItemName";
 import { LxdOperation } from "types/operation";
 import InstanceLink from "pages/instances/InstanceLink";
-import { useParams } from "react-router-dom";
-import { getInstanceName } from "util/operations";
+import { getInstanceName, getProjectName } from "util/operations";
 
 interface Props {
   operation: LxdOperation;
 }
 
 const OperationInstanceName: FC<Props> = ({ operation }) => {
-  const { project: projectName } = useParams<{
-    project: string;
-  }>();
+  const projectName = getProjectName(operation);
 
   const instanceName = getInstanceName(operation);
   if (!instanceName) {

@@ -10,29 +10,24 @@ import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { fetchOperations } from "api/operations";
+import { fetchAllOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
-import { useParams } from "react-router-dom";
 import { isoTimeToString } from "util/helpers";
 import { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
+import { getProjectName } from "util/operations";
 
 const OperationList: FC = () => {
   const notify = useNotify();
-  const { project } = useParams<{ project: string }>();
-
-  if (!project) {
-    return <>Missing project</>;
-  }
 
   const {
     data: operationList,
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.operations, project],
-    queryFn: () => fetchOperations(project),
+    queryKey: [queryKeys.operations],
+    queryFn: fetchAllOperations,
   });
 
   if (error) {
@@ -62,6 +57,7 @@ const OperationList: FC = () => {
   };
 
   const rows = operations.map((operation) => {
+    const projectName = getProjectName(operation);
     return {
       columns: [
         {
@@ -83,6 +79,9 @@ const OperationList: FC = () => {
               <div>{operation.description}</div>
               <div className="u-truncate u-text--muted">
                 <OperationInstanceName operation={operation} />
+              </div>
+              <div className="u-text--muted u-truncate" title={projectName}>
+                Project: {projectName}
               </div>
             </>
           ),
@@ -122,9 +121,7 @@ const OperationList: FC = () => {
           className: "status",
         },
         {
-          content: (
-            <CancelOperationBtn operation={operation} project={project} />
-          ),
+          content: <CancelOperationBtn operation={operation} />,
           role: "rowheader",
           className: "u-align--right cancel",
           "aria-label": "Cancel",
@@ -166,7 +163,7 @@ const OperationList: FC = () => {
               image={<Icon name="status" className="empty-state-icon" />}
               title="No operations found"
             >
-              <p>There are no ongoing operations in this project.</p>
+              <p>There are no ongoing operations.</p>
             </EmptyState>
           )}
         </Row>

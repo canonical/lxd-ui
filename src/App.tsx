@@ -205,14 +205,6 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/operations"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<OperationList />} />}
-            />
-          }
-        />
-        <Route
           path="/ui/project/:project/configuration"
           element={
             <ProtectedRoute
@@ -271,6 +263,10 @@ const App: FC = () => {
               outlet={<ClusterGroupLoader outlet={<EditClusterGroup />} />}
             />
           }
+        />
+        <Route
+          path="/ui/operations"
+          element={<ProtectedRoute outlet={<OperationList />} />}
         />
         <Route
           path="/ui/warnings"
