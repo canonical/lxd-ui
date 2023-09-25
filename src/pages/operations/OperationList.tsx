@@ -79,7 +79,7 @@ const OperationList: FC = () => {
               <div className="u-truncate u-text--muted">
                 <OperationInstanceName operation={operation} />
               </div>
-              <div className="u-text--muted">
+              <div className="u-text--muted u-truncate" title={getProjectName(operation)}>
                 Project: {getProjectName(operation)}
               </div>
             </>
