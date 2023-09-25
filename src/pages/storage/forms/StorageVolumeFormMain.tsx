@@ -13,6 +13,7 @@ import {
 } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
+import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -29,12 +30,14 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
             label="Name"
             required
           />
-          <Input
-            {...getFormProps(formik, "size")}
-            type="number"
-            help="Size of the storage volume"
-            label="Size in GiB"
+          <label className="p-form__label" htmlFor="limits_disk">
+            Size
+          </label>
+          <DiskSizeSelector
+            value={formik.values.size}
+            setMemoryLimit={(val?: string) => formik.setFieldValue("size", val)}
           />
+          <p className="p-form-help-text">Size of the storage volume</p>
           <Select
             {...getFormProps(formik, "content_type")}
             options={[

@@ -43,7 +43,7 @@ const StorageVolumeCreate: FC = () => {
       name: "",
       project: project,
       pool: pool,
-      size: "",
+      size: "GiB",
       isReadOnly: false,
       isCreating: true,
     },

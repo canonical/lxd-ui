@@ -9,4 +9,8 @@
     margin-left: 0;
     max-width: 42rem !important;
   }
+
+  .memory-limit-with-unit :first-child {
+    flex-grow: 1;
+  }
 }
