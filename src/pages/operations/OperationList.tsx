@@ -80,7 +80,7 @@ const OperationList: FC = () => {
                 <OperationInstanceName operation={operation} />
               </div>
               <div className="u-text--muted">
-                Project name: {getProjectName(operation)}
+                Project: {getProjectName(operation)}
               </div>
             </>
           ),
