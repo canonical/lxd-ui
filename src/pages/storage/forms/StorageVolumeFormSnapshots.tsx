@@ -48,9 +48,15 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           formik: formik,
           label: "Expire after",
           name: "snapshots_expiry",
-          help: "Controls when snapshots are to be deleted (expects an expression like 1M 2H 3d 4w 5m 6y)",
+          help: "Controls when snapshots are to be deleted",
           defaultValue: "",
-          children: <Input placeholder="Enter expiry expression" type="text" />,
+          children: (
+            <Input
+              placeholder="Enter expiry expression"
+              type="text"
+              help="Expects an expression like 1M 2H 3d 4w 5m 6y"
+            />
+          ),
         }),
 
         getStorageConfigurationRow({
@@ -70,7 +76,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
                   }}
                 />
                 <RadioInput
-                  label="Manual configuration"
+                  label="Choose interval"
                   checked={!cronSyntax}
                   onChange={() => {
                     setCronSyntax(false);

@@ -1,17 +1,17 @@
 import React, { FC } from "react";
-import { CheckboxInput, Input, Textarea } from "@canonical/react-components";
+import { Input, Select, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getNetworkConfigurationRow } from "pages/networks/forms/NetworkConfigurationRow";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
 }
 
 const NetworkFormIpv6: FC<Props> = ({ formik }) => {
-  const hasDhcp =
-    formik.values.ipv6_dhcp === true || formik.values.ipv6_dhcp === undefined;
+  const hasDhcp = formik.values.ipv6_dhcp !== "false";
 
   return (
     <ConfigurationTable
@@ -20,13 +20,8 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
           formik: formik,
           name: "ipv6_dhcp",
           label: "IPv6 DHCP",
-          defaultValue: true,
-          children: (
-            <CheckboxInput
-              label="IPv6 DHCP"
-              checked={formik.values.ipv6_dhcp}
-            />
-          ),
+          defaultValue: "",
+          children: <Select options={optionTrueFalse} />,
         }),
 
         ...(hasDhcp && formik.values.type !== "ovn"
@@ -57,13 +52,8 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 formik: formik,
                 name: "ipv6_dhcp_stateful",
                 label: "IPv6 DHCP stateful",
-                defaultValue: true,
-                children: (
-                  <CheckboxInput
-                    label="IPv6 DHCP stateful"
-                    checked={formik.values.ipv6_dhcp_stateful}
-                  />
-                ),
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
               }),
             ]
           : []),
@@ -74,13 +64,8 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 formik: formik,
                 name: "ipv6_l3only",
                 label: "IPv6 L3 only",
-                defaultValue: true,
-                children: (
-                  <CheckboxInput
-                    label="IPv6 L3 only"
-                    checked={formik.values.ipv6_l3only}
-                  />
-                ),
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
               }),
             ]
           : []),

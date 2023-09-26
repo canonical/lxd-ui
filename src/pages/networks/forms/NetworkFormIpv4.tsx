@@ -1,17 +1,17 @@
 import React, { FC } from "react";
-import { CheckboxInput, Input, Textarea } from "@canonical/react-components";
+import { Input, Select, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getNetworkConfigurationRow } from "pages/networks/forms/NetworkConfigurationRow";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
 }
 
 const NetworkFormIpv4: FC<Props> = ({ formik }) => {
-  const hasDhcp =
-    formik.values.ipv4_dhcp === true || formik.values.ipv4_dhcp === undefined;
+  const hasDhcp = formik.values.ipv4_dhcp !== "false";
 
   return (
     <ConfigurationTable
@@ -20,13 +20,8 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
           formik: formik,
           name: "ipv4_dhcp",
           label: "IPv4 DHCP",
-          defaultValue: true,
-          children: (
-            <CheckboxInput
-              label="IPv4 DHCP"
-              checked={formik.values.ipv4_dhcp}
-            />
-          ),
+          defaultValue: "",
+          children: <Select options={optionTrueFalse} />,
         }),
 
         ...(formik.values.type !== "ovn" && hasDhcp
@@ -57,13 +52,8 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
                 formik: formik,
                 name: "ipv4_l3only",
                 label: "IPv4 L3 only",
-                defaultValue: true,
-                children: (
-                  <CheckboxInput
-                    label="IPv4 L3 only"
-                    checked={formik.values.ipv4_l3only}
-                  />
-                ),
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
               }),
             ]
           : []),

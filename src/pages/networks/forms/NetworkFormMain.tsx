@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { CheckboxInput, Col, Input, Row } from "@canonical/react-components";
+import { Col, Input, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
@@ -7,6 +7,7 @@ import { getNetworkConfigurationRow } from "pages/networks/forms/NetworkConfigur
 import NetworkSelector from "pages/networks/forms/NetworkSelector";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
+import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -94,13 +95,8 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                   formik: formik,
                   name: "ipv4_nat",
                   label: "Ipv4 NAT",
-                  defaultValue: true,
-                  children: (
-                    <CheckboxInput
-                      label="Ipv4 NAT"
-                      checked={formik.values.ipv4_nat}
-                    />
-                  ),
+                  defaultValue: "",
+                  children: <Select options={optionTrueFalse} />,
                 }),
               ]
             : []),
@@ -146,13 +142,8 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
                   formik: formik,
                   name: "ipv6_nat",
                   label: "Ipv6 NAT",
-                  defaultValue: true,
-                  children: (
-                    <CheckboxInput
-                      label="Ipv6 NAT"
-                      checked={formik.values.ipv6_nat}
-                    />
-                  ),
+                  defaultValue: "",
+                  children: <Select options={optionTrueFalse} />,
                 }),
               ]
             : []),

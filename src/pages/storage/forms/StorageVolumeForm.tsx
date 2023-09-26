@@ -25,19 +25,19 @@ export interface StorageVolumeFormValues {
   pool: string;
   size?: string;
   content_type: "filesystem" | "block";
-  security_shifted?: boolean;
-  security_unmapped?: boolean;
+  security_shifted?: string;
+  security_unmapped?: string;
   snapshots_expiry?: string;
   snapshots_pattern?: string;
   snapshots_schedule?: string;
   block_filesystem?: string;
   block_mount_options?: string;
   zfs_blocksize?: string;
-  zfs_block_mode?: boolean;
-  zfs_delegate?: boolean;
-  zfs_remove_snapshots?: boolean;
-  zfs_use_refquota?: boolean;
-  zfs_reserve_space?: boolean;
+  zfs_block_mode?: string;
+  zfs_delegate?: string;
+  zfs_remove_snapshots?: string;
+  zfs_use_refquota?: string;
+  zfs_reserve_space?: string;
   isReadOnly: boolean;
   isCreating: boolean;
 }
@@ -52,20 +52,19 @@ export const volumeFormToPayload = (
     name: values.name,
     config: {
       size: hasValidSize ? values.size : undefined,
-      [getVolumeKey("security_shifted")]: values.security_shifted?.toString(),
-      [getVolumeKey("security_unmapped")]: values.security_unmapped?.toString(),
+      [getVolumeKey("security_shifted")]: values.security_shifted,
+      [getVolumeKey("security_unmapped")]: values.security_unmapped,
       [getVolumeKey("snapshots_expiry")]: values.snapshots_expiry,
       [getVolumeKey("snapshots_pattern")]: values.snapshots_pattern,
       [getVolumeKey("snapshots_schedule")]: values.snapshots_schedule,
       [getVolumeKey("block_filesystem")]: values.block_filesystem,
       [getVolumeKey("block_mount_options")]: values.block_mount_options,
       [getVolumeKey("zfs_blocksize")]: values.zfs_blocksize,
-      [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode?.toString(),
-      [getVolumeKey("zfs_delegate")]: values.zfs_delegate?.toString(),
-      [getVolumeKey("zfs_remove_snapshots")]:
-        values.zfs_remove_snapshots?.toString(),
-      [getVolumeKey("zfs_use_refquota")]: values.zfs_use_refquota?.toString(),
-      [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space?.toString(),
+      [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode,
+      [getVolumeKey("zfs_delegate")]: values.zfs_delegate,
+      [getVolumeKey("zfs_remove_snapshots")]: values.zfs_remove_snapshots,
+      [getVolumeKey("zfs_use_refquota")]: values.zfs_use_refquota,
+      [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space,
     },
     project: project,
     type: "custom",
@@ -82,7 +81,7 @@ export const getFormProps = (
     name: id,
     onBlur: formik.handleBlur,
     onChange: formik.handleChange,
-    value: (formik.values[id] ?? "") as string,
+    value: formik.values[id] ?? "",
     error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
     stacked: true,
   };

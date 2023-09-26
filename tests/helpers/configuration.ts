@@ -92,10 +92,6 @@ export const setSchedule = async (page: Page, value: string) => {
   await page.getByPlaceholder("Enter cron expression").last().fill(value);
 };
 
-export const clickCheckbox = async (page: Page, name: string) => {
-  await page.getByRole("gridcell", { name }).first().getByText(name).click();
-};
-
 export const activateOverride = async (page: Page, field: string) => {
   if (
     !(await page
