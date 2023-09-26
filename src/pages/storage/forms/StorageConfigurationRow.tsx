@@ -29,7 +29,8 @@ export const getStorageConfigurationRow = ({
   help,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
-  const isOverridden = values[name] !== undefined;
+  const value = values[name];
+  const isOverridden = value !== undefined;
 
   // when creating the defaults can be set on the storage pool
   const { data: storagePool } = useQuery({
@@ -42,10 +43,7 @@ export const getStorageConfigurationRow = ({
   const isReadOnly = formik.values.isReadOnly;
 
   const getOverrideValue = (): ReactNode => {
-    if (typeof values[name] === "boolean") {
-      return values[name] ? "true" : "false";
-    }
-    return values[name] === "" ? "-" : values[name];
+    return value === "" ? "-" : value;
   };
 
   return getConfigurationRow({
@@ -60,7 +58,7 @@ export const getStorageConfigurationRow = ({
     inheritedValue,
     inheritSource,
     isReadOnly,
-    value: values[name],
+    value,
     overrideValue: getOverrideValue(),
   });
 };

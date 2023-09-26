@@ -51,11 +51,11 @@ export const getConfigurationRow = ({
         <div>
           {React.cloneElement(children, {
             id: name,
-            name: name,
+            name,
             onBlur: formik.handleBlur,
             onChange: formik.handleChange,
-            value: value,
-            disabled: disabled,
+            value,
+            disabled,
           })}
         </div>
         <div>

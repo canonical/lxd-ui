@@ -26,16 +26,14 @@ export const getNetworkConfigurationRow = ({
   help,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
-  const isOverridden = values[name] !== undefined;
+  const value = values[name];
+  const isOverridden = value !== undefined;
 
   const [inheritedValue, inheritSource] = [getLxdDefault(name), "LXD"];
   const isReadOnly = formik.values.readOnly;
 
   const getOverrideValue = (): ReactNode => {
-    if (typeof values[name] === "boolean") {
-      return values[name] ? "true" : "false";
-    }
-    return values[name] === "" ? "-" : values[name];
+    return value === "" ? "-" : value;
   };
 
   return getConfigurationRow({
@@ -50,7 +48,7 @@ export const getNetworkConfigurationRow = ({
     inheritedValue,
     inheritSource,
     isReadOnly,
-    value: values[name],
+    value,
     overrideValue: getOverrideValue(),
   });
 };
