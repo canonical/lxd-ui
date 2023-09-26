@@ -66,7 +66,7 @@ export const volumeFormToPayload = (
       [getVolumeKey("zfs_use_refquota")]: values.zfs_use_refquota,
       [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space,
     },
-    project: project,
+    project,
     type: "custom",
     content_type: values.content_type,
   };
@@ -77,7 +77,7 @@ export const getFormProps = (
   id: keyof StorageVolumeFormValues
 ) => {
   return {
-    id: id,
+    id,
     name: id,
     onBlur: formik.handleBlur,
     onChange: formik.handleChange,

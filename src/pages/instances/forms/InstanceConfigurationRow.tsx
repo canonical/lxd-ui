@@ -50,7 +50,8 @@ export const getInstanceConfigurationRow = ({
   }
 
   const values = formik.values as unknown as Record<string, string | undefined>;
-  const isOverridden = values[name] !== undefined;
+  const value = values[name];
+  const isOverridden = value !== undefined;
 
   const [inheritedValue, inheritSource] = figureInheritedValue(
     formik.values,
@@ -64,8 +65,8 @@ export const getInstanceConfigurationRow = ({
   };
 
   const getOverrideValue = (): ReactNode => {
-    const value = values[name] === "" ? "-" : values[name];
-    return readOnlyRenderer ? readOnlyRenderer(value) : value;
+    const cleanVal = value === "" ? "-" : value;
+    return readOnlyRenderer ? readOnlyRenderer(cleanVal) : cleanVal;
   };
 
   return getConfigurationRow({
@@ -80,7 +81,7 @@ export const getInstanceConfigurationRow = ({
     inheritedValue: getInheritedValue(),
     inheritSource,
     isReadOnly,
-    value: values[name],
+    value,
     overrideValue: getOverrideValue(),
   });
 };
