@@ -16,6 +16,7 @@ interface Props {
   children: ReactElement;
   defaultValue?: string | CpuLimit | MemoryLimit | boolean;
   disabled?: boolean;
+  disabledReason?: string;
   help?: string;
 }
 
@@ -26,6 +27,7 @@ export const getStorageConfigurationRow = ({
   children,
   defaultValue,
   disabled = false,
+  disabledReason,
   help,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
@@ -53,6 +55,7 @@ export const getStorageConfigurationRow = ({
     children,
     defaultValue,
     disabled,
+    disabledReason,
     help,
     isOverridden,
     inheritedValue,

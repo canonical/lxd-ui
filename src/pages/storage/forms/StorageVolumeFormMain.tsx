@@ -72,20 +72,9 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               defaultValue: "",
               help: "Enable id shifting overlay (allows attach to multiple isolated instances)",
               disabled: formik.values.security_unmapped === "true",
-              children: (
-                <Select
-                  options={optionTrueFalse}
-                  help={
-                    formik.values.security_unmapped === "true" ? (
-                      <>
-                        This setting can{"'"}t be changed while security
-                        unmapped is set to{" "}
-                        <span className="mono-font">true</span>
-                      </>
-                    ) : null
-                  }
-                />
-              ),
+              disabledReason:
+                "This setting can't be changed while security unmapped is set to true",
+              children: <Select options={optionTrueFalse} />,
             }),
 
             getStorageConfigurationRow({
@@ -95,19 +84,9 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               defaultValue: "",
               help: "Disable id mapping for the volume",
               disabled: formik.values.security_shifted === "true",
-              children: (
-                <Select
-                  options={optionTrueFalse}
-                  help={
-                    formik.values.security_shifted === "true" ? (
-                      <>
-                        This setting can{"'"}t be changed while security shifted
-                        is set to <span className="mono-font">true</span>
-                      </>
-                    ) : null
-                  }
-                />
-              ),
+              disabledReason:
+                "This setting can't be changed while security shifted is set to true",
+              children: <Select options={optionTrueFalse} />,
             }),
           ]}
         />
