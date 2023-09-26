@@ -1,4 +1,4 @@
-import { handleResponse } from "util/helpers";
+import { handleEtagResponse, handleResponse } from "util/helpers";
 import {
   LxdStoragePool,
   LxdStoragePoolResources,
@@ -101,6 +101,44 @@ export const fetchStorageVolumes = (
   });
 };
 
+export const fetchStorageVolume = (
+  pool: string,
+  project: string,
+  type: string,
+  volume: string
+): Promise<LxdStorageVolume> => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1`
+    )
+      .then(handleEtagResponse)
+      .then((data) => resolve(data as LxdStorageVolume))
+      .catch(reject);
+  });
+};
+
+export const renameStorageVolume = (
+  pool: string,
+  project: string,
+  volume: LxdStorageVolume,
+  newName: string
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes/${volume.type}/${volume.name}?project=${project}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          name: newName,
+        }),
+      }
+    )
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
 export const createIsoStorageVolume = (
   pool: string,
   isoFile: File,
@@ -150,6 +188,30 @@ export const createStorageVolume = (
     })
       .then(handleResponse)
       .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const updateStorageVolume = (
+  pool: string,
+  project: string,
+  volume: Partial<LxdStorageVolume>
+) => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes/${volume.type ?? ""}/${
+        volume.name ?? ""
+      }?project=${project}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(volume),
+        headers: {
+          "If-Match": volume.etag ?? "invalid-etag",
+        },
+      }
+    )
+      .then(handleResponse)
+      .then((data) => resolve(data))
       .catch(reject);
   });
 };

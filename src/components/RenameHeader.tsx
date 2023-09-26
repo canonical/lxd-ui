@@ -12,7 +12,7 @@ export interface RenameHeaderValues {
 interface Props {
   name: string;
   titleClassName?: string;
-  parentItem: ReactNode;
+  parentItems: ReactNode[];
   centerControls?: ReactNode;
   controls?: ReactNode;
   isLoaded: boolean;
@@ -23,7 +23,7 @@ interface Props {
 const RenameHeader: FC<Props> = ({
   name,
   titleClassName,
-  parentItem,
+  parentItems,
   centerControls,
   controls,
   isLoaded,
@@ -52,7 +52,11 @@ const RenameHeader: FC<Props> = ({
             aria-label="Breadcrumbs"
           >
             <ol className="p-breadcrumbs__items">
-              <li className="p-breadcrumbs__item">{parentItem}</li>
+              {parentItems.map((item, key) => (
+                <li className="p-breadcrumbs__item" key={key}>
+                  {item}
+                </li>
+              ))}
               {formik.values.isRenaming ? (
                 <li className="p-breadcrumbs__item rename">
                   <Input

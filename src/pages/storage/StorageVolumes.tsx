@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { MainTable, SearchBox, useNotify } from "@canonical/react-components";
@@ -51,10 +51,10 @@ const StorageVolumes: FC = () => {
     { content: "Type", sortKey: "type" },
     { content: "Created at", sortKey: "createdAt" },
     { content: "Location", sortKey: "location" },
-    { content: "Config" },
-    { content: "Used by" },
+    { content: "Used by", className: "used_by" },
     {
       content: "",
+      className: "actions",
       "aria-label": "Actions",
     },
   ];
@@ -67,9 +67,16 @@ const StorageVolumes: FC = () => {
     return {
       columns: [
         {
-          content: (
+          // If the volume name contains a slash, it's a snapshot, and we don't want to link to it
+          content: volume.name.includes("/") ? (
+            volume.name
+          ) : (
             <div className="u-truncate" title={volume.name}>
-              {volume.name}
+              <Link
+                to={`/ui/project/${project}/storage/detail/${pool}/${volume.type}/${volume.name}`}
+              >
+                {volume.name}
+              </Link>
             </div>
           ),
           role: "cell",
@@ -81,7 +88,9 @@ const StorageVolumes: FC = () => {
           "aria-label": "Content type",
         },
         {
-          content: volume.type,
+          content: volume.name.includes("/")
+            ? volume.type + " (snapshot)"
+            : volume.type,
           role: "cell",
           "aria-label": "Type",
         },
@@ -96,26 +105,22 @@ const StorageVolumes: FC = () => {
           "aria-label": "Location",
         },
         {
-          content: Object.entries(volume.config).map(([key, val]) => (
-            <div key={key}>
-              {key}: {val}
-            </div>
-          )),
-          role: "cell",
-          "aria-label": "Config",
-        },
-        {
+          className: "used_by",
           content: volume.used_by?.length ?? 0,
           role: "cell",
           "aria-label": "Used by",
         },
         {
+          className: "actions",
           content: (
             <>
               <DeleteStorageVolumeBtn
                 pool={pool}
                 volume={volume}
                 project={project}
+                onFinish={() => {
+                  notify.success(`Storage volume ${volume.name} deleted.`);
+                }}
               />
             </>
           ),
@@ -154,7 +159,12 @@ const StorageVolumes: FC = () => {
         </div>
       </div>
       <ScrollableTable dependencies={[notify.notification]}>
-        <MainTable headers={headers} rows={rows} sortable />
+        <MainTable
+          headers={headers}
+          rows={rows}
+          sortable
+          className="storage-volume-table"
+        />
       </ScrollableTable>
     </div>
   );

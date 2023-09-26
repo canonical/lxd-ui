@@ -26,7 +26,7 @@ import {
   zfsDriver,
 } from "util/storageOptions";
 import ItemName from "components/ItemName";
-import { testDuplicateName } from "util/storagePool";
+import { testDuplicateStoragePoolName } from "util/storagePool";
 import NotificationRow from "components/NotificationRow";
 
 const StoragePoolForm: FC = () => {
@@ -37,7 +37,9 @@ const StoragePoolForm: FC = () => {
 
   const StorageSchema = Yup.object().shape({
     name: Yup.string()
-      .test(...testDuplicateName(panelParams.project, controllerState))
+      .test(
+        ...testDuplicateStoragePoolName(panelParams.project, controllerState)
+      )
       .required("This field is required"),
   });
 

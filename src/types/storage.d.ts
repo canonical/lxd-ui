@@ -18,9 +18,20 @@ export interface LxdStorageVolume {
     "block.filesystem"?: string;
     "block.mount_options"?: string;
     "volatile.rootfs.size"?: number;
+    "security.shifted"?: string;
+    "security.unmapped"?: string;
+    "snapshots.expiry"?: string;
+    "snapshots.pattern"?: string;
+    "snapshots.schedule"?: string;
+    "zfs.blocksize"?: string;
+    "zfs.block_mode"?: string;
+    "zfs.delegate"?: string;
+    "zfs.remove_snapshots"?: string;
+    "zfs.use_refquota"?: string;
+    "zfs.reserve_space"?: string;
     size?: string;
   };
-  content_type: string;
+  content_type: "filesystem" | "block";
   created_at: string;
   description: string;
   location: string;
@@ -28,6 +39,7 @@ export interface LxdStorageVolume {
   project: string;
   type: string;
   used_by?: string[];
+  etag?: string;
 }
 
 export interface LxdStoragePoolResources {

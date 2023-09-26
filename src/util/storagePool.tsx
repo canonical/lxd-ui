@@ -2,7 +2,7 @@ import { AbortControllerState, checkDuplicateName } from "util/helpers";
 import { TestFunction } from "yup";
 import { AnyObject } from "yup/lib/types";
 
-export const testDuplicateName = (
+export const testDuplicateStoragePoolName = (
   project: string,
   controllerState: AbortControllerState
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {

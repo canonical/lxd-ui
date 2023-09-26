@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import StorageVolumeFormMenu, {
-  BLOCK,
+  FILESYSTEM,
   MAIN_CONFIGURATION,
   SNAPSHOTS,
   ZFS,
@@ -18,6 +18,7 @@ import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
 import { getVolumeKey } from "util/storageVolume";
+import { LxdStorageVolume } from "types/storage";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -25,6 +26,7 @@ export interface StorageVolumeFormValues {
   pool: string;
   size?: string;
   content_type: "filesystem" | "block";
+  type: string;
   security_shifted?: string;
   security_unmapped?: string;
   snapshots_expiry?: string;
@@ -45,9 +47,8 @@ export interface StorageVolumeFormValues {
 export const volumeFormToPayload = (
   values: StorageVolumeFormValues,
   project: string
-) => {
+): LxdStorageVolume => {
   const hasValidSize = values.size?.match(/^\d/);
-
   return {
     name: values.name,
     config: {
@@ -67,8 +68,11 @@ export const volumeFormToPayload = (
       [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space,
     },
     project,
-    type: "custom",
+    type: values.type,
     content_type: values.content_type,
+    description: "",
+    location: "",
+    created_at: "",
   };
 };
 
@@ -126,6 +130,7 @@ const StorageVolumeForm: FC<Props> = ({ formik }) => {
         formik={formik}
         poolDriver={poolDriver}
         contentType={formik.values.content_type}
+        isCreating={formik.values.isCreating}
       />
       <Row className="form-contents">
         <Col size={12}>
@@ -135,7 +140,7 @@ const StorageVolumeForm: FC<Props> = ({ formik }) => {
           {section === SNAPSHOTS && (
             <StorageVolumeFormSnapshots formik={formik} />
           )}
-          {section === BLOCK && <StorageVolumeFormBlock formik={formik} />}
+          {section === FILESYSTEM && <StorageVolumeFormBlock formik={formik} />}
           {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
         </Col>
       </Row>

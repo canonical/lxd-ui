@@ -5,6 +5,7 @@ import {
   List,
   MainTable,
   SearchBox,
+  useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const CustomIsoList: FC<Props> = ({ project }) => {
+  const notify = useNotify();
   const [query, setQuery] = useState<string>("");
 
   const { data: images = [], isLoading } = useQuery({
@@ -57,6 +59,9 @@ const CustomIsoList: FC<Props> = ({ project }) => {
               pool={image.pool ?? ""}
               volume={image.volume}
               project={project}
+              onFinish={() =>
+                notify.success(`Custom iso ${image.aliases} deleted.`)
+              }
             />,
           ]}
         />

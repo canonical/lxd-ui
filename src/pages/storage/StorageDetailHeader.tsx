@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
 import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
-import { testDuplicateName } from "util/storagePool";
+import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useNotify } from "@canonical/react-components";
 
 interface Props {
@@ -22,7 +22,7 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
-      .test(...testDuplicateName(project, controllerState))
+      .test(...testDuplicateStoragePoolName(project, controllerState))
       .required("This field is required"),
   });
 
@@ -56,9 +56,11 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
   return (
     <RenameHeader
       name={name}
-      parentItem={
-        <Link to={`/ui/project/${project}/storage`}>Storage pools</Link>
-      }
+      parentItems={[
+        <Link to={`/ui/project/${project}/storage`} key={1}>
+          Storage pools
+        </Link>,
+      ]}
       controls={
         <DeleteStorageBtn
           key="delete"

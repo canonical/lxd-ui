@@ -13,9 +13,21 @@ interface Props {
   pool: string;
   volume: LxdStorageVolume;
   project: string;
+  onFinish: () => void;
+  appearance?: string;
+  hasIcon?: boolean;
+  label?: string;
 }
 
-const DeleteStorageVolumeBtn: FC<Props> = ({ pool, project, volume }) => {
+const DeleteStorageVolumeBtn: FC<Props> = ({
+  pool,
+  project,
+  volume,
+  onFinish,
+  appearance = "base",
+  hasIcon = true,
+  label,
+}) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -28,13 +40,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({ pool, project, volume }) => {
     setLoading(true);
 
     deleteStorageVolume(volume.name, pool, project)
-      .then(() =>
-        notify.success(
-          <>
-            Storage volume <b>{volume.name}</b> deleted.
-          </>
-        )
-      )
+      .then(onFinish)
       .catch((e) => {
         notify.failure("Storage volume deletion failed", e);
       })
@@ -64,12 +70,14 @@ const DeleteStorageVolumeBtn: FC<Props> = ({ pool, project, volume }) => {
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      appearance="base"
+      appearance={appearance}
       className="has-icon u-no-margin--bottom"
       shiftClickEnabled
       showShiftClickHint
+      disabled={(volume.used_by?.length ?? 0) > 0}
     >
-      <Icon name="delete" />
+      {label && <span>{label}</span>}
+      {hasIcon && <Icon name="delete" />}
     </ConfirmationButton>
   );
 };

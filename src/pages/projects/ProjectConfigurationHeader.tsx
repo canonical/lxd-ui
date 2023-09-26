@@ -60,7 +60,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
   return (
     <RenameHeader
       name={project.name}
-      parentItem="Project configuration"
+      parentItems={["Project configuration"]}
       renameDisabledReason={
         project.name === "default"
           ? "Cannot rename the default project"
