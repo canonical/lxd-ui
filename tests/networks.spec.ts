@@ -10,7 +10,7 @@ import {
 import {
   activateOverride,
   assertReadMode,
-  clickCheckbox,
+  setOption,
 } from "./helpers/configuration";
 
 test("network create and remove", async ({ page }) => {
@@ -25,8 +25,8 @@ test("network edit basic details", async ({ page }) => {
 
   await editNetwork(page, network);
   await page.getByPlaceholder("Enter description").fill("A-new-description");
-  await clickCheckbox(page, "IPv4 NAT");
-  await clickCheckbox(page, "IPv6 NAT");
+  await setOption(page, "IPv4 NAT", "false");
+  await setOption(page, "IPv6 NAT", "false");
 
   await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Bridge", { exact: true }).click();
@@ -47,14 +47,17 @@ test("network edit basic details", async ({ page }) => {
 
   await page.getByText("IPv4").click();
   await activateOverride(page, "IPv4 DHCP true");
+  await setOption(page, "IPv4 DHCP", "true");
   await activateOverride(page, "IPv4 DHCP expiry");
   await page.getByLabel("IPv4 DHCP expiry").fill("2h");
 
   await page.getByText("IPv6").click();
   await activateOverride(page, "IPv6 DHCP true");
+  await setOption(page, "IPv6 DHCP", "true");
   await activateOverride(page, "IPv6 DHCP expiry");
   await page.getByLabel("IPv6 DHCP expiry").fill("3h");
   await activateOverride(page, "IPv6 DHCP stateful");
+  await setOption(page, "IPv6 DHCP stateful", "true");
 
   await saveNetwork(page);
 

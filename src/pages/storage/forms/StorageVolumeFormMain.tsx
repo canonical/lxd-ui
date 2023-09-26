@@ -1,11 +1,5 @@
 import React, { FC } from "react";
-import {
-  CheckboxInput,
-  Col,
-  Input,
-  Row,
-  Select,
-} from "@canonical/react-components";
+import { Col, Input, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import {
   getFormProps,
@@ -14,6 +8,7 @@ import {
 import ConfigurationTable from "components/ConfigurationTable";
 import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
 import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
+import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -37,7 +32,10 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
             value={formik.values.size}
             setMemoryLimit={(val?: string) => formik.setFieldValue("size", val)}
           />
-          <p className="p-form-help-text">Size of the storage volume</p>
+          <p className="p-form-help-text">
+            Size of storage volume. If empty, volume will not have a size limit
+            within its storage pool.
+          </p>
           <Select
             {...getFormProps(formik, "content_type")}
             options={[
@@ -51,7 +49,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               },
             ]}
             label="Content type"
-            help="Filesystem is ready to use, block can be formatted and used only on VMs"
+            help="Type filesystem is ready to mount and write files to. Type block can only be attached to VMs, and is treated like an empty block device."
             onChange={(e) => {
               if (e.target.value === "block") {
                 formik.setFieldValue("block_filesystem", undefined);
@@ -71,12 +69,21 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               formik: formik,
               label: "Security shifted",
               name: "security_shifted",
-              defaultValue: true,
+              defaultValue: "",
               help: "Enable id shifting overlay (allows attach to multiple isolated instances)",
+              disabled: formik.values.security_unmapped === "true",
               children: (
-                <CheckboxInput
-                  label="Security shifted"
-                  checked={formik.values.security_shifted}
+                <Select
+                  options={optionTrueFalse}
+                  help={
+                    formik.values.security_unmapped === "true" ? (
+                      <>
+                        This setting can{"'"}t be changed while security
+                        unmapped is set to{" "}
+                        <span className="mono-font">true</span>
+                      </>
+                    ) : null
+                  }
                 />
               ),
             }),
@@ -85,12 +92,20 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               formik: formik,
               label: "Security unmapped",
               name: "security_unmapped",
-              defaultValue: true,
+              defaultValue: "",
               help: "Disable id mapping for the volume",
+              disabled: formik.values.security_shifted === "true",
               children: (
-                <CheckboxInput
-                  label="Security unmapped"
-                  checked={formik.values.security_unmapped}
+                <Select
+                  options={optionTrueFalse}
+                  help={
+                    formik.values.security_shifted === "true" ? (
+                      <>
+                        This setting can{"'"}t be changed while security shifted
+                        is set to <span className="mono-font">true</span>
+                      </>
+                    ) : null
+                  }
                 />
               ),
             }),

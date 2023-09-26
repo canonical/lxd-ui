@@ -55,6 +55,7 @@ export const getConfigurationRow = ({
             onBlur: formik.handleBlur,
             onChange: formik.handleChange,
             value: value,
+            disabled: disabled,
           })}
         </div>
         <div>

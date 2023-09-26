@@ -48,20 +48,20 @@ export interface NetworkFormValues {
   fan_overlay_subnet?: string;
   fan_underlay_subnet?: string;
   ipv4_address?: string;
-  ipv4_dhcp?: boolean;
+  ipv4_dhcp?: string;
   ipv4_dhcp_expiry?: string;
   ipv4_dhcp_ranges?: string;
-  ipv4_l3only?: boolean;
-  ipv4_nat?: boolean;
+  ipv4_l3only?: string;
+  ipv4_nat?: string;
   ipv4_nat_address?: string;
   ipv4_ovn_ranges?: string;
   ipv6_address?: string;
-  ipv6_dhcp?: boolean;
+  ipv6_dhcp?: string;
   ipv6_dhcp_expiry?: string;
   ipv6_dhcp_ranges?: string;
-  ipv6_dhcp_stateful?: boolean;
-  ipv6_l3only?: boolean;
-  ipv6_nat?: boolean;
+  ipv6_dhcp_stateful?: string;
+  ipv6_l3only?: string;
+  ipv6_nat?: string;
   ipv6_nat_address?: string;
   ipv6_ovn_ranges?: string;
   network?: string;
@@ -85,20 +85,20 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       ["fan.type"]: values.fan_type,
       ["fan.underlay_subnet"]: values.fan_underlay_subnet,
       ["ipv4.address"]: values.ipv4_address,
-      ["ipv4.dhcp"]: values.ipv4_dhcp?.toString(),
+      ["ipv4.dhcp"]: values.ipv4_dhcp,
       ["ipv4.dhcp.expiry"]: values.ipv4_dhcp_expiry,
       ["ipv4.dhcp.ranges"]: values.ipv4_dhcp_ranges,
-      ["ipv4.l3only"]: values.ipv4_l3only?.toString(),
-      ["ipv4.nat"]: values.ipv4_nat?.toString(),
+      ["ipv4.l3only"]: values.ipv4_l3only,
+      ["ipv4.nat"]: values.ipv4_nat,
       ["ipv4.nat.address"]: values.ipv4_nat_address,
       ["ipv4.ovn.ranges"]: values.ipv4_ovn_ranges,
       ["ipv6.address"]: values.ipv6_address,
-      ["ipv6.dhcp"]: values.ipv6_dhcp?.toString(),
+      ["ipv6.dhcp"]: values.ipv6_dhcp,
       ["ipv6.dhcp.expiry"]: values.ipv6_dhcp_expiry,
       ["ipv6.dhcp.ranges"]: values.ipv6_dhcp_ranges,
-      ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful?.toString(),
-      ["ipv6.l3only"]: values.ipv6_l3only?.toString(),
-      ["ipv6.nat"]: values.ipv6_nat?.toString(),
+      ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful,
+      ["ipv6.l3only"]: values.ipv6_l3only,
+      ["ipv6.nat"]: values.ipv6_nat,
       ["ipv6.nat.address"]: values.ipv6_nat_address,
       ["ipv6.ovn.ranges"]: values.ipv6_ovn_ranges,
       ["network"]: values.network,
