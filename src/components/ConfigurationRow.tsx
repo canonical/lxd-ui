@@ -17,7 +17,7 @@ interface Props {
   inheritedValue: string | ReactNode;
   inheritSource: string;
   isReadOnly: boolean;
-  value: string | undefined;
+  value?: string;
   overrideValue: string | ReactNode;
 }
 
