@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
-import { Button, Icon, Label } from "@canonical/react-components";
+import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
@@ -12,6 +12,7 @@ interface Props {
   children: ReactElement;
   defaultValue?: string | CpuLimit | MemoryLimit | boolean;
   disabled?: boolean;
+  disabledReason?: string;
   help?: string;
   isOverridden: boolean;
   inheritedValue: string | ReactNode;
@@ -28,6 +29,7 @@ export const getConfigurationRow = ({
   children,
   defaultValue,
   disabled = false,
+  disabledReason,
   help,
   isOverridden,
   inheritedValue,
@@ -48,16 +50,18 @@ export const getConfigurationRow = ({
   const getForm = (): ReactNode => {
     return (
       <div className="override-form">
-        <div>
-          {React.cloneElement(children, {
-            id: name,
-            name,
-            onBlur: formik.handleBlur,
-            onChange: formik.handleChange,
-            value,
-            disabled,
-          })}
-        </div>
+        {wrapDisabledTooltip(
+          <div>
+            {React.cloneElement(children, {
+              id: name,
+              name,
+              onBlur: formik.handleBlur,
+              onChange: formik.handleChange,
+              value,
+              disabled,
+            })}
+          </div>
+        )}
         <div>
           <Button
             onClick={toggleDefault}
@@ -84,6 +88,17 @@ export const getConfigurationRow = ({
     <div className="configuration-help">{help}</div>
   ) : null;
 
+  const wrapDisabledTooltip = (children: ReactNode): ReactNode => {
+    if (disabled && disabledReason) {
+      return (
+        <Tooltip message={disabledReason} position="right">
+          {children}
+        </Tooltip>
+      );
+    }
+    return children;
+  };
+
   return getConfigurationRowBase({
     configuration: (
       <>
@@ -108,22 +123,22 @@ export const getConfigurationRow = ({
         )}
       </div>
     ),
-    override: isReadOnly ? (
-      overrideValue
-    ) : isOverridden ? (
-      getForm()
-    ) : (
-      <Button
-        onClick={toggleDefault}
-        className="u-no-margin--bottom"
-        type="button"
-        disabled={disabled}
-        appearance="base"
-        title="Create override"
-      >
-        <Icon name="edit" />
-      </Button>
-    ),
+    override: isReadOnly
+      ? overrideValue
+      : isOverridden
+      ? getForm()
+      : wrapDisabledTooltip(
+          <Button
+            onClick={toggleDefault}
+            className="u-no-margin--bottom"
+            type="button"
+            disabled={disabled}
+            appearance="base"
+            title="Create override"
+          >
+            <Icon name="edit" />
+          </Button>
+        ),
   });
 };
 

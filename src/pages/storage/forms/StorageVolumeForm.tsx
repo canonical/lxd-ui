@@ -81,7 +81,7 @@ export const getFormProps = (
     name: id,
     onBlur: formik.handleBlur,
     onChange: formik.handleChange,
-    value: formik.values[id] ?? "",
+    value: (formik.values[id] as string | undefined) ?? "",
     error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
     stacked: true,
   };
