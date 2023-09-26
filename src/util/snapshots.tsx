@@ -22,7 +22,7 @@ export const isInstanceStateful = (instance: LxdInstance) => {
 export const getExpiresAt = (expirationDate: string, expirationTime: string) =>
   `${expirationDate}T${expirationTime}`;
 
-export const testDuplicateName = (
+export const testDuplicateSnapshotName = (
   instance: LxdInstance,
   controllerState: AbortControllerState,
   excludeName?: string
@@ -124,7 +124,9 @@ export const getSnapshotSchema = (
   return Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
-      .test(...testDuplicateName(instance, controllerState, snapshotName))
+      .test(
+        ...testDuplicateSnapshotName(instance, controllerState, snapshotName)
+      )
       .test(...testForbiddenChars()),
     expirationDate: Yup.string()
       .nullable()

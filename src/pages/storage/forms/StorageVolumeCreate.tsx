@@ -8,7 +8,7 @@ import SubmitButton from "components/SubmitButton";
 import { createStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams } from "react-router-dom";
-import { testDuplicateName } from "util/storageVolume";
+import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
 import {
   StorageVolumeFormValues,
@@ -33,13 +33,21 @@ const StorageVolumeCreate: FC = () => {
 
   const StorageSchema = Yup.object().shape({
     name: Yup.string()
-      .test(...testDuplicateName(project, pool, controllerState))
+      .test(
+        ...testDuplicateStorageVolumeName(
+          project,
+          "custom",
+          pool,
+          controllerState
+        )
+      )
       .required("This field is required"),
   });
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: {
       content_type: "filesystem",
+      type: "custom",
       name: "",
       project: project,
       pool: pool,

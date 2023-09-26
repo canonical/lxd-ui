@@ -6,9 +6,10 @@ import { parseMemoryLimit } from "util/limits";
 interface Props {
   value?: string;
   setMemoryLimit: (val?: string) => void;
+  disabled?: boolean;
 }
 
-const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit }) => {
+const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit, disabled }) => {
   const limit = parseMemoryLimit(value) ?? {
     value: 1,
     unit: BYTES_UNITS.GIB,
@@ -32,7 +33,8 @@ const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit }) => {
           step="Any"
           placeholder="Enter value"
           onChange={(e) => setMemoryLimit(e.target.value + limit.unit)}
-          value={limit.value}
+          value={value?.match(/^\d/) ? limit.value : ""}
+          disabled={disabled}
         />
         <Select
           id="memUnitSelect"
@@ -42,6 +44,7 @@ const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit }) => {
             setMemoryLimit(`${limit.value ?? 0}${e.target.value}`)
           }
           value={limit.unit}
+          disabled={disabled}
         />
       </div>
     </div>

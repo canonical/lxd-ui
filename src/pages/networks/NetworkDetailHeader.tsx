@@ -65,7 +65,11 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   return (
     <RenameHeader
       name={name}
-      parentItem={<Link to={`/ui/project/${project}/networks`}>Networks</Link>}
+      parentItems={[
+        <Link to={`/ui/project/${project}/networks`} key={1}>
+          Networks
+        </Link>,
+      ]}
       renameDisabledReason={
         !isManaged
           ? "Can not rename, network is not managed"

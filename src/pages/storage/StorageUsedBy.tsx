@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import ImageName from "pages/images/ImageName";
-import { LxdStoragePool } from "types/storage";
+import { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
 import InstanceLink from "pages/instances/InstanceLink";
 import ExpandableList from "components/ExpandableList";
 
 interface Props {
-  storage: LxdStoragePool;
+  storage: LxdStoragePool | LxdStorageVolume;
   project: string;
 }
 
@@ -36,7 +36,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[INSTANCES].map((item) => (
-                <div key={item.name}>
+                <div key={`${item.name}-${item.project}`}>
                   <InstanceLink instance={item} />
                   {item.project !== project && ` (project ${item.project})`}
                 </div>
@@ -51,7 +51,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[PROFILES].map((item) => (
-                <div key={item.name}>
+                <div key={`${item.name}-${item.project}`}>
                   <Link
                     to={`/ui/project/${item.project}/profiles/detail/${item.name}`}
                   >
@@ -69,7 +69,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             <ExpandableList
               items={data[IMAGES].map((item) => (
                 <ImageName
-                  key={item.name}
+                  key={`${item.name}-${item.project}`}
                   id={item.name}
                   project={item.project}
                 />
@@ -84,7 +84,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[SNAPSHOTS].map((item) => (
-                <div key={item.name}>
+                <div key={`${item.instance}-${item.name}-${item.project}`}>
                   <Link
                     to={`/ui/project/${item.project}/instances/detail/${item.instance}/snapshots`}
                   >
@@ -101,7 +101,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[CUSTOM].map((item) => (
-                <div key={item.name}>
+                <div key={`${item.name}-${item.project}`}>
                   {item.name}
                   {item.project !== project && ` (project ${item.project})`}
                 </div>

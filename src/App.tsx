@@ -31,6 +31,9 @@ const CertificateGenerate = lazy(
 const Login = lazy(() => import("pages/login/Login"));
 const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
 const StorageDetail = lazy(() => import("pages/storage/StorageDetail"));
+const StorageVolumeDetail = lazy(
+  () => import("pages/storage/StorageVolumeDetail")
+);
 const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
 const CreateInstanceForm = lazy(
   () => import("pages/instances/CreateInstanceForm")
@@ -251,6 +254,14 @@ const App: FC = () => {
         <Route
           path="/ui/project/:project/storage/detail/:name/:activeTab"
           element={<ProtectedRoute outlet={<StorageDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/detail/:pool/:type/:volume"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/detail/:pool/:type/:volume/:activeTab"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
           path="/ui/cluster"

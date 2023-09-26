@@ -23,7 +23,13 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
             {...getFormProps(formik, "name")}
             type="text"
             label="Name"
-            required
+            disabled={formik.values.isReadOnly || !formik.values.isCreating}
+            required={formik.values.isCreating}
+            help={
+              formik.values.isCreating
+                ? undefined
+                : "Click the name in the header to rename the instance"
+            }
           />
           <label className="p-form__label" htmlFor="limits_disk">
             Size
@@ -31,6 +37,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
           <DiskSizeSelector
             value={formik.values.size}
             setMemoryLimit={(val?: string) => formik.setFieldValue("size", val)}
+            disabled={formik.values.isReadOnly}
           />
           <p className="p-form-help-text">
             Size of storage volume. If empty, volume will not have a size limit
@@ -59,6 +66,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
               }
               formik.setFieldValue("content_type", e.target.value);
             }}
+            disabled={formik.values.isReadOnly}
           />
         </Col>
       </Row>

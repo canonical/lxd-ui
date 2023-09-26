@@ -49,7 +49,23 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
           name: "block_mount_options",
           defaultValue: "",
           help: "Mount options for block devices",
-          children: <Input type="text" />,
+          children: (
+            <Input
+              type="text"
+              help={
+                <>
+                  For a list of available options visit{" "}
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://manpages.ubuntu.com/manpages/jammy/en/man8/mount.8.html#filesystem-independent%20mount%20options"
+                  >
+                    mount manpages
+                  </a>
+                </>
+              }
+            />
+          ),
         }),
       ]}
     />

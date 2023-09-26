@@ -8,7 +8,7 @@ import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const SNAPSHOTS = "Snapshots";
-export const BLOCK = "Block";
+export const FILESYSTEM = "Filesystem";
 export const ZFS = "ZFS";
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
   poolDriver: string;
   contentType: "block" | "filesystem";
+  isCreating: boolean;
 }
 
 const StorageVolumeFormMenu: FC<Props> = ({
@@ -25,9 +26,10 @@ const StorageVolumeFormMenu: FC<Props> = ({
   formik,
   poolDriver,
   contentType,
+  isCreating,
 }) => {
   const notify = useNotify();
-  const [isAdvancedOpen, setAdvancedOpen] = useState(false);
+  const [isAdvancedOpen, setAdvancedOpen] = useState(!isCreating);
   const menuItemProps = {
     active,
     setActive,
@@ -71,7 +73,7 @@ const StorageVolumeFormMenu: FC<Props> = ({
               {contentType === "filesystem" &&
                 ["zfs", "lvm", "ceph"].includes(poolDriver) && (
                   <MenuItem
-                    label={BLOCK}
+                    label={FILESYSTEM}
                     {...menuItemProps}
                     disableReason={disableReason}
                   />

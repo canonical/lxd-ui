@@ -68,7 +68,11 @@ const ProfileDetailHeader: FC<Props> = ({
   return (
     <RenameHeader
       name={name}
-      parentItem={<Link to={`/ui/project/${project}/profiles`}>Profiles</Link>}
+      parentItems={[
+        <Link to={`/ui/project/${project}/profiles`} key={1}>
+          Profiles
+        </Link>,
+      ]}
       renameDisabledReason={
         profile && profile.name === "default"
           ? "Cannot rename the default profile"

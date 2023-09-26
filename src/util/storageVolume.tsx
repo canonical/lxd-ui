@@ -3,20 +3,25 @@ import { TestFunction } from "yup";
 import { AnyObject } from "yup/lib/types";
 import { LxdStoragePool } from "types/storage";
 
-export const testDuplicateName = (
+export const testDuplicateStorageVolumeName = (
   project: string,
-  pool: string,
-  controllerState: AbortControllerState
+  volumeType: string,
+  storagePool: string,
+  controllerState: AbortControllerState,
+  previousName?: string
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
     "deduplicate",
     "A storage volume with this name already exists",
     (value?: string) => {
-      return checkDuplicateName(
-        value,
-        project,
-        controllerState,
-        `storage-pools/${pool}/volumes/custom`
+      return (
+        value === previousName ||
+        checkDuplicateName(
+          value,
+          project,
+          controllerState,
+          `storage-pools/${storagePool}/volumes/${volumeType}`
+        )
       );
     },
   ];

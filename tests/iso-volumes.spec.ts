@@ -37,7 +37,7 @@ test("upload and delete custom iso", async ({ page }) => {
   await page.getByText("3 B").click();
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByText("Delete", { exact: true }).click();
-  await page.getByText(`Storage volume ${isoName} deleted.`).click();
+  await page.getByText(`Custom iso ${isoName} deleted.`).click();
 });
 
 test("use custom iso for instance launch", async ({ page }) => {
@@ -70,5 +70,5 @@ test("use custom iso for instance launch", async ({ page }) => {
   await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByText("Delete", { exact: true }).click();
-  await page.getByText(`Storage volume ${isoName} deleted.`).click();
+  await page.getByText(`Custom iso ${isoName} deleted.`).click();
 });
