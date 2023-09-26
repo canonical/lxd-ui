@@ -1,20 +1,16 @@
-import React, { FC, useState } from "react";
-import { Input, RadioInput, Select } from "@canonical/react-components";
+import React, { FC } from "react";
+import { Input } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
-import { snapshotOptions } from "util/snapshotOptions";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
 }
 
 const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
-  const [cronSyntax, setCronSyntax] = useState(
-    !formik.values.snapshots_schedule?.startsWith("@")
-  );
-
   return (
     <ConfigurationTable
       rows={[
@@ -65,49 +61,12 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           name: "snapshots_schedule",
           defaultValue: "",
           children: (
-            <div>
-              <div className="snapshot-schedule">
-                <RadioInput
-                  label="Cron syntax"
-                  checked={cronSyntax}
-                  onChange={() => {
-                    setCronSyntax(true);
-                    formik.setFieldValue("snapshots_schedule", "");
-                  }}
-                />
-                <RadioInput
-                  label="Choose interval"
-                  checked={!cronSyntax}
-                  onChange={() => {
-                    setCronSyntax(false);
-                    formik.setFieldValue("snapshots_schedule", "@daily");
-                  }}
-                />
-              </div>
-              {cronSyntax ? (
-                <Input
-                  id="snapshots_schedule"
-                  name="snapshots_schedule"
-                  label="Cron expression"
-                  placeholder="Enter cron expression"
-                  help="<minute> <hour> <dom> <month> <dow>, a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
-                  type="text"
-                  value={formik.values.snapshots_schedule}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                />
-              ) : (
-                <Select
-                  id="snapshots_schedule"
-                  name="snapshots_schedule"
-                  label="Every"
-                  value={formik.values.snapshots_schedule}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  options={snapshotOptions}
-                />
-              )}
-            </div>
+            <SnapshotScheduleInput
+              value={formik.values.snapshots_schedule}
+              setValue={(val) =>
+                formik.setFieldValue("snapshots_schedule", val)
+              }
+            />
           ),
         }),
       ]}
