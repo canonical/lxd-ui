@@ -14,3 +14,10 @@
     flex-grow: 1;
   }
 }
+
+.custom-volume-modal {
+  > section {
+    min-height: 100%;
+    padding-bottom: 0;
+  }
+}

@@ -26,7 +26,7 @@ interface Props {
   project: string;
 }
 
-const NetworkForm: FC<Props> = ({ formik, project }) => {
+const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   const notify = useNotify();
 
   const {
@@ -98,14 +98,6 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
           return getConfigurationRowBase({
             configuration: (
               <>
-                <Tooltip
-                  message="This network is inherited from a profile or project.
-To change it, edit it in the profile or project it originates from,
-or remove the originating item"
-                  position="btm-left"
-                >
-                  <Icon name="information" />
-                </Tooltip>{" "}
                 <b>{item.key}</b>
               </>
             ),
@@ -119,7 +111,16 @@ or remove the originating item"
                 </div>
               </div>
             ),
-            override: "",
+            override: (
+              <Tooltip
+                message="This network is inherited from a profile or project.
+To change it, edit it in the profile or project it originates from,
+or remove the originating item"
+                position="btm-left"
+              >
+                <Icon name="information" />
+              </Tooltip>
+            ),
           });
         }),
 
@@ -135,9 +136,23 @@ or remove the originating item"
             configuration: (
               <Label forId={`networkDevice${index}`}>
                 <b>
-                  {isReadOnly || device.type === "custom-nic"
-                    ? device.name
-                    : "Network"}
+                  {isReadOnly || device.type === "custom-nic" ? (
+                    device.name
+                  ) : (
+                    <Input
+                      label="Device name"
+                      required
+                      name={`devices.${index}.name`}
+                      id={`networkName${index}`}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={
+                        (formik.values.devices[index] as LxdNicDevice).name
+                      }
+                      type="text"
+                      placeholder="Enter name"
+                    />
+                  )}
                 </b>
               </Label>
             ),
@@ -165,18 +180,6 @@ or remove the originating item"
                         (formik.values.devices[index] as LxdNicDevice).network
                       }
                       options={getNetworkOptions()}
-                    />
-                    <Input
-                      label="Device name"
-                      name={`devices.${index}.name`}
-                      id={`networkName${index}`}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={
-                        (formik.values.devices[index] as LxdNicDevice).name
-                      }
-                      type="text"
-                      placeholder="Enter name"
                     />
                   </div>
                   <div>
@@ -213,4 +216,4 @@ or remove the originating item"
     />
   );
 };
-export default NetworkForm;
+export default NetworkDevicesForm;

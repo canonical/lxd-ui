@@ -55,6 +55,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "custom_isos";
 @import "detail_page";
 @import "detail_panels";
+@import "disk_device_form";
 @import "empty_state";
 @import "file_row";
 @import "forms";
@@ -257,4 +258,8 @@ $border-thin: 1px solid $color-mid-light !default;
       margin-top: 0.665rem; // extra margin to align with the text should be removed when this is fixed: https://github.com/canonical/vanilla-framework/issues/4891
     }
   }
+}
+
+.no-border-top {
+  border-top: none !important;
 }

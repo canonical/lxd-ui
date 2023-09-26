@@ -46,7 +46,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
       })
       .finally(() => {
         setLoading(false);
-        void queryClient.invalidateQueries([queryKeys.isoImages]);
+        void queryClient.invalidateQueries([queryKeys.isoVolumes]);
         void queryClient.invalidateQueries([
           queryKeys.storage,
           pool,

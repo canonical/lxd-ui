@@ -58,6 +58,7 @@ const StoragePoolSelector: FC<Props> = ({
 
   return (
     <Select
+      id="storage-pool-selector"
       name="pool"
       options={getStoragePoolOptions()}
       onChange={(e) => setValue(e.target.value)}

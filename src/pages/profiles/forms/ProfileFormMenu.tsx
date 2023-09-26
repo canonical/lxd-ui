@@ -5,8 +5,8 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 
 export const MAIN_CONFIGURATION = "Main configuration";
-export const STORAGE = "Storage";
-export const NETWORKS = "Networks";
+export const DISK_DEVICES = "Disk devices";
+export const NETWORK_DEVICES = "Network devices";
 export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
 export const SNAPSHOTS = "Snapshots";
@@ -64,8 +64,8 @@ const ProfileFormMenu: FC<Props> = ({
               className="p-side-navigation__list"
               aria-expanded={isConfigOpen ? "true" : "false"}
             >
-              <MenuItem label={STORAGE} {...menuItemProps} />
-              <MenuItem label={NETWORKS} {...menuItemProps} />
+              <MenuItem label={DISK_DEVICES} {...menuItemProps} />
+              <MenuItem label={NETWORK_DEVICES} {...menuItemProps} />
               <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
               <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
               <MenuItem label={SNAPSHOTS} {...menuItemProps} />

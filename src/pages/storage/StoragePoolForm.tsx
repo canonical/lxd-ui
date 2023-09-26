@@ -35,7 +35,7 @@ const StoragePoolForm: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const StorageSchema = Yup.object().shape({
+  const StoragePoolSchema = Yup.object().shape({
     name: Yup.string()
       .test(
         ...testDuplicateStoragePoolName(panelParams.project, controllerState)
@@ -51,7 +51,7 @@ const StoragePoolForm: FC = () => {
       source: "",
       size: "",
     },
-    validationSchema: StorageSchema,
+    validationSchema: StoragePoolSchema,
     onSubmit: ({ name, description, driver, source, size }) => {
       const storagePool: LxdStoragePool = {
         name,

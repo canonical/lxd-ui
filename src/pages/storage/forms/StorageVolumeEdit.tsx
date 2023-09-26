@@ -28,13 +28,13 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
     return <>Missing project</>;
   }
 
-  const StorageSchema = Yup.object().shape({
+  const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
   });
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: getStorageVolumeEditValues(volume, pool),
-    validationSchema: StorageSchema,
+    validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, project);
       updateStorageVolume(values.pool, project, {

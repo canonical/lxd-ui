@@ -36,19 +36,19 @@ import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import { updateProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
-  STORAGE,
+  DISK_DEVICES,
   MAIN_CONFIGURATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  NETWORKS,
+  NETWORK_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import RootStorageForm from "pages/instances/forms/RootStorageForm";
-import NetworkForm from "pages/instances/forms/NetworkForm";
+import DiskDeviceForm from "pages/instances/forms/DiskDeviceForm";
+import NetworkDevicesForm from "pages/instances/forms/NetworkDevicesForm";
 import ProfileDetailsForm, {
   profileDetailPayload,
   ProfileDetailsFormValues,
@@ -194,12 +194,12 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
               <ProfileDetailsForm formik={formik} isEdit={true} />
             )}
 
-            {activeSection === slugify(STORAGE) && (
-              <RootStorageForm formik={formik} project={project} />
+            {activeSection === slugify(DISK_DEVICES) && (
+              <DiskDeviceForm formik={formik} project={project} />
             )}
 
-            {activeSection === slugify(NETWORKS) && (
-              <NetworkForm formik={formik} project={project} />
+            {activeSection === slugify(NETWORK_DEVICES) && (
+              <NetworkDevicesForm formik={formik} project={project} />
             )}
 
             {activeSection === slugify(RESOURCE_LIMITS) && (

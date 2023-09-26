@@ -2,7 +2,7 @@ import { fetchStoragePools, fetchStorageVolumes } from "api/storage-pools";
 import { isoToRemoteImage } from "util/images";
 import { RemoteImage } from "types/image";
 
-export const loadIsoImages = async (
+export const loadIsoVolumes = async (
   project: string
 ): Promise<RemoteImage[]> => {
   const result: RemoteImage[] = [];

@@ -18,7 +18,9 @@ const ScrollableTable: FC<Props> = ({ dependencies, children, belowId }) => {
     }
     const style = window.getComputedStyle(element);
     const margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom);
-    return element.offsetHeight + margin + 1;
+    const padding =
+      parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    return element.offsetHeight + margin + padding + 1;
   };
 
   const updateTBodyHeight = () => {

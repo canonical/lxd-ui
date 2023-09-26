@@ -36,17 +36,17 @@ import InstanceEditDetailsForm, {
 import InstanceFormMenu, {
   CLOUD_INIT,
   MAIN_CONFIGURATION,
-  NETWORKS,
+  NETWORK_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
-  STORAGE,
+  DISK_DEVICES,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import RootStorageForm from "pages/instances/forms/RootStorageForm";
-import NetworkForm from "pages/instances/forms/NetworkForm";
+import DiskDeviceForm from "pages/instances/forms/DiskDeviceForm";
+import NetworkDevicesForm from "pages/instances/forms/NetworkDevicesForm";
 import {
   getInstanceEditValues,
   getInstancePayload,
@@ -169,12 +169,12 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
               <InstanceEditDetailsForm formik={formik} project={project} />
             )}
 
-            {activeSection === slugify(STORAGE) && (
-              <RootStorageForm formik={formik} project={project} />
+            {activeSection === slugify(DISK_DEVICES) && (
+              <DiskDeviceForm formik={formik} project={project} />
             )}
 
-            {activeSection === slugify(NETWORKS) && (
-              <NetworkForm formik={formik} project={project} />
+            {activeSection === slugify(NETWORK_DEVICES) && (
+              <NetworkDevicesForm formik={formik} project={project} />
             )}
 
             {activeSection === slugify(RESOURCE_LIMITS) && (

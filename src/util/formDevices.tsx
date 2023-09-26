@@ -5,6 +5,7 @@ import {
   LxdNicDevice,
 } from "types/device";
 import { RemoteImage } from "types/image";
+import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
 
 interface EmptyDevice {
   type: "";
@@ -15,6 +16,11 @@ interface UnknownDevice {
   type: "unknown";
   name: string;
   bare: unknown;
+}
+
+interface NoneDevice {
+  type: "none";
+  name: string;
 }
 
 export interface IsoVolumeDevice {
@@ -29,10 +35,19 @@ export interface CustomNetworkDevice {
   bare: LxdNicDevice;
 }
 
+export type FormDiskDevice = Partial<LxdDiskDevice> &
+  Required<Pick<LxdDiskDevice, "name" | "pool">> & {
+    limits?: {
+      read?: string;
+      write?: string;
+    };
+  };
+
 export type FormDevice =
-  | (Partial<LxdDiskDevice> & Required<Pick<LxdDiskDevice, "name">>)
+  | FormDiskDevice
   | (Partial<LxdNicDevice> & Required<Pick<LxdNicDevice, "name">>)
   | UnknownDevice
+  | NoneDevice
   | CustomNetworkDevice
   | IsoVolumeDevice
   | EmptyDevice;
@@ -59,6 +74,18 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
           ...obj,
           [name]: item.bare,
         };
+      }
+      if ("limits" in item) {
+        if (item.limits?.read) {
+          item["limits.read"] = item.limits.read;
+        }
+        if (item.limits?.write) {
+          item["limits.write"] = item.limits.write;
+        }
+        delete item.limits;
+      }
+      if ("size" in item && !item.size?.match(/^\d/)) {
+        delete item.size;
       }
       return {
         ...obj,
@@ -105,8 +132,18 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           name: key,
           path: "path" in item ? item.path : undefined,
           pool: item.pool,
+          source: "source" in item ? item.source : undefined,
           size: "size" in item ? item.size : undefined,
+          limits: {
+            read: "limits.read" in item ? item["limits.read"] : undefined,
+            write: "limits.write" in item ? item["limits.write"] : undefined,
+          },
           type: "disk",
+        };
+      case "none":
+        return {
+          name: key,
+          type: "none",
         };
       default:
         return {
@@ -129,4 +166,10 @@ export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
       type: "disk",
     },
   };
+};
+
+export const removeDevice = (index: number, formik: SharedFormikTypes) => {
+  const copy = [...formik.values.devices];
+  copy.splice(index, 1);
+  formik.setFieldValue("devices", copy);
 };

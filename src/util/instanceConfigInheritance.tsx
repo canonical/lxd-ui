@@ -4,7 +4,7 @@ import { getInstanceKey } from "util/instanceConfigFields";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { isDiskDevice, isNicDevice } from "util/devices";
-import { LxdNicDevice } from "types/device";
+import { LxdDiskDevice, LxdNicDevice } from "types/device";
 
 const lxdDefaults: Record<string, string> = {
   limits_cpu: "-",
@@ -117,7 +117,7 @@ export const figureInheritedValue = (
 export const figureInheritedRootStorage = (
   values: SharedFormTypes,
   profiles: LxdProfile[]
-): [string, string] => {
+): [LxdDiskDevice | null, string] => {
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
     const appliedProfiles = [
       ...(values as CreateInstanceFormValues | EditInstanceFormValues).profiles,
@@ -131,12 +131,47 @@ export const figureInheritedRootStorage = (
         .filter(isDiskDevice)
         .find((device) => device.path === "/");
       if (rootDevice) {
-        return [rootDevice.pool, `${profileName} profile`];
+        return [rootDevice, `${profileName} profile`];
       }
     }
   }
 
-  return ["", "LXD"];
+  return [null, "LXD"];
+};
+
+export interface InheritedVolume {
+  key: string;
+  disk: LxdDiskDevice;
+  source: string;
+}
+
+export const figureInheritedVolumes = (
+  values: SharedFormTypes,
+  profiles: LxdProfile[]
+): InheritedVolume[] => {
+  const inheritedVolumes: InheritedVolume[] = [];
+  if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
+    const appliedProfiles = [
+      ...(values as CreateInstanceFormValues | EditInstanceFormValues).profiles,
+    ].reverse();
+    for (const profileName of appliedProfiles) {
+      const profile = profiles.find((profile) => profile.name === profileName);
+      if (!profile) {
+        continue;
+      }
+      Object.entries(profile.devices)
+        .filter(([key, device]) => isDiskDevice(device) && key !== "root")
+        .map(([key, disk]) => {
+          inheritedVolumes.push({
+            key: key,
+            disk: disk as LxdDiskDevice,
+            source: `${profileName} profile`,
+          });
+        });
+    }
+  }
+
+  return inheritedVolumes;
 };
 
 interface InheritedNetwork {
