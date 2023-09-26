@@ -18,7 +18,7 @@ const UploadCustomIsoBtn: FC = () => {
         Image <b>{name}</b> uploaded successfully
       </>
     );
-    void queryClient.invalidateQueries([queryKeys.isoImages]);
+    void queryClient.invalidateQueries([queryKeys.isoVolumes]);
     closePortal();
   };
 

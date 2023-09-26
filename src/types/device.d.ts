@@ -1,8 +1,11 @@
 export interface LxdDiskDevice {
   name?: string;
-  path: string;
+  path?: string;
   pool: string;
   size?: string;
+  source?: string;
+  "limits.read"?: string;
+  "limits.write"?: string;
   type: "disk";
 }
 
@@ -19,7 +22,12 @@ export interface LxdNicDevice {
   type: "nic";
 }
 
+export interface LxdNoneDevice {
+  name?: string;
+  type: "none";
+}
+
 export type LxdDevices = Record<
   string,
-  LxdDiskDevice | LxdIsoDevice | LxdNicDevice
+  LxdDiskDevice | LxdIsoDevice | LxdNicDevice | LxdNoneDevice
 >;

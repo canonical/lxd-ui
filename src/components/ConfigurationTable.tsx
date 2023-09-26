@@ -15,11 +15,11 @@ const ConfigurationTable: FC<Props> = ({
 }) => {
   const headers = [
     {
-      content: <>Configuration{configurationExtra}</>,
+      content: <span>Configuration{configurationExtra}</span>,
       className: "configuration",
     },
-    { content: "Inherited", className: "inherited" },
-    { content: "Override", className: "override" },
+    { content: <span>Inherited</span>, className: "inherited" },
+    { content: <span>Override</span>, className: "override" },
   ];
 
   return (

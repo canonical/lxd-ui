@@ -31,7 +31,7 @@ const StorageVolumeCreate: FC = () => {
     return <>Missing storage pool name</>;
   }
 
-  const StorageSchema = Yup.object().shape({
+  const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
       .test(
         ...testDuplicateStorageVolumeName(
@@ -55,7 +55,7 @@ const StorageVolumeCreate: FC = () => {
       isReadOnly: false,
       isCreating: true,
     },
-    validationSchema: StorageSchema,
+    validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const volume = volumeFormToPayload(values, project);
       createStorageVolume(pool, project, volume)

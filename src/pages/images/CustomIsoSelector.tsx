@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
-import { loadIsoImages } from "context/loadIsoImages";
+import { loadIsoVolumes } from "context/loadIsoVolumes";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useProject } from "context/project";
@@ -26,8 +26,8 @@ const CustomIsoSelector: FC<Props> = ({
   const projectName = project?.name ?? "";
 
   const { data: images = [], isLoading } = useQuery({
-    queryKey: [queryKeys.isoImages, project],
-    queryFn: () => loadIsoImages(projectName),
+    queryKey: [queryKeys.isoVolumes, project],
+    queryFn: () => loadIsoVolumes(projectName),
   });
 
   const headers = [

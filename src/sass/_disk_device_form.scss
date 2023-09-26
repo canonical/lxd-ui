@@ -1,0 +1,70 @@
+.disk-device-form {
+  .configuration-table {
+    margin-bottom: $spv--x-large;
+  }
+
+  .configuration {
+    padding-left: 0;
+    width: 8rem;
+  }
+
+  tbody .configuration {
+    > :first-child {
+      margin-left: $sph--x-large;
+    }
+
+    .device-name {
+      margin-left: 0 !important;
+    }
+  }
+
+  .inherited-disk-devices th.override > * {
+    display: none;
+  }
+
+  .custom-disk-devices thead {
+    display: none;
+  }
+
+  .custom-disk-devices-heading {
+    border-bottom: $border;
+    padding-bottom: $spv--large;
+  }
+
+  .custom-disk-device-name .configuration {
+    overflow: visible;
+
+    .rename-disk-device {
+      width: 20rem;
+
+      > :first-child {
+        margin-right: $sph--small;
+      }
+    }
+  }
+
+  .custom-disk-volume-source,
+  .custom-disk-device-limits {
+    align-items: center;
+    display: flex;
+
+    > :first-child {
+      margin-right: $sph--large;
+    }
+  }
+}
+
+.disk-device-form--edit {
+  .override-with-form {
+    .configuration,
+    .inherited {
+      padding-top: calc(1rem - 3px);
+    }
+  }
+
+  .inherited-with-form {
+    .configuration {
+      padding-top: calc(1rem - 3px);
+    }
+  }
+}

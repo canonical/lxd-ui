@@ -37,13 +37,13 @@ import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
-  STORAGE,
+  DISK_DEVICES,
   MAIN_CONFIGURATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  NETWORKS,
+  NETWORK_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import ProfileDetailsForm, {
   profileDetailPayload,
@@ -51,8 +51,8 @@ import ProfileDetailsForm, {
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import RootStorageForm from "pages/instances/forms/RootStorageForm";
-import NetworkForm from "pages/instances/forms/NetworkForm";
+import DiskDeviceForm from "pages/instances/forms/DiskDeviceForm";
+import NetworkDevicesForm from "pages/instances/forms/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 
@@ -169,12 +169,12 @@ const CreateProfileForm: FC = () => {
               <ProfileDetailsForm formik={formik} isEdit={false} />
             )}
 
-            {section === STORAGE && (
-              <RootStorageForm formik={formik} project={project} />
+            {section === DISK_DEVICES && (
+              <DiskDeviceForm formik={formik} project={project} />
             )}
 
-            {section === NETWORKS && (
-              <NetworkForm formik={formik} project={project} />
+            {section === NETWORK_DEVICES && (
+              <NetworkDevicesForm formik={formik} project={project} />
             )}
 
             {section === RESOURCE_LIMITS && (

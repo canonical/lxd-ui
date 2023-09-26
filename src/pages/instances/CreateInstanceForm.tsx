@@ -50,18 +50,18 @@ import ResourceLimitsForm, {
 import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
 import InstanceFormMenu, {
   CLOUD_INIT,
-  STORAGE,
+  DISK_DEVICES,
   MAIN_CONFIGURATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  NETWORKS,
+  NETWORK_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import RootStorageForm from "pages/instances/forms/RootStorageForm";
-import NetworkForm from "pages/instances/forms/NetworkForm";
+import DiskDeviceForm from "pages/instances/forms/DiskDeviceForm";
+import NetworkDevicesForm from "pages/instances/forms/NetworkDevicesForm";
 import { useEventQueue } from "context/eventQueue";
 import { getInstanceName } from "util/operations";
 import NotificationRow from "components/NotificationRow";
@@ -336,12 +336,12 @@ const CreateInstanceForm: FC = () => {
               />
             )}
 
-            {section === STORAGE && (
-              <RootStorageForm formik={formik} project={project} />
+            {section === DISK_DEVICES && (
+              <DiskDeviceForm formik={formik} project={project} />
             )}
 
-            {section === NETWORKS && (
-              <NetworkForm formik={formik} project={project} />
+            {section === NETWORK_DEVICES && (
+              <NetworkDevicesForm formik={formik} project={project} />
             )}
 
             {section === RESOURCE_LIMITS && (

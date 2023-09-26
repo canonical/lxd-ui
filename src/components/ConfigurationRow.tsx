@@ -68,6 +68,7 @@ export const getConfigurationRow = ({
             type="button"
             appearance="base"
             title="Clear override"
+            hasIcon
           >
             <Icon name="close" className="clear-configuration-icon" />
           </Button>
@@ -135,6 +136,7 @@ export const getConfigurationRow = ({
             disabled={disabled}
             appearance="base"
             title="Create override"
+            hasIcon
           >
             <Icon name="edit" />
           </Button>
@@ -146,14 +148,17 @@ interface BaseProps {
   configuration: ReactNode;
   inherited: ReactNode;
   override: ReactNode;
+  className?: string;
 }
 
 export const getConfigurationRowBase = ({
   configuration,
   inherited,
   override,
+  className,
 }: BaseProps): MainTableRow => {
   return {
+    className,
     columns: [
       {
         content: configuration,

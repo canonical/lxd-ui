@@ -9,7 +9,7 @@ import {
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
-import { loadIsoImages } from "context/loadIsoImages";
+import { loadIsoVolumes } from "context/loadIsoVolumes";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
@@ -25,8 +25,8 @@ const CustomIsoList: FC<Props> = ({ project }) => {
   const [query, setQuery] = useState<string>("");
 
   const { data: images = [], isLoading } = useQuery({
-    queryKey: [queryKeys.isoImages, project],
-    queryFn: () => loadIsoImages(project),
+    queryKey: [queryKeys.isoVolumes, project],
+    queryFn: () => loadIsoVolumes(project),
   });
 
   const headers = [
