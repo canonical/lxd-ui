@@ -31,10 +31,7 @@ export const getNetworkConfigurationRow = ({
 
   const [inheritedValue, inheritSource] = [getLxdDefault(name), "LXD"];
   const isReadOnly = formik.values.readOnly;
-
-  const getOverrideValue = (): ReactNode => {
-    return value === "" ? "-" : value;
-  };
+  const overrideValue = value === "" ? "-" : value;
 
   return getConfigurationRow({
     formik: formik as FormikProps<unknown>,
@@ -49,6 +46,6 @@ export const getNetworkConfigurationRow = ({
     inheritSource,
     isReadOnly,
     value,
-    overrideValue: getOverrideValue(),
+    overrideValue,
   });
 };

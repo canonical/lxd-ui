@@ -43,10 +43,7 @@ export const getStorageConfigurationRow = ({
 
   const [inheritedValue, inheritSource] = getLxdDefault(name, storagePool);
   const isReadOnly = formik.values.isReadOnly;
-
-  const getOverrideValue = (): ReactNode => {
-    return value === "" ? "-" : value;
-  };
+  const overrideValue = value === "" ? "-" : value;
 
   return getConfigurationRow({
     formik: formik as FormikProps<unknown>,
@@ -62,6 +59,6 @@ export const getStorageConfigurationRow = ({
     inheritSource,
     isReadOnly,
     value,
-    overrideValue: getOverrideValue(),
+    overrideValue,
   });
 };
