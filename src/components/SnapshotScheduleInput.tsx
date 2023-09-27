@@ -1,6 +1,32 @@
 import React, { FC, useState } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
-import { snapshotOptions } from "util/snapshotOptions";
+
+const snapshotOptions = [
+  {
+    label: "minute",
+    value: "* * * * *",
+  },
+  {
+    label: "hour",
+    value: "@hourly",
+  },
+  {
+    label: "day",
+    value: "@daily",
+  },
+  {
+    label: "week",
+    value: "@weekly",
+  },
+  {
+    label: "month",
+    value: "@monthly",
+  },
+  {
+    label: "year",
+    value: "@yearly",
+  },
+];
 
 interface Props {
   value?: string;
