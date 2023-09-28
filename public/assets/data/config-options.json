@@ -10,14 +10,14 @@
     "key": "acme.domain",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Domain for which the certificate is issued"
   },
   {
     "key": "acme.email",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Email address used for the account registration"
   },
   {
@@ -38,21 +38,21 @@
     "key": "candid.api.key",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Public key of the candid server (required for HTTP-only servers)"
   },
   {
     "key": "candid.api.url",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "URL of the the external authentication endpoint using Candid"
   },
   {
     "key": "candid.domains",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Comma-separated list of allowed Candid domains (empty string means all domains are valid)"
   },
   {
@@ -66,7 +66,7 @@
     "key": "cluster.https_address",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Address to use for clustering traffic"
   },
   {
@@ -108,84 +108,84 @@
     "key": "core.bgp_address",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Address to bind the BGP server to (BGP)"
   },
   {
     "key": "core.bgp_asn",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The BGP Autonomous System Number to use for the local server"
   },
   {
     "key": "core.bgp_routerid",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "A unique identifier for this BGP server (formatted as an IPv4 address)"
   },
   {
     "key": "core.debug_address",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Address to bind the pprof debug server to (HTTP)"
   },
   {
     "key": "core.dns_address",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Address to bind the authoritative DNS server to (DNS)"
   },
   {
     "key": "core.https_address",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Address to bind for the remote API (HTTPS)"
   },
   {
     "key": "core.https_allowed_credentials",
     "type": "bool",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Whether to set Access-Control-Allow-Credentials HTTP header value to true"
   },
   {
     "key": "core.https_allowed_headers",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Access-Control-Allow-Headers HTTP header value"
   },
   {
     "key": "core.https_allowed_methods",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Access-Control-Allow-Methods HTTP header value"
   },
   {
     "key": "core.https_allowed_origin",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Access-Control-Allow-Origin HTTP header value"
   },
   {
     "key": "core.https_trusted_proxy",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Comma-separated list of IP addresses of trusted servers to provide the client’s address through the proxy connection header"
   },
   {
     "key": "core.metrics_address",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Address to bind the metrics server to (HTTPS)"
   },
   {
@@ -199,28 +199,28 @@
     "key": "core.proxy_https",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "HTTPS proxy to use, if any (falls back to HTTPS_PROXY environment variable)"
   },
   {
     "key": "core.proxy_http",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "HTTP proxy to use, if any (falls back to HTTP_PROXY environment variable)"
   },
   {
     "key": "core.proxy_ignore_hosts",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Hosts which don’t need the proxy for use (similar format to NO_PROXY, e.g. 1.2.3.4,1.2.3.5, falls back to NO_PROXY environment variable)"
   },
   {
     "key": "core.remote_token_expiry",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Time after which a remote add token expires (defaults to no expiry)"
   },
   {
@@ -234,21 +234,21 @@
     "key": "core.storage_buckets_address",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Address to bind the storage object server to (HTTPS)"
   },
   {
     "key": "core.trust_ca_certificates",
     "type": "bool",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Whether to automatically trust clients signed by the CA"
   },
   {
     "key": "core.trust_password",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Password to be provided by clients to set up a trust"
   },
   {
@@ -276,7 +276,7 @@
     "key": "images.default_architecture",
     "type": "string",
     "scope": "-",
-    "default": "-",
+    "default": "",
     "description": "Default architecture which should be used in mixed architecture cluster"
   },
   {
@@ -297,35 +297,35 @@
     "key": "loki.api.ca_cert",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The CA certificate for the Loki server"
   },
   {
     "key": "loki.api.url",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The URL to the Loki server"
   },
   {
     "key": "loki.auth.password",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The password used for authentication"
   },
   {
     "key": "loki.auth.username",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The username used for authentication"
   },
   {
     "key": "loki.labels",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Comma-separated list of values which should be used as labels for a Loki log entry"
   },
   {
@@ -346,14 +346,14 @@
     "key": "maas.api.key",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "API key to manage MAAS"
   },
   {
     "key": "maas.api.url",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "URL of the MAAS server"
   },
   {
@@ -381,91 +381,91 @@
     "key": "oidc.client.id",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "OpenID Connect client ID"
   },
   {
     "key": "oidc.issuer",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "OpenID Connect Discovery URL for the provider"
   },
   {
     "key": "oidc.audience",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Expected audience value for the application (required by some providers)"
   },
   {
     "key": "rbac.agent.private_key",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The Candid agent private key as provided during RBAC registration"
   },
   {
     "key": "rbac.agent.public_key",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The Candid agent public key as provided during RBAC registration"
   },
   {
     "key": "rbac.agent.url",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The Candid agent URL as provided during RBAC registration"
   },
   {
     "key": "rbac.agent.username",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "The Candid agent username as provided during RBAC registration"
   },
   {
     "key": "rbac.api.expiry",
     "type": "integer",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "RBAC macaroon expiry in seconds"
   },
   {
     "key": "rbac.api.key",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "Public key of the RBAC server (required for HTTP-only servers)"
   },
   {
     "key": "rbac.api.url",
     "type": "string",
     "scope": "global",
-    "default": "-",
+    "default": "",
     "description": "URL of the external RBAC server"
   },
   {
     "key": "storage.backups_volume",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Volume to use to store the backup tarballs (syntax is POOL/VOLUME)"
   },
   {
     "key": "storage.images_volume",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Volume to use to store the image tarballs (syntax is POOL/VOLUME)"
   },
   {
     "key": "user.ui_title",
     "type": "string",
     "scope": "local",
-    "default": "-",
+    "default": "",
     "description": "Custom identifier for the title of the UI when used on this server"
   }
 ]

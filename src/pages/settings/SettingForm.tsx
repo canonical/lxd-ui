@@ -1,136 +1,126 @@
-import React, { FC, useState } from "react";
-import {
-  Button,
-  Form,
-  Icon,
-  Input,
-  useNotify,
-} from "@canonical/react-components";
+import React, { FC, useEffect, useRef, useState } from "react";
+import { Button, Icon, useNotify } from "@canonical/react-components";
 import { updateSettings } from "api/server";
-import { useFormik } from "formik";
 import { LxdConfigOption } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "context/auth";
+import SettingFormCheckbox from "./SettingFormCheckbox";
+import SettingFormInput from "./SettingFormInput";
+import SettingFormPassword from "./SettingFormPassword";
+
+export const getConfigId = (key: string) => {
+  return key.replace(".", "___");
+};
 
 interface Props {
-  option: LxdConfigOption;
-  value: string | undefined;
+  configField: LxdConfigOption;
+  value?: string;
 }
 
-const SettingForm: FC<Props> = ({ option, value }) => {
+const SettingForm: FC<Props> = ({ configField, value }) => {
   const { isRestricted } = useAuth();
   const [isEditMode, setEditMode] = useState(false);
   const notify = useNotify();
   const queryClient = useQueryClient();
 
-  const toFormikKey = (key: string) => {
-    return key.replaceAll(".", "___");
-  };
+  const editRef = useRef<HTMLDivElement | null>(null);
 
-  const toApiFormat = (input: boolean | string | undefined): string => {
-    if (typeof input === "boolean") {
-      return input ? "true" : "false";
-    }
-    if (input === undefined) {
-      return "";
-    }
-    switch (option.type) {
-      case "bool":
-        return input ? "true" : "false";
-      case "integer":
-        return input.toString();
-      default:
-        return input;
-    }
-  };
+  // Special cases
+  const isTrustPassword = configField.key === "core.trust_password";
+  const isLokiAuthPassword = configField.key === "loki.auth.password";
+  const isSecret = isTrustPassword || isLokiAuthPassword;
 
-  const formikKey = toFormikKey(option.key);
-
-  const formik = useFormik({
-    initialValues: {
-      [formikKey]: value,
-    },
-    onSubmit: (values) => {
-      const config = {
-        [option.key]: toApiFormat(values[formikKey]),
-      };
-      updateSettings(config)
-        .then(() => {
-          formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.settings],
-          });
-          notify.success("Setting updated.");
-          setEditMode(false);
-        })
-        .catch((e) => {
-          formik.setSubmitting(false);
-          notify.failure("Setting update failed", e);
+  const onSubmit = (newValue: string | boolean) => {
+    const config = {
+      [configField.key]: String(newValue),
+    };
+    updateSettings(config)
+      .then(() => {
+        notify.success("Setting updated.");
+        setEditMode(false);
+      })
+      .catch((e) => {
+        notify.failure("Setting update failed", e);
+      })
+      .finally(() => {
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.settings],
         });
-    },
-  });
-
-  const getInputType = (option: LxdConfigOption) => {
-    switch (option.type) {
-      case "bool":
-        return "checkbox";
-      case "integer":
-        return "number";
-      case "string":
-      default:
-        return "text";
-    }
+      });
   };
 
-  const getDefaultValue = () => {
-    if (option.type === "bool") {
-      return value === "true";
-    }
-    return value;
+  const onCancel = () => {
+    setEditMode(false);
   };
-  const defaultValue = getDefaultValue();
+
+  const getReadModeValue = () => {
+    // special case: secret values are provided by the api as boolean for the read mode
+    if (isSecret) {
+      return <em>{value ? "set" : "not set"}</em>;
+    }
+    if (typeof value === "boolean") {
+      return String(value);
+    }
+    return value ? value : "-";
+  };
+
+  useEffect(() => {
+    if (isEditMode) {
+      editRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isEditMode]);
 
   return (
     <>
-      {isEditMode ? (
-        <Form onSubmit={formik.handleSubmit} stacked>
-          <Input
-            id={formikKey}
-            name={formikKey}
-            type={getInputType(option)}
-            defaultValue={
-              typeof defaultValue !== "boolean" ? defaultValue : undefined
-            }
-            defaultChecked={
-              typeof defaultValue === "boolean" ? defaultValue : undefined
-            }
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-          />
-          <Button onClick={() => setEditMode(false)} type="button">
-            Cancel
-          </Button>
-          <Button appearance="positive" type="submit">
-            Save
-          </Button>
-        </Form>
-      ) : isRestricted ? (
-        <span>{value ?? "-"}</span>
-      ) : (
+      {isEditMode && (
+        <div ref={editRef}>
+          {isSecret && (
+            <SettingFormPassword
+              isSet={Boolean(value)}
+              configField={configField}
+              onSubmit={onSubmit}
+              onCancel={onCancel}
+            />
+          )}
+          {!isSecret && (
+            <>
+              {configField.type === "bool" ? (
+                <SettingFormCheckbox
+                  initialValue={Boolean(value)}
+                  configField={configField}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                />
+              ) : (
+                <SettingFormInput
+                  initialValue={value ?? ""}
+                  configField={configField}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                />
+              )}
+            </>
+          )}
+        </div>
+      )}
+      {!isEditMode && (
         <>
-          <Button
-            appearance="base"
-            className="readmode-button u-no-margin"
-            onClick={() => {
-              setEditMode(true);
-              notify.clear();
-            }}
-            hasIcon
-          >
-            <span>{value ? value : "-"}</span>
-            <Icon name="edit" />
-          </Button>
+          {isRestricted ? (
+            <span>{value ?? "-"}</span>
+          ) : (
+            <Button
+              appearance="base"
+              className="readmode-button u-no-margin"
+              onClick={() => {
+                setEditMode(true);
+              }}
+              hasIcon
+            >
+              <div className="u-truncate">{getReadModeValue()}</div>
+              <Icon name="edit" className="edit-icon" />
+            </Button>
+          )}
         </>
       )}
     </>

@@ -13,6 +13,7 @@ import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
+import ScrollableTable from "components/ScrollableTable";
 
 const configOptionsUrl = "/ui/assets/data/config-options.json";
 
@@ -39,42 +40,42 @@ const Settings: FC = () => {
     notify.failure("Loading settings failed", error);
   }
 
-  const getValue = (option: LxdConfigOption): string | undefined => {
+  const getValue = (configField: LxdConfigOption): string | undefined => {
     for (const [key, value] of Object.entries(settings?.config ?? {})) {
-      if (key === option.key) {
+      if (key === configField.key) {
         return value;
       }
     }
-    if (typeof option.default === "boolean") {
-      return option.default ? "true" : "false";
+    if (typeof configField.default === "boolean") {
+      return configField.default ? "true" : "false";
     }
-    if (option.default === "-") {
+    if (configField.default === "-") {
       return undefined;
     }
-    return option.default;
+    return configField.default;
   };
 
   const headers = [
-    { content: "Group" },
-    { content: "Key" },
+    { content: "Group", className: "group" },
+    { content: "Key", className: "key" },
     { content: "Value" },
   ];
 
   let lastGroup = "";
   const rows = configOptions
-    .filter((option) => {
+    .filter((configField) => {
       if (!query) {
         return true;
       }
-      return option.key.toLowerCase().includes(query.toLowerCase());
+      return configField.key.toLowerCase().includes(query.toLowerCase());
     })
-    .map((option) => {
+    .map((configField) => {
       const isDefault = !Object.keys(settings?.config ?? {}).some(
-        (key) => key === option.key
+        (key) => key === configField.key
       );
-      const value = getValue(option);
+      const value = getValue(configField);
 
-      const group = option.key.split(".")[0];
+      const group = configField.key.split(".")[0];
       const isNewGroup = lastGroup !== group;
       lastGroup = group;
 
@@ -82,24 +83,30 @@ const Settings: FC = () => {
         columns: [
           {
             content: isNewGroup && <h2 className="p-heading--5">{group}</h2>,
-            role: "rowheader",
+            role: "cell",
+            className: "group",
             "aria-label": "Group",
           },
           {
             content: (
               <>
-                {isDefault ? option.key : <strong>{option.key}</strong>}{" "}
+                {isDefault ? (
+                  configField.key
+                ) : (
+                  <strong>{configField.key}</strong>
+                )}{" "}
                 <p className="p-text--small u-no-margin u-text--muted">
-                  {option.description}
+                  {configField.description}
                 </p>
               </>
             ),
-            role: "rowheader",
+            role: "cell",
+            className: "key",
             "aria-label": "Key",
           },
           {
-            content: <SettingForm option={option} value={value} />,
-            role: "rowheader",
+            content: <SettingForm configField={configField} value={value} />,
+            role: "cell",
             "aria-label": "Value",
             className: "u-vertical-align-middle",
           },
@@ -109,36 +116,35 @@ const Settings: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Settings">
+      <BaseLayout title="Settings" contentClassName="settings">
         <NotificationRow />
-        <Row>
-          <Col size={8}>
-            <SearchBox
-              name="search-setting"
-              type="text"
-              onChange={(value) => {
-                setQuery(value);
-              }}
-              placeholder="Search for group or key"
-              value={query}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <MainTable
-            className="u-table-layout--auto"
-            headers={headers}
-            rows={rows}
-            sortable
-            emptyStateMsg={
-              isLoading ? (
-                <Loader text="Loading settings..." />
-              ) : (
-                "No data to display"
-              )
-            }
-          />
-        </Row>
+        {isLoading && <Loader text="Loading settings..." />}
+        {!isLoading && (
+          <>
+            <Row>
+              <Col size={8}>
+                <SearchBox
+                  name="search-setting"
+                  type="text"
+                  onChange={(value) => {
+                    setQuery(value);
+                  }}
+                  placeholder="Search"
+                  value={query}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <ScrollableTable dependencies={[notify.notification, rows]}>
+                <MainTable
+                  headers={headers}
+                  rows={rows}
+                  emptyStateMsg="No data to display"
+                />
+              </ScrollableTable>
+            </Row>
+          </>
+        )}
       </BaseLayout>
     </>
   );
