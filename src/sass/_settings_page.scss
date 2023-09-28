@@ -1,4 +1,36 @@
-.readmode-button {
-  padding: 0;
-  text-align: start;
+.settings {
+  min-height: initial !important;
+
+  .group {
+    width: 8rem;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  .input-row,
+  .readmode-button {
+    align-items: center;
+    display: flex;
+  }
+
+  .input-wrapper {
+    flex-grow: 1;
+  }
+
+  .readmode-button {
+    max-width: 100%;
+    padding: 0;
+    text-align: start;
+
+    .edit-icon {
+      min-width: 1rem;
+    }
+  }
+
+  .reset-button {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
