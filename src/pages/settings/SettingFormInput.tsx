@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import { Button, Icon, Input } from "@canonical/react-components";
-import { LxdConfigOption } from "types/config";
+import { LxdConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
 
 interface Props {
   initialValue: string;
-  configField: LxdConfigOption;
+  configField: LxdConfigField;
   onSubmit: (newValue: string | boolean) => void;
   onCancel: () => void;
 }
@@ -36,6 +36,8 @@ const SettingFormInput: FC<Props> = ({
   return (
     <>
       <Input
+        label={configField.key}
+        labelClassName="u-off-screen"
         id={getConfigId(configField.key)}
         wrapperClassName="input-wrapper"
         type={getInputType()}

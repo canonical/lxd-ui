@@ -8,7 +8,7 @@ import {
 } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import { handleResponse } from "util/helpers";
-import { LxdConfigOption } from "types/config";
+import { LxdConfigField } from "types/config";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
@@ -18,14 +18,14 @@ import ScrollableTable from "components/ScrollableTable";
 const configOptionsUrl = "/ui/assets/data/config-options.json";
 
 const Settings: FC = () => {
-  const [configOptions, setConfigOptions] = useState<LxdConfigOption[]>([]);
+  const [configOptions, setConfigOptions] = useState<LxdConfigField[]>([]);
   const [query, setQuery] = useState("");
   const notify = useNotify();
 
   const loadConfigOptions = () => {
     void fetch(configOptionsUrl)
       .then(handleResponse)
-      .then((data: LxdConfigOption[]) => {
+      .then((data: LxdConfigField[]) => {
         setConfigOptions(data);
       });
   };
@@ -40,7 +40,7 @@ const Settings: FC = () => {
     notify.failure("Loading settings failed", error);
   }
 
-  const getValue = (configField: LxdConfigOption): string | undefined => {
+  const getValue = (configField: LxdConfigField): string | undefined => {
     for (const [key, value] of Object.entries(settings?.config ?? {})) {
       if (key === configField.key) {
         return value;
@@ -69,7 +69,7 @@ const Settings: FC = () => {
       }
       return configField.key.toLowerCase().includes(query.toLowerCase());
     })
-    .map((configField) => {
+    .map((configField, index, { length }) => {
       const isDefault = !Object.keys(settings?.config ?? {}).some(
         (key) => key === configField.key
       );
@@ -105,7 +105,13 @@ const Settings: FC = () => {
             "aria-label": "Key",
           },
           {
-            content: <SettingForm configField={configField} value={value} />,
+            content: (
+              <SettingForm
+                configField={configField}
+                value={value}
+                isLast={index === length - 1}
+              />
+            ),
             role: "cell",
             "aria-label": "Value",
             className: "u-vertical-align-middle",

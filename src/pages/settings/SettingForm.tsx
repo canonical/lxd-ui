@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import { updateSettings } from "api/server";
-import { LxdConfigOption } from "types/config";
+import { LxdConfigField } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "context/auth";
@@ -14,11 +14,12 @@ export const getConfigId = (key: string) => {
 };
 
 interface Props {
-  configField: LxdConfigOption;
+  configField: LxdConfigField;
   value?: string;
+  isLast?: boolean;
 }
 
-const SettingForm: FC<Props> = ({ configField, value }) => {
+const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   const { isRestricted } = useAuth();
   const [isEditMode, setEditMode] = useState(false);
   const notify = useNotify();
@@ -66,7 +67,7 @@ const SettingForm: FC<Props> = ({ configField, value }) => {
   };
 
   useEffect(() => {
-    if (isEditMode) {
+    if (isEditMode && isLast) {
       editRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [isEditMode]);
@@ -87,7 +88,7 @@ const SettingForm: FC<Props> = ({ configField, value }) => {
             <>
               {configField.type === "bool" ? (
                 <SettingFormCheckbox
-                  initialValue={Boolean(value)}
+                  initialValue={value}
                   configField={configField}
                   onSubmit={onSubmit}
                   onCancel={onCancel}

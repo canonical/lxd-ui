@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import { Input, Button, Icon } from "@canonical/react-components";
-import { LxdConfigOption } from "types/config";
+import { LxdConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
 
 interface Props {
-  initialValue: boolean;
-  configField: LxdConfigOption;
+  initialValue?: string;
+  configField: LxdConfigField;
   onSubmit: (newValue: string | boolean) => void;
   onCancel: () => void;
 }
@@ -16,7 +16,11 @@ const SettingFormCheckbox: FC<Props> = ({
   onSubmit,
   onCancel,
 }) => {
-  const [checked, setChecked] = useState(initialValue);
+  const [checked, setChecked] = useState(
+    initialValue
+      ? initialValue === "true"
+      : String(configField.default) === "true"
+  );
 
   const canBeReset = String(configField.default) !== String(checked);
 
@@ -27,6 +31,7 @@ const SettingFormCheckbox: FC<Props> = ({
   return (
     <>
       <Input
+        label={<span className="u-off-screen">{configField.key}</span>}
         id={getConfigId(configField.key)}
         wrapperClassName="input-wrapper"
         type="checkbox"

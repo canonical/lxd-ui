@@ -1,6 +1,6 @@
 export type LxdConfigPair = Record<string, string>;
 
-export interface LxdConfigOption {
+export interface LxdConfigField {
   default: string | boolean;
   description: string;
   key: string;
