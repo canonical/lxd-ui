@@ -50,6 +50,7 @@ import {
 import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
+import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
 
 const loadHidden = () => {
@@ -490,15 +491,6 @@ const InstanceList: FC = () => {
                   onStart={setProcessingNames}
                   onFinish={() => setProcessingNames([])}
                 />
-                <Button
-                  appearance="link"
-                  className="clear-selection-btn u-no-margin--bottom u-no-padding--top"
-                  hasIcon
-                  onClick={() => setSelectedNames([])}
-                >
-                  <span>Clear selection</span>
-                  <Icon name="close" className="clear-selection-icon" />
-                </Button>
               </>
             )}
             {hasInstances && selectedNames.length === 0 && (
@@ -530,6 +522,32 @@ const InstanceList: FC = () => {
         <Col size={12}>
           {hasInstances && (
             <>
+              <Pagination
+                {...pagination}
+                id="pagination"
+                className="u-no-margin--top"
+                totalCount={totalInstanceCount}
+                selectedNotification={
+                  selectedNames.length > 0 && (
+                    <SelectedTableNotification
+                      totalCount={totalInstanceCount}
+                      itemName="instance"
+                      parentName="project"
+                      selectedNames={selectedNames}
+                      setSelectedNames={setSelectedNames}
+                      filteredNames={filteredInstances.map(
+                        (instance) => instance.name
+                      )}
+                    />
+                  )
+                }
+                visibleCount={
+                  filteredInstances.length === instances.length
+                    ? pagination.pageData.length
+                    : filteredInstances.length + creationOperations.length
+                }
+                keyword="instance"
+              />
               <TableColumnsSelect
                 columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
                 hidden={userHidden}
@@ -539,7 +557,6 @@ const InstanceList: FC = () => {
                 })}
               />
               <ScrollableTable
-                belowId="pagination"
                 dependencies={[filteredInstances, notify.notification]}
               >
                 <SelectableMainTable
@@ -558,24 +575,12 @@ const InstanceList: FC = () => {
                   selectedNames={selectedNames}
                   setSelectedNames={setSelectedNames}
                   processingNames={processingNames}
-                  totalCount={instances.length}
                   filteredNames={filteredInstances.map(
                     (instance) => instance.name
                   )}
                   onUpdateSort={pagination.updateSort}
                 />
               </ScrollableTable>
-              <Pagination
-                {...pagination}
-                id="pagination"
-                totalCount={totalInstanceCount}
-                visibleCount={
-                  filteredInstances.length === instances.length
-                    ? pagination.pageData.length
-                    : filteredInstances.length + creationOperations.length
-                }
-                keyword="instance"
-              />
               <div id="instance-table-measure">
                 <SelectableMainTable
                   headers={getHeaders(userHidden)}
@@ -586,7 +591,6 @@ const InstanceList: FC = () => {
                   selectedNames={selectedNames}
                   setSelectedNames={setSelectedNames}
                   processingNames={processingNames}
-                  totalCount={instances.length}
                   filteredNames={filteredInstances.map(
                     (instance) => instance.name
                   )}

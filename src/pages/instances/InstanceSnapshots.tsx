@@ -269,7 +269,6 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
               selectedNames={selectedNames}
               setSelectedNames={setSelectedNames}
               processingNames={processingNames}
-              totalCount={instance.snapshots?.length ?? 0}
               filteredNames={filteredSnapshots.map((snapshot) => snapshot.name)}
               onUpdateSort={pagination.updateSort}
               defaultSort="created_at"

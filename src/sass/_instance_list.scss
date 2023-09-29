@@ -29,16 +29,6 @@
       }
     }
 
-    @media screen and (max-width: 830px) {
-      .clear-selection-btn {
-        display: none;
-      }
-    }
-
-    .clear-selection-btn {
-      padding-top: 8px;
-    }
-
     .instance-header-left {
       display: flex;
       flex: 2;
@@ -48,6 +38,7 @@
       }
 
       .search-wrapper {
+        margin-bottom: 3.5px !important; // to align with the selected instances state
         max-width: 70vw;
         width: 100%;
       }
@@ -150,6 +141,10 @@
 
   .p-pagination__items {
     justify-content: flex-end;
+  }
+
+  .items-per-page {
+    margin-bottom: 0;
   }
 
   #instance-table-measure {
