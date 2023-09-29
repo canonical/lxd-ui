@@ -123,10 +123,18 @@ const CreateInstanceForm: FC = () => {
     void queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.operations, project],
+    });
   };
 
-  const notifyLaunchedAndStarted = (instanceLink: ReactNode) => {
-    notify.success(<>Launched and started instance {instanceLink}.</>);
+  const notifyCreatedNowStarting = (instanceLink: ReactNode) => {
+    notify.info(<>Created instance {instanceLink}, now starting it.</>);
+    clearCache();
+  };
+
+  const notifyCreatedAndStarted = (instanceLink: ReactNode) => {
+    notify.success(<>Created and started instance {instanceLink}.</>);
     clearCache();
   };
 
@@ -139,16 +147,16 @@ const CreateInstanceForm: FC = () => {
     clearCache();
   };
 
-  const notifyLaunched = (instanceLink: ReactNode, message?: ReactNode) => {
+  const notifyCreated = (instanceLink: ReactNode, message?: ReactNode) => {
     notify.success(
       <>
-        Launched instance {instanceLink}.{message}
+        Created instance {instanceLink}.{message}
       </>
     );
     clearCache();
   };
 
-  const notifyLaunchFailed = (
+  const notifyCreationFailed = (
     e: Error,
     formUrl: string,
     values: CreateInstanceFormValues
@@ -175,12 +183,13 @@ const CreateInstanceForm: FC = () => {
     );
 
     if (shouldStart) {
+      notifyCreatedNowStarting(instanceLink);
       startInstance({
         name: instanceName,
         project: project,
       } as LxdInstance)
         .then(() => {
-          notifyLaunchedAndStarted(instanceLink);
+          notifyCreatedAndStarted(instanceLink);
         })
         .catch((e: Error) => {
           notifyCreatedButStartFailed(instanceLink, e);
@@ -196,7 +205,7 @@ const CreateInstanceForm: FC = () => {
           </Button>
         </>
       );
-      notifyLaunched(instanceLink, message);
+      notifyCreated(instanceLink, message);
     }
   };
 
@@ -218,14 +227,14 @@ const CreateInstanceForm: FC = () => {
         eventQueue.set(
           operation.metadata.id,
           () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
-          (msg) => notifyLaunchFailed(new Error(msg), formUrl, values)
+          (msg) => notifyCreationFailed(new Error(msg), formUrl, values)
         );
       })
       .catch((e: Error) => {
         if (e.message === "Cancelled") {
           return;
         }
-        notifyLaunchFailed(e, formUrl, values);
+        notifyCreationFailed(e, formUrl, values);
       });
   };
 

@@ -61,7 +61,7 @@ test("use custom iso for instance launch", async ({ page }) => {
   await page.locator(".u-align--right > .p-button--positive").click();
   await page.getByRole("button", { name: "Create" }).click();
 
-  await page.waitForSelector(`text=Launched instance ${instance}.`, TIMEOUT);
+  await page.waitForSelector(`text=Created instance ${instance}.`, TIMEOUT);
 
   await deleteInstance(page, instance);
   await page.goto("/ui/");

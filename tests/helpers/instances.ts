@@ -34,7 +34,7 @@ export const createInstance = async (
     .selectOption(type);
   await page.getByRole("button", { name: "Create" }).first().click();
 
-  await page.waitForSelector(`text=Launched instance ${instance}.`, TIMEOUT);
+  await page.waitForSelector(`text=Created instance ${instance}.`, TIMEOUT);
 };
 
 export const visitInstance = async (page: Page, instance: string) => {
