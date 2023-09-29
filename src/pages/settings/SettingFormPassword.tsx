@@ -26,8 +26,7 @@ const SettingFormPassword: FC<Props> = ({
         <>
           <div className="input-row">
             <Input
-              label={configField.key}
-              labelClassName="u-off-screen"
+              aria-label={configField.key}
               id={getConfigId(configField.key)}
               wrapperClassName="input-wrapper"
               type={showPassword ? "text" : "password"}
