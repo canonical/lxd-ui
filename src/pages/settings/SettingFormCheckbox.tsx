@@ -31,7 +31,7 @@ const SettingFormCheckbox: FC<Props> = ({
   return (
     <>
       <Input
-        label={<span className="u-off-screen">{configField.key}</span>}
+        aria-label={configField.key}
         id={getConfigId(configField.key)}
         wrapperClassName="input-wrapper"
         type="checkbox"
