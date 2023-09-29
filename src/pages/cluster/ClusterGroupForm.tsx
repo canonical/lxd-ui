@@ -161,7 +161,6 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
                 void formik.setFieldValue("members", newMembers)
               }
               processingNames={[]}
-              totalCount={members.length}
             />
           </Col>
         </Row>

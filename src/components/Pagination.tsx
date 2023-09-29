@@ -1,8 +1,15 @@
 import { Button, Icon, Input, Select } from "@canonical/react-components";
-import React, { FC, HTMLAttributes, useEffect, useState } from "react";
+import React, {
+  FC,
+  HTMLAttributes,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { paginationOptions } from "util/pagination";
 import useEventListener from "@use-it/event-listener";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import classnames from "classnames";
 
 const figureSmallScreen = () => {
   const descriptionElement = document.getElementById("pagination-description");
@@ -13,6 +20,7 @@ const figureSmallScreen = () => {
 };
 
 type Props = {
+  className?: string;
   pageSize: number;
   setPageSize: (val: number) => void;
   currentPage: number;
@@ -25,9 +33,11 @@ type Props = {
   itemsPerPage?: number;
   totalItems?: number;
   updateSort?: (sort?: string | null) => void;
+  selectedNotification?: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
 const Pagination: FC<Props> = ({
+  className,
   pageSize,
   setPageSize,
   currentPage,
@@ -40,6 +50,7 @@ const Pagination: FC<Props> = ({
   itemsPerPage: _itemsPerPage,
   totalItems: _totalItems,
   updateSort: _updateSort,
+  selectedNotification,
   ...divProps
 }) => {
   const [isSmallScreen, setSmallScreen] = useState(figureSmallScreen());
@@ -51,9 +62,11 @@ const Pagination: FC<Props> = ({
   useEffect(resize, []);
 
   return (
-    <div className="pagination" {...divProps}>
+    <div className={classnames("pagination", className)} {...divProps}>
       <div className="description" id="pagination-description">
-        {isSmallScreen
+        {selectedNotification
+          ? selectedNotification
+          : isSmallScreen
           ? `${visibleCount}\xa0out\xa0of\xa0${totalCount}`
           : `Showing ${visibleCount} out of ${totalCount} ${keyword}${
               totalCount !== 1 ? "s" : ""
@@ -105,6 +118,7 @@ const Pagination: FC<Props> = ({
         <Icon name="chevron-down" />
       </Button>
       <Select
+        className="items-per-page"
         label="Items per page"
         labelClassName="u-off-screen"
         id="itemsPerPage"

@@ -4,17 +4,14 @@ import {
   Props as MainTableProps,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
-  Button,
   CheckboxInput,
   ContextualMenu,
   Icon,
   MainTable,
-  Notification,
 } from "@canonical/react-components";
 import classnames from "classnames";
 
 interface SelectableMainTableProps {
-  totalCount: number;
   filteredNames: string[];
   itemName: string;
   parentName: string;
@@ -27,7 +24,6 @@ interface SelectableMainTableProps {
 type Props = SelectableMainTableProps & MainTableProps;
 
 const SelectableMainTable: FC<Props> = ({
-  totalCount,
   filteredNames,
   itemName,
   parentName,
@@ -133,65 +129,11 @@ const SelectableMainTable: FC<Props> = ({
     return row;
   });
 
-  const selectionState = isSomeSelected
-    ? [
-        {
-          className: "select-notification",
-          key: "select-info",
-          expanded: true,
-          expandedContent: (
-            <Notification
-              borderless
-              className="u-no-margin--bottom"
-              title="Selection"
-            >
-              {isAllSelected ? (
-                <>
-                  {filteredNames.length === 1 ? (
-                    <>
-                      <b>1</b> {itemName} is selected.{" "}
-                    </>
-                  ) : (
-                    <>
-                      All <b>{filteredNames.length}</b> {itemName}s selected.{" "}
-                    </>
-                  )}
-                  <Button
-                    appearance="link"
-                    className="u-no-margin--bottom u-no-padding--top"
-                    onClick={selectNone}
-                  >
-                    Clear selection
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <b>{selectedNames.length}</b> {itemName}
-                  {selectedNames.length > 1 && "s"} selected.{" "}
-                  <Button
-                    appearance="link"
-                    className="u-no-margin--bottom u-no-padding--top"
-                    onClick={selectAll}
-                  >
-                    Select all <b>{filteredNames.length}</b>{" "}
-                    {filteredNames.length === totalCount
-                      ? parentName
-                      : "filtered"}{" "}
-                    {itemName}s
-                  </Button>
-                </>
-              )}
-            </Notification>
-          ),
-        },
-      ]
-    : [];
-
   return (
     <MainTable
       expanding={true}
       headers={headersWithCheckbox}
-      rows={[...selectionState, ...rowsWithCheckbox]}
+      rows={[...rowsWithCheckbox]}
       {...props}
     />
   );
