@@ -12,6 +12,7 @@ import { slugify } from "util/slugify";
 import { isProjectWithProfiles } from "util/projects";
 import { useProject } from "context/project";
 import NotificationRow from "components/NotificationRow";
+import BaseLayout from "components/BaseLayout";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -64,53 +65,53 @@ const ProfileDetail: FC = () => {
   };
 
   return (
-    <main className="l-main">
-      <div className="p-panel profile-detail-page">
+    <BaseLayout
+      customHeader={
         <ProfileDetailHeader
           name={name}
           profile={profile}
           project={projectName}
           featuresProfiles={featuresProfiles}
         />
-        <div className="p-panel__content">
-          <NotificationRow />
-          {isLoading && <Loader text="Loading profile details..." />}
-          {!isLoading && !profile && <>Loading profile failed</>}
-          {!isLoading && profile && (
-            <Row>
-              <Tabs
-                links={TABS.map((tab) => ({
-                  label: tab,
-                  id: slugify(tab),
-                  active:
-                    slugify(tab) === activeTab ||
-                    (tab === "Overview" && !activeTab),
-                  onClick: () => handleTabChange(slugify(tab)),
-                }))}
+      }
+      contentClassName="detail-page"
+    >
+      <NotificationRow />
+      {isLoading && <Loader text="Loading profile details..." />}
+      {!isLoading && !profile && <>Loading profile failed</>}
+      {!isLoading && profile && (
+        <Row>
+          <Tabs
+            links={TABS.map((tab) => ({
+              label: tab,
+              id: slugify(tab),
+              active:
+                slugify(tab) === activeTab ||
+                (tab === "Overview" && !activeTab),
+              onClick: () => handleTabChange(slugify(tab)),
+            }))}
+          />
+
+          {!activeTab && (
+            <div role="tabpanel" aria-labelledby="overview">
+              <ProfileDetailOverview
+                profile={profile}
+                featuresProfiles={featuresProfiles}
               />
-
-              {!activeTab && (
-                <div role="tabpanel" aria-labelledby="overview">
-                  <ProfileDetailOverview
-                    profile={profile}
-                    featuresProfiles={featuresProfiles}
-                  />
-                </div>
-              )}
-
-              {activeTab === "configuration" && (
-                <div role="tabpanel" aria-labelledby="configuration">
-                  <EditProfileForm
-                    profile={profile}
-                    featuresProfiles={featuresProfiles}
-                  />
-                </div>
-              )}
-            </Row>
+            </div>
           )}
-        </div>
-      </div>
-    </main>
+
+          {activeTab === "configuration" && (
+            <div role="tabpanel" aria-labelledby="configuration">
+              <EditProfileForm
+                profile={profile}
+                featuresProfiles={featuresProfiles}
+              />
+            </div>
+          )}
+        </Row>
+      )}
+    </BaseLayout>
   );
 };
 

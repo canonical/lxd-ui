@@ -19,6 +19,7 @@ import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
 import { fetchClusterMembers } from "api/cluster";
+import BaseLayout from "components/BaseLayout";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -93,36 +94,29 @@ const CreateNetwork: FC = () => {
   };
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">Create a network</h1>
-        </div>
-        <div className="p-panel__content create-network">
-          <NotificationRow />
-          <NetworkForm formik={formik} getYaml={getYaml} project={project} />
-          <div className="p-bottom-controls">
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button
-                  appearance="base"
-                  onClick={() => navigate(`/ui/project/${project}/networks`)}
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Create"
-                  onClick={() => void formik.submitForm()}
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
+    <BaseLayout title="Create a network" contentClassName="create-network">
+      <NotificationRow />
+      <NetworkForm formik={formik} getYaml={getYaml} project={project} />
+      <div className="p-bottom-controls">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button
+              appearance="base"
+              onClick={() => navigate(`/ui/project/${project}/networks`)}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Create"
+              onClick={() => void formik.submitForm()}
+            />
+          </Col>
+        </Row>
       </div>
-    </main>
+    </BaseLayout>
   );
 };
 

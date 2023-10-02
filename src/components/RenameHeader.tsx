@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from "react";
 import { Button, Input, Tooltip } from "@canonical/react-components";
 import SubmitButton from "components/SubmitButton";
 import { FormikProps } from "formik/dist/types";
+import classnames from "classnames";
 
 export interface RenameHeaderValues {
   name: string;
@@ -10,6 +11,7 @@ export interface RenameHeaderValues {
 
 interface Props {
   name: string;
+  titleClassName?: string;
   parentItem: ReactNode;
   centerControls?: ReactNode;
   controls?: ReactNode;
@@ -20,6 +22,7 @@ interface Props {
 
 const RenameHeader: FC<Props> = ({
   name,
+  titleClassName,
   parentItem,
   centerControls,
   controls,
@@ -42,7 +45,7 @@ const RenameHeader: FC<Props> = ({
     <div className="p-panel__header rename-header">
       <h1 className="u-off-screen">{name}</h1>
       {isLoaded ? (
-        <div className="p-panel__title">
+        <div className={classnames("p-panel__title", titleClassName)}>
           <nav
             key="breadcrumbs"
             className="p-breadcrumbs"

@@ -14,6 +14,7 @@ import EditInstanceForm from "./EditInstanceForm";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 import { slugify } from "util/slugify";
 import NotificationRow from "components/NotificationRow";
+import BaseLayout from "components/BaseLayout";
 
 const TABS: string[] = [
   "Overview",
@@ -63,70 +64,70 @@ const InstanceDetail: FC = () => {
   };
 
   return (
-    <main className="l-main">
-      <div className="p-panel instance-detail-page">
+    <BaseLayout
+      customHeader={
         <InstanceDetailHeader
           name={name}
           instance={instance}
           project={project}
         />
-        <div className="p-panel__content">
-          <NotificationRow />
-          {isLoading && <Loader text="Loading instance details..." />}
-          {!isLoading && !instance && <>Loading instance failed</>}
-          {!isLoading && instance && (
-            <Row>
-              <Tabs
-                links={TABS.map((tab) => ({
-                  id: slugify(tab),
-                  label: tab,
-                  active:
-                    slugify(tab) === activeTab ||
-                    (tab === "Overview" && !activeTab),
-                  onClick: () => handleTabChange(slugify(tab)),
-                }))}
-              />
+      }
+      contentClassName="detail-page"
+    >
+      <NotificationRow />
+      {isLoading && <Loader text="Loading instance details..." />}
+      {!isLoading && !instance && <>Loading instance failed</>}
+      {!isLoading && instance && (
+        <Row>
+          <Tabs
+            links={TABS.map((tab) => ({
+              id: slugify(tab),
+              label: tab,
+              active:
+                slugify(tab) === activeTab ||
+                (tab === "Overview" && !activeTab),
+              onClick: () => handleTabChange(slugify(tab)),
+            }))}
+          />
 
-              {!activeTab && (
-                <div role="tabpanel" aria-labelledby="overview">
-                  <InstanceOverview instance={instance} />
-                </div>
-              )}
-
-              {activeTab === "configuration" && (
-                <div role="tabpanel" aria-labelledby="configuration">
-                  <EditInstanceForm instance={instance} />
-                </div>
-              )}
-
-              {activeTab === "snapshots" && (
-                <div role="tabpanel" aria-labelledby="snapshots">
-                  <InstanceSnapshots instance={instance} />
-                </div>
-              )}
-
-              {activeTab === "terminal" && (
-                <div role="tabpanel" aria-labelledby="terminal">
-                  <InstanceTerminal instance={instance} />
-                </div>
-              )}
-
-              {activeTab === "console" && (
-                <div role="tabpanel" aria-labelledby="console">
-                  <InstanceConsole instance={instance} />
-                </div>
-              )}
-
-              {activeTab === "logs" && (
-                <div role="tabpanel" aria-labelledby="logs">
-                  <InstanceLogs instance={instance} />
-                </div>
-              )}
-            </Row>
+          {!activeTab && (
+            <div role="tabpanel" aria-labelledby="overview">
+              <InstanceOverview instance={instance} />
+            </div>
           )}
-        </div>
-      </div>
-    </main>
+
+          {activeTab === "configuration" && (
+            <div role="tabpanel" aria-labelledby="configuration">
+              <EditInstanceForm instance={instance} />
+            </div>
+          )}
+
+          {activeTab === "snapshots" && (
+            <div role="tabpanel" aria-labelledby="snapshots">
+              <InstanceSnapshots instance={instance} />
+            </div>
+          )}
+
+          {activeTab === "terminal" && (
+            <div role="tabpanel" aria-labelledby="terminal">
+              <InstanceTerminal instance={instance} />
+            </div>
+          )}
+
+          {activeTab === "console" && (
+            <div role="tabpanel" aria-labelledby="console">
+              <InstanceConsole instance={instance} />
+            </div>
+          )}
+
+          {activeTab === "logs" && (
+            <div role="tabpanel" aria-labelledby="logs">
+              <InstanceLogs instance={instance} />
+            </div>
+          )}
+        </Row>
+      )}
+    </BaseLayout>
   );
 };
 

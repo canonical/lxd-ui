@@ -37,6 +37,7 @@ import {
   networkRestrictionPayload,
 } from "pages/projects/forms/NetworkRestrictionForm";
 import ProjectForm from "pages/projects/forms/ProjectForm";
+import BaseLayout from "components/BaseLayout";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ResourceLimitsFormValues &
@@ -113,37 +114,30 @@ const CreateProjectForm: FC = () => {
   });
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h4 className="p-panel__title">Create a project</h4>
-        </div>
-        <div className="p-panel__content create-project">
-          <ProjectForm
-            formik={formik}
-            section={section}
-            updateSection={setSection}
-            isEdit={false}
-          />
-          <div className="p-bottom-controls" id="form-footer">
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button appearance="base" onClick={() => navigate(-1)}>
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Create"
-                  onClick={() => void formik.submitForm()}
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
+    <BaseLayout title="Create a project" contentClassName="create-project">
+      <ProjectForm
+        formik={formik}
+        section={section}
+        updateSection={setSection}
+        isEdit={false}
+      />
+      <div className="p-bottom-controls" id="form-footer">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button appearance="base" onClick={() => navigate(-1)}>
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Create"
+              onClick={() => void formik.submitForm()}
+            />
+          </Col>
+        </Row>
       </div>
-    </main>
+    </BaseLayout>
   );
 };
 
