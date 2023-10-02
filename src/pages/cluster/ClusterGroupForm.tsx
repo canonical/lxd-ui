@@ -25,6 +25,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getClusterHeaders, getClusterRows } from "util/clusterGroups";
 import SelectableMainTable from "components/SelectableMainTable";
 import NotificationRow from "components/NotificationRow";
+import BaseLayout from "components/BaseLayout";
 
 export interface ClusterGroupFormValues {
   description: string;
@@ -107,96 +108,81 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
   useEventListener("resize", updateFormHeight);
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">
-            {group ? "Edit cluster group" : "Create cluster group"}
-          </h1>
-        </div>
-        <div className="p-panel__content cluster-group-form">
-          <Form
-            onSubmit={() => void formik.submitForm()}
-            stacked
-            className="form"
-          >
-            <Row className="form-contents">
-              <Col size={12}>
-                <NotificationRow />
-                <div className="cluster-group-metadata">
-                  <Input
-                    id="name"
-                    type="text"
-                    label="Group name"
-                    placeholder="Enter name"
-                    required
-                    disabled={Boolean(group)}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    error={formik.touched.name ? formik.errors.name : null}
-                  />
-                  <Input
-                    id="description"
-                    type="text"
-                    label="Description"
-                    placeholder="Enter description"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.description}
-                    error={
-                      formik.touched.description
-                        ? formik.errors.description
-                        : null
-                    }
-                  />
-                </div>
-                <div className="choose-label">
-                  Choose members from the list{" "}
-                  <span className="u-text--muted">
-                    ({formik.values.members.length} selected)
-                  </span>{" "}
-                </div>
-                <SelectableMainTable
-                  headers={getClusterHeaders()}
-                  rows={getClusterRows(members, activeGroup)}
-                  sortable
-                  className="cluster-group-select-members"
-                  filteredNames={members.map((member) => member.server_name)}
-                  itemName="member"
-                  parentName="cluster"
-                  selectedNames={formik.values.members}
-                  setSelectedNames={(newMembers) =>
-                    void formik.setFieldValue("members", newMembers)
-                  }
-                  processingNames={[]}
-                  totalCount={members.length}
-                />
-              </Col>
-            </Row>
-          </Form>
-          <div className="p-bottom-controls" id="form-footer">
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button
-                  appearance="base"
-                  onClick={() => navigate(`/ui/cluster`)}
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel={group ? "Save changes" : "Create"}
-                  onClick={() => void formik.submitForm()}
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
+    <BaseLayout
+      title={group ? "Edit cluster group" : "Create cluster group"}
+      contentClassName="cluster-group-form"
+    >
+      <Form onSubmit={() => void formik.submitForm()} stacked className="form">
+        <Row className="form-contents">
+          <Col size={12}>
+            <NotificationRow />
+            <div className="cluster-group-metadata">
+              <Input
+                id="name"
+                type="text"
+                label="Group name"
+                placeholder="Enter name"
+                required
+                disabled={Boolean(group)}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.name}
+                error={formik.touched.name ? formik.errors.name : null}
+              />
+              <Input
+                id="description"
+                type="text"
+                label="Description"
+                placeholder="Enter description"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.description}
+                error={
+                  formik.touched.description ? formik.errors.description : null
+                }
+              />
+            </div>
+            <div className="choose-label">
+              Choose members from the list{" "}
+              <span className="u-text--muted">
+                ({formik.values.members.length} selected)
+              </span>{" "}
+            </div>
+            <SelectableMainTable
+              headers={getClusterHeaders()}
+              rows={getClusterRows(members, activeGroup)}
+              sortable
+              className="cluster-group-select-members"
+              filteredNames={members.map((member) => member.server_name)}
+              itemName="member"
+              parentName="cluster"
+              selectedNames={formik.values.members}
+              setSelectedNames={(newMembers) =>
+                void formik.setFieldValue("members", newMembers)
+              }
+              processingNames={[]}
+              totalCount={members.length}
+            />
+          </Col>
+        </Row>
+      </Form>
+      <div className="p-bottom-controls" id="form-footer">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button appearance="base" onClick={() => navigate(`/ui/cluster`)}>
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel={group ? "Save changes" : "Create"}
+              onClick={() => void formik.submitForm()}
+            />
+          </Col>
+        </Row>
       </div>
-    </main>
+    </BaseLayout>
   );
 };
 

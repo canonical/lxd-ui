@@ -65,6 +65,7 @@ import NetworkForm from "pages/instances/forms/NetworkForm";
 import { useEventQueue } from "context/eventQueue";
 import { getInstanceName } from "util/operations";
 import NotificationRow from "components/NotificationRow";
+import BaseLayout from "components/BaseLayout";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -315,104 +316,97 @@ const CreateInstanceForm: FC = () => {
   }
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">Create an instance</h1>
-        </div>
-        <div className="p-panel__content create-instance">
-          <Form onSubmit={() => submit(formik.values)} stacked className="form">
-            <InstanceFormMenu
-              active={section}
-              setActive={updateSection}
-              isConfigDisabled={!formik.values.image}
-              isConfigOpen={isConfigOpen}
-              toggleConfigOpen={toggleMenu}
-            />
-            <Row className="form-contents" key={section}>
-              <Col size={12}>
-                <NotificationRow />
-                {section === MAIN_CONFIGURATION && (
-                  <InstanceCreateDetailsForm
-                    formik={formik}
-                    project={project}
-                    onSelectImage={handleSelectImage}
-                  />
-                )}
+    <BaseLayout title="Create an instance" contentClassName="create-instance">
+      <Form onSubmit={() => submit(formik.values)} stacked className="form">
+        <InstanceFormMenu
+          active={section}
+          setActive={updateSection}
+          isConfigDisabled={!formik.values.image}
+          isConfigOpen={isConfigOpen}
+          toggleConfigOpen={toggleMenu}
+        />
+        <Row className="form-contents" key={section}>
+          <Col size={12}>
+            <NotificationRow />
+            {section === MAIN_CONFIGURATION && (
+              <InstanceCreateDetailsForm
+                formik={formik}
+                project={project}
+                onSelectImage={handleSelectImage}
+              />
+            )}
 
-                {section === STORAGE && (
-                  <RootStorageForm formik={formik} project={project} />
-                )}
+            {section === STORAGE && (
+              <RootStorageForm formik={formik} project={project} />
+            )}
 
-                {section === NETWORKS && (
-                  <NetworkForm formik={formik} project={project} />
-                )}
+            {section === NETWORKS && (
+              <NetworkForm formik={formik} project={project} />
+            )}
 
-                {section === RESOURCE_LIMITS && (
-                  <ResourceLimitsForm formik={formik} />
-                )}
+            {section === RESOURCE_LIMITS && (
+              <ResourceLimitsForm formik={formik} />
+            )}
 
-                {section === SECURITY_POLICIES && (
-                  <SecurityPoliciesForm formik={formik} />
-                )}
+            {section === SECURITY_POLICIES && (
+              <SecurityPoliciesForm formik={formik} />
+            )}
 
-                {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
+            {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
 
-                {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+            {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
-                {section === YAML_CONFIGURATION && (
-                  <YamlForm
-                    yaml={getYaml()}
-                    setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                  >
-                    <Notification
-                      severity="caution"
-                      title="Before you edit the YAML"
-                    >
-                      Changes will be discarded, when switching back to the
-                      guided forms.
-                    </Notification>
-                  </YamlForm>
-                )}
-              </Col>
-            </Row>
-          </Form>
-          <div className="p-bottom-controls" id="form-footer">
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button
-                  appearance="base"
-                  onClick={() =>
-                    navigate(
-                      location.state?.cancelLocation ??
-                        `/ui/project/${project}/instances`
-                    )
-                  }
+            {section === YAML_CONFIGURATION && (
+              <YamlForm
+                yaml={getYaml()}
+                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+              >
+                <Notification
+                  severity="caution"
+                  title="Before you edit the YAML"
                 >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.image}
-                  buttonLabel="Create"
-                  appearance={isLocalIsoImage ? "positive" : "default"}
-                  onClick={() => submit(formik.values, false)}
-                />
-                {!isLocalIsoImage && (
-                  <SubmitButton
-                    isSubmitting={formik.isSubmitting}
-                    isDisabled={!formik.isValid || !formik.values.image}
-                    buttonLabel="Create and start"
-                    onClick={() => submit(formik.values)}
-                  />
-                )}
-              </Col>
-            </Row>
-          </div>
-        </div>
+                  Changes will be discarded, when switching back to the guided
+                  forms.
+                </Notification>
+              </YamlForm>
+            )}
+          </Col>
+        </Row>
+      </Form>
+      <div className="p-bottom-controls" id="form-footer">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button
+              appearance="base"
+              onClick={() =>
+                navigate(
+                  location.state?.cancelLocation ??
+                    `/ui/project/${project}/instances`
+                )
+              }
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.image}
+              buttonLabel="Create"
+              appearance={isLocalIsoImage ? "positive" : "default"}
+              onClick={() => submit(formik.values, false)}
+            />
+            {!isLocalIsoImage && (
+              <SubmitButton
+                isSubmitting={formik.isSubmitting}
+                isDisabled={!formik.isValid || !formik.values.image}
+                buttonLabel="Create and start"
+                onClick={() => submit(formik.values)}
+              />
+            )}
+          </Col>
+        </Row>
       </div>
-    </main>
+    </BaseLayout>
   );
 };
 

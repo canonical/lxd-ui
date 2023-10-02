@@ -27,6 +27,7 @@ import { getUnhandledKeyValues } from "util/formFields";
 import { getProjectConfigKeys } from "util/projectConfigFields";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 import { useAuth } from "context/auth";
+import BaseLayout from "components/BaseLayout";
 
 interface Props {
   project: LxdProject;
@@ -99,51 +100,49 @@ const EditProjectForm: FC<Props> = ({ project }) => {
   };
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <ProjectConfigurationHeader project={project} />
-        <div className="p-panel__content edit-project">
-          <ProjectForm
-            formik={formik}
-            project={project}
-            section={section}
-            updateSection={setSection}
-            isEdit={true}
-          />
-          {!isRestricted && (
-            <div className="p-bottom-controls" id="form-footer">
-              <hr />
-              <Row>
-                <Col size={12} className="u-align--right">
-                  {formik.values.readOnly ? (
-                    <>
-                      <Button
-                        appearance="positive"
-                        onClick={() => formik.setFieldValue("readOnly", false)}
-                      >
-                        Edit configuration
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button onClick={() => formik.setValues(initialValues)}>
-                        Cancel
-                      </Button>
-                      <SubmitButton
-                        isSubmitting={formik.isSubmitting}
-                        isDisabled={!formik.isValid || !formik.values.name}
-                        buttonLabel="Save changes"
-                        onClick={() => void formik.submitForm()}
-                      />
-                    </>
-                  )}
-                </Col>
-              </Row>
-            </div>
-          )}
+    <BaseLayout
+      customHeader={<ProjectConfigurationHeader project={project} />}
+      contentClassName="edit-project"
+    >
+      <ProjectForm
+        formik={formik}
+        project={project}
+        section={section}
+        updateSection={setSection}
+        isEdit={true}
+      />
+      {!isRestricted && (
+        <div className="p-bottom-controls" id="form-footer">
+          <hr />
+          <Row>
+            <Col size={12} className="u-align--right">
+              {formik.values.readOnly ? (
+                <>
+                  <Button
+                    appearance="positive"
+                    onClick={() => formik.setFieldValue("readOnly", false)}
+                  >
+                    Edit configuration
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button onClick={() => formik.setValues(initialValues)}>
+                    Cancel
+                  </Button>
+                  <SubmitButton
+                    isSubmitting={formik.isSubmitting}
+                    isDisabled={!formik.isValid || !formik.values.name}
+                    buttonLabel="Save changes"
+                    onClick={() => void formik.submitForm()}
+                  />
+                </>
+              )}
+            </Col>
+          </Row>
         </div>
-      </div>
-    </main>
+      )}
+    </BaseLayout>
   );
 };
 

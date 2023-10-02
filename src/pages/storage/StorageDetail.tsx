@@ -10,6 +10,7 @@ import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import StorageOverview from "pages/storage/StorageOverview";
+import BaseLayout from "components/BaseLayout";
 
 const TABS: string[] = ["Overview", "Volumes"];
 
@@ -58,42 +59,41 @@ const StorageDetail: FC = () => {
   };
 
   return (
-    <main className="l-main">
-      <div className="p-panel instance-detail-page">
+    <BaseLayout
+      customHeader={
         <StorageDetailHeader
           name={name}
           storagePool={storagePool}
           project={project}
         />
-        <div className="p-panel__content">
-          <NotificationRow />
-          <Row>
-            <Tabs
-              links={TABS.map((tab) => ({
-                label: tab,
-                id: slugify(tab),
-                active:
-                  slugify(tab) === activeTab ||
-                  (tab === "Overview" && !activeTab),
-                onClick: () => handleTabChange(slugify(tab)),
-              }))}
-            />
+      }
+      contentClassName="detail-page"
+    >
+      <NotificationRow />
+      <Row>
+        <Tabs
+          links={TABS.map((tab) => ({
+            label: tab,
+            id: slugify(tab),
+            active:
+              slugify(tab) === activeTab || (tab === "Overview" && !activeTab),
+            onClick: () => handleTabChange(slugify(tab)),
+          }))}
+        />
 
-            {!activeTab && (
-              <div role="tabpanel" aria-labelledby="overview">
-                <StorageOverview name={name} project={project} />
-              </div>
-            )}
+        {!activeTab && (
+          <div role="tabpanel" aria-labelledby="overview">
+            <StorageOverview name={name} project={project} />
+          </div>
+        )}
 
-            {activeTab === "volumes" && (
-              <div role="tabpanel" aria-labelledby="volumes">
-                <StorageVolumes />
-              </div>
-            )}
-          </Row>
-        </div>
-      </div>
-    </main>
+        {activeTab === "volumes" && (
+          <div role="tabpanel" aria-labelledby="volumes">
+            <StorageVolumes />
+          </div>
+        )}
+      </Row>
+    </BaseLayout>
   );
 };
 

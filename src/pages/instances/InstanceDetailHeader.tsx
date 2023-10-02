@@ -69,6 +69,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   return (
     <RenameHeader
       name={name}
+      titleClassName="instance-detail-title"
       parentItem={
         <Link to={`/ui/project/${project}/instances`}>Instances</Link>
       }

@@ -54,6 +54,7 @@ import useEventListener from "@use-it/event-listener";
 import RootStorageForm from "pages/instances/forms/RootStorageForm";
 import NetworkForm from "pages/instances/forms/NetworkForm";
 import NotificationRow from "components/NotificationRow";
+import BaseLayout from "components/BaseLayout";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -152,90 +153,79 @@ const CreateProfileForm: FC = () => {
   }
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">Create a profile</h1>
-        </div>
-        <div className="p-panel__content create-profile">
-          <Form
-            onSubmit={() => void formik.submitForm()}
-            stacked
-            className="form"
-          >
-            <ProfileFormMenu
-              active={section}
-              setActive={updateSection}
-              isConfigOpen={isConfigOpen}
-              toggleConfigOpen={toggleMenu}
-              hasName={Boolean(formik.values.name)}
-            />
-            <Row className="form-contents" key={section}>
-              <Col size={12}>
-                <NotificationRow />
-                {section === MAIN_CONFIGURATION && (
-                  <ProfileDetailsForm formik={formik} isEdit={false} />
-                )}
+    <BaseLayout title="Create a profile" contentClassName="create-profile">
+      <Form onSubmit={() => void formik.submitForm()} stacked className="form">
+        <ProfileFormMenu
+          active={section}
+          setActive={updateSection}
+          isConfigOpen={isConfigOpen}
+          toggleConfigOpen={toggleMenu}
+          hasName={Boolean(formik.values.name)}
+        />
+        <Row className="form-contents" key={section}>
+          <Col size={12}>
+            <NotificationRow />
+            {section === MAIN_CONFIGURATION && (
+              <ProfileDetailsForm formik={formik} isEdit={false} />
+            )}
 
-                {section === STORAGE && (
-                  <RootStorageForm formik={formik} project={project} />
-                )}
+            {section === STORAGE && (
+              <RootStorageForm formik={formik} project={project} />
+            )}
 
-                {section === NETWORKS && (
-                  <NetworkForm formik={formik} project={project} />
-                )}
+            {section === NETWORKS && (
+              <NetworkForm formik={formik} project={project} />
+            )}
 
-                {section === RESOURCE_LIMITS && (
-                  <ResourceLimitsForm formik={formik} />
-                )}
+            {section === RESOURCE_LIMITS && (
+              <ResourceLimitsForm formik={formik} />
+            )}
 
-                {section === SECURITY_POLICIES && (
-                  <SecurityPoliciesForm formik={formik} />
-                )}
+            {section === SECURITY_POLICIES && (
+              <SecurityPoliciesForm formik={formik} />
+            )}
 
-                {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
+            {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
 
-                {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+            {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 
-                {section === YAML_CONFIGURATION && (
-                  <YamlForm
-                    yaml={getYaml()}
-                    setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                  >
-                    <Notification
-                      severity="caution"
-                      title="Before you edit the YAML"
-                    >
-                      Changes will be discarded, when switching back to the
-                      guided forms.
-                    </Notification>
-                  </YamlForm>
-                )}
-              </Col>
-            </Row>
-          </Form>
-          <div className="p-bottom-controls" id="form-footer">
-            <hr />
-            <Row className="u-align--right">
-              <Col size={12}>
-                <Button
-                  appearance="base"
-                  onClick={() => navigate(`/ui/project/${project}/profiles`)}
+            {section === YAML_CONFIGURATION && (
+              <YamlForm
+                yaml={getYaml()}
+                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+              >
+                <Notification
+                  severity="caution"
+                  title="Before you edit the YAML"
                 >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Create"
-                  onClick={() => void formik.submitForm()}
-                />
-              </Col>
-            </Row>
-          </div>
-        </div>
+                  Changes will be discarded, when switching back to the guided
+                  forms.
+                </Notification>
+              </YamlForm>
+            )}
+          </Col>
+        </Row>
+      </Form>
+      <div className="p-bottom-controls" id="form-footer">
+        <hr />
+        <Row className="u-align--right">
+          <Col size={12}>
+            <Button
+              appearance="base"
+              onClick={() => navigate(`/ui/project/${project}/profiles`)}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Create"
+              onClick={() => void formik.submitForm()}
+            />
+          </Col>
+        </Row>
       </div>
-    </main>
+    </BaseLayout>
   );
 };
 

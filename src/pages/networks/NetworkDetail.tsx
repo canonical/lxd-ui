@@ -10,6 +10,7 @@ import Loader from "components/Loader";
 import { Row, Tabs, useNotify } from "@canonical/react-components";
 import { slugify } from "util/slugify";
 import NetworkDetailOverview from "pages/networks/NetworkDetailOverview";
+import BaseLayout from "components/BaseLayout";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -49,38 +50,37 @@ const NetworkDetail: FC = () => {
   };
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
+    <BaseLayout
+      customHeader={
         <NetworkDetailHeader network={network} project={project} name={name} />
-        <div className="p-panel__content edit-network">
-          <NotificationRow />
-          <Row>
-            <Tabs
-              links={TABS.filter(
-                (tab) => tab !== "Configuration" || network?.managed === true
-              ).map((tab) => ({
-                label: tab,
-                id: slugify(tab),
-                active:
-                  slugify(tab) === activeTab ||
-                  (tab === "Overview" && !activeTab),
-                onClick: () => handleTabChange(slugify(tab)),
-              }))}
-            />
-            {!activeTab && (
-              <div role="tabpanel" aria-labelledby="overview">
-                {network && <NetworkDetailOverview network={network} />}
-              </div>
-            )}
-            {activeTab === "configuration" && (
-              <div role="tabpanel" aria-labelledby="configuration">
-                {network && <EditNetwork network={network} project={project} />}
-              </div>
-            )}
-          </Row>
-        </div>
-      </div>
-    </main>
+      }
+      contentClassName="edit-network"
+    >
+      <NotificationRow />
+      <Row>
+        <Tabs
+          links={TABS.filter(
+            (tab) => tab !== "Configuration" || network?.managed === true
+          ).map((tab) => ({
+            label: tab,
+            id: slugify(tab),
+            active:
+              slugify(tab) === activeTab || (tab === "Overview" && !activeTab),
+            onClick: () => handleTabChange(slugify(tab)),
+          }))}
+        />
+        {!activeTab && (
+          <div role="tabpanel" aria-labelledby="overview">
+            {network && <NetworkDetailOverview network={network} />}
+          </div>
+        )}
+        {activeTab === "configuration" && (
+          <div role="tabpanel" aria-labelledby="configuration">
+            {network && <EditNetwork network={network} project={project} />}
+          </div>
+        )}
+      </Row>
+    </BaseLayout>
   );
 };
 
