@@ -10,7 +10,7 @@ import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import StorageOverview from "pages/storage/StorageOverview";
-import BaseLayout from "components/BaseLayout";
+import CustomLayout from "components/CustomLayout";
 
 const TABS: string[] = ["Overview", "Volumes"];
 
@@ -59,8 +59,8 @@ const StorageDetail: FC = () => {
   };
 
   return (
-    <BaseLayout
-      customHeader={
+    <CustomLayout
+      header={
         <StorageDetailHeader
           name={name}
           storagePool={storagePool}
@@ -93,7 +93,7 @@ const StorageDetail: FC = () => {
           </div>
         )}
       </Row>
-    </BaseLayout>
+    </CustomLayout>
   );
 };
 

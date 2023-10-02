@@ -23,6 +23,7 @@ import { isProjectWithProfiles } from "util/projects";
 import { useProject } from "context/project";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
+import CustomLayout from "components/CustomLayout";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -158,8 +159,10 @@ const ProfileList: FC = () => {
   const pagination = usePagination(rows);
 
   return (
-    <main className="l-main profile-list">
-      <div className="p-panel">
+    <CustomLayout
+      mainClassName="profile-list"
+      contentClassName="profile-content"
+      header={
         <div className="p-panel__header profile-list-header">
           <div className="profile-header-left">
             <h1 className="p-heading--4 u-no-margin--bottom">Profiles</h1>
@@ -187,52 +190,50 @@ const ProfileList: FC = () => {
             </Button>
           )}
         </div>
-        <div className="p-panel__content profile-content">
-          <NotificationRow />
-          <Row className="no-grid-gap">
-            <Col size={12}>
-              {!isLoading && !featuresProfiles && (
-                <Notification severity="caution" title="Profiles disabled">
-                  The feature has been disabled on a project level. All the
-                  available profiles are inherited from the{" "}
-                  <Link to="/ui/project/default/profiles">default project</Link>
-                  .
-                </Notification>
-              )}
-              <ScrollableTable
-                dependencies={[filteredProfiles, notify.notification]}
-                belowId="pagination"
-              >
-                <MainTable
-                  headers={headers}
-                  rows={pagination.pageData}
-                  sortable
-                  emptyStateMsg={
-                    isLoading ? (
-                      <Loader text="Loading profiles..." />
-                    ) : (
-                      <>No profile found matching this search</>
-                    )
-                  }
-                  onUpdateSort={pagination.updateSort}
-                />
-              </ScrollableTable>
-              <Pagination
-                {...pagination}
-                id="pagination"
-                totalCount={profiles.length}
-                visibleCount={
-                  filteredProfiles.length === profiles.length
-                    ? pagination.pageData.length
-                    : filteredProfiles.length
-                }
-                keyword="profile"
-              />
-            </Col>
-          </Row>
-        </div>
-      </div>
-    </main>
+      }
+    >
+      <NotificationRow />
+      <Row className="no-grid-gap">
+        <Col size={12}>
+          {!isLoading && !featuresProfiles && (
+            <Notification severity="caution" title="Profiles disabled">
+              The feature has been disabled on a project level. All the
+              available profiles are inherited from the{" "}
+              <Link to="/ui/project/default/profiles">default project</Link>.
+            </Notification>
+          )}
+          <ScrollableTable
+            dependencies={[filteredProfiles, notify.notification]}
+            belowId="pagination"
+          >
+            <MainTable
+              headers={headers}
+              rows={pagination.pageData}
+              sortable
+              emptyStateMsg={
+                isLoading ? (
+                  <Loader text="Loading profiles..." />
+                ) : (
+                  <>No profile found matching this search</>
+                )
+              }
+              onUpdateSort={pagination.updateSort}
+            />
+          </ScrollableTable>
+          <Pagination
+            {...pagination}
+            id="pagination"
+            totalCount={profiles.length}
+            visibleCount={
+              filteredProfiles.length === profiles.length
+                ? pagination.pageData.length
+                : filteredProfiles.length
+            }
+            keyword="profile"
+          />
+        </Col>
+      </Row>
+    </CustomLayout>
   );
 };
 

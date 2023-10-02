@@ -65,7 +65,7 @@
   }
 
   @media screen and (min-width: $breakpoint-large) and (max-width: 1135px) {
-    .has-side-panel {
+    &.has-side-panel {
       .instance-header-left {
         flex: 1;
 
@@ -172,7 +172,7 @@
     width: 130% !important;
   }
 
-  .has-side-panel {
+  &.has-side-panel {
     .instance-header-left {
       flex: 2;
 

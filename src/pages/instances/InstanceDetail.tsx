@@ -14,7 +14,7 @@ import EditInstanceForm from "./EditInstanceForm";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 import { slugify } from "util/slugify";
 import NotificationRow from "components/NotificationRow";
-import BaseLayout from "components/BaseLayout";
+import CustomLayout from "components/CustomLayout";
 
 const TABS: string[] = [
   "Overview",
@@ -64,8 +64,8 @@ const InstanceDetail: FC = () => {
   };
 
   return (
-    <BaseLayout
-      customHeader={
+    <CustomLayout
+      header={
         <InstanceDetailHeader
           name={name}
           instance={instance}
@@ -127,7 +127,7 @@ const InstanceDetail: FC = () => {
           )}
         </Row>
       )}
-    </BaseLayout>
+    </CustomLayout>
   );
 };
 

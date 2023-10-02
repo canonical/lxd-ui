@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import { Row, Col } from "@canonical/react-components";
+import CustomLayout from "./CustomLayout";
 
 const NoMatch: FC = () => {
   return (
-    <main className="l-main no-match">
+    <CustomLayout mainClassName="no-match">
       <Row>
         <Col size={6} className="col-start-large-4">
           <h1 className="p-heading--4">404 Page not found</h1>
@@ -23,7 +24,7 @@ const NoMatch: FC = () => {
           </p>
         </Col>
       </Row>
-    </main>
+    </CustomLayout>
   );
 };
 

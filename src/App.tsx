@@ -6,6 +6,7 @@ import ProjectLoader from "pages/projects/ProjectLoader";
 import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
+import CustomLayout from "components/CustomLayout";
 
 const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
@@ -61,9 +62,9 @@ const App: FC = () => {
   return (
     <Suspense
       fallback={
-        <main className="l-main">
+        <CustomLayout>
           <Loader />
-        </main>
+        </CustomLayout>
       }
     >
       <Routes>

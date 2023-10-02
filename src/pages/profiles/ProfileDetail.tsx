@@ -12,7 +12,7 @@ import { slugify } from "util/slugify";
 import { isProjectWithProfiles } from "util/projects";
 import { useProject } from "context/project";
 import NotificationRow from "components/NotificationRow";
-import BaseLayout from "components/BaseLayout";
+import CustomLayout from "components/CustomLayout";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -65,8 +65,8 @@ const ProfileDetail: FC = () => {
   };
 
   return (
-    <BaseLayout
-      customHeader={
+    <CustomLayout
+      header={
         <ProfileDetailHeader
           name={name}
           profile={profile}
@@ -111,7 +111,7 @@ const ProfileDetail: FC = () => {
           )}
         </Row>
       )}
-    </BaseLayout>
+    </CustomLayout>
   );
 };
 

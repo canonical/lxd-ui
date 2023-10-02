@@ -27,7 +27,7 @@ import { getUnhandledKeyValues } from "util/formFields";
 import { getProjectConfigKeys } from "util/projectConfigFields";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 import { useAuth } from "context/auth";
-import BaseLayout from "components/BaseLayout";
+import CustomLayout from "components/CustomLayout";
 
 interface Props {
   project: LxdProject;
@@ -100,8 +100,8 @@ const EditProjectForm: FC<Props> = ({ project }) => {
   };
 
   return (
-    <BaseLayout
-      customHeader={<ProjectConfigurationHeader project={project} />}
+    <CustomLayout
+      header={<ProjectConfigurationHeader project={project} />}
       contentClassName="edit-project"
     >
       <ProjectForm
@@ -142,7 +142,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
           </Row>
         </div>
       )}
-    </BaseLayout>
+    </CustomLayout>
   );
 };
 
