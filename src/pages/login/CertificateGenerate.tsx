@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import PasswordModal from "pages/login/PasswordModal";
+import CustomLayout from "components/CustomLayout";
 
 interface Certs {
   crt: string;
@@ -65,126 +66,118 @@ const CertificateGenerate: FC = () => {
   };
 
   return (
-    <main className="l-main certificate-generate">
-      <div className="p-panel">
+    <CustomLayout
+      mainClassName="certificate-generate"
+      header={
         <div className="p-panel__header is-sticky">
           <h1 className="p-panel__title">Setup LXD UI</h1>
         </div>
-        <div className="p-panel__content">
-          <Row className="u-no-margin--left">
-            <Col size={12}>
-              <ol className="p-stepped-list--detailed">
-                <li className="p-stepped-list__item">
-                  <Row>
-                    <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--5">
-                        Generate
-                      </h2>
-                    </Col>
-                    <Col size={6}>
-                      <div className="p-stepped-list__content">
-                        <p>Create a new certificate</p>
-                      </div>
-                    </Col>
-                    <Col size={3}>
-                      {isModalOpen && (
-                        <PasswordModal
-                          onClose={closeModal}
-                          onConfirm={createCert}
-                        />
-                      )}
-                      <Button
-                        onClick={openModal}
-                        appearance="positive"
-                        disabled={isGenerating || certs !== null}
-                        hasIcon={isGenerating}
-                        aria-label={`${
-                          isGenerating ? "Generating" : "Generate"
-                        } certificate`}
-                      >
-                        {isGenerating && (
-                          <Icon
-                            className="is-light u-animation--spin"
-                            name="spinner"
-                          />
-                        )}
-                        <span>{isGenerating ? "Generating" : "Generate"}</span>
-                      </Button>
-                      {certs !== null && <Icon name="success" />}
-                    </Col>
-                  </Row>
-                </li>
-                <li className="p-stepped-list__item">
-                  <Row>
-                    <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--5">
-                        Trust
-                      </h2>
-                    </Col>
-                    <Col size={6}>
-                      <div className="p-stepped-list__content">
-                        <p>
-                          Download <code>lxd-ui.crt</code> and add it to the LXD
-                          trust store
-                        </p>
-                        <div className="p-code-snippet">
-                          <pre className="p-code-snippet__block--icon">
-                            <code>
-                              lxc config trust add Downloads/lxd-ui.crt
-                            </code>
-                          </pre>
-                        </div>
-                      </div>
-                    </Col>
-                    {certs && (
-                      <Col size={3}>
-                        <Button
-                          onClick={() => downloadText("lxd-ui.crt", certs.crt)}
-                        >
-                          Download crt
-                        </Button>
-                      </Col>
-                    )}
-                  </Row>
-                </li>
-                <li className="p-stepped-list__item">
-                  <Row>
-                    <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--5">
-                        Import
-                      </h2>
-                    </Col>
-                    <Col size={8}>
-                      <BrowserImport
-                        sendPfx={
-                          certs
-                            ? () => downloadBase64("lxd-ui.pfx", certs.pfx)
-                            : undefined
-                        }
+      }
+    >
+      <Row className="u-no-margin--left">
+        <Col size={12}>
+          <ol className="p-stepped-list--detailed">
+            <li className="p-stepped-list__item">
+              <Row>
+                <Col size={3}>
+                  <h2 className="p-stepped-list__title p-heading--5">
+                    Generate
+                  </h2>
+                </Col>
+                <Col size={6}>
+                  <div className="p-stepped-list__content">
+                    <p>Create a new certificate</p>
+                  </div>
+                </Col>
+                <Col size={3}>
+                  {isModalOpen && (
+                    <PasswordModal
+                      onClose={closeModal}
+                      onConfirm={createCert}
+                    />
+                  )}
+                  <Button
+                    onClick={openModal}
+                    appearance="positive"
+                    disabled={isGenerating || certs !== null}
+                    hasIcon={isGenerating}
+                    aria-label={`${
+                      isGenerating ? "Generating" : "Generate"
+                    } certificate`}
+                  >
+                    {isGenerating && (
+                      <Icon
+                        className="is-light u-animation--spin"
+                        name="spinner"
                       />
-                    </Col>
-                  </Row>
-                </li>
-                <li className="p-stepped-list__item u-no-margin--bottom">
-                  <Row>
-                    <Col size={3}>
-                      <h2 className="p-stepped-list__title p-heading--5">
-                        Done
-                      </h2>
-                    </Col>
-                    <Col size={6}>
-                      <div className="p-stepped-list__content">
-                        <p>Enjoy LXD UI.</p>
-                      </div>
-                    </Col>
-                  </Row>
-                </li>
-              </ol>
-            </Col>
-          </Row>
-        </div>
-      </div>
-    </main>
+                    )}
+                    <span>{isGenerating ? "Generating" : "Generate"}</span>
+                  </Button>
+                  {certs !== null && <Icon name="success" />}
+                </Col>
+              </Row>
+            </li>
+            <li className="p-stepped-list__item">
+              <Row>
+                <Col size={3}>
+                  <h2 className="p-stepped-list__title p-heading--5">Trust</h2>
+                </Col>
+                <Col size={6}>
+                  <div className="p-stepped-list__content">
+                    <p>
+                      Download <code>lxd-ui.crt</code> and add it to the LXD
+                      trust store
+                    </p>
+                    <div className="p-code-snippet">
+                      <pre className="p-code-snippet__block--icon">
+                        <code>lxc config trust add Downloads/lxd-ui.crt</code>
+                      </pre>
+                    </div>
+                  </div>
+                </Col>
+                {certs && (
+                  <Col size={3}>
+                    <Button
+                      onClick={() => downloadText("lxd-ui.crt", certs.crt)}
+                    >
+                      Download crt
+                    </Button>
+                  </Col>
+                )}
+              </Row>
+            </li>
+            <li className="p-stepped-list__item">
+              <Row>
+                <Col size={3}>
+                  <h2 className="p-stepped-list__title p-heading--5">Import</h2>
+                </Col>
+                <Col size={8}>
+                  <BrowserImport
+                    sendPfx={
+                      certs
+                        ? () => downloadBase64("lxd-ui.pfx", certs.pfx)
+                        : undefined
+                    }
+                  />
+                </Col>
+              </Row>
+            </li>
+            <li className="p-stepped-list__item u-no-margin--bottom">
+              <Row>
+                <Col size={3}>
+                  <h2 className="p-stepped-list__title p-heading--5">Done</h2>
+                </Col>
+                <Col size={6}>
+                  <div className="p-stepped-list__content">
+                    <p>Enjoy LXD UI.</p>
+                  </div>
+                </Col>
+              </Row>
+            </li>
+          </ol>
+        </Col>
+      </Row>
+    </CustomLayout>
   );
 };
 

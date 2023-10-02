@@ -2,16 +2,14 @@ import React, { FC, ReactNode } from "react";
 import classnames from "classnames";
 
 interface Props {
-  title: string | ReactNode;
-  controls?: ReactNode;
+  header?: ReactNode;
   children: ReactNode;
   mainClassName?: string;
   contentClassName?: string;
 }
 
-const BaseLayout: FC<Props> = ({
-  title,
-  controls,
+const CustomLayout: FC<Props> = ({
+  header,
   children,
   mainClassName,
   contentClassName,
@@ -19,10 +17,7 @@ const BaseLayout: FC<Props> = ({
   return (
     <main className={classnames("l-main", mainClassName)}>
       <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">{title}</h1>
-          {controls && <div className="p-panel__controls">{controls}</div>}
-        </div>
+        {header}
         <div className={classnames("p-panel__content", contentClassName)}>
           {children}
         </div>
@@ -31,4 +26,4 @@ const BaseLayout: FC<Props> = ({
   );
 };
 
-export default BaseLayout;
+export default CustomLayout;

@@ -3,8 +3,8 @@ import { Button, Col, Icon, Row } from "@canonical/react-components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
-import BaseLayout from "components/BaseLayout";
 import { useSettings } from "context/useSettings";
+import CustomLayout from "components/CustomLayout";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -21,7 +21,7 @@ const Login: FC = () => {
   }
 
   return (
-    <BaseLayout>
+    <CustomLayout>
       <Row className="empty-state">
         <Col size={6} className="col-start-large-4">
           <Icon name="containers" className="empty-state-icon lxd-icon" />
@@ -68,7 +68,7 @@ const Login: FC = () => {
           )}
         </Col>
       </Row>
-    </BaseLayout>
+    </CustomLayout>
   );
 };
 

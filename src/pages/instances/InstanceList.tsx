@@ -50,6 +50,7 @@ import {
 import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
+import CustomLayout from "components/CustomLayout";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -465,12 +466,12 @@ const InstanceList: FC = () => {
   );
 
   return (
-    <main className="l-main instance-list">
-      <div
-        className={classnames("p-panel", {
-          "has-side-panel": !!panelParams.instance,
-        })}
-      >
+    <CustomLayout
+      mainClassName={classnames("instance-list", {
+        "has-side-panel": Boolean(panelParams.instance),
+      })}
+      contentClassName="instance-content"
+      header={
         <div className="p-panel__header instance-list-header">
           <div className="instance-header-left">
             <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
@@ -519,117 +520,111 @@ const InstanceList: FC = () => {
             </div>
           )}
         </div>
-        <div className="p-panel__content instance-content">
-          <NotificationRow />
-          <Row className="no-grid-gap">
-            <Col size={12}>
-              {hasInstances && (
-                <>
-                  <TableColumnsSelect
-                    columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
-                    hidden={userHidden}
-                    setHidden={setHidden}
-                    className={classnames({
-                      "u-hide": panelParams.instance,
-                    })}
-                  />
-                  <ScrollableTable
-                    belowId="pagination"
-                    dependencies={[filteredInstances, notify.notification]}
-                  >
-                    <SelectableMainTable
-                      headers={getHeaders(userHidden.concat(sizeHidden))}
-                      rows={pagination.pageData}
-                      sortable
-                      emptyStateMsg={
-                        isLoading ? (
-                          <Loader text="Loading instances..." />
-                        ) : (
-                          <>No instance found matching this search</>
-                        )
-                      }
-                      itemName="instance"
-                      parentName="project"
-                      selectedNames={selectedNames}
-                      setSelectedNames={setSelectedNames}
-                      processingNames={processingNames}
-                      totalCount={instances.length}
-                      filteredNames={filteredInstances.map(
-                        (instance) => instance.name
-                      )}
-                      onUpdateSort={pagination.updateSort}
-                    />
-                  </ScrollableTable>
-                  <Pagination
-                    {...pagination}
-                    id="pagination"
-                    totalCount={instances.length + creationOperations.length}
-                    visibleCount={
-                      filteredInstances.length === instances.length
-                        ? pagination.pageData.length
-                        : filteredInstances.length
-                    }
-                    keyword="instance"
-                  />
-                  <div id="instance-table-measure">
-                    <SelectableMainTable
-                      headers={getHeaders(userHidden)}
-                      rows={getRows(userHidden)}
-                      className="scrollable-table"
-                      itemName="instance"
-                      parentName="project"
-                      selectedNames={selectedNames}
-                      setSelectedNames={setSelectedNames}
-                      processingNames={processingNames}
-                      totalCount={instances.length}
-                      filteredNames={filteredInstances.map(
-                        (instance) => instance.name
-                      )}
-                    />
-                  </div>
-                </>
-              )}
-              {!hasInstances && (
-                <EmptyState
-                  className="empty-state"
-                  image={
-                    <Icon name="containers" className="empty-state-icon" />
+      }
+    >
+      <NotificationRow />
+      <Row className="no-grid-gap">
+        <Col size={12}>
+          {hasInstances && (
+            <>
+              <TableColumnsSelect
+                columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                hidden={userHidden}
+                setHidden={setHidden}
+                className={classnames({
+                  "u-hide": panelParams.instance,
+                })}
+              />
+              <ScrollableTable
+                belowId="pagination"
+                dependencies={[filteredInstances, notify.notification]}
+              >
+                <SelectableMainTable
+                  headers={getHeaders(userHidden.concat(sizeHidden))}
+                  rows={pagination.pageData}
+                  sortable
+                  emptyStateMsg={
+                    isLoading ? (
+                      <Loader text="Loading instances..." />
+                    ) : (
+                      <>No instance found matching this search</>
+                    )
                   }
-                  title="No instances found"
+                  itemName="instance"
+                  parentName="project"
+                  selectedNames={selectedNames}
+                  setSelectedNames={setSelectedNames}
+                  processingNames={processingNames}
+                  totalCount={instances.length}
+                  filteredNames={filteredInstances.map(
+                    (instance) => instance.name
+                  )}
+                  onUpdateSort={pagination.updateSort}
+                />
+              </ScrollableTable>
+              <Pagination
+                {...pagination}
+                id="pagination"
+                totalCount={instances.length + creationOperations.length}
+                visibleCount={
+                  filteredInstances.length === instances.length
+                    ? pagination.pageData.length
+                    : filteredInstances.length
+                }
+                keyword="instance"
+              />
+              <div id="instance-table-measure">
+                <SelectableMainTable
+                  headers={getHeaders(userHidden)}
+                  rows={getRows(userHidden)}
+                  className="scrollable-table"
+                  itemName="instance"
+                  parentName="project"
+                  selectedNames={selectedNames}
+                  setSelectedNames={setSelectedNames}
+                  processingNames={processingNames}
+                  totalCount={instances.length}
+                  filteredNames={filteredInstances.map(
+                    (instance) => instance.name
+                  )}
+                />
+              </div>
+            </>
+          )}
+          {!hasInstances && (
+            <EmptyState
+              className="empty-state"
+              image={<Icon name="containers" className="empty-state-icon" />}
+              title="No instances found"
+            >
+              <p>
+                There are no instances in this project. Spin up your first
+                instance!
+              </p>
+              <p>
+                <a
+                  href="https://documentation.ubuntu.com/lxd/en/latest/howto/instances_create/"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <p>
-                    There are no instances in this project. Spin up your first
-                    instance!
-                  </p>
-                  <p>
-                    <a
-                      href="https://documentation.ubuntu.com/lxd/en/latest/howto/instances_create/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      How to create instances
-                      <Icon
-                        className="external-link-icon"
-                        name="external-link"
-                      />
-                    </a>
-                  </p>
-                  <Button
-                    className="empty-state-button"
-                    appearance="positive"
-                    onClick={() =>
-                      navigate(`/ui/project/${project}/instances/create`)
-                    }
-                  >
-                    Create instance
-                  </Button>
-                </EmptyState>
-              )}
-            </Col>
-          </Row>
-        </div>
-      </div>
-    </main>
+                  How to create instances
+                  <Icon className="external-link-icon" name="external-link" />
+                </a>
+              </p>
+              <Button
+                className="empty-state-button"
+                appearance="positive"
+                onClick={() =>
+                  navigate(`/ui/project/${project}/instances/create`)
+                }
+              >
+                Create instance
+              </Button>
+            </EmptyState>
+          )}
+        </Col>
+      </Row>
+    </CustomLayout>
   );
 };
 

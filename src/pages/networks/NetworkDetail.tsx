@@ -10,7 +10,7 @@ import Loader from "components/Loader";
 import { Row, Tabs, useNotify } from "@canonical/react-components";
 import { slugify } from "util/slugify";
 import NetworkDetailOverview from "pages/networks/NetworkDetailOverview";
-import BaseLayout from "components/BaseLayout";
+import CustomLayout from "components/CustomLayout";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
@@ -50,8 +50,8 @@ const NetworkDetail: FC = () => {
   };
 
   return (
-    <BaseLayout
-      customHeader={
+    <CustomLayout
+      header={
         <NetworkDetailHeader network={network} project={project} name={name} />
       }
       contentClassName="edit-network"
@@ -80,7 +80,7 @@ const NetworkDetail: FC = () => {
           </div>
         )}
       </Row>
-    </BaseLayout>
+    </CustomLayout>
   );
 };
 
