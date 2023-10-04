@@ -21,7 +21,7 @@ const details = [
   },
   {
     name: "organizationName",
-    value: "Browser Generated LXD UI",
+    value: "LXD UI " + location.hostname + " (Browser Generated)",
   },
 ];
 
@@ -32,8 +32,7 @@ export const generateCert = (password: string) => {
   const cert = forge.pki.createCertificate();
   cert.publicKey = keys.publicKey;
 
-  // @ts-expect-error toString can have an argument
-  cert.serialNumber = "01" + getRandomBytes(19).toString(16);
+  cert.serialNumber = "01" + getRandomBytes(20).toString().substring(0, 30);
   cert.validity.notBefore = new Date();
   cert.validity.notAfter = new Date(
     Date.now() + 1000 * 60 * 60 * 24 * validDays
