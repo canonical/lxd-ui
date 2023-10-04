@@ -138,7 +138,12 @@ const CertificateGenerate: FC = () => {
                 {certs && (
                   <Col size={3}>
                     <Button
-                      onClick={() => downloadText("lxd-ui.crt", certs.crt)}
+                      onClick={() =>
+                        downloadText(
+                          `lxd-ui-${location.hostname}.crt`,
+                          certs.crt
+                        )
+                      }
                     >
                       Download crt
                     </Button>
@@ -155,7 +160,11 @@ const CertificateGenerate: FC = () => {
                   <BrowserImport
                     sendPfx={
                       certs
-                        ? () => downloadBase64("lxd-ui.pfx", certs.pfx)
+                        ? () =>
+                            downloadBase64(
+                              `lxd-ui-${location.hostname}.pfx`,
+                              certs.pfx
+                            )
                         : undefined
                     }
                   />
