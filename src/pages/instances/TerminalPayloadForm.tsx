@@ -93,6 +93,8 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
       onKeyDown={handleEscKey}
     >
       <Form onSubmit={formik.handleSubmit}>
+        {/* hidden submit to enable enter key in inputs */}
+        <Input type="submit" hidden />
         <div className="content-wrapper">
           <Input
             id="command"
@@ -126,8 +128,6 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
             onChange={formik.handleChange}
             value={formik.values.group}
           />
-          {/* hidden submit to enable enter key in inputs */}
-          <Input type="submit" hidden />
           <p className="u-no-margin--bottom p-form__label">
             Environment variables
           </p>

@@ -112,7 +112,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       title={group ? "Edit cluster group" : "Create cluster group"}
       contentClassName="cluster-group-form"
     >
-      <Form onSubmit={() => void formik.submitForm()} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} stacked className="form">
         <Row className="form-contents">
           <Col size={12}>
             <NotificationRow />

@@ -150,7 +150,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
 
   return (
     <div className="edit-instance">
-      <Form onSubmit={() => void formik.submitForm()} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} stacked className="form">
         <InstanceFormMenu
           active={activeSection ?? slugify(MAIN_CONFIGURATION)}
           setActive={updateSection}

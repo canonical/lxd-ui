@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import {
   Col,
   Form,
+  Input,
   Notification,
   Row,
   useNotify,
@@ -123,10 +124,9 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
   useEventListener("resize", updateFormHeight);
 
   return (
-    <Form
-      className="form network-form"
-      onSubmit={() => void formik.submitForm()}
-    >
+    <Form className="form network-form" onSubmit={formik.handleSubmit}>
+      {/* hidden submit to enable enter key in inputs */}
+      <Input type="submit" hidden />
       <NetworkFormMenu
         active={section}
         setActive={setSection}
