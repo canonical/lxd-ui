@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Icon, Input } from "@canonical/react-components";
+import { Button, Form, Icon, Input } from "@canonical/react-components";
 import { LxdConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
 
@@ -21,7 +21,14 @@ const SettingFormPassword: FC<Props> = ({
   const [password, setPassword] = useState("");
 
   return (
-    <>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(password);
+      }}
+    >
+      {/* hidden submit to enable enter key in inputs */}
+      <Input type="submit" hidden />
       {showPasswordField && (
         <>
           <div className="input-row">
@@ -57,7 +64,7 @@ const SettingFormPassword: FC<Props> = ({
           </Button>
         </>
       )}
-    </>
+    </Form>
   );
 };
 

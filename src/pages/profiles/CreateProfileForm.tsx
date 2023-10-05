@@ -154,7 +154,7 @@ const CreateProfileForm: FC = () => {
 
   return (
     <BaseLayout title="Create a profile" contentClassName="create-profile">
-      <Form onSubmit={() => void formik.submitForm()} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} stacked className="form">
         <ProfileFormMenu
           active={section}
           setActive={updateSection}

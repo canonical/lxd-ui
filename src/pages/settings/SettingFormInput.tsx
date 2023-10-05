@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Icon, Input } from "@canonical/react-components";
+import { Button, Form, Icon, Input } from "@canonical/react-components";
 import { LxdConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
 
@@ -34,7 +34,14 @@ const SettingFormInput: FC<Props> = ({
   };
 
   return (
-    <>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(value);
+      }}
+    >
+      {/* hidden submit to enable enter key in inputs */}
+      <Input type="submit" hidden />
       <Input
         aria-label={configField.key}
         id={getConfigId(configField.key)}
@@ -58,7 +65,7 @@ const SettingFormInput: FC<Props> = ({
           <span>Reset to default</span>
         </Button>
       )}
-    </>
+    </Form>
   );
 };
 

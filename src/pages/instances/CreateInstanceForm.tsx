@@ -317,7 +317,7 @@ const CreateInstanceForm: FC = () => {
 
   return (
     <BaseLayout title="Create an instance" contentClassName="create-instance">
-      <Form onSubmit={() => submit(formik.values)} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} stacked className="form">
         <InstanceFormMenu
           active={section}
           setActive={updateSection}

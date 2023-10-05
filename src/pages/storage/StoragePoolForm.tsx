@@ -96,6 +96,8 @@ const StoragePoolForm: FC = () => {
           <NotificationRow />
           <Row>
             <Form onSubmit={formik.handleSubmit} stacked>
+              {/* hidden submit to enable enter key in inputs */}
+              <Input type="submit" hidden />
               <Input
                 id="name"
                 name="name"

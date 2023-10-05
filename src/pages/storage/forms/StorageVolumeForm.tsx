@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Col, Form, Row, useNotify } from "@canonical/react-components";
+import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
@@ -124,6 +124,8 @@ const StorageVolumeForm: FC<Props> = ({ formik }) => {
 
   return (
     <Form onSubmit={formik.handleSubmit} stacked className="form">
+      {/* hidden submit to enable enter key in inputs */}
+      <Input type="submit" hidden />
       <StorageVolumeFormMenu
         active={section}
         setActive={setSection}

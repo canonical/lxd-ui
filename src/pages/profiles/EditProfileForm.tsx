@@ -179,7 +179,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
           .
         </Notification>
       )}
-      <Form onSubmit={() => void formik.submitForm()} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} stacked className="form">
         <ProfileFormMenu
           active={activeSection ?? slugify(MAIN_CONFIGURATION)}
           setActive={updateSection}
