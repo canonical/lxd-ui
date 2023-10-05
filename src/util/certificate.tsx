@@ -21,7 +21,7 @@ const details = [
   },
   {
     name: "organizationName",
-    value: "LXD UI " + location.hostname + " (Browser Generated)",
+    value: `LXD UI ${location.hostname} (Browser Generated)`,
   },
 ];
 
