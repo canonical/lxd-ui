@@ -73,7 +73,7 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
                 </div>
               </li>
               <li className="p-list__item">
-                Scroll all the way down and click the{" "}
+                Scroll down to the certificates section and click the{" "}
                 <code>View Certificates</code> button.
               </li>
               <li className="p-list__item">

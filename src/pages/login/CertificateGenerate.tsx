@@ -43,7 +43,7 @@ const CertificateGenerate: FC = () => {
       const certs = generateCert(password);
       setCerts(certs);
       setGenerating(false);
-    }, 10);
+    }, 100);
   };
 
   const downloadBase64 = (name: string, base64: string) => {
