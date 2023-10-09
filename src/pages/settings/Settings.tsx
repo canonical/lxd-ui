@@ -14,6 +14,7 @@ import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import ScrollableTable from "components/ScrollableTable";
+import HelpLink from "components/HelpLink";
 
 const configOptionsUrl = "/ui/assets/data/config-options.json";
 
@@ -122,7 +123,17 @@ const Settings: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Settings" contentClassName="settings">
+      <BaseLayout
+        title={
+          <HelpLink
+            href="https://documentation.ubuntu.com/lxd/en/latest/server/"
+            title="Learn more about server configuration"
+          >
+            Settings
+          </HelpLink>
+        }
+        contentClassName="settings"
+      >
         <NotificationRow />
         {isLoading && <Loader text="Loading settings..." />}
         {!isLoading && (

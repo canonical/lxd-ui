@@ -243,3 +243,18 @@ $border-thin: 1px solid $color-mid-light !default;
 .margin-right {
   margin-right: $sph--large;
 }
+
+.help-link {
+  display: flex;
+
+  .help-link-icon {
+    height: 1rem;
+    margin-left: $spv--small;
+    margin-top: 0.55rem; // extra margin to align with the text should be removed when this is fixed: https://github.com/canonical/vanilla-framework/issues/4891
+    width: 1rem;
+
+    @include extra-large {
+      margin-top: 0.665rem; // extra margin to align with the text should be removed when this is fixed: https://github.com/canonical/vanilla-framework/issues/4891
+    }
+  }
+}

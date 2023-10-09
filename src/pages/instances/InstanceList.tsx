@@ -52,6 +52,7 @@ import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
+import HelpLink from "components/HelpLink";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -478,7 +479,14 @@ const InstanceList: FC = () => {
       header={
         <div className="p-panel__header instance-list-header">
           <div className="instance-header-left">
-            <h1 className="p-heading--4 u-no-margin--bottom">Instances</h1>
+            <h1 className="p-heading--4 u-no-margin--bottom">
+              <HelpLink
+                href="https://documentation.ubuntu.com/lxd/en/latest/explanation/instances/#expl-instances"
+                title="Learn more about Instances"
+              >
+                Instances
+              </HelpLink>
+            </h1>
             {selectedNames.length > 0 && (
               <>
                 <InstanceBulkActions

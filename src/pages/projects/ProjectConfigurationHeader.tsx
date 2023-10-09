@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import { useNotify } from "@canonical/react-components";
+import HelpLink from "components/HelpLink";
 
 interface Props {
   project: LxdProject;
@@ -60,7 +61,15 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
   return (
     <RenameHeader
       name={project.name}
-      parentItems={["Project configuration"]}
+      parentItems={[
+        <HelpLink
+          key="project-configuration"
+          href="https://documentation.ubuntu.com/lxd/en/latest/reference/projects/"
+          title="Learn more about project configuration"
+        >
+          Project configuration
+        </HelpLink>,
+      ]}
       renameDisabledReason={
         project.name === "default"
           ? "Cannot rename the default project"
