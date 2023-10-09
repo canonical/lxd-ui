@@ -5,7 +5,8 @@ export interface EventQueue {
   set: (
     operationId: string,
     onSuccess: () => void,
-    onFailure: (msg: string) => void
+    onFailure: (msg: string) => void,
+    onFinish?: () => void
   ) => void;
   remove: (operationId: string) => void;
 }
@@ -23,6 +24,7 @@ interface Props {
 interface EventCallback {
   onSuccess: () => void;
   onFailure: (msg: string) => void;
+  onFinish?: () => void;
 }
 
 const eventQueue = new Map<string, EventCallback>();
@@ -32,8 +34,8 @@ export const EventQueueProvider: FC<Props> = ({ children }) => {
     <EventQueueContext.Provider
       value={{
         get: (operationId) => eventQueue.get(operationId),
-        set: (operationId, onSuccess, onFailure) => {
-          eventQueue.set(operationId, { onSuccess, onFailure });
+        set: (operationId, onSuccess, onFailure, onFinish) => {
+          eventQueue.set(operationId, { onSuccess, onFailure, onFinish });
         },
         remove: (operationId) => eventQueue.delete(operationId),
       }}

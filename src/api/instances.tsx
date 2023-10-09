@@ -1,4 +1,3 @@
-import { TIMEOUT_120, TIMEOUT_60, watchOperation } from "./operations";
 import {
   handleEtagResponse,
   handleResponse,
@@ -8,6 +7,7 @@ import { LxdInstance, LxdInstanceAction } from "types/instance";
 import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
+import { EventQueue } from "context/eventQueue";
 
 export const fetchInstance = (
   name: string,
@@ -47,7 +47,10 @@ export const createInstance = (
   });
 };
 
-export const updateInstance = (instance: LxdInstance, project: string) => {
+export const updateInstance = (
+  instance: LxdInstance,
+  project: string
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${project}`, {
       method: "PUT",
@@ -57,9 +60,7 @@ export const updateInstance = (instance: LxdInstance, project: string) => {
       },
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -68,7 +69,7 @@ export const renameInstance = (
   oldName: string,
   newName: string,
   project: string
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${oldName}?project=${project}`, {
       method: "POST",
@@ -77,9 +78,7 @@ export const renameInstance = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -127,7 +126,7 @@ const putInstanceAction = (
   project: string,
   action: LxdInstanceAction,
   isForce?: boolean
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance}/state?project=${project}`, {
       method: "PUT",
@@ -137,9 +136,7 @@ const putInstanceAction = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -152,39 +149,91 @@ export interface InstanceBulkAction {
 
 export const updateInstanceBulkAction = (
   actions: InstanceBulkAction[],
-  isForce: boolean
+  isForce: boolean,
+  eventQueue: EventQueue
 ): Promise<PromiseSettledResult<void>[]> => {
+  let remainingResults = actions.length;
+  const results: PromiseSettledResult<void>[] = [];
   return new Promise((resolve) => {
     void Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
-        await putInstanceAction(name, project, action, isForce);
+        return await putInstanceAction(name, project, action, isForce).then(
+          (operation) => {
+            eventQueue.set(
+              operation.metadata.id,
+              () => {
+                results.push({
+                  status: "fulfilled",
+                  value: undefined,
+                });
+              },
+              (msg) => {
+                results.push({
+                  status: "rejected",
+                  reason: msg,
+                });
+              },
+              () => {
+                remainingResults--;
+                if (remainingResults === 0) {
+                  resolve(results);
+                }
+              }
+            );
+          }
+        );
       })
-    ).then((results) => resolve(results));
+    );
   });
 };
 
-export const deleteInstance = (instance: LxdInstance) => {
+export const deleteInstance = (
+  instance: LxdInstance
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
 
 export const deleteInstanceBulk = (
-  instances: LxdInstance[]
+  instances: LxdInstance[],
+  eventQueue: EventQueue
 ): Promise<PromiseSettledResult<void>[]> => {
+  let remainingResults = instances.length;
+  const results: PromiseSettledResult<void>[] = [];
   return new Promise((resolve) => {
     void Promise.allSettled(
       instances.map(async (instance) => {
-        await deleteInstance(instance);
+        return await deleteInstance(instance).then((operation) => {
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              results.push({
+                status: "fulfilled",
+                value: undefined,
+              });
+            },
+            (msg) => {
+              results.push({
+                status: "rejected",
+                reason: msg,
+              });
+            },
+            () => {
+              remainingResults--;
+              if (remainingResults === 0) {
+                resolve(results);
+              }
+            }
+          );
+        });
       })
-    ).then((results) => resolve(results));
+    );
   });
 };
 

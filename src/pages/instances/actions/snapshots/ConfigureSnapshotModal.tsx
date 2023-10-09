@@ -14,6 +14,7 @@ import {
   InstanceEditSchema,
 } from "util/instanceEdit";
 import SubmitButton from "components/SubmitButton";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
@@ -28,6 +29,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
   onSuccess,
   onFailure,
 }) => {
+  const eventQueue = useEventQueue();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
 
@@ -40,19 +42,19 @@ const ConfigureSnapshotModal: FC<Props> = ({
         values
       ) as LxdInstance;
 
-      updateInstance(instancePayload, project ?? "")
-        .then(() => {
-          onSuccess("Configuration updated.");
-        })
-        .catch((e: Error) => {
-          onFailure("Configuration update failed", e);
-        })
-        .finally(() => {
-          close();
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
-        });
+      void updateInstance(instancePayload, project ?? "").then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () => onSuccess("Configuration updated."),
+          (msg) => onFailure("Configuration update failed", new Error(msg)),
+          () => {
+            close();
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.instances],
+            });
+          }
+        );
+      });
     },
   });
 

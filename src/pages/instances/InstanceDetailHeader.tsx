@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   name: string;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
+  const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const notify = useNotify();
   const controllerState = useState<AbortController | null>(null);
@@ -51,18 +53,20 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
         formik.setSubmitting(false);
         return;
       }
-      renameInstance(name, values.name, project)
-        .then(() => {
-          navigate(
-            `/ui/project/${project}/instances/detail/${values.name}`,
-            notify.queue(notify.success("Instance renamed."))
-          );
-          void formik.setFieldValue("isRenaming", false);
-        })
-        .catch((e) => {
-          notify.failure("Renaming failed", e);
-        })
-        .finally(() => formik.setSubmitting(false));
+      void renameInstance(name, values.name, project).then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            navigate(
+              `/ui/project/${project}/instances/detail/${values.name}`,
+              notify.queue(notify.success("Instance renamed."))
+            );
+            void formik.setFieldValue("isRenaming", false);
+          },
+          (msg) => notify.failure("Renaming failed", new Error(msg)),
+          () => formik.setSubmitting(false)
+        );
+      });
     },
   });
 

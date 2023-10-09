@@ -12,6 +12,7 @@ import {
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instances: LxdInstance[];
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const [activeAction, setActiveAction] = useState<LxdInstanceAction | null>(
@@ -32,44 +34,47 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     onStart();
     const actions = instanceActions(instances, desiredAction);
 
-    void updateInstanceBulkAction(actions, isForce).then((results) => {
-      const action = instanceActionLabel(desiredAction);
-      const count = actions.length;
-      const { fulfilledCount, rejectedCount } =
-        getPromiseSettledCounts(results);
-      if (fulfilledCount === count) {
-        notify.success(
-          <>
-            <b>{count}</b> {pluralizeInstance(count)} {action}.
-          </>
-        );
-      } else if (rejectedCount === count) {
-        notify.failure(
-          `Instance ${desiredAction} failed`,
-          undefined,
-          <>
-            <b>{count}</b> {pluralizeInstance(count)} could not be {action}.
-          </>
-        );
-      } else {
-        notify.failure(
-          `Instance ${desiredAction} partially failed`,
-          undefined,
-          <>
-            <b>{fulfilledCount}</b> {pluralizeInstance(fulfilledCount)} {action}
-            .<br />
-            <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could not
-            be {action}.
-          </>
-        );
+    void updateInstanceBulkAction(actions, isForce, eventQueue).then(
+      (results) => {
+        const action = instanceActionLabel(desiredAction);
+        const count = actions.length;
+        const { fulfilledCount, rejectedCount } =
+          getPromiseSettledCounts(results);
+        if (fulfilledCount === count) {
+          notify.success(
+            <>
+              <b>{count}</b> {pluralizeInstance(count)} {action}.
+            </>
+          );
+        } else if (rejectedCount === count) {
+          notify.failure(
+            `Instance ${desiredAction} failed`,
+            undefined,
+            <>
+              <b>{count}</b> {pluralizeInstance(count)} could not be {action}.
+            </>
+          );
+        } else {
+          notify.failure(
+            `Instance ${desiredAction} partially failed`,
+            undefined,
+            <>
+              <b>{fulfilledCount}</b> {pluralizeInstance(fulfilledCount)}{" "}
+              {action}
+              .<br />
+              <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could
+              not be {action}.
+            </>
+          );
+        }
+        setForce(false);
+        onFinish();
+        setActiveAction(null);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances],
+        });
       }
-      setForce(false);
-      onFinish();
-      setActiveAction(null);
-      void queryClient.invalidateQueries({
-        queryKey: [queryKeys.instances],
-      });
-    });
+    );
   };
 
   return (

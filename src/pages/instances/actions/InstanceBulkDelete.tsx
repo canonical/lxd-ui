@@ -11,6 +11,7 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instances: LxdInstance[];
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
@@ -33,7 +35,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const handleDelete = () => {
     setLoading(true);
     onStart(deletableInstances.map((item) => item.name));
-    void deleteInstanceBulk(deletableInstances).then((results) => {
+    void deleteInstanceBulk(deletableInstances, eventQueue).then((results) => {
       const { fulfilledCount, rejectedCount } =
         getPromiseSettledCounts(results);
       if (fulfilledCount === deleteCount) {

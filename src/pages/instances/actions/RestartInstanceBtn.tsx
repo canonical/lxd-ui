@@ -12,12 +12,14 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const RestartInstanceBtn: FC<Props> = ({ instance }) => {
+  const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const notify = useNotify();
   const [isForce, setForce] = useState(false);
@@ -28,29 +30,31 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
-    restartInstance(instance, isForce)
-      .then(() => {
-        notify.success(
-          <>
-            Instance <InstanceLink instance={instance} /> restarted.
-          </>
-        );
-      })
-      .catch((e) => {
-        notify.failure(
-          "Instance restart failed",
-          e,
-          <>
-            Instance <ItemName item={instance} bold />:
-          </>
-        );
-      })
-      .finally(() => {
-        instanceLoading.setFinish(instance);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
-      });
+    void restartInstance(instance, isForce).then((operation) => {
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          notify.success(
+            <>
+              Instance <InstanceLink instance={instance} /> restarted.
+            </>
+          ),
+        (msg) =>
+          notify.failure(
+            "Instance restart failed",
+            new Error(msg),
+            <>
+              Instance <ItemName item={instance} bold />:
+            </>
+          ),
+        () => {
+          instanceLoading.setFinish(instance);
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances],
+          });
+        }
+      );
+    });
   };
 
   const disabledStatuses = ["Stopped", "Frozen", "Error"];
