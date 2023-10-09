@@ -11,12 +11,14 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const PauseInstanceBtn: FC<Props> = ({ instance }) => {
+  const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -26,29 +28,31 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handlePause = () => {
     instanceLoading.setLoading(instance, "Pausing");
-    freezeInstance(instance)
-      .then(() => {
-        notify.success(
-          <>
-            Instance <InstanceLink instance={instance} /> paused.
-          </>
-        );
-      })
-      .catch((e) => {
-        notify.failure(
-          "Instance pause failed",
-          e,
-          <>
-            Instance <ItemName item={instance} bold />:
-          </>
-        );
-      })
-      .finally(() => {
-        instanceLoading.setFinish(instance);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
-      });
+    void freezeInstance(instance).then((operation) => {
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          notify.success(
+            <>
+              Instance <InstanceLink instance={instance} /> paused.
+            </>
+          ),
+        (msg) =>
+          notify.failure(
+            "Instance pause failed",
+            new Error(msg),
+            <>
+              Instance <ItemName item={instance} bold />:
+            </>
+          ),
+        () => {
+          instanceLoading.setFinish(instance);
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances],
+          });
+        }
+      );
+    });
   };
 
   const isDisabled = isLoading || instance.status !== "Running";

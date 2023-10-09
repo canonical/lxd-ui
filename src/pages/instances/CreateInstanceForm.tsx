@@ -185,16 +185,16 @@ const CreateInstanceForm: FC = () => {
 
     if (shouldStart) {
       notifyCreatedNowStarting(instanceLink);
-      startInstance({
+      void startInstance({
         name: instanceName,
         project: project,
-      } as LxdInstance)
-        .then(() => {
-          notifyCreatedAndStarted(instanceLink);
-        })
-        .catch((e: Error) => {
-          notifyCreatedButStartFailed(instanceLink, e);
-        });
+      } as LxdInstance).then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () => notifyCreatedAndStarted(instanceLink),
+          (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg))
+        );
+      });
     } else {
       const consoleUrl = `/ui/project/${project}/instances/detail/${instanceName}/console`;
       const message = isIsoImage && (

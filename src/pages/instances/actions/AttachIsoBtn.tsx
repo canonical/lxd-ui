@@ -11,12 +11,14 @@ import usePortal from "react-useportal";
 import { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
 import { remoteImageToIsoDevice } from "util/formDevices";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const AttachIsoBtn: FC<Props> = ({ instance }) => {
+  const eventQueue = useEventQueue();
   const { project } = useParams<{ project: string }>();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -37,21 +39,24 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       instance,
       values
     ) as LxdInstance;
-    updateInstance(instanceMinusIso, project ?? "")
-      .then(() =>
-        notify.success(
-          <>
-            ISO <b>{attachedIso?.source ?? ""}</b> detached
-          </>
-        )
-      )
-      .catch((e: Error) => notify.failure("Detach ISO failed", e))
-      .finally(() => {
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances, instance.name, project],
-        });
-        setLoading(false);
-      });
+    void updateInstance(instanceMinusIso, project ?? "").then((operation) => {
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          notify.success(
+            <>
+              ISO <b>{attachedIso?.source ?? ""}</b> detached
+            </>
+          ),
+        (msg) => notify.failure("Detach ISO failed", new Error(msg)),
+        () => {
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances, instance.name, project],
+          });
+          setLoading(false);
+        }
+      );
+    });
   };
 
   const handleSelect = (image: RemoteImage) => {
@@ -61,21 +66,24 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
     const isoDevice = remoteImageToIsoDevice(image);
     values.devices.push(isoDevice);
     const instancePlusIso = getInstancePayload(instance, values) as LxdInstance;
-    updateInstance(instancePlusIso, project ?? "")
-      .then(() =>
-        notify.success(
-          <>
-            ISO <b>{image.aliases}</b> attached
-          </>
-        )
-      )
-      .catch((e: Error) => notify.failure("Attaching ISO failed", e))
-      .finally(() => {
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances, instance.name, project],
-        });
-        setLoading(false);
-      });
+    void updateInstance(instancePlusIso, project ?? "").then((operation) => {
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          notify.success(
+            <>
+              ISO <b>{image.aliases}</b> attached
+            </>
+          ),
+        (msg) => notify.failure("Attaching ISO failed", new Error(msg)),
+        () => {
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances, instance.name, project],
+          });
+          setLoading(false);
+        }
+      );
+    });
   };
 
   return attachedIso ? (

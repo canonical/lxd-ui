@@ -11,12 +11,14 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import classnames from "classnames";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
+  const eventQueue = useEventQueue();
   const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
@@ -24,23 +26,25 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    deleteInstance(instance)
-      .then(() => {
-        navigate(
-          `/ui/project/${instance.project}/instances`,
-          notify.queue(notify.success(`Instance ${instance.name} deleted.`))
-        );
-      })
-      .catch((e) => {
-        notify.failure(
-          "Instance deletion failed",
-          e,
-          <>
-            Instance <ItemName item={instance} bold />:
-          </>
-        );
-      })
-      .finally(() => setLoading(false));
+    void deleteInstance(instance).then((operation) => {
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          navigate(
+            `/ui/project/${instance.project}/instances`,
+            notify.queue(notify.success(`Instance ${instance.name} deleted.`))
+          ),
+        (msg) =>
+          notify.failure(
+            "Instance deletion failed",
+            new Error(msg),
+            <>
+              Instance <ItemName item={instance} bold />:
+            </>
+          ),
+        () => setLoading(false)
+      );
+    });
   };
 
   const isDeletableStatus = deletableStatuses.includes(instance.status);

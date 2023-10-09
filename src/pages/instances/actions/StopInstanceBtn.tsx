@@ -12,12 +12,14 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const StopInstanceBtn: FC<Props> = ({ instance }) => {
+  const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const notify = useNotify();
   const [isForce, setForce] = useState(false);
@@ -28,29 +30,31 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");
-    stopInstance(instance, isForce)
-      .then(() => {
-        notify.success(
-          <>
-            Instance <InstanceLink instance={instance} /> stopped.
-          </>
-        );
-      })
-      .catch((e) => {
-        notify.failure(
-          "Instance stop failed",
-          e,
-          <>
-            Instance <ItemName item={instance} bold />:
-          </>
-        );
-      })
-      .finally(() => {
-        instanceLoading.setFinish(instance);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
-      });
+    void stopInstance(instance, isForce).then((operation) => {
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          notify.success(
+            <>
+              Instance <InstanceLink instance={instance} /> stopped.
+            </>
+          ),
+        (msg) =>
+          notify.failure(
+            "Instance stop failed",
+            new Error(msg),
+            <>
+              Instance <ItemName item={instance} bold />:
+            </>
+          ),
+        () => {
+          instanceLoading.setFinish(instance);
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.instances],
+          });
+        }
+      );
+    });
   };
 
   return (

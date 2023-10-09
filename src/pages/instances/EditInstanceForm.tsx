@@ -53,6 +53,7 @@ import {
   InstanceEditSchema,
 } from "util/instanceEdit";
 import { slugify } from "util/slugify";
+import { useEventQueue } from "context/eventQueue";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -67,6 +68,7 @@ interface Props {
 }
 
 const EditInstanceForm: FC<Props> = ({ instance }) => {
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const { project, activeSection } = useParams<{
     project: string;
@@ -99,20 +101,22 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       // ensure the etag is set (it is missing on the yaml)
       instancePayload.etag = instance.etag;
 
-      updateInstance(instancePayload, project)
-        .then(() => {
-          notify.success("Instance updated.");
-          void formik.setValues(getInstanceEditValues(instancePayload));
-        })
-        .catch((e: Error) => {
-          notify.failure("Instance update failed", e);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
-        });
+      void updateInstance(instancePayload, project).then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            notify.success("Instance updated.");
+            void formik.setValues(getInstanceEditValues(instancePayload));
+          },
+          (msg) => notify.failure("Instance update failed", new Error(msg)),
+          () => {
+            formik.setSubmitting(false);
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.instances],
+            });
+          }
+        );
+      });
     },
   });
 

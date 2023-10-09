@@ -15,10 +15,12 @@ const Events: FC = () => {
     }
     if (event.metadata.status === "Success") {
       eventCallback.onSuccess();
+      eventCallback.onFinish?.();
       eventQueue.remove(event.metadata.id);
     }
     if (event.metadata.status === "Failure") {
       eventCallback.onFailure(event.metadata.err ?? "");
+      eventCallback.onFinish?.();
       eventQueue.remove(event.metadata.id);
     }
   };
