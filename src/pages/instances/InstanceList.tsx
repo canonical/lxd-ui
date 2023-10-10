@@ -464,6 +464,9 @@ const InstanceList: FC = () => {
   const selectedInstances = instances.filter((instance) =>
     selectedNames.includes(instance.name)
   );
+  const totalInstanceCount =
+    instances.filter((item) => !creationNames.includes(item.name)).length +
+    creationOperations.length;
 
   return (
     <CustomLayout
@@ -565,11 +568,11 @@ const InstanceList: FC = () => {
               <Pagination
                 {...pagination}
                 id="pagination"
-                totalCount={instances.length + creationOperations.length}
+                totalCount={totalInstanceCount}
                 visibleCount={
                   filteredInstances.length === instances.length
                     ? pagination.pageData.length
-                    : filteredInstances.length
+                    : filteredInstances.length + creationOperations.length
                 }
                 keyword="instance"
               />
