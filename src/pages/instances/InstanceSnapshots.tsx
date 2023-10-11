@@ -23,6 +23,7 @@ import ConfigureSnapshotsBtn from "pages/instances/actions/snapshots/ConfigureSn
 import Loader from "components/Loader";
 import { useProject } from "context/project";
 import ScrollableTable from "components/ScrollableTable";
+import SelectedTableNotification from "components/SelectedTableNotification";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -88,7 +89,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       ) : (
         "Name"
       ),
-      sortKey: isSmallScreen ? "created_at" : undefined,
+      sortKey: isSmallScreen ? "created_at" : "name",
       className: "name",
     },
     ...(isSmallScreen
@@ -170,6 +171,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
         },
       ],
       sortData: {
+        name: snapshot.name.toLowerCase(),
         created_at: snapshot.created_at,
         expires_at: snapshot.expires_at,
         stateful: snapshot.stateful,
@@ -227,7 +229,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
               </Button>
             </>
           ) : (
-            <>
+            <div className="p-panel__controls">
               <SnapshotBulkDelete
                 instance={instance}
                 snapshotNames={selectedNames}
@@ -236,16 +238,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
                 onSuccess={onSuccess}
                 onFailure={onFailure}
               />
-              <Button
-                appearance="link"
-                className="u-no-padding--top"
-                hasIcon
-                onClick={() => setSelectedNames([])}
-              >
-                <span>Clear selection</span>
-                <Icon name="close" className="clear-selection-icon" />
-              </Button>
-            </>
+            </div>
           )}
         </div>
       )}
@@ -255,9 +248,33 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
       />
       {hasSnapshots ? (
         <>
+          <Pagination
+            {...pagination}
+            id="pagination"
+            totalCount={instance.snapshots?.length ?? 0}
+            visibleCount={
+              filteredSnapshots.length === instance.snapshots?.length
+                ? pagination.pageData.length
+                : filteredSnapshots.length
+            }
+            selectedNotification={
+              selectedNames.length > 0 && (
+                <SelectedTableNotification
+                  totalCount={instance.snapshots?.length ?? 0}
+                  itemName="snapshot"
+                  parentName="instance"
+                  selectedNames={selectedNames}
+                  setSelectedNames={setSelectedNames}
+                  filteredNames={filteredSnapshots.map(
+                    (instance) => instance.name
+                  )}
+                />
+              )
+            }
+            keyword="snapshot"
+          />
           <ScrollableTable
             dependencies={[filteredSnapshots, inTabNotification]}
-            belowId="pagination"
           >
             <SelectableMainTable
               headers={headers}
@@ -275,17 +292,6 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
               defaultSortDirection="descending"
             />
           </ScrollableTable>
-          <Pagination
-            {...pagination}
-            id="pagination"
-            totalCount={instance.snapshots?.length ?? 0}
-            visibleCount={
-              filteredSnapshots.length === instance.snapshots?.length
-                ? pagination.pageData.length
-                : filteredSnapshots.length
-            }
-            keyword="snapshot"
-          />
         </>
       ) : (
         <EmptyState
