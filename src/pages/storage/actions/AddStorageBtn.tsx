@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { Button, useNotify } from "@canonical/react-components";
-import usePanelParams from "util/usePanelParams";
+import { Button } from "@canonical/react-components";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   project: string;
@@ -8,20 +8,14 @@ interface Props {
 }
 
 const AddStorageBtn: FC<Props> = ({ project, className }) => {
-  const notify = useNotify();
-  const panelParams = usePanelParams();
-
-  const handleAdd = () => {
-    notify.clear();
-    panelParams.openStorageForm(project);
-  };
+  const navigate = useNavigate();
 
   return (
     <Button
       appearance="positive"
       className={className}
       hasIcon
-      onClick={handleAdd}
+      onClick={() => navigate(`/ui/project/${project}/storage/create`)}
     >
       Create storage pool
     </Button>
