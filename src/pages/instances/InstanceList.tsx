@@ -482,7 +482,7 @@ const InstanceList: FC = () => {
             <h1 className="p-heading--4 u-no-margin--bottom">
               <HelpLink
                 href="https://documentation.ubuntu.com/lxd/en/latest/explanation/instances/#expl-instances"
-                title="Learn more about Instances"
+                title="Learn more about instances"
               >
                 Instances
               </HelpLink>
