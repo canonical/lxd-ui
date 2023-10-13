@@ -23,9 +23,9 @@ export const storageDrivers = [
 ];
 
 const storageDriverToSourceHelp: Record<string, string> = {
-  dir: "Optional, Path to an existing directory",
-  lvm: "Optional, Path to an existing block device, loop file or LVM volume group",
-  zfs: "Optional, Path to an existing block device, loop file or ZFS dataset/pool",
+  dir: "Optional, path to an existing directory",
+  lvm: "Optional, path to an existing block device, loop file or LVM volume group",
+  zfs: "Optional, path to an existing block device, loop file or ZFS dataset/pool",
 };
 
 export const getSourceHelpForDriver = (driver: string) => {

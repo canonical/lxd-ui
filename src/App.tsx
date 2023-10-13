@@ -19,6 +19,7 @@ const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const Storage = lazy(() => import("pages/storage/Storage"));
+const CreateStoragePool = lazy(() => import("pages/storage/CreateStoragePool"));
 const StorageVolumeCreate = lazy(
   () => import("pages/storage/forms/StorageVolumeCreate"),
 );
@@ -235,6 +236,14 @@ const App: FC = () => {
           path="/ui/project/:project/storage"
           element={
             <ProtectedRoute outlet={<ProjectLoader outlet={<Storage />} />} />
+          }
+        />
+        <Route
+          path="/ui/project/:project/storage/create"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateStoragePool />} />}
+            />
           }
         />
         <Route
