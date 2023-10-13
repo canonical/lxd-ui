@@ -14,6 +14,7 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
+import HelpLink from "components/HelpLink";
 
 const NetworkList: FC = () => {
   const navigate = useNavigate();
@@ -121,7 +122,14 @@ const NetworkList: FC = () => {
   return (
     <>
       <BaseLayout
-        title="Networks"
+        title={
+          <HelpLink
+            href="https://documentation.ubuntu.com/lxd/en/latest/explanation/networks/"
+            title="Learn more about networking"
+          >
+            Networks
+          </HelpLink>
+        }
         controls={
           <>
             {hasNetworks && (

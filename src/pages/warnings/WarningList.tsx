@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
+import HelpLink from "components/HelpLink";
 
 const WarningList: FC = () => {
   const notify = useNotify();
@@ -96,7 +97,16 @@ const WarningList: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Warnings">
+      <BaseLayout
+        title={
+          <HelpLink
+            href="https://documentation.ubuntu.com/lxd/en/latest/howto/troubleshoot/"
+            title="Learn more about troubleshooting"
+          >
+            Warnings
+          </HelpLink>
+        }
+      >
         <NotificationRow />
         <Row>
           <MainTable

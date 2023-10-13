@@ -26,6 +26,7 @@ import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import { isClusteredServer } from "util/settings";
 import BaseLayout from "components/BaseLayout";
+import HelpLink from "components/HelpLink";
 
 const ClusterList: FC = () => {
   const notify = useNotify();
@@ -60,14 +61,19 @@ const ClusterList: FC = () => {
       mainClassName="cluster-list"
       contentClassName="cluster-content"
       title={
-        isClustered ? (
-          <ClusterGroupSelector
-            activeGroup={activeGroup ?? allClusterGroups}
-            key={activeGroup}
-          />
-        ) : (
-          "Cluster"
-        )
+        <HelpLink
+          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/clustering/"
+          title="Learn more about clustering"
+        >
+          {isClustered ? (
+            <ClusterGroupSelector
+              activeGroup={activeGroup ?? allClusterGroups}
+              key={activeGroup}
+            />
+          ) : (
+            "Cluster"
+          )}
+        </HelpLink>
       }
       controls={
         activeGroup ? <EditClusterGroupBtn group={activeGroup} /> : null

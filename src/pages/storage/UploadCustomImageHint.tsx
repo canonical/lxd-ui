@@ -12,7 +12,7 @@ const UploadCustomImageHint: FC = () => {
           <p>
             <a
               className="p-notification__action"
-              href="https://discourse.ubuntu.com/t/how-to-install-a-windows-11-vm-using-lxd/28940"
+              href="https://ubuntu.com/tutorials/how-to-install-a-windows-11-vm-using-lxd#1-overview"
               target="_blank"
               rel="noreferrer"
             >

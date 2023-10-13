@@ -24,6 +24,7 @@ import { useProject } from "context/project";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
+import HelpLink from "components/HelpLink";
 
 const ProfileList: FC = () => {
   const navigate = useNavigate();
@@ -165,7 +166,14 @@ const ProfileList: FC = () => {
       header={
         <div className="p-panel__header profile-list-header">
           <div className="profile-header-left">
-            <h1 className="p-heading--4 u-no-margin--bottom">Profiles</h1>
+            <h1 className="p-heading--4 u-no-margin--bottom">
+              <HelpLink
+                href="https://documentation.ubuntu.com/lxd/en/latest/profiles/"
+                title="Learn how to use profiles"
+              >
+                Profiles
+              </HelpLink>
+            </h1>
             <SearchBox
               className="search-box margin-right u-no-margin--bottom"
               name="search-profile"

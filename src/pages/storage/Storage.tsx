@@ -7,6 +7,7 @@ import { slugify } from "util/slugify";
 import CachedImageList from "pages/images/CachedImageList";
 import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
+import HelpLink from "components/HelpLink";
 
 const TABS: string[] = ["Storage pools", "Cached images", "Custom ISOs"];
 
@@ -32,7 +33,16 @@ const Storage: FC = () => {
   };
 
   return (
-    <BaseLayout title="Storage">
+    <BaseLayout
+      title={
+        <HelpLink
+          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+          title="Learn more about storage pools, volumes and buckets"
+        >
+          Storage
+        </HelpLink>
+      }
+    >
       <NotificationRow />
       <Row>
         <Tabs
