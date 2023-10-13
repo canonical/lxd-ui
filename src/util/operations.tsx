@@ -17,13 +17,15 @@ export const getInstanceName = (operation: LxdOperation): string => {
 export const getProjectName = (operation: LxdOperation): string => {
   // the url can be
   // /1.0/instances/<instance_name>?project=<project_name>
+  // /1.0/instances/<instance_name>?other=params&project=<project_name>
+  // /1.0/instances/testInstance1?other=params&project=<project_name>&other=params
   // when no project parameter is present, the project will be "default"
 
   return (
     operation.resources?.instances
       ?.filter((item) => item.startsWith("/1.0/instances/"))
-      .map((item) => item.split("/")[3])
+      .map((item) => item.split("project=")[1])
       .pop()
-      ?.split("=")[1] ?? "default"
+      ?.split("&")[0] ?? "default"
   );
 };
