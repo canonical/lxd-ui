@@ -3,13 +3,13 @@ import { Input, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "./sharedFormTypes";
 import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
 import { figureInheritedVolumes } from "util/instanceConfigInheritance";
-import DiskDeviceFormRoot from "pages/instances/forms/DiskDeviceFormRoot";
-import DiskDeviceFormInherited from "pages/instances/forms/DiskDeviceFormInherited";
-import DiskDeviceFormCustom from "pages/instances/forms/DiskDeviceFormCustom";
+import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
+import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
+import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
 import classnames from "classnames";
 
 interface Props {

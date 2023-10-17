@@ -1,12 +1,9 @@
 import React, { FC, ReactNode } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { optionYesNo } from "util/instanceOptions";
-import {
-  SharedFormikTypes,
-  SharedFormTypes,
-} from "pages/instances/forms/sharedFormTypes";
-import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
+import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
+import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";

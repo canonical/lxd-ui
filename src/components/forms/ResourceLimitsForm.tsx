@@ -6,13 +6,10 @@ import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
-import {
-  SharedFormikTypes,
-  SharedFormTypes,
-} from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
-import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
+import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 

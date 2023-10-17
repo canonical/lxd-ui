@@ -1,4 +1,4 @@
-import { SharedFormTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormTypes } from "components/forms/sharedFormTypes";
 import { LxdProfile } from "types/profile";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";

@@ -17,9 +17,9 @@ import {
   ProjectDetailsFormValues,
 } from "pages/projects/forms/ProjectDetailsForm";
 import {
-  ResourceLimitsFormValues,
+  ProjectResourceLimitsFormValues,
   resourceLimitsPayload,
-} from "pages/projects/forms/ResourceLimitsForm";
+} from "pages/projects/forms/ProjectResourceLimitsForm";
 import {
   ClusterRestrictionFormValues,
   clusterRestrictionPayload,
@@ -40,7 +40,7 @@ import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
-  ResourceLimitsFormValues &
+  ProjectResourceLimitsFormValues &
   ClusterRestrictionFormValues &
   InstanceRestrictionFormValues &
   DeviceUsageRestrictionFormValues &

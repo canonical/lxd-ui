@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
+import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
 import {
   optionAllowBlock,
   optionAllowIsolatedUnprivileged,
 } from "util/projectOptions";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
 

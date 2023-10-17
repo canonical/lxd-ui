@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import YamlForm from "pages/instances/forms/YamlForm";
+import YamlForm from "components/forms/YamlForm";
 
 interface Props {
   config: string;

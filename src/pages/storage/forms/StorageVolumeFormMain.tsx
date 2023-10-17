@@ -7,7 +7,7 @@ import {
 } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
-import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
+import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {

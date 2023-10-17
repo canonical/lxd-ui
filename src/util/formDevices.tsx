@@ -5,7 +5,7 @@ import {
   LxdNicDevice,
 } from "types/device";
 import { RemoteImage } from "types/image";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 
 interface EmptyDevice {
   type: "";

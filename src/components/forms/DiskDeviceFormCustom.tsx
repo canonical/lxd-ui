@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { Icon, Input, Label } from "@canonical/react-components";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "./sharedFormTypes";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { InheritedVolume } from "util/instanceConfigInheritance";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
 import { FormDiskDevice, removeDevice } from "util/formDevices";
 import { LxdStorageVolumeWithPool } from "context/loadCustomVolumes";
-import RenameDiskDeviceInput from "pages/instances/forms/RenameDiskDeviceInput";
+import RenameDiskDeviceInput from "./RenameDiskDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";

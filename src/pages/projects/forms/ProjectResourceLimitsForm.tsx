@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { Input } from "@canonical/react-components";
-import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
+import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
-import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
+import { SharedFormikTypes } from "components/forms/sharedFormTypes";
+import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { getProjectKey } from "util/projectConfigFields";
 
-export interface ResourceLimitsFormValues {
+export interface ProjectResourceLimitsFormValues {
   limits_instances?: number;
   limits_containers?: number;
   limits_virtual_machines?: number;
@@ -37,7 +37,7 @@ interface Props {
   formik: FormikProps<ProjectFormValues>;
 }
 
-const ResourceLimitsForm: FC<Props> = ({ formik }) => {
+const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
   return (
     <InstanceConfigurationTable
       rows={[
@@ -123,4 +123,4 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
   );
 };
 
-export default ResourceLimitsForm;
+export default ProjectResourceLimitsForm;

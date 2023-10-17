@@ -10,7 +10,7 @@ import ProjectFormMenu, {
 } from "pages/projects/forms/ProjectFormMenu";
 import ProjectDetailsForm from "pages/projects/forms/ProjectDetailsForm";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
-import ResourceLimitsForm from "pages/projects/forms/ResourceLimitsForm";
+import ProjectResourceLimitsForm from "pages/projects/forms/ProjectResourceLimitsForm";
 import ClusterRestrictionForm from "pages/projects/forms/ClusterRestrictionForm";
 import InstanceRestrictionForm from "pages/projects/forms/InstanceRestrictionForm";
 import DeviceUsageRestrictionForm from "pages/projects/forms/DeviceUsageRestrictionForm";
@@ -60,7 +60,7 @@ const ProjectForm: FC<Props> = ({
             />
           )}
           {section === RESOURCE_LIMITS && (
-            <ResourceLimitsForm formik={formik} />
+            <ProjectResourceLimitsForm formik={formik} />
           )}
           {section === CLUSTERS && <ClusterRestrictionForm formik={formik} />}
           {section === INSTANCES && <InstanceRestrictionForm formik={formik} />}

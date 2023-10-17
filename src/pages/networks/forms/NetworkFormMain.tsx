@@ -14,7 +14,7 @@ interface Props {
   project: string;
 }
 
-const NetworkForm: FC<Props> = ({ formik, project }) => {
+const NetworkFormMain: FC<Props> = ({ formik, project }) => {
   const getFormProps = (id: "type" | "network" | "name" | "description") => {
     return {
       id: id,
@@ -179,4 +179,4 @@ const NetworkForm: FC<Props> = ({ formik, project }) => {
   );
 };
 
-export default NetworkForm;
+export default NetworkFormMain;

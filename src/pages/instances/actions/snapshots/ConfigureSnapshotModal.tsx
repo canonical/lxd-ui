@@ -6,7 +6,7 @@ import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { useQueryClient } from "@tanstack/react-query";
-import SnapshotsForm from "pages/instances/forms/SnapshotsForm";
+import SnapshotsForm from "components/forms/SnapshotsForm";
 import { useParams } from "react-router-dom";
 import {
   getInstanceEditValues,

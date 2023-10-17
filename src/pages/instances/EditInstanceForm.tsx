@@ -19,17 +19,17 @@ import { LxdInstance } from "types/instance";
 import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
-} from "pages/instances/forms/SecurityPoliciesForm";
+} from "components/forms/SecurityPoliciesForm";
 import SnapshotsForm, {
   SnapshotFormValues,
-} from "pages/instances/forms/SnapshotsForm";
+} from "components/forms/SnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
-} from "pages/instances/forms/CloudInitForm";
+} from "components/forms/CloudInitForm";
 import ResourceLimitsForm, {
   ResourceLimitsFormValues,
-} from "pages/instances/forms/ResourceLimitsForm";
-import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
+} from "components/forms/ResourceLimitsForm";
+import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import InstanceEditDetailsForm, {
   InstanceEditDetailsFormValues,
 } from "pages/instances/forms/InstanceEditDetailsForm";
@@ -45,8 +45,8 @@ import InstanceFormMenu, {
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import DiskDeviceForm from "pages/instances/forms/DiskDeviceForm";
-import NetworkDevicesForm from "pages/instances/forms/NetworkDevicesForm";
+import DiskDeviceForm from "components/forms/DiskDeviceForm";
+import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import {
   getInstanceEditValues,
   getInstancePayload,
