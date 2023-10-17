@@ -1,12 +1,9 @@
 import React, { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
-import CloudInitConfig from "pages/profiles/CloudInitConfig";
-import {
-  SharedFormikTypes,
-  SharedFormTypes,
-} from "pages/instances/forms/sharedFormTypes";
-import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
+import CloudInitConfig from "components/forms/CloudInitConfig";
+import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
+import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 
 export interface CloudInitFormValues {

@@ -26,7 +26,7 @@ import NetworkFormMenu, {
 import { FormikProps } from "formik/dist/types";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import YamlForm from "pages/instances/forms/YamlForm";
+import YamlForm from "components/forms/YamlForm";
 import NetworkFormMain from "pages/networks/forms/NetworkFormMain";
 import NetworkFormBridge from "pages/networks/forms/NetworkFormBridge";
 import NetworkFormDns from "pages/networks/forms/NetworkFormDns";

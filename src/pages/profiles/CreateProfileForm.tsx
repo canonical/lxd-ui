@@ -20,20 +20,20 @@ import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
-} from "pages/instances/forms/SecurityPoliciesForm";
+} from "components/forms/SecurityPoliciesForm";
 import SnapshotsForm, {
   SnapshotFormValues,
   snapshotsPayload,
-} from "pages/instances/forms/SnapshotsForm";
+} from "components/forms/SnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
   cloudInitPayload,
-} from "pages/instances/forms/CloudInitForm";
+} from "components/forms/CloudInitForm";
 import ResourceLimitsForm, {
   ResourceLimitsFormValues,
   resourceLimitsPayload,
-} from "pages/instances/forms/ResourceLimitsForm";
-import YamlForm, { YamlFormValues } from "pages/instances/forms/YamlForm";
+} from "components/forms/ResourceLimitsForm";
+import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
   CLOUD_INIT,
@@ -51,8 +51,8 @@ import ProfileDetailsForm, {
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import DiskDeviceForm from "pages/instances/forms/DiskDeviceForm";
-import NetworkDevicesForm from "pages/instances/forms/NetworkDevicesForm";
+import DiskDeviceForm from "components/forms/DiskDeviceForm";
+import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 

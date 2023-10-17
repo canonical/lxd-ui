@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import MenuItem from "pages/instances/forms/FormMenuItem";
+import MenuItem from "components/forms/FormMenuItem";
 import { Button } from "@canonical/react-components";
 
 export const PROJECT_DETAILS = "Project details";

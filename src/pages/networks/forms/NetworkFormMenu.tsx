@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import MenuItem from "pages/instances/forms/FormMenuItem";
+import MenuItem from "components/forms/FormMenuItem";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";

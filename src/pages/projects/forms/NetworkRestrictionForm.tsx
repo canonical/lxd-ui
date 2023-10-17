@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Textarea } from "@canonical/react-components";
-import { getInstanceConfigurationRow } from "pages/instances/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "pages/instances/forms/InstanceConfigurationTable";
+import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
+import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { FormikProps } from "formik/dist/types";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 import { getProjectKey } from "util/projectConfigFields";
 
 export interface NetworkRestrictionFormValues {

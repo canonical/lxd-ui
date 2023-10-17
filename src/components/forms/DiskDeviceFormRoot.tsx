@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { LxdDiskDevice } from "types/device";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "./sharedFormTypes";
 import ConfigurationTable from "components/ConfigurationTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { getDiskDeviceRow } from "pages/instances/forms/DiskDeviceRow";
-import DiskSizeSelector from "pages/projects/forms/DiskSizeSelector";
+import { getDiskDeviceRow } from "./DiskDeviceRow";
+import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { LxdStoragePool } from "types/storage";
 import { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";

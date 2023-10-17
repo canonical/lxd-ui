@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode } from "react";
 import { useNotify } from "@canonical/react-components";
-import { SharedFormikTypes } from "pages/instances/forms/sharedFormTypes";
+import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchProfiles } from "api/profiles";

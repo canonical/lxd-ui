@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import { resourceLimitsPayload } from "pages/projects/forms/ResourceLimitsForm";
+import { resourceLimitsPayload } from "pages/projects/forms/ProjectResourceLimitsForm";
 import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestrictionForm";
 import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
 import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
