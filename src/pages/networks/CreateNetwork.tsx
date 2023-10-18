@@ -20,12 +20,16 @@ import { dump as dumpYaml } from "js-yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
 import { fetchClusterMembers } from "api/cluster";
 import BaseLayout from "components/BaseLayout";
+import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
+import { slugify } from "util/slugify";
+import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
+  const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
   const { data: settings, isLoading } = useSettings();
   const isClustered = isClusteredServer(settings);
@@ -56,6 +60,7 @@ const CreateNetwork: FC = () => {
   const formik = useFormik<NetworkFormValues>({
     initialValues: {
       readOnly: false,
+      isCreating: true,
       name: "",
       type: hasOvn ? "ovn" : "bridge",
       bridge_mode: hasOvn ? undefined : "standard",
@@ -96,7 +101,18 @@ const CreateNetwork: FC = () => {
   return (
     <BaseLayout title="Create a network" contentClassName="create-network">
       <NotificationRow />
-      <NetworkForm formik={formik} getYaml={getYaml} project={project} />
+      <NetworkForm
+        formik={formik}
+        getYaml={getYaml}
+        project={project}
+        section={section}
+        setSection={(section) => {
+          if (Boolean(formik.values.yaml) && section !== YAML_CONFIGURATION) {
+            void formik.setFieldValue("yaml", undefined);
+          }
+          setSection(slugify(section));
+        }}
+      />
       <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">

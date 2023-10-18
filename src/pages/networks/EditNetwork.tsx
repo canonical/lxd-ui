@@ -16,6 +16,10 @@ import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
 import { getNetworkEditValues, handleConfigKeys } from "util/networkEdit";
 import { StringSchema } from "yup";
+import { slugify } from "util/slugify";
+import { useNavigate, useParams } from "react-router-dom";
+import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
+import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
 
 interface Props {
   network: LxdNetwork;
@@ -23,7 +27,9 @@ interface Props {
 }
 
 const EditNetwork: FC<Props> = ({ network, project }) => {
+  const navigate = useNavigate();
   const notify = useNotify();
+  const { activeSection: section } = useParams<{ activeSection?: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
@@ -108,11 +114,28 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     return dumpYaml(getPayload(formik.values));
   };
 
+  const setSection = (newSection: string) => {
+    if (Boolean(formik.values.yaml) && section !== YAML_CONFIGURATION) {
+      void formik.setFieldValue("yaml", undefined);
+    }
+
+    const baseUrl = `/ui/project/${project}/networks/detail/${network.name}/configuration`;
+    newSection === MAIN_CONFIGURATION
+      ? navigate(baseUrl)
+      : navigate(`${baseUrl}/${slugify(newSection)}`);
+  };
+
   const isReadOnly = formik.values.readOnly;
 
   return (
     <>
-      <NetworkForm formik={formik} getYaml={getYaml} project={project} />
+      <NetworkForm
+        formik={formik}
+        getYaml={getYaml}
+        project={project}
+        section={section ?? slugify(MAIN_CONFIGURATION)}
+        setSection={setSection}
+      />
       <div className="p-bottom-controls">
         <hr />
         <Row className="u-align--right">

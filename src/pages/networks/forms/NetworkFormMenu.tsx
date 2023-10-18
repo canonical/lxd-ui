@@ -21,7 +21,7 @@ interface Props {
 
 const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
   const notify = useNotify();
-  const [isAdvancedOpen, setAdvancedOpen] = useState(false);
+  const [isAdvancedOpen, setAdvancedOpen] = useState(!formik.values.isCreating);
   const menuItemProps = {
     active,
     setActive,
