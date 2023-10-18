@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import {
   Col,
   Form,
@@ -32,9 +32,11 @@ import NetworkFormBridge from "pages/networks/forms/NetworkFormBridge";
 import NetworkFormDns from "pages/networks/forms/NetworkFormDns";
 import NetworkFormIpv4 from "pages/networks/forms/NetworkFormIpv4";
 import NetworkFormIpv6 from "pages/networks/forms/NetworkFormIpv6";
+import { slugify } from "util/slugify";
 
 export interface NetworkFormValues {
   readOnly: boolean;
+  isCreating: boolean;
   name: string;
   description?: string;
   type: LxdNetworkType;
@@ -111,11 +113,18 @@ interface Props {
   formik: FormikProps<NetworkFormValues>;
   getYaml: () => string;
   project: string;
+  section: string;
+  setSection: (section: string) => void;
 }
 
-const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
+const NetworkForm: FC<Props> = ({
+  formik,
+  getYaml,
+  project,
+  section,
+  setSection,
+}) => {
   const notify = useNotify();
-  const [section, setSection] = useState(MAIN_CONFIGURATION);
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -134,14 +143,14 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
       />
       <Row className="form-contents" key={section}>
         <Col size={12}>
-          {section === MAIN_CONFIGURATION && (
+          {section === slugify(MAIN_CONFIGURATION) && (
             <NetworkFormMain formik={formik} project={project} />
           )}
-          {section === BRIDGE && <NetworkFormBridge formik={formik} />}
-          {section === DNS && <NetworkFormDns formik={formik} />}
-          {section === IPV4 && <NetworkFormIpv4 formik={formik} />}
-          {section === IPV6 && <NetworkFormIpv6 formik={formik} />}
-          {section === YAML_CONFIGURATION && (
+          {section === slugify(BRIDGE) && <NetworkFormBridge formik={formik} />}
+          {section === slugify(DNS) && <NetworkFormDns formik={formik} />}
+          {section === slugify(IPV4) && <NetworkFormIpv4 formik={formik} />}
+          {section === slugify(IPV6) && <NetworkFormIpv6 formik={formik} />}
+          {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm
               yaml={getYaml()}
               setYaml={(yaml) => formik.setFieldValue("yaml", yaml)}

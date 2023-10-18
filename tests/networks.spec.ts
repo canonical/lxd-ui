@@ -28,7 +28,6 @@ test("network edit basic details", async ({ page }) => {
   await setOption(page, "IPv4 NAT", "false");
   await setOption(page, "IPv6 NAT", "false");
 
-  await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Bridge", { exact: true }).click();
   await activateOverride(page, "MTU Bridge MTU");
   await page.getByLabel("MTU").fill("1300");
@@ -68,7 +67,6 @@ test("network edit basic details", async ({ page }) => {
   await assertReadMode(page, "Ipv4 NAT", "false");
   await assertReadMode(page, "Ipv6 NAT", "false");
 
-  await page.getByRole("button", { name: "Advanced", exact: true }).click();
   await page.getByText("Bridge", { exact: true }).click();
   await assertReadMode(page, "MTU Bridge MTU", "1300");
   await assertReadMode(page, "Bridge Driver", "native");
