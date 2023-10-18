@@ -31,7 +31,7 @@ export interface Pagination {
 export const usePagination = (
   data: MainTableRow[],
   defaultSort?: string,
-  defaultSortDirection: SortDirection = "ascending"
+  defaultSortDirection: SortDirection = "ascending",
 ): Pagination => {
   const [_pageSize, _setPageSize] = useState(paginationOptions[0].value);
   const [sort, setSort] = useState<string | null | undefined>(defaultSort);

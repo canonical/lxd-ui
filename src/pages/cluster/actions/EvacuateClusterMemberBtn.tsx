@@ -21,7 +21,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
       .then(() => {
         setLoading(false);
         notify.success(
-          `Cluster member ${member.server_name} evacuation started.`
+          `Cluster member ${member.server_name} evacuation started.`,
         );
       })
       .catch((e) => notify.failure("Cluster member evacuation failed", e))

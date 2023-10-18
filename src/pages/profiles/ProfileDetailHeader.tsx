@@ -33,7 +33,7 @@ const ProfileDetailHeader: FC<Props> = ({
         "A profile with this name already exists",
         (value) =>
           profile?.name === value ||
-          checkDuplicateName(value, project, controllerState, "profiles")
+          checkDuplicateName(value, project, controllerState, "profiles"),
       )
       .required("Profile name is required"),
   });
@@ -54,7 +54,7 @@ const ProfileDetailHeader: FC<Props> = ({
         .then(() => {
           navigate(
             `/ui/project/${project}/profiles/detail/${values.name}`,
-            notify.queue(notify.success("Profile renamed."))
+            notify.queue(notify.success("Profile renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

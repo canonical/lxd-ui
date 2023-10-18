@@ -75,7 +75,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       name,
       projectName,
       setUploadState,
-      uploadController
+      uploadController,
     )
       .then(() => {
         onFinish(name, pool);

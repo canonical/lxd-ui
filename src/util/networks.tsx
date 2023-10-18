@@ -2,7 +2,7 @@ import { LxdInstance } from "types/instance";
 
 export const getIpAddresses = (
   instance: LxdInstance,
-  family: "inet" | "inet6"
+  family: "inet" | "inet6",
 ) => {
   if (!instance.state?.network) return [];
   return Object.entries(instance.state.network)

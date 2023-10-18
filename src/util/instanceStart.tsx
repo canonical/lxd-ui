@@ -33,7 +33,7 @@ export const useInstanceStart = (instance: LxdInstance) => {
           notify.success(
             <>
               Instance <InstanceLink instance={instance} /> started.
-            </>
+            </>,
           ),
         (msg) =>
           notify.failure(
@@ -41,14 +41,14 @@ export const useInstanceStart = (instance: LxdInstance) => {
             new Error(msg),
             <>
               Instance <ItemName item={instance} bold />:
-            </>
+            </>,
           ),
         () => {
           instanceLoading.setFinish(instance);
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
           });
-        }
+        },
       );
     });
   };

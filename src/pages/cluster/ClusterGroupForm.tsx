@@ -60,7 +60,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
         "A cluster group with this name already exists",
         (value) =>
           group?.name === value ||
-          checkDuplicateName(value, "", controllerState, "cluster/groups")
+          checkDuplicateName(value, "", controllerState, "cluster/groups"),
       )
       .required(),
   });
@@ -84,8 +84,8 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
           navigate(
             `/ui/cluster/groups/detail/${values.name}`,
             notify.queue(
-              notify.success(`Cluster group ${values.name} ${verb}.`)
-            )
+              notify.success(`Cluster group ${values.name} ${verb}.`),
+            ),
           );
         })
         .catch((e: Error) => {

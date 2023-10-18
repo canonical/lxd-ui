@@ -18,7 +18,7 @@ const Navigation: FC = () => {
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
   const [projectName, setProjectName] = useState(
-    project && !isLoading ? project.name : "default"
+    project && !isLoading ? project.name : "default",
   );
   const hasOidcCookie = Boolean(getCookie("oidc_access"));
 
@@ -251,7 +251,7 @@ const Navigation: FC = () => {
                     "p-side-navigation__list sidenav-bottom-ul",
                     {
                       "authenticated-nav": isAuthenticated,
-                    }
+                    },
                   )}
                 >
                   <li className="p-side-navigation__item">

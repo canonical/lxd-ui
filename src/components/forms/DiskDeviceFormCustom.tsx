@@ -38,21 +38,21 @@ const DiskDeviceFormCustom: FC<Props> = ({
       pool: volume.pool,
       source: volume.name,
     });
-    formik.setFieldValue("devices", copy);
+    void formik.setFieldValue("devices", copy);
   };
 
   const changeVolume = (
     volume: LxdStorageVolumeWithPool,
     formVolume: FormDiskDevice,
-    index: number
+    index: number,
   ) => {
-    formik.setFieldValue(`devices.${index}.pool`, volume.pool);
-    formik.setFieldValue(`devices.${index}.source`, volume.name);
+    void formik.setFieldValue(`devices.${index}.pool`, volume.pool);
+    void formik.setFieldValue(`devices.${index}.source`, volume.name);
     if (volume.content_type === "filesystem" && formVolume.path === undefined) {
-      formik.setFieldValue(`devices.${index}.path`, "");
+      void formik.setFieldValue(`devices.${index}.path`, "");
     }
     if (volume.content_type === "block") {
-      formik.setFieldValue(`devices.${index}.path`, undefined);
+      void formik.setFieldValue(`devices.${index}.path`, undefined);
     }
   };
 
@@ -81,7 +81,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
             index={index}
             isReadOnly={isReadOnly}
             setName={(name) =>
-              formik.setFieldValue(`devices.${index}.name`, name)
+              void formik.setFieldValue(`devices.${index}.name`, name)
             }
           />
         ),
@@ -89,7 +89,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
         override: !isReadOnly && (
           <DetachDiskDeviceBtn onDetach={() => removeDevice(index, formik)} />
         ),
-      })
+      }),
     );
 
     rows.push(
@@ -130,7 +130,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
           </div>
         ),
         override: "",
-      })
+      }),
     );
 
     if (formVolume.path !== undefined) {
@@ -151,7 +151,10 @@ const DiskDeviceFormCustom: FC<Props> = ({
               id={`pool-${index}-path`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
-                formik.setFieldValue(`devices.${index}.path`, e.target.value);
+                void formik.setFieldValue(
+                  `devices.${index}.path`,
+                  e.target.value,
+                );
               }}
               value={formVolume.path}
               type="text"
@@ -160,7 +163,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
             />
           ),
           override: "",
-        })
+        }),
       );
     }
 
@@ -184,9 +187,9 @@ const DiskDeviceFormCustom: FC<Props> = ({
               id={`pool-${index}-read-limit`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
-                formik.setFieldValue(
+                void formik.setFieldValue(
                   `devices.${index}.limits.read`,
-                  e.target.value
+                  e.target.value,
                 );
               }}
               value={formVolume.limits?.read}
@@ -198,7 +201,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
           </div>
         ),
         override: "",
-      })
+      }),
     );
 
     rows.push(
@@ -221,9 +224,9 @@ const DiskDeviceFormCustom: FC<Props> = ({
               id={`pool-${index}-write-limit`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
-                formik.setFieldValue(
+                void formik.setFieldValue(
                   `devices.${index}.limits.write`,
-                  e.target.value
+                  e.target.value,
                 );
               }}
               value={formVolume.limits?.write}
@@ -235,7 +238,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
           </div>
         ),
         override: "",
-      })
+      }),
     );
   });
 

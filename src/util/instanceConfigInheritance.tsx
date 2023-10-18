@@ -68,7 +68,7 @@ const getLxdDefault = (configKey: string): string => {
 
 const getInstanceDefaults = (
   values: CreateInstanceFormValues | EditInstanceFormValues,
-  formField: string
+  formField: string,
 ): [string, string] => {
   if (formField === "limits_cpu") {
     if (values.instanceType === "container") {
@@ -92,7 +92,7 @@ const getInstanceDefaults = (
 export const figureInheritedValue = (
   values: SharedFormTypes,
   formField: string,
-  profiles: LxdProfile[]
+  profiles: LxdProfile[],
 ): [string, string] => {
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
     const configKey = getInstanceKey(formField);
@@ -116,7 +116,7 @@ export const figureInheritedValue = (
 
 export const figureInheritedRootStorage = (
   values: SharedFormTypes,
-  profiles: LxdProfile[]
+  profiles: LxdProfile[],
 ): [LxdDiskDevice | null, string] => {
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
     const appliedProfiles = [
@@ -147,7 +147,7 @@ export interface InheritedVolume {
 
 export const figureInheritedVolumes = (
   values: SharedFormTypes,
-  profiles: LxdProfile[]
+  profiles: LxdProfile[],
 ): InheritedVolume[] => {
   const inheritedVolumes: InheritedVolume[] = [];
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {
@@ -182,7 +182,7 @@ interface InheritedNetwork {
 
 export const figureInheritedNetworks = (
   values: SharedFormTypes,
-  profiles: LxdProfile[]
+  profiles: LxdProfile[],
 ): InheritedNetwork[] => {
   const inheritedNetworks: InheritedNetwork[] = [];
   if (Object.prototype.hasOwnProperty.call(values, "profiles")) {

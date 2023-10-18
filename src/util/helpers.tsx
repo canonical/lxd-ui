@@ -43,7 +43,7 @@ const pad = (v: number) => `0${v}`.slice(-2);
 
 export const getBrowserFormatDate = (d: Date) =>
   `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(
-    d.getHours()
+    d.getHours(),
   )}:${pad(d.getMinutes())}`;
 
 interface ErrorResponse {
@@ -138,14 +138,14 @@ export const getWsErrorMsg = (code: number) => {
 
 export type AbortControllerState = [
   AbortController | null,
-  React.Dispatch<React.SetStateAction<AbortController | null>>
+  React.Dispatch<React.SetStateAction<AbortController | null>>,
 ];
 
 export const checkDuplicateName = (
   candidate: string | undefined,
   project: string,
   controllerState: AbortControllerState,
-  target: string
+  target: string,
 ) => {
   if (!candidate) {
     return true;
@@ -185,13 +185,13 @@ export const getParentsBottomSpacing = (element: HTMLElement) => {
 };
 
 export const getPromiseSettledCounts = (
-  results: PromiseSettledResult<void>[]
+  results: PromiseSettledResult<void>[],
 ) => {
   const fulfilledCount = results.filter(
-    (result) => result.status === "fulfilled"
+    (result) => result.status === "fulfilled",
   ).length;
   const rejectedCount = results.filter(
-    (result) => result.status === "rejected"
+    (result) => result.status === "rejected",
   ).length;
   return { fulfilledCount, rejectedCount };
 };

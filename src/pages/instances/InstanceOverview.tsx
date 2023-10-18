@@ -65,7 +65,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <td>
                   {
                     instanceCreationTypes.filter(
-                      (item) => item.value === instance.type
+                      (item) => item.value === instance.type,
                     )[0].label
                   }
                 </td>

@@ -41,7 +41,7 @@ const CustomIsoList: FC<Props> = ({ project }) => {
   const rows = images
     .filter(
       (item) =>
-        !query || item.aliases.toLowerCase().includes(query.toLowerCase())
+        !query || item.aliases.toLowerCase().includes(query.toLowerCase()),
     )
     .map((image) => {
       const actions = image.volume && (

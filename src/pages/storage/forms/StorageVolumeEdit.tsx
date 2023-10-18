@@ -75,7 +75,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
             {formik.values.isReadOnly ? (
               <Button
                 appearance="positive"
-                onClick={() => formik.setFieldValue("isReadOnly", false)}
+                onClick={() => void formik.setFieldValue("isReadOnly", false)}
               >
                 Edit volume
               </Button>

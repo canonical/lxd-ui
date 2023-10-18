@@ -37,7 +37,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
 
   const fingerprint = isTls ? settings.auth_user_name : undefined;
   const certificate = certificates.find(
-    (certificate) => certificate.fingerprint === fingerprint
+    (certificate) => certificate.fingerprint === fingerprint,
   );
   const isRestricted = certificate?.restricted ?? false;
   const defaultProject =

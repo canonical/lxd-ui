@@ -28,7 +28,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         });
         navigate(
           `/ui/project/${project}/networks`,
-          notify.queue(notify.success(`Network ${network.name} deleted.`))
+          notify.queue(notify.success(`Network ${network.name} deleted.`)),
         );
       })
       .catch((e) => notify.failure("Network deletion failed", e))

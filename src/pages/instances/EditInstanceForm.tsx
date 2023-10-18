@@ -114,7 +114,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
             void queryClient.invalidateQueries({
               queryKey: [queryKeys.instances],
             });
-          }
+          },
         );
       });
     },
@@ -145,7 +145,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
       "etag",
     ]);
     const bareInstance = Object.fromEntries(
-      Object.entries(instance).filter((e) => !exclude.has(e[0]))
+      Object.entries(instance).filter((e) => !exclude.has(e[0])),
     );
     return dumpYaml(bareInstance);
   };

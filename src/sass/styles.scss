@@ -1,10 +1,8 @@
 @charset "UTF-8";
 @use "sass:map";
-
 @import "settings";
 @import "vanilla-framework/scss/build";
 @import "./breakpoints";
-
 @import "pattern_icon";
 @include lxdui-p-icon;
 @include vf-p-icon-applications;
@@ -225,7 +223,7 @@ $border-thin: 1px solid $color-mid-light !default;
   padding-top: 1px;
 }
 
-@media (min-width: 460px) {
+@media (width >= 460px) {
   .l-application .l-aside.is-narrow {
     width: 25.65rem;
   }

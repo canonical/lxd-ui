@@ -55,7 +55,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
               <CloudInitConfig
                 config={formik.values.cloud_init_network_config ?? ""}
                 setConfig={(config) =>
-                  formik.setFieldValue("cloud_init_network_config", config)
+                  void formik.setFieldValue("cloud_init_network_config", config)
                 }
               />
             ),
@@ -71,7 +71,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
               <CloudInitConfig
                 config={formik.values.cloud_init_user_data ?? ""}
                 setConfig={(config) =>
-                  formik.setFieldValue("cloud_init_user_data", config)
+                  void formik.setFieldValue("cloud_init_user_data", config)
                 }
               />
             ),
@@ -87,7 +87,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
               <CloudInitConfig
                 config={formik.values.cloud_init_vendor_data ?? ""}
                 setConfig={(config) =>
-                  formik.setFieldValue("cloud_init_vendor_data", config)
+                  void formik.setFieldValue("cloud_init_vendor_data", config)
                 }
               />
             ),

@@ -64,7 +64,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
             value={formik.values.description}
             rows={Math.max(
               1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46)
+              Math.ceil((formik.values.description?.length ?? 0) / 46),
             )}
             disabled={isReadOnly}
           />
@@ -90,7 +90,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
                 location={formik.values.location}
                 project={project}
                 onFinish={(newLocation: string) =>
-                  formik.setFieldValue("location", newLocation)
+                  void formik.setFieldValue("location", newLocation)
                 }
               />
             </Col>
@@ -100,7 +100,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
       <ProfileSelect
         project={project}
         selected={formik.values.profiles}
-        setSelected={(value) => formik.setFieldValue("profiles", value)}
+        setSelected={(value) => void formik.setFieldValue("profiles", value)}
         isReadOnly={isReadOnly}
       />
     </div>

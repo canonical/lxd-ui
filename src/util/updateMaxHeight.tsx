@@ -4,7 +4,7 @@ export const updateMaxHeight = (
   targetClass: string,
   bottomClass?: string,
   additionalOffset = 0,
-  targetProperty: HeightProperty = "height"
+  targetProperty: HeightProperty = "height",
 ) => {
   const elements = document.getElementsByClassName(targetClass);
   const belowElements = bottomClass

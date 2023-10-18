@@ -98,7 +98,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             value={formik.values.description}
             rows={Math.max(
               1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46)
+              Math.ceil((formik.values.description?.length ?? 0) / 46),
             )}
           />
         </Col>
@@ -117,7 +117,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                 <Button
                   appearance="base"
                   type="button"
-                  onClick={() => formik.setFieldValue("image", undefined)}
+                  onClick={() => void formik.setFieldValue("image", undefined)}
                   title="Clear"
                   hasIcon
                 >
@@ -157,7 +157,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
       <ProfileSelect
         project={project}
         selected={formik.values.profiles}
-        setSelected={(value) => formik.setFieldValue("profiles", value)}
+        setSelected={(value) => void formik.setFieldValue("profiles", value)}
         isReadOnly={!formik.values.image}
         title={
           !formik.values.image

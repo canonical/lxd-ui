@@ -68,7 +68,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
                       id="ipv4_address"
                       address={formik.values.ipv4_address}
                       setAddress={(value) => {
-                        formik.setFieldValue("ipv4_address", value);
+                        void formik.setFieldValue("ipv4_address", value);
 
                         if (value === "none") {
                           const nullFields = [
@@ -77,8 +77,9 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
                             "ipv4_dhcp_expiry",
                             "ipv4_dhcp_ranges",
                           ];
-                          nullFields.forEach((field) =>
-                            formik.setFieldValue(field, undefined)
+                          nullFields.forEach(
+                            (field) =>
+                              void formik.setFieldValue(field, undefined),
                           );
                         }
                       }}
@@ -113,7 +114,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
                       id="ipv6_address"
                       address={formik.values.ipv6_address}
                       setAddress={(value) => {
-                        formik.setFieldValue("ipv6_address", value);
+                        void formik.setFieldValue("ipv6_address", value);
 
                         if (value === "none") {
                           const nullFields = [
@@ -124,8 +125,9 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
                             "ipv6_dhcp_stateful",
                             "ipv6_ovn_ranges",
                           ];
-                          nullFields.forEach((field) =>
-                            formik.setFieldValue(field, undefined)
+                          nullFields.forEach(
+                            (field) =>
+                              void formik.setFieldValue(field, undefined),
                           );
                         }
                       }}

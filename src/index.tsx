@@ -38,5 +38,5 @@ root.render(
         </AuthProvider>
       </QueryClientProvider>
     </NotificationProvider>
-  </Router>
+  </Router>,
 );

@@ -122,7 +122,7 @@ const NetworkMap: FC = () => {
             lineColor: "#D9D9D9",
           },
         });
-      })
+      }),
   );
 
   const elements = [...networkNodes, ...instanceNodes, ...edges];
@@ -145,7 +145,7 @@ const NetworkMap: FC = () => {
               cy.nodes().on("mouseover", (event: CyEvent) => {
                 cyPopperRef.current = event.target.popper({
                   content: mountElement(
-                    <MapTooltip {...event.target.data().details} />
+                    <MapTooltip {...event.target.data().details} />,
                   ),
                   popper: {
                     placement: "right",

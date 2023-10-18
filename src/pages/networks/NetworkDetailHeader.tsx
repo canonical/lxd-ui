@@ -27,7 +27,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
         "A network with this name already exists",
         (value) =>
           network?.name === value ||
-          checkDuplicateName(value, project, controllerState, "networks")
+          checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
   });
@@ -48,7 +48,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
         .then(() => {
           navigate(
             `/ui/project/${project}/networks/detail/${values.name}`,
-            notify.queue(notify.success("Network renamed."))
+            notify.queue(notify.success("Network renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

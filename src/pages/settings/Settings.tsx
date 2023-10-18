@@ -72,7 +72,7 @@ const Settings: FC = () => {
     })
     .map((configField, index, { length }) => {
       const isDefault = !Object.keys(settings?.config ?? {}).some(
-        (key) => key === configField.key
+        (key) => key === configField.key,
       );
       const value = getValue(configField);
 

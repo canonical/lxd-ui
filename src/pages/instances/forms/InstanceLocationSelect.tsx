@@ -50,7 +50,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   }
 
   const setGroup = (group: string) => {
-    formik.setFieldValue("target", `@${group}`);
+    void formik.setFieldValue("target", `@${group}`);
     setSelectedGroup(group);
     setSelectedMember("");
   };
@@ -59,7 +59,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
     if (member === "") {
       setGroup(selectedGroup);
     } else {
-      formik.setFieldValue("target", member);
+      void formik.setFieldValue("target", member);
       setSelectedMember(member);
     }
   };

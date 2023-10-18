@@ -40,8 +40,8 @@ const SnapshotActions: FC<Props> = ({
         onSuccess(
           <>
             Snapshot <ItemName item={snapshot} bold /> deleted.
-          </>
-        )
+          </>,
+        ),
       )
       .catch((e) => onFailure("Snapshot deletion failed", e))
       .finally(() => {
@@ -59,8 +59,8 @@ const SnapshotActions: FC<Props> = ({
         onSuccess(
           <>
             Snapshot <ItemName item={snapshot} bold /> restored.
-          </>
-        )
+          </>,
+        ),
       )
       .catch((e) => onFailure("Snapshot restore failed", e))
       .finally(() => {

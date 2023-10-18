@@ -39,7 +39,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
     onSubmit: (values) => {
       const instancePayload = getInstancePayload(
         instance,
-        values
+        values,
       ) as LxdInstance;
 
       void updateInstance(instancePayload, project ?? "").then((operation) => {
@@ -52,7 +52,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
             void queryClient.invalidateQueries({
               queryKey: [queryKeys.instances],
             });
-          }
+          },
         );
       });
     },
@@ -81,7 +81,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
             <Button
               className="u-no-margin--bottom"
               type="button"
-              onClick={() => formik.setFieldValue("readOnly", false)}
+              onClick={() => void formik.setFieldValue("readOnly", false)}
             >
               Edit configuration
             </Button>

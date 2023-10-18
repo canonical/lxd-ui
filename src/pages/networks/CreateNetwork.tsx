@@ -48,7 +48,7 @@ const CreateNetwork: FC = () => {
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
       .test("deduplicate", "A network with this name already exists", (value) =>
-        checkDuplicateName(value, project, controllerState, "networks")
+        checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
   });
@@ -78,7 +78,7 @@ const CreateNetwork: FC = () => {
           });
           navigate(
             `/ui/project/${project}/networks`,
-            notify.queue(notify.success(`Network ${values.name} created.`))
+            notify.queue(notify.success(`Network ${values.name} created.`)),
           );
         })
         .catch((e) => {

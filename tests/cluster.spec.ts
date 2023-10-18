@@ -54,7 +54,7 @@ export const deleteClusterGroup = async (page: Page, group: string) => {
 export const toggleClusterGroupMember = async (
   page: Page,
   group: string,
-  member: string
+  member: string,
 ) => {
   await page.goto("/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();

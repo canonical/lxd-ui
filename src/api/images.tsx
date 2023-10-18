@@ -6,7 +6,7 @@ import { LxdOperationResponse } from "types/operation";
 
 export const fetchImage = (
   image: string,
-  project: string
+  project: string,
 ): Promise<LxdImage> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images/${image}?project=${project}`)

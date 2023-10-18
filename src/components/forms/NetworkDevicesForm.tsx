@@ -62,13 +62,13 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   const removeNetwork = (index: number) => {
     const copy = [...formik.values.devices];
     copy.splice(index, 1);
-    formik.setFieldValue("devices", copy);
+    void formik.setFieldValue("devices", copy);
   };
 
   const addNetwork = () => {
     const copy = [...formik.values.devices];
     copy.push({ type: "nic", name: "" });
-    formik.setFieldValue("devices", copy);
+    void formik.setFieldValue("devices", copy);
   };
 
   const getNetworkOptions = () => {

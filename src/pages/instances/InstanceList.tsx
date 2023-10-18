@@ -132,7 +132,7 @@ const InstanceList: FC = () => {
         creationNames.push(createInstanceName);
       }
       return isCreating;
-    }
+    },
   );
 
   const filteredInstances = instances.filter((item) => {
@@ -144,7 +144,7 @@ const InstanceList: FC = () => {
         (q) =>
           item.name.toLowerCase().includes(q) ||
           item.description.toLowerCase().includes(q) ||
-          item.config["image.description"]?.toLowerCase().includes(q)
+          item.config["image.description"]?.toLowerCase().includes(q),
       )
     ) {
       return false;
@@ -161,7 +161,7 @@ const InstanceList: FC = () => {
     if (
       filters.profileQueries.length > 0 &&
       !filters.profileQueries.every((profile) =>
-        item.profiles.includes(profile)
+        item.profiles.includes(profile),
       )
     ) {
       return false;
@@ -171,10 +171,10 @@ const InstanceList: FC = () => {
 
   useEffect(() => {
     const validNames = new Set(
-      filteredInstances.map((instance) => instance.name)
+      filteredInstances.map((instance) => instance.name),
     );
     const validSelections = selectedNames.filter((name) =>
-      validNames.has(name)
+      validNames.has(name),
     );
     if (validSelections.length !== selectedNames.length) {
       setSelectedNames(validSelections);
@@ -227,12 +227,12 @@ const InstanceList: FC = () => {
       },
     ].filter(
       (item) =>
-        typeof item.content !== "string" || !hiddenCols.includes(item.content)
+        typeof item.content !== "string" || !hiddenCols.includes(item.content),
     );
 
   const getRows = (hiddenCols: string[]): MainTableRow[] => {
     const spannedWidth = CREATION_SPAN_COLUMNS.filter(
-      (col) => !hiddenCols.includes(col)
+      (col) => !hiddenCols.includes(col),
     ).reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
 
     const creationRows: MainTableRow[] = creationOperations.map((operation) => {
@@ -302,10 +302,10 @@ const InstanceList: FC = () => {
         panelParams.openInstanceSummary(instance.name, project);
 
       const ipv4 = getIpAddresses(instance, "inet").filter(
-        (val) => !val.startsWith("127")
+        (val) => !val.startsWith("127"),
       );
       const ipv6 = getIpAddresses(instance, "inet6").filter(
-        (val) => !val.startsWith("fe80")
+        (val) => !val.startsWith("fe80"),
       );
 
       return {
@@ -329,7 +329,7 @@ const InstanceList: FC = () => {
               <>
                 {
                   instanceCreationTypes.find(
-                    (item) => item.value === instance.type
+                    (item) => item.value === instance.type,
                   )?.label
                 }
               </>
@@ -392,7 +392,7 @@ const InstanceList: FC = () => {
                   "u-no-margin--bottom",
                   {
                     "u-hide": Boolean(instanceLoading.getType(instance)),
-                  }
+                  },
                 )}
                 instance={instance}
               />
@@ -464,7 +464,7 @@ const InstanceList: FC = () => {
   const hasInstances =
     isLoading || instances.length > 0 || creationOperations.length > 0;
   const selectedInstances = instances.filter((instance) =>
-    selectedNames.includes(instance.name)
+    selectedNames.includes(instance.name),
   );
   const totalInstanceCount =
     instances.filter((item) => !creationNames.includes(item.name)).length +
@@ -544,7 +544,7 @@ const InstanceList: FC = () => {
                       selectedNames={selectedNames}
                       setSelectedNames={setSelectedNames}
                       filteredNames={filteredInstances.map(
-                        (instance) => instance.name
+                        (instance) => instance.name,
                       )}
                     />
                   )
@@ -584,7 +584,7 @@ const InstanceList: FC = () => {
                   setSelectedNames={setSelectedNames}
                   processingNames={processingNames}
                   filteredNames={filteredInstances.map(
-                    (instance) => instance.name
+                    (instance) => instance.name,
                   )}
                   onUpdateSort={pagination.updateSort}
                 />
@@ -600,7 +600,7 @@ const InstanceList: FC = () => {
                   setSelectedNames={setSelectedNames}
                   processingNames={processingNames}
                   filteredNames={filteredInstances.map(
-                    (instance) => instance.name
+                    (instance) => instance.name,
                   )}
                 />
               </div>

@@ -34,7 +34,7 @@ const actionsToPerform: Partial<
 
 export const instanceAction = (
   desiredAction: LxdInstanceAction,
-  currentState: LxdInstanceStatus
+  currentState: LxdInstanceStatus,
 ): LxdInstanceAction | undefined => {
   const actionMap = actionsToPerform[desiredAction];
   return actionMap ? actionMap[currentState] : undefined;
@@ -42,7 +42,7 @@ export const instanceAction = (
 
 export const instanceActions = (
   instances: LxdInstance[],
-  desiredAction: LxdInstanceAction
+  desiredAction: LxdInstanceAction,
 ): InstanceBulkAction[] => {
   const actions: InstanceBulkAction[] = [];
   instances.forEach((instance) => {

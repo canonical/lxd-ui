@@ -64,7 +64,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
             <SnapshotScheduleInput
               value={formik.values.snapshots_schedule}
               setValue={(val) =>
-                formik.setFieldValue("snapshots_schedule", val)
+                void formik.setFieldValue("snapshots_schedule", val)
               }
             />
           ),

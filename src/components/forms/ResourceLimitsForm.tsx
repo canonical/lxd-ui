@@ -25,7 +25,7 @@ export const resourceLimitsPayload = (values: SharedFormTypes) => {
   return {
     [getInstanceKey("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
     [getInstanceKey("limits_memory")]: memoryLimitToPayload(
-      values.limits_memory
+      values.limits_memory,
     ),
     [getInstanceKey("limits_memory_swap")]: values.limits_memory_swap,
     [getInstanceKey("limits_disk_priority")]:
@@ -58,7 +58,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
             <CpuLimitSelector
               cpuLimit={formik.values.limits_cpu}
               setCpuLimit={(cpuLimit) => {
-                formik.setFieldValue("limits_cpu", cpuLimit);
+                void formik.setFieldValue("limits_cpu", cpuLimit);
               }}
             />
           ),
@@ -75,7 +75,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
             <MemoryLimitSelector
               memoryLimit={formik.values.limits_memory}
               setMemoryLimit={(memoryLimit) =>
-                formik.setFieldValue("limits_memory", memoryLimit)
+                void formik.setFieldValue("limits_memory", memoryLimit)
               }
             />
           ),

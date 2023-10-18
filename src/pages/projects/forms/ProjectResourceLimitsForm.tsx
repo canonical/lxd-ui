@@ -77,7 +77,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: (
             <DiskSizeSelector
               setMemoryLimit={(val?: string) =>
-                formik.setFieldValue("limits_disk", val)
+                void formik.setFieldValue("limits_disk", val)
               }
             />
           ),

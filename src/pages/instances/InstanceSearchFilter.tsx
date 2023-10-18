@@ -65,7 +65,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
       statuses: enrichStatuses(
         searchData
           .filter((chip) => chip.lead === "status")
-          .map((chip) => chip.value as LxdInstanceStatus)
+          .map((chip) => chip.value as LxdInstanceStatus),
       ),
       types: searchData
         .filter((chip) => chip.lead === "type")
@@ -93,7 +93,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances, setFilters }) => {
         returnSearchData={onSearchDataChange}
         onExpandChange={() => {
           window.dispatchEvent(
-            new CustomEvent("resize", { detail: "search-and-filter" })
+            new CustomEvent("resize", { detail: "search-and-filter" }),
           );
         }}
         onPanelToggle={() => {

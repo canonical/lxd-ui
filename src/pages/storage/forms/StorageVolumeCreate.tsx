@@ -38,8 +38,8 @@ const StorageVolumeCreate: FC = () => {
           project,
           "custom",
           pool,
-          controllerState
-        )
+          controllerState,
+        ),
       )
       .required("This field is required"),
   });
@@ -66,8 +66,8 @@ const StorageVolumeCreate: FC = () => {
           navigate(
             `/ui/project/${project}/storage/detail/${pool}/volumes`,
             notify.queue(
-              notify.success(`Storage volume ${values.name} created.`)
-            )
+              notify.success(`Storage volume ${values.name} created.`),
+            ),
           );
         })
         .catch((e) => {
@@ -93,7 +93,7 @@ const StorageVolumeCreate: FC = () => {
               appearance="base"
               onClick={() =>
                 navigate(
-                  `/ui/project/${project}/storage/detail/${pool}/volumes`
+                  `/ui/project/${project}/storage/detail/${pool}/volumes`,
                 )
               }
             >

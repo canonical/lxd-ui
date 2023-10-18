@@ -36,7 +36,9 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
           </label>
           <DiskSizeSelector
             value={formik.values.size}
-            setMemoryLimit={(val?: string) => formik.setFieldValue("size", val)}
+            setMemoryLimit={(val?: string) =>
+              void formik.setFieldValue("size", val)
+            }
             disabled={formik.values.isReadOnly}
           />
           <p className="p-form-help-text">
@@ -59,12 +61,12 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
             help="Type filesystem is ready to mount and write files to. Type block can only be attached to VMs, and is treated like an empty block device."
             onChange={(e) => {
               if (e.target.value === "block") {
-                formik.setFieldValue("block_filesystem", undefined);
-                formik.setFieldValue("block_mount_options", undefined);
-                formik.setFieldValue("security_shifted", undefined);
-                formik.setFieldValue("security_unmapped", undefined);
+                void formik.setFieldValue("block_filesystem", undefined);
+                void formik.setFieldValue("block_mount_options", undefined);
+                void formik.setFieldValue("security_shifted", undefined);
+                void formik.setFieldValue("security_unmapped", undefined);
               }
-              formik.setFieldValue("content_type", e.target.value);
+              void formik.setFieldValue("content_type", e.target.value);
             }}
             disabled={formik.values.isReadOnly}
           />

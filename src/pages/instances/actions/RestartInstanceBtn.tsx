@@ -37,7 +37,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           notify.success(
             <>
               Instance <InstanceLink instance={instance} /> restarted.
-            </>
+            </>,
           ),
         (msg) =>
           notify.failure(
@@ -45,14 +45,14 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
             new Error(msg),
             <>
               Instance <ItemName item={instance} bold />:
-            </>
+            </>,
           ),
         () => {
           instanceLoading.setFinish(instance);
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances],
           });
-        }
+        },
       );
     });
   };

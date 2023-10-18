@@ -22,7 +22,8 @@
   .profile-content {
     margin-top: -$spv--large;
     padding-bottom: 0;
-    @media screen and (max-width: 860px) {
+
+    @media screen and (width <= 860px) {
       margin-top: 0;
     }
 
@@ -57,7 +58,7 @@
   }
 
   // hide search box on small screens
-  @media screen and (max-width: 860px) {
+  @media screen and (width <= 860px) {
     .search-box {
       display: none;
     }
@@ -69,7 +70,7 @@
 }
 
 .l-navigation.is-collapsed + .profile-list {
-  @media screen and (min-width: 685px) {
+  @media screen and (width >= 685px) {
     .search-box {
       display: flex;
     }

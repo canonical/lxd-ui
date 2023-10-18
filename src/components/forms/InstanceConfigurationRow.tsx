@@ -56,7 +56,7 @@ export const getInstanceConfigurationRow = ({
   const [inheritedValue, inheritSource] = figureInheritedValue(
     formik.values,
     name,
-    profiles
+    profiles,
   );
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
 

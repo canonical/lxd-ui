@@ -37,7 +37,7 @@ export const visitProfile = async (page: Page, profile: string) => {
 export const renameProfile = async (
   page: Page,
   oldName: string,
-  newName: string
+  newName: string,
 ) => {
   await visitProfile(page, oldName);
   await page

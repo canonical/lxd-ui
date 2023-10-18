@@ -65,7 +65,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     {
       queryKey: [queryKeys.images, linuxContainersServer],
       queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
-    }
+    },
   );
 
   const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
@@ -75,7 +75,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const isLoading = isCiLoading || isLciLoading || isSettingsLoading;
   const archSupported = getArchitectureAliases(
-    settings?.environment?.architectures ?? []
+    settings?.environment?.architectures ?? [],
   );
   const images = isLoading
     ? []
@@ -104,10 +104,10 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const getOptionList: (
     mapper: (item: RemoteImage) => string,
-    filter?: (item: RemoteImage) => boolean
+    filter?: (item: RemoteImage) => boolean,
   ) => OptionHTMLAttributes<HTMLOptionElement>[] = (
     mapper,
-    filter = () => true
+    filter = () => true,
   ) => {
     const options = [...new Set(images.filter(filter).map(mapper))].map(
       (item: string) => {
@@ -115,7 +115,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           label: item,
           value: item,
         };
-      }
+      },
     );
     options.unshift({
       label: "Any",
@@ -289,7 +289,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               }}
               options={getOptionList(
                 (item) => item.release,
-                (item) => item.os === os
+                (item) => item.os === os,
               )}
               value={release}
               disabled={os === ""}
@@ -314,7 +314,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                       label: item ?? "",
                       value: item ?? "",
                     };
-                  })
+                  }),
               )}
               value={variant}
             />

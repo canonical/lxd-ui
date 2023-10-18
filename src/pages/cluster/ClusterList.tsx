@@ -49,7 +49,7 @@ const ClusterList: FC = () => {
   }
 
   const filteredMembers = members.filter(
-    (member) => !activeGroup || member.groups?.includes(activeGroup)
+    (member) => !activeGroup || member.groups?.includes(activeGroup),
   );
 
   const headers = getClusterHeaders(activeGroup);

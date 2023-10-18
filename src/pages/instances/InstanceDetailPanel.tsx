@@ -41,7 +41,7 @@ const InstanceDetailPanel: FC = () => {
   }
 
   const networkDevices = Object.values(instance?.expanded_devices ?? {}).filter(
-    isNicDevice
+    isNicDevice,
   );
 
   return (
@@ -103,7 +103,7 @@ const InstanceDetailPanel: FC = () => {
               <td>
                 {
                   instanceCreationTypes.filter(
-                    (item) => item.value === instance.type
+                    (item) => item.value === instance.type,
                   )[0].label
                 }
               </td>

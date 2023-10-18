@@ -28,8 +28,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
           volume.type,
           storagePool,
           controllerState,
-          volume.name
-        )
+          volume.name,
+        ),
       )
       .required("This field is required"),
   });
@@ -50,7 +50,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
         .then(() => {
           navigate(
             `/ui/project/${project}/storage/detail/${storagePool}/${volume.type}/${values.name}`,
-            notify.queue(notify.success("Storage volume renamed."))
+            notify.queue(notify.success("Storage volume renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })
@@ -89,8 +89,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
             navigate(
               `/ui/project/${project}/storage/detail/${storagePool}/volumes`,
               notify.queue(
-                notify.success(`Storage volume ${volume.name} deleted.`)
-              )
+                notify.success(`Storage volume ${volume.name} deleted.`),
+              ),
             );
           }}
         />

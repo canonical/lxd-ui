@@ -66,11 +66,11 @@ const StorageVolumeDetail: FC = () => {
     notify.clear();
     if (newTab === "overview") {
       navigate(
-        `/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`
+        `/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`,
       );
     } else {
       navigate(
-        `/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}/${newTab}`
+        `/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}/${newTab}`,
       );
     }
   };

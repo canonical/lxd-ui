@@ -25,7 +25,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const [activeAction, setActiveAction] = useState<LxdInstanceAction | null>(
-    null
+    null,
   );
   const [isForce, setForce] = useState(false);
 
@@ -44,7 +44,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           notify.success(
             <>
               <b>{count}</b> {pluralizeInstance(count)} {action}.
-            </>
+            </>,
           );
         } else if (rejectedCount === count) {
           notify.failure(
@@ -52,7 +52,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
             undefined,
             <>
               <b>{count}</b> {pluralizeInstance(count)} could not be {action}.
-            </>
+            </>,
           );
         } else {
           notify.failure(
@@ -64,7 +64,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               .<br />
               <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could
               not be {action}.
-            </>
+            </>,
           );
         }
         setForce(false);
@@ -73,7 +73,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
-      }
+      },
     );
   };
 

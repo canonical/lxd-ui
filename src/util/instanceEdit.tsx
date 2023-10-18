@@ -54,7 +54,7 @@ const getEditValues = (item: LxdProfile | LxdInstance) => {
 };
 
 export const getInstanceEditValues = (
-  instance: LxdInstance
+  instance: LxdInstance,
 ): EditInstanceFormValues => {
   return {
     instanceType: instance.type,
@@ -67,7 +67,7 @@ export const getInstanceEditValues = (
 };
 
 export const getProfileEditValues = (
-  profile: LxdProfile
+  profile: LxdProfile,
 ): EditProfileFormValues => {
   return {
     readOnly: true,
@@ -78,7 +78,7 @@ export const getProfileEditValues = (
 
 export const getInstancePayload = (
   instance: LxdInstance,
-  values: EditInstanceFormValues
+  values: EditInstanceFormValues,
 ) => {
   const handledConfigKeys = getInstanceConfigKeys();
   const handledKeys = new Set([

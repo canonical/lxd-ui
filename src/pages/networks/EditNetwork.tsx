@@ -34,11 +34,11 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         "A network with this name already exists",
         (value) =>
           value === network.name ||
-          checkDuplicateName(value, project, controllerState, "networks")
+          checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
     network: Yup.string().when("type", (type: string, schema: StringSchema) =>
-      type === "ovn" ? schema.required("Uplink network is required") : schema
+      type === "ovn" ? schema.required("Uplink network is required") : schema,
     ),
   });
 
@@ -84,14 +84,14 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       "type",
     ]);
     const missingMainFields = Object.fromEntries(
-      Object.entries(network).filter((e) => !excludeMainKeys.has(e[0]))
+      Object.entries(network).filter((e) => !excludeMainKeys.has(e[0])),
     );
 
     const excludeConfigKeys = new Set(handleConfigKeys);
     const missingConfigFields = Object.fromEntries(
       Object.entries(network.config).filter(
-        (e) => !excludeConfigKeys.has(e[0]) && !e[0].startsWith("volatile")
-      )
+        (e) => !excludeConfigKeys.has(e[0]) && !e[0].startsWith("volatile"),
+      ),
     );
 
     return {
@@ -120,7 +120,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             {isReadOnly ? (
               <Button
                 appearance="positive"
-                onClick={() => formik.setFieldValue("readOnly", false)}
+                onClick={() => void formik.setFieldValue("readOnly", false)}
               >
                 Edit network
               </Button>

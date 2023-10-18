@@ -7,7 +7,7 @@ export const createSnapshot = (
   instance: LxdInstance,
   name: string,
   expiresAt: string | null,
-  stateful: boolean
+  stateful: boolean,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
@@ -19,7 +19,7 @@ export const createSnapshot = (
           expires_at: expiresAt,
           stateful,
         }),
-      }
+      },
     )
       .then(handleResponse)
       .then((data: LxdOperationResponse) => {
@@ -31,14 +31,14 @@ export const createSnapshot = (
 
 export const deleteSnapshot = (
   instance: LxdInstance,
-  snapshot: { name: string }
+  snapshot: { name: string },
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
       {
         method: "DELETE",
-      }
+      },
     )
       .then(handleResponse)
       .then((data: LxdOperationResponse) => {
@@ -50,13 +50,13 @@ export const deleteSnapshot = (
 
 export const deleteSnapshotBulk = (
   instance: LxdInstance,
-  snapshotNames: string[]
+  snapshotNames: string[],
 ) => {
   return new Promise((resolve, reject) => {
     Promise.all(
       snapshotNames.map(
-        async (name) => await deleteSnapshot(instance, { name })
-      )
+        async (name) => await deleteSnapshot(instance, { name }),
+      ),
     )
       .then(resolve)
       .catch(reject);
@@ -66,7 +66,7 @@ export const deleteSnapshotBulk = (
 export const restoreSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
-  restoreState: boolean
+  restoreState: boolean,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
@@ -87,7 +87,7 @@ export const restoreSnapshot = (
 export const renameSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
-  newName: string
+  newName: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
@@ -97,7 +97,7 @@ export const renameSnapshot = (
         body: JSON.stringify({
           name: newName,
         }),
-      }
+      },
     )
       .then(handleResponse)
       .then((data: LxdOperationResponse) => {
@@ -110,7 +110,7 @@ export const renameSnapshot = (
 export const updateSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
-  expiresAt: string
+  expiresAt: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
@@ -120,7 +120,7 @@ export const updateSnapshot = (
         body: JSON.stringify({
           expires_at: expiresAt,
         }),
-      }
+      },
     )
       .then(handleResponse)
       .then((data: LxdOperationResponse) => {

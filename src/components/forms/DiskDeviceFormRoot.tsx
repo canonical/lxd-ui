@@ -28,7 +28,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
 }) => {
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(
-    (item) => item.type === "disk" && item.name === "root"
+    (item) => item.type === "disk" && item.name === "root",
   );
   const hasRootStorage = rootIndex !== -1;
   const formRootDevice = formik.values.devices[
@@ -37,7 +37,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
 
   const [inheritValue, inheritSource] = figureInheritedRootStorage(
     formik.values,
-    profiles
+    profiles,
   );
 
   const addRootStorage = () => {
@@ -50,10 +50,10 @@ const DiskDeviceFormRoot: FC<Props> = ({
         ? inheritValue.pool
         : storagePools[0]?.name ?? undefined,
     });
-    formik.setFieldValue("devices", copy);
+    void formik.setFieldValue("devices", copy);
 
     const newDeviceIndex = copy.length - 1;
-    formik.setFieldValue(`devices.${newDeviceIndex}.size`, "GiB");
+    void formik.setFieldValue(`devices.${newDeviceIndex}.size`, "GiB");
   };
 
   return (
@@ -107,7 +107,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                 project={project}
                 value={formRootDevice?.pool ?? ""}
                 setValue={(value) =>
-                  formik.setFieldValue(`devices.${rootIndex}.pool`, value)
+                  void formik.setFieldValue(`devices.${rootIndex}.pool`, value)
                 }
                 selectProps={{
                   className: "u-no-margin--bottom",
@@ -131,7 +131,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                 <DiskSizeSelector
                   value={formRootDevice?.size ?? "GiB"}
                   setMemoryLimit={(val?: string) =>
-                    formik.setFieldValue(`devices.${rootIndex}.size`, val)
+                    void formik.setFieldValue(`devices.${rootIndex}.size`, val)
                   }
                 />
                 <p className="p-form-help-text u-sv-2">

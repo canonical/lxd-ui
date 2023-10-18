@@ -13,7 +13,7 @@ export const TIMEOUT_10 = 10;
 
 export const watchOperation = (
   operationUrl: string,
-  timeout = TIMEOUT_10
+  timeout = TIMEOUT_10,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     const operationParts = operationUrl.split("?");
@@ -27,7 +27,7 @@ export const watchOperation = (
         }
         if (data.metadata.status === "Running") {
           throw Error(
-            "Timeout while waiting for the operation to succeed. Watched operation continues in the background."
+            "Timeout while waiting for the operation to succeed. Watched operation continues in the background.",
           );
         } else if (data.metadata.status === "Cancelled") {
           throw new Error("Cancelled");

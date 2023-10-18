@@ -40,9 +40,9 @@ export const getConfigurationRow = ({
 }: Props): MainTableRow => {
   const toggleDefault = () => {
     if (isOverridden) {
-      formik.setFieldValue(name, undefined);
+      void formik.setFieldValue(name, undefined);
     } else {
-      formik.setFieldValue(name, defaultValue);
+      void formik.setFieldValue(name, defaultValue);
       setTimeout(() => document.getElementById(name)?.focus(), 100);
     }
   };
@@ -60,7 +60,7 @@ export const getConfigurationRow = ({
               value,
               disabled,
             })}
-          </div>
+          </div>,
         )}
         <div>
           <Button
@@ -139,7 +139,7 @@ export const getConfigurationRow = ({
             hasIcon
           >
             <Icon name="edit" />
-          </Button>
+          </Button>,
         ),
   });
 };

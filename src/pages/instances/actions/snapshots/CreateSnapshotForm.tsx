@@ -40,7 +40,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
       const expiresAt =
         values.expirationDate && values.expirationTime
           ? stringToIsoTime(
-              getExpiresAt(values.expirationDate, values.expirationTime)
+              getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
       createSnapshot(instance, values.name, expiresAt, values.stateful)
@@ -51,7 +51,7 @@ const CreateSnapshotForm: FC<Props> = ({ instance, close, onSuccess }) => {
           onSuccess(
             <>
               Snapshot <ItemName item={values} bold /> created.
-            </>
+            </>,
           );
           close();
         })

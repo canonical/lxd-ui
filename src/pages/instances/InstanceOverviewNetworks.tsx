@@ -54,7 +54,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
       const interfaceNames = Object.entries(instance.expanded_devices ?? {})
         .filter(
           ([_key, value]) =>
-            value.type === "nic" && value.network === network.name
+            value.type === "nic" && value.network === network.name,
         )
         .map(([key]) => key);
 

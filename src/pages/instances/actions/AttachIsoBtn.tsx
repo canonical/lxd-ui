@@ -37,7 +37,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
     });
     const instanceMinusIso = getInstancePayload(
       instance,
-      values
+      values,
     ) as LxdInstance;
     void updateInstance(instanceMinusIso, project ?? "").then((operation) => {
       eventQueue.set(
@@ -46,7 +46,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
           notify.success(
             <>
               ISO <b>{attachedIso?.source ?? ""}</b> detached
-            </>
+            </>,
           ),
         (msg) => notify.failure("Detach ISO failed", new Error(msg)),
         () => {
@@ -54,7 +54,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
             queryKey: [queryKeys.instances, instance.name, project],
           });
           setLoading(false);
-        }
+        },
       );
     });
   };
@@ -73,7 +73,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
           notify.success(
             <>
               ISO <b>{image.aliases}</b> attached
-            </>
+            </>,
           ),
         (msg) => notify.failure("Attaching ISO failed", new Error(msg)),
         () => {
@@ -81,7 +81,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
             queryKey: [queryKeys.instances, instance.name, project],
           });
           setLoading(false);
-        }
+        },
       );
     });
   };

@@ -6,7 +6,7 @@ export interface EventQueue {
     operationId: string,
     onSuccess: () => void,
     onFailure: (msg: string) => void,
-    onFinish?: () => void
+    onFinish?: () => void,
   ) => void;
   remove: (operationId: string) => void;
 }

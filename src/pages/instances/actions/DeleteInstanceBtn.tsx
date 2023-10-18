@@ -32,7 +32,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
         () =>
           navigate(
             `/ui/project/${instance.project}/instances`,
-            notify.queue(notify.success(`Instance ${instance.name} deleted.`))
+            notify.queue(notify.success(`Instance ${instance.name} deleted.`)),
           ),
         (msg) =>
           notify.failure(
@@ -40,9 +40,9 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
             new Error(msg),
             <>
               Instance <ItemName item={instance} bold />:
-            </>
+            </>,
           ),
-        () => setLoading(false)
+        () => setLoading(false),
       );
     });
   };

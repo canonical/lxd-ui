@@ -46,7 +46,7 @@ export interface StorageVolumeFormValues {
 
 export const volumeFormToPayload = (
   values: StorageVolumeFormValues,
-  project: string
+  project: string,
 ): LxdStorageVolume => {
   const hasValidSize = values.size?.match(/^\d/);
   return {
@@ -78,7 +78,7 @@ export const volumeFormToPayload = (
 
 export const getFormProps = (
   formik: FormikProps<StorageVolumeFormValues>,
-  id: keyof StorageVolumeFormValues
+  id: keyof StorageVolumeFormValues,
 ) => {
   return {
     id,

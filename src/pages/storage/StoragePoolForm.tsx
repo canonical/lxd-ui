@@ -38,7 +38,7 @@ const StoragePoolForm: FC = () => {
   const StoragePoolSchema = Yup.object().shape({
     name: Yup.string()
       .test(
-        ...testDuplicateStoragePoolName(panelParams.project, controllerState)
+        ...testDuplicateStoragePoolName(panelParams.project, controllerState),
       )
       .required("This field is required"),
   });
@@ -71,7 +71,7 @@ const StoragePoolForm: FC = () => {
           notify.success(
             <>
               Storage <ItemName item={storagePool} bold /> created.
-            </>
+            </>,
           );
           panelParams.clear();
         })

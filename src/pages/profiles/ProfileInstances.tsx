@@ -23,7 +23,7 @@ const ProfileInstances: FC<Props> = ({
   const usedByInstances = getProfileInstances(
     project,
     isDefaultProject,
-    profile.used_by
+    profile.used_by,
   );
 
   const affectedProjects = isDefaultProject
@@ -31,7 +31,7 @@ const ProfileInstances: FC<Props> = ({
         {
           name: project,
           instances: usedByInstances.filter(
-            (instance) => instance.project === project
+            (instance) => instance.project === project,
           ),
         },
       ]
@@ -45,13 +45,14 @@ const ProfileInstances: FC<Props> = ({
     projects
       .filter((project) => project.config["features.profiles"] === "false")
       .map((project) => project.name)
-      .forEach((project) =>
-        affectedProjects?.push({
-          name: project,
-          instances: usedByInstances.filter(
-            (instance) => instance.project === project
-          ),
-        })
+      .forEach(
+        (project) =>
+          affectedProjects?.push({
+            name: project,
+            instances: usedByInstances.filter(
+              (instance) => instance.project === project,
+            ),
+          }),
       );
   }
 

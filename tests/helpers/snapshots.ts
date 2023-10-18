@@ -9,7 +9,7 @@ export const randomSnapshotName = (): string => {
 export const createSnapshot = async (
   page: Page,
   instance: string,
-  snapshot: string
+  snapshot: string,
 ) => {
   await page.goto("/ui/");
   await page.getByPlaceholder("Search").click();
@@ -50,7 +50,7 @@ export const restoreSnapshot = async (page: Page, snapshot: string) => {
 export const editSnapshot = async (
   page: Page,
   oldName: string,
-  newName: string
+  newName: string,
 ) => {
   await page
     .getByRole("row", { name: "Name" })

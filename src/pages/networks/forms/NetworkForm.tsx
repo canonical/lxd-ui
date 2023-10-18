@@ -144,7 +144,7 @@ const NetworkForm: FC<Props> = ({ formik, getYaml, project }) => {
           {section === YAML_CONFIGURATION && (
             <YamlForm
               yaml={getYaml()}
-              setYaml={(yaml) => formik.setFieldValue("yaml", yaml)}
+              setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               isReadOnly={formik.values.readOnly}
             >
               <Notification severity="caution" title="Before you edit the YAML">

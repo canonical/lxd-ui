@@ -12,7 +12,7 @@ import axios, { AxiosResponse } from "axios";
 
 export const fetchStoragePool = (
   pool: string,
-  project: string
+  project: string,
 ): Promise<LxdStoragePool> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}?project=${project}&recursion=1`)
@@ -23,7 +23,7 @@ export const fetchStoragePool = (
 };
 
 export const fetchStoragePools = (
-  project: string
+  project: string,
 ): Promise<LxdStoragePool[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?project=${project}&recursion=1`)
@@ -34,13 +34,13 @@ export const fetchStoragePools = (
 };
 
 export const fetchStoragePoolResources = (
-  pool: string
+  pool: string,
 ): Promise<LxdStoragePoolResources> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}/resources`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePoolResources>) =>
-        resolve(data.metadata)
+        resolve(data.metadata),
       )
       .catch(reject);
   });
@@ -61,7 +61,7 @@ export const createStoragePool = (pool: LxdStoragePool, project: string) => {
 export const renameStoragePool = (
   oldName: string,
   newName: string,
-  project: string
+  project: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${oldName}?project=${project}`, {
@@ -89,13 +89,13 @@ export const deleteStoragePool = (pool: string, project: string) => {
 
 export const fetchStorageVolumes = (
   pool: string,
-  project: string
+  project: string,
 ): Promise<LxdStorageVolume[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
-        resolve(data.metadata)
+        resolve(data.metadata),
       )
       .catch(reject);
   });
@@ -105,11 +105,11 @@ export const fetchStorageVolume = (
   pool: string,
   project: string,
   type: string,
-  volume: string
+  volume: string,
 ): Promise<LxdStorageVolume> => {
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1`
+      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1`,
     )
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdStorageVolume))
@@ -121,7 +121,7 @@ export const renameStorageVolume = (
   pool: string,
   project: string,
   volume: LxdStorageVolume,
-  newName: string
+  newName: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
@@ -131,7 +131,7 @@ export const renameStorageVolume = (
         body: JSON.stringify({
           name: newName,
         }),
-      }
+      },
     )
       .then(handleResponse)
       .then(resolve)
@@ -145,7 +145,7 @@ export const createIsoStorageVolume = (
   name: string,
   project: string,
   setUploadState: (value: UploadState) => void,
-  uploadController: AbortController
+  uploadController: AbortController,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     axios
@@ -166,7 +166,7 @@ export const createIsoStorageVolume = (
             });
           },
           signal: uploadController.signal,
-        }
+        },
       )
       .then((response: AxiosResponse<LxdOperationResponse>) => response.data)
       .then((data: LxdOperationResponse) => {
@@ -179,7 +179,7 @@ export const createIsoStorageVolume = (
 export const createStorageVolume = (
   pool: string,
   project: string,
-  volume: Partial<LxdStorageVolume>
+  volume: Partial<LxdStorageVolume>,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
@@ -195,7 +195,7 @@ export const createStorageVolume = (
 export const updateStorageVolume = (
   pool: string,
   project: string,
-  volume: Partial<LxdStorageVolume>
+  volume: Partial<LxdStorageVolume>,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
@@ -208,7 +208,7 @@ export const updateStorageVolume = (
         headers: {
           "If-Match": volume.etag ?? "invalid-etag",
         },
-      }
+      },
     )
       .then(handleResponse)
       .then((data) => resolve(data))
@@ -219,14 +219,14 @@ export const updateStorageVolume = (
 export const deleteStorageVolume = (
   volume: string,
   pool: string,
-  project: string
+  project: string,
 ): Promise<LxdStorageVolume> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${pool}/volumes/custom/${volume}?project=${project}`,
       {
         method: "DELETE",
-      }
+      },
     )
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume>) => resolve(data.metadata))

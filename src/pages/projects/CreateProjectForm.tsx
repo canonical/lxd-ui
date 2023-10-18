@@ -56,7 +56,7 @@ const CreateProjectForm: FC = () => {
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
       .test("deduplicate", "A project with this name already exists", (value) =>
-        checkDuplicateName(value, "", controllerState, "projects")
+        checkDuplicateName(value, "", controllerState, "projects"),
       )
       .required(),
   });
@@ -93,12 +93,12 @@ const CreateProjectForm: FC = () => {
             ...resourceLimitsPayload(values),
             ...restrictions,
           },
-        })
+        }),
       )
         .then(() => {
           navigate(
             `/ui/project/${values.name}/instances`,
-            notify.queue(notify.success(`Project ${values.name} created.`))
+            notify.queue(notify.success(`Project ${values.name} created.`)),
           );
         })
         .catch((e: Error) => {

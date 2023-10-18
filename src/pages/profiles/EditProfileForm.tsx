@@ -159,7 +159,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
   const getYaml = () => {
     const exclude = new Set(["used_by", "etag"]);
     const bareProfile = Object.fromEntries(
-      Object.entries(profile).filter((e) => !exclude.has(e[0]))
+      Object.entries(profile).filter((e) => !exclude.has(e[0])),
     );
     return dumpYaml(bareProfile);
   };
@@ -246,7 +246,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
               <Button
                 appearance="positive"
                 disabled={!featuresProfiles}
-                onClick={() => formik.setFieldValue("readOnly", false)}
+                onClick={() => void formik.setFieldValue("readOnly", false)}
               >
                 Edit profile
               </Button>
