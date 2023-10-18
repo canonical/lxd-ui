@@ -9,7 +9,7 @@ export const setInput = async (
   page: Page,
   field: string,
   placeholder: string,
-  value: string
+  value: string,
 ) => {
   await activateOverride(page, field);
   await page
@@ -23,7 +23,7 @@ export const setTextarea = async (
   page: Page,
   field: string,
   placeholder: string,
-  value: string
+  value: string,
 ) => {
   await activateOverride(page, field);
   await page.getByRole("row", { name: field }).getByRole("textbox").click();
@@ -33,7 +33,7 @@ export const setTextarea = async (
 export const setCodeInput = async (
   page: Page,
   field: string,
-  value: string
+  value: string,
 ) => {
   await activateOverride(page, field);
   await page.getByRole("row", { name: field }).locator(".view-lines").click();
@@ -48,7 +48,7 @@ export const assertCode = async (page: Page, field: string, value: string) => {
 export const setCpuLimit = async (
   page: Page,
   type: "fixed" | "number",
-  limit: string
+  limit: string,
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
@@ -67,7 +67,7 @@ export const setCpuLimit = async (
 export const setMemLimit = async (
   page: Page,
   type: "absolute" | "percentage",
-  limit: string
+  limit: string,
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
@@ -109,7 +109,7 @@ export const activateOverride = async (page: Page, field: string) => {
 export const assertReadMode = async (
   page: Page,
   field: string,
-  value: string
+  value: string,
 ) => {
   await page
     .getByRole("row", { name: field })

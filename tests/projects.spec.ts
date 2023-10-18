@@ -90,7 +90,7 @@ test("project edit configuration", async ({ page }) => {
     page,
     "Available networks",
     "Enter network names",
-    "lxcbr0"
+    "lxcbr0",
   );
   await setTextarea(page, "Network uplinks", "Enter network names", "lxcbr0");
   await setTextarea(page, "Network zones", "Enter network zones", "foo,bar");
@@ -115,7 +115,7 @@ test("project edit configuration", async ({ page }) => {
   await assertReadMode(
     page,
     "Max sum of individual processes configurations",
-    "8"
+    "8",
   );
 
   await page.getByText("Clusters").click();

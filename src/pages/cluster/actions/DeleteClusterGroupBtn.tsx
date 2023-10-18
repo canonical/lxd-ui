@@ -23,7 +23,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         setLoading(false);
         navigate(
           `/ui/cluster`,
-          notify.queue(notify.success(`Cluster group ${group} deleted.`))
+          notify.queue(notify.success(`Cluster group ${group} deleted.`)),
         );
       })
       .catch((e) => notify.failure("Cluster group deletion failed", e))

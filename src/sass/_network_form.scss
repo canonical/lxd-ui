@@ -4,7 +4,7 @@
     max-width: 42rem !important;
   }
 
-  @media screen and (max-width: 1420px) {
+  @media screen and (width <= 1420px) {
     .configuration-table {
       .configuration {
         width: 7rem;

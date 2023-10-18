@@ -42,7 +42,7 @@ const MigrateInstanceBtn: FC<Props> = ({
       <>
         Migration finished for instance{" "}
         <ItemName item={{ name: instance }} bold />
-      </>
+      </>,
     );
     onFinish(newTarget);
     void queryClient.invalidateQueries({
@@ -67,7 +67,7 @@ const MigrateInstanceBtn: FC<Props> = ({
         eventQueue.set(
           operation.metadata.id,
           () => handleSuccess(target),
-          handleFailure
+          handleFailure,
         );
         notify.info("Migration started");
         closePortal();

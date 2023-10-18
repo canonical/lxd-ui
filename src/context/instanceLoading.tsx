@@ -27,7 +27,7 @@ interface Props {
 
 export const InstanceLoadingProvider: FC<Props> = ({ children }) => {
   const [instanceStates, setInstanceStates] = useState(
-    new Map<string, LoadingTypes>()
+    new Map<string, LoadingTypes>(),
   );
 
   const setLoading = (instance: LxdInstance, loadingType: LoadingTypes) => {

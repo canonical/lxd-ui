@@ -60,8 +60,8 @@ const CustomVolumeCreateModal: FC<Props> = ({
           project,
           "custom",
           pool,
-          controllerState
-        )
+          controllerState,
+        ),
       )
       .required("This field is required"),
   });

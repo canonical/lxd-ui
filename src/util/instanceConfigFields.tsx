@@ -26,7 +26,7 @@ const instanceConfigFormFieldsToPayload: Record<string, string> = {
 export const getInstanceKey = (formField: string) => {
   if (!(formField in instanceConfigFormFieldsToPayload)) {
     throw new Error(
-      `Could not find ${formField} in instanceConfigFormFieldsToPayload`
+      `Could not find ${formField} in instanceConfigFormFieldsToPayload`,
     );
   }
   return instanceConfigFormFieldsToPayload[formField];

@@ -62,7 +62,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
       updateProject(projectPayload)
         .then(() => {
           notify.success(`Project updated.`);
-          formik.setFieldValue("readOnly", true);
+          void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("Project update failed", e);
@@ -120,7 +120,7 @@ const EditProjectForm: FC<Props> = ({ project }) => {
                 <>
                   <Button
                     appearance="positive"
-                    onClick={() => formik.setFieldValue("readOnly", false)}
+                    onClick={() => void formik.setFieldValue("readOnly", false)}
                   >
                     Edit configuration
                   </Button>

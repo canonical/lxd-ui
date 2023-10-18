@@ -36,7 +36,7 @@ export const projectDetailPayload = (values: ProjectDetailsFormValues) => {
 };
 
 export const projectDetailRestrictionPayload = (
-  values: ProjectDetailsFormValues
+  values: ProjectDetailsFormValues,
 ) => {
   const boolToPayload = (value?: boolean) => {
     if (value === undefined) {
@@ -49,19 +49,19 @@ export const projectDetailRestrictionPayload = (
     [getProjectKey("restricted")]: boolToPayload(values.restricted),
     [getProjectKey("features_images")]: boolToPayload(values.features_images),
     [getProjectKey("features_profiles")]: boolToPayload(
-      values.features_profiles
+      values.features_profiles,
     ),
     [getProjectKey("features_networks")]: boolToPayload(
-      values.features_networks
+      values.features_networks,
     ),
     [getProjectKey("features_networks_zones")]: boolToPayload(
-      values.features_networks_zones
+      values.features_networks_zones,
     ),
     [getProjectKey("features_storage_buckets")]: boolToPayload(
-      values.features_storage_buckets
+      values.features_storage_buckets,
     ),
     [getProjectKey("features_storage_volumes")]: boolToPayload(
-      values.features_storage_volumes
+      values.features_storage_volumes,
     ),
   };
 };
@@ -136,7 +136,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             value={formik.values.description}
             rows={Math.max(
               1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46)
+              Math.ceil((formik.values.description?.length ?? 0) / 46),
             )}
             disabled={formik.values.readOnly}
           />
@@ -146,12 +146,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             label="Features"
             onChange={(e) => {
               setFeatures(e.target.value);
-              formik.setFieldValue("features_images", true);
-              formik.setFieldValue("features_profiles", true);
-              formik.setFieldValue("features_networks", false);
-              formik.setFieldValue("features_networks_zones", false);
-              formik.setFieldValue("features_storage_buckets", true);
-              formik.setFieldValue("features_storage_volumes", true);
+              void formik.setFieldValue("features_images", true);
+              void formik.setFieldValue("features_profiles", true);
+              void formik.setFieldValue("features_networks", false);
+              void formik.setFieldValue("features_networks_zones", false);
+              void formik.setFieldValue("features_storage_buckets", true);
+              void formik.setFieldValue("features_storage_volumes", true);
             }}
             value={features}
             options={[
@@ -179,9 +179,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 name="features_images"
                 label="Images"
                 onChange={() =>
-                  formik.setFieldValue(
+                  void formik.setFieldValue(
                     "features_images",
-                    !formik.values.features_images
+                    !formik.values.features_images,
                   )
                 }
                 checked={formik.values.features_images}
@@ -203,9 +203,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 }
                 onChange={() => {
                   const newValue = !formik.values.features_profiles;
-                  formik.setFieldValue("features_profiles", newValue);
+                  void formik.setFieldValue("features_profiles", newValue);
                   if (!newValue) {
-                    formik.setFieldValue("restricted", false);
+                    void formik.setFieldValue("restricted", false);
                   }
                 }}
                 checked={formik.values.features_profiles}
@@ -216,9 +216,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 name="features_networks"
                 label="Networks"
                 onChange={() =>
-                  formik.setFieldValue(
+                  void formik.setFieldValue(
                     "features_networks",
-                    !formik.values.features_networks
+                    !formik.values.features_networks,
                   )
                 }
                 checked={formik.values.features_networks}
@@ -229,9 +229,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 name="features_networks_zones"
                 label="Network zones"
                 onChange={() =>
-                  formik.setFieldValue(
+                  void formik.setFieldValue(
                     "features_networks_zones",
-                    !formik.values.features_networks_zones
+                    !formik.values.features_networks_zones,
                   )
                 }
                 checked={formik.values.features_networks_zones}
@@ -246,9 +246,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 name="features_storage_buckets"
                 label="Storage buckets"
                 onChange={() =>
-                  formik.setFieldValue(
+                  void formik.setFieldValue(
                     "features_storage_buckets",
-                    !formik.values.features_storage_buckets
+                    !formik.values.features_storage_buckets,
                   )
                 }
                 checked={formik.values.features_storage_buckets}
@@ -259,9 +259,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 name="features_storage_volumes"
                 label="Storage volumes"
                 onChange={() =>
-                  formik.setFieldValue(
+                  void formik.setFieldValue(
                     "features_storage_volumes",
-                    !formik.values.features_storage_volumes
+                    !formik.values.features_storage_volumes,
                   )
                 }
                 checked={formik.values.features_storage_volumes}
@@ -285,7 +285,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               </>
             }
             onChange={() =>
-              formik.setFieldValue("restricted", !formik.values.restricted)
+              void formik.setFieldValue("restricted", !formik.values.restricted)
             }
             checked={formik.values.restricted}
             disabled={

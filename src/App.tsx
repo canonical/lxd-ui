@@ -20,35 +20,35 @@ const Settings = lazy(() => import("pages/settings/Settings"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const Storage = lazy(() => import("pages/storage/Storage"));
 const StorageVolumeCreate = lazy(
-  () => import("pages/storage/forms/StorageVolumeCreate")
+  () => import("pages/storage/forms/StorageVolumeCreate"),
 );
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
-  () => import("pages/login/CertificateGenerate")
+  () => import("pages/login/CertificateGenerate"),
 );
 const Login = lazy(() => import("pages/login/Login"));
 const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
 const StorageDetail = lazy(() => import("pages/storage/StorageDetail"));
 const StorageVolumeDetail = lazy(
-  () => import("pages/storage/StorageVolumeDetail")
+  () => import("pages/storage/StorageVolumeDetail"),
 );
 const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
 const CreateInstanceForm = lazy(
-  () => import("pages/instances/CreateInstanceForm")
+  () => import("pages/instances/CreateInstanceForm"),
 );
 const CreateProfileForm = lazy(
-  () => import("pages/profiles/CreateProfileForm")
+  () => import("pages/profiles/CreateProfileForm"),
 );
 const CreateProjectForm = lazy(
-  () => import("pages/projects/CreateProjectForm")
+  () => import("pages/projects/CreateProjectForm"),
 );
 const ProjectConfiguration = lazy(
-  () => import("pages/projects/ProjectConfiguration")
+  () => import("pages/projects/ProjectConfiguration"),
 );
 const CreateClusterGroup = lazy(
-  () => import("pages/cluster/CreateClusterGroup")
+  () => import("pages/cluster/CreateClusterGroup"),
 );
 const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
 

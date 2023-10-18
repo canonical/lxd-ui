@@ -21,7 +21,7 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
       Yup.object().shape({
         key: Yup.string(),
         value: Yup.string(),
-      })
+      }),
     ),
     user: Yup.number(),
     group: Yup.number(),

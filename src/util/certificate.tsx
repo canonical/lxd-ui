@@ -35,7 +35,7 @@ export const generateCert = (password: string) => {
   cert.serialNumber = "01" + getRandomBytes(20).toString().substring(0, 30);
   cert.validity.notBefore = new Date();
   cert.validity.notAfter = new Date(
-    Date.now() + 1000 * 60 * 60 * 24 * validDays
+    Date.now() + 1000 * 60 * 60 * 24 * validDays,
   );
   cert.setSubject(details);
   cert.setIssuer(details);

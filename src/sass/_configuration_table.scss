@@ -54,7 +54,7 @@
   }
 }
 
-@media screen and (max-width: 1420px) {
+@media screen and (width <= 1420px) {
   .configuration-table {
     min-width: 32rem;
     width: 100%;

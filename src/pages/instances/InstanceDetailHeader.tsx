@@ -30,7 +30,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
         "An instance with this name already exists",
         (value) =>
           instance?.name === value ||
-          checkDuplicateName(value, project, controllerState, "instances")
+          checkDuplicateName(value, project, controllerState, "instances"),
       )
       .matches(/^[A-Za-z0-9-]+$/, {
         message: "Only alphanumeric and hyphen characters are allowed",
@@ -59,12 +59,12 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
           () => {
             navigate(
               `/ui/project/${project}/instances/detail/${values.name}`,
-              notify.queue(notify.success("Instance renamed."))
+              notify.queue(notify.success("Instance renamed.")),
             );
             void formik.setFieldValue("isRenaming", false);
           },
           (msg) => notify.failure("Renaming failed", new Error(msg)),
-          () => formik.setSubmitting(false)
+          () => formik.setSubmitting(false),
         );
       });
     },

@@ -63,12 +63,12 @@ const ProfileList: FC = () => {
     const usedByInstances = getProfileInstances(
       projectName,
       isDefaultProject,
-      profile.used_by
+      profile.used_by,
     );
     return {
       name: profile.name,
       count: usedByInstances.filter(
-        (instance) => instance.project === projectName
+        (instance) => instance.project === projectName,
       ).length,
       total: usedByInstances.length,
     };

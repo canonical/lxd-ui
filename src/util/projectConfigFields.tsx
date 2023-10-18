@@ -43,7 +43,7 @@ const projectConfigFormFieldsToPayload: Record<string, string> = {
 export const getProjectKey = (formField: string) => {
   if (!(formField in projectConfigFormFieldsToPayload)) {
     throw new Error(
-      `Could not find ${formField} in projectConfigFormFieldsToPayload`
+      `Could not find ${formField} in projectConfigFormFieldsToPayload`,
     );
   }
   return projectConfigFormFieldsToPayload[formField];

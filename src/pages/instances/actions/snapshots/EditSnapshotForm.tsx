@@ -43,7 +43,7 @@ const EditSnapshotForm: FC<Props> = ({
     onSuccess(
       <>
         Snapshot <ItemName item={{ name: name }} bold /> saved.
-      </>
+      </>,
     );
     close();
   };
@@ -97,7 +97,7 @@ const EditSnapshotForm: FC<Props> = ({
     validationSchema: getSnapshotSchema(
       instance,
       controllerState,
-      snapshot.name
+      snapshot.name,
     ),
     onSubmit: (values) => {
       notify.clear();
@@ -105,7 +105,7 @@ const EditSnapshotForm: FC<Props> = ({
       const expiresAt =
         values.expirationDate && values.expirationTime
           ? stringToIsoTime(
-              getExpiresAt(values.expirationDate, values.expirationTime)
+              getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
       const shouldRename = newName !== snapshot.name;

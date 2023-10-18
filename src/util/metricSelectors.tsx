@@ -18,7 +18,7 @@ interface MemoryReport {
 
 export const getInstanceMetrics = (
   metrics: LxdMetricGroup[],
-  instance: LxdInstance
+  instance: LxdInstance,
 ): MemoryReport => {
   const memValue = (metricKey: string) =>
     metrics
@@ -40,7 +40,7 @@ export const getInstanceMetrics = (
       .find((item) => item.name === metricKey)
       ?.metrics.find(
         (item) =>
-          item.labels.name === instance.name && item.labels.mountpoint === "/"
+          item.labels.name === instance.name && item.labels.mountpoint === "/",
       )?.value;
 
   const diskFree = diskValue("lxd_filesystem_free_bytes");

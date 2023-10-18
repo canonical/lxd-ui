@@ -26,7 +26,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         "A project with this name already exists",
         (value) =>
           project.name === value ||
-          checkDuplicateName(value, "", controllerState, "projects")
+          checkDuplicateName(value, "", controllerState, "projects"),
       )
       .required("Project name is required"),
   });
@@ -47,7 +47,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         .then(() => {
           navigate(
             `/ui/project/${values.name}/configuration`,
-            notify.queue(notify.success("Project renamed."))
+            notify.queue(notify.success("Project renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

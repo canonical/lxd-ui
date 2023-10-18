@@ -13,7 +13,7 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
     password: Yup.string(),
     passwordConfirm: Yup.string().oneOf(
       [Yup.ref("password"), null],
-      "Passwords must match"
+      "Passwords must match",
     ),
   });
 

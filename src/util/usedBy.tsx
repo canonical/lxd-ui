@@ -14,7 +14,7 @@ export interface LxdUsedBy {
  */
 export const filterUsedByType = (
   type: "instances" | "profiles" | "snapshots" | "images" | "storage-pools",
-  usedByPaths?: string[]
+  usedByPaths?: string[],
 ): LxdUsedBy[] => {
   return (
     usedByPaths
@@ -54,7 +54,7 @@ export const filterUsedByType = (
 export const getProfileInstances = (
   project: string,
   isDefaultProject: boolean,
-  usedByPaths?: string[]
+  usedByPaths?: string[],
 ): LxdUsedBy[] => {
   return filterUsedByType("instances", usedByPaths).filter((instance) => {
     if (isDefaultProject) {

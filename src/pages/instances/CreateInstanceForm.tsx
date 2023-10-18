@@ -102,7 +102,7 @@ const CreateInstanceForm: FC = () => {
         "deduplicate",
         "An instance with this name already exists",
         (value) =>
-          checkDuplicateName(value, project, controllerState, "instances")
+          checkDuplicateName(value, project, controllerState, "instances"),
       )
       .matches(/^[A-Za-z0-9-]+$/, {
         message: "Only alphanumeric and hyphen characters are allowed",
@@ -143,7 +143,7 @@ const CreateInstanceForm: FC = () => {
     notify.failure(
       "Error",
       e,
-      <>The instance {instanceLink} was created, but could not be started.</>
+      <>The instance {instanceLink} was created, but could not be started.</>,
     );
     clearCache();
   };
@@ -152,7 +152,7 @@ const CreateInstanceForm: FC = () => {
     notify.success(
       <>
         Created instance {instanceLink}.{message}
-      </>
+      </>,
     );
     clearCache();
   };
@@ -160,7 +160,7 @@ const CreateInstanceForm: FC = () => {
   const notifyCreationFailed = (
     e: Error,
     formUrl: string,
-    values: CreateInstanceFormValues
+    values: CreateInstanceFormValues,
   ) => {
     notify.failure("Instance creation failed", e, null, [
       {
@@ -175,7 +175,7 @@ const CreateInstanceForm: FC = () => {
   const creationCompletedHandler = (
     instanceName: string,
     shouldStart: boolean,
-    isIsoImage: boolean
+    isIsoImage: boolean,
   ) => {
     const instanceLink = (
       <Link to={`/ui/project/${project}/instances/detail/${instanceName}`}>
@@ -192,7 +192,7 @@ const CreateInstanceForm: FC = () => {
         eventQueue.set(
           operation.metadata.id,
           () => notifyCreatedAndStarted(instanceLink),
-          (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg))
+          (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg)),
         );
       });
     } else {
@@ -228,7 +228,7 @@ const CreateInstanceForm: FC = () => {
         eventQueue.set(
           operation.metadata.id,
           () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
-          (msg) => notifyCreationFailed(new Error(msg), formUrl, values)
+          (msg) => notifyCreationFailed(new Error(msg), formUrl, values),
         );
       })
       .catch((e: Error) => {
@@ -259,7 +259,7 @@ const CreateInstanceForm: FC = () => {
     void formik.setFieldValue("image", image);
 
     const devices = formik.values.devices.filter(
-      (item) => item.type !== "iso-volume"
+      (item) => item.type !== "iso-volume",
     );
     if (image.server === LOCAL_ISO) {
       const isoDevice = remoteImageToIsoDevice(image);
@@ -382,7 +382,7 @@ const CreateInstanceForm: FC = () => {
               onClick={() =>
                 navigate(
                   location.state?.cancelLocation ??
-                    `/ui/project/${project}/instances`
+                    `/ui/project/${project}/instances`,
                 )
               }
             >

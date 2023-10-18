@@ -79,7 +79,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
       (e) => {
         setLoading(false);
         setInTabNotification(failure("Connection failed", e));
-      }
+      },
     );
     if (!result) {
       return;
@@ -104,7 +104,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     control.onclose = (event) => {
       if (1005 !== event.code) {
         setInTabNotification(
-          failure("Error", event.reason, getWsErrorMsg(event.code))
+          failure("Error", event.reason, getWsErrorMsg(event.code)),
         );
       }
       setControlWs(null);
@@ -126,7 +126,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     data.onclose = (event) => {
       if (1005 !== event.code) {
         setInTabNotification(
-          failure("Error", event.reason, getWsErrorMsg(event.code))
+          failure("Error", event.reason, getWsErrorMsg(event.code)),
         );
       }
       setDataWs(null);
@@ -185,8 +185,8 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
             height: dimensions?.rows.toString(),
             width: dimensions?.cols.toString(),
           },
-        })
-      )
+        }),
+      ),
     );
   };
 

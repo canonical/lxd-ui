@@ -101,7 +101,7 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
     const isCustomNetwork =
       item.type === "nic" &&
       Object.keys(item).some(
-        (key) => !["type", "name", "network"].includes(key)
+        (key) => !["type", "name", "network"].includes(key),
       );
 
     if (isCustomNetwork) {
@@ -171,5 +171,5 @@ export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
 export const removeDevice = (index: number, formik: SharedFormikTypes) => {
   const copy = [...formik.values.devices];
   copy.splice(index, 1);
-  formik.setFieldValue("devices", copy);
+  void formik.setFieldValue("devices", copy);
 };

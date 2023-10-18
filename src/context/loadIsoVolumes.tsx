@@ -3,7 +3,7 @@ import { isoToRemoteImage } from "util/images";
 import { RemoteImage } from "types/image";
 
 export const loadIsoVolumes = async (
-  project: string
+  project: string,
 ): Promise<RemoteImage[]> => {
   const result: RemoteImage[] = [];
   const pools = await fetchStoragePools(project);

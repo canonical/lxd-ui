@@ -63,7 +63,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
                       text={
                         humanFileSize(
                           instanceMetrics.memory.total -
-                            instanceMetrics.memory.free
+                            instanceMetrics.memory.free,
                         ) +
                         " of " +
                         humanFileSize(instanceMetrics.memory.total) +
@@ -88,7 +88,8 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
                       }
                       text={
                         humanFileSize(
-                          instanceMetrics.disk.total - instanceMetrics.disk.free
+                          instanceMetrics.disk.total -
+                            instanceMetrics.disk.free,
                         ) +
                         " of " +
                         humanFileSize(instanceMetrics.disk.total) +

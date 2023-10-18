@@ -25,7 +25,7 @@ export const getExpiresAt = (expirationDate: string, expirationTime: string) =>
 export const testDuplicateSnapshotName = (
   instance: LxdInstance,
   controllerState: AbortControllerState,
-  excludeName?: string
+  excludeName?: string,
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
     "deduplicate",
@@ -37,7 +37,7 @@ export const testDuplicateSnapshotName = (
           value,
           instance.project,
           controllerState,
-          `instances/${instance.name}/snapshots`
+          `instances/${instance.name}/snapshots`,
         )
       );
     },
@@ -47,7 +47,7 @@ export const testDuplicateSnapshotName = (
 export const testForbiddenChars = (): [
   string,
   string,
-  TestFunction<string | undefined, AnyObject>
+  TestFunction<string | undefined, AnyObject>,
 ] => {
   return [
     "forbiddenChars",
@@ -64,7 +64,7 @@ export const testForbiddenChars = (): [
 export const testValidDate = (): [
   string,
   string,
-  TestFunction<string | null | undefined, AnyObject>
+  TestFunction<string | null | undefined, AnyObject>,
 ] => {
   return [
     "valid",
@@ -81,7 +81,7 @@ export const testValidDate = (): [
 export const testFutureDate = (): [
   string,
   string,
-  TestFunction<string | null | undefined, AnyObject>
+  TestFunction<string | null | undefined, AnyObject>,
 ] => {
   return [
     "future",
@@ -98,7 +98,7 @@ export const testFutureDate = (): [
 export const testValidTime = (): [
   string,
   string,
-  TestFunction<string | null | undefined, AnyObject>
+  TestFunction<string | null | undefined, AnyObject>,
 ] => {
   return [
     "valid",
@@ -119,13 +119,13 @@ export const testValidTime = (): [
 export const getSnapshotSchema = (
   instance: LxdInstance,
   controllerState: AbortControllerState,
-  snapshotName?: string
+  snapshotName?: string,
 ) => {
   return Yup.object().shape({
     name: Yup.string()
       .required("This field is required")
       .test(
-        ...testDuplicateSnapshotName(instance, controllerState, snapshotName)
+        ...testDuplicateSnapshotName(instance, controllerState, snapshotName),
       )
       .test(...testForbiddenChars()),
     expirationDate: Yup.string()

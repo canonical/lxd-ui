@@ -14,7 +14,7 @@ export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
 
 export const fetchNetwork = (
   name: string,
-  project: string
+  project: string,
 ): Promise<LxdNetwork> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${name}?project=${project}`)
@@ -26,7 +26,7 @@ export const fetchNetwork = (
 
 export const fetchNetworkState = (
   name: string,
-  project: string
+  project: string,
 ): Promise<LxdNetworkState> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${name}/state?project=${project}`)
@@ -39,7 +39,7 @@ export const fetchNetworkState = (
 export const createClusterBridge = (
   network: Partial<LxdNetwork>,
   project: string,
-  clusterMembers: LxdClusterMember[]
+  clusterMembers: LxdClusterMember[],
 ) => {
   return new Promise((resolve, reject) => {
     const memberNetwork = {
@@ -51,7 +51,7 @@ export const createClusterBridge = (
     void Promise.allSettled(
       clusterMembers.map(async (member) => {
         await createNetwork(memberNetwork, project, member.server_name);
-      })
+      }),
     )
       .then((results) => {
         const error = (
@@ -73,7 +73,7 @@ export const createClusterBridge = (
 export const createNetwork = (
   network: Partial<LxdNetwork>,
   project: string,
-  target?: string
+  target?: string,
 ) => {
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
@@ -89,7 +89,7 @@ export const createNetwork = (
 
 export const updateNetwork = (
   network: Partial<LxdNetwork>,
-  project: string
+  project: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${network.name ?? ""}?project=${project}`, {
@@ -108,7 +108,7 @@ export const updateNetwork = (
 export const renameNetwork = (
   oldName: string,
   newName: string,
-  project: string
+  project: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${oldName}?project=${project}`, {

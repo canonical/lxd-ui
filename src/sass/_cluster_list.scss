@@ -4,7 +4,8 @@
   .cluster-content {
     margin-top: -$spv--large;
     padding-bottom: 0;
-    @media screen and (max-width: 860px) {
+
+    @media screen and (width <= 860px) {
       margin-top: 0;
     }
   }
@@ -50,19 +51,19 @@
     }
   }
 
-  @media screen and (max-width: 1300px) {
+  @media screen and (width <= 1300px) {
     .architecture {
       display: none;
     }
   }
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (width <= 1100px) {
     .description {
       display: none;
     }
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (width <= 1000px) {
     .roles {
       display: none;
     }

@@ -67,7 +67,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
                                 <td>{value}</td>
                               </tr>
                             );
-                          }
+                          },
                         )}
                       </tbody>
                     </table>

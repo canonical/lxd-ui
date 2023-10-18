@@ -40,7 +40,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
   const usageCount = getProfileInstances(
     project,
     isDefaultProject,
-    profile.used_by
+    profile.used_by,
   ).length;
 
   return (

@@ -58,7 +58,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             value={formik.values.description}
             rows={Math.max(
               1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46)
+              Math.ceil((formik.values.description?.length ?? 0) / 46),
             )}
             disabled={isReadOnly}
           />

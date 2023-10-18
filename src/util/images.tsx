@@ -16,8 +16,8 @@ export const isContainerOnlyImage = (image: RemoteImage) => {
   return (
     Object.entries(image.versions ?? {}).find((version) =>
       Object.entries(version[1].items).find((item) =>
-        vmFiles.includes(item[1].ftype)
-      )
+        vmFiles.includes(item[1].ftype),
+      ),
     ) === undefined
   );
 };
@@ -26,7 +26,7 @@ export const LOCAL_ISO = "local-iso";
 
 export const isoToRemoteImage = (
   volume: LxdStorageVolume,
-  pool: string
+  pool: string,
 ): RemoteImage => {
   return {
     aliases: volume.name,

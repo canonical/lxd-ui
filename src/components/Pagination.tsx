@@ -94,7 +94,7 @@ const Pagination: FC<Props> = ({
         onChange={(e) => {
           const newPage = Math.min(
             totalPages,
-            Math.max(1, parseInt(e.target.value))
+            Math.max(1, parseInt(e.target.value)),
           );
 
           paginate(newPage);

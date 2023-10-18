@@ -55,10 +55,10 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
 
   useEffect(() => {
     const validNames = new Set(
-      instance.snapshots?.map((snapshot) => snapshot.name)
+      instance.snapshots?.map((snapshot) => snapshot.name),
     );
     const validSelections = selectedNames.filter((name) =>
-      validNames.has(name)
+      validNames.has(name),
     );
     if (validSelections.length !== selectedNames.length) {
       setSelectedNames(validSelections);

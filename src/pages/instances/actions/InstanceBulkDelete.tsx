@@ -26,7 +26,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const [isLoading, setLoading] = useState(false);
 
   const deletableInstances = instances.filter((instance) =>
-    deletableStatuses.includes(instance.status)
+    deletableStatuses.includes(instance.status),
   );
   const totalCount = instances.length;
   const deleteCount = deletableInstances.length;
@@ -40,7 +40,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
         getPromiseSettledCounts(results);
       if (fulfilledCount === deleteCount) {
         notify.success(
-          `${deleteCount} ${pluralizeInstance(deleteCount)} deleted`
+          `${deleteCount} ${pluralizeInstance(deleteCount)} deleted`,
         );
       } else if (rejectedCount === deleteCount) {
         notify.failure(
@@ -49,7 +49,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
           <>
             <b>{deleteCount}</b> {pluralizeInstance(deleteCount)} could not be
             deleted.
-          </>
+          </>,
         );
       } else {
         notify.failure(
@@ -60,7 +60,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
             <br />
             <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could not
             be deleted.
-          </>
+          </>,
         );
       }
       void queryClient.invalidateQueries({
@@ -89,11 +89,11 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
                     <br />
                     <br />
                     {`- ${deleteCount} stopped ${pluralizeInstance(
-                      deleteCount
+                      deleteCount,
                     )} will be deleted`}
                     <br />
                     {`- ${ignoredCount} other ${pluralizeInstance(
-                      ignoredCount
+                      ignoredCount,
                     )} will be ignored`}
                     <br />
                     <br />

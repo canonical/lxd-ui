@@ -3,7 +3,7 @@ import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const getStorageVolumeEditValues = (
   volume: LxdStorageVolume,
-  pool: string
+  pool: string,
 ): StorageVolumeFormValues => {
   return {
     name: volume.name,

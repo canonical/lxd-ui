@@ -44,7 +44,7 @@ export const getClusterHeaders = (activeGroup?: string) => [
 
 export const getClusterRows = (
   members: LxdClusterMember[],
-  activeGroup?: string
+  activeGroup?: string,
 ) =>
   members.map((member) => {
     return {

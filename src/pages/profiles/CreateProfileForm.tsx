@@ -80,7 +80,7 @@ const CreateProfileForm: FC = () => {
   const ProfileSchema = Yup.object().shape({
     name: Yup.string()
       .test("deduplicate", "A profile with this name already exists", (value) =>
-        checkDuplicateName(value, project, controllerState, "profiles")
+        checkDuplicateName(value, project, controllerState, "profiles"),
       )
       .required(),
   });
@@ -108,7 +108,7 @@ const CreateProfileForm: FC = () => {
         .then(() => {
           navigate(
             `/ui/project/${project}/profiles`,
-            notify.queue(notify.success(`Profile ${values.name} created.`))
+            notify.queue(notify.success(`Profile ${values.name} created.`)),
           );
         })
         .catch((e: Error) => {

@@ -141,7 +141,7 @@ const CertificateGenerate: FC = () => {
                       onClick={() =>
                         downloadText(
                           `lxd-ui-${location.hostname}.crt`,
-                          certs.crt
+                          certs.crt,
                         )
                       }
                     >
@@ -163,7 +163,7 @@ const CertificateGenerate: FC = () => {
                         ? () =>
                             downloadBase64(
                               `lxd-ui-${location.hostname}.pfx`,
-                              certs.pfx
+                              certs.pfx,
                             )
                         : undefined
                     }

@@ -19,7 +19,7 @@ export const createProject = async (page: Page, project: string) => {
 export const renameProject = async (
   page: Page,
   oldName: string,
-  newName: string
+  newName: string,
 ) => {
   await page.getByRole("link", { name: "Configuration" }).click();
   await page

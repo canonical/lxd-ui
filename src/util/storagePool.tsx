@@ -4,7 +4,7 @@ import { AnyObject } from "yup/lib/types";
 
 export const testDuplicateStoragePoolName = (
   project: string,
-  controllerState: AbortControllerState
+  controllerState: AbortControllerState,
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
     "deduplicate",
@@ -14,7 +14,7 @@ export const testDuplicateStoragePoolName = (
         value,
         project,
         controllerState,
-        `storage-pools`
+        `storage-pools`,
       );
     },
   ];

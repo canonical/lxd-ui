@@ -18,8 +18,7 @@
   thead,
   tbody {
     display: block;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
     scrollbar-gutter: stable;
   }
 

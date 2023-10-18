@@ -8,7 +8,7 @@ export const testDuplicateStorageVolumeName = (
   volumeType: string,
   storagePool: string,
   controllerState: AbortControllerState,
-  previousName?: string
+  previousName?: string,
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
     "deduplicate",
@@ -20,7 +20,7 @@ export const testDuplicateStorageVolumeName = (
           value,
           project,
           controllerState,
-          `storage-pools/${storagePool}/volumes/${volumeType}`
+          `storage-pools/${storagePool}/volumes/${volumeType}`,
         )
       );
     },
@@ -68,7 +68,7 @@ const storageVolumeDefaults: Record<string, string> = {
 
 export const getLxdDefault = (
   formField: string,
-  storagePool?: LxdStoragePool
+  storagePool?: LxdStoragePool,
 ): [string, string] => {
   const poolField = `volume.${getVolumeKey(formField)}`;
   if (

@@ -23,7 +23,7 @@ export interface DeviceUsageRestrictionFormValues {
 }
 
 export const deviceUsageRestrictionPayload = (
-  values: DeviceUsageRestrictionFormValues
+  values: DeviceUsageRestrictionFormValues,
 ) => {
   return {
     [getProjectKey("restricted_devices_disk")]: values.restricted_devices_disk,

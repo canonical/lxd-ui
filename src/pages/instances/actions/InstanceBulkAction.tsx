@@ -9,19 +9,14 @@ import {
   pluralizeInstance,
   statusLabel,
 } from "util/instanceBulkActions";
-import {
-  ConfirmationButton,
-  ICONS,
-  Icon,
-  ValueOf,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 
 interface Props {
   action: LxdInstanceAction;
   confirmAppearance?: string;
   confirmExtra?: ReactNode;
   confirmLabel: string;
-  icon: ValueOf<typeof ICONS> | string;
+  icon: string;
   instances: LxdInstance[];
   isLoading: boolean;
   isDisabled: boolean;
@@ -50,15 +45,15 @@ const InstanceBulkAction: FC<Props> = ({
   ) : null;
 
   const hasChangedStates = [...selectedStates].some(
-    (state) => instanceAction(action, state) !== undefined
+    (state) => instanceAction(action, state) !== undefined,
   );
 
   const statusLine = (
     currentState: LxdInstanceStatus,
-    desiredAction: LxdInstanceAction
+    desiredAction: LxdInstanceAction,
   ) => {
     const count = instances.filter(
-      (instance) => instance.status === currentState
+      (instance) => instance.status === currentState,
     ).length;
 
     if (count === 0) {

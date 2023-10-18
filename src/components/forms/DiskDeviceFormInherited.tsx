@@ -23,12 +23,12 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
       type: "none",
       name,
     });
-    formik.setFieldValue("devices", copy);
+    void formik.setFieldValue("devices", copy);
   };
 
   const findNoneDevice = (name: string) => {
     return formik.values.devices.findIndex(
-      (item) => item.name === name && item.type === "none"
+      (item) => item.name === name && item.type === "none",
     );
   };
 
@@ -71,7 +71,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         ) : (
           <DetachDiskDeviceBtn onDetach={() => addNoneDevice(item.key)} />
         ),
-      })
+      }),
     );
 
     rows.push(
@@ -85,7 +85,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         inheritSource: item.source,
         isReadOnly,
         isDeactivated: isNoneDevice,
-      })
+      }),
     );
 
     rows.push(
@@ -95,7 +95,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         inheritSource: item.source,
         isReadOnly,
         isDeactivated: isNoneDevice,
-      })
+      }),
     );
 
     rows.push(
@@ -107,7 +107,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         inheritSource: item.source,
         isReadOnly,
         isDeactivated: isNoneDevice,
-      })
+      }),
     );
 
     rows.push(
@@ -119,7 +119,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         inheritSource: item.source,
         isReadOnly,
         isDeactivated: isNoneDevice,
-      })
+      }),
     );
   });
 

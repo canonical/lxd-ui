@@ -35,7 +35,7 @@ const RenameHeader: FC<Props> = ({
     if (!canRename) {
       return;
     }
-    formik.setValues({
+    void formik.setValues({
       isRenaming: true,
       name: name,
     });
@@ -77,7 +77,9 @@ const RenameHeader: FC<Props> = ({
                     <Button
                       appearance="base"
                       className="cancel"
-                      onClick={() => formik.setFieldValue("isRenaming", false)}
+                      onClick={() =>
+                        void formik.setFieldValue("isRenaming", false)
+                      }
                     >
                       Cancel
                     </Button>

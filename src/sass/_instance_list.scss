@@ -55,7 +55,7 @@
     }
   }
 
-  @media screen and (min-width: $breakpoint-large) and (max-width: 1135px) {
+  @media screen and (min-width: $breakpoint-large) and (width <= 1135px) {
     &.has-side-panel {
       .instance-header-left {
         flex: 1;
@@ -70,6 +70,7 @@
   .instance-content {
     margin-top: -$spv--large;
     padding-bottom: 0;
+
     @media screen and (max-width: $breakpoint-large) {
       margin-top: 0;
     }

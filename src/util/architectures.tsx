@@ -42,7 +42,7 @@ export const getArchitectureAliases = (names: string[]): string[] => {
   const aliases: string[] = [];
   names.map((value) => {
     const key = Object.keys(ARCHITECTURE_NAMES).find(
-      (key) => ARCHITECTURE_NAMES[key] === value
+      (key) => ARCHITECTURE_NAMES[key] === value,
     );
     if (key) {
       aliases.push(...ARCHITECTURE_ALIASES[key]);

@@ -11,7 +11,7 @@ export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
     fetch("/1.0/cluster/members?recursion=2")
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdClusterMember[]>) =>
-        resolve(data.metadata)
+        resolve(data.metadata),
       )
       .catch(reject);
   });
@@ -19,7 +19,7 @@ export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
 
 export const postClusterMemberState = (
   member: LxdClusterMember,
-  action: LxdClusterMemberAction
+  action: LxdClusterMemberAction,
 ): Promise<LxdClusterMember[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/members/${member.server_name}/state`, {
@@ -31,7 +31,7 @@ export const postClusterMemberState = (
     })
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdClusterMember[]>) =>
-        resolve(data.metadata)
+        resolve(data.metadata),
       )
       .catch(reject);
   });
@@ -56,7 +56,7 @@ export const fetchClusterGroup = (group: string): Promise<LxdClusterGroup> => {
 };
 
 export const updateClusterGroup = (
-  group: LxdClusterGroup
+  group: LxdClusterGroup,
 ): Promise<LxdApiResponse<null>> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group.name}`, {
@@ -70,7 +70,7 @@ export const updateClusterGroup = (
 };
 
 export const createClusterGroup = (
-  group: LxdClusterGroup
+  group: LxdClusterGroup,
 ): Promise<LxdApiResponse<null>> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups`, {

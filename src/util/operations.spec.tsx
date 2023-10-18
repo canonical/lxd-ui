@@ -19,7 +19,7 @@ describe("getInstanceName", () => {
 
   it("identifies instance name from an instance operation in a custom project", () => {
     const operation = craftOperation(
-      "/1.0/instances/testInstance2?project=project"
+      "/1.0/instances/testInstance2?project=project",
     );
     const name = getInstanceName(operation);
 
@@ -28,7 +28,7 @@ describe("getInstanceName", () => {
 
   it("identifies instance name from snapshot operation", () => {
     const operation = craftOperation(
-      "/1.0/instances/testInstance3/snapshots/testSnap"
+      "/1.0/instances/testInstance3/snapshots/testSnap",
     );
     const name = getInstanceName(operation);
 
@@ -37,7 +37,7 @@ describe("getInstanceName", () => {
 
   it("identifies instance name from a snapshot operation in a custom project", () => {
     const operation = craftOperation(
-      "/1.0/instances/testInstance3/snapshots/testSnap?project=project"
+      "/1.0/instances/testInstance3/snapshots/testSnap?project=project",
     );
     const name = getInstanceName(operation);
 
@@ -55,7 +55,7 @@ describe("getProjectName", () => {
 
   it("identifies project name from an instance operation in a custom project", () => {
     const operation = craftOperation(
-      "/1.0/instances/testInstance2?project=fooProject"
+      "/1.0/instances/testInstance2?project=fooProject",
     );
     const name = getProjectName(operation);
 
@@ -64,7 +64,7 @@ describe("getProjectName", () => {
 
   it("identifies project name from an instance operation in a custom project with other parameters", () => {
     const operation = craftOperation(
-      "/1.0/instances/testInstance2?foo=bar&project=barProject"
+      "/1.0/instances/testInstance2?foo=bar&project=barProject",
     );
     const name = getProjectName(operation);
 

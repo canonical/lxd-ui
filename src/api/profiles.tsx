@@ -4,7 +4,7 @@ import { LxdApiResponse } from "types/apiResponse";
 
 export const fetchProfile = (
   name: string,
-  project: string
+  project: string,
 ): Promise<LxdProfile> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}&recursion=1`)
@@ -53,7 +53,7 @@ export const updateProfile = (profile: LxdProfile, project: string) => {
 export const renameProfile = (
   oldName: string,
   newName: string,
-  project: string
+  project: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${oldName}?project=${project}`, {

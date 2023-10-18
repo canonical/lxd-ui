@@ -6,10 +6,10 @@ import { LxdProject } from "types/project";
 
 export const getUnhandledKeyValues = (
   item: LxdConfigPair | LxdInstance | LxdProfile | LxdProject,
-  handledKeys: Set<string>
+  handledKeys: Set<string>,
 ) => {
   return Object.fromEntries(
-    Object.entries(item).filter(([key]) => !handledKeys.has(key))
+    Object.entries(item).filter(([key]) => !handledKeys.has(key)),
   );
 };
 
@@ -19,7 +19,7 @@ export const figureCollapsedScreen = (): boolean =>
 
 export const optionRenderer = (
   value?: unknown,
-  optionList?: OptionHTMLAttributes<HTMLOptionElement>[]
+  optionList?: OptionHTMLAttributes<HTMLOptionElement>[],
 ): string => {
   const match = optionList?.find((item) => item.value === value);
   if (match?.label && value !== "") {

@@ -34,7 +34,7 @@ const DeleteProfileBtn: FC<Props> = ({
         setLoading(false);
         navigate(
           `/ui/project/${project}/profiles`,
-          notify.queue(notify.success(`Profile ${profile.name} deleted.`))
+          notify.queue(notify.success(`Profile ${profile.name} deleted.`)),
         );
       })
       .catch((e) => notify.failure("Profile deletion failed", e))

@@ -42,8 +42,8 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
     setInTabNotification(
       info(
         "Start the instance to interact with the text console.",
-        "Instance not running"
-      )
+        "Instance not running",
+      ),
     );
   };
 

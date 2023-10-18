@@ -6,13 +6,13 @@ export interface LxdStorageVolumeWithPool extends LxdStorageVolume {
 }
 
 export const loadCustomVolumes = async (
-  project: string
+  project: string,
 ): Promise<LxdStorageVolumeWithPool[]> => {
   const result: LxdStorageVolumeWithPool[] = [];
 
   const pools = await fetchStoragePools(project);
   const volumePromises = pools.map(async (pool) =>
-    fetchStorageVolumes(pool.name, project)
+    fetchStorageVolumes(pool.name, project),
   );
   const poolVolumes = await Promise.all(volumePromises);
 

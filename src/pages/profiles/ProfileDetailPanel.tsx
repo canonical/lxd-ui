@@ -43,7 +43,7 @@ const ProfileDetailPanel: FC = () => {
   const usageCount = getProfileInstances(
     projectName,
     isDefaultProject,
-    profile?.used_by
+    profile?.used_by,
   ).length;
 
   return (

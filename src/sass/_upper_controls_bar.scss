@@ -12,7 +12,8 @@
       .search-box {
         max-width: 25rem;
         width: 100%;
-        @media screen and (max-width: 1070px) {
+
+        @media screen and (width <= 1070px) {
           display: flex;
         }
       }

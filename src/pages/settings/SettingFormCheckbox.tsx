@@ -19,7 +19,7 @@ const SettingFormCheckbox: FC<Props> = ({
   const [checked, setChecked] = useState(
     initialValue
       ? initialValue === "true"
-      : String(configField.default) === "true"
+      : String(configField.default) === "true",
   );
 
   const canBeReset = String(configField.default) !== String(checked);

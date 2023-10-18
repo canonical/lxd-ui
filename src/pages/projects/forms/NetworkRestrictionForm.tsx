@@ -15,7 +15,7 @@ export interface NetworkRestrictionFormValues {
 }
 
 export const networkRestrictionPayload = (
-  values: NetworkRestrictionFormValues
+  values: NetworkRestrictionFormValues,
 ) => {
   return {
     [getProjectKey("restricted_network_access")]:

@@ -12,7 +12,7 @@ import { EventQueue } from "context/eventQueue";
 export const fetchInstance = (
   name: string,
   project: string,
-  recursion = 2
+  recursion = 2,
 ): Promise<LxdInstance> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}?project=${project}&recursion=${recursion}`)
@@ -34,7 +34,7 @@ export const fetchInstances = (project: string): Promise<LxdInstance[]> => {
 export const createInstance = (
   body: string,
   project: string,
-  target?: string
+  target?: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances?project=${project}&target=${target ?? ""}`, {
@@ -49,7 +49,7 @@ export const createInstance = (
 
 export const updateInstance = (
   instance: LxdInstance,
-  project: string
+  project: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${project}`, {
@@ -68,7 +68,7 @@ export const updateInstance = (
 export const renameInstance = (
   oldName: string,
   newName: string,
-  project: string
+  project: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${oldName}?project=${project}`, {
@@ -86,7 +86,7 @@ export const renameInstance = (
 export const migrateInstance = (
   name: string,
   project: string,
-  target: string
+  target: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}?project=${project}&target=${target}`, {
@@ -125,7 +125,7 @@ const putInstanceAction = (
   instance: string,
   project: string,
   action: LxdInstanceAction,
-  isForce?: boolean
+  isForce?: boolean,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance}/state?project=${project}`, {
@@ -150,7 +150,7 @@ export interface InstanceBulkAction {
 export const updateInstanceBulkAction = (
   actions: InstanceBulkAction[],
   isForce: boolean,
-  eventQueue: EventQueue
+  eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   let remainingResults = actions.length;
   const results: PromiseSettledResult<void>[] = [];
@@ -178,17 +178,17 @@ export const updateInstanceBulkAction = (
                 if (remainingResults === 0) {
                   resolve(results);
                 }
-              }
+              },
             );
-          }
+          },
         );
-      })
+      }),
     );
   });
 };
 
 export const deleteInstance = (
-  instance: LxdInstance
+  instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
@@ -202,7 +202,7 @@ export const deleteInstance = (
 
 export const deleteInstanceBulk = (
   instances: LxdInstance[],
-  eventQueue: EventQueue
+  eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   let remainingResults = instances.length;
   const results: PromiseSettledResult<void>[] = [];
@@ -229,10 +229,10 @@ export const deleteInstanceBulk = (
               if (remainingResults === 0) {
                 resolve(results);
               }
-            }
+            },
           );
         });
-      })
+      }),
     );
   });
 };
@@ -240,7 +240,7 @@ export const deleteInstanceBulk = (
 export const connectInstanceExec = (
   name: string,
   project: string,
-  payload: TerminalConnectPayload
+  payload: TerminalConnectPayload,
 ): Promise<LxdTerminal> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/exec?project=${project}&wait=10`, {
@@ -250,7 +250,7 @@ export const connectInstanceExec = (
         "wait-for-websocket": true,
         environment: payload.environment.reduce(
           (a, v) => ({ ...a, [v.key]: v.value }),
-          {}
+          {},
         ),
         interactive: true,
         group: payload.group,
@@ -265,7 +265,7 @@ export const connectInstanceExec = (
 
 export const connectInstanceVga = (
   name: string,
-  project: string
+  project: string,
 ): Promise<LxdTerminal> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
@@ -284,7 +284,7 @@ export const connectInstanceVga = (
 
 export const connectInstanceConsole = (
   name: string,
-  project: string
+  project: string,
 ): Promise<LxdTerminal> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console?project=${project}&wait=10`, {
@@ -302,7 +302,7 @@ export const connectInstanceConsole = (
 
 export const fetchInstanceConsoleBuffer = (
   name: string,
-  project: string
+  project: string,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/console?project=${project}`, {
@@ -316,7 +316,7 @@ export const fetchInstanceConsoleBuffer = (
 
 export const fetchInstanceLogs = (
   name: string,
-  project: string
+  project: string,
 ): Promise<string[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/logs?project=${project}`, {
@@ -331,7 +331,7 @@ export const fetchInstanceLogs = (
 export const fetchInstanceLogFile = (
   name: string,
   project: string,
-  file: string
+  file: string,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${name}/logs/${file}?project=${project}`, {

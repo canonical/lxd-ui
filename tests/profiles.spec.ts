@@ -106,7 +106,7 @@ test("profile security policies", async ({ page }) => {
   await setOption(
     page,
     "Prevent instance file system from being UID/GID shifted",
-    "true"
+    "true",
   );
   await setInput(page, "Base host id", "Enter ID", "11");
   await setInput(page, "Idmap size", "Enter number", "22");
@@ -120,12 +120,12 @@ test("profile security policies", async ({ page }) => {
   await assertReadMode(
     page,
     "Run the instance in privileged mode (Containers only)",
-    "Allow"
+    "Allow",
   );
   await assertReadMode(
     page,
     "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
-    "Yes"
+    "Yes",
   );
   await assertReadMode(page, "Base host id (Containers only)", "11");
   await assertReadMode(page, "Idmap size (Containers only)", "22");
@@ -133,12 +133,12 @@ test("profile security policies", async ({ page }) => {
   await assertReadMode(
     page,
     "Allow /dev/lxd in the instance (Containers only)",
-    "Yes"
+    "Yes",
   );
   await assertReadMode(
     page,
     "Make /1.0/images API available over /dev/lxd (Containers only)",
-    "Yes"
+    "Yes",
   );
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 

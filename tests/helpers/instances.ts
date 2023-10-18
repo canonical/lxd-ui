@@ -9,7 +9,7 @@ export const randomInstanceName = (): string => {
 export const createInstance = async (
   page: Page,
   instance: string,
-  type = "container"
+  type = "container",
 ) => {
   await page.goto("/ui/");
   await page
@@ -75,7 +75,7 @@ export const hasInstance = async (page: Page, instance: string) => {
 export const renameInstance = async (
   page: Page,
   oldName: string,
-  newName: string
+  newName: string,
 ) => {
   await visitInstance(page, oldName);
   await page

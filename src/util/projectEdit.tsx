@@ -3,7 +3,7 @@ import { ProjectFormValues } from "pages/projects/CreateProjectForm";
 import { isProjectWithProfiles } from "./projects";
 
 export const getProjectEditValues = (
-  project: LxdProject
+  project: LxdProject,
 ): ProjectFormValues => {
   return {
     name: project.name,

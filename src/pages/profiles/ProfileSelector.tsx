@@ -51,7 +51,7 @@ const ProfileSelector: FC<Props> = ({
   profiles.sort(defaultFirst);
 
   const unselected = profiles.filter(
-    (profile) => !selected.includes(profile.name)
+    (profile) => !selected.includes(profile.name),
   );
 
   const addProfile = () => {
@@ -82,7 +82,7 @@ const ProfileSelector: FC<Props> = ({
                 .filter(
                   (profile) =>
                     !selected.includes(profile.name) ||
-                    selected.indexOf(profile.name) === index
+                    selected.indexOf(profile.name) === index,
                 )
                 .map((profile) => {
                   return {

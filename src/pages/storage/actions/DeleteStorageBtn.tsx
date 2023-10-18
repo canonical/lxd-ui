@@ -40,7 +40,7 @@ const DeleteStorageBtn: FC<Props> = ({
         });
         navigate(
           `/ui/project/${project}/storage`,
-          notify.queue(notify.success(`Storage pool ${storage.name} deleted.`))
+          notify.queue(notify.success(`Storage pool ${storage.name} deleted.`)),
         );
       })
       .catch((e) => {

@@ -38,8 +38,8 @@ const SnapshotBulkDelete: FC<Props> = ({
           <>
             <b>{snapshotNames.length}</b> snapshot
             {snapshotNames.length > 1 && "s"} deleted.
-          </>
-        )
+          </>,
+        ),
       )
       .catch((e) => onFailure("Snapshot deletion failed.", e))
       .finally(() => {

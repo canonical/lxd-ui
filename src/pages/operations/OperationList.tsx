@@ -98,7 +98,7 @@ const OperationList: FC = () => {
                   <span key={index} title={JSON.stringify(value)}>
                     {key}: {JSON.stringify(value)}
                   </span>
-                )
+                ),
               )}
             </>
           ),

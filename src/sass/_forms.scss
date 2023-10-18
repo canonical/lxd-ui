@@ -90,7 +90,7 @@
     }
   }
 
-  @media screen and (max-width: 1400px) {
+  @media screen and (width <= 1400px) {
     .cpu-limit-label,
     .memory-limit-label {
       display: block !important;

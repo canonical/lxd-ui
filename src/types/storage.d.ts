@@ -1,9 +1,8 @@
 export interface LxdStoragePool {
-  config?:
-    | {
-        size?: string;
-        source?: string;
-      } & Record<string, string | undefined>;
+  config?: {
+    size?: string;
+    source?: string;
+  } & Record<string, string | undefined>;
   description: string;
   driver: string;
   locations?: string[];
