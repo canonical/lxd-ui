@@ -266,7 +266,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
                   selectedNames={selectedNames}
                   setSelectedNames={setSelectedNames}
                   filteredNames={filteredSnapshots.map(
-                    (instance) => instance.name
+                    (snapshot) => snapshot.name
                   )}
                 />
               )
