@@ -114,7 +114,6 @@ const InstanceList: FC = () => {
   const { data: operationList } = useQuery({
     queryKey: [queryKeys.operations, project],
     queryFn: () => fetchOperations(project),
-    refetchInterval: 1000,
   });
 
   if (error) {
