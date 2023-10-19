@@ -127,6 +127,9 @@ const CreateInstanceForm: FC = () => {
     void queryClient.invalidateQueries({
       queryKey: [queryKeys.operations, project],
     });
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.projects, project],
+    });
   };
 
   const notifyCreatedNowStarting = (instanceLink: ReactNode) => {

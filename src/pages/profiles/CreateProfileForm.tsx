@@ -119,6 +119,9 @@ const CreateProfileForm: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.projects, project],
+          });
         });
     },
   });
