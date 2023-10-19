@@ -6,22 +6,25 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { updateStorageVolume } from "api/storage-pools";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StorageVolumeForm, {
   StorageVolumeFormValues,
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import { LxdStorageVolume } from "types/storage";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
+import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
+import { slugify } from "util/slugify";
 
 interface Props {
   volume: LxdStorageVolume;
-  pool: string;
 }
 
-const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
+const StorageVolumeEdit: FC<Props> = ({ volume }) => {
+  const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
+  const { activeSection: section } = useParams<{ activeSection: string }>();
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -33,7 +36,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
   });
 
   const formik = useFormik<StorageVolumeFormValues>({
-    initialValues: getStorageVolumeEditValues(volume, pool),
+    initialValues: getStorageVolumeEditValues(volume),
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, project);
@@ -43,14 +46,14 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
       })
         .then(() => {
           formik.setSubmitting(false);
-          void formik.setValues(getStorageVolumeEditValues(saveVolume, pool));
+          void formik.setValues(getStorageVolumeEditValues(saveVolume));
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
           void queryClient.invalidateQueries({
             queryKey: [
               queryKeys.storage,
-              pool,
+              volume.pool,
               project,
               saveVolume.type,
               saveVolume.name,
@@ -65,9 +68,20 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
     },
   });
 
+  const setSection = (newSection: string) => {
+    const baseUrl = `/ui/project/${project}/storage/detail/${volume.pool}/${volume.type}/${volume.name}/configuration`;
+    newSection === MAIN_CONFIGURATION
+      ? navigate(baseUrl)
+      : navigate(`${baseUrl}/${slugify(newSection)}`);
+  };
+
   return (
     <div className="storage-volume-form">
-      <StorageVolumeForm formik={formik} />
+      <StorageVolumeForm
+        formik={formik}
+        section={section ?? slugify(MAIN_CONFIGURATION)}
+        setSection={setSection}
+      />
       <div className="l-footer--sticky p-bottom-controls">
         <hr />
         <Row className="u-align--right">
@@ -84,7 +98,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
                 <Button
                   appearance="base"
                   onClick={() =>
-                    formik.setValues(getStorageVolumeEditValues(volume, pool))
+                    formik.setValues(getStorageVolumeEditValues(volume))
                   }
                 >
                   Cancel

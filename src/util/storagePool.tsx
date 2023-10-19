@@ -1,6 +1,5 @@
 import { AbortControllerState, checkDuplicateName } from "util/helpers";
-import { TestFunction } from "yup";
-import { AnyObject } from "yup/lib/types";
+import { AnyObject, TestFunction } from "yup";
 
 export const testDuplicateStoragePoolName = (
   project: string,

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Col, Input, Row, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
-import { CreateProfileFormValues } from "pages/profiles/CreateProfileForm";
+import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
 import { getTextareaRows } from "util/formFields";
 
 export interface ProfileDetailsFormValues {

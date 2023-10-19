@@ -4,7 +4,7 @@ import { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import SnapshotsForm from "components/forms/SnapshotsForm";
 import { useParams } from "react-router-dom";

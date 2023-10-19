@@ -12,6 +12,8 @@ export interface LxdStoragePool {
   used_by?: string[];
 }
 
+export type LxdStorageVolumeContentType = "filesystem" | "block" | "iso";
+
 export interface LxdStorageVolume {
   config: {
     "block.filesystem"?: string;
@@ -30,15 +32,23 @@ export interface LxdStorageVolume {
     "zfs.reserve_space"?: string;
     size?: string;
   };
-  content_type: "filesystem" | "block";
+  content_type: LxdStorageVolumeContentType;
   created_at: string;
   description: string;
   location: string;
   name: string;
+  pool: string;
   project: string;
   type: string;
   used_by?: string[];
   etag?: string;
+}
+
+export interface LxdStorageVolumeState {
+  usage: {
+    used: number;
+    total: number;
+  };
 }
 
 export interface LxdStoragePoolResources {

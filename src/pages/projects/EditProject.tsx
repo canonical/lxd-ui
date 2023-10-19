@@ -10,7 +10,7 @@ import {
 } from "pages/projects/forms/ProjectDetailsForm";
 import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
-import { ProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
 import { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -33,7 +33,7 @@ interface Props {
   project: LxdProject;
 }
 
-const EditProjectForm: FC<Props> = ({ project }) => {
+const EditProject: FC<Props> = ({ project }) => {
   const { isRestricted } = useAuth();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -149,4 +149,4 @@ const EditProjectForm: FC<Props> = ({ project }) => {
   );
 };
 
-export default EditProjectForm;
+export default EditProject;

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import { Col, Input, Label, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import {
   getFormProps,
@@ -9,16 +9,30 @@ import ConfigurationTable from "components/ConfigurationTable";
 import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
+import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
+  project: string;
 }
 
-const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
+const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
   return (
     <>
       <Row>
         <Col size={8}>
+          {formik.values.isCreating && (
+            <>
+              <Label forId="storage-pool-selector" required>
+                Storage pool
+              </Label>
+              <StoragePoolSelector
+                project={project}
+                value={formik.values.pool}
+                setValue={(val) => void formik.setFieldValue("pool", val)}
+              />
+            </>
+          )}
           <Input
             {...getFormProps(formik, "name")}
             type="text"
@@ -28,7 +42,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
             help={
               formik.values.isCreating
                 ? undefined
-                : "Click the name in the header to rename the instance"
+                : "Click the name in the header to rename the volume"
             }
           />
           <DiskSizeSelector

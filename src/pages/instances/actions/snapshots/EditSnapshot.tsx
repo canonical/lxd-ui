@@ -26,12 +26,7 @@ interface Props {
   onSuccess: (message: ReactNode) => void;
 }
 
-const EditSnapshotForm: FC<Props> = ({
-  instance,
-  snapshot,
-  close,
-  onSuccess,
-}) => {
+const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -130,4 +125,4 @@ const EditSnapshotForm: FC<Props> = ({
   );
 };
 
-export default EditSnapshotForm;
+export default EditSnapshot;

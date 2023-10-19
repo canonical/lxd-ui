@@ -13,7 +13,7 @@ export interface LxdUsedBy {
  * "/1.0/profiles/default?project=foo"
  */
 export const filterUsedByType = (
-  type: "instances" | "profiles" | "snapshots" | "images" | "storage-pools",
+  type: "instances" | "profiles" | "snapshots" | "images" | "volumes",
   usedByPaths?: string[],
 ): LxdUsedBy[] => {
   return (
@@ -27,12 +27,20 @@ export const filterUsedByType = (
           return path.includes("/snapshots/");
         }
 
+        if (type === "volumes") {
+          return path.includes("/volumes/");
+        }
+
         return path.startsWith(`/1.0/${type}`);
       })
       .map((path) => {
         const url = new URL(`http://localhost/${path}`);
+        const encodedName = url.pathname.split("/").slice(-1)[0] ?? "";
+        // calling decode twice because the result is double encoded
+        // see https://github.com/canonical/lxd/issues/12398
+        const name = decodeURIComponent(decodeURIComponent(encodedName));
         return {
-          name: url.pathname.split("/").slice(-1)[0] ?? "",
+          name,
           project: url.searchParams.get("project") ?? "default",
           instance: type === "snapshots" ? url.pathname.split("/")[4] : "",
         };

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import classnames from "classnames";
 import {
   optionAllowDeny,

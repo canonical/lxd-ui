@@ -10,7 +10,6 @@ import {
 } from "@canonical/react-components";
 
 interface Props {
-  pool: string;
   volume: LxdStorageVolume;
   project: string;
   onFinish: () => void;
@@ -20,7 +19,6 @@ interface Props {
 }
 
 const DeleteStorageVolumeBtn: FC<Props> = ({
-  pool,
   project,
   volume,
   onFinish,
@@ -31,15 +29,17 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-
-  if (volume.type !== "custom") {
-    return null;
-  }
+  const disabledReason =
+    volume.type !== "custom"
+      ? "Only custom volumes can be deleted"
+      : (volume.used_by?.length ?? 0) > 0
+      ? "Remove all usages of the volume to delete it"
+      : undefined;
 
   const handleDelete = () => {
     setLoading(true);
 
-    deleteStorageVolume(volume.name, pool, project)
+    deleteStorageVolume(volume.name, volume.pool, project)
       .then(onFinish)
       .catch((e) => {
         notify.failure("Storage volume deletion failed", e);
@@ -53,7 +53,12 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
           queryKey: [queryKeys.projects, project],
         });
         void queryClient.invalidateQueries({
-          queryKey: [queryKeys.storage, pool, queryKeys.volumes, project],
+          queryKey: [
+            queryKeys.storage,
+            volume.pool,
+            queryKeys.volumes,
+            project,
+          ],
         });
       });
   };
@@ -76,7 +81,8 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
       className="has-icon u-no-margin--bottom"
       shiftClickEnabled
       showShiftClickHint
-      disabled={(volume.used_by?.length ?? 0) > 0}
+      disabled={Boolean(disabledReason)}
+      onHoverText={disabledReason}
     >
       {label && <span>{label}</span>}
       {hasIcon && <Icon name="delete" />}

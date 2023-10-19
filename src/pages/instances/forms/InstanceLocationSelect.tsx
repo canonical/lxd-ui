@@ -6,7 +6,7 @@ import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import { fetchClusterGroups } from "api/cluster";
 import { FormikProps } from "formik/dist/types";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { isClusteredServer } from "util/settings";
 
 interface Props {

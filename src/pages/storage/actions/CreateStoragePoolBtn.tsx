@@ -7,7 +7,7 @@ interface Props {
   className?: string;
 }
 
-const AddStorageBtn: FC<Props> = ({ project, className }) => {
+const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
   const navigate = useNavigate();
 
   return (
@@ -17,9 +17,9 @@ const AddStorageBtn: FC<Props> = ({ project, className }) => {
       hasIcon
       onClick={() => navigate(`/ui/project/${project}/storage/create`)}
     >
-      Create storage pool
+      Create pool
     </Button>
   );
 };
 
-export default AddStorageBtn;
+export default CreateStoragePoolBtn;

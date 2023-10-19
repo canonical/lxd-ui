@@ -32,17 +32,31 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   return (
     <Row>
       <Col size={8}>
-        <Input {...getFormProps("name")} type="text" label="Name" required />
+        <Input
+          {...getFormProps("name")}
+          type="text"
+          label="Name"
+          required
+          disabled={!formik.values.isCreating || formik.values.isReadOnly}
+          help={
+            !formik.values.isCreating
+              ? "Cannot rename storage pools"
+              : undefined
+          }
+        />
         <Textarea
           {...getFormProps("description")}
           label="Description"
           rows={getTextareaRows(formik.values.description?.length)}
+          disabled={formik.values.isReadOnly}
         />
         <Select
           id="driver"
           name="driver"
           help={
-            formik.values.driver === zfsDriver
+            !formik.values.isCreating
+              ? "Driver can't be changed"
+              : formik.values.driver === zfsDriver
               ? "ZFS gives best performance and reliability"
               : undefined
           }
@@ -60,6 +74,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           }}
           value={formik.values.driver}
           required
+          disabled={!formik.values.isCreating || formik.values.isReadOnly}
         />
         <DiskSizeSelector
           label="Size"
@@ -72,13 +87,23 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           setMemoryLimit={(val?: string) =>
             void formik.setFieldValue("size", val)
           }
-          disabled={formik.values.driver === dirDriver}
+          disabled={
+            formik.values.driver === dirDriver || formik.values.isReadOnly
+          }
         />
         <Input
           {...getFormProps("source")}
           type="text"
-          disabled={formik.values.driver === btrfsDriver}
-          help={getSourceHelpForDriver(formik.values.driver)}
+          disabled={
+            formik.values.driver === btrfsDriver ||
+            !formik.values.isCreating ||
+            formik.values.isReadOnly
+          }
+          help={
+            formik.values.isCreating
+              ? getSourceHelpForDriver(formik.values.driver)
+              : "Source can't be changed"
+          }
           label="Source"
         />
       </Col>

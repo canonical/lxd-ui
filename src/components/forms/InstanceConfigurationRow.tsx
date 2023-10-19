@@ -7,7 +7,7 @@ import { fetchProfiles } from "api/profiles";
 import { useParams } from "react-router-dom";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { LxdProfile } from "types/profile";
 import { figureInheritedValue } from "util/instanceConfigInheritance";
 import { getConfigurationRow } from "components/ConfigurationRow";

@@ -24,15 +24,12 @@ export const isContainerOnlyImage = (image: RemoteImage) => {
 
 export const LOCAL_ISO = "local-iso";
 
-export const isoToRemoteImage = (
-  volume: LxdStorageVolume,
-  pool: string,
-): RemoteImage => {
+export const isoToRemoteImage = (volume: LxdStorageVolume): RemoteImage => {
   return {
     aliases: volume.name,
     arch: "",
     os: "Custom ISO",
-    pool: pool,
+    pool: volume.pool,
     release: "-",
     server: LOCAL_ISO,
     variant: "iso",

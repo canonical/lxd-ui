@@ -3,6 +3,7 @@ import {
   LxdStoragePool,
   LxdStoragePoolResources,
   LxdStorageVolume,
+  LxdStorageVolumeState,
   UploadState,
 } from "types/storage";
 import { LxdApiResponse } from "types/apiResponse";
@@ -58,6 +59,18 @@ export const createStoragePool = (pool: LxdStoragePool, project: string) => {
   });
 };
 
+export const updateStoragePool = (pool: LxdStoragePool, project: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool.name}?project=${project}`, {
+      method: "PUT",
+      body: JSON.stringify(pool),
+    })
+      .then(handleResponse)
+      .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
+
 export const renameStoragePool = (
   oldName: string,
   newName: string,
@@ -95,7 +108,7 @@ export const fetchStorageVolumes = (
     fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
-        resolve(data.metadata),
+        resolve(data.metadata.map((volume) => ({ ...volume, pool }))),
       )
       .catch(reject);
   });
@@ -112,20 +125,37 @@ export const fetchStorageVolume = (
       `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1`,
     )
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdStorageVolume))
+      .then((data) => resolve({ ...data, pool } as LxdStorageVolume))
+      .catch(reject);
+  });
+};
+
+export const fetchStorageVolumeState = (
+  pool: string,
+  project: string,
+  type: string,
+  volume: string,
+): Promise<LxdStorageVolumeState> => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}/state?project=${project}&recursion=1`,
+    )
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageVolumeState>) =>
+        resolve(data.metadata),
+      )
       .catch(reject);
   });
 };
 
 export const renameStorageVolume = (
-  pool: string,
   project: string,
   volume: LxdStorageVolume,
   newName: string,
 ) => {
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${pool}/volumes/${volume.type}/${volume.name}?project=${project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}`,
       {
         method: "POST",
         body: JSON.stringify({

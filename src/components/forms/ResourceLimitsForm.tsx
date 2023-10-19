@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";

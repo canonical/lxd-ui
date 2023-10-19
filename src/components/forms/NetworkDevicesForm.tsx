@@ -15,7 +15,7 @@ import { LxdNicDevice } from "types/device";
 import { SharedFormikTypes } from "./sharedFormTypes";
 import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { fetchProfiles } from "api/profiles";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
 import { figureInheritedNetworks } from "util/instanceConfigInheritance";

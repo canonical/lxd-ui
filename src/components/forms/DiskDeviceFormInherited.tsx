@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { SharedFormikTypes } from "./sharedFormTypes";
 import ConfigurationTable from "components/ConfigurationTable";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { InheritedVolume } from "util/instanceConfigInheritance";
 import { getDiskDeviceRow } from "./DiskDeviceRow";

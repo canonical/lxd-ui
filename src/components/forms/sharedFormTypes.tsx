@@ -1,7 +1,7 @@
-import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
-import { CreateProfileFormValues } from "pages/profiles/CreateProfileForm";
-import { EditProfileFormValues } from "pages/profiles/EditProfileForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
+import { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { FormikProps } from "formik/dist/types";
 
 export type SharedFormTypes =

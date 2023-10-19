@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect } from "react";
 import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -18,14 +18,15 @@ import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
 import { getVolumeKey } from "util/storageVolume";
-import { LxdStorageVolume } from "types/storage";
+import { LxdStorageVolume, LxdStorageVolumeContentType } from "types/storage";
+import { slugify } from "util/slugify";
 
 export interface StorageVolumeFormValues {
   name: string;
   project: string;
   pool: string;
   size?: string;
-  content_type: "filesystem" | "block";
+  content_type: LxdStorageVolumeContentType;
   type: string;
   security_shifted?: string;
   security_unmapped?: string;
@@ -73,6 +74,7 @@ export const volumeFormToPayload = (
     description: "",
     location: "",
     created_at: "",
+    pool: values.pool,
   };
 };
 
@@ -94,18 +96,19 @@ export const getFormProps = (
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
+  section: string;
+  setSection: (val: string) => void;
 }
 
-const StorageVolumeForm: FC<Props> = ({ formik }) => {
+const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
   const notify = useNotify();
-  const [section, setSection] = useState(MAIN_CONFIGURATION);
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
   }
 
-  const { data: storagePools = [], error } = useQuery({
+  const { data: pools = [], error } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStoragePools(project),
   });
@@ -121,7 +124,7 @@ const StorageVolumeForm: FC<Props> = ({ formik }) => {
   useEventListener("resize", updateFormHeight);
 
   const poolDriver =
-    storagePools.find((item) => item.name === formik.values.pool)?.driver ?? "";
+    pools.find((item) => item.name === formik.values.pool)?.driver ?? "";
 
   return (
     <Form onSubmit={formik.handleSubmit} stacked className="form">
@@ -137,14 +140,16 @@ const StorageVolumeForm: FC<Props> = ({ formik }) => {
       />
       <Row className="form-contents">
         <Col size={12}>
-          {section === MAIN_CONFIGURATION && (
-            <StorageVolumeFormMain formik={formik} />
+          {section === slugify(MAIN_CONFIGURATION) && (
+            <StorageVolumeFormMain formik={formik} project={project} />
           )}
-          {section === SNAPSHOTS && (
+          {section === slugify(SNAPSHOTS) && (
             <StorageVolumeFormSnapshots formik={formik} />
           )}
-          {section === FILESYSTEM && <StorageVolumeFormBlock formik={formik} />}
-          {section === ZFS && <StorageVolumeFormZFS formik={formik} />}
+          {section === slugify(FILESYSTEM) && (
+            <StorageVolumeFormBlock formik={formik} />
+          )}
+          {section === slugify(ZFS) && <StorageVolumeFormZFS formik={formik} />}
         </Col>
       </Row>
     </Form>

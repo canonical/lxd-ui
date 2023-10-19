@@ -8,50 +8,42 @@ import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import CustomLayout from "components/CustomLayout";
 
-const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
-const InstanceList = lazy(() => import("pages/instances/InstanceList"));
-const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
-const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
-const CreateNetwork = lazy(() => import("pages/networks/CreateNetwork"));
-const NetworkDetail = lazy(() => import("pages/networks/NetworkDetail"));
-const NoMatch = lazy(() => import("components/NoMatch"));
-const WarningList = lazy(() => import("pages/warnings/WarningList"));
-const Settings = lazy(() => import("pages/settings/Settings"));
-const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
-const Storage = lazy(() => import("pages/storage/Storage"));
-const CreateStoragePool = lazy(() => import("pages/storage/CreateStoragePool"));
-const StorageVolumeCreate = lazy(
-  () => import("pages/storage/forms/StorageVolumeCreate"),
-);
-const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
-const OperationList = lazy(() => import("pages/operations/OperationList"));
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
   () => import("pages/login/CertificateGenerate"),
 );
-const Login = lazy(() => import("pages/login/Login"));
-const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
-const StorageDetail = lazy(() => import("pages/storage/StorageDetail"));
-const StorageVolumeDetail = lazy(
-  () => import("pages/storage/StorageVolumeDetail"),
-);
-const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
-const CreateInstanceForm = lazy(
-  () => import("pages/instances/CreateInstanceForm"),
-);
-const CreateProfileForm = lazy(
-  () => import("pages/profiles/CreateProfileForm"),
-);
-const CreateProjectForm = lazy(
-  () => import("pages/projects/CreateProjectForm"),
-);
-const ProjectConfiguration = lazy(
-  () => import("pages/projects/ProjectConfiguration"),
-);
+const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
 const CreateClusterGroup = lazy(
   () => import("pages/cluster/CreateClusterGroup"),
 );
+const CreateInstance = lazy(() => import("pages/instances/CreateInstance"));
+const CreateNetwork = lazy(() => import("pages/networks/CreateNetwork"));
+const CreateProfile = lazy(() => import("pages/profiles/CreateProfile"));
+const CreateProject = lazy(() => import("pages/projects/CreateProject"));
+const CreateStoragePool = lazy(() => import("pages/storage/CreateStoragePool"));
 const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
+const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
+const InstanceList = lazy(() => import("pages/instances/InstanceList"));
+const Login = lazy(() => import("pages/login/Login"));
+const NetworkDetail = lazy(() => import("pages/networks/NetworkDetail"));
+const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
+const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
+const NoMatch = lazy(() => import("components/NoMatch"));
+const OperationList = lazy(() => import("pages/operations/OperationList"));
+const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
+const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
+const ProjectConfig = lazy(() => import("pages/projects/ProjectConfiguration"));
+const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
+const Settings = lazy(() => import("pages/settings/Settings"));
+const Storage = lazy(() => import("pages/storage/Storage"));
+const StoragePoolDetail = lazy(() => import("pages/storage/StoragePoolDetail"));
+const StorageVolumeCreate = lazy(
+  () => import("pages/storage/forms/StorageVolumeCreate"),
+);
+const StorageVolumeDetail = lazy(
+  () => import("pages/storage/StorageVolumeDetail"),
+);
+const WarningList = lazy(() => import("pages/warnings/WarningList"));
 
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
@@ -104,7 +96,7 @@ const App: FC = () => {
           path="/ui/project/:project/instances/create"
           element={
             <ProtectedRoute
-              outlet={<ProjectLoader outlet={<CreateInstanceForm />} />}
+              outlet={<ProjectLoader outlet={<CreateInstance />} />}
             />
           }
         />
@@ -144,7 +136,7 @@ const App: FC = () => {
           path="/ui/project/:project/profiles/create"
           element={
             <ProtectedRoute
-              outlet={<ProjectLoader outlet={<CreateProfileForm />} />}
+              outlet={<ProjectLoader outlet={<CreateProfile />} />}
             />
           }
         />
@@ -224,13 +216,13 @@ const App: FC = () => {
           path="/ui/project/:project/configuration"
           element={
             <ProtectedRoute
-              outlet={<ProjectLoader outlet={<ProjectConfiguration />} />}
+              outlet={<ProjectLoader outlet={<ProjectConfig />} />}
             />
           }
         />
         <Route
           path="/ui/projects/create"
-          element={<ProtectedRoute outlet={<CreateProjectForm />} />}
+          element={<ProtectedRoute outlet={<CreateProject />} />}
         />
         <Route
           path="/ui/project/:project/storage"
@@ -253,7 +245,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/volumes/create"
+          path="/ui/project/:project/storage/volumes/create"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StorageVolumeCreate />} />}
@@ -264,13 +256,13 @@ const App: FC = () => {
           path="/ui/project/:project/storage/detail/:name"
           element={
             <ProtectedRoute
-              outlet={<ProjectLoader outlet={<StorageDetail />} />}
+              outlet={<ProjectLoader outlet={<StoragePoolDetail />} />}
             />
           }
         />
         <Route
           path="/ui/project/:project/storage/detail/:name/:activeTab"
-          element={<ProtectedRoute outlet={<StorageDetail />} />}
+          element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
         />
         <Route
           path="/ui/project/:project/storage/detail/:pool/:type/:volume"
@@ -278,6 +270,10 @@ const App: FC = () => {
         />
         <Route
           path="/ui/project/:project/storage/detail/:pool/:type/:volume/:activeTab"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/detail/:pool/:type/:volume/:activeTab/:activeSection"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route

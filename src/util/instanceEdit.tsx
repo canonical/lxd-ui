@@ -3,15 +3,15 @@ import { LxdInstance } from "types/instance";
 import { formDeviceToPayload, parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { getInstanceConfigKeys } from "util/instanceConfigFields";
-import { instanceEditDetailPayload } from "pages/instances/forms/InstanceEditDetailsForm";
+import { instanceEditDetailPayload } from "pages/instances/forms/EditInstanceDetails";
 import { resourceLimitsPayload } from "components/forms/ResourceLimitsForm";
 import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
 import { snapshotsPayload } from "components/forms/SnapshotsForm";
 import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import * as Yup from "yup";
-import { EditProfileFormValues } from "pages/profiles/EditProfileForm";
+import { EditProfileFormValues } from "pages/profiles/EditProfile";
 
 const getEditValues = (item: LxdProfile | LxdInstance) => {
   return {

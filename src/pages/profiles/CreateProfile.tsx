@@ -64,7 +64,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
-const CreateProfileForm: FC = () => {
+const CreateProfile: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -232,4 +232,4 @@ const CreateProfileForm: FC = () => {
   );
 };
 
-export default CreateProfileForm;
+export default CreateProfile;

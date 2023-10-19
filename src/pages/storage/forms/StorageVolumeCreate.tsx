@@ -15,31 +15,25 @@ import {
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
+import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
+import { slugify } from "util/slugify";
 
 const StorageVolumeCreate: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
+  const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
-  const { project, pool } = useParams<{ project: string; pool: string }>();
+  const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
   }
 
-  if (!pool) {
-    return <>Missing storage pool name</>;
-  }
-
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
       .test(
-        ...testDuplicateStorageVolumeName(
-          project,
-          "custom",
-          pool,
-          controllerState,
-        ),
+        ...testDuplicateStorageVolumeName(project, "custom", controllerState),
       )
       .required("This field is required"),
   });
@@ -50,7 +44,7 @@ const StorageVolumeCreate: FC = () => {
       type: "custom",
       name: "",
       project: project,
-      pool: pool,
+      pool: "",
       size: "GiB",
       isReadOnly: false,
       isCreating: true,
@@ -58,7 +52,7 @@ const StorageVolumeCreate: FC = () => {
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const volume = volumeFormToPayload(values, project);
-      createStorageVolume(pool, project, volume)
+      createStorageVolume(values.pool, project, volume)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
@@ -67,7 +61,7 @@ const StorageVolumeCreate: FC = () => {
             queryKey: [queryKeys.projects, project],
           });
           navigate(
-            `/ui/project/${project}/storage/detail/${pool}/volumes`,
+            `/ui/project/${project}/storage/volumes`,
             notify.queue(
               notify.success(`Storage volume ${values.name} created.`),
             ),
@@ -87,18 +81,18 @@ const StorageVolumeCreate: FC = () => {
   return (
     <BaseLayout title="Create volume" contentClassName="storage-volume-form">
       <NotificationRow />
-      <StorageVolumeForm formik={formik} />
+      <StorageVolumeForm
+        formik={formik}
+        section={section}
+        setSection={(val) => setSection(slugify(val))}
+      />
       <div className="l-footer--sticky p-bottom-controls">
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
             <Button
               appearance="base"
-              onClick={() =>
-                navigate(
-                  `/ui/project/${project}/storage/detail/${pool}/volumes`,
-                )
-              }
+              onClick={() => navigate(`/ui/project/${project}/storage/volumes`)}
             >
               Cancel
             </Button>

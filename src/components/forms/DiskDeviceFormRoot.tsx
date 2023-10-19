@@ -3,7 +3,7 @@ import { Button, Icon } from "@canonical/react-components";
 import { LxdDiskDevice } from "types/device";
 import { SharedFormikTypes } from "./sharedFormTypes";
 import ConfigurationTable from "components/ConfigurationTable";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
@@ -16,14 +16,14 @@ import { removeDevice } from "util/formDevices";
 interface Props {
   formik: SharedFormikTypes;
   project: string;
-  storagePools: LxdStoragePool[];
+  pools: LxdStoragePool[];
   profiles: LxdProfile[];
 }
 
 const DiskDeviceFormRoot: FC<Props> = ({
   formik,
   project,
-  storagePools,
+  pools,
   profiles,
 }) => {
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
@@ -46,9 +46,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
       type: "disk",
       name: "root",
       path: "/",
-      pool: inheritValue
-        ? inheritValue.pool
-        : storagePools[0]?.name ?? undefined,
+      pool: inheritValue ? inheritValue.pool : pools[0]?.name ?? undefined,
     });
     void formik.setFieldValue("devices", copy);
 

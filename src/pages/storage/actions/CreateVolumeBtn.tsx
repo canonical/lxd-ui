@@ -4,19 +4,24 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   project: string;
-  pool: string;
+  className?: string;
 }
 
-const CreateVolumeBtn: FC<Props> = ({ project, pool }) => {
+const CreateVolumeBtn: FC<Props> = ({ project, className }) => {
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    navigate(`/ui/project/${project}/storage/detail/${pool}/volumes/create
+    navigate(`/ui/project/${project}/storage/volumes/create
     `);
   };
 
   return (
-    <Button hasIcon onClick={handleAdd} appearance="positive">
+    <Button
+      appearance="positive"
+      hasIcon
+      onClick={handleAdd}
+      className={className}
+    >
       Create volume
     </Button>
   );

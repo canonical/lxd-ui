@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useParams } from "react-router-dom";
-import EditProjectForm from "pages/projects/EditProjectForm";
+import EditProject from "pages/projects/EditProject";
 import Loader from "components/Loader";
 import { useProject } from "context/project";
 
@@ -18,7 +18,7 @@ const ProjectConfiguration: FC = () => {
   }
 
   return project ? (
-    <EditProjectForm project={project} key={project.name} />
+    <EditProject project={project} key={project.name} />
   ) : (
     <>Loading project failed</>
   );

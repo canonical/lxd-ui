@@ -86,12 +86,9 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       .finally(() => {
         setLoading(false);
         setUploadState(null);
-        void queryClient.invalidateQueries([
-          queryKeys.storage,
-          pool,
-          queryKeys.volumes,
-          projectName,
-        ]);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.storage, pool, queryKeys.volumes, projectName],
+        });
       });
   };
 

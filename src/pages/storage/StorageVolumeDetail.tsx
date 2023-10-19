@@ -78,11 +78,7 @@ const StorageVolumeDetail: FC = () => {
   return (
     <main className="l-main">
       <div className="p-panel">
-        <StorageVolumeHeader
-          storagePool={pool}
-          volume={volume}
-          project={project}
-        />
+        <StorageVolumeHeader volume={volume} project={project} />
         <div className="p-panel__content storage-volume-form">
           <NotificationRow />
           <Row>
@@ -105,7 +101,7 @@ const StorageVolumeDetail: FC = () => {
 
             {activeTab === "configuration" && (
               <div role="tabpanel" aria-labelledby="configuration">
-                <StorageVolumeEdit volume={volume} pool={pool} />
+                <StorageVolumeEdit volume={volume} />
               </div>
             )}
           </Row>

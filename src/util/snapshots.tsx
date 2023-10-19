@@ -1,6 +1,5 @@
 import { LxdInstance } from "types/instance";
-import { TestFunction } from "yup";
-import { AnyObject } from "yup/lib/types";
+import { AnyObject, TestFunction } from "yup";
 import {
   AbortControllerState,
   checkDuplicateName,

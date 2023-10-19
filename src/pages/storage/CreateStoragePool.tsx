@@ -27,7 +27,7 @@ const CreateStoragePool: FC = () => {
     return <>Missing project</>;
   }
 
-  const StorageSchema = Yup.object().shape({
+  const CreateStoragePoolSchema = Yup.object().shape({
     name: Yup.string()
       .test(...testDuplicateStoragePoolName(project, controllerState))
       .required("This field is required"),
@@ -35,13 +35,15 @@ const CreateStoragePool: FC = () => {
 
   const formik = useFormik<StoragePoolFormValues>({
     initialValues: {
+      isCreating: true,
+      isReadOnly: false,
       name: "",
       description: "",
       driver: zfsDriver,
       source: "",
       size: "",
     },
-    validationSchema: StorageSchema,
+    validationSchema: CreateStoragePoolSchema,
     onSubmit: ({ name, description, driver, source, size }) => {
       const hasValidSize = size.match(/^\d/);
       const storagePool: LxdStoragePool = {

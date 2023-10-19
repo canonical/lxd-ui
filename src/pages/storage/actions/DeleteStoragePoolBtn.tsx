@@ -14,13 +14,13 @@ import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 
 interface Props {
-  storage: LxdStoragePool;
+  pool: LxdStoragePool;
   project: string;
   shouldExpand?: boolean;
 }
 
-const DeleteStorageBtn: FC<Props> = ({
-  storage,
+const DeleteStoragePoolBtn: FC<Props> = ({
+  pool,
   project,
   shouldExpand = false,
 }) => {
@@ -32,7 +32,7 @@ const DeleteStorageBtn: FC<Props> = ({
 
   const handleDelete = () => {
     setLoading(true);
-    deleteStoragePool(storage.name, project)
+    deleteStoragePool(pool.name, project)
       .then(() => {
         setLoading(false);
         void queryClient.invalidateQueries({
@@ -40,7 +40,7 @@ const DeleteStorageBtn: FC<Props> = ({
         });
         navigate(
           `/ui/project/${project}/storage`,
-          notify.queue(notify.success(`Storage pool ${storage.name} deleted.`)),
+          notify.queue(notify.success(`Storage pool ${pool.name} deleted.`)),
         );
       })
       .catch((e) => {
@@ -49,18 +49,21 @@ const DeleteStorageBtn: FC<Props> = ({
       });
   };
 
+  const disabledReason =
+    (pool.used_by?.length ?? 0) > 0 ? "Storage pool is in use" : undefined;
+
   return (
     <ConfirmationButton
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete storage{" "}
-            <ItemName item={storage} bold />.<br />
+            This will permanently delete storage <ItemName item={pool} bold />.
+            <br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),
-        confirmButtonLabel: "Delete storage",
+        confirmButtonLabel: "Delete pool",
         onConfirm: handleDelete,
         message: "Delete storage",
       }}
@@ -72,11 +75,13 @@ const DeleteStorageBtn: FC<Props> = ({
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
+      disabled={Boolean(disabledReason)}
+      onHoverText={disabledReason}
     >
       {!isSmallScreen && shouldExpand ? undefined : <Icon name="delete" />}
-      {!isSmallScreen && shouldExpand && "Delete"}
+      {!isSmallScreen && shouldExpand && "Delete pool"}
     </ConfirmationButton>
   );
 };
 
-export default DeleteStorageBtn;
+export default DeleteStoragePoolBtn;

@@ -5,16 +5,16 @@ import { queryKeys } from "util/queryKeys";
 import { Row, Tabs, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
-import StorageDetailHeader from "pages/storage/StorageDetailHeader";
+import StoragePoolHeader from "pages/storage/StoragePoolHeader";
 import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";
-import StorageVolumes from "pages/storage/StorageVolumes";
-import StorageOverview from "pages/storage/StorageOverview";
+import StoragePoolOverview from "pages/storage/StoragePoolOverview";
 import CustomLayout from "components/CustomLayout";
+import EditStoragePool from "pages/storage/EditStoragePool";
 
-const TABS: string[] = ["Overview", "Volumes"];
+const TABS: string[] = ["Overview", "Configuration"];
 
-const StorageDetail: FC = () => {
+const StoragePoolDetail: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const { name, project, activeTab } = useParams<{
@@ -31,7 +31,7 @@ const StorageDetail: FC = () => {
   }
 
   const {
-    data: storagePool,
+    data: pool,
     error,
     isLoading,
   } = useQuery({
@@ -45,7 +45,7 @@ const StorageDetail: FC = () => {
 
   if (isLoading) {
     return <Loader text="Loading storage details..." />;
-  } else if (!storagePool) {
+  } else if (!pool) {
     return <>Loading storage details failed</>;
   }
 
@@ -60,13 +60,7 @@ const StorageDetail: FC = () => {
 
   return (
     <CustomLayout
-      header={
-        <StorageDetailHeader
-          name={name}
-          storagePool={storagePool}
-          project={project}
-        />
-      }
+      header={<StoragePoolHeader name={name} pool={pool} project={project} />}
       contentClassName="detail-page"
     >
       <NotificationRow />
@@ -83,13 +77,13 @@ const StorageDetail: FC = () => {
 
         {!activeTab && (
           <div role="tabpanel" aria-labelledby="overview">
-            <StorageOverview name={name} project={project} />
+            <StoragePoolOverview name={name} project={project} />
           </div>
         )}
 
-        {activeTab === "volumes" && (
-          <div role="tabpanel" aria-labelledby="volumes">
-            <StorageVolumes />
+        {activeTab === "configuration" && (
+          <div role="tabpanel" aria-labelledby="configuration">
+            <EditStoragePool pool={pool} />
           </div>
         )}
       </Row>
@@ -97,4 +91,4 @@ const StorageDetail: FC = () => {
   );
 };
 
-export default StorageDetail;
+export default StoragePoolDetail;

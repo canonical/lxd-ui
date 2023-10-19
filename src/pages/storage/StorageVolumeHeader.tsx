@@ -12,10 +12,9 @@ import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn
 interface Props {
   volume: LxdStorageVolume;
   project: string;
-  storagePool: string;
 }
 
-const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
+const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const controllerState = useState<AbortController | null>(null);
@@ -26,7 +25,6 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
         ...testDuplicateStorageVolumeName(
           project,
           volume.type,
-          storagePool,
           controllerState,
           volume.name,
         ),
@@ -38,7 +36,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
     initialValues: {
       name: volume.name,
       isRenaming: false,
-    },
+      pool: volume.pool,
+    } as RenameHeaderValues,
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (volume.name === values.name) {
@@ -46,10 +45,10 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
         formik.setSubmitting(false);
         return;
       }
-      renameStorageVolume(storagePool, project, volume, values.name)
+      renameStorageVolume(project, volume, values.name)
         .then(() => {
           navigate(
-            `/ui/project/${project}/storage/detail/${storagePool}/${volume.type}/${values.name}`,
+            `/ui/project/${project}/storage/detail/${volume.pool}/${volume.type}/${values.name}`,
             notify.queue(notify.success("Storage volume renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
@@ -67,27 +66,20 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project, storagePool }) => {
     <RenameHeader
       name={volume.name}
       parentItems={[
-        <Link to={`/ui/project/${project}/storage`} key={1}>
-          Storage pools
-        </Link>,
-        <Link
-          to={`/ui/project/${project}/storage/detail/${storagePool}/volumes`}
-          key={2}
-        >
-          {storagePool}
+        <Link to={`/ui/project/${project}/storage/volumes`} key={1}>
+          Storage volumes
         </Link>,
       ]}
       controls={
         <DeleteStorageVolumeBtn
-          label="Delete"
-          pool={storagePool}
+          label="Delete volume"
           volume={volume}
           project={project}
           appearance=""
           hasIcon={false}
           onFinish={() => {
             navigate(
-              `/ui/project/${project}/storage/detail/${storagePool}/volumes`,
+              `/ui/project/${project}/storage/volumes`,
               notify.queue(
                 notify.success(`Storage volume ${volume.name} deleted.`),
               ),

@@ -5,6 +5,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { LxdStorageVolume } from "types/storage";
 import { isoTimeToString } from "util/helpers";
+import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 
 interface Props {
   project: string;
@@ -50,6 +51,12 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
               <tr>
                 <th className="p-muted-heading">Date created</th>
                 <td>{isoTimeToString(volume.created_at)}</td>
+              </tr>
+              <tr>
+                <th className="p-muted-heading">Size</th>
+                <td>
+                  <StorageVolumeSize volume={volume} />
+                </td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Custom config</th>
