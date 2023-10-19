@@ -1,4 +1,16 @@
 .snapshot-list {
+  .p-panel__controls {
+    padding-top: 0;
+  }
+
+  .pagination {
+    margin-top: 0;
+  }
+
+  .items-per-page {
+    margin-bottom: 0;
+  }
+
   .snapshot-creation-modal {
     text-align: left !important;
 
@@ -24,10 +36,6 @@
     .expiration-wrapper {
       grid-gap: $sph--large;
     }
-  }
-
-  .p-table__expanding-panel {
-    display: none !important;
   }
 
   .name {
