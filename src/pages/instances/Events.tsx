@@ -2,10 +2,13 @@ import React, { FC, useEffect, useState } from "react";
 import { LxdEvent } from "types/event";
 import { useEventQueue } from "context/eventQueue";
 import { useAuth } from "context/auth";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 const Events: FC = () => {
   const { isAuthenticated } = useAuth();
   const eventQueue = useEventQueue();
+  const queryClient = useQueryClient();
   const [eventWs, setEventWs] = useState<WebSocket | null>(null);
 
   const handleEvent = (event: LxdEvent) => {
@@ -40,6 +43,11 @@ const Events: FC = () => {
         return;
       }
       const event = JSON.parse(message.data) as LxdEvent;
+      if (event.type === "operation") {
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.operations, event.project],
+        });
+      }
       setTimeout(() => handleEvent(event), 1000); // handle with delay to allow operations to vanish
     };
   };
