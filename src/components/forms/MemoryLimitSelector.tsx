@@ -92,7 +92,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
     if (formattedValue < 1) {
       return `${formattedValue} ${memoryLimit.unit}`;
     }
-    return `${Number(formattedValue.toFixed(1))} ${memoryLimit.unit}`;
+    return `${+formattedValue.toFixed(1)} ${memoryLimit.unit}`;
   };
 
   const helpText = maxMemory && (

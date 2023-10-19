@@ -83,10 +83,10 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "scrollable_table";
 @import "selectable_main_table";
 @import "settings_page";
+@import "storage";
 @import "storage_detail_overview";
 @import "storage_pool_form";
 @import "storage_volume_form";
-@import "storage_volumes";
 @import "upper_controls_bar";
 
 .p-heading--4 {

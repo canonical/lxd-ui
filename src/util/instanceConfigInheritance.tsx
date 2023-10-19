@@ -1,8 +1,8 @@
 import { SharedFormTypes } from "components/forms/sharedFormTypes";
 import { LxdProfile } from "types/profile";
 import { getInstanceKey } from "util/instanceConfigFields";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { isDiskDevice, isNicDevice } from "util/devices";
 import { LxdDiskDevice, LxdNicDevice } from "types/device";
 

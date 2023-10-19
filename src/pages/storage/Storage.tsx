@@ -7,9 +7,10 @@ import { slugify } from "util/slugify";
 import CachedImageList from "pages/images/CachedImageList";
 import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
+import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
 
-const TABS: string[] = ["Storage pools", "Cached images", "Custom ISOs"];
+const TABS: string[] = ["Pools", "Volumes", "Cached images", "Custom ISOs"];
 
 const Storage: FC = () => {
   const navigate = useNavigate();
@@ -58,6 +59,12 @@ const Storage: FC = () => {
         {!activeTab && (
           <div role="tabpanel">
             <StoragePools />
+          </div>
+        )}
+
+        {activeTab === "volumes" && (
+          <div role="volumes">
+            <StorageVolumes />
           </div>
         )}
 

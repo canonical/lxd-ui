@@ -12,7 +12,7 @@ import {
 import classnames from "classnames";
 import ItemName from "components/ItemName";
 import ConfirmationForce from "components/ConfirmationForce";
-import EditSnapshotForm from "./EditSnapshotForm";
+import EditSnapshot from "./EditSnapshot";
 
 interface Props {
   instance: LxdInstance;
@@ -74,7 +74,7 @@ const SnapshotActions: FC<Props> = ({
   return (
     <>
       {isModalOpen && (
-        <EditSnapshotForm
+        <EditSnapshot
           instance={instance}
           snapshot={snapshot}
           close={() => setModalOpen(false)}

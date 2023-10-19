@@ -5,17 +5,18 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
-import DeleteStorageBtn from "pages/storage/actions/DeleteStorageBtn";
+import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useNotify } from "@canonical/react-components";
+import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolBtn";
 
 interface Props {
   name: string;
-  storagePool: LxdStoragePool;
+  pool: LxdStoragePool;
   project: string;
 }
 
-const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
+const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const controllerState = useState<AbortController | null>(null);
@@ -61,14 +62,21 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
           Storage pools
         </Link>,
       ]}
-      controls={
-        <DeleteStorageBtn
+      controls={[
+        <StorageVolumesInPoolBtn
+          key="volumes"
+          pool={pool.name}
+          project={project}
+        >
+          Go to volumes
+        </StorageVolumesInPoolBtn>,
+        <DeleteStoragePoolBtn
           key="delete"
-          storage={storagePool}
+          pool={pool}
           project={project}
           shouldExpand={true}
-        />
-      }
+        />,
+      ]}
       isLoaded={true}
       formik={formik}
       renameDisabledReason="Cannot rename storage pools"
@@ -76,4 +84,4 @@ const StorageDetailHeader: FC<Props> = ({ name, storagePool, project }) => {
   );
 };
 
-export default StorageDetailHeader;
+export default StoragePoolHeader;

@@ -1,21 +1,18 @@
-.custom-iso-list,
-.snapshot-list,
-.storage-volumes {
-  .upper-controls-bar {
+.upper-controls-bar {
+  display: flex;
+  gap: $sph--large;
+  justify-content: flex-end;
+
+  .search-box-wrapper {
     display: flex;
-    gap: $sph--large;
+    flex-grow: 1;
 
-    .search-box-wrapper {
-      display: flex;
-      flex-grow: 1;
+    .search-box {
+      max-width: 25rem;
+      width: 100%;
 
-      .search-box {
-        max-width: 25rem;
-        width: 100%;
-
-        @media screen and (width <= 1070px) {
-          display: flex;
-        }
+      @media screen and (width <= 1070px) {
+        display: flex;
       }
     }
   }

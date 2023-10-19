@@ -90,7 +90,7 @@ const CustomIsoSelector: FC<Props> = ({
       sortData: {
         name: image.aliases.toLowerCase(),
         storagePool: image.pool?.toLowerCase(),
-        size: image.volume?.config.size,
+        size: +(image.volume?.config.size ?? 0),
         uploadedAt: image.created_at,
       },
     };

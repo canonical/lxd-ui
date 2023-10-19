@@ -1,5 +1,5 @@
 import { LxdProject } from "types/project";
-import { ProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProject";
 import { isProjectWithProfiles } from "./projects";
 
 export const getProjectEditValues = (

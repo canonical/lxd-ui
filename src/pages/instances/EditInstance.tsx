@@ -30,9 +30,9 @@ import ResourceLimitsForm, {
   ResourceLimitsFormValues,
 } from "components/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
-import InstanceEditDetailsForm, {
+import EditInstanceDetails, {
   InstanceEditDetailsFormValues,
-} from "pages/instances/forms/InstanceEditDetailsForm";
+} from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
   CLOUD_INIT,
   MAIN_CONFIGURATION,
@@ -67,7 +67,7 @@ interface Props {
   instance: LxdInstance;
 }
 
-const EditInstanceForm: FC<Props> = ({ instance }) => {
+const EditInstance: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
   const { project, activeSection } = useParams<{
@@ -166,7 +166,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
           <Col size={12}>
             {(activeSection === slugify(MAIN_CONFIGURATION) ||
               !activeSection) && (
-              <InstanceEditDetailsForm formik={formik} project={project} />
+              <EditInstanceDetails formik={formik} project={project} />
             )}
 
             {activeSection === slugify(DISK_DEVICES) && (
@@ -252,4 +252,4 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
   );
 };
 
-export default EditInstanceForm;
+export default EditInstance;

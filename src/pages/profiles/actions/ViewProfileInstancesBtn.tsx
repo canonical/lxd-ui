@@ -14,7 +14,6 @@ const ViewProfileInstancesBtn: FC<Props> = ({ profile, project }) => {
     <Button
       appearance="link"
       className="u-no-margin u-no-padding"
-      small
       onClick={() => {
         navigate(`/ui/project/${project}/instances`, {
           state: {

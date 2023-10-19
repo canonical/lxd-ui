@@ -13,7 +13,7 @@ import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
+import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";

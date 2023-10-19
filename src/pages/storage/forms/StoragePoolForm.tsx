@@ -8,6 +8,8 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 
 export interface StoragePoolFormValues {
+  isCreating: boolean;
+  isReadOnly: boolean;
   name: string;
   description: string;
   driver: string;

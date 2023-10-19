@@ -46,7 +46,7 @@ export type ProjectFormValues = ProjectDetailsFormValues &
   DeviceUsageRestrictionFormValues &
   NetworkRestrictionFormValues;
 
-const CreateProjectForm: FC = () => {
+const CreateProject: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -141,4 +141,4 @@ const CreateProjectForm: FC = () => {
   );
 };
 
-export default CreateProjectForm;
+export default CreateProject;

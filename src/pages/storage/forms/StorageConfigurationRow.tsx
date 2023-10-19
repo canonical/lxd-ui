@@ -35,13 +35,13 @@ export const getStorageConfigurationRow = ({
   const isOverridden = value !== undefined;
 
   // when creating the defaults can be set on the storage pool
-  const { data: storagePool } = useQuery({
+  const { data: pool } = useQuery({
     queryKey: [queryKeys.storage, formik.values.pool, formik.values.project],
     queryFn: () => fetchStoragePool(formik.values.pool, formik.values.project),
     enabled: formik.values.isCreating,
   });
 
-  const [inheritedValue, inheritSource] = getLxdDefault(name, storagePool);
+  const [inheritedValue, inheritSource] = getLxdDefault(name, pool);
   const isReadOnly = formik.values.isReadOnly;
   const overrideValue = value === "" ? "-" : value;
 

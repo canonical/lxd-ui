@@ -61,16 +61,28 @@ const Pagination: FC<Props> = ({
   useEventListener("resize", resize);
   useEffect(resize, []);
 
+  const getVisibleCount = () => {
+    if (selectedNotification) {
+      return selectedNotification;
+    }
+
+    if (isSmallScreen) {
+      return `${visibleCount} out of ${totalCount}`;
+    }
+
+    if (visibleCount === totalCount && visibleCount > 1) {
+      return `Showing all ${totalCount} ${keyword}s`;
+    }
+
+    return `Showing ${visibleCount} out of ${totalCount} ${keyword}${
+      totalCount !== 1 ? "s" : ""
+    }`;
+  };
+
   return (
     <div className={classnames("pagination", className)} {...divProps}>
       <div className="description" id="pagination-description">
-        {selectedNotification
-          ? selectedNotification
-          : isSmallScreen
-          ? `${visibleCount}\xa0out\xa0of\xa0${totalCount}`
-          : `Showing ${visibleCount} out of ${totalCount} ${keyword}${
-              totalCount !== 1 ? "s" : ""
-            }`}
+        {getVisibleCount()}
       </div>
       <Button
         aria-label="Previous page"

@@ -5,7 +5,11 @@ import usePortal from "react-useportal";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 
-const UploadCustomIsoBtn: FC = () => {
+interface Props {
+  className?: string;
+}
+
+const UploadCustomIsoBtn: FC<Props> = ({ className }) => {
   const notify = useNotify();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
@@ -18,13 +22,13 @@ const UploadCustomIsoBtn: FC = () => {
         Image <b>{name}</b> uploaded successfully
       </>,
     );
-    void queryClient.invalidateQueries([queryKeys.isoVolumes]);
+    void queryClient.invalidateQueries({ queryKey: [queryKeys.isoVolumes] });
     closePortal();
   };
 
   return (
     <>
-      <Button appearance="positive" onClick={openPortal}>
+      <Button appearance="positive" onClick={openPortal} className={className}>
         Upload custom ISO
       </Button>
       {isOpen && (

@@ -38,7 +38,12 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
             type="text"
             label="Name"
             required
-            disabled={formik.values.readOnly}
+            disabled={formik.values.readOnly || !formik.values.isCreating}
+            help={
+              !formik.values.isCreating
+                ? "Click the name in the header to rename the network"
+                : undefined
+            }
           />
           <Textarea
             {...getFormProps("description")}

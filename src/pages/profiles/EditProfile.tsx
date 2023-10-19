@@ -71,7 +71,7 @@ interface Props {
   featuresProfiles: boolean;
 }
 
-const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
+const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const notify = useNotify();
   const { project, activeSection } = useParams<{
     project: string;
@@ -275,4 +275,4 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
   );
 };
 
-export default EditProfileForm;
+export default EditProfile;

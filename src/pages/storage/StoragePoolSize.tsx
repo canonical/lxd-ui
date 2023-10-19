@@ -7,30 +7,28 @@ import { humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
 
 interface Props {
-  storage: LxdStoragePool;
+  pool: LxdStoragePool;
 }
 
-const StorageSize: FC<Props> = ({ storage }) => {
+const StoragePoolSize: FC<Props> = ({ pool }) => {
   const { data: resources } = useQuery({
-    queryKey: [queryKeys.storage, storage.name, queryKeys.resources],
-    queryFn: () => fetchStoragePoolResources(storage.name),
+    queryKey: [queryKeys.storage, pool.name, queryKeys.resources],
+    queryFn: () => fetchStoragePoolResources(pool.name),
   });
 
   if (!resources) {
-    return <>{storage.config?.size}</>;
+    return <>{pool.config?.size}</>;
   }
 
   const total = resources.space.total;
   const used = resources.space.used;
 
   return (
-    <>
-      <Meter
-        percentage={(100 / total) * used}
-        text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
-      />
-    </>
+    <Meter
+      percentage={(100 / total) * used}
+      text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
+    />
   );
 };
 
-export default StorageSize;
+export default StoragePoolSize;

@@ -23,7 +23,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
     [PROFILES]: filterUsedByType("profiles", storage.used_by),
     [IMAGES]: filterUsedByType("images", storage.used_by),
     [SNAPSHOTS]: filterUsedByType("snapshots", storage.used_by),
-    [CUSTOM]: filterUsedByType("storage-pools", storage.used_by),
+    [CUSTOM]: filterUsedByType("volumes", storage.used_by),
   };
 
   return (
@@ -102,8 +102,12 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
             <ExpandableList
               items={data[CUSTOM].map((item) => (
                 <div key={`${item.name}-${item.project}`}>
-                  {item.name}
-                  {item.project !== project && ` (project ${item.project})`}
+                  <Link
+                    to={`/ui/project/${item.project}/storage/detail/${storage.name}/custom/${item.name}`}
+                  >
+                    {item.name}
+                    {item.project !== project && ` (project ${item.project})`}
+                  </Link>
                 </div>
               ))}
             />

@@ -1,14 +1,10 @@
 import { fetchStoragePools, fetchStorageVolumes } from "api/storage-pools";
 import { LxdStorageVolume } from "types/storage";
 
-export interface LxdStorageVolumeWithPool extends LxdStorageVolume {
-  pool: string;
-}
-
 export const loadCustomVolumes = async (
   project: string,
-): Promise<LxdStorageVolumeWithPool[]> => {
-  const result: LxdStorageVolumeWithPool[] = [];
+): Promise<LxdStorageVolume[]> => {
+  const result: LxdStorageVolume[] = [];
 
   const pools = await fetchStoragePools(project);
   const volumePromises = pools.map(async (pool) =>

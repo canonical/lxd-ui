@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
 import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
-import { ProjectFormValues } from "pages/projects/CreateProjectForm";
+import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
 import { SharedFormikTypes } from "components/forms/sharedFormTypes";

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Col, Input, Row, Textarea } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useSettings } from "context/useSettings";
 import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
 import { isClusteredServer } from "util/settings";
@@ -32,7 +32,7 @@ interface Props {
   project: string;
 }
 
-const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
+const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
   const isReadOnly = formik.values.readOnly;
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
@@ -105,4 +105,4 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
   );
 };
 
-export default InstanceEditDetailsForm;
+export default EditInstanceDetails;

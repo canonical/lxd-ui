@@ -5,7 +5,7 @@ import { fetchProfile } from "api/profiles";
 import { queryKeys } from "util/queryKeys";
 import { Row, Tabs, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
-import EditProfileForm from "pages/profiles/EditProfileForm";
+import EditProfile from "pages/profiles/EditProfile";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
 import { slugify } from "util/slugify";
@@ -103,7 +103,7 @@ const ProfileDetail: FC = () => {
 
           {activeTab === "configuration" && (
             <div role="tabpanel" aria-labelledby="configuration">
-              <EditProfileForm
+              <EditProfile
                 profile={profile}
                 featuresProfiles={featuresProfiles}
               />

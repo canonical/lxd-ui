@@ -1,26 +1,26 @@
 import { AbortControllerState, checkDuplicateName } from "util/helpers";
-import { TestFunction } from "yup";
-import { AnyObject } from "yup/lib/types";
+import { AnyObject, TestContext, TestFunction } from "yup";
 import { LxdStoragePool } from "types/storage";
+import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const testDuplicateStorageVolumeName = (
   project: string,
   volumeType: string,
-  storagePool: string,
   controllerState: AbortControllerState,
   previousName?: string,
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
     "deduplicate",
     "A storage volume with this name already exists",
-    (value?: string) => {
+    (value?: string, context?: TestContext) => {
+      const pool = (context?.parent as StorageVolumeFormValues).pool;
       return (
         value === previousName ||
         checkDuplicateName(
           value,
           project,
           controllerState,
-          `storage-pools/${storagePool}/volumes/${volumeType}`,
+          `storage-pools/${pool}/volumes/${volumeType}`,
         )
       );
     },
@@ -68,14 +68,11 @@ const storageVolumeDefaults: Record<string, string> = {
 
 export const getLxdDefault = (
   formField: string,
-  storagePool?: LxdStoragePool,
+  pool?: LxdStoragePool,
 ): [string, string] => {
   const poolField = `volume.${getVolumeKey(formField)}`;
-  if (
-    storagePool?.config &&
-    Object.keys(storagePool.config).includes(poolField)
-  ) {
-    return [storagePool.config[poolField], `${storagePool.name} pool`];
+  if (pool?.config && poolField in pool.config) {
+    return [pool.config[poolField], `${pool.name} pool`];
   }
 
   if (Object.keys(storageVolumeDefaults).includes(formField)) {

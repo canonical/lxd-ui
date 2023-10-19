@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Select, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -21,13 +21,19 @@ const StoragePoolSelector: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const {
-    data: storagePools = [],
+    data: pools = [],
     error,
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStoragePools(project),
   });
+
+  useEffect(() => {
+    if (!value && pools.length > 0) {
+      setValue(pools[0].name);
+    }
+  }, [value, pools]);
 
   if (isLoading) {
     return <Loader text="Loading storage pools..." />;
@@ -38,18 +44,15 @@ const StoragePoolSelector: FC<Props> = ({
   }
 
   const getStoragePoolOptions = () => {
-    const options = storagePools.map((storagePool) => {
+    const options = pools.map((pool) => {
       return {
-        label: storagePool.name,
-        value: storagePool.name,
+        label: pool.name,
+        value: pool.name,
         disabled: false,
       };
     });
     options.unshift({
-      label:
-        storagePools.length === 0
-          ? "No storage pool available"
-          : "Select option",
+      label: pools.length === 0 ? "No storage pool available" : "Select option",
       value: "",
       disabled: true,
     });

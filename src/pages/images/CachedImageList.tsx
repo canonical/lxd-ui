@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   EmptyState,
   Icon,
   List,
   MainTable,
+  SearchBox,
   useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
@@ -15,10 +16,14 @@ import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import { cachedLxdToRemoteImage } from "util/images";
+import ScrollableTable from "components/ScrollableTable";
+import { usePagination } from "util/pagination";
+import Pagination from "components/Pagination";
 
 const ImageList: FC = () => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
+  const [query, setQuery] = useState<string>("");
 
   if (!project) {
     return <>Missing project</>;
@@ -39,14 +44,28 @@ const ImageList: FC = () => {
 
   const headers = [
     { content: "Name", sortKey: "name" },
-    { content: "Architecture", sortKey: "architecture" },
-    { content: "Type", sortKey: "type" },
-    { content: "Upload date", sortKey: "uploaded_at" },
-    { content: "Size", sortKey: "size" },
+    {
+      content: "Architecture",
+      sortKey: "architecture",
+      className: "architecture",
+    },
+    { content: "Type", sortKey: "type", className: "type" },
+    {
+      content: "Upload date",
+      sortKey: "uploaded_at",
+      className: "uploaded_at",
+    },
+    { content: "Size", sortKey: "size", className: "u-align--right size" },
     { "aria-label": "Actions", className: "actions" },
   ];
 
-  const rows = images.map((image) => {
+  const filteredImages = images.filter(
+    (item) =>
+      !query ||
+      item.properties.description.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  const rows = filteredImages.map((image) => {
     const actions = (
       <List
         inline
@@ -73,40 +92,50 @@ const ImageList: FC = () => {
           content: image.architecture,
           role: "cell",
           "aria-label": "Architecture",
+          className: "architecture",
         },
         {
           content: image.type,
           role: "cell",
           "aria-label": "Type",
+          className: "type",
         },
         {
           content: isoTimeToString(image.uploaded_at),
           role: "cell",
           "aria-label": "Upload date",
+          className: "uploaded_at",
         },
         {
           content: humanFileSize(image.size),
           role: "cell",
           "aria-label": "Size",
+          className: "u-align--right size",
         },
         {
           content: actions,
           role: "cell",
           "aria-label": "Actions",
-          className: "u-align--right",
+          className: "u-align--right actions",
         },
       ],
       sortData: {
         name: image.properties.description.toLowerCase(),
         architecture: image.architecture,
         type: image.type,
-        size: image.size,
+        size: +image.size,
         uploaded_at: image.uploaded_at,
       },
     };
   });
 
-  return !isLoading && images.length === 0 ? (
+  const pagination = usePagination(rows);
+
+  if (isLoading) {
+    return <Loader text="Loading cached images..." />;
+  }
+
+  return images.length === 0 ? (
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
@@ -115,15 +144,45 @@ const ImageList: FC = () => {
       <p>Images will appear here, when launching an instance from a remote.</p>
     </EmptyState>
   ) : (
-    <MainTable
-      headers={headers}
-      rows={rows}
-      paginate={30}
-      responsive
-      sortable
-      className="u-table-layout--auto"
-      emptyStateMsg={<Loader text="Loading images..." />}
-    />
+    <div className="cached-image-list">
+      <div className="upper-controls-bar">
+        <div className="search-box-wrapper">
+          <SearchBox
+            name="search-cached-images"
+            className="search-box margin-right"
+            type="text"
+            onChange={(value) => {
+              setQuery(value);
+            }}
+            placeholder="Search for cached images"
+            value={query}
+            aria-label="Search for cached images"
+          />
+        </div>
+      </div>
+      <Pagination
+        {...pagination}
+        id="pagination"
+        className="u-no-margin--top"
+        totalCount={images.length}
+        visibleCount={
+          filteredImages.length === images.length
+            ? pagination.pageData.length
+            : filteredImages.length
+        }
+        keyword="cached image"
+      />
+      <ScrollableTable dependencies={[images]}>
+        <MainTable
+          headers={headers}
+          rows={pagination.pageData}
+          sortable
+          className="cached-image-table"
+          emptyStateMsg="No images found matching this search"
+          onUpdateSort={pagination.updateSort}
+        />
+      </ScrollableTable>
+    </div>
   );
 };
 

@@ -5,6 +5,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { LxdStorageVolumeContentType } from "types/storage";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const SNAPSHOTS = "Snapshots";
@@ -16,7 +17,7 @@ interface Props {
   setActive: (val: string) => void;
   formik: FormikProps<StorageVolumeFormValues>;
   poolDriver: string;
-  contentType: "block" | "filesystem";
+  contentType: LxdStorageVolumeContentType;
   isCreating: boolean;
 }
 

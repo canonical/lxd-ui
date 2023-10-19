@@ -4,7 +4,7 @@ import { queryKeys } from "util/queryKeys";
 import { Col, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
-import StorageSize from "pages/storage/StorageSize";
+import StoragePoolSize from "pages/storage/StoragePoolSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
@@ -14,7 +14,7 @@ interface Props {
   project: string;
 }
 
-const StorageOverview: FC<Props> = ({ name, project }) => {
+const StoragePoolOverview: FC<Props> = ({ name, project }) => {
   const notify = useNotify();
 
   const {
@@ -62,7 +62,7 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
               <tr>
                 <th className="p-muted-heading">Size</th>
                 <td>
-                  <StorageSize storage={pool} />
+                  <StoragePoolSize pool={pool} />
                 </td>
               </tr>
               <tr>
@@ -95,4 +95,4 @@ const StorageOverview: FC<Props> = ({ name, project }) => {
   );
 };
 
-export default StorageOverview;
+export default StoragePoolOverview;

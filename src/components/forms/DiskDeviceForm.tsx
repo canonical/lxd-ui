@@ -34,7 +34,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
   }
 
   const {
-    data: storagePools = [],
+    data: pools = [],
     isLoading: isStorageLoading,
     error: storageError,
   } = useQuery({
@@ -63,7 +63,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
       <DiskDeviceFormRoot
         formik={formik}
         project={project}
-        storagePools={storagePools}
+        pools={pools}
         profiles={profiles}
       />
       <DiskDeviceFormInherited

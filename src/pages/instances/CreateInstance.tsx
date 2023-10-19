@@ -81,7 +81,7 @@ interface PresetFormState {
   cancelLocation?: string;
 }
 
-const CreateInstanceForm: FC = () => {
+const CreateInstance: FC = () => {
   const eventQueue = useEventQueue();
   const location = useLocation() as Location<PresetFormState | null>;
   const navigate = useNavigate();
@@ -413,4 +413,4 @@ const CreateInstanceForm: FC = () => {
   );
 };
 
-export default CreateInstanceForm;
+export default CreateInstance;

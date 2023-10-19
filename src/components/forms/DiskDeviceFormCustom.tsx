@@ -1,17 +1,17 @@
 import React, { FC } from "react";
 import { Icon, Input, Label } from "@canonical/react-components";
 import { SharedFormikTypes } from "./sharedFormTypes";
-import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
+import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { InheritedVolume } from "util/instanceConfigInheritance";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
 import { FormDiskDevice, removeDevice } from "util/formDevices";
-import { LxdStorageVolumeWithPool } from "context/loadCustomVolumes";
 import RenameDiskDeviceInput from "./RenameDiskDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
+import { LxdStorageVolume } from "types/storage";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -29,7 +29,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
     .filter((device) => device.name !== "root" && device.type === "disk")
     .map((device) => device as FormDiskDevice);
 
-  const addVolume = (volume: LxdStorageVolumeWithPool) => {
+  const addVolume = (volume: LxdStorageVolume) => {
     const copy = [...formik.values.devices];
     copy.push({
       type: "disk",
@@ -42,7 +42,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
   };
 
   const changeVolume = (
-    volume: LxdStorageVolumeWithPool,
+    volume: LxdStorageVolume,
     formVolume: FormDiskDevice,
     index: number,
   ) => {

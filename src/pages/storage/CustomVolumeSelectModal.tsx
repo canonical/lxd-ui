@@ -3,16 +3,14 @@ import { Button, MainTable, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import {
-  loadCustomVolumes,
-  LxdStorageVolumeWithPool,
-} from "context/loadCustomVolumes";
+import { loadCustomVolumes } from "context/loadCustomVolumes";
 import ScrollableTable from "components/ScrollableTable";
+import { LxdStorageVolume } from "types/storage";
 
 interface Props {
   project: string;
-  primaryVolume?: LxdStorageVolumeWithPool;
-  onFinish: (volume: LxdStorageVolumeWithPool) => void;
+  primaryVolume?: LxdStorageVolume;
+  onFinish: (volume: LxdStorageVolume) => void;
   onCancel: () => void;
   onCreate: () => void;
 }
