@@ -12,6 +12,8 @@ import {
 } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
+import { queryKeys } from "util/queryKeys";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   instance: LxdInstance;
@@ -21,6 +23,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
+  const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -29,11 +32,15 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
     void deleteInstance(instance).then((operation) => {
       eventQueue.set(
         operation.metadata.id,
-        () =>
+        () => {
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.projects, instance.project],
+          });
           navigate(
             `/ui/project/${instance.project}/instances`,
             notify.queue(notify.success(`Instance ${instance.name} deleted.`)),
-          ),
+          );
+        },
         (msg) =>
           notify.failure(
             "Instance deletion failed",

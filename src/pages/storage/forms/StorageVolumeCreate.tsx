@@ -63,6 +63,9 @@ const StorageVolumeCreate: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.projects, project],
+          });
           navigate(
             `/ui/project/${project}/storage/detail/${pool}/volumes`,
             notify.queue(

@@ -27,6 +27,9 @@ const DeleteCachedImageBtn: FC<Props> = ({ image, project }) => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.images],
         });
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.projects, project],
+        });
         notify.success(`Image ${image.properties.description} deleted.`);
       })
       .catch((e) => {

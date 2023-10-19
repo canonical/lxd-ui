@@ -10,6 +10,8 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import classnames from "classnames";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   profile: LxdProfile;
@@ -24,6 +26,7 @@ const DeleteProfileBtn: FC<Props> = ({
 }) => {
   const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
+  const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -32,6 +35,9 @@ const DeleteProfileBtn: FC<Props> = ({
     deleteProfile(profile.name, project)
       .then(() => {
         setLoading(false);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.projects, project],
+        });
         navigate(
           `/ui/project/${project}/profiles`,
           notify.queue(notify.success(`Profile ${profile.name} deleted.`)),
