@@ -13,6 +13,7 @@ import { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
 import { isProjectEmpty } from "util/projects";
 import { LxdProject } from "types/project";
+import { getTextareaRows } from "util/formFields";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -134,10 +135,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={Math.max(
-              1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46),
-            )}
+            rows={getTextareaRows(formik.values.description?.length)}
             disabled={formik.values.readOnly}
           />
           <Select

@@ -6,6 +6,7 @@ import { EditInstanceFormValues } from "pages/instances/EditInstanceForm";
 import { useSettings } from "context/useSettings";
 import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
 import { isClusteredServer } from "util/settings";
+import { getTextareaRows } from "util/formFields";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -62,10 +63,7 @@ const InstanceEditDetailsForm: FC<Props> = ({ formik, project }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={Math.max(
-              1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46),
-            )}
+            rows={getTextareaRows(formik.values.description?.length)}
             disabled={isReadOnly}
           />
         </Col>

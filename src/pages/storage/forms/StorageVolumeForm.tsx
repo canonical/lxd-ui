@@ -88,6 +88,7 @@ export const getFormProps = (
     value: (formik.values[id] as string | undefined) ?? "",
     error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
     stacked: true,
+    placeholder: `Enter ${id.replaceAll("_", " ")}`,
   };
 };
 

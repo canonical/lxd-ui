@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Col, Input, Row, Select } from "@canonical/react-components";
+import { Col, Input, Row, Select, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
@@ -8,6 +8,7 @@ import NetworkSelector from "pages/networks/forms/NetworkSelector";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
+import { getTextareaRows } from "util/formFields";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -39,11 +40,11 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
             required
             disabled={formik.values.readOnly}
           />
-          <Input
+          <Textarea
             {...getFormProps("description")}
-            type="text"
             label="Description"
             disabled={formik.values.readOnly}
+            rows={getTextareaRows(formik.values.description?.length)}
           />
           {formik.values.type === "ovn" && (
             <NetworkSelector
