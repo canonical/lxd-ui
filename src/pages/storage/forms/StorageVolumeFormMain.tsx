@@ -31,20 +31,16 @@ const StorageVolumeFormMain: FC<Props> = ({ formik }) => {
                 : "Click the name in the header to rename the instance"
             }
           />
-          <label className="p-form__label" htmlFor="limits_disk">
-            Size
-          </label>
           <DiskSizeSelector
+            label="Size"
             value={formik.values.size}
+            help="Size of storage volume. If empty, volume will not have a size limit
+            within its storage pool."
             setMemoryLimit={(val?: string) =>
               void formik.setFieldValue("size", val)
             }
             disabled={formik.values.isReadOnly}
           />
-          <p className="p-form-help-text">
-            Size of storage volume. If empty, volume will not have a size limit
-            within its storage pool.
-          </p>
           <Select
             {...getFormProps(formik, "content_type")}
             options={[

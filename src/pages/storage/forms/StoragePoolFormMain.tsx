@@ -10,6 +10,7 @@ import {
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import { getTextareaRows } from "util/formFields";
+import DiskSizeSelector from "components/forms/DiskSizeSelector";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -60,15 +61,17 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           value={formik.values.driver}
           required
         />
-        <Input
-          {...getFormProps("size")}
-          type="number"
+        <DiskSizeSelector
+          label="Size"
+          value={formik.values.size}
           help={
             formik.values.driver === dirDriver
               ? "Not available"
               : "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
           }
-          label="Size"
+          setMemoryLimit={(val?: string) =>
+            void formik.setFieldValue("size", val)
+          }
           disabled={formik.values.driver === dirDriver}
         />
         <Input
