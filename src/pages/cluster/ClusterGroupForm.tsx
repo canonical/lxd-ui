@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   Row,
+  Textarea,
   useNotify,
 } from "@canonical/react-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,6 +27,7 @@ import { getClusterHeaders, getClusterRows } from "util/clusterGroups";
 import SelectableMainTable from "components/SelectableMainTable";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
+import { getTextareaRows } from "util/formFields";
 
 export interface ClusterGroupFormValues {
   description: string;
@@ -129,9 +131,9 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
                 value={formik.values.name}
                 error={formik.touched.name ? formik.errors.name : null}
               />
-              <Input
+              <Textarea
                 id="description"
-                type="text"
+                name="description"
                 label="Description"
                 placeholder="Enter description"
                 onBlur={formik.handleBlur}
@@ -140,6 +142,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
                 error={
                   formik.touched.description ? formik.errors.description : null
                 }
+                rows={getTextareaRows(formik.values.description?.length)}
               />
             </div>
             <div className="choose-label">

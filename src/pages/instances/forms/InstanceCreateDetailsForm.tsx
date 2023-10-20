@@ -17,6 +17,7 @@ import { CreateInstanceFormValues } from "pages/instances/CreateInstanceForm";
 import { RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
+import { getTextareaRows } from "util/formFields";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -96,10 +97,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={Math.max(
-              1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46),
-            )}
+            rows={getTextareaRows(formik.values.description?.length)}
           />
         </Col>
       </Row>

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Col, Input, Row, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { CreateProfileFormValues } from "pages/profiles/CreateProfileForm";
+import { getTextareaRows } from "util/formFields";
 
 export interface ProfileDetailsFormValues {
   name: string;
@@ -56,10 +57,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={Math.max(
-              1,
-              Math.ceil((formik.values.description?.length ?? 0) / 46),
-            )}
+            rows={getTextareaRows(formik.values.description?.length)}
             disabled={isReadOnly}
           />
         </Col>

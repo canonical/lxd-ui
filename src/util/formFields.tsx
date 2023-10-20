@@ -28,3 +28,6 @@ export const optionRenderer = (
 
   return "";
 };
+
+export const getTextareaRows = (textLength?: number) =>
+  Math.max(1, Math.ceil((textLength ?? 0) / 46));

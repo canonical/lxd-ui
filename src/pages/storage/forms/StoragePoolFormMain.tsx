@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Row, Input, Select, Col } from "@canonical/react-components";
+import { Row, Input, Select, Col, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import {
   zfsDriver,
@@ -9,6 +9,7 @@ import {
   getSourceHelpForDriver,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
+import { getTextareaRows } from "util/formFields";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -31,10 +32,10 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     <Row>
       <Col size={8}>
         <Input {...getFormProps("name")} type="text" label="Name" required />
-        <Input
+        <Textarea
           {...getFormProps("description")}
-          type="text"
           label="Description"
+          rows={getTextareaRows(formik.values.description?.length)}
         />
         <Select
           id="driver"
