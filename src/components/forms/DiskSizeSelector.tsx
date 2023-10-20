@@ -4,12 +4,20 @@ import { BYTES_UNITS } from "types/limits";
 import { parseMemoryLimit } from "util/limits";
 
 interface Props {
+  label?: string;
   value?: string;
+  help?: string;
   setMemoryLimit: (val?: string) => void;
   disabled?: boolean;
 }
 
-const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit, disabled }) => {
+const DiskSizeSelector: FC<Props> = ({
+  label,
+  value,
+  help,
+  setMemoryLimit,
+  disabled,
+}) => {
   const limit = parseMemoryLimit(value) ?? {
     value: 1,
     unit: BYTES_UNITS.GIB,
@@ -24,6 +32,11 @@ const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit, disabled }) => {
 
   return (
     <div>
+      {label && (
+        <label className="p-form__label" htmlFor="limits_disk">
+          {label}
+        </label>
+      )}
       <div className="memory-limit-with-unit">
         <Input
           id="limits_disk"
@@ -47,6 +60,7 @@ const DiskSizeSelector: FC<Props> = ({ value, setMemoryLimit, disabled }) => {
           disabled={disabled}
         />
       </div>
+      {help && <p className="p-form-help-text">{help}</p>}
     </div>
   );
 };

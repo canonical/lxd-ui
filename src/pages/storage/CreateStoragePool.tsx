@@ -43,13 +43,14 @@ const CreateStoragePool: FC = () => {
     },
     validationSchema: StorageSchema,
     onSubmit: ({ name, description, driver, source, size }) => {
+      const hasValidSize = size.match(/^\d/);
       const storagePool: LxdStoragePool = {
         name,
         description,
         driver,
         source: driver !== btrfsDriver ? source : undefined,
         config: {
-          size: size ? `${size}GiB` : undefined,
+          size: hasValidSize ? size : undefined,
         },
       };
 
