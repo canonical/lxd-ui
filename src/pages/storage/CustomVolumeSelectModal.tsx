@@ -6,6 +6,7 @@ import Loader from "components/Loader";
 import { loadCustomVolumes } from "context/loadCustomVolumes";
 import ScrollableTable from "components/ScrollableTable";
 import { LxdStorageVolume } from "types/storage";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   project: string;
@@ -36,6 +37,11 @@ const CustomVolumeSelectModal: FC<Props> = ({
   if (error) {
     notify.failure("Loading storage volumes failed", error);
   }
+
+  const handleSelect = (volume: LxdStorageVolume) => {
+    notify.clear();
+    onFinish(volume);
+  };
 
   const headers = [
     { content: "Name" },
@@ -75,7 +81,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
         {
           content: (
             <Button
-              onClick={() => onFinish(volume)}
+              onClick={() => handleSelect(volume)}
               dense
               appearance={
                 primaryVolume?.name === volume.name &&
@@ -84,6 +90,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
                   ? "positive"
                   : ""
               }
+              aria-label={`Select ${volume.name}`}
             >
               Select
             </Button>
@@ -98,6 +105,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
 
   return (
     <>
+      <NotificationRow />
       <ScrollableTable
         dependencies={[volumes, rows, notify.notification]}
         belowId="modal-footer"
@@ -106,7 +114,6 @@ const CustomVolumeSelectModal: FC<Props> = ({
           headers={headers}
           rows={rows}
           paginate={30}
-          responsive
           sortable
           className="u-table-layout--auto"
           emptyStateMsg={

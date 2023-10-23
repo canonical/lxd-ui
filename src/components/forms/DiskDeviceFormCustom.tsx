@@ -96,7 +96,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`pool-${index}-pool`}>Pool / volume</Label>
+          <Label forId={`volume-${index}-pool`}>Pool / volume</Label>
         ),
         inherited: (
           <div className="custom-disk-volume-source">
@@ -119,7 +119,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
                 project={project}
                 setValue={(volume) => changeVolume(volume, formVolume, index)}
                 buttonProps={{
-                  id: `pool-${index}-pool`,
+                  id: `volume-${index}-pool`,
                   appearance: "base",
                   className: "u-no-margin--bottom",
                 }}
@@ -138,7 +138,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
         getConfigurationRowBase({
           className: "no-border-top inherited-with-form",
           configuration: (
-            <Label forId={`pool-${index}-path`} required>
+            <Label forId={`volume-${index}-path`} required>
               Mount point
             </Label>
           ),
@@ -148,7 +148,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
             </div>
           ) : (
             <Input
-              id={`pool-${index}-path`}
+              id={`volume-${index}-path`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
                 void formik.setFieldValue(
@@ -171,7 +171,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`pool-${index}-read-limit`}>Read limit</Label>
+          <Label forId={`volume-${index}-read-limit`}>Read limit</Label>
         ),
         inherited: isReadOnly ? (
           <div className="mono-font">
@@ -184,7 +184,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
         ) : (
           <div className="custom-disk-device-limits">
             <Input
-              id={`pool-${index}-read-limit`}
+              id={`volume-${index}-read-limit`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
                 void formik.setFieldValue(
@@ -208,7 +208,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`pool-${index}-write-limit`}>Write limit</Label>
+          <Label forId={`volume-${index}-write-limit`}>Write limit</Label>
         ),
         inherited: isReadOnly ? (
           <div className="mono-font">
@@ -221,7 +221,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
         ) : (
           <div className="custom-disk-device-limits">
             <Input
-              id={`pool-${index}-write-limit`}
+              id={`volume-${index}-write-limit`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
                 void formik.setFieldValue(
