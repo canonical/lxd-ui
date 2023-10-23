@@ -49,7 +49,9 @@ const SettingFormPassword: FC<Props> = ({
               <Icon name={showPassword ? "hide" : "show"} />
             </Button>
           </div>
-          <Button onClick={onCancel}>Cancel</Button>
+          <Button appearance="base" onClick={onCancel}>
+            Cancel
+          </Button>
           <Button appearance="positive" onClick={() => onSubmit(password)}>
             Save
           </Button>
@@ -57,7 +59,9 @@ const SettingFormPassword: FC<Props> = ({
       )}
       {!showPasswordField && (
         <>
-          <Button onClick={onCancel}>Cancel</Button>
+          <Button appearance="base" onClick={onCancel}>
+            Cancel
+          </Button>
           <Button onClick={() => setShowPasswordField(true)}>Change</Button>
           <Button appearance="negative" onClick={() => onSubmit("")}>
             Remove

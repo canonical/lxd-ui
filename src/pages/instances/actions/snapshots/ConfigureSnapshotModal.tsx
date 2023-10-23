@@ -89,6 +89,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
         ) : (
           <>
             <Button
+              appearance="base"
               className="u-no-margin--bottom"
               type="button"
               onClick={close}

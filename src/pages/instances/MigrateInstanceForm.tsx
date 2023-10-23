@@ -52,6 +52,7 @@ const MigrateInstanceForm: FC<Props> = ({
             className="u-no-margin--bottom"
             type="button"
             aria-label="cancel migrate"
+            appearance="base"
             onClick={close}
           >
             Cancel

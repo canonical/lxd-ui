@@ -253,6 +253,7 @@ const EditProfileForm: FC<Props> = ({ profile, featuresProfiles }) => {
             ) : (
               <>
                 <Button
+                  appearance="base"
                   onClick={() =>
                     formik.setValues(getProfileEditValues(profile))
                   }

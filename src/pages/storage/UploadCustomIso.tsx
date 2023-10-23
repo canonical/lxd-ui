@@ -153,7 +153,11 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         </>
       )}
       <footer className="p-modal__footer">
-        <Button onClick={handleCancel} className="u-no-margin--bottom">
+        <Button
+          appearance="base"
+          onClick={handleCancel}
+          className="u-no-margin--bottom"
+        >
           Cancel
         </Button>
         <SubmitButton

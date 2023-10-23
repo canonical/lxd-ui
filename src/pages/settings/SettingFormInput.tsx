@@ -50,7 +50,9 @@ const SettingFormInput: FC<Props> = ({
         value={configField.type === "bool" ? undefined : String(value)}
         onChange={(e) => setValue(e.target.value)}
       />
-      <Button onClick={onCancel}>Cancel</Button>
+      <Button appearance="base" onClick={onCancel}>
+        Cancel
+      </Button>
       <Button appearance="positive" onClick={() => onSubmit(value)}>
         Save
       </Button>
