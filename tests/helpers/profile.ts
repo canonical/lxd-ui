@@ -7,12 +7,19 @@ export const randomProfileName = (): string => {
 };
 
 export const createProfile = async (page: Page, profile: string) => {
+  await startProfileCreation(page, profile);
+  await finishProfileCreation(page, profile);
+};
+
+export const startProfileCreation = async (page: Page, profile: string) => {
   await page.goto("/ui/");
   await page.getByRole("link", { name: "Profiles" }).click();
   await page.getByRole("button", { name: "Create profile" }).click();
-  await page.getByLabel("Profile name").click();
   await page.getByLabel("Profile name").fill(profile);
-  await page.getByRole("button", { name: "Create" }).click();
+};
+
+export const finishProfileCreation = async (page: Page, profile: string) => {
+  await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForSelector(`text=Profile ${profile} created.`, TIMEOUT);
 };
 

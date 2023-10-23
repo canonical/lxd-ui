@@ -80,6 +80,9 @@ const CustomVolumeCreateModal: FC<Props> = ({
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.customVolumes],
+          });
           notify.success(`Storage volume ${values.name} created.`);
           onFinish(volume);
         })
