@@ -82,6 +82,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume, pool }) => {
             ) : (
               <>
                 <Button
+                  appearance="base"
                   onClick={() =>
                     formik.setValues(getStorageVolumeEditValues(volume, pool))
                   }

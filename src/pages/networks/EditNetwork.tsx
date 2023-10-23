@@ -150,6 +150,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             ) : (
               <>
                 <Button
+                  appearance="base"
                   onClick={() =>
                     formik.setValues(getNetworkEditValues(network))
                   }

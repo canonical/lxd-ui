@@ -65,7 +65,12 @@ const SnapshotForm: FC<Props> = ({
       title={`${isEdit ? "Edit" : "Create"} snapshot`}
       buttonRow={
         <>
-          <Button className="u-no-margin--bottom" type="button" onClick={close}>
+          <Button
+            appearance="base"
+            className="u-no-margin--bottom"
+            type="button"
+            onClick={close}
+          >
             Cancel
           </Button>
           <SubmitButton

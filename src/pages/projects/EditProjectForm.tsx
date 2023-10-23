@@ -127,7 +127,10 @@ const EditProjectForm: FC<Props> = ({ project }) => {
                 </>
               ) : (
                 <>
-                  <Button onClick={() => formik.setValues(initialValues)}>
+                  <Button
+                    appearance="base"
+                    onClick={() => formik.setValues(initialValues)}
+                  >
                     Cancel
                   </Button>
                   <SubmitButton

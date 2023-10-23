@@ -116,7 +116,11 @@ const CustomIsoSelector: FC<Props> = ({
         />
       </div>
       <footer className="p-modal__footer">
-        <Button className="u-no-margin--bottom" onClick={onCancel}>
+        <Button
+          appearance="base"
+          className="u-no-margin--bottom"
+          onClick={onCancel}
+        >
           Cancel
         </Button>
         <Button

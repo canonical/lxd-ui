@@ -73,6 +73,7 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
       buttonRow={
         <>
           <Button
+            appearance="base"
             className="u-no-margin--bottom"
             type="button"
             aria-label="cancel reconnect"

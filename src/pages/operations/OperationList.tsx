@@ -44,7 +44,7 @@ const OperationList: FC = () => {
     { content: "Action", className: "action", sortKey: "action" },
     { content: "Info", className: "info" },
     { content: "Status", className: "status", sortKey: "status" },
-    { "aria-label": "Cancel", className: "cancel u-align--right" },
+    { "aria-label": "Actions", className: "cancel u-align--right" },
   ];
 
   const getIconNameForStatus = (status: LxdOperationStatus) => {
@@ -124,7 +124,7 @@ const OperationList: FC = () => {
           content: <CancelOperationBtn operation={operation} />,
           role: "rowheader",
           className: "u-align--right cancel",
-          "aria-label": "Cancel",
+          "aria-label": "Actions",
         },
       ],
       sortData: {

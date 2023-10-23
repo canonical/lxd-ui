@@ -230,6 +230,7 @@ const EditInstanceForm: FC<Props> = ({ instance }) => {
             ) : (
               <>
                 <Button
+                  appearance="base"
                   onClick={() =>
                     formik.setValues(getInstanceEditValues(instance))
                   }

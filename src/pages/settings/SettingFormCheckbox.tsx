@@ -38,7 +38,9 @@ const SettingFormCheckbox: FC<Props> = ({
         checked={checked}
         onChange={(e) => setChecked(e.target.checked)}
       />
-      <Button onClick={onCancel}>Cancel</Button>
+      <Button appearance="base" onClick={onCancel}>
+        Cancel
+      </Button>
       <Button appearance="positive" onClick={() => onSubmit(checked)}>
         Save
       </Button>
