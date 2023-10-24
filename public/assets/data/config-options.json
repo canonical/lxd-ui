@@ -150,7 +150,7 @@
     "key": "core.https_allowed_credentials",
     "type": "bool",
     "scope": "global",
-    "default": "",
+    "default": false,
     "description": "Whether to set Access-Control-Allow-Credentials HTTP header value to true"
   },
   {
@@ -241,7 +241,7 @@
     "key": "core.trust_ca_certificates",
     "type": "bool",
     "scope": "global",
-    "default": "",
+    "default": false,
     "description": "Whether to automatically trust clients signed by the CA"
   },
   {
