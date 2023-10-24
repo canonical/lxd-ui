@@ -1,41 +1,17 @@
 import React, { FC, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { Col, Row, useNotify } from "@canonical/react-components";
-import Loader from "components/Loader";
-import { fetchStoragePool } from "api/storage-pools";
+import { Col, Row } from "@canonical/react-components";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
+import { LxdStoragePool } from "types/storage";
 
 interface Props {
-  name: string;
+  pool: LxdStoragePool;
   project: string;
 }
 
-const StoragePoolOverview: FC<Props> = ({ name, project }) => {
-  const notify = useNotify();
-
-  const {
-    data: pool,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.storage, project, name],
-    queryFn: () => fetchStoragePool(name, project),
-  });
-
-  if (error) {
-    notify.failure("Loading storage details failed", error);
-  }
-
-  if (isLoading) {
-    return <Loader text="Loading storage details..." />;
-  } else if (!pool) {
-    return <>Loading storage details failed</>;
-  }
-
+const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
   const updateContentHeight = () => {
     updateMaxHeight("storage-overview-tab");
   };

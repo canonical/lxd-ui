@@ -1,7 +1,11 @@
 import React, { FC, useState } from "react";
-import { useNotify, Row, Col, Button } from "@canonical/react-components";
+import { Button, Col, Row, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import { updateStoragePool } from "api/storage-pools";
+import {
+  fetchStoragePool,
+  updateClusteredPool,
+  updatePool,
+} from "api/storage-pools";
 import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -12,6 +16,7 @@ import StoragePoolForm, {
   StoragePoolFormValues,
 } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
+import { useClusterMembers } from "context/useClusterMembers";
 
 interface Props {
   pool: LxdStoragePool;
@@ -22,6 +27,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
   const controllerState = useState<AbortController | null>(null);
+  const { data: clusterMembers = [] } = useClusterMembers();
 
   if (!project) {
     return <>Missing project</>;
@@ -54,23 +60,27 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const formik = useFormik<StoragePoolFormValues>({
     initialValues: getEditValues(pool),
     validationSchema: StoragePoolSchema,
-    onSubmit: ({ name, description, driver, source, size }) => {
+    onSubmit: ({ name, description, size }) => {
       const hasValidSize = size.match(/^\d/);
-      const savedPool: LxdStoragePool = {
+      const savedPool: Partial<LxdStoragePool> = {
         name,
         description,
-        driver,
         config: {
-          ...pool.config,
           size: hasValidSize ? size : undefined,
-          source,
         },
       };
 
-      updateStoragePool(savedPool, project)
-        .then(() => {
-          void formik.setValues(getEditValues(savedPool));
+      const mutation =
+        clusterMembers.length > 0
+          ? () => updateClusteredPool(savedPool, project, clusterMembers)
+          : () => updatePool(savedPool, project);
+
+      mutation()
+        .then(async () => {
           notify.success("Storage pool updated.");
+          const member = clusterMembers[0]?.server_name ?? undefined;
+          const updatedPool = await fetchStoragePool(name, project, member);
+          void formik.setValues(getEditValues(updatedPool));
         })
         .catch((e) => {
           notify.failure("Storage pool update failed", e);

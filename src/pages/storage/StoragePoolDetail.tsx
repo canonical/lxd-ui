@@ -11,12 +11,14 @@ import { slugify } from "util/slugify";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
 import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
+import { useClusterMembers } from "context/useClusterMembers";
 
 const TABS: string[] = ["Overview", "Configuration"];
 
 const StoragePoolDetail: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const { data: clusterMembers = [] } = useClusterMembers();
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -30,13 +32,15 @@ const StoragePoolDetail: FC = () => {
     return <>Missing project</>;
   }
 
+  const member = clusterMembers[0]?.server_name ?? undefined;
+
   const {
     data: pool,
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.storage, project, name],
-    queryFn: () => fetchStoragePool(name, project),
+    queryKey: [queryKeys.storage, project, name, member],
+    queryFn: () => fetchStoragePool(name, project, member),
   });
 
   if (error) {
@@ -77,7 +81,7 @@ const StoragePoolDetail: FC = () => {
 
         {!activeTab && (
           <div role="tabpanel" aria-labelledby="overview">
-            <StoragePoolOverview name={name} project={project} />
+            <StoragePoolOverview pool={pool} project={project} />
           </div>
         )}
 
