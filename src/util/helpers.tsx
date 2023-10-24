@@ -67,6 +67,20 @@ export const handleResponse = async (response: Response) => {
   return response.json();
 };
 
+export const handleSettledResult = (
+  results: PromiseSettledResult<unknown>[],
+) => {
+  const error = (
+    results.find((res) => res.status === "rejected") as
+      | PromiseRejectedResult
+      | undefined
+  )?.reason as Error | undefined;
+
+  if (error) {
+    throw error;
+  }
+};
+
 export const handleEtagResponse = async (response: Response) => {
   const data = (await handleResponse(response)) as LxdApiResponse<
     LxdInstance | LxdProject | LxdProfile | LxdNetwork | LxdStorageVolume

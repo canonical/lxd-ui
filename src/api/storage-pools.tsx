@@ -1,4 +1,8 @@
-import { handleEtagResponse, handleResponse } from "util/helpers";
+import {
+  handleEtagResponse,
+  handleResponse,
+  handleSettledResult,
+} from "util/helpers";
 import {
   LxdStoragePool,
   LxdStoragePoolResources,
@@ -10,13 +14,18 @@ import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import { TIMEOUT_300, watchOperation } from "api/operations";
 import axios, { AxiosResponse } from "axios";
+import { LxdClusterMember } from "types/cluster";
 
 export const fetchStoragePool = (
   pool: string,
   project: string,
+  target?: string,
 ): Promise<LxdStoragePool> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}?project=${project}&recursion=1`)
+    const targetParam = target ? `&target=${target}` : "";
+    fetch(
+      `/1.0/storage-pools/${pool}?project=${project}&recursion=1${targetParam}`,
+    )
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
@@ -47,9 +56,14 @@ export const fetchStoragePoolResources = (
   });
 };
 
-export const createStoragePool = (pool: LxdStoragePool, project: string) => {
+export const createPool = (
+  pool: LxdStoragePool,
+  project: string,
+  target?: string,
+) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools?project=${project}`, {
+    const targetParam = target ? `&target=${target}` : "";
+    fetch(`/1.0/storage-pools?project=${project}${targetParam}`, {
       method: "POST",
       body: JSON.stringify(pool),
     })
@@ -59,14 +73,53 @@ export const createStoragePool = (pool: LxdStoragePool, project: string) => {
   });
 };
 
-export const updateStoragePool = (pool: LxdStoragePool, project: string) => {
+export const createClusteredPool = (
+  pool: LxdStoragePool,
+  project: string,
+  clusterMembers: LxdClusterMember[],
+) => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool.name}?project=${project}`, {
-      method: "PUT",
+    void Promise.allSettled(
+      clusterMembers.map(async (item) =>
+        createPool(pool, project, item.server_name),
+      ),
+    )
+      .then(handleSettledResult)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const updatePool = (
+  pool: Partial<LxdStoragePool>,
+  project: string,
+  target?: string,
+) => {
+  return new Promise((resolve, reject) => {
+    const targetParam = target ? `&target=${target}` : "";
+    fetch(`/1.0/storage-pools/${pool.name}?project=${project}${targetParam}`, {
+      method: "PATCH",
       body: JSON.stringify(pool),
     })
       .then(handleResponse)
       .then((data) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const updateClusteredPool = (
+  pool: Partial<LxdStoragePool>,
+  project: string,
+  clusterMembers: LxdClusterMember[],
+) => {
+  return new Promise((resolve, reject) => {
+    void Promise.allSettled(
+      clusterMembers.map(async (item) =>
+        updatePool(pool, project, item.server_name),
+      ),
+    )
+      .then(handleSettledResult)
+      .then(resolve)
       .catch(reject);
   });
 };

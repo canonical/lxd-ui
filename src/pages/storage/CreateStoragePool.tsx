@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { useNotify, Row, Col, Button } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import { createStoragePool } from "api/storage-pools";
+import { createClusteredPool, createPool } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import SubmitButton from "components/SubmitButton";
@@ -15,6 +15,7 @@ import { testDuplicateStoragePoolName } from "util/storagePool";
 import StoragePoolForm, {
   StoragePoolFormValues,
 } from "./forms/StoragePoolForm";
+import { useClusterMembers } from "context/useClusterMembers";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const CreateStoragePool: FC = () => {
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
   const controllerState = useState<AbortController | null>(null);
+  const { data: clusterMembers = [] } = useClusterMembers();
 
   if (!project) {
     return <>Missing project</>;
@@ -56,7 +58,12 @@ const CreateStoragePool: FC = () => {
         },
       };
 
-      createStoragePool(storagePool, project)
+      const mutation =
+        clusterMembers.length > 0
+          ? () => createClusteredPool(storagePool, project, clusterMembers)
+          : () => createPool(storagePool, project);
+
+      mutation()
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
@@ -64,7 +71,7 @@ const CreateStoragePool: FC = () => {
           navigate(
             `/ui/project/${project}/storage`,
             notify.queue(
-              notify.success(`Storage ${storagePool.name} created.`),
+              notify.success(`Storage pool ${storagePool.name} created.`),
             ),
           );
         })

@@ -14,12 +14,8 @@ import {
   randomInstanceName,
   saveInstance,
 } from "./helpers/instances";
-import {
-  attachVolume,
-  deleteVolume,
-  detachVolume,
-  randomVolumeName,
-} from "./helpers/devices";
+import { attachVolume, detachVolume } from "./helpers/devices";
+import { deleteVolume, randomVolumeName } from "./helpers/storageVolume";
 
 test("instance attach custom volumes and detach inherited volumes", async ({
   page,
