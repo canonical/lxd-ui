@@ -55,6 +55,7 @@ import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
+import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -94,7 +95,7 @@ const CreateProfile: FC = () => {
   const formik = useFormik<CreateProfileFormValues>({
     initialValues: {
       name: "",
-      devices: [{ type: "nic", name: "" }],
+      devices: [],
       readOnly: false,
       type: "profile",
     },
@@ -164,6 +165,7 @@ const CreateProfile: FC = () => {
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
           hasName={Boolean(formik.values.name)}
+          formik={formik}
         />
         <Row className="form-contents" key={section}>
           <Col size={12}>
@@ -221,7 +223,12 @@ const CreateProfile: FC = () => {
             </Button>
             <SubmitButton
               isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.name}
+              isDisabled={
+                !formik.isValid ||
+                !formik.values.name ||
+                hasDiskError(formik) ||
+                hasNetworkError(formik)
+              }
               buttonLabel="Create"
               onClick={() => void formik.submitForm()}
             />

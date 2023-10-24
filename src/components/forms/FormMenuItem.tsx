@@ -1,12 +1,14 @@
 import React, { FC } from "react";
 import { slugify } from "util/slugify";
 import { Button } from "@canonical/react-components";
+import classnames from "classnames";
 
 interface Props {
   active: string;
   setActive: (item: string) => void;
   label: string;
   disableReason?: string;
+  hasError?: boolean;
 }
 
 const FormMenuItem: FC<Props> = ({
@@ -14,6 +16,7 @@ const FormMenuItem: FC<Props> = ({
   setActive,
   label,
   disableReason,
+  hasError,
 }) => {
   if (disableReason) {
     return (
@@ -29,7 +32,11 @@ const FormMenuItem: FC<Props> = ({
     );
   }
   return (
-    <li className="p-side-navigation__item">
+    <li
+      className={classnames("p-side-navigation__item", {
+        "has-error": hasError,
+      })}
+    >
       <a
         className="p-side-navigation__link"
         onClick={() => setActive(label)}

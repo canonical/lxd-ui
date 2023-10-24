@@ -12,6 +12,7 @@ import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
 import { LxdStorageVolume } from "types/storage";
+import { isDiskDeviceMountPointMissing } from "util/instanceValidation";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -39,6 +40,9 @@ const DiskDeviceFormCustom: FC<Props> = ({
       source: volume.name,
     });
     void formik.setFieldValue("devices", copy);
+
+    const name = `devices.${copy.length - 1}.path`;
+    setTimeout(() => document.getElementById(name)?.focus(), 100);
   };
 
   const changeVolume = (
@@ -96,7 +100,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`volume-${index}-pool`}>Pool / volume</Label>
+          <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
         ),
         inherited: (
           <div className="custom-disk-volume-source">
@@ -119,7 +123,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
                 project={project}
                 setValue={(volume) => changeVolume(volume, formVolume, index)}
                 buttonProps={{
-                  id: `volume-${index}-pool`,
+                  id: `devices.${index}.pool`,
                   appearance: "base",
                   className: "u-no-margin--bottom",
                 }}
@@ -134,11 +138,12 @@ const DiskDeviceFormCustom: FC<Props> = ({
     );
 
     if (formVolume.path !== undefined) {
+      const hasError = isDiskDeviceMountPointMissing(formik, index);
       rows.push(
         getConfigurationRowBase({
           className: "no-border-top inherited-with-form",
           configuration: (
-            <Label forId={`volume-${index}-path`} required>
+            <Label forId={`devices.${index}.path`} required>
               Mount point
             </Label>
           ),
@@ -148,7 +153,8 @@ const DiskDeviceFormCustom: FC<Props> = ({
             </div>
           ) : (
             <Input
-              id={`volume-${index}-path`}
+              id={`devices.${index}.path`}
+              name={`devices.${index}.path`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
                 void formik.setFieldValue(
@@ -159,7 +165,8 @@ const DiskDeviceFormCustom: FC<Props> = ({
               value={formVolume.path}
               type="text"
               placeholder="Enter full path (e.g. /data)"
-              className="u-no-margin--bottom"
+              className={hasError ? undefined : "u-no-margin--bottom"}
+              error={hasError ? "Path is required" : undefined}
             />
           ),
           override: "",
@@ -171,7 +178,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`volume-${index}-read-limit`}>Read limit</Label>
+          <Label forId={`devices.${index}.limits.read`}>Read limit</Label>
         ),
         inherited: isReadOnly ? (
           <div className="mono-font">
@@ -184,7 +191,8 @@ const DiskDeviceFormCustom: FC<Props> = ({
         ) : (
           <div className="custom-disk-device-limits">
             <Input
-              id={`volume-${index}-read-limit`}
+              id={`devices.${index}.limits.read`}
+              name={`devices.${index}.limits.read`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
                 void formik.setFieldValue(
@@ -208,7 +216,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`volume-${index}-write-limit`}>Write limit</Label>
+          <Label forId={`devices.${index}.limits.write`}>Write limit</Label>
         ),
         inherited: isReadOnly ? (
           <div className="mono-font">
@@ -221,7 +229,8 @@ const DiskDeviceFormCustom: FC<Props> = ({
         ) : (
           <div className="custom-disk-device-limits">
             <Input
-              id={`volume-${index}-write-limit`}
+              id={`devices.${index}.limits.write`}
+              name={`devices.${index}.limits.write`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
                 void formik.setFieldValue(

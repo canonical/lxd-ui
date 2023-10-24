@@ -12,6 +12,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { LxdStoragePool } from "types/storage";
 import { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
+import { hasNoRootDisk } from "util/instanceValidation";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -141,6 +142,14 @@ const DiskDeviceFormRoot: FC<Props> = ({
           }),
         ]}
       />
+      {hasNoRootDisk(formik.values, profiles) && (
+        <div className="is-error ">
+          <p className="p-form-validation__message">
+            <strong>Error:</strong> Missing root storage. Create an override, or
+            add a profile with root storage.
+          </p>
+        </div>
+      )}
     </>
   );
 };

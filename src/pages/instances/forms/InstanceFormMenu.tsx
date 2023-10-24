@@ -19,6 +19,8 @@ interface Props {
   toggleConfigOpen: () => void;
   active: string;
   setActive: (val: string) => void;
+  hasDiskError: boolean;
+  hasNetworkError: boolean;
 }
 
 const InstanceFormMenu: FC<Props> = ({
@@ -27,6 +29,8 @@ const InstanceFormMenu: FC<Props> = ({
   toggleConfigOpen,
   active,
   setActive,
+  hasDiskError,
+  hasNetworkError,
 }) => {
   const notify = useNotify();
   const menuItemProps = {
@@ -64,8 +68,16 @@ const InstanceFormMenu: FC<Props> = ({
               className="p-side-navigation__list"
               aria-expanded={isConfigOpen ? "true" : "false"}
             >
-              <MenuItem label={DISK_DEVICES} {...menuItemProps} />
-              <MenuItem label={NETWORK_DEVICES} {...menuItemProps} />
+              <MenuItem
+                label={DISK_DEVICES}
+                hasError={hasDiskError}
+                {...menuItemProps}
+              />
+              <MenuItem
+                label={NETWORK_DEVICES}
+                hasError={hasNetworkError}
+                {...menuItemProps}
+              />
               <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
               <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
               <MenuItem label={SNAPSHOTS} {...menuItemProps} />

@@ -54,6 +54,7 @@ import {
 } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
+import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -161,6 +162,8 @@ const EditInstance: FC<Props> = ({ instance }) => {
           isConfigDisabled={false}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
+          hasDiskError={hasDiskError(formik)}
+          hasNetworkError={hasNetworkError(formik)}
         />
         <Row className="form-contents" key={activeSection}>
           <Col size={12}>
@@ -239,7 +242,11 @@ const EditInstance: FC<Props> = ({ instance }) => {
                 </Button>
                 <SubmitButton
                   isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
+                  isDisabled={
+                    !formik.isValid ||
+                    hasDiskError(formik) ||
+                    hasNetworkError(formik)
+                  }
                   buttonLabel="Save changes"
                   onClick={() => void formik.submitForm()}
                 />
