@@ -3,7 +3,6 @@ import {
   Button,
   Icon,
   Input,
-  Label,
   Select,
   Tooltip,
   useNotify,
@@ -20,6 +19,7 @@ import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
 import { figureInheritedNetworks } from "util/instanceConfigInheritance";
 import { CustomNetworkDevice } from "util/formDevices";
+import { isNicDeviceNameMissing } from "util/instanceValidation";
 
 interface Props {
   formik: SharedFormikTypes;
@@ -67,8 +67,11 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
 
   const addNetwork = () => {
     const copy = [...formik.values.devices];
-    copy.push({ type: "nic", name: "" });
+    copy.push({ type: "nic", name: "", network: networks[0]?.name ?? "" });
     void formik.setFieldValue("devices", copy);
+
+    const name = `devices.${copy.length - 1}.name`;
+    setTimeout(() => document.getElementById(name)?.focus(), 100);
   };
 
   const getNetworkOptions = () => {
@@ -83,6 +86,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     options.unshift({
       label: networks.length === 0 ? "No networks available" : "Select option",
       value: "",
+      disabled: true,
     });
     return options;
   };
@@ -134,27 +138,28 @@ or remove the originating item"
 
           return getConfigurationRowBase({
             configuration: (
-              <Label forId={`networkDevice${index}`}>
-                <b>
-                  {isReadOnly || device.type === "custom-nic" ? (
-                    device.name
-                  ) : (
-                    <Input
-                      label="Device name"
-                      required
-                      name={`devices.${index}.name`}
-                      id={`networkName${index}`}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={
-                        (formik.values.devices[index] as LxdNicDevice).name
-                      }
-                      type="text"
-                      placeholder="Enter name"
-                    />
-                  )}
-                </b>
-              </Label>
+              <>
+                {isReadOnly || device.type === "custom-nic" ? (
+                  device.name
+                ) : (
+                  <Input
+                    label="Device name"
+                    required
+                    name={`devices.${index}.name`}
+                    id={`devices.${index}.name`}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={(formik.values.devices[index] as LxdNicDevice).name}
+                    type="text"
+                    placeholder="Enter name"
+                    error={
+                      isNicDeviceNameMissing(formik, index)
+                        ? "Device name is required"
+                        : undefined
+                    }
+                  />
+                )}
+              </>
             ),
             inherited: "",
             override:
@@ -173,7 +178,7 @@ or remove the originating item"
                     <Select
                       label="Network"
                       name={`devices.${index}.network`}
-                      id={`networkDevice${index}`}
+                      id={`devices.${index}.network`}
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       value={

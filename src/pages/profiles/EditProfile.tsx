@@ -57,6 +57,7 @@ import { getUnhandledKeyValues } from "util/formFields";
 import { getProfileConfigKeys } from "util/instanceConfigFields";
 import { getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
+import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -186,6 +187,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
           hasName={true}
+          formik={formik}
         />
         <Row className="form-contents" key={activeSection}>
           <Col size={12}>
@@ -262,7 +264,11 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
                 </Button>
                 <SubmitButton
                   isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
+                  isDisabled={
+                    !formik.isValid ||
+                    hasDiskError(formik) ||
+                    hasNetworkError(formik)
+                  }
                   buttonLabel="Save changes"
                   onClick={() => void formik.submitForm()}
                 />

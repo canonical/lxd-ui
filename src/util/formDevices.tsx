@@ -43,9 +43,12 @@ export type FormDiskDevice = Partial<LxdDiskDevice> &
     };
   };
 
+export type FormNetworkDevice = Partial<LxdNicDevice> &
+  Required<Pick<LxdNicDevice, "name">>;
+
 export type FormDevice =
   | FormDiskDevice
-  | (Partial<LxdNicDevice> & Required<Pick<LxdNicDevice, "name">>)
+  | FormNetworkDevice
   | UnknownDevice
   | NoneDevice
   | CustomNetworkDevice

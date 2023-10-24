@@ -11,7 +11,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createInstance, startInstance } from "api/instances";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { LxdImageType, RemoteImage } from "types/image";
@@ -66,6 +66,12 @@ import { useEventQueue } from "context/eventQueue";
 import { getInstanceName } from "util/operations";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
+import { fetchProfiles } from "api/profiles";
+import {
+  hasDiskError,
+  hasNetworkError,
+  hasNoRootDisk,
+} from "util/instanceValidation";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -213,13 +219,24 @@ const CreateInstance: FC = () => {
     }
   };
 
-  const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
-    const formUrl = location.pathname + location.search;
-    navigate(`/ui/project/${project}/instances`);
+  const { data: profiles = [] } = useQuery({
+    queryKey: [queryKeys.profiles],
+    queryFn: () => fetchProfiles(project),
+  });
 
-    const instancePayload = values.yaml
+  const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
+    const instancePayload: Partial<LxdInstance> = values.yaml
       ? yamlToObject(values.yaml)
       : getPayload(values);
+
+    if (hasNoRootDisk(values, profiles)) {
+      setConfigOpen(true);
+      setSection(DISK_DEVICES);
+      return;
+    }
+
+    const formUrl = location.pathname + location.search;
+    navigate(`/ui/project/${project}/instances`);
 
     createInstance(JSON.stringify(instancePayload), project, values.target)
       .then((operation) => {
@@ -246,7 +263,7 @@ const CreateInstance: FC = () => {
     initialValues: location.state?.retryFormValues ?? {
       instanceType: "container",
       profiles: ["default"],
-      devices: [{ type: "nic", name: "" }],
+      devices: [],
       readOnly: false,
       type: "instance",
     },
@@ -318,6 +335,11 @@ const CreateInstance: FC = () => {
     return dumpYaml(payload);
   }
 
+  const diskError = hasDiskError(formik);
+  const networkError = hasNetworkError(formik);
+  const hasErrors =
+    !formik.isValid || !formik.values.image || diskError || networkError;
+
   return (
     <BaseLayout title="Create an instance" contentClassName="create-instance">
       <Form onSubmit={formik.handleSubmit} stacked className="form">
@@ -327,6 +349,8 @@ const CreateInstance: FC = () => {
           isConfigDisabled={!formik.values.image}
           isConfigOpen={isConfigOpen}
           toggleConfigOpen={toggleMenu}
+          hasDiskError={diskError || hasNoRootDisk(formik.values, profiles)}
+          hasNetworkError={networkError}
         />
         <Row className="form-contents" key={section}>
           <Col size={12}>
@@ -393,7 +417,7 @@ const CreateInstance: FC = () => {
             </Button>
             <SubmitButton
               isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.image}
+              isDisabled={hasErrors}
               buttonLabel="Create"
               appearance={isLocalIsoImage ? "positive" : "default"}
               onClick={() => submit(formik.values, false)}
@@ -401,7 +425,7 @@ const CreateInstance: FC = () => {
             {!isLocalIsoImage && (
               <SubmitButton
                 isSubmitting={formik.isSubmitting}
-                isDisabled={!formik.isValid || !formik.values.image}
+                isDisabled={hasErrors}
                 buttonLabel="Create and start"
                 onClick={() => submit(formik.values)}
               />

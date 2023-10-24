@@ -87,8 +87,9 @@ test("profile edit networks", async ({ page }) => {
   await startProfileCreation(page, profile);
   await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Network devices").click();
-  await page.getByLabel("Network").selectOption({ index: 1 });
+  await page.getByRole("button", { name: "Attach network" }).click();
   await page.getByPlaceholder("Enter name").fill("eth0");
+  await page.getByLabel("Network").selectOption({ index: 1 });
   await finishProfileCreation(page, profile);
 
   await visitProfile(page, profile);
@@ -98,8 +99,8 @@ test("profile edit networks", async ({ page }) => {
 
   await page.getByRole("button", { name: "Edit profile" }).click();
   await page.getByRole("button", { name: "Attach network" }).click();
-  await page.locator("#networkDevice1").selectOption({ index: 1 });
-  await page.locator("#networkName1").fill("eth1");
+  await page.locator("[id='devices.1.network']").selectOption({ index: 1 });
+  await page.locator("[id='devices.1.name']").fill("eth1");
   await saveProfile(page);
 
   await page.getByRole("gridcell", { name: "eth0" }).click();

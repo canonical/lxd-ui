@@ -3,6 +3,8 @@ import MenuItem from "components/forms/FormMenuItem";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
+import { hasDiskError, hasNetworkError } from "util/instanceValidation";
+import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk devices";
@@ -19,6 +21,7 @@ interface Props {
   active: string;
   setActive: (val: string) => void;
   hasName: boolean;
+  formik: SharedFormikTypes;
 }
 
 const ProfileFormMenu: FC<Props> = ({
@@ -27,6 +30,7 @@ const ProfileFormMenu: FC<Props> = ({
   active,
   setActive,
   hasName,
+  formik,
 }) => {
   const notify = useNotify();
   const menuItemProps = {
@@ -64,8 +68,16 @@ const ProfileFormMenu: FC<Props> = ({
               className="p-side-navigation__list"
               aria-expanded={isConfigOpen ? "true" : "false"}
             >
-              <MenuItem label={DISK_DEVICES} {...menuItemProps} />
-              <MenuItem label={NETWORK_DEVICES} {...menuItemProps} />
+              <MenuItem
+                label={DISK_DEVICES}
+                hasError={hasDiskError(formik)}
+                {...menuItemProps}
+              />
+              <MenuItem
+                label={NETWORK_DEVICES}
+                hasError={hasNetworkError(formik)}
+                {...menuItemProps}
+              />
               <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
               <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
               <MenuItem label={SNAPSHOTS} {...menuItemProps} />
