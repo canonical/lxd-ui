@@ -1,7 +1,10 @@
 import {
+  continueOrFinish,
   handleEtagResponse,
   handleResponse,
   handleTextResponse,
+  pushFailure,
+  pushSuccess,
 } from "util/helpers";
 import { LxdInstance, LxdInstanceAction } from "types/instance";
 import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
@@ -152,7 +155,6 @@ export const updateInstanceBulkAction = (
   isForce: boolean,
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
-  let remainingResults = actions.length;
   const results: PromiseSettledResult<void>[] = [];
   return new Promise((resolve) => {
     void Promise.allSettled(
@@ -161,24 +163,9 @@ export const updateInstanceBulkAction = (
           (operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => {
-                results.push({
-                  status: "fulfilled",
-                  value: undefined,
-                });
-              },
-              (msg) => {
-                results.push({
-                  status: "rejected",
-                  reason: msg,
-                });
-              },
-              () => {
-                remainingResults--;
-                if (remainingResults === 0) {
-                  resolve(results);
-                }
-              },
+              () => pushSuccess(results),
+              (msg) => pushFailure(results, msg),
+              () => continueOrFinish(results, actions.length, resolve),
             );
           },
         );
@@ -204,7 +191,6 @@ export const deleteInstanceBulk = (
   instances: LxdInstance[],
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
-  let remainingResults = instances.length;
   const results: PromiseSettledResult<void>[] = [];
   return new Promise((resolve) => {
     void Promise.allSettled(
@@ -212,24 +198,9 @@ export const deleteInstanceBulk = (
         return await deleteInstance(instance).then((operation) => {
           eventQueue.set(
             operation.metadata.id,
-            () => {
-              results.push({
-                status: "fulfilled",
-                value: undefined,
-              });
-            },
-            (msg) => {
-              results.push({
-                status: "rejected",
-                reason: msg,
-              });
-            },
-            () => {
-              remainingResults--;
-              if (remainingResults === 0) {
-                resolve(results);
-              }
-            },
+            () => pushSuccess(results),
+            (msg) => pushFailure(results, msg),
+            () => continueOrFinish(results, instances.length, resolve),
           );
         });
       }),

@@ -11,6 +11,7 @@ import ProgressBar from "components/ProgressBar";
 import { UploadState } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const { project } = useProject();
@@ -69,27 +71,27 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     setLoading(true);
     const uploadController = new AbortController();
     setUploadAbort(uploadController);
-    createIsoStorageVolume(
+    void createIsoStorageVolume(
       pool,
       file,
       name,
       projectName,
       setUploadState,
       uploadController,
-    )
-      .then(() => {
-        onFinish(name, pool);
-      })
-      .catch((e) => {
-        notify.failure("Image import failed", e);
-      })
-      .finally(() => {
-        setLoading(false);
-        setUploadState(null);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.storage, pool, queryKeys.volumes, projectName],
-        });
-      });
+    ).then((operation) =>
+      eventQueue.set(
+        operation.metadata.id,
+        () => onFinish(name, pool),
+        (msg) => notify.failure("Image import failed", new Error(msg)),
+        () => {
+          setLoading(false);
+          setUploadState(null);
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.storage, pool, queryKeys.volumes, projectName],
+          });
+        },
+      ),
+    );
   };
 
   const changeFile = (e: React.ChangeEvent<HTMLInputElement>) => {

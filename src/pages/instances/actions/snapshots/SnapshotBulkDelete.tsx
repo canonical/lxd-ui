@@ -6,6 +6,8 @@ import { queryKeys } from "util/queryKeys";
 import { pluralizeSnapshot } from "util/instanceBulkActions";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
+import { useEventQueue } from "context/eventQueue";
+import { getPromiseSettledCounts } from "util/helpers";
 
 interface Props {
   instance: LxdInstance;
@@ -13,7 +15,7 @@ interface Props {
   onStart: () => void;
   onFinish: () => void;
   onSuccess: (message: ReactNode) => void;
-  onFailure: (title: string, e: unknown) => void;
+  onFailure: (title: string, e: unknown, message?: ReactNode) => void;
 }
 
 const SnapshotBulkDelete: FC<Props> = ({
@@ -24,6 +26,7 @@ const SnapshotBulkDelete: FC<Props> = ({
   onSuccess,
   onFailure,
 }) => {
+  const eventQueue = useEventQueue();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -32,23 +35,45 @@ const SnapshotBulkDelete: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    deleteSnapshotBulk(instance, snapshotNames)
-      .then(() =>
-        onSuccess(
-          <>
-            <b>{snapshotNames.length}</b> snapshot
-            {snapshotNames.length > 1 && "s"} deleted.
-          </>,
-        ),
-      )
-      .catch((e) => onFailure("Snapshot deletion failed.", e))
-      .finally(() => {
-        setLoading(false);
-        onFinish();
+    void deleteSnapshotBulk(instance, snapshotNames, eventQueue).then(
+      (results) => {
+        const { fulfilledCount, rejectedCount } =
+          getPromiseSettledCounts(results);
+        if (fulfilledCount === count) {
+          onSuccess(
+            <>
+              <b>{snapshotNames.length}</b> snapshot
+              {snapshotNames.length > 1 && "s"} deleted.
+            </>,
+          );
+        } else if (rejectedCount === count) {
+          onFailure(
+            "Snapshot bulk deletion failed",
+            undefined,
+            <>
+              <b>{count}</b> {pluralizeSnapshot(count)} could not be deleted.
+            </>,
+          );
+        } else {
+          onFailure(
+            "Snapshot bulk deletion partially failed",
+            undefined,
+            <>
+              <b>{fulfilledCount}</b> {pluralizeSnapshot(fulfilledCount)}{" "}
+              deleted.
+              <br />
+              <b>{rejectedCount}</b> {pluralizeSnapshot(rejectedCount)} could
+              not be deleted.
+            </>,
+          );
+        }
         void queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
-      });
+        setLoading(false);
+        onFinish();
+      },
+    );
   };
 
   return (

@@ -1,4 +1,3 @@
-import { TIMEOUT_300, watchOperation } from "./operations";
 import { handleResponse } from "util/helpers";
 import { ImportImage, LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
@@ -25,20 +24,23 @@ export const fetchImageList = (project: string): Promise<LxdImage[]> => {
   });
 };
 
-export const deleteImage = (image: LxdImage, project: string) => {
+export const deleteImage = (
+  image: LxdImage,
+  project: string,
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images/${image.fingerprint}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
 
-export const importImage = (remoteImage: ImportImage) => {
+export const importImage = (
+  remoteImage: ImportImage,
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/images", {
       method: "POST",
@@ -54,9 +56,7 @@ export const importImage = (remoteImage: ImportImage) => {
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_300).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };

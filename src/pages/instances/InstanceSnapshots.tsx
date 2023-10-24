@@ -46,8 +46,8 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
     setInTabNotification(success(message));
   };
 
-  const onFailure = (title: string, e: unknown) => {
-    setInTabNotification(failure(title, e));
+  const onFailure = (title: string, e: unknown, message?: ReactNode) => {
+    setInTabNotification(failure(title, e, message));
   };
 
   const { project, isLoading } = useProject();

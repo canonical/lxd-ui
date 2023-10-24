@@ -13,6 +13,7 @@ import classnames from "classnames";
 import ItemName from "components/ItemName";
 import ConfirmationForce from "components/ConfirmationForce";
 import EditSnapshot from "./EditSnapshot";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
@@ -27,6 +28,7 @@ const SnapshotActions: FC<Props> = ({
   onSuccess,
   onFailure,
 }) => {
+  const eventQueue = useEventQueue();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
@@ -35,40 +37,46 @@ const SnapshotActions: FC<Props> = ({
 
   const handleDelete = () => {
     setDeleting(true);
-    deleteSnapshot(instance, snapshot)
-      .then(() =>
-        onSuccess(
-          <>
-            Snapshot <ItemName item={snapshot} bold /> deleted.
-          </>,
-        ),
-      )
-      .catch((e) => onFailure("Snapshot deletion failed", e))
-      .finally(() => {
-        setDeleting(false);
-        void queryClient.invalidateQueries({
-          predicate: (query) => query.queryKey[0] === queryKeys.instances,
-        });
-      });
+    void deleteSnapshot(instance, snapshot).then((operation) =>
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          onSuccess(
+            <>
+              Snapshot <ItemName item={snapshot} bold /> deleted.
+            </>,
+          ),
+        (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
+        () => {
+          setDeleting(false);
+          void queryClient.invalidateQueries({
+            predicate: (query) => query.queryKey[0] === queryKeys.instances,
+          });
+        },
+      ),
+    );
   };
 
   const handleRestore = () => {
     setRestoring(true);
-    restoreSnapshot(instance, snapshot, restoreState)
-      .then(() =>
-        onSuccess(
-          <>
-            Snapshot <ItemName item={snapshot} bold /> restored.
-          </>,
-        ),
-      )
-      .catch((e) => onFailure("Snapshot restore failed", e))
-      .finally(() => {
-        setRestoring(false);
-        void queryClient.invalidateQueries({
-          predicate: (query) => query.queryKey[0] === queryKeys.instances,
-        });
-      });
+    void restoreSnapshot(instance, snapshot, restoreState).then((operation) =>
+      eventQueue.set(
+        operation.metadata.id,
+        () =>
+          onSuccess(
+            <>
+              Snapshot <ItemName item={snapshot} bold /> restored.
+            </>,
+          ),
+        (msg) => onFailure("Snapshot restore failed", new Error(msg)),
+        () => {
+          setRestoring(false);
+          void queryClient.invalidateQueries({
+            predicate: (query) => query.queryKey[0] === queryKeys.instances,
+          });
+        },
+      ),
+    );
   };
 
   return (

@@ -8,6 +8,7 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   image: LxdImage;
@@ -15,27 +16,29 @@ interface Props {
 }
 
 const DeleteCachedImageBtn: FC<Props> = ({ image, project }) => {
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteImage(image, project)
-      .then(() => {
-        setLoading(false);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.images],
-        });
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.projects, project],
-        });
-        notify.success(`Image ${image.properties.description} deleted.`);
-      })
-      .catch((e) => {
-        setLoading(false);
-        notify.failure("Image deletion failed", e);
-      });
+    void deleteImage(image, project).then((operation) =>
+      eventQueue.set(
+        operation.metadata.id,
+        () => {
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.images],
+          });
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.projects, project],
+          });
+          notify.success(`Image ${image.properties.description} deleted.`);
+        },
+        (msg) => notify.failure("Image deletion failed", new Error(msg)),
+        () => setLoading(false),
+      ),
+    );
   };
 
   return (
