@@ -43,23 +43,6 @@ export const testDuplicateSnapshotName = (
   ];
 };
 
-export const testForbiddenChars = (): [
-  string,
-  string,
-  TestFunction<string | undefined, AnyObject>,
-] => {
-  return [
-    "forbiddenChars",
-    `The snapshot name cannot contain spaces or "/" characters`,
-    (value?: string) => {
-      if (!value) {
-        return true;
-      }
-      return !(value.includes(" ") || value.includes("/"));
-    },
-  ];
-};
-
 export const testValidDate = (): [
   string,
   string,
@@ -126,7 +109,10 @@ export const getSnapshotSchema = (
       .test(
         ...testDuplicateSnapshotName(instance, controllerState, snapshotName),
       )
-      .test(...testForbiddenChars()),
+      .matches(/^[A-Za-z0-9-_.:]+$/, {
+        message:
+          "Please enter only alphanumeric characters, underscores (_), periods (.), hyphens (-), and colons (:) in this field",
+      }),
     expirationDate: Yup.string()
       .nullable()
       .optional()
