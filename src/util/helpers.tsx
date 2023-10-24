@@ -196,5 +196,32 @@ export const getPromiseSettledCounts = (
   return { fulfilledCount, rejectedCount };
 };
 
+export const pushSuccess = (results: PromiseSettledResult<void>[]) => {
+  results.push({
+    status: "fulfilled",
+    value: undefined,
+  });
+};
+
+export const pushFailure = (
+  results: PromiseSettledResult<void>[],
+  msg: string,
+) => {
+  results.push({
+    status: "rejected",
+    reason: msg,
+  });
+};
+
+export const continueOrFinish = (
+  results: PromiseSettledResult<void>[],
+  totalLength: number,
+  resolve: (value: PromiseSettledResult<void>[]) => void,
+) => {
+  if (totalLength === results.length) {
+    resolve(results);
+  }
+};
+
 export const logout = () =>
   void fetch("/oidc/logout").then(() => window.location.reload());

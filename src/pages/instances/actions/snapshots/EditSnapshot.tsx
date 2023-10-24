@@ -18,6 +18,7 @@ import {
 } from "util/snapshots";
 import SnapshotForm from "./SnapshotForm";
 import { useNotify } from "@canonical/react-components";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   instance: LxdInstance;
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
+  const eventQueue = useEventQueue();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -49,29 +51,35 @@ const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
           name: newName,
         } as LxdSnapshot)
       : snapshot;
-    updateSnapshot(instance, targetSnapshot, expiresAt)
-      .then(() => {
-        notifyUpdateSuccess(newName ?? snapshot.name);
-      })
-      .catch((e) => {
-        notify.failure("Snapshot update failed", e);
-        formik.setSubmitting(false);
-      });
+    void updateSnapshot(instance, targetSnapshot, expiresAt).then((operation) =>
+      eventQueue.set(
+        operation.metadata.id,
+        () => notifyUpdateSuccess(newName ?? snapshot.name),
+        (msg) => {
+          notify.failure("Snapshot update failed", new Error(msg));
+          formik.setSubmitting(false);
+        },
+      ),
+    );
   };
 
   const rename = (newName: string, expiresAt?: string) => {
-    renameSnapshot(instance, snapshot, newName)
-      .then(() => {
-        if (expiresAt) {
-          update(expiresAt, newName);
-        } else {
-          notifyUpdateSuccess(newName);
-        }
-      })
-      .catch((e) => {
-        notify.failure("Snapshot rename failed", e);
-        formik.setSubmitting(false);
-      });
+    void renameSnapshot(instance, snapshot, newName).then((operation) =>
+      eventQueue.set(
+        operation.metadata.id,
+        () => {
+          if (expiresAt) {
+            update(expiresAt, newName);
+          } else {
+            notifyUpdateSuccess(newName);
+          }
+        },
+        (msg) => {
+          notify.failure("Snapshot rename failed", new Error(msg));
+          formik.setSubmitting(false);
+        },
+      ),
+    );
   };
 
   const [expiryDate, expiryTime] =

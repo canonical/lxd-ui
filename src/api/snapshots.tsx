@@ -1,14 +1,19 @@
-import { TIMEOUT_120, TIMEOUT_60, watchOperation } from "./operations";
-import { handleResponse } from "util/helpers";
+import {
+  continueOrFinish,
+  handleResponse,
+  pushFailure,
+  pushSuccess,
+} from "util/helpers";
 import { LxdInstance, LxdSnapshot } from "types/instance";
 import { LxdOperationResponse } from "types/operation";
+import { EventQueue } from "context/eventQueue";
 
 export const createSnapshot = (
   instance: LxdInstance,
   name: string,
   expiresAt: string | null,
   stateful: boolean,
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/instances/${instance.name}/snapshots?project=${instance.project}`,
@@ -22,9 +27,7 @@ export const createSnapshot = (
       },
     )
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_60).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -32,7 +35,7 @@ export const createSnapshot = (
 export const deleteSnapshot = (
   instance: LxdInstance,
   snapshot: { name: string },
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
@@ -41,9 +44,7 @@ export const deleteSnapshot = (
       },
     )
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_120).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -51,15 +52,22 @@ export const deleteSnapshot = (
 export const deleteSnapshotBulk = (
   instance: LxdInstance,
   snapshotNames: string[],
-) => {
-  return new Promise((resolve, reject) => {
-    Promise.all(
-      snapshotNames.map(
-        async (name) => await deleteSnapshot(instance, { name }),
-      ),
-    )
-      .then(resolve)
-      .catch(reject);
+  eventQueue: EventQueue,
+): Promise<PromiseSettledResult<void>[]> => {
+  const results: PromiseSettledResult<void>[] = [];
+  return new Promise((resolve) => {
+    void Promise.allSettled(
+      snapshotNames.map(async (name) => {
+        return await deleteSnapshot(instance, { name }).then((operation) => {
+          eventQueue.set(
+            operation.metadata.id,
+            () => pushSuccess(results),
+            (msg) => pushFailure(results, msg),
+            () => continueOrFinish(results, snapshotNames.length, resolve),
+          );
+        });
+      }),
+    );
   });
 };
 
@@ -67,7 +75,7 @@ export const restoreSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
   restoreState: boolean,
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instance.name}?project=${instance.project}`, {
       method: "PUT",
@@ -77,9 +85,7 @@ export const restoreSnapshot = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -88,7 +94,7 @@ export const renameSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
   newName: string,
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
@@ -100,9 +106,7 @@ export const renameSnapshot = (
       },
     )
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -111,7 +115,7 @@ export const updateSnapshot = (
   instance: LxdInstance,
   snapshot: LxdSnapshot,
   expiresAt: string,
-) => {
+): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/instances/${instance.name}/snapshots/${snapshot.name}?project=${instance.project}`,
@@ -123,9 +127,7 @@ export const updateSnapshot = (
       },
     )
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };

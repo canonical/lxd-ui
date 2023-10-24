@@ -8,7 +8,6 @@ import {
 } from "types/storage";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
-import { TIMEOUT_300, watchOperation } from "api/operations";
 import axios, { AxiosResponse } from "axios";
 
 export const fetchStoragePool = (
@@ -199,9 +198,7 @@ export const createIsoStorageVolume = (
         },
       )
       .then((response: AxiosResponse<LxdOperationResponse>) => response.data)
-      .then((data: LxdOperationResponse) => {
-        watchOperation(data.operation, TIMEOUT_300).then(resolve).catch(reject);
-      })
+      .then(resolve)
       .catch(reject);
   });
 };

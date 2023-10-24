@@ -9,12 +9,14 @@ import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import { useNotify } from "@canonical/react-components";
 import HelpLink from "components/HelpLink";
+import { useEventQueue } from "context/eventQueue";
 
 interface Props {
   project: LxdProject;
 }
 
 const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
+  const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const notify = useNotify();
   const controllerState = useState<AbortController | null>(null);
@@ -43,18 +45,20 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         formik.setSubmitting(false);
         return;
       }
-      renameProject(project.name, values.name)
-        .then(() => {
-          navigate(
-            `/ui/project/${values.name}/configuration`,
-            notify.queue(notify.success("Project renamed.")),
-          );
-          void formik.setFieldValue("isRenaming", false);
-        })
-        .catch((e) => {
-          notify.failure("Renaming failed", e);
-        })
-        .finally(() => formik.setSubmitting(false));
+      void renameProject(project.name, values.name).then((operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            navigate(
+              `/ui/project/${values.name}/configuration`,
+              notify.queue(notify.success("Project renamed.")),
+            );
+            void formik.setFieldValue("isRenaming", false);
+          },
+          (msg) => notify.failure("Renaming failed", new Error(msg)),
+          () => formik.setSubmitting(false),
+        ),
+      );
     },
   });
 
