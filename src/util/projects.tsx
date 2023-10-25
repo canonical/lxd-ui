@@ -1,3 +1,4 @@
+import { STORAGE_TAB_PATHS } from "pages/storage/Storage";
 import { LxdProject } from "types/project";
 
 export const projectSubpages = [
@@ -12,9 +13,18 @@ export const projectSubpages = [
 
 export const getSubpageFromUrl = (url: string) => {
   const parts = url.split("/");
-  if (projectSubpages.includes(parts[4])) {
-    return parts[4];
+
+  const mainSubpage = parts[4];
+  const tabSubpage = parts[5];
+
+  if (mainSubpage === "storage" && STORAGE_TAB_PATHS.includes(tabSubpage)) {
+    return `${mainSubpage}/${tabSubpage}`;
   }
+
+  if (projectSubpages.includes(mainSubpage)) {
+    return mainSubpage;
+  }
+
   return undefined;
 };
 
