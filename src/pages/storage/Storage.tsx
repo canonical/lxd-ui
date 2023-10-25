@@ -12,6 +12,8 @@ import HelpLink from "components/HelpLink";
 
 const TABS: string[] = ["Pools", "Volumes", "Cached images", "Custom ISOs"];
 
+export const STORAGE_TAB_PATHS = TABS.map((tab) => slugify(tab));
+
 const Storage: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
@@ -24,12 +26,12 @@ const Storage: FC = () => {
     return <>Missing project</>;
   }
 
-  const handleTabChange = (newTab: string) => {
+  const handleTabChange = (newTabPath: string) => {
     notify.clear();
-    if (newTab === slugify(TABS[0])) {
+    if (newTabPath === STORAGE_TAB_PATHS[0]) {
       navigate(`/ui/project/${project}/storage`);
     } else {
-      navigate(`/ui/project/${project}/storage/${newTab}`);
+      navigate(`/ui/project/${project}/storage/${newTabPath}`);
     }
   };
 
@@ -47,13 +49,16 @@ const Storage: FC = () => {
       <NotificationRow />
       <Row>
         <Tabs
-          links={TABS.map((tab) => ({
-            label: tab,
-            id: slugify(tab),
-            active:
-              slugify(tab) === activeTab || (tab === TABS[0] && !activeTab),
-            onClick: () => handleTabChange(slugify(tab)),
-          }))}
+          links={TABS.map((tab, index) => {
+            const tabPath = STORAGE_TAB_PATHS[index];
+
+            return {
+              label: tab,
+              id: tabPath,
+              active: tabPath === activeTab || (tab === TABS[0] && !activeTab),
+              onClick: () => handleTabChange(tabPath),
+            };
+          })}
         />
 
         {!activeTab && (
