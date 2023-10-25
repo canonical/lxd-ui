@@ -45,7 +45,6 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
         etag: volume.etag,
       })
         .then(() => {
-          formik.setSubmitting(false);
           void formik.setValues(getStorageVolumeEditValues(saveVolume));
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
@@ -62,9 +61,9 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
           notify.success(`Storage volume updated.`);
         })
         .catch((e) => {
-          formik.setSubmitting(false);
           notify.failure("Storage volume update failed", e);
-        });
+        })
+        .finally(() => formik.setSubmitting(false));
     },
   });
 

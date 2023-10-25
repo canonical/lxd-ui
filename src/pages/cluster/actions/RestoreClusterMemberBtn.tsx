@@ -19,7 +19,6 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
     setLoading(true);
     postClusterMemberState(member, "restore")
       .then(() => {
-        setLoading(false);
         notify.success(`Cluster member ${member.server_name} restore started.`);
       })
       .catch((e) => notify.failure("Cluster member restore failed", e))

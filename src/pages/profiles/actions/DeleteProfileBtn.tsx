@@ -34,7 +34,6 @@ const DeleteProfileBtn: FC<Props> = ({
     setLoading(true);
     deleteProfile(profile.name, project)
       .then(() => {
-        setLoading(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, project],
         });
@@ -43,8 +42,10 @@ const DeleteProfileBtn: FC<Props> = ({
           notify.queue(notify.success(`Profile ${profile.name} deleted.`)),
         );
       })
-      .catch((e) => notify.failure("Profile deletion failed", e))
-      .finally(() => setLoading(false));
+      .catch((e) => {
+        setLoading(false);
+        notify.failure("Profile deletion failed", e);
+      });
   };
 
   const isDefaultProfile = profile.name === "default";

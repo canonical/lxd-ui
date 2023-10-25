@@ -56,7 +56,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       const saveNetwork = yamlToObject(yaml) as LxdNetwork;
       updateNetwork({ ...saveNetwork, etag: network.etag }, project)
         .then(() => {
-          formik.setSubmitting(false);
           void formik.setValues(getNetworkEditValues(saveNetwork));
           void queryClient.invalidateQueries({
             queryKey: [
@@ -69,9 +68,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
           notify.success("Network updated.");
         })
         .catch((e) => {
-          formik.setSubmitting(false);
           notify.failure("Network update failed", e);
-        });
+        })
+        .finally(() => formik.setSubmitting(false));
     },
   });
 

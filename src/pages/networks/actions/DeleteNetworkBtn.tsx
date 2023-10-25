@@ -22,7 +22,6 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
     setLoading(true);
     deleteNetwork(network.name, project)
       .then(() => {
-        setLoading(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.networks],
         });
@@ -31,8 +30,10 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
           notify.queue(notify.success(`Network ${network.name} deleted.`)),
         );
       })
-      .catch((e) => notify.failure("Network deletion failed", e))
-      .finally(() => setLoading(false));
+      .catch((e) => {
+        setLoading(false);
+        notify.failure("Network deletion failed", e);
+      });
   };
 
   const isUsed = (network.used_by?.length ?? 0) > 0;
