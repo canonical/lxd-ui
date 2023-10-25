@@ -91,11 +91,11 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
           );
         })
         .catch((e: Error) => {
+          formik.setSubmitting(false);
           const verb = group ? "save" : "creation";
           notify.failure(`Cluster group ${verb} failed`, e);
         })
         .finally(() => {
-          formik.setSubmitting(false);
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.cluster, queryKeys.groups],
           });

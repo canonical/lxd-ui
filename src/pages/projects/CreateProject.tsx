@@ -102,10 +102,10 @@ const CreateProject: FC = () => {
           );
         })
         .catch((e: Error) => {
+          formik.setSubmitting(false);
           notify.failure("Project creation failed", e);
         })
         .finally(() => {
-          formik.setSubmitting(false);
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.projects],
           });

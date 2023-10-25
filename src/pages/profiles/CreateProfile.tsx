@@ -112,10 +112,10 @@ const CreateProfile: FC = () => {
           );
         })
         .catch((e: Error) => {
+          formik.setSubmitting(false);
           notify.failure("Profile creation failed", e);
         })
         .finally(() => {
-          formik.setSubmitting(false);
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });

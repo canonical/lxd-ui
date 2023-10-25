@@ -20,15 +20,16 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     setLoading(true);
     deleteClusterGroup(group)
       .then(() => {
-        setLoading(false);
         navigate(
           `/ui/cluster`,
           notify.queue(notify.success(`Cluster group ${group} deleted.`)),
         );
       })
-      .catch((e) => notify.failure("Cluster group deletion failed", e))
-      .finally(() => {
+      .catch((e) => {
         setLoading(false);
+        notify.failure("Cluster group deletion failed", e);
+      })
+      .finally(() => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.cluster, queryKeys.groups],
         });

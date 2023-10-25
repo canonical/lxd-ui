@@ -47,10 +47,10 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         );
       })
       .catch((e) => {
+        setLoading(false);
         notify.failure("Project deletion failed", e);
       })
       .finally(() => {
-        setLoading(false);
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.projects],
         });
