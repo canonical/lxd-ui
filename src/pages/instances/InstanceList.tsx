@@ -558,6 +558,7 @@ const InstanceList: FC = () => {
               <TableColumnsSelect
                 columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
                 hidden={userHidden}
+                sizeHidden={sizeHidden}
                 setHidden={setHidden}
                 className={classnames({
                   "u-hide": panelParams.instance,

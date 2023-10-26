@@ -1,8 +1,9 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   CheckboxInput,
   ContextualMenu,
   Icon,
+  Tooltip,
 } from "@canonical/react-components";
 import classnames from "classnames";
 
@@ -10,6 +11,7 @@ interface Props {
   className?: string;
   columns: string[];
   hidden: string[];
+  sizeHidden: string[];
   setHidden: (columns: string[]) => void;
 }
 
@@ -17,6 +19,7 @@ const TableColumnsSelect = ({
   className,
   columns,
   hidden,
+  sizeHidden,
   setHidden,
 }: Props): JSX.Element => {
   const selectedCount = columns.length - hidden.length;
@@ -28,6 +31,26 @@ const TableColumnsSelect = ({
       setHidden([...hidden, column]);
     }
   };
+
+  const wrapTooltip = (element: ReactElement, column: string): ReactElement => {
+    if (!sizeHidden.includes(column)) return element;
+
+    return (
+      <Tooltip
+        message={
+          <>
+            Screen is too narrow to fit the column.
+            <br />
+            Disable columns above or use a bigger screen.
+          </>
+        }
+        position="left"
+      >
+        {element}
+      </Tooltip>
+    );
+  };
+
   return (
     <ContextualMenu
       className={classnames(className, "configurable-table-toggle")}
@@ -45,20 +68,25 @@ const TableColumnsSelect = ({
         <CheckboxInput
           checked={hidden.length === 0}
           indeterminate={selectedCount > 0 && selectedCount < columns.length}
-          label={`${selectedCount} out of ${columns.length} selected`}
+          label={`${selectedCount} out of ${columns.length} columns selected`}
           onChange={() =>
             hidden.length > 0 ? setHidden([]) : setHidden(columns)
           }
         />
         <hr />
         {columns.map((column) => (
-          <CheckboxInput
-            aria-label={column}
-            checked={!hidden.includes(column)}
-            key={column}
-            label={column}
-            onChange={() => toggleHiddenColumn(column)}
-          />
+          <div key={column}>
+            {wrapTooltip(
+              <CheckboxInput
+                aria-label={column}
+                checked={!hidden.includes(column)}
+                label={column}
+                onChange={() => toggleHiddenColumn(column)}
+                disabled={sizeHidden.includes(column)}
+              />,
+              column,
+            )}
+          </div>
         ))}
       </div>
     </ContextualMenu>
