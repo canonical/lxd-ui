@@ -118,7 +118,9 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
               }}
               hasIcon
             >
-              <div className="u-truncate">{getReadModeValue()}</div>
+              <div className="readmode-value u-truncate">
+                {getReadModeValue()}
+              </div>
               <Icon name="edit" className="edit-icon" />
             </Button>
           )}

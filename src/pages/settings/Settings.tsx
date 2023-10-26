@@ -90,7 +90,7 @@ const Settings: FC = () => {
           },
           {
             content: (
-              <>
+              <div className="key-cell">
                 {isDefault ? (
                   configField.key
                 ) : (
@@ -99,7 +99,7 @@ const Settings: FC = () => {
                 <p className="p-text--small u-no-margin u-text--muted">
                   {configField.description}
                 </p>
-              </>
+              </div>
             ),
             role: "cell",
             className: "key",
