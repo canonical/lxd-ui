@@ -2,6 +2,7 @@ import { handleEtagResponse, handleResponse } from "util/helpers";
 import { LxdNetwork, LxdNetworkState } from "types/network";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdClusterMember } from "types/cluster";
+import { areNetworksEqual } from "util/networks";
 
 export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
   return new Promise((resolve, reject) => {
@@ -83,12 +84,22 @@ export const createNetwork = (
     })
       .then(handleResponse)
       .then((data) => resolve(data))
-      .catch(reject);
+      .catch(async (e: Error) => {
+        // when creating a network on localhost the request will get cancelled
+        // check manually if creation was successful
+        if (e.message === "Failed to fetch") {
+          const newNetwork = await fetchNetwork(network.name ?? "", project);
+          if (newNetwork) {
+            resolve(newNetwork);
+          }
+        }
+        reject(e);
+      });
   });
 };
 
 export const updateNetwork = (
-  network: Partial<LxdNetwork>,
+  network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   project: string,
 ) => {
   return new Promise((resolve, reject) => {
@@ -101,7 +112,17 @@ export const updateNetwork = (
     })
       .then(handleResponse)
       .then((data) => resolve(data))
-      .catch(reject);
+      .catch(async (e: Error) => {
+        // when updating a network on localhost the request will get cancelled
+        // check manually if the edit was successful
+        if (e.message === "Failed to fetch") {
+          const newNetwork = await fetchNetwork(network.name ?? "", project);
+          if (areNetworksEqual(network, newNetwork)) {
+            resolve(newNetwork);
+          }
+        }
+        reject(e);
+      });
   });
 };
 
@@ -119,17 +140,39 @@ export const renameNetwork = (
     })
       .then(handleResponse)
       .then(resolve)
-      .catch(reject);
+      .catch(async (e: Error) => {
+        // when renaming a network on localhost the request will get cancelled
+        // check manually if renaming was successful
+        if (e.message === "Failed to fetch") {
+          const renamedNetwork = await fetchNetwork(newName, project);
+          if (renamedNetwork) {
+            resolve(renamedNetwork);
+          }
+        }
+        reject(e);
+      });
   });
 };
 
-export const deleteNetwork = (name: string, project: string) => {
+export const deleteNetwork = (name: string, project: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${name}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
-      .catch(reject);
+      .then(resolve)
+      .catch(async (e: Error) => {
+        // when deleting a network on localhost the request will get cancelled
+        // check manually if deletion was successful
+        if (e.message === "Failed to fetch") {
+          const response = await fetch(
+            `/1.0/networks/${name}?project=${project}`,
+          );
+          if (response.status === 404) {
+            resolve();
+          }
+        }
+        reject(e);
+      });
   });
 };
