@@ -1,4 +1,5 @@
 import { LxdInstance } from "types/instance";
+import { LxdNetwork, LxdNetworkConfig } from "types/network";
 
 export const getIpAddresses = (
   instance: LxdInstance,
@@ -47,4 +48,32 @@ export const getLxdDefault = (formField: string): string => {
     return networkDefaults[formField];
   }
   return "";
+};
+
+const hasNetworkConfigDiff = (
+  a: Partial<LxdNetworkConfig>,
+  b: Partial<LxdNetworkConfig>,
+) => {
+  return (Object.keys(a) as Array<keyof typeof a>).some((key) => {
+    const isIp = key === "ipv4.address" || key === "ipv6.address";
+    if (isIp && a[key] === "auto" && b[key] !== "") {
+      return false;
+    }
+    return a[key] !== b[key];
+  });
+};
+
+export const areNetworksEqual = (
+  a: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
+  b: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
+) => {
+  if (hasNetworkConfigDiff(a.config, b.config)) {
+    return false;
+  }
+
+  const hasMainKeyDiff = (Object.keys(a) as Array<keyof typeof a>).some(
+    (key) => (key === "config" || key === "etag" ? false : a[key] !== b[key]),
+  );
+
+  return !hasMainKeyDiff;
 };
