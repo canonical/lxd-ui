@@ -1,22 +1,23 @@
 import React, { FC } from "react";
-import { Row, Tabs, useNotify } from "@canonical/react-components";
+import { Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
-import { useNavigate, useParams } from "react-router-dom";
-import { slugify } from "util/slugify";
+import { useParams } from "react-router-dom";
 import CachedImageList from "pages/images/CachedImageList";
 import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
+import TabLinks from "components/TabLinks";
 
-const TABS: string[] = ["Pools", "Volumes", "Cached images", "Custom ISOs"];
-
-export const STORAGE_TAB_PATHS = TABS.map((tab) => slugify(tab));
+export const tabs: string[] = [
+  "Pools",
+  "Volumes",
+  "Cached images",
+  "Custom ISOs",
+];
 
 const Storage: FC = () => {
-  const navigate = useNavigate();
-  const notify = useNotify();
   const { project, activeTab } = useParams<{
     project: string;
     activeTab?: string;
@@ -25,15 +26,6 @@ const Storage: FC = () => {
   if (!project) {
     return <>Missing project</>;
   }
-
-  const handleTabChange = (newTabPath: string) => {
-    notify.clear();
-    if (newTabPath === STORAGE_TAB_PATHS[0]) {
-      navigate(`/ui/project/${project}/storage`);
-    } else {
-      navigate(`/ui/project/${project}/storage/${newTabPath}`);
-    }
-  };
 
   return (
     <BaseLayout
@@ -48,17 +40,10 @@ const Storage: FC = () => {
     >
       <NotificationRow />
       <Row>
-        <Tabs
-          links={TABS.map((tab, index) => {
-            const tabPath = STORAGE_TAB_PATHS[index];
-
-            return {
-              label: tab,
-              id: tabPath,
-              active: tabPath === activeTab || (tab === TABS[0] && !activeTab),
-              onClick: () => handleTabChange(tabPath),
-            };
-          })}
+        <TabLinks
+          tabs={tabs}
+          activeTab={activeTab}
+          tabUrl={`/ui/project/${project}/storage`}
         />
 
         {!activeTab && (
