@@ -1,5 +1,10 @@
 import forge from "node-forge";
 
+self.onmessage = (event: MessageEvent<string>) => {
+  const result = generateCert(event.data);
+  self.postMessage(result);
+};
+
 const getRandomBytes = (n: number) => {
   const crypto = self.crypto;
   const QUOTA = 65536;
@@ -25,7 +30,7 @@ const details = [
   },
 ];
 
-export const generateCert = (password: string) => {
+const generateCert = (password: string) => {
   const validDays = 1000;
 
   const keys = forge.pki.rsa.generateKeyPair(2048);

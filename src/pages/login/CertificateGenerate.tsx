@@ -1,5 +1,4 @@
 import React, { FC, useState } from "react";
-import { generateCert } from "util/certificate";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate } from "react-router-dom";
@@ -38,12 +37,25 @@ const CertificateGenerate: FC = () => {
   const createCert = (password: string) => {
     closeModal();
     setGenerating(true);
-    // using timeout to avoid compute heavy generation in the main ui thread
-    setTimeout(() => {
-      const certs = generateCert(password);
-      setCerts(certs);
+
+    const worker = new Worker(
+      new URL("../../util/certificate?worker", import.meta.url),
+      { type: "module" },
+    );
+
+    worker.onmessage = (event: MessageEvent<Certs>) => {
+      setCerts(event.data);
       setGenerating(false);
-    }, 100);
+      worker.terminate();
+    };
+
+    worker.onerror = (error) => {
+      console.error("Web Worker error:", error);
+      setGenerating(false);
+      worker.terminate();
+    };
+
+    worker.postMessage(password);
   };
 
   const downloadBase64 = (name: string, base64: string) => {
