@@ -11,6 +11,7 @@ export const createPool = async (page: Page, pool: string) => {
   await page.getByRole("link", { name: "Storage" }).click();
   await page.getByRole("button", { name: "Create pool" }).click();
   await page.getByPlaceholder("Enter name").fill(pool);
+  await page.getByLabel("Driver").selectOption("dir");
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForSelector(`text=Storage pool ${pool} created.`, TIMEOUT);
 };

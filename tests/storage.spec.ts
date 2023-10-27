@@ -24,6 +24,7 @@ test("storage pool create, edit and remove", async ({ page }) => {
 
   await page.getByTestId("tab-link-Overview").click();
   await page.getByText("DescriptionA-new-description").click();
+  await page.getByText("StatusCreated").click();
 
   await deletePool(page, pool);
 });

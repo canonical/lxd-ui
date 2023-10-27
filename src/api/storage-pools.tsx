@@ -56,7 +56,7 @@ export const fetchStoragePoolResources = (
 };
 
 export const createPool = (
-  pool: LxdStoragePool,
+  pool: Partial<LxdStoragePool>,
   project: string,
   target?: string,
 ) => {
@@ -72,6 +72,13 @@ export const createPool = (
   });
 };
 
+const getPoolForCluster = (pool: Partial<LxdStoragePool>) => {
+  const poolForCluster = { ...pool };
+  delete poolForCluster.config;
+
+  return poolForCluster;
+};
+
 export const createClusteredPool = (
   pool: LxdStoragePool,
   project: string,
@@ -84,6 +91,7 @@ export const createClusteredPool = (
       ),
     )
       .then(handleSettledResult)
+      .then(() => createPool(getPoolForCluster(pool), project))
       .then(resolve)
       .catch(reject);
   });
@@ -118,6 +126,7 @@ export const updateClusteredPool = (
       ),
     )
       .then(handleSettledResult)
+      .then(() => updatePool(getPoolForCluster(pool), project))
       .then(resolve)
       .catch(reject);
   });
