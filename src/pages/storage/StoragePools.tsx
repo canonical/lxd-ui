@@ -129,7 +129,13 @@ const StoragePools: FC = () => {
           "aria-label": "Status",
         },
         {
-          content: <DeleteStoragePoolBtn pool={pool} project={project} />,
+          content: (
+            <DeleteStoragePoolBtn
+              key={pool.name}
+              pool={pool}
+              project={project}
+            />
+          ),
           role: "rowheader",
           className: "u-align--right actions",
           "aria-label": "Actions",
