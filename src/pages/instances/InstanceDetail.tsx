@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { Row, Tabs, useNotify } from "@canonical/react-components";
+import { Row, useNotify } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
 import { useQuery } from "@tanstack/react-query";
 import { fetchInstance } from "api/instances";
@@ -12,11 +12,11 @@ import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import EditInstance from "./EditInstance";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
-import { slugify } from "util/slugify";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
+import TabLinks from "components/TabLinks";
 
-const TABS: string[] = [
+const tabs: string[] = [
   "Overview",
   "Configuration",
   "Snapshots",
@@ -27,7 +27,6 @@ const TABS: string[] = [
 
 const InstanceDetail: FC = () => {
   const notify = useNotify();
-  const navigate = useNavigate();
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -54,15 +53,6 @@ const InstanceDetail: FC = () => {
     notify.failure("Loading instance failed", error);
   }
 
-  const handleTabChange = (newTab: string) => {
-    notify.clear();
-    if (newTab === "overview") {
-      navigate(`/ui/project/${project}/instances/detail/${name}`);
-    } else {
-      navigate(`/ui/project/${project}/instances/detail/${name}/${newTab}`);
-    }
-  };
-
   return (
     <CustomLayout
       header={
@@ -79,15 +69,10 @@ const InstanceDetail: FC = () => {
       {!isLoading && !instance && <>Loading instance failed</>}
       {!isLoading && instance && (
         <Row>
-          <Tabs
-            links={TABS.map((tab) => ({
-              id: slugify(tab),
-              label: tab,
-              active:
-                slugify(tab) === activeTab ||
-                (tab === "Overview" && !activeTab),
-              onClick: () => handleTabChange(slugify(tab)),
-            }))}
+          <TabLinks
+            tabs={tabs}
+            activeTab={activeTab}
+            tabUrl={`/ui/project/${project}/instances/detail/${name}`}
           />
 
           {!activeTab && (

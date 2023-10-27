@@ -1,22 +1,21 @@
 import React, { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { Row, Tabs, useNotify } from "@canonical/react-components";
+import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
 import NotificationRow from "components/NotificationRow";
-import { slugify } from "util/slugify";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
 import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
 import { useClusterMembers } from "context/useClusterMembers";
+import TabLinks from "components/TabLinks";
 
-const TABS: string[] = ["Overview", "Configuration"];
+const tabs: string[] = ["Overview", "Configuration"];
 
 const StoragePoolDetail: FC = () => {
-  const navigate = useNavigate();
   const notify = useNotify();
   const { data: clusterMembers = [] } = useClusterMembers();
   const { name, project, activeTab } = useParams<{
@@ -53,15 +52,6 @@ const StoragePoolDetail: FC = () => {
     return <>Loading storage details failed</>;
   }
 
-  const handleTabChange = (newTab: string) => {
-    notify.clear();
-    if (newTab === "overview") {
-      navigate(`/ui/project/${project}/storage/detail/${name}`);
-    } else {
-      navigate(`/ui/project/${project}/storage/detail/${name}/${newTab}`);
-    }
-  };
-
   return (
     <CustomLayout
       header={<StoragePoolHeader name={name} pool={pool} project={project} />}
@@ -69,14 +59,10 @@ const StoragePoolDetail: FC = () => {
     >
       <NotificationRow />
       <Row>
-        <Tabs
-          links={TABS.map((tab) => ({
-            label: tab,
-            id: slugify(tab),
-            active:
-              slugify(tab) === activeTab || (tab === "Overview" && !activeTab),
-            onClick: () => handleTabChange(slugify(tab)),
-          }))}
+        <TabLinks
+          tabs={tabs}
+          activeTab={activeTab}
+          tabUrl={`/ui/project/${project}/storage/detail/${name}`}
         />
 
         {!activeTab && (

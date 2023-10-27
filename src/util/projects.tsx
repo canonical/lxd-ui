@@ -1,6 +1,8 @@
-import { STORAGE_TAB_PATHS } from "pages/storage/Storage";
 import { LxdProject } from "types/project";
+import { tabs } from "pages/storage/Storage";
+import { slugify } from "./slugify";
 
+export const STORAGE_TAB_PATHS = tabs.map((tab) => slugify(tab));
 export const projectSubpages = [
   "instances",
   "profiles",
