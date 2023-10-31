@@ -26,7 +26,8 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
       <li className="p-list__item">
         This opens a certificate management dialog. Click <code>Import...</code>
         then <code>Next</code> and select the <code>lxd-ui.pfx</code> file you
-        just downloaded. Confirm an empty password. Click <code>Next</code>.
+        just downloaded. Enter your password, or leave the field empty if you
+        have not set one. Click <code>Next</code>.
       </li>
       <li className="p-list__item">
         Select <code>Automatically select the certificate store</code> and click{" "}
@@ -82,7 +83,8 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
               </li>
               <li className="p-list__item">
                 Select the <code>lxd-ui.pfx</code> file you just downloaded.
-                Confirm an empty password.
+                Enter your password, or leave the field empty if you have not
+                set one.
               </li>
               <li className="p-list__item">
                 Restart the browser and open LXD-UI. Select the LXD-UI
@@ -106,8 +108,8 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
               </li>
               <li className="p-list__item">
                 Click the <code>Import</code> button and select the{" "}
-                <code>lxd-ui.pfx</code> file you just downloaded. Confirm an
-                empty password.
+                <code>lxd-ui.pfx</code> file you just downloaded. Enter your
+                password, or leave the field empty if you have not set one.
               </li>
               <li className="p-list__item">
                 Restart the browser and open LXD-UI. Select the LXD-UI
