@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { LxdInstance } from "types/instance";
 
-type LoadingTypes = "Starting" | "Stopping" | "Restarting" | "Pausing";
+type LoadingTypes = "Starting" | "Stopping" | "Restarting" | "Freezing";
 
 export interface InstanceLoadingType {
   getType: (instance: LxdInstance) => LoadingTypes | undefined;

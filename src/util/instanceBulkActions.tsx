@@ -63,7 +63,7 @@ export const instanceActionLabel = (action: LxdInstanceAction): string => {
     unfreeze: "started",
     start: "started",
     restart: "restarted",
-    freeze: "paused",
+    freeze: "frozen",
     stop: "stopped",
   }[action];
 };
@@ -78,7 +78,7 @@ export const pluralizeSnapshot = (count: number) => {
 
 export const statusLabel = (status: LxdInstanceStatus) => {
   const statusToLabel: Partial<Record<LxdInstanceStatus, string>> = {
-    Frozen: "paused",
+    Frozen: "frozen",
     Stopped: "stopped",
     Running: "running",
   };

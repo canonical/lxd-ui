@@ -17,29 +17,29 @@ interface Props {
   instance: LxdInstance;
 }
 
-const PauseInstanceBtn: FC<Props> = ({ instance }) => {
+const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const isLoading =
-    instanceLoading.getType(instance) === "Pausing" ||
+    instanceLoading.getType(instance) === "Freezing" ||
     instance.status === "Freezing";
 
-  const handlePause = () => {
-    instanceLoading.setLoading(instance, "Pausing");
+  const handleFreeze = () => {
+    instanceLoading.setLoading(instance, "Freezing");
     void freezeInstance(instance).then((operation) => {
       eventQueue.set(
         operation.metadata.id,
         () =>
           notify.success(
             <>
-              Instance <InstanceLink instance={instance} /> paused.
+              Instance <InstanceLink instance={instance} /> frozen.
             </>,
           ),
         (msg) =>
           notify.failure(
-            "Instance pause failed",
+            "Instance freeze failed",
             new Error(msg),
             <>
               Instance <ItemName item={instance} bold />:
@@ -62,14 +62,14 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
       appearance="base"
       loading={isLoading}
       confirmationModalProps={{
-        title: "Confirm pause",
+        title: "Confirm freeze",
         children: (
           <p>
-            This will pause instance <ItemName item={instance} bold />.
+            This will freeze instance <ItemName item={instance} bold />.
           </p>
         ),
-        onConfirm: handlePause,
-        confirmButtonLabel: "Pause",
+        onConfirm: handleFreeze,
+        confirmButtonLabel: "Freeze",
       }}
       className="has-icon is-dense"
       disabled={isDisabled}
@@ -81,4 +81,4 @@ const PauseInstanceBtn: FC<Props> = ({ instance }) => {
   );
 };
 
-export default PauseInstanceBtn;
+export default FreezeInstanceBtn;

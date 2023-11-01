@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { LxdInstance } from "types/instance";
 import StartInstanceBtn from "pages/instances/actions/StartInstanceBtn";
 import StopInstanceBtn from "pages/instances/actions/StopInstanceBtn";
-import PauseInstanceBtn from "pages/instances/actions/PauseInstanceBtn";
+import FreezeInstanceBtn from "pages/instances/actions/FreezeInstanceBtn";
 import RestartInstanceBtn from "pages/instances/actions/RestartInstanceBtn";
 import classnames from "classnames";
 import { List } from "@canonical/react-components";
@@ -20,7 +20,7 @@ const InstanceStateActions: FC<Props> = ({ instance, className }) => {
       items={[
         <StartInstanceBtn key="start" instance={instance} />,
         <RestartInstanceBtn key="restart" instance={instance} />,
-        <PauseInstanceBtn key="pause" instance={instance} />,
+        <FreezeInstanceBtn key="freeze" instance={instance} />,
         <StopInstanceBtn key="stop" instance={instance} />,
       ]}
     />
