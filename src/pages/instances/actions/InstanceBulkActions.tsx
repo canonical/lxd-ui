@@ -112,7 +112,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           onClick={() => handleAction("freeze")}
           action="freeze"
           instances={instances}
-          confirmLabel="Pause"
+          confirmLabel="Freeze"
         />
         <InstanceBulkAction
           icon="stop"

@@ -69,7 +69,7 @@ const InstanceBulkAction: FC<Props> = ({
       return (
         <Fragment key={currentState + desiredAction}>
           - No action for <b>{count}</b> {instance} {already}
-          {currentState.toLowerCase().replace("frozen", "paused")}.
+          {currentState.toLowerCase()}.
           <br />
         </Fragment>
       );
@@ -80,7 +80,7 @@ const InstanceBulkAction: FC<Props> = ({
     return (
       <Fragment key={currentState + desiredAction}>
         {indent}
-        This will {desiredAction.replace("freeze", "pause")} <b>{count}</b>
+        This will {desiredAction} <b>{count}</b>
         {` ${status} ${pluralizeInstance(count)}.`}
         <br />
       </Fragment>
