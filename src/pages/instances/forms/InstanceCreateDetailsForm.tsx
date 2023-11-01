@@ -14,7 +14,7 @@ import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import { RemoteImage } from "types/image";
+import { LxdImageType, RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import { getTextareaRows } from "util/formFields";
@@ -58,7 +58,7 @@ export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
-  onSelectImage: (image: RemoteImage, type: string | null) => void;
+  onSelectImage: (image: RemoteImage, type: LxdImageType | null) => void;
   project: string;
 }
 
