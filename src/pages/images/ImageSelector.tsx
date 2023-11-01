@@ -8,7 +8,7 @@ import {
   SearchBox,
   Select,
 } from "@canonical/react-components";
-import { RemoteImage, RemoteImageList } from "types/image";
+import { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
 import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -21,7 +21,7 @@ import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
-  onSelect: (image: RemoteImage, type: string | null) => void;
+  onSelect: (image: RemoteImage, type: LxdImageType | null) => void;
   onClose: () => void;
 }
 
@@ -40,7 +40,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [os, setOs] = useState<string>("");
   const [release, setRelease] = useState<string>("");
   const [arch, setArch] = useState<string>("amd64");
-  const [type, setType] = useState<string>(ANY);
+  const [type, setType] = useState<LxdImageType | null>(null);
   const [variant, setVariant] = useState<string>(ANY);
 
   const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
@@ -167,7 +167,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
       const itemType = figureType();
 
-      const selectImage = () => onSelect(item, type === ANY ? null : type);
+      const selectImage = () => onSelect(item, type);
 
       const displayRelease =
         item.os === "Ubuntu" &&
@@ -338,7 +338,11 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               label="Type"
               name="type"
               onChange={(v) => {
-                setType(v.target.value);
+                setType(
+                  v.target.value === ANY
+                    ? "container"
+                    : (v.target.value as LxdImageType),
+                );
               }}
               options={[
                 {
@@ -347,7 +351,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 },
                 ...instanceCreationTypes,
               ]}
-              value={type}
+              value={type ?? ""}
             />
           </div>
         </Col>

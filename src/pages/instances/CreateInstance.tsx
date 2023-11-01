@@ -14,7 +14,7 @@ import { createInstance, startInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
-import { RemoteImage } from "types/image";
+import { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
@@ -79,6 +79,7 @@ interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
   selectedImage?: RemoteImage;
   cancelLocation?: string;
+  type: LxdImageType;
 }
 
 const CreateInstance: FC = () => {
@@ -258,7 +259,7 @@ const CreateInstance: FC = () => {
 
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 
-  const handleSelectImage = (image: RemoteImage, type: string | null) => {
+  const handleSelectImage = (image: RemoteImage, type: LxdImageType | null) => {
     void formik.setFieldValue("image", image);
 
     const devices = formik.values.devices.filter(
@@ -272,11 +273,9 @@ const CreateInstance: FC = () => {
 
     if (type) {
       void formik.setFieldValue("instanceType", type);
-    }
-    if (isVmOnlyImage(image)) {
+    } else if (isVmOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "virtual-machine");
-    }
-    if (isContainerOnlyImage(image)) {
+    } else if (isContainerOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "container");
     }
     notify.clear();
@@ -284,7 +283,9 @@ const CreateInstance: FC = () => {
 
   useEffect(() => {
     if (location.state?.selectedImage) {
-      const type = location.state.selectedImage.volume ? "iso-volume" : null;
+      const type = location.state.selectedImage.volume
+        ? "iso-volume"
+        : location.state.type ?? null;
       handleSelectImage(location.state.selectedImage, type);
     }
   }, [location.state?.selectedImage]);
