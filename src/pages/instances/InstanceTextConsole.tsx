@@ -12,6 +12,7 @@ import Loader from "components/Loader";
 import useEventListener from "@use-it/event-listener";
 import { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
+import { unstable_usePrompt as usePrompt } from "react-router-dom";
 
 interface Props {
   instance: LxdInstance;
@@ -36,6 +37,12 @@ const InstanceTextConsole: FC<Props> = ({
   const [textBuffer, setTextBuffer] = useState("");
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
+  const [userInteracted, setUserInteracted] = useState(false);
+
+  usePrompt({
+    when: userInteracted,
+    message: "Are you sure you want to leave this page?",
+  });
 
   const isRunning = instance.status === "Running";
 
@@ -179,6 +186,7 @@ const InstanceTextConsole: FC<Props> = ({
           addons={[fitAddon]}
           className="p-terminal"
           onData={(data) => {
+            setUserInteracted(true);
             dataWs?.send(textEncoder.encode(data));
           }}
         />
