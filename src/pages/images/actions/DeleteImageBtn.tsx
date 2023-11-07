@@ -15,7 +15,7 @@ interface Props {
   project: string;
 }
 
-const DeleteCachedImageBtn: FC<Props> = ({ image, project }) => {
+const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
@@ -67,4 +67,4 @@ const DeleteCachedImageBtn: FC<Props> = ({ image, project }) => {
   );
 };
 
-export default DeleteCachedImageBtn;
+export default DeleteImageBtn;

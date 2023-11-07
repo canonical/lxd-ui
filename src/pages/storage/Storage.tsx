@@ -3,19 +3,13 @@ import { Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
 import { useParams } from "react-router-dom";
-import CachedImageList from "pages/images/CachedImageList";
 import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
 import TabLinks from "components/TabLinks";
 
-export const tabs: string[] = [
-  "Pools",
-  "Volumes",
-  "Cached images",
-  "Custom ISOs",
-];
+export const tabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
 
 const Storage: FC = () => {
   const { project, activeTab } = useParams<{
@@ -55,12 +49,6 @@ const Storage: FC = () => {
         {activeTab === "volumes" && (
           <div role="volumes">
             <StorageVolumes />
-          </div>
-        )}
-
-        {activeTab === "cached-images" && (
-          <div role="tabpanel">
-            <CachedImageList />
           </div>
         )}
 
