@@ -10,12 +10,12 @@ import {
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import { fetchImageList } from "api/images";
-import DeleteCachedImageBtn from "./actions/DeleteCachedImageBtn";
+import DeleteImageBtn from "./actions/DeleteImageBtn";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
-import { cachedLxdToRemoteImage } from "util/images";
+import { localLxdToRemoteImage } from "util/images";
 import ScrollableTable from "components/ScrollableTable";
 import { usePagination } from "util/pagination";
 import Pagination from "components/Pagination";
@@ -44,10 +44,16 @@ const ImageList: FC = () => {
 
   const headers = [
     { content: "Name", sortKey: "name" },
+    { content: "Alias", sortKey: "alias" },
     {
       content: "Architecture",
       sortKey: "architecture",
       className: "architecture",
+    },
+    {
+      content: "Public",
+      sortKey: "public",
+      className: "public",
     },
     { content: "Type", sortKey: "type", className: "type" },
     {
@@ -62,7 +68,12 @@ const ImageList: FC = () => {
   const filteredImages = images.filter(
     (item) =>
       !query ||
-      item.properties.description.toLowerCase().includes(query.toLowerCase()),
+      item.properties.description.toLowerCase().includes(query.toLowerCase()) ||
+      item.aliases
+        .map((alias) => alias.name)
+        .join(", ")
+        .toLowerCase()
+        .includes(query.toLowerCase()),
   );
 
   const rows = filteredImages.map((image) => {
@@ -74,13 +85,15 @@ const ImageList: FC = () => {
           <CreateInstanceFromImageBtn
             key="launch"
             project={project}
-            image={cachedLxdToRemoteImage(image)}
+            image={localLxdToRemoteImage(image)}
             type={image.type}
           />,
-          <DeleteCachedImageBtn key="delete" image={image} project={project} />,
+          <DeleteImageBtn key="delete" image={image} project={project} />,
         ]}
       />
     );
+
+    const imageAlias = image.aliases.map((alias) => alias.name).join(", ");
 
     return {
       columns: [
@@ -90,13 +103,25 @@ const ImageList: FC = () => {
           "aria-label": "Name",
         },
         {
+          content: imageAlias,
+          role: "cell",
+          "aria-label": "Aliases",
+          className: "aliases",
+        },
+        {
           content: image.architecture,
           role: "cell",
           "aria-label": "Architecture",
           className: "architecture",
         },
         {
-          content: image.type,
+          content: image.public ? "Yes" : "No",
+          role: "cell",
+          "aria-label": "Public",
+          className: "public",
+        },
+        {
+          content: image.type == "virtual-machine" ? "VM" : "Container",
           role: "cell",
           "aria-label": "Type",
           className: "type",
@@ -122,7 +147,9 @@ const ImageList: FC = () => {
       ],
       sortData: {
         name: image.properties.description.toLowerCase(),
+        alias: imageAlias.toLowerCase(),
         architecture: image.architecture,
+        public: image.public,
         type: image.type,
         size: +image.size,
         uploaded_at: image.uploaded_at,
@@ -133,31 +160,31 @@ const ImageList: FC = () => {
   const pagination = usePagination(rows);
 
   if (isLoading) {
-    return <Loader text="Loading cached images..." />;
+    return <Loader text="Loading images..." />;
   }
 
   return images.length === 0 ? (
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
-      title="No cached images found in this project"
+      title="No images found in this project"
     >
       <p>Images will appear here, when launching an instance from a remote.</p>
     </EmptyState>
   ) : (
-    <div className="cached-image-list">
+    <div className="image-list">
       <div className="upper-controls-bar">
         <div className="search-box-wrapper">
           <SearchBox
-            name="search-cached-images"
+            name="search-images"
             className="search-box margin-right"
             type="text"
             onChange={(value) => {
               setQuery(value);
             }}
-            placeholder="Search for cached images"
+            placeholder="Search for images"
             value={query}
-            aria-label="Search for cached images"
+            aria-label="Search for images"
           />
         </div>
       </div>
@@ -171,14 +198,14 @@ const ImageList: FC = () => {
             ? pagination.pageData.length
             : filteredImages.length
         }
-        keyword="cached image"
+        keyword="image"
       />
       <ScrollableTable dependencies={[images]}>
         <MainTable
           headers={headers}
           rows={pagination.pageData}
           sortable
-          className="cached-image-table"
+          className="image-table"
           emptyStateMsg="No images found matching this search"
           onUpdateSort={pagination.updateSort}
         />

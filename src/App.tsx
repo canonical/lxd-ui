@@ -22,6 +22,7 @@ const CreateProfile = lazy(() => import("pages/profiles/CreateProfile"));
 const CreateProject = lazy(() => import("pages/projects/CreateProject"));
 const CreateStoragePool = lazy(() => import("pages/storage/CreateStoragePool"));
 const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
+const Images = lazy(() => import("pages/images/Images"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
 const Login = lazy(() => import("pages/login/Login"));
@@ -275,6 +276,10 @@ const App: FC = () => {
         <Route
           path="/ui/project/:project/storage/detail/:pool/:type/:volume/:activeTab/:activeSection"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/images"
+          element={<ProtectedRoute outlet={<Images />} />}
         />
         <Route
           path="/ui/cluster"

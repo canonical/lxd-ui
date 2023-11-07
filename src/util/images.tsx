@@ -38,7 +38,7 @@ export const isoToRemoteImage = (volume: LxdStorageVolume): RemoteImage => {
   };
 };
 
-export const cachedLxdToRemoteImage = (image: LxdImage): RemoteImage => {
+export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
   return {
     aliases: image.update_source?.alias ?? image.fingerprint,
     arch: image.architecture,
