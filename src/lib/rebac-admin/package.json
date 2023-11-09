@@ -1,0 +1,117 @@
+{
+  "name": "@canonical/rebac-admin",
+  "version": "0.0.1",
+  "description": "A shared UI for managing ReBAC/OpenFGA permissions",
+  "repository": "git@github.com:canonical/rebac-admin.git",
+  "author": "Canonical Webteam",
+  "license": "",
+  "private": true,
+  "packageManager": "yarn@3.6.4",
+  "type": "module",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.*",
+    "dist/**/*.map",
+    "dist/**/*.scss"
+  ],
+  "main": "./dist/rebac-admin.umd.cjs",
+  "module": "./dist/rebac-admin.js",
+  "types": "./dist/rebac-admin.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/rebac-admin.js",
+      "require": "./dist/rebac-admin.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "yarn run tsc && vite build",
+    "build-api": "./scripts/build-api",
+    "build-demo": "yarn run tsc && vite build -c vite-demo.config.ts",
+    "clean": "./scripts/clean-files",
+    "fetch-api-spec": "./scripts/fetch-api-spec",
+    "lint": "npmPkgJsonLint . && yarn run eslint-check && yarn run prettier-check && yarn run stylelint-check",
+    "eslint-check": "eslint src demo --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prepack": "yarn build",
+    "prettier-check": "prettier --check src/**/* demo/src/**/*",
+    "serve-demo": "vite preview -c vite-demo.config.ts",
+    "start": "vite",
+    "stylelint-check": "stylelint 'src/**/*.scss'",
+    "stylelint-fix": "stylelint --fix 'src/**/*.scss'",
+    "test": "vitest",
+    "test-ui": "vitest --ui --open=false",
+    "typecheck": "vitest typecheck"
+  },
+  "peerDependencies": {
+    "@canonical/react-components": "^0.47.1",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.18.0",
+    "vanilla-framework": "^4.0.0"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.4.3",
+    "axios": "1.5.1",
+    "classnames": "2.3.2",
+    "clone-deep": "4.0.1"
+  },
+  "devDependencies": {
+    "@canonical/react-components": "0.47.1",
+    "@faker-js/faker": "8.2.0",
+    "@tanstack/eslint-plugin-query": "5.0.5",
+    "@testing-library/dom": "9.3.3",
+    "@testing-library/jest-dom": "6.1.4",
+    "@testing-library/react": "14.0.0",
+    "@testing-library/user-event": "14.5.1",
+    "@types/clone-deep": "4.0.3",
+    "@types/node": "20.8.5",
+    "@types/react": "18.2.33",
+    "@types/react-dom": "18.2.14",
+    "@typescript-eslint/eslint-plugin": "6.7.5",
+    "@typescript-eslint/parser": "6.7.5",
+    "@vitejs/plugin-react": "4.1.0",
+    "@vitest/ui": "0.34.6",
+    "eslint": "8.51.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-config-react-app": "7.0.1",
+    "eslint-plugin-import": "2.29.0",
+    "eslint-plugin-jsx-a11y": "6.7.1",
+    "eslint-plugin-prettier": "5.0.1",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-react-refresh": "0.4.3",
+    "eslint-plugin-vitest": "0.3.8",
+    "happy-dom": "12.9.1",
+    "msw": "1.3.2",
+    "npm-package-json-lint": "7.0.0",
+    "orval": "6.19.1",
+    "postcss": "8.4.31",
+    "prettier": "3.0.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router": "6.18.0",
+    "react-router-dom": "6.18.0",
+    "sass": "1.69.4",
+    "stylelint": "15.11.0",
+    "stylelint-config-standard-scss": "11.0.0",
+    "stylelint-order": "6.0.3",
+    "typescript": "5.2.2",
+    "vanilla-framework": "4.5.0",
+    "vite": "4.4.11",
+    "vite-plugin-dts": "3.6.2",
+    "vite-tsconfig-paths": "4.2.1",
+    "vitest": "0.34.6"
+  },
+  "npmpackagejsonlint": {
+    "rules": {
+      "prefer-absolute-version-dependencies": "error",
+      "prefer-absolute-version-devDependencies": "error",
+      "prefer-alphabetical-dependencies": "error",
+      "prefer-alphabetical-devDependencies": "error"
+    }
+  },
+  "msw": {
+    "workerDirectory": "demo/public"
+  }
+}
