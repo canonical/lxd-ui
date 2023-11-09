@@ -9,6 +9,10 @@
     }
   }
 
+  .key-cell {
+    padding: 0.4rem 0;
+  }
+
   .input-row,
   .readmode-button {
     align-items: center;
@@ -20,9 +24,14 @@
   }
 
   .readmode-button {
-    max-width: 100%;
-    padding: 0;
+    padding: 0 1rem 0 0;
     text-align: start;
+    width: 100%;
+
+    .readmode-value {
+      flex-grow: 1;
+      padding: 0.4rem 0;
+    }
 
     .edit-icon {
       min-width: 1rem;

@@ -20,6 +20,7 @@ import {
   NotificationType,
   failure,
 } from "@canonical/react-components";
+import { unstable_usePrompt as usePrompt } from "react-router-dom";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -61,6 +62,12 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
   const [payload, setPayload] = useState(defaultPayload);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
+  const [userInteracted, setUserInteracted] = useState(false);
+
+  usePrompt({
+    when: userInteracted,
+    message: "Are you sure you want to leave this page?",
+  });
 
   const isRunning = instance.status === "Running";
 
@@ -220,6 +227,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
               addons={[fitAddon]}
               className="p-terminal"
               onData={(data) => {
+                setUserInteracted(true);
                 dataWs?.send(textEncoder.encode(data));
               }}
               options={XTERM_OPTIONS}

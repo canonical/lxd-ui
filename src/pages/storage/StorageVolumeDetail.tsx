@@ -1,20 +1,19 @@
 import React, { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { Row, Tabs, useNotify } from "@canonical/react-components";
+import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
-import { slugify } from "util/slugify";
 import StorageVolumeHeader from "pages/storage/StorageVolumeHeader";
 import StorageVolumeOverview from "pages/storage/StorageVolumeOverview";
 import StorageVolumeEdit from "pages/storage/forms/StorageVolumeEdit";
+import TabLinks from "components/TabLinks";
 
-const TABS: string[] = ["Overview", "Configuration"];
+const tabs: string[] = ["Overview", "Configuration"];
 
 const StorageVolumeDetail: FC = () => {
-  const navigate = useNavigate();
   const notify = useNotify();
   const {
     pool,
@@ -62,19 +61,6 @@ const StorageVolumeDetail: FC = () => {
     return <>Loading storage volume failed</>;
   }
 
-  const handleTabChange = (newTab: string) => {
-    notify.clear();
-    if (newTab === "overview") {
-      navigate(
-        `/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`,
-      );
-    } else {
-      navigate(
-        `/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}/${newTab}`,
-      );
-    }
-  };
-
   return (
     <main className="l-main">
       <div className="p-panel">
@@ -82,15 +68,10 @@ const StorageVolumeDetail: FC = () => {
         <div className="p-panel__content storage-volume-form">
           <NotificationRow />
           <Row>
-            <Tabs
-              links={TABS.map((tab) => ({
-                label: tab,
-                id: slugify(tab),
-                active:
-                  slugify(tab) === activeTab ||
-                  (tab === "Overview" && !activeTab),
-                onClick: () => handleTabChange(slugify(tab)),
-              }))}
+            <TabLinks
+              tabs={tabs}
+              activeTab={activeTab}
+              tabUrl={`/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`}
             />
 
             {!activeTab && (
