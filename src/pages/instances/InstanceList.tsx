@@ -12,7 +12,7 @@ import { fetchInstances } from "api/instances";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Loader from "components/Loader";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
@@ -29,7 +29,7 @@ import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
-import { InstanceFilters } from "util/instanceFilter";
+import { enrichStatuses } from "util/instanceFilter";
 import { isWidthBelow } from "util/helpers";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
@@ -53,6 +53,7 @@ import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
+import { LxdInstanceStatus } from "types/instance";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -73,12 +74,17 @@ const InstanceList: FC = () => {
   const { project } = useParams<{ project: string }>();
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
-  const [filters, setFilters] = useState<InstanceFilters>({
-    queries: [],
-    statuses: [],
-    types: [],
-    profileQueries: [],
-  });
+  // const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const filters = {
+    queries: searchParams.getAll("queries"),
+    statuses: enrichStatuses(
+      searchParams.getAll("statuses") as LxdInstanceStatus[],
+    ),
+    types: searchParams.getAll("types"),
+    profileQueries: searchParams.getAll("profileQueries"),
+  };
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
@@ -501,11 +507,7 @@ const InstanceList: FC = () => {
               </>
             )}
             {hasInstances && selectedNames.length === 0 && (
-              <InstanceSearchFilter
-                key={project}
-                instances={instances}
-                setFilters={setFilters}
-              />
+              <InstanceSearchFilter key={project} instances={instances} />
             )}
           </div>
           {hasInstances && selectedNames.length === 0 && (
