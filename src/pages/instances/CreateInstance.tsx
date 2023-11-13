@@ -79,7 +79,6 @@ interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
   selectedImage?: RemoteImage;
   cancelLocation?: string;
-  type: LxdImageType;
 }
 
 const CreateInstance: FC = () => {
@@ -285,7 +284,7 @@ const CreateInstance: FC = () => {
     if (location.state?.selectedImage) {
       const type = location.state.selectedImage.volume
         ? "iso-volume"
-        : location.state.type ?? null;
+        : location.state.selectedImage.type ?? null;
       handleSelectImage(location.state.selectedImage, type);
     }
   }, [location.state?.selectedImage]);

@@ -13,12 +13,20 @@ import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
+import {
+  byLtsFirst,
+  localLxdToRemoteImage,
+  isContainerOnlyImage,
+  isVmOnlyImage,
+  LOCAL_ISO,
+} from "util/images";
 import Loader from "components/Loader";
 import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
+import { fetchImageList } from "api/images";
+import { useParams } from "react-router-dom";
 
 interface Props {
   onSelect: (image: RemoteImage, type: LxdImageType | null) => void;
@@ -27,6 +35,10 @@ interface Props {
 
 const canonicalJson = "/ui/assets/data/canonical-images.json";
 const canonicalServer = "https://cloud-images.ubuntu.com/releases";
+
+const minimalJson = "/ui/assets/data/canonical-minimal-images.json";
+const minimalServer = "https://cloud-images.ubuntu.com/minimal/releases/";
+
 const linuxContainersJson =
   "https://images.linuxcontainers.org/streams/v1/images.json";
 const linuxContainersServer = "https://images.linuxcontainers.org";
@@ -42,6 +54,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [arch, setArch] = useState<string>("amd64");
   const [type, setType] = useState<LxdImageType | null>(null);
   const [variant, setVariant] = useState<string>(ANY);
+  const { project } = useParams<{ project: string }>();
 
   const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
     return new Promise((resolve, reject) => {
@@ -73,25 +86,33 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     queryFn: () => loadImages(canonicalJson, canonicalServer),
   });
 
-  const isLoading = isCiLoading || isLciLoading || isSettingsLoading;
+  const { data: minimalImages = [], isLoading: isMinimalLoading } = useQuery({
+    queryKey: [queryKeys.images, minimalServer],
+    queryFn: () => loadImages(minimalJson, minimalServer),
+  });
+
+  const { data: localImages = [], isLoading: isLocalImageLoading } = useQuery({
+    queryKey: [queryKeys.images, project],
+    queryFn: () => fetchImageList(project ?? ""),
+  });
+
+  const isLoading =
+    isCiLoading ||
+    isLciLoading ||
+    isMinimalLoading ||
+    isLocalImageLoading ||
+    isSettingsLoading;
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
   const images = isLoading
     ? []
-    : [...canonicalImages]
-        .reverse()
+    : localImages
+        .map(localLxdToRemoteImage)
+        .concat([...minimalImages].reverse().sort(byLtsFirst))
+        .concat([...canonicalImages].reverse().sort(byLtsFirst))
         .concat(linuxContainerImages)
-        .filter((image) => archSupported.includes(image.arch))
-        .sort((a, b) => {
-          if (a.aliases.includes("lts")) {
-            return -1;
-          }
-          if (b.aliases.includes("lts")) {
-            return 1;
-          }
-          return 0;
-        });
+        .filter((image) => archSupported.includes(image.arch));
 
   const archAll = [...new Set(images.map((item) => item.arch))]
     .filter((arch) => arch !== "")
@@ -157,6 +178,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     })
     .map((item) => {
       const figureType = () => {
+        if (item.type) {
+          return item.type;
+        }
         if (isVmOnlyImage(item)) {
           return VM;
         }
@@ -167,7 +191,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
       const itemType = figureType();
 
-      const selectImage = () => onSelect(item, type);
+      const selectImage = () => onSelect(item, item.type ?? type);
 
       const displayRelease =
         item.os === "Ubuntu" &&
@@ -184,38 +208,59 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           ? item.release
           : item.variant;
 
+      const getSource = () => {
+        if (item.created_at) {
+          return "Local";
+        }
+        if (item.server === canonicalServer) {
+          return "Ubuntu";
+        }
+        if (item.server === minimalServer) {
+          return "Ubuntu Minimal";
+        }
+        if (item.server === linuxContainersServer) {
+          return "Linux Containers";
+        }
+      };
+
       return {
         className: "u-row",
         columns: [
           {
             content: item.os,
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Distribution",
             onClick: selectImage,
           },
           {
             content: displayRelease,
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Release",
             onClick: selectImage,
           },
           {
             content: displayVariant,
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Variant",
             onClick: selectImage,
           },
           {
             content: itemType,
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Type",
             onClick: selectImage,
           },
           {
             className: "u-hide--small u-hide--medium",
             content: item.aliases.split(",").pop(),
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Alias",
+            onClick: selectImage,
+          },
+          {
+            content: getSource(),
+            role: "cell",
+            "aria-label": "Source",
             onClick: selectImage,
           },
           {
@@ -229,7 +274,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 Select
               </Button>
             ),
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Action",
             onClick: selectImage,
           },
@@ -253,6 +298,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       content: "Alias",
       sortKey: "alias",
       className: "u-hide--small u-hide--medium",
+    },
+    {
+      content: "Source",
     },
     {
       content: "",
