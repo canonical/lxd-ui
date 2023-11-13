@@ -58,7 +58,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
             ]
           : []),
 
-        ...(formik.values.type !== "ovn" && formik.values.bridge_mode !== "fan"
+        ...(formik.values.type !== "ovn"
           ? [
               getNetworkConfigurationRow({
                 formik: formik,

@@ -28,12 +28,15 @@ test("network edit basic details", async ({ page }) => {
   await setOption(page, "IPv4 NAT", "false");
   await setOption(page, "IPv6 NAT", "false");
 
-  await page.getByText("Bridge", { exact: true }).click();
+  await page
+    .getByLabel("Network form navigation")
+    .getByText("Bridge", { exact: true })
+    .click();
   await activateOverride(page, "MTU Bridge MTU");
   await page.getByLabel("MTU").fill("1300");
-  await activateOverride(page, "Bridge Driver");
+  await activateOverride(page, "Bridge driver");
   await page
-    .getByRole("combobox", { name: "Bridge Driver" })
+    .getByRole("combobox", { name: "Bridge driver" })
     .selectOption("native");
 
   await page.getByText("DNS").click();
@@ -64,12 +67,15 @@ test("network edit basic details", async ({ page }) => {
   await page.getByRole("cell", { name: "A-new-description" }).click();
 
   await page.getByTestId("tab-link-Configuration").click();
-  await assertReadMode(page, "Ipv4 NAT", "false");
-  await assertReadMode(page, "Ipv6 NAT", "false");
+  await assertReadMode(page, "IPv4 NAT", "false");
+  await assertReadMode(page, "IPv6 NAT", "false");
 
-  await page.getByText("Bridge", { exact: true }).click();
+  await page
+    .getByLabel("Network form navigation")
+    .getByText("Bridge", { exact: true })
+    .click();
   await assertReadMode(page, "MTU Bridge MTU", "1300");
-  await assertReadMode(page, "Bridge Driver", "native");
+  await assertReadMode(page, "Bridge driver", "native");
 
   await page.getByText("DNS", { exact: true }).click();
   await assertReadMode(page, "DNS domain Domain", "abc");
