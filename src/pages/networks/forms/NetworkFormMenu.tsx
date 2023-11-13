@@ -74,14 +74,13 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
                   disableReason={disableReason}
                 />
               )}
-              {formik.values.ipv6_address !== "none" &&
-                formik.values.bridge_mode !== "fan" && (
-                  <MenuItem
-                    label={IPV6}
-                    {...menuItemProps}
-                    disableReason={disableReason}
-                  />
-                )}
+              {formik.values.ipv6_address !== "none" && (
+                <MenuItem
+                  label={IPV6}
+                  {...menuItemProps}
+                  disableReason={disableReason}
+                />
+              )}
             </ul>
           </li>
           <MenuItem

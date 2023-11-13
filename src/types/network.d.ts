@@ -1,6 +1,5 @@
 export type LxdNetworkBridgeDriver = "native" | "openvswitch";
 export type LxdNetworkType = "bridge" | "ovn";
-export type LxdNetworkBridgeMode = "standard" | "fan";
 export type LxdNetworkDnsMode = "none" | "managed" | "dynamic";
 export type LxdNetworkFanType = "vxlan" | "ipip";
 
@@ -8,7 +7,6 @@ export interface LxdNetworkConfig {
   "bridge.driver"?: LxdNetworkBridgeDriver;
   "bridge.external_interfaces"?: string;
   "bridge.hwaddr"?: string;
-  "bridge.mode"?: LxdNetworkBridgeMode;
   "bridge.mtu"?: string;
   "dns.domain"?: string;
   "dns.mode"?: LxdNetworkDnsMode;

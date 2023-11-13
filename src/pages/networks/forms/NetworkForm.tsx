@@ -10,9 +10,7 @@ import {
 import {
   LxdNetwork,
   LxdNetworkBridgeDriver,
-  LxdNetworkBridgeMode,
   LxdNetworkDnsMode,
-  LxdNetworkFanType,
   LxdNetworkType,
 } from "types/network";
 import NetworkFormMenu, {
@@ -42,14 +40,10 @@ export interface NetworkFormValues {
   type: LxdNetworkType;
   bridge_driver?: LxdNetworkBridgeDriver;
   bridge_hwaddr?: string;
-  bridge_mode?: LxdNetworkBridgeMode;
   bridge_mtu?: string;
   dns_domain?: string;
   dns_mode?: LxdNetworkDnsMode;
   dns_search?: string;
-  fan_type?: LxdNetworkFanType;
-  fan_overlay_subnet?: string;
-  fan_underlay_subnet?: string;
   ipv4_address?: string;
   ipv4_dhcp?: string;
   ipv4_dhcp_expiry?: string;
@@ -79,14 +73,10 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
     config: {
       ["bridge.driver"]: values.bridge_driver,
       ["bridge.hwaddr"]: values.bridge_hwaddr,
-      ["bridge.mode"]: values.bridge_mode,
       ["bridge.mtu"]: values.bridge_mtu,
       ["dns.domain"]: values.dns_domain,
       ["dns.mode"]: values.dns_mode,
       ["dns.search"]: values.dns_search,
-      ["fan.overlay_subnet"]: values.fan_overlay_subnet,
-      ["fan.type"]: values.fan_type,
-      ["fan.underlay_subnet"]: values.fan_underlay_subnet,
       ["ipv4.address"]: values.ipv4_address,
       ["ipv4.dhcp"]: values.ipv4_dhcp,
       ["ipv4.dhcp.expiry"]: values.ipv4_dhcp_expiry,

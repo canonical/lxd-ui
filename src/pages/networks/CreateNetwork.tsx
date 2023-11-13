@@ -63,7 +63,6 @@ const CreateNetwork: FC = () => {
       isCreating: true,
       name: "",
       type: hasOvn ? "ovn" : "bridge",
-      bridge_mode: hasOvn ? undefined : "standard",
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {
@@ -125,7 +124,11 @@ const CreateNetwork: FC = () => {
             </Button>
             <SubmitButton
               isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.name}
+              isDisabled={
+                !formik.isValid ||
+                !formik.values.name ||
+                (formik.values.type === "ovn" && !formik.values.network)
+              }
               buttonLabel="Create"
               onClick={() => void formik.submitForm()}
             />

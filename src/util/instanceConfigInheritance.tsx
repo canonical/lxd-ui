@@ -54,9 +54,9 @@ const lxdDefaults: Record<string, string> = {
   restricted_devices_unix_hotplug: "block",
   restricted_devices_usb: "block",
   restricted_network_access: "-",
-  restricted_network_subnets: "block",
-  restricted_network_uplinks: "block",
-  restricted_network_zones: "block",
+  restricted_network_subnets: "-",
+  restricted_network_uplinks: "-",
+  restricted_network_zones: "-",
 };
 
 const getLxdDefault = (configKey: string): string => {
