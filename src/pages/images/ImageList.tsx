@@ -86,7 +86,6 @@ const ImageList: FC = () => {
             key="launch"
             project={project}
             image={localLxdToRemoteImage(image)}
-            type={image.type}
           />,
           <DeleteImageBtn key="delete" image={image} project={project} />,
         ]}

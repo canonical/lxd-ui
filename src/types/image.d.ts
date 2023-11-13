@@ -58,6 +58,7 @@ export interface RemoteImage {
   >;
   server?: string;
   volume?: LxdStorageVolume;
+  type?: LxdImageType;
 }
 
 export interface RemoteImageList {

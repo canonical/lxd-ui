@@ -24,10 +24,10 @@ export const createInstance = async (
   await page.getByPlaceholder("Search an image").fill("alpine");
   await page
     .getByRole("row", {
-      name: "Distribution Release Variant Type Alias Action",
+      name: "Distribution Release Variant Type Alias Source Action",
     })
     .getByRole("button", { name: "Select" })
-    .first()
+    .last()
     .click();
   await page
     .getByRole("combobox", { name: "Instance type" })
