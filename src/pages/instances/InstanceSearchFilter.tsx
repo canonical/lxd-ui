@@ -1,10 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { LxdInstance, LxdInstanceStatus } from "types/instance";
-import {
-  enrichStatuses,
-  instanceStatuses,
-  instanceTypes,
-} from "util/instanceFilter";
+import { instanceStatuses, instanceTypes } from "util/instanceFilter";
 import { SearchAndFilter } from "@canonical/react-components";
 import {
   SearchAndFilterData,
@@ -53,7 +49,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
       }),
     },
   ];
-  const [_, setSearchParams] = useSearchParams();
+  const setSearchParams = useSearchParams()[1];
   const onSearchDataChange = (searchData: SearchAndFilterChip[]) => {
     const filteredQueries = searchData
       .filter((chip) => chip.quoteValue === true || chip.lead === "query")
@@ -70,53 +66,50 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
       .filter((chip) => chip.lead === "profile")
       .map((chip) => chip.value);
 
-    const url = new URL(window.location.origin + window.location.pathname);
-
+    const currentWindowSearchParams = new URLSearchParams(
+      window.location.search,
+    );
+    const newSearchParams = new URLSearchParams();
     filteredQueries.forEach((query) => {
-      url.searchParams.append("queries", query);
+      newSearchParams.append("q", query);
     });
 
     filteredStatuses.forEach((status) => {
-      url.searchParams.append("statuses", status);
+      newSearchParams.append("status", status);
     });
 
     filteredTypes.forEach((type) => {
-      url.searchParams.append("types", type);
+      newSearchParams.append("type", type);
     });
     profileQueries.forEach((profile) => {
-      url.searchParams.append("profileQueries", profile);
+      newSearchParams.append("profile", profile);
     });
-    if (url.href !== window.location.href) {
-      setSearchParams(url.searchParams);
+    if (newSearchParams.toString() !== currentWindowSearchParams.toString()) {
+      setSearchParams(newSearchParams);
     }
   };
 
   const getChips = (): SearchAndFilterChip[] => {
     const searchParams = new URLSearchParams(window.location.search);
     const statusChipUrl = [
-      ...enrichStatuses(searchParams.getAll("statuses") as LxdInstanceStatus[])
-        .filter(
-          (statusType) =>
-            statusType === "Running" ||
-            statusType === "Stopped" ||
-            statusType === "Frozen",
-        )
-        .map((status) => ({
+      ...(searchParams.getAll("status") as LxdInstanceStatus[]).map(
+        (status) => ({
           lead: "status",
           value: status,
-        })),
+        }),
+      ),
     ];
 
     const newSearchData = [
       ...searchParams
-        .getAll("queries")
+        .getAll("q")
         .map((query) => ({ lead: "query", value: query })),
       ...statusChipUrl,
       ...searchParams
-        .getAll("types")
+        .getAll("type")
         .map((type) => ({ lead: "type", value: type })),
       ...searchParams
-        .getAll("profileQueries")
+        .getAll("profile")
         .map((profile) => ({ lead: "profile", value: profile })),
     ];
 

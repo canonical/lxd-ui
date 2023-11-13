@@ -29,7 +29,7 @@ import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
-import { enrichStatuses } from "util/instanceFilter";
+import { InstanceFilters, enrichStatuses } from "util/instanceFilter";
 import { isWidthBelow } from "util/helpers";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
@@ -74,16 +74,15 @@ const InstanceList: FC = () => {
   const { project } = useParams<{ project: string }>();
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
-  // const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  const filters = {
-    queries: searchParams.getAll("queries"),
+  const filters: InstanceFilters = {
+    queries: searchParams.getAll("q"),
     statuses: enrichStatuses(
-      searchParams.getAll("statuses") as LxdInstanceStatus[],
+      searchParams.getAll("status") as LxdInstanceStatus[],
     ),
-    types: searchParams.getAll("types"),
-    profileQueries: searchParams.getAll("profileQueries"),
+    types: searchParams.getAll("type"),
+    profileQueries: searchParams.getAll("profile"),
   };
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
