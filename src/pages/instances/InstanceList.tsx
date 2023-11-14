@@ -79,7 +79,7 @@ const InstanceList: FC = () => {
   const [searchParams] = useSearchParams();
 
   const filters: InstanceFilters = {
-    queries: searchParams.getAll("q"),
+    queries: searchParams.getAll("query"),
     statuses: enrichStatuses(
       searchParams.getAll("status") as LxdInstanceStatus[],
     ),

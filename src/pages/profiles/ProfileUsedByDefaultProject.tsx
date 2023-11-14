@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { LxdUsedBy } from "util/usedBy";
-import ViewProfileInstancesBtn from "./actions/ViewProfileInstancesBtn";
+import ViewProfileInstancesLink from "./actions/ViewProfileInstancesLink";
 
 interface Props {
   profile: string;
@@ -33,7 +33,7 @@ const ProfileUsedByDefaultProject: FC<Props> = ({
               <i className="u-text--muted no-instances">No instances</i>
             )}
             {project.instances.length > 0 && (
-              <ViewProfileInstancesBtn
+              <ViewProfileInstancesLink
                 profile={profile}
                 project={project.name}
               />
