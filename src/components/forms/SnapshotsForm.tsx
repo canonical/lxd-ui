@@ -7,6 +7,7 @@ import InstanceConfigurationTable from "components/forms/InstanceConfigurationTa
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
+import { useDocs } from "context/useDocs";
 
 export interface SnapshotFormValues {
   snapshots_pattern?: string;
@@ -31,6 +32,8 @@ interface Props {
 }
 
 const SnapshotsForm: FC<Props> = ({ formik }) => {
+  const docBaseLink = useDocs();
+
   return (
     <InstanceConfigurationTable
       rows={[
@@ -47,7 +50,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
                   Pongo2 template string that represents the snapshot name (used
                   for scheduled snapshots and unnamed snapshots), see{" "}
                   <a
-                    href="https://documentation.ubuntu.com/lxd/en/latest/reference/instance_options/#instance-options-snapshots-names"
+                    href={`${docBaseLink}/reference/instance_options/#instance-options-snapshots-names`}
                     target="_blank"
                     rel="noreferrer"
                   >

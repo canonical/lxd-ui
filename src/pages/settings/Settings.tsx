@@ -15,10 +15,12 @@ import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import ScrollableTable from "components/ScrollableTable";
 import HelpLink from "components/HelpLink";
+import { useDocs } from "context/useDocs";
 
 const configOptionsUrl = "/ui/assets/data/config-options.json";
 
 const Settings: FC = () => {
+  const docBaseLink = useDocs();
   const [configOptions, setConfigOptions] = useState<LxdConfigField[]>([]);
   const [query, setQuery] = useState("");
   const notify = useNotify();
@@ -126,7 +128,7 @@ const Settings: FC = () => {
       <BaseLayout
         title={
           <HelpLink
-            href="https://documentation.ubuntu.com/lxd/en/latest/server/"
+            href={`${docBaseLink}/server/`}
             title="Learn more about server configuration"
           >
             Settings

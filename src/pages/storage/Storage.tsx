@@ -8,10 +8,12 @@ import StoragePools from "pages/storage/StoragePools";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
 import TabLinks from "components/TabLinks";
+import { useDocs } from "context/useDocs";
 
 export const tabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
 
 const Storage: FC = () => {
+  const docBaseLink = useDocs();
   const { project, activeTab } = useParams<{
     project: string;
     activeTab?: string;
@@ -25,7 +27,7 @@ const Storage: FC = () => {
     <BaseLayout
       title={
         <HelpLink
-          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+          href={`${docBaseLink}/explanation/storage/`}
           title="Learn more about storage pools, volumes and buckets"
         >
           Storage

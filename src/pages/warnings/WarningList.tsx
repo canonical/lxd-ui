@@ -8,8 +8,10 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
+import { useDocs } from "context/useDocs";
 
 const WarningList: FC = () => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
 
   const {
@@ -100,7 +102,7 @@ const WarningList: FC = () => {
       <BaseLayout
         title={
           <HelpLink
-            href="https://documentation.ubuntu.com/lxd/en/latest/howto/troubleshoot/"
+            href={`${docBaseLink}/howto/troubleshoot/`}
             title="Learn more about troubleshooting"
           >
             Warnings

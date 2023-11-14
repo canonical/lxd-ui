@@ -24,6 +24,7 @@ import Loader from "components/Loader";
 import { useProject } from "context/project";
 import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
+import { useDocs } from "context/useDocs";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const InstanceSnapshots: FC<Props> = ({ instance }) => {
+  const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [inTabNotification, setInTabNotification] =
@@ -309,7 +311,7 @@ const InstanceSnapshots: FC<Props> = ({ instance }) => {
           </p>
           <p>
             <a
-              href="https://documentation.ubuntu.com/lxd/en/latest/howto/storage_backup_volume/#storage-backup-snapshots"
+              href={`${docBaseLink}/howto/storage_backup_volume/#storage-backup-snapshots`}
               target="_blank"
               rel="noreferrer"
             >

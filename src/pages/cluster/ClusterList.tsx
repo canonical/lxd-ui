@@ -27,8 +27,10 @@ import NotificationRow from "components/NotificationRow";
 import { isClusteredServer } from "util/settings";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
+import { useDocs } from "context/useDocs";
 
 const ClusterList: FC = () => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
   const { group: activeGroup } = useParams<{ group: string }>();
   const { data: settings } = useSettings();
@@ -62,7 +64,7 @@ const ClusterList: FC = () => {
       contentClassName="cluster-content"
       title={
         <HelpLink
-          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/clustering/"
+          href={`${docBaseLink}/explanation/clustering/`}
           title="Learn more about clustering"
         >
           {isClustered ? (
@@ -122,7 +124,7 @@ const ClusterList: FC = () => {
               <p>Add cluster members to this group.</p>
               <p>
                 <a
-                  href="https://documentation.ubuntu.com/lxd/en/latest/explanation/clustering/"
+                  href={`${docBaseLink}/explanation/clustering/`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -145,7 +147,7 @@ const ClusterList: FC = () => {
             </p>
             <p>
               <a
-                href="https://documentation.ubuntu.com/lxd/en/latest/explanation/clustering/"
+                href={`${docBaseLink}/explanation/clustering/`}
                 target="_blank"
                 rel="noreferrer"
               >
