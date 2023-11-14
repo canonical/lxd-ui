@@ -7,11 +7,11 @@ Targets small and large scale private clouds.
 
 Get the LXD snap
 
-    sudo snap install --stable lxd
+    sudo snap install --channel=latest/stable lxd
 
 Or refresh to ensure at least version 5.14 is installed
 
-    sudo snap refresh --stable lxd
+    sudo snap refresh --channel=latest/stable lxd
 
 Follow the guide to [access the LXD web UI](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/).
 
