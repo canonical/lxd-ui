@@ -1,6 +1,10 @@
-import { AbortControllerState, checkDuplicateName } from "util/helpers";
+import {
+  AbortControllerState,
+  capitalizeFirstLetter,
+  checkDuplicateName,
+} from "util/helpers";
 import { AnyObject, TestContext, TestFunction } from "yup";
-import { LxdStoragePool } from "types/storage";
+import { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const testDuplicateStorageVolumeName = (
@@ -79,4 +83,19 @@ export const getLxdDefault = (
     return [storageVolumeDefaults[formField], "LXD"];
   }
   return ["", "LXD"];
+};
+
+export const volumeTypeForDisplay = (volume: LxdStorageVolume) => {
+  const typePrefix =
+    volume.type === "virtual-machine"
+      ? "VM"
+      : capitalizeFirstLetter(volume.type);
+  const typeSuffix = volume.name.includes("/") ? " (snapshot)" : "";
+  return `${typePrefix}${typeSuffix}`;
+};
+
+export const contentTypeForDisplay = (volume: LxdStorageVolume) => {
+  return volume.content_type === "iso"
+    ? "ISO"
+    : capitalizeFirstLetter(volume.content_type);
 };

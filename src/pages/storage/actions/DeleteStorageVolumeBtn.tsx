@@ -29,12 +29,29 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const disabledReason =
-    volume.type !== "custom"
-      ? "Only custom volumes can be deleted"
-      : (volume.used_by?.length ?? 0) > 0
-      ? "Remove all usages of the volume to delete it"
-      : undefined;
+
+  const getDisabledReason = () => {
+    if (volume.name.includes("/")) {
+      return "Go to the instance detail page, to remove this snapshot";
+    }
+    if (volume.type === "container") {
+      return "Go to the instance detail page, to remove this container";
+    }
+    if (volume.type === "virtual-machine") {
+      return "Go to the instance detail page, to remove this virtual-machine";
+    }
+    if (volume.type === "image") {
+      return "Go to the image list, to remove this image";
+    }
+    if (volume.type !== "custom") {
+      return "Only custom volumes can be deleted";
+    }
+    if (volume.used_by?.length ?? 0) {
+      return "Remove all usages of the volume to delete it";
+    }
+    return undefined;
+  };
+  const disabledReason = getDisabledReason();
 
   const handleDelete = () => {
     setLoading(true);

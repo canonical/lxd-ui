@@ -8,7 +8,6 @@ import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useNotify } from "@canonical/react-components";
-import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolBtn";
 
 interface Props {
   name: string;
@@ -63,13 +62,6 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
         </Link>,
       ]}
       controls={[
-        <StorageVolumesInPoolBtn
-          key="volumes"
-          pool={pool.name}
-          project={project}
-        >
-          Go to volumes
-        </StorageVolumesInPoolBtn>,
         <DeleteStoragePoolBtn
           key="delete"
           pool={pool}

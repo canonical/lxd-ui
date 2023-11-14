@@ -1,17 +1,15 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { SearchAndFilter } from "@canonical/react-components";
 import {
   SearchAndFilterData,
   SearchAndFilterChip,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { LxdStorageVolume } from "types/storage";
-
-interface StorageFilterState {
-  state?: {
-    appliedPool: string;
-  };
-}
+import {
+  paramsFromSearchData,
+  searchParamsToChips,
+} from "util/searchAndFilter";
 
 export interface StorageVolumesFilterType {
   queries: string[];
@@ -22,48 +20,48 @@ export interface StorageVolumesFilterType {
 
 interface Props {
   volumes: LxdStorageVolume[];
-  setFilters: (newFilters: StorageVolumesFilterType) => void;
 }
 
 const volumeTypes: string[] = [
-  "container",
-  "virtual-machine",
-  "snapshot",
-  "image",
-  "custom",
+  "Container",
+  "VM",
+  "Snapshot",
+  "Image",
+  "Custom",
 ];
 
-const contentTypes: string[] = ["block", "filesystem", "iso"];
+export const QUERY = "query";
+export const POOL = "pool";
+export const VOLUME_TYPE = "volume-type";
+export const CONTENT_TYPE = "content-type";
 
-const POOL = "Pool";
-const VOLUME_TYPE = "Volume type";
-const CONTENT_TYPE = "Content type";
+const QUERY_PARAMS = [QUERY, POOL, VOLUME_TYPE, CONTENT_TYPE];
 
-const StorageVolumesFilter: FC<Props> = ({ volumes, setFilters }) => {
-  const { state } = useLocation() as StorageFilterState;
+const contentTypes: string[] = ["Block", "Filesystem", "ISO"];
 
-  useEffect(() => window.history.replaceState({}, ""), [state]);
+const StorageVolumesFilter: FC<Props> = ({ volumes }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const pools = [...new Set(volumes.map((volume) => volume.pool))];
 
   const searchAndFilterData: SearchAndFilterData[] = [
     {
       id: 1,
-      heading: POOL,
+      heading: "Pool",
       chips: pools.map((pool) => {
         return { lead: POOL, value: pool };
       }),
     },
     {
       id: 2,
-      heading: VOLUME_TYPE,
+      heading: "Volume type",
       chips: volumeTypes.map((volumeType) => {
         return { lead: VOLUME_TYPE, value: volumeType };
       }),
     },
     {
       id: 3,
-      heading: CONTENT_TYPE,
+      heading: "Content type",
       chips: contentTypes.map((contentType) => {
         return { lead: CONTENT_TYPE, value: contentType };
       }),
@@ -71,32 +69,21 @@ const StorageVolumesFilter: FC<Props> = ({ volumes, setFilters }) => {
   ];
 
   const onSearchDataChange = (searchData: SearchAndFilterChip[]) => {
-    const getChipValue = (lead: string) =>
-      searchData.filter((chip) => chip.lead === lead).map((chip) => chip.value);
+    const newParams = paramsFromSearchData(
+      searchData,
+      searchParams,
+      QUERY_PARAMS,
+    );
 
-    setFilters({
-      queries: searchData
-        .filter((chip) => chip.quoteValue)
-        .map((chip) => chip.value.toLowerCase()),
-      pools: getChipValue(POOL),
-      volumeTypes: getChipValue(VOLUME_TYPE),
-      contentTypes: getChipValue(CONTENT_TYPE),
-    });
+    if (newParams.toString() !== searchParams.toString()) {
+      setSearchParams(newParams);
+    }
   };
 
   return (
     <div className="search-wrapper margin-right u-sv3">
       <SearchAndFilter
-        existingSearchData={
-          state?.appliedPool
-            ? [
-                {
-                  lead: POOL,
-                  value: state.appliedPool,
-                },
-              ]
-            : undefined
-        }
+        existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}
         filterPanelData={searchAndFilterData}
         returnSearchData={onSearchDataChange}
         onExpandChange={() => {

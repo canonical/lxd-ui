@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { Row, useNotify } from "@canonical/react-components";
+import { Icon, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchStoragePool } from "api/storage-pools";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
@@ -12,8 +12,7 @@ import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
 import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
-
-const tabs: string[] = ["Overview", "Configuration"];
+import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -51,6 +50,22 @@ const StoragePoolDetail: FC = () => {
   } else if (!pool) {
     return <>Loading storage details failed</>;
   }
+
+  const tabs: (string | TabLink)[] = [
+    "Overview",
+    "Configuration",
+    {
+      component: () => (
+        <a
+          href={`/ui/project/${project}/storage/volumes?pool=${pool.name}`}
+          className="p-tabs__link"
+        >
+          Volumes <Icon name="external-link" />
+        </a>
+      ),
+      label: "Volumes",
+    },
+  ];
 
   return (
     <CustomLayout

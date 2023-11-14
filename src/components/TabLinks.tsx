@@ -3,9 +3,10 @@ import { Tabs } from "@canonical/react-components";
 import { useNotify } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { slugify } from "util/slugify";
+import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 
 interface Props {
-  tabs: string[];
+  tabs: (string | TabLink)[];
   activeTab?: string;
   tabUrl: string;
 }
@@ -13,12 +14,15 @@ interface Props {
 const TabLinks: FC<Props> = ({ tabs, activeTab, tabUrl }) => {
   const notify = useNotify();
   const navigate = useNavigate();
-  const tabsPath = tabs.map((tab) => slugify(tab));
 
   return (
     <Tabs
-      links={tabs.map((tab, index) => {
-        const tabPath = tabsPath[index];
+      links={tabs.map((tab) => {
+        if (typeof tab !== "string") {
+          return tab;
+        }
+
+        const tabPath = slugify(tab);
         const href = tab === tabs[0] ? tabUrl : `${tabUrl}/${tabPath}`;
 
         return {

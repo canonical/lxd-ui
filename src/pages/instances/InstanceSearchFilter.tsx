@@ -7,8 +7,17 @@ import {
   SearchAndFilterData,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";
 import { useSearchParams } from "react-router-dom";
+import {
+  paramsFromSearchData,
+  searchParamsToChips,
+} from "util/searchAndFilter";
 
-const QUERY_PARAMS = ["query", "status", "type", "profile"];
+export const QUERY = "query";
+export const STATUS = "status";
+export const TYPE = "type";
+export const PROFILE = "profile";
+
+const QUERY_PARAMS = [QUERY, STATUS, TYPE, PROFILE];
 
 interface Props {
   instances: LxdInstance[];
@@ -26,69 +35,41 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
       id: 1,
       heading: "Status",
       chips: instanceStatuses.map((status) => {
-        return { lead: "status", value: status };
+        return { lead: STATUS, value: status };
       }),
     },
     {
       id: 2,
       heading: "Instance type",
       chips: instanceTypes.map((type) => {
-        return { lead: "type", value: type };
+        return { lead: TYPE, value: type };
       }),
     },
     {
       id: 3,
       heading: "Profile",
       chips: profileSet.map((profile) => {
-        return { lead: "profile", value: profile };
+        return { lead: PROFILE, value: profile };
       }),
     },
   ];
 
   const onSearchDataChange = (searchData: SearchAndFilterChip[]) => {
-    const searchValuesByLead = (lead: string) =>
-      searchData
-        .filter(
-          (chip) => chip.lead === lead || (lead === "query" && chip.quoteValue),
-        )
-        .map((chip) => chip.value);
-
-    const newParams = new URLSearchParams(searchParams.toString());
-
-    QUERY_PARAMS.forEach((param) => {
-      newParams.delete(param);
-      searchValuesByLead(param).forEach((value) => {
-        if (!newParams.has(param, value)) {
-          newParams.append(param, value);
-        }
-      });
-    });
+    const newParams = paramsFromSearchData(
+      searchData,
+      searchParams,
+      QUERY_PARAMS,
+    );
 
     if (newParams.toString() !== searchParams.toString()) {
       setSearchParams(newParams);
     }
   };
 
-  const searchParamsToChips = () => {
-    const searchData: SearchAndFilterChip[] = [];
-    QUERY_PARAMS.forEach((param) =>
-      searchData.push(
-        ...searchParams
-          .getAll(param)
-          .map((value) =>
-            param === "query"
-              ? { quoteValue: true, value }
-              : { lead: param, value },
-          ),
-      ),
-    );
-    return searchData;
-  };
-
   return (
     <div className="search-wrapper margin-right u-no-margin--bottom">
       <SearchAndFilter
-        existingSearchData={searchParamsToChips()}
+        existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}
         filterPanelData={searchAndFilterData}
         returnSearchData={onSearchDataChange}
         onExpandChange={() => {

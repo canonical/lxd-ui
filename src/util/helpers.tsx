@@ -244,3 +244,6 @@ export const continueOrFinish = (
 
 export const logout = () =>
   void fetch("/oidc/logout").then(() => window.location.reload());
+
+export const capitalizeFirstLetter = (val: string) =>
+  val.charAt(0).toUpperCase() + val.slice(1);
