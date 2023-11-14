@@ -48,12 +48,17 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
           <DiskSizeSelector
             label="Size"
             value={formik.values.size}
-            help="Size of storage volume. If empty, volume will not have a size limit
-            within its storage pool."
+            help={
+              formik.values.type === "custom"
+                ? "Size of storage volume. If empty, volume will not have a size limit within its storage pool."
+                : "Size is immutable for non-custom volumes."
+            }
             setMemoryLimit={(val?: string) =>
               void formik.setFieldValue("size", val)
             }
-            disabled={formik.values.isReadOnly}
+            disabled={
+              formik.values.isReadOnly || formik.values.type !== "custom"
+            }
           />
           <Select
             {...getFormProps(formik, "content_type")}
@@ -68,7 +73,11 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               },
             ]}
             label="Content type"
-            help="Type filesystem is ready to mount and write files to. Type block can only be attached to VMs, and is treated like an empty block device."
+            help={
+              formik.values.isCreating
+                ? "Type filesystem is ready to mount and write files to. Type block can only be attached to VMs, and is treated like an empty block device."
+                : "Content type is immutable after creation."
+            }
             onChange={(e) => {
               if (e.target.value === "block") {
                 void formik.setFieldValue("block_filesystem", undefined);
@@ -78,7 +87,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               }
               void formik.setFieldValue("content_type", e.target.value);
             }}
-            disabled={formik.values.isReadOnly}
+            disabled={formik.values.isReadOnly || !formik.values.isCreating}
           />
         </Col>
       </Row>

@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { FC } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -17,21 +17,35 @@ import { usePagination } from "util/pagination";
 import Pagination from "components/Pagination";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import StorageVolumesFilter, {
+  CONTENT_TYPE,
+  POOL,
+  QUERY,
   StorageVolumesFilterType,
+  VOLUME_TYPE,
 } from "pages/storage/StorageVolumesFilter";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { useDocs } from "context/useDocs";
+import {
+  contentTypeForDisplay,
+  volumeTypeForDisplay,
+} from "util/storageVolume";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
-  const [filters, setFilters] = useState<StorageVolumesFilterType>({
-    queries: [],
-    pools: [],
-    volumeTypes: [],
-    contentTypes: [],
-  });
+  const [searchParams] = useSearchParams();
+
+  const filters: StorageVolumesFilterType = {
+    queries: searchParams.getAll(QUERY),
+    pools: searchParams.getAll(POOL),
+    volumeTypes: searchParams
+      .getAll(VOLUME_TYPE)
+      .map((type) => (type === "VM" ? "virtual-machine" : type.toLowerCase())),
+    contentTypes: searchParams
+      .getAll(CONTENT_TYPE)
+      .map((type) => type.toLowerCase()),
+  };
 
   if (!project) {
     return <>Missing project</>;
@@ -100,9 +114,8 @@ const StorageVolumes: FC = () => {
   });
 
   const rows = filteredVolumes.map((volume) => {
-    const volumeType = volume.name.includes("/")
-      ? `${volume.type} (snapshot)`
-      : volume.type;
+    const volumeType = volumeTypeForDisplay(volume);
+    const contentType = contentTypeForDisplay(volume);
 
     return {
       columns: [
@@ -137,7 +150,7 @@ const StorageVolumes: FC = () => {
           "aria-label": "Type",
         },
         {
-          content: volume.content_type,
+          content: contentType,
           role: "cell",
           "aria-label": "Content type",
         },
@@ -178,7 +191,7 @@ const StorageVolumes: FC = () => {
       sortData: {
         name: volume.name,
         pool: volume.pool,
-        contentType: volume.content_type,
+        contentType: contentType,
         type: volumeType,
         createdAt: volume.created_at,
         usedBy: volume.used_by?.length ?? 0,
@@ -215,15 +228,7 @@ const StorageVolumes: FC = () => {
     <div className="storage-volumes">
       <div className="upper-controls-bar">
         <div className="search-box-wrapper">
-          <StorageVolumesFilter
-            key={project}
-            volumes={volumes}
-            setFilters={(newFilters) => {
-              if (JSON.stringify(filters) !== JSON.stringify(newFilters)) {
-                setFilters(newFilters);
-              }
-            }}
-          />
+          <StorageVolumesFilter key={project} volumes={volumes} />
         </div>
         <div>
           <CreateVolumeBtn project={project} />

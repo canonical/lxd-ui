@@ -6,6 +6,10 @@ import useEventListener from "@use-it/event-listener";
 import { LxdStorageVolume } from "types/storage";
 import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
+import {
+  contentTypeForDisplay,
+  volumeTypeForDisplay,
+} from "util/storageVolume";
 
 interface Props {
   project: string;
@@ -34,11 +38,11 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
               </tr>
               <tr>
                 <th className="p-muted-heading">Type</th>
-                <td>{volume.type}</td>
+                <td>{volumeTypeForDisplay(volume)}</td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Content type</th>
-                <td>{volume.content_type}</td>
+                <td>{contentTypeForDisplay(volume)}</td>
               </tr>
               <tr>
                 <th className="p-muted-heading">Description</th>

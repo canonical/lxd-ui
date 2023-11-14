@@ -7,6 +7,7 @@ import { loadCustomVolumes } from "context/loadCustomVolumes";
 import ScrollableTable from "components/ScrollableTable";
 import { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
+import { contentTypeForDisplay } from "util/storageVolume";
 
 interface Props {
   project: string;
@@ -69,7 +70,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
           "aria-label": "Storage pool",
         },
         {
-          content: volume.content_type,
+          content: contentTypeForDisplay(volume),
           role: "cell",
           "aria-label": "Content type",
         },
