@@ -60,7 +60,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
       .map((chip) => chip.value as LxdInstanceStatus);
     const filteredTypes = searchData
       .filter((chip) => chip.lead === "type")
-      .map((chip) => (chip.value === "VM" ? "virtual-machine" : "container"));
+      .map((chip) => chip.value);
 
     const profileQueries = searchData
       .filter((chip) => chip.lead === "profile")

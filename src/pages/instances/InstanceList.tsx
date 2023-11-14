@@ -81,7 +81,9 @@ const InstanceList: FC = () => {
     statuses: enrichStatuses(
       searchParams.getAll("status") as LxdInstanceStatus[],
     ),
-    types: searchParams.getAll("type"),
+    types: searchParams
+      .getAll("type")
+      .map((value) => (value === "VM" ? "virtual-machine" : "container")),
     profileQueries: searchParams.getAll("profile"),
   };
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
