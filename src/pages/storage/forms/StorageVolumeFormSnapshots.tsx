@@ -5,12 +5,15 @@ import ConfigurationTable from "components/ConfigurationTable";
 import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
+import { useDocs } from "context/useDocs";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
 }
 
 const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
+  const docBaseLink = useDocs();
+
   return (
     <ConfigurationTable
       rows={[
@@ -27,7 +30,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
                   Pongo2 template string that represents the snapshot name (used
                   for scheduled snapshots and unnamed snapshots), see{" "}
                   <a
-                    href="https://documentation.ubuntu.com/lxd/en/latest/reference/instance_options/#instance-options-snapshots-names"
+                    href={`${docBaseLink}/reference/instance_options/#instance-options-snapshots-names`}
                     target="_blank"
                     rel="noreferrer"
                   >

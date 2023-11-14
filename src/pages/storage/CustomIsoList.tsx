@@ -19,12 +19,14 @@ import ScrollableTable from "components/ScrollableTable";
 import { usePagination } from "util/pagination";
 import Pagination from "components/Pagination";
 import { Link } from "react-router-dom";
+import { useDocs } from "context/useDocs";
 
 interface Props {
   project: string;
 }
 
 const CustomIsoList: FC<Props> = ({ project }) => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
   const [query, setQuery] = useState<string>("");
 
@@ -145,7 +147,7 @@ const CustomIsoList: FC<Props> = ({ project }) => {
       <p>Custom ISOs will appear here</p>
       <p>
         <a
-          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+          href={`${docBaseLink}/explanation/storage/`}
           target="_blank"
           rel="noreferrer"
         >

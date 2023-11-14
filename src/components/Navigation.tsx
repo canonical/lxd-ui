@@ -10,11 +10,13 @@ import { isWidthBelow, logout } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { getCookie } from "util/cookies";
+import { useDocs } from "context/useDocs";
 
 const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
   const { isRestricted } = useAuth();
+  const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
   const [projectName, setProjectName] = useState(
@@ -257,7 +259,7 @@ const Navigation: FC = () => {
                   <li className="p-side-navigation__item">
                     <a
                       className="p-side-navigation__link"
-                      href="https://documentation.ubuntu.com/lxd/en/latest/"
+                      href={docBaseLink}
                       target="_blank"
                       rel="noreferrer"
                       title="Documentation"

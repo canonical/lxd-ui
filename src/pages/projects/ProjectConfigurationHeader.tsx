@@ -10,12 +10,14 @@ import DeleteProjectBtn from "./actions/DeleteProjectBtn";
 import { useNotify } from "@canonical/react-components";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
+import { useDocs } from "context/useDocs";
 
 interface Props {
   project: LxdProject;
 }
 
 const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
+  const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const notify = useNotify();
@@ -68,7 +70,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
       parentItems={[
         <HelpLink
           key="project-configuration"
-          href="https://documentation.ubuntu.com/lxd/en/latest/reference/projects/"
+          href={`${docBaseLink}/reference/projects/`}
           title="Learn more about project configuration"
         >
           Project configuration

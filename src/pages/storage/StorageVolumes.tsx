@@ -20,8 +20,10 @@ import StorageVolumesFilter, {
   StorageVolumesFilterType,
 } from "pages/storage/StorageVolumesFilter";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
+import { useDocs } from "context/useDocs";
 
 const StorageVolumes: FC = () => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [filters, setFilters] = useState<StorageVolumesFilterType>({
@@ -199,7 +201,7 @@ const StorageVolumes: FC = () => {
       <p>Storage volumes will appear here</p>
       <p>
         <a
-          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+          href={`${docBaseLink}/explanation/storage/`}
           target="_blank"
           rel="noreferrer"
         >

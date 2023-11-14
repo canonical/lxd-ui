@@ -25,8 +25,10 @@ import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
+import { useDocs } from "context/useDocs";
 
 const ProfileList: FC = () => {
+  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
@@ -168,7 +170,7 @@ const ProfileList: FC = () => {
           <div className="profile-header-left">
             <h1 className="p-heading--4 u-no-margin--bottom">
               <HelpLink
-                href="https://documentation.ubuntu.com/lxd/en/latest/profiles/"
+                href={`${docBaseLink}/profiles/`}
                 title="Learn how to use profiles"
               >
                 Profiles

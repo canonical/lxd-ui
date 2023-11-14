@@ -5,12 +5,14 @@ import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useSettings } from "context/useSettings";
 import { supportsFanNetwork, supportsOvnNetwork } from "util/settings";
 import Loader from "components/Loader";
+import { useDocs } from "context/useDocs";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
 }
 
 const NetworkTypeSelector: FC<Props> = ({ formik }) => {
+  const docBaseLink = useDocs();
   const { data: settings, isLoading } = useSettings();
   const hasOvn = supportsOvnNetwork(settings);
   const hasFan = supportsFanNetwork(settings);
@@ -29,7 +31,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           Bridge (FAN) is only available on ubuntu, OVN needs to be configured
           in LXD as <code>network.ovn.northbound_connection</code>{" "}
           <a
-            href="https://documentation.ubuntu.com/lxd/en/latest/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn"
+            href={`${docBaseLink}/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn`}
             target="_blank"
             rel="noreferrer"
           >

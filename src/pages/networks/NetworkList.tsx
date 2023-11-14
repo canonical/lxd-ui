@@ -15,8 +15,10 @@ import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
+import { useDocs } from "context/useDocs";
 
 const NetworkList: FC = () => {
+  const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -124,7 +126,7 @@ const NetworkList: FC = () => {
       <BaseLayout
         title={
           <HelpLink
-            href="https://documentation.ubuntu.com/lxd/en/latest/explanation/networks/"
+            href={`${docBaseLink}/explanation/networks/`}
             title="Learn more about networking"
           >
             Networks
@@ -178,7 +180,7 @@ const NetworkList: FC = () => {
               <p>There are no networks in this project.</p>
               <p>
                 <a
-                  href="https://documentation.ubuntu.com/lxd/en/latest/explanation/networks/"
+                  href={`${docBaseLink}/explanation/networks/`}
                   target="_blank"
                   rel="noreferrer"
                 >

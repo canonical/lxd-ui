@@ -28,8 +28,7 @@ export const deleteNetwork = async (page: Page, network: string) => {
 };
 
 export const visitNetwork = async (page: Page, network: string) => {
-  await page.goto("/ui/");
-  await page.getByRole("link", { name: "Networks", exact: true }).click();
+  await page.getByTitle("Networks (default)").click();
   await page.getByRole("link", { name: network }).first().click();
 };
 

@@ -53,6 +53,7 @@ import NotificationRow from "components/NotificationRow";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
+import { useDocs } from "context/useDocs";
 import { LxdInstanceStatus } from "types/instance";
 
 const loadHidden = () => {
@@ -67,6 +68,7 @@ const saveHidden = (columns: string[]) => {
 const isMediumScreen = () => isWidthBelow(820);
 
 const InstanceList: FC = () => {
+  const docBaseLink = useDocs();
   const instanceLoading = useInstanceLoading();
   const navigate = useNavigate();
   const notify = useNotify();
@@ -487,7 +489,7 @@ const InstanceList: FC = () => {
           <div className="instance-header-left">
             <h1 className="p-heading--4 u-no-margin--bottom">
               <HelpLink
-                href="https://documentation.ubuntu.com/lxd/en/latest/explanation/instances/#expl-instances"
+                href={`${docBaseLink}/explanation/instances/#expl-instances`}
                 title="Learn more about instances"
               >
                 Instances
@@ -621,7 +623,7 @@ const InstanceList: FC = () => {
               </p>
               <p>
                 <a
-                  href="https://documentation.ubuntu.com/lxd/en/latest/howto/instances_create/"
+                  href={`${docBaseLink}/howto/instances_create/`}
                   target="_blank"
                   rel="noreferrer"
                 >

@@ -16,8 +16,10 @@ import StoragePoolSize from "pages/storage/StoragePoolSize";
 import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
 import ScrollableTable from "components/ScrollableTable";
 import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolBtn";
+import { useDocs } from "context/useDocs";
 
 const StoragePools: FC = () => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
@@ -178,7 +180,7 @@ const StoragePools: FC = () => {
       <p>Storage pools will appear here.</p>
       <p>
         <a
-          href="https://documentation.ubuntu.com/lxd/en/latest/explanation/storage/"
+          href={`${docBaseLink}/explanation/storage/`}
           target="_blank"
           rel="noreferrer"
         >
