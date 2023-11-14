@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { LxdUsedBy } from "util/usedBy";
-import ViewProfileInstancesBtn from "./actions/ViewProfileInstancesBtn";
+import ViewProfileInstancesLink from "./actions/ViewProfileInstancesLink";
 
 interface Props {
   profile: string;
@@ -18,7 +18,7 @@ const ProfileUsedByRegularProject: FC<Props> = ({
       {usedByInstances.length > 0 && (
         <tr>
           <td>
-            <ViewProfileInstancesBtn profile={profile} project={project} />
+            <ViewProfileInstancesLink profile={profile} project={project} />
           </td>
         </tr>
       )}

@@ -1,26 +1,19 @@
-import React, { FC, useEffect } from "react";
-import { LxdInstance, LxdInstanceStatus } from "types/instance";
+import React, { FC } from "react";
+import { LxdInstance } from "types/instance";
 import { instanceStatuses, instanceTypes } from "util/instanceFilter";
 import { SearchAndFilter } from "@canonical/react-components";
 import {
-  SearchAndFilterData,
   SearchAndFilterChip,
+  SearchAndFilterData,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";
-import { useLocation, useSearchParams } from "react-router-dom";
-
-interface ProfileFilterState {
-  state?: {
-    appliedProfile: string;
-  };
-}
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   instances: LxdInstance[];
 }
 
 const InstanceSearchFilter: FC<Props> = ({ instances }) => {
-  const { state } = useLocation() as ProfileFilterState;
-  useEffect(() => window.history.replaceState({}, ""), [state]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const profileSet = [
     ...new Set(instances.flatMap((instance) => instance.profiles)),
@@ -49,86 +42,52 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
       }),
     },
   ];
-  const setSearchParams = useSearchParams()[1];
+
   const onSearchDataChange = (searchData: SearchAndFilterChip[]) => {
-    const filteredQueries = searchData
-      .filter((chip) => chip.quoteValue === true || chip.lead === "query")
-      .map((chip) => chip.value.toLowerCase());
+    const searchTokensByLead = (lead: string) =>
+      searchData
+        .filter(
+          (chip) => chip.lead === lead || (lead === "query" && chip.quoteValue),
+        )
+        .map((chip) => chip.value);
 
-    const filteredStatuses = searchData
-      .filter((chip) => chip.lead === "status")
-      .map((chip) => chip.value as LxdInstanceStatus);
-    const filteredTypes = searchData
-      .filter((chip) => chip.lead === "type")
-      .map((chip) => chip.value);
-
-    const profileQueries = searchData
-      .filter((chip) => chip.lead === "profile")
-      .map((chip) => chip.value);
-
-    const currentWindowSearchParams = new URLSearchParams(
-      window.location.search,
-    );
-    const newSearchParams = new URLSearchParams();
-    filteredQueries.forEach((query) => {
-      newSearchParams.append("q", query);
+    const newParams = new URLSearchParams();
+    searchTokensByLead("query").forEach((query) => {
+      newParams.append("query", query);
+    });
+    searchTokensByLead("status").forEach((status) => {
+      newParams.append("status", status);
+    });
+    searchTokensByLead("type").forEach((type) => {
+      newParams.append("type", type);
+    });
+    searchTokensByLead("profile").forEach((profile) => {
+      newParams.append("profile", profile);
     });
 
-    filteredStatuses.forEach((status) => {
-      newSearchParams.append("status", status);
-    });
-
-    filteredTypes.forEach((type) => {
-      newSearchParams.append("type", type);
-    });
-    profileQueries.forEach((profile) => {
-      newSearchParams.append("profile", profile);
-    });
-    if (newSearchParams.toString() !== currentWindowSearchParams.toString()) {
-      setSearchParams(newSearchParams);
+    if (newParams.toString() !== searchParams.toString()) {
+      setSearchParams(newParams);
     }
   };
 
-  const getChips = (): SearchAndFilterChip[] => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const statusChipUrl = [
-      ...(searchParams.getAll("status") as LxdInstanceStatus[]).map(
-        (status) => ({
-          lead: "status",
-          value: status,
-        }),
-      ),
-    ];
-
-    const newSearchData = [
-      ...searchParams
-        .getAll("q")
-        .map((query) => ({ lead: "query", value: query })),
-      ...statusChipUrl,
-      ...searchParams
-        .getAll("type")
-        .map((type) => ({ lead: "type", value: type })),
-      ...searchParams
-        .getAll("profile")
-        .map((profile) => ({ lead: "profile", value: profile })),
-    ];
-
-    return newSearchData;
-  };
+  const searchParamsToChips = (parameter: string) =>
+    searchParams
+      .getAll(parameter)
+      .map((value) =>
+        parameter === "query"
+          ? { quoteValue: true, value }
+          : { lead: parameter, value },
+      );
 
   return (
     <div className="search-wrapper margin-right u-no-margin--bottom">
       <SearchAndFilter
-        existingSearchData={
-          state?.appliedProfile
-            ? [
-                {
-                  lead: "profile",
-                  value: state.appliedProfile,
-                },
-              ]
-            : getChips()
-        }
+        existingSearchData={[
+          ...searchParamsToChips("query"),
+          ...searchParamsToChips("status"),
+          ...searchParamsToChips("type"),
+          ...searchParamsToChips("profile"),
+        ]}
         filterPanelData={searchAndFilterData}
         returnSearchData={onSearchDataChange}
         onExpandChange={() => {
