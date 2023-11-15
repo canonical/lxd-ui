@@ -4,13 +4,16 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import ImageList from "pages/images/ImageList";
 import { Row } from "@canonical/react-components";
+import { useDocs } from "context/useDocs";
 
 const Images: FC = () => {
+  const docBaseLink = useDocs();
+
   return (
     <BaseLayout
       title={
         <HelpLink
-          href="https://documentation.ubuntu.com/lxd/en/latest/image-handling/"
+          href={`${docBaseLink}/image-handling/`}
           title="Learn more about images"
         >
           Images
