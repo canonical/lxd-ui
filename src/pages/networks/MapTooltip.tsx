@@ -25,9 +25,9 @@ const MapTooltip: FC<MapTooltipProps> = ({ item, type }) => {
 
     const ipAddresses = getIpAddresses(instance, "inet")
       .concat(getIpAddresses(instance, "inet6"))
-      .map((address) => (
-        <li key={address} className="p-list__item">
-          {address}
+      .map((val) => (
+        <li key={val.address} className="p-list__item">
+          {val.address} ({val.iface})
         </li>
       ));
 

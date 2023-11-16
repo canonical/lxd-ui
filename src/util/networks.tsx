@@ -8,9 +8,12 @@ export const getIpAddresses = (
   if (!instance.state?.network) return [];
   return Object.entries(instance.state.network)
     .filter(([key, _value]) => key !== "lo")
-    .flatMap(([_key, value]) => value.addresses)
-    .filter((item) => item.family === family)
-    .map((item) => item.address);
+    .flatMap(([key, value]) =>
+      value.addresses.map((item) => {
+        return { ...item, iface: key };
+      }),
+    )
+    .filter((item) => item.family === family);
 };
 
 const networkDefaults: Record<string, string> = {
