@@ -14,7 +14,12 @@ export const isoTimeToString = (isoTime: string) => {
     return "";
   }
 
-  return new Date(isoTime).toLocaleDateString(undefined, {
+  const date = new Date(isoTime);
+  if (date.getTime() === 0) {
+    return "Never";
+  }
+
+  return date.toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
     day: "numeric",
