@@ -12,9 +12,13 @@ const InstanceIps: FC<Props> = ({ instance, family }) => {
   const addresses = getIpAddresses(instance, family);
   return addresses.length ? (
     <ExpandableList
-      items={addresses.map((address) => (
-        <div key={address} className="ip u-truncate" title={address}>
-          {address}
+      items={addresses.map((item) => (
+        <div
+          key={item.address}
+          className="ip u-truncate"
+          title={`${item.address} (${item.iface})`}
+        >
+          {item.address} ({item.iface})
         </div>
       ))}
     />

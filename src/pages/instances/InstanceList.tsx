@@ -309,12 +309,12 @@ const InstanceList: FC = () => {
       const openSummary = () =>
         panelParams.openInstanceSummary(instance.name, project);
 
-      const ipv4 = getIpAddresses(instance, "inet").filter(
-        (val) => !val.startsWith("127"),
-      );
-      const ipv6 = getIpAddresses(instance, "inet6").filter(
-        (val) => !val.startsWith("fe80"),
-      );
+      const ipv4 = getIpAddresses(instance, "inet")
+        .filter((val) => !val.address.startsWith("127"))
+        .map((val) => val.address);
+      const ipv6 = getIpAddresses(instance, "inet6")
+        .filter((val) => !val.address.startsWith("fe80"))
+        .map((val) => val.address);
 
       return {
         className:
