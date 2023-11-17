@@ -12,16 +12,20 @@ import { LxdProfile } from "types/profile";
 import { figureInheritedValue } from "util/instanceConfigInheritance";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { FormikProps } from "formik/dist/types";
+import { fetchConfigOptions } from "api/server";
+import { toConfigFields } from "util/config";
+import { ProjectFormValues } from "pages/projects/CreateProject";
+import { getProjectKey } from "util/projectConfigFields";
+import { getInstanceKey } from "util/instanceConfigFields";
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: SharedFormikTypes | FormikProps<ProjectFormValues>;
   name: string;
   label: string | ReactNode;
   children: ReactElement;
   defaultValue?: string | CpuLimit | MemoryLimit;
   disabled?: boolean;
   readOnlyRenderer?: (value: unknown) => string | ReactNode;
-  help?: string;
 }
 
 export const getInstanceConfigurationRow = ({
@@ -32,7 +36,6 @@ export const getInstanceConfigurationRow = ({
   defaultValue,
   disabled = false,
   readOnlyRenderer,
-  help,
 }: Props): MainTableRow => {
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
@@ -49,14 +52,30 @@ export const getInstanceConfigurationRow = ({
     }
   }
 
+  const { data: configOptions } = useQuery({
+    queryKey: [queryKeys.configOptions],
+    queryFn: fetchConfigOptions,
+  });
+  const configFields =
+    formik.values.type === "project"
+      ? toConfigFields(configOptions?.configs.project ?? {})
+      : toConfigFields(configOptions?.configs.instance ?? {});
+
   const values = formik.values as unknown as Record<string, string | undefined>;
   const value = values[name];
   const isOverridden = value !== undefined;
 
+  const configKey =
+    values.type === "project" ? getProjectKey(name) : getInstanceKey(name);
+  const configEntry = configFields.find(
+    (configField) => configField.key === configKey,
+  );
+
   const [inheritedValue, inheritSource] = figureInheritedValue(
     formik.values,
-    name,
+    configKey,
     profiles,
+    configEntry?.default,
   );
   const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
 
@@ -76,7 +95,8 @@ export const getInstanceConfigurationRow = ({
     children,
     defaultValue,
     disabled,
-    help,
+    help: configEntry?.shortdesc,
+    inputHelp: configEntry?.longdesc,
     isOverridden,
     inheritedValue: getInheritedValue(),
     inheritSource,

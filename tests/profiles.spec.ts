@@ -101,35 +101,23 @@ test("profile security policies", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("Security policies").click();
 
-  await setOption(page, "Prevent the instance from being deleted", "true");
-  await setOption(page, "Run the instance in privileged mode", "true");
-  await setOption(
-    page,
-    "Prevent instance file system from being UID/GID shifted",
-    "true",
-  );
+  await setOption(page, "Protect deletion", "true");
+  await setOption(page, "Privileged", "true");
+  await setOption(page, "Protect UID/GID shift", "true");
   await setInput(page, "Base host id", "Enter ID", "11");
   await setInput(page, "Idmap size", "Enter number", "22");
-  await setOption(page, "Unique idmap usage", "true");
+  await setOption(page, "Unique idmap", "true");
   await setOption(page, "Allow /dev/lxd in the instance", "true");
   await setOption(page, "Make /1.0/images API available", "true");
   await setOption(page, "Enable secureboot", "true");
   await saveProfile(page);
 
-  await assertReadMode(page, "Prevent the instance from being deleted", "Yes");
-  await assertReadMode(
-    page,
-    "Run the instance in privileged mode (Containers only)",
-    "Allow",
-  );
-  await assertReadMode(
-    page,
-    "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
-    "Yes",
-  );
+  await assertReadMode(page, "Protect deletion", "Yes");
+  await assertReadMode(page, "Privileged (Containers only)", "Allow");
+  await assertReadMode(page, "Protect UID/GID shift (Containers only)", "Yes");
   await assertReadMode(page, "Base host id (Containers only)", "11");
   await assertReadMode(page, "Idmap size (Containers only)", "22");
-  await assertReadMode(page, "Unique idmap usage (Containers only)", "Yes");
+  await assertReadMode(page, "Unique idmap (Containers only)", "Yes");
   await assertReadMode(
     page,
     "Allow /dev/lxd in the instance (Containers only)",

@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
 import { Input, Button, Icon } from "@canonical/react-components";
-import { LxdConfigField } from "types/config";
+import { ConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
+import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
   initialValue?: string;
-  configField: LxdConfigField;
+  configField: ConfigField;
   onSubmit: (newValue: string | boolean) => void;
   onCancel: () => void;
 }
@@ -37,6 +38,12 @@ const SettingFormCheckbox: FC<Props> = ({
         type="checkbox"
         checked={checked}
         onChange={(e) => setChecked(e.target.checked)}
+        help={
+          <ConfigFieldDescription
+            description={configField.longdesc}
+            className="p-form-help-text"
+          />
+        }
       />
       <Button appearance="base" onClick={onCancel}>
         Cancel

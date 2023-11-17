@@ -48,9 +48,9 @@ test("project edit configuration", async ({ page }) => {
   await setInput(page, "Max number of VMs", "Enter number", "3");
   await setInput(page, "Max disk space", "Enter value", "4");
   await setInput(page, "Max number of networks", "Enter number", "5");
-  await setInput(page, "Max sum of individual CPU", "Enter number", "6");
-  await setInput(page, "Max sum of individual memory", "Enter number", "7");
-  await setInput(page, "Max sum of individual processes", "Enter number", "8");
+  await setInput(page, "Max sum of CPU", "Enter number", "6");
+  await setInput(page, "Max sum of memory", "Enter number", "7");
+  await setInput(page, "Max sum of processes", "Enter number", "8");
 
   await page.getByText("Restrictions").click();
   await page.getByText("Clusters").click();
@@ -110,13 +110,9 @@ test("project edit configuration", async ({ page }) => {
   await assertReadMode(page, "Max number of VMs", "3");
   await assertReadMode(page, "Max disk space (used by all instances)", "4GiB");
   await assertReadMode(page, "Max number of networks", "5");
-  await assertReadMode(page, "Max sum of individual CPU configurations", "6");
-  await assertReadMode(page, "Max sum of individual memory limits", "7");
-  await assertReadMode(
-    page,
-    "Max sum of individual processes configurations",
-    "8",
-  );
+  await assertReadMode(page, "Max sum of CPU", "6");
+  await assertReadMode(page, "Max sum of memory limits", "7");
+  await assertReadMode(page, "Max sum of processes", "8");
 
   await page.getByText("Clusters").click();
   await assertReadMode(page, "Cluster groups targeting", "9");

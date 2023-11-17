@@ -36,12 +36,18 @@ export const setCodeInput = async (
   value: string,
 ) => {
   await activateOverride(page, field);
-  await page.getByRole("row", { name: field }).locator(".view-lines").click();
+  await page
+    .getByRole("row", { name: field })
+    .locator(".override .view-lines")
+    .click();
   await page.keyboard.type(value);
 };
 
 export const assertCode = async (page: Page, field: string, value: string) => {
-  await page.getByRole("row", { name: field }).locator(".view-lines").click();
+  await page
+    .getByRole("row", { name: field })
+    .locator(".override .view-lines")
+    .click();
   await page.getByText(value).click();
 };
 
@@ -84,9 +90,14 @@ export const setMemLimit = async (
 };
 
 export const setSchedule = async (page: Page, value: string) => {
-  await activateOverride(page, "Schedule - From: LXD");
+  await activateOverride(
+    page,
+    "Schedule Schedule for automatic instance snapshots - From: LXD",
+  );
   await page
-    .getByRole("row", { name: "Schedule - From: LXD" })
+    .getByRole("row", {
+      name: "Schedule Schedule for automatic instance snapshots - From: LXD",
+    })
     .getByText("Cron syntax")
     .click();
   await page.getByPlaceholder("Enter cron expression").last().fill(value);

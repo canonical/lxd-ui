@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import { updateSettings } from "api/server";
-import { LxdConfigField } from "types/config";
+import { ConfigField } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "context/auth";
@@ -14,7 +14,7 @@ export const getConfigId = (key: string) => {
 };
 
 interface Props {
-  configField: LxdConfigField;
+  configField: ConfigField;
   value?: string;
   isLast?: boolean;
 }

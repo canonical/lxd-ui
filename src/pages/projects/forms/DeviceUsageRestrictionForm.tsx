@@ -5,7 +5,6 @@ import InstanceConfigurationTable from "components/forms/InstanceConfigurationTa
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
-import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
 
@@ -53,7 +52,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_disk",
           label: (
             <>
@@ -62,7 +61,6 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
               (except the root one)
             </>
           ),
-          help: "If block prevent use of disk devices except the root one. If managed allow use of disk devices only if pool= is set. If allow, no restrictions apply.",
           defaultValue: "",
           readOnlyRenderer: (val) =>
             optionRenderer(val, optionAllowBlockManaged),
@@ -70,39 +68,35 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_disk_paths",
           label: "Disk devices path",
-          help: "If restricted.devices.disk is set to allow, this sets a comma-separated list of path prefixes that restrict the source setting on disk devices. If empty then all paths are allowed.",
           defaultValue: "",
           children: <Input placeholder="Enter paths" type="text" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_gpu",
           label: "GPU devices",
-          help: "Use of devices of type gpu.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_infiniband",
           label: "Infiniband devices",
-          help: "Use of devices of type infiniband.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_nic",
           label: "Network devices",
-          help: "If block prevent use of all network devices. If managed allow use of network devices only if network= is set. If allow, no restrictions apply. This also controls access to networks.",
           defaultValue: "",
           readOnlyRenderer: (val) =>
             optionRenderer(val, optionAllowBlockManaged),
@@ -110,50 +104,45 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_pci",
           label: "PCI devices",
-          help: "Use of devices of type pci.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_unix_block",
           label: "Unix-block devices",
-          help: "Use of devices of type unix-block.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_unix_char",
           label: "Unix-char devices",
-          help: "Use of devices of type unix-char.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_unix_hotplug",
           label: "Unix-hotplug devices",
-          help: "Use of devices of type unix-hotplug.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "restricted_devices_usb",
           label: "USB devices",
-          help: "Use of devices of type usb.",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowBlock),
           children: <Select options={optionAllowBlock} />,

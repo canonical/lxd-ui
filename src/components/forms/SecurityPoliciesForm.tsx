@@ -61,7 +61,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
       rows={[
         getInstanceConfigurationRow({
           formik: formik,
-          label: "Prevent the instance from being deleted",
+          label: "Protect deletion",
           name: "security_protection_delete",
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
@@ -70,7 +70,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
 
         getInstanceConfigurationRow({
           formik: formik,
-          label: "Run the instance in privileged mode (Containers only)",
+          label: "Privileged (Containers only)",
           name: "security_privileged",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
@@ -85,8 +85,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
 
         getInstanceConfigurationRow({
           formik: formik,
-          label:
-            "Prevent instance file system from being UID/GID shifted on startup (Containers only)",
+          label: "Protect UID/GID shift (Containers only)",
           name: "security_protection_shift",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
@@ -135,7 +134,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
 
         getInstanceConfigurationRow({
           formik: formik,
-          label: "Unique idmap usage (Containers only)",
+          label: "Unique idmap (Containers only)",
           name: "security_idmap_isolated",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,

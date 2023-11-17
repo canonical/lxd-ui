@@ -4,7 +4,6 @@ import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurat
 import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
-import { SharedFormikTypes } from "components/forms/sharedFormTypes";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { getProjectKey } from "util/projectConfigFields";
 
@@ -42,37 +41,33 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_instances",
           label: "Max number of instances",
-          help: "Maximum number of total instances that can be created in the project",
           defaultValue: "",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_containers",
           label: "Max number of containers",
-          help: "Maximum number of containers that can be created in the project",
           defaultValue: "",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_virtual_machines",
           label: "Max number of VMs",
-          help: "Maximum number of VMs that can be created in the project",
           defaultValue: "",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_disk",
           label: "Max disk space (used by all instances)",
-          help: "Maximum value of aggregate disk space used by all instances volumes, custom volumes and images of the project",
           defaultValue: "",
           children: (
             <DiskSizeSelector
@@ -84,37 +79,33 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_networks",
           label: "Max number of networks",
-          help: "Maximum value for the number of networks this project can have",
           defaultValue: "",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_cpu",
-          label: "Max sum of individual CPU configurations",
-          help: "Maximum value for the sum of individual limits.cpu configurations set on the instances of the project",
+          label: "Max sum of CPU",
           defaultValue: "",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_memory",
-          label: "Max sum of individual memory limits",
-          help: "Maximum value for the sum of individual limits.memory configurations set on the instances of the project",
+          label: "Max sum of memory limits",
           defaultValue: "",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
         getInstanceConfigurationRow({
-          formik: formik as unknown as SharedFormikTypes,
+          formik: formik,
           name: "limits_processes",
-          label: "Max sum of individual processes configurations",
-          help: "Maximum value for the sum of individual limits.processes configurations set on the instances of the project",
+          label: "Max sum of processes",
           defaultValue: "-",
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
