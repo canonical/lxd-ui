@@ -27,8 +27,8 @@ interface Props {
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
   const codeRenderer = (value?: unknown) =>
-    value === "" || value === undefined ? (
-      value
+    value === "-" || value === undefined ? (
+      ""
     ) : (
       <CloudInitConfig config={value as string} />
     );

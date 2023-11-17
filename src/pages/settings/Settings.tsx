@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import {
   Col,
   MainTable,
@@ -7,8 +7,6 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
-import { handleResponse } from "util/helpers";
-import { LxdConfigField } from "types/config";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
@@ -16,41 +14,41 @@ import NotificationRow from "components/NotificationRow";
 import ScrollableTable from "components/ScrollableTable";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
-
-const configOptionsUrl = "/ui/assets/data/config-options.json";
+import { queryKeys } from "util/queryKeys";
+import { fetchConfigOptions } from "api/server";
+import { useQuery } from "@tanstack/react-query";
+import { ConfigField } from "types/config";
+import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import { toConfigFields } from "util/config";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
-  const [configOptions, setConfigOptions] = useState<LxdConfigField[]>([]);
   const [query, setQuery] = useState("");
   const notify = useNotify();
 
-  const loadConfigOptions = () => {
-    void fetch(configOptionsUrl)
-      .then(handleResponse)
-      .then((data: LxdConfigField[]) => {
-        setConfigOptions(data);
-      });
-  };
+  const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
+    queryKey: [queryKeys.configOptions],
+    queryFn: fetchConfigOptions,
+  });
 
-  useEffect(() => {
-    loadConfigOptions();
-  }, []);
+  const { data: settings, error, isLoading: isSettingsLoading } = useSettings();
 
-  const { data: settings, error, isLoading } = useSettings();
+  if (isConfigOptionsLoading || isSettingsLoading) {
+    return <Loader />;
+  }
 
   if (error) {
     notify.failure("Loading settings failed", error);
   }
 
-  const getValue = (configField: LxdConfigField): string | undefined => {
+  const getValue = (configField: ConfigField): string | undefined => {
     for (const [key, value] of Object.entries(settings?.config ?? {})) {
       if (key === configField.key) {
         return value;
       }
     }
-    if (typeof configField.default === "boolean") {
-      return configField.default ? "true" : "false";
+    if (configField.type === "bool") {
+      return configField.default === "true" ? "true" : "false";
     }
     if (configField.default === "-") {
       return undefined;
@@ -64,8 +62,18 @@ const Settings: FC = () => {
     { content: "Value" },
   ];
 
-  let lastGroup = "";
-  const rows = configOptions
+  const configFields = toConfigFields(configOptions?.configs.server ?? {});
+
+  configFields.push({
+    key: "user.ui_title",
+    category: "user",
+    default: "",
+    shortdesc: "Title for LXD-UI in the browser. Shows hostname when unset.",
+    type: "string",
+  });
+
+  let lastCategory = "";
+  const rows = configFields
     .filter((configField) => {
       if (!query) {
         return true;
@@ -78,14 +86,15 @@ const Settings: FC = () => {
       );
       const value = getValue(configField);
 
-      const group = configField.key.split(".")[0];
-      const isNewGroup = lastGroup !== group;
-      lastGroup = group;
+      const isNewCategory = lastCategory !== configField.category;
+      lastCategory = configField.category;
 
       return {
         columns: [
           {
-            content: isNewGroup && <h2 className="p-heading--5">{group}</h2>,
+            content: isNewCategory && (
+              <h2 className="p-heading--5">{configField.category}</h2>
+            ),
             role: "cell",
             className: "group",
             "aria-label": "Group",
@@ -97,10 +106,11 @@ const Settings: FC = () => {
                   configField.key
                 ) : (
                   <strong>{configField.key}</strong>
-                )}{" "}
-                <p className="p-text--small u-no-margin u-text--muted">
-                  {configField.description}
-                </p>
+                )}
+                <ConfigFieldDescription
+                  description={configField.shortdesc}
+                  className="p-text--small u-text--muted u-no-margin--bottom"
+                />
               </div>
             ),
             role: "cell",
@@ -131,39 +141,34 @@ const Settings: FC = () => {
             href={`${docBaseLink}/server/`}
             title="Learn more about server configuration"
           >
-            Settings
+            Server settings
           </HelpLink>
         }
         contentClassName="settings"
       >
         <NotificationRow />
-        {isLoading && <Loader text="Loading settings..." />}
-        {!isLoading && (
-          <>
-            <Row>
-              <Col size={8}>
-                <SearchBox
-                  name="search-setting"
-                  type="text"
-                  onChange={(value) => {
-                    setQuery(value);
-                  }}
-                  placeholder="Search"
-                  value={query}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <ScrollableTable dependencies={[notify.notification, rows]}>
-                <MainTable
-                  headers={headers}
-                  rows={rows}
-                  emptyStateMsg="No data to display"
-                />
-              </ScrollableTable>
-            </Row>
-          </>
-        )}
+        <Row>
+          <Col size={8}>
+            <SearchBox
+              name="search-setting"
+              type="text"
+              onChange={(value) => {
+                setQuery(value);
+              }}
+              placeholder="Search"
+              value={query}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <ScrollableTable dependencies={[notify.notification, rows]}>
+            <MainTable
+              headers={headers}
+              rows={rows}
+              emptyStateMsg="No data to display"
+            />
+          </ScrollableTable>
+        </Row>
       </BaseLayout>
     </>
   );

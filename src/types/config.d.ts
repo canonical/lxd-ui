@@ -1,9 +1,32 @@
 export type LxdConfigPair = Record<string, string>;
 
-export interface LxdConfigField {
-  default: string | boolean;
-  description: string;
+export type ConfigField = LxdConfigOption & {
+  category: string;
+  default: string;
   key: string;
-  scope: "global" | "local";
-  type: "string" | "integer" | "bool";
+};
+
+export interface LxdConfigOption {
+  defaultdesc?: string;
+  longdesc?: string;
+  scope?: "global" | "local";
+  shortdesc?: string;
+  type: "bool" | "string" | "integer";
+}
+
+export interface LxcConfigOptionCategories {
+  [category: string]: {
+    keys: {
+      [key: string]: LxdConfigOption;
+    }[];
+  };
+}
+
+export interface LxdConfigOptions {
+  configs: {
+    cluster: LxcConfigOptionCategories;
+    instance: LxcConfigOptionCategories;
+    project: LxcConfigOptionCategories;
+    server: LxcConfigOptionCategories;
+  };
 }

@@ -4,6 +4,7 @@ import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
 import { FormikProps } from "formik/dist/types";
+import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
   formik: FormikProps<unknown>;
@@ -14,6 +15,7 @@ interface Props {
   disabled?: boolean;
   disabledReason?: string;
   help?: string;
+  inputHelp?: string;
   isOverridden: boolean;
   inheritedValue: string | ReactNode;
   inheritSource: string;
@@ -31,6 +33,7 @@ export const getConfigurationRow = ({
   disabled = false,
   disabledReason,
   help,
+  inputHelp,
   isOverridden,
   inheritedValue,
   inheritSource,
@@ -59,6 +62,12 @@ export const getConfigurationRow = ({
               onChange: formik.handleChange,
               value,
               disabled,
+              help: (
+                <ConfigFieldDescription
+                  description={inputHelp}
+                  className="p-form-help-text"
+                />
+              ),
             })}
           </div>,
         )}
@@ -85,10 +94,6 @@ export const getConfigurationRow = ({
     <b>{label}</b>
   );
 
-  const helpText = help ? (
-    <div className="configuration-help">{help}</div>
-  ) : null;
-
   const wrapDisabledTooltip = (children: ReactNode): ReactNode => {
     if (disabled && disabledReason) {
       return (
@@ -104,7 +109,10 @@ export const getConfigurationRow = ({
     configuration: (
       <>
         {displayLabel}
-        {helpText}
+        <ConfigFieldDescription
+          description={help}
+          className="configuration-help"
+        />
       </>
     ),
     inherited: (

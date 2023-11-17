@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
 import { Button, Form, Icon, Input } from "@canonical/react-components";
-import { LxdConfigField } from "types/config";
+import { ConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
+import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 
 interface Props {
   initialValue: string;
-  configField: LxdConfigField;
+  configField: ConfigField;
   onSubmit: (newValue: string | boolean) => void;
   onCancel: () => void;
 }
@@ -30,7 +31,7 @@ const SettingFormInput: FC<Props> = ({
   const canBeReset = String(configField.default) !== String(value);
 
   const resetToDefault = () => {
-    setValue(configField.default as string);
+    setValue(configField.default);
   };
 
   return (
@@ -49,6 +50,12 @@ const SettingFormInput: FC<Props> = ({
         type={getInputType()}
         value={configField.type === "bool" ? undefined : String(value)}
         onChange={(e) => setValue(e.target.value)}
+        help={
+          <ConfigFieldDescription
+            description={configField.longdesc}
+            className="p-form-help-text"
+          />
+        }
       />
       <Button appearance="base" onClick={onCancel}>
         Cancel

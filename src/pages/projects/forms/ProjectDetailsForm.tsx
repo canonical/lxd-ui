@@ -25,7 +25,7 @@ export interface ProjectDetailsFormValues {
   features_storage_buckets?: boolean;
   features_storage_volumes?: boolean;
   readOnly: boolean;
-  type: string;
+  type: "project";
 }
 
 export const projectDetailPayload = (values: ProjectDetailsFormValues) => {
