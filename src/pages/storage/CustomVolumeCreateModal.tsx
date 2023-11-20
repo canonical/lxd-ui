@@ -1,26 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Label,
-  Row,
-  useNotify,
-} from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import {
   StorageVolumeFormValues,
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
-import { createStorageVolume, fetchStoragePools } from "api/storage-pools";
+import { createStorageVolume } from "api/storage-pools";
 import { queryKeys } from "util/queryKeys";
 import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
-import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import { LxdStorageVolume } from "types/storage";
+import SubmitButton from "components/SubmitButton";
 
 interface Props {
   project: string;
@@ -36,22 +30,6 @@ const CustomVolumeCreateModal: FC<Props> = ({
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [pool, setPool] = useState<string>("");
-
-  const { data: pools = [], error } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project),
-  });
-
-  useEffect(() => {
-    if (pools.length > 0 && pool === "") {
-      setPool(pools[0].name);
-    }
-  }, [pools]);
-
-  if (error) {
-    notify.failure("Loading storage pools failed", error);
-  }
 
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
@@ -66,7 +44,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
       content_type: "filesystem",
       name: "",
       project: project,
-      pool: pool,
+      pool: "",
       size: "GiB",
       type: "custom",
       isReadOnly: false,
@@ -75,7 +53,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const volume = volumeFormToPayload(values, project);
-      createStorageVolume(pool, project, volume)
+      createStorageVolume(values.pool, project, volume)
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
@@ -102,16 +80,6 @@ const CustomVolumeCreateModal: FC<Props> = ({
   return (
     <>
       <div className="volume-create-form">
-        <Row>
-          <Col size={8}>
-            <Label forId="storage-pool-selector">* Storage pool</Label>
-            <StoragePoolSelector
-              project={project}
-              value={pool}
-              setValue={(val) => setPool(val)}
-            />
-          </Col>
-        </Row>
         <StorageVolumeFormMain formik={formik} project={project} />
       </div>
       <footer className="p-modal__footer">
@@ -122,13 +90,14 @@ const CustomVolumeCreateModal: FC<Props> = ({
         >
           Cancel
         </Button>
-        <Button
+        <SubmitButton
           appearance="positive"
+          buttonLabel="Create volume"
           className="u-no-margin--bottom"
-          onClick={formik.submitForm}
-        >
-          Create volume
-        </Button>
+          onClick={() => void formik.submitForm()}
+          isDisabled={!formik.isValid}
+          isSubmitting={formik.isSubmitting}
+        />
       </footer>
     </>
   );
