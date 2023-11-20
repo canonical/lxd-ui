@@ -30,8 +30,10 @@ const CustomVolumeSelectModal: FC<Props> = ({
     data: volumes = [],
     error,
     isLoading,
+    isFetching,
   } = useQuery({
     queryKey: [queryKeys.customVolumes],
+    refetchOnMount: (query) => query.state.isInvalidated,
     queryFn: () => loadCustomVolumes(project),
   });
 
@@ -52,57 +54,61 @@ const CustomVolumeSelectModal: FC<Props> = ({
     { "aria-label": "Actions", className: "actions" },
   ];
 
-  const rows = volumes.map((volume) => {
-    return {
-      columns: [
-        {
-          content: (
-            <div className="u-truncate iso-name" title={volume.name}>
-              {volume.name}
-            </div>
-          ),
-          role: "cell",
-          "aria-label": "Name",
-        },
-        {
-          content: volume.pool,
-          role: "cell",
-          "aria-label": "Storage pool",
-        },
-        {
-          content: contentTypeForDisplay(volume),
-          role: "cell",
-          "aria-label": "Content type",
-        },
-        {
-          content: volume.used_by?.length,
-          role: "cell",
-          "aria-label": "Used by",
-        },
-        {
-          content: (
-            <Button
-              onClick={() => handleSelect(volume)}
-              dense
-              appearance={
-                primaryVolume?.name === volume.name &&
-                primaryVolume.type === volume.type &&
-                primaryVolume.pool == volume.pool
-                  ? "positive"
-                  : ""
-              }
-              aria-label={`Select ${volume.name}`}
-            >
-              Select
-            </Button>
-          ),
-          role: "cell",
-          "aria-label": "Actions",
-          className: "u-align--right",
-        },
-      ],
-    };
-  });
+  const rows = isFetching
+    ? []
+    : volumes
+        .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
+        .map((volume) => {
+          return {
+            columns: [
+              {
+                content: (
+                  <div className="u-truncate iso-name" title={volume.name}>
+                    {volume.name}
+                  </div>
+                ),
+                role: "cell",
+                "aria-label": "Name",
+              },
+              {
+                content: volume.pool,
+                role: "cell",
+                "aria-label": "Storage pool",
+              },
+              {
+                content: contentTypeForDisplay(volume),
+                role: "cell",
+                "aria-label": "Content type",
+              },
+              {
+                content: volume.used_by?.length,
+                role: "cell",
+                "aria-label": "Used by",
+              },
+              {
+                content: (
+                  <Button
+                    onClick={() => handleSelect(volume)}
+                    dense
+                    appearance={
+                      primaryVolume?.name === volume.name &&
+                      primaryVolume.type === volume.type &&
+                      primaryVolume.pool == volume.pool
+                        ? "positive"
+                        : ""
+                    }
+                    aria-label={`Select ${volume.name}`}
+                  >
+                    Select
+                  </Button>
+                ),
+                role: "cell",
+                "aria-label": "Actions",
+                className: "u-align--right",
+              },
+            ],
+          };
+        });
 
   return (
     <>
@@ -118,7 +124,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
           sortable
           className="u-table-layout--auto"
           emptyStateMsg={
-            isLoading ? (
+            isLoading || isFetching ? (
               <Loader text="Loading volumes..." />
             ) : (
               "No custom volumes found"
