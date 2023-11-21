@@ -24,7 +24,7 @@
     "@monaco-editor/react": "^4.6.0",
     "@tanstack/react-query": "^5.0.0",
     "@use-it/event-listener": "^0.1.7",
-    "axios": "1.5.1",
+    "axios": "1.6.0",
     "cytoscape": "3.26.0",
     "cytoscape-popper": "2.0.0",
     "formik": "2.4.5",
