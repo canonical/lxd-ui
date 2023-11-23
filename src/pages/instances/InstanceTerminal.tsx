@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { XTerm } from "xterm-for-react";
 import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
@@ -16,11 +16,10 @@ import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
 import {
   EmptyState,
+  failure,
   Icon,
   NotificationType,
-  failure,
 } from "@canonical/react-components";
-import { unstable_usePrompt as usePrompt } from "react-router-dom";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -68,6 +67,13 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     when: userInteracted,
     message: "Are you sure you want to leave this page?",
   });
+
+  const handleCloseTab = (e: BeforeUnloadEvent) => {
+    if (userInteracted) {
+      e.returnValue = "Are you sure you want to leave this page?";
+    }
+  };
+  useEventListener("beforeunload", handleCloseTab);
 
   const isRunning = instance.status === "Running";
 
@@ -139,14 +145,9 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
       setDataWs(null);
     };
 
-    data.onmessage = (message: MessageEvent<Blob | string | null>) => {
-      if (typeof message.data === "string") {
-        xtermRef.current?.terminal.write(message.data);
-        return;
-      }
-      void message.data?.text().then((text: string) => {
-        xtermRef.current?.terminal.write(text);
-      });
+    data.binaryType = "arraybuffer";
+    data.onmessage = (message: MessageEvent<ArrayBuffer>) => {
+      xtermRef.current?.terminal.writeUtf8(new Uint8Array(message.data));
     };
 
     return [data, control];

@@ -44,6 +44,13 @@ const InstanceTextConsole: FC<Props> = ({
     message: "Are you sure you want to leave this page?",
   });
 
+  const handleCloseTab = (e: BeforeUnloadEvent) => {
+    if (userInteracted) {
+      e.returnValue = "Are you sure you want to leave this page?";
+    }
+  };
+  useEventListener("beforeunload", handleCloseTab);
+
   const isRunning = instance.status === "Running";
 
   const handleError = (e: object) => {
@@ -113,14 +120,9 @@ const InstanceTextConsole: FC<Props> = ({
       setDataWs(null);
     };
 
-    data.onmessage = (message: MessageEvent<Blob | string | null>) => {
-      if (typeof message.data === "string") {
-        xtermRef.current?.terminal.write(message.data);
-        return;
-      }
-      void message.data?.text().then((text: string) => {
-        xtermRef.current?.terminal.write(text);
-      });
+    data.binaryType = "arraybuffer";
+    data.onmessage = (message: MessageEvent<ArrayBuffer>) => {
+      xtermRef.current?.terminal.writeUtf8(new Uint8Array(message.data));
     };
 
     return [data, control];
