@@ -130,18 +130,24 @@ const InstanceList: FC = () => {
   }
 
   const creationNames: string[] = [];
-  const creationOperations = (operationList?.running ?? []).filter(
-    (operation) => {
-      const isCreating =
-        operation.description === "Creating instance" &&
-        operation.status === "Running";
-      if (isCreating) {
-        const createInstanceName = getInstanceName(operation);
-        creationNames.push(createInstanceName);
+  const creationOperations = (operationList?.running ?? [])
+    .concat(operationList?.success ?? [])
+    .filter((operation) => {
+      const isCreating = operation.description === "Creating instance";
+      if (!isCreating) {
+        return false;
       }
-      return isCreating;
-    },
-  );
+      const name = getInstanceName(operation);
+      const isInInstanceList = instances.some((item) => item.name === name);
+      const isRunning = operation.status === "Running";
+
+      if (!isRunning && isInInstanceList) {
+        return false;
+      }
+
+      creationNames.push(name);
+      return true;
+    });
 
   const filteredInstances = instances.filter((item) => {
     if (creationNames.includes(item.name)) {
