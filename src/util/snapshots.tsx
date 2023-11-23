@@ -105,7 +105,6 @@ export const getSnapshotSchema = (
 ) => {
   return Yup.object().shape({
     name: Yup.string()
-      .required("This field is required")
       .test(
         ...testDuplicateSnapshotName(instance, controllerState, snapshotName),
       )
