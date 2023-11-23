@@ -108,6 +108,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const images = isLoading
     ? []
     : localImages
+        .filter((image) => !image.cached)
         .map(localLxdToRemoteImage)
         .concat([...minimalImages].reverse().sort(byLtsFirst))
         .concat([...canonicalImages].reverse().sort(byLtsFirst))
