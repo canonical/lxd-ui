@@ -90,7 +90,6 @@ const SnapshotForm: FC<Props> = ({
           name="name"
           type="text"
           label="Snapshot name"
-          required={true}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
