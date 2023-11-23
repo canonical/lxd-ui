@@ -26,6 +26,7 @@ export interface LxdImage {
   size: number;
   uploaded_at: string;
   aliases: LxdImageAlias[];
+  cached: boolean;
 }
 
 export interface ImportImage {
