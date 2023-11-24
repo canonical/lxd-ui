@@ -550,7 +550,7 @@ const InstanceList: FC = () => {
                     <SelectedTableNotification
                       totalCount={totalInstanceCount}
                       itemName="instance"
-                      parentName="project"
+                      parentName={`project: ${project}`}
                       selectedNames={selectedNames}
                       setSelectedNames={setSelectedNames}
                       filteredNames={filteredInstances.map(

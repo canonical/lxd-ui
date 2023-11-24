@@ -59,8 +59,9 @@ const SelectedTableNotification: FC<Props> = ({
             onClick={selectAll}
           >
             Select all <b>{filteredNames.length}</b>{" "}
-            {filteredNames.length === totalCount ? parentName : "filtered"}{" "}
-            {itemName}s
+            {filteredNames.length === totalCount
+              ? `${itemName}s in ${parentName}`
+              : `filtered ${itemName}s`}
           </Button>
         </>
       )}
