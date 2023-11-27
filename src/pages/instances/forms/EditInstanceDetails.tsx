@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Textarea } from "@canonical/react-components";
+import { Col, Input, Row } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useSettings } from "context/useSettings";
 import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
 import { isClusteredServer } from "util/settings";
-import { getTextareaRows } from "util/formFields";
+import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -55,7 +55,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
             required
             disabled={true}
           />
-          <Textarea
+          <AutoExpandingTextArea
             id="description"
             name="description"
             label="Description"
@@ -63,7 +63,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={getTextareaRows(formik.values.description?.length)}
+            dynamicHeight
             disabled={isReadOnly}
           />
         </Col>

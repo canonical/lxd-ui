@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { Col, Input, Row, Textarea } from "@canonical/react-components";
+import { Col, Input, Row } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
-import { getTextareaRows } from "util/formFields";
+import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 export interface ProfileDetailsFormValues {
   name: string;
@@ -49,7 +49,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             required
             disabled={isEdit}
           />
-          <Textarea
+          <AutoExpandingTextArea
             id="description"
             name="description"
             label="Description"
@@ -57,8 +57,8 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={getTextareaRows(formik.values.description?.length)}
             disabled={isReadOnly}
+            dynamicHeight
           />
         </Col>
       </Row>

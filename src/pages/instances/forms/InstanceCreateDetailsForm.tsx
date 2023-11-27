@@ -6,7 +6,6 @@ import {
   Input,
   Row,
   Select,
-  Textarea,
 } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
@@ -17,7 +16,7 @@ import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { LxdImageType, RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
-import { getTextareaRows } from "util/formFields";
+import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -89,7 +88,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
           />
-          <Textarea
+          <AutoExpandingTextArea
             id="description"
             name="description"
             label="Description"
@@ -97,7 +96,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={getTextareaRows(formik.values.description?.length)}
+            dynamicHeight
           />
         </Col>
       </Row>
