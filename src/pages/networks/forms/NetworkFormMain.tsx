@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Col, Input, Row, Select, Textarea } from "@canonical/react-components";
+import { Col, Input, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
@@ -8,7 +8,7 @@ import UplinkSelector from "pages/networks/forms/UplinkSelector";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
-import { getTextareaRows } from "util/formFields";
+import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -45,11 +45,11 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
                 : undefined
             }
           />
-          <Textarea
+          <AutoExpandingTextArea
             {...getFormProps("description")}
             label="Description"
             disabled={formik.values.readOnly}
-            rows={getTextareaRows(formik.values.description?.length)}
+            dynamicHeight
           />
           {formik.values.type === "ovn" && (
             <UplinkSelector

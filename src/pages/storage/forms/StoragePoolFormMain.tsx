@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Row, Input, Select, Col, Textarea } from "@canonical/react-components";
+import { Row, Input, Select, Col } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import {
   zfsDriver,
@@ -9,8 +9,8 @@ import {
   getSourceHelpForDriver,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
-import { getTextareaRows } from "util/formFields";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
+import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -44,11 +44,11 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               : undefined
           }
         />
-        <Textarea
+        <AutoExpandingTextArea
           {...getFormProps("description")}
           label="Description"
-          rows={getTextareaRows(formik.values.description?.length)}
           disabled={formik.values.isReadOnly}
+          dynamicHeight
         />
         <Select
           id="driver"

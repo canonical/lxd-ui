@@ -6,14 +6,13 @@ import {
   Input,
   Row,
   Select,
-  Textarea,
   Tooltip,
 } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
 import { isProjectEmpty } from "util/projects";
 import { LxdProject } from "types/project";
-import { getTextareaRows } from "util/formFields";
+import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -127,7 +126,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             }
             required
           />
-          <Textarea
+          <AutoExpandingTextArea
             id="description"
             name="description"
             label="Description"
@@ -135,8 +134,8 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            rows={getTextareaRows(formik.values.description?.length)}
             disabled={formik.values.readOnly}
+            dynamicHeight
           />
           <Select
             id="features"
