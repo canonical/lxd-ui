@@ -93,9 +93,13 @@ The tests expect the environment on localhost to be accessible. Execute `dotrun`
 
     npx playwright test
 
-Generate new tests with helper
+Generate new tests with helper [Doc](https://playwright.dev/docs/codegen)
 
     npx playwright codegen --ignore-https-errors https://localhost:8407/
+
+Explore and debug tests in UI mode [Doc](https://playwright.dev/docs/test-ui-mode)
+
+    npx playwright test --ui
 
 # Advanced setup
 
