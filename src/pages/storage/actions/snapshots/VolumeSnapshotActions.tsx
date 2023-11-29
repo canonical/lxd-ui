@@ -1,56 +1,48 @@
-import React, { FC, ReactNode, useState } from "react";
-import { LxdInstance, LxdSnapshot } from "types/instance";
-import { deleteSnapshot, restoreSnapshot } from "api/snapshots";
+import React, { FC, useState } from "react";
+import { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
+import {
+  deleteVolumeSnapshot,
+  restoreVolumeSnapshot,
+} from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import {
-  Button,
-  ConfirmationButton,
-  Icon,
-  List,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon, List } from "@canonical/react-components";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
-import ConfirmationForce from "components/ConfirmationForce";
-import EditSnapshot from "./EditSnapshot";
 import { useEventQueue } from "context/eventQueue";
+import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 
 interface Props {
-  instance: LxdInstance;
-  snapshot: LxdSnapshot;
-  onSuccess: (message: ReactNode) => void;
-  onFailure: (title: string, e: unknown) => void;
+  volume: LxdStorageVolume;
+  snapshot: LxdVolumeSnapshot;
+  onSuccess: (message: string) => void;
+  onFailure: (title: string, error: Error) => void;
 }
 
-const SnapshotActions: FC<Props> = ({
-  instance,
+const VolumeSnapshotActions: FC<Props> = ({
+  volume,
   snapshot,
   onSuccess,
   onFailure,
 }) => {
   const eventQueue = useEventQueue();
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
-  const [restoreState, setRestoreState] = useState(true);
   const queryClient = useQueryClient();
 
   const handleDelete = () => {
     setDeleting(true);
-    void deleteSnapshot(instance, snapshot).then((operation) =>
+    void deleteVolumeSnapshot(volume, snapshot).then((operation) =>
       eventQueue.set(
         operation.metadata.id,
-        () =>
-          onSuccess(
-            <>
-              Snapshot <ItemName item={snapshot} bold /> deleted.
-            </>,
-          ),
+        () => onSuccess(`Snapshot ${snapshot.name} deleted`),
         (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
         () => {
           setDeleting(false);
           void queryClient.invalidateQueries({
-            predicate: (query) => query.queryKey[0] === queryKeys.instances,
+            predicate: (query) =>
+              query.queryKey[0] === queryKeys.volumes ||
+              query.queryKey[0] === queryKeys.storage,
           });
         },
       ),
@@ -59,55 +51,38 @@ const SnapshotActions: FC<Props> = ({
 
   const handleRestore = () => {
     setRestoring(true);
-    void restoreSnapshot(instance, snapshot, restoreState).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () =>
-          onSuccess(
-            <>
-              Snapshot <ItemName item={snapshot} bold /> restored.
-            </>,
-          ),
-        (msg) => onFailure("Snapshot restore failed", new Error(msg)),
-        () => {
-          setRestoring(false);
-          void queryClient.invalidateQueries({
-            predicate: (query) => query.queryKey[0] === queryKeys.instances,
-          });
-        },
-      ),
-    );
+    void restoreVolumeSnapshot(volume, snapshot)
+      .then(() => {
+        onSuccess(`Snapshot ${snapshot.name} restored`);
+      })
+      .catch((error: Error) => {
+        onFailure("Snapshot restore failed", error);
+      })
+      .finally(() => {
+        setRestoring(false);
+        void queryClient.invalidateQueries({
+          predicate: (query) =>
+            query.queryKey[0] === queryKeys.volumes ||
+            query.queryKey[0] === queryKeys.storage,
+        });
+      });
   };
 
   return (
     <>
-      {isModalOpen && (
-        <EditSnapshot
-          instance={instance}
-          snapshot={snapshot}
-          close={() => setModalOpen(false)}
-          onSuccess={onSuccess}
-        />
-      )}
       <List
         inline
         className={classnames("u-no-margin--bottom", "actions-list", {
           "u-snapshot-actions": !isDeleting && !isRestoring,
         })}
         items={[
-          <Button
+          <VolumeEditSnapshotBtn
             key="edit"
-            appearance="base"
-            hasIcon
-            dense={true}
-            disabled={isDeleting || isRestoring}
-            onClick={() => setModalOpen(true)}
-            type="button"
-            aria-label="Edit snapshot"
-            title="Edit"
-          >
-            <Icon name="edit" />
-          </Button>,
+            volume={volume}
+            snapshot={snapshot}
+            isDeleting={isDeleting}
+            isRestoring={isRestoring}
+          />,
           <ConfirmationButton
             key="restore"
             appearance="base"
@@ -123,15 +98,8 @@ const SnapshotActions: FC<Props> = ({
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmExtra: snapshot.stateful ? (
-                <ConfirmationForce
-                  label="Restore the instance state"
-                  force={[restoreState, setRestoreState]}
-                />
-              ) : undefined,
               confirmButtonLabel: "Restore",
               confirmButtonAppearance: "positive",
-              close: () => setRestoreState(true),
               onConfirm: handleRestore,
             }}
             disabled={isDeleting || isRestoring}
@@ -169,4 +137,4 @@ const SnapshotActions: FC<Props> = ({
   );
 };
 
-export default SnapshotActions;
+export default VolumeSnapshotActions;

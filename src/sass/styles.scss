@@ -43,6 +43,7 @@
 @include vf-p-icon-units;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
+@include vf-p-icon-add-canvas;
 
 $border-thin: 1px solid $color-mid-light !default;
 
@@ -62,7 +63,6 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "instance_detail_overview";
 @import "instance_detail_page";
 @import "instance_detail_panel";
-@import "instance_detail_snapshots";
 @import "instance_detail_terminal";
 @import "instance_list";
 @import "network_detail_overview";
@@ -84,6 +84,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "scrollable_table";
 @import "selectable_main_table";
 @import "settings_page";
+@import "snapshots";
 @import "storage";
 @import "storage_detail_overview";
 @import "storage_pool_form";
@@ -206,6 +207,11 @@ $border-thin: 1px solid $color-mid-light !default;
 
 .u-flex-row-reverse {
   flex-direction: row-reverse;
+}
+
+.u-flex {
+  align-items: center;
+  display: flex;
 }
 
 .u-no-border {

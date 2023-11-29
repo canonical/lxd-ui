@@ -2,7 +2,7 @@ export interface LxdStoragePool {
   config?: {
     size?: string;
     source?: string;
-  } & Record<string, string | undefined>;
+  } & Record<string, string>;
   description: string;
   driver: string;
   locations?: string[];
@@ -13,6 +13,12 @@ export interface LxdStoragePool {
 }
 
 export type LxdStorageVolumeContentType = "filesystem" | "block" | "iso";
+
+export type LxdStorageVolumeType =
+  | "container"
+  | "virtual-machine"
+  | "image"
+  | "custom";
 
 export interface LxdStorageVolume {
   config: {
@@ -39,7 +45,7 @@ export interface LxdStorageVolume {
   name: string;
   pool: string;
   project: string;
-  type: string;
+  type: LxdStorageVolumeType;
   used_by?: string[];
   etag?: string;
 }
@@ -66,4 +72,11 @@ export interface UploadState {
   percentage: number;
   loaded: number;
   total?: number;
+}
+
+export interface LxdVolumeSnapshot {
+  name: string;
+  created_at: string;
+  expires_at: string;
+  description?: string;
 }

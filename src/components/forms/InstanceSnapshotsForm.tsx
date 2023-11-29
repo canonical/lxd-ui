@@ -30,7 +30,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const SnapshotsForm: FC<Props> = ({ formik }) => {
+const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
   return (
     <InstanceConfigurationTable
       rows={[
@@ -78,4 +78,4 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
   );
 };
 
-export default SnapshotsForm;
+export default InstanceSnapshotsForm;

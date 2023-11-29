@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from "react";
 import { LxdInstance } from "types/instance";
-import { deleteSnapshotBulk } from "api/snapshots";
+import { deleteInstanceSnapshotBulk } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralizeSnapshot } from "util/instanceBulkActions";
@@ -18,7 +18,7 @@ interface Props {
   onFailure: (title: string, e: unknown, message?: ReactNode) => void;
 }
 
-const SnapshotBulkDelete: FC<Props> = ({
+const InstanceSnapshotBulkDelete: FC<Props> = ({
   instance,
   snapshotNames,
   onStart,
@@ -35,7 +35,7 @@ const SnapshotBulkDelete: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    void deleteSnapshotBulk(instance, snapshotNames, eventQueue).then(
+    void deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue).then(
       (results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
@@ -104,4 +104,4 @@ const SnapshotBulkDelete: FC<Props> = ({
   );
 };
 
-export default SnapshotBulkDelete;
+export default InstanceSnapshotBulkDelete;

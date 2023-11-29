@@ -20,9 +20,9 @@ import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
 } from "components/forms/SecurityPoliciesForm";
-import SnapshotsForm, {
+import InstanceSnapshotsForm, {
   SnapshotFormValues,
-} from "components/forms/SnapshotsForm";
+} from "components/forms/InstanceSnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
 } from "components/forms/CloudInitForm";
@@ -189,7 +189,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
             )}
 
             {activeSection === slugify(SNAPSHOTS) && (
-              <SnapshotsForm formik={formik} />
+              <InstanceSnapshotsForm formik={formik} />
             )}
 
             {activeSection === slugify(CLOUD_INIT) && (

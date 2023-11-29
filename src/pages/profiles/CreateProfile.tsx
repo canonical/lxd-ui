@@ -21,10 +21,10 @@ import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
-import SnapshotsForm, {
+import InstanceSnapshotsForm, {
   SnapshotFormValues,
   snapshotsPayload,
-} from "components/forms/SnapshotsForm";
+} from "components/forms/InstanceSnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
   cloudInitPayload,
@@ -190,7 +190,7 @@ const CreateProfile: FC = () => {
               <SecurityPoliciesForm formik={formik} />
             )}
 
-            {section === SNAPSHOTS && <SnapshotsForm formik={formik} />}
+            {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

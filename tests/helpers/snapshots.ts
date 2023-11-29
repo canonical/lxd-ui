@@ -6,7 +6,7 @@ export const randomSnapshotName = (): string => {
   return `playwright-snapshot-${randomNameSuffix()}`;
 };
 
-export const createSnapshot = async (
+export const createInstanceSnapshot = async (
   page: Page,
   instance: string,
   snapshot: string,
@@ -29,7 +29,7 @@ export const createSnapshot = async (
   await page.waitForSelector(`text=Snapshot ${snapshot} created.`, TIMEOUT);
 };
 
-export const restoreSnapshot = async (page: Page, snapshot: string) => {
+export const restoreInstanceSnapshot = async (page: Page, snapshot: string) => {
   await page
     .getByRole("row", { name: "Name" })
     .filter({ hasText: snapshot })
@@ -47,7 +47,7 @@ export const restoreSnapshot = async (page: Page, snapshot: string) => {
   await page.waitForSelector(`text=Snapshot ${snapshot} restored.`, TIMEOUT);
 };
 
-export const editSnapshot = async (
+export const editInstanceSnapshot = async (
   page: Page,
   oldName: string,
   newName: string,
@@ -72,7 +72,7 @@ export const editSnapshot = async (
   await page.getByText("Apr 28, 2093, 12:23 PM").click();
 };
 
-export const deleteSnapshot = async (page: Page, snapshot: string) => {
+export const deleteInstanceSnapshot = async (page: Page, snapshot: string) => {
   await page
     .getByRole("row", { name: "Name" })
     .filter({ hasText: snapshot })
@@ -88,4 +88,82 @@ export const deleteSnapshot = async (page: Page, snapshot: string) => {
     .click();
 
   await page.waitForSelector(`text=Snapshot ${snapshot} deleted.`, TIMEOUT);
+};
+
+export const createStorageVolumeSnapshot = async (
+  page: Page,
+  volume: string,
+  snapshot: string,
+) => {
+  // Create snapshot
+  await page.getByRole("link", { name: volume }).click();
+  await page.getByTestId("tab-link-Snapshots").click();
+  await page.getByRole("button", { name: "Create snapshot" }).click();
+  await page.getByLabel("Snapshot name").click();
+  await page.getByLabel("Snapshot name").fill(snapshot);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForSelector(`text=Snapshot ${snapshot} created.`, TIMEOUT);
+};
+
+export const restoreStorageVolumeSnapshot = async (
+  page: Page,
+  snapshot: string,
+) => {
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .hover();
+  await page.getByRole("button", { name: "Restore" }).click();
+  await page
+    .getByRole("dialog", { name: "Confirm restore" })
+    .getByRole("button", { name: "Restore" })
+    .click();
+  await page.waitForSelector(`text=Snapshot ${snapshot} restored`, TIMEOUT);
+};
+
+export const editStorageVolumeSnapshot = async (
+  page: Page,
+  oldName: string,
+  newName: string,
+) => {
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: oldName })
+    .hover();
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: oldName })
+    .getByRole("button", { name: "Edit snapshot" })
+    .click();
+  await page.getByLabel("Snapshot name").click();
+  await page.getByLabel("Snapshot name").fill(newName);
+  await page.getByLabel("Expiry date").click();
+  await page.getByLabel("Expiry date").fill("2093-04-28");
+  await page.getByLabel("Expiry time").click();
+  await page.getByLabel("Expiry time").fill("12:23");
+  await page.getByRole("button", { name: "Save" }).click();
+  await page.getByText(`Snapshot ${newName} saved.`).click();
+  await page.getByText("Apr 28, 2093, 12:23 PM").click();
+  await page.waitForSelector(`text=Snapshot ${newName} saved.`, TIMEOUT);
+};
+
+export const deleteStorageVolumeSnapshot = async (
+  page: Page,
+  snapshot: string,
+) => {
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .hover();
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await page
+    .getByRole("dialog", { name: "Confirm delete" })
+    .getByRole("button", { name: "Delete" })
+    .click();
+
+  await page.waitForSelector(`text=Snapshot ${snapshot} deleted`, TIMEOUT);
 };

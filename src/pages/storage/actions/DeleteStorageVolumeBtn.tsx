@@ -77,6 +77,9 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
             project,
           ],
         });
+        void queryClient.invalidateQueries({
+          predicate: (query) => query.queryKey[0] === queryKeys.volumes,
+        });
       });
   };
 

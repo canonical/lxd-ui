@@ -10,6 +10,24 @@
   }
 }
 
+.storage-pool-table {
+  .size {
+    width: 14rem;
+  }
+
+  .actions {
+    width: 5rem;
+  }
+
+  button {
+    margin-top: -6px;
+  }
+
+  .p-meter {
+    margin-top: 4px;
+  }
+}
+
 .storage-volume-table {
   .used_by {
     width: 5rem;
@@ -21,6 +39,28 @@
 
   button {
     margin-top: -6px;
+  }
+
+  .volume-name-link {
+    max-width: 90%;
+  }
+
+  .storage-volume-actions button {
+    padding: 0;
+  }
+
+  @media screen and (pointer: fine) {
+    .storage-volume-actions {
+      visibility: hidden;
+    }
+
+    .u-row:hover {
+      background-color: $colors--light-theme--background-hover;
+
+      .storage-volume-actions {
+        visibility: visible;
+      }
+    }
   }
 }
 
@@ -45,23 +85,5 @@
 
   .actions-list {
     margin-top: -7px;
-  }
-}
-
-.storage-pool-table {
-  .size {
-    width: 14rem;
-  }
-
-  .actions {
-    width: 5rem;
-  }
-
-  button {
-    margin-top: -6px;
-  }
-
-  .p-meter {
-    margin-top: 4px;
   }
 }

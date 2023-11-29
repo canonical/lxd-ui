@@ -4,11 +4,11 @@ import {
   pushFailure,
   pushSuccess,
 } from "util/helpers";
-import { LxdInstance, LxdSnapshot } from "types/instance";
+import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
 
-export const createSnapshot = (
+export const createInstanceSnapshot = (
   instance: LxdInstance,
   name: string,
   expiresAt: string | null,
@@ -32,7 +32,7 @@ export const createSnapshot = (
   });
 };
 
-export const deleteSnapshot = (
+export const deleteInstanceSnapshot = (
   instance: LxdInstance,
   snapshot: { name: string },
 ): Promise<LxdOperationResponse> => {
@@ -49,7 +49,7 @@ export const deleteSnapshot = (
   });
 };
 
-export const deleteSnapshotBulk = (
+export const deleteInstanceSnapshotBulk = (
   instance: LxdInstance,
   snapshotNames: string[],
   eventQueue: EventQueue,
@@ -58,22 +58,24 @@ export const deleteSnapshotBulk = (
   return new Promise((resolve) => {
     void Promise.allSettled(
       snapshotNames.map(async (name) => {
-        return await deleteSnapshot(instance, { name }).then((operation) => {
-          eventQueue.set(
-            operation.metadata.id,
-            () => pushSuccess(results),
-            (msg) => pushFailure(results, msg),
-            () => continueOrFinish(results, snapshotNames.length, resolve),
-          );
-        });
+        return await deleteInstanceSnapshot(instance, { name }).then(
+          (operation) => {
+            eventQueue.set(
+              operation.metadata.id,
+              () => pushSuccess(results),
+              (msg) => pushFailure(results, msg),
+              () => continueOrFinish(results, snapshotNames.length, resolve),
+            );
+          },
+        );
       }),
     );
   });
 };
 
-export const restoreSnapshot = (
+export const restoreInstanceSnapshot = (
   instance: LxdInstance,
-  snapshot: LxdSnapshot,
+  snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
@@ -90,9 +92,9 @@ export const restoreSnapshot = (
   });
 };
 
-export const renameSnapshot = (
+export const renameInstanceSnapshot = (
   instance: LxdInstance,
-  snapshot: LxdSnapshot,
+  snapshot: LxdInstanceSnapshot,
   newName: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
@@ -111,9 +113,9 @@ export const renameSnapshot = (
   });
 };
 
-export const updateSnapshot = (
+export const updateInstanceSnapshot = (
   instance: LxdInstance,
-  snapshot: LxdSnapshot,
+  snapshot: LxdInstanceSnapshot,
   expiresAt: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {

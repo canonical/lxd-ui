@@ -3,56 +3,29 @@ import {
   Button,
   Col,
   Form,
-  Icon,
   Input,
-  List,
   Modal,
   Row,
-  Tooltip,
 } from "@canonical/react-components";
 import { getTomorrow } from "util/helpers";
 import SubmitButton from "components/SubmitButton";
-import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import { SnapshotFormValues } from "util/snapshots";
 import { FormikProps } from "formik/dist/types";
-import NotificationRow from "components/NotificationRow";
 
 interface Props {
   isEdit: boolean;
-  formik: FormikProps<SnapshotFormValues>;
+  formik: FormikProps<SnapshotFormValues<{ stateful?: boolean }>>;
   close: () => void;
-  isStateful: boolean;
-  isRunning?: boolean;
+  additionalFormInput?: JSX.Element;
 }
 
-const SnapshotForm: FC<Props> = ({
-  isEdit,
-  formik,
-  close,
-  isStateful,
-  isRunning,
-}) => {
+const SnapshotForm: FC<Props> = (props) => {
+  const { isEdit, formik, close, additionalFormInput } = props;
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Escape") {
       close();
     }
   };
-
-  const getStatefulInfo = () => {
-    if (isEdit || (isStateful && isRunning)) {
-      return "";
-    }
-    if (isStateful) {
-      return `To create a stateful snapshot,\nthe instance must be running`;
-    }
-    return (
-      <>
-        {`To create a stateful snapshot, the instance needs\n`}
-        the <code>migration.stateful</code> config set to true
-      </>
-    );
-  };
-  const statefulInfoMessage = getStatefulInfo();
 
   const submitForm = () => {
     void formik.submitForm();
@@ -83,7 +56,6 @@ const SnapshotForm: FC<Props> = ({
       }
       onKeyDown={handleEscKey}
     >
-      <NotificationRow />
       <Form onSubmit={formik.handleSubmit}>
         <Input
           id="name"
@@ -131,37 +103,7 @@ const SnapshotForm: FC<Props> = ({
             />
           </Col>
         </Row>
-        {!isEdit && (
-          <List
-            inline
-            items={[
-              <Input
-                key="stateful"
-                id="stateful"
-                name="stateful"
-                type="checkbox"
-                label="Stateful"
-                wrapperClassName="u-inline-block"
-                disabled={!isStateful || !isRunning}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                defaultChecked={formik.values.stateful}
-              />,
-              ...(statefulInfoMessage
-                ? [
-                    <Tooltip
-                      key="stateful-info"
-                      position="btm-left"
-                      message={statefulInfoMessage}
-                      zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
-                    >
-                      <Icon name="information" />
-                    </Tooltip>,
-                  ]
-                : []),
-            ]}
-          />
-        )}
+        {additionalFormInput}
       </Form>
     </Modal>
   );

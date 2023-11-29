@@ -4,14 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { fetchStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
 import StorageVolumeHeader from "pages/storage/StorageVolumeHeader";
 import StorageVolumeOverview from "pages/storage/StorageVolumeOverview";
 import StorageVolumeEdit from "pages/storage/forms/StorageVolumeEdit";
 import TabLinks from "components/TabLinks";
+import CustomLayout from "components/CustomLayout";
+import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
+import { fetchStorageVolume } from "api/storage-pools";
 
-const tabs: string[] = ["Overview", "Configuration"];
+const tabs: string[] = ["Overview", "Configuration", "Snapshots"];
 
 const StorageVolumeDetail: FC = () => {
   const notify = useNotify();
@@ -62,33 +64,36 @@ const StorageVolumeDetail: FC = () => {
   }
 
   return (
-    <main className="l-main">
-      <div className="p-panel">
-        <StorageVolumeHeader volume={volume} project={project} />
-        <div className="p-panel__content storage-volume-form">
-          <NotificationRow />
-          <Row>
-            <TabLinks
-              tabs={tabs}
-              activeTab={activeTab}
-              tabUrl={`/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`}
-            />
+    <CustomLayout
+      header={<StorageVolumeHeader volume={volume} project={project} />}
+      contentClassName="sotrage-volume-form"
+    >
+      <Row>
+        <TabLinks
+          tabs={tabs}
+          activeTab={activeTab}
+          tabUrl={`/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`}
+        />
+        <NotificationRow />
+        {!activeTab && (
+          <div role="tabpanel" aria-labelledby="overview">
+            <StorageVolumeOverview volume={volume} project={project} />
+          </div>
+        )}
 
-            {!activeTab && (
-              <div role="tabpanel" aria-labelledby="overview">
-                <StorageVolumeOverview volume={volume} project={project} />
-              </div>
-            )}
+        {activeTab === "configuration" && (
+          <div role="tabpanel" aria-labelledby="configuration">
+            <StorageVolumeEdit volume={volume} />
+          </div>
+        )}
 
-            {activeTab === "configuration" && (
-              <div role="tabpanel" aria-labelledby="configuration">
-                <StorageVolumeEdit volume={volume} />
-              </div>
-            )}
-          </Row>
-        </div>
-      </div>
-    </main>
+        {activeTab === "snapshots" && (
+          <div role="tabpanel" aria-labelledby="snapshots">
+            <StorageVolumeSnapshots volume={volume} />
+          </div>
+        )}
+      </Row>
+    </CustomLayout>
   );
 };
 

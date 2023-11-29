@@ -18,7 +18,11 @@ import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
 import { getVolumeKey } from "util/storageVolume";
-import { LxdStorageVolume, LxdStorageVolumeContentType } from "types/storage";
+import {
+  LxdStorageVolume,
+  LxdStorageVolumeContentType,
+  LxdStorageVolumeType,
+} from "types/storage";
 import { slugify } from "util/slugify";
 
 export interface StorageVolumeFormValues {
@@ -27,7 +31,7 @@ export interface StorageVolumeFormValues {
   pool: string;
   size?: string;
   content_type: LxdStorageVolumeContentType;
-  type: string;
+  type: LxdStorageVolumeType;
   security_shifted?: string;
   security_unmapped?: string;
   snapshots_expiry?: string;

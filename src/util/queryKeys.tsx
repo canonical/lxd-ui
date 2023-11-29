@@ -20,4 +20,5 @@ export const queryKeys = {
   state: "state",
   volumes: "volumes",
   warnings: "warnings",
+  snapshots: "snapshots",
 };

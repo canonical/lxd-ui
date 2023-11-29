@@ -1,60 +1,57 @@
-import React, { FC, KeyboardEvent, ReactNode } from "react";
+import React, { FC, KeyboardEvent } from "react";
 import { Button, Modal } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
-import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useQueryClient } from "@tanstack/react-query";
-import SnapshotsForm from "components/forms/SnapshotsForm";
-import { useParams } from "react-router-dom";
-import {
-  getInstanceEditValues,
-  getInstancePayload,
-  InstanceEditSchema,
-} from "util/instanceEdit";
 import SubmitButton from "components/SubmitButton";
-import { useEventQueue } from "context/eventQueue";
+import { LxdStorageVolume } from "types/storage";
+import {
+  StorageVolumeFormValues,
+  volumeFormToPayload,
+} from "pages/storage/forms/StorageVolumeForm";
+import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
+import { updateStorageVolume } from "api/storage-pools";
+import StorageVolumeSnapshotsForm from "../../forms/StorageVolumeSnapshotsForm";
 
 interface Props {
-  instance: LxdInstance;
+  volume: LxdStorageVolume;
   close: () => void;
-  onSuccess: (message: ReactNode) => void;
+  onSuccess: (message: string) => void;
   onFailure: (title: string, e: unknown) => void;
 }
 
-const ConfigureSnapshotModal: FC<Props> = ({
-  instance,
+const VolumeConfigureSnapshotModal: FC<Props> = ({
+  volume,
   close,
   onSuccess,
   onFailure,
 }) => {
-  const eventQueue = useEventQueue();
-  const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
 
-  const formik = useFormik<EditInstanceFormValues>({
-    initialValues: getInstanceEditValues(instance),
-    validationSchema: InstanceEditSchema,
+  const formik = useFormik<StorageVolumeFormValues>({
+    initialValues: getStorageVolumeEditValues(volume),
     onSubmit: (values) => {
-      const instancePayload = getInstancePayload(
-        instance,
-        values,
-      ) as LxdInstance;
-
-      void updateInstance(instancePayload, project ?? "").then((operation) => {
-        eventQueue.set(
-          operation.metadata.id,
-          () => onSuccess("Configuration updated."),
-          (msg) => onFailure("Configuration update failed", new Error(msg)),
-          () => {
-            close();
-            void queryClient.invalidateQueries({
-              queryKey: [queryKeys.instances],
-            });
-          },
-        );
-      });
+      const saveVolume = volumeFormToPayload(values, volume.project);
+      void updateStorageVolume(volume.pool, volume.project, {
+        ...saveVolume,
+        etag: volume.etag,
+      })
+        .then(() => {
+          onSuccess("Configuration updated.");
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.storage],
+            predicate: (query) =>
+              query.queryKey[0] === queryKeys.volumes ||
+              query.queryKey[0] === queryKeys.storage,
+          });
+        })
+        .catch((e: Error) => {
+          onFailure("Configuration update failed", e);
+        })
+        .finally(() => {
+          close();
+          formik.setSubmitting(false);
+        });
     },
   });
 
@@ -70,7 +67,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
       className="edit-snapshot-config"
       title="Snapshot configuration"
       buttonRow={
-        formik.values.readOnly ? (
+        formik.values.isReadOnly ? (
           <div className="u-space-between u-flex-row-reverse">
             <Button
               className="u-no-margin--bottom u-no-margin--right"
@@ -81,7 +78,7 @@ const ConfigureSnapshotModal: FC<Props> = ({
             <Button
               className="u-no-margin--bottom"
               type="button"
-              onClick={() => void formik.setFieldValue("readOnly", false)}
+              onClick={() => void formik.setFieldValue("isReadOnly", false)}
             >
               Edit configuration
             </Button>
@@ -108,9 +105,9 @@ const ConfigureSnapshotModal: FC<Props> = ({
       }
       onKeyDown={handleEscKey}
     >
-      <SnapshotsForm formik={formik} />
+      <StorageVolumeSnapshotsForm formik={formik} />
     </Modal>
   );
 };
 
-export default ConfigureSnapshotModal;
+export default VolumeConfigureSnapshotModal;
