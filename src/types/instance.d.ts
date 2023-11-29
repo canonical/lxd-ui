@@ -52,7 +52,7 @@ interface LxdInstanceState {
   status: string;
 }
 
-interface LxdSnapshot {
+interface LxdInstanceSnapshot {
   name: string;
   created_at: string;
   expires_at: string;
@@ -93,7 +93,7 @@ export interface LxdInstance {
   profiles: string[];
   project: string;
   restore?: string;
-  snapshots: LxdSnapshot[] | null;
+  snapshots: LxdInstanceSnapshot[] | null;
   state?: LxdInstanceState;
   stateful: boolean;
   status: LxdInstanceStatus;

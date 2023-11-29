@@ -5,25 +5,52 @@ import {
   randomInstanceName,
 } from "./helpers/instances";
 import {
-  createSnapshot,
-  deleteSnapshot,
-  editSnapshot,
+  createInstanceSnapshot,
+  deleteInstanceSnapshot,
+  editInstanceSnapshot,
   randomSnapshotName,
-  restoreSnapshot,
+  restoreInstanceSnapshot,
+  createStorageVolumeSnapshot,
+  restoreStorageVolumeSnapshot,
+  editStorageVolumeSnapshot,
+  deleteStorageVolumeSnapshot,
 } from "./helpers/snapshots";
+import {
+  createVolume,
+  deleteVolume,
+  randomVolumeName,
+} from "./helpers/storageVolume";
 
-test("snapshot create, restore, edit and remove", async ({ page }) => {
+test("instance snapshot create, restore, edit and remove", async ({ page }) => {
   const instance = randomInstanceName();
   await createInstance(page, instance);
 
   const snapshot = randomSnapshotName();
-  await createSnapshot(page, instance, snapshot);
-  await restoreSnapshot(page, snapshot);
+  await createInstanceSnapshot(page, instance, snapshot);
+  await restoreInstanceSnapshot(page, snapshot);
 
   const newName = `${snapshot}-rename`;
-  await editSnapshot(page, snapshot, newName);
+  await editInstanceSnapshot(page, snapshot, newName);
 
-  await deleteSnapshot(page, newName);
+  await deleteInstanceSnapshot(page, newName);
 
   await deleteInstance(page, instance);
+});
+
+test("custom storage volume snapshot create, restore, edit and remove", async ({
+  page,
+}) => {
+  const volume = randomVolumeName();
+  await createVolume(page, volume);
+
+  const snapshot = randomSnapshotName();
+  await createStorageVolumeSnapshot(page, volume, snapshot);
+  await restoreStorageVolumeSnapshot(page, snapshot);
+
+  const newName = `${snapshot}-rename`;
+  await editStorageVolumeSnapshot(page, snapshot, newName);
+
+  await deleteStorageVolumeSnapshot(page, newName);
+
+  await deleteVolume(page, volume);
 });

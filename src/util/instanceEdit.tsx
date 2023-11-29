@@ -6,7 +6,7 @@ import { getInstanceConfigKeys } from "util/instanceConfigFields";
 import { instanceEditDetailPayload } from "pages/instances/forms/EditInstanceDetails";
 import { resourceLimitsPayload } from "components/forms/ResourceLimitsForm";
 import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
-import { snapshotsPayload } from "components/forms/SnapshotsForm";
+import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
 import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";

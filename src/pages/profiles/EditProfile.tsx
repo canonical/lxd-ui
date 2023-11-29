@@ -20,10 +20,10 @@ import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
-import SnapshotsForm, {
+import InstanceSnapshotsForm, {
   SnapshotFormValues,
   snapshotsPayload,
-} from "components/forms/SnapshotsForm";
+} from "components/forms/InstanceSnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
   cloudInitPayload,
@@ -213,7 +213,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             )}
 
             {activeSection === slugify(SNAPSHOTS) && (
-              <SnapshotsForm formik={formik} />
+              <InstanceSnapshotsForm formik={formik} />
             )}
 
             {activeSection === slugify(CLOUD_INIT) && (

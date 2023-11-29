@@ -1,47 +1,18 @@
-import { LxdInstance } from "types/instance";
 import { AnyObject, TestFunction } from "yup";
-import {
-  AbortControllerState,
-  checkDuplicateName,
-  getTomorrow,
-} from "./helpers";
-import * as Yup from "yup";
+import { getTomorrow } from "./helpers";
+import { LxdProject } from "types/project";
 
-export interface SnapshotFormValues {
+/*** General snapshot utils ***/
+export type SnapshotFormValues<AdditionalProps = unknown> = {
   name: string;
-  stateful: boolean;
   expirationDate: string | null;
   expirationTime: string | null;
-}
-
-export const isInstanceStateful = (instance: LxdInstance) => {
-  return Boolean(instance.config["migration.stateful"]);
+} & {
+  [K in keyof AdditionalProps]: AdditionalProps[K];
 };
 
 export const getExpiresAt = (expirationDate: string, expirationTime: string) =>
   `${expirationDate}T${expirationTime}`;
-
-export const testDuplicateSnapshotName = (
-  instance: LxdInstance,
-  controllerState: AbortControllerState,
-  excludeName?: string,
-): [string, string, TestFunction<string | undefined, AnyObject>] => {
-  return [
-    "deduplicate",
-    "Snapshot name already in use",
-    (value?: string) => {
-      return (
-        (excludeName && value === excludeName) ||
-        checkDuplicateName(
-          value,
-          instance.project,
-          controllerState,
-          `instances/${instance.name}/snapshots`,
-        )
-      );
-    },
-  ];
-};
 
 export const testValidDate = (): [
   string,
@@ -98,29 +69,19 @@ export const testValidTime = (): [
   ];
 };
 
-export const getSnapshotSchema = (
-  instance: LxdInstance,
-  controllerState: AbortControllerState,
-  snapshotName?: string,
-) => {
-  return Yup.object().shape({
-    name: Yup.string()
-      .test(
-        ...testDuplicateSnapshotName(instance, controllerState, snapshotName),
-      )
-      .matches(/^[A-Za-z0-9-_.:]+$/, {
-        message:
-          "Please enter only alphanumeric characters, underscores (_), periods (.), hyphens (-), and colons (:) in this field",
-      }),
-    expirationDate: Yup.string()
-      .nullable()
-      .optional()
-      .test(...testValidDate())
-      .test(...testFutureDate()),
-    expirationTime: Yup.string()
-      .nullable()
-      .optional()
-      .test(...testValidTime()),
-    stateful: Yup.boolean(),
-  });
+export const isSnapshotsDisabled = (project?: LxdProject) => {
+  if (!project) {
+    return false;
+  }
+
+  if (project.config["restricted"] === "true") {
+    if (
+      !project.config["restricted.snapshots"] ||
+      project.config["restricted.snapshots"] === "block"
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 };

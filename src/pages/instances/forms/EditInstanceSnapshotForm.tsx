@@ -1,33 +1,37 @@
 import React, { FC, ReactNode, useState } from "react";
+import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
+import SnapshotForm from "components/forms/SnapshotForm";
+import { useNotify } from "@canonical/react-components";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  renameInstanceSnapshot,
+  updateInstanceSnapshot,
+} from "api/instance-snapshots";
+import ItemName from "components/ItemName";
+import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import {
   UNDEFINED_DATE,
   getBrowserFormatDate,
   stringToIsoTime,
 } from "util/helpers";
-import { renameSnapshot, updateSnapshot } from "api/snapshots";
+import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
-import { useQueryClient } from "@tanstack/react-query";
-import { LxdInstance, LxdSnapshot } from "types/instance";
-import ItemName from "components/ItemName";
-import {
-  SnapshotFormValues,
-  getExpiresAt,
-  getSnapshotSchema,
-  isInstanceStateful,
-} from "util/snapshots";
-import SnapshotForm from "./SnapshotForm";
-import { useNotify } from "@canonical/react-components";
-import { useEventQueue } from "context/eventQueue";
+import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 
 interface Props {
   instance: LxdInstance;
-  snapshot: LxdSnapshot;
+  snapshot: LxdInstanceSnapshot;
   close: () => void;
   onSuccess: (message: ReactNode) => void;
 }
 
-const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
+const EditInstanceSnapshotForm: FC<Props> = ({
+  instance,
+  snapshot,
+  close,
+  onSuccess,
+}) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -49,22 +53,23 @@ const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
     const targetSnapshot = newName
       ? ({
           name: newName,
-        } as LxdSnapshot)
+        } as LxdInstanceSnapshot)
       : snapshot;
-    void updateSnapshot(instance, targetSnapshot, expiresAt).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () => notifyUpdateSuccess(newName ?? snapshot.name),
-        (msg) => {
-          notify.failure("Snapshot update failed", new Error(msg));
-          formik.setSubmitting(false);
-        },
-      ),
+    void updateInstanceSnapshot(instance, targetSnapshot, expiresAt).then(
+      (operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () => notifyUpdateSuccess(newName ?? snapshot.name),
+          (msg) => {
+            notify.failure("Snapshot update failed", new Error(msg));
+            formik.setSubmitting(false);
+          },
+        ),
     );
   };
 
   const rename = (newName: string, expiresAt?: string) => {
-    void renameSnapshot(instance, snapshot, newName).then((operation) =>
+    void renameInstanceSnapshot(instance, snapshot, newName).then((operation) =>
       eventQueue.set(
         operation.metadata.id,
         () => {
@@ -89,7 +94,7 @@ const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
           .slice(0, 16)
           .split(" ");
 
-  const formik = useFormik<SnapshotFormValues>({
+  const formik = useFormik<SnapshotFormValues<{ stateful?: boolean }>>({
     initialValues: {
       name: snapshot.name,
       stateful: snapshot.stateful,
@@ -97,7 +102,7 @@ const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
       expirationTime: expiryTime,
     },
     validateOnMount: true,
-    validationSchema: getSnapshotSchema(
+    validationSchema: getInstanceSnapshotSchema(
       instance,
       controllerState,
       snapshot.name,
@@ -123,14 +128,7 @@ const EditSnapshot: FC<Props> = ({ instance, snapshot, close, onSuccess }) => {
     },
   });
 
-  return (
-    <SnapshotForm
-      isEdit
-      formik={formik}
-      close={close}
-      isStateful={isInstanceStateful(instance)}
-    />
-  );
+  return <SnapshotForm isEdit formik={formik} close={close} />;
 };
 
-export default EditSnapshot;
+export default EditInstanceSnapshotForm;

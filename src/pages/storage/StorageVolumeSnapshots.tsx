@@ -1,64 +1,80 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
-  NotificationType,
   SearchBox,
-  failure,
-  success,
+  useNotify,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
-import { LxdInstance } from "types/instance";
-import NotificationRowLegacy from "components/NotificationRowLegacy";
-import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
+import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
 import useEventListener from "@use-it/event-listener";
 import Pagination from "components/Pagination";
 import { usePagination } from "util/pagination";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
-import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
 import Loader from "components/Loader";
 import { useProject } from "context/project";
 import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { useDocs } from "context/useDocs";
-import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigureSnapshotsBtn";
-import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
+import { LxdStorageVolume } from "types/storage";
+import VolumeSnapshotBulkDelete from "./actions/snapshots/VolumeSnapshotBulkDelete";
+import VolumeAddSnapshotBtn from "./actions/snapshots/VolumeAddSnapshotBtn";
+import VolumeConfigureSnapshotBtn from "./actions/snapshots/VolumeConfigureSnapshotBtn";
+import { fetchStorageVolumeSnapshots } from "api/volume-snapshots";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 import { isSnapshotsDisabled } from "util/snapshots";
-
-const collapsedViewMaxWidth = 1250;
-export const figureCollapsedScreen = (): boolean =>
-  window.innerWidth <= collapsedViewMaxWidth;
+import { figureCollapsedScreen } from "util/storageVolume";
 
 interface Props {
-  instance: LxdInstance;
+  volume: LxdStorageVolume;
 }
 
-const InstanceSnapshots = (props: Props) => {
-  const { instance } = props;
+const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
-  const [inTabNotification, setInTabNotification] =
-    useState<NotificationType | null>(null);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
+  const notify = useNotify();
+  const { project, isLoading: isProjectLoading } = useProject();
 
-  const onSuccess = (message: ReactNode) => {
-    setInTabNotification(success(message));
+  const {
+    data: volumeSnapshots,
+    error,
+    isLoading: isSnapshotsLoading,
+  } = useQuery({
+    queryKey: [
+      queryKeys.storage,
+      queryKeys.snapshots,
+      volume.pool,
+      volume.project,
+      volume.type,
+      volume.name,
+    ],
+    queryFn: () =>
+      fetchStorageVolumeSnapshots({
+        pool: volume.pool,
+        project: volume.project,
+        type: volume.type,
+        volumeName: volume.name,
+      }),
+  });
+
+  const onSuccess = (message: string) => {
+    notify.queue(notify.success(message));
   };
 
-  const onFailure = (title: string, e: unknown, message?: ReactNode) => {
-    setInTabNotification(failure(title, e, message));
+  const onFailure = (title: string, error: unknown, message?: ReactNode) => {
+    notify.failure(title, error, message);
   };
-
-  const { project, isLoading } = useProject();
 
   const snapshotsDisabled = isSnapshotsDisabled(project);
 
   useEffect(() => {
     const validNames = new Set(
-      instance.snapshots?.map((snapshot) => snapshot.name),
+      volumeSnapshots?.map((snapshot) => snapshot.name),
     );
     const validSelections = selectedNames.filter((name) =>
       validNames.has(name),
@@ -66,10 +82,10 @@ const InstanceSnapshots = (props: Props) => {
     if (validSelections.length !== selectedNames.length) {
       setSelectedNames(validSelections);
     }
-  }, [instance.snapshots]);
+  }, [volumeSnapshots, selectedNames]);
 
   const filteredSnapshots =
-    instance.snapshots?.filter((item) => {
+    volumeSnapshots?.filter((item) => {
       if (query) {
         if (!item.name.toLowerCase().includes(query.toLowerCase())) {
           return false;
@@ -78,7 +94,7 @@ const InstanceSnapshots = (props: Props) => {
       return true;
     }) ?? [];
 
-  const hasSnapshots = instance.snapshots && instance.snapshots.length > 0;
+  const hasSnapshots = volumeSnapshots && volumeSnapshots.length > 0;
 
   const headers = [
     {
@@ -108,14 +124,13 @@ const InstanceSnapshots = (props: Props) => {
       sortKey: "expires_at",
       className: "expiration",
     },
-    { content: "Stateful", sortKey: "stateful", className: "stateful" },
     { "aria-label": "Actions", className: "actions" },
   ];
 
   const rows = filteredSnapshots.map((snapshot) => {
     const actions = (
-      <InstanceSnapshotActions
-        instance={instance}
+      <VolumeSnapshotActions
+        volume={volume}
         snapshot={snapshot}
         onSuccess={onSuccess}
         onFailure={onFailure}
@@ -160,12 +175,6 @@ const InstanceSnapshots = (props: Props) => {
           className: "expiration",
         },
         {
-          content: snapshot.stateful ? "Yes" : "No",
-          role: "rowheader",
-          "aria-label": "Stateful",
-          className: "stateful",
-        },
-        {
           content: actions,
           role: "rowheader",
           "aria-label": "Actions",
@@ -176,7 +185,6 @@ const InstanceSnapshots = (props: Props) => {
         name: snapshot.name.toLowerCase(),
         created_at: snapshot.created_at,
         expires_at: snapshot.expires_at,
-        stateful: snapshot.stateful,
       },
     };
   });
@@ -188,9 +196,17 @@ const InstanceSnapshots = (props: Props) => {
   };
   useEventListener("resize", resize);
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  if (error) {
+    notify.failure("Loading storage volume snapshots failed", error);
+  }
+
+  if (isSnapshotsLoading || isProjectLoading) {
+    return <Loader text="Loading storage volume snapshots..." />;
+  } else if (!volumeSnapshots) {
+    return <>Loading storage volume snapshots failed</>;
+  }
+
+  return (
     <div className="snapshot-list">
       {hasSnapshots && (
         <div className="upper-controls-bar">
@@ -209,24 +225,22 @@ const InstanceSnapshots = (props: Props) => {
                   aria-label="Search for snapshots"
                 />
               </div>
-              <InstanceConfigureSnapshotsBtn
-                instance={instance}
+              <VolumeConfigureSnapshotBtn
+                volume={volume}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
                 className="u-no-margin--right"
-                onFailure={onFailure}
-                onSuccess={onSuccess}
               />
-              <InstanceAddSnapshotBtn
-                instance={instance}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
+              <VolumeAddSnapshotBtn
+                volume={volume}
                 className="u-float-right"
                 isDisabled={snapshotsDisabled}
               />
             </>
           ) : (
             <div className="p-panel__controls">
-              <InstanceSnapshotBulkDelete
-                instance={instance}
+              <VolumeSnapshotBulkDelete
+                volume={volume}
                 snapshotNames={selectedNames}
                 onStart={() => setProcessingNames(selectedNames)}
                 onFinish={() => setProcessingNames([])}
@@ -237,27 +251,24 @@ const InstanceSnapshots = (props: Props) => {
           )}
         </div>
       )}
-      <NotificationRowLegacy
-        notification={inTabNotification}
-        onDismiss={() => setInTabNotification(null)}
-      />
+
       {hasSnapshots ? (
         <>
           <Pagination
             {...pagination}
             id="pagination"
-            totalCount={instance.snapshots?.length ?? 0}
+            totalCount={volumeSnapshots.length ?? 0}
             visibleCount={
-              filteredSnapshots.length === instance.snapshots?.length
+              filteredSnapshots.length === volumeSnapshots.length
                 ? pagination.pageData.length
                 : filteredSnapshots.length
             }
             selectedNotification={
               selectedNames.length > 0 && (
                 <SelectedTableNotification
-                  totalCount={instance.snapshots?.length ?? 0}
+                  totalCount={volumeSnapshots.length ?? 0}
                   itemName="snapshot"
-                  parentName="instance"
+                  parentName="volume"
                   selectedNames={selectedNames}
                   setSelectedNames={setSelectedNames}
                   filteredNames={filteredSnapshots.map((item) => item.name)}
@@ -266,9 +277,7 @@ const InstanceSnapshots = (props: Props) => {
             }
             keyword="snapshot"
           />
-          <ScrollableTable
-            dependencies={[filteredSnapshots, inTabNotification]}
-          >
+          <ScrollableTable dependencies={[filteredSnapshots]}>
             <SelectableMainTable
               headers={headers}
               rows={pagination.pageData}
@@ -299,7 +308,7 @@ const InstanceSnapshots = (props: Props) => {
                 <ItemName item={project} bold />.
               </>
             ) : (
-              "There are no snapshots of this instance."
+              "There are no snapshots for this volume."
             )}
           </p>
           <p>
@@ -312,16 +321,14 @@ const InstanceSnapshots = (props: Props) => {
               <Icon className="external-link-icon" name="external-link" />
             </a>
           </p>
-          <InstanceConfigureSnapshotsBtn
-            instance={instance}
-            onFailure={onFailure}
+          <VolumeConfigureSnapshotBtn
+            volume={volume}
             onSuccess={onSuccess}
+            onFailure={onFailure}
             isDisabled={snapshotsDisabled}
           />
-          <InstanceAddSnapshotBtn
-            instance={instance}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
+          <VolumeAddSnapshotBtn
+            volume={volume}
             className="empty-state-button"
             isDisabled={snapshotsDisabled}
           />
@@ -331,4 +338,4 @@ const InstanceSnapshots = (props: Props) => {
   );
 };
 
-export default InstanceSnapshots;
+export default StorageVolumeSnapshots;

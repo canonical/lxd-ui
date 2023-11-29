@@ -2,7 +2,7 @@ import {
   AbortControllerState,
   capitalizeFirstLetter,
   checkDuplicateName,
-} from "util/helpers";
+} from "./helpers";
 import { AnyObject, TestContext, TestFunction } from "yup";
 import { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
@@ -86,12 +86,11 @@ export const getLxdDefault = (
 };
 
 export const volumeTypeForDisplay = (volume: LxdStorageVolume) => {
-  const typePrefix =
+  const volumeDisplayName =
     volume.type === "virtual-machine"
       ? "VM"
       : capitalizeFirstLetter(volume.type);
-  const typeSuffix = volume.name.includes("/") ? " (snapshot)" : "";
-  return `${typePrefix}${typeSuffix}`;
+  return volumeDisplayName;
 };
 
 export const contentTypeForDisplay = (volume: LxdStorageVolume) => {
@@ -99,3 +98,37 @@ export const contentTypeForDisplay = (volume: LxdStorageVolume) => {
     ? "ISO"
     : capitalizeFirstLetter(volume.content_type);
 };
+
+export const isSnapshot = (volume: LxdStorageVolume) => {
+  return volume.name.includes("/");
+};
+
+export const splitVolumeSnapshotName = (fullVolumeName: string) => {
+  const fullVolumeNameSplit = fullVolumeName.split("/");
+  const snapshotName = fullVolumeNameSplit.pop() || "";
+  const volumeName = fullVolumeNameSplit.join("");
+  return {
+    snapshotName,
+    volumeName,
+  };
+};
+
+export const getSnapshotsPerVolume = (volumes: LxdStorageVolume[]) => {
+  const snapshotPerVolumeLookup: { [volumeName: string]: string[] } = {};
+  for (const volume of volumes) {
+    if (isSnapshot(volume)) {
+      const { volumeName, snapshotName } = splitVolumeSnapshotName(volume.name);
+      if (!snapshotPerVolumeLookup[volumeName]) {
+        snapshotPerVolumeLookup[volumeName] = [];
+      }
+
+      snapshotPerVolumeLookup[volumeName].push(snapshotName);
+    }
+  }
+
+  return snapshotPerVolumeLookup;
+};
+
+const collapsedViewMaxWidth = 1250;
+export const figureCollapsedScreen = (): boolean =>
+  window.innerWidth <= collapsedViewMaxWidth;

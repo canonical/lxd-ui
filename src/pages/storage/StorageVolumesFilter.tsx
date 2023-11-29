@@ -22,13 +22,7 @@ interface Props {
   volumes: LxdStorageVolume[];
 }
 
-const volumeTypes: string[] = [
-  "Container",
-  "VM",
-  "Snapshot",
-  "Image",
-  "Custom",
-];
+const volumeTypes: string[] = ["Container", "VM", "Image", "Custom"];
 
 export const QUERY = "query";
 export const POOL = "pool";
