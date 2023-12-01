@@ -31,7 +31,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_cluster_groups",
           label: "Cluster groups targeting",
           defaultValue: "",
@@ -39,7 +39,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_cluster_target",
           label: "Direct cluster targeting",
           defaultValue: "",

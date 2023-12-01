@@ -17,7 +17,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getNetworkConfigurationRow({
-          formik: formik,
+          formik,
           name: "ipv4_dhcp",
           label: "IPv4 DHCP",
           defaultValue: "",
@@ -27,7 +27,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
         ...(formik.values.type !== "ovn" && hasDhcp
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv4_dhcp_expiry",
                 label: "IPv4 DHCP expiry",
                 help: "When to expire DHCP leases",
@@ -36,7 +36,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
               }),
 
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv4_dhcp_ranges",
                 label: "IPv4 DHCP ranges",
                 help: "Comma-separated list of IP ranges to use for DHCP (FIRST-LAST format)",
@@ -49,7 +49,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
         ...(formik.values.type === "ovn"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv4_l3only",
                 label: "IPv4 L3 only",
                 defaultValue: "",
@@ -61,7 +61,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
         ...(formik.values.type !== "ovn"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv4_ovn_ranges",
                 label: "IPv4 OVN ranges",
                 help: "Comma-separated list of IPv4 ranges to use for child OVN network routers (FIRST-LAST format)",

@@ -14,7 +14,7 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "Block filesystem",
           name: "block_filesystem",
           defaultValue: "",
@@ -44,7 +44,7 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "Block mount options",
           name: "block_mount_options",
           defaultValue: "",

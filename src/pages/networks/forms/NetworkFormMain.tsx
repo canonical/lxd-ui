@@ -63,7 +63,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
       <ConfigurationTable
         rows={[
           getNetworkConfigurationRow({
-            formik: formik,
+            formik,
             name: "ipv4_address",
             label: "IPv4 address",
             defaultValue: "auto",
@@ -93,7 +93,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
           ...(formik.values.ipv4_address !== "none"
             ? [
                 getNetworkConfigurationRow({
-                  formik: formik,
+                  formik,
                   name: "ipv4_nat",
                   label: "IPv4 NAT",
                   defaultValue: "",
@@ -103,7 +103,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
             : []),
 
           getNetworkConfigurationRow({
-            formik: formik,
+            formik,
             name: "ipv6_address",
             label: "IPv6 address",
             defaultValue: "auto",
@@ -135,7 +135,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
           ...(formik.values.ipv6_address !== "none"
             ? [
                 getNetworkConfigurationRow({
-                  formik: formik,
+                  formik,
                   name: "ipv6_nat",
                   label: "IPv6 NAT",
                   defaultValue: "",

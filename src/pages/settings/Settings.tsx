@@ -68,7 +68,7 @@ const Settings: FC = () => {
     key: "user.ui_title",
     category: "user",
     default: "",
-    shortdesc: "Title for LXD-UI in the browser. Shows hostname when unset.",
+    shortdesc: "Title for the LXD-UI web page. Shows the hostname when unset.",
     type: "string",
   });
 
@@ -141,7 +141,7 @@ const Settings: FC = () => {
             href={`${docBaseLink}/server/`}
             title="Learn more about server configuration"
           >
-            Server settings
+            Settings
           </HelpLink>
         }
         contentClassName="settings"

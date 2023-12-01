@@ -46,7 +46,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
         }
         rows={[
           getInstanceConfigurationRow({
-            formik: formik,
+            formik,
             label: "Network config",
             name: "cloud_init_network_config",
             defaultValue: "\n\n",
@@ -62,7 +62,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           }),
 
           getInstanceConfigurationRow({
-            formik: formik,
+            formik,
             label: "User data",
             name: "cloud_init_user_data",
             defaultValue: "\n\n",
@@ -78,7 +78,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           }),
 
           getInstanceConfigurationRow({
-            formik: formik,
+            formik,
             label: "Vendor data",
             name: "cloud_init_vendor_data",
             defaultValue: "\n\n",

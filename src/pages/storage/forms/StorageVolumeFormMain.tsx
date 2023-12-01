@@ -95,7 +95,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
         <ConfigurationTable
           rows={[
             getStorageConfigurationRow({
-              formik: formik,
+              formik,
               label: "Security shifted",
               name: "security_shifted",
               defaultValue: "",
@@ -107,7 +107,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             }),
 
             getStorageConfigurationRow({
-              formik: formik,
+              formik,
               label: "Security unmapped",
               name: "security_unmapped",
               defaultValue: "",

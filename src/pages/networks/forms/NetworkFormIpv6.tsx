@@ -17,7 +17,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getNetworkConfigurationRow({
-          formik: formik,
+          formik,
           name: "ipv6_dhcp",
           label: "IPv6 DHCP",
           defaultValue: "",
@@ -27,7 +27,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
         ...(hasDhcp && formik.values.type !== "ovn"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv6_dhcp_expiry",
                 label: "IPv6 DHCP expiry",
                 help: "When to expire DHCP leases",
@@ -36,7 +36,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
               }),
 
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv6_dhcp_ranges",
                 label: "IPv6 DHCP ranges",
                 help: "Comma-separated list of IPv6 ranges to use for DHCP (FIRST-LAST format)",
@@ -49,7 +49,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
         ...(hasDhcp
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv6_dhcp_stateful",
                 label: "IPv6 DHCP stateful",
                 defaultValue: "",
@@ -61,7 +61,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
         ...(formik.values.type === "ovn"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv6_l3only",
                 label: "IPv6 L3 only",
                 defaultValue: "",
@@ -73,7 +73,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
         ...(formik.values.type !== "ovn"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "ipv6_ovn_ranges",
                 label: "IPv6 OVN ranges",
                 help: "Comma-separated list of IPv6 ranges to use for child OVN network routers (FIRST-LAST format)",
