@@ -49,27 +49,31 @@ const ProjectForm: FC<Props> = ({
         isRestrictionsDisabled={!formik.values.restricted}
         toggleRestrictionsOpen={toggleMenu}
       />
-      <Row className="form-contents" key={section}>
-        <Col size={12}>
-          <NotificationRow />
-          {section === PROJECT_DETAILS && (
-            <ProjectDetailsForm
-              formik={formik}
-              project={project}
-              isEdit={isEdit}
-            />
-          )}
-          {section === RESOURCE_LIMITS && (
-            <ProjectResourceLimitsForm formik={formik} />
-          )}
-          {section === CLUSTERS && <ClusterRestrictionForm formik={formik} />}
-          {section === INSTANCES && <InstanceRestrictionForm formik={formik} />}
-          {section === DEVICE_USAGE && (
-            <DeviceUsageRestrictionForm formik={formik} />
-          )}
-          {section === NETWORKS && <NetworkRestrictionForm formik={formik} />}
-        </Col>
-      </Row>
+      <div className="details-form-wrapper">
+        <NotificationRow />
+        <Row className="form-contents" key={section}>
+          <Col size={12}>
+            {section === PROJECT_DETAILS && (
+              <ProjectDetailsForm
+                formik={formik}
+                project={project}
+                isEdit={isEdit}
+              />
+            )}
+            {section === RESOURCE_LIMITS && (
+              <ProjectResourceLimitsForm formik={formik} />
+            )}
+            {section === CLUSTERS && <ClusterRestrictionForm formik={formik} />}
+            {section === INSTANCES && (
+              <InstanceRestrictionForm formik={formik} />
+            )}
+            {section === DEVICE_USAGE && (
+              <DeviceUsageRestrictionForm formik={formik} />
+            )}
+            {section === NETWORKS && <NetworkRestrictionForm formik={formik} />}
+          </Col>
+        </Row>
+      </div>
     </Form>
   );
 };

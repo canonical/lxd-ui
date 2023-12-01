@@ -299,3 +299,9 @@
   overflow: auto;
   padding-right: $sph--large;
 }
+
+.details-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
