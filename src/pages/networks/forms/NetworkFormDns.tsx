@@ -14,7 +14,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getNetworkConfigurationRow({
-          formik: formik,
+          formik,
           name: "dns_domain",
           label: "DNS domain",
           help: "Domain to advertise to DHCP clients and use for DNS resolution",
@@ -25,7 +25,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
         ...(formik.values.type === "bridge"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "dns_mode",
                 label: "DNS mode",
                 defaultValue: "",
@@ -57,7 +57,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
           : []),
 
         getNetworkConfigurationRow({
-          formik: formik,
+          formik,
           name: "dns_search",
           label: "DNS search",
           help: "Full comma-separated domain search list, defaulting to DNS domain value",

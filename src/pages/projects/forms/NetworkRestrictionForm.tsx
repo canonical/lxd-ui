@@ -37,7 +37,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_network_access",
           label: "Available networks",
           defaultValue: "",
@@ -45,7 +45,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_network_subnets",
           label: "Network subnets",
           defaultValue: "",
@@ -53,7 +53,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_network_uplinks",
           label: "Network uplinks",
           defaultValue: "",
@@ -61,7 +61,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_network_zones",
           label: "Network zones",
           defaultValue: "",

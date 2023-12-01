@@ -48,7 +48,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_cpu",
           label: "Exposed CPU limit",
           defaultValue: DEFAULT_CPU_LIMIT,
@@ -65,7 +65,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_memory",
           label: "Memory limit",
           defaultValue: DEFAULT_MEM_LIMIT,
@@ -82,7 +82,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
           defaultValue: "",
@@ -97,7 +97,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_disk_priority",
           label: "Disk priority",
           defaultValue: "",
@@ -105,7 +105,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_processes",
           label: "Max number of processes (Containers only)",
           defaultValue: "",

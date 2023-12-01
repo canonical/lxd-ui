@@ -15,7 +15,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "ZFS blocksize",
           name: "zfs_blocksize",
           defaultValue: "",
@@ -57,7 +57,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "ZFS block mode",
           name: "zfs_block_mode",
           defaultValue: "",
@@ -66,7 +66,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "ZFS delegate",
           name: "zfs_delegate",
           defaultValue: "",
@@ -75,7 +75,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "ZFS remove snapshots",
           name: "zfs_remove_snapshots",
           defaultValue: "",
@@ -84,7 +84,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "ZFS use refquota",
           name: "zfs_use_refquota",
           defaultValue: "",
@@ -93,7 +93,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "ZFS reserve space",
           name: "zfs_reserve_space",
           defaultValue: "",

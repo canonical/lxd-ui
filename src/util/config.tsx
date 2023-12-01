@@ -100,7 +100,8 @@ export const configDescriptionToHtml = (input: string, docBaseLink: string) => {
 
   // code blocks
   let count = 0;
-  while (result.includes("`") && count++ < 100) {
+  const maxCodeblockReplacementCount = 100; // avoid infinite loop
+  while (result.includes("`") && count++ < maxCodeblockReplacementCount) {
     result = result.replace("`", "<code>").replace("`", "</code>");
   }
 

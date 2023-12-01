@@ -18,7 +18,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
           defaultValue: "",
@@ -44,7 +44,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "Expire after",
           name: "snapshots_expiry",
           help: "Controls when snapshots are to be deleted",
@@ -59,7 +59,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
         }),
 
         getStorageConfigurationRow({
-          formik: formik,
+          formik,
           label: "Schedule",
           name: "snapshots_schedule",
           defaultValue: "",

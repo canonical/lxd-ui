@@ -41,7 +41,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_instances",
           label: "Max number of instances",
           defaultValue: "",
@@ -49,7 +49,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_containers",
           label: "Max number of containers",
           defaultValue: "",
@@ -57,7 +57,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_virtual_machines",
           label: "Max number of VMs",
           defaultValue: "",
@@ -65,7 +65,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_disk",
           label: "Max disk space (used by all instances)",
           defaultValue: "",
@@ -79,7 +79,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_networks",
           label: "Max number of networks",
           defaultValue: "",
@@ -87,7 +87,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_cpu",
           label: "Max sum of CPU",
           defaultValue: "",
@@ -95,7 +95,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_memory",
           label: "Max sum of memory limits",
           defaultValue: "",
@@ -103,7 +103,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "limits_processes",
           label: "Max sum of processes",
           defaultValue: "-",

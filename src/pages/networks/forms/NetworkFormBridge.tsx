@@ -14,7 +14,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
     <ConfigurationTable
       rows={[
         getNetworkConfigurationRow({
-          formik: formik,
+          formik,
           name: "bridge_mtu",
           label: "MTU",
           help: "Bridge MTU (default varies if tunnel or fan setup)",
@@ -23,7 +23,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
         }),
 
         getNetworkConfigurationRow({
-          formik: formik,
+          formik,
           name: "bridge_hwaddr",
           label: "Hardware address",
           help: "MAC address for the bridge",
@@ -34,7 +34,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
         ...(formik.values.type === "bridge"
           ? [
               getNetworkConfigurationRow({
-                formik: formik,
+                formik,
                 name: "bridge_driver",
                 label: "Bridge driver",
                 help: "Native or openvswitch",

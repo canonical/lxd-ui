@@ -49,7 +49,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_virtual_machines_low_level",
           label: "Low level VM operations",
           defaultValue: "",
@@ -58,7 +58,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_containers_low_level",
           label: "Low level container operations",
           defaultValue: "",
@@ -67,7 +67,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_containers_nesting",
           label: "Container nesting",
           defaultValue: "",
@@ -76,7 +76,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_containers_privilege",
           label: "Container privilege",
           defaultValue: "",
@@ -86,7 +86,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_container_interception",
           label: "Container interception",
           defaultValue: "",
@@ -95,7 +95,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restrict_snapshots",
           label: "Snapshot creation",
           defaultValue: "",
@@ -104,7 +104,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_idmap_uid",
           label: "Idmap UID",
           defaultValue: "",
@@ -112,7 +112,7 @@ const InstanceRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_idmap_gid",
           label: "Idmap GID",
           defaultValue: "",

@@ -35,7 +35,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
           defaultValue: "",
@@ -43,7 +43,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Expire after",
           name: "snapshots_expiry",
           defaultValue: "",
@@ -51,7 +51,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
           defaultValue: "",
@@ -60,7 +60,7 @@ const SnapshotsForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Schedule",
           name: "snapshots_schedule",
           defaultValue: "",

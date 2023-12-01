@@ -60,7 +60,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Protect deletion",
           name: "security_protection_delete",
           defaultValue: "",
@@ -69,7 +69,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Privileged (Containers only)",
           name: "security_privileged",
           defaultValue: "",
@@ -84,7 +84,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Protect UID/GID shift (Containers only)",
           name: "security_protection_shift",
           defaultValue: "",
@@ -96,7 +96,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Base host id (Containers only)",
           name: "security_idmap_base",
           defaultValue: "",
@@ -114,7 +114,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Idmap size (Containers only)",
           name: "security_idmap_size",
           defaultValue: "",
@@ -133,7 +133,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Unique idmap (Containers only)",
           name: "security_idmap_isolated",
           defaultValue: "",
@@ -145,7 +145,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Allow /dev/lxd in the instance (Containers only)",
           name: "security_devlxd",
           defaultValue: "",
@@ -157,7 +157,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label:
             "Make /1.0/images API available over /dev/lxd (Containers only)",
           name: "security_devlxd_images",
@@ -170,7 +170,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",
           defaultValue: "",

@@ -52,7 +52,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
     <InstanceConfigurationTable
       rows={[
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_disk",
           label: (
             <>
@@ -68,7 +68,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_disk_paths",
           label: "Disk devices path",
           defaultValue: "",
@@ -76,7 +76,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_gpu",
           label: "GPU devices",
           defaultValue: "",
@@ -85,7 +85,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_infiniband",
           label: "Infiniband devices",
           defaultValue: "",
@@ -94,7 +94,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_nic",
           label: "Network devices",
           defaultValue: "",
@@ -104,7 +104,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_pci",
           label: "PCI devices",
           defaultValue: "",
@@ -113,7 +113,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_unix_block",
           label: "Unix-block devices",
           defaultValue: "",
@@ -122,7 +122,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_unix_char",
           label: "Unix-char devices",
           defaultValue: "",
@@ -131,7 +131,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_unix_hotplug",
           label: "Unix-hotplug devices",
           defaultValue: "",
@@ -140,7 +140,7 @@ const DeviceUsageRestrictionForm: FC<Props> = ({ formik }) => {
         }),
 
         getInstanceConfigurationRow({
-          formik: formik,
+          formik,
           name: "restricted_devices_usb",
           label: "USB devices",
           defaultValue: "",
