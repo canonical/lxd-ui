@@ -7,6 +7,7 @@ import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import CustomLayout from "components/CustomLayout";
+import { ReBACAdmin } from "./lib/rebac-admin/src";
 
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -65,6 +66,10 @@ const App: FC = () => {
       }
     >
       <Routes>
+        <Route
+          path="/ui/permissions/*"
+          element={<ReBACAdmin apiURL="http://example.com/api" />}
+        />
         {HOME_REDIRECT_PATHS.map((path) => (
           <Route
             key={path}

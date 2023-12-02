@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# In order to download the raw openapi.yaml file, a valid github
+# personal access token, that has read access to
+# https://github.com/canonical/openfga-admin-openapi-spec repository,
+# is required to be passed, either via GITHUB_ACCESS_TOKEN in .env.local or
+# as the sole argument to this bash script.
+
+API_SPEC_VERSION="main"
+if [ -f .env ]
+then
+  source .env
+fi
+if [ -f .env.local ]
+then
+  source .env.local
+fi
+
+if [ -z "$API_SPEC_VERSION" ]
+then
+  echo "Error: API spec version got overridden with an empty string from .env or .env.local!"
+  exit 1
+fi
+
+if [ -n "$1" ]
+then
+  GITHUB_ACCESS_TOKEN="$1"
+fi
+
+if [ -z "$GITHUB_ACCESS_TOKEN" ]
+then
+  echo "Error: A valid github personal access token was not found!"
+  echo "Pass it via GITHUB_ACCESS_TOKEN in .env.local or as the sole argument of this script."
+  exit 1
+fi
+
+OUTPUT_FILE="openapi.yaml"
+API_SPEC_URL="https://raw.githubusercontent.com/canonical/openfga-admin-openapi-spec/$API_SPEC_VERSION/openapi.yaml"
+
+OPENAPI_YAML_CONTENT=$(curl -H "Authorization: token $GITHUB_ACCESS_TOKEN" \
+  -H "Accept: application/vnd.github.v3.raw" \
+  -L $API_SPEC_URL)
+
+if [[ "$OPENAPI_YAML_CONTENT" =~ ^(404: Not Found|400: Invalid request) ]]
+then
+  echo "Error: Can't download openapi.yaml file!"
+  echo "Please check that both the access token and the API spec version are valid."
+  exit 1
+fi
+
+if echo "$OPENAPI_YAML_CONTENT" > $OUTPUT_FILE
+then
+  echo "Version $API_SPEC_VERSION of openapi.yaml has been successfully downloaded!"
+else
+  echo "Error: Couldn't write the content to $OUTPUT_FILE!"
+  exit 1
+fi

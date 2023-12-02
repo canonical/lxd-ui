@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [ ! -f openapi.yaml ]
+then
+  echo "Warning: openapi.yaml was not found! Trying to download it now."
+  source ./scripts/fetch-api-spec
+fi
+
+if [ -d src/api ]
+then
+  echo "Warning: The content of src/api will be overwritten by the Orval generated files!"
+  read -p "Do you want to proceed? [Y/n] " DELETE_SRC_API
+  if [[ "$DELETE_SRC_API" =~ ^[Nn]$ ]]
+  then
+    exit 0
+  fi
+  if ! [[ -z "$DELETE_SRC_API" ]] && ! [[ "$DELETE_SRC_API" =~ ^[Yy]$ ]]
+  then
+    echo "Error: Invalid choice!"
+    echo "Please rerun the script and choose either 'Y' for YES or 'N' for NO."
+    exit 1
+  fi
+fi
+
+orval --config ./orval.config.ts
+
+if [ -f src/api/api.schemas.ts ]
+then
+  echo "Orval has successfully generated the required files in src/api. Initiating linting..."
+  yarn eslint ./src/api --ext ts,tsx --fix
+  echo "Linting process completed!"
+else
+  echo "Error: Missing files and/or incorrect file names in src/api after running Orval!"
+  echo "Please check that orval.config.ts is set up correctly."
+  exit 1
+fi

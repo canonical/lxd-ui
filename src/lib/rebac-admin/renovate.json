@@ -1,0 +1,4 @@
+{
+  "dependencyDashboard": true,
+  "extends": ["github>canonical/renovate-apps", "schedule:monthly"]
+}

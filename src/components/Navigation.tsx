@@ -10,6 +10,7 @@ import { isWidthBelow, logout } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { getCookie } from "util/cookies";
+import { AccessGovernanceLink } from "../lib/rebac-admin/src";
 import { useDocs } from "context/useDocs";
 
 const isSmallScreen = () => isWidthBelow(620);
@@ -225,6 +226,16 @@ const Navigation: FC = () => {
                           />{" "}
                           Settings
                         </NavLink>
+                      </li>
+                      <li className="p-side-navigation__item">
+                        <Icon
+                          className="is-light p-side-navigation__icon"
+                          name="settings"
+                        />{" "}
+                        <AccessGovernanceLink
+                          baseURL="/ui/permissions"
+                          className="p-side-navigation__link"
+                        />
                       </li>
                       {hasOidcCookie && (
                         <li className="p-side-navigation__item">

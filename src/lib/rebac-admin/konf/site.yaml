@@ -1,0 +1,3 @@
+domain: rebac-admin.demos.haus
+image: prod-web-team-demos.docker-registry.canonical.com/rebac-admin.demos.haus
+readinessPath: "/"
