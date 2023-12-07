@@ -90,3 +90,21 @@ export interface LxdNetworkState {
   type: string;
   vlan?: string;
 }
+
+export interface LxdNetworkForwardPort {
+  description?: string;
+  listen_port: string;
+  protocol: "tcp" | "udp";
+  target_address: string;
+  target_port?: string;
+}
+
+export interface LxdNetworkForward {
+  listen_address: string;
+  config: {
+    target_address?: string;
+  };
+  description?: string;
+  location?: string;
+  ports: LxdNetworkForwardPort[];
+}

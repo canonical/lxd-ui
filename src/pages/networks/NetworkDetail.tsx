@@ -11,8 +11,9 @@ import { Row } from "@canonical/react-components";
 import NetworkDetailOverview from "pages/networks/NetworkDetailOverview";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
+import NetworkForwards from "pages/networks/NetworkForwards";
 
-const tabs: string[] = ["Overview", "Configuration"];
+const tabs: string[] = ["Overview", "Configuration", "Forwards"];
 
 const NetworkDetail: FC = () => {
   const { name, project, activeTab } = useParams<{
@@ -45,13 +46,13 @@ const NetworkDetail: FC = () => {
       }
       contentClassName="edit-network"
     >
-      <NotificationRow />
       <Row>
         <TabLinks
-          tabs={tabs}
+          tabs={network?.managed ? tabs : ["Overview"]}
           activeTab={activeTab}
           tabUrl={`/ui/project/${project}/networks/detail/${name}`}
         />
+        <NotificationRow />
         {!activeTab && (
           <div role="tabpanel" aria-labelledby="overview">
             {network && <NetworkDetailOverview network={network} />}
@@ -60,6 +61,11 @@ const NetworkDetail: FC = () => {
         {activeTab === "configuration" && (
           <div role="tabpanel" aria-labelledby="configuration">
             {network && <EditNetwork network={network} project={project} />}
+          </div>
+        )}
+        {activeTab === "forwards" && (
+          <div role="tabpanel" aria-labelledby="forwards">
+            {network && <NetworkForwards network={network} project={project} />}
           </div>
         )}
       </Row>

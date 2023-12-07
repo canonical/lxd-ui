@@ -18,10 +18,16 @@ const CreateClusterGroup = lazy(
 );
 const CreateInstance = lazy(() => import("pages/instances/CreateInstance"));
 const CreateNetwork = lazy(() => import("pages/networks/CreateNetwork"));
+const CreateNetworkForward = lazy(
+  () => import("pages/networks/CreateNetworkForward"),
+);
 const CreateProfile = lazy(() => import("pages/profiles/CreateProfile"));
 const CreateProject = lazy(() => import("pages/projects/CreateProject"));
 const CreateStoragePool = lazy(() => import("pages/storage/CreateStoragePool"));
 const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
+const EditNetworkForward = lazy(
+  () => import("pages/networks/EditNetworkForward"),
+);
 const Images = lazy(() => import("pages/images/Images"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
@@ -202,6 +208,22 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/networks/detail/:network/forwards/create"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateNetworkForward />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/networks/detail/:network/forwards/:forwardAddress/edit"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
             />
           }
         />

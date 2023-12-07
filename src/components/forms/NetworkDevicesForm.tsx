@@ -47,7 +47,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     isLoading: isNetworkLoading,
     error: networkError,
   } = useQuery({
-    queryKey: [queryKeys.networks],
+    queryKey: [queryKeys.projects, project, queryKeys.networks],
     queryFn: () => fetchNetworks(project),
   });
 

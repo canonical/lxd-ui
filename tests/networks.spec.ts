@@ -1,6 +1,7 @@
 import { test } from "@playwright/test";
 import {
   createNetwork,
+  createNetworkForward,
   deleteNetwork,
   editNetwork,
   randomNetworkName,
@@ -91,5 +92,12 @@ test("network edit basic details", async ({ page }) => {
   await assertReadMode(page, "IPv6 DHCP expiry", "3h");
   await assertReadMode(page, "IPv6 DHCP stateful", "true");
 
+  await deleteNetwork(page, network);
+});
+
+test("network forwards", async ({ page }) => {
+  const network = randomNetworkName();
+  await createNetwork(page, network);
+  await createNetworkForward(page, network);
   await deleteNetwork(page, network);
 });

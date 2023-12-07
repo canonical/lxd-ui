@@ -1,0 +1,32 @@
+.network-forwards-form {
+  .form-contents > div {
+    margin-left: 0;
+    max-width: 67rem !important;
+  }
+
+  .forward-ports {
+    .listen-port,
+    .protocol,
+    .target-address,
+    .target-port {
+      width: 15rem;
+    }
+
+    @media screen and (width <= 1337px) {
+      .listen-port,
+      .protocol,
+      .target-address,
+      .target-port {
+        width: 13rem;
+      }
+    }
+
+    @media screen and (width <= 1190px) {
+      .listen-port,
+      .protocol,
+      .target-port {
+        width: 8rem;
+      }
+    }
+  }
+}

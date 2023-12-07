@@ -23,7 +23,10 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
     deleteNetwork(network.name, project)
       .then(() => {
         void queryClient.invalidateQueries({
-          queryKey: [queryKeys.networks],
+          predicate: (query) =>
+            query.queryKey[0] === queryKeys.projects &&
+            query.queryKey[1] === project &&
+            query.queryKey[2] === queryKeys.networks,
         });
         navigate(
           `/ui/project/${project}/networks`,

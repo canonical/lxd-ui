@@ -67,6 +67,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "instance_list";
 @import "network_detail_overview";
 @import "network_form";
+@import "network_forwards_form";
 @import "meter";
 @import "network_map";
 @import "no_match";
@@ -265,4 +266,10 @@ $border-thin: 1px solid $color-mid-light !default;
 .auto-expanding-textarea {
   overflow: hidden;
   resize: none;
+}
+
+.network-forwards-table {
+  .actions {
+    max-width: 8rem;
+  }
 }

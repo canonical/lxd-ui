@@ -19,7 +19,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.networks, instance.project],
+    queryKey: [queryKeys.projects, instance.project, queryKeys.networks],
     queryFn: () => fetchNetworks(instance.project),
   });
 
