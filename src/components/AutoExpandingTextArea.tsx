@@ -7,7 +7,8 @@ type Props = {
 } & TextareaProps;
 
 const AutoExpandingTextArea: FC<Props> = (props) => {
-  const { dynamicHeight, id, value, rows } = props;
+  const { dynamicHeight, ...textAreaProps } = props;
+  const { id, value, rows } = textAreaProps;
 
   useLayoutEffect(() => {
     if (dynamicHeight) {
@@ -23,7 +24,7 @@ const AutoExpandingTextArea: FC<Props> = (props) => {
   return (
     <div>
       <Textarea
-        {...(props as TextareaProps)}
+        {...(textAreaProps as TextareaProps)}
         rows={dynamicHeight ? undefined : rows}
       />
     </div>
