@@ -52,7 +52,7 @@ const NetworkMap: FC = () => {
   });
 
   const { data: networks = [], isLoading: networkLoading } = useQuery({
-    queryKey: [queryKeys.networks],
+    queryKey: [queryKeys.projects, project, queryKeys.networks],
     queryFn: () => fetchNetworks(project ?? ""),
     enabled: Boolean(project),
   });

@@ -2,6 +2,7 @@ export const queryKeys = {
   certificates: "certificates",
   cluster: "cluster",
   configOptions: "configOptions",
+  forwards: "forwards",
   groups: "groups",
   images: "images",
   instances: "instances",

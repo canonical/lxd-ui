@@ -87,7 +87,7 @@ const CreateNetwork: FC = () => {
       mutation()
         .then(() => {
           void queryClient.invalidateQueries({
-            queryKey: [queryKeys.networks],
+            queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
           navigate(
             `/ui/project/${project}/networks`,

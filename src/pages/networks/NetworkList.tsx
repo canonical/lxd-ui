@@ -16,6 +16,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
+import NetworkForwardCount from "pages/networks/NetworkForwardCount";
 
 const NetworkList: FC = () => {
   const docBaseLink = useDocs();
@@ -32,7 +33,7 @@ const NetworkList: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.networks, project],
+    queryKey: [queryKeys.projects, project, queryKeys.networks],
     queryFn: () => fetchNetworks(project),
   });
 
@@ -49,9 +50,9 @@ const NetworkList: FC = () => {
     { content: "IPV4", className: "u-align--right" },
     { content: "IPV6" },
     { content: "Description", sortKey: "description" },
+    { content: "Forwards", className: "u-align--right" },
     { content: "Used by", sortKey: "usedBy", className: "u-align--right" },
     { content: "State", sortKey: "state" },
-    { "aria-label": "Actions", className: "u-align--right" },
   ];
 
   const rows = networks.map((network) => {
@@ -93,6 +94,12 @@ const NetworkList: FC = () => {
           "aria-label": "Description",
         },
         {
+          content: <NetworkForwardCount network={network} project={project} />,
+          role: "rowheader",
+          className: "u-align--right",
+          "aria-label": "Forwards",
+        },
+        {
           content: network.used_by?.length ?? "0",
           role: "rowheader",
           className: "u-align--right",
@@ -102,12 +109,6 @@ const NetworkList: FC = () => {
           content: network.status,
           role: "rowheader",
           "aria-label": "State",
-        },
-        {
-          content: <></>,
-          role: "rowheader",
-          className: "u-align--right",
-          "aria-label": "Actions",
         },
       ],
       sortData: {
@@ -120,6 +121,10 @@ const NetworkList: FC = () => {
       },
     };
   });
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
