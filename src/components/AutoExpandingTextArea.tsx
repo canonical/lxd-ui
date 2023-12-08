@@ -16,7 +16,7 @@ const AutoExpandingTextArea: FC<Props> = (props) => {
       if (textArea) {
         textArea.style.height = "0px";
         const scrollHeight = textArea.scrollHeight;
-        textArea.style.height = `${scrollHeight + 1}px`;
+        textArea.style.height = `${scrollHeight}px`;
       }
     }
   }, [value]);
@@ -26,6 +26,7 @@ const AutoExpandingTextArea: FC<Props> = (props) => {
       <Textarea
         {...(textAreaProps as TextareaProps)}
         rows={dynamicHeight ? undefined : rows}
+        className="auto-expanding-textarea"
       />
     </div>
   );
