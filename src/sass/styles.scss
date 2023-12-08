@@ -259,3 +259,8 @@ $border-thin: 1px solid $color-mid-light !default;
 .no-border-top {
   border-top: none !important;
 }
+
+.auto-expanding-textarea {
+  overflow: hidden;
+  resize: none;
+}
