@@ -4,15 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   project: string;
+  defaultPool?: string;
   className?: string;
 }
 
-const CreateVolumeBtn: FC<Props> = ({ project, className }) => {
+const CreateVolumeBtn: FC<Props> = ({ project, className, defaultPool }) => {
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    navigate(`/ui/project/${project}/storage/volumes/create
-    `);
+    navigate(
+      `/ui/project/${project}/storage/volumes/create${
+        defaultPool ? `?pool=${defaultPool}` : ""
+      }`,
+    );
   };
 
   return (
