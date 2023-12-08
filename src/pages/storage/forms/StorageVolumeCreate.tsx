@@ -7,7 +7,7 @@ import { queryKeys } from "util/queryKeys";
 import SubmitButton from "components/SubmitButton";
 import { createStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
 import {
@@ -17,6 +17,7 @@ import {
 import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
+import { POOL } from "../StorageVolumesFilter";
 
 const StorageVolumeCreate: FC = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const StorageVolumeCreate: FC = () => {
   const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
   const { project } = useParams<{ project: string }>();
+  const [searchParams] = useSearchParams();
 
   if (!project) {
     return <>Missing project</>;
@@ -44,7 +46,7 @@ const StorageVolumeCreate: FC = () => {
       type: "custom",
       name: "",
       project: project,
-      pool: "",
+      pool: searchParams.get(POOL) || "",
       size: "GiB",
       isReadOnly: false,
       isCreating: true,

@@ -366,6 +366,9 @@ const StorageVolumes: FC = () => {
     return <Loader text="Loading storage volumes..." />;
   }
 
+  const defaultPoolForVolumeCreate =
+    filters.pools.length === 1 ? filters.pools[0] : "";
+
   return volumes.length === 0 ? (
     <EmptyState
       className="empty-state"
@@ -392,7 +395,10 @@ const StorageVolumes: FC = () => {
           <StorageVolumesFilter key={project} volumes={volumes} />
         </div>
         <div>
-          <CreateVolumeBtn project={project} />
+          <CreateVolumeBtn
+            project={project}
+            defaultPool={defaultPoolForVolumeCreate}
+          />
         </div>
       </div>
       <Pagination
