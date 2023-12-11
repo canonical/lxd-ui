@@ -347,7 +347,7 @@ const CreateInstance: FC = () => {
           active={section}
           setActive={updateSection}
           isConfigDisabled={!formik.values.image}
-          isConfigOpen={isConfigOpen}
+          isConfigOpen={!!formik.values.image && isConfigOpen}
           toggleConfigOpen={toggleMenu}
           hasDiskError={diskError || hasNoRootDisk(formik.values, profiles)}
           hasNetworkError={networkError}

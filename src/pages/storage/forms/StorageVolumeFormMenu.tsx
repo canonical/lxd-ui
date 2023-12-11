@@ -55,7 +55,9 @@ const StorageVolumeFormMenu: FC<Props> = ({
             <Button
               type="button"
               className="p-side-navigation__accordion-button"
-              aria-expanded={isAdvancedOpen ? "true" : "false"}
+              aria-expanded={
+                !disableReason && isAdvancedOpen ? "true" : "false"
+              }
               onClick={() => setAdvancedOpen(!isAdvancedOpen)}
               disabled={Boolean(disableReason)}
               title={disableReason}
@@ -64,7 +66,9 @@ const StorageVolumeFormMenu: FC<Props> = ({
             </Button>
             <ul
               className="p-side-navigation__list"
-              aria-expanded={isAdvancedOpen ? "true" : "false"}
+              aria-expanded={
+                !disableReason && isAdvancedOpen ? "true" : "false"
+              }
             >
               <MenuItem
                 label={SNAPSHOTS}

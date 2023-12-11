@@ -162,7 +162,7 @@ const CreateProfile: FC = () => {
         <ProfileFormMenu
           active={section}
           setActive={updateSection}
-          isConfigOpen={isConfigOpen}
+          isConfigOpen={Boolean(formik.values.name) && isConfigOpen}
           toggleConfigOpen={toggleMenu}
           hasName={Boolean(formik.values.name)}
           formik={formik}
