@@ -39,7 +39,7 @@ const InstanceAddSnapshotBtn: FC<Props> = ({
       >
         {isDisabled ? (
           <Tooltip
-            message={`Snapshot creation is blocked for project ${instance.project}`}
+            message={`Snapshot creation has been disabled for instances in the project ${instance.project}`}
           >
             Create snapshot
           </Tooltip>
