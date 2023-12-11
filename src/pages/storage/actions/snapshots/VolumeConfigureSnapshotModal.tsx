@@ -11,7 +11,7 @@ import {
 } from "pages/storage/forms/StorageVolumeForm";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { updateStorageVolume } from "api/storage-pools";
-import StorageVolumeSnapshotsForm from "../../forms/StorageVolumeSnapshotsForm";
+import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -105,7 +105,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({
       }
       onKeyDown={handleEscKey}
     >
-      <StorageVolumeSnapshotsForm formik={formik} />
+      <StorageVolumeFormSnapshots formik={formik} />
     </Modal>
   );
 };

@@ -53,7 +53,7 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
         >
           {isDisabled ? (
             <Tooltip
-              message={`Snapshot creation is blocked for project ${volume.project}`}
+              message={`Snapshot creation has been disabled for volumes in the project ${volume.project}`}
             >
               Create snapshot
             </Tooltip>
