@@ -72,7 +72,7 @@ const CreateProject: FC = () => {
       name: "",
       restricted: false,
       readOnly: false,
-      type: "project",
+      entityType: "project",
     },
     validationSchema: ProjectSchema,
     onSubmit: (values) => {

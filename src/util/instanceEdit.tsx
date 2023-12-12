@@ -61,7 +61,7 @@ export const getInstanceEditValues = (
     profiles: instance.profiles,
     location: instance.location,
     readOnly: true,
-    type: "instance",
+    entityType: "instance",
     ...getEditValues(instance),
   };
 };
@@ -71,7 +71,7 @@ export const getProfileEditValues = (
 ): EditProfileFormValues => {
   return {
     readOnly: true,
-    type: "profile",
+    entityType: "profile",
     ...getEditValues(profile),
   };
 };

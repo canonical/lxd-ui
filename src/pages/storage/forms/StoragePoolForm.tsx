@@ -9,7 +9,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 
 export interface StoragePoolFormValues {
   isCreating: boolean;
-  isReadOnly: boolean;
+  readOnly: boolean;
   name: string;
   description: string;
   driver: string;

@@ -30,9 +30,7 @@ import ResourceLimitsForm, {
   ResourceLimitsFormValues,
 } from "components/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
-import EditInstanceDetails, {
-  InstanceEditDetailsFormValues,
-} from "pages/instances/forms/EditInstanceDetails";
+import EditInstanceDetails from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
   CLOUD_INIT,
   MAIN_CONFIGURATION,
@@ -55,6 +53,16 @@ import {
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
+
+export interface InstanceEditDetailsFormValues {
+  name: string;
+  description?: string;
+  instanceType: string;
+  location: string;
+  profiles: string[];
+  entityType: "instance";
+  readOnly: boolean;
+}
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   FormDeviceValues &
@@ -151,7 +159,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     return dumpYaml(bareInstance);
   };
 
-  const isReadOnly = formik.values.readOnly;
+  const readOnly = formik.values.readOnly;
 
   return (
     <div className="edit-instance">
@@ -200,9 +208,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
               <YamlForm
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                isReadOnly={isReadOnly}
+                readOnly={readOnly}
               >
-                {!isReadOnly && (
+                {!readOnly && (
                   <Notification
                     severity="caution"
                     title="Before you edit the YAML"
@@ -220,7 +228,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {isReadOnly ? (
+            {readOnly ? (
               <Button
                 appearance="positive"
                 onClick={() => {

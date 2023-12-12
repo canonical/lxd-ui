@@ -4,8 +4,9 @@ import {
   checkDuplicateName,
 } from "./helpers";
 import { AnyObject, TestContext, TestFunction } from "yup";
-import { LxdStoragePool, LxdStorageVolume } from "types/storage";
+import { LxdStorageVolume } from "types/storage";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { ConfigRowMetadata } from "util/configInheritance";
 
 export const testDuplicateStorageVolumeName = (
   project: string,
@@ -70,30 +71,22 @@ const storageVolumeDefaults: Record<string, string> = {
   zfs_reserve_space: "false",
 };
 
-export const getLxdDefault = (
+export const getStorageVolumeDefault = (
   formField: string,
-  pool?: LxdStoragePool,
-): [string, string] => {
-  const poolField = `volume.${getVolumeKey(formField)}`;
-  if (pool?.config && poolField in pool.config) {
-    return [pool.config[poolField], `${pool.name} pool`];
-  }
-
+): ConfigRowMetadata => {
   if (Object.keys(storageVolumeDefaults).includes(formField)) {
-    return [storageVolumeDefaults[formField], "LXD"];
+    return { value: storageVolumeDefaults[formField], source: "LXD" };
   }
-  return ["", "LXD"];
+  return { value: "", source: "LXD" };
 };
 
-export const volumeTypeForDisplay = (volume: LxdStorageVolume) => {
-  const volumeDisplayName =
-    volume.type === "virtual-machine"
-      ? "VM"
-      : capitalizeFirstLetter(volume.type);
-  return volumeDisplayName;
+export const renderVolumeType = (volume: LxdStorageVolume) => {
+  return volume.type === "virtual-machine"
+    ? "VM"
+    : capitalizeFirstLetter(volume.type);
 };
 
-export const contentTypeForDisplay = (volume: LxdStorageVolume) => {
+export const renderContentType = (volume: LxdStorageVolume) => {
   return volume.content_type === "iso"
     ? "ISO"
     : capitalizeFirstLetter(volume.content_type);

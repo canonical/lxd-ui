@@ -48,7 +48,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const getEditValues = (pool: LxdStoragePool) => {
     return {
       isCreating: false,
-      isReadOnly: true,
+      readOnly: true,
       name: pool.name,
       description: pool.description,
       driver: pool.driver,
@@ -101,10 +101,10 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {formik.values.isReadOnly ? (
+            {formik.values.readOnly ? (
               <Button
                 appearance="positive"
-                onClick={() => void formik.setFieldValue("isReadOnly", false)}
+                onClick={() => void formik.setFieldValue("readOnly", false)}
               >
                 Edit pool
               </Button>

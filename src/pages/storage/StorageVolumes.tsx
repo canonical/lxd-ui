@@ -25,11 +25,11 @@ import StorageVolumesFilter, {
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { useDocs } from "context/useDocs";
 import {
-  contentTypeForDisplay,
+  renderContentType,
   figureCollapsedScreen,
   getSnapshotsPerVolume,
   isSnapshot,
-  volumeTypeForDisplay,
+  renderVolumeType,
 } from "util/storageVolume";
 import {
   ACTIONS_COL,
@@ -210,8 +210,8 @@ const StorageVolumes: FC = () => {
 
   const snapshotPerVolumeLookup = getSnapshotsPerVolume(volumes);
   const rows = filteredVolumes.map((volume) => {
-    const volumeType = volumeTypeForDisplay(volume);
-    const contentType = contentTypeForDisplay(volume);
+    const volumeType = renderVolumeType(volume);
+    const contentType = renderContentType(volume);
 
     return {
       className: "u-row",

@@ -3,7 +3,7 @@ import { Col, Input, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
-import { getNetworkConfigurationRow } from "pages/networks/forms/NetworkConfigurationRow";
+import { getConfigurationRow } from "components/ConfigurationRow";
 import UplinkSelector from "pages/networks/forms/UplinkSelector";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const NetworkFormMain: FC<Props> = ({ formik, project }) => {
-  const getFormProps = (id: "type" | "network" | "name" | "description") => {
+  const getFormProps = (id: "network" | "name" | "description") => {
     return {
       id: id,
       name: id,
@@ -51,7 +51,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
             disabled={formik.values.readOnly}
             dynamicHeight
           />
-          {formik.values.type === "ovn" && (
+          {formik.values.networkType === "ovn" && (
             <UplinkSelector
               props={getFormProps("network")}
               project={project}
@@ -62,7 +62,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
       </Row>
       <ConfigurationTable
         rows={[
-          getNetworkConfigurationRow({
+          getConfigurationRow({
             formik,
             name: "ipv4_address",
             label: "IPv4 address",
@@ -92,7 +92,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
 
           ...(formik.values.ipv4_address !== "none"
             ? [
-                getNetworkConfigurationRow({
+                getConfigurationRow({
                   formik,
                   name: "ipv4_nat",
                   label: "IPv4 NAT",
@@ -102,7 +102,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
               ]
             : []),
 
-          getNetworkConfigurationRow({
+          getConfigurationRow({
             formik,
             name: "ipv6_address",
             label: "IPv6 address",
@@ -134,7 +134,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
 
           ...(formik.values.ipv6_address !== "none"
             ? [
-                getNetworkConfigurationRow({
+                getConfigurationRow({
                   formik,
                   name: "ipv6_nat",
                   label: "IPv6 NAT",

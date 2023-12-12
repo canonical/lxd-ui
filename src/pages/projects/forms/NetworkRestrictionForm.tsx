@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Textarea } from "@canonical/react-components";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
@@ -34,9 +34,9 @@ interface Props {
 
 const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "restricted_network_access",
           label: "Available networks",
@@ -44,7 +44,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Textarea placeholder="Enter network names" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "restricted_network_subnets",
           label: "Network subnets",
@@ -52,7 +52,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Textarea placeholder="Enter network subnets" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "restricted_network_uplinks",
           label: "Network uplinks",
@@ -60,7 +60,7 @@ const NetworkRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Textarea placeholder="Enter network names" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "restricted_network_zones",
           label: "Network zones",

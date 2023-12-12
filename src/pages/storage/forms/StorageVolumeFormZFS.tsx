@@ -3,7 +3,7 @@ import { Select } from "@canonical/react-components";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "components/ConfigurationTable";
-import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
+import { getConfigurationRow } from "components/ConfigurationRow";
 import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {
@@ -14,7 +14,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "ZFS blocksize",
           name: "zfs_blocksize",
@@ -56,7 +56,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "ZFS block mode",
           name: "zfs_block_mode",
@@ -65,7 +65,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           children: <Select options={optionTrueFalse} />,
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "ZFS delegate",
           name: "zfs_delegate",
@@ -74,7 +74,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           children: <Select options={optionTrueFalse} />,
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "ZFS remove snapshots",
           name: "zfs_remove_snapshots",
@@ -83,7 +83,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           children: <Select options={optionTrueFalse} />,
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "ZFS use refquota",
           name: "zfs_use_refquota",
@@ -92,7 +92,7 @@ const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
           children: <Select options={optionTrueFalse} />,
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "ZFS reserve space",
           name: "zfs_reserve_space",

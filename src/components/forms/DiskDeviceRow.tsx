@@ -9,7 +9,7 @@ interface Props {
   label: string;
   inheritValue: ReactNode;
   inheritSource: string;
-  isReadOnly: boolean;
+  readOnly: boolean;
   overrideValue?: string;
   overrideForm?: ReactNode;
   addOverride?: () => void;
@@ -23,7 +23,7 @@ export const getDiskDeviceRow = ({
   label,
   inheritValue,
   inheritSource,
-  isReadOnly,
+  readOnly,
   overrideValue,
   overrideForm,
   addOverride,
@@ -66,7 +66,7 @@ export const getDiskDeviceRow = ({
         </div>
       </div>
     ),
-    override: isReadOnly ? (
+    override: readOnly ? (
       overrideValue ? (
         <div className="mono-font">
           <b>{overrideValue}</b>

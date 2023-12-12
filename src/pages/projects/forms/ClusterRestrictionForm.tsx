@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
@@ -28,9 +28,9 @@ interface Props {
 
 const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "restricted_cluster_groups",
           label: "Cluster groups targeting",
@@ -38,7 +38,7 @@ const ClusterRestrictionForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter value" type="text" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "restricted_cluster_target",
           label: "Direct cluster targeting",

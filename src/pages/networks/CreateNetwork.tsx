@@ -55,6 +55,13 @@ const CreateNetwork: FC = () => {
         checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
+    network: Yup.string().test(
+      "required",
+      "Uplink network is required",
+      (value, context) =>
+        (context.parent as NetworkFormValues).networkType !== "ovn" ||
+        Boolean(value),
+    ),
   });
 
   const formik = useFormik<NetworkFormValues>({
@@ -62,7 +69,8 @@ const CreateNetwork: FC = () => {
       readOnly: false,
       isCreating: true,
       name: "",
-      type: hasOvn ? "ovn" : "bridge",
+      networkType: hasOvn ? "ovn" : "bridge",
+      entityType: "network",
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {
@@ -71,7 +79,7 @@ const CreateNetwork: FC = () => {
         : toNetwork(values);
 
       const mutation =
-        isClustered && values.type !== "ovn"
+        isClustered && values.networkType !== "ovn"
           ? () => createClusterBridge(network, project, clusterMembers)
           : () => createNetwork(network, project);
 
@@ -127,7 +135,7 @@ const CreateNetwork: FC = () => {
               isDisabled={
                 !formik.isValid ||
                 !formik.values.name ||
-                (formik.values.type === "ovn" && !formik.values.network)
+                (formik.values.networkType === "ovn" && !formik.values.network)
               }
               buttonLabel="Create"
               onClick={() => void formik.submitForm()}

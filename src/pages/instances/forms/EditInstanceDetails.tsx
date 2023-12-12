@@ -8,16 +8,6 @@ import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
 import { isClusteredServer } from "util/settings";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 
-export interface InstanceEditDetailsFormValues {
-  name: string;
-  description?: string;
-  instanceType: string;
-  location: string;
-  profiles: string[];
-  type: "instance";
-  readOnly: boolean;
-}
-
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
     name: values.name,
@@ -33,7 +23,7 @@ interface Props {
 }
 
 const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
-  const isReadOnly = formik.values.readOnly;
+  const readOnly = formik.values.readOnly;
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
 
@@ -64,7 +54,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
             onChange={formik.handleChange}
             value={formik.values.description}
             dynamicHeight
-            disabled={isReadOnly}
+            disabled={readOnly}
           />
         </Col>
       </Row>
@@ -81,7 +71,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               disabled={true}
             />
           </Col>
-          {!isReadOnly && (
+          {!readOnly && (
             <Col size={4}>
               <MigrateInstanceBtn
                 instance={formik.values.name}
@@ -99,7 +89,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         project={project}
         selected={formik.values.profiles}
         setSelected={(value) => void formik.setFieldValue("profiles", value)}
-        isReadOnly={isReadOnly}
+        readOnly={readOnly}
       />
     </div>
   );

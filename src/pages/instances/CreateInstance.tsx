@@ -265,7 +265,7 @@ const CreateInstance: FC = () => {
       profiles: ["default"],
       devices: [],
       readOnly: false,
-      type: "instance",
+      entityType: "instance",
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {

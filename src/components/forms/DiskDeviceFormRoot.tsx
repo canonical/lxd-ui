@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { LxdDiskDevice } from "types/device";
-import { SharedFormikTypes } from "./sharedFormTypes";
+import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import { figureInheritedRootStorage } from "util/instanceConfigInheritance";
+import { getInheritedRootStorage } from "util/configInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { getDiskDeviceRow } from "./DiskDeviceRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -15,7 +15,7 @@ import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk } from "util/instanceValidation";
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
   project: string;
   pools: LxdStoragePool[];
   profiles: LxdProfile[];
@@ -27,7 +27,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
   pools,
   profiles,
 }) => {
-  const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
+  const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(
     (item) => item.type === "disk" && item.name === "root",
   );
@@ -36,7 +36,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
     rootIndex
   ] as LxdDiskDevice | null;
 
-  const [inheritValue, inheritSource] = figureInheritedRootStorage(
+  const [inheritValue, inheritSource] = getInheritedRootStorage(
     formik.values,
     profiles,
   );
@@ -65,7 +65,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
             configuration: <b className="device-name">Root storage</b>,
             inherited: "",
             override:
-              !isReadOnly &&
+              !readOnly &&
               (hasRootStorage ? (
                 <div>
                   <Button
@@ -99,7 +99,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
             className: "override-with-form",
             inheritValue: inheritValue?.pool ?? "",
             inheritSource,
-            isReadOnly,
+            readOnly: readOnly,
             overrideValue: formRootDevice?.pool,
             overrideForm: (
               <StoragePoolSelector
@@ -122,7 +122,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
             inheritValue:
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
-            isReadOnly,
+            readOnly: readOnly,
             overrideValue:
               formRootDevice?.size ?? (hasRootStorage ? "unlimited" : ""),
             overrideForm: (

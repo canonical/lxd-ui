@@ -6,10 +6,13 @@ import CpuLimitSelector from "./CpuLimitSelector";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
-import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
+import {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "./instanceAndProfileFormValues";
 import { DEFAULT_CPU_LIMIT, DEFAULT_MEM_LIMIT } from "util/defaults";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
@@ -21,7 +24,7 @@ export interface ResourceLimitsFormValues {
   limits_processes?: number;
 }
 
-export const resourceLimitsPayload = (values: SharedFormTypes) => {
+export const resourceLimitsPayload = (values: InstanceAndProfileFormValues) => {
   return {
     [getInstanceKey("limits_cpu")]: cpuLimitToPayload(values.limits_cpu),
     [getInstanceKey("limits_memory")]: memoryLimitToPayload(
@@ -35,19 +38,19 @@ export const resourceLimitsPayload = (values: SharedFormTypes) => {
 };
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
 }
 
 const ResourceLimitsForm: FC<Props> = ({ formik }) => {
-  const isInstance = formik.values.type === "instance";
+  const isInstance = formik.values.entityType === "instance";
   const isContainerOnlyDisabled =
     isInstance &&
     (formik.values as CreateInstanceFormValues).instanceType !== "container";
 
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_cpu",
           label: "Exposed CPU limit",
@@ -64,7 +67,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_memory",
           label: "Memory limit",
@@ -81,7 +84,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
@@ -96,7 +99,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_disk_priority",
           label: "Disk priority",
@@ -104,7 +107,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Select options={diskPriorities} />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_processes",
           label: "Max number of processes (Containers only)",

@@ -97,7 +97,7 @@ const CreateProfile: FC = () => {
       name: "",
       devices: [],
       readOnly: false,
-      type: "profile",
+      entityType: "profile",
     },
     validationSchema: ProfileSchema,
     onSubmit: (values) => {

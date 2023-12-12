@@ -10,7 +10,7 @@ interface Props {
   emptyStateMsg?: string;
 }
 
-const InstanceConfigurationTable: FC<Props> = ({
+const ScrollableConfigurationTable: FC<Props> = ({
   rows,
   configurationExtra,
   emptyStateMsg,
@@ -28,4 +28,4 @@ const InstanceConfigurationTable: FC<Props> = ({
   );
 };
 
-export default InstanceConfigurationTable;
+export default ScrollableConfigurationTable;

@@ -4,13 +4,13 @@ import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
 import { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { FormikProps } from "formik/dist/types";
 
-export type SharedFormTypes =
+export type InstanceAndProfileFormValues =
   | CreateInstanceFormValues
   | EditInstanceFormValues
   | CreateProfileFormValues
   | EditProfileFormValues;
 
-export type SharedFormikTypes =
+export type InstanceAndProfileFormikProps =
   | FormikProps<CreateInstanceFormValues>
   | FormikProps<EditInstanceFormValues>
   | FormikProps<CreateProfileFormValues>

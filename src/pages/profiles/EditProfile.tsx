@@ -165,7 +165,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     return dumpYaml(bareProfile);
   };
 
-  const isReadOnly = formik.values.readOnly;
+  const readOnly = formik.values.readOnly;
 
   return (
     <div className="edit-profile">
@@ -224,9 +224,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
               <YamlForm
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                isReadOnly={isReadOnly}
+                readOnly={readOnly}
               >
-                {!isReadOnly && (
+                {!readOnly && (
                   <Notification
                     severity="caution"
                     title="Before you edit the YAML"
@@ -244,7 +244,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {isReadOnly ? (
+            {readOnly ? (
               <Button
                 appearance="positive"
                 disabled={!featuresProfiles}

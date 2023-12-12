@@ -11,18 +11,18 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import { LxdNicDevice } from "types/device";
-import { SharedFormikTypes } from "./sharedFormTypes";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
-import { figureInheritedNetworks } from "util/instanceConfigInheritance";
+import { getInheritedNetworks } from "util/configInheritance";
 import { CustomNetworkDevice } from "util/formDevices";
 import { isNicDeviceNameMissing } from "util/instanceValidation";
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
   project: string;
 }
 
@@ -81,6 +81,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
         return {
           label: network.name,
           value: network.name,
+          disabled: false,
         };
       });
     options.unshift({
@@ -91,12 +92,12 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     return options;
   };
 
-  const inheritedNetworks = figureInheritedNetworks(formik.values, profiles);
+  const inheritedNetworks = getInheritedNetworks(formik.values, profiles);
 
-  const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
+  const readOnly = (formik.values as EditInstanceFormValues).readOnly;
 
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
         ...inheritedNetworks.map((item) => {
           return getConfigurationRowBase({
@@ -139,7 +140,7 @@ or remove the originating item"
           return getConfigurationRowBase({
             configuration: (
               <>
-                {isReadOnly || device.type === "custom-nic" ? (
+                {readOnly || device.type === "custom-nic" ? (
                   device.name
                 ) : (
                   <Input
@@ -170,7 +171,7 @@ or remove the originating item"
                     <Icon name="information" />
                   </Tooltip>{" "}
                 </>
-              ) : isReadOnly ? (
+              ) : readOnly ? (
                 (formik.values.devices[index] as LxdNicDevice).network
               ) : (
                 <div className="network-device" key={index}>
@@ -204,7 +205,7 @@ or remove the originating item"
           });
         }),
 
-        isReadOnly
+        readOnly
           ? {}
           : getConfigurationRowBase({
               configuration: "",

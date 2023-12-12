@@ -7,7 +7,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 export interface ProfileDetailsFormValues {
   name: string;
   description?: string;
-  type: "profile";
+  entityType: "profile";
   readOnly: boolean;
 }
 
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
-  const isReadOnly = formik.values.readOnly;
+  const readOnly = formik.values.readOnly;
   const isDefaultProfile = formik.values.name === "default";
 
   return (
@@ -57,7 +57,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            disabled={isReadOnly}
+            disabled={readOnly}
             dynamicHeight
           />
         </Col>

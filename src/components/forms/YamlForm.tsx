@@ -14,7 +14,7 @@ interface Props {
   setYaml?: (text: string) => void;
   children?: ReactNode;
   autoResize?: boolean;
-  isReadOnly?: boolean;
+  readOnly?: boolean;
 }
 
 const YamlForm: FC<Props> = ({
@@ -22,7 +22,7 @@ const YamlForm: FC<Props> = ({
   setYaml,
   children,
   autoResize = false,
-  isReadOnly = false,
+  readOnly = false,
 }) => {
   const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -61,7 +61,7 @@ const YamlForm: FC<Props> = ({
               enabled: false,
             },
             overviewRulerLanes: 0,
-            readOnly: isReadOnly,
+            readOnly: readOnly,
           }}
           onMount={(editor: IStandaloneCodeEditor) => {
             setEditor(editor);

@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
-import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "./instanceAndProfileFormValues";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 
 export interface CloudInitFormValues {
@@ -12,7 +15,7 @@ export interface CloudInitFormValues {
   cloud_init_vendor_data?: string;
 }
 
-export const cloudInitPayload = (values: SharedFormTypes) => {
+export const cloudInitPayload = (values: InstanceAndProfileFormValues) => {
   return {
     [getInstanceKey("cloud_init_network_config")]:
       values.cloud_init_network_config,
@@ -22,7 +25,7 @@ export const cloudInitPayload = (values: SharedFormTypes) => {
 };
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
 }
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
@@ -35,7 +38,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
 
   return (
     <div className="cloud-init">
-      <InstanceConfigurationTable
+      <ScrollableConfigurationTable
         configurationExtra={
           <Tooltip
             message="Applied only to images that have the cloud-init package installed."
@@ -45,7 +48,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           </Tooltip>
         }
         rows={[
-          getInstanceConfigurationRow({
+          getConfigurationRow({
             formik,
             label: "Network config",
             name: "cloud_init_network_config",
@@ -61,7 +64,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             ),
           }),
 
-          getInstanceConfigurationRow({
+          getConfigurationRow({
             formik,
             label: "User data",
             name: "cloud_init_user_data",
@@ -77,7 +80,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             ),
           }),
 
-          getInstanceConfigurationRow({
+          getConfigurationRow({
             formik,
             label: "Vendor data",
             name: "cloud_init_vendor_data",

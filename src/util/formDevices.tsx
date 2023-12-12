@@ -5,7 +5,7 @@ import {
   LxdNicDevice,
 } from "types/device";
 import { RemoteImage } from "types/image";
-import { SharedFormikTypes } from "components/forms/sharedFormTypes";
+import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 interface EmptyDevice {
   type: "";
@@ -171,7 +171,10 @@ export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
   };
 };
 
-export const removeDevice = (index: number, formik: SharedFormikTypes) => {
+export const removeDevice = (
+  index: number,
+  formik: InstanceAndProfileFormikProps,
+) => {
   const copy = [...formik.values.devices];
   copy.splice(index, 1);
   void formik.setFieldValue("devices", copy);

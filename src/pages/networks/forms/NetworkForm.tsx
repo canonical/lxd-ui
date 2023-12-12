@@ -37,7 +37,7 @@ export interface NetworkFormValues {
   isCreating: boolean;
   name: string;
   description?: string;
-  type: LxdNetworkType;
+  networkType: LxdNetworkType;
   bridge_driver?: LxdNetworkBridgeDriver;
   bridge_hwaddr?: string;
   bridge_mtu?: string;
@@ -63,13 +63,14 @@ export interface NetworkFormValues {
   ipv6_ovn_ranges?: string;
   network?: string;
   yaml?: string;
+  entityType: "network";
 }
 
 export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
   return {
     name: values.name,
     description: values.description,
-    type: values.type,
+    type: values.networkType,
     config: {
       ["bridge.driver"]: values.bridge_driver,
       ["bridge.hwaddr"]: values.bridge_hwaddr,
@@ -144,7 +145,7 @@ const NetworkForm: FC<Props> = ({
             <YamlForm
               yaml={getYaml()}
               setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-              isReadOnly={formik.values.readOnly}
+              readOnly={formik.values.readOnly}
             >
               <Notification severity="caution" title="Before you edit the YAML">
                 Changes will be discarded, when switching back to the guided

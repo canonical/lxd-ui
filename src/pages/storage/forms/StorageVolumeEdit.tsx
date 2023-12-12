@@ -85,10 +85,10 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {formik.values.isReadOnly ? (
+            {formik.values.readOnly ? (
               <Button
                 appearance="positive"
-                onClick={() => void formik.setFieldValue("isReadOnly", false)}
+                onClick={() => void formik.setFieldValue("readOnly", false)}
               >
                 Edit volume
               </Button>

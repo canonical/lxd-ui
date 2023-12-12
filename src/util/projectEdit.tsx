@@ -19,7 +19,7 @@ export const getProjectEditValues = (
       project.config["features.storage.buckets"] === "true",
     features_storage_volumes:
       project.config["features.storage.volumes"] === "true",
-    type: "project",
+    entityType: "project",
 
     limits_instances: project.config["limits.instances"]
       ? parseInt(project.config["limits.instances"])

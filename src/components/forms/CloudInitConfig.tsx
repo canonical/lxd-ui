@@ -13,7 +13,7 @@ const CloudInitConfig: FC<Props> = ({ config, setConfig }) => {
         yaml={config}
         setYaml={setConfig}
         autoResize={true}
-        isReadOnly={!setConfig}
+        readOnly={!setConfig}
       />
     </div>
   );

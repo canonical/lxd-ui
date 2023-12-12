@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Input } from "@canonical/react-components";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -38,9 +38,9 @@ interface Props {
 
 const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_instances",
           label: "Max number of instances",
@@ -48,7 +48,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_containers",
           label: "Max number of containers",
@@ -56,7 +56,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_virtual_machines",
           label: "Max number of VMs",
@@ -64,7 +64,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_disk",
           label: "Max disk space (used by all instances)",
@@ -78,7 +78,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_networks",
           label: "Max number of networks",
@@ -86,7 +86,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_cpu",
           label: "Max sum of CPU",
@@ -94,7 +94,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_memory",
           label: "Max sum of memory limits",
@@ -102,7 +102,7 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter number" min={0} type="number" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           name: "limits_processes",
           label: "Max sum of processes",
