@@ -2,7 +2,7 @@ name: PR checks
 on: pull_request
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   commits:
@@ -66,6 +66,8 @@ jobs:
   e2e:
     name: e2e-tests
     runs-on: ubuntu-latest
+    outputs:
+      job_status: ${{job.status}}
     steps:
       - uses: actions/checkout@main
 
@@ -155,3 +157,54 @@ jobs:
 
       - name: Run Javascript tests
         run: dotrun test-js
+
+  publish_report:
+    name: publish-e2e-report
+    # if job is cancelled we should skip this
+    if: success() || needs.e2e.outputs.job_status == 'failure'
+    needs: [e2e]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
+      PR_NUMBER: ${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@main
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+      # user git configs are needed for git commands to work
+      # actual authentication is done using secrets.GITHUB_TOKEN with write permission
+      - name: Set Git User
+        run: |
+          git config --global user.email "github-action@example.com"
+          git config --global user.name "GitHub Action"
+      - name: Download zipped HTML report
+        uses: actions/download-artifact@v3
+        with:
+          name: playwright-report
+          path: ${{ env.HTML_REPORT_URL_PATH }}
+      - name: Push HTML Report
+        timeout-minutes: 3
+        run: |
+          git add .
+          git commit -m "workflow: add HTML report for PR #$PR_NUMBER (run_id: ${{ github.run_id }}, attempt:  ${{ github.run_attempt }})"
+          
+          # In case if another action job pushed to gh-pages while we are rebasing for the current job
+          while true; do
+            git pull --rebase
+            if [ $? -ne 0 ]; then
+              echo "Failed to rebase. Please review manually."
+              exit 1
+            fi
+
+            git push
+            if [ $? -eq 0 ]; then
+              echo "Successfully pushed HTML report to repo."
+              exit 0
+            fi
+          done
+      - name: Output Report URL as Worfklow Annotation
+        run: |
+          FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/$HTML_REPORT_URL_PATH
+          echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"
