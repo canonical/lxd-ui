@@ -1,12 +1,15 @@
 import { LxdNetwork } from "types/network";
+import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
-export const getNetworkEditValues = (network: LxdNetwork) => {
+export const getNetworkEditValues = (
+  network: LxdNetwork,
+): NetworkFormValues => {
   return {
     readOnly: true,
     isCreating: false,
     name: network.name,
     description: network.description,
-    type: network.type,
+    networkType: network.type,
     bridge_driver: network.config["bridge.driver"],
     bridge_hwaddr: network.config["bridge.hwaddr"],
     bridge_mtu: network.config["bridge.mtu"],
@@ -31,6 +34,7 @@ export const getNetworkEditValues = (network: LxdNetwork) => {
     ipv6_nat_address: network.config["ipv6.nat.address"],
     ipv6_ovn_ranges: network.config["ipv6.ovn.ranges"],
     network: network.config.network,
+    entityType: "network",
   };
 };
 

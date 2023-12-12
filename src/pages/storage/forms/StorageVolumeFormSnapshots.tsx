@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Input } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import ConfigurationTable from "components/ConfigurationTable";
-import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
+import { getConfigurationRow } from "components/ConfigurationRow";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import { useDocs } from "context/useDocs";
@@ -17,7 +17,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
   return (
     <ConfigurationTable
       rows={[
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
@@ -43,7 +43,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Expire after",
           name: "snapshots_expiry",
@@ -58,7 +58,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Schedule",
           name: "snapshots_schedule",

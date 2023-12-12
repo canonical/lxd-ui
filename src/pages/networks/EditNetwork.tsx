@@ -15,7 +15,6 @@ import { LxdNetwork } from "types/network";
 import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
 import { getNetworkEditValues, handleConfigKeys } from "util/networkEdit";
-import { StringSchema } from "yup";
 import { slugify } from "util/slugify";
 import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
@@ -43,8 +42,12 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
           checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
-    network: Yup.string().when("type", (type: string, schema: StringSchema) =>
-      type === "ovn" ? schema.required("Uplink network is required") : schema,
+    network: Yup.string().test(
+      "required",
+      "Uplink network is required",
+      (value, context) =>
+        (context.parent as NetworkFormValues).networkType !== "ovn" ||
+        Boolean(value),
     ),
   });
 
@@ -124,7 +127,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
 
-  const isReadOnly = formik.values.readOnly;
+  const readOnly = formik.values.readOnly;
 
   return (
     <>
@@ -139,7 +142,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            {isReadOnly ? (
+            {readOnly ? (
               <Button
                 appearance="positive"
                 onClick={() => void formik.setFieldValue("readOnly", false)}

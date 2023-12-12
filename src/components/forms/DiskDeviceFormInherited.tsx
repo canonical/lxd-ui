@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { SharedFormikTypes } from "./sharedFormTypes";
+import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import { InheritedVolume } from "util/instanceConfigInheritance";
+import { InheritedVolume } from "util/configInheritance";
 import { getDiskDeviceRow } from "./DiskDeviceRow";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
@@ -12,7 +12,7 @@ import { removeDevice } from "util/formDevices";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
   inheritedVolumes: InheritedVolume[];
 }
 
@@ -32,7 +32,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
     );
   };
 
-  const isReadOnly = (formik.values as EditInstanceFormValues).readOnly;
+  const readOnly = (formik.values as EditInstanceFormValues).readOnly;
 
   const rows: MainTableRow[] = [];
 
@@ -53,7 +53,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           </div>
         ),
         inherited: "",
-        override: isReadOnly ? (
+        override: readOnly ? (
           isNoneDevice ? (
             <>Detached</>
           ) : null
@@ -83,7 +83,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           </>
         ),
         inheritSource: item.source,
-        isReadOnly,
+        readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );
@@ -93,7 +93,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         label: "Mount point",
         inheritValue: item.disk.path,
         inheritSource: item.source,
-        isReadOnly,
+        readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );
@@ -105,7 +105,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           ? `${item.disk["limits.read"]} IOPS`
           : "none",
         inheritSource: item.source,
-        isReadOnly,
+        readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );
@@ -117,7 +117,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           ? `${item.disk["limits.write"]} IOPS`
           : "none",
         inheritSource: item.source,
-        isReadOnly,
+        readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );

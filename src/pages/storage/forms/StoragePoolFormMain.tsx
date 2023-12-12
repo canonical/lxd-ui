@@ -37,7 +37,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           type="text"
           label="Name"
           required
-          disabled={!formik.values.isCreating || formik.values.isReadOnly}
+          disabled={!formik.values.isCreating || formik.values.readOnly}
           help={
             !formik.values.isCreating
               ? "Cannot rename storage pools"
@@ -47,7 +47,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
         <AutoExpandingTextArea
           {...getFormProps("description")}
           label="Description"
-          disabled={formik.values.isReadOnly}
+          disabled={formik.values.readOnly}
           dynamicHeight
         />
         <Select
@@ -74,7 +74,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           }}
           value={formik.values.driver}
           required
-          disabled={!formik.values.isCreating || formik.values.isReadOnly}
+          disabled={!formik.values.isCreating || formik.values.readOnly}
         />
         <DiskSizeSelector
           label="Size"
@@ -88,7 +88,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             void formik.setFieldValue("size", val)
           }
           disabled={
-            formik.values.driver === dirDriver || formik.values.isReadOnly
+            formik.values.driver === dirDriver || formik.values.readOnly
           }
         />
         <Input
@@ -97,7 +97,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           disabled={
             formik.values.driver === btrfsDriver ||
             !formik.values.isCreating ||
-            formik.values.isReadOnly
+            formik.values.readOnly
           }
           help={
             formik.values.isCreating

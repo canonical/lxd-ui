@@ -10,7 +10,7 @@ export const getStorageVolumeEditValues = (
     pool: volume.pool,
     size: volume.config.size ?? "GiB",
     content_type: volume.content_type,
-    type: volume.type,
+    volumeType: volume.type,
     security_shifted: volume.config["security.shifted"],
     security_unmapped: volume.config["security.unmapped"],
     snapshots_expiry: volume.config["snapshots.expiry"],
@@ -24,7 +24,8 @@ export const getStorageVolumeEditValues = (
     zfs_remove_snapshots: volume.config["zfs.remove_snapshots"],
     zfs_use_refquota: volume.config["zfs.use_refquota"],
     zfs_reserve_space: volume.config["zfs.reserve_space"],
-    isReadOnly: true,
+    readOnly: true,
     isCreating: false,
+    entityType: "storageVolume",
   };
 };

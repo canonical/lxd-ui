@@ -1,9 +1,12 @@
 import React, { FC, ReactNode } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { optionYesNo } from "util/instanceOptions";
-import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "./instanceAndProfileFormValues";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
@@ -15,7 +18,7 @@ export interface SnapshotFormValues {
   snapshots_schedule_stopped?: string;
 }
 
-export const snapshotsPayload = (values: SharedFormTypes) => {
+export const snapshotsPayload = (values: InstanceAndProfileFormValues) => {
   return {
     [getInstanceKey("snapshots_pattern")]: values.snapshots_pattern,
     [getInstanceKey("snapshots_schedule_stopped")]:
@@ -26,15 +29,15 @@ export const snapshotsPayload = (values: SharedFormTypes) => {
 };
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
   children?: ReactNode;
 }
 
 const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
@@ -42,7 +45,7 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter name pattern" type="text" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Expire after",
           name: "snapshots_expiry",
@@ -50,7 +53,7 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
           children: <Input placeholder="Enter expiry expression" type="text" />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Snapshot stopped instances",
           name: "snapshots_schedule_stopped",
@@ -59,7 +62,7 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionYesNo} />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Schedule",
           name: "snapshots_schedule",

@@ -67,7 +67,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({
       className="edit-snapshot-config"
       title="Snapshot configuration"
       buttonRow={
-        formik.values.isReadOnly ? (
+        formik.values.readOnly ? (
           <div className="u-space-between u-flex-row-reverse">
             <Button
               className="u-no-margin--bottom u-no-margin--right"
@@ -78,7 +78,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({
             <Button
               className="u-no-margin--bottom"
               type="button"
-              onClick={() => void formik.setFieldValue("isReadOnly", false)}
+              onClick={() => void formik.setFieldValue("readOnly", false)}
             >
               Edit configuration
             </Button>

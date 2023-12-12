@@ -3,17 +3,17 @@ import { Input, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
-import { SharedFormikTypes } from "./sharedFormTypes";
+import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
-import { figureInheritedVolumes } from "util/instanceConfigInheritance";
+import { getInheritedVolumes } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
 import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
 import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
 import classnames from "classnames";
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
   project: string;
 }
 
@@ -50,7 +50,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
     return <Loader />;
   }
 
-  const inheritedVolumes = figureInheritedVolumes(formik.values, profiles);
+  const inheritedVolumes = getInheritedVolumes(formik.values, profiles);
 
   return (
     <div

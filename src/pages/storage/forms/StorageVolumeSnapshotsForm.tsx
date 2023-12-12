@@ -1,8 +1,8 @@
 import React, { FC, ReactNode } from "react";
 import { Input } from "@canonical/react-components";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
-import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
+import { getConfigurationRow } from "components/ConfigurationRow";
 import { useDocs } from "context/useDocs";
 import { FormikProps } from "formik";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
@@ -15,9 +15,9 @@ interface Props {
 const VolumeSnapshotsForm: FC<Props> = ({ formik }) => {
   const docBaseLink = useDocs();
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Snapshot name pattern",
           name: "snapshots_pattern",
@@ -43,7 +43,7 @@ const VolumeSnapshotsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Expire after",
           name: "snapshots_expiry",
@@ -58,7 +58,7 @@ const VolumeSnapshotsForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getStorageConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Schedule",
           name: "snapshots_schedule",

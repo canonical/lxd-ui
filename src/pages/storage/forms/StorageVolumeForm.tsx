@@ -31,7 +31,7 @@ export interface StorageVolumeFormValues {
   pool: string;
   size?: string;
   content_type: LxdStorageVolumeContentType;
-  type: LxdStorageVolumeType;
+  volumeType: LxdStorageVolumeType;
   security_shifted?: string;
   security_unmapped?: string;
   snapshots_expiry?: string;
@@ -45,8 +45,9 @@ export interface StorageVolumeFormValues {
   zfs_remove_snapshots?: string;
   zfs_use_refquota?: string;
   zfs_reserve_space?: string;
-  isReadOnly: boolean;
+  readOnly: boolean;
   isCreating: boolean;
+  entityType: "storageVolume";
 }
 
 export const volumeFormToPayload = (
@@ -73,7 +74,7 @@ export const volumeFormToPayload = (
       [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space,
     },
     project,
-    type: values.type,
+    type: values.volumeType,
     content_type: values.content_type,
     description: "",
     location: "",

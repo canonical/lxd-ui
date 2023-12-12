@@ -38,7 +38,7 @@ const CreateStoragePool: FC = () => {
   const formik = useFormik<StoragePoolFormValues>({
     initialValues: {
       isCreating: true,
-      isReadOnly: false,
+      readOnly: false,
       name: "",
       description: "",
       driver: zfsDriver,

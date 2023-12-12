@@ -46,9 +46,10 @@ const CustomVolumeCreateModal: FC<Props> = ({
       project: project,
       pool: "",
       size: "GiB",
-      type: "custom",
-      isReadOnly: false,
+      volumeType: "custom",
+      readOnly: false,
       isCreating: true,
+      entityType: "storageVolume",
     },
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {

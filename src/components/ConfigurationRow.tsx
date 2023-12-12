@@ -5,9 +5,29 @@ import { MainTableRow } from "@canonical/react-components/dist/components/MainTa
 import classnames from "classnames";
 import { FormikProps } from "formik/dist/types";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "components/forms/instanceAndProfileFormValues";
+import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { ProjectFormValues } from "pages/projects/CreateProject";
+import { getConfigRowMetadata } from "util/configInheritance";
+
+export type ConfigurationRowFormikValues =
+  | InstanceAndProfileFormValues
+  | StorageVolumeFormValues
+  | NetworkFormValues
+  | ProjectFormValues;
+
+type ConfigurationRowFormikProps =
+  | InstanceAndProfileFormikProps
+  | FormikProps<NetworkFormValues>
+  | FormikProps<ProjectFormValues>
+  | FormikProps<StorageVolumeFormValues>;
 
 interface Props {
-  formik: FormikProps<unknown>;
+  formik: ConfigurationRowFormikProps;
   name: string;
   label: string | ReactNode;
   children: ReactElement;
@@ -16,12 +36,7 @@ interface Props {
   disabledReason?: string;
   help?: string;
   inputHelp?: string;
-  isOverridden: boolean;
-  inheritedValue: string | ReactNode;
-  inheritSource: string;
-  isReadOnly: boolean;
-  value?: string;
-  overrideValue: string | ReactNode;
+  readOnlyRenderer?: (value: unknown) => string | ReactNode;
 }
 
 export const getConfigurationRow = ({
@@ -34,13 +49,14 @@ export const getConfigurationRow = ({
   disabledReason,
   help,
   inputHelp,
-  isOverridden,
-  inheritedValue,
-  inheritSource,
-  isReadOnly,
-  value,
-  overrideValue,
+  readOnlyRenderer = (value) => <>{value}</>,
 }: Props): MainTableRow => {
+  const values = formik.values as unknown as Record<string, string | undefined>;
+  const value = values[name];
+  const isOverridden = value !== undefined;
+  const overrideValue = readOnlyRenderer(value === "" ? "-" : value);
+  const metadata = getConfigRowMetadata(formik.values, name);
+
   const toggleDefault = () => {
     if (isOverridden) {
       void formik.setFieldValue(name, undefined);
@@ -64,7 +80,11 @@ export const getConfigurationRow = ({
               disabled,
               help: (
                 <ConfigFieldDescription
-                  description={inputHelp}
+                  description={
+                    metadata.configField
+                      ? metadata.configField.longdesc
+                      : inputHelp
+                  }
                   className="p-form-help-text"
                 />
               ),
@@ -105,12 +125,36 @@ export const getConfigurationRow = ({
     return children;
   };
 
+  const renderOverride = (): ReactNode => {
+    if (formik.values.readOnly) {
+      return overrideValue;
+    }
+    if (isOverridden) {
+      return getForm();
+    }
+    return wrapDisabledTooltip(
+      <Button
+        onClick={toggleDefault}
+        className="u-no-margin--bottom"
+        type="button"
+        disabled={disabled}
+        appearance="base"
+        title="Create override"
+        hasIcon
+      >
+        <Icon name="edit" />
+      </Button>,
+    );
+  };
+
   return getConfigurationRowBase({
     configuration: (
       <>
         {displayLabel}
         <ConfigFieldDescription
-          description={help}
+          description={
+            metadata.configField ? metadata.configField.shortdesc : help
+          }
           className="configuration-help"
         />
       </>
@@ -123,32 +167,16 @@ export const getConfigurationRow = ({
         })}
       >
         <div className="mono-font">
-          <b>{inheritedValue}</b>
+          <b>{readOnlyRenderer(metadata.value)}</b>
         </div>
-        {inheritedValue && (
+        {metadata && (
           <div className="p-text--small u-text--muted">
-            From: {inheritSource}
+            From: {metadata.source}
           </div>
         )}
       </div>
     ),
-    override: isReadOnly
-      ? overrideValue
-      : isOverridden
-        ? getForm()
-        : wrapDisabledTooltip(
-            <Button
-              onClick={toggleDefault}
-              className="u-no-margin--bottom"
-              type="button"
-              disabled={disabled}
-              appearance="base"
-              title="Create override"
-              hasIcon
-            >
-              <Icon name="edit" />
-            </Button>,
-          ),
+    override: renderOverride(),
   });
 };
 

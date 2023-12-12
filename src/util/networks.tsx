@@ -1,5 +1,6 @@
 import { LxdInstance } from "types/instance";
 import { LxdNetwork, LxdNetworkConfig } from "types/network";
+import { ConfigRowMetadata } from "util/configInheritance";
 
 export const getIpAddresses = (
   instance: LxdInstance,
@@ -42,11 +43,11 @@ const networkDefaults: Record<string, string> = {
   ipv6_ovn_ranges: "-",
 };
 
-export const getLxdDefault = (formField: string): string => {
+export const getNetworkDefault = (formField: string): ConfigRowMetadata => {
   if (Object.keys(networkDefaults).includes(formField)) {
-    return networkDefaults[formField];
+    return { value: networkDefaults[formField], source: "LXD" };
   }
-  return "";
+  return { value: "", source: "LXD" };
 };
 
 const hasNetworkConfigDiff = (

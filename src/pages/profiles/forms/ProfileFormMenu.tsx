@@ -4,7 +4,7 @@ import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
-import { SharedFormikTypes } from "components/forms/sharedFormTypes";
+import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk devices";
@@ -21,7 +21,7 @@ interface Props {
   active: string;
   setActive: (val: string) => void;
   hasName: boolean;
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
 }
 
 const ProfileFormMenu: FC<Props> = ({

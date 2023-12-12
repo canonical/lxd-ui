@@ -22,8 +22,8 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
 
   return (
     <Select
-      id="type"
-      name="type"
+      id="networkType"
+      name="networkType"
       label="Type"
       help={
         hasOvn ? undefined : (
@@ -53,13 +53,13 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
       ]}
       onChange={(e) => {
         if (e.target.value === "bridge") {
-          void formik.setFieldValue("type", "bridge");
+          void formik.setFieldValue("networkType", "bridge");
           void formik.setFieldValue("network", undefined);
           void formik.setFieldValue("ipv4_l3only", undefined);
           void formik.setFieldValue("ipv6_l3only", undefined);
         }
         if (e.target.value === "ovn") {
-          void formik.setFieldValue("type", "ovn");
+          void formik.setFieldValue("networkType", "ovn");
           void formik.setFieldValue("bridge_driver", undefined);
           void formik.setFieldValue("dns_mode", undefined);
           void formik.setFieldValue("ipv4_dhcp_expiry", undefined);
@@ -70,7 +70,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           void formik.setFieldValue("ipv6_ovn_ranges", undefined);
         }
       }}
-      value={formik.values.type}
+      value={formik.values.networkType}
       disabled={formik.values.readOnly}
     />
   );

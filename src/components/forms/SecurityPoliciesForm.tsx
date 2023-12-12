@@ -7,9 +7,12 @@ import {
   optionTrueFalse,
   optionYesNo,
 } from "util/instanceOptions";
-import { SharedFormikTypes, SharedFormTypes } from "./sharedFormTypes";
-import { getInstanceConfigurationRow } from "components/forms/InstanceConfigurationRow";
-import InstanceConfigurationTable from "components/forms/InstanceConfigurationTable";
+import {
+  InstanceAndProfileFormikProps,
+  InstanceAndProfileFormValues,
+} from "./instanceAndProfileFormValues";
+import { getConfigurationRow } from "components/ConfigurationRow";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 
@@ -25,7 +28,9 @@ export interface SecurityPoliciesFormValues {
   security_secureboot?: string;
 }
 
-export const securityPoliciesPayload = (values: SharedFormTypes) => {
+export const securityPoliciesPayload = (
+  values: InstanceAndProfileFormValues,
+) => {
   return {
     [getInstanceKey("security_protection_delete")]:
       values.security_protection_delete,
@@ -43,11 +48,11 @@ export const securityPoliciesPayload = (values: SharedFormTypes) => {
 };
 
 interface Props {
-  formik: SharedFormikTypes;
+  formik: InstanceAndProfileFormikProps;
 }
 
 const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
-  const isInstance = formik.values.type === "instance";
+  const isInstance = formik.values.entityType === "instance";
   const isContainerOnlyDisabled =
     isInstance &&
     (formik.values as CreateInstanceFormValues).instanceType !== "container";
@@ -57,9 +62,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
       "virtual-machine";
 
   return (
-    <InstanceConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Protect deletion",
           name: "security_protection_delete",
@@ -68,7 +73,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           children: <Select options={optionYesNo} />,
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Privileged (Containers only)",
           name: "security_privileged",
@@ -83,7 +88,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Protect UID/GID shift (Containers only)",
           name: "security_protection_shift",
@@ -95,7 +100,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Base host id (Containers only)",
           name: "security_idmap_base",
@@ -113,7 +118,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Idmap size (Containers only)",
           name: "security_idmap_size",
@@ -132,7 +137,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Unique idmap (Containers only)",
           name: "security_idmap_isolated",
@@ -144,7 +149,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Allow /dev/lxd in the instance (Containers only)",
           name: "security_devlxd",
@@ -156,7 +161,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label:
             "Make /1.0/images API available over /dev/lxd (Containers only)",
@@ -169,7 +174,7 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           ),
         }),
 
-        getInstanceConfigurationRow({
+        getConfigurationRow({
           formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",

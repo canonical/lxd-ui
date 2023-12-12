@@ -6,7 +6,7 @@ import {
   StorageVolumeFormValues,
 } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
-import { getStorageConfigurationRow } from "pages/storage/forms/StorageConfigurationRow";
+import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
@@ -37,7 +37,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             {...getFormProps(formik, "name")}
             type="text"
             label="Name"
-            disabled={formik.values.isReadOnly || !formik.values.isCreating}
+            disabled={formik.values.readOnly || !formik.values.isCreating}
             required={formik.values.isCreating}
             help={
               formik.values.isCreating
@@ -49,7 +49,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             label="Size"
             value={formik.values.size}
             help={
-              formik.values.type === "custom"
+              formik.values.volumeType === "custom"
                 ? "Size of storage volume. If empty, volume will not have a size limit within its storage pool."
                 : "Size is immutable for non-custom volumes."
             }
@@ -57,7 +57,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               void formik.setFieldValue("size", val)
             }
             disabled={
-              formik.values.isReadOnly || formik.values.type !== "custom"
+              formik.values.readOnly || formik.values.volumeType !== "custom"
             }
           />
           <Select
@@ -87,14 +87,14 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               }
               void formik.setFieldValue("content_type", e.target.value);
             }}
-            disabled={formik.values.isReadOnly || !formik.values.isCreating}
+            disabled={formik.values.readOnly || !formik.values.isCreating}
           />
         </Col>
       </Row>
       {formik.values.content_type === "filesystem" && (
         <ConfigurationTable
           rows={[
-            getStorageConfigurationRow({
+            getConfigurationRow({
               formik,
               label: "Security shifted",
               name: "security_shifted",
@@ -106,7 +106,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               children: <Select options={optionTrueFalse} />,
             }),
 
-            getStorageConfigurationRow({
+            getConfigurationRow({
               formik,
               label: "Security unmapped",
               name: "security_unmapped",

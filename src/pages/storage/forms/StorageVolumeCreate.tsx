@@ -43,13 +43,14 @@ const StorageVolumeCreate: FC = () => {
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: {
       content_type: "filesystem",
-      type: "custom",
+      volumeType: "custom",
       name: "",
       project: project,
       pool: searchParams.get(POOL) || "",
       size: "GiB",
-      isReadOnly: false,
+      readOnly: false,
       isCreating: true,
+      entityType: "storageVolume",
     },
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {

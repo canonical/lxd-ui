@@ -19,7 +19,7 @@ interface Props {
   selected: string[];
   setSelected: (profiles: string[]) => void;
   title?: string;
-  isReadOnly?: boolean;
+  readOnly?: boolean;
 }
 
 const ProfileSelector: FC<Props> = ({
@@ -27,7 +27,7 @@ const ProfileSelector: FC<Props> = ({
   selected,
   setSelected,
   title,
-  isReadOnly = false,
+  readOnly = false,
 }) => {
   const notify = useNotify();
 
@@ -91,11 +91,11 @@ const ProfileSelector: FC<Props> = ({
                   };
                 })}
               value={value}
-              disabled={isReadOnly}
+              disabled={readOnly}
               title={title}
             ></Select>
           </Col>
-          {!isReadOnly && (index > 0 || selected.length > 1) && (
+          {!readOnly && (index > 0 || selected.length > 1) && (
             <Col size={4}>
               <Button
                 appearance="link"
@@ -145,7 +145,7 @@ const ProfileSelector: FC<Props> = ({
           )}
         </Row>
       ))}
-      {!isReadOnly && (
+      {!readOnly && (
         <Button
           disabled={unselected.length === 0}
           onClick={addProfile}

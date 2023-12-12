@@ -25,7 +25,7 @@ export interface InstanceDetailsFormValues {
   instanceType: string;
   profiles: string[];
   target?: string;
-  type: "instance";
+  entityType: "instance";
   readOnly: boolean;
 }
 
@@ -155,7 +155,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
         project={project}
         selected={formik.values.profiles}
         setSelected={(value) => void formik.setFieldValue("profiles", value)}
-        isReadOnly={!formik.values.image}
+        readOnly={!formik.values.image}
         title={
           !formik.values.image
             ? "Please select an image before adding profiles"
