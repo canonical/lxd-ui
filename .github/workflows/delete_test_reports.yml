@@ -1,0 +1,50 @@
+name: Delete playwright test reports
+on: delete
+
+jobs:
+    delete_reports:
+        name: Delete Playwright Test Reports
+        runs-on: ubuntu-latest
+        env:
+            # Folder on gh-pages branch that contains all test reports for another branch
+            BRANCH_REPORTS_DIR: reports/${{ github.event.ref }}
+        steps:
+            - uses: actions/checkout@main
+              with:
+                ref: gh-pages
+                token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Set Git User
+              run: |
+                git config --global user.email "github-action@example.com"
+                git config --global user.name "GitHub Action"
+            - name: Check for workflow reports
+              id: has-reports
+              run: |
+                if [ -z "$(ls -A $BRANCH_REPORTS_DIR)" ]; then
+                    echo "BRANCH_REPORTS_EXIST=false" >> $GITHUB_OUTPUT
+                else
+                    echo "BRANCH_REPORTS_EXIST=true" >> $GITHUB_OUTPUT
+                fi
+            - name: Delete reports from repo for branch
+              if: ${{ steps.has-reports.outputs.BRANCH_REPORTS_EXIST == 'true' }}
+              timeout-minutes: 3
+              run: |
+                cd $BRANCH_REPORTS_DIR/..
+        
+                rm -rf ${{ github.event.ref }}
+                git add .
+                git commit -m "workflow: remove all reports for branch ${{ github.event.ref }}"
+        
+                while true; do
+                    git pull --rebase
+                    if [ $? -ne 0 ]; then
+                        echo "Failed to rebase. Please review manually."
+                        exit 1
+                    fi
+        
+                    git push
+                    if [ $? -eq 0 ]; then
+                        echo "Successfully pushed HTML reports to repo."
+                        exit 0
+                    fi
+                done
