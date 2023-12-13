@@ -66,6 +66,8 @@ jobs:
   e2e:
     name: e2e-tests
     runs-on: ubuntu-latest
+    outputs:
+      job_status: ${{job.status}}
     steps:
       - uses: actions/checkout@main
 
@@ -159,7 +161,7 @@ jobs:
   publish_report:
     name: publish-e2e-report
     # only publish report if e2e tests failed to avoid gh-pages branch becoming oversized
-    if: needs.e2e.result == 'failure'
+    if: success() || needs.e2e.outputs.job_status == 'failure'
     needs: [e2e]
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -185,7 +187,8 @@ jobs:
         timeout-minutes: 3
         # In case if another action job pushed to gh-pages while we are rebasing for the current job
         run: |
-          git commit -am "workflow: add HTML report for branch ${{ github.head_ref || github.ref_name }} (run_id: ${{ github.run_id }}, attempt:  ${{ github.run_attempt }})"
+          git add .
+          git commit -m "workflow: add HTML report for branch ${{ github.head_ref || github.ref_name }} (run_id: ${{ github.run_id }}, attempt:  ${{ github.run_attempt }})"
 
           while true; do
             git pull --rebase

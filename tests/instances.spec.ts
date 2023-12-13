@@ -26,7 +26,7 @@ import {
 
 test("instance create and remove", async ({ page }) => {
   const instance = randomInstanceName();
-  await createInstance(page, instance);
+  await createInstance(page, "test");
   await deleteInstance(page, instance);
 });
 
