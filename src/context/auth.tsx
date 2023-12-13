@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchCertificates } from "api/certificates";
 import { useSettings } from "context/useSettings";
+import { fetchProjects } from "api/projects";
 
 interface ContextProps {
   isAuthenticated: boolean;
@@ -27,6 +28,17 @@ interface ProviderProps {
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const { data: settings, isLoading } = useSettings();
 
+  const { data: projects = [] } = useQuery({
+    queryKey: [queryKeys.projects],
+    queryFn: fetchProjects,
+    enabled: settings?.auth === "trusted",
+  });
+
+  const defaultProject =
+    projects.length < 1 || projects.find((p) => p.name === "default")
+      ? "default"
+      : projects[0].name;
+
   const isTls = settings?.auth_user_method === "tls";
 
   const { data: certificates = [] } = useQuery({
@@ -39,13 +51,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
   );
-  const isRestricted = certificate?.restricted ?? false;
-  const defaultProject =
-    isRestricted &&
-    certificate &&
-    !certificate.projects.find((p) => p === "default")
-      ? certificate.projects[0]
-      : "default";
+  const isRestricted = certificate?.restricted ?? defaultProject !== "default";
 
   return (
     <AuthContext.Provider

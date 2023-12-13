@@ -21,8 +21,8 @@ const ProjectSelector: FC<Props> = ({ activeProject }): JSX.Element => {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const { data: projects = [] } = useQuery({
-    queryKey: [queryKeys.projects, 1],
-    queryFn: () => fetchProjects(1),
+    queryKey: [queryKeys.projects],
+    queryFn: fetchProjects,
   });
 
   projects.sort(defaultFirst);

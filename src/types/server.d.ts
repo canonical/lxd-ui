@@ -4,7 +4,7 @@ type LXDAuthMethods = "tls" | "oidc" | "unix";
 
 export interface LxdSettings {
   api_status: string;
-  config: LxdConfigPair;
+  config?: LxdConfigPair;
   environment?: {
     architectures: string[];
     os_name?: string;

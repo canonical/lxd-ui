@@ -3,9 +3,9 @@ import { LxdProject } from "types/project";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 
-export const fetchProjects = (recursion: number): Promise<LxdProject[]> => {
+export const fetchProjects = (): Promise<LxdProject[]> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects?recursion=${recursion}`)
+    fetch(`/1.0/projects?recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdProject[]>) => resolve(data.metadata))
       .catch(reject);
