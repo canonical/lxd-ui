@@ -5,7 +5,7 @@ export const setTitle = () => {
   const { data: settings } = useSettings();
 
   useEffect(() => {
-    const host = settings?.config["user.ui_title"] ?? location.hostname;
+    const host = settings?.config?.["user.ui_title"] ?? location.hostname;
     document.title = `${host} | LXD UI`;
   }, [settings?.config]);
 };

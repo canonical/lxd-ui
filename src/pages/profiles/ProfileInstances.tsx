@@ -39,8 +39,8 @@ const ProfileInstances: FC<Props> = ({
 
   if (isDefaultProject) {
     const { data: projects = [] } = useQuery({
-      queryKey: [queryKeys.projects, 1],
-      queryFn: () => fetchProjects(1),
+      queryKey: [queryKeys.projects],
+      queryFn: fetchProjects,
     });
     projects
       .filter((project) => project.config["features.profiles"] === "false")
