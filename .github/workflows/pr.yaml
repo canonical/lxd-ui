@@ -1,31 +1,45 @@
 name: PR checks
-on: pull_request
+on: [pull_request_target, pull_request]
 
 permissions:
   contents: write
 
 jobs:
+  continue-workflow:
+    name: Check valid PR action trigger
+    runs-on: ubuntu-latest
+    outputs:
+      # we don't want forked PR to trigger two action runs
+      continue: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository) }}
+    steps:
+      - name: "Check if PR is triggered locally or from forked repo"
+        run: echo "Checking..."
+
   commits:
+    needs: continue-workflow
+    if: ${{ needs.continue-workflow.outputs.continue }}
     permissions:
       pull-requests: read   # to get list of commits from the PR
     name: Canonical CLA signed and Signed-off-by (DCO)
     runs-on: ubuntu-latest
     steps:
-    - name: Check if CLA signed
-      uses: canonical/has-signed-canonical-cla@v1
+      - name: Check if CLA signed
+        uses: canonical/has-signed-canonical-cla@v1
 
-    - name: Get PR Commits
-      id: 'get-pr-commits'
-      uses: tim-actions/get-pr-commits@master
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get PR Commits
+        id: 'get-pr-commits'
+        uses: tim-actions/get-pr-commits@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Check that all commits are signed-off
-      uses: tim-actions/dco@master
-      with:
-        commits: ${{ steps.get-pr-commits.outputs.commits }}
+      - name: Check that all commits are signed-off
+        uses: tim-actions/dco@master
+        with:
+          commits: ${{ steps.get-pr-commits.outputs.commits }}
 
   lint-scss:
+    needs: continue-workflow
+    if: ${{ needs.continue-workflow.outputs.continue }}
     runs-on: ubuntu-latest
 
     steps:
@@ -38,6 +52,8 @@ jobs:
         run: yarn lint-scss
 
   lint-js:
+    needs: continue-workflow
+    if: ${{ needs.continue-workflow.outputs.continue }}
     runs-on: ubuntu-latest
 
     steps:
@@ -50,6 +66,8 @@ jobs:
         run: yarn lint-js
 
   check-inclusive-naming:
+    needs: continue-workflow
+    if: ${{ needs.continue-workflow.outputs.continue }}
     runs-on: ubuntu-latest
 
     steps:
@@ -64,6 +82,8 @@ jobs:
           fail-on-error: true
 
   e2e:
+    needs: continue-workflow
+    if: ${{ needs.continue-workflow.outputs.continue }}
     name: e2e-tests
     runs-on: ubuntu-latest
     outputs:
@@ -140,6 +160,8 @@ jobs:
           retention-days: 30
 
   js-tests:
+    needs: continue-workflow
+    if: ${{ needs.continue-workflow.outputs.continue }}
     name: js-tests
     runs-on: ubuntu-latest
     steps:
