@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install node dependencies
         run: yarn install --immutable
@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check inclusive naming
         uses: canonical-web-and-design/inclusive-naming@main
@@ -103,7 +103,7 @@ jobs:
           sudo lxc config set cluster.https_address "127.0.0.1"
           sudo lxc cluster enable local
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -113,7 +113,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
@@ -163,7 +163,7 @@ jobs:
           git config --global user.email "github-action@example.com"
           git config --global user.name "GitHub Action"
       - name: Download zipped HTML report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: playwright-report
           path: ${{ env.HTML_REPORT_URL_PATH }}

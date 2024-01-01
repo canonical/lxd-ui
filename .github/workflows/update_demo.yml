@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'canonical' }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: demo
     - name: Fetch rebase and push
