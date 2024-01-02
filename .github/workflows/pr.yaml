@@ -50,7 +50,7 @@ jobs:
     outputs:
       job_status: ${{job.status}}
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
 
       - name: Install Dotrun
         run: |
@@ -124,7 +124,7 @@ jobs:
     name: js-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
 
       - name: Install Dotrun
         run: |
@@ -152,7 +152,7 @@ jobs:
       HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
       PR_NUMBER: ${{ github.event.number }}
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
         with:
           ref: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
