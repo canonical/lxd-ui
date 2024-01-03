@@ -74,8 +74,8 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
         !isManaged
           ? "Can not rename, network is not managed"
           : isUsed
-          ? "Can not rename, network is currently in use."
-          : undefined
+            ? "Can not rename, network is currently in use."
+            : undefined
       }
       controls={
         network && <DeleteNetworkBtn network={network} project={project} />
