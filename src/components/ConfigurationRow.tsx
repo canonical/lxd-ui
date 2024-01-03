@@ -135,20 +135,20 @@ export const getConfigurationRow = ({
     override: isReadOnly
       ? overrideValue
       : isOverridden
-      ? getForm()
-      : wrapDisabledTooltip(
-          <Button
-            onClick={toggleDefault}
-            className="u-no-margin--bottom"
-            type="button"
-            disabled={disabled}
-            appearance="base"
-            title="Create override"
-            hasIcon
-          >
-            <Icon name="edit" />
-          </Button>,
-        ),
+        ? getForm()
+        : wrapDisabledTooltip(
+            <Button
+              onClick={toggleDefault}
+              className="u-no-margin--bottom"
+              type="button"
+              disabled={disabled}
+              appearance="base"
+              title="Create override"
+              hasIcon
+            >
+              <Icon name="edit" />
+            </Button>,
+          ),
   });
 };
 

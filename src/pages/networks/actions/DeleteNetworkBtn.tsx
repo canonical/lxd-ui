@@ -45,8 +45,8 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         !isManaged
           ? "Can not delete, network is not managed"
           : isUsed
-          ? "Can not delete, network is currently in use"
-          : "Delete network"
+            ? "Can not delete, network is currently in use"
+            : "Delete network"
       }
       confirmationModalProps={{
         title: "Confirm delete",

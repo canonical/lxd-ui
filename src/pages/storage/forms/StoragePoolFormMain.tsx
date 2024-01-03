@@ -57,8 +57,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             !formik.values.isCreating
               ? "Driver can't be changed"
               : formik.values.driver === zfsDriver
-              ? "ZFS gives best performance and reliability"
-              : undefined
+                ? "ZFS gives best performance and reliability"
+                : undefined
           }
           label="Driver"
           options={storageDrivers}

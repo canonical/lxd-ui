@@ -49,12 +49,12 @@ export const filterUsedByType = (
         return a.project < b.project
           ? -1
           : a.project > b.project
-          ? 1
-          : a.name < b.name
-          ? -1
-          : a.name > b.name
-          ? 1
-          : 0;
+            ? 1
+            : a.name < b.name
+              ? -1
+              : a.name > b.name
+                ? 1
+                : 0;
       }) ?? []
   );
 };
