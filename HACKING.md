@@ -83,6 +83,13 @@ Now you can open https://localhost:8407/ to reach lxd-ui.
 
 To enable pre-commit checks, after the first successful run of `dotrun`, execute `yarn hooks-add`. To remove them, run `yarn hooks-remove`.
 
+# Signing off commits
+All commits are required to be signed off using a GPG key. You can use the following references to set up your git configurations for commit signing.
+1. [Generating a new GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key) or [use an existing GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/checking-for-existing-gpg-keys). Make sure that the GPG key is associated to the email that you are using within your git configuration. If you have multiple GPG keys set up, you should [tell git about your signing GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key).
+2. [Add a GPG key to your Github account](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account). This will make your commits verified on Github.
+3. To sign commits, you should enter the git command with additional flags as shown in this example: `git commit -s -S -a -m "initial commit"`.
+4. To make your life a little easier, you can setup a git alias for signing commits with `git config alias.sc 'commit -s -S -a'`. Now you can sign your commits with `git sc -m "initial commit"` for example. Note this only enables the alias for your local git configuration.
+
 # End-to-end tests
 
 Install playwright and its browsers
