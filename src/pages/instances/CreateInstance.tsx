@@ -72,6 +72,7 @@ import {
   hasNetworkError,
   hasNoRootDisk,
 } from "util/instanceValidation";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -342,7 +343,7 @@ const CreateInstance: FC = () => {
 
   return (
     <BaseLayout title="Create an instance" contentClassName="create-instance">
-      <Form onSubmit={formik.handleSubmit} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} className="form">
         <InstanceFormMenu
           active={section}
           setActive={updateSection}
@@ -400,39 +401,34 @@ const CreateInstance: FC = () => {
           </Col>
         </Row>
       </Form>
-      <div className="p-bottom-controls" id="form-footer">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() =>
-                navigate(
-                  location.state?.cancelLocation ??
-                    `/ui/project/${project}/instances`,
-                )
-              }
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={hasErrors}
-              buttonLabel="Create"
-              appearance={isLocalIsoImage ? "positive" : "default"}
-              onClick={() => submit(formik.values, false)}
-            />
-            {!isLocalIsoImage && (
-              <SubmitButton
-                isSubmitting={formik.isSubmitting}
-                isDisabled={hasErrors}
-                buttonLabel="Create and start"
-                onClick={() => submit(formik.values)}
-              />
-            )}
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        <Button
+          appearance="base"
+          onClick={() =>
+            navigate(
+              location.state?.cancelLocation ??
+                `/ui/project/${project}/instances`,
+            )
+          }
+        >
+          Cancel
+        </Button>
+        <SubmitButton
+          isSubmitting={formik.isSubmitting}
+          isDisabled={hasErrors}
+          buttonLabel="Create"
+          appearance={isLocalIsoImage ? "positive" : "default"}
+          onClick={() => submit(formik.values, false)}
+        />
+        {!isLocalIsoImage && (
+          <SubmitButton
+            isSubmitting={formik.isSubmitting}
+            isDisabled={hasErrors}
+            buttonLabel="Create and start"
+            onClick={() => submit(formik.values)}
+          />
+        )}
+      </FormFooterLayout>
     </BaseLayout>
   );
 };

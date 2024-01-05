@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { useNotify, Row, Col, Button } from "@canonical/react-components";
+import { useNotify, Button } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { createClusteredPool, createPool } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
@@ -16,6 +16,7 @@ import StoragePoolForm, {
   StoragePoolFormValues,
 } from "./forms/StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -89,25 +90,20 @@ const CreateStoragePool: FC = () => {
     >
       <NotificationRow />
       <StoragePoolForm formik={formik} />
-      <div className="p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() => navigate(`/ui/project/${project}/storage`)}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.name}
-              buttonLabel="Create"
-              onClick={() => void formik.submitForm()}
-            />
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        <Button
+          appearance="base"
+          onClick={() => navigate(`/ui/project/${project}/storage`)}
+        >
+          Cancel
+        </Button>
+        <SubmitButton
+          isSubmitting={formik.isSubmitting}
+          isDisabled={!formik.isValid || !formik.values.name}
+          buttonLabel="Create"
+          onClick={() => void formik.submitForm()}
+        />
+      </FormFooterLayout>
     </BaseLayout>
   );
 };

@@ -41,7 +41,7 @@ const ProjectForm: FC<Props> = ({
   };
 
   return (
-    <Form onSubmit={formik.handleSubmit} stacked className="form">
+    <Form onSubmit={formik.handleSubmit} className="form">
       <ProjectFormMenu
         active={section}
         setActive={updateSection}

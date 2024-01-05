@@ -11,6 +11,7 @@
 .edit-snapshot-config,
 .cluster-group-form,
 .storage-volume-form,
+.edit-storage-volume,
 .volume-create-form {
   padding-bottom: 0;
 
@@ -24,8 +25,8 @@
     display: flex;
 
     .form-navigation {
+      min-width: 13rem;
       overflow: auto;
-      width: 18rem;
 
       .p-side-navigation__link {
         justify-content: flex-start;
@@ -70,6 +71,16 @@
       align-self: end;
     }
 
+    .profile-select {
+      column-gap: 1.5rem;
+      display: grid;
+      grid-template-columns: 6fr 6fr;
+
+      @include large {
+        grid-template-columns: 8fr 4fr;
+      }
+    }
+
     .profile-action-btn {
       margin-right: $sph--large;
     }
@@ -109,6 +120,10 @@
         margin-right: 0 !important;
       }
     }
+  }
+
+  .code-editor-wrapper {
+    max-width: 54rem;
   }
 
   .cpu-limit-label,
@@ -306,6 +321,27 @@
   width: 100%;
 }
 
-.restrict-editor-width {
-  max-width: 54rem;
+.create-instance,
+.create-network,
+.create-profile,
+.create-project,
+.edit-project,
+.create-storage-pool,
+.storage-volume-form {
+  .bottom-btns {
+    margin-top: 1rem;
+    max-width: 71rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.edit-instance,
+.edit-network,
+.edit-profile,
+.edit-storage-pool,
+.edit-storage-volume {
+  .bottom-btns {
+    margin-top: 1rem;
+    max-width: 69.5rem;
+  }
 }

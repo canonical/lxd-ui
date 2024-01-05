@@ -58,6 +58,7 @@ import { getProfileConfigKeys } from "util/instanceConfigFields";
 import { getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -180,7 +181,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
           .
         </Notification>
       )}
-      <Form onSubmit={formik.handleSubmit} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} className="form">
         <ProfileFormMenu
           active={activeSection ?? slugify(MAIN_CONFIGURATION)}
           setActive={updateSection}
@@ -240,43 +241,36 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
           </Col>
         </Row>
       </Form>
-      <div className="p-bottom-controls" id="form-footer">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            {readOnly ? (
-              <Button
-                appearance="positive"
-                disabled={!featuresProfiles}
-                onClick={() => void formik.setFieldValue("readOnly", false)}
-              >
-                Edit profile
-              </Button>
-            ) : (
-              <>
-                <Button
-                  appearance="base"
-                  onClick={() =>
-                    formik.setValues(getProfileEditValues(profile))
-                  }
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={
-                    !formik.isValid ||
-                    hasDiskError(formik) ||
-                    hasNetworkError(formik)
-                  }
-                  buttonLabel="Save changes"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        {readOnly ? (
+          <Button
+            appearance="positive"
+            disabled={!featuresProfiles}
+            onClick={() => void formik.setFieldValue("readOnly", false)}
+          >
+            Edit profile
+          </Button>
+        ) : (
+          <>
+            <Button
+              appearance="base"
+              onClick={() => formik.setValues(getProfileEditValues(profile))}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={
+                !formik.isValid ||
+                hasDiskError(formik) ||
+                hasNetworkError(formik)
+              }
+              buttonLabel="Save changes"
+              onClick={() => void formik.submitForm()}
+            />
+          </>
+        )}
+      </FormFooterLayout>
     </div>
   );
 };

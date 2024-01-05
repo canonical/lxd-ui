@@ -56,6 +56,7 @@ import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -158,7 +159,7 @@ const CreateProfile: FC = () => {
 
   return (
     <BaseLayout title="Create a profile" contentClassName="create-profile">
-      <Form onSubmit={formik.handleSubmit} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} className="form">
         <ProfileFormMenu
           active={section}
           setActive={updateSection}
@@ -211,30 +212,25 @@ const CreateProfile: FC = () => {
           </Col>
         </Row>
       </Form>
-      <div className="p-bottom-controls" id="form-footer">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() => navigate(`/ui/project/${project}/profiles`)}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={
-                !formik.isValid ||
-                !formik.values.name ||
-                hasDiskError(formik) ||
-                hasNetworkError(formik)
-              }
-              buttonLabel="Create"
-              onClick={() => void formik.submitForm()}
-            />
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        <Button
+          appearance="base"
+          onClick={() => navigate(`/ui/project/${project}/profiles`)}
+        >
+          Cancel
+        </Button>
+        <SubmitButton
+          isSubmitting={formik.isSubmitting}
+          isDisabled={
+            !formik.isValid ||
+            !formik.values.name ||
+            hasDiskError(formik) ||
+            hasNetworkError(formik)
+          }
+          buttonLabel="Create"
+          onClick={() => void formik.submitForm()}
+        />
+      </FormFooterLayout>
     </BaseLayout>
   );
 };

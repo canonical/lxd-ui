@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ import { slugify } from "util/slugify";
 import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 interface Props {
   network: LxdNetwork;
@@ -138,38 +139,31 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         section={section ?? slugify(MAIN_CONFIGURATION)}
         setSection={setSection}
       />
-      <div className="p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            {readOnly ? (
-              <Button
-                appearance="positive"
-                onClick={() => void formik.setFieldValue("readOnly", false)}
-              >
-                Edit network
-              </Button>
-            ) : (
-              <>
-                <Button
-                  appearance="base"
-                  onClick={() =>
-                    formik.setValues(getNetworkEditValues(network))
-                  }
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Save changes"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        {readOnly ? (
+          <Button
+            appearance="positive"
+            onClick={() => void formik.setFieldValue("readOnly", false)}
+          >
+            Edit network
+          </Button>
+        ) : (
+          <>
+            <Button
+              appearance="base"
+              onClick={() => formik.setValues(getNetworkEditValues(network))}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Save changes"
+              onClick={() => void formik.submitForm()}
+            />
+          </>
+        )}
+      </FormFooterLayout>
     </>
   );
 };

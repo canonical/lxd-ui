@@ -1,10 +1,8 @@
 import React, { FC } from "react";
 import {
   Button,
-  Col,
   Icon,
   Label,
-  Row,
   Select,
   useNotify,
 } from "@canonical/react-components";
@@ -65,8 +63,8 @@ const ProfileSelector: FC<Props> = ({
     <>
       <Label forId="profile-1">Profiles</Label>
       {selected.map((value, index) => (
-        <Row key={value}>
-          <Col size={12}>
+        <div className="profile-select" key={value}>
+          <div>
             <Select
               id={`profile-${index}`}
               help={
@@ -94,9 +92,9 @@ const ProfileSelector: FC<Props> = ({
               disabled={readOnly}
               title={title}
             ></Select>
-          </Col>
+          </div>
           {!readOnly && (index > 0 || selected.length > 1) && (
-            <Col size={4}>
+            <div>
               <Button
                 appearance="link"
                 className="profile-action-btn"
@@ -141,9 +139,9 @@ const ProfileSelector: FC<Props> = ({
                   Delete
                 </Button>
               )}
-            </Col>
+            </div>
           )}
-        </Row>
+        </div>
       ))}
       {!readOnly && (
         <Button

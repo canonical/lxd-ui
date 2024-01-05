@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -38,6 +38,7 @@ import {
 } from "pages/projects/forms/NetworkRestrictionForm";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -121,22 +122,17 @@ const CreateProject: FC = () => {
         updateSection={setSection}
         isEdit={false}
       />
-      <div className="p-bottom-controls" id="form-footer">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button appearance="base" onClick={() => navigate(-1)}>
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.name}
-              buttonLabel="Create"
-              onClick={() => void formik.submitForm()}
-            />
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        <Button appearance="base" onClick={() => navigate(-1)}>
+          Cancel
+        </Button>
+        <SubmitButton
+          isSubmitting={formik.isSubmitting}
+          isDisabled={!formik.isValid || !formik.values.name}
+          buttonLabel="Create"
+          onClick={() => void formik.submitForm()}
+        />
+      </FormFooterLayout>
     </BaseLayout>
   );
 };
