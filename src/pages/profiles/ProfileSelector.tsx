@@ -66,7 +66,7 @@ const ProfileSelector: FC<Props> = ({
       <Label forId="profile-1">Profiles</Label>
       {selected.map((value, index) => (
         <Row key={value}>
-          <Col size={8}>
+          <Col size={12}>
             <Select
               id={`profile-${index}`}
               help={

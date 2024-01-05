@@ -46,7 +46,10 @@ const YamlForm: FC<Props> = ({
   return (
     <>
       {children}
-      <div ref={containerRef} className="code-editor-wrapper">
+      <div
+        ref={containerRef}
+        className="code-editor-wrapper restrict-editor-width"
+      >
         <Editor
           defaultValue={yaml}
           language="yaml"

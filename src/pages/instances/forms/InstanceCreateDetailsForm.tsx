@@ -76,7 +76,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
   return (
     <div className="details">
       <Row>
-        <Col size={8}>
+        <Col size={12}>
           <Input
             id="name"
             name="name"
@@ -101,7 +101,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
         </Col>
       </Row>
       <Row>
-        <Col size={8}>
+        <Col size={12}>
           <label className="p-form__label" htmlFor="base-image">
             Base Image*
           </label>

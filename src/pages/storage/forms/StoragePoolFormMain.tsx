@@ -31,7 +31,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
 
   return (
     <Row>
-      <Col size={8}>
+      <Col size={12}>
         <Input
           {...getFormProps("name")}
           type="text"

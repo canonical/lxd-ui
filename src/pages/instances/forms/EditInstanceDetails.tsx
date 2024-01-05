@@ -30,7 +30,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
   return (
     <div className="details">
       <Row>
-        <Col size={8}>
+        <Col size={12}>
           <Input
             id="name"
             name="name"
@@ -60,7 +60,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
       </Row>
       {isClustered && (
         <Row>
-          <Col size={8}>
+          <Col size={12}>
             <Input
               id="target"
               name="target"
