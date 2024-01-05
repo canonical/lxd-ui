@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -23,6 +23,7 @@ import BaseLayout from "components/BaseLayout";
 import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -120,29 +121,24 @@ const CreateNetwork: FC = () => {
           setSection(slugify(section));
         }}
       />
-      <div className="p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() => navigate(`/ui/project/${project}/networks`)}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={
-                !formik.isValid ||
-                !formik.values.name ||
-                (formik.values.networkType === "ovn" && !formik.values.network)
-              }
-              buttonLabel="Create"
-              onClick={() => void formik.submitForm()}
-            />
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        <Button
+          appearance="base"
+          onClick={() => navigate(`/ui/project/${project}/networks`)}
+        >
+          Cancel
+        </Button>
+        <SubmitButton
+          isSubmitting={formik.isSubmitting}
+          isDisabled={
+            !formik.isValid ||
+            !formik.values.name ||
+            (formik.values.networkType === "ovn" && !formik.values.network)
+          }
+          buttonLabel="Create"
+          onClick={() => void formik.submitForm()}
+        />
+      </FormFooterLayout>
     </BaseLayout>
   );
 };

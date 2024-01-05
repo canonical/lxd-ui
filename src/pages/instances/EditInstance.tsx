@@ -53,6 +53,7 @@ import {
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -163,7 +164,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   return (
     <div className="edit-instance">
-      <Form onSubmit={formik.handleSubmit} stacked className="form">
+      <Form onSubmit={formik.handleSubmit} className="form">
         <InstanceFormMenu
           active={activeSection ?? slugify(MAIN_CONFIGURATION)}
           setActive={updateSection}
@@ -224,45 +225,38 @@ const EditInstance: FC<Props> = ({ instance }) => {
           </Col>
         </Row>
       </Form>
-      <div className="p-bottom-controls" id="form-footer">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            {readOnly ? (
-              <Button
-                appearance="positive"
-                onClick={() => {
-                  void formik.setFieldValue("readOnly", false);
-                  notify.clear();
-                }}
-              >
-                Edit instance
-              </Button>
-            ) : (
-              <>
-                <Button
-                  appearance="base"
-                  onClick={() =>
-                    formik.setValues(getInstanceEditValues(instance))
-                  }
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={
-                    !formik.isValid ||
-                    hasDiskError(formik) ||
-                    hasNetworkError(formik)
-                  }
-                  buttonLabel="Save changes"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        {readOnly ? (
+          <Button
+            appearance="positive"
+            onClick={() => {
+              void formik.setFieldValue("readOnly", false);
+              notify.clear();
+            }}
+          >
+            Edit instance
+          </Button>
+        ) : (
+          <>
+            <Button
+              appearance="base"
+              onClick={() => formik.setValues(getInstanceEditValues(instance))}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={
+                !formik.isValid ||
+                hasDiskError(formik) ||
+                hasNetworkError(formik)
+              }
+              buttonLabel="Save changes"
+              onClick={() => void formik.submitForm()}
+            />
+          </>
+        )}
+      </FormFooterLayout>
     </div>
   );
 };

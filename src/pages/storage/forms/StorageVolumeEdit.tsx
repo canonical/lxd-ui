@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,6 +15,7 @@ import { LxdStorageVolume } from "types/storage";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -75,44 +76,39 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
   };
 
   return (
-    <div className="storage-volume-form">
+    <div className="edit-storage-volume">
       <StorageVolumeForm
         formik={formik}
         section={section ?? slugify(MAIN_CONFIGURATION)}
         setSection={setSection}
       />
-      <div className="l-footer--sticky p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            {formik.values.readOnly ? (
-              <Button
-                appearance="positive"
-                onClick={() => void formik.setFieldValue("readOnly", false)}
-              >
-                Edit volume
-              </Button>
-            ) : (
-              <>
-                <Button
-                  appearance="base"
-                  onClick={() =>
-                    formik.setValues(getStorageVolumeEditValues(volume))
-                  }
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid || !formik.values.name}
-                  buttonLabel="Save changes"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        {formik.values.readOnly ? (
+          <Button
+            appearance="positive"
+            onClick={() => void formik.setFieldValue("readOnly", false)}
+          >
+            Edit volume
+          </Button>
+        ) : (
+          <>
+            <Button
+              appearance="base"
+              onClick={() =>
+                formik.setValues(getStorageVolumeEditValues(volume))
+              }
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid || !formik.values.name}
+              buttonLabel="Save changes"
+              onClick={() => void formik.submitForm()}
+            />
+          </>
+        )}
+      </FormFooterLayout>
     </div>
   );
 };

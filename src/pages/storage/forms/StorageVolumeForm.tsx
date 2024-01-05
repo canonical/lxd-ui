@@ -94,7 +94,6 @@ export const getFormProps = (
     onChange: formik.handleChange,
     value: (formik.values[id] as string | undefined) ?? "",
     error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-    stacked: true,
     placeholder: `Enter ${id.replaceAll("_", " ")}`,
   };
 };
@@ -132,7 +131,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
     pools.find((item) => item.name === formik.values.pool)?.driver ?? "";
 
   return (
-    <Form onSubmit={formik.handleSubmit} stacked className="form">
+    <Form onSubmit={formik.handleSubmit} className="form">
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden />
       <StorageVolumeFormMenu

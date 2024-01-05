@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -18,6 +18,7 @@ import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import { POOL } from "../StorageVolumesFilter";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 const StorageVolumeCreate: FC = () => {
   const navigate = useNavigate();
@@ -92,25 +93,20 @@ const StorageVolumeCreate: FC = () => {
         section={section}
         setSection={(val) => setSection(slugify(val))}
       />
-      <div className="l-footer--sticky p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            <Button
-              appearance="base"
-              onClick={() => navigate(`/ui/project/${project}/storage/volumes`)}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid}
-              onClick={submitForm}
-              buttonLabel="Create"
-            />
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        <Button
+          appearance="base"
+          onClick={() => navigate(`/ui/project/${project}/storage/volumes`)}
+        >
+          Cancel
+        </Button>
+        <SubmitButton
+          isSubmitting={formik.isSubmitting}
+          isDisabled={!formik.isValid}
+          onClick={submitForm}
+          buttonLabel="Create"
+        />
+      </FormFooterLayout>
     </BaseLayout>
   );
 };

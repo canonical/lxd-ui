@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -28,6 +28,7 @@ import { getProjectConfigKeys } from "util/projectConfigFields";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 import { useAuth } from "context/auth";
 import CustomLayout from "components/CustomLayout";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 interface Props {
   project: LxdProject;
@@ -112,38 +113,33 @@ const EditProject: FC<Props> = ({ project }) => {
         isEdit={true}
       />
       {!isRestricted && (
-        <div className="p-bottom-controls" id="form-footer">
-          <hr />
-          <Row>
-            <Col size={12} className="u-align--right">
-              {formik.values.readOnly ? (
-                <>
-                  <Button
-                    appearance="positive"
-                    onClick={() => void formik.setFieldValue("readOnly", false)}
-                  >
-                    Edit configuration
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    appearance="base"
-                    onClick={() => formik.setValues(initialValues)}
-                  >
-                    Cancel
-                  </Button>
-                  <SubmitButton
-                    isSubmitting={formik.isSubmitting}
-                    isDisabled={!formik.isValid || !formik.values.name}
-                    buttonLabel="Save changes"
-                    onClick={() => void formik.submitForm()}
-                  />
-                </>
-              )}
-            </Col>
-          </Row>
-        </div>
+        <FormFooterLayout>
+          {formik.values.readOnly ? (
+            <>
+              <Button
+                appearance="positive"
+                onClick={() => void formik.setFieldValue("readOnly", false)}
+              >
+                Edit configuration
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                appearance="base"
+                onClick={() => formik.setValues(initialValues)}
+              >
+                Cancel
+              </Button>
+              <SubmitButton
+                isSubmitting={formik.isSubmitting}
+                isDisabled={!formik.isValid || !formik.values.name}
+                buttonLabel="Save changes"
+                onClick={() => void formik.submitForm()}
+              />
+            </>
+          )}
+        </FormFooterLayout>
       )}
     </CustomLayout>
   );

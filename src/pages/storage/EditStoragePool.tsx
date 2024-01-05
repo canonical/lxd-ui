@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Col, Row, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   fetchStoragePool,
@@ -17,6 +17,7 @@ import StoragePoolForm, {
 } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
+import FormFooterLayout from "components/forms/FormFooterLayout";
 
 interface Props {
   pool: LxdStoragePool;
@@ -97,36 +98,31 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   return (
     <div className="edit-storage-pool">
       <StoragePoolForm formik={formik} />
-      <div className="p-bottom-controls">
-        <hr />
-        <Row className="u-align--right">
-          <Col size={12}>
-            {formik.values.readOnly ? (
-              <Button
-                appearance="positive"
-                onClick={() => void formik.setFieldValue("readOnly", false)}
-              >
-                Edit pool
-              </Button>
-            ) : (
-              <>
-                <Button
-                  appearance="base"
-                  onClick={() => formik.setValues(getEditValues(pool))}
-                >
-                  Cancel
-                </Button>
-                <SubmitButton
-                  isSubmitting={formik.isSubmitting}
-                  isDisabled={!formik.isValid}
-                  buttonLabel="Save changes"
-                  onClick={() => void formik.submitForm()}
-                />
-              </>
-            )}
-          </Col>
-        </Row>
-      </div>
+      <FormFooterLayout>
+        {formik.values.readOnly ? (
+          <Button
+            appearance="positive"
+            onClick={() => void formik.setFieldValue("readOnly", false)}
+          >
+            Edit pool
+          </Button>
+        ) : (
+          <>
+            <Button
+              appearance="base"
+              onClick={() => formik.setValues(getEditValues(pool))}
+            >
+              Cancel
+            </Button>
+            <SubmitButton
+              isSubmitting={formik.isSubmitting}
+              isDisabled={!formik.isValid}
+              buttonLabel="Save changes"
+              onClick={() => void formik.submitForm()}
+            />
+          </>
+        )}
+      </FormFooterLayout>
     </div>
   );
 };
