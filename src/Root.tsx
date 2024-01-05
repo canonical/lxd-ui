@@ -9,29 +9,35 @@ import { InstanceLoadingProvider } from "context/instanceLoading";
 import { ProjectProvider } from "context/project";
 import Events from "pages/instances/Events";
 import App from "./App";
+import ErrorBoundary from "components/ErrorBoundary";
+import ErrorPage from "components/ErrorPage";
 
 const queryClient = new QueryClient();
 
 const Root: FC = () => {
   return (
-    <NotificationProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <ProjectProvider>
-            <InstanceLoadingProvider>
-              <EventQueueProvider>
-                <div className="l-application" role="presentation">
-                  <Navigation />
-                  <App />
-                  <Panels />
-                  <Events />
-                </div>
-              </EventQueueProvider>
-            </InstanceLoadingProvider>
-          </ProjectProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </NotificationProvider>
+    <ErrorBoundary fallback={ErrorPage}>
+      <NotificationProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <ProjectProvider>
+              <InstanceLoadingProvider>
+                <EventQueueProvider>
+                  <div className="l-application" role="presentation">
+                    <Navigation />
+                    <ErrorBoundary fallback={ErrorPage}>
+                      <App />
+                      <Panels />
+                      <Events />
+                    </ErrorBoundary>
+                  </div>
+                </EventQueueProvider>
+              </InstanceLoadingProvider>
+            </ProjectProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </NotificationProvider>
+    </ErrorBoundary>
   );
 };
 
