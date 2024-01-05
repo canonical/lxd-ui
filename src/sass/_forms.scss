@@ -48,7 +48,7 @@
       padding-left: 2.5rem;
 
       .details {
-        max-width: 42rem;
+        max-width: 54rem;
       }
     }
 
@@ -304,4 +304,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.restrict-editor-width {
+  max-width: 54rem;
 }

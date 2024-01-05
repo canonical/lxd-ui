@@ -31,7 +31,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
   return (
     <>
       <Row>
-        <Col size={8}>
+        <Col size={12}>
           <NetworkTypeSelector formik={formik} />
           <Input
             {...getFormProps("name")}

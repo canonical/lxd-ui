@@ -30,7 +30,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
   return (
     <div className="details">
       <Row>
-        <Col size={8}>
+        <Col size={12}>
           <Input
             id="name"
             name="name"

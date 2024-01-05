@@ -20,7 +20,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
   return (
     <>
       <Row>
-        <Col size={8}>
+        <Col size={12}>
           {formik.values.isCreating && (
             <>
               <Label forId="storage-pool-selector" required>
@@ -37,6 +37,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             {...getFormProps(formik, "name")}
             type="text"
             label="Name"
+            stacked={false}
             disabled={formik.values.readOnly || !formik.values.isCreating}
             required={formik.values.isCreating}
             help={
