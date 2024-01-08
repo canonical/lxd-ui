@@ -6,6 +6,7 @@ import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { LxdStorageVolumeContentType } from "types/storage";
+import { driversWithFilesystemSupport, zfsDriver } from "util/storageOptions";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const SNAPSHOTS = "Snapshots";
@@ -76,14 +77,14 @@ const StorageVolumeFormMenu: FC<Props> = ({
                 disableReason={disableReason}
               />
               {contentType === "filesystem" &&
-                ["zfs", "lvm", "ceph"].includes(poolDriver) && (
+                driversWithFilesystemSupport.includes(poolDriver) && (
                   <MenuItem
                     label={FILESYSTEM}
                     {...menuItemProps}
                     disableReason={disableReason}
                   />
                 )}
-              {poolDriver === "zfs" && (
+              {poolDriver === zfsDriver && (
                 <MenuItem
                   label={ZFS}
                   {...menuItemProps}

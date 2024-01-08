@@ -21,11 +21,11 @@ const StoragePoolSize: FC<Props> = ({ pool }) => {
   }
 
   const total = resources.space.total;
-  const used = resources.space.used;
+  const used = resources.space.used || 0;
 
   return (
     <Meter
-      percentage={(100 / total) * used}
+      percentage={(100 / total) * used || 0}
       text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
     />
   );

@@ -8,12 +8,12 @@ import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
-import { zfsDriver, btrfsDriver } from "util/storageOptions";
+import { zfsDriver } from "util/storageOptions";
 import { testDuplicateStoragePoolName } from "util/storagePool";
 import StoragePoolForm, {
   StoragePoolFormValues,
+  storagePoolFormToPayload,
 } from "./forms/StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
@@ -45,20 +45,11 @@ const CreateStoragePool: FC = () => {
       driver: zfsDriver,
       source: "",
       size: "",
+      entityType: "storagePool",
     },
     validationSchema: CreateStoragePoolSchema,
-    onSubmit: ({ name, description, driver, source, size }) => {
-      const hasValidSize = size.match(/^\d/);
-      const storagePool: LxdStoragePool = {
-        name,
-        description,
-        driver,
-        source: driver !== btrfsDriver ? source : undefined,
-        config: {
-          size: hasValidSize ? size : undefined,
-        },
-      };
-
+    onSubmit: (values) => {
+      const storagePool = storagePoolFormToPayload(values);
       const mutation =
         clusterMembers.length > 0
           ? () => createClusteredPool(storagePool, project, clusterMembers)
