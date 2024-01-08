@@ -19,6 +19,7 @@ import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { fetchStoragePool } from "api/storage-pools";
 import { getStorageVolumeDefault, getVolumeKey } from "util/storageVolume";
 import { getNetworkDefault } from "util/networks";
+import { getCephStoragePoolDefault } from "./storagePool";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -40,6 +41,8 @@ export const getConfigRowMetadata = (
       return getStorageVolumeRowMetadata(values, name);
     case "network":
       return getNetworkRowMetadata(name);
+    case "storagePool":
+      return getStoragePoolRowMetadata(name);
   }
 };
 
@@ -116,6 +119,11 @@ const getStorageVolumeRowMetadata = (
 
 const getNetworkRowMetadata = (name: string): ConfigRowMetadata => {
   return getNetworkDefault(name);
+};
+
+// NOTE: this is only relevant for Ceph RBD storage pools at the moment
+const getStoragePoolRowMetadata = (name: string): ConfigRowMetadata => {
+  return getCephStoragePoolDefault(name);
 };
 
 const getInstanceProfileProjectDefaults = (

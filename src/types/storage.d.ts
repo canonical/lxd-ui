@@ -1,5 +1,5 @@
 export interface LxdStoragePool {
-  config?: {
+  config: {
     size?: string;
     source?: string;
   } & Record<string, string | undefined>;
@@ -63,7 +63,7 @@ export interface LxdStoragePoolResources {
     total: number;
   };
   space: {
-    used: number;
+    used?: number;
     total: number;
   };
 }

@@ -14,10 +14,12 @@ import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import StoragePoolForm, {
   StoragePoolFormValues,
+  storagePoolFormToPayload,
 } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { getStoragePoolEditValues } from "util/storagePoolEdit";
 
 interface Props {
   pool: LxdStoragePool;
@@ -46,30 +48,11 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       .required("This field is required"),
   });
 
-  const getEditValues = (pool: LxdStoragePool) => {
-    return {
-      isCreating: false,
-      readOnly: true,
-      name: pool.name,
-      description: pool.description,
-      driver: pool.driver,
-      source: pool.config?.source || "",
-      size: pool.config?.size || "GiB",
-    };
-  };
-
   const formik = useFormik<StoragePoolFormValues>({
-    initialValues: getEditValues(pool),
+    initialValues: getStoragePoolEditValues(pool),
     validationSchema: StoragePoolSchema,
-    onSubmit: ({ name, description, size }) => {
-      const hasValidSize = size.match(/^\d/);
-      const savedPool: Partial<LxdStoragePool> = {
-        name,
-        description,
-        config: {
-          size: hasValidSize ? size : undefined,
-        },
-      };
+    onSubmit: (values) => {
+      const savedPool = storagePoolFormToPayload(values);
 
       const mutation =
         clusterMembers.length > 0
@@ -80,8 +63,12 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
         .then(async () => {
           notify.success("Storage pool updated.");
           const member = clusterMembers[0]?.server_name ?? undefined;
-          const updatedPool = await fetchStoragePool(name, project, member);
-          void formik.setValues(getEditValues(updatedPool));
+          const updatedPool = await fetchStoragePool(
+            values.name,
+            project,
+            member,
+          );
+          void formik.setValues(getStoragePoolEditValues(updatedPool));
         })
         .catch((e) => {
           notify.failure("Storage pool update failed", e);
@@ -110,7 +97,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           <>
             <Button
               appearance="base"
-              onClick={() => formik.setValues(getEditValues(pool))}
+              onClick={() => formik.setValues(getStoragePoolEditValues(pool))}
             >
               Cancel
             </Button>

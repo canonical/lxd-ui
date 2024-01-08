@@ -13,18 +13,21 @@ import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { getConfigRowMetadata } from "util/configInheritance";
+import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 
 export type ConfigurationRowFormikValues =
   | InstanceAndProfileFormValues
   | StorageVolumeFormValues
   | NetworkFormValues
-  | ProjectFormValues;
+  | ProjectFormValues
+  | StoragePoolFormValues;
 
 type ConfigurationRowFormikProps =
   | InstanceAndProfileFormikProps
   | FormikProps<NetworkFormValues>
   | FormikProps<ProjectFormValues>
-  | FormikProps<StorageVolumeFormValues>;
+  | FormikProps<StorageVolumeFormValues>
+  | FormikProps<StoragePoolFormValues>;
 
 interface Props {
   formik: ConfigurationRowFormikProps;

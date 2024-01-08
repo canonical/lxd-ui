@@ -14,6 +14,7 @@ import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
 import { LxdClusterMember } from "types/cluster";
+import { cephDriver } from "util/storageOptions";
 
 export const fetchStoragePool = (
   pool: string,
@@ -72,11 +73,23 @@ export const createPool = (
   });
 };
 
-const getPoolForCluster = (pool: Partial<LxdStoragePool>) => {
+const getClusterPool = (pool: Partial<LxdStoragePool>) => {
   const poolForCluster = { ...pool };
-  delete poolForCluster.config;
+  if (pool.driver !== cephDriver) {
+    delete poolForCluster.config;
+  }
 
   return poolForCluster;
+};
+
+const getMemberPool = (pool: Partial<LxdStoragePool>) => {
+  const poolForMember = { ...pool };
+  // config keys for ceph storage pool cannot be member specific
+  if (pool.driver === cephDriver) {
+    delete poolForMember.config;
+  }
+
+  return poolForMember;
 };
 
 export const createClusteredPool = (
@@ -84,14 +97,17 @@ export const createClusteredPool = (
   project: string,
   clusterMembers: LxdClusterMember[],
 ) => {
+  const memberPool = getMemberPool(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
-      clusterMembers.map(async (item) =>
-        createPool(pool, project, item.server_name),
+      clusterMembers.map((item) =>
+        createPool(memberPool, project, item.server_name),
       ),
     )
       .then(handleSettledResult)
-      .then(() => createPool(getPoolForCluster(pool), project))
+      .then(() => {
+        return createPool(getClusterPool(pool), project);
+      })
       .then(resolve)
       .catch(reject);
   });
@@ -119,14 +135,15 @@ export const updateClusteredPool = (
   project: string,
   clusterMembers: LxdClusterMember[],
 ) => {
+  const memberPool = getMemberPool(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
       clusterMembers.map(async (item) =>
-        updatePool(pool, project, item.server_name),
+        updatePool(memberPool, project, item.server_name),
       ),
     )
       .then(handleSettledResult)
-      .then(() => updatePool(getPoolForCluster(pool), project))
+      .then(() => updatePool(getClusterPool(pool), project))
       .then(resolve)
       .catch(reject);
   });
