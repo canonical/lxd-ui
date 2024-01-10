@@ -101,7 +101,7 @@ const SelectableMainTable: FC<Props> = ({
       setSelectedNames(newSelection);
     };
 
-    row.columns = [
+    const columns = [
       {
         content: (
           <CheckboxInput
@@ -120,13 +120,19 @@ const SelectableMainTable: FC<Props> = ({
       ...(row.columns ?? []),
     ];
 
-    row.className = classnames(row.className, {
+    const className = classnames(row.className, {
       "selected-row": isRowSelected,
       "processing-row": isRowProcessing,
     });
-    row.key = row.name;
 
-    return row;
+    const key = row.name;
+
+    return {
+      ...row,
+      className,
+      key,
+      columns,
+    };
   });
 
   return (

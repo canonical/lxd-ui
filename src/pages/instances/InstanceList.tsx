@@ -6,6 +6,7 @@ import {
   Icon,
   Row,
   Spinner,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import { fetchInstances } from "api/instances";
@@ -22,8 +23,6 @@ import classnames from "classnames";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
-import Pagination from "components/Pagination";
-import { usePagination } from "util/pagination";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
@@ -55,6 +54,7 @@ import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import { LxdInstanceStatus } from "types/instance";
+import useSortTableData from "util/useSortTableData";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -432,7 +432,9 @@ const InstanceList: FC = () => {
     return creationRows.concat(instanceRows);
   };
 
-  const pagination = usePagination(getRows(userHidden.concat(sizeHidden)));
+  const { rows: sortedRows, updateSort } = useSortTableData({
+    rows: getRows(userHidden.concat(sizeHidden)),
+  });
 
   const figureSizeHidden = () => {
     const wrapper = document.getElementById("instance-table-measure");
@@ -540,65 +542,62 @@ const InstanceList: FC = () => {
         <Col size={12}>
           {hasInstances && (
             <>
-              <Pagination
-                {...pagination}
-                id="pagination"
-                className="u-no-margin--top"
-                totalCount={totalInstanceCount}
-                selectedNotification={
-                  selectedNames.length > 0 && (
-                    <SelectedTableNotification
-                      totalCount={totalInstanceCount}
-                      itemName="instance"
-                      parentName={`project: ${project}`}
-                      selectedNames={selectedNames}
-                      setSelectedNames={setSelectedNames}
-                      filteredNames={filteredInstances.map(
-                        (instance) => instance.name,
-                      )}
-                    />
-                  )
-                }
-                visibleCount={
-                  filteredInstances.length === instances.length
-                    ? pagination.pageData.length
-                    : filteredInstances.length + creationOperations.length
-                }
-                keyword="instance"
-              />
-              <TableColumnsSelect
-                columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
-                hidden={userHidden}
-                sizeHidden={sizeHidden}
-                setHidden={setHidden}
-                className={classnames({
-                  "u-hide": panelParams.instance,
-                })}
-              />
               <ScrollableTable
                 dependencies={[filteredInstances, notify.notification]}
+                tableId="instances-table"
               >
-                <SelectableMainTable
-                  headers={getHeaders(userHidden.concat(sizeHidden))}
-                  rows={pagination.pageData}
-                  sortable
-                  emptyStateMsg={
-                    isLoading ? (
-                      <Loader text="Loading instances..." />
-                    ) : (
-                      <>No instance found matching this search</>
+                <TablePagination
+                  data={sortedRows}
+                  id="pagination"
+                  itemName="instance"
+                  className="u-no-margin--top"
+                  description={
+                    selectedNames.length > 0 && (
+                      <SelectedTableNotification
+                        totalCount={totalInstanceCount}
+                        itemName="instance"
+                        parentName={`project: ${project}`}
+                        selectedNames={selectedNames}
+                        setSelectedNames={setSelectedNames}
+                        filteredNames={filteredInstances.map(
+                          (instance) => instance.name,
+                        )}
+                      />
                     )
                   }
-                  itemName="instance"
-                  parentName="project"
-                  selectedNames={selectedNames}
-                  setSelectedNames={setSelectedNames}
-                  processingNames={processingNames}
-                  filteredNames={filteredInstances.map(
-                    (instance) => instance.name,
-                  )}
-                  onUpdateSort={pagination.updateSort}
-                />
+                >
+                  <TableColumnsSelect
+                    columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                    hidden={userHidden}
+                    sizeHidden={sizeHidden}
+                    setHidden={setHidden}
+                    className={classnames({
+                      "u-hide": panelParams.instance,
+                    })}
+                  />
+                  <SelectableMainTable
+                    id="instances-table"
+                    headers={getHeaders(userHidden.concat(sizeHidden))}
+                    rows={sortedRows}
+                    sortable
+                    emptyStateMsg={
+                      isLoading ? (
+                        <Loader text="Loading instances..." />
+                      ) : (
+                        <>No instance found matching this search</>
+                      )
+                    }
+                    itemName="instance"
+                    parentName="project"
+                    selectedNames={selectedNames}
+                    setSelectedNames={setSelectedNames}
+                    processingNames={processingNames}
+                    filteredNames={filteredInstances.map(
+                      (instance) => instance.name,
+                    )}
+                    onUpdateSort={updateSort}
+                  />
+                </TablePagination>
               </ScrollableTable>
               <div id="instance-table-measure">
                 <SelectableMainTable

@@ -5,6 +5,7 @@ import {
   List,
   MainTable,
   SearchBox,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
@@ -16,10 +17,9 @@ import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
 import ScrollableTable from "components/ScrollableTable";
-import { usePagination } from "util/pagination";
-import Pagination from "components/Pagination";
 import { Link } from "react-router-dom";
 import { useDocs } from "context/useDocs";
+import useSortTableData from "util/useSortTableData";
 
 interface Props {
   project: string;
@@ -132,7 +132,7 @@ const CustomIsoList: FC<Props> = ({ project }) => {
     };
   });
 
-  const pagination = usePagination(rows);
+  const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
     return <Loader text="Loading custom ISOs..." />;
@@ -175,27 +175,22 @@ const CustomIsoList: FC<Props> = ({ project }) => {
         </div>
         <UploadCustomIsoBtn />
       </div>
-      <Pagination
-        {...pagination}
-        id="pagination"
-        className="u-no-margin--top"
-        totalCount={images.length}
-        visibleCount={
-          filteredImages.length === images.length
-            ? pagination.pageData.length
-            : filteredImages.length
-        }
-        keyword="custom ISO"
-      />
-      <ScrollableTable dependencies={[images]}>
-        <MainTable
-          headers={headers}
-          rows={pagination.pageData}
-          sortable
-          className="custom-iso-table"
-          onUpdateSort={pagination.updateSort}
-          emptyStateMsg="No custom ISOs found matching this search"
-        />
+      <ScrollableTable dependencies={[images]} tableId="custom-iso-table">
+        <TablePagination
+          data={sortedRows}
+          id="pagination"
+          className="u-no-margin--top"
+          itemName="custom ISO"
+        >
+          <MainTable
+            id="custom-iso-table"
+            headers={headers}
+            sortable
+            className="custom-iso-table"
+            onUpdateSort={updateSort}
+            emptyStateMsg="No custom ISOs found matching this search"
+          />
+        </TablePagination>
       </ScrollableTable>
     </div>
   );

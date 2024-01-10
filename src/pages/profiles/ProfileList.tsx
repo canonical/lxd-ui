@@ -6,6 +6,7 @@ import {
   Notification,
   Row,
   SearchBox,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import { fetchProfiles } from "api/profiles";
@@ -15,8 +16,6 @@ import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
 import usePanelParams from "util/usePanelParams";
-import { usePagination } from "util/pagination";
-import Pagination from "components/Pagination";
 import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
@@ -26,6 +25,7 @@ import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
+import useSortTableData from "util/useSortTableData";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -159,7 +159,7 @@ const ProfileList: FC = () => {
     };
   });
 
-  const pagination = usePagination(rows);
+  const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   return (
     <CustomLayout
@@ -215,32 +215,29 @@ const ProfileList: FC = () => {
           <ScrollableTable
             dependencies={[filteredProfiles, notify.notification]}
             belowId="pagination"
+            tableId="profile-table"
           >
-            <MainTable
-              headers={headers}
-              rows={pagination.pageData}
-              sortable
-              emptyStateMsg={
-                isLoading ? (
-                  <Loader text="Loading profiles..." />
-                ) : (
-                  <>No profile found matching this search</>
-                )
-              }
-              onUpdateSort={pagination.updateSort}
-            />
+            <TablePagination
+              data={sortedRows}
+              id="pagination"
+              itemName="profile"
+              position="below"
+            >
+              <MainTable
+                id="profile-table"
+                headers={headers}
+                sortable
+                emptyStateMsg={
+                  isLoading ? (
+                    <Loader text="Loading profiles..." />
+                  ) : (
+                    <>No profile found matching this search</>
+                  )
+                }
+                onUpdateSort={updateSort}
+              />
+            </TablePagination>
           </ScrollableTable>
-          <Pagination
-            {...pagination}
-            id="pagination"
-            totalCount={profiles.length}
-            visibleCount={
-              filteredProfiles.length === profiles.length
-                ? pagination.pageData.length
-                : filteredProfiles.length
-            }
-            keyword="profile"
-          />
         </Col>
       </Row>
     </CustomLayout>

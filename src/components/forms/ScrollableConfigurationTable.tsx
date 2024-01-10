@@ -18,8 +18,13 @@ const ScrollableConfigurationTable: FC<Props> = ({
   const notify = useNotify();
 
   return (
-    <ScrollableTable dependencies={[notify.notification]} belowId="form-footer">
+    <ScrollableTable
+      dependencies={[notify.notification]}
+      belowId="form-footer"
+      tableId="config-table"
+    >
       <ConfigurationTable
+        id="config-table"
         rows={rows}
         configurationExtra={configurationExtra}
         emptyStateMsg={emptyStateMsg}

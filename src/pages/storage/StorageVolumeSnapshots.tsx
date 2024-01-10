@@ -3,13 +3,12 @@ import {
   EmptyState,
   Icon,
   SearchBox,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
 import useEventListener from "@use-it/event-listener";
-import Pagination from "components/Pagination";
-import { usePagination } from "util/pagination";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import Loader from "components/Loader";
@@ -26,6 +25,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { isSnapshotsDisabled } from "util/snapshots";
 import { figureCollapsedScreen } from "util/storageVolume";
+import useSortTableData from "util/useSortTableData";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -176,7 +176,11 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
     };
   });
 
-  const pagination = usePagination(rows, "created_at", "descending");
+  const { rows: sortedRows, updateSort } = useSortTableData({
+    rows,
+    defaultSort: "created_at",
+    defaultSortDirection: "descending",
+  });
 
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
@@ -237,45 +241,46 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
 
       {hasSnapshots ? (
         <>
-          <Pagination
-            {...pagination}
-            id="pagination"
-            totalCount={volumeSnapshots.length ?? 0}
-            visibleCount={
-              filteredSnapshots.length === volumeSnapshots.length
-                ? pagination.pageData.length
-                : filteredSnapshots.length
-            }
-            selectedNotification={
-              selectedNames.length > 0 && (
-                <SelectedTableNotification
-                  totalCount={volumeSnapshots.length ?? 0}
-                  itemName="snapshot"
-                  parentName="volume"
-                  selectedNames={selectedNames}
-                  setSelectedNames={setSelectedNames}
-                  filteredNames={filteredSnapshots.map((item) => item.name)}
-                />
-              )
-            }
-            keyword="snapshot"
-          />
-          <ScrollableTable dependencies={[filteredSnapshots]}>
-            <SelectableMainTable
-              headers={headers}
-              rows={pagination.pageData}
-              sortable
-              emptyStateMsg="No snapshot found matching this search"
+          <ScrollableTable
+            dependencies={[filteredSnapshots]}
+            tableId="volume-snapshot-table"
+          >
+            <TablePagination
+              data={sortedRows}
+              id="pagination"
               itemName="snapshot"
-              parentName="instance"
-              selectedNames={selectedNames}
-              setSelectedNames={setSelectedNames}
-              processingNames={processingNames}
-              filteredNames={filteredSnapshots.map((snapshot) => snapshot.name)}
-              onUpdateSort={pagination.updateSort}
-              defaultSort="created_at"
-              defaultSortDirection="descending"
-            />
+              description={
+                selectedNames.length > 0 && (
+                  <SelectedTableNotification
+                    totalCount={volumeSnapshots.length ?? 0}
+                    itemName="snapshot"
+                    parentName="volume"
+                    selectedNames={selectedNames}
+                    setSelectedNames={setSelectedNames}
+                    filteredNames={filteredSnapshots.map((item) => item.name)}
+                  />
+                )
+              }
+            >
+              <SelectableMainTable
+                id="volume-snapshot-table"
+                headers={headers}
+                rows={sortedRows}
+                sortable
+                emptyStateMsg="No snapshot found matching this search"
+                itemName="snapshot"
+                parentName="instance"
+                selectedNames={selectedNames}
+                setSelectedNames={setSelectedNames}
+                processingNames={processingNames}
+                filteredNames={filteredSnapshots.map(
+                  (snapshot) => snapshot.name,
+                )}
+                onUpdateSort={updateSort}
+                defaultSort="created_at"
+                defaultSortDirection="descending"
+              />
+            </TablePagination>
           </ScrollableTable>
         </>
       ) : (

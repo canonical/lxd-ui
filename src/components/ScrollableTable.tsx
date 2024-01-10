@@ -6,17 +6,19 @@ interface Props {
   children: ReactNode;
   dependencies: DependencyList;
   belowId?: string;
+  tableId: string;
 }
 
 const ScrollableTable: FC<Props> = ({
   dependencies,
   children,
   belowId = "",
+  tableId,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const updateTBodyHeight = () => {
-    const table = ref.current?.children[0];
+    const table = document.getElementById(tableId);
     if (!table || table.children.length !== 2) {
       return;
     }

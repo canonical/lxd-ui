@@ -5,6 +5,7 @@ import {
   List,
   MainTable,
   SearchBox,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
@@ -17,8 +18,7 @@ import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import { localLxdToRemoteImage } from "util/images";
 import ScrollableTable from "components/ScrollableTable";
-import { usePagination } from "util/pagination";
-import Pagination from "components/Pagination";
+import useSortTableData from "util/useSortTableData";
 
 const ImageList: FC = () => {
   const notify = useNotify();
@@ -156,7 +156,7 @@ const ImageList: FC = () => {
     };
   });
 
-  const pagination = usePagination(rows);
+  const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
     return <Loader text="Loading images..." />;
@@ -187,27 +187,22 @@ const ImageList: FC = () => {
           />
         </div>
       </div>
-      <Pagination
-        {...pagination}
-        id="pagination"
-        className="u-no-margin--top"
-        totalCount={images.length}
-        visibleCount={
-          filteredImages.length === images.length
-            ? pagination.pageData.length
-            : filteredImages.length
-        }
-        keyword="image"
-      />
-      <ScrollableTable dependencies={[images]}>
-        <MainTable
-          headers={headers}
-          rows={pagination.pageData}
-          sortable
-          className="image-table"
-          emptyStateMsg="No images found matching this search"
-          onUpdateSort={pagination.updateSort}
-        />
+      <ScrollableTable dependencies={[images]} tableId="image-table">
+        <TablePagination
+          data={sortedRows}
+          id="pagination"
+          className="u-no-margin--top"
+          itemName="image"
+        >
+          <MainTable
+            id="image-table"
+            headers={headers}
+            sortable
+            className="image-table"
+            emptyStateMsg="No images found matching this search"
+            onUpdateSort={updateSort}
+          />
+        </TablePagination>
       </ScrollableTable>
     </div>
   );
