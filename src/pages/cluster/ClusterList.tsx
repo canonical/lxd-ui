@@ -4,6 +4,7 @@ import {
   Icon,
   MainTable,
   Row,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import { fetchClusterMembers } from "api/cluster";
@@ -15,19 +16,18 @@ import { useParams } from "react-router-dom";
 import EditClusterGroupBtn from "pages/cluster/actions/EditClusterGroupBtn";
 import DeleteClusterGroupBtn from "pages/cluster/actions/DeleteClusterGroupBtn";
 import ScrollableTable from "components/ScrollableTable";
-import { usePagination } from "util/pagination";
 import {
   allClusterGroups,
   getClusterHeaders,
   getClusterRows,
 } from "util/clusterGroups";
-import Pagination from "components/Pagination";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import { isClusteredServer } from "util/settings";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
+import useSortTableData from "util/useSortTableData";
 
 const ClusterList: FC = () => {
   const docBaseLink = useDocs();
@@ -56,7 +56,7 @@ const ClusterList: FC = () => {
 
   const headers = getClusterHeaders(activeGroup);
   const rows = getClusterRows(filteredMembers, activeGroup);
-  const pagination = usePagination(rows);
+  const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   return (
     <BaseLayout
@@ -88,28 +88,25 @@ const ClusterList: FC = () => {
             <ScrollableTable
               dependencies={[filteredMembers, notify.notification]}
               belowId="pagination"
+              tableId="cluster-table"
             >
-              <MainTable
-                headers={headers}
-                rows={pagination.pageData}
-                sortable
-                onUpdateSort={pagination.updateSort}
-                emptyStateMsg={
-                  isLoading && <Loader text="Loading cluster members..." />
-                }
-              />
+              <TablePagination
+                data={sortedRows}
+                id="pagination"
+                itemName="cluster member"
+                position="below"
+              >
+                <MainTable
+                  id="cluster-table"
+                  headers={headers}
+                  sortable
+                  onUpdateSort={updateSort}
+                  emptyStateMsg={
+                    isLoading && <Loader text="Loading cluster members..." />
+                  }
+                />
+              </TablePagination>
             </ScrollableTable>
-            <Pagination
-              {...pagination}
-              id="pagination"
-              totalCount={members.length}
-              visibleCount={
-                filteredMembers.length === members.length
-                  ? pagination.pageData.length
-                  : filteredMembers.length
-              }
-              keyword="cluster member"
-            />
           </>
         )}
         {!isLoading &&

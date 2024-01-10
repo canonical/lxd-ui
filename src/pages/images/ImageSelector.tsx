@@ -406,8 +406,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             </div>
           </div>
           <div className="image-list">
-            <ScrollableTable dependencies={[images]}>
+            <ScrollableTable
+              dependencies={[images]}
+              tableId="image-selector-table"
+            >
               <MainTable
+                id="image-selector-table"
                 className="table-image-select"
                 emptyStateMsg={
                   isLoading ? (

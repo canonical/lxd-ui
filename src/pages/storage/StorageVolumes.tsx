@@ -6,14 +6,13 @@ import {
   EmptyState,
   Icon,
   MainTable,
+  TablePagination,
   useNotify,
 } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { isoTimeToString } from "util/helpers";
 import { loadVolumes } from "context/loadIsoVolumes";
 import ScrollableTable from "components/ScrollableTable";
-import { usePagination } from "util/pagination";
-import Pagination from "components/Pagination";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import StorageVolumesFilter, {
   CONTENT_TYPE,
@@ -49,6 +48,7 @@ import classnames from "classnames";
 import useEventListener from "@use-it/event-listener";
 import { useProject } from "context/project";
 import { isSnapshotsDisabled } from "util/snapshots";
+import useSortTableData from "util/useSortTableData";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -360,7 +360,9 @@ const StorageVolumes: FC = () => {
     };
   });
 
-  const pagination = usePagination(rows);
+  const { rows: sortedRows, updateSort } = useSortTableData({
+    rows,
+  });
 
   if (isLoading || isProjectLoading) {
     return <Loader text="Loading storage volumes..." />;
@@ -401,27 +403,22 @@ const StorageVolumes: FC = () => {
           />
         </div>
       </div>
-      <Pagination
-        {...pagination}
-        id="pagination"
-        className="u-no-margin--top"
-        totalCount={volumes.length}
-        visibleCount={
-          filteredVolumes.length === volumes.length
-            ? pagination.pageData.length
-            : filteredVolumes.length
-        }
-        keyword="volume"
-      />
-      <ScrollableTable dependencies={[volumes]}>
-        <MainTable
-          headers={headers}
-          rows={pagination.pageData}
-          sortable
-          emptyStateMsg="No volumes found matching this search"
-          className="storage-volume-table"
-          onUpdateSort={pagination.updateSort}
-        />
+      <ScrollableTable dependencies={[volumes]} tableId="volume-table">
+        <TablePagination
+          data={sortedRows}
+          id="pagination"
+          itemName="volume"
+          className="u-no-margin--top"
+        >
+          <MainTable
+            id="volume-table"
+            headers={headers}
+            sortable
+            emptyStateMsg="No volumes found matching this search"
+            className="storage-volume-table"
+            onUpdateSort={updateSort}
+          />
+        </TablePagination>
       </ScrollableTable>
     </div>
   );

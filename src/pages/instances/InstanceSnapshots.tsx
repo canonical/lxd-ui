@@ -4,6 +4,7 @@ import {
   Icon,
   NotificationType,
   SearchBox,
+  TablePagination,
   failure,
   success,
 } from "@canonical/react-components";
@@ -12,8 +13,6 @@ import { LxdInstance } from "types/instance";
 import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
 import useEventListener from "@use-it/event-listener";
-import Pagination from "components/Pagination";
-import { usePagination } from "util/pagination";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
@@ -25,6 +24,7 @@ import { useDocs } from "context/useDocs";
 import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigureSnapshotsBtn";
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
+import useSortTableData from "util/useSortTableData";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -181,7 +181,11 @@ const InstanceSnapshots = (props: Props) => {
     };
   });
 
-  const pagination = usePagination(rows, "created_at", "descending");
+  const { rows: sortedRows, updateSort } = useSortTableData({
+    rows,
+    defaultSort: "created_at",
+    defaultSortDirection: "descending",
+  });
 
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
@@ -243,47 +247,46 @@ const InstanceSnapshots = (props: Props) => {
       />
       {hasSnapshots ? (
         <>
-          <Pagination
-            {...pagination}
-            id="pagination"
-            totalCount={instance.snapshots?.length ?? 0}
-            visibleCount={
-              filteredSnapshots.length === instance.snapshots?.length
-                ? pagination.pageData.length
-                : filteredSnapshots.length
-            }
-            selectedNotification={
-              selectedNames.length > 0 && (
-                <SelectedTableNotification
-                  totalCount={instance.snapshots?.length ?? 0}
-                  itemName="snapshot"
-                  parentName="instance"
-                  selectedNames={selectedNames}
-                  setSelectedNames={setSelectedNames}
-                  filteredNames={filteredSnapshots.map((item) => item.name)}
-                />
-              )
-            }
-            keyword="snapshot"
-          />
           <ScrollableTable
             dependencies={[filteredSnapshots, inTabNotification]}
+            tableId="instance-snapshot-table"
           >
-            <SelectableMainTable
-              headers={headers}
-              rows={pagination.pageData}
-              sortable
-              emptyStateMsg="No snapshot found matching this search"
+            <TablePagination
+              data={sortedRows}
+              id="pagination"
               itemName="snapshot"
-              parentName="instance"
-              selectedNames={selectedNames}
-              setSelectedNames={setSelectedNames}
-              processingNames={processingNames}
-              filteredNames={filteredSnapshots.map((snapshot) => snapshot.name)}
-              onUpdateSort={pagination.updateSort}
-              defaultSort="created_at"
-              defaultSortDirection="descending"
-            />
+              description={
+                selectedNames.length > 0 && (
+                  <SelectedTableNotification
+                    totalCount={instance.snapshots?.length ?? 0}
+                    itemName="snapshot"
+                    parentName="instance"
+                    selectedNames={selectedNames}
+                    setSelectedNames={setSelectedNames}
+                    filteredNames={filteredSnapshots.map((item) => item.name)}
+                  />
+                )
+              }
+            >
+              <SelectableMainTable
+                id="instance-snapshot-table"
+                headers={headers}
+                rows={sortedRows}
+                sortable
+                emptyStateMsg="No snapshot found matching this search"
+                itemName="snapshot"
+                parentName="instance"
+                selectedNames={selectedNames}
+                setSelectedNames={setSelectedNames}
+                processingNames={processingNames}
+                filteredNames={filteredSnapshots.map(
+                  (snapshot) => snapshot.name,
+                )}
+                onUpdateSort={updateSort}
+                defaultSort="created_at"
+                defaultSortDirection="descending"
+              />
+            </TablePagination>
           </ScrollableTable>
         </>
       ) : (

@@ -161,8 +161,12 @@ const Settings: FC = () => {
           </Col>
         </Row>
         <Row>
-          <ScrollableTable dependencies={[notify.notification, rows]}>
+          <ScrollableTable
+            dependencies={[notify.notification, rows]}
+            tableId="settings-table"
+          >
             <MainTable
+              id="settings-table"
               headers={headers}
               rows={rows}
               emptyStateMsg="No data to display"

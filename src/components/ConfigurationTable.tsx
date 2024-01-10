@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, MainTableProps } from "@canonical/react-components";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
@@ -8,10 +8,11 @@ interface Props {
   emptyStateMsg?: string;
 }
 
-const ConfigurationTable: FC<Props> = ({
+const ConfigurationTable: FC<Props & MainTableProps> = ({
   rows,
   configurationExtra,
   emptyStateMsg,
+  ...props
 }) => {
   const headers = [
     {
@@ -28,6 +29,7 @@ const ConfigurationTable: FC<Props> = ({
       emptyStateMsg={emptyStateMsg}
       headers={headers}
       rows={rows}
+      {...props}
     />
   );
 };
