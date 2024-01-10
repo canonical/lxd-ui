@@ -33,10 +33,12 @@ interface Props {
   onClose: () => void;
 }
 
-const canonicalJson = "/ui/assets/data/canonical-images.json";
+const canonicalJson =
+  "https://cloud-images.ubuntu.com/releases/streams/v1/com.ubuntu.cloud:released:download.json";
 const canonicalServer = "https://cloud-images.ubuntu.com/releases";
 
-const minimalJson = "/ui/assets/data/canonical-minimal-images.json";
+const minimalJson =
+  "https://cloud-images.ubuntu.com/minimal/releases/streams/v1/com.ubuntu.cloud:released:download.json";
 const minimalServer = "https://cloud-images.ubuntu.com/minimal/releases/";
 
 const linuxContainersJson =
@@ -74,12 +76,10 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
 
-  const { data: linuxContainerImages = [], isLoading: isLciLoading } = useQuery(
-    {
-      queryKey: [queryKeys.images, linuxContainersServer],
-      queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
-    },
-  );
+  const { data: linuxContainerImages = [] } = useQuery({
+    queryKey: [queryKeys.images, linuxContainersServer],
+    queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
+  });
 
   const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
     queryKey: [queryKeys.images, canonicalServer],
@@ -97,11 +97,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   });
 
   const isLoading =
-    isCiLoading ||
-    isLciLoading ||
-    isMinimalLoading ||
-    isLocalImageLoading ||
-    isSettingsLoading;
+    isCiLoading || isMinimalLoading || isLocalImageLoading || isSettingsLoading;
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
