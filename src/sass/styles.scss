@@ -182,7 +182,7 @@ $border-thin: 1px solid $color-mid-light !default;
   .p-breadcrumbs__item {
     font-size: #{map.get($font-sizes, h4-mobile)}rem;
     font-weight: 275;
-    line-height: 2rem;
+    line-height: 1.45rem;
     margin-bottom: 0;
     margin-top: 0;
     padding-top: 0;
@@ -245,6 +245,7 @@ $border-thin: 1px solid $color-mid-light !default;
 }
 
 .help-link {
+  align-items: center;
   display: flex;
 
   .help-link-icon {
