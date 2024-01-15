@@ -41,10 +41,6 @@ const minimalJson =
   "https://cloud-images.ubuntu.com/minimal/releases/streams/v1/com.ubuntu.cloud:released:download.json";
 const minimalServer = "https://cloud-images.ubuntu.com/minimal/releases/";
 
-const linuxContainersJson =
-  "https://images.linuxcontainers.org/streams/v1/images.json";
-const linuxContainersServer = "https://images.linuxcontainers.org";
-
 const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
@@ -76,11 +72,6 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
 
-  const { data: linuxContainerImages = [] } = useQuery({
-    queryKey: [queryKeys.images, linuxContainersServer],
-    queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
-  });
-
   const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
     queryKey: [queryKeys.images, canonicalServer],
     queryFn: () => loadImages(canonicalJson, canonicalServer),
@@ -108,7 +99,6 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         .map(localLxdToRemoteImage)
         .concat([...minimalImages].reverse().sort(byLtsFirst))
         .concat([...canonicalImages].reverse().sort(byLtsFirst))
-        .concat(linuxContainerImages)
         .filter((image) => archSupported.includes(image.arch));
 
   const archAll = [...new Set(images.map((item) => item.arch))]
@@ -214,9 +204,6 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         }
         if (item.server === minimalServer) {
           return "Ubuntu Minimal";
-        }
-        if (item.server === linuxContainersServer) {
-          return "Linux Containers";
         }
       };
 
