@@ -191,7 +191,7 @@ export const defaultFirst = (p1: { name: string }, p2: { name: string }) =>
 
 export const isWidthBelow = (width: number) => window.innerWidth < width;
 
-export const getParentsBottomSpacing = (element: HTMLElement) => {
+export const getParentsBottomSpacing = (element: Element) => {
   let sum = 0;
   while (element.parentElement) {
     element = element.parentElement;
@@ -247,3 +247,15 @@ export const logout = () =>
 
 export const capitalizeFirstLetter = (val: string) =>
   val.charAt(0).toUpperCase() + val.slice(1);
+
+export const getAbsoluteHeightBelow = (belowId: string) => {
+  const element = belowId ? document.getElementById(belowId) : undefined;
+  if (!element) {
+    return 0;
+  }
+  const style = window.getComputedStyle(element);
+  const margin = parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+  const padding =
+    parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+  return element.offsetHeight + margin + padding + 1;
+};

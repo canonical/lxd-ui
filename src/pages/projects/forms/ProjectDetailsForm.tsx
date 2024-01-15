@@ -13,6 +13,7 @@ import { getProjectKey } from "util/projectConfigFields";
 import { isProjectEmpty } from "util/projects";
 import { LxdProject } from "types/project";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import ScrollableForm from "components/ScrollableForm";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -106,7 +107,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
     project?.config["features.networks.zones"] === "true";
 
   return (
-    <div className="details">
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           <Input
@@ -293,7 +294,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
           />
         </Col>
       </Row>
-    </div>
+    </ScrollableForm>
   );
 };
 

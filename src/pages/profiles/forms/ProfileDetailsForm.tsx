@@ -3,6 +3,7 @@ import { Col, Input, Row } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import ScrollableForm from "components/ScrollableForm";
 
 export interface ProfileDetailsFormValues {
   name: string;
@@ -28,7 +29,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
   const isDefaultProfile = formik.values.name === "default";
 
   return (
-    <div className="details">
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           <Input
@@ -62,7 +63,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
           />
         </Col>
       </Row>
-    </div>
+    </ScrollableForm>
   );
 };
 

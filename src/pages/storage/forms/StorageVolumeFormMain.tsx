@@ -10,6 +10,7 @@ import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
+import ScrollableForm from "components/ScrollableForm";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -18,7 +19,7 @@ interface Props {
 
 const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
   return (
-    <>
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           {formik.values.isCreating && (
@@ -120,7 +121,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
           ]}
         />
       )}
-    </>
+    </ScrollableForm>
   );
 };
 

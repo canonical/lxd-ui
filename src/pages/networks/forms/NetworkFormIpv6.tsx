@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Input, Select, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
-import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { optionTrueFalse } from "util/instanceOptions";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -14,7 +14,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
   const hasDhcp = formik.values.ipv6_dhcp !== "false";
 
   return (
-    <ConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
         getConfigurationRow({
           formik,

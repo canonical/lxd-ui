@@ -14,6 +14,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { cephStoragePoolDefaults } from "util/storagePool";
 import { useSettings } from "context/useSettings";
+import ScrollableForm from "components/ScrollableForm";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -21,6 +22,7 @@ interface Props {
 
 const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const { data: settings } = useSettings();
+
   const getFormProps = (id: "name" | "description" | "size" | "source") => {
     return {
       id: id,
@@ -38,7 +40,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const storageDriverOptions = getStorageDriverOptions(settings);
 
   return (
-    <>
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           <Input
@@ -126,7 +128,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           />
         </Col>
       </Row>
-    </>
+    </ScrollableForm>
   );
 };
 

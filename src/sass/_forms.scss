@@ -25,7 +25,7 @@
     display: flex;
 
     .form-navigation {
-      min-width: 13rem;
+      min-width: 14rem;
       overflow: auto;
 
       .p-side-navigation__link {
@@ -45,10 +45,10 @@
     }
 
     .form-contents {
-      overflow-y: auto;
+      overflow: auto hidden;
       padding-left: 2.5rem;
 
-      .details {
+      .content-details {
         max-width: 54rem;
       }
     }
@@ -330,7 +330,7 @@
 .storage-volume-form {
   .bottom-btns {
     margin-top: 1rem;
-    max-width: 71rem;
+    max-width: 72rem;
     padding-right: 1.5rem;
   }
 }
@@ -342,6 +342,6 @@
 .edit-storage-volume {
   .bottom-btns {
     margin-top: 1rem;
-    max-width: 69.5rem;
+    max-width: 70.5rem;
   }
 }

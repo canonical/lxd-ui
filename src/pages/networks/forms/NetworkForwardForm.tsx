@@ -22,6 +22,7 @@ import NotificationRow from "components/NotificationRow";
 import NetworkForwardFormPorts, {
   NetworkForwardPortFormValues,
 } from "pages/networks/forms/NetworkForwardFormPorts";
+import ScrollableForm from "components/ScrollableForm";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -110,72 +111,77 @@ const NetworkForwardForm: FC<Props> = ({
     <Form className="form network-forwards-form" onSubmit={formik.handleSubmit}>
       <Row className="form-contents">
         <Col size={12}>
-          {/* hidden submit to enable enter key in inputs */}
-          <Input type="submit" hidden />
-          <Row className="p-form__group p-form-validation">
-            <NotificationRow />
-            <Notification severity="information" title="Network information">
-              Name: {network?.name}
-              <br />
-              {network?.config["ipv4.address"] && (
-                <>
-                  IPv4 subnet: {network?.config["ipv4.address"]}
-                  <br />
-                </>
-              )}
-              {network?.config["ipv6.address"] && (
-                <>IPv6 subnet: {network?.config["ipv6.address"]}</>
-              )}
-            </Notification>
-          </Row>
-          <Input
-            {...formik.getFieldProps("listenAddress")}
-            id="listenAddress"
-            type="text"
-            label="Listen address"
-            placeholder="Enter IP address"
-            autoFocus
-            required
-            stacked
-            disabled={isEdit}
-            help="Any address routed to LXD."
-            error={
-              formik.touched.listenAddress
-                ? formik.errors.listenAddress
-                : undefined
-            }
-          />
-          <Input
-            {...formik.getFieldProps("defaultTargetAddress")}
-            id="defaultTargetAddress"
-            type="text"
-            label="Default target address"
-            help={
-              <>
-                Fallback target for traffic that does not match a port specified
-                below.
+          <ScrollableForm
+            dependencies={[notify.notification]}
+            belowId="form-footer"
+          >
+            {/* hidden submit to enable enter key in inputs */}
+            <Input type="submit" hidden />
+            <Row className="p-form__group p-form-validation">
+              <NotificationRow />
+              <Notification severity="information" title="Network information">
+                Name: {network?.name}
                 <br />
-                Must be from the network <b>{network?.name}</b>.
-              </>
-            }
-            placeholder="Enter IP address"
-            stacked
-          />
-          <Input
-            {...formik.getFieldProps("description")}
-            id="description"
-            type="text"
-            label="Description"
-            placeholder="Enter description"
-            stacked
-          />
-          {formik.values.ports.length > 0 && (
-            <NetworkForwardFormPorts formik={formik} network={network} />
-          )}
-          <Button hasIcon onClick={addPort} type="button">
-            <Icon name="plus" />
-            <span>Add port</span>
-          </Button>
+                {network?.config["ipv4.address"] && (
+                  <>
+                    IPv4 subnet: {network?.config["ipv4.address"]}
+                    <br />
+                  </>
+                )}
+                {network?.config["ipv6.address"] && (
+                  <>IPv6 subnet: {network?.config["ipv6.address"]}</>
+                )}
+              </Notification>
+            </Row>
+            <Input
+              {...formik.getFieldProps("listenAddress")}
+              id="listenAddress"
+              type="text"
+              label="Listen address"
+              placeholder="Enter IP address"
+              autoFocus
+              required
+              stacked
+              disabled={isEdit}
+              help="Any address routed to LXD."
+              error={
+                formik.touched.listenAddress
+                  ? formik.errors.listenAddress
+                  : undefined
+              }
+            />
+            <Input
+              {...formik.getFieldProps("defaultTargetAddress")}
+              id="defaultTargetAddress"
+              type="text"
+              label="Default target address"
+              help={
+                <>
+                  Fallback target for traffic that does not match a port
+                  specified below.
+                  <br />
+                  Must be from the network <b>{network?.name}</b>.
+                </>
+              }
+              placeholder="Enter IP address"
+              stacked
+            />
+            <Input
+              {...formik.getFieldProps("description")}
+              id="description"
+              type="text"
+              label="Description"
+              placeholder="Enter description"
+              stacked
+            />
+            {formik.values.ports.length > 0 && (
+              <NetworkForwardFormPorts formik={formik} network={network} />
+            )}
+            <Button hasIcon onClick={addPort} type="button">
+              <Icon name="plus" />
+              <span>Add port</span>
+            </Button>
+          </ScrollableForm>
         </Col>
       </Row>
     </Form>

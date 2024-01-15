@@ -1,10 +1,10 @@
 import { FormikProps } from "formik";
 import React, { FC } from "react";
 import { StoragePoolFormValues } from "./StoragePoolForm";
-import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/instanceOptions";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -12,7 +12,7 @@ interface Props {
 
 const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
   return (
-    <ConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
         getConfigurationRow({
           formik,
