@@ -3,22 +3,24 @@ import { Row, Input, Select, Col } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import {
   zfsDriver,
-  storageDrivers,
   dirDriver,
   btrfsDriver,
   getSourceHelpForDriver,
   cephDriver,
+  getStorageDriverOptions,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { cephStoragePoolDefaults } from "util/storagePool";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
 }
 
 const StoragePoolFormMain: FC<Props> = ({ formik }) => {
+  const { data: settings } = useSettings();
   const getFormProps = (id: "name" | "description" | "size" | "source") => {
     return {
       id: id,
@@ -33,6 +35,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
 
   const isCephDriver = formik.values.driver === cephDriver;
   const isDirDriver = formik.values.driver === dirDriver;
+  const storageDriverOptions = getStorageDriverOptions(settings);
 
   return (
     <>
@@ -67,7 +70,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   : undefined
             }
             label="Driver"
-            options={storageDrivers}
+            options={storageDriverOptions}
             onChange={(target) => {
               const val = target.target.value;
               if (val === dirDriver) {
