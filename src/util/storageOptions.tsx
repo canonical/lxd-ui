@@ -1,31 +1,33 @@
+import { OptionHTMLAttributes } from "react";
+import { LxdSettings } from "types/server";
+
 export const dirDriver = "dir";
 export const btrfsDriver = "btrfs";
 export const lvmDriver = "lvm";
 export const zfsDriver = "zfs";
 export const cephDriver = "ceph";
 
-export const storageDrivers = [
-  {
-    label: "Directory",
-    value: dirDriver,
-  },
-  {
-    label: "Btrfs",
-    value: btrfsDriver,
-  },
-  {
-    label: "LVM",
-    value: lvmDriver,
-  },
-  {
-    label: "ZFS",
-    value: zfsDriver,
-  },
-  {
-    label: "Ceph",
-    value: cephDriver,
-  },
-];
+const storageDriverLabels: { [key: string]: string } = {
+  [dirDriver]: "Directory",
+  [btrfsDriver]: "Btrfs",
+  [lvmDriver]: "LVM",
+  [zfsDriver]: "ZFS",
+  [cephDriver]: "Ceph",
+};
+
+export const getStorageDriverOptions = (settings?: LxdSettings) => {
+  const serverSupportedStorageDrivers =
+    settings?.environment?.storage_supported_drivers || [];
+  const storageDriverOptions: OptionHTMLAttributes<HTMLOptionElement>[] = [];
+  for (const driver of serverSupportedStorageDrivers) {
+    const label = storageDriverLabels[driver.Name];
+    if (label) {
+      storageDriverOptions.push({ label, value: driver.Name });
+    }
+  }
+
+  return storageDriverOptions;
+};
 
 const storageDriverToSourceHelp: Record<string, string> = {
   dir: "Optional, path to an existing directory",
