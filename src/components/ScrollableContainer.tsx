@@ -8,35 +8,34 @@ interface Props {
   belowId?: string;
 }
 
-const ScrollableTable: FC<Props> = ({
+const ScrollableContainer: FC<Props> = ({
   dependencies,
   children,
   belowId = "",
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const updateTBodyHeight = () => {
-    const table = ref.current?.children[0];
-    if (!table || table.children.length !== 2) {
+  const updateChildContainerHeight = () => {
+    const childContainer = ref.current?.children[0];
+    if (!childContainer) {
       return;
     }
-    const tBody = table.children[1];
-    const above = tBody.getBoundingClientRect().top + 1;
+    const above = childContainer.getBoundingClientRect().top + 1;
     const below = getAbsoluteHeightBelow(belowId);
-    const parentsBottomSpacing = getParentsBottomSpacing(table);
+    const parentsBottomSpacing = getParentsBottomSpacing(childContainer);
     const offset = Math.ceil(above + below + parentsBottomSpacing);
     const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
-    tBody.setAttribute("style", style);
+    childContainer.setAttribute("style", style);
   };
 
-  useEventListener("resize", updateTBodyHeight);
-  useEffect(updateTBodyHeight, [...dependencies, ref]);
+  useEventListener("resize", updateChildContainerHeight);
+  useEffect(updateChildContainerHeight, [...dependencies, ref]);
 
   return (
-    <div ref={ref} className="scrollable-table">
-      {children}
+    <div ref={ref} className="scrollable-container">
+      <div className="content-details">{children}</div>
     </div>
   );
 };
 
-export default ScrollableTable;
+export default ScrollableContainer;

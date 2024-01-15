@@ -1,5 +1,6 @@
 .network-forwards-form {
-  .form-contents > div {
+  .form-contents > div,
+  .content-details {
     margin-left: 0;
     max-width: 67rem !important;
   }

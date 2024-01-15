@@ -17,6 +17,7 @@ import { LxdImageType, RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import ScrollableForm from "components/ScrollableForm";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -74,7 +75,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
   }
 
   return (
-    <div className="details">
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           <Input
@@ -162,7 +163,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             : ""
         }
       />
-    </div>
+    </ScrollableForm>
   );
 };
 

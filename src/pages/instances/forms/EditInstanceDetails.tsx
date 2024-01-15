@@ -7,6 +7,7 @@ import { useSettings } from "context/useSettings";
 import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
 import { isClusteredServer } from "util/settings";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import ScrollableForm from "components/ScrollableForm";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
   return {
@@ -28,7 +29,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
   const isClustered = isClusteredServer(settings);
 
   return (
-    <div className="details">
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           <Input
@@ -91,7 +92,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         setSelected={(value) => void formik.setFieldValue("profiles", value)}
         readOnly={readOnly}
       />
-    </div>
+    </ScrollableForm>
   );
 };
 

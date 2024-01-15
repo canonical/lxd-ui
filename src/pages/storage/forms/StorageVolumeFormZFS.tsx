@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import { Select } from "@canonical/react-components";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { FormikProps } from "formik/dist/types";
-import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { optionTrueFalse } from "util/instanceOptions";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -12,7 +12,7 @@ interface Props {
 
 const StorageVolumeFormZFS: FC<Props> = ({ formik }) => {
   return (
-    <ConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
         getConfigurationRow({
           formik,

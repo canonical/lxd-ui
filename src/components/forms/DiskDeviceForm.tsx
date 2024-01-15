@@ -11,6 +11,7 @@ import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
 import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
 import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
 import classnames from "classnames";
+import ScrollableForm from "components/ScrollableForm";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -58,23 +59,25 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
         "disk-device-form--edit": !formik.values.readOnly,
       })}
     >
-      {/* hidden submit to enable enter key in inputs */}
-      <Input type="submit" hidden />
-      <DiskDeviceFormRoot
-        formik={formik}
-        project={project}
-        pools={pools}
-        profiles={profiles}
-      />
-      <DiskDeviceFormInherited
-        formik={formik}
-        inheritedVolumes={inheritedVolumes}
-      />
-      <DiskDeviceFormCustom
-        formik={formik}
-        project={project}
-        inheritedVolumes={inheritedVolumes}
-      />
+      <ScrollableForm>
+        {/* hidden submit to enable enter key in inputs */}
+        <Input type="submit" hidden />
+        <DiskDeviceFormRoot
+          formik={formik}
+          project={project}
+          pools={pools}
+          profiles={profiles}
+        />
+        <DiskDeviceFormInherited
+          formik={formik}
+          inheritedVolumes={inheritedVolumes}
+        />
+        <DiskDeviceFormCustom
+          formik={formik}
+          project={project}
+          inheritedVolumes={inheritedVolumes}
+        />
+      </ScrollableForm>
     </div>
   );
 };

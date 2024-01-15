@@ -1,0 +1,7 @@
+.scrollable-container {
+  .content-details {
+    display: block;
+    overflow: auto;
+    scrollbar-gutter: stable;
+  }
+}

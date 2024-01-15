@@ -9,6 +9,7 @@ import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import ScrollableForm from "components/ScrollableForm";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -29,7 +30,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
   };
 
   return (
-    <>
+    <ScrollableForm>
       <Row>
         <Col size={12}>
           <NetworkTypeSelector formik={formik} />
@@ -145,7 +146,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
             : []),
         ]}
       />
-    </>
+    </ScrollableForm>
   );
 };
 

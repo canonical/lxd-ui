@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { Input, Notification } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
-import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
@@ -9,6 +8,7 @@ import { useDocs } from "context/useDocs";
 import { useProject } from "context/project";
 import { isSnapshotsDisabled } from "util/snapshots";
 import SnapshotDiabledWarningLink from "components/SnapshotDiabledWarningLink";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -29,7 +29,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
           <SnapshotDiabledWarningLink project={project} />
         </Notification>
       )}
-      <ConfigurationTable
+      <ScrollableConfigurationTable
         rows={[
           getConfigurationRow({
             formik,

@@ -3,7 +3,7 @@ import { Input, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import ConfigurationTable from "components/ConfigurationTable";
+import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -11,7 +11,7 @@ interface Props {
 
 const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
   return (
-    <ConfigurationTable
+    <ScrollableConfigurationTable
       rows={[
         getConfigurationRow({
           formik,
