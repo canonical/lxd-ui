@@ -118,6 +118,7 @@ const InstanceTextConsole: FC<Props> = ({
         onFailure("Error", event.reason, getWsErrorMsg(event.code));
       }
       setDataWs(null);
+      setUserInteracted(false);
     };
 
     data.binaryType = "arraybuffer";
