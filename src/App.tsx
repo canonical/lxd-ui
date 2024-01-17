@@ -7,6 +7,7 @@ import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import CustomLayout from "components/CustomLayout";
+import NoMatch from "components/NoMatch";
 
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -35,7 +36,6 @@ const Login = lazy(() => import("pages/login/Login"));
 const NetworkDetail = lazy(() => import("pages/networks/NetworkDetail"));
 const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
 const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
-const NoMatch = lazy(() => import("components/NoMatch"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
