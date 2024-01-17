@@ -8,7 +8,8 @@
       "components/*": ["src/components/*"],
       "pages/*": ["src/pages/*"],
       "types/*": ["src/types/*"],
-      "util/*": ["src/util/*"]
+      "util/*": ["src/util/*"],
+      "*": ["types/*.d.ts"]
     },
     "target": "ES2020",
     "module": "esnext",
@@ -29,16 +30,11 @@
   },
   "include": [
     "./src",
-    ".eslintrc.js",
+    ".eslintrc.cjs",
     "babel.config.js",
     "playwright.config.ts",
     "webpack.config.js",
     "./tests/*.ts",
     "vite.config.ts"
   ],
-  "paths": [
-    {
-      "*": ["types/*.d.ts"]
-    }
-  ]
 }

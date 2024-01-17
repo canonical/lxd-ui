@@ -9,8 +9,7 @@ import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
 import TabLinks from "components/TabLinks";
 import { useDocs } from "context/useDocs";
-
-export const tabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
+import { storageTabs } from "util/projects";
 
 const Storage: FC = () => {
   const docBaseLink = useDocs();
@@ -37,7 +36,7 @@ const Storage: FC = () => {
       <NotificationRow />
       <Row>
         <TabLinks
-          tabs={tabs}
+          tabs={storageTabs}
           activeTab={activeTab}
           tabUrl={`/ui/project/${project}/storage`}
         />

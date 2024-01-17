@@ -1,8 +1,8 @@
 import { LxdProject } from "types/project";
-import { tabs } from "pages/storage/Storage";
 import { slugify } from "./slugify";
 
-export const STORAGE_TAB_PATHS = tabs.map((tab) => slugify(tab));
+export const storageTabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
+export const storageTabPaths = storageTabs.map((tab) => slugify(tab));
 export const projectSubpages = [
   "instances",
   "profiles",
@@ -19,7 +19,7 @@ export const getSubpageFromUrl = (url: string) => {
   const mainSubpage = parts[4];
   const tabSubpage = parts[5];
 
-  if (mainSubpage === "storage" && STORAGE_TAB_PATHS.includes(tabSubpage)) {
+  if (mainSubpage === "storage" && storageTabPaths.includes(tabSubpage)) {
     return `${mainSubpage}/${tabSubpage}`;
   }
 
