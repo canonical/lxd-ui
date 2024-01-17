@@ -143,6 +143,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
         );
       }
       setDataWs(null);
+      setUserInteracted(false);
     };
 
     data.binaryType = "arraybuffer";
