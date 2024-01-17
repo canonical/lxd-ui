@@ -5,6 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { LxdClusterMember } from "types/cluster";
 import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   member: LxdClusterMember;
@@ -12,6 +13,7 @@ interface Props {
 
 const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -19,7 +21,9 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
     setLoading(true);
     postClusterMemberState(member, "restore")
       .then(() => {
-        notify.success(`Cluster member ${member.server_name} restore started.`);
+        toastNotify.success(
+          `Cluster member ${member.server_name} restore started.`,
+        );
       })
       .catch((e) => notify.failure("Cluster member restore failed", e))
       .finally(() => {

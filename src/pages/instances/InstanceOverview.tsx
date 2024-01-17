@@ -1,14 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { isoTimeToString } from "util/helpers";
-import {
-  Col,
-  NotificationType,
-  Row,
-  failure,
-} from "@canonical/react-components";
+import { Col, Row, useNotify } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
-import NotificationRowLegacy from "components/NotificationRowLegacy";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewNetworks from "./InstanceOverviewNetworks";
@@ -16,24 +10,24 @@ import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
 import InstanceIps from "pages/instances/InstanceIps";
 import { useSettings } from "context/useSettings";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const InstanceOverview: FC<Props> = ({ instance }) => {
-  const [inTabNotification, setInTabNotification] =
-    useState<NotificationType | null>(null);
+  const notify = useNotify();
   const { data: settings } = useSettings();
 
   const onFailure = (title: string, e: unknown) => {
-    setInTabNotification(failure(title, e));
+    notify.failure(title, e);
   };
 
   const updateContentHeight = () => {
     updateMaxHeight("instance-overview-tab");
   };
-  useEffect(updateContentHeight, [inTabNotification]);
+  useEffect(updateContentHeight, [notify.notification?.message]);
   useEventListener("resize", updateContentHeight);
 
   const pid =
@@ -41,10 +35,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
 
   return (
     <div className="instance-overview-tab">
-      <NotificationRowLegacy
-        notification={inTabNotification}
-        onDismiss={() => setInTabNotification(null)}
-      />
+      <NotificationRow />
       <Row className="general">
         <Col size={3}>
           <h2 className="p-heading--5">General</h2>

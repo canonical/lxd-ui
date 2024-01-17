@@ -7,7 +7,8 @@ import { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";
-import { success, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   name: string;
@@ -18,6 +19,7 @@ interface Props {
 const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -40,9 +42,9 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       }
       renameStoragePool(name, values.name, project)
         .then(() => {
-          navigate(
-            `/ui/project/${project}/storage/detail/${values.name}`,
-            notify.queue(success("Storage pool renamed.")),
+          navigate(`/ui/project/${project}/storage/detail/${values.name}`);
+          toastNotify.success(
+            `Storage pool ${name} renamed to ${values.name}.`,
           );
           void formik.setFieldValue("isRenaming", false);
         })

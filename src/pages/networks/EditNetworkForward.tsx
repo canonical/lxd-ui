@@ -18,11 +18,13 @@ import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 const EditNetworkForward: FC = () => {
   const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { network, project, forwardAddress } = useParams<{
     network: string;
@@ -74,11 +76,9 @@ const EditNetworkForward: FC = () => {
           });
           navigate(
             `/ui/project/${project}/networks/detail/${network}/forwards`,
-            notify.queue(
-              notify.success(
-                `Network forward ${forward.listen_address} updated.`,
-              ),
-            ),
+          );
+          toastNotify.success(
+            `Network forward ${forward.listen_address} updated.`,
           );
         })
         .catch((e) => {

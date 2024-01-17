@@ -15,6 +15,7 @@ export const createVolume = async (page: Page, volume: string) => {
   await page.getByPlaceholder("Enter value").fill("1");
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForSelector(`text=Storage volume ${volume} created.`, TIMEOUT);
+  await page.getByRole("button", { name: "Close notification" }).click();
 };
 
 export const deleteVolume = async (page: Page, volume: string) => {
@@ -43,7 +44,7 @@ export const editVolume = async (page: Page, volume: string) => {
   await page.getByRole("button", { name: "Edit volume" }).click();
 };
 
-export const saveVolume = async (page: Page) => {
+export const saveVolume = async (page: Page, volume: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Storage volume updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Storage volume ${volume} updated.`, TIMEOUT);
 };

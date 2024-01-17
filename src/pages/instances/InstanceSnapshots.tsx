@@ -2,15 +2,12 @@ import React, { ReactNode, useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
-  NotificationType,
   SearchBox,
   TablePagination,
-  failure,
-  success,
+  useNotify,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import { LxdInstance } from "types/instance";
-import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
 import useEventListener from "@use-it/event-listener";
 import ItemName from "components/ItemName";
@@ -25,6 +22,8 @@ import InstanceConfigureSnapshotsBtn from "./actions/snapshots/InstanceConfigure
 import InstanceAddSnapshotBtn from "./actions/snapshots/InstanceAddSnapshotBtn";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
+import { useToastNotification } from "context/toastNotificationProvider";
+import NotificationRow from "components/NotificationRow";
 
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
@@ -38,18 +37,18 @@ const InstanceSnapshots = (props: Props) => {
   const { instance } = props;
   const docBaseLink = useDocs();
   const [query, setQuery] = useState<string>("");
-  const [inTabNotification, setInTabNotification] =
-    useState<NotificationType | null>(null);
+  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
 
   const onSuccess = (message: ReactNode) => {
-    setInTabNotification(success(message));
+    toastNotify.success(message);
   };
 
   const onFailure = (title: string, e: unknown, message?: ReactNode) => {
-    setInTabNotification(failure(title, e, message));
+    notify.failure(title, e, message);
   };
 
   const { project, isLoading } = useProject();
@@ -241,15 +240,13 @@ const InstanceSnapshots = (props: Props) => {
           )}
         </div>
       )}
-      <NotificationRowLegacy
-        notification={inTabNotification}
-        onDismiss={() => setInTabNotification(null)}
-      />
+      <NotificationRow />
       {hasSnapshots ? (
         <>
           <ScrollableTable
-            dependencies={[filteredSnapshots, inTabNotification]}
+            dependencies={[filteredSnapshots, notify.notification]}
             tableId="instance-snapshot-table"
+            belowIds={["status-bar"]}
           >
             <TablePagination
               data={sortedRows}

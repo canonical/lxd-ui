@@ -73,6 +73,7 @@ import {
   hasNoRootDisk,
 } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -92,6 +93,7 @@ const CreateInstance: FC = () => {
   const eventQueue = useEventQueue();
   const location = useLocation() as Location<PresetFormState | null>;
   const navigate = useNavigate();
+  const toastNotify = useToastNotification();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
@@ -124,7 +126,7 @@ const CreateInstance: FC = () => {
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEffect(updateFormHeight, [section]);
   useEventListener("resize", updateFormHeight);
 
   const clearCache = () => {
@@ -139,27 +141,31 @@ const CreateInstance: FC = () => {
     });
   };
 
+  const notifyCreationStarted = (instanceName: string) => {
+    toastNotify.info(<>Creation for instance {instanceName} started.</>);
+  };
+
   const notifyCreatedNowStarting = (instanceLink: ReactNode) => {
-    notify.info(<>Created instance {instanceLink}, now starting it.</>);
+    toastNotify.info(<>Created instance {instanceLink}, now starting it.</>);
     clearCache();
   };
 
   const notifyCreatedAndStarted = (instanceLink: ReactNode) => {
-    notify.success(<>Created and started instance {instanceLink}.</>);
+    toastNotify.success(<>Created and started instance {instanceLink}.</>);
     clearCache();
   };
 
   const notifyCreatedButStartFailed = (instanceLink: ReactNode, e: Error) => {
-    notify.failure(
-      "Error",
+    toastNotify.failure(
+      "The instance was created, but could not be started.",
       e,
-      <>The instance {instanceLink} was created, but could not be started.</>,
+      instanceLink,
     );
     clearCache();
   };
 
   const notifyCreated = (instanceLink: ReactNode, message?: ReactNode) => {
-    notify.success(
+    toastNotify.success(
       <>
         Created instance {instanceLink}.{message}
       </>,
@@ -171,8 +177,10 @@ const CreateInstance: FC = () => {
     e: Error,
     formUrl: string,
     values: CreateInstanceFormValues,
+    notifierType?: "inline" | "toast",
   ) => {
-    notify.failure("Instance creation failed", e, null, [
+    const notifier = notifierType === "toast" ? toastNotify : notify;
+    notifier.failure("Instance creation failed", e, null, [
       {
         label: "Check configuration",
         onClick: () =>
@@ -245,11 +253,13 @@ const CreateInstance: FC = () => {
         if (!instanceName) {
           return;
         }
+        notifyCreationStarted(instanceName);
         const isIsoImage = values.image?.server === LOCAL_ISO;
         eventQueue.set(
           operation.metadata.id,
           () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
-          (msg) => notifyCreationFailed(new Error(msg), formUrl, values),
+          (msg) =>
+            notifyCreationFailed(new Error(msg), formUrl, values, "toast"),
         );
       })
       .catch((e: Error) => {
@@ -295,7 +305,6 @@ const CreateInstance: FC = () => {
     } else if (isContainerOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "container");
     }
-    notify.clear();
   };
 
   useEffect(() => {

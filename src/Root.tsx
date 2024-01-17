@@ -1,9 +1,6 @@
 import React, { FC } from "react";
 import Navigation from "components/Navigation";
-import {
-  NotificationProvider,
-  QueuedNotification,
-} from "@canonical/react-components";
+import { QueuedNotification } from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Panels from "components/Panels";
 import { AuthProvider } from "context/auth";
@@ -15,6 +12,9 @@ import App from "./App";
 import ErrorBoundary from "components/ErrorBoundary";
 import ErrorPage from "components/ErrorPage";
 import { useLocation } from "react-router-dom";
+import CombinedNotificationProvider from "context/CombinedNotificationProvider";
+import StatusBar from "components/StatusBar";
+import OperationsProvider from "context/operationsProvider";
 
 const queryClient = new QueryClient();
 
@@ -23,26 +23,32 @@ const Root: FC = () => {
 
   return (
     <ErrorBoundary fallback={ErrorPage}>
-      <NotificationProvider state={location.state} pathname={location.pathname}>
+      <CombinedNotificationProvider
+        state={location.state}
+        pathname={location.pathname}
+      >
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <ProjectProvider>
               <InstanceLoadingProvider>
-                <EventQueueProvider>
-                  <div className="l-application" role="presentation">
-                    <Navigation />
-                    <ErrorBoundary fallback={ErrorPage}>
-                      <App />
-                      <Panels />
-                      <Events />
-                    </ErrorBoundary>
-                  </div>
-                </EventQueueProvider>
+                <OperationsProvider>
+                  <EventQueueProvider>
+                    <div className="l-application" role="presentation">
+                      <Navigation />
+                      <ErrorBoundary fallback={ErrorPage}>
+                        <App />
+                        <Panels />
+                        <Events />
+                        <StatusBar />
+                      </ErrorBoundary>
+                    </div>
+                  </EventQueueProvider>
+                </OperationsProvider>
               </InstanceLoadingProvider>
             </ProjectProvider>
           </AuthProvider>
         </QueryClientProvider>
-      </NotificationProvider>
+      </CombinedNotificationProvider>
     </ErrorBoundary>
   );
 };

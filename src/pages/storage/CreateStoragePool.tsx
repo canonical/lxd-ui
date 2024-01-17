@@ -19,10 +19,12 @@ import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
   const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
@@ -63,12 +65,8 @@ const CreateStoragePool: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          navigate(
-            `/ui/project/${project}/storage`,
-            notify.queue(
-              notify.success(`Storage pool ${storagePool.name} created.`),
-            ),
-          );
+          navigate(`/ui/project/${project}/storage`);
+          toastNotify.success(`Storage pool ${storagePool.name} created.`);
         })
         .catch((e) => {
           formik.setSubmitting(false);

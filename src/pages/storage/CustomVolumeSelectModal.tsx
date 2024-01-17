@@ -115,7 +115,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
       <NotificationRow />
       <ScrollableTable
         dependencies={[volumes, rows, notify.notification]}
-        belowId="modal-footer"
+        belowIds={["modal-footer"]}
         tableId="volume-select-table"
       >
         <MainTable

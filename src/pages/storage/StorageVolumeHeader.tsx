@@ -6,8 +6,9 @@ import * as Yup from "yup";
 import { LxdStorageVolume } from "types/storage";
 import { renameStorageVolume } from "api/storage-pools";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
-import { success, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -17,6 +18,7 @@ interface Props {
 const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -49,7 +51,9 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         .then(() => {
           navigate(
             `/ui/project/${project}/storage/detail/${volume.pool}/volumes/${volume.type}/${values.name}`,
-            notify.queue(success("Storage volume renamed.")),
+          );
+          toastNotify.success(
+            `Storage volume ${volume.name} renamed to ${values.name}.`,
           );
           void formik.setFieldValue("isRenaming", false);
         })
@@ -78,12 +82,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
           appearance=""
           hasIcon={false}
           onFinish={() => {
-            navigate(
-              `/ui/project/${project}/storage/volumes`,
-              notify.queue(
-                notify.success(`Storage volume ${volume.name} deleted.`),
-              ),
-            );
+            navigate(`/ui/project/${project}/storage/volumes`);
+            toastNotify.success(`Storage volume ${volume.name} deleted.`);
           }}
         />
       }

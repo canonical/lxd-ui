@@ -7,7 +7,8 @@ import { checkDuplicateName } from "util/helpers";
 import { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
-import { success, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   name: string;
@@ -18,6 +19,7 @@ interface Props {
 const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -46,10 +48,8 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       }
       renameNetwork(name, values.name, project)
         .then(() => {
-          navigate(
-            `/ui/project/${project}/networks/detail/${values.name}`,
-            notify.queue(success("Network renamed.")),
-          );
+          navigate(`/ui/project/${project}/networks/detail/${values.name}`);
+          toastNotify.success(`Network ${name} renamed to ${values.name}.`);
           void formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {

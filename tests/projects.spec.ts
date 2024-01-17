@@ -11,6 +11,7 @@ import {
   randomProjectName,
   renameProject,
 } from "./helpers/projects";
+import { TIMEOUT } from "./helpers/constants";
 
 test("project create and remove", async ({ page }) => {
   const project = randomProjectName();
@@ -95,7 +96,8 @@ test("project edit configuration", async ({ page }) => {
   await setTextarea(page, "Network zones", "Enter network zones", "foo,bar");
 
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.getByText("Project updated.").click();
+  await page.waitForSelector(`text=Project ${project} updated.`, TIMEOUT);
+  await page.getByRole("button", { name: "Close notification" }).click();
 
   await page.getByText("Project details").click();
 

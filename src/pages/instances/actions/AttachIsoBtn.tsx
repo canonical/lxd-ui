@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { updateInstance } from "api/instances";
 import { LxdInstance } from "types/instance";
 import { useParams } from "react-router-dom";
-import { ActionButton, useNotify } from "@canonical/react-components";
+import { ActionButton } from "@canonical/react-components";
 import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
 import { LxdIsoDevice } from "types/device";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,6 +12,8 @@ import { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
+import { instanceLinkFromOperation } from "util/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -20,7 +22,7 @@ interface Props {
 const AttachIsoBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const { project } = useParams<{ project: string }>();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const [isLoading, setLoading] = useState(false);
@@ -40,15 +42,25 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       values,
     ) as LxdInstance;
     void updateInstance(instanceMinusIso, project ?? "").then((operation) => {
+      const instanceLink = instanceLinkFromOperation({
+        operation,
+        project,
+      });
       eventQueue.set(
         operation.metadata.id,
         () =>
-          notify.success(
+          toastNotify.success(
             <>
-              ISO <b>{attachedIso?.source ?? ""}</b> detached
+              ISO <b>{attachedIso?.source ?? ""}</b> detached from{" "}
+              {instanceLink}
             </>,
           ),
-        (msg) => notify.failure("Detach ISO failed", new Error(msg)),
+        (msg) =>
+          toastNotify.failure(
+            "Detaching ISO failed.",
+            new Error(msg),
+            instanceLink,
+          ),
         () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances, instance.name, project],
@@ -67,15 +79,24 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
     values.devices.push(isoDevice);
     const instancePlusIso = getInstancePayload(instance, values) as LxdInstance;
     void updateInstance(instancePlusIso, project ?? "").then((operation) => {
+      const instanceLink = instanceLinkFromOperation({
+        operation,
+        project,
+      });
       eventQueue.set(
         operation.metadata.id,
         () =>
-          notify.success(
+          toastNotify.success(
             <>
-              ISO <b>{image.aliases}</b> attached
+              ISO <b>{image.aliases}</b> attached to {instanceLink}
             </>,
           ),
-        (msg) => notify.failure("Attaching ISO failed", new Error(msg)),
+        (msg) =>
+          toastNotify.failure(
+            "Attaching ISO failed.",
+            new Error(msg),
+            instanceLink,
+          ),
         () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.instances, instance.name, project],

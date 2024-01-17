@@ -12,6 +12,7 @@ import {
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { updateStorageVolume } from "api/storage-pools";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -20,6 +21,7 @@ interface Props {
 
 const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
 
   const formik = useFormik<StorageVolumeFormValues>({
@@ -31,7 +33,9 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
         etag: volume.etag,
       })
         .then(() => {
-          notify.success("Configuration updated.");
+          toastNotify.success(
+            `Snapshot configuration updated for volume ${volume.name}.`,
+          );
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
             predicate: (query) =>

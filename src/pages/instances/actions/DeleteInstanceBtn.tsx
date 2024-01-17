@@ -5,16 +5,12 @@ import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
 import { useDeleteIcon } from "context/useDeleteIcon";
-import {
-  ConfirmationButton,
-  Icon,
-  success,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instance: LxdInstance;
@@ -23,7 +19,7 @@ interface Props {
 const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const isDeleteIcon = useDeleteIcon();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -37,13 +33,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, instance.project],
           });
-          navigate(
-            `/ui/project/${instance.project}/instances`,
-            notify.queue(success(`Instance ${instance.name} deleted.`)),
-          );
+          navigate(`/ui/project/${instance.project}/instances`);
+          toastNotify.success(`Instance ${instance.name} deleted.`);
         },
         (msg) =>
-          notify.failure(
+          toastNotify.failure(
             "Instance deletion failed",
             new Error(msg),
             <>

@@ -259,3 +259,29 @@ export const getAbsoluteHeightBelow = (belowId: string) => {
     parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
   return element.offsetHeight + margin + padding + 1;
 };
+
+export const getElementAbsoluteHeight = (element: HTMLElement | null) => {
+  if (!element) {
+    return 0;
+  }
+
+  const style = window.getComputedStyle(element);
+  const marginHeight =
+    parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+  return element.offsetHeight + marginHeight;
+};
+
+export const getNegativeMargin = (element: HTMLElement | null) => {
+  if (!element) {
+    return 0;
+  }
+
+  const style = window.getComputedStyle(element);
+  const marginHeight =
+    parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+  return marginHeight < 0 ? marginHeight : 0;
+};
+
+export const getHeightOffsetStyle = (offset: number) => {
+  return `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
+};

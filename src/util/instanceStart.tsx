@@ -5,14 +5,14 @@ import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import { LxdInstance } from "types/instance";
 import { queryKeys } from "./queryKeys";
-import { useNotify } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import ItemName from "components/ItemName";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export const useInstanceStart = (instance: LxdInstance) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
 
   const isLoading =
@@ -30,13 +30,13 @@ export const useInstanceStart = (instance: LxdInstance) => {
       eventQueue.set(
         operation.metadata.id,
         () =>
-          notify.success(
+          toastNotify.success(
             <>
               Instance <InstanceLink instance={instance} /> started.
             </>,
           ),
         (msg) =>
-          notify.failure(
+          toastNotify.failure(
             "Instance start failed",
             new Error(msg),
             <>

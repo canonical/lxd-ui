@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Row, useNotify } from "@canonical/react-components";
+import { Notification, Row, Strip } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
 import EditInstance from "./EditInstance";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
-import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 
@@ -26,7 +25,6 @@ const tabs: string[] = [
 ];
 
 const InstanceDetail: FC = () => {
-  const notify = useNotify();
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -49,10 +47,6 @@ const InstanceDetail: FC = () => {
     queryFn: () => fetchInstance(name, project),
   });
 
-  if (error) {
-    notify.failure("Loading instance failed", error);
-  }
-
   return (
     <CustomLayout
       header={
@@ -64,9 +58,15 @@ const InstanceDetail: FC = () => {
       }
       contentClassName="detail-page"
     >
-      <NotificationRow />
       {isLoading && <Loader text="Loading instance details..." />}
-      {!isLoading && !instance && <>Loading instance failed</>}
+      {!isLoading && !instance && !error && <>Loading instance failed</>}
+      {error && (
+        <Strip>
+          <Notification severity="negative" title="Error">
+            {error.message}
+          </Notification>
+        </Strip>
+      )}
       {!isLoading && instance && (
         <Row>
           <TabLinks

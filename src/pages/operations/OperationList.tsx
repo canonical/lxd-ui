@@ -7,37 +7,22 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { fetchAllOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import { isoTimeToString } from "util/helpers";
 import { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
 import { getProjectName } from "util/operations";
+import { useOperations } from "context/operationsProvider";
 
 const OperationList: FC = () => {
   const notify = useNotify();
-
-  const {
-    data: operationList,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.operations],
-    queryFn: fetchAllOperations,
-  });
+  const { operations, isLoading, error } = useOperations();
 
   if (error) {
     notify.failure("Loading operations failed", error);
   }
-
-  const failure = operationList?.failure ?? [];
-  const running = operationList?.running ?? [];
-  const success = operationList?.success ?? [];
-  const operations = failure.concat(running).concat(success);
 
   const headers = [
     { content: "Time", className: "time", sortKey: "created_at" },

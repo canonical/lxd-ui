@@ -11,8 +11,8 @@ import {
 } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
-import { useNotify } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instances: LxdInstance[];
@@ -22,7 +22,7 @@ interface Props {
 
 const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [activeAction, setActiveAction] = useState<LxdInstanceAction | null>(
     null,
@@ -41,13 +41,13 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
-          notify.success(
+          toastNotify.success(
             <>
               <b>{count}</b> {pluralizeInstance(count)} {action}.
             </>,
           );
         } else if (rejectedCount === count) {
-          notify.failure(
+          toastNotify.failure(
             `Instance ${desiredAction} failed`,
             undefined,
             <>
@@ -55,7 +55,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
             </>,
           );
         } else {
-          notify.failure(
+          toastNotify.failure(
             `Instance ${desiredAction} partially failed`,
             undefined,
             <>

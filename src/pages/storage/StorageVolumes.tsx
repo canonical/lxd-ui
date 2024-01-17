@@ -403,7 +403,11 @@ const StorageVolumes: FC = () => {
           />
         </div>
       </div>
-      <ScrollableTable dependencies={[volumes]} tableId="volume-table">
+      <ScrollableTable
+        dependencies={[volumes]}
+        tableId="volume-table"
+        belowIds={["status-bar"]}
+      >
         <TablePagination
           data={sortedRows}
           id="pagination"

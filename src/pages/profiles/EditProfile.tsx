@@ -59,6 +59,7 @@ import { getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -75,6 +76,7 @@ interface Props {
 
 const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const { project, section } = useParams<{
     project: string;
     section?: string;
@@ -110,7 +112,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
       updateProfile(profilePayload, project)
         .then(() => {
-          notify.success("Profile updated.");
+          toastNotify.success(`Profile ${profile.name} updated.`);
           void formik.setValues(getProfileEditValues(profilePayload));
         })
         .catch((e: Error) => {

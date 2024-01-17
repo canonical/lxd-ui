@@ -22,7 +22,9 @@ const ScrollableContainer: FC<Props> = ({
     }
     const above = childContainer.getBoundingClientRect().top + 1;
     const below = getAbsoluteHeightBelow(belowId);
-    const parentsBottomSpacing = getParentsBottomSpacing(childContainer);
+    const parentsBottomSpacing =
+      getParentsBottomSpacing(childContainer) +
+      getAbsoluteHeightBelow("status-bar");
     const offset = Math.ceil(above + below + parentsBottomSpacing);
     const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
     childContainer.setAttribute("style", style);

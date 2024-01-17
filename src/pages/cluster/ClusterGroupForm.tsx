@@ -5,7 +5,6 @@ import {
   Form,
   Input,
   Row,
-  success,
   useNotify,
 } from "@canonical/react-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -28,6 +27,7 @@ import SelectableMainTable from "components/SelectableMainTable";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export interface ClusterGroupFormValues {
   description: string;
@@ -42,6 +42,7 @@ interface Props {
 const ClusterGroupForm: FC<Props> = ({ group }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const { group: activeGroup } = useParams<{ group: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -83,10 +84,8 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       })
         .then(() => {
           const verb = group ? "saved" : "created";
-          navigate(
-            `/ui/cluster/groups/detail/${values.name}`,
-            notify.queue(success(`Cluster group ${values.name} ${verb}.`)),
-          );
+          navigate(`/ui/cluster/groups/detail/${values.name}`);
+          toastNotify.success(`Cluster group ${values.name} ${verb}.`);
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);

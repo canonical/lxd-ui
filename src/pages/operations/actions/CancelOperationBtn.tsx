@@ -4,6 +4,7 @@ import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   operation: LxdOperation;
@@ -12,6 +13,7 @@ interface Props {
 
 const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -19,7 +21,7 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
     setLoading(true);
     cancelOperation(operation.id)
       .then(() => {
-        notify.success("Operation cancelled");
+        toastNotify.success(`Operation ${operation.description} cancelled`);
       })
       .catch((e) => {
         notify.failure("Operation cancellation failed", e);

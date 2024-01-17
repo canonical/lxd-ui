@@ -14,6 +14,7 @@ import { getBrowserFormatDate, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -24,6 +25,7 @@ interface Props {
 const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
@@ -33,7 +35,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
         query.queryKey[0] === queryKeys.volumes ||
         query.queryKey[0] === queryKeys.storage,
     });
-    notify.success(`Snapshot ${name} saved.`);
+    toastNotify.success(`Snapshot ${name} saved.`);
     formik.setSubmitting(false);
     close();
   };
@@ -70,7 +72,10 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
           }
         },
         (msg) => {
-          notify.failure("Snapshot rename failed", new Error(msg));
+          toastNotify.failure(
+            `Snapshot ${snapshot.name} rename failed`,
+            new Error(msg),
+          );
           formik.setSubmitting(false);
         },
       ),

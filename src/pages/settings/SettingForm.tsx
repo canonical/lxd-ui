@@ -8,6 +8,7 @@ import { useAuth } from "context/auth";
 import SettingFormCheckbox from "./SettingFormCheckbox";
 import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -23,6 +24,7 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   const { isRestricted } = useAuth();
   const [isEditMode, setEditMode] = useState(false);
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
 
   const editRef = useRef<HTMLDivElement | null>(null);
@@ -38,7 +40,7 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
     };
     updateSettings(config)
       .then(() => {
-        notify.success("Setting updated.");
+        toastNotify.success(`Setting ${configField.key} updated.`);
         setEditMode(false);
       })
       .catch((e) => {

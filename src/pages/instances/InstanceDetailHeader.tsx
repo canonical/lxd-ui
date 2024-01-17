@@ -8,8 +8,13 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
-import { success, useNotify } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
+import {
+  instanceLinkFromName,
+  instanceLinkFromOperation,
+} from "util/instances";
+import { getInstanceName } from "util/operations";
 
 interface Props {
   name: string;
@@ -20,7 +25,7 @@ interface Props {
 const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -54,16 +59,28 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
         return;
       }
       void renameInstance(name, values.name, project).then((operation) => {
+        const instanceLink = instanceLinkFromName({
+          instanceName: values.name,
+          project,
+        });
         eventQueue.set(
           operation.metadata.id,
           () => {
-            navigate(
-              `/ui/project/${project}/instances/detail/${values.name}`,
-              notify.queue(success("Instance renamed.")),
+            navigate(`/ui/project/${project}/instances/detail/${values.name}`);
+            toastNotify.success(
+              <>
+                Instance <strong>{getInstanceName(operation.metadata)}</strong>{" "}
+                renamed to {instanceLink}.
+              </>,
             );
             void formik.setFieldValue("isRenaming", false);
           },
-          (msg) => notify.failure("Renaming failed", new Error(msg)),
+          (msg) =>
+            toastNotify.failure(
+              "Renaming instance failed.",
+              new Error(msg),
+              instanceLinkFromOperation({ operation, project }),
+            ),
           () => formik.setSubmitting(false),
         );
       });

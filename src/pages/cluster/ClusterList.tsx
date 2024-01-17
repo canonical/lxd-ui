@@ -88,6 +88,7 @@ const ClusterList: FC = () => {
             <ScrollableTable
               dependencies={[filteredMembers, notify.notification]}
               tableId="cluster-table"
+              belowIds={["status-bar"]}
             >
               <TablePagination
                 data={sortedRows}

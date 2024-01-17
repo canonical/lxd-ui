@@ -20,20 +20,18 @@ const Version: FC = () => {
 
   return (
     <>
-      <hr className="p-side-navigation__list is-dark navigation-hr" />
-      <li className="p-side-navigation__link server-version p-text--x-small">
+      <span className="server-version p-text--small">
         {isOutdated && (
           <Tooltip
-            message="You are using an outdated server version.
-Update your LXD server to benefit from the latest features."
+            message="You are using an outdated server version. Update your LXD server to benefit from the latest features."
             tooltipClassName="version-warning"
             zIndex={1000}
           >
-            <Icon name="warning" className="p-side-navigation__icon" />
+            <Icon name="warning" className="version-warning-icon" />
           </Tooltip>
         )}
         Version {serverVersion}-ui-{UI_VERSION}
-      </li>
+      </span>
     </>
   );
 };

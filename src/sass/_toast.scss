@@ -1,0 +1,103 @@
+.toast-animate {
+  position: relative;
+  z-index: 101;
+}
+
+.toast-notification,
+.toast-notification-list {
+  bottom: 3.5rem;
+  margin: 0 1.5rem;
+  position: absolute;
+  right: 0;
+
+  @include medium {
+    width: 500px;
+  }
+
+  @include large {
+    width: 600px;
+  }
+}
+
+.toast-notification {
+  box-shadow: 0 0 calc($sp-unit * 4) $sp-unit rgb(0 0 0 / 15%);
+  overflow: hidden;
+  z-index: 101;
+
+  @include mobile {
+    left: 0;
+    margin: 1.5rem auto;
+    max-width: 400px;
+    width: 95vw;
+  }
+}
+
+.toast-notification-list {
+  background-color: white;
+  box-shadow: 0 0 calc($sp-unit * 4) $sp-unit rgb(0 0 0 / 22%);
+  max-height: calc(100vh - 4.5rem);
+  overflow: auto;
+  padding: 0 0.5rem;
+  z-index: 102;
+
+  .individual-notification {
+    margin: 0.5rem 0;
+  }
+
+  .dismiss {
+    align-items: center;
+    background-color: white;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    padding-left: 0.8rem;
+    position: sticky;
+    z-index: 10;
+
+    .dismiss-button {
+      align-items: center;
+      display: flex;
+      gap: 0.5rem;
+
+      .dismiss-text {
+        align-items: center;
+        display: flex;
+        gap: $sph--x-small;
+      }
+    }
+
+    .filters {
+      display: flex;
+
+      .filter-button {
+        align-items: center;
+        display: flex;
+        gap: $sph--x-small;
+        justify-content: center;
+        margin-right: $sph--small !important;
+        padding: calc(0.4rem - 1px);
+
+        span {
+          padding: 0;
+          text-align: center;
+        }
+      }
+    }
+
+    @include mobile {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  @include mobile {
+    bottom: 2rem;
+    left: 0;
+    margin: 1.5rem auto;
+    max-width: 400px;
+    width: 95vw;
+  }
+}

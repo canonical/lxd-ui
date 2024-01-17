@@ -244,6 +244,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           <ScrollableTable
             dependencies={[filteredSnapshots]}
             tableId="volume-snapshot-table"
+            belowIds={["status-bar"]}
           >
             <TablePagination
               data={sortedRows}

@@ -7,10 +7,10 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
-import { success, useNotify } from "@canonical/react-components";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
 import { useDocs } from "context/useDocs";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   project: LxdProject;
@@ -20,7 +20,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
   const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -51,13 +51,17 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            navigate(
-              `/ui/project/${values.name}/configuration`,
-              notify.queue(success("Project renamed.")),
+            navigate(`/ui/project/${values.name}/configuration`);
+            toastNotify.success(
+              `Project ${project.name} renamed to ${values.name}.`,
             );
             void formik.setFieldValue("isRenaming", false);
           },
-          (msg) => notify.failure("Renaming failed", new Error(msg)),
+          (msg) =>
+            toastNotify.failure(
+              `Renaming project ${project.name} failed`,
+              new Error(msg),
+            ),
           () => formik.setSubmitting(false),
         ),
       );

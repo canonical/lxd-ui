@@ -54,12 +54,16 @@ export const renameProfile = async (
   await page.getByRole("textbox").press("Control+a");
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.getByText("Profile renamed.").click();
+  await page.waitForSelector(
+    `text=Profile ${oldName} renamed to ${newName}.`,
+    TIMEOUT,
+  );
 };
 
-export const saveProfile = async (page: Page) => {
+export const saveProfile = async (page: Page, profile: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Profile updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Profile ${profile} updated.`, TIMEOUT);
+  await page.getByRole("button", { name: "Close notification" }).click();
 };
 
 export const editProfile = async (page: Page, profile: string) => {

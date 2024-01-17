@@ -1,0 +1,56 @@
+.status-bar {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  height: 2.5rem;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  position: relative;
+  z-index: 103;
+
+  .server-version {
+    color: $color-mid-dark;
+    margin-bottom: 0;
+    padding-top: 0;
+  }
+
+  .version-warning .p-tooltip__message {
+    bottom: 1rem;
+    left: -3rem;
+  }
+
+  .version-warning-icon {
+    margin-right: 0.5rem;
+  }
+
+  .status-right-container {
+    display: flex;
+    gap: 2rem;
+
+    .operation-status {
+      align-items: center;
+      display: flex;
+    }
+
+    .expand-button {
+      align-items: center;
+      display: flex;
+      gap: 0.25rem;
+      padding: 0 0.5rem !important;
+
+      .total-count {
+        margin-left: 0.2rem;
+      }
+    }
+  }
+
+  .button-active {
+    background-color: #ebebeb;
+  }
+
+  @include desktop {
+    .version-warning .p-tooltip__message {
+      left: -3.5rem;
+    }
+  }
+}

@@ -6,7 +6,6 @@ import {
   MainTable,
   SearchBox,
   TablePagination,
-  useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import ScrollableTable from "components/ScrollableTable";
 import { Link } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   project: string;
@@ -27,7 +27,7 @@ interface Props {
 
 const CustomIsoList: FC<Props> = ({ project }) => {
   const docBaseLink = useDocs();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [query, setQuery] = useState<string>("");
 
   const { data: images = [], isLoading } = useQuery({
@@ -69,7 +69,7 @@ const CustomIsoList: FC<Props> = ({ project }) => {
             volume={image.volume}
             project={project}
             onFinish={() =>
-              notify.success(`Custom iso ${image.aliases} deleted.`)
+              toastNotify.success(`Custom iso ${image.aliases} deleted.`)
             }
           />,
         ]}
@@ -175,7 +175,11 @@ const CustomIsoList: FC<Props> = ({ project }) => {
         </div>
         <UploadCustomIsoBtn />
       </div>
-      <ScrollableTable dependencies={[images]} tableId="custom-iso-table">
+      <ScrollableTable
+        dependencies={[images]}
+        tableId="custom-iso-table"
+        belowIds={["status-bar"]}
+      >
         <TablePagination
           data={sortedRows}
           id="pagination"

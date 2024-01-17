@@ -4,12 +4,9 @@ import {
   ContextualMenu,
   EmptyState,
   Icon,
-  NotificationType,
   RadioInput,
-  failure,
-  info,
+  useNotify,
 } from "@canonical/react-components";
-import NotificationRowLegacy from "components/NotificationRowLegacy";
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
@@ -21,29 +18,27 @@ import {
   sendCtrlAltDel,
 } from "../../lib/spice/src/inputs";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
+import NotificationRow from "components/NotificationRow";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const InstanceConsole: FC<Props> = ({ instance }) => {
-  const [inTabNotification, setInTabNotification] =
-    useState<NotificationType | null>(null);
+  const notify = useNotify();
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
 
   const isRunning = instance.status === "Running";
 
   const onFailure = (title: string, e: unknown, message?: string) => {
-    setInTabNotification(failure(title, e, message));
+    notify.failure(title, e, message);
   };
 
   const showNotRunningInfo = () => {
-    setInTabNotification(
-      info(
-        "Start the instance to interact with the text console.",
-        "Instance not running",
-      ),
+    notify.info(
+      "Start the instance to interact with the text console.",
+      "Instance not running",
     );
   };
 
@@ -56,7 +51,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   };
 
   const setGraphicConsole = (isGraphic: boolean) => {
-    setInTabNotification(null);
+    notify.clear();
     setGraphic(isGraphic);
   };
 
@@ -111,10 +106,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           )}
         </div>
       )}
-      <NotificationRowLegacy
-        notification={inTabNotification}
-        onDismiss={() => setInTabNotification(null)}
-      />
+      <NotificationRow />
       {isGraphic && !isRunning && (
         <EmptyState
           className="empty-state"
@@ -136,8 +128,6 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
             instance={instance}
             onMount={onChildMount}
             onFailure={onFailure}
-            inTabNotification={inTabNotification}
-            clearNotification={() => setInTabNotification(null)}
           />
         </div>
       )}
@@ -146,7 +136,6 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           instance={instance}
           onFailure={onFailure}
           showNotRunningInfo={showNotRunningInfo}
-          clearNotification={() => setInTabNotification(null)}
         />
       )}
     </div>

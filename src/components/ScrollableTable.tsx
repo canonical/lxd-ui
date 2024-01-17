@@ -5,14 +5,14 @@ import { getAbsoluteHeightBelow, getParentsBottomSpacing } from "util/helpers";
 interface Props {
   children: ReactNode;
   dependencies: DependencyList;
-  belowId?: string;
+  belowIds?: string[];
   tableId: string;
 }
 
 const ScrollableTable: FC<Props> = ({
   dependencies,
   children,
-  belowId = "",
+  belowIds = [],
   tableId,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,7 +24,10 @@ const ScrollableTable: FC<Props> = ({
     }
     const tBody = table.children[1];
     const above = tBody.getBoundingClientRect().top + 1;
-    const below = getAbsoluteHeightBelow(belowId);
+    const below = belowIds.reduce(
+      (acc, belowId) => acc + getAbsoluteHeightBelow(belowId),
+      0,
+    );
     const parentsBottomSpacing = getParentsBottomSpacing(table);
     const offset = Math.ceil(above + below + parentsBottomSpacing);
     const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;

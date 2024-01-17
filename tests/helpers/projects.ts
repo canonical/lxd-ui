@@ -14,6 +14,7 @@ export const createProject = async (page: Page, project: string) => {
   await page.getByPlaceholder("Enter name").fill(project);
   await page.getByRole("button", { name: "Create" }).click();
   await page.waitForSelector(`text=Project ${project} created.`, TIMEOUT);
+  await page.getByRole("button", { name: "Close notification" }).click();
 };
 
 export const renameProject = async (
@@ -29,7 +30,6 @@ export const renameProject = async (
   await page.getByRole("textbox").first().press("Control+a");
   await page.getByRole("textbox").first().fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.getByText("Project renamed.").click();
 };
 
 export const deleteProject = async (page: Page, project: string) => {
