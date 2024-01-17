@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import {
   ConfirmationButton,
   Icon,
-  success,
   useNotify,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { useDeleteIcon } from "context/useDeleteIcon";
 import { useNavigate } from "react-router-dom";
 import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   pool: LxdStoragePool;
@@ -28,6 +28,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
   const isSmallScreen = useDeleteIcon();
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -38,10 +39,8 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
-        navigate(
-          `/ui/project/${project}/storage`,
-          notify.queue(success(`Storage pool ${pool.name} deleted.`)),
-        );
+        navigate(`/ui/project/${project}/storage`);
+        toastNotify.success(`Storage pool ${pool.name} deleted.`);
       })
       .catch((e) => {
         setLoading(false);

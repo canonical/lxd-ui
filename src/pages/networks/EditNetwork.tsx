@@ -20,6 +20,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   network: LxdNetwork;
@@ -29,6 +30,8 @@ interface Props {
 const EditNetwork: FC<Props> = ({ network, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
+
   const { section } = useParams<{ section?: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -69,7 +72,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
               network.name,
             ],
           });
-          notify.success("Network updated.");
+          toastNotify.success(`Network ${network.name} updated.`);
         })
         .catch((e) => {
           notify.failure("Network update failed", e);

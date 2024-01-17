@@ -42,7 +42,7 @@ test("profile edit basic details", async ({ page }) => {
 
   await page.getByPlaceholder("Enter description").fill("A-new-description");
 
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await page.getByText("DescriptionA-new-description").click();
 
@@ -55,23 +55,23 @@ test("profile cpu and memory", async ({ page }) => {
   await visitProfile(page, profile);
 
   await setCpuLimit(page, "number", "42");
-  await saveProfile(page);
+  await saveProfile(page, profile);
   await assertReadMode(page, "Exposed CPU limit", "42");
 
   await setCpuLimit(page, "fixed", "1,2,3,4");
-  await saveProfile(page);
+  await saveProfile(page, profile);
   await assertReadMode(page, "Exposed CPU limit", "1,2,3,4");
 
   await setCpuLimit(page, "fixed", "1-23");
-  await saveProfile(page);
+  await saveProfile(page, profile);
   await assertReadMode(page, "Exposed CPU limit", "1-23");
 
   await setMemLimit(page, "percentage", "2");
-  await saveProfile(page);
+  await saveProfile(page, profile);
   await assertReadMode(page, "Memory limit", "2%");
 
   await setMemLimit(page, "absolute", "3");
-  await saveProfile(page);
+  await saveProfile(page, profile);
   await assertReadMode(page, "Memory limit", "3GiB");
 
   await deleteProfile(page, profile);
@@ -86,7 +86,7 @@ test("profile resource limits", async ({ page }) => {
   await setOption(page, "Memory swap", "true");
   await setOption(page, "Disk priority", "1");
   await setInput(page, "Max number of processes", "Enter number", "2");
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await assertReadMode(page, "Memory swap (Containers only)", "Allow");
   await assertReadMode(page, "Disk priority", "1");
@@ -110,7 +110,7 @@ test("profile security policies", async ({ page }) => {
   await setOption(page, "Allow /dev/lxd in the instance", "true");
   await setOption(page, "Make /1.0/images API available", "true");
   await setOption(page, "Enable secureboot", "true");
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await assertReadMode(page, "Protect deletion", "Yes");
   await assertReadMode(page, "Privileged (Containers only)", "Allow");
@@ -144,7 +144,7 @@ test("profile snapshots", async ({ page }) => {
   await setOption(page, "Snapshot stopped instances", "true");
   await setSchedule(page, "@daily");
 
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await assertReadMode(page, "Snapshot name pattern", "snap123");
   await assertReadMode(page, "Expire after", "3m");
@@ -163,7 +163,7 @@ test("profile cloud init", async ({ page }) => {
   await setCodeInput(page, "Network config", "foo:\n" + " - abc");
   await setCodeInput(page, "User data", "bar:\n" + " - def");
   await setCodeInput(page, "Vendor data", "baz:\n" + " - ghi");
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await assertCode(page, "Network config", "foo:");
   await assertCode(page, "User data", "bar:");
@@ -184,7 +184,7 @@ test("profile yaml edit", async ({ page }) => {
 description: 'A-new-description'
 devices: {}
 name: ${profile}`);
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await page.getByText("Main configuration").click();
   await page.getByText("DescriptionA-new-description").click();

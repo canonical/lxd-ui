@@ -7,12 +7,9 @@ import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import ConfirmationForce from "components/ConfirmationForce";
 import ItemName from "components/ItemName";
-import {
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instance: LxdInstance;
@@ -21,7 +18,7 @@ interface Props {
 const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
   const isLoading =
@@ -34,13 +31,13 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       eventQueue.set(
         operation.metadata.id,
         () =>
-          notify.success(
+          toastNotify.success(
             <>
               Instance <InstanceLink instance={instance} /> stopped.
             </>,
           ),
         (msg) =>
-          notify.failure(
+          toastNotify.failure(
             "Instance stop failed",
             new Error(msg),
             <>

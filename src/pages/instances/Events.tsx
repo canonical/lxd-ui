@@ -4,12 +4,14 @@ import { useEventQueue } from "context/eventQueue";
 import { useAuth } from "context/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import { useOperations } from "context/operationsProvider";
 
 const Events: FC = () => {
   const { isAuthenticated } = useAuth();
   const eventQueue = useEventQueue();
   const queryClient = useQueryClient();
   const [eventWs, setEventWs] = useState<WebSocket | null>(null);
+  const { refetchOperations } = useOperations();
 
   const handleEvent = (event: LxdEvent) => {
     const eventCallback = eventQueue.get(event.metadata.id);
@@ -47,8 +49,9 @@ const Events: FC = () => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.operations, event.project],
         });
+        void refetchOperations();
       }
-      setTimeout(() => handleEvent(event), 1000); // handle with delay to allow operations to vanish
+      handleEvent(event);
     };
   };
 

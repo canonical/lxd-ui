@@ -162,7 +162,11 @@ const StoragePools: FC = () => {
       <div className="upper-controls-bar">
         <CreateStoragePoolBtn project={project} />
       </div>
-      <ScrollableTable dependencies={[pools]} tableId="storage-pool-table">
+      <ScrollableTable
+        dependencies={[pools]}
+        tableId="storage-pool-table"
+        belowIds={["status-bar"]}
+      >
         <MainTable
           id="storage-pool-table"
           headers={headers}

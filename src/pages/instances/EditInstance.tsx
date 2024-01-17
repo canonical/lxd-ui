@@ -5,7 +5,6 @@ import {
   Form,
   Notification,
   Row,
-  useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
@@ -54,6 +53,8 @@ import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
+import { instanceLinkFromOperation } from "util/instances";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -79,7 +80,7 @@ interface Props {
 
 const EditInstance: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const { project, section } = useParams<{
     project: string;
     section?: string;
@@ -95,7 +96,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [notify.notification?.message, section]);
+  useEffect(updateFormHeight, [section]);
   useEventListener("resize", updateFormHeight);
 
   const formik = useFormik<EditInstanceFormValues>({
@@ -112,13 +113,23 @@ const EditInstance: FC<Props> = ({ instance }) => {
       instancePayload.etag = instance.etag;
 
       void updateInstance(instancePayload, project).then((operation) => {
+        const instanceLink = instanceLinkFromOperation({
+          operation,
+          project,
+        });
+        if (!instanceLink) return;
         eventQueue.set(
           operation.metadata.id,
           () => {
-            notify.success("Instance updated.");
+            toastNotify.success(<>Instance {instanceLink} updated.</>);
             void formik.setValues(getInstanceEditValues(instancePayload));
           },
-          (msg) => notify.failure("Instance update failed", new Error(msg)),
+          (msg) =>
+            toastNotify.failure(
+              "Instance update failed.",
+              new Error(msg),
+              instanceLink,
+            ),
           () => {
             formik.setSubmitting(false);
             void queryClient.invalidateQueries({
@@ -230,7 +241,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
             appearance="positive"
             onClick={() => {
               void formik.setFieldValue("readOnly", false);
-              notify.clear();
             }}
           >
             Edit instance

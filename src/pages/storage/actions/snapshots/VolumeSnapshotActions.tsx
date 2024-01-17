@@ -16,6 +16,7 @@ import classnames from "classnames";
 import ItemName from "components/ItemName";
 import { useEventQueue } from "context/eventQueue";
 import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -25,6 +26,7 @@ interface Props {
 const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
@@ -34,8 +36,12 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
     void deleteVolumeSnapshot(volume, snapshot).then((operation) =>
       eventQueue.set(
         operation.metadata.id,
-        () => notify.success(`Snapshot ${snapshot.name} deleted`),
-        (msg) => notify.failure("Snapshot deletion failed", new Error(msg)),
+        () => toastNotify.success(`Snapshot ${snapshot.name} deleted`),
+        (msg) =>
+          toastNotify.failure(
+            `Snapshot ${snapshot.name} deletion failed`,
+            new Error(msg),
+          ),
         () => {
           setDeleting(false);
           void queryClient.invalidateQueries({
@@ -52,7 +58,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
     setRestoring(true);
     void restoreVolumeSnapshot(volume, snapshot)
       .then(() => {
-        notify.success(`Snapshot ${snapshot.name} restored`);
+        toastNotify.success(`Snapshot ${snapshot.name} restored`);
       })
       .catch((error: Error) => {
         notify.failure("Snapshot restore failed", error);

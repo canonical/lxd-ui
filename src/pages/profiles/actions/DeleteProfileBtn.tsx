@@ -7,12 +7,12 @@ import { useDeleteIcon } from "context/useDeleteIcon";
 import {
   ConfirmationButton,
   Icon,
-  success,
   useNotify,
 } from "@canonical/react-components";
 import classnames from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   profile: LxdProfile;
@@ -27,6 +27,7 @@ const DeleteProfileBtn: FC<Props> = ({
 }) => {
   const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -38,10 +39,8 @@ const DeleteProfileBtn: FC<Props> = ({
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, project],
         });
-        navigate(
-          `/ui/project/${project}/profiles`,
-          notify.queue(success(`Profile ${profile.name} deleted.`)),
-        );
+        navigate(`/ui/project/${project}/profiles`);
+        toastNotify.success(`Profile ${profile.name} deleted.`);
       })
       .catch((e) => {
         setLoading(false);

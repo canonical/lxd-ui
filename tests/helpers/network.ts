@@ -15,6 +15,7 @@ export const createNetwork = async (page: Page, network: string) => {
   await page.getByLabel("Name").fill(network);
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForSelector(`text=Network ${network} created.`, TIMEOUT);
+  await page.getByRole("button", { name: "Close notification" }).click();
 };
 
 export const deleteNetwork = async (page: Page, network: string) => {
@@ -32,9 +33,10 @@ export const visitNetwork = async (page: Page, network: string) => {
   await page.getByRole("link", { name: network }).first().click();
 };
 
-export const saveNetwork = async (page: Page) => {
+export const saveNetwork = async (page: Page, network: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Network updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Network ${network} updated.`, TIMEOUT);
+  await page.getByRole("button", { name: "Close notification" }).click();
 };
 
 export const editNetwork = async (page: Page, network: string) => {

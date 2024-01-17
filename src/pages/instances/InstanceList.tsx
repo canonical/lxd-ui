@@ -548,6 +548,7 @@ const InstanceList: FC = () => {
               <ScrollableTable
                 dependencies={[filteredInstances, notify.notification]}
                 tableId="instances-table"
+                belowIds={["status-bar"]}
               >
                 <TablePagination
                   data={sortedRows}

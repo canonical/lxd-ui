@@ -17,7 +17,6 @@ import MapTooltip, {
   mountElement,
 } from "pages/networks/MapTooltip";
 import MapLegend from "pages/networks/MapLegend";
-import NotificationRow from "components/NotificationRow";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 Cytoscape.use(popper);
@@ -129,7 +128,6 @@ const NetworkMap: FC = () => {
 
   return (
     <BaseLayout title="Network map (beta)">
-      <NotificationRow />
       <Row>
         <Col size={12} id="network-map" className="network-map">
           <MapLegend />

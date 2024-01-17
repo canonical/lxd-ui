@@ -22,6 +22,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { getStoragePoolEditValues } from "util/storagePoolEdit";
 import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 import { slugify } from "util/slugify";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   pool: LxdStoragePool;
@@ -30,6 +31,7 @@ interface Props {
 const EditStoragePool: FC<Props> = ({ pool }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project, section } = useParams<{
     project: string;
@@ -67,7 +69,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       mutation()
         .then(async () => {
-          notify.success("Storage pool updated.");
+          toastNotify.success(`Storage pool ${savedPool.name} updated.`);
           const member = clusterMembers[0]?.server_name ?? undefined;
           const updatedPool = await fetchStoragePool(
             values.name,

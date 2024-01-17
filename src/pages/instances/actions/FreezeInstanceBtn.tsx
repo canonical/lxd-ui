@@ -6,12 +6,9 @@ import { freezeInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
 import InstanceLink from "pages/instances/InstanceLink";
 import ItemName from "components/ItemName";
-import {
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instance: LxdInstance;
@@ -20,7 +17,7 @@ interface Props {
 const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const instanceLoading = useInstanceLoading();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const isLoading =
     instanceLoading.getType(instance) === "Freezing" ||
@@ -32,13 +29,13 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
       eventQueue.set(
         operation.metadata.id,
         () =>
-          notify.success(
+          toastNotify.success(
             <>
               Instance <InstanceLink instance={instance} /> frozen.
             </>,
           ),
         (msg) =>
-          notify.failure(
+          toastNotify.failure(
             "Instance freeze failed",
             new Error(msg),
             <>

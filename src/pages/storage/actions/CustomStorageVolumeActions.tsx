@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import classnames from "classnames";
-import { List, useNotify } from "@canonical/react-components";
+import { List } from "@canonical/react-components";
 import { LxdStorageVolume } from "types/storage";
 import DeleteStorageVolumeBtn from "./DeleteStorageVolumeBtn";
 import VolumeAddSnapshotBtn from "./snapshots/VolumeAddSnapshotBtn";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -18,7 +19,7 @@ const CustomStorageVolumeActions: FC<Props> = ({
   project,
   snapshotDisabled,
 }) => {
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   return (
     <List
       inline
@@ -35,7 +36,7 @@ const CustomStorageVolumeActions: FC<Props> = ({
           volume={volume}
           project={project}
           onFinish={() => {
-            notify.success(`Storage volume ${volume.name} deleted.`);
+            toastNotify.success(`Storage volume ${volume.name} deleted.`);
           }}
         />,
       ]}

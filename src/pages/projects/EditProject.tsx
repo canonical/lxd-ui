@@ -31,6 +31,7 @@ import CustomLayout from "components/CustomLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   project: LxdProject;
@@ -40,6 +41,7 @@ const EditProject: FC<Props> = ({ project }) => {
   const navigate = useNavigate();
   const { isRestricted } = useAuth();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { section } = useParams<{ section?: string }>();
 
@@ -65,7 +67,7 @@ const EditProject: FC<Props> = ({ project }) => {
 
       updateProject(projectPayload)
         .then(() => {
-          notify.success(`Project updated.`);
+          toastNotify.success(`Project ${project.name} updated.`);
           void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {

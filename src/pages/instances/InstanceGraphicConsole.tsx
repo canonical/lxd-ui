@@ -7,7 +7,7 @@ import useEventListener from "@use-it/event-listener";
 import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
-import { NotificationType, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -20,16 +20,12 @@ interface Props {
   instance: LxdInstance;
   onMount: (handler: () => void) => void;
   onFailure: (title: string, e: unknown, message?: string) => void;
-  inTabNotification: NotificationType | null;
-  clearNotification: () => void;
 }
 
 const InstanceGraphicConsole: FC<Props> = ({
   instance,
   onMount,
   onFailure,
-  inTabNotification,
-  clearNotification,
 }) => {
   const { name, project } = useParams<{
     name: string;
@@ -111,13 +107,10 @@ const InstanceGraphicConsole: FC<Props> = ({
   };
 
   useEventListener("resize", handleResize);
-  useEffect(handleResize, [
-    notify.notification?.message,
-    inTabNotification?.message,
-  ]);
+  useEffect(handleResize, [notify.notification?.message]);
 
   useEffect(() => {
-    clearNotification();
+    notify.clear();
     const websocketPromise = openVgaConsole();
     return () => {
       try {

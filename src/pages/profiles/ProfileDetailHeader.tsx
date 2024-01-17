@@ -7,7 +7,8 @@ import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
-import { success, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   name: string;
@@ -24,6 +25,7 @@ const ProfileDetailHeader: FC<Props> = ({
 }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -52,10 +54,8 @@ const ProfileDetailHeader: FC<Props> = ({
       }
       renameProfile(name, values.name, project)
         .then(() => {
-          navigate(
-            `/ui/project/${project}/profiles/detail/${values.name}`,
-            notify.queue(success("Profile renamed.")),
-          );
+          navigate(`/ui/project/${project}/profiles/detail/${values.name}`);
+          toastNotify.success(`Profile ${name} renamed to ${values.name}.`);
           void formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {

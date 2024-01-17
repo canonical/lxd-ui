@@ -3,12 +3,9 @@ import { deleteImage } from "api/images";
 import { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import {
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   image: LxdImage;
@@ -17,7 +14,7 @@ interface Props {
 
 const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -33,9 +30,13 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project],
           });
-          notify.success(`Image ${image.properties.description} deleted.`);
+          toastNotify.success(`Image ${image.properties.description} deleted.`);
         },
-        (msg) => notify.failure("Image deletion failed", new Error(msg)),
+        (msg) =>
+          toastNotify.failure(
+            `Image ${image.properties.description} deletion failed`,
+            new Error(msg),
+          ),
         () => setLoading(false),
       ),
     );

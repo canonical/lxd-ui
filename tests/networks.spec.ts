@@ -62,7 +62,7 @@ test("network edit basic details", async ({ page }) => {
   await activateOverride(page, "IPv6 DHCP stateful");
   await setOption(page, "IPv6 DHCP stateful", "true");
 
-  await saveNetwork(page);
+  await saveNetwork(page, network);
 
   await visitNetwork(page, network);
   await page.getByRole("cell", { name: "A-new-description" }).click();

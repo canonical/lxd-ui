@@ -10,10 +10,10 @@ import { useDeleteIcon } from "context/useDeleteIcon";
 import {
   ConfirmationButton,
   Icon,
-  success,
   useNotify,
 } from "@canonical/react-components";
 import classnames from "classnames";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   project: LxdProject;
@@ -22,6 +22,7 @@ interface Props {
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const isDeleteIcon = useDeleteIcon();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -42,10 +43,8 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     setLoading(true);
     deleteProject(project)
       .then(() => {
-        navigate(
-          `/ui/project/default/instances`,
-          notify.queue(success(`Project ${project.name} deleted.`)),
-        );
+        navigate(`/ui/project/default/instances`);
+        toastNotify.success(`Project ${project.name} deleted.`);
       })
       .catch((e) => {
         setLoading(false);

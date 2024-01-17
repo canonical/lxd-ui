@@ -19,10 +19,12 @@ import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import { POOL } from "../StorageVolumesFilter";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 const StorageVolumeCreate: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
@@ -67,12 +69,8 @@ const StorageVolumeCreate: FC = () => {
           void queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
-          navigate(
-            `/ui/project/${project}/storage/volumes`,
-            notify.queue(
-              notify.success(`Storage volume ${values.name} created.`),
-            ),
-          );
+          navigate(`/ui/project/${project}/storage/volumes`);
+          toastNotify.success(`Storage volume ${values.name} created.`);
         })
         .catch((e) => {
           formik.setSubmitting(false);

@@ -220,6 +220,7 @@ const ProfileList: FC = () => {
           <ScrollableTable
             dependencies={[filteredProfiles, notify.notification]}
             tableId="profile-table"
+            belowIds={["status-bar"]}
           >
             <TablePagination
               id="pagination"

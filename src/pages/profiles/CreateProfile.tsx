@@ -5,7 +5,6 @@ import {
   Form,
   Notification,
   Row,
-  success,
   useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -58,6 +57,7 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -70,6 +70,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
 const CreateProfile: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const { project } = useParams<{ project: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -109,10 +110,8 @@ const CreateProfile: FC = () => {
 
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          navigate(
-            `/ui/project/${project}/profiles`,
-            notify.queue(success(`Profile ${values.name} created.`)),
-          );
+          navigate(`/ui/project/${project}/profiles`);
+          toastNotify.success(`Profile ${values.name} created.`);
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);
