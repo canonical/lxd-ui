@@ -2,10 +2,11 @@ import React, { FC, useState } from "react";
 import { deleteImageBulk } from "api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import { ConfirmationButton } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
 import { pluralize } from "util/instanceBulkActions";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   fingerprints: string[];
@@ -21,7 +22,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
   onFinish,
 }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -34,14 +35,14 @@ const BulkDeleteImageBtn: FC<Props> = ({
       const { fulfilledCount, rejectedCount } =
         getPromiseSettledCounts(results);
       if (fulfilledCount === count) {
-        notify.success(
+        toastNotify.success(
           <>
             <b>{fingerprints.length}</b>{" "}
             {pluralize("image", fingerprints.length)} deleted.
           </>,
         );
       } else if (rejectedCount === count) {
-        notify.failure(
+        toastNotify.failure(
           "Image bulk deletion failed",
           undefined,
           <>
@@ -49,7 +50,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
           </>,
         );
       } else {
-        notify.failure(
+        toastNotify.failure(
           "Image bulk deletion partially failed",
           undefined,
           <>

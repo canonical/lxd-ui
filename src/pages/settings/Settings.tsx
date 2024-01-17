@@ -169,6 +169,7 @@ const Settings: FC = () => {
           <ScrollableTable
             dependencies={[notify.notification, rows]}
             tableId="settings-table"
+            belowIds={["status-bar"]}
           >
             <MainTable
               id="settings-table"

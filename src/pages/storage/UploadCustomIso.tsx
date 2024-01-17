@@ -12,6 +12,7 @@ import { UploadState } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -21,6 +22,7 @@ interface Props {
 const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project } = useProject();
   const [file, setFile] = useState<File | null>(null);
@@ -82,7 +84,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       eventQueue.set(
         operation.metadata.id,
         () => onFinish(name, pool),
-        (msg) => notify.failure("Image import failed", new Error(msg)),
+        (msg) => toastNotify.failure("Image import failed", new Error(msg)),
         () => {
           setLoading(false);
           setUploadState(null);

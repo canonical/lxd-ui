@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useState } from "react";
 import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import SnapshotForm from "components/forms/SnapshotForm";
-import { useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   renameInstanceSnapshot,
@@ -18,6 +17,7 @@ import {
 import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
 import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instance: LxdInstance;
@@ -33,7 +33,7 @@ const EditInstanceSnapshotForm: FC<Props> = ({
   onSuccess,
 }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
@@ -43,7 +43,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
     });
     onSuccess(
       <>
-        Snapshot <ItemName item={{ name: name }} bold /> saved.
+        Snapshot <ItemName item={{ name: name }} bold /> saved for instance{" "}
+        {instance.name}.
       </>,
     );
     close();
@@ -61,7 +62,10 @@ const EditInstanceSnapshotForm: FC<Props> = ({
           operation.metadata.id,
           () => notifyUpdateSuccess(newName ?? snapshot.name),
           (msg) => {
-            notify.failure("Snapshot update failed", new Error(msg));
+            toastNotify.failure(
+              `Snapshot update failed for instance ${instance.name}`,
+              new Error(msg),
+            );
             formik.setSubmitting(false);
           },
         ),
@@ -80,7 +84,10 @@ const EditInstanceSnapshotForm: FC<Props> = ({
           }
         },
         (msg) => {
-          notify.failure("Snapshot rename failed", new Error(msg));
+          toastNotify.failure(
+            `Snapshot rename failed for instance ${instance.name}`,
+            new Error(msg),
+          );
           formik.setSubmitting(false);
         },
       ),
@@ -108,7 +115,6 @@ const EditInstanceSnapshotForm: FC<Props> = ({
       snapshot.name,
     ),
     onSubmit: (values) => {
-      notify.clear();
       const newName = values.name;
       const expiresAt =
         values.expirationDate && values.expirationTime

@@ -13,13 +13,17 @@ export const updateCheckbox = async (settingRow: Locator) => {
   await checkbox.click();
 };
 
-export const removePassword = async (page: Page, settingRow: Locator) => {
+export const removePassword = async (
+  page: Page,
+  settingRow: Locator,
+  settingName: string,
+) => {
   const removeButton = settingRow.getByRole("button", {
     name: "Remove",
     exact: true,
   });
   await removeButton.click();
-  await page.waitForSelector("text=Setting updated.", TIMEOUT);
+  await page.waitForSelector(`text=Setting ${settingName} updated.`, TIMEOUT);
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(settingRow, "not set");
 };
@@ -40,7 +44,7 @@ export const updateSetting = async (
     await settingInput.fill(content);
   }
   await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await page.waitForSelector("text=Setting updated.", TIMEOUT);
+  await page.waitForSelector(`text=Setting ${settingName} updated.`, TIMEOUT);
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(
     settingRow,
@@ -66,7 +70,7 @@ export const resetSetting = async (
   await settingRow.getByRole("button").click();
 
   if (settingType === "password") {
-    await removePassword(page, settingRow);
+    await removePassword(page, settingRow, settingName);
     return;
   }
 
@@ -74,7 +78,7 @@ export const resetSetting = async (
     .getByRole("button", { name: "Reset to default", exact: true })
     .click();
   await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await page.waitForSelector("text=Setting updated.", TIMEOUT);
+  await page.waitForSelector(`text=Setting ${settingName} updated.`, TIMEOUT);
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(settingRow, defaultValue);
 };

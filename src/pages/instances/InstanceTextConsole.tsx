@@ -13,19 +13,18 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
 import Xterm from "components/Xterm";
 import { Terminal } from "xterm";
+import { useNotify } from "@canonical/react-components";
 
 interface Props {
   instance: LxdInstance;
   onFailure: (title: string, e: unknown, message?: string) => void;
   showNotRunningInfo: () => void;
-  clearNotification: () => void;
 }
 
 const InstanceTextConsole: FC<Props> = ({
   instance,
   onFailure,
   showNotRunningInfo,
-  clearNotification,
 }) => {
   const { name, project } = useParams<{
     name: string;
@@ -38,6 +37,7 @@ const InstanceTextConsole: FC<Props> = ({
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef<Terminal>(null);
+  const notify = useNotify();
 
   usePrompt({
     when: userInteracted,
@@ -134,7 +134,7 @@ const InstanceTextConsole: FC<Props> = ({
     if (dataWs) {
       return;
     }
-    clearNotification();
+    notify.clear();
     const websocketPromise = openWebsockets();
     return () => {
       void websocketPromise.then((websockets) => {

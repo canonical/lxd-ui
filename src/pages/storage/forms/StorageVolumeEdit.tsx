@@ -16,6 +16,7 @@ import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -24,6 +25,7 @@ interface Props {
 const StorageVolumeEdit: FC<Props> = ({ volume }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { section } = useParams<{ section: string }>();
   const { project } = useParams<{ project: string }>();
@@ -59,7 +61,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
               saveVolume.name,
             ],
           });
-          notify.success(`Storage volume updated.`);
+          toastNotify.success(`Storage volume ${saveVolume.name} updated.`);
         })
         .catch((e) => {
           notify.failure("Storage volume update failed", e);

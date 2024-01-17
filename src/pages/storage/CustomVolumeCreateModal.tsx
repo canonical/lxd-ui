@@ -73,7 +73,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
   });
 
   const updateFormHeight = () => {
-    updateMaxHeight("volume-create-form", "p-modal__footer", 32);
+    updateMaxHeight("volume-create-form", "p-modal__footer", 32, undefined, []);
   };
   useEffect(updateFormHeight, [notify.notification?.message]);
   useEventListener("resize", updateFormHeight);

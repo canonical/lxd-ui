@@ -5,11 +5,8 @@ import { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  ConfirmationButton,
-  success,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   network: LxdNetwork;
@@ -18,6 +15,7 @@ interface Props {
 
 const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -32,10 +30,8 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
             query.queryKey[1] === project &&
             query.queryKey[2] === queryKeys.networks,
         });
-        navigate(
-          `/ui/project/${project}/networks`,
-          notify.queue(success(`Network ${network.name} deleted.`)),
-        );
+        navigate(`/ui/project/${project}/networks`);
+        toastNotify.success(`Network ${network.name} deleted.`);
       })
       .catch((e) => {
         setLoading(false);

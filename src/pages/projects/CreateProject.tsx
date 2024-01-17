@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Button, success, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -40,6 +40,7 @@ import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -51,6 +52,7 @@ export type ProjectFormValues = ProjectDetailsFormValues &
 const CreateProject: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(slugify(PROJECT_DETAILS));
@@ -98,10 +100,8 @@ const CreateProject: FC = () => {
         }),
       )
         .then(() => {
-          navigate(
-            `/ui/project/${values.name}/instances`,
-            notify.queue(success(`Project ${values.name} created.`)),
-          );
+          navigate(`/ui/project/${values.name}/instances`);
+          toastNotify.success(`Project ${values.name} created.`);
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);

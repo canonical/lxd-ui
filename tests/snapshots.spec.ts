@@ -30,7 +30,7 @@ test("instance snapshot create, restore, edit and remove", async ({ page }) => {
   await restoreInstanceSnapshot(page, snapshot);
 
   const newName = `${snapshot}-rename`;
-  await editInstanceSnapshot(page, snapshot, newName);
+  await editInstanceSnapshot(page, snapshot, newName, instance);
 
   await deleteInstanceSnapshot(page, newName);
 

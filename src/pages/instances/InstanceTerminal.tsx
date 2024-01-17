@@ -7,19 +7,14 @@ import useEventListener from "@use-it/event-listener";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { TerminalConnectPayload } from "types/terminal";
 import Loader from "components/Loader";
-import NotificationRowLegacy from "components/NotificationRowLegacy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
 import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
-import {
-  EmptyState,
-  failure,
-  Icon,
-  NotificationType,
-} from "@canonical/react-components";
 import Xterm from "components/Xterm";
 import { Terminal } from "xterm";
+import { EmptyState, Icon, useNotify } from "@canonical/react-components";
+import NotificationRow from "components/NotificationRow";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -53,8 +48,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     project: string;
   }>();
   const textEncoder = new TextEncoder();
-  const [inTabNotification, setInTabNotification] =
-    useState<NotificationType | null>(null);
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [controlWs, setControlWs] = useState<WebSocket | null>(null);
@@ -79,11 +73,11 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
 
   const openWebsockets = async (payload: TerminalConnectPayload) => {
     if (!name) {
-      setInTabNotification(failure("Missing name", new Error()));
+      notify.failure("Missing name", new Error());
       return;
     }
     if (!project) {
-      setInTabNotification(failure("Missing project", new Error()));
+      notify.failure("Missing project", new Error());
       return;
     }
 
@@ -91,7 +85,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     const result = await connectInstanceExec(name, project, payload).catch(
       (e) => {
         setLoading(false);
-        setInTabNotification(failure("Connection failed", e));
+        notify.failure("Connection failed", e);
       },
     );
     if (!result) {
@@ -111,14 +105,12 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     };
 
     control.onerror = (e) => {
-      setInTabNotification(failure("Error", e));
+      notify.failure("Error", e);
     };
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        setInTabNotification(
-          failure("Error", event.reason, getWsErrorMsg(event.code)),
-        );
+        notify.failure("Error", event.reason, getWsErrorMsg(event.code));
       }
       setControlWs(null);
     };
@@ -128,14 +120,12 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     };
 
     data.onerror = (e) => {
-      setInTabNotification(failure("Error", e));
+      notify.failure("Error", e);
     };
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        setInTabNotification(
-          failure("Error", event.reason, getWsErrorMsg(event.code)),
-        );
+        notify.failure("Error", event.reason, getWsErrorMsg(event.code));
       }
       setDataWs(null);
       setUserInteracted(false);
@@ -151,7 +141,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
 
   useEffect(() => {
     xtermRef.current?.clear();
-    setInTabNotification(null);
+    notify.clear();
     const websocketPromise = openWebsockets(payload);
     return () => {
       void websocketPromise.then((websockets) => {
@@ -205,10 +195,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
           <div className="p-panel__controls">
             <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
           </div>
-          <NotificationRowLegacy
-            notification={inTabNotification}
-            onDismiss={() => setInTabNotification(null)}
-          />
+          <NotificationRow />
           {isLoading && <Loader text="Loading terminal session..." />}
           {controlWs && (
             <Xterm

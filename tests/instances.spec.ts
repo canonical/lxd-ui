@@ -55,7 +55,7 @@ test("instance edit basic details", async ({ page }) => {
   await page.locator("#profile-1").selectOption(profile);
   await page.getByRole("button", { name: "move profile up" }).last().click();
 
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await page.getByText("DescriptionA-new-description").click();
   await expect(page.locator("#profile-0")).toHaveValue(profile);
@@ -71,23 +71,23 @@ test("instance cpu and memory", async ({ page }) => {
   await visitInstance(page, instance);
 
   await setCpuLimit(page, "number", "42");
-  await saveInstance(page);
+  await saveInstance(page, instance);
   await assertReadMode(page, "Exposed CPU limit", "42");
 
   await setCpuLimit(page, "fixed", "1,2,3,4");
-  await saveInstance(page);
+  await saveInstance(page, instance);
   await assertReadMode(page, "Exposed CPU limit", "1,2,3,4");
 
   await setCpuLimit(page, "fixed", "1-23");
-  await saveInstance(page);
+  await saveInstance(page, instance);
   await assertReadMode(page, "Exposed CPU limit", "1-23");
 
   await setMemLimit(page, "percentage", "2");
-  await saveInstance(page);
+  await saveInstance(page, instance);
   await assertReadMode(page, "Memory limit", "2%");
 
   await setMemLimit(page, "absolute", "3");
-  await saveInstance(page);
+  await saveInstance(page, instance);
   await assertReadMode(page, "Memory limit", "3GiB");
 
   await deleteInstance(page, instance);
@@ -103,7 +103,7 @@ test("instance edit resource limits", async ({ page }) => {
   await setOption(page, "Disk priority", "1");
   await setInput(page, "Max number of processes", "Enter number", "2");
 
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await assertReadMode(page, "Memory swap (Containers only)", "Allow");
   await assertReadMode(page, "Disk priority", "1");
@@ -127,7 +127,7 @@ test("instance edit security policies", async ({ page }) => {
   await setOption(page, "Allow /dev/lxd in the instance", "true");
   await setOption(page, "Make /1.0/images API available", "true");
 
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await assertReadMode(page, "Protect deletion", "No");
   await assertReadMode(page, "Privileged (Containers only)", "Allow");
@@ -163,7 +163,7 @@ test("instance edit snapshot configuration", async ({ page }) => {
   await setOption(page, "Snapshot stopped instances", "true");
   await setSchedule(page, "@daily");
 
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await assertReadMode(page, "Snapshot name pattern", "snap123");
   await assertReadMode(page, "Expire after", "3m");
@@ -183,7 +183,7 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await setCodeInput(page, "User data", "bar:\n" + " - def");
   await setCodeInput(page, "Vendor data", "baz:\n" + " - ghi");
 
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await assertCode(page, "Network config", "foo:");
   await assertCode(page, "User data", "bar:");
@@ -201,7 +201,7 @@ test("instance create vm", async ({ page }) => {
   await page.getByText("Security policies").click();
   await setOption(page, "Enable secureboot (VMs only)", "true");
 
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 
@@ -223,7 +223,7 @@ test("instance yaml edit", async ({ page }) => {
   await page.keyboard.press("End");
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.type("A-new-description");
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await page.getByText("Main configuration").click();
   await page.getByText("DescriptionA-new-description").click();

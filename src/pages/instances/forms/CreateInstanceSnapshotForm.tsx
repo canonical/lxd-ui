@@ -21,6 +21,7 @@ import { createInstanceSnapshot } from "api/instance-snapshots";
 import { queryKeys } from "util/queryKeys";
 import ItemName from "components/ItemName";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   close: () => void;
@@ -35,6 +36,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
 }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
@@ -70,14 +72,18 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               });
               onSuccess(
                 <>
-                  Snapshot <ItemName item={values} bold /> created.
+                  Snapshot <ItemName item={values} bold /> created for instance{" "}
+                  {instance.name}.
                 </>,
               );
               resetForm();
               close();
             },
             (msg) => {
-              notify.failure("Snapshot creation failed", new Error(msg));
+              toastNotify.failure(
+                `Snapshot creation failed for instance ${instance.name}`,
+                new Error(msg),
+              );
               formik.setSubmitting(false);
               close();
             },

@@ -38,7 +38,7 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   await page.getByText("Disk devices").click();
   await detachVolume(page, "volume-1");
   await attachVolume(page, instanceVolume, "/baz");
-  await saveInstance(page);
+  await saveInstance(page, instance);
 
   await page.getByRole("gridcell", { name: "Detached" }).click();
   await page.getByText("/baz").click();
@@ -70,7 +70,7 @@ test("profile edit custom volumes", async ({ page }) => {
 
   await page.getByRole("button", { name: "Edit profile" }).click();
   await detachVolume(page, "volume-1");
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await page.getByRole("row", { name: "Size 3GiB" }).click();
 
@@ -103,7 +103,7 @@ test("profile edit networks", async ({ page }) => {
   await page.getByRole("button", { name: "Attach network" }).click();
   await page.locator("[id='devices.1.network']").selectOption({ index: 1 });
   await page.locator("[id='devices.1.name']").fill("eth1");
-  await saveProfile(page);
+  await saveProfile(page, profile);
 
   await page.getByRole("gridcell", { name: "eth0" }).click();
   await page.getByRole("gridcell", { name: "eth1" }).click();

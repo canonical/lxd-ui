@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, success, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,10 +24,12 @@ import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
   const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
@@ -89,10 +91,8 @@ const CreateNetwork: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
-          navigate(
-            `/ui/project/${project}/networks`,
-            notify.queue(success(`Network ${values.name} created.`)),
-          );
+          navigate(`/ui/project/${project}/networks`);
+          toastNotify.success(`Network ${values.name} created.`);
         })
         .catch((e) => {
           formik.setSubmitting(false);

@@ -239,7 +239,11 @@ const ImageList: FC = () => {
           </EmptyState>
         )}
         {images.length > 0 && (
-          <ScrollableTable dependencies={[images]} tableId="image-table">
+          <ScrollableTable
+            dependencies={[images]}
+            tableId="image-table"
+            belowIds={["status-bar"]}
+          >
             <TablePagination
               data={sortedRows}
               id="pagination"

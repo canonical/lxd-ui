@@ -24,7 +24,7 @@ test("storage pool create, edit and remove", async ({ page }) => {
 
   await editPool(page, pool);
   await page.getByPlaceholder("Enter description").fill("A-new-description");
-  await savePool(page);
+  await savePool(page, pool);
 
   await page.getByTestId("tab-link-Overview").click();
   await page.getByText("DescriptionA-new-description").click();
@@ -39,7 +39,7 @@ test("storage volume create, edit and remove", async ({ page }) => {
 
   await editVolume(page, volume);
   await page.getByPlaceholder("Enter value").fill("2");
-  await saveVolume(page);
+  await saveVolume(page, volume);
 
   await page.getByTestId("tab-link-Overview").click();
   await page.getByText("size2GiB").click();
@@ -65,7 +65,10 @@ test("storage volume edit snapshot configuration", async ({ page }) => {
   await activateOverride(page, "Schedule Schedule for automatic");
   await page.getByPlaceholder("Enter cron expression").last().fill("@daily");
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(`text=Configuration updated.`, TIMEOUT);
+  await page.waitForSelector(
+    `text=Snapshot configuration updated for volume ${volume}.`,
+    TIMEOUT,
+  );
 
   await deleteVolume(page, volume);
 });

@@ -26,7 +26,10 @@ export const createInstanceSnapshot = async (
     .getByRole("button", { name: "Create" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} created.`, TIMEOUT);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} created for instance ${instance}.`,
+    TIMEOUT,
+  );
 };
 
 export const restoreInstanceSnapshot = async (page: Page, snapshot: string) => {
@@ -51,6 +54,7 @@ export const editInstanceSnapshot = async (
   page: Page,
   oldName: string,
   newName: string,
+  instance: string,
 ) => {
   await page
     .getByRole("row", { name: "Name" })
@@ -68,7 +72,9 @@ export const editInstanceSnapshot = async (
   await page.getByLabel("Expiry time").click();
   await page.getByLabel("Expiry time").fill("12:23");
   await page.getByRole("button", { name: "Save" }).click();
-  await page.getByText(`Snapshot ${newName} saved.`).click();
+  await page
+    .getByText(`Snapshot ${newName} saved for instance ${instance}.`)
+    .click();
   await page.getByText("Apr 28, 2093, 12:23 PM").click();
 };
 

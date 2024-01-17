@@ -1,3 +1,5 @@
+import { getAbsoluteHeightBelow } from "./helpers";
+
 type HeightProperty = "height" | "max-height" | "min-height";
 
 export const updateMaxHeight = (
@@ -5,6 +7,7 @@ export const updateMaxHeight = (
   bottomClass?: string,
   additionalOffset = 0,
   targetProperty: HeightProperty = "height",
+  belowIds: string[] = ["status-bar"],
 ) => {
   const elements = document.getElementsByClassName(targetClass);
   const belowElements = bottomClass
@@ -14,9 +17,14 @@ export const updateMaxHeight = (
     return;
   }
   const above = elements[0].getBoundingClientRect().top + 1;
-  const below = belowElements
+  let below = belowElements
     ? belowElements[0].getBoundingClientRect().height + 1
     : 0;
+
+  below += belowIds.reduce(
+    (acc, belowId) => acc + getAbsoluteHeightBelow(belowId),
+    0,
+  );
   const offset = Math.ceil(above + below + additionalOffset);
   const style = `${targetProperty}: calc(100vh - ${offset}px)`;
   elements[0].setAttribute("style", style);

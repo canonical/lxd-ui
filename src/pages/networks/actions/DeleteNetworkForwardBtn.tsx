@@ -8,6 +8,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { deleteNetworkForward } from "api/network-forwards";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   network: LxdNetwork;
@@ -17,6 +18,7 @@ interface Props {
 
 const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
 
@@ -24,7 +26,9 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
     setLoading(true);
     deleteNetworkForward(network, forward, project)
       .then(() => {
-        notify.success(`Network forward for ${forward.listen_address} deleted`);
+        toastNotify.success(
+          `Network forward for ${forward.listen_address} deleted`,
+        );
         void queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.projects &&

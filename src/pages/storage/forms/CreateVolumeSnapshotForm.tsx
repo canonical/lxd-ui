@@ -11,6 +11,7 @@ import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
 import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   close: () => void;
@@ -20,6 +21,7 @@ interface Props {
 const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
@@ -53,12 +55,15 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
                   query.queryKey[0] === queryKeys.volumes ||
                   query.queryKey[0] === queryKeys.storage,
               });
-              notify.success(`Snapshot ${values.name} created.`);
+              toastNotify.success(`Snapshot ${values.name} created.`);
               close();
               resetForm();
             },
             (msg) => {
-              notify.failure("Snapshot creation failed", new Error(msg));
+              toastNotify.failure(
+                `Snapshot ${values.name} creation failed`,
+                new Error(msg),
+              );
               formik.setSubmitting(false);
             },
           );

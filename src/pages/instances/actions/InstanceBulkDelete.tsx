@@ -6,12 +6,9 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { deletableStatuses } from "util/instanceDelete";
 import { getPromiseSettledCounts } from "util/helpers";
-import {
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instances: LxdInstance[];
@@ -21,7 +18,7 @@ interface Props {
 
 const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
 
@@ -39,11 +36,11 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
       const { fulfilledCount, rejectedCount } =
         getPromiseSettledCounts(results);
       if (fulfilledCount === deleteCount) {
-        notify.success(
+        toastNotify.success(
           `${deleteCount} ${pluralizeInstance(deleteCount)} deleted`,
         );
       } else if (rejectedCount === deleteCount) {
-        notify.failure(
+        toastNotify.failure(
           "Instance bulk deletion failed",
           undefined,
           <>
@@ -52,7 +49,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
           </>,
         );
       } else {
-        notify.failure(
+        toastNotify.failure(
           "Instance bulk deletion partially failed",
           undefined,
           <>

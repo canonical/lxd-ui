@@ -20,7 +20,7 @@ const ScrollableConfigurationTable: FC<Props> = ({
   return (
     <ScrollableTable
       dependencies={[notify.notification]}
-      belowId="form-footer"
+      belowIds={["form-footer", "status-bar"]}
       tableId="config-table"
     >
       <ConfigurationTable

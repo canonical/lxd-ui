@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { Button } from "@canonical/react-components";
 import MigrateInstanceForm from "pages/instances/MigrateInstanceForm";
 import usePortal from "react-useportal";
 import { migrateInstance } from "api/instances";
@@ -9,6 +9,7 @@ import { fetchClusterMembers } from "api/cluster";
 import Loader from "components/Loader";
 import { useEventQueue } from "context/eventQueue";
 import ItemName from "components/ItemName";
+import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   instance: string;
@@ -24,7 +25,7 @@ const MigrateInstanceBtn: FC<Props> = ({
   onFinish,
 }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
+  const toastNotify = useToastNotification();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
 
@@ -38,7 +39,7 @@ const MigrateInstanceBtn: FC<Props> = ({
   }
 
   const handleSuccess = (newTarget: string) => {
-    notify.success(
+    toastNotify.success(
       <>
         Migration finished for instance{" "}
         <ItemName item={{ name: instance }} bold />
@@ -51,7 +52,7 @@ const MigrateInstanceBtn: FC<Props> = ({
   };
 
   const notifyFailure = (e: unknown) => {
-    notify.failure(`Migration failed on instance ${instance}`, e);
+    toastNotify.failure(`Migration failed on instance ${instance}`, e);
   };
 
   const handleFailure = (msg: string) => {
@@ -69,7 +70,7 @@ const MigrateInstanceBtn: FC<Props> = ({
           () => handleSuccess(target),
           handleFailure,
         );
-        notify.info("Migration started");
+        toastNotify.info(`Migration started for instance ${instance}`);
         closePortal();
       })
       .catch((e) => {
