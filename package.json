@@ -52,7 +52,6 @@
     "@babel/preset-react": "7.23.3",
     "@babel/preset-typescript": "7.23.3",
     "@playwright/test": "1.41.0",
-    "@rollup/wasm-node": "4.9.5",
     "@types/cytoscape-popper": "2.0.4",
     "@types/node-forge": "1.3.11",
     "@types/react": "18.2.48",
@@ -89,7 +88,7 @@
     "stylelint-scss": "6.0.0",
     "ts-loader": "9.5.1",
     "typescript": "5.3.3",
-    "vite": "5.0.11",
+    "vite": "4.5.1",
     "vite-tsconfig-paths": "4.3.1"
   },
   "lint-staged": {
@@ -104,6 +103,6 @@
     "src/**/*.scss": "stylelint"
   },
   "resolutions": {
-    "rollup": "npm:@rollup/wasm-node@4.9.5"
+    "rollup": "@rollup/wasm-node@4.9.5"
   }
 }
