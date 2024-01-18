@@ -1,4 +1,4 @@
-import { handleResponse } from "util/helpers";
+import { handleResponse, handleTextResponse } from "util/helpers";
 import { LxdSettings } from "types/server";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdConfigOptions, LxdConfigPair } from "types/config";
@@ -41,6 +41,15 @@ export const fetchConfigOptions = (): Promise<LxdConfigOptions> => {
     fetch("/1.0/metadata/configuration")
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdConfigOptions>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchDocObjects = (): Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    fetch("/documentation/objects.inv.txt")
+      .then(handleTextResponse)
+      .then((data) => resolve(data.split("\n")))
       .catch(reject);
   });
 };

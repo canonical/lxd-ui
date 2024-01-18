@@ -74,10 +74,23 @@ describe("toConfigFields and replaceDocLinks", () => {
     const input =
       "Specify a Pongo2 template string that represents the snapshot name.\nThis template is used for scheduled snapshots and for unnamed snapshots.\n\nSee {ref}`instance-options-snapshots-names` for more information.";
 
-    const result = configDescriptionToHtml(input, "https://docs.example.org");
+    const result = configDescriptionToHtml(
+      input,
+      "https://docs.example.org",
+      objectsInvTxt.split("\n"),
+    );
 
     expect(result).toBe(
       'Specify a Pongo2 template string that represents the snapshot name.<br>This template is used for scheduled snapshots and for unnamed snapshots.<br><br>See <a href="https://docs.example.org/reference/instance_options/#instance-options-snapshots-names" target="_blank" rel="noreferrer">instance options snapshots names</a> for more information.',
     );
   });
 });
+
+const objectsInvTxt =
+  "config:option\n" +
+  "    instance-options-nvidia                  NVIDIA and CUDA configuration           : reference/instance_options/#instance-options-nvidia\n" +
+  "    instance-options-qemu                    Override QEMU configuration             : reference/instance_options/#instance-options-qemu\n" +
+  "    instance-options-raw                     Raw instance configuration overrides    : reference/instance_options/#instance-options-raw\n" +
+  "    instance-options-security                Security policies                       : reference/instance_options/#instance-options-security\n" +
+  "    instance-options-snapshots               Snapshot scheduling and configuration   : reference/instance_options/#instance-options-snapshots\n" +
+  "    instance-options-snapshots-names         Automatic snapshot names                : reference/instance_options/#instance-options-snapshots-names";
