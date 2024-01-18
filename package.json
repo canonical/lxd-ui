@@ -102,5 +102,8 @@
       "prettier --check"
     ],
     "src/**/*.scss": "stylelint"
+  },
+  "resolutions": {
+    "rollup": "npm:@rollup/wasm-node@4.9.5"
   }
 }
