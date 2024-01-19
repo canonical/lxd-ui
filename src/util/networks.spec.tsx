@@ -5,7 +5,7 @@ describe("areNetworksEqual", () => {
   it("accepts matches", () => {
     const a: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">> = {
       config: {
-        "bridge.mode": "standard",
+        "bridge.driver": "native",
         "ipv4.address": "auto",
         "ipv6.address": "fd42:2c50:bf9f:52b1::1/64",
         "ipv6.nat": "true",
@@ -17,7 +17,7 @@ describe("areNetworksEqual", () => {
     };
     const b: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">> = {
       config: {
-        "bridge.mode": "standard",
+        "bridge.driver": "native",
         "ipv4.address": "10.191.170.1/24",
         "ipv6.address": "fd42:2c50:bf9f:52b1::1/64",
         "ipv6.nat": "true",
@@ -47,12 +47,12 @@ describe("areNetworksEqual", () => {
   it("rejects config diff", () => {
     const a: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">> = {
       config: {
-        "bridge.mode": "standard",
+        "bridge.driver": "native",
       },
     };
     const b: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">> = {
       config: {
-        "bridge.mode": "fan",
+        "bridge.driver": "openvswitch",
       },
     };
 
