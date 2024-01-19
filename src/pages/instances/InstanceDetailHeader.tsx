@@ -8,7 +8,7 @@ import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
-import { useNotify } from "@canonical/react-components";
+import { success, useNotify } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 
 interface Props {
@@ -59,7 +59,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
           () => {
             navigate(
               `/ui/project/${project}/instances/detail/${values.name}`,
-              notify.queue(notify.success("Instance renamed.")),
+              notify.queue(success("Instance renamed.")),
             );
             void formik.setFieldValue("isRenaming", false);
           },

@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { LxdStorageVolume } from "types/storage";
 import { renameStorageVolume } from "api/storage-pools";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
-import { useNotify } from "@canonical/react-components";
+import { success, useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 
 interface Props {
@@ -49,7 +49,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         .then(() => {
           navigate(
             `/ui/project/${project}/storage/detail/${volume.pool}/${volume.type}/${values.name}`,
-            notify.queue(notify.success("Storage volume renamed.")),
+            notify.queue(success("Storage volume renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

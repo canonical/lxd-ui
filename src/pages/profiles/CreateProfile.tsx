@@ -5,6 +5,7 @@ import {
   Form,
   Notification,
   Row,
+  success,
   useNotify,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -110,7 +111,7 @@ const CreateProfile: FC = () => {
         .then(() => {
           navigate(
             `/ui/project/${project}/profiles`,
-            notify.queue(notify.success(`Profile ${values.name} created.`)),
+            notify.queue(success(`Profile ${values.name} created.`)),
           );
         })
         .catch((e: Error) => {

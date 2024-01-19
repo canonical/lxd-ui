@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import {
   ConfirmationButton,
   Icon,
+  success,
   useNotify,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
@@ -39,7 +40,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         });
         navigate(
           `/ui/project/${project}/storage`,
-          notify.queue(notify.success(`Storage pool ${pool.name} deleted.`)),
+          notify.queue(success(`Storage pool ${pool.name} deleted.`)),
         );
       })
       .catch((e) => {

@@ -53,7 +53,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
                   query.queryKey[0] === queryKeys.volumes ||
                   query.queryKey[0] === queryKeys.storage,
               });
-              notify.queue(notify.success(`Snapshot ${values.name} created.`));
+              notify.success(`Snapshot ${values.name} created.`);
               close();
               resetForm();
             },

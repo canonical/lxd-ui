@@ -7,7 +7,7 @@ import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
-import { useNotify } from "@canonical/react-components";
+import { success, useNotify } from "@canonical/react-components";
 
 interface Props {
   name: string;
@@ -54,7 +54,7 @@ const ProfileDetailHeader: FC<Props> = ({
         .then(() => {
           navigate(
             `/ui/project/${project}/profiles/detail/${values.name}`,
-            notify.queue(notify.success("Profile renamed.")),
+            notify.queue(success("Profile renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

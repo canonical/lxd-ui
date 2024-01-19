@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
@@ -62,14 +62,6 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       }),
   });
 
-  const onSuccess = (message: string) => {
-    notify.queue(notify.success(message));
-  };
-
-  const onFailure = (title: string, error: unknown, message?: ReactNode) => {
-    notify.failure(title, error, message);
-  };
-
   const snapshotsDisabled = isSnapshotsDisabled(project);
 
   useEffect(() => {
@@ -129,12 +121,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
 
   const rows = filteredSnapshots.map((snapshot) => {
     const actions = (
-      <VolumeSnapshotActions
-        volume={volume}
-        snapshot={snapshot}
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-      />
+      <VolumeSnapshotActions volume={volume} snapshot={snapshot} />
     );
 
     return {
@@ -227,8 +214,6 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
               </div>
               <VolumeConfigureSnapshotBtn
                 volume={volume}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
                 className="u-no-margin--right"
               />
               <VolumeAddSnapshotBtn
@@ -244,8 +229,6 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
                 snapshotNames={selectedNames}
                 onStart={() => setProcessingNames(selectedNames)}
                 onFinish={() => setProcessingNames([])}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
               />
             </div>
           )}
@@ -323,8 +306,6 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           </p>
           <VolumeConfigureSnapshotBtn
             volume={volume}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
             isDisabled={snapshotsDisabled}
           />
           <VolumeAddSnapshotBtn

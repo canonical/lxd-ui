@@ -7,7 +7,7 @@ import { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";
-import { useNotify } from "@canonical/react-components";
+import { success, useNotify } from "@canonical/react-components";
 
 interface Props {
   name: string;
@@ -42,7 +42,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
         .then(() => {
           navigate(
             `/ui/project/${project}/storage/detail/${values.name}`,
-            notify.queue(notify.success("Storage pool renamed.")),
+            notify.queue(success("Storage pool renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

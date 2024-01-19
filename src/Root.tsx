@@ -1,6 +1,9 @@
 import React, { FC } from "react";
 import Navigation from "components/Navigation";
-import { NotificationProvider } from "@canonical/react-components";
+import {
+  NotificationProvider,
+  QueuedNotification,
+} from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Panels from "components/Panels";
 import { AuthProvider } from "context/auth";
@@ -11,13 +14,16 @@ import Events from "pages/instances/Events";
 import App from "./App";
 import ErrorBoundary from "components/ErrorBoundary";
 import ErrorPage from "components/ErrorPage";
+import { useLocation } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 const Root: FC = () => {
+  const location = useLocation() as QueuedNotification;
+
   return (
     <ErrorBoundary fallback={ErrorPage}>
-      <NotificationProvider>
+      <NotificationProvider state={location.state} pathname={location.pathname}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <ProjectProvider>

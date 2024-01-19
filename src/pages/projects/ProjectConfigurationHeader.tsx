@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { checkDuplicateName } from "util/helpers";
 import DeleteProjectBtn from "./actions/DeleteProjectBtn";
-import { useNotify } from "@canonical/react-components";
+import { success, useNotify } from "@canonical/react-components";
 import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
 import { useDocs } from "context/useDocs";
@@ -53,7 +53,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           () => {
             navigate(
               `/ui/project/${values.name}/configuration`,
-              notify.queue(notify.success("Project renamed.")),
+              notify.queue(success("Project renamed.")),
             );
             void formik.setFieldValue("isRenaming", false);
           },

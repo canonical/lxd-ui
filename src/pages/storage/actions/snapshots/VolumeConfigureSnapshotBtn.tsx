@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import usePortal from "react-useportal";
 import { Button } from "@canonical/react-components";
 import VolumeConfigureSnapshotModal from "./VolumeConfigureSnapshotModal";
@@ -6,16 +6,12 @@ import { LxdStorageVolume } from "types/storage";
 
 interface Props {
   volume: LxdStorageVolume;
-  onSuccess: (message: string) => void;
-  onFailure: (title: string, e: unknown, message?: ReactNode) => void;
   isDisabled?: boolean;
   className?: string;
 }
 
 const VolumeConfigureSnapshotBtn: FC<Props> = ({
   volume,
-  onSuccess,
-  onFailure,
   isDisabled,
   className,
 }) => {
@@ -26,12 +22,7 @@ const VolumeConfigureSnapshotBtn: FC<Props> = ({
       {isOpen && (
         <Portal>
           <div className="snapshot-list">
-            <VolumeConfigureSnapshotModal
-              close={closePortal}
-              volume={volume}
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-            />
+            <VolumeConfigureSnapshotModal close={closePortal} volume={volume} />
           </div>
         </Portal>
       )}

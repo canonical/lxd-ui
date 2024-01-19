@@ -33,7 +33,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
         query.queryKey[0] === queryKeys.volumes ||
         query.queryKey[0] === queryKeys.storage,
     });
-    notify.queue(notify.success(`Snapshot ${name} saved.`));
+    notify.success(`Snapshot ${name} saved.`);
     formik.setSubmitting(false);
     close();
   };
