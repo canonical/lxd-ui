@@ -19,9 +19,10 @@
     "hooks-remove": "husky uninstall",
     "start": "concurrently --kill-others --raw 'vite --host | grep -v 3000' 'yarn serve'",
     "serve": "./entrypoint",
-    "test-js": "react-scripts test src/ --watchAll=false"},
+    "test-js": "react-scripts test src/ --watchAll=false"
+  },
   "dependencies": {
-    "@canonical/react-components": "0.47.1",
+    "@canonical/react-components": "0.47.3",
     "@monaco-editor/react": "4.6.0",
     "@tanstack/react-query": "5.17.15",
     "@use-it/event-listener": "0.1.7",
@@ -36,7 +37,7 @@
     "react": "18.2.0",
     "react-cytoscapejs": "2.0.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.17.0",
+    "react-router-dom": "6.21.3",
     "react-scripts": "5.0.1",
     "react-useportal": "1.0.19",
     "serve": "14.2.1",
