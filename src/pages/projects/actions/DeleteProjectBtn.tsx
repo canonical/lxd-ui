@@ -10,6 +10,7 @@ import { useDeleteIcon } from "context/useDeleteIcon";
 import {
   ConfirmationButton,
   Icon,
+  success,
   useNotify,
 } from "@canonical/react-components";
 import classnames from "classnames";
@@ -43,7 +44,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       .then(() => {
         navigate(
           `/ui/project/default/instances`,
-          notify.queue(notify.success(`Project ${project.name} deleted.`)),
+          notify.queue(success(`Project ${project.name} deleted.`)),
         );
       })
       .catch((e) => {

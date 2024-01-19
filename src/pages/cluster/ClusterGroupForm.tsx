@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   Row,
+  success,
   useNotify,
 } from "@canonical/react-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -84,9 +85,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
           const verb = group ? "saved" : "created";
           navigate(
             `/ui/cluster/groups/detail/${values.name}`,
-            notify.queue(
-              notify.success(`Cluster group ${values.name} ${verb}.`),
-            ),
+            notify.queue(success(`Cluster group ${values.name} ${verb}.`)),
           );
         })
         .catch((e: Error) => {

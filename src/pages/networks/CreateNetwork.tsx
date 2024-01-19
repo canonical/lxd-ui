@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { Button, success, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -91,7 +91,7 @@ const CreateNetwork: FC = () => {
           });
           navigate(
             `/ui/project/${project}/networks`,
-            notify.queue(notify.success(`Network ${values.name} created.`)),
+            notify.queue(success(`Network ${values.name} created.`)),
           );
         })
         .catch((e) => {

@@ -1,5 +1,5 @@
 import React, { FC, KeyboardEvent } from "react";
-import { Button, Modal } from "@canonical/react-components";
+import { Button, Modal, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,16 +16,10 @@ import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSna
 interface Props {
   volume: LxdStorageVolume;
   close: () => void;
-  onSuccess: (message: string) => void;
-  onFailure: (title: string, e: unknown) => void;
 }
 
-const VolumeConfigureSnapshotModal: FC<Props> = ({
-  volume,
-  close,
-  onSuccess,
-  onFailure,
-}) => {
+const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
+  const notify = useNotify();
   const queryClient = useQueryClient();
 
   const formik = useFormik<StorageVolumeFormValues>({
@@ -37,7 +31,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({
         etag: volume.etag,
       })
         .then(() => {
-          onSuccess("Configuration updated.");
+          notify.success("Configuration updated.");
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
             predicate: (query) =>
@@ -46,7 +40,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({
           });
         })
         .catch((e: Error) => {
-          onFailure("Configuration update failed", e);
+          notify.failure("Configuration update failed", e);
         })
         .finally(() => {
           close();

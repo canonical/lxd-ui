@@ -6,7 +6,12 @@ import {
 } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton, Icon, List } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  List,
+  useNotify,
+} from "@canonical/react-components";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
 import { useEventQueue } from "context/eventQueue";
@@ -15,17 +20,11 @@ import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 interface Props {
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
-  onSuccess: (message: string) => void;
-  onFailure: (title: string, error: Error) => void;
 }
 
-const VolumeSnapshotActions: FC<Props> = ({
-  volume,
-  snapshot,
-  onSuccess,
-  onFailure,
-}) => {
+const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   const eventQueue = useEventQueue();
+  const notify = useNotify();
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
@@ -35,8 +34,8 @@ const VolumeSnapshotActions: FC<Props> = ({
     void deleteVolumeSnapshot(volume, snapshot).then((operation) =>
       eventQueue.set(
         operation.metadata.id,
-        () => onSuccess(`Snapshot ${snapshot.name} deleted`),
-        (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
+        () => notify.success(`Snapshot ${snapshot.name} deleted`),
+        (msg) => notify.failure("Snapshot deletion failed", new Error(msg)),
         () => {
           setDeleting(false);
           void queryClient.invalidateQueries({
@@ -53,10 +52,10 @@ const VolumeSnapshotActions: FC<Props> = ({
     setRestoring(true);
     void restoreVolumeSnapshot(volume, snapshot)
       .then(() => {
-        onSuccess(`Snapshot ${snapshot.name} restored`);
+        notify.success(`Snapshot ${snapshot.name} restored`);
       })
       .catch((error: Error) => {
-        onFailure("Snapshot restore failed", error);
+        notify.failure("Snapshot restore failed", error);
       })
       .finally(() => {
         setRestoring(false);

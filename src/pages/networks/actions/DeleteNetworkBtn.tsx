@@ -5,7 +5,11 @@ import { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  success,
+  useNotify,
+} from "@canonical/react-components";
 
 interface Props {
   network: LxdNetwork;
@@ -30,7 +34,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         });
         navigate(
           `/ui/project/${project}/networks`,
-          notify.queue(notify.success(`Network ${network.name} deleted.`)),
+          notify.queue(success(`Network ${network.name} deleted.`)),
         );
       })
       .catch((e) => {

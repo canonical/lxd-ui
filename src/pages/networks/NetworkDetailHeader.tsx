@@ -7,7 +7,7 @@ import { checkDuplicateName } from "util/helpers";
 import { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
-import { useNotify } from "@canonical/react-components";
+import { success, useNotify } from "@canonical/react-components";
 
 interface Props {
   name: string;
@@ -48,7 +48,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
         .then(() => {
           navigate(
             `/ui/project/${project}/networks/detail/${values.name}`,
-            notify.queue(notify.success("Network renamed.")),
+            notify.queue(success("Network renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);
         })

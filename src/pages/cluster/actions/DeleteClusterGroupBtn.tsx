@@ -4,7 +4,11 @@ import ItemName from "components/ItemName";
 import { deleteClusterGroup } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  success,
+  useNotify,
+} from "@canonical/react-components";
 
 interface Props {
   group: string;
@@ -22,7 +26,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       .then(() => {
         navigate(
           `/ui/cluster`,
-          notify.queue(notify.success(`Cluster group ${group} deleted.`)),
+          notify.queue(success(`Cluster group ${group} deleted.`)),
         );
       })
       .catch((e) => {

@@ -1,9 +1,13 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, useState } from "react";
 import { deleteVolumeSnapshotBulk } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralizeSnapshot } from "util/instanceBulkActions";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
@@ -14,8 +18,6 @@ interface Props {
   snapshotNames: string[];
   onStart: () => void;
   onFinish: () => void;
-  onSuccess: (message: string) => void;
-  onFailure: (title: string, e: unknown, message?: ReactNode) => void;
 }
 
 const VolumeSnapshotBulkDelete: FC<Props> = ({
@@ -23,10 +25,9 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
   snapshotNames,
   onStart,
   onFinish,
-  onSuccess,
-  onFailure,
 }) => {
   const eventQueue = useEventQueue();
+  const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -40,13 +41,13 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
-          onSuccess(
+          notify.success(
             `${snapshotNames.length} ${pluralizeSnapshot(
               snapshotNames.length,
             )} deleted`,
           );
         } else if (rejectedCount === count) {
-          onFailure(
+          notify.failure(
             "Snapshot bulk deletion failed",
             undefined,
             <>
@@ -54,7 +55,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
             </>,
           );
         } else {
-          onFailure(
+          notify.failure(
             "Snapshot bulk deletion partially failed",
             undefined,
             <>
