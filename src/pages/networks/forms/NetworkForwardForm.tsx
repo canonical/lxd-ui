@@ -111,10 +111,7 @@ const NetworkForwardForm: FC<Props> = ({
     <Form className="form network-forwards-form" onSubmit={formik.handleSubmit}>
       <Row className="form-contents">
         <Col size={12}>
-          <ScrollableForm
-            dependencies={[notify.notification]}
-            belowId="form-footer"
-          >
+          <ScrollableForm>
             {/* hidden submit to enable enter key in inputs */}
             <Input type="submit" hidden />
             <Row className="p-form__group p-form-validation">

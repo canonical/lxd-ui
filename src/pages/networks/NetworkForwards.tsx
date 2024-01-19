@@ -90,6 +90,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
               <Link
                 className="p-button--base u-no-margin--bottom has-icon"
                 to={`/ui/project/${project}/networks/detail/${network.name}/forwards/${forward.listen_address}/edit`}
+                title="Edit network forward"
               >
                 <Icon name="edit" />
               </Link>
