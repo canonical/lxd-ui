@@ -134,6 +134,7 @@ jobs:
         run: npx playwright test
 
       - name: Save additional test information
+        if: always()
         run: |
           touch playwright-report/info.txt
           echo "HTML_REPORT_URL_PATH:$HTML_REPORT_URL_PATH" >> playwright-report/info.txt
@@ -147,6 +148,7 @@ jobs:
           retention-days: 30
 
       - name: Output Report URL as Worfklow Annotation
+        if: always()
         run: |
           FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/$HTML_REPORT_URL_PATH
           echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"

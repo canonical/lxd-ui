@@ -61,7 +61,7 @@ const ProfileSelector: FC<Props> = ({
 
   return (
     <>
-      <Label forId="profile-1">Profiles</Label>
+      <Label forId="profile-0">Profiles</Label>
       {selected.map((value, index) => (
         <div className="profile-select" key={value}>
           <div>

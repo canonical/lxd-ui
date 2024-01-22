@@ -29,21 +29,19 @@ const SettingFormCheckbox: FC<Props> = ({
     setChecked(String(configField.default) === "true");
   };
 
+  const label =
+    configField.key.split(".")?.pop()?.replaceAll("_", " ") ?? configField.key;
+
   return (
     <>
       <Input
-        aria-label={configField.key}
+        label={label}
         id={getConfigId(configField.key)}
         wrapperClassName="input-wrapper"
         type="checkbox"
         checked={checked}
         onChange={(e) => setChecked(e.target.checked)}
-        help={
-          <ConfigFieldDescription
-            description={configField.longdesc}
-            className="p-form-help-text"
-          />
-        }
+        help={<ConfigFieldDescription description={configField.longdesc} />}
       />
       <Button appearance="base" onClick={onCancel}>
         Cancel

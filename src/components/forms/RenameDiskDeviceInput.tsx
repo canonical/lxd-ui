@@ -46,6 +46,7 @@ const RenameDiskDeviceInput: FC<Props> = ({
             onClick={() => setEditing(true)}
             appearance="base"
             className="u-no-margin--bottom"
+            aria-label={`Rename disk device`}
           >
             <Icon name="edit" />
           </Button>

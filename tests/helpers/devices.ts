@@ -15,7 +15,7 @@ export const attachVolume = async (
 
 export const detachVolume = async (page: Page, volumeDevice: string) => {
   await page
-    .getByRole("row", { name: `${volumeDevice} Detach` })
+    .getByRole("row", { name: volumeDevice })
     .getByTitle("Detach")
     .click();
   await page
