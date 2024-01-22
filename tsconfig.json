@@ -26,7 +26,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["vitest/globals"]
   },
   "include": [
     "./src",
@@ -35,6 +36,7 @@
     "playwright.config.ts",
     "webpack.config.js",
     "./tests/*.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "vitest.config.ts"
   ],
 }

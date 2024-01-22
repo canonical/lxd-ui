@@ -19,7 +19,7 @@
     "hooks-remove": "husky uninstall",
     "start": "concurrently --kill-others --raw 'vite --host | grep -v 3000' 'yarn serve'",
     "serve": "./entrypoint",
-    "test-js": "react-scripts test src/ --watchAll=false"
+    "test-js": "vitest --run"
   },
   "dependencies": {
     "@canonical/react-components": "0.47.3",
@@ -38,7 +38,6 @@
     "react-cytoscapejs": "2.0.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.21.3",
-    "react-scripts": "5.0.1",
     "react-useportal": "1.0.19",
     "serve": "14.2.1",
     "vanilla-framework": "4.6.0",
@@ -83,7 +82,8 @@
     "stylelint-scss": "6.0.0",
     "typescript": "5.3.3",
     "vite": "4.5.2",
-    "vite-tsconfig-paths": "4.3.1"
+    "vite-tsconfig-paths": "4.3.1",
+    "vitest": "1.2.1"
   },
   "lint-staged": {
     "src/**/*.{json,jsx,ts,tsx}": [

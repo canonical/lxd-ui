@@ -73,9 +73,11 @@ test("profile edit custom volumes", async ({ page }) => {
   await saveProfile(page);
 
   await page.getByRole("row", { name: "Size 3GiB" }).click();
-  if (await page.getByRole("gridcell", { name: volume }).isVisible()) {
-    fail("Volume is still present");
-  }
+
+  const volumeVisible = await page
+    .getByRole("gridcell", { name: volume })
+    .isVisible();
+  test.fail(volumeVisible, "Volume is still present");
 
   await deleteProfile(page, profile);
   await deleteVolume(page, volume);
