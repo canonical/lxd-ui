@@ -255,6 +255,7 @@ const InstanceSnapshots = (props: Props) => {
               data={sortedRows}
               id="pagination"
               itemName="snapshot"
+              className="u-no-margin--top"
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification

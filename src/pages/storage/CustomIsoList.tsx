@@ -179,8 +179,8 @@ const CustomIsoList: FC<Props> = ({ project }) => {
         <TablePagination
           data={sortedRows}
           id="pagination"
-          className="u-no-margin--top"
           itemName="custom ISO"
+          className="u-no-margin--top"
         >
           <MainTable
             id="custom-iso-table"

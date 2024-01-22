@@ -32,6 +32,7 @@ const Storage: FC = () => {
           Storage
         </HelpLink>
       }
+      contentClassName="detail-page"
     >
       <NotificationRow />
       <Row>

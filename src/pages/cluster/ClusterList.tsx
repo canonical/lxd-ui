@@ -87,14 +87,13 @@ const ClusterList: FC = () => {
           <>
             <ScrollableTable
               dependencies={[filteredMembers, notify.notification]}
-              belowId="pagination"
               tableId="cluster-table"
             >
               <TablePagination
                 data={sortedRows}
                 id="pagination"
                 itemName="cluster member"
-                position="below"
+                className="u-no-margin--top"
               >
                 <MainTable
                   id="cluster-table"

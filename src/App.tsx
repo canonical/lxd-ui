@@ -29,7 +29,7 @@ const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
 const EditNetworkForward = lazy(
   () => import("pages/networks/EditNetworkForward"),
 );
-const Images = lazy(() => import("pages/images/Images"));
+const ImageList = lazy(() => import("pages/images/ImageList"));
 const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
 const InstanceList = lazy(() => import("pages/instances/InstanceList"));
 const Login = lazy(() => import("pages/login/Login"));
@@ -313,7 +313,7 @@ const App: FC = () => {
         />
         <Route
           path="/ui/project/:project/images"
-          element={<ProtectedRoute outlet={<Images />} />}
+          element={<ProtectedRoute outlet={<ImageList />} />}
         />
         <Route
           path="/ui/cluster"

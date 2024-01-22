@@ -1,9 +1,9 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
   List,
-  MainTable,
+  Row,
   SearchBox,
   TablePagination,
   useNotify,
@@ -19,11 +19,22 @@ import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromI
 import { localLxdToRemoteImage } from "util/images";
 import ScrollableTable from "components/ScrollableTable";
 import useSortTableData from "util/useSortTableData";
+import SelectableMainTable from "components/SelectableMainTable";
+import BulkDeleteImageBtn from "pages/images/actions/BulkDeleteImageBtn";
+import SelectedTableNotification from "components/SelectedTableNotification";
+import HelpLink from "components/HelpLink";
+import NotificationRow from "components/NotificationRow";
+import { useDocs } from "context/useDocs";
+import CustomLayout from "components/CustomLayout";
+import PageHeader from "components/PageHeader";
 
 const ImageList: FC = () => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
+  const [processingNames, setProcessingNames] = useState<string[]>([]);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   if (!project) {
     return <>Missing project</>;
@@ -41,6 +52,16 @@ const ImageList: FC = () => {
   if (error) {
     notify.failure("Loading images failed", error);
   }
+
+  useEffect(() => {
+    const validNames = new Set(images?.map((image) => image.fingerprint));
+    const validSelections = selectedNames.filter((name) =>
+      validNames.has(name),
+    );
+    if (validSelections.length !== selectedNames.length) {
+      setSelectedNames(validSelections);
+    }
+  }, [images]);
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -95,6 +116,7 @@ const ImageList: FC = () => {
     const imageAlias = image.aliases.map((alias) => alias.name).join(", ");
 
     return {
+      name: image.fingerprint,
       columns: [
         {
           content: image.properties.description,
@@ -162,49 +184,102 @@ const ImageList: FC = () => {
     return <Loader text="Loading images..." />;
   }
 
-  return images.length === 0 ? (
-    <EmptyState
-      className="empty-state"
-      image={<Icon name="mount" className="empty-state-icon" />}
-      title="No images found in this project"
+  return (
+    <CustomLayout
+      contentClassName="u-no-padding--bottom"
+      header={
+        <PageHeader>
+          <PageHeader.Left>
+            <PageHeader.Title>
+              <HelpLink
+                href={`${docBaseLink}/image-handling/`}
+                title="Learn more about images"
+              >
+                Images
+              </HelpLink>
+            </PageHeader.Title>
+            {selectedNames.length === 0 && images.length > 0 && (
+              <PageHeader.Search>
+                <SearchBox
+                  name="search-images"
+                  className="search-box u-no-margin--bottom"
+                  type="text"
+                  onChange={(value) => {
+                    setQuery(value);
+                  }}
+                  placeholder="Search"
+                  value={query}
+                  aria-label="Search for images"
+                />
+              </PageHeader.Search>
+            )}
+            {selectedNames.length > 0 && (
+              <BulkDeleteImageBtn
+                fingerprints={selectedNames}
+                project={project}
+                onStart={() => setProcessingNames(selectedNames)}
+                onFinish={() => setProcessingNames([])}
+              />
+            )}
+          </PageHeader.Left>
+        </PageHeader>
+      }
     >
-      <p>Images will appear here, when launching an instance from a remote.</p>
-    </EmptyState>
-  ) : (
-    <div className="image-list">
-      <div className="upper-controls-bar">
-        <div className="search-box-wrapper">
-          <SearchBox
-            name="search-images"
-            className="search-box margin-right"
-            type="text"
-            onChange={(value) => {
-              setQuery(value);
-            }}
-            placeholder="Search for images"
-            value={query}
-            aria-label="Search for images"
-          />
-        </div>
-      </div>
-      <ScrollableTable dependencies={[images]} tableId="image-table">
-        <TablePagination
-          data={sortedRows}
-          id="pagination"
-          className="u-no-margin--top"
-          itemName="image"
-        >
-          <MainTable
-            id="image-table"
-            headers={headers}
-            sortable
-            className="image-table"
-            emptyStateMsg="No images found matching this search"
-            onUpdateSort={updateSort}
-          />
-        </TablePagination>
-      </ScrollableTable>
-    </div>
+      <NotificationRow />
+      <Row>
+        {images.length === 0 && (
+          <EmptyState
+            className="empty-state"
+            image={<Icon name="mount" className="empty-state-icon" />}
+            title="No images found in this project"
+          >
+            <p>
+              Images will appear here, when launching an instance from a remote.
+            </p>
+          </EmptyState>
+        )}
+        {images.length > 0 && (
+          <ScrollableTable dependencies={[images]} tableId="image-table">
+            <TablePagination
+              data={sortedRows}
+              id="pagination"
+              itemName="image"
+              className="u-no-margin--top"
+              description={
+                selectedNames.length > 0 && (
+                  <SelectedTableNotification
+                    totalCount={images.length ?? 0}
+                    itemName="image"
+                    parentName="project"
+                    selectedNames={selectedNames}
+                    setSelectedNames={setSelectedNames}
+                    filteredNames={filteredImages.map(
+                      (item) => item.fingerprint,
+                    )}
+                  />
+                )
+              }
+            >
+              <SelectableMainTable
+                id="image-table"
+                headers={headers}
+                sortable
+                className="image-table"
+                emptyStateMsg="No images found matching this search"
+                onUpdateSort={updateSort}
+                selectedNames={selectedNames}
+                setSelectedNames={setSelectedNames}
+                itemName="image"
+                parentName="project"
+                filteredNames={filteredImages.map((item) => item.fingerprint)}
+                processingNames={processingNames}
+                rows={[]}
+              />
+            </TablePagination>
+          </ScrollableTable>
+        )}
+      </Row>
+    </CustomLayout>
   );
 };
 

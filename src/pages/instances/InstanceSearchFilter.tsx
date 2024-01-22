@@ -67,7 +67,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
   };
 
   return (
-    <div className="search-wrapper margin-right u-no-margin--bottom">
+    <>
       <h2 className="u-off-screen">Search and filter</h2>
       <SearchAndFilter
         existingSearchData={searchParamsToChips(searchParams, QUERY_PARAMS)}
@@ -82,7 +82,7 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
           window.dispatchEvent(new CustomEvent("sfp-toggle"));
         }}
       />
-    </div>
+    </>
   );
 };
 

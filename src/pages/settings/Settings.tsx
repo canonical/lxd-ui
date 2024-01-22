@@ -1,12 +1,10 @@
 import React, { FC, useState } from "react";
 import {
-  Col,
   MainTable,
   Row,
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
-import BaseLayout from "components/BaseLayout";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
@@ -20,6 +18,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { toConfigFields } from "util/config";
+import CustomLayout from "components/CustomLayout";
+import PageHeader from "components/PageHeader";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
@@ -135,31 +135,36 @@ const Settings: FC = () => {
 
   return (
     <>
-      <BaseLayout
-        title={
-          <HelpLink
-            href={`${docBaseLink}/server/`}
-            title="Learn more about server configuration"
-          >
-            Settings
-          </HelpLink>
+      <CustomLayout
+        header={
+          <PageHeader>
+            <PageHeader.Left>
+              <PageHeader.Title>
+                <HelpLink
+                  href={`${docBaseLink}/server/`}
+                  title="Learn more about server configuration"
+                >
+                  Settings
+                </HelpLink>
+              </PageHeader.Title>
+              <PageHeader.Search>
+                <SearchBox
+                  name="search-setting"
+                  type="text"
+                  className="u-no-margin--bottom"
+                  onChange={(value) => {
+                    setQuery(value);
+                  }}
+                  placeholder="Search"
+                  value={query}
+                />
+              </PageHeader.Search>
+            </PageHeader.Left>
+          </PageHeader>
         }
         contentClassName="settings"
       >
         <NotificationRow />
-        <Row>
-          <Col size={8}>
-            <SearchBox
-              name="search-setting"
-              type="text"
-              onChange={(value) => {
-                setQuery(value);
-              }}
-              placeholder="Search"
-              value={query}
-            />
-          </Col>
-        </Row>
         <Row>
           <ScrollableTable
             dependencies={[notify.notification, rows]}
@@ -173,7 +178,7 @@ const Settings: FC = () => {
             />
           </ScrollableTable>
         </Row>
-      </BaseLayout>
+      </CustomLayout>
     </>
   );
 };

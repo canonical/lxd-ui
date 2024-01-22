@@ -7,10 +7,6 @@
     margin-top: 0;
   }
 
-  .items-per-page {
-    margin-bottom: 0;
-  }
-
   .name {
     min-width: 170px;
   }
@@ -46,10 +42,6 @@
         visibility: visible;
       }
     }
-  }
-
-  .p-pagination__items {
-    justify-content: flex-end;
   }
 
   .edit-snapshot-config {

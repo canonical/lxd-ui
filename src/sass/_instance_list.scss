@@ -1,74 +1,32 @@
 .instance-list {
-  .instance-list-header {
-    display: flex;
-    margin: $spv--x-small 0 $spv--large 0;
+  .bulk-actions {
+    display: inline-block;
+    margin-bottom: -2px;
+    margin-right: $sph--large;
 
-    .bulk-actions {
-      display: inline-block;
-      margin-right: $sph--large;
+    > .bulk-action-frame {
+      border: 1px solid #0000008f;
+      border-radius: 2.25px;
 
-      > .bulk-action-frame {
-        border: 1px solid #0000008f;
-        border-radius: 2.25px;
-
-        > .bulk-action {
-          border-left: 1px solid rgb(0 0 0 / 10%);
-        }
+      > .bulk-action {
+        border-left: 1px solid rgb(0 0 0 / 10%);
       }
-    }
-
-    @media screen and (max-width: $breakpoint-large) {
-      .bulk-actions {
-        .confirmation-toggle-caption {
-          display: none;
-        }
-
-        .has-icon > i {
-          margin: 0;
-        }
-      }
-    }
-
-    .instance-header-left {
-      display: flex;
-      flex: 2;
-
-      h1 {
-        margin-right: 2rem;
-      }
-
-      .search-wrapper {
-        margin-bottom: 3.5px !important; // to align with the selected instances state
-        max-width: 70vw;
-        width: 100%;
-      }
-
-      .p-search-and-filter__panel {
-        min-width: 100%;
-        width: 45vw;
-      }
-    }
-
-    .create-button-wrapper {
-      align-self: flex-start;
-      flex: 1;
     }
   }
 
-  @media screen and (min-width: $breakpoint-large) and (width <= 1135px) {
-    &.has-side-panel {
-      .instance-header-left {
-        flex: 1;
+  @media screen and (max-width: $breakpoint-large) {
+    .bulk-actions {
+      .confirmation-toggle-caption {
+        display: none;
+      }
 
-        .search-wrapper {
-          display: none;
-        }
+      .has-icon > i {
+        margin: 0;
       }
     }
   }
 
   .instance-content {
-    margin-top: -$spv--large;
     padding-bottom: 0;
 
     @media screen and (max-width: $breakpoint-large) {
@@ -140,14 +98,6 @@
     }
   }
 
-  .p-pagination__items {
-    justify-content: flex-end;
-  }
-
-  .items-per-page {
-    margin-bottom: 0;
-  }
-
   #instance-table-measure {
     max-height: 1px;
     overflow: hidden;
@@ -156,26 +106,6 @@
   .p-panel {
     min-height: auto;
     overflow: hidden;
-  }
-}
-
-.l-navigation.is-collapsed + .instance-list {
-  .search-wrapper {
-    width: 50vw;
-  }
-
-  .p-search-and-filter__panel {
-    width: 130% !important;
-  }
-
-  &.has-side-panel {
-    .instance-header-left {
-      flex: 2;
-
-      .search-wrapper {
-        display: initial;
-      }
-    }
   }
 }
 
