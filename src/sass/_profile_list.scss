@@ -1,26 +1,5 @@
 .profile-list {
-  .profile-list-header {
-    display: flex;
-    justify-content: space-between;
-    margin: $spv--x-small 0 $spv--large 0;
-
-    .profile-header-left {
-      display: flex;
-      flex-grow: 1;
-
-      h1 {
-        margin-right: 2rem;
-      }
-
-      .search-box {
-        max-width: 20rem;
-        width: 100%;
-      }
-    }
-  }
-
   .profile-content {
-    margin-top: -$spv--large;
     padding-bottom: 0;
 
     @media screen and (width <= 860px) {
@@ -49,30 +28,14 @@
     cursor: pointer;
   }
 
-  .p-pagination__items {
-    justify-content: flex-end;
-  }
-
   .p-panel {
     min-height: auto;
   }
 
-  // hide search box on small screens
-  @media screen and (width <= 860px) {
-    .search-box {
-      display: none;
-    }
-
-    .profile-list-header {
-      margin-bottom: 0 !important;
-    }
-  }
-}
-
-.l-navigation.is-collapsed + .profile-list {
-  @media screen and (width >= 685px) {
-    .search-box {
-      display: flex;
-    }
+  .profile-description {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
 }

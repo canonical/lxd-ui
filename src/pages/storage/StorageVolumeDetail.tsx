@@ -66,7 +66,7 @@ const StorageVolumeDetail: FC = () => {
   return (
     <CustomLayout
       header={<StorageVolumeHeader volume={volume} project={project} />}
-      contentClassName="sotrage-volume-form"
+      contentClassName="detail-page sotrage-volume-form u-no-padding--bottom"
     >
       <Row>
         <TabLinks

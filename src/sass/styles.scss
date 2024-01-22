@@ -72,6 +72,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "network_map";
 @import "no_match";
 @import "operation_list";
+@import "page_header";
 @import "pattern_navigation";
 @import "pattern_terminal";
 @import "profile_detail_overview";
@@ -273,4 +274,8 @@ $border-thin: 1px solid $color-mid-light !default;
   .actions {
     max-width: 8rem;
   }
+}
+
+.items-per-page {
+  margin-bottom: 0;
 }

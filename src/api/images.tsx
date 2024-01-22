@@ -1,7 +1,13 @@
-import { handleResponse } from "util/helpers";
+import {
+  continueOrFinish,
+  handleResponse,
+  pushFailure,
+  pushSuccess,
+} from "util/helpers";
 import { ImportImage, LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
+import { EventQueue } from "context/eventQueue";
 
 export const fetchImage = (
   image: string,
@@ -35,6 +41,29 @@ export const deleteImage = (
       .then(handleResponse)
       .then(resolve)
       .catch(reject);
+  });
+};
+
+export const deleteImageBulk = (
+  fingerprints: string[],
+  project: string,
+  eventQueue: EventQueue,
+): Promise<PromiseSettledResult<void>[]> => {
+  const results: PromiseSettledResult<void>[] = [];
+  return new Promise((resolve) => {
+    void Promise.allSettled(
+      fingerprints.map((name) => {
+        const image = { fingerprint: name } as LxdImage;
+        return deleteImage(image, project).then((operation) => {
+          eventQueue.set(
+            operation.metadata.id,
+            () => pushSuccess(results),
+            (msg) => pushFailure(results, msg),
+            () => continueOrFinish(results, fingerprints.length, resolve),
+          );
+        });
+      }),
+    );
   });
 };
 

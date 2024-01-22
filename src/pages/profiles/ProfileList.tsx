@@ -26,6 +26,7 @@ import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
+import PageHeader from "components/PageHeader";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -125,7 +126,7 @@ const ProfileList: FC = () => {
         },
         {
           content: (
-            <div className="u-truncate" title={profile.description}>
+            <div className="profile-description" title={profile.description}>
               {profile.description}
             </div>
           ),
@@ -166,40 +167,44 @@ const ProfileList: FC = () => {
       mainClassName="profile-list"
       contentClassName="profile-content"
       header={
-        <div className="p-panel__header profile-list-header">
-          <div className="profile-header-left">
-            <h1 className="p-heading--4 u-no-margin--bottom">
+        <PageHeader>
+          <PageHeader.Left>
+            <PageHeader.Title>
               <HelpLink
                 href={`${docBaseLink}/profiles/`}
                 title="Learn how to use profiles"
               >
                 Profiles
               </HelpLink>
-            </h1>
-            <SearchBox
-              className="search-box margin-right u-no-margin--bottom"
-              name="search-profile"
-              type="text"
-              onChange={(value) => {
-                setQuery(value);
-              }}
-              placeholder="Search"
-              value={query}
-              aria-label="Search"
-            />
-          </div>
+            </PageHeader.Title>
+            <PageHeader.Search>
+              <SearchBox
+                className="search-box margin-right u-no-margin--bottom"
+                name="search-profile"
+                type="text"
+                onChange={(value) => {
+                  setQuery(value);
+                }}
+                placeholder="Search"
+                value={query}
+                aria-label="Search"
+              />
+            </PageHeader.Search>
+          </PageHeader.Left>
           {featuresProfiles && (
-            <Button
-              appearance="positive"
-              className="u-no-margin--bottom"
-              onClick={() =>
-                navigate(`/ui/project/${projectName}/profiles/create`)
-              }
-            >
-              Create profile
-            </Button>
+            <PageHeader.BaseActions>
+              <Button
+                appearance="positive"
+                className="u-no-margin--bottom u-float-right"
+                onClick={() =>
+                  navigate(`/ui/project/${projectName}/profiles/create`)
+                }
+              >
+                Create profile
+              </Button>
+            </PageHeader.BaseActions>
           )}
-        </div>
+        </PageHeader>
       }
     >
       <NotificationRow />
@@ -214,14 +219,13 @@ const ProfileList: FC = () => {
           )}
           <ScrollableTable
             dependencies={[filteredProfiles, notify.notification]}
-            belowId="pagination"
             tableId="profile-table"
           >
             <TablePagination
-              data={sortedRows}
               id="pagination"
+              data={sortedRows}
               itemName="profile"
-              position="below"
+              className="u-no-margin--top"
             >
               <MainTable
                 id="profile-table"

@@ -69,11 +69,15 @@ export const instanceActionLabel = (action: LxdInstanceAction): string => {
 };
 
 export const pluralizeInstance = (count: number) => {
-  return count === 1 ? "instance" : "instances";
+  return pluralize("instance", count);
 };
 
 export const pluralizeSnapshot = (count: number) => {
-  return count === 1 ? "snapshot" : "snapshots";
+  return pluralize("snapshot", count);
+};
+
+export const pluralize = (item: string, count: number) => {
+  return count === 1 ? item : `${item}s`;
 };
 
 export const statusLabel = (status: LxdInstanceStatus) => {

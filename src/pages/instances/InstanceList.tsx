@@ -55,6 +55,7 @@ import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
+import PageHeader from "components/PageHeader";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -493,16 +494,21 @@ const InstanceList: FC = () => {
       })}
       contentClassName="instance-content"
       header={
-        <div className="p-panel__header instance-list-header">
-          <div className="instance-header-left">
-            <h1 className="p-heading--4 u-no-margin--bottom">
+        <PageHeader>
+          <PageHeader.Left>
+            <PageHeader.Title>
               <HelpLink
                 href={`${docBaseLink}/explanation/instances/#expl-instances`}
                 title="Learn more about instances"
               >
                 Instances
               </HelpLink>
-            </h1>
+            </PageHeader.Title>
+            {hasInstances && selectedNames.length === 0 && (
+              <PageHeader.Search>
+                <InstanceSearchFilter key={project} instances={instances} />
+              </PageHeader.Search>
+            )}
             {selectedNames.length > 0 && (
               <>
                 <InstanceBulkActions
@@ -517,12 +523,9 @@ const InstanceList: FC = () => {
                 />
               </>
             )}
-            {hasInstances && selectedNames.length === 0 && (
-              <InstanceSearchFilter key={project} instances={instances} />
-            )}
-          </div>
+          </PageHeader.Left>
           {hasInstances && selectedNames.length === 0 && (
-            <div className="create-button-wrapper">
+            <PageHeader.BaseActions>
               <Button
                 appearance="positive"
                 className="u-float-right u-no-margin--bottom"
@@ -532,9 +535,9 @@ const InstanceList: FC = () => {
               >
                 {createButtonLabel}
               </Button>
-            </div>
+            </PageHeader.BaseActions>
           )}
-        </div>
+        </PageHeader>
       }
     >
       <NotificationRow />
