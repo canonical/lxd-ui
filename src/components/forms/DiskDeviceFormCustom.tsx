@@ -126,6 +126,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
                   id: `devices.${index}.pool`,
                   appearance: "base",
                   className: "u-no-margin--bottom",
+                  "aria-label": `Select storage volume`,
                 }}
               >
                 <Icon name="edit" />

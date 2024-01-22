@@ -52,6 +52,8 @@ const DiskSizeSelector: FC<Props> = ({
         <Select
           id="memUnitSelect"
           name="memUnitSelect"
+          label="Select disk size unit"
+          labelClassName="u-off-screen"
           options={getMemUnitOptions()}
           onChange={(e) =>
             setMemoryLimit(`${limit.value ?? 0}${e.target.value}`)

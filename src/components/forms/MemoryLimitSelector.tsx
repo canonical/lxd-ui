@@ -157,6 +157,8 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           <Select
             id="memUnitSelect"
             name="memUnitSelect"
+            label="Select memory size unit"
+            labelClassName="u-off-screen"
             options={getMemUnitOptions()}
             onChange={(e) =>
               setMemoryLimit({

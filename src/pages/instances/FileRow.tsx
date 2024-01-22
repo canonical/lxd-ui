@@ -51,7 +51,7 @@ const FileRow: FC<FileRowProps> = ({ instance, path }) => {
           onClick={toggleVisibility}
         >
           <Icon name={isOpen ? "chevron-up" : "chevron-down"} />
-          <h3 className="p-code-snippet__title file-row-title">{fileName}</h3>
+          <h2 className="p-code-snippet__title file-row-title">{fileName}</h2>
         </Button>
         <a
           href={fileUrl}
