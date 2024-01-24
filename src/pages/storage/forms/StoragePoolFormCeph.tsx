@@ -19,7 +19,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           label: "Cluster name",
           name: "ceph_cluster_name",
           defaultValue: "",
-          help: "Name of the Ceph cluster in which to create new storage pools",
           children: <Input type="text" placeholder="Enter cluster name" />,
         }),
         getConfigurationRow({
@@ -27,7 +26,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           label: "Placement groups",
           name: "ceph_osd_pg_num",
           defaultValue: "",
-          help: "Number of placement groups for the OSD storage pool",
           children: (
             <Input
               type="number"
@@ -40,7 +38,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           label: "RBD clone copy",
           name: "ceph_rbd_clone_copy",
           defaultValue: "",
-          help: "Whether to use RBD lightweight clones rather than full dataset copies",
           children: <Select options={optionTrueFalse} />,
         }),
         getConfigurationRow({
@@ -48,7 +45,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           label: "Ceph user name",
           name: "ceph_user_name",
           defaultValue: "",
-          help: "The Ceph user to use when creating storage pools and volumes",
           children: <Input type="text" placeholder="Enter Ceph user name" />,
         }),
         getConfigurationRow({
@@ -56,7 +52,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           label: "RBD features",
           name: "ceph_rbd_features",
           defaultValue: "",
-          help: "Comma-separated list of RBD features to enable on the volumes",
           children: <Input type="text" placeholder="Enter RBD features" />,
         }),
       ]}

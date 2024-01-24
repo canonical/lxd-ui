@@ -12,7 +12,7 @@ import {
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import { cephStoragePoolDefaults } from "util/storagePool";
+import { getCephPoolFormFields } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
 
@@ -82,8 +82,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 void formik.setFieldValue("source", "");
               }
               if (val !== cephDriver) {
-                const cephConfigFields = Object.keys(cephStoragePoolDefaults);
-                for (const field of cephConfigFields) {
+                const cephFields = getCephPoolFormFields();
+                for (const field of cephFields) {
                   void formik.setFieldValue(field, undefined);
                 }
               }

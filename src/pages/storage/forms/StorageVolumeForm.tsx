@@ -17,13 +17,18 @@ import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSna
 import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
-import { getVolumeKey } from "util/storageVolume";
+import {
+  getFilesystemVolumeFormFields,
+  getVolumeKey,
+  getZfsVolumeFormFields,
+} from "util/storageVolume";
 import {
   LxdStorageVolume,
   LxdStorageVolumeContentType,
   LxdStorageVolumeType,
 } from "types/storage";
 import { slugify } from "util/slugify";
+import { driversWithFilesystemSupport } from "util/storageOptions";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -129,6 +134,19 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
 
   const poolDriver =
     pools.find((item) => item.name === formik.values.pool)?.driver ?? "";
+
+  const invalidFields: (keyof StorageVolumeFormValues)[] = [];
+  if (!driversWithFilesystemSupport.includes(poolDriver)) {
+    invalidFields.push(...getFilesystemVolumeFormFields());
+  }
+  if (poolDriver !== "zfs") {
+    invalidFields.push(...getZfsVolumeFormFields());
+  }
+  for (const field of invalidFields) {
+    if (formik.values[field] !== undefined) {
+      void formik.setFieldValue(field, undefined);
+    }
+  }
 
   return (
     <Form onSubmit={formik.handleSubmit} className="form">

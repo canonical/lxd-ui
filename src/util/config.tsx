@@ -33,13 +33,12 @@ export const configDescriptionToHtml = (
   let result = input
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
-    .replaceAll("\n", "<br>")
-    .replaceAll("```", "");
+    .replaceAll("\n", "<br>");
 
   // documentation links
   if (objectsInvTxt) {
     // tags like {ref}`instance-options-qemu` can be in the input string
-    const linkTags = input.match(/{(config|ref|config:option)}`[a-z-:.]+`/g);
+    const linkTags = input.match(/{(config|ref|config:option)}`[a-z-:._]+`/g);
     linkTags?.map((tag) => {
       const token = tag
         .substring(tag.indexOf("`") + 1, tag.lastIndexOf("`"))
@@ -67,6 +66,11 @@ export const configDescriptionToHtml = (
   while (result.includes("`") && count++ < maxCodeblockReplacementCount) {
     result = result.replace("`", "<code>").replace("`", "</code>");
   }
+
+  // remove invalid placeholders
+  result = result
+    .replaceAll("```", "")
+    .replaceAll("{{snapshot_pattern_detail}}", "");
 
   return result;
 };

@@ -61,7 +61,6 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
             formik,
             label: "Expire after",
             name: "snapshots_expiry",
-            help: "Controls when snapshots are to be deleted",
             defaultValue: "",
             children: (
               <Input

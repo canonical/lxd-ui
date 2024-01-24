@@ -10,7 +10,7 @@ import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdStoragePool } from "types/storage";
 import { btrfsDriver, cephDriver } from "util/storageOptions";
-import { getCephConfigKey } from "util/storagePool";
+import { getPoolKey } from "util/storagePool";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 
 export interface StoragePoolFormValues {
@@ -42,12 +42,11 @@ export const storagePoolFormToPayload = (
   const getConfig = () => {
     if (isCephDriver) {
       return {
-        [getCephConfigKey("ceph_cluster_name")]: values.ceph_cluster_name,
-        [getCephConfigKey("ceph_osd_pg_num")]:
-          values.ceph_osd_pg_num?.toString(),
-        [getCephConfigKey("ceph_rbd_clone_copy")]: values.ceph_rbd_clone_copy,
-        [getCephConfigKey("ceph_user_name")]: values.ceph_user_name,
-        [getCephConfigKey("ceph_rbd_features")]: values.ceph_rbd_features,
+        [getPoolKey("ceph_cluster_name")]: values.ceph_cluster_name,
+        [getPoolKey("ceph_osd_pg_num")]: values.ceph_osd_pg_num?.toString(),
+        [getPoolKey("ceph_rbd_clone_copy")]: values.ceph_rbd_clone_copy,
+        [getPoolKey("ceph_user_name")]: values.ceph_user_name,
+        [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
         source: values.source,
       };
     } else {

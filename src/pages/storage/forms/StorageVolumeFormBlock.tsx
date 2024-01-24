@@ -18,7 +18,6 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
           label: "Block filesystem",
           name: "block_filesystem",
           defaultValue: "",
-          help: "Filesystem of the storage volume",
           children: (
             <Select
               options={[
@@ -48,7 +47,6 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
           label: "Block mount options",
           name: "block_mount_options",
           defaultValue: "",
-          help: "Mount options for block devices",
           children: (
             <Input
               type="text"
