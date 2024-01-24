@@ -6,7 +6,6 @@ import {
 import { AnyObject, TestContext, TestFunction } from "yup";
 import { LxdStorageVolume } from "types/storage";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import { ConfigRowMetadata } from "util/configInheritance";
 
 export const testDuplicateStorageVolumeName = (
   project: string,
@@ -48,36 +47,23 @@ const storageVolumeFormFieldToPayloadName: Record<string, string> = {
   zfs_reserve_space: "zfs.reserve_space",
 };
 
+export const getFilesystemVolumeFormFields = () => {
+  return Object.keys(storageVolumeFormFieldToPayloadName).filter((item) =>
+    item.startsWith("block_"),
+  ) as (keyof StorageVolumeFormValues)[];
+};
+
+export const getZfsVolumeFormFields = () => {
+  return Object.keys(storageVolumeFormFieldToPayloadName).filter((item) =>
+    item.startsWith("zfs_"),
+  ) as (keyof StorageVolumeFormValues)[];
+};
+
 export const getVolumeKey = (key: string): string => {
   if (Object.keys(storageVolumeFormFieldToPayloadName).includes(key)) {
     return storageVolumeFormFieldToPayloadName[key];
   }
   return key;
-};
-
-const storageVolumeDefaults: Record<string, string> = {
-  security_shifted: "false",
-  security_unmapped: "false",
-  snapshots_expiry: "-",
-  snapshots_pattern: "snap%d",
-  snapshots_schedule: "-",
-  block_filesystem: "auto",
-  block_mount_options: "-",
-  zfs_blocksize: "-",
-  zfs_block_mode: "-",
-  zfs_delegate: "false",
-  zfs_remove_snapshots: "false",
-  zfs_use_refquota: "false",
-  zfs_reserve_space: "false",
-};
-
-export const getStorageVolumeDefault = (
-  formField: string,
-): ConfigRowMetadata => {
-  if (Object.keys(storageVolumeDefaults).includes(formField)) {
-    return { value: storageVolumeDefaults[formField], source: "LXD" };
-  }
-  return { value: "", source: "LXD" };
 };
 
 export const renderVolumeType = (volume: LxdStorageVolume) => {

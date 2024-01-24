@@ -62,7 +62,7 @@ test("storage volume edit snapshot configuration", async ({ page }) => {
     "snap123",
   );
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
-  await activateOverride(page, "Schedule");
+  await activateOverride(page, "Schedule Schedule for automatic");
   await page.getByPlaceholder("Enter cron expression").last().fill("@daily");
   await page.getByRole("button", { name: "Save" }).click();
   await page.waitForSelector(`text=Configuration updated.`, TIMEOUT);

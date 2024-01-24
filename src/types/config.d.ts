@@ -7,6 +7,7 @@ export type ConfigField = LxdConfigOption & {
 };
 
 export interface LxdConfigOption {
+  default?: string;
   defaultdesc?: string;
   longdesc?: string;
   scope?: "global" | "local";
@@ -28,5 +29,14 @@ export interface LxdConfigOptions {
     instance: LxcConfigOptionCategories;
     project: LxcConfigOptionCategories;
     server: LxcConfigOptionCategories;
+    "storage-btrfs": LxcConfigOptionCategories;
+    "storage-ceph": LxcConfigOptionCategories;
+    "storage-cephfs": LxcConfigOptionCategories;
+    "storage-cephobject": LxcConfigOptionCategories;
+    "storage-dir": LxcConfigOptionCategories;
+    "storage-lvm": LxcConfigOptionCategories;
+    "storage-zfs": LxcConfigOptionCategories;
   };
 }
+
+export type LxdConfigOptionsKeys = keyof LxdConfigOptions["configs"];

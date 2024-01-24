@@ -84,6 +84,21 @@ describe("toConfigFields and replaceDocLinks", () => {
       'Specify a Pongo2 template string that represents the snapshot name.<br>This template is used for scheduled snapshots and for unnamed snapshots.<br><br>See <a href="https://docs.example.org/reference/instance_options/#instance-options-snapshots-names" target="_blank" rel="noreferrer">instance options snapshots names</a> for more information.',
     );
   });
+
+  it("converts link tag in config description to html link", () => {
+    const input =
+      "the value of {config:option}`storage-zfs-volume-conf:zfs.block_mode`,\nthe specified";
+
+    const result = configDescriptionToHtml(
+      input,
+      "https://docs.example.org",
+      objectsInvTxt.split("\n"),
+    );
+
+    expect(result).toBe(
+      'the value of <a href="https://docs.example.org/reference/storage_zfs/#storage-zfs-volume-conf:zfs.block_mode" target="_blank" rel="noreferrer">zfs.block_mode</a>,<br>the specified',
+    );
+  });
 });
 
 const objectsInvTxt =
@@ -93,4 +108,5 @@ const objectsInvTxt =
   "    instance-options-raw                     Raw instance configuration overrides    : reference/instance_options/#instance-options-raw\n" +
   "    instance-options-security                Security policies                       : reference/instance_options/#instance-options-security\n" +
   "    instance-options-snapshots               Snapshot scheduling and configuration   : reference/instance_options/#instance-options-snapshots\n" +
-  "    instance-options-snapshots-names         Automatic snapshot names                : reference/instance_options/#instance-options-snapshots-names";
+  "    instance-options-snapshots-names         Automatic snapshot names                : reference/instance_options/#instance-options-snapshots-names\n" +
+  "    zfs.block_mode                                                                   : reference/storage_zfs/#storage-zfs-volume-conf:zfs.block_mode\n";

@@ -17,9 +17,10 @@ import { fetchProfiles } from "api/profiles";
 import { getProjectKey } from "util/projectConfigFields";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { fetchStoragePool } from "api/storage-pools";
-import { getStorageVolumeDefault, getVolumeKey } from "util/storageVolume";
+import { getVolumeKey } from "util/storageVolume";
 import { getNetworkDefault } from "util/networks";
-import { getCephStoragePoolDefault } from "./storagePool";
+import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
+import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -42,7 +43,7 @@ export const getConfigRowMetadata = (
     case "network":
       return getNetworkRowMetadata(name);
     case "storagePool":
-      return getStoragePoolRowMetadata(name);
+      return getStoragePoolRowMetadata(values, name);
   }
 };
 
@@ -114,7 +115,22 @@ const getStorageVolumeRowMetadata = (
     return { value: pool.config[poolField], source: `${pool.name} pool` };
   }
 
-  return getStorageVolumeDefault(name);
+  const { data: configOptions } = useQuery({
+    queryKey: [queryKeys.configOptions],
+    queryFn: fetchConfigOptions,
+  });
+
+  const optionKey = storagePoolFormDriverToOptionKey(pool?.driver ?? "zfs");
+  const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
+  const configKey = getVolumeKey(name);
+  const configField = configFields.find((item) => item.key === configKey);
+
+  const lxdDefault =
+    configField?.default && configField?.default.length > 0
+      ? configField?.default
+      : "-";
+
+  return { value: lxdDefault, source: "LXD", configField };
 };
 
 const getNetworkRowMetadata = (name: string): ConfigRowMetadata => {
@@ -122,8 +138,26 @@ const getNetworkRowMetadata = (name: string): ConfigRowMetadata => {
 };
 
 // NOTE: this is only relevant for Ceph RBD storage pools at the moment
-const getStoragePoolRowMetadata = (name: string): ConfigRowMetadata => {
-  return getCephStoragePoolDefault(name);
+const getStoragePoolRowMetadata = (
+  values: StoragePoolFormValues,
+  name: string,
+): ConfigRowMetadata => {
+  const { data: configOptions } = useQuery({
+    queryKey: [queryKeys.configOptions],
+    queryFn: fetchConfigOptions,
+  });
+
+  const optionKey = storagePoolFormDriverToOptionKey(values.driver);
+  const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
+  const configKey = getPoolKey(name);
+  const configField = configFields.find((item) => item.key === configKey);
+
+  const lxdDefault =
+    configField?.default && configField?.default.length > 0
+      ? configField?.default
+      : "-";
+
+  return { value: lxdDefault, source: "LXD", configField };
 };
 
 const getInstanceProfileProjectDefaults = (
