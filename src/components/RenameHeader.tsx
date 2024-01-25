@@ -48,7 +48,7 @@ const RenameHeader: FC<Props> = ({
         <div className={classnames("p-panel__title", titleClassName)}>
           <nav
             key="breadcrumbs"
-            className="p-breadcrumbs"
+            className="p-breadcrumbs p-breadcrumbs--large"
             aria-label="Breadcrumbs"
           >
             <ol className="p-breadcrumbs__items">
