@@ -1,7 +1,5 @@
-import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
-import { XTerm } from "xterm-for-react";
-import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
 import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
@@ -20,6 +18,8 @@ import {
   Icon,
   NotificationType,
 } from "@canonical/react-components";
+import Xterm from "components/Xterm";
+import { Terminal } from "xterm";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -52,7 +52,6 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     name: string;
     project: string;
   }>();
-  const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
   const [inTabNotification, setInTabNotification] =
     useState<NotificationType | null>(null);
@@ -62,6 +61,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   const [payload, setPayload] = useState(defaultPayload);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
+  const xtermRef = useRef<Terminal>(null);
 
   usePrompt({
     when: userInteracted,
@@ -123,11 +123,6 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
       setControlWs(null);
     };
 
-    // TODO: remove this and other console.log calls
-    control.onmessage = (message) => {
-      console.log("control message", message);
-    };
-
     data.onopen = () => {
       setDataWs(data);
     };
@@ -148,18 +143,14 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
 
     data.binaryType = "arraybuffer";
     data.onmessage = (message: MessageEvent<ArrayBuffer>) => {
-      xtermRef.current?.terminal.writeUtf8(new Uint8Array(message.data));
+      xtermRef.current?.write(new Uint8Array(message.data));
     };
 
     return [data, control];
   };
 
   useEffect(() => {
-    xtermRef.current?.terminal.focus();
-  }, [xtermRef.current, controlWs]);
-
-  useEffect(() => {
-    xtermRef.current?.terminal.clear();
+    xtermRef.current?.clear();
     setInTabNotification(null);
     const websocketPromise = openWebsockets(payload);
     return () => {
@@ -176,13 +167,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
 
     updateMaxHeight("p-terminal", undefined, 10);
 
-    xtermRef.current?.terminal.element?.style.setProperty("padding", "1rem");
-
-    // ensure options is not undefined. fitAddon.fit will crash otherwise
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (xtermRef.current && xtermRef.current.terminal.options === undefined) {
-      xtermRef.current.terminal.options = {};
-    }
+    xtermRef.current?.element?.style.setProperty("padding", "1rem");
     fitAddon.fit();
 
     const dimensions = fitAddon.proposeDimensions();
@@ -205,9 +190,11 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     handleResize();
     setTimeout(handleResize, 500);
   });
-  useLayoutEffect(() => {
+
+  const handleTerminalOpen = () => {
     handleResize();
-  }, [controlWs, fitAddon, xtermRef]);
+    xtermRef.current?.focus();
+  };
 
   const { handleStart, isLoading: isStartLoading } = useInstanceStart(instance);
 
@@ -224,15 +211,16 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
           />
           {isLoading && <Loader text="Loading terminal session..." />}
           {controlWs && (
-            <XTerm
+            <Xterm
               ref={xtermRef}
               addons={[fitAddon]}
-              className="p-terminal"
+              options={XTERM_OPTIONS}
               onData={(data) => {
                 setUserInteracted(true);
                 dataWs?.send(textEncoder.encode(data));
               }}
-              options={XTERM_OPTIONS}
+              onOpen={handleTerminalOpen}
+              className="p-terminal"
             />
           )}
         </>
