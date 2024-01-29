@@ -1,7 +1,5 @@
-import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { XTerm } from "xterm-for-react";
-import Xterm from "xterm-for-react/dist/src/XTerm";
 import { FitAddon } from "xterm-addon-fit";
 import {
   connectInstanceConsole,
@@ -13,6 +11,8 @@ import useEventListener from "@use-it/event-listener";
 import { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";
+import Xterm from "components/Xterm";
+import { Terminal } from "xterm";
 
 interface Props {
   instance: LxdInstance;
@@ -31,13 +31,13 @@ const InstanceTextConsole: FC<Props> = ({
     name: string;
     project: string;
   }>();
-  const xtermRef = useRef<Xterm>(null);
   const textEncoder = new TextEncoder();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [textBuffer, setTextBuffer] = useState("");
   const [dataWs, setDataWs] = useState<WebSocket | null>(null);
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
+  const xtermRef = useRef<Terminal>(null);
 
   usePrompt({
     when: userInteracted,
@@ -102,11 +102,6 @@ const InstanceTextConsole: FC<Props> = ({
       }
     };
 
-    // TODO: remove this and other console.log calls
-    control.onmessage = (message) => {
-      console.log("control message", message);
-    };
-
     data.onopen = () => {
       setDataWs(data);
     };
@@ -123,7 +118,7 @@ const InstanceTextConsole: FC<Props> = ({
 
     data.binaryType = "arraybuffer";
     data.onmessage = (message: MessageEvent<ArrayBuffer>) => {
-      xtermRef.current?.terminal.writeUtf8(new Uint8Array(message.data));
+      xtermRef.current?.write(new Uint8Array(message.data));
     };
 
     return [data, control];
@@ -131,9 +126,9 @@ const InstanceTextConsole: FC<Props> = ({
 
   useEffect(() => {
     if (isRunning) {
-      xtermRef.current?.terminal.focus();
+      xtermRef.current?.focus();
     }
-  }, [isRunning, xtermRef.current]);
+  }, [isRunning]);
 
   useEffect(() => {
     if (dataWs) {
@@ -146,26 +141,20 @@ const InstanceTextConsole: FC<Props> = ({
         websockets?.map((websocket) => websocket.close());
       });
     };
-  }, [xtermRef, fitAddon, instance.status]);
+  }, [fitAddon, instance.status]);
 
   useEffect(() => {
     if (!textBuffer || !xtermRef.current || isLoading) {
       return;
     }
-    xtermRef.current.terminal.write(textBuffer);
+    xtermRef.current.write(textBuffer);
     setTextBuffer("");
-  }, [textBuffer, xtermRef, isLoading]);
+  }, [textBuffer, isLoading]);
 
   const handleResize = () => {
     updateMaxHeight("p-terminal", undefined, 10);
 
-    xtermRef.current?.terminal.element?.style.setProperty("padding", "1rem");
-
-    // ensure options is not undefined. fitAddon.fit will crash otherwise
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (xtermRef.current && xtermRef.current.terminal.options === undefined) {
-      xtermRef.current.terminal.options = {};
-    }
+    xtermRef.current?.element?.style.setProperty("padding", "1rem");
     fitAddon.fit();
   };
 
@@ -175,23 +164,21 @@ const InstanceTextConsole: FC<Props> = ({
     handleResize();
     setTimeout(handleResize, 500);
   });
-  useLayoutEffect(() => {
-    handleResize();
-  }, [fitAddon, xtermRef, isLoading]);
 
   return (
     <>
       {isLoading ? (
         <Loader text="Loading text console..." />
       ) : (
-        <XTerm
+        <Xterm
           ref={xtermRef}
           addons={[fitAddon]}
-          className="p-terminal"
           onData={(data) => {
             setUserInteracted(true);
             dataWs?.send(textEncoder.encode(data));
           }}
+          className="p-terminal"
+          onOpen={handleResize}
         />
       )}
     </>

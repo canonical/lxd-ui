@@ -65,10 +65,10 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "instance_detail_panel";
 @import "instance_detail_terminal";
 @import "instance_list";
+@import "meter";
 @import "network_detail_overview";
 @import "network_form";
 @import "network_forwards_form";
-@import "meter";
 @import "network_map";
 @import "no_match";
 @import "operation_list";
@@ -86,10 +86,10 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "selectable_main_table";
 @import "settings_page";
 @import "snapshots";
-@import "storage";
 @import "storage_detail_overview";
 @import "storage_pool_form";
 @import "storage_volume_form";
+@import "storage";
 @import "upper_controls_bar";
 
 .p-heading--4 {
