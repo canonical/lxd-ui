@@ -6,6 +6,7 @@ import {
   randomInstanceName,
   renameInstance,
   saveInstance,
+  visitAndStartInstance,
   visitInstance,
 } from "./helpers/instances";
 import {
@@ -23,6 +24,7 @@ import {
   deleteProfile,
   randomProfileName,
 } from "./helpers/profile";
+import { TIMEOUT } from "./helpers/constants";
 
 test("instance create and remove", async ({ page }) => {
   const instance = randomInstanceName();
@@ -226,5 +228,25 @@ test("instance yaml edit", async ({ page }) => {
   await page.getByText("Main configuration").click();
   await page.getByText("DescriptionA-new-description").click();
 
+  await deleteInstance(page, instance);
+});
+
+test("instance terminal operations", async ({ page }) => {
+  const instance = randomInstanceName();
+  await createInstance(page, instance);
+  await visitAndStartInstance(page, instance);
+  await page.getByTestId("tab-link-Terminal").click();
+  await expect(page.locator(".xterm-screen")).toBeVisible(TIMEOUT);
+  await page.keyboard.type("lsb_release -a");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".xterm-rows")).toContainText("Ubuntu");
+  let dialogPresent = false;
+  page.on("dialog", (dialog) => {
+    expect(dialog.type()).toEqual("confirm");
+    dialogPresent = true;
+    void dialog.accept();
+  });
+  await page.getByTestId("tab-link-Overview").click();
+  expect(dialogPresent).toEqual(true);
   await deleteInstance(page, instance);
 });
