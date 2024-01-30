@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
@@ -29,16 +29,19 @@ import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeade
 import { useAuth } from "context/auth";
 import CustomLayout from "components/CustomLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { useNavigate, useParams } from "react-router-dom";
+import { slugify } from "util/slugify";
 
 interface Props {
   project: LxdProject;
 }
 
 const EditProject: FC<Props> = ({ project }) => {
+  const navigate = useNavigate();
   const { isRestricted } = useAuth();
   const notify = useNotify();
   const queryClient = useQueryClient();
-  const [section, setSection] = useState(PROJECT_DETAILS);
+  const { section } = useParams<{ section?: string }>();
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -100,6 +103,13 @@ const EditProject: FC<Props> = ({ project }) => {
     };
   };
 
+  const setSection = (newSection: string) => {
+    const baseUrl = `/ui/project/${project.name}/configuration`;
+    newSection === PROJECT_DETAILS
+      ? navigate(baseUrl)
+      : navigate(`${baseUrl}/${slugify(newSection)}`);
+  };
+
   return (
     <CustomLayout
       header={<ProjectConfigurationHeader project={project} />}
@@ -108,7 +118,7 @@ const EditProject: FC<Props> = ({ project }) => {
       <ProjectForm
         formik={formik}
         project={project}
-        section={section}
+        section={section ?? slugify(PROJECT_DETAILS)}
         updateSection={setSection}
         isEdit={true}
       />

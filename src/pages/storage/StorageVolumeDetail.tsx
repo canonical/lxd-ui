@@ -72,7 +72,7 @@ const StorageVolumeDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/storage/detail/${pool}/${type}/${volume.name}`}
+          tabUrl={`/ui/project/${project}/storage/detail/${pool}/volumes/${type}/${volume.name}`}
         />
         <NotificationRow />
         {!activeTab && (

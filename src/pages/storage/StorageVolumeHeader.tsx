@@ -48,7 +48,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       renameStorageVolume(project, volume, values.name)
         .then(() => {
           navigate(
-            `/ui/project/${project}/storage/detail/${volume.pool}/${volume.type}/${values.name}`,
+            `/ui/project/${project}/storage/detail/${volume.pool}/volumes/${volume.type}/${values.name}`,
             notify.queue(success("Storage volume renamed.")),
           );
           void formik.setFieldValue("isRenaming", false);

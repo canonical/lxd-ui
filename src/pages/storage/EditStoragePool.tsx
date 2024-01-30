@@ -9,7 +9,7 @@ import {
 import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import StoragePoolForm, {
@@ -20,15 +20,21 @@ import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { getStoragePoolEditValues } from "util/storagePoolEdit";
+import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
+import { slugify } from "util/slugify";
 
 interface Props {
   pool: LxdStoragePool;
 }
 
 const EditStoragePool: FC<Props> = ({ pool }) => {
+  const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
-  const { project } = useParams<{ project: string }>();
+  const { project, section } = useParams<{
+    project: string;
+    section?: string;
+  }>();
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
 
@@ -82,9 +88,20 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     },
   });
 
+  const setSection = (newSection: string) => {
+    const baseUrl = `/ui/project/${project}/storage/detail/${pool.name}/configuration`;
+    newSection === MAIN_CONFIGURATION
+      ? navigate(baseUrl)
+      : navigate(`${baseUrl}/${slugify(newSection)}`);
+  };
+
   return (
     <div className="edit-storage-pool">
-      <StoragePoolForm formik={formik} />
+      <StoragePoolForm
+        formik={formik}
+        section={section ?? slugify(MAIN_CONFIGURATION)}
+        setSection={setSection}
+      />
       <FormFooterLayout>
         {formik.values.readOnly ? (
           <Button

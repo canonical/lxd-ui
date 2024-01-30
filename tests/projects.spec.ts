@@ -52,7 +52,6 @@ test("project edit configuration", async ({ page }) => {
   await setInput(page, "Max sum of memory", "Enter number", "7");
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
-  await page.getByText("Restrictions").click();
   await page.getByText("Clusters").click();
   await setInput(page, "Cluster groups targeting", "Enter value", "9");
   await setOption(page, "Direct cluster targeting", "allow");
