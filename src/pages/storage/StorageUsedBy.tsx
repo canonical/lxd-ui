@@ -104,7 +104,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
               items={data[CUSTOM].map((item) => (
                 <div key={`${item.name}-${item.project}`}>
                   <Link
-                    to={`/ui/project/${item.project}/storage/detail/${storage.name}/custom/${item.name}`}
+                    to={`/ui/project/${item.project}/storage/detail/${storage.name}/volumes/custom/${item.name}`}
                   >
                     {item.name}
                   </Link>

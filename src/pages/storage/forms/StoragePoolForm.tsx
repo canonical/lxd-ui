@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Form, Input, Row, Col, useNotify } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
@@ -12,6 +12,7 @@ import { LxdStoragePool } from "types/storage";
 import { btrfsDriver, cephDriver } from "util/storageOptions";
 import { getPoolKey } from "util/storagePool";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
+import { slugify } from "util/slugify";
 
 export interface StoragePoolFormValues {
   isCreating: boolean;
@@ -31,6 +32,8 @@ export interface StoragePoolFormValues {
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
+  section: string;
+  setSection: (section: string) => void;
 }
 
 export const storagePoolFormToPayload = (
@@ -65,8 +68,7 @@ export const storagePoolFormToPayload = (
   };
 };
 
-const StoragePoolForm: FC<Props> = ({ formik }) => {
-  const [section, setSection] = useState(MAIN_CONFIGURATION);
+const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
   const notify = useNotify();
 
   const updateFormHeight = () => {
@@ -86,10 +88,10 @@ const StoragePoolForm: FC<Props> = ({ formik }) => {
       />
       <Row className="form-contents" key={section}>
         <Col size={12}>
-          {section === MAIN_CONFIGURATION && (
+          {section === slugify(MAIN_CONFIGURATION) && (
             <StoragePoolFormMain formik={formik} />
           )}
-          {section === CEPH_CONFIGURATION && (
+          {section === slugify(CEPH_CONFIGURATION) && (
             <StoragePoolFormCeph formik={formik} />
           )}
         </Col>

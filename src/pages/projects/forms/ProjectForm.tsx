@@ -18,6 +18,7 @@ import NetworkRestrictionForm from "pages/projects/forms/NetworkRestrictionForm"
 import { FormikProps } from "formik/dist/types";
 import { LxdProject } from "types/project";
 import NotificationRow from "components/NotificationRow";
+import { slugify } from "util/slugify";
 
 interface Props {
   formik: FormikProps<ProjectFormValues>;
@@ -34,7 +35,7 @@ const ProjectForm: FC<Props> = ({
   project,
   isEdit,
 }) => {
-  const [isRestrictionsOpen, setRestrictionsOpen] = useState(false);
+  const [isRestrictionsOpen, setRestrictionsOpen] = useState(true);
 
   const toggleMenu = () => {
     setRestrictionsOpen((old) => !old);
@@ -53,24 +54,28 @@ const ProjectForm: FC<Props> = ({
         <NotificationRow />
         <Row className="form-contents" key={section}>
           <Col size={12}>
-            {section === PROJECT_DETAILS && (
+            {section === slugify(PROJECT_DETAILS) && (
               <ProjectDetailsForm
                 formik={formik}
                 project={project}
                 isEdit={isEdit}
               />
             )}
-            {section === RESOURCE_LIMITS && (
+            {section === slugify(RESOURCE_LIMITS) && (
               <ProjectResourceLimitsForm formik={formik} />
             )}
-            {section === CLUSTERS && <ClusterRestrictionForm formik={formik} />}
-            {section === INSTANCES && (
+            {section === slugify(CLUSTERS) && (
+              <ClusterRestrictionForm formik={formik} />
+            )}
+            {section === slugify(INSTANCES) && (
               <InstanceRestrictionForm formik={formik} />
             )}
-            {section === DEVICE_USAGE && (
+            {section === slugify(DEVICE_USAGE) && (
               <DeviceUsageRestrictionForm formik={formik} />
             )}
-            {section === NETWORKS && <NetworkRestrictionForm formik={formik} />}
+            {section === slugify(NETWORKS) && (
+              <NetworkRestrictionForm formik={formik} />
+            )}
           </Col>
         </Row>
       </div>

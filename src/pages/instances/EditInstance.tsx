@@ -80,9 +80,9 @@ interface Props {
 const EditInstance: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
   const notify = useNotify();
-  const { project, activeSection } = useParams<{
+  const { project, section } = useParams<{
     project: string;
-    activeSection?: string;
+    section?: string;
   }>();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -95,7 +95,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
-  useEffect(updateFormHeight, [notify.notification?.message, activeSection]);
+  useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
   const formik = useFormik<EditInstanceFormValues>({
@@ -166,7 +166,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     <div className="edit-instance">
       <Form onSubmit={formik.handleSubmit} className="form">
         <InstanceFormMenu
-          active={activeSection ?? slugify(MAIN_CONFIGURATION)}
+          active={section ?? slugify(MAIN_CONFIGURATION)}
           setActive={updateSection}
           isConfigDisabled={false}
           isConfigOpen={isConfigOpen}
@@ -174,38 +174,37 @@ const EditInstance: FC<Props> = ({ instance }) => {
           hasDiskError={hasDiskError(formik)}
           hasNetworkError={hasNetworkError(formik)}
         />
-        <Row className="form-contents" key={activeSection}>
+        <Row className="form-contents" key={section}>
           <Col size={12}>
-            {(activeSection === slugify(MAIN_CONFIGURATION) ||
-              !activeSection) && (
+            {(section === slugify(MAIN_CONFIGURATION) || !section) && (
               <EditInstanceDetails formik={formik} project={project} />
             )}
 
-            {activeSection === slugify(DISK_DEVICES) && (
+            {section === slugify(DISK_DEVICES) && (
               <DiskDeviceForm formik={formik} project={project} />
             )}
 
-            {activeSection === slugify(NETWORK_DEVICES) && (
+            {section === slugify(NETWORK_DEVICES) && (
               <NetworkDevicesForm formik={formik} project={project} />
             )}
 
-            {activeSection === slugify(RESOURCE_LIMITS) && (
+            {section === slugify(RESOURCE_LIMITS) && (
               <ResourceLimitsForm formik={formik} />
             )}
 
-            {activeSection === slugify(SECURITY_POLICIES) && (
+            {section === slugify(SECURITY_POLICIES) && (
               <SecurityPoliciesForm formik={formik} />
             )}
 
-            {activeSection === slugify(SNAPSHOTS) && (
+            {section === slugify(SNAPSHOTS) && (
               <InstanceSnapshotsForm formik={formik} />
             )}
 
-            {activeSection === slugify(CLOUD_INIT) && (
+            {section === slugify(CLOUD_INIT) && (
               <CloudInitForm formik={formik} />
             )}
 
-            {activeSection === slugify(YAML_CONFIGURATION) && (
+            {section === slugify(YAML_CONFIGURATION) && (
               <YamlForm
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}

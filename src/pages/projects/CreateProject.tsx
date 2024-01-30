@@ -39,6 +39,7 @@ import {
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { slugify } from "util/slugify";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -52,7 +53,7 @@ const CreateProject: FC = () => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [section, setSection] = useState(PROJECT_DETAILS);
+  const [section, setSection] = useState(slugify(PROJECT_DETAILS));
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
@@ -119,7 +120,7 @@ const CreateProject: FC = () => {
       <ProjectForm
         formik={formik}
         section={section}
-        updateSection={setSection}
+        updateSection={(newSection: string) => setSection(slugify(newSection))}
         isEdit={false}
       />
       <FormFooterLayout>

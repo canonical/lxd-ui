@@ -25,7 +25,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
-  const { activeSection: section } = useParams<{ activeSection: string }>();
+  const { section } = useParams<{ section: string }>();
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -69,7 +69,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
   });
 
   const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/storage/detail/${volume.pool}/${volume.type}/${volume.name}/configuration`;
+    const baseUrl = `/ui/project/${project}/storage/detail/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
     newSection === MAIN_CONFIGURATION
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);

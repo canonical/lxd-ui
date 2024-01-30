@@ -124,7 +124,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instances/detail/:name/:activeTab/:activeSection"
+          path="/ui/project/:project/instances/detail/:name/:activeTab/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<InstanceDetail />} />}
@@ -164,7 +164,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profiles/detail/:name/:activeTab/:activeSection"
+          path="/ui/project/:project/profiles/detail/:name/:activeTab/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -204,7 +204,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/detail/:name/:activeTab/:activeSection"
+          path="/ui/project/:project/networks/detail/:name/:activeTab/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -237,6 +237,14 @@ const App: FC = () => {
         />
         <Route
           path="/ui/project/:project/configuration"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<ProjectConfig />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/configuration/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProjectConfig />} />}
@@ -288,15 +296,19 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/:type/:volume"
+          path="/ui/project/:project/storage/detail/:name/:activeTab/:section"
+          element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/detail/:pool/volumes/:type/:volume"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/:type/:volume/:activeTab"
+          path="/ui/project/:project/storage/detail/:pool/volumes/:type/:volume/:activeTab"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/:type/:volume/:activeTab/:activeSection"
+          path="/ui/project/:project/storage/detail/:pool/volumes/:type/:volume/:activeTab/:section"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route

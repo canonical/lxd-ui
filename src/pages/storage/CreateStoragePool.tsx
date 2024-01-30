@@ -17,12 +17,15 @@ import StoragePoolForm, {
 } from "./forms/StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
+import { slugify } from "util/slugify";
+import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
+  const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
 
@@ -80,7 +83,11 @@ const CreateStoragePool: FC = () => {
       contentClassName="create-storage-pool"
     >
       <NotificationRow />
-      <StoragePoolForm formik={formik} />
+      <StoragePoolForm
+        formik={formik}
+        section={section}
+        setSection={setSection}
+      />
       <FormFooterLayout>
         <Button
           appearance="base"

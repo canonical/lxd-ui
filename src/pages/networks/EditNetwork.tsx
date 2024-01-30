@@ -29,7 +29,7 @@ interface Props {
 const EditNetwork: FC<Props> = ({ network, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
-  const { activeSection: section } = useParams<{ activeSection?: string }>();
+  const { section } = useParams<{ section?: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
