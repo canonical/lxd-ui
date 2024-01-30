@@ -58,6 +58,15 @@ export const saveInstance = async (page: Page) => {
 
 export const deleteInstance = async (page: Page, instance: string) => {
   await visitInstance(page, instance);
+  const stopInstanceButton = page.getByRole("button", {
+    name: "Stop",
+    exact: true,
+  });
+  if (await stopInstanceButton.isEnabled()) {
+    await stopInstanceButton.click();
+    await page.getByText("Stop", { exact: true }).click();
+    await page.waitForSelector(`text=Instance ${instance} stopped.`, TIMEOUT);
+  }
   await page.getByRole("button", { name: "Delete" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
@@ -87,4 +96,10 @@ export const renameInstance = async (
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
   await page.getByText("Instance renamed.").click();
+};
+
+export const visitAndStartInstance = async (page: Page, instance: string) => {
+  await visitInstance(page, instance);
+  await page.getByRole("button", { name: "Start", exact: true }).click();
+  await page.waitForSelector(`text=Instance ${instance} started.`, TIMEOUT);
 };
