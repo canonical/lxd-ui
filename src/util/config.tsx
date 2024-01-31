@@ -35,6 +35,11 @@ export const configDescriptionToHtml = (
     .replaceAll(">", "&gt;")
     .replaceAll("\n", "<br>");
 
+  // replace admonition markup
+  result = result
+    .replaceAll("```", "")
+    .replaceAll("{important}", "<b>Important</b>");
+
   // documentation links
   if (objectsInvTxt) {
     // tags like {ref}`instance-options-qemu` can be in the input string
@@ -66,11 +71,6 @@ export const configDescriptionToHtml = (
   while (result.includes("`") && count++ < maxCodeblockReplacementCount) {
     result = result.replace("`", "<code>").replace("`", "</code>");
   }
-
-  // remove invalid placeholders
-  result = result
-    .replaceAll("```", "")
-    .replaceAll("{{snapshot_pattern_detail}}", "");
 
   return result;
 };
