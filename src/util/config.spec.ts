@@ -99,6 +99,20 @@ describe("toConfigFields and replaceDocLinks", () => {
       'the value of <a href="https://docs.example.org/reference/storage_zfs/#storage-zfs-volume-conf:zfs.block_mode" target="_blank" rel="noreferrer">zfs.block_mode</a>,<br>the specified',
     );
   });
+
+  it("converts admonition markup to html bold tag", () => {
+    const input = "Foo bar baz.  ```{important}  Some important addition.```";
+
+    const result = configDescriptionToHtml(
+      input,
+      "https://docs.example.org",
+      objectsInvTxt.split("\n"),
+    );
+
+    expect(result).toBe(
+      "Foo bar baz.  <b>Important</b>  Some important addition.",
+    );
+  });
 });
 
 const objectsInvTxt =
