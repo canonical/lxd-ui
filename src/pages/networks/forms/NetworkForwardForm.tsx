@@ -121,12 +121,12 @@ const NetworkForwardForm: FC<Props> = ({
                 <br />
                 {network?.config["ipv4.address"] && (
                   <>
-                    IPv4 subnet: {network?.config["ipv4.address"]}
+                    IPv4: {network?.config["ipv4.address"]}
                     <br />
                   </>
                 )}
                 {network?.config["ipv6.address"] && (
-                  <>IPv6 subnet: {network?.config["ipv6.address"]}</>
+                  <>IPv6: {network?.config["ipv6.address"]}</>
                 )}
               </Notification>
             </Row>
