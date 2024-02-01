@@ -15,7 +15,7 @@ const INSTANCES = "Instances";
 const PROFILES = "Profiles";
 const IMAGES = "Images";
 const SNAPSHOTS = "Snapshots";
-const CUSTOM = "Custom";
+const CUSTOM_VOLUMES = "Custom volumes";
 
 const StorageUsedBy: FC<Props> = ({ storage, project }) => {
   const data: Record<string, LxdUsedBy[]> = {
@@ -23,7 +23,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
     [PROFILES]: filterUsedByType("profiles", storage.used_by),
     [IMAGES]: filterUsedByType("images", storage.used_by),
     [SNAPSHOTS]: filterUsedByType("snapshots", storage.used_by),
-    [CUSTOM]: filterUsedByType("volumes", storage.used_by),
+    [CUSTOM_VOLUMES]: filterUsedByType("volumes", storage.used_by),
   };
 
   return (
@@ -98,10 +98,12 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           </td>
         </tr>
         <tr>
-          <th className="p-muted-heading">Custom ({data[CUSTOM].length})</th>
+          <th className="p-muted-heading">
+            Custom volumes ({data[CUSTOM_VOLUMES].length})
+          </th>
           <td>
             <ExpandableList
-              items={data[CUSTOM].map((item) => (
+              items={data[CUSTOM_VOLUMES].map((item) => (
                 <div key={`${item.name}-${item.project}`}>
                   <Link
                     to={`/ui/project/${item.project}/storage/detail/${storage.name}/volumes/custom/${item.name}`}
