@@ -6034,10 +6034,10 @@ util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-vanilla-framework@4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.6.0.tgz#61b93a2197eed0d869f85e1014dd9e67bacc355e"
-  integrity sha512-pRjJknqsL4CLA+ovLMlg7MhVh9nIcu7Ev81Z62gh3hAzUDIiZOUI2W9+B16XWv4QFmFxEOgQcfVi2cezLun9SQ==
+vanilla-framework@4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.7.0.tgz#93934d1df3b99b4d58f96d5dbc8f47c32ae660c2"
+  integrity sha512-jhckCsy/e+nZI1qh5ZVH2bj3YZqpYLxnhovo8W/JgzhjQ2LMDI1L1vaw8pjMLt9G4sZqHB/S7KybGQgbIp9phQ==
 
 vary@~1.1.2:
   version "1.1.2"
