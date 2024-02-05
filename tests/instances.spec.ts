@@ -1,5 +1,4 @@
-import { Page, expect } from "@playwright/test";
-import { test } from "./fixtures/lxd-test";
+import { test, expect } from "./fixtures/lxd-test";
 import {
   createInstance,
   deleteInstance,
@@ -26,29 +25,36 @@ import {
   deleteProfile,
   randomProfileName,
 } from "./helpers/profile";
+import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
 let profile = randomProfileName();
-let page: Page;
-test.beforeAll(async ({ browser, browserName }) => {
+
+test.beforeAll(async ({ browser, browserName, hasCoverage }) => {
   instance = `${browserName}-${instance}`;
   vmInstance = `${browserName}-${vmInstance}`;
   profile = `${browserName}-${profile}`;
-  page = await browser.newPage();
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
   await createProfile(page, profile);
   await createInstance(page, instance);
   await createInstance(page, vmInstance, "virtual-machine");
-});
-
-test.afterAll(async () => {
-  await deleteInstance(page, instance);
-  await deleteInstance(page, vmInstance);
-  await deleteProfile(page, profile);
+  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test("instance terminal operations", async () => {
+test.afterAll(async ({ browser, hasCoverage }) => {
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await deleteInstance(page, instance);
+  await deleteInstance(page, vmInstance);
+  await deleteProfile(page, profile);
+  await finishCoverage(page, hasCoverage);
+  await page.close();
+});
+
+test("instance terminal operations", async ({ page }) => {
   await visitAndStartInstance(page, instance);
   await page.getByTestId("tab-link-Terminal").click();
   await expect(page.locator(".xterm-screen")).toBeVisible();
@@ -66,13 +72,13 @@ test("instance terminal operations", async () => {
   await visitAndStopInstance(page, instance);
 });
 
-test("instance rename", async () => {
+test("instance rename", async ({ page }) => {
   const newName = instance + "-rename";
   await renameInstance(page, instance, newName);
   instance = newName;
 });
 
-test("instance edit basic details", async () => {
+test("instance edit basic details", async ({ page }) => {
   await editInstance(page, instance);
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await page.getByRole("button", { name: "Add profile" }).click();
@@ -86,7 +92,7 @@ test("instance edit basic details", async () => {
   await expect(page.locator("#profile-1")).toHaveValue("default");
 });
 
-test("instance cpu and memory", async () => {
+test("instance cpu and memory", async ({ page }) => {
   await visitInstance(page, instance);
 
   await setCpuLimit(page, "number", "42");
@@ -110,7 +116,7 @@ test("instance cpu and memory", async () => {
   await assertReadMode(page, "Memory limit", "3GiB");
 });
 
-test("instance edit resource limits", async () => {
+test("instance edit resource limits", async ({ page }) => {
   await editInstance(page, instance);
 
   await page.getByText("Resource limits").click();
@@ -125,7 +131,7 @@ test("instance edit resource limits", async () => {
   await assertReadMode(page, "Max number of processes (Containers only)", "2");
 });
 
-test("instance edit security policies", async () => {
+test("instance edit security policies", async ({ page }) => {
   await editInstance(page, instance);
 
   await page.getByText("Security policies").click();
@@ -158,7 +164,7 @@ test("instance edit security policies", async () => {
   );
 });
 
-test("instance edit snapshot configuration", async ({ lxdVersion }) => {
+test("instance edit snapshot configuration", async ({ page, lxdVersion }) => {
   await editInstance(page, instance);
 
   await page
@@ -178,7 +184,7 @@ test("instance edit snapshot configuration", async ({ lxdVersion }) => {
   await assertReadMode(page, "Schedule", "@daily");
 });
 
-test("instance edit cloud init configuration", async () => {
+test("instance edit cloud init configuration", async ({ page }) => {
   await editInstance(page, instance);
 
   await page.getByText("Cloud init").click();
@@ -193,7 +199,7 @@ test("instance edit cloud init configuration", async () => {
   await assertCode(page, "Vendor data", "baz:");
 });
 
-test("instance create vm", async () => {
+test("instance create vm", async ({ page }) => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
   await editInstance(page, vmInstance);
 
@@ -205,7 +211,7 @@ test("instance create vm", async () => {
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 });
 
-test("instance yaml edit", async () => {
+test("instance yaml edit", async ({ page }) => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
   await editInstance(page, vmInstance);
   await page.getByText("YAML configuration").click();

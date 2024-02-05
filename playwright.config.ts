@@ -8,13 +8,13 @@ import { TestOptions } from "./tests/fixtures/lxd-test";
 const config: PlaywrightTestConfig<TestOptions> = {
   testDir: "./tests",
   /* Maximum time one test can run for. */
-  timeout: 120 * 1000,
+  timeout: 120_000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 120 * 1000,
+    timeout: 120_000,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -68,6 +68,14 @@ const config: PlaywrightTestConfig<TestOptions> = {
       use: {
         ...devices["Desktop Firefox"],
         lxdVersion: "latest-edge",
+      },
+    },
+    {
+      name: "coverage",
+      use: {
+        ...devices["Desktop Chrome"],
+        lxdVersion: "latest-edge",
+        hasCoverage: true,
       },
     },
   ],

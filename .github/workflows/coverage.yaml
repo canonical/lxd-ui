@@ -1,0 +1,135 @@
+name: Test coverage
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  e2e-coverage:
+    name: e2e-test-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dotrun
+        run: |
+          sudo pip3 install dotrun
+
+      - name: Restore cached keys
+        uses: actions/cache/restore@v3
+        with:
+          path: keys
+          key: keys-folder
+
+      - name: Install LXD-UI dependencies
+        run: |
+          set -x
+          sudo chmod 0777 ../lxd-ui
+          dotrun install
+
+      - name: Run LXD-UI
+        env:
+          ENVIRONMENT: devel
+          PORT: 8407
+          LXD_UI_BACKEND_IP: 172.17.0.1
+        run: |
+          dotrun &
+          curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
+
+      - name: Set keys permissions
+        run: |
+          set -x
+          sudo chmod -R 0666 keys
+          sudo chmod 0777 keys
+          
+      - name: Save keys
+        uses: actions/cache/save@v3
+        with:
+          path: keys
+          key: keys-folder
+
+      - name: Install LXD
+        uses: canonical/setup-lxd@v0.1.1
+        with:
+          channel: "latest/edge"
+
+      - name: Setup LXD
+        shell: bash
+        run: |
+          set -x
+          sudo lxc config set core.https_address "[::]:8443"
+          sudo lxc config trust add keys/lxd-ui.crt
+          sudo lxc config set cluster.https_address "127.0.0.1"
+          sudo lxc cluster enable local
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Playwright Browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests with coverage
+        shell: bash
+        run: |
+          set -x
+          sudo chmod -R 0777 ../lxd-ui
+          yarn test-coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lxd-coverage
+          path: coverage/playwright-report
+          retention-days: 1
+
+  publish-coverage-report:
+      name: publish-coverage-report
+      runs-on: ubuntu-latest
+      needs: e2e-coverage
+      continue-on-error: true
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            ref: gh-pages
+            token: ${{ secrets.GITHUB_TOKEN }}
+        - name: Cleanup coverage directory
+          run: |
+            rm -rf coverage
+            mkdir coverage
+        - name: Download coverage report artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: lxd-coverage
+            path: coverage
+        # user git configs are needed for git commands to work
+        # actual authentication is done using secrets.GITHUB_TOKEN with write permission
+        - name: Set Git User
+          run: |
+            git config --global user.email "github-action@example.com"
+            git config --global user.name "GitHub Action"
+        - name: Push coverage Report
+          timeout-minutes: 3
+          run: |
+            git add .
+            git commit -m "workflow: update coverage report"
+            
+            # In case of another action job pushing to gh-pages while we are rebasing for the current job
+            while true; do
+              git pull --rebase
+              if [ $? -ne 0 ]; then
+                echo "Failed to rebase. Please review manually."
+                exit 1
+              fi
+  
+              git push
+              if [ $? -eq 0 ]; then
+                echo "Successfully pushed HTML report to repo."
+                exit 0
+              fi
+            done
+        - name: Output Report URL as Worfklow Annotation
+          run: |
+            FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/coverage
+            echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"

@@ -1,4 +1,3 @@
-import { Page } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
 import {
   createPool,
@@ -17,21 +16,28 @@ import {
 } from "./helpers/storageVolume";
 import { activateOverride, setInput } from "./helpers/configuration";
 import { randomSnapshotName } from "./helpers/snapshots";
+import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let volume = randomVolumeName();
-let page: Page;
-test.beforeAll(async ({ browser, browserName }) => {
-  page = await browser.newPage();
+
+test.beforeAll(async ({ browser, browserName, hasCoverage }) => {
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
   volume = `${browserName}-${volume}`;
   await createVolume(page, volume);
-});
-
-test.afterAll(async () => {
-  await deleteVolume(page, volume);
+  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test("storage pool create, edit and remove", async () => {
+test.afterAll(async ({ browser, hasCoverage }) => {
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await deleteVolume(page, volume);
+  await finishCoverage(page, hasCoverage);
+  await page.close();
+});
+
+test("storage pool create, edit and remove", async ({ page }) => {
   const pool = randomPoolName();
   await createPool(page, pool);
 
@@ -46,7 +52,7 @@ test("storage pool create, edit and remove", async () => {
   await deletePool(page, pool);
 });
 
-test("storage volume create, edit and remove", async () => {
+test("storage volume create, edit and remove", async ({ page }) => {
   await editVolume(page, volume);
   await page.getByPlaceholder("Enter value").fill("2");
   await saveVolume(page, volume);
@@ -55,7 +61,10 @@ test("storage volume create, edit and remove", async () => {
   await page.getByText("size2GiB").click();
 });
 
-test("storage volume edit snapshot configuration", async ({ lxdVersion }) => {
+test("storage volume edit snapshot configuration", async ({
+  page,
+  lxdVersion,
+}) => {
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByText("See configuration").click();
@@ -80,7 +89,7 @@ test("storage volume edit snapshot configuration", async ({ lxdVersion }) => {
   );
 });
 
-test("custom storage volume add snapshot from CTA", async () => {
+test("custom storage volume add snapshot from CTA", async ({ page }) => {
   const volume = randomVolumeName();
   await createVolume(page, volume);
   await page
