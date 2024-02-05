@@ -22,7 +22,7 @@
     "test-js": "vitest --run"
   },
   "dependencies": {
-    "@canonical/react-components": "0.49.0",
+    "@canonical/react-components": "0.50.0",
     "@monaco-editor/react": "4.6.0",
     "@tanstack/react-query": "5.17.15",
     "@use-it/event-listener": "0.1.7",
