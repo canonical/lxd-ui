@@ -145,6 +145,10 @@ $border-thin: 1px solid $color-mid-light !default;
   display: inline-block;
   min-width: 8.5rem;
 
+  .p-inline-list__item {
+    margin-right: 0;
+  }
+
   & > * {
     border-right: $border-thin;
     margin: 0;
