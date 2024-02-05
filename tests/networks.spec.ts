@@ -1,4 +1,3 @@
-import { Page } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
 import {
   createNetwork,
@@ -14,22 +13,29 @@ import {
   assertReadMode,
   setOption,
 } from "./helpers/configuration";
+import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let network = randomNetworkName();
-let page: Page;
-test.beforeAll(async ({ browser, browserName }) => {
+
+test.beforeAll(async ({ browser, browserName, hasCoverage }) => {
   // network names can only be 15 characters long
   network = `${browserName.substring(0, 2)}-${network}`;
-  page = await browser.newPage();
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
   await createNetwork(page, network);
-});
-
-test.afterAll(async () => {
-  await deleteNetwork(page, network);
+  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test("network edit basic details", async () => {
+test.afterAll(async ({ browser, hasCoverage }) => {
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await deleteNetwork(page, network);
+  await finishCoverage(page, hasCoverage);
+  await page.close();
+});
+
+test("network edit basic details", async ({ page }) => {
   await editNetwork(page, network);
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await setOption(page, "IPv4 NAT", "false");
@@ -99,6 +105,6 @@ test("network edit basic details", async () => {
   await assertReadMode(page, "IPv6 DHCP stateful", "true");
 });
 
-test("network forwards", async () => {
+test("network forwards", async ({ page }) => {
   await createNetworkForward(page, network);
 });

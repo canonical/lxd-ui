@@ -6,6 +6,7 @@ import { LxdNetwork } from "types/network";
 import { getCookie } from "./cookies";
 import { LxdStorageVolume } from "types/storage";
 import { Dispatch, SetStateAction } from "react";
+import crypto from "crypto";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -263,4 +264,8 @@ export const getAbsoluteHeightBelow = (belowId: string): number => {
   const padding =
     parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
   return element.offsetHeight + margin + padding + 1;
+};
+
+export const generateUUID = (): string => {
+  return crypto.randomBytes(16).toString("hex");
 };

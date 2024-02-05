@@ -1,4 +1,3 @@
-import { Page } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
 import {
   assertCode,
@@ -19,27 +18,34 @@ import {
   saveProfile,
   visitProfile,
 } from "./helpers/profile";
+import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let profile = randomProfileName();
-let page: Page;
-test.beforeAll(async ({ browserName, browser }) => {
-  page = await browser.newPage();
-  profile = `${browserName}-${profile}`;
-  await createProfile(page, profile);
-});
 
-test.afterAll(async () => {
-  await deleteProfile(page, profile);
+test.beforeAll(async ({ browserName, browser, hasCoverage }) => {
+  profile = `${browserName}-${profile}`;
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await createProfile(page, profile);
+  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test("profile rename", async () => {
+test.afterAll(async ({ browser, hasCoverage }) => {
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await deleteProfile(page, profile);
+  await finishCoverage(page, hasCoverage);
+  await page.close();
+});
+
+test("profile rename", async ({ page }) => {
   const newName = profile + "-rename";
   await renameProfile(page, profile, newName);
   profile = newName;
 });
 
-test("profile edit basic details", async () => {
+test("profile edit basic details", async ({ page }) => {
   await editProfile(page, profile);
 
   await page.getByPlaceholder("Enter description").fill("A-new-description");
@@ -49,7 +55,7 @@ test("profile edit basic details", async () => {
   await page.getByText("DescriptionA-new-description").click();
 });
 
-test("profile cpu and memory", async () => {
+test("profile cpu and memory", async ({ page }) => {
   await visitProfile(page, profile);
 
   await setCpuLimit(page, "number", "42");
@@ -73,7 +79,7 @@ test("profile cpu and memory", async () => {
   await assertReadMode(page, "Memory limit", "3GiB");
 });
 
-test("profile resource limits", async () => {
+test("profile resource limits", async ({ page }) => {
   await editProfile(page, profile);
 
   await page.getByText("Resource limits").click();
@@ -87,7 +93,7 @@ test("profile resource limits", async () => {
   await assertReadMode(page, "Max number of processes (Containers only)", "2");
 });
 
-test("profile security policies", async () => {
+test("profile security policies", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("Security policies").click();
 
@@ -121,7 +127,7 @@ test("profile security policies", async () => {
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 });
 
-test("profile snapshots", async ({ lxdVersion }) => {
+test("profile snapshots", async ({ page, lxdVersion }) => {
   await editProfile(page, profile);
   await page.getByText("Snapshots").click();
 
@@ -138,7 +144,7 @@ test("profile snapshots", async ({ lxdVersion }) => {
   await assertReadMode(page, "Schedule", "@daily");
 });
 
-test("profile cloud init", async () => {
+test("profile cloud init", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("Cloud init").click();
 
@@ -152,7 +158,7 @@ test("profile cloud init", async () => {
   await assertCode(page, "Vendor data", "baz:");
 });
 
-test("profile yaml edit", async () => {
+test("profile yaml edit", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("YAML configuration").click();
 

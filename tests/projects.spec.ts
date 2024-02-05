@@ -1,5 +1,4 @@
-import { expect } from "@playwright/test";
-import { test } from "./fixtures/lxd-test";
+import { test, expect } from "./fixtures/lxd-test";
 import {
   assertReadMode,
   setInput,

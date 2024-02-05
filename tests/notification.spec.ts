@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
 import {
   createAndStartInstance,
@@ -15,37 +15,44 @@ import {
   toggleNotificationList,
   dismissFirstNotificationFromList,
 } from "./helpers/notification";
+import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let instance = randomInstanceName();
-let page: Page;
-test.beforeAll(async ({ browserName, browser }) => {
-  page = await browser.newPage();
-  instance = `${browserName}-${instance}`;
-  await createInstance(page, instance);
-});
 
-test.afterAll(async () => {
-  await deleteInstance(page, instance);
+test.beforeAll(async ({ browserName, browser, hasCoverage }) => {
+  instance = `${browserName}-${instance}`;
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await createInstance(page, instance);
+  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test("show notification after user action", async () => {
+test.afterAll(async ({ browser, hasCoverage }) => {
+  const page = await browser.newPage();
+  await startCoverage(page, hasCoverage);
+  await deleteInstance(page, instance);
+  await finishCoverage(page, hasCoverage);
+  await page.close();
+});
+
+test("show notification after user action", async ({ page }) => {
   await visitAndStartInstance(page, instance);
   await checkNotificationExists(page);
 });
 
-test("dismiss one notification", async () => {
+test("dismiss one notification", async ({ page }) => {
   await visitAndStopInstance(page, instance);
   await dismissNotification(page);
 });
 
-test("auto hide notification after a timeout", async () => {
+test("auto hide notification after a timeout", async ({ page }) => {
   await visitAndStartInstance(page, instance);
   await page.waitForTimeout(5000);
   await checkNotificationHidden(page);
 });
 
-test("notifications list", async () => {
+test("notifications list", async ({ page }) => {
   const instance = randomInstanceName();
   await createAndStartInstance(page, instance);
   await toggleNotificationList(page); // open list
