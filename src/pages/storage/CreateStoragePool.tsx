@@ -86,7 +86,7 @@ const CreateStoragePool: FC = () => {
       <StoragePoolForm
         formik={formik}
         section={section}
-        setSection={setSection}
+        setSection={(newSection) => setSection(slugify(newSection))}
       />
       <FormFooterLayout>
         <Button
