@@ -1,4 +1,4 @@
-import React, { DependencyList, FC, ReactNode, useEffect, useRef } from "react";
+import React, { DependencyList, FC, ReactNode, useEffect } from "react";
 import useEventListener from "@use-it/event-listener";
 import { getAbsoluteHeightBelow, getParentsBottomSpacing } from "util/helpers";
 
@@ -15,8 +15,6 @@ const ScrollableTable: FC<Props> = ({
   belowId = "",
   tableId,
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
   const updateTBodyHeight = () => {
     const table = document.getElementById(tableId);
     if (!table || table.children.length !== 2) {
@@ -32,13 +30,9 @@ const ScrollableTable: FC<Props> = ({
   };
 
   useEventListener("resize", updateTBodyHeight);
-  useEffect(updateTBodyHeight, [...dependencies, ref]);
+  useEffect(updateTBodyHeight, [...dependencies]);
 
-  return (
-    <div ref={ref} className="scrollable-table">
-      {children}
-    </div>
-  );
+  return <div className="scrollable-table">{children}</div>;
 };
 
 export default ScrollableTable;
