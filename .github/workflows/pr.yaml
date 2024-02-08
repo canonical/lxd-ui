@@ -65,8 +65,11 @@ jobs:
   e2e:
     name: e2e-tests
     runs-on: ubuntu-latest
-    env:
-      HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     outputs:
       job_status: ${{job.status}}
     steps:
@@ -131,28 +134,69 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
-      - name: Save additional test information
+      - name: Upload blob reports to be merged
         if: always()
-        run: |
-          touch playwright-report/info.txt
-          echo "HTML_REPORT_URL_PATH:$HTML_REPORT_URL_PATH" >> playwright-report/info.txt
-          cat playwright-report/info.txt
-
-      - uses: actions/upload-artifact@v4
-        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report
+          retention-days: 1
+  
+  merge-e2e-reports:
+    # Merge reports after playwright-tests, even if some shards have failed
+    if: always()
+    needs: [e2e]
+    env:
+      HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
 
-      - name: Output Report URL as Worfklow Annotation
-        if: always()
-        run: |
-          FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/$HTML_REPORT_URL_PATH
-          echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"
-          echo "Please wait a few minute for the reports to get published before accessing the url!"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+    - name: Install Playwright Browsers
+      run: npx playwright install
+
+    - name: Download blob reports from GitHub Actions Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: playwright-report
+        pattern: blob-report-*
+        merge-multiple: true
+
+    - name: Merge into HTML Report
+      run: npx playwright merge-reports --reporter html ./playwright-report
+
+    - name: Save additional test information
+      if: always()
+      run: |
+        touch playwright-report/info.txt
+        echo "HTML_REPORT_URL_PATH:$HTML_REPORT_URL_PATH" >> playwright-report/info.txt
+        cat playwright-report/info.txt
+
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+
+    - name: Output Report URL as Worfklow Annotation
+      if: always()
+      run: |
+        FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/$HTML_REPORT_URL_PATH
+        echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"
+        echo "Please wait a few minute for the reports to get published before accessing the url!"
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-report--attempt-${{ github.run_attempt }}
+        path: playwright-report
+        retention-days: 14
 
   js-tests:
     name: js-tests

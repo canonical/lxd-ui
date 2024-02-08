@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import {
   assertCode,
   assertReadMode,
@@ -19,25 +19,26 @@ import {
   visitProfile,
 } from "./helpers/profile";
 
-test("profile create and remove", async ({ page }) => {
-  const profile = randomProfileName();
+let profile = randomProfileName();
+let page: Page;
+test.beforeAll(async ({ browser, browserName }) => {
+  profile = `${browserName}-${profile}`;
+  page = await browser.newPage();
   await createProfile(page, profile);
-  await deleteProfile(page, profile);
 });
 
-test("profile rename", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test.afterAll(async () => {
+  await deleteProfile(page, profile);
+  await page.close();
+});
 
+test("profile rename", async () => {
   const newName = profile + "-rename";
   await renameProfile(page, profile, newName);
-
-  await deleteProfile(page, newName);
+  profile = newName;
 });
 
-test("profile edit basic details", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile edit basic details", async () => {
   await editProfile(page, profile);
 
   await page.getByPlaceholder("Enter description").fill("A-new-description");
@@ -45,13 +46,9 @@ test("profile edit basic details", async ({ page }) => {
   await saveProfile(page, profile);
 
   await page.getByText("DescriptionA-new-description").click();
-
-  await deleteProfile(page, profile);
 });
 
-test("profile cpu and memory", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile cpu and memory", async () => {
   await visitProfile(page, profile);
 
   await setCpuLimit(page, "number", "42");
@@ -73,13 +70,9 @@ test("profile cpu and memory", async ({ page }) => {
   await setMemLimit(page, "absolute", "3");
   await saveProfile(page, profile);
   await assertReadMode(page, "Memory limit", "3GiB");
-
-  await deleteProfile(page, profile);
 });
 
-test("profile resource limits", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile resource limits", async () => {
   await editProfile(page, profile);
 
   await page.getByText("Resource limits").click();
@@ -91,13 +84,9 @@ test("profile resource limits", async ({ page }) => {
   await assertReadMode(page, "Memory swap (Containers only)", "Allow");
   await assertReadMode(page, "Disk priority", "1");
   await assertReadMode(page, "Max number of processes (Containers only)", "2");
-
-  await deleteProfile(page, profile);
 });
 
-test("profile security policies", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile security policies", async () => {
   await editProfile(page, profile);
   await page.getByText("Security policies").click();
 
@@ -129,13 +118,9 @@ test("profile security policies", async ({ page }) => {
     "Yes",
   );
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
-
-  await deleteProfile(page, profile);
 });
 
-test("profile snapshots", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile snapshots", async () => {
   await editProfile(page, profile);
   await page.getByText("Snapshots").click();
 
@@ -150,13 +135,9 @@ test("profile snapshots", async ({ page }) => {
   await assertReadMode(page, "Expire after", "3m");
   await assertReadMode(page, "Snapshot stopped instances", "Yes");
   await assertReadMode(page, "Schedule", "@daily");
-
-  await deleteProfile(page, profile);
 });
 
-test("profile cloud init", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile cloud init", async () => {
   await editProfile(page, profile);
   await page.getByText("Cloud init").click();
 
@@ -168,13 +149,9 @@ test("profile cloud init", async ({ page }) => {
   await assertCode(page, "Network config", "foo:");
   await assertCode(page, "User data", "bar:");
   await assertCode(page, "Vendor data", "baz:");
-
-  await deleteProfile(page, profile);
 });
 
-test("profile yaml edit", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
+test("profile yaml edit", async () => {
   await editProfile(page, profile);
   await page.getByText("YAML configuration").click();
 
@@ -188,6 +165,4 @@ name: ${profile}`);
 
   await page.getByText("Main configuration").click();
   await page.getByText("DescriptionA-new-description").click();
-
-  await deleteProfile(page, profile);
 });
