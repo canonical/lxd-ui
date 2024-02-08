@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   CodeSnippet,
   CodeSnippetBlockAppearance,
   Notification,
   Strip,
 } from "@canonical/react-components";
+import { updateMaxHeight } from "util/updateMaxHeight";
+import useEventListener from "@use-it/event-listener";
 
 type Props = {
   error?: Error;
@@ -12,12 +14,18 @@ type Props = {
 
 const ErrorPage: FC<Props> = ({ error }) => {
   const body = encodeURIComponent(
-    `\`\`\`\n${error?.stack ?? "No stack track"}\n\`\`\``,
+    `\`\`\`\n${error?.stack ?? "No stack trace"}\n\`\`\``,
   );
   const url = `https://github.com/canonical/lxd-ui/issues/new?labels=bug&title=Error%20report&body=${body}`;
 
+  const updateHeight = () => {
+    updateMaxHeight("error-info", undefined, 0, "max-height");
+  };
+  useEffect(updateHeight, []);
+  useEventListener("resize", updateHeight);
+
   return (
-    <Strip>
+    <Strip className="u-no-padding--bottom">
       <Notification severity="negative" title="Error">
         Something has gone wrong. If this issue persists,{" "}
         <a href={url} rel="noopener noreferrer" target="_blank">
@@ -25,6 +33,7 @@ const ErrorPage: FC<Props> = ({ error }) => {
         </a>
       </Notification>
       <CodeSnippet
+        className="error-info u-no-margin--bottom"
         blocks={[
           ...(error?.message
             ? [
