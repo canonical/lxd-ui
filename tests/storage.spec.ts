@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import {
   createPool,
   deletePool,
@@ -18,7 +18,20 @@ import { activateOverride, setInput } from "./helpers/configuration";
 import { TIMEOUT } from "./helpers/constants";
 import { randomSnapshotName } from "./helpers/snapshots";
 
-test("storage pool create, edit and remove", async ({ page }) => {
+let volume = randomVolumeName();
+let page: Page;
+test.beforeAll(async ({ browser, browserName }) => {
+  page = await browser.newPage();
+  volume = `${browserName}-${volume}`;
+  await createVolume(page, volume);
+});
+
+test.afterAll(async () => {
+  await deleteVolume(page, volume);
+  await page.close();
+});
+
+test("storage pool create, edit and remove", async () => {
   const pool = randomPoolName();
   await createPool(page, pool);
 
@@ -33,23 +46,16 @@ test("storage pool create, edit and remove", async ({ page }) => {
   await deletePool(page, pool);
 });
 
-test("storage volume create, edit and remove", async ({ page }) => {
-  const volume = randomVolumeName();
-  await createVolume(page, volume);
-
+test("storage volume create, edit and remove", async () => {
   await editVolume(page, volume);
   await page.getByPlaceholder("Enter value").fill("2");
   await saveVolume(page, volume);
 
   await page.getByTestId("tab-link-Overview").click();
   await page.getByText("size2GiB").click();
-
-  await deleteVolume(page, volume);
 });
 
-test("storage volume edit snapshot configuration", async ({ page }) => {
-  const volume = randomVolumeName();
-  await createVolume(page, volume);
+test("storage volume edit snapshot configuration", async () => {
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByText("See configuration").click();
@@ -69,11 +75,9 @@ test("storage volume edit snapshot configuration", async ({ page }) => {
     `text=Snapshot configuration updated for volume ${volume}.`,
     TIMEOUT,
   );
-
-  await deleteVolume(page, volume);
 });
 
-test("custom storage volume add snapshot from CTA", async ({ page }) => {
+test("custom storage volume add snapshot from CTA", async () => {
   const volume = randomVolumeName();
   await createVolume(page, volume);
   await page

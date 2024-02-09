@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { Page, expect, test } from "@playwright/test";
 import {
   createInstance,
   deleteInstance,
@@ -7,6 +7,7 @@ import {
   renameInstance,
   saveInstance,
   visitAndStartInstance,
+  visitAndStopInstance,
   visitInstance,
 } from "./helpers/instances";
 import {
@@ -26,30 +27,53 @@ import {
 } from "./helpers/profile";
 import { TIMEOUT } from "./helpers/constants";
 
-test("instance create and remove", async ({ page }) => {
-  const instance = randomInstanceName();
+let instance = randomInstanceName();
+let vmInstance = randomInstanceName();
+let profile = randomProfileName();
+let page: Page;
+test.beforeAll(async ({ browser, browserName }) => {
+  instance = `${browserName}-${instance}`;
+  vmInstance = `${browserName}-${vmInstance}`;
+  profile = `${browserName}-${profile}`;
+  page = await browser.newPage();
+  await createProfile(page, profile);
   await createInstance(page, instance);
-  await deleteInstance(page, instance);
+  await createInstance(page, vmInstance, "virtual-machine");
 });
 
-test("instance rename", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test.afterAll(async () => {
+  await deleteInstance(page, instance);
+  await deleteInstance(page, vmInstance);
+  await deleteProfile(page, profile);
+  await page.close();
+});
 
+test("instance terminal operations", async () => {
+  await visitAndStartInstance(page, instance);
+  await page.getByTestId("tab-link-Terminal").click();
+  await expect(page.locator(".xterm-screen")).toBeVisible(TIMEOUT);
+  await page.keyboard.type("lsb_release -a");
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".xterm-rows")).toContainText("Ubuntu");
+  let dialogPresent = false;
+  page.on("dialog", (dialog) => {
+    expect(dialog.type()).toEqual("confirm");
+    dialogPresent = true;
+    void dialog.accept();
+  });
+  await page.getByTestId("tab-link-Overview").click();
+  expect(dialogPresent).toEqual(true);
+  await visitAndStopInstance(page, instance);
+});
+
+test("instance rename", async () => {
   const newName = instance + "-rename";
   await renameInstance(page, instance, newName);
-
-  await deleteInstance(page, newName);
+  instance = newName;
 });
 
-test("instance edit basic details", async ({ page }) => {
-  const profile = randomProfileName();
-  await createProfile(page, profile);
-
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("instance edit basic details", async () => {
   await editInstance(page, instance);
-
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await page.getByRole("button", { name: "Add profile" }).click();
   await page.locator("#profile-1").selectOption(profile);
@@ -60,14 +84,9 @@ test("instance edit basic details", async ({ page }) => {
   await page.getByText("DescriptionA-new-description").click();
   await expect(page.locator("#profile-0")).toHaveValue(profile);
   await expect(page.locator("#profile-1")).toHaveValue("default");
-
-  await deleteInstance(page, instance);
-  await deleteProfile(page, profile);
 });
 
-test("instance cpu and memory", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("instance cpu and memory", async () => {
   await visitInstance(page, instance);
 
   await setCpuLimit(page, "number", "42");
@@ -89,13 +108,9 @@ test("instance cpu and memory", async ({ page }) => {
   await setMemLimit(page, "absolute", "3");
   await saveInstance(page, instance);
   await assertReadMode(page, "Memory limit", "3GiB");
-
-  await deleteInstance(page, instance);
 });
 
-test("instance edit resource limits", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("instance edit resource limits", async () => {
   await editInstance(page, instance);
 
   await page.getByText("Resource limits").click();
@@ -108,13 +123,9 @@ test("instance edit resource limits", async ({ page }) => {
   await assertReadMode(page, "Memory swap (Containers only)", "Allow");
   await assertReadMode(page, "Disk priority", "1");
   await assertReadMode(page, "Max number of processes (Containers only)", "2");
-
-  await deleteInstance(page, instance);
 });
 
-test("instance edit security policies", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("instance edit security policies", async () => {
   await editInstance(page, instance);
 
   await page.getByText("Security policies").click();
@@ -145,13 +156,9 @@ test("instance edit security policies", async ({ page }) => {
     "Make /1.0/images API available over /dev/lxd (Containers only)",
     "Yes",
   );
-
-  await deleteInstance(page, instance);
 });
 
-test("instance edit snapshot configuration", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("instance edit snapshot configuration", async () => {
   await editInstance(page, instance);
 
   await page
@@ -169,13 +176,9 @@ test("instance edit snapshot configuration", async ({ page }) => {
   await assertReadMode(page, "Expire after", "3m");
   await assertReadMode(page, "Snapshot stopped instances", "Yes");
   await assertReadMode(page, "Schedule", "@daily");
-
-  await deleteInstance(page, instance);
 });
 
-test("instance edit cloud init configuration", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("instance edit cloud init configuration", async () => {
   await editInstance(page, instance);
 
   await page.getByText("Cloud init").click();
@@ -188,31 +191,23 @@ test("instance edit cloud init configuration", async ({ page }) => {
   await assertCode(page, "Network config", "foo:");
   await assertCode(page, "User data", "bar:");
   await assertCode(page, "Vendor data", "baz:");
-
-  await deleteInstance(page, instance);
 });
 
-test("instance create vm", async ({ page }) => {
+test("instance create vm", async () => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
-  const instance = randomInstanceName();
-  await createInstance(page, instance, "virtual-machine");
-  await editInstance(page, instance);
+  await editInstance(page, vmInstance);
 
   await page.getByText("Security policies").click();
   await setOption(page, "Enable secureboot (VMs only)", "true");
 
-  await saveInstance(page, instance);
+  await saveInstance(page, vmInstance);
 
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
-
-  await deleteInstance(page, instance);
 });
 
-test("instance yaml edit", async ({ page }) => {
+test("instance yaml edit", async () => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
-  const instance = randomInstanceName();
-  await createInstance(page, instance, "virtual-machine");
-  await editInstance(page, instance);
+  await editInstance(page, vmInstance);
   await page.getByText("YAML configuration").click();
 
   await page.locator(".view-lines").click();
@@ -223,30 +218,8 @@ test("instance yaml edit", async ({ page }) => {
   await page.keyboard.press("End");
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.type("A-new-description");
-  await saveInstance(page, instance);
+  await saveInstance(page, vmInstance);
 
   await page.getByText("Main configuration").click();
   await page.getByText("DescriptionA-new-description").click();
-
-  await deleteInstance(page, instance);
-});
-
-test("instance terminal operations", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
-  await visitAndStartInstance(page, instance);
-  await page.getByTestId("tab-link-Terminal").click();
-  await expect(page.locator(".xterm-screen")).toBeVisible(TIMEOUT);
-  await page.keyboard.type("lsb_release -a");
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".xterm-rows")).toContainText("Ubuntu");
-  let dialogPresent = false;
-  page.on("dialog", (dialog) => {
-    expect(dialog.type()).toEqual("confirm");
-    dialogPresent = true;
-    void dialog.accept();
-  });
-  await page.getByTestId("tab-link-Overview").click();
-  expect(dialogPresent).toEqual(true);
-  await deleteInstance(page, instance);
 });

@@ -140,3 +140,14 @@ export const visitAndStartInstance = async (page: Page, instance: string) => {
   await page.getByRole("button", { name: "Start", exact: true }).click();
   await page.waitForSelector(`text=Instance ${instance} started.`, TIMEOUT);
 };
+
+export const visitAndStopInstance = async (page: Page, instance: string) => {
+  await visitInstance(page, instance);
+  const stopButton = page.getByRole("button", { name: "Stop", exact: true });
+  if (await stopButton.isEnabled()) {
+    await page.keyboard.down("Shift");
+    await stopButton.click();
+    await page.keyboard.up("Shift");
+    await page.waitForSelector(`text=Instance ${instance} stopped.`, TIMEOUT);
+  }
+};

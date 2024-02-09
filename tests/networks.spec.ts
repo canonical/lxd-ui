@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import {
   createNetwork,
   createNetworkForward,
@@ -14,16 +14,21 @@ import {
   setOption,
 } from "./helpers/configuration";
 
-test("network create and remove", async ({ page }) => {
-  const network = randomNetworkName();
+let network = randomNetworkName();
+let page: Page;
+test.beforeAll(async ({ browser, browserName }) => {
+  // network names can only be 15 characters long
+  network = `${browserName.substring(0, 2)}-${network}`;
+  page = await browser.newPage();
   await createNetwork(page, network);
-  await deleteNetwork(page, network);
 });
 
-test("network edit basic details", async ({ page }) => {
-  const network = randomNetworkName();
-  await createNetwork(page, network);
+test.afterAll(async () => {
+  await deleteNetwork(page, network);
+  await page.close();
+});
 
+test("network edit basic details", async () => {
   await editNetwork(page, network);
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await setOption(page, "IPv4 NAT", "false");
@@ -91,13 +96,8 @@ test("network edit basic details", async ({ page }) => {
   await assertReadMode(page, "IPv6 DHCP true", "true");
   await assertReadMode(page, "IPv6 DHCP expiry", "3h");
   await assertReadMode(page, "IPv6 DHCP stateful", "true");
-
-  await deleteNetwork(page, network);
 });
 
-test("network forwards", async ({ page }) => {
-  const network = randomNetworkName();
-  await createNetwork(page, network);
+test("network forwards", async () => {
   await createNetworkForward(page, network);
-  await deleteNetwork(page, network);
 });
