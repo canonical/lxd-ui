@@ -1,9 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import {
   createAndStartInstance,
   createInstance,
   deleteInstance,
   randomInstanceName,
+  visitAndStartInstance,
+  visitAndStopInstance,
 } from "./helpers/instances";
 import {
   checkNotificationExists,
@@ -13,32 +15,36 @@ import {
   dismissFirstNotificationFromList,
 } from "./helpers/notification";
 
-test("show notification after user action", async ({ page }) => {
-  const instance = randomInstanceName();
+let instance = randomInstanceName();
+let page: Page;
+test.beforeAll(async ({ browserName, browser }) => {
+  page = await browser.newPage();
+  instance = `${browserName}-${instance}`;
   await createInstance(page, instance);
-  await checkNotificationExists(page);
+});
+
+test.afterAll(async () => {
   await deleteInstance(page, instance);
+  await page.close();
+});
+
+test("show notification after user action", async () => {
+  await visitAndStartInstance(page, instance);
   await checkNotificationExists(page);
 });
 
-test("dismiss one notification", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
-  await dismissNotification(page);
-  await deleteInstance(page, instance);
+test("dismiss one notification", async () => {
+  await visitAndStopInstance(page, instance);
   await dismissNotification(page);
 });
 
-test("auto hide notification after a timeout", async ({ page }) => {
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
+test("auto hide notification after a timeout", async () => {
+  await visitAndStartInstance(page, instance);
   await page.waitForTimeout(5000);
   await checkNotificationHidden(page);
-  await deleteInstance(page, instance);
-  await dismissNotification(page);
 });
 
-test("notifications list", async ({ page }) => {
+test("notifications list", async () => {
   const instance = randomInstanceName();
   await createAndStartInstance(page, instance);
   await toggleNotificationList(page); // open list
