@@ -413,6 +413,7 @@ const StorageVolumes: FC = () => {
           id="pagination"
           itemName="volume"
           className="u-no-margin--top"
+          aria-label="Table pagination control"
         >
           <MainTable
             id="volume-table"

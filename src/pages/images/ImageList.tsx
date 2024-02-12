@@ -249,6 +249,7 @@ const ImageList: FC = () => {
               id="pagination"
               itemName="image"
               className="u-no-margin--top"
+              aria-label="Table pagination control"
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification

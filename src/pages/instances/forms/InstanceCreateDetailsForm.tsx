@@ -103,11 +103,9 @@ const InstanceCreateDetailsForm: FC<Props> = ({
       </Row>
       <Row>
         <Col size={12}>
-          <label className="p-form__label" htmlFor="base-image">
-            Base Image*
-          </label>
+          <p className="p-form__label">Base Image*</p>
           <div className="p-form__control u-clearfix base-image">
-            {formik.values.image && (
+            {formik.values.image ? (
               <>
                 <span className="u-text--muted u-truncate u-sv3 image-name">
                   {figureBaseImageName()}
@@ -122,8 +120,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                   <Icon name="close" />
                 </Button>
               </>
-            )}
-            {!formik.values.image && (
+            ) : (
               <>
                 <SelectImageBtn onSelect={onSelectImage} />
                 <UseCustomIsoBtn onSelect={onSelectImage} />

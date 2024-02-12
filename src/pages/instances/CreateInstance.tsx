@@ -423,6 +423,7 @@ const CreateInstance: FC = () => {
                 <Notification
                   severity="caution"
                   title="Before you edit the YAML"
+                  titleElement="h2"
                 >
                   Changes will be discarded, when switching back to the guided
                   forms.

@@ -22,7 +22,7 @@ const ProfileUsedByDefaultProject: FC<Props> = ({
         <tr key={project.name} className="instances-by-project list-wrapper">
           <th className={headingClassName}>
             <div className="flexible-container">
-              <div title={project.name} className="u-truncate">
+              <div className="u-truncate" title={`Project ${project.name}`}>
                 {project.name}
               </div>
               <div className="u-float-right">({project.instances.length})</div>

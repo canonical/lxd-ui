@@ -330,7 +330,7 @@ const InstanceList: FC = () => {
         columns: [
           {
             content: (
-              <div className="u-truncate" title={instance.name}>
+              <div className="u-truncate" title={`Instance ${instance.name}`}>
                 <InstanceLink instance={instance} />
               </div>
             ),
@@ -555,6 +555,7 @@ const InstanceList: FC = () => {
                   id="pagination"
                   itemName="instance"
                   className="u-no-margin--top"
+                  aria-label="Table pagination control"
                   description={
                     selectedNames.length > 0 && (
                       <SelectedTableNotification

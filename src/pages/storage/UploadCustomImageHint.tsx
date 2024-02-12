@@ -6,9 +6,9 @@ const UploadCustomImageHint: FC = () => {
     <>
       <div className={`p-notification--information`}>
         <div className="p-notification__content">
-          <h5 className="p-notification__title">
+          <h3 className="p-notification__title">
             Some image formats need to be modified in order to work with LXD.
-          </h5>
+          </h3>
           <p>
             <a
               className="p-notification__action"

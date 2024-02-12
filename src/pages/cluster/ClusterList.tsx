@@ -95,6 +95,7 @@ const ClusterList: FC = () => {
                 id="pagination"
                 itemName="cluster member"
                 className="u-no-margin--top"
+                aria-label="Table pagination control"
               >
                 <MainTable
                   id="cluster-table"

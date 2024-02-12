@@ -34,14 +34,27 @@ export const getDiskDeviceRow = ({
   return getConfigurationRowBase({
     className: classnames("no-border-top", className),
     configuration: id ? (
-      <Label
-        forId={id}
-        className={classnames({
-          "u-text--muted": isDeactivated,
-        })}
-      >
-        {label}
-      </Label>
+      !readOnly && overrideValue ? (
+        <Label
+          forId={id}
+          className={classnames({
+            "u-text--muted": isDeactivated,
+          })}
+        >
+          {label}
+        </Label>
+      ) : (
+        <p
+          className={classnames(
+            "p-form__label u-no-margin--bottom u-no-padding--top",
+            {
+              "u-text--muted": isDeactivated,
+            },
+          )}
+        >
+          {label}
+        </p>
+      )
     ) : (
       <div
         className={classnames({

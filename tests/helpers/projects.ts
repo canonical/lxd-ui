@@ -22,10 +22,7 @@ export const renameProject = async (
   newName: string,
 ) => {
   await page.getByRole("link", { name: "Configuration" }).click();
-  await page
-    .getByRole("listitem", { name: oldName })
-    .getByText(oldName)
-    .click();
+  await page.locator("ol li", { hasText: oldName }).click();
   await page.getByRole("textbox").first().press("Control+a");
   await page.getByRole("textbox").first().fill(newName);
   await page.getByRole("button", { name: "Save" }).click();

@@ -251,6 +251,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
               id="pagination"
               itemName="snapshot"
               className="u-no-margin--top"
+              aria-label="Table pagination control"
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification
