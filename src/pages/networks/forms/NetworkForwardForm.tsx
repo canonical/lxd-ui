@@ -113,10 +113,14 @@ const NetworkForwardForm: FC<Props> = ({
         <Col size={12}>
           <ScrollableForm>
             {/* hidden submit to enable enter key in inputs */}
-            <Input type="submit" hidden />
+            <Input type="submit" hidden value="Hidden input" />
             <Row className="p-form__group p-form-validation">
               <NotificationRow />
-              <Notification severity="information" title="Network information">
+              <Notification
+                severity="information"
+                title="Network information"
+                titleElement="h2"
+              >
                 Name: {network?.name}
                 <br />
                 {network?.config["ipv4.address"] && (

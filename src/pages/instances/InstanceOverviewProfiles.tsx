@@ -49,7 +49,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
           content: (
             <Link
               to={`/ui/project/${instance.project}/profiles/detail/${profile}`}
-              title={profile}
+              title={`Profile ${profile}`}
             >
               {profile}
             </Link>
@@ -60,7 +60,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
         {
           content: description,
           role: "rowheader",
-          title: description,
+          title: `Description ${description}`,
           "aria-label": "Description",
         },
       ],

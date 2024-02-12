@@ -185,6 +185,7 @@ const CustomIsoList: FC<Props> = ({ project }) => {
           id="pagination"
           itemName="custom ISO"
           className="u-no-margin--top"
+          aria-label="Table pagination control"
         >
           <MainTable
             id="custom-iso-table"

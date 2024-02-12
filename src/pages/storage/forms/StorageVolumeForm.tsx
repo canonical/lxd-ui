@@ -151,7 +151,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
   return (
     <Form onSubmit={formik.handleSubmit} className="form">
       {/* hidden submit to enable enter key in inputs */}
-      <Input type="submit" hidden />
+      <Input type="submit" hidden value="Hidden input" />
       <StorageVolumeFormMenu
         active={section}
         setActive={setSection}

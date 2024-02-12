@@ -126,7 +126,7 @@ const NetworkForm: FC<Props> = ({
   return (
     <Form className="form network-form" onSubmit={formik.handleSubmit}>
       {/* hidden submit to enable enter key in inputs */}
-      <Input type="submit" hidden />
+      <Input type="submit" hidden value="Hidden input" />
       <NetworkFormMenu
         active={section}
         setActive={setSection}
@@ -147,7 +147,11 @@ const NetworkForm: FC<Props> = ({
               setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               readOnly={formik.values.readOnly}
             >
-              <Notification severity="caution" title="Before you edit the YAML">
+              <Notification
+                severity="caution"
+                title="Before you edit the YAML"
+                titleElement="h2"
+              >
                 Changes will be discarded, when switching back to the guided
                 forms.
               </Notification>

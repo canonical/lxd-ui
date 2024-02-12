@@ -67,6 +67,7 @@ const ProfileSelector: FC<Props> = ({
           <div>
             <Select
               id={`profile-${index}`}
+              aria-label="Select a profile"
               help={
                 index > 0 &&
                 index === selected.length - 1 &&

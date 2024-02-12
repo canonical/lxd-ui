@@ -128,7 +128,7 @@ const InstanceSnapshots = (props: Props) => {
         {
           content: (
             <>
-              <div className="u-truncate" title={snapshot.name}>
+              <div className="u-truncate" title={`Snapshot ${snapshot.name}`}>
                 <ItemName item={snapshot} />
               </div>
               {isSmallScreen && (
@@ -253,6 +253,7 @@ const InstanceSnapshots = (props: Props) => {
               id="pagination"
               itemName="snapshot"
               className="u-no-margin--top"
+              aria-label="Table pagination control"
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification

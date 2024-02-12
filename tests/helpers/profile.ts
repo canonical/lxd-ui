@@ -46,10 +46,7 @@ export const renameProfile = async (
   newName: string,
 ) => {
   await visitProfile(page, oldName);
-  await page
-    .getByRole("listitem", { name: oldName })
-    .getByText(oldName)
-    .click();
+  await page.locator("li", { hasText: oldName }).click();
   await page.getByRole("textbox").press("Control+a");
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();

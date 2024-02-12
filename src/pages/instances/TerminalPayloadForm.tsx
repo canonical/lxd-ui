@@ -95,7 +95,7 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
     >
       <Form onSubmit={formik.handleSubmit}>
         {/* hidden submit to enable enter key in inputs */}
-        <Input type="submit" hidden />
+        <Input type="submit" hidden value="Hidden input" />
         <div className="content-wrapper">
           <Input
             id="command"

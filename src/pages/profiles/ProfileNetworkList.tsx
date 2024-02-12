@@ -18,7 +18,7 @@ const ProfileNetworkList: FC<Props> = ({ profile }) => {
               <div
                 key={device.network}
                 className="u-truncate list-item"
-                title={device.network}
+                title={`Network ${device.network}`}
               >
                 {device.network}
               </div>

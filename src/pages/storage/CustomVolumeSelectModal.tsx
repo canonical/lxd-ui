@@ -63,7 +63,10 @@ const CustomVolumeSelectModal: FC<Props> = ({
             columns: [
               {
                 content: (
-                  <div className="u-truncate iso-name" title={volume.name}>
+                  <div
+                    className="u-truncate iso-name"
+                    title={`Volume ${volume.name}`}
+                  >
                     {volume.name}
                   </div>
                 ),

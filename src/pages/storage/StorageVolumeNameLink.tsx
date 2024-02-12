@@ -42,7 +42,7 @@ const StorageVolumeNameLink: FC<Props> = ({
     <div className={classnames("u-flex", className)}>
       <div
         className={classnames("u-truncate", "volume-name-link")}
-        title={volume.name}
+        title={`Volume ${volume.name}`}
       >
         <Link to={generateLinkForVolumeDetail({ volume, project })}>
           {overrideName ? overrideName : volume.name}

@@ -114,7 +114,7 @@ const ProfileList: FC = () => {
       columns: [
         {
           content: (
-            <div className="u-truncate" title={profile.name}>
+            <div className="u-truncate" title={`Profile ${profile.name}`}>
               <ProfileLink
                 profile={{ name: profile.name, project: projectName }}
               />
@@ -126,7 +126,10 @@ const ProfileList: FC = () => {
         },
         {
           content: (
-            <div className="profile-description" title={profile.description}>
+            <div
+              className="profile-description"
+              title={`Description ${profile.description}`}
+            >
               {profile.description}
             </div>
           ),
@@ -227,6 +230,7 @@ const ProfileList: FC = () => {
               data={sortedRows}
               itemName="profile"
               className="u-no-margin--top"
+              aria-label="Table pagination control"
             >
               <MainTable
                 id="profile-table"

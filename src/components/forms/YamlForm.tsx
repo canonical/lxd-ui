@@ -50,7 +50,7 @@ const YamlForm: FC<Props> = ({
         <Editor
           defaultValue={yaml}
           language="yaml"
-          theme="vs-dark"
+          theme="hc-black"
           onChange={(value) => value && setYaml && setYaml(value)}
           options={{
             fontSize: 18,

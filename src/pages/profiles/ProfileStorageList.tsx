@@ -18,7 +18,7 @@ const ProfileStorageList: FC<Props> = ({ profile }) => {
               <div
                 key={device.path}
                 className="u-truncate list-item"
-                title={device.pool}
+                title={`Pool ${device.pool}`}
               >
                 {device.pool}
               </div>

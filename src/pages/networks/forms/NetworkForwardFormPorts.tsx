@@ -59,7 +59,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
               Target port
             </Label>
           </th>
-          <th />
+          <th className="u-off-screen">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -75,8 +75,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   {...formik.getFieldProps(`ports.${index}.listenPort`)}
                   id={`ports.${index}.listenPort`}
                   type="text"
-                  label="Listen port"
-                  labelClassName="u-off-screen"
+                  aria-label={`Port ${index} listen port`}
                   placeholder="Port number(s)"
                   help={
                     index === formik.values.ports.length - 1 && (
@@ -98,8 +97,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                     { label: "TCP", value: "tcp" },
                     { label: "UDP", value: "udp" },
                   ]}
-                  label="Protocol"
-                  labelClassName="u-off-screen"
+                  aria-label={`Port ${index} protocol`}
                 />
               </td>
               <td className="target-address">
@@ -107,8 +105,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   {...formik.getFieldProps(`ports.${index}.targetAddress`)}
                   id={`ports.${index}.targetAddress`}
                   type="text"
-                  label="Target address"
-                  labelClassName="u-off-screen"
+                  aria-label={`Port ${index} target address`}
                   placeholder="Enter IP address"
                   help={
                     index === formik.values.ports.length - 1 && (
@@ -129,8 +126,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   {...formik.getFieldProps(`ports.${index}.targetPort`)}
                   id={`ports.${index}.targetPort`}
                   type="text"
-                  label="Target port"
-                  labelClassName="u-off-screen"
+                  aria-label={`Port ${index} target port`}
                   placeholder="Port number(s)"
                   help={
                     index === formik.values.ports.length - 1 &&
@@ -154,6 +150,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   hasIcon
                   className="u-no-margin--bottom"
                   type="button"
+                  aria-label={`Delete port ${index}`}
                 >
                   <Icon name="delete" />
                 </Button>

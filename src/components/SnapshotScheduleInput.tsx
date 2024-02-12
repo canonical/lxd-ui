@@ -3,27 +3,27 @@ import { Input, RadioInput, Select } from "@canonical/react-components";
 
 const snapshotOptions = [
   {
-    label: "minute",
+    label: "Every minute",
     value: "* * * * *",
   },
   {
-    label: "hour",
+    label: "Hourly",
     value: "@hourly",
   },
   {
-    label: "day",
+    label: "Daily",
     value: "@daily",
   },
   {
-    label: "week",
+    label: "Weekly",
     value: "@weekly",
   },
   {
-    label: "month",
+    label: "Monthly",
     value: "@monthly",
   },
   {
-    label: "year",
+    label: "Yearly",
     value: "@yearly",
   },
 ];
@@ -60,7 +60,6 @@ const SnapshotScheduleInput: FC<Props> = ({ value, setValue }) => {
         <Input
           id="snapshots_schedule"
           name="snapshots_schedule"
-          label="Cron expression"
           placeholder="Enter cron expression"
           help="<minute> <hour> <dom> <month> <dow>, a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
           type="text"
@@ -71,7 +70,6 @@ const SnapshotScheduleInput: FC<Props> = ({ value, setValue }) => {
         <Select
           id="snapshots_schedule"
           name="snapshots_schedule"
-          label="Every"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           options={snapshotOptions}
