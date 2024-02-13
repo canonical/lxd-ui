@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 import { randomNameSuffix } from "./name";
 
 export const randomInstanceName = (): string => {
@@ -35,7 +34,7 @@ export const createInstance = async (
     .selectOption(type);
   await page.getByRole("button", { name: "Create" }).first().click();
 
-  await page.waitForSelector(`text=Created instance ${instance}.`, TIMEOUT);
+  await page.waitForSelector(`text=Created instance ${instance}.`);
 };
 
 export const visitInstance = async (page: Page, instance: string) => {
@@ -53,7 +52,7 @@ export const editInstance = async (page: Page, instance: string) => {
 
 export const saveInstance = async (page: Page, instance: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Instance ${instance} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Instance ${instance} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -64,14 +63,14 @@ export const deleteInstance = async (page: Page, instance: string) => {
     await page.keyboard.down("Shift");
     await stopButton.click();
     await page.keyboard.up("Shift");
-    await page.waitForSelector(`text=Instance ${instance} stopped.`, TIMEOUT);
+    await page.waitForSelector(`text=Instance ${instance} stopped.`);
   }
   await page.getByRole("button", { name: "Delete" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Instance ${instance} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Instance ${instance} deleted.`);
 };
 
 export const hasInstance = async (page: Page, instance: string) => {
@@ -94,10 +93,7 @@ export const renameInstance = async (
   await page.getByRole("textbox").press("Control+a");
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(
-    `text=Instance ${oldName} renamed to ${newName}.`,
-    TIMEOUT,
-  );
+  await page.waitForSelector(`text=Instance ${oldName} renamed to ${newName}.`);
 };
 
 export const createAndStartInstance = async (
@@ -129,16 +125,13 @@ export const createAndStartInstance = async (
     .selectOption(type);
   await page.getByRole("button", { name: "Create and start" }).first().click();
 
-  await page.waitForSelector(
-    `text=Created and started instance ${instance}.`,
-    TIMEOUT,
-  );
+  await page.waitForSelector(`text=Created and started instance ${instance}.`);
 };
 
 export const visitAndStartInstance = async (page: Page, instance: string) => {
   await visitInstance(page, instance);
   await page.getByRole("button", { name: "Start", exact: true }).click();
-  await page.waitForSelector(`text=Instance ${instance} started.`, TIMEOUT);
+  await page.waitForSelector(`text=Instance ${instance} started.`);
 };
 
 export const visitAndStopInstance = async (page: Page, instance: string) => {
@@ -148,6 +141,6 @@ export const visitAndStopInstance = async (page: Page, instance: string) => {
     await page.keyboard.down("Shift");
     await stopButton.click();
     await page.keyboard.up("Shift");
-    await page.waitForSelector(`text=Instance ${instance} stopped.`, TIMEOUT);
+    await page.waitForSelector(`text=Instance ${instance} stopped.`);
   }
 };

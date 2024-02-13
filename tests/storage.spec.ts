@@ -15,7 +15,6 @@ import {
   visitVolume,
 } from "./helpers/storageVolume";
 import { activateOverride, setInput } from "./helpers/configuration";
-import { TIMEOUT } from "./helpers/constants";
 import { randomSnapshotName } from "./helpers/snapshots";
 
 let volume = randomVolumeName();
@@ -73,7 +72,6 @@ test("storage volume edit snapshot configuration", async () => {
   await page.getByRole("button", { name: "Save" }).click();
   await page.waitForSelector(
     `text=Snapshot configuration updated for volume ${volume}.`,
-    TIMEOUT,
   );
 });
 
@@ -94,7 +92,7 @@ test("custom storage volume add snapshot from CTA", async () => {
   await page.getByLabel("Snapshot name").click();
   await page.getByLabel("Snapshot name").fill(snapshot);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Snapshot ${snapshot} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} created.`);
 
   await deleteVolume(page, volume);
 });

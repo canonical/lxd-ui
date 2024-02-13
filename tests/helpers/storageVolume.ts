@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 import { randomNameSuffix } from "./name";
 
 export const randomVolumeName = (): string => {
@@ -14,7 +13,7 @@ export const createVolume = async (page: Page, volume: string) => {
   await page.getByPlaceholder("Enter name").fill(volume);
   await page.getByPlaceholder("Enter value").fill("1");
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Storage volume ${volume} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Storage volume ${volume} created.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -25,7 +24,7 @@ export const deleteVolume = async (page: Page, volume: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Storage volume ${volume} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Storage volume ${volume} deleted.`);
 };
 
 export const visitVolume = async (page: Page, volume: string) => {
@@ -46,5 +45,5 @@ export const editVolume = async (page: Page, volume: string) => {
 
 export const saveVolume = async (page: Page, volume: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Storage volume ${volume} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Storage volume ${volume} updated.`);
 };

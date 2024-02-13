@@ -25,7 +25,6 @@ import {
   deleteProfile,
   randomProfileName,
 } from "./helpers/profile";
-import { TIMEOUT } from "./helpers/constants";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -51,7 +50,7 @@ test.afterAll(async () => {
 test("instance terminal operations", async () => {
   await visitAndStartInstance(page, instance);
   await page.getByTestId("tab-link-Terminal").click();
-  await expect(page.locator(".xterm-screen")).toBeVisible(TIMEOUT);
+  await expect(page.locator(".xterm-screen")).toBeVisible();
   await page.keyboard.type("lsb_release -a");
   await page.keyboard.press("Enter");
   await expect(page.locator(".xterm-rows")).toContainText("Ubuntu");
