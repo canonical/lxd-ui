@@ -87,6 +87,7 @@ interface PresetFormState {
   retryFormValues?: CreateInstanceFormValues;
   selectedImage?: RemoteImage;
   cancelLocation?: string;
+  retryFormSection?: string;
 }
 
 const CreateInstance: FC = () => {
@@ -178,13 +179,16 @@ const CreateInstance: FC = () => {
     formUrl: string,
     values: CreateInstanceFormValues,
     notifierType?: "inline" | "toast",
+    retryFormSection?: string,
   ) => {
     const notifier = notifierType === "toast" ? toastNotify : notify;
     notifier.failure("Instance creation failed", e, null, [
       {
         label: "Check configuration",
         onClick: () =>
-          navigate(formUrl, { state: { retryFormValues: values } }),
+          navigate(formUrl, {
+            state: { retryFormValues: values, retryFormSection },
+          }),
       },
     ]);
     clearCache();
@@ -259,14 +263,20 @@ const CreateInstance: FC = () => {
           operation.metadata.id,
           () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
           (msg) =>
-            notifyCreationFailed(new Error(msg), formUrl, values, "toast"),
+            notifyCreationFailed(
+              new Error(msg),
+              formUrl,
+              values,
+              "toast",
+              section,
+            ),
         );
       })
       .catch((e: Error) => {
         if (e.message === "Cancelled") {
           return;
         }
-        notifyCreationFailed(e, formUrl, values);
+        notifyCreationFailed(e, formUrl, values, undefined, section);
       });
   };
 
@@ -316,6 +326,12 @@ const CreateInstance: FC = () => {
     }
   }, [location.state?.selectedImage]);
 
+  useEffect(() => {
+    if (location.state?.retryFormSection) {
+      setSection(location.state.retryFormSection);
+    }
+  }, [location.state?.retryFormSection]);
+
   const getPayload = (values: CreateInstanceFormValues) => {
     return {
       ...instanceDetailPayload(values),
@@ -341,6 +357,12 @@ const CreateInstance: FC = () => {
   };
 
   function getYaml() {
+    if (
+      location.state?.retryFormSection === YAML_CONFIGURATION &&
+      formik.values.yaml
+    ) {
+      return formik.values.yaml;
+    }
     const payload = getPayload(formik.values);
     return dumpYaml(payload);
   }
