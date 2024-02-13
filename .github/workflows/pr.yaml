@@ -135,6 +135,9 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test --project ${{ matrix.browser }}
 
+      - name: Rename Playwright report
+        run: mv blob-report/report.zip blob-report/${{ matrix.browser }}-report.zip
+
       - name: Upload ${{ matrix.browser }} blob reports to be merged
         if: always()
         uses: actions/upload-artifact@v4
@@ -186,13 +189,6 @@ jobs:
         FULL_HTML_REPORT_URL=https://canonical.github.io/lxd-ui/$HTML_REPORT_URL_PATH
         echo "::notice title=Published Playwright Test Report::$FULL_HTML_REPORT_URL"
         echo "Please wait a few minute for the reports to get published before accessing the url!"
-    
-    - name: Upload HTML report
-      uses: actions/upload-artifact@v4
-      with:
-        name: html-report--attempt-${{ github.run_attempt }}
-        path: playwright-report
-        retention-days: 14
 
   js-tests:
     name: js-tests
