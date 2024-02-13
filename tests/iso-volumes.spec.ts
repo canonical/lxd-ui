@@ -1,7 +1,6 @@
 import { test } from "@playwright/test";
 import { randomNameSuffix } from "./helpers/name";
 import { deleteInstance, randomInstanceName } from "./helpers/instances";
-import { TIMEOUT } from "./helpers/constants";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
 
@@ -61,7 +60,7 @@ test("use custom iso for instance launch", async ({ page }) => {
   await page.locator(".u-align--right > .p-button--positive").click();
   await page.getByRole("button", { name: "Create" }).click();
 
-  await page.waitForSelector(`text=Created instance ${instance}.`, TIMEOUT);
+  await page.waitForSelector(`text=Created instance ${instance}.`);
 
   await deleteInstance(page, instance);
   await page.goto("/ui/");

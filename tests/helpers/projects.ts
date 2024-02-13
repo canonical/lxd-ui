@@ -1,6 +1,5 @@
 import { randomNameSuffix } from "./name";
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
 export const randomProjectName = (): string => {
   return `playwright-project-${randomNameSuffix()}`;
@@ -13,7 +12,7 @@ export const createProject = async (page: Page, project: string) => {
   await page.getByPlaceholder("Enter name").click();
   await page.getByPlaceholder("Enter name").fill(project);
   await page.getByRole("button", { name: "Create" }).click();
-  await page.waitForSelector(`text=Project ${project} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Project ${project} created.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -42,5 +41,5 @@ export const deleteProject = async (page: Page, project: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Project ${project} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Project ${project} deleted.`);
 };

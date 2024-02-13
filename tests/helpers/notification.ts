@@ -1,14 +1,13 @@
 import { Page, expect } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
 export const checkNotificationExists = async (page: Page) => {
   const notification = page.locator(".toast-notification");
-  await expect(notification).toBeVisible(TIMEOUT);
+  await expect(notification).toBeVisible();
 };
 
 export const checkNotificationHidden = async (page: Page) => {
   const notification = page.locator(".toast-notification");
-  await expect(notification).toBeHidden(TIMEOUT);
+  await expect(notification).toBeHidden();
 };
 
 export const dismissNotification = async (page: Page) => {
@@ -16,7 +15,7 @@ export const dismissNotification = async (page: Page) => {
   await notification
     .getByRole("button", { name: "Close notification" })
     .click();
-  await expect(notification).toBeHidden(TIMEOUT);
+  await expect(notification).toBeHidden();
 };
 
 export const toggleNotificationList = async (page: Page) => {

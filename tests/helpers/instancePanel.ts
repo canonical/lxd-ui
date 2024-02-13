@@ -1,5 +1,4 @@
 import { Page, expect } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
 export const openInstancePanel = async (page: Page, instance: string) => {
   await page.goto("/ui/");
@@ -10,7 +9,7 @@ export const openInstancePanel = async (page: Page, instance: string) => {
   const instanceDetailPanel = page.locator("css=.detail-panel", {
     hasText: "instance summary",
   });
-  await expect(instanceDetailPanel).toBeVisible(TIMEOUT);
+  await expect(instanceDetailPanel).toBeVisible();
 };
 
 export const closeInstancePanel = async (page: Page) => {
@@ -19,7 +18,7 @@ export const closeInstancePanel = async (page: Page) => {
   const instanceDetailPanel = page.locator("css=.detail-panel", {
     hasText: "instance summary",
   });
-  await expect(instanceDetailPanel).toHaveCount(0, TIMEOUT);
+  await expect(instanceDetailPanel).toHaveCount(0);
 };
 
 export const startInstanceFromPanel = async (page: Page, instance: string) => {
@@ -28,7 +27,7 @@ export const startInstanceFromPanel = async (page: Page, instance: string) => {
   });
   const startButton = instanceDetailPanel.locator("css=button[title=Start]");
   await startButton.click();
-  await page.waitForSelector(`text=Instance ${instance} started.`, TIMEOUT);
+  await page.waitForSelector(`text=Instance ${instance} started.`);
 };
 
 export const stopInstanceFromPanel = async (page: Page, instance: string) => {
@@ -43,7 +42,7 @@ export const stopInstanceFromPanel = async (page: Page, instance: string) => {
     hasText: "Stop",
   });
   await confirmStopButton.click();
-  await page.waitForSelector(`text=Instance ${instance} stopped.`, TIMEOUT);
+  await page.waitForSelector(`text=Instance ${instance} stopped.`);
 };
 
 export const navigateToInstanceDetails = async (
@@ -60,5 +59,5 @@ export const navigateToInstanceDetails = async (
   const instanceDetailTitle = page.locator("css=.instance-detail-title", {
     hasText: instance,
   });
-  await expect(instanceDetailTitle).toBeVisible(TIMEOUT);
+  await expect(instanceDetailTitle).toBeVisible();
 };

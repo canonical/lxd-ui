@@ -1,5 +1,4 @@
 import { Page, expect } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
 export const openProfileSummaryPanel = async (page: Page, profile: string) => {
   const profileRow = page.locator("css=tr[role=row]", { hasText: profile });
@@ -9,7 +8,7 @@ export const openProfileSummaryPanel = async (page: Page, profile: string) => {
   const profileSummaryPanel = page.locator("css=.detail-panel", {
     hasText: "profile summary",
   });
-  await expect(profileSummaryPanel).toBeVisible(TIMEOUT);
+  await expect(profileSummaryPanel).toBeVisible();
 };
 
 export const closeProfileSummaryPanel = async (page: Page) => {
@@ -18,7 +17,7 @@ export const closeProfileSummaryPanel = async (page: Page) => {
   const profileSummaryPanel = page.locator("css=.detail-panel", {
     hasText: "profile summary",
   });
-  await expect(profileSummaryPanel).toHaveCount(0, TIMEOUT);
+  await expect(profileSummaryPanel).toHaveCount(0);
 };
 
 export const navigateToProfileDetails = async (page: Page, profile: string) => {
@@ -32,5 +31,5 @@ export const navigateToProfileDetails = async (page: Page, profile: string) => {
   const profileDetailTitle = page.locator("css=.p-panel__title", {
     hasText: profile,
   });
-  await expect(profileDetailTitle).toBeVisible(TIMEOUT);
+  await expect(profileDetailTitle).toBeVisible();
 };

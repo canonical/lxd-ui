@@ -1,5 +1,4 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
 export type ServerSettingType = "checkbox" | "text" | "number" | "password";
 
@@ -23,7 +22,7 @@ export const removePassword = async (
     exact: true,
   });
   await removeButton.click();
-  await page.waitForSelector(`text=Setting ${settingName} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Setting ${settingName} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(settingRow, "not set");
 };
@@ -44,7 +43,7 @@ export const updateSetting = async (
     await settingInput.fill(content);
   }
   await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await page.waitForSelector(`text=Setting ${settingName} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Setting ${settingName} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(
     settingRow,
@@ -78,7 +77,7 @@ export const resetSetting = async (
     .getByRole("button", { name: "Reset to default", exact: true })
     .click();
   await settingRow.getByRole("button", { name: "Save", exact: true }).click();
-  await page.waitForSelector(`text=Setting ${settingName} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Setting ${settingName} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(settingRow, defaultValue);
 };

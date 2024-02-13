@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 import { randomNameSuffix } from "./name";
 
 export const randomProfileName = (): string => {
@@ -20,7 +19,7 @@ export const startProfileCreation = async (page: Page, profile: string) => {
 
 export const finishProfileCreation = async (page: Page, profile: string) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Profile ${profile} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Profile ${profile} created.`);
 };
 
 export const deleteProfile = async (page: Page, profile: string) => {
@@ -30,7 +29,7 @@ export const deleteProfile = async (page: Page, profile: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Profile ${profile} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Profile ${profile} deleted.`);
 };
 
 export const visitProfile = async (page: Page, profile: string) => {
@@ -54,15 +53,12 @@ export const renameProfile = async (
   await page.getByRole("textbox").press("Control+a");
   await page.getByRole("textbox").fill(newName);
   await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForSelector(
-    `text=Profile ${oldName} renamed to ${newName}.`,
-    TIMEOUT,
-  );
+  await page.waitForSelector(`text=Profile ${oldName} renamed to ${newName}.`);
 };
 
 export const saveProfile = async (page: Page, profile: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Profile ${profile} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Profile ${profile} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 

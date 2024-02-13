@@ -1,5 +1,4 @@
 import { Page, test } from "@playwright/test";
-import { TIMEOUT } from "./helpers/constants";
 import { randomNameSuffix } from "./helpers/name";
 
 test("cluster group create and delete", async ({ page }) => {
@@ -18,7 +17,7 @@ test("cluster group add and remove members", async ({ page }) => {
   await page.getByRole("link", { name: "Cluster" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
-  await page.waitForSelector(`text=${member}`, TIMEOUT);
+  await page.waitForSelector(`text=${member}`);
 
   await toggleClusterGroupMember(page, group, member);
   await deleteClusterGroup(page, group);
@@ -37,7 +36,7 @@ export const createClusterGroup = async (page: Page, group: string) => {
   await page.getByPlaceholder("Enter name").fill(group);
   await page.getByRole("button", { name: "Create" }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Cluster group ${group} created.`);
 };
 
 export const deleteClusterGroup = async (page: Page, group: string) => {
@@ -48,7 +47,7 @@ export const deleteClusterGroup = async (page: Page, group: string) => {
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByText("Delete", { exact: true }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Cluster group ${group} deleted.`);
 };
 
 export const toggleClusterGroupMember = async (
@@ -67,7 +66,7 @@ export const toggleClusterGroupMember = async (
     .click();
   await page.getByRole("button", { name: "Save changes" }).click();
 
-  await page.waitForSelector(`text=Cluster group ${group} saved.`, TIMEOUT);
+  await page.waitForSelector(`text=Cluster group ${group} saved.`);
 };
 
 export const getFirstClusterMember = async (page: Page): Promise<string> => {

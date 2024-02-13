@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 import { randomNameSuffix } from "./name";
 
 export const randomNetworkName = (): string => {
@@ -14,7 +13,7 @@ export const createNetwork = async (page: Page, network: string) => {
   await page.getByLabel("Name").click();
   await page.getByLabel("Name").fill(network);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Network ${network} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Network ${network} created.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
@@ -25,7 +24,7 @@ export const deleteNetwork = async (page: Page, network: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Network ${network} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Network ${network} deleted.`);
 };
 
 export const visitNetwork = async (page: Page, network: string) => {
@@ -35,7 +34,7 @@ export const visitNetwork = async (page: Page, network: string) => {
 
 export const saveNetwork = async (page: Page, network: string) => {
   await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Network ${network} updated.`, TIMEOUT);
+  await page.waitForSelector(`text=Network ${network} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 

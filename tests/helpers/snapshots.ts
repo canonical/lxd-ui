@@ -1,6 +1,5 @@
 import { randomNameSuffix } from "./name";
 import { Page } from "@playwright/test";
-import { TIMEOUT } from "./constants";
 
 export const randomSnapshotName = (): string => {
   return `playwright-snapshot-${randomNameSuffix()}`;
@@ -28,7 +27,6 @@ export const createInstanceSnapshot = async (
 
   await page.waitForSelector(
     `text=Snapshot ${snapshot} created for instance ${instance}.`,
-    TIMEOUT,
   );
 };
 
@@ -47,7 +45,7 @@ export const restoreInstanceSnapshot = async (page: Page, snapshot: string) => {
     .getByRole("button", { name: "Restore" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} restored.`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} restored.`);
 };
 
 export const editInstanceSnapshot = async (
@@ -93,7 +91,7 @@ export const deleteInstanceSnapshot = async (page: Page, snapshot: string) => {
     .getByRole("button", { name: "Delete" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} deleted.`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} deleted.`);
 };
 
 export const createStorageVolumeSnapshot = async (
@@ -108,7 +106,7 @@ export const createStorageVolumeSnapshot = async (
   await page.getByLabel("Snapshot name").click();
   await page.getByLabel("Snapshot name").fill(snapshot);
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Snapshot ${snapshot} created.`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} created.`);
 };
 
 export const restoreStorageVolumeSnapshot = async (
@@ -124,7 +122,7 @@ export const restoreStorageVolumeSnapshot = async (
     .getByRole("dialog", { name: "Confirm restore" })
     .getByRole("button", { name: "Restore" })
     .click();
-  await page.waitForSelector(`text=Snapshot ${snapshot} restored`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} restored`);
 };
 
 export const editStorageVolumeSnapshot = async (
@@ -150,7 +148,7 @@ export const editStorageVolumeSnapshot = async (
   await page.getByRole("button", { name: "Save" }).click();
   await page.getByText(`Snapshot ${newName} saved.`).click();
   await page.getByText("Apr 28, 2093, 12:23 PM").click();
-  await page.waitForSelector(`text=Snapshot ${newName} saved.`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${newName} saved.`);
 };
 
 export const deleteStorageVolumeSnapshot = async (
@@ -171,5 +169,5 @@ export const deleteStorageVolumeSnapshot = async (
     .getByRole("button", { name: "Delete" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} deleted`, TIMEOUT);
+  await page.waitForSelector(`text=Snapshot ${snapshot} deleted`);
 };
