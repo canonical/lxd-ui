@@ -16,6 +16,7 @@ import DeleteNetworkForwardBtn from "pages/networks/actions/DeleteNetworkForward
 import { Link } from "react-router-dom";
 import ExpandableList from "components/ExpandableList";
 import NetworkForwardPort from "pages/networks/NetworkForwardPort";
+import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
   network: LxdNetwork;
@@ -129,23 +130,30 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
       </Link>
       <Row>
         {hasNetworkForwards && (
-          <MainTable
-            headers={headers}
-            expanding
-            rows={rows}
-            paginate={30}
-            sortable
-            defaultSort="listenAddress"
-            defaultSortDirection="ascending"
-            className="u-table-layout--auto network-forwards-table"
-            emptyStateMsg={
-              isLoading ? (
-                <Loader text="Loading network forwards..." />
-              ) : (
-                "No data to display"
-              )
-            }
-          />
+          <ScrollableTable
+            dependencies={forwards}
+            tableId="network-forwards-table"
+            belowIds={["status-bar"]}
+          >
+            <MainTable
+              id="network-forwards-table"
+              headers={headers}
+              expanding
+              rows={rows}
+              paginate={30}
+              sortable
+              defaultSort="listenAddress"
+              defaultSortDirection="ascending"
+              className="u-table-layout--auto network-forwards-table"
+              emptyStateMsg={
+                isLoading ? (
+                  <Loader text="Loading network forwards..." />
+                ) : (
+                  "No data to display"
+                )
+              }
+            />
+          </ScrollableTable>
         )}
         {!isLoading && !hasNetworkForwards && (
           <EmptyState
