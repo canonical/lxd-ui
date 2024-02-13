@@ -31,15 +31,19 @@ export const InstanceLoadingProvider: FC<Props> = ({ children }) => {
   );
 
   const setLoading = (instance: LxdInstance, loadingType: LoadingTypes) => {
-    const newMap = new Map(instanceStates);
-    newMap.set(instance.name, loadingType);
-    setInstanceStates(newMap);
+    setInstanceStates((oldMap) => {
+      const newMap = new Map(oldMap);
+      newMap.set(instance.name, loadingType);
+      return newMap;
+    });
   };
 
   const setFinish = (instance: LxdInstance) => {
-    const newMap = new Map(instanceStates);
-    newMap.delete(instance.name);
-    setInstanceStates(newMap);
+    setInstanceStates((oldMap) => {
+      const newMap = new Map(oldMap);
+      newMap.delete(instance.name);
+      return newMap;
+    });
   };
 
   return (

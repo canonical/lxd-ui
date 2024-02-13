@@ -134,7 +134,6 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
             expanding
             rows={rows}
             paginate={30}
-            responsive
             sortable
             defaultSort="listenAddress"
             defaultSortDirection="ascending"
