@@ -14,6 +14,7 @@ import { isProjectEmpty } from "util/projects";
 import { LxdProject } from "types/project";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -74,6 +75,9 @@ interface Props {
 }
 
 const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
+  const { hasProjectsNetworksZones, hasStorageBuckets } =
+    useSupportedFeatures();
+
   const figureFeatures = () => {
     if (
       formik.values.features_images === undefined &&
@@ -222,36 +226,40 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 checked={formik.values.features_networks}
                 disabled={readOnly || isDefaultProject || isNonEmpty}
               />
-              <CheckboxInput
-                id="features_networks_zones"
-                name="features_networks_zones"
-                label="Network zones"
-                onChange={() =>
-                  void formik.setFieldValue(
-                    "features_networks_zones",
-                    !formik.values.features_networks_zones,
-                  )
-                }
-                checked={formik.values.features_networks_zones}
-                disabled={
-                  readOnly ||
-                  isDefaultProject ||
-                  (isNonEmpty && hadFeaturesNetworkZones)
-                }
-              />
-              <CheckboxInput
-                id="features_storage_buckets"
-                name="features_storage_buckets"
-                label="Storage buckets"
-                onChange={() =>
-                  void formik.setFieldValue(
-                    "features_storage_buckets",
-                    !formik.values.features_storage_buckets,
-                  )
-                }
-                checked={formik.values.features_storage_buckets}
-                disabled={readOnly || isDefaultProject || isNonEmpty}
-              />
+              {hasProjectsNetworksZones && (
+                <CheckboxInput
+                  id="features_networks_zones"
+                  name="features_networks_zones"
+                  label="Network zones"
+                  onChange={() =>
+                    void formik.setFieldValue(
+                      "features_networks_zones",
+                      !formik.values.features_networks_zones,
+                    )
+                  }
+                  checked={formik.values.features_networks_zones}
+                  disabled={
+                    readOnly ||
+                    isDefaultProject ||
+                    (isNonEmpty && hadFeaturesNetworkZones)
+                  }
+                />
+              )}
+              {hasStorageBuckets && (
+                <CheckboxInput
+                  id="features_storage_buckets"
+                  name="features_storage_buckets"
+                  label="Storage buckets"
+                  onChange={() =>
+                    void formik.setFieldValue(
+                      "features_storage_buckets",
+                      !formik.values.features_storage_buckets,
+                    )
+                  }
+                  checked={formik.values.features_storage_buckets}
+                  disabled={readOnly || isDefaultProject || isNonEmpty}
+                />
+              )}
               <CheckboxInput
                 id="features_storage_volumes"
                 name="features_storage_volumes"

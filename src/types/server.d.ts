@@ -21,4 +21,5 @@ export interface LxdSettings {
   auth_methods?: LXDAuthMethods;
   auth_user_method?: LXDAuthMethods;
   auth_user_name?: string;
+  api_extensions?: string[];
 }

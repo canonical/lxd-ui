@@ -41,6 +41,7 @@ import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -56,6 +57,8 @@ const CreateProject: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(slugify(PROJECT_DETAILS));
+  const { hasProjectsNetworksZones, hasStorageBuckets } =
+    useSupportedFeatures();
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
@@ -88,6 +91,14 @@ const CreateProject: FC = () => {
             ...networkRestrictionPayload(values),
           }
         : {};
+
+      if (!hasProjectsNetworksZones) {
+        values.features_networks_zones = undefined;
+      }
+
+      if (!hasStorageBuckets) {
+        values.features_storage_buckets = undefined;
+      }
 
       createProject(
         JSON.stringify({

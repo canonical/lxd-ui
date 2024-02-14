@@ -1,19 +1,12 @@
-import { useSettings } from "context/useSettings";
+import { useSupportedFeatures } from "./useSupportedFeatures";
 
 export const useDocs = (): string => {
   const remoteBase = "https://documentation.ubuntu.com/lxd/en/latest";
   const localBase = "/documentation";
 
-  const { data: settings } = useSettings();
-  const serverVersion = settings?.environment?.server_version;
-  const serverMajor = parseInt(serverVersion?.split(".")[0] ?? "0");
-  const serverMinor = parseInt(serverVersion?.split(".")[1] ?? "0");
+  const { hasLocalDocumentation } = useSupportedFeatures();
 
-  if (
-    !serverVersion ||
-    serverMajor < 5 ||
-    (serverMajor === 5 && serverMinor < 19)
-  ) {
+  if (!hasLocalDocumentation) {
     return remoteBase;
   }
 
