@@ -18,6 +18,7 @@ import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -67,6 +68,8 @@ const InstanceCreateDetailsForm: FC<Props> = ({
   onSelectImage,
   project,
 }) => {
+  const { hasCustomVolumeIso } = useSupportedFeatures();
+
   function figureBaseImageName() {
     const image = formik.values.image;
     return image
@@ -123,7 +126,9 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             ) : (
               <>
                 <SelectImageBtn onSelect={onSelectImage} />
-                <UseCustomIsoBtn onSelect={onSelectImage} />
+                {hasCustomVolumeIso && (
+                  <UseCustomIsoBtn onSelect={onSelectImage} />
+                )}
               </>
             )}
           </div>

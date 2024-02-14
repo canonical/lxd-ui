@@ -10,6 +10,7 @@ import HelpLink from "components/HelpLink";
 import TabLinks from "components/TabLinks";
 import { useDocs } from "context/useDocs";
 import { storageTabs } from "util/projects";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const Storage: FC = () => {
   const docBaseLink = useDocs();
@@ -17,6 +18,7 @@ const Storage: FC = () => {
     project: string;
     activeTab?: string;
   }>();
+  const { hasCustomVolumeIso } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -37,7 +39,11 @@ const Storage: FC = () => {
       <NotificationRow />
       <Row>
         <TabLinks
-          tabs={storageTabs}
+          tabs={
+            hasCustomVolumeIso
+              ? storageTabs
+              : storageTabs.filter((tab) => tab !== "Custom ISOs")
+          }
           activeTab={activeTab}
           tabUrl={`/ui/project/${project}/storage`}
         />
@@ -54,7 +60,7 @@ const Storage: FC = () => {
           </div>
         )}
 
-        {activeTab === "custom-isos" && (
+        {activeTab === "custom-isos" && hasCustomVolumeIso && (
           <div role="tabpanel">
             <CustomIsoList project={project} />
           </div>

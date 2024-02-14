@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 import {
   MainTable,
+  Notification,
   Row,
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
 import SettingForm from "./SettingForm";
 import Loader from "components/Loader";
-import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import ScrollableTable from "components/ScrollableTable";
 import HelpLink from "components/HelpLink";
@@ -20,25 +20,30 @@ import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { toConfigFields } from "util/config";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
   const [query, setQuery] = useState("");
   const notify = useNotify();
+  const {
+    hasMetadataConfiguration,
+    settings,
+    isSettingsLoading,
+    settingsError,
+  } = useSupportedFeatures();
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: fetchConfigOptions,
+    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
   });
-
-  const { data: settings, error, isLoading: isSettingsLoading } = useSettings();
 
   if (isConfigOptionsLoading || isSettingsLoading) {
     return <Loader />;
   }
 
-  if (error) {
-    notify.failure("Loading settings failed", error);
+  if (settingsError) {
+    notify.failure("Loading settings failed", settingsError);
   }
 
   const getValue = (configField: ConfigField): string | undefined => {
@@ -62,7 +67,7 @@ const Settings: FC = () => {
     { content: "Value" },
   ];
 
-  const configFields = toConfigFields(configOptions?.configs.server ?? {});
+  const configFields = toConfigFields(configOptions?.configs?.server ?? {});
 
   configFields.push({
     key: "user.ui_title",
@@ -166,6 +171,15 @@ const Settings: FC = () => {
       >
         <NotificationRow />
         <Row>
+          {!hasMetadataConfiguration && (
+            <Notification
+              severity="information"
+              title="Get more server settings"
+              titleElement="h2"
+            >
+              Update to LXD v5.19.0 or later to access more server settings
+            </Notification>
+          )}
           <ScrollableTable
             dependencies={[notify.notification, rows]}
             tableId="settings-table"

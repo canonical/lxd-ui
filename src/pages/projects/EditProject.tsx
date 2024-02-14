@@ -32,6 +32,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   project: LxdProject;
@@ -44,6 +45,8 @@ const EditProject: FC<Props> = ({ project }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { section } = useParams<{ section?: string }>();
+  const { hasProjectsNetworksZones, hasStorageBuckets } =
+    useSupportedFeatures();
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -61,6 +64,14 @@ const EditProject: FC<Props> = ({ project }) => {
     initialValues: initialValues,
     validationSchema: ProjectSchema,
     onSubmit: (values) => {
+      if (!hasProjectsNetworksZones) {
+        values.features_networks_zones = undefined;
+      }
+
+      if (!hasStorageBuckets) {
+        values.features_storage_buckets = undefined;
+      }
+
       const projectPayload = getPayload(values) as LxdProject;
 
       projectPayload.etag = project.etag;

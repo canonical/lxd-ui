@@ -21,6 +21,7 @@ import { getVolumeKey } from "util/storageVolume";
 import { getNetworkDefault } from "util/networks";
 import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -47,14 +48,21 @@ export const getConfigRowMetadata = (
   }
 };
 
+const getConfigOptions = () => {
+  const { hasMetadataConfiguration } = useSupportedFeatures();
+  const { data: configOptions } = useQuery({
+    queryKey: [queryKeys.configOptions],
+    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+  });
+
+  return configOptions;
+};
+
 const getInstanceRowMetadata = (
   values: InstanceAndProfileFormValues | ProjectFormValues,
   name: string,
 ): ConfigRowMetadata => {
-  const { data: configOptions } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: fetchConfigOptions,
-  });
+  const configOptions = getConfigOptions();
 
   const configFields = toConfigFields(configOptions?.configs.instance ?? {});
   const configKey = getInstanceKey(name);
@@ -88,10 +96,7 @@ const getProjectRowMetadata = (
   values: ProjectFormValues,
   name: string,
 ): ConfigRowMetadata => {
-  const { data: configOptions } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: fetchConfigOptions,
-  });
+  const configOptions = getConfigOptions();
 
   const configFields = toConfigFields(configOptions?.configs.project ?? {});
   const configKey = getProjectKey(name);
@@ -115,10 +120,7 @@ const getStorageVolumeRowMetadata = (
     return { value: pool.config[poolField], source: `${pool.name} pool` };
   }
 
-  const { data: configOptions } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: fetchConfigOptions,
-  });
+  const configOptions = getConfigOptions();
 
   const optionKey = storagePoolFormDriverToOptionKey(pool?.driver ?? "zfs");
   const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});
@@ -142,10 +144,7 @@ const getStoragePoolRowMetadata = (
   values: StoragePoolFormValues,
   name: string,
 ): ConfigRowMetadata => {
-  const { data: configOptions } = useQuery({
-    queryKey: [queryKeys.configOptions],
-    queryFn: fetchConfigOptions,
-  });
+  const configOptions = getConfigOptions();
 
   const optionKey = storagePoolFormDriverToOptionKey(values.driver);
   const configFields = toConfigFields(configOptions?.configs[optionKey] ?? {});

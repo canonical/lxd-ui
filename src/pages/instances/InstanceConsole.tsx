@@ -19,6 +19,7 @@ import {
 } from "../../lib/spice/src/inputs";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   instance: LxdInstance;
@@ -28,6 +29,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const notify = useNotify();
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
+  const { hasCustomVolumeIso } = useSupportedFeatures();
 
   const isRunning = instance.status === "Running";
 
@@ -76,7 +78,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           </div>
           {isGraphic && isRunning && (
             <div>
-              <AttachIsoBtn instance={instance} />
+              {hasCustomVolumeIso && <AttachIsoBtn instance={instance} />}
               <Button
                 className="u-no-margin--bottom"
                 onClick={() => handleFullScreen()}
