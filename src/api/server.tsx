@@ -13,7 +13,7 @@ export const fetchSettings = (): Promise<LxdSettings> => {
   });
 };
 
-export const updateSettings = (config: LxdConfigPair) => {
+export const updateSettings = (config: LxdConfigPair): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0", {
       method: "PATCH",
@@ -22,7 +22,7 @@ export const updateSettings = (config: LxdConfigPair) => {
       }),
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };

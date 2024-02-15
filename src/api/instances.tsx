@@ -104,23 +104,35 @@ export const migrateInstance = (
   });
 };
 
-export const startInstance = (instance: LxdInstance) => {
+export const startInstance = (
+  instance: LxdInstance,
+): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "start");
 };
 
-export const stopInstance = (instance: LxdInstance, isForce: boolean) => {
+export const stopInstance = (
+  instance: LxdInstance,
+  isForce: boolean,
+): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "stop", isForce);
 };
 
-export const freezeInstance = (instance: LxdInstance) => {
+export const freezeInstance = (
+  instance: LxdInstance,
+): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "freeze");
 };
 
-export const unfreezeInstance = (instance: LxdInstance) => {
+export const unfreezeInstance = (
+  instance: LxdInstance,
+): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "unfreeze");
 };
 
-export const restartInstance = (instance: LxdInstance, isForce: boolean) => {
+export const restartInstance = (
+  instance: LxdInstance,
+  isForce: boolean,
+): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "restart", isForce);
 };
 

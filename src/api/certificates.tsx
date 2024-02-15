@@ -11,7 +11,7 @@ export const fetchCertificates = (): Promise<LxdCertificate[]> => {
   });
 };
 
-export const addCertificate = (token: string) => {
+export const addCertificate = (token: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/certificates`, {
       method: "POST",

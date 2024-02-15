@@ -21,19 +21,19 @@ export const fetchProject = (name: string): Promise<LxdProject> => {
   });
 };
 
-export const createProject = (body: string) => {
+export const createProject = (body: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects`, {
       method: "POST",
       body: body,
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
 
-export const updateProject = (project: LxdProject) => {
+export const updateProject = (project: LxdProject): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${project.name}`, {
       method: "PUT",
@@ -43,7 +43,7 @@ export const updateProject = (project: LxdProject) => {
       },
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -65,13 +65,13 @@ export const renameProject = (
   });
 };
 
-export const deleteProject = (project: LxdProject) => {
+export const deleteProject = (project: LxdProject): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${project.name}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
