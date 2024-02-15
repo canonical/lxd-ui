@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Icon } from "@canonical/react-components";
 
 const UploadCustomImageHint: FC = () => {

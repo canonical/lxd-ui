@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Button } from "@canonical/react-components";
 import MigrateInstanceForm from "pages/instances/MigrateInstanceForm";
 import usePortal from "react-useportal";

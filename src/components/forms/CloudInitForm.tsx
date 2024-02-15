@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
 import {

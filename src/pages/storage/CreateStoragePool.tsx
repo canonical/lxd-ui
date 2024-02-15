@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { useNotify, Button } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { createClusteredPool, createPool } from "api/storage-pools";

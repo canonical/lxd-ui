@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent } from "react";
+import { FC, KeyboardEvent } from "react";
 import { Button, Form, Modal, Select } from "@canonical/react-components";
 import * as Yup from "yup";
 import { useFormik } from "formik";

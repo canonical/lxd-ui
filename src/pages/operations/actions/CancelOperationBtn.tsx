@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";

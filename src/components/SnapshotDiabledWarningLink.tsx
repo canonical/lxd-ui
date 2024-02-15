@@ -1,6 +1,6 @@
 import { Icon } from "@canonical/react-components";
 import { useAuth } from "context/auth";
-import React, { FC } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { LxdProject } from "types/project";
 

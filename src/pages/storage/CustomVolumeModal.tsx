@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import CustomVolumeSelectModal from "pages/storage/CustomVolumeSelectModal";
 import CustomVolumeCreateModal from "pages/storage/CustomVolumeCreateModal";
 import { Modal } from "@canonical/react-components";

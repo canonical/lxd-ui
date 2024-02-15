@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { Button, Input, Select, useNotify } from "@canonical/react-components";
@@ -96,7 +96,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     );
   };
 
-  const changeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setFile(file);

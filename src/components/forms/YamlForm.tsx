@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
@@ -25,7 +25,7 @@ const YamlForm: FC<Props> = ({
   readOnly = false,
 }) => {
   const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const updateFormHeight = () => {
     if (!editor || !containerRef.current) {

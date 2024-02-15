@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Select } from "@canonical/react-components";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { FormikProps } from "formik/dist/types";

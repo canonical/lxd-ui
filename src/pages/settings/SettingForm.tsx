@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import { updateSettings } from "api/server";
 import { ConfigField } from "types/config";

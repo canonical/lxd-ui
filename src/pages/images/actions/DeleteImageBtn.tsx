@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { deleteImage } from "api/images";
 import { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";

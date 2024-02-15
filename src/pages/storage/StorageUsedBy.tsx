@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import ImageName from "pages/images/ImageName";
 import { LxdStoragePool, LxdStorageVolume } from "types/storage";

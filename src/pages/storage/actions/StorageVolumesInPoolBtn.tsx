@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { PropsWithSpread } from "@canonical/react-components/dist/types";
@@ -7,7 +7,7 @@ type Props = PropsWithSpread<
   {
     project: string;
     pool: string;
-    children: React.ReactNode;
+    children: ReactNode;
   },
   ButtonProps
 >;

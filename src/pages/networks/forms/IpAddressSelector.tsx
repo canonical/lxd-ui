@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Input, RadioInput } from "@canonical/react-components";
 
 interface Props {

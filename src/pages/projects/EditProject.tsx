@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";

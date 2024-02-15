@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent, useEffect, useRef } from "react";
+import { FC, KeyboardEvent, useEffect, useRef } from "react";
 import { Button, Form, Icon, Input, Modal } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";

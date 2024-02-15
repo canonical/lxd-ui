@@ -1,5 +1,5 @@
 import { FormikProps } from "formik";
-import React, { FC } from "react";
+import { FC } from "react";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";

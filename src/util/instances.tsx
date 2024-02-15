@@ -1,7 +1,6 @@
 import { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
 import InstanceLink from "pages/instances/InstanceLink";
-import React from "react";
 
 export const instanceLinkFromName = (args: {
   instanceName: string;

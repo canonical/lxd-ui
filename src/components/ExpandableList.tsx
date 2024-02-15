@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { Button } from "@canonical/react-components";
 
 const DISPLAY_COUNT = 5;

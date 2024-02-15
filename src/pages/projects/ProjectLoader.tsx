@@ -1,4 +1,3 @@
-import React from "react";
 import Loader from "components/Loader";
 import NoMatch from "components/NoMatch";
 import { useProject } from "context/project";

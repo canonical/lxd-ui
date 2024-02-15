@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Select } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { useQuery } from "@tanstack/react-query";

@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 
 const Left: FC<PropsWithChildren> = ({ children }) => {
   return <div className="page-header__left">{children}</div>;

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Button, Form, Icon, Input } from "@canonical/react-components";
 import { ConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";

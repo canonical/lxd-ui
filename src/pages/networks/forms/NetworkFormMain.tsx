@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Col, Input, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import IpAddressSelector from "pages/networks/forms/IpAddressSelector";

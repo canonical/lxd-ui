@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { LxdInstance } from "types/instance";
 import {
   getInstanceSnapshotSchema,

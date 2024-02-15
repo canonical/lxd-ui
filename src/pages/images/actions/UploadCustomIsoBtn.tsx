@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Button, Modal } from "@canonical/react-components";
 import UploadCustomIso from "pages/storage/UploadCustomIso";
 import usePortal from "react-useportal";

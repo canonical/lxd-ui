@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Tabs } from "@canonical/react-components";
 import { useNotify } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";

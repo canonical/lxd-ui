@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { NotificationConsumer, Row } from "@canonical/react-components";
 
 const NotificationRow: FC = () => {

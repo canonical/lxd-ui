@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import { FC, useRef } from "react";
 import { Col, Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import { useQuery } from "@tanstack/react-query";

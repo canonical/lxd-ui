@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Input, Notification, Select } from "@canonical/react-components";
 import { optionYesNo } from "util/instanceOptions";
 import {

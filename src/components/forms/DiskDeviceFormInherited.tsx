@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";

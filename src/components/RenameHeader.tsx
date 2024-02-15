@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Button, Input, Tooltip } from "@canonical/react-components";
 import SubmitButton from "components/SubmitButton";
 import { FormikProps } from "formik/dist/types";

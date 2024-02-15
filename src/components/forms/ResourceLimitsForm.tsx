@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import MemoryLimitSelector from "./MemoryLimitSelector";

@@ -1,4 +1,3 @@
-import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { unfreezeInstance, startInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { LxdProject } from "types/project";

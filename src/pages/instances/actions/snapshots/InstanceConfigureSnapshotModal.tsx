@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent, ReactNode } from "react";
+import { FC, KeyboardEvent, ReactNode } from "react";
 import { Button, Modal } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { useFormik } from "formik";

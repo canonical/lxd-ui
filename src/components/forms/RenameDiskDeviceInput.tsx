@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC, useState } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
 
 interface Props {
@@ -14,7 +14,7 @@ const RenameDiskDeviceInput: FC<Props> = ({
   setName,
   readOnly,
 }) => {
-  const [isEditing, setEditing] = React.useState(false);
+  const [isEditing, setEditing] = useState(false);
 
   if (readOnly) {
     return (

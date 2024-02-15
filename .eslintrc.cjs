@@ -35,5 +35,6 @@ module.exports = {
     semi: ["error", "always"],
     "object-curly-spacing": ["error", "always"],
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "react/react-in-jsx-scope": "off",
   },
 };

@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import CustomVolumeModal from "pages/storage/CustomVolumeModal";
 import { LxdStorageVolume } from "types/storage";
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   buttonProps?: ButtonProps;
   project: string;
   setValue: (volume: LxdStorageVolume) => void;

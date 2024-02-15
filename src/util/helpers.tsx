@@ -1,4 +1,3 @@
-import React from "react";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdInstance } from "types/instance";
 import { LxdProject } from "types/project";
@@ -6,6 +5,7 @@ import { LxdProfile } from "types/profile";
 import { LxdNetwork } from "types/network";
 import { getCookie } from "./cookies";
 import { LxdStorageVolume } from "types/storage";
+import { Dispatch, SetStateAction } from "react";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -157,7 +157,7 @@ export const getWsErrorMsg = (code: number) => {
 
 export type AbortControllerState = [
   AbortController | null,
-  React.Dispatch<React.SetStateAction<AbortController | null>>,
+  Dispatch<SetStateAction<AbortController | null>>,
 ];
 
 export const checkDuplicateName = (

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Button, Icon, Label } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
