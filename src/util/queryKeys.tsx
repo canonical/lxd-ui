@@ -1,4 +1,4 @@
-export const queryKeys = {
+export const queryKeys: Record<string, string> = {
   certificates: "certificates",
   cluster: "cluster",
   configOptions: "configOptions",

@@ -11,27 +11,27 @@ import { FormikTouched } from "formik";
 export const hasNoRootDisk = (
   values: InstanceAndProfileFormValues & { profiles?: string[] },
   profiles: LxdProfile[],
-) => {
+): boolean => {
   if (values.entityType !== "instance") {
     return false;
   }
   return missingRoot(values.devices) && !inheritsRoot(values, profiles);
 };
 
-const missingRoot = (devices: FormDevice[]) => {
+const missingRoot = (devices: FormDevice[]): boolean => {
   return !devices.some((item) => item.type === "disk" && item.name === "root");
 };
 
 const inheritsRoot = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
-) => {
+): boolean => {
   const [inheritValue] = getInheritedRootStorage(values, profiles);
 
   return !!inheritValue;
 };
 
-export const hasDiskError = (formik: InstanceAndProfileFormikProps) =>
+export const hasDiskError = (formik: InstanceAndProfileFormikProps): boolean =>
   !formik.values.yaml &&
   formik.values.devices.some((_device, index) =>
     isDiskDeviceMountPointMissing(formik, index),
@@ -53,7 +53,9 @@ export const isDiskDeviceMountPointMissing = (
   return Boolean(hasTouched) && formDevice.path.length < 1;
 };
 
-export const hasNetworkError = (formik: InstanceAndProfileFormikProps) =>
+export const hasNetworkError = (
+  formik: InstanceAndProfileFormikProps,
+): boolean =>
   !formik.values.yaml &&
   formik.values.devices.some((_device, index) =>
     isNicDeviceNameMissing(formik, index),

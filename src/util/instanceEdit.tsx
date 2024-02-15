@@ -13,7 +13,9 @@ import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import * as Yup from "yup";
 import { EditProfileFormValues } from "pages/profiles/EditProfile";
 
-const getEditValues = (item: LxdProfile | LxdInstance) => {
+const getEditValues = (
+  item: LxdProfile | LxdInstance,
+): Omit<EditProfileFormValues, "entityType" | "readOnly"> => {
   return {
     name: item.name,
     description: item.description,
@@ -104,7 +106,10 @@ export const getInstancePayload = (
   };
 };
 
-export const InstanceEditSchema = Yup.object().shape({
+export const InstanceEditSchema: Yup.ObjectSchema<{
+  name: string;
+  instanceType: string;
+}> = Yup.object().shape({
   name: Yup.string().required("Instance name is required"),
   instanceType: Yup.string().required("Instance type is required"),
 });

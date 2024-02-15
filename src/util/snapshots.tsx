@@ -11,8 +11,10 @@ export type SnapshotFormValues<AdditionalProps = unknown> = {
   [K in keyof AdditionalProps]: AdditionalProps[K];
 };
 
-export const getExpiresAt = (expirationDate: string, expirationTime: string) =>
-  `${expirationDate}T${expirationTime}`;
+export const getExpiresAt = (
+  expirationDate: string,
+  expirationTime: string,
+): string => `${expirationDate}T${expirationTime}`;
 
 export const testValidDate = (): [
   string,
@@ -69,7 +71,7 @@ export const testValidTime = (): [
   ];
 };
 
-export const isSnapshotsDisabled = (project?: LxdProject) => {
+export const isSnapshotsDisabled = (project?: LxdProject): boolean => {
   if (!project) {
     return false;
   }

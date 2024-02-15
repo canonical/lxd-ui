@@ -53,7 +53,7 @@ export const getNetworkDefault = (formField: string): ConfigRowMetadata => {
 const hasNetworkConfigDiff = (
   a: Partial<LxdNetworkConfig>,
   b: Partial<LxdNetworkConfig>,
-) => {
+): boolean => {
   return (Object.keys(a) as Array<keyof typeof a>).some((key) => {
     const isIp = key === "ipv4.address" || key === "ipv6.address";
     if (isIp && a[key] === "auto" && b[key] !== "") {
@@ -66,7 +66,7 @@ const hasNetworkConfigDiff = (
 export const areNetworksEqual = (
   a: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   b: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
-) => {
+): boolean => {
   if (hasNetworkConfigDiff(a.config, b.config)) {
     return false;
   }
@@ -78,7 +78,7 @@ export const areNetworksEqual = (
   return !hasMainKeyDiff;
 };
 
-export const testValidIp = (ip: string | null | undefined) => {
+export const testValidIp = (ip: string | null | undefined): boolean => {
   const expression =
     /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/;
 
@@ -88,7 +88,7 @@ export const testValidIp = (ip: string | null | undefined) => {
   return expression.test(ip);
 };
 
-export const testValidPort = (port: string | null | undefined) => {
+export const testValidPort = (port: string | null | undefined): boolean => {
   const expression =
     /^(([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])[-,]){0,9}([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/;
 

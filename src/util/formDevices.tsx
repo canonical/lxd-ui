@@ -59,7 +59,7 @@ export interface FormDeviceValues {
   devices: FormDevice[];
 }
 
-export const isEmptyDevice = (device: FormDevice) =>
+export const isEmptyDevice = (device: FormDevice): boolean =>
   device.type === "nic" &&
   device.name.length === 0 &&
   (device.network?.length ?? 0) === 0;
@@ -174,7 +174,7 @@ export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
 export const removeDevice = (
   index: number,
   formik: InstanceAndProfileFormikProps,
-) => {
+): void => {
   const copy = [...formik.values.devices];
   copy.splice(index, 1);
   void formik.setFieldValue("devices", copy);
