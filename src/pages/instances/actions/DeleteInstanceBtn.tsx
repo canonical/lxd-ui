@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { deleteInstance } from "api/instances";
 import { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";

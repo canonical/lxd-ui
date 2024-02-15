@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import classnames from "classnames";
 import { Spinner } from "@canonical/react-components";
 

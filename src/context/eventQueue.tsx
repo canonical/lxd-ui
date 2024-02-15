@@ -1,4 +1,4 @@
-import React, { createContext, FC, ReactNode, useContext } from "react";
+import { createContext, FC, ReactNode, useContext } from "react";
 
 export interface EventQueue {
   get: (operationId: string) => EventCallback | undefined;

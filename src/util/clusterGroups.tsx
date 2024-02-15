@@ -1,4 +1,3 @@
-import React from "react";
 import { LxdClusterMember } from "types/cluster";
 import EvacuateClusterMemberBtn from "pages/cluster/actions/EvacuateClusterMemberBtn";
 import RestoreClusterMemberBtn from "pages/cluster/actions/RestoreClusterMemberBtn";

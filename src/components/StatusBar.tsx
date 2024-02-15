@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import classnames from "classnames";
 import Version from "./Version";
 import OperationStatus from "./OperationStatus";

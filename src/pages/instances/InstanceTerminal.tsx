@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { FitAddon } from "xterm-addon-fit";
 import { connectInstanceExec } from "api/instances";

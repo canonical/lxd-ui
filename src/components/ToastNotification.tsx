@@ -1,7 +1,7 @@
 import { Notification } from "@canonical/react-components";
 import { DefaultTitles } from "@canonical/react-components/dist/components/Notification/Notification";
 import { ToastNotificationType } from "context/toastNotificationProvider";
-import React, { FC } from "react";
+import { FC } from "react";
 import { createPortal } from "react-dom";
 import Animate from "./Animate";
 

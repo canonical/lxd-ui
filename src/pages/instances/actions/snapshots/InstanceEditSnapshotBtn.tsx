@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import usePortal from "react-useportal";
 import { Button, Icon } from "@canonical/react-components";
 import { LxdInstance, LxdInstanceSnapshot } from "types/instance";

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Col, Notification, Row } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC, memo } from "react";
 import { SearchAndFilter } from "@canonical/react-components";
 import {
   SearchAndFilterData,
@@ -94,4 +94,4 @@ const StorageVolumesFilter: FC<Props> = ({ volumes }) => {
   );
 };
 
-export default React.memo(StorageVolumesFilter);
+export default memo(StorageVolumesFilter);

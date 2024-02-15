@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Col, Input, Label, Row, Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import {

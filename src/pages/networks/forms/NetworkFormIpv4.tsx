@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Input, Select, Textarea } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { MainTable, Row, useNotify } from "@canonical/react-components";
 import { fetchWarnings } from "api/warnings";
 import { isoTimeToString } from "util/helpers";

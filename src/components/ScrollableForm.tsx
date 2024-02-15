@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import ScrollableContainer from "./ScrollableContainer";
 import { useNotify } from "@canonical/react-components";
 

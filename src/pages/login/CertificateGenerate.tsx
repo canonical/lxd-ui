@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate } from "react-router-dom";

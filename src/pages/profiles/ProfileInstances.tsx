@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { getProfileInstances } from "util/usedBy";
 import { LxdProfile } from "types/profile";
 import { useQuery } from "@tanstack/react-query";

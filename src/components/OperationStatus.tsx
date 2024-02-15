@@ -1,6 +1,6 @@
 import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
-import React, { useState } from "react";
+import { useState } from "react";
 import { isWidthBelow } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
 import { Link } from "react-router-dom";

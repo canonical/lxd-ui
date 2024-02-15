@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from "react";
+import { FC, MouseEventHandler } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 

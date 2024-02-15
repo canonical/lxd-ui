@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import Aside from "./Aside";

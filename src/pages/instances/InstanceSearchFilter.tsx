@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC, memo } from "react";
 import { LxdInstance } from "types/instance";
 import { instanceStatuses, instanceTypes } from "util/instanceFilter";
 import { SearchAndFilter } from "@canonical/react-components";
@@ -86,4 +86,4 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
   );
 };
 
-export default React.memo(InstanceSearchFilter);
+export default memo(InstanceSearchFilter);

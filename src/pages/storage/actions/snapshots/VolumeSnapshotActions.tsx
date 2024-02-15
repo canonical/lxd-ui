@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import {
   deleteVolumeSnapshot,

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import { cloneElement, ReactElement, ReactNode } from "react";
 import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
 import { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -74,7 +74,7 @@ export const getConfigurationRow = ({
       <div className="override-form">
         {wrapDisabledTooltip(
           <div>
-            {React.cloneElement(children, {
+            {cloneElement(children, {
               id: name,
               name,
               onBlur: formik.handleBlur,

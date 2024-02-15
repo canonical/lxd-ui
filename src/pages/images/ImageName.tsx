@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { queryKeys } from "util/queryKeys";
 import { fetchImage } from "api/images";
 import { useQuery } from "@tanstack/react-query";

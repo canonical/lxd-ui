@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Input, RadioInput, useNotify } from "@canonical/react-components";
 import { fetchResources } from "api/server";
 import { useQuery } from "@tanstack/react-query";

@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect } from "react";
+import { FC, useLayoutEffect } from "react";
 import { Textarea, TextareaProps } from "@canonical/react-components";
 
 type Props = {

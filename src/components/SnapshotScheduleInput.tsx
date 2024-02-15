@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
 
 const snapshotOptions = [

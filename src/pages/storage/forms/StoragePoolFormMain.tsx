@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Row, Input, Select, Col } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import {

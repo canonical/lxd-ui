@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { slugify } from "util/slugify";
 import { Button } from "@canonical/react-components";
 import classnames from "classnames";

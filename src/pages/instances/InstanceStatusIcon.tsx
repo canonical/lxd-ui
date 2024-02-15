@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { LxdInstance } from "types/instance";
 import classnames from "classnames";
 import { useInstanceLoading } from "context/instanceLoading";

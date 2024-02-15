@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";

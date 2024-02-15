@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { getIpAddresses } from "util/networks";
 import { LxdInstance } from "types/instance";
 import ExpandableList from "components/ExpandableList";

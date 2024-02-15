@@ -9,7 +9,7 @@ import {
 import { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
 import ToastNotification from "components/ToastNotification";
 import ToastNotificationList from "components/ToastNotificationList";
-import React, {
+import {
   FC,
   PropsWithChildren,
   ReactNode,

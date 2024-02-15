@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useEffect, useState } from "react";
+import { FC, MouseEvent, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Icon } from "@canonical/react-components";
 import { useAuth } from "context/auth";

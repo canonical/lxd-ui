@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Form, Input, Row, Col, useNotify } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";

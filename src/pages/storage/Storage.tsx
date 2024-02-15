@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Row } from "@canonical/react-components";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";

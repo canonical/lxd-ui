@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import { LxdInstance } from "types/instance";
 import { pluralizeInstance } from "util/instanceBulkActions";

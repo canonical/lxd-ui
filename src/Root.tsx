@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import Navigation from "components/Navigation";
 import { QueuedNotification } from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

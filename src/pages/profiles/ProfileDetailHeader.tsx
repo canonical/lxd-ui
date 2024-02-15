@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteProfileBtn from "./actions/DeleteProfileBtn";
 import { LxdProfile } from "types/profile";

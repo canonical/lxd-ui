@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import { LxdInstance } from "types/instance";

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import classnames from "classnames";
 import { List } from "@canonical/react-components";
 import { LxdStorageVolume } from "types/storage";

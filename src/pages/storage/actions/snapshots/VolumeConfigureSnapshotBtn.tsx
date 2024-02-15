@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import usePortal from "react-useportal";
 import { Button } from "@canonical/react-components";
 import VolumeConfigureSnapshotModal from "./VolumeConfigureSnapshotModal";

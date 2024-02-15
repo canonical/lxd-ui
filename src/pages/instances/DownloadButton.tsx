@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import { FC, useRef } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { fetchInstanceLogFile } from "api/instances";

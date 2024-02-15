@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Modal } from "@canonical/react-components";
 import { LxdImageType, RemoteImage } from "types/image";
 import UploadCustomIso from "pages/storage/UploadCustomIso";

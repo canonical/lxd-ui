@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { useProject } from "context/project";
 import { NavLink } from "react-router-dom";
 

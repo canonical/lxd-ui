@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
 import { useSettings } from "context/useSettings";
 import { RECENT_MAJOR_SERVER_VERSION, UI_VERSION } from "util/version";

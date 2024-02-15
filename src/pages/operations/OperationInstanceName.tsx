@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import ItemName from "components/ItemName";
 import { LxdOperation } from "types/operation";
 import InstanceLink from "pages/instances/InstanceLink";

@@ -1,5 +1,5 @@
 import { ICONS, Icon } from "@canonical/react-components";
-import React, { FC } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { LxdStorageVolume } from "types/storage";
 import classnames from "classnames";
