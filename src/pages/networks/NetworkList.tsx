@@ -167,13 +167,7 @@ const NetworkList: FC = () => {
               responsive
               sortable
               className="u-table-layout--auto"
-              emptyStateMsg={
-                isLoading ? (
-                  <Loader text="Loading networks..." />
-                ) : (
-                  "No data to display"
-                )
-              }
+              emptyStateMsg="No data to display"
             />
           )}
           {!isLoading && !hasNetworks && (

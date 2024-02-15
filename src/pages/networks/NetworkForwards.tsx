@@ -145,13 +145,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
               defaultSort="listenAddress"
               defaultSortDirection="ascending"
               className="u-table-layout--auto network-forwards-table"
-              emptyStateMsg={
-                isLoading ? (
-                  <Loader text="Loading network forwards..." />
-                ) : (
-                  "No data to display"
-                )
-              }
+              emptyStateMsg="No data to display"
             />
           </ScrollableTable>
         )}
