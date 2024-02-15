@@ -13,7 +13,7 @@ export interface LxdSettings {
   environment?: {
     architectures: string[];
     os_name?: string;
-    server_version: ?string;
+    server_version?: string;
     server_clustered: boolean;
     storage_supported_drivers: SupportedStorageDriver[];
   };
