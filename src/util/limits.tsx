@@ -67,7 +67,7 @@ export const parseMemoryLimit = (limit?: string): MemoryLimit | undefined => {
   }
   if (limit.includes("%")) {
     return {
-      value: limit ? parseInt(limit) : undefined,
+      value: parseInt(limit),
       unit: "%",
       selectedType: MEM_LIMIT_TYPE.PERCENT,
     };
