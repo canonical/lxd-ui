@@ -23,19 +23,22 @@ export const fetchProfiles = (project: string): Promise<LxdProfile[]> => {
   });
 };
 
-export const createProfile = (body: string, project: string) => {
+export const createProfile = (body: string, project: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles?project=${project}`, {
       method: "POST",
       body: body,
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
 
-export const updateProfile = (profile: LxdProfile, project: string) => {
+export const updateProfile = (
+  profile: LxdProfile,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
       method: "PUT",
@@ -54,7 +57,7 @@ export const renameProfile = (
   oldName: string,
   newName: string,
   project: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${oldName}?project=${project}`, {
       method: "POST",
@@ -68,13 +71,13 @@ export const renameProfile = (
   });
 };
 
-export const deleteProfile = (name: string, project: string) => {
+export const deleteProfile = (name: string, project: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };

@@ -145,9 +145,9 @@ export const fetchStorageVolumeSnapshots = (args: {
   type: string;
   volumeName: string;
   project: string;
-}) => {
+}): Promise<LxdVolumeSnapshot[]> => {
   const { pool, type, volumeName, project } = args;
-  return new Promise<LxdVolumeSnapshot[]>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${pool}/volumes/${type}/${volumeName}/snapshots?project=${project}&recursion=2`,
     )

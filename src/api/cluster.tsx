@@ -83,13 +83,13 @@ export const createClusterGroup = (
   });
 };
 
-export const deleteClusterGroup = (group: string) => {
+export const deleteClusterGroup = (group: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };

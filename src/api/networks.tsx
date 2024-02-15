@@ -41,7 +41,7 @@ export const createClusterBridge = (
   network: Partial<LxdNetwork>,
   project: string,
   clusterMembers: LxdClusterMember[],
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     const memberNetwork = {
       name: network.name,
@@ -75,7 +75,7 @@ export const createNetwork = (
   network: Partial<LxdNetwork>,
   project: string,
   target?: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/networks?project=${project}${targetParam}`, {
@@ -83,14 +83,14 @@ export const createNetwork = (
       body: JSON.stringify(network),
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(async (e: Error) => {
         // when creating a network on localhost the request will get cancelled
         // check manually if creation was successful
         if (e.message === "Failed to fetch") {
           const newNetwork = await fetchNetwork(network.name ?? "", project);
           if (newNetwork) {
-            resolve(newNetwork);
+            resolve();
           }
         }
         reject(e);
@@ -101,7 +101,7 @@ export const createNetwork = (
 export const updateNetwork = (
   network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   project: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${network.name ?? ""}?project=${project}`, {
       method: "PUT",
@@ -111,14 +111,14 @@ export const updateNetwork = (
       },
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(async (e: Error) => {
         // when updating a network on localhost the request will get cancelled
         // check manually if the edit was successful
         if (e.message === "Failed to fetch") {
           const newNetwork = await fetchNetwork(network.name ?? "", project);
           if (areNetworksEqual(network, newNetwork)) {
-            resolve(newNetwork);
+            resolve();
           }
         }
         reject(e);
@@ -130,7 +130,7 @@ export const renameNetwork = (
   oldName: string,
   newName: string,
   project: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${oldName}?project=${project}`, {
       method: "POST",
@@ -146,7 +146,7 @@ export const renameNetwork = (
         if (e.message === "Failed to fetch") {
           const renamedNetwork = await fetchNetwork(newName, project);
           if (renamedNetwork) {
-            resolve(renamedNetwork);
+            resolve();
           }
         }
         reject(e);

@@ -60,7 +60,7 @@ export const createPool = (
   pool: Partial<LxdStoragePool>,
   project: string,
   target?: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools?project=${project}${targetParam}`, {
@@ -68,12 +68,14 @@ export const createPool = (
       body: JSON.stringify(pool),
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
 
-const getClusterPool = (pool: Partial<LxdStoragePool>) => {
+const getClusterPool = (
+  pool: Partial<LxdStoragePool>,
+): Partial<LxdStoragePool> => {
   const poolForCluster = { ...pool };
   if (pool.driver !== cephDriver) {
     delete poolForCluster.config;
@@ -82,7 +84,9 @@ const getClusterPool = (pool: Partial<LxdStoragePool>) => {
   return poolForCluster;
 };
 
-const getMemberPool = (pool: Partial<LxdStoragePool>) => {
+const getMemberPool = (
+  pool: Partial<LxdStoragePool>,
+): Partial<LxdStoragePool> => {
   const poolForMember = { ...pool };
   // config keys for ceph storage pool cannot be member specific
   if (pool.driver === cephDriver) {
@@ -96,7 +100,7 @@ export const createClusteredPool = (
   pool: LxdStoragePool,
   project: string,
   clusterMembers: LxdClusterMember[],
-) => {
+): Promise<void> => {
   const memberPool = getMemberPool(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
@@ -117,7 +121,7 @@ export const updatePool = (
   pool: Partial<LxdStoragePool>,
   project: string,
   target?: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools/${pool.name}?project=${project}${targetParam}`, {
@@ -125,7 +129,7 @@ export const updatePool = (
       body: JSON.stringify(pool),
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -134,7 +138,7 @@ export const updateClusteredPool = (
   pool: Partial<LxdStoragePool>,
   project: string,
   clusterMembers: LxdClusterMember[],
-) => {
+): Promise<void> => {
   const memberPool = getMemberPool(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
@@ -153,7 +157,7 @@ export const renameStoragePool = (
   oldName: string,
   newName: string,
   project: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${oldName}?project=${project}`, {
       method: "POST",
@@ -167,13 +171,16 @@ export const renameStoragePool = (
   });
 };
 
-export const deleteStoragePool = (pool: string, project: string) => {
+export const deleteStoragePool = (
+  pool: string,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}?project=${project}`, {
       method: "DELETE",
     })
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -230,7 +237,7 @@ export const renameStorageVolume = (
   project: string,
   volume: LxdStorageVolume,
   newName: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}`,
@@ -302,7 +309,7 @@ export const updateStorageVolume = (
   pool: string,
   project: string,
   volume: Partial<LxdStorageVolume>,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${pool}/volumes/${volume.type ?? ""}/${
@@ -317,7 +324,7 @@ export const updateStorageVolume = (
       },
     )
       .then(handleResponse)
-      .then((data) => resolve(data))
+      .then(resolve)
       .catch(reject);
   });
 };
@@ -326,7 +333,7 @@ export const deleteStorageVolume = (
   volume: string,
   pool: string,
   project: string,
-): Promise<LxdStorageVolume> => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${pool}/volumes/custom/${volume}?project=${project}`,
@@ -335,7 +342,7 @@ export const deleteStorageVolume = (
       },
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume>) => resolve(data.metadata))
+      .then(resolve)
       .catch(reject);
   });
 };

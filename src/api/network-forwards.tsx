@@ -35,7 +35,7 @@ export const createNetworkForward = (
   network: string,
   forward: Partial<LxdNetworkForward>,
   project: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${network}/forwards?project=${project}`, {
       method: "POST",
@@ -51,7 +51,7 @@ export const updateNetworkForward = (
   network: string,
   forward: Partial<LxdNetworkForward>,
   project: string,
-) => {
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/networks/${network}/forwards/${forward.listen_address}?project=${project}`,
