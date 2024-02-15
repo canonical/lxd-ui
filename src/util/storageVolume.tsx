@@ -47,13 +47,14 @@ const storageVolumeFormFieldToPayloadName: Record<string, string> = {
   zfs_reserve_space: "zfs.reserve_space",
 };
 
-export const getFilesystemVolumeFormFields = () => {
-  return Object.keys(storageVolumeFormFieldToPayloadName).filter((item) =>
-    item.startsWith("block_"),
-  ) as (keyof StorageVolumeFormValues)[];
-};
+export const getFilesystemVolumeFormFields =
+  (): (keyof StorageVolumeFormValues)[] => {
+    return Object.keys(storageVolumeFormFieldToPayloadName).filter((item) =>
+      item.startsWith("block_"),
+    ) as (keyof StorageVolumeFormValues)[];
+  };
 
-export const getZfsVolumeFormFields = () => {
+export const getZfsVolumeFormFields = (): (keyof StorageVolumeFormValues)[] => {
   return Object.keys(storageVolumeFormFieldToPayloadName).filter((item) =>
     item.startsWith("zfs_"),
   ) as (keyof StorageVolumeFormValues)[];
@@ -66,23 +67,25 @@ export const getVolumeKey = (key: string): string => {
   return key;
 };
 
-export const renderVolumeType = (volume: LxdStorageVolume) => {
+export const renderVolumeType = (volume: LxdStorageVolume): string => {
   return volume.type === "virtual-machine"
     ? "VM"
     : capitalizeFirstLetter(volume.type);
 };
 
-export const renderContentType = (volume: LxdStorageVolume) => {
+export const renderContentType = (volume: LxdStorageVolume): string => {
   return volume.content_type === "iso"
     ? "ISO"
     : capitalizeFirstLetter(volume.content_type);
 };
 
-export const isSnapshot = (volume: LxdStorageVolume) => {
+export const isSnapshot = (volume: LxdStorageVolume): boolean => {
   return volume.name.includes("/");
 };
 
-export const splitVolumeSnapshotName = (fullVolumeName: string) => {
+export const splitVolumeSnapshotName = (
+  fullVolumeName: string,
+): { snapshotName: string; volumeName: string } => {
   const fullVolumeNameSplit = fullVolumeName.split("/");
   const snapshotName = fullVolumeNameSplit.pop() || "";
   const volumeName = fullVolumeNameSplit.join("");

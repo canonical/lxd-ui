@@ -15,7 +15,9 @@ const storageDriverLabels: { [key: string]: string } = {
   [cephDriver]: "Ceph",
 };
 
-export const getStorageDriverOptions = (settings?: LxdSettings) => {
+export const getStorageDriverOptions = (
+  settings?: LxdSettings,
+): OptionHTMLAttributes<HTMLOptionElement>[] => {
   const serverSupportedStorageDrivers =
     settings?.environment?.storage_supported_drivers || [];
   const storageDriverOptions: OptionHTMLAttributes<HTMLOptionElement>[] = [];

@@ -68,19 +68,19 @@ export const instanceActionLabel = (action: LxdInstanceAction): string => {
   }[action];
 };
 
-export const pluralizeInstance = (count: number) => {
+export const pluralizeInstance = (count: number): string => {
   return pluralize("instance", count);
 };
 
-export const pluralizeSnapshot = (count: number) => {
+export const pluralizeSnapshot = (count: number): string => {
   return pluralize("snapshot", count);
 };
 
-export const pluralize = (item: string, count: number) => {
+export const pluralize = (item: string, count: number): string => {
   return count === 1 ? item : `${item}s`;
 };
 
-export const statusLabel = (status: LxdInstanceStatus) => {
+export const statusLabel = (status: LxdInstanceStatus): string | undefined => {
   const statusToLabel: Partial<Record<LxdInstanceStatus, string>> = {
     Frozen: "frozen",
     Stopped: "stopped",

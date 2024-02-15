@@ -1,14 +1,14 @@
 import { LxdImage, RemoteImage } from "types/image";
 import { LxdStorageVolume } from "types/storage";
 
-export const isVmOnlyImage = (image: RemoteImage) => {
+export const isVmOnlyImage = (image: RemoteImage): boolean | undefined => {
   if (image.server === LOCAL_ISO) {
     return true;
   }
   return image.variant?.includes("desktop");
 };
 
-export const isContainerOnlyImage = (image: RemoteImage) => {
+export const isContainerOnlyImage = (image: RemoteImage): boolean => {
   if (isVmOnlyImage(image)) {
     return false;
   }
@@ -50,7 +50,7 @@ export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
   };
 };
 
-export const byLtsFirst = (a: RemoteImage, b: RemoteImage) => {
+export const byLtsFirst = (a: RemoteImage, b: RemoteImage): number => {
   if (a.aliases.includes("lts")) {
     return -1;
   }

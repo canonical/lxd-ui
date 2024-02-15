@@ -23,7 +23,7 @@ const instanceConfigFormFieldsToPayload: Record<string, string> = {
   cloud_init_vendor_data: "cloud-init.vendor-data",
 };
 
-export const getInstanceKey = (formField: string) => {
+export const getInstanceKey = (formField: string): string => {
   if (!(formField in instanceConfigFormFieldsToPayload)) {
     throw new Error(
       `Could not find ${formField} in instanceConfigFormFieldsToPayload`,
@@ -32,7 +32,7 @@ export const getInstanceKey = (formField: string) => {
   return instanceConfigFormFieldsToPayload[formField];
 };
 
-const getConfigKeys = () => {
+const getConfigKeys = (): Set<string> => {
   return new Set(Object.values(instanceConfigFormFieldsToPayload));
 };
 

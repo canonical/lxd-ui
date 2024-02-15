@@ -1,10 +1,14 @@
 import { LxdClusterMember } from "types/cluster";
 import EvacuateClusterMemberBtn from "pages/cluster/actions/EvacuateClusterMemberBtn";
 import RestoreClusterMemberBtn from "pages/cluster/actions/RestoreClusterMemberBtn";
+import {
+  MainTableHeader,
+  MainTableRow,
+} from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 export const allClusterGroups = "All cluster groups";
 
-export const getClusterHeaders = (activeGroup?: string) => [
+export const getClusterHeaders = (activeGroup?: string): MainTableHeader[] => [
   {
     content: (
       <>
@@ -44,7 +48,7 @@ export const getClusterHeaders = (activeGroup?: string) => [
 export const getClusterRows = (
   members: LxdClusterMember[],
   activeGroup?: string,
-) =>
+): MainTableRow[] =>
   members.map((member) => {
     return {
       className: "u-row",

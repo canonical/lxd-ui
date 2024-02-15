@@ -13,7 +13,7 @@ export const projectSubpages = [
   "configuration",
 ];
 
-export const getSubpageFromUrl = (url: string) => {
+export const getSubpageFromUrl = (url: string): string | undefined => {
   const parts = url.split("/");
 
   const mainSubpage = parts[4];
@@ -30,7 +30,7 @@ export const getSubpageFromUrl = (url: string) => {
   return undefined;
 };
 
-export const isProjectEmpty = (project: LxdProject) => {
+export const isProjectEmpty = (project: LxdProject): boolean => {
   if (!project.used_by) {
     return true;
   }
@@ -39,5 +39,5 @@ export const isProjectEmpty = (project: LxdProject) => {
   return !project.used_by.some((item) => item !== defaultProfile);
 };
 
-export const isProjectWithProfiles = (project?: LxdProject) =>
+export const isProjectWithProfiles = (project?: LxdProject): boolean =>
   project?.config["features.profiles"] === "true";

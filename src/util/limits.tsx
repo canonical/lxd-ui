@@ -6,7 +6,9 @@ import {
   MemoryLimit,
 } from "types/limits";
 
-export const cpuLimitToPayload = (cpuLimit: CpuLimit | string | undefined) => {
+export const cpuLimitToPayload = (
+  cpuLimit: CpuLimit | string | undefined,
+): string | undefined => {
   if (!cpuLimit) {
     return undefined;
   }

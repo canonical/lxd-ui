@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
 
 /*** Instance snapshot utils ***/
-export const isInstanceStateful = (instance: LxdInstance) => {
+export const isInstanceStateful = (instance: LxdInstance): boolean => {
   return Boolean(instance.config["migration.stateful"]);
 };
 

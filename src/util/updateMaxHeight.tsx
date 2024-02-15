@@ -8,7 +8,7 @@ export const updateMaxHeight = (
   additionalOffset = 0,
   targetProperty: HeightProperty = "height",
   belowIds: string[] = ["status-bar"],
-) => {
+): void => {
   const elements = document.getElementsByClassName(targetClass);
   const belowElements = bottomClass
     ? document.getElementsByClassName(bottomClass)

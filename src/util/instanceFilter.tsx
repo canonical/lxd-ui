@@ -16,7 +16,9 @@ export const instanceStatuses: LxdInstanceStatus[] = [
 
 export const instanceTypes: string[] = ["Container", "VM"];
 
-export const enrichStatuses = (statuses: LxdInstanceStatus[]) => {
+export const enrichStatuses = (
+  statuses: LxdInstanceStatus[],
+): LxdInstanceStatus[] => {
   if (statuses.includes("Frozen")) {
     statuses.push("Freezing");
   }

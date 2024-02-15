@@ -28,7 +28,7 @@ export const configDescriptionToHtml = (
   input: string,
   docBaseLink: string,
   objectsInvTxt?: string[],
-) => {
+): string => {
   // special characters
   let result = input
     .replaceAll("<", "&lt;")

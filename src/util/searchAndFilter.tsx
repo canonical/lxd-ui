@@ -17,7 +17,10 @@ export const paramsFromSearchData = (
   return newParams;
 };
 
-const searchValuesByLead = (searchData: SearchAndFilterChip[], lead: string) =>
+const searchValuesByLead = (
+  searchData: SearchAndFilterChip[],
+  lead: string,
+): string[] =>
   searchData
     .filter(
       (chip) => chip.lead === lead || (lead === "query" && chip.quoteValue),
@@ -27,7 +30,7 @@ const searchValuesByLead = (searchData: SearchAndFilterChip[], lead: string) =>
 export const searchParamsToChips = (
   searchParams: URLSearchParams,
   queryParams: string[],
-) => {
+): SearchAndFilterChip[] => {
   const searchData: SearchAndFilterChip[] = [];
   queryParams.forEach((param) =>
     searchData.push(

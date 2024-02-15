@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
-export const isoTimeToString = (isoTime: string) => {
+export const isoTimeToString = (isoTime: string): string => {
   if (isoTime === UNDEFINED_DATE) {
     return "";
   }
@@ -28,12 +28,12 @@ export const isoTimeToString = (isoTime: string) => {
   });
 };
 
-export const stringToIsoTime = (dateTime: string) => {
+export const stringToIsoTime = (dateTime: string): string => {
   const date = new Date(dateTime);
   return date.toISOString();
 };
 
-export const getTomorrow = (date: Date = new Date()) => {
+export const getTomorrow = (date: Date = new Date()): string => {
   // set date as next day
   date.setDate(date.getDate() + 1);
   // set time to midnight
@@ -44,9 +44,9 @@ export const getTomorrow = (date: Date = new Date()) => {
   return new Date(date.getTime() - tzOffset).toISOString().slice(0, 10);
 };
 
-const pad = (v: number) => `0${v}`.slice(-2);
+const pad = (v: number): string => `0${v}`.slice(-2);
 
-export const getBrowserFormatDate = (d: Date) =>
+export const getBrowserFormatDate = (d: Date): string =>
   `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(
     d.getHours(),
   )}:${pad(d.getMinutes())}`;
@@ -74,7 +74,7 @@ export const handleResponse = async (response: Response) => {
 
 export const handleSettledResult = (
   results: PromiseSettledResult<unknown>[],
-) => {
+): void => {
   const error = (
     results.find((res) => res.status === "rejected") as
       | PromiseRejectedResult
@@ -95,7 +95,9 @@ export const handleEtagResponse = async (response: Response) => {
   return result;
 };
 
-export const handleTextResponse = async (response: Response) => {
+export const handleTextResponse = async (
+  response: Response,
+): Promise<string> => {
   if (!response.ok) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result: ErrorResponse = await response.json();
@@ -104,7 +106,7 @@ export const handleTextResponse = async (response: Response) => {
   return response.text();
 };
 
-export const humanFileSize = (bytes: number, toBibyte = false) => {
+export const humanFileSize = (bytes: number, toBibyte = false): string => {
   if (Math.abs(bytes) < 1000) {
     return `${bytes} B`;
   }
@@ -125,7 +127,7 @@ export const humanFileSize = (bytes: number, toBibyte = false) => {
   return `${bytes.toFixed(1)} ${units[u]}`;
 };
 
-export const getWsErrorMsg = (code: number) => {
+export const getWsErrorMsg = (code: number): string => {
   // See https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
   if (code == 1000)
     return "Normal closure, meaning that the purpose for which the connection was established has been fulfilled.";
@@ -186,12 +188,15 @@ export const getUrlParam = (paramName: string, url?: string): string | null => {
   return browserUrl.searchParams.get(paramName);
 };
 
-export const defaultFirst = (p1: { name: string }, p2: { name: string }) =>
-  p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0;
+export const defaultFirst = (
+  p1: { name: string },
+  p2: { name: string },
+): number => (p1.name === "default" ? -1 : p2.name === "default" ? 1 : 0);
 
-export const isWidthBelow = (width: number) => window.innerWidth < width;
+export const isWidthBelow = (width: number): boolean =>
+  window.innerWidth < width;
 
-export const getParentsBottomSpacing = (element: Element) => {
+export const getParentsBottomSpacing = (element: Element): number => {
   let sum = 0;
   while (element.parentElement) {
     element = element.parentElement;
@@ -205,7 +210,7 @@ export const getParentsBottomSpacing = (element: Element) => {
 
 export const getPromiseSettledCounts = (
   results: PromiseSettledResult<void>[],
-) => {
+): { fulfilledCount: number; rejectedCount: number } => {
   const fulfilledCount = results.filter(
     (result) => result.status === "fulfilled",
   ).length;
@@ -215,7 +220,7 @@ export const getPromiseSettledCounts = (
   return { fulfilledCount, rejectedCount };
 };
 
-export const pushSuccess = (results: PromiseSettledResult<void>[]) => {
+export const pushSuccess = (results: PromiseSettledResult<void>[]): void => {
   results.push({
     status: "fulfilled",
     value: undefined,
@@ -225,7 +230,7 @@ export const pushSuccess = (results: PromiseSettledResult<void>[]) => {
 export const pushFailure = (
   results: PromiseSettledResult<void>[],
   msg: string,
-) => {
+): void => {
   results.push({
     status: "rejected",
     reason: msg,
@@ -236,19 +241,19 @@ export const continueOrFinish = (
   results: PromiseSettledResult<void>[],
   totalLength: number,
   resolve: (value: PromiseSettledResult<void>[]) => void,
-) => {
+): void => {
   if (totalLength === results.length) {
     resolve(results);
   }
 };
 
-export const logout = () =>
+export const logout = (): void =>
   void fetch("/oidc/logout").then(() => window.location.reload());
 
-export const capitalizeFirstLetter = (val: string) =>
+export const capitalizeFirstLetter = (val: string): string =>
   val.charAt(0).toUpperCase() + val.slice(1);
 
-export const getAbsoluteHeightBelow = (belowId: string) => {
+export const getAbsoluteHeightBelow = (belowId: string): number => {
   const element = belowId ? document.getElementById(belowId) : undefined;
   if (!element) {
     return 0;
@@ -258,30 +263,4 @@ export const getAbsoluteHeightBelow = (belowId: string) => {
   const padding =
     parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
   return element.offsetHeight + margin + padding + 1;
-};
-
-export const getElementAbsoluteHeight = (element: HTMLElement | null) => {
-  if (!element) {
-    return 0;
-  }
-
-  const style = window.getComputedStyle(element);
-  const marginHeight =
-    parseFloat(style.marginTop) + parseFloat(style.marginBottom);
-  return element.offsetHeight + marginHeight;
-};
-
-export const getNegativeMargin = (element: HTMLElement | null) => {
-  if (!element) {
-    return 0;
-  }
-
-  const style = window.getComputedStyle(element);
-  const marginHeight =
-    parseFloat(style.marginTop) + parseFloat(style.marginBottom);
-  return marginHeight < 0 ? marginHeight : 0;
-};
-
-export const getHeightOffsetStyle = (offset: number) => {
-  return `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
 };
