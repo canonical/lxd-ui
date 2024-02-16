@@ -68,6 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        lxd_channel: ["5.0/stable", "latest/edge"]
         browser: ["chromium", "firefox"]
     outputs:
       job_status: ${{job.status}}
@@ -114,7 +115,7 @@ jobs:
       - name: Install LXD
         uses: canonical/setup-lxd@v0.1.1
         with:
-          channel: latest/edge
+          channel: ${{ matrix.lxd_channel }}
 
       - name: Setup LXD
         shell: bash
@@ -132,17 +133,25 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
 
+      - name: Set lxd channel env variable
+        id: lxd-env
+        run: |
+          # need to change / to - in lxd channel string for report naming
+          LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
+          echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
+
       - name: Run Playwright tests
-        run: npx playwright test --project ${{ matrix.browser }}
+        run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
 
       - name: Rename Playwright report
-        run: mv blob-report/report.zip blob-report/${{ matrix.browser }}-report.zip
+        if: always()
+        run: mv blob-report/report.zip blob-report/${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}-report.zip
 
-      - name: Upload ${{ matrix.browser }} blob reports to be merged
+      - name: Upload ${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }} blob reports to be merged
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: blob-report-${{ matrix.browser }}
+          name: blob-report-${{ matrix.browser }}-lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
           path: blob-report
           retention-days: 1
 

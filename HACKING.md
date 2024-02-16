@@ -90,6 +90,12 @@ All commits are required to be signed off using a GPG key. You can use the follo
 3. To sign commits, you should enter the git command with additional flags as shown in this example: `git commit -s -S -a -m "initial commit"`.
 4. To make your life a little easier, you can setup a git alias for signing commits with `git config alias.sc 'commit -s -S -a'`. Now you can sign your commits with `git sc -m "initial commit"` for example. Note this only enables the alias for your local git configuration.
 
+# Supporting multiple lxd versions
+When making a contribution to this project, please take note that the UI should degrade gracefully for all lxd LTS versions later than v5.0. To acheive this, there are two processes that should be followed:
+
+1. When adding a new feature that introduces lxd api endpoints that are not currently used in the project, make sure you check against `api_extensions` returned by the `GET /1.0/` endpoint if the new endpoints used exists for older lxd versions. If the new endpoints are not supported in an older lxd version, then you should either hide or disable a portion of the new feature for the relevant lxd version. A useful `useSupportedFeatures` hook can be used for this purpose. You can also find a comprehensive list of `api_extensions` refrences in the [lxd documentation](https://documentation.ubuntu.com/lxd/en/latest/api-extensions/).
+2. You should write e2e tests that covers the new feature for all supported lxd versions. For example, if your feature is hidden for an older lxd server version, you should test that it is not displayed in the browser for that lxd version.
+
 # End-to-end tests
 
 Install playwright and its browsers

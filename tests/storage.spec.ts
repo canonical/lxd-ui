@@ -1,4 +1,5 @@
-import { Page, test } from "@playwright/test";
+import { Page } from "@playwright/test";
+import { test } from "./fixtures/lxd-test";
 import {
   createPool,
   deletePool,
@@ -54,7 +55,7 @@ test("storage volume create, edit and remove", async () => {
   await page.getByText("size2GiB").click();
 });
 
-test("storage volume edit snapshot configuration", async () => {
+test("storage volume edit snapshot configuration", async ({ lxdVersion }) => {
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByText("See configuration").click();
@@ -67,7 +68,11 @@ test("storage volume edit snapshot configuration", async () => {
     "snap123",
   );
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
-  await activateOverride(page, "Schedule Schedule for automatic");
+  const scheduleFieldText =
+    lxdVersion === "5.0-stable"
+      ? "Schedule"
+      : "Schedule Schedule for automatic volume snapshots";
+  await activateOverride(page, scheduleFieldText);
   await page.getByPlaceholder("Enter cron expression").last().fill("@daily");
   await page.getByRole("button", { name: "Save" }).click();
   await page.waitForSelector(

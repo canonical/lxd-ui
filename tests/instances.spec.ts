@@ -1,4 +1,5 @@
-import { Page, expect, test } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
+import { test } from "./fixtures/lxd-test";
 import {
   createInstance,
   deleteInstance,
@@ -157,7 +158,7 @@ test("instance edit security policies", async () => {
   );
 });
 
-test("instance edit snapshot configuration", async () => {
+test("instance edit snapshot configuration", async ({ lxdVersion }) => {
   await editInstance(page, instance);
 
   await page
@@ -167,7 +168,7 @@ test("instance edit snapshot configuration", async () => {
   await setInput(page, "Snapshot name", "Enter name pattern", "snap123");
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
   await setOption(page, "Snapshot stopped instances", "true");
-  await setSchedule(page, "@daily");
+  await setSchedule(page, "@daily", lxdVersion);
 
   await saveInstance(page, instance);
 

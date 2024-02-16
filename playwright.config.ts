@@ -1,10 +1,11 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
+import { TestOptions } from "./tests/fixtures/lxd-test";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig<TestOptions> = {
   testDir: "./tests",
   /* Maximum time one test can run for. */
   timeout: 120 * 1000,
@@ -42,16 +43,31 @@ const config: PlaywrightTestConfig = {
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "chromium",
+      name: "chromium:lxd-5.0-stable",
       use: {
         ...devices["Desktop Chrome"],
+        lxdVersion: "5.0-stable",
       },
     },
-
     {
-      name: "firefox",
+      name: "firefox:lxd-5.0-stable",
       use: {
         ...devices["Desktop Firefox"],
+        lxdVersion: "5.0-stable",
+      },
+    },
+    {
+      name: "chromium:lxd-latest-edge",
+      use: {
+        ...devices["Desktop Chrome"],
+        lxdVersion: "latest-edge",
+      },
+    },
+    {
+      name: "firefox:lxd-latest-edge",
+      use: {
+        ...devices["Desktop Firefox"],
+        lxdVersion: "latest-edge",
       },
     },
   ],

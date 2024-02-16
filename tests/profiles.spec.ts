@@ -1,4 +1,5 @@
-import { Page, test } from "@playwright/test";
+import { Page } from "@playwright/test";
+import { test } from "./fixtures/lxd-test";
 import {
   assertCode,
   assertReadMode,
@@ -120,14 +121,14 @@ test("profile security policies", async () => {
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 });
 
-test("profile snapshots", async () => {
+test("profile snapshots", async ({ lxdVersion }) => {
   await editProfile(page, profile);
   await page.getByText("Snapshots").click();
 
   await setInput(page, "Snapshot name", "Enter name pattern", "snap123");
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
   await setOption(page, "Snapshot stopped instances", "true");
-  await setSchedule(page, "@daily");
+  await setSchedule(page, "@daily", lxdVersion);
 
   await saveProfile(page, profile);
 
