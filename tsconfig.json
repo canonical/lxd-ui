@@ -35,7 +35,7 @@
     "babel.config.js",
     "playwright.config.ts",
     "webpack.config.js",
-    "./tests/*.ts",
+    "./tests/**/*.ts",
     "vite.config.ts",
     "vitest.config.ts"
   ],

@@ -1,4 +1,5 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "./fixtures/lxd-test";
 import {
   assertReadMode,
   setInput,
@@ -28,7 +29,7 @@ test("project rename", async ({ page }) => {
   await deleteProject(page, newName);
 });
 
-test("project edit configuration", async ({ page }) => {
+test("project edit configuration", async ({ page, lxdVersion }) => {
   const project = randomProjectName();
   await createProject(page, project);
 
@@ -39,7 +40,13 @@ test("project edit configuration", async ({ page }) => {
     .getByRole("combobox", { name: "Features" })
     .selectOption("customised");
   await page.locator("span").filter({ hasText: "Networks" }).click();
-  await page.locator("label").filter({ hasText: "Network zones" }).click();
+  if (lxdVersion === "5.0-stable") {
+    await expect(
+      page.locator("label").filter({ hasText: "Network zones" }),
+    ).toBeHidden();
+  } else {
+    await page.locator("label").filter({ hasText: "Network zones" }).click();
+  }
   await page.getByText("Allow custom restrictions on a project level").click();
 
   await page.getByText("Resource limits").click();
@@ -102,7 +109,11 @@ test("project edit configuration", async ({ page }) => {
 
   await page.getByText("DescriptionA-new-description").click();
   await expect(page.locator("input#features_networks")).toHaveValue("on");
-  await expect(page.locator("input#features_networks_zones")).toHaveValue("on");
+  if (lxdVersion !== "5.0-stable") {
+    await expect(page.locator("input#features_networks_zones")).toHaveValue(
+      "on",
+    );
+  }
 
   await page.getByText("Resource limits").click();
   await assertReadMode(page, "Max number of instances", "1");

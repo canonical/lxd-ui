@@ -1,4 +1,5 @@
-import { Page, test } from "@playwright/test";
+import { Page } from "@playwright/test";
+import { test } from "./fixtures/lxd-test";
 import { randomNameSuffix } from "./helpers/name";
 
 test("cluster group create and delete", async ({ page }) => {

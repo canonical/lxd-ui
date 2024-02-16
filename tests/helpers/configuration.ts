@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { LxdVersions } from "../fixtures/lxd-test";
 
 export const setOption = async (page: Page, field: string, value: string) => {
   await activateOverride(page, field);
@@ -89,14 +90,20 @@ export const setMemLimit = async (
   await page.getByPlaceholder(text).fill(limit);
 };
 
-export const setSchedule = async (page: Page, value: string) => {
-  await activateOverride(
-    page,
-    "Schedule Schedule for automatic instance snapshots - From: LXD",
-  );
+export const setSchedule = async (
+  page: Page,
+  value: string,
+  lxdVersion: LxdVersions,
+) => {
+  const scheduleFieldText =
+    lxdVersion === "5.0-stable"
+      ? "Schedule"
+      : "Schedule Schedule for automatic instance snapshots - From: LXD";
+
+  await activateOverride(page, scheduleFieldText);
   await page
     .getByRole("row", {
-      name: "Schedule Schedule for automatic instance snapshots - From: LXD",
+      name: scheduleFieldText,
     })
     .getByText("Cron syntax")
     .click();
