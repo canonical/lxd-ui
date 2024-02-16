@@ -6,7 +6,7 @@ import {
 } from "types/instance";
 import {
   instanceAction,
-  pluralizeInstance,
+  pluralize,
   statusLabel,
 } from "util/instanceBulkActions";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
@@ -38,7 +38,8 @@ const InstanceBulkAction: FC<Props> = ({
   const hasDifferentStates = selectedStates.size > 1;
   const selectedSummary = hasDifferentStates ? (
     <>
-      <b>{instances.length}</b> {pluralizeInstance(instances.length)} selected:
+      <b>{instances.length}</b> {pluralize("instance", instances.length)}{" "}
+      selected:
       <br />
       <br />
     </>
@@ -81,7 +82,7 @@ const InstanceBulkAction: FC<Props> = ({
       <Fragment key={currentState + desiredAction}>
         {indent}
         This will {desiredAction} <b>{count}</b>
-        {` ${status} ${pluralizeInstance(count)}.`}
+        {` ${status} ${pluralize("instance", count)}.`}
         <br />
       </Fragment>
     );

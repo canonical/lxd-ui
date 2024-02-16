@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Button } from "@canonical/react-components";
+import { pluralize } from "util/instanceBulkActions";
 
 interface Props {
   totalCount: number;
@@ -51,8 +52,8 @@ const SelectedTableNotification: FC<Props> = ({
         </>
       ) : (
         <>
-          <b>{selectedNames.length}</b> {itemName}
-          {selectedNames.length > 1 && "s"} selected.{" "}
+          <b>{selectedNames.length}</b>{" "}
+          {pluralize(itemName, selectedNames.length)} selected.{" "}
           <Button
             appearance="link"
             className="u-no-margin--bottom u-no-padding--top"

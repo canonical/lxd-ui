@@ -7,7 +7,7 @@ import { LxdInstance, LxdInstanceAction } from "types/instance";
 import {
   instanceActionLabel,
   instanceActions,
-  pluralizeInstance,
+  pluralize,
 } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
@@ -43,7 +43,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         if (fulfilledCount === count) {
           toastNotify.success(
             <>
-              <b>{count}</b> {pluralizeInstance(count)} {action}.
+              <b>{count}</b> {pluralize("instance", count)} {action}.
             </>,
           );
         } else if (rejectedCount === count) {
@@ -51,7 +51,8 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
             `Instance ${desiredAction} failed`,
             undefined,
             <>
-              <b>{count}</b> {pluralizeInstance(count)} could not be {action}.
+              <b>{count}</b> {pluralize("instance", count)} could not be{" "}
+              {action}.
             </>,
           );
         } else {
@@ -59,11 +60,11 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
             `Instance ${desiredAction} partially failed`,
             undefined,
             <>
-              <b>{fulfilledCount}</b> {pluralizeInstance(fulfilledCount)}{" "}
+              <b>{fulfilledCount}</b> {pluralize("instance", fulfilledCount)}{" "}
               {action}
               .<br />
-              <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could
-              not be {action}.
+              <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)}{" "}
+              could not be {action}.
             </>,
           );
         }

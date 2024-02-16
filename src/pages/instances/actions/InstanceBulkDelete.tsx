@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import { LxdInstance } from "types/instance";
-import { pluralizeInstance } from "util/instanceBulkActions";
+import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { deletableStatuses } from "util/instanceDelete";
@@ -37,15 +37,15 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
         getPromiseSettledCounts(results);
       if (fulfilledCount === deleteCount) {
         toastNotify.success(
-          `${deleteCount} ${pluralizeInstance(deleteCount)} deleted`,
+          `${deleteCount} ${pluralize("instance", deleteCount)} deleted`,
         );
       } else if (rejectedCount === deleteCount) {
         toastNotify.failure(
           "Instance bulk deletion failed",
           undefined,
           <>
-            <b>{deleteCount}</b> {pluralizeInstance(deleteCount)} could not be
-            deleted.
+            <b>{deleteCount}</b> {pluralize("instance", deleteCount)} could not
+            be deleted.
           </>,
         );
       } else {
@@ -53,10 +53,11 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
           "Instance bulk deletion partially failed",
           undefined,
           <>
-            <b>{fulfilledCount}</b> {pluralizeInstance(fulfilledCount)} deleted.
+            <b>{fulfilledCount}</b> {pluralize("instance", fulfilledCount)}{" "}
+            deleted.
             <br />
-            <b>{rejectedCount}</b> {pluralizeInstance(rejectedCount)} could not
-            be deleted.
+            <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)} could
+            not be deleted.
           </>,
         );
       }
@@ -88,11 +89,13 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
                     <b>{totalCount}</b> instances selected:
                     <br />
                     <br />
-                    {`- ${deleteCount} stopped ${pluralizeInstance(
+                    {`- ${deleteCount} stopped ${pluralize(
+                      "instance",
                       deleteCount,
                     )} will be deleted`}
                     <br />
-                    {`- ${ignoredCount} other ${pluralizeInstance(
+                    {`- ${ignoredCount} other ${pluralize(
+                      "instance",
                       ignoredCount,
                     )} will be ignored`}
                     <br />
@@ -100,7 +103,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
                   </>
                 )}
                 This will permanently delete <b>{deleteCount}</b>{" "}
-                {pluralizeInstance(deleteCount)}.{"\n"}This action cannot be
+                {pluralize("instance", deleteCount)}.{"\n"}This action cannot be
                 undone, and can result in data loss.
               </p>
             ),
