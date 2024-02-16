@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { deleteVolumeSnapshotBulk } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { pluralizeSnapshot } from "util/instanceBulkActions";
+import { pluralize } from "util/instanceBulkActions";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
@@ -39,7 +39,8 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
           toastNotify.success(
-            `${snapshotNames.length} ${pluralizeSnapshot(
+            `${snapshotNames.length} ${pluralize(
+              "snapshot",
               snapshotNames.length,
             )} deleted`,
           );
@@ -48,7 +49,8 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
             "Snapshot bulk deletion failed",
             undefined,
             <>
-              <b>{count}</b> {pluralizeSnapshot(count)} could not be deleted.
+              <b>{count}</b> {pluralize("snapshot", count)} could not be
+              deleted.
             </>,
           );
         } else {
@@ -56,11 +58,11 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
             "Snapshot bulk deletion partially failed",
             undefined,
             <>
-              <b>{fulfilledCount}</b> {pluralizeSnapshot(fulfilledCount)}{" "}
+              <b>{fulfilledCount}</b> {pluralize("snapshot", fulfilledCount)}{" "}
               deleted.
               <br />
-              <b>{rejectedCount}</b> {pluralizeSnapshot(rejectedCount)} could
-              not be deleted.
+              <b>{rejectedCount}</b> {pluralize("snapshot", rejectedCount)}{" "}
+              could not be deleted.
             </>,
           );
         }
@@ -83,7 +85,7 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
         children: (
           <p>
             This will permanently delete <b>{count}</b>{" "}
-            {pluralizeSnapshot(count)}
+            {pluralize("snapshot", count)}
             .<br />
             This action cannot be undone, and can result in data loss.
           </p>

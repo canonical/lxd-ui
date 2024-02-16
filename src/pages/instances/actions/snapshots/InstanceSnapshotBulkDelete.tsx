@@ -3,7 +3,7 @@ import { LxdInstance } from "types/instance";
 import { deleteInstanceSnapshotBulk } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { pluralizeSnapshot } from "util/instanceBulkActions";
+import { pluralize } from "util/instanceBulkActions";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
@@ -42,8 +42,8 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
         if (fulfilledCount === count) {
           onSuccess(
             <>
-              <b>{snapshotNames.length}</b> snapshot
-              {snapshotNames.length > 1 && "s"} deleted.
+              <b>{snapshotNames.length}</b>{" "}
+              {pluralize("snapshot", snapshotNames.length)} deleted.
             </>,
           );
         } else if (rejectedCount === count) {
@@ -51,7 +51,8 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
             "Snapshot bulk deletion failed",
             undefined,
             <>
-              <b>{count}</b> {pluralizeSnapshot(count)} could not be deleted.
+              <b>{count}</b> {pluralize("snapshot", count)} could not be
+              deleted.
             </>,
           );
         } else {
@@ -59,11 +60,11 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
             "Snapshot bulk deletion partially failed",
             undefined,
             <>
-              <b>{fulfilledCount}</b> {pluralizeSnapshot(fulfilledCount)}{" "}
+              <b>{fulfilledCount}</b> {pluralize("snapshot", fulfilledCount)}{" "}
               deleted.
               <br />
-              <b>{rejectedCount}</b> {pluralizeSnapshot(rejectedCount)} could
-              not be deleted.
+              <b>{rejectedCount}</b> {pluralize("snapshot", rejectedCount)}{" "}
+              could not be deleted.
             </>,
           );
         }
@@ -84,7 +85,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
         children: (
           <p>
             This will permanently delete <b>{count}</b>{" "}
-            {pluralizeSnapshot(count)}
+            {pluralize("snapshot", count)}
             .<br />
             This action cannot be undone, and can result in data loss.
           </p>
