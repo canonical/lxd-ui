@@ -3,6 +3,8 @@ FROM node:21 AS yarn-dependencies
 WORKDIR /srv
 COPY . .
 RUN yarn --network-concurrency 2
+# currently vite v5 does not work on big endian systems due to rollup support issues
+RUN if [ "$(arch)" = "s390x" ] ; then yarn upgrade vite@4.5.2 ; else echo "we good" ; fi
 RUN yarn run build
 RUN mkdir /srv/deploy
 RUN mv build /srv/deploy/
