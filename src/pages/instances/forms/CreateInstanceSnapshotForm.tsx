@@ -137,7 +137,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
                 message={statefulInfoMessage}
                 zIndex={TOOLTIP_OVER_MODAL_ZINDEX}
               >
-                <Icon name="information" />
+                <Icon name="info--dark" />
               </Tooltip>,
             ]
           : []),

@@ -123,7 +123,7 @@ To change it, edit it in the profile or project it originates from,
 or remove the originating item"
                 position="btm-left"
               >
-                <Icon name="information" />
+                <Icon name="info--dark" />
               </Tooltip>
             ),
           });
@@ -168,7 +168,7 @@ or remove the originating item"
                 <>
                   custom network{" "}
                   <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
-                    <Icon name="information" />
+                    <Icon name="info--dark" />
                   </Tooltip>{" "}
                 </>
               ) : readOnly ? (
