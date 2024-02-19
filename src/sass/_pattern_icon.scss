@@ -8,3 +8,13 @@
     @include lxdui-icon-sidebar-collapse;
   }
 }
+
+.p-icon--info--light {
+  @extend %icon;
+  @include vf-icon-info($colors--dark-theme--icon);
+}
+
+.p-icon--info--dark {
+  @extend %icon;
+  @include vf-icon-info($colors--light-theme--icon);
+}

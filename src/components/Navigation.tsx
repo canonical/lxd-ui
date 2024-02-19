@@ -275,8 +275,8 @@ const Navigation: FC = () => {
                       title="Documentation"
                     >
                       <Icon
-                        className="is-light p-side-navigation__icon"
-                        name="information"
+                        className="p-side-navigation__icon"
+                        name="info--light"
                       />{" "}
                       Documentation
                     </a>
