@@ -95,8 +95,8 @@ const CustomVolumeSelectModal: FC<Props> = ({
                     dense
                     appearance={
                       primaryVolume?.name === volume.name &&
-                      primaryVolume.type === volume.type &&
-                      primaryVolume.pool == volume.pool
+                      primaryVolume?.type === volume.type &&
+                      primaryVolume?.pool == volume.pool
                         ? "positive"
                         : ""
                     }
