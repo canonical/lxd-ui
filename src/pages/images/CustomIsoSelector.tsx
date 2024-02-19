@@ -72,7 +72,7 @@ const CustomIsoSelector: FC<Props> = ({
             <Button
               appearance={
                 primaryImage?.name === image.aliases &&
-                primaryImage.pool === image.pool
+                primaryImage?.pool === image.pool
                   ? "positive"
                   : ""
               }

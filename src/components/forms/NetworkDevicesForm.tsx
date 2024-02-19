@@ -51,7 +51,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     queryFn: () => fetchNetworks(project),
   });
 
-  if (profileError) {
+  if (networkError) {
     notify.failure("Loading networks failed", networkError);
   }
 

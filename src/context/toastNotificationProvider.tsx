@@ -173,7 +173,7 @@ const ToastNotificationProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const latestNotification = notifications[notifications.length - 1];
-  const hasNotifications = !!notifications?.length;
+  const hasNotifications = !!notifications.length;
   const showNotification = hasNotifications && !showList && notificationTimer;
   const showNotificationList = hasNotifications && showList;
   return (
