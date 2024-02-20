@@ -8,20 +8,18 @@ import ProjectSelector from "pages/projects/ProjectSelector";
 import { isWidthBelow, logout } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
-import { getCookie } from "util/cookies";
 import { useDocs } from "context/useDocs";
 
 const isSmallScreen = () => isWidthBelow(620);
 
 const Navigation: FC = () => {
-  const { isRestricted } = useAuth();
+  const { isRestricted, isOidc } = useAuth();
   const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const { project, isLoading } = useProject();
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default",
   );
-  const hasOidcCookie = Boolean(getCookie("oidc_access"));
 
   useEffect(() => {
     project && project.name !== projectName && setProjectName(project.name);
@@ -225,7 +223,7 @@ const Navigation: FC = () => {
                           Settings
                         </NavLink>
                       </li>
-                      {hasOidcCookie && (
+                      {isOidc && (
                         <li className="p-side-navigation__item">
                           <a
                             className="p-side-navigation__link"

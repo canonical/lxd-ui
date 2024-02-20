@@ -8,6 +8,7 @@ import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import CustomLayout from "components/CustomLayout";
 import NoMatch from "components/NoMatch";
+import { logout } from "util/helpers";
 
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -55,11 +56,15 @@ const WarningList = lazy(() => import("pages/warnings/WarningList"));
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
 const App: FC = () => {
-  const { defaultProject, isAuthLoading } = useAuth();
+  const { defaultProject, isAuthLoading, isAuthenticated } = useAuth();
   setTitle();
 
   if (isAuthLoading) {
     return <Loader />;
+  }
+
+  if (!isAuthenticated) {
+    logout();
   }
 
   return (

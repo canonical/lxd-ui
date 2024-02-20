@@ -1,6 +1,7 @@
 import { LxdConfigPair } from "./config";
 
 type LXDAuthMethods = "tls" | "oidc" | "unix";
+
 type SupportedStorageDriver = {
   Name: string;
   Version: string;
