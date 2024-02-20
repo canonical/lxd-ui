@@ -106,6 +106,7 @@ const ToastNotificationList: FC<Props> = ({
           </button>
         );
       }
+      return null;
     });
 
     return (

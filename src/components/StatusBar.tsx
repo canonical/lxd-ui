@@ -32,6 +32,7 @@ const StatusBar: FC<Props> = ({ className }) => {
         />
       );
     }
+    return null;
   });
 
   const hasNotifications = !!notifications.length;
