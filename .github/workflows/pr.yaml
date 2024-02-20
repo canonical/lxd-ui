@@ -128,7 +128,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
@@ -165,18 +165,18 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
 
     - name: Download blob reports from GitHub Actions Artifacts
       uses: actions/download-artifact@v4
       with:
-        path: playwright-report
+        path: blob-reports
         pattern: blob-report-*
         merge-multiple: true
     
     # NOTE: there is no need to install playwright dependencies since we only need to merge reports here
     - name: Merge into HTML Report
-      run: npx playwright merge-reports --reporter html ./playwright-report
+      run: npx playwright merge-reports --reporter html ./blob-reports
 
     - name: Save additional test information
       if: always()
