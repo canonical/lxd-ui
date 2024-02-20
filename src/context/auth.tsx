@@ -8,6 +8,7 @@ import { fetchProjects } from "api/projects";
 interface ContextProps {
   isAuthenticated: boolean;
   isAuthLoading: boolean;
+  isOidc: boolean;
   isRestricted: boolean;
   defaultProject: string;
 }
@@ -15,6 +16,7 @@ interface ContextProps {
 const initialState: ContextProps = {
   isAuthenticated: false,
   isAuthLoading: true,
+  isOidc: false,
   isRestricted: false,
   defaultProject: "default",
 };
@@ -57,6 +59,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated: (settings && settings.auth !== "untrusted") ?? false,
+        isOidc: settings?.auth_user_method === "oidc",
         isAuthLoading: isLoading,
         isRestricted,
         defaultProject,

@@ -3,7 +3,6 @@ import { LxdInstance } from "types/instance";
 import { LxdProject } from "types/project";
 import { LxdProfile } from "types/profile";
 import { LxdNetwork } from "types/network";
-import { getCookie } from "./cookies";
 import { LxdStorageVolume } from "types/storage";
 import { Dispatch, SetStateAction } from "react";
 
@@ -60,14 +59,7 @@ export const handleResponse = async (response: Response) => {
   if (!response.ok) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result: ErrorResponse = await response.json();
-    const errorCode = result.error_code;
-    const isAuthError = errorCode === 401 || errorCode === 403;
-    const hasOidcCookie = Boolean(getCookie("oidc_access"));
-    if (isAuthError && hasOidcCookie) {
-      logout();
-    } else {
-      throw Error(result.error);
-    }
+    throw Error(result.error);
   }
   return response.json();
 };
@@ -248,7 +240,11 @@ export const continueOrFinish = (
 };
 
 export const logout = (): void =>
-  void fetch("/oidc/logout").then(() => window.location.reload());
+  void fetch("/oidc/logout").then(() => {
+    if (!window.location.href.includes("/ui/login")) {
+      window.location.href = "/ui/login";
+    }
+  });
 
 export const capitalizeFirstLetter = (val: string): string =>
   val.charAt(0).toUpperCase() + val.slice(1);

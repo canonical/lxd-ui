@@ -10,6 +10,7 @@ import {
 } from "react";
 import { LxdOperation } from "types/operation";
 import { queryKeys } from "util/queryKeys";
+import { useAuth } from "context/auth";
 
 type OperationsContextType = {
   operations: LxdOperation[];
@@ -32,6 +33,8 @@ const OperationsContext = createContext<OperationsContextType>({
 });
 
 const OperationsProvider: FC<Props> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
   const {
     data: operationList,
     error,
@@ -40,7 +43,9 @@ const OperationsProvider: FC<Props> = ({ children }) => {
   } = useQuery({
     queryKey: [queryKeys.operations],
     queryFn: () => fetchAllOperations(),
+    enabled: isAuthenticated,
   });
+
   const refetchTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
