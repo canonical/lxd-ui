@@ -8,7 +8,7 @@ const isMediumScreen = () => isWidthBelow(820);
 export const useMenuCollapsed = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(isMediumScreen());
 
-  const collapseOnMediumScreen = (e: Event) => {
+  const collapseOnMediumScreen = (e: Event | CustomEvent<string>) => {
     if (isSmallScreen()) {
       return;
     }

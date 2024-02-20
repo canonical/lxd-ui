@@ -23,6 +23,8 @@ const CustomIsoModal: FC<Props> = ({ onClose, onSelect }) => {
         return "Select custom ISO";
       case UPLOAD_ISO:
         return "Upload custom ISO";
+      default:
+        return "";
     }
   };
 

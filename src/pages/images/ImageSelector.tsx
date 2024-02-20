@@ -205,6 +205,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         if (item.server === minimalServer) {
           return "Ubuntu Minimal";
         }
+        return "Custom";
       };
 
       return {
