@@ -1,9 +1,14 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { Button, Input, Select, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  Input,
+  Select,
+  useNotify,
+} from "@canonical/react-components";
 import { createIsoStorageVolume, fetchStoragePools } from "api/storage-pools";
-import SubmitButton from "components/SubmitButton";
 import { useProject } from "context/project";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
@@ -161,13 +166,15 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         >
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={isLoading}
-          isDisabled={!file}
-          buttonLabel="Upload"
+        <ActionButton
+          appearance="positive"
+          loading={isLoading}
+          disabled={!file}
           className="u-no-margin--bottom"
           onClick={importFile}
-        />
+        >
+          Upload
+        </ActionButton>
       </footer>
     </>
   );

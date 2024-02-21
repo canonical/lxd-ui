@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { useNotify } from "@canonical/react-components";
-import SubmitButton from "components/SubmitButton";
+import { ActionButton, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import NetworkForwardForm, {
   NetworkForwardFormValues,
@@ -113,12 +112,14 @@ const EditNetworkForward: FC = () => {
         >
           Cancel
         </Link>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={!formik.isValid || !formik.values.listenAddress}
-          buttonLabel="Update"
+        <ActionButton
+          appearance="positive"
+          loading={formik.isSubmitting}
+          disabled={!formik.isValid || !formik.values.listenAddress}
           onClick={() => void formik.submitForm()}
-        />
+        >
+          Update
+        </ActionButton>
       </FormFooterLayout>
     </BaseLayout>
   );

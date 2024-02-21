@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {
+  ActionButton,
   Button,
   Col,
   Form,
@@ -10,7 +11,6 @@ import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
@@ -253,16 +253,18 @@ const EditInstance: FC<Props> = ({ instance }) => {
             >
               Cancel
             </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={
+            <ActionButton
+              appearance="positive"
+              loading={formik.isSubmitting}
+              disabled={
                 !formik.isValid ||
                 hasDiskError(formik) ||
                 hasNetworkError(formik)
               }
-              buttonLabel="Save changes"
               onClick={() => void formik.submitForm()}
-            />
+            >
+              Save changes
+            </ActionButton>
           </>
         )}
       </FormFooterLayout>

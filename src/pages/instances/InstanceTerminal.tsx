@@ -9,11 +9,15 @@ import { TerminalConnectPayload } from "types/terminal";
 import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
-import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
 import Xterm from "components/Xterm";
 import { Terminal } from "xterm";
-import { EmptyState, Icon, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  EmptyState,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 
 const XTERM_OPTIONS = {
@@ -219,12 +223,13 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
           title="Instance stopped"
         >
           <p>Start the instance to access the terminal.</p>
-          <SubmitButton
-            isSubmitting={isStartLoading}
-            isDisabled={false}
-            buttonLabel="Start instance"
+          <ActionButton
+            appearance="positive"
+            loading={isStartLoading}
             onClick={handleStart}
-          />
+          >
+            Start instance
+          </ActionButton>
         </EmptyState>
       )}
     </div>

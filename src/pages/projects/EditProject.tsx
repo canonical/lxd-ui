@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -8,7 +8,6 @@ import {
   projectDetailPayload,
   projectDetailRestrictionPayload,
 } from "pages/projects/forms/ProjectDetailsForm";
-import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
@@ -154,12 +153,14 @@ const EditProject: FC<Props> = ({ project }) => {
               >
                 Cancel
               </Button>
-              <SubmitButton
-                isSubmitting={formik.isSubmitting}
-                isDisabled={!formik.isValid || !formik.values.name}
-                buttonLabel="Save changes"
+              <ActionButton
+                appearance="positive"
+                loading={formik.isSubmitting}
+                disabled={!formik.isValid || !formik.values.name}
                 onClick={() => void formik.submitForm()}
-              />
+              >
+                Save changes
+              </ActionButton>
             </>
           )}
         </FormFooterLayout>

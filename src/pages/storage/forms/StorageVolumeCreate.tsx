@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { createStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -79,10 +78,6 @@ const StorageVolumeCreate: FC = () => {
     },
   });
 
-  const submitForm = () => {
-    void formik.submitForm();
-  };
-
   return (
     <BaseLayout title="Create volume" contentClassName="storage-volume-form">
       <NotificationRow />
@@ -98,12 +93,14 @@ const StorageVolumeCreate: FC = () => {
         >
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={!formik.isValid}
-          onClick={submitForm}
-          buttonLabel="Create"
-        />
+        <ActionButton
+          appearance="positive"
+          loading={formik.isSubmitting}
+          disabled={!formik.isValid}
+          onClick={() => void formik.submitForm()}
+        >
+          Create
+        </ActionButton>
       </FormFooterLayout>
     </BaseLayout>
   );

@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { checkDuplicateName } from "util/helpers";
 import { updateNetwork } from "api/networks";
 import NetworkForm, {
@@ -158,12 +157,14 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             >
               Cancel
             </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.name}
-              buttonLabel="Save changes"
+            <ActionButton
+              appearance="positive"
+              loading={formik.isSubmitting}
+              disabled={!formik.isValid || !formik.values.name}
               onClick={() => void formik.submitForm()}
-            />
+            >
+              Save changes
+            </ActionButton>
           </>
         )}
       </FormFooterLayout>

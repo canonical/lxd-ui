@@ -1,5 +1,12 @@
 import { FC, KeyboardEvent, useEffect, useRef } from "react";
-import { Button, Form, Icon, Input, Modal } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  Form,
+  Icon,
+  Input,
+  Modal,
+} from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { TerminalConnectPayload } from "types/terminal";
@@ -81,14 +88,14 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
           >
             Cancel
           </Button>
-          <Button
+          <ActionButton
             className="u-no-margin--bottom"
             appearance="positive"
             aria-label="submit reconnect"
-            onClick={formik.submitForm}
+            onClick={() => void formik.submitForm()}
           >
             Reconnect
-          </Button>
+          </ActionButton>
         </>
       }
       onKeyDown={handleEscKey}

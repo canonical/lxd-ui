@@ -1,6 +1,10 @@
 import { FC, ReactNode } from "react";
-import { Button, Input, Tooltip } from "@canonical/react-components";
-import SubmitButton from "components/SubmitButton";
+import {
+  ActionButton,
+  Button,
+  Input,
+  Tooltip,
+} from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import classnames from "classnames";
 
@@ -83,14 +87,14 @@ const RenameHeader: FC<Props> = ({
                     >
                       Cancel
                     </Button>
-                    <SubmitButton
-                      isSubmitting={formik.isSubmitting}
-                      isDisabled={
-                        !formik.isValid || name === formik.values.name
-                      }
-                      buttonLabel="Save"
+                    <ActionButton
+                      appearance="positive"
+                      loading={formik.isSubmitting}
+                      disabled={!formik.isValid || name === formik.values.name}
                       onClick={() => void formik.submitForm()}
-                    />
+                    >
+                      Save
+                    </ActionButton>
                   </div>
                 </li>
               ) : (

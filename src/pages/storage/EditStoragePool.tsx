@@ -1,20 +1,19 @@
 import { FC, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   fetchStoragePool,
   updateClusteredPool,
   updatePool,
 } from "api/storage-pools";
-import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import StoragePoolForm, {
-  StoragePoolFormValues,
   storagePoolFormToPayload,
+  StoragePoolFormValues,
 } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
@@ -120,12 +119,14 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
             >
               Cancel
             </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid}
-              buttonLabel="Save changes"
+            <ActionButton
+              appearance="positive"
+              loading={formik.isSubmitting}
+              disabled={!formik.isValid}
               onClick={() => void formik.submitForm()}
-            />
+            >
+              Save changes
+            </ActionButton>
           </>
         )}
       </FormFooterLayout>

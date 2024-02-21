@@ -1,5 +1,11 @@
 import { FC, KeyboardEvent } from "react";
-import { Button, Form, Modal, Select } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  Form,
+  Modal,
+  Select,
+} from "@canonical/react-components";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { LxdClusterMember } from "types/cluster";
@@ -57,14 +63,14 @@ const MigrateInstanceForm: FC<Props> = ({
           >
             Cancel
           </Button>
-          <Button
-            className="u-no-margin--bottom"
+          <ActionButton
             appearance="positive"
-            onClick={formik.submitForm}
+            className="u-no-margin--bottom"
+            onClick={() => void formik.submitForm()}
             disabled={!formik.isValid}
           >
             Migrate
-          </Button>
+          </ActionButton>
         </>
       }
       onKeyDown={handleEscKey}
