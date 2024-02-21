@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import {
   StorageVolumeFormValues,
   volumeFormToPayload,
@@ -14,7 +14,6 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import { LxdStorageVolume } from "types/storage";
-import SubmitButton from "components/SubmitButton";
 
 interface Props {
   project: string;
@@ -91,14 +90,15 @@ const CustomVolumeCreateModal: FC<Props> = ({
         >
           Cancel
         </Button>
-        <SubmitButton
+        <ActionButton
           appearance="positive"
-          buttonLabel="Create volume"
           className="u-no-margin--bottom"
           onClick={() => void formik.submitForm()}
-          isDisabled={!formik.isValid}
-          isSubmitting={formik.isSubmitting}
-        />
+          disabled={!formik.isValid}
+          loading={formik.isSubmitting}
+        >
+          Create volume
+        </ActionButton>
       </footer>
     </>
   );

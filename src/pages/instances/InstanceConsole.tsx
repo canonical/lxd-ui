@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import {
+  ActionButton,
   Button,
   ContextualMenu,
   EmptyState,
@@ -10,7 +11,6 @@ import {
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
-import SubmitButton from "components/SubmitButton";
 import { useInstanceStart } from "util/instanceStart";
 import {
   sendAltF4,
@@ -116,12 +116,13 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           title="Instance stopped"
         >
           <p>Start the instance to access the graphic console.</p>
-          <SubmitButton
-            isSubmitting={isLoading}
-            isDisabled={false}
-            buttonLabel="Start instance"
+          <ActionButton
+            appearance="positive"
+            loading={isLoading}
             onClick={handleStart}
-          />
+          >
+            Start instance
+          </ActionButton>
         </EmptyState>
       )}
       {isGraphic && isRunning && (

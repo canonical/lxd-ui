@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {
+  ActionButton,
   Button,
   Col,
   Form,
@@ -18,7 +19,6 @@ import { LxdClusterGroup } from "types/cluster";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useFormik } from "formik";
-import SubmitButton from "components/SubmitButton";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { useNavigate, useParams } from "react-router-dom";
@@ -172,12 +172,14 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
             <Button appearance="base" onClick={() => navigate(`/ui/cluster`)}>
               Cancel
             </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={!formik.isValid || !formik.values.name}
-              buttonLabel={group ? "Save changes" : "Create"}
+            <ActionButton
+              appearance="positive"
+              loading={formik.isSubmitting}
+              disabled={!formik.isValid || !formik.values.name}
               onClick={() => void formik.submitForm()}
-            />
+            >
+              {group ? "Save changes" : "Create"}
+            </ActionButton>
           </Col>
         </Row>
       </div>

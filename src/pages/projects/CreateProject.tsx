@@ -1,10 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { checkDuplicateName } from "util/helpers";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -138,12 +137,14 @@ const CreateProject: FC = () => {
         <Button appearance="base" onClick={() => navigate(-1)}>
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={!formik.isValid || !formik.values.name}
-          buttonLabel="Create"
+        <ActionButton
+          appearance="positive"
+          loading={formik.isSubmitting}
+          disabled={!formik.isValid || !formik.values.name}
           onClick={() => void formik.submitForm()}
-        />
+        >
+          Create
+        </ActionButton>
       </FormFooterLayout>
     </BaseLayout>
   );

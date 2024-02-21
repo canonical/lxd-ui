@@ -1,5 +1,6 @@
 import { FC, KeyboardEvent } from "react";
 import {
+  ActionButton,
   Button,
   Col,
   Form,
@@ -8,7 +9,6 @@ import {
   Row,
 } from "@canonical/react-components";
 import { getTomorrow } from "util/helpers";
-import SubmitButton from "components/SubmitButton";
 import { SnapshotFormValues } from "util/snapshots";
 import { FormikProps } from "formik/dist/types";
 
@@ -27,10 +27,6 @@ const SnapshotForm: FC<Props> = (props) => {
     }
   };
 
-  const submitForm = () => {
-    void formik.submitForm();
-  };
-
   return (
     <Modal
       className="snapshot-creation-modal"
@@ -46,12 +42,14 @@ const SnapshotForm: FC<Props> = (props) => {
           >
             Cancel
           </Button>
-          <SubmitButton
-            isSubmitting={formik.isSubmitting}
-            isDisabled={!formik.isValid}
-            buttonLabel={isEdit ? "Save" : "Create"}
-            onClick={submitForm}
-          />
+          <ActionButton
+            appearance="positive"
+            loading={formik.isSubmitting}
+            disabled={!formik.isValid}
+            onClick={() => void formik.submitForm()}
+          >
+            {isEdit ? "Save" : "Create"}
+          </ActionButton>
         </>
       }
       onKeyDown={handleEscKey}

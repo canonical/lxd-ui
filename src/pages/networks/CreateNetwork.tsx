@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
-import { Button, useNotify } from "@canonical/react-components";
+import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
 import { createClusterBridge, createNetwork } from "api/networks";
@@ -128,16 +127,18 @@ const CreateNetwork: FC = () => {
         >
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={
+        <ActionButton
+          appearance="positive"
+          loading={formik.isSubmitting}
+          disabled={
             !formik.isValid ||
             !formik.values.name ||
             (formik.values.networkType === "ovn" && !formik.values.network)
           }
-          buttonLabel="Create"
           onClick={() => void formik.submitForm()}
-        />
+        >
+          Create
+        </ActionButton>
       </FormFooterLayout>
     </BaseLayout>
   );

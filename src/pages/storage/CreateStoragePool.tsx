@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
-import { useNotify, Button } from "@canonical/react-components";
+import { useNotify, Button, ActionButton } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { createClusteredPool, createPool } from "api/storage-pools";
 import BaseLayout from "components/BaseLayout";
 import NotificationRow from "components/NotificationRow";
-import SubmitButton from "components/SubmitButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -93,12 +92,14 @@ const CreateStoragePool: FC = () => {
         >
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={!formik.isValid || !formik.values.name}
-          buttonLabel="Create"
+        <ActionButton
+          appearance="positive"
+          loading={formik.isSubmitting}
+          disabled={!formik.isValid || !formik.values.name}
           onClick={() => void formik.submitForm()}
-        />
+        >
+          Create
+        </ActionButton>
       </FormFooterLayout>
     </BaseLayout>
   );

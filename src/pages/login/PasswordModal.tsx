@@ -1,5 +1,10 @@
 import { FC } from "react";
-import { Button, Input, Modal } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  Input,
+  Modal,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -41,17 +46,17 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
           <Button className="u-no-margin--bottom" onClick={handleSkip}>
             Skip
           </Button>
-          <Button
+          <ActionButton
             appearance="positive"
             className="u-no-margin--bottom"
-            onClick={() => formik.submitForm()}
+            onClick={() => void formik.submitForm()}
             disabled={
               formik.values.password !== formik.values.passwordConfirm ||
               formik.values.password.length === 0
             }
           >
             Generate certificate
-          </Button>
+          </ActionButton>
         </>
       }
     >

@@ -1,5 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from "react";
 import {
+  ActionButton,
   Button,
   Col,
   Form,
@@ -13,7 +14,6 @@ import * as Yup from "yup";
 import { createInstance, startInstance } from "api/instances";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { checkDuplicateName } from "util/helpers";
@@ -445,20 +445,23 @@ const CreateInstance: FC = () => {
         >
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={hasErrors}
-          buttonLabel="Create"
+        <ActionButton
+          loading={formik.isSubmitting}
+          disabled={hasErrors}
           appearance={isLocalIsoImage ? "positive" : "default"}
           onClick={() => submit(formik.values, false)}
-        />
+        >
+          Create
+        </ActionButton>
         {!isLocalIsoImage && (
-          <SubmitButton
-            isSubmitting={formik.isSubmitting}
-            isDisabled={hasErrors}
-            buttonLabel="Create and start"
+          <ActionButton
+            appearance="positive"
+            loading={formik.isSubmitting}
+            disabled={hasErrors}
             onClick={() => submit(formik.values)}
-          />
+          >
+            Create and start
+          </ActionButton>
         )}
       </FormFooterLayout>
     </BaseLayout>

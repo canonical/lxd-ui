@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {
+  ActionButton,
   Button,
   Col,
   Form,
@@ -11,7 +12,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -260,16 +260,18 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             >
               Cancel
             </Button>
-            <SubmitButton
-              isSubmitting={formik.isSubmitting}
-              isDisabled={
+            <ActionButton
+              appearance="positive"
+              loading={formik.isSubmitting}
+              disabled={
                 !formik.isValid ||
                 hasDiskError(formik) ||
                 hasNetworkError(formik)
               }
-              buttonLabel="Save changes"
               onClick={() => void formik.submitForm()}
-            />
+            >
+              Save changes
+            </ActionButton>
           </>
         )}
       </FormFooterLayout>

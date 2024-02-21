@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {
+  ActionButton,
   Button,
   Col,
   Form,
@@ -11,7 +12,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import SubmitButton from "components/SubmitButton";
 import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
@@ -220,17 +220,19 @@ const CreateProfile: FC = () => {
         >
           Cancel
         </Button>
-        <SubmitButton
-          isSubmitting={formik.isSubmitting}
-          isDisabled={
+        <ActionButton
+          appearance="positive"
+          loading={formik.isSubmitting}
+          disabled={
             !formik.isValid ||
             !formik.values.name ||
             hasDiskError(formik) ||
             hasNetworkError(formik)
           }
-          buttonLabel="Create"
           onClick={() => void formik.submitForm()}
-        />
+        >
+          Create
+        </ActionButton>
       </FormFooterLayout>
     </BaseLayout>
   );

@@ -1,9 +1,13 @@
 import { FC, KeyboardEvent } from "react";
-import { Button, Modal, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  Modal,
+  useNotify,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import SubmitButton from "components/SubmitButton";
 import { LxdStorageVolume } from "types/storage";
 import {
   StorageVolumeFormValues,
@@ -91,13 +95,15 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
             >
               Cancel
             </Button>
-            <SubmitButton
-              buttonLabel="Save"
+            <ActionButton
+              appearance="positive"
               className="u-no-margin--bottom"
-              isSubmitting={formik.isSubmitting}
-              isDisabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+              disabled={formik.isSubmitting}
               onClick={() => void formik.submitForm()}
-            />
+            >
+              Save
+            </ActionButton>
           </>
         )
       }
