@@ -31,8 +31,10 @@ const ProjectSelector: FC<Props> = ({ activeProject }): JSX.Element => {
     /**/
   };
 
+  // called when the children of the ContextualMenu become visible
   const onChildMount = (childSetQuery: (val: string) => void) => {
     updateQuery = childSetQuery;
+    setTimeout(() => searchRef.current?.focus(), 100);
   };
 
   return (
@@ -55,8 +57,8 @@ const ProjectSelector: FC<Props> = ({ activeProject }): JSX.Element => {
               autocomplete="off"
               name="query"
               placeholder="Search"
-              ref={searchRef}
               onChange={(val) => updateQuery(val)}
+              ref={searchRef}
             />
           )}
           <ProjectSelectorList projects={projects} onMount={onChildMount} />
