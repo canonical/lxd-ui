@@ -54,7 +54,7 @@ import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { instanceLinkFromOperation } from "util/instances";
+import { instanceLinkFromName } from "util/instances";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -113,11 +113,11 @@ const EditInstance: FC<Props> = ({ instance }) => {
       instancePayload.etag = instance.etag;
 
       void updateInstance(instancePayload, project).then((operation) => {
-        const instanceLink = instanceLinkFromOperation({
-          operation,
+        const instanceName = values.name;
+        const instanceLink = instanceLinkFromName({
+          instanceName,
           project,
         });
-        if (!instanceLink) return;
         eventQueue.set(
           operation.metadata.id,
           () => {

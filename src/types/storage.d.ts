@@ -77,6 +77,6 @@ export interface UploadState {
 export interface LxdVolumeSnapshot {
   name: string;
   created_at: string;
-  expires_at: string;
+  expires_at?: string;
   description?: string;
 }

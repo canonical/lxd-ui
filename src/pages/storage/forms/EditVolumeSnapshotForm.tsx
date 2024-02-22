@@ -40,46 +40,33 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
     close();
   };
 
-  const update = (expiresAt: string | null, newName?: string) => {
-    // NOTE: volume snapshot update api call is synchronous, so can't use events api
-    void updateVolumeSnapshot({
-      volume,
-      snapshot: { ...snapshot, name: newName || snapshot.name },
-      expiresAt,
-    })
-      .then(() => {
-        notifyUpdateSuccess(newName || snapshot.name);
-      })
-      .catch((error: Error) => {
-        notify.failure("Snapshot update failed", error);
-        formik.setSubmitting(false);
-      });
-  };
-
-  const rename = (newName: string, expiresAt?: string | null) => {
-    void renameVolumeSnapshot({
+  const updateExpirationTime = async (expiresAt: string | null) => {
+    await updateVolumeSnapshot({
       volume,
       snapshot,
-      newName,
-    }).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () => {
-          if (expiresAt) {
-            update(expiresAt || null, newName);
-          } else {
-            notifyUpdateSuccess(newName);
-          }
-        },
-        (msg) => {
+      expiresAt,
+    }).catch((error: Error) => {
+      notify.failure("Snapshot update failed", error);
+      formik.setSubmitting(false);
+    });
+  };
+
+  const rename = (newName: string): Promise<void> => {
+    return new Promise((resolve) => {
+      void renameVolumeSnapshot({
+        volume,
+        snapshot,
+        newName,
+      }).then((operation) =>
+        eventQueue.set(operation.metadata.id, resolve, (msg) => {
           toastNotify.failure(
             `Snapshot ${snapshot.name} rename failed`,
             new Error(msg),
           );
           formik.setSubmitting(false);
-        },
-      ),
-    );
+        }),
+      );
+    });
   };
 
   const [expiryDate, expiryTime] = !snapshot.expires_at
@@ -100,24 +87,21 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
       controllerState,
       snapshot.name,
     ),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       notify.clear();
-      const newName = values.name;
       const expiresAt =
         values.expirationDate && values.expirationTime
           ? stringToIsoTime(
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : null;
-      const shouldRename = newName !== snapshot.name;
-      const shouldUpdate = expiresAt !== snapshot.expires_at;
-      if (shouldRename && shouldUpdate) {
-        rename(newName, expiresAt);
-      } else if (shouldRename) {
-        rename(newName);
-      } else {
-        update(expiresAt);
+      if (expiresAt !== snapshot.expires_at) {
+        await updateExpirationTime(expiresAt);
       }
+      if (values.name !== snapshot.name) {
+        await rename(values.name);
+      }
+      notifyUpdateSuccess(values.name);
     },
   });
 
