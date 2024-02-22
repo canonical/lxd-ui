@@ -102,9 +102,19 @@ Install playwright and its browsers
 
     npx playwright install
 
-The tests expect the environment on localhost to be accessible. Execute `dotrun` and start tests with
+The e2e tests can be run against LXD 5.0, or the edge version of LXD. If you want to run the tests against the edge version, first make sure your lxd is up to date with
 
-    npx playwright test
+    snap refresh lxd --channel latest/edge
+
+The tests expect the environment on localhost to be accessible. Execute `dotrun` first then run the tests against the latest LXD version with
+
+    yarn test-e2e-edge
+
+or against the LTS LXD version with
+    
+    yarn test-e2e-stable
+
+### Nice utilities from Playwright
 
 Generate new tests with helper [Doc](https://playwright.dev/docs/codegen)
 

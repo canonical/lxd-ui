@@ -47,3 +47,27 @@ A webhook triggers a [demo](https://github.com/canonical/demos.haus) build for a
 The [update_demo.yml](.github/workflows/update_demo.yml) workflow updates a branch called `demo` automatically on any merge to main. This keeps at least one demo instance running and always up to date.
 
 A secret is needed to enable HaProxy to forward requests to the LXD API backend. Ask one of the collaborators for the secret.
+
+## E2E test setup for multiple lxd versions
+
+The e2e test suite is run whenever a pull request is created and updated. This is done in the `browser-e2e-test` job from the `PR checks` github [workflow](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/.github/workflows/pr.yaml#L1). The job is run using the github actions matrix strategy so that the same tests can be carried out against different lxd versions and browser types in isolated github runner environments simultaneously. Currently e2e tests are run against the following parameter combinations:
+
+| lxd version  | browser  |
+| -----------  | -------- |
+| 5.0/stable   | chromium |
+| 5.0/stable   | firefox  |
+| latest/edge  | chromium |
+| latest/edge  | firefox  |
+
+For each parameter combination, a playwright project defined in [playwright.config.ts](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/playwright.config.ts#L1) is selected by name with reference syntax `browser:lxd-version` and executed. The execution flow is depicted in the diagram below:
+
+```mermaid
+    flowchart TD
+    A(pull request created) -->|other workflow jobs| B(browser-e2e-test)
+    B --> C{Github Matrix Runner}
+    C -->|5.0/stable chromium| D[Run chromium:lxd-5.0-stable]
+    C --> E[...]
+    C -->|latest/edge firefox| F[Run firefox:lxd-latest-edge]
+```
+
+To add additional lxd versions for e2e testing, add two new projects to [playwright.config.ts](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/playwright.config.ts#L1) for chromium and firefox. Set the `lxdVersion` parameter accordingly. In [pr.yaml](https://github.com/canonical/lxd-ui/blob/6b574493501264dbac5722b1c2858f4d0020af75/.github/workflows/pr.yaml#L1) include the new lxd versions for the `browser-e2e-test` job. Now you can write tests for the new lxd versions specifically.
