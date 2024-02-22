@@ -75,6 +75,7 @@ jobs:
           set -x
           sudo chmod -R 0777 ../lxd-ui
           yarn test-coverage
+          zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
 
       - name: Upload coverage report
         if: always()
