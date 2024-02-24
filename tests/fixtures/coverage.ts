@@ -33,6 +33,9 @@ export const finishCoverage = async (
     if (entry.url.includes("spice")) {
       continue;
     }
+    if (entry.url.includes("node_modules")) {
+      continue;
+    }
     const fileMatcher = entry.url.match(/http(s)*:\/\/.*:8407\/(?<file>.*)/);
     if (!fileMatcher?.groups) {
       continue;
