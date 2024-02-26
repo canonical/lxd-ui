@@ -25,32 +25,27 @@ import {
   deleteProfile,
   randomProfileName,
 } from "./helpers/profile";
-import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
 let profile = randomProfileName();
 
-test.beforeAll(async ({ browser, browserName, hasCoverage }) => {
+test.beforeAll(async ({ browser, browserName }) => {
   instance = `${browserName}-${instance}`;
   vmInstance = `${browserName}-${vmInstance}`;
   profile = `${browserName}-${profile}`;
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await createProfile(page, profile);
   await createInstance(page, instance);
   await createInstance(page, vmInstance, "virtual-machine");
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test.afterAll(async ({ browser, hasCoverage }) => {
+test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await deleteInstance(page, instance);
   await deleteInstance(page, vmInstance);
   await deleteProfile(page, profile);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 

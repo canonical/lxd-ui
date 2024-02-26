@@ -5,26 +5,14 @@ import v8ToIstanbul from "v8-to-istanbul";
 import { CoverageMapData } from "istanbul-lib-coverage";
 import { generateUUID } from "util/helpers";
 
-export const startCoverage = async (
-  page: Page,
-  hasCoverage: boolean,
-): Promise<void> => {
-  if (!hasCoverage) {
-    return;
-  }
+export const startCoverage = async (page: Page): Promise<void> => {
   await page.coverage.startJSCoverage({
     reportAnonymousScripts: true,
     resetOnNavigation: false,
   });
 };
 
-export const finishCoverage = async (
-  page: Page,
-  hasCoverage: boolean,
-): Promise<void> => {
-  if (!hasCoverage) {
-    return;
-  }
+export const finishCoverage = async (page: Page): Promise<void> => {
   const coverage = await page.coverage.stopJSCoverage();
   for (const entry of coverage) {
     if (entry.url.endsWith(".css")) {

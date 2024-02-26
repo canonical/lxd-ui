@@ -13,9 +13,13 @@ export const test = base.extend<TestOptions>({
   hasCoverage: [false, { option: true }],
   runCoverage: [
     async ({ page, hasCoverage }, use) => {
-      await startCoverage(page, hasCoverage);
-      await use(page);
-      await finishCoverage(page, hasCoverage);
+      if (hasCoverage) {
+        await startCoverage(page);
+        await use(page);
+        await finishCoverage(page);
+      } else {
+        await use(page);
+      }
     },
     { auto: true },
   ],
