@@ -19,6 +19,7 @@ import { optionRenderer } from "util/formFields";
 export interface SecurityPoliciesFormValues {
   security_protection_delete?: string;
   security_privileged?: string;
+  security_nesting?: string;
   security_protection_shift?: string;
   security_idmap_base?: string;
   security_idmap_size?: number;
@@ -35,6 +36,7 @@ export const securityPoliciesPayload = (
     [getInstanceKey("security_protection_delete")]:
       values.security_protection_delete,
     [getInstanceKey("security_privileged")]: values.security_privileged,
+    [getInstanceKey("security_nesting")]: values.security_nesting,
     [getInstanceKey("security_protection_shift")]:
       values.security_protection_shift,
     [getInstanceKey("security_idmap_base")]: values.security_idmap_base,
@@ -77,6 +79,21 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik,
           label: "Privileged (Containers only)",
           name: "security_privileged",
+          defaultValue: "",
+          disabled: isContainerOnlyDisabled,
+          readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
+          children: (
+            <Select
+              options={optionAllowDeny}
+              disabled={isContainerOnlyDisabled}
+            />
+          ),
+        }),
+
+        getConfigurationRow({
+          formik,
+          label: "Nesting (Containers only)",
+          name: "security_nesting",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),

@@ -6,6 +6,7 @@ const instanceConfigFormFieldsToPayload: Record<string, string> = {
   limits_disk_priority: "limits.disk.priority",
   limits_processes: "limits.processes",
   security_privileged: "security.privileged",
+  security_nesting: "security.nesting",
   security_protection_delete: "security.protection.delete",
   security_protection_shift: "security.protection.shift",
   security_idmap_base: "security.idmap.base",
