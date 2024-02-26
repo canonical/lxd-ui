@@ -1,19 +1,26 @@
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { Form, Input, Row, Col, useNotify } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
   CEPH_CONFIGURATION,
   MAIN_CONFIGURATION,
+  POWERFLEX,
   ZFS_CONFIGURATION,
 } from "./StoragePoolFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdStoragePool } from "types/storage";
-import { btrfsDriver, cephDriver, zfsDriver } from "util/storageOptions";
+import {
+  btrfsDriver,
+  cephDriver,
+  powerFlex,
+  zfsDriver,
+} from "util/storageOptions";
 import { getPoolKey } from "util/storagePool";
-import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import { slugify } from "util/slugify";
+import StoragePoolFormCeph from "./StoragePoolFormCeph";
+import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
 
 export interface StoragePoolFormValues {
@@ -30,6 +37,15 @@ export interface StoragePoolFormValues {
   ceph_rbd_clone_copy?: string;
   ceph_user_name?: string;
   ceph_rbd_features?: string;
+  powerflex_clone_copy?: string;
+  powerflex_domain?: string;
+  powerflex_gateway?: string;
+  powerflex_gateway_verify?: string;
+  powerflex_mode?: string;
+  powerflex_pool?: string;
+  powerflex_sdt?: string;
+  powerflex_user_name?: string;
+  powerflex_user_password?: string;
   zfs_clone_copy?: string;
   zfs_export?: string;
   zfs_pool_name?: string;
@@ -45,6 +61,7 @@ export const storagePoolFormToPayload = (
   values: StoragePoolFormValues,
 ): LxdStoragePool => {
   const isCephDriver = values.driver === cephDriver;
+  const isPowerFlexDriver = values.driver === powerFlex;
   const isZFSDriver = values.driver === zfsDriver;
   const hasValidSize = values.size?.match(/^\d/);
 
@@ -58,18 +75,32 @@ export const storagePoolFormToPayload = (
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
         source: values.source,
       };
-    } else if (isZFSDriver) {
+    }
+    if (isPowerFlexDriver) {
+      return {
+        [getPoolKey("powerflex_clone_copy")]: values.powerflex_clone_copy,
+        [getPoolKey("powerflex_domain")]: values.powerflex_domain,
+        [getPoolKey("powerflex_gateway")]: values.powerflex_gateway,
+        [getPoolKey("powerflex_gateway_verify")]:
+          values.powerflex_gateway_verify,
+        [getPoolKey("powerflex_mode")]: values.powerflex_mode,
+        [getPoolKey("powerflex_pool")]: values.powerflex_pool,
+        [getPoolKey("powerflex_sdt")]: values.powerflex_sdt,
+        [getPoolKey("powerflex_user_name")]: values.powerflex_user_name,
+        [getPoolKey("powerflex_user_password")]: values.powerflex_user_password,
+      };
+    }
+    if (isZFSDriver) {
       return {
         [getPoolKey("zfs_clone_copy")]: values.zfs_clone_copy ?? "",
         [getPoolKey("zfs_export")]: values.zfs_export ?? "",
         [getPoolKey("zfs_pool_name")]: values.zfs_pool_name,
         size: hasValidSize ? values.size : undefined,
       };
-    } else {
-      return {
-        size: hasValidSize ? values.size : undefined,
-      };
     }
+    return {
+      size: hasValidSize ? values.size : undefined,
+    };
   };
 
   return {
@@ -106,6 +137,9 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
           )}
           {section === slugify(CEPH_CONFIGURATION) && (
             <StoragePoolFormCeph formik={formik} />
+          )}
+          {section === slugify(POWERFLEX) && (
+            <StoragePoolFormPowerflex formik={formik} />
           )}
           {section === slugify(ZFS_CONFIGURATION) && (
             <StoragePoolFormZFS formik={formik} />

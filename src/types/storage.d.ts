@@ -24,6 +24,7 @@ export interface LxdStorageVolume {
   config: {
     "block.filesystem"?: string;
     "block.mount_options"?: string;
+    "block.type"?: string;
     "volatile.rootfs.size"?: number;
     "security.shifted"?: string;
     "security.unmapped"?: string;

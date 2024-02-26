@@ -39,6 +39,7 @@ const storageVolumeFormFieldToPayloadName: Record<string, string> = {
   snapshots_schedule: "snapshots.schedule",
   block_filesystem: "block.filesystem",
   block_mount_options: "block.mount_options",
+  block_type: "block.type",
   zfs_blocksize: "zfs.blocksize",
   zfs_block_mode: "zfs.block_mode",
   zfs_delegate: "zfs.delegate",

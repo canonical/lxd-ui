@@ -35,6 +35,7 @@ export interface LxdConfigOptions {
     "storage-cephobject": LxcConfigOptionCategories;
     "storage-dir": LxcConfigOptionCategories;
     "storage-lvm": LxcConfigOptionCategories;
+    "storage-powerflex": LxcConfigOptionCategories;
     "storage-zfs": LxcConfigOptionCategories;
   };
 }

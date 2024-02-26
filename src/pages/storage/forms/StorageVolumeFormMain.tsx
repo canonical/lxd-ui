@@ -83,6 +83,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               if (e.target.value === "block") {
                 void formik.setFieldValue("block_filesystem", undefined);
                 void formik.setFieldValue("block_mount_options", undefined);
+                void formik.setFieldValue("block_type", undefined);
                 void formik.setFieldValue("security_shifted", undefined);
                 void formik.setFieldValue("security_unmapped", undefined);
               }
