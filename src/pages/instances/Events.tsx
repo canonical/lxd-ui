@@ -51,7 +51,9 @@ const Events: FC = () => {
         });
         void refetchOperations();
       }
-      handleEvent(event);
+      // ensure open requests that reply with an operation and register
+      // new handlers in the eventQueue are closed before handling the event
+      setTimeout(() => handleEvent(event), 250);
     };
   };
 
