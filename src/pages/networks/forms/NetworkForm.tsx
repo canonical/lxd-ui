@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   Col,
   Form,
@@ -31,6 +31,9 @@ import NetworkFormDns from "pages/networks/forms/NetworkFormDns";
 import NetworkFormIpv4 from "pages/networks/forms/NetworkFormIpv4";
 import NetworkFormIpv6 from "pages/networks/forms/NetworkFormIpv6";
 import { slugify } from "util/slugify";
+import { handleConfigKeys } from "util/networkForm";
+import { useDocs } from "context/useDocs";
+import YamlConfirmation from "components/forms/YamlConfirmation";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -64,14 +67,41 @@ export interface NetworkFormValues {
   network?: string;
   yaml?: string;
   entityType: "network";
+  bareNetwork?: LxdNetwork;
 }
 
 export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
+  const excludeMainKeys = new Set([
+    "used_by",
+    "etag",
+    "status",
+    "locations",
+    "managed",
+    "name",
+    "description",
+    "config",
+    "type",
+  ]);
+  const missingMainFields = Object.fromEntries(
+    Object.entries(values.bareNetwork ?? {}).filter(
+      (e) => !excludeMainKeys.has(e[0]),
+    ),
+  );
+
+  const excludeConfigKeys = new Set(handleConfigKeys);
+  const missingConfigFields = Object.fromEntries(
+    Object.entries(values.bareNetwork?.config ?? {}).filter(
+      (e) => !excludeConfigKeys.has(e[0]) && !e[0].startsWith("volatile"),
+    ),
+  );
+
   return {
+    ...missingMainFields,
     name: values.name,
     description: values.description,
     type: values.networkType,
     config: {
+      ...missingConfigFields,
       ["bridge.driver"]: values.bridge_driver,
       ["bridge.hwaddr"]: values.bridge_hwaddr,
       ["bridge.mtu"]: values.bridge_mtu,
@@ -115,6 +145,8 @@ const NetworkForm: FC<Props> = ({
   section,
   setSection,
 }) => {
+  const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
+  const docBaseLink = useDocs();
   const notify = useNotify();
 
   const updateFormHeight = () => {
@@ -123,13 +155,33 @@ const NetworkForm: FC<Props> = ({
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
+  const handleSetActive = (val: string) => {
+    if (Boolean(formik.values.yaml) && val !== YAML_CONFIGURATION) {
+      const handleConfirm = () => {
+        void formik.setFieldValue("yaml", undefined);
+        setConfirmModal(null);
+        setSection(val);
+      };
+
+      setConfirmModal(
+        <YamlConfirmation
+          onConfirm={handleConfirm}
+          close={() => setConfirmModal(null)}
+        />,
+      );
+    } else {
+      setSection(val);
+    }
+  };
+
   return (
     <Form className="form network-form" onSubmit={formik.handleSubmit}>
+      {confirmModal}
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
       <NetworkFormMenu
         active={section}
-        setActive={setSection}
+        setActive={handleSetActive}
         formik={formik}
       />
       <Row className="form-contents" key={section}>
@@ -143,17 +195,21 @@ const NetworkForm: FC<Props> = ({
           {section === slugify(IPV6) && <NetworkFormIpv6 formik={formik} />}
           {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm
+              key={`yaml-form-${formik.values.readOnly}`}
               yaml={getYaml()}
               setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               readOnly={formik.values.readOnly}
             >
-              <Notification
-                severity="caution"
-                title="Before you edit the YAML"
-                titleElement="h2"
-              >
-                Changes will be discarded, when switching back to the guided
-                forms.
+              <Notification severity="information" title="YAML Configuration">
+                This is the YAML representation of the network.
+                <br />
+                <a
+                  href={`${docBaseLink}/explanation/networks/#managed-networks`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn more about networks
+                </a>
               </Notification>
             </YamlForm>
           )}

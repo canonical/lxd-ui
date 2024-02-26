@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import YamlConfirmation from "components/forms/YamlConfirmation";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk devices";
@@ -33,9 +34,28 @@ const ProfileFormMenu: FC<Props> = ({
   formik,
 }) => {
   const notify = useNotify();
+  const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
+
   const menuItemProps = {
     active,
-    setActive,
+    setActive: (val: string) => {
+      if (Boolean(formik.values.yaml) && val !== YAML_CONFIGURATION) {
+        const handleConfirm = () => {
+          void formik.setFieldValue("yaml", undefined);
+          setConfirmModal(null);
+          setActive(val);
+        };
+
+        setConfirmModal(
+          <YamlConfirmation
+            onConfirm={handleConfirm}
+            close={() => setConfirmModal(null)}
+          />,
+        );
+      } else {
+        setActive(val);
+      }
+    },
   };
 
   const disableReason = hasName
@@ -50,6 +70,7 @@ const ProfileFormMenu: FC<Props> = ({
 
   return (
     <div className="p-side-navigation--accordion form-navigation">
+      {confirmModal}
       <nav aria-label="Profile form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />

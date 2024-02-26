@@ -12,6 +12,7 @@ export const MAIN_CONFIGURATION = "Main configuration";
 export const CEPH_CONFIGURATION = "Ceph";
 export const POWERFLEX = "Powerflex";
 export const ZFS_CONFIGURATION = "ZFS";
+export const YAML_CONFIGURATION = "YAML configuration";
 
 interface Props {
   active: string;
@@ -67,6 +68,11 @@ const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
               disableReason={disableReason}
             />
           )}
+          <MenuItem
+            label={YAML_CONFIGURATION}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
         </ul>
       </nav>
     </div>

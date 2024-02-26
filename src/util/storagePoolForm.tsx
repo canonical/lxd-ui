@@ -1,7 +1,7 @@
 import { LxdStoragePool } from "types/storage";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 
-export const getStoragePoolEditValues = (
+export const toStoragePoolFormValues = (
   pool: LxdStoragePool,
 ): StoragePoolFormValues => {
   return {
@@ -30,5 +30,19 @@ export const getStoragePoolEditValues = (
     zfs_clone_copy: pool.config["zfs.clone_copy"],
     zfs_export: pool.config["zfs.export"],
     zfs_pool_name: pool.config["zfs.pool_name"],
+    barePool: pool,
   };
 };
+
+export const handleConfigKeys = [
+  "size",
+  "source",
+  "ceph.cluster_name",
+  "ceph.osd.pg_num",
+  "ceph.rbd.clone_copy",
+  "ceph.user.name",
+  "ceph.rbd.features",
+  "zfs.clone_copy",
+  "zfs.export",
+  "zfs.pool_name",
+];

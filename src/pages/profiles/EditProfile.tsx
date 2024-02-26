@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -60,6 +60,7 @@ import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useDocs } from "context/useDocs";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -75,6 +76,7 @@ interface Props {
 }
 
 const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
+  const docBaseLink = useDocs();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const { project, section } = useParams<{
@@ -146,10 +148,6 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   };
 
   const updateSection = (newSection: string) => {
-    if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
-      void formik.setFieldValue("yaml", undefined);
-    }
-
     const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     newSection === MAIN_CONFIGURATION
       ? navigate(baseUrl)
@@ -162,6 +160,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
   const getYaml = () => {
     const exclude = new Set(["used_by", "etag"]);
+    const profile = getPayload(formik.values);
     const bareProfile = Object.fromEntries(
       Object.entries(profile).filter((e) => !exclude.has(e[0])),
     );
@@ -224,20 +223,22 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
             {section === slugify(YAML_CONFIGURATION) && (
               <YamlForm
+                key={`yaml-form-${formik.values.readOnly}`}
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
                 readOnly={readOnly}
               >
-                {!readOnly && (
-                  <Notification
-                    severity="caution"
-                    title="Before you edit the YAML"
-                    titleElement="h2"
+                <Notification severity="information" title="YAML Configuration">
+                  This is the YAML representation of the profile.
+                  <br />
+                  <a
+                    href={`${docBaseLink}/profiles`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Changes will be discarded, when switching back to the guided
-                    forms.
-                  </Notification>
-                )}
+                    Learn more about profiles
+                  </a>
+                </Notification>
               </YamlForm>
             )}
           </Col>

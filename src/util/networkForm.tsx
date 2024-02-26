@@ -1,9 +1,7 @@
 import { LxdNetwork } from "types/network";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
-export const getNetworkEditValues = (
-  network: LxdNetwork,
-): NetworkFormValues => {
+export const toNetworkFormValues = (network: LxdNetwork): NetworkFormValues => {
   return {
     readOnly: true,
     isCreating: false,
@@ -35,6 +33,7 @@ export const getNetworkEditValues = (
     ipv6_ovn_ranges: network.config["ipv6.ovn.ranges"],
     network: network.config.network,
     entityType: "network",
+    bareNetwork: network,
   };
 };
 
