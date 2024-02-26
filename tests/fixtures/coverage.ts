@@ -12,7 +12,10 @@ export const startCoverage = async (
   if (!hasCoverage) {
     return;
   }
-  await page.coverage.startJSCoverage();
+  await page.coverage.startJSCoverage({
+    reportAnonymousScripts: true,
+    resetOnNavigation: false,
+  });
 };
 
 export const finishCoverage = async (
