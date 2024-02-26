@@ -8,6 +8,7 @@ import {
   getSourceHelpForDriver,
   cephDriver,
   getStorageDriverOptions,
+  powerFlex,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -37,6 +38,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
 
   const isCephDriver = formik.values.driver === cephDriver;
   const isDirDriver = formik.values.driver === dirDriver;
+  const isPowerFlexDriver = formik.values.driver === powerFlex;
   const storageDriverOptions = getStorageDriverOptions(settings);
 
   return (
@@ -94,7 +96,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             required
             disabled={!formik.values.isCreating || formik.values.readOnly}
           />
-          {!isCephDriver && !isDirDriver && (
+          {!isCephDriver && !isDirDriver && !isPowerFlexDriver && (
             <DiskSizeSelector
               label="Size"
               value={formik.values.size}
@@ -111,21 +113,70 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               }
             />
           )}
-          <Input
-            {...getFormProps("source")}
-            type="text"
-            disabled={
-              formik.values.driver === btrfsDriver ||
-              !formik.values.isCreating ||
-              formik.values.readOnly
-            }
-            help={
-              formik.values.isCreating
-                ? getSourceHelpForDriver(formik.values.driver)
-                : "Source can't be changed"
-            }
-            label="Source"
-          />
+          {!isPowerFlexDriver && (
+            <Input
+              {...getFormProps("source")}
+              type="text"
+              disabled={
+                formik.values.driver === btrfsDriver ||
+                !formik.values.isCreating ||
+                formik.values.readOnly
+              }
+              help={
+                formik.values.isCreating
+                  ? getSourceHelpForDriver(formik.values.driver)
+                  : "Source can't be changed"
+              }
+              label="Source"
+            />
+          )}
+          {isPowerFlexDriver && (
+            <>
+              <Input
+                {...formik.getFieldProps("powerflex_pool")}
+                type="text"
+                label="Powerflex pool"
+                placeholder="Enter powerflex pool"
+                help="ID or name of the remote PowerFlex storage pool"
+                required
+              />
+              <Input
+                {...formik.getFieldProps("powerflex_domain")}
+                type="text"
+                label="Domain"
+                placeholder="Enter domain"
+                help="Name of the PowerFlex protection domain. Required if the Powerflex pool is a name."
+              />
+              <Input
+                {...formik.getFieldProps("powerflex_gateway")}
+                type="text"
+                label="Gateway"
+                placeholder="Enter gateway"
+                help="Address of the PowerFlex Gateway"
+                required
+              />
+              <Input
+                {...formik.getFieldProps("powerflex_user_name")}
+                type="text"
+                label="User"
+                placeholder="Enter user"
+                help={
+                  <>
+                    User for PowerFlex Gateway authentication. Defaults to{" "}
+                    <code>admin</code> if left empty.
+                  </>
+                }
+              />
+              <Input
+                {...formik.getFieldProps("powerflex_user_password")}
+                type="password"
+                label="Password"
+                placeholder="Enter password"
+                help="Password for PowerFlex Gateway authentication"
+                required
+              />
+            </>
+          )}
         </Col>
       </Row>
     </ScrollableForm>

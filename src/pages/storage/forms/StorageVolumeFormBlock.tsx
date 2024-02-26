@@ -4,12 +4,14 @@ import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
+import { powerFlex } from "util/storageOptions";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
+  poolDriver?: string;
 }
 
-const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
+const StorageVolumeFormBlock: FC<Props> = ({ formik, poolDriver }) => {
   return (
     <ScrollableConfigurationTable
       rows={[
@@ -65,6 +67,31 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
             />
           ),
         }),
+
+        ...(poolDriver === powerFlex
+          ? [
+              getConfigurationRow({
+                formik,
+                label: "Block type",
+                name: "block_type",
+                defaultValue: "thin",
+                children: (
+                  <Select
+                    options={[
+                      {
+                        label: "thin",
+                        value: "thin",
+                      },
+                      {
+                        label: "thick",
+                        value: "thick",
+                      },
+                    ]}
+                  />
+                ),
+              }),
+            ]
+          : []),
       ]}
     />
   );

@@ -9,7 +9,10 @@ import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import { zfsDriver } from "util/storageOptions";
-import { testDuplicateStoragePoolName } from "util/storagePool";
+import {
+  isPowerflexIncomplete,
+  testDuplicateStoragePoolName,
+} from "util/storagePool";
 import StoragePoolForm, {
   StoragePoolFormValues,
   storagePoolFormToPayload,
@@ -95,7 +98,11 @@ const CreateStoragePool: FC = () => {
         <ActionButton
           appearance="positive"
           loading={formik.isSubmitting}
-          disabled={!formik.isValid || !formik.values.name}
+          disabled={
+            !formik.isValid ||
+            !formik.values.name ||
+            isPowerflexIncomplete(formik)
+          }
           onClick={() => void formik.submitForm()}
         >
           Create

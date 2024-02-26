@@ -18,6 +18,7 @@ export const getStorageVolumeEditValues = (
     snapshots_schedule: volume.config["snapshots.schedule"],
     block_filesystem: volume.config["block.filesystem"],
     block_mount_options: volume.config["block.mount_options"],
+    block_type: volume.config["block.type"],
     zfs_blocksize: volume.config["zfs.blocksize"],
     zfs_block_mode: volume.config["zfs.block_mode"],
     zfs_delegate: volume.config["zfs.delegate"],

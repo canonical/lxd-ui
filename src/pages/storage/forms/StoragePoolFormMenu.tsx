@@ -5,10 +5,12 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik";
 import { StoragePoolFormValues } from "./StoragePoolForm";
-import { cephDriver, zfsDriver } from "util/storageOptions";
+import { cephDriver, powerFlex, zfsDriver } from "util/storageOptions";
+import { isPowerflexIncomplete } from "util/storagePool";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const CEPH_CONFIGURATION = "Ceph";
+export const POWERFLEX = "Powerflex";
 export const ZFS_CONFIGURATION = "ZFS";
 
 interface Props {
@@ -25,10 +27,13 @@ const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
   };
 
   const isCephDriver = formik.values.driver === cephDriver;
+  const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isZfsDriver = formik.values.driver === zfsDriver;
   const hasName = formik.values.name.length > 0;
   const disableReason = hasName
-    ? undefined
+    ? isPowerflexIncomplete(formik)
+      ? "Please enter a domain, gateway, pool, and user name to enable this section"
+      : undefined
     : "Please enter a storage pool name to enable this section";
 
   const resize = () => {
@@ -44,6 +49,13 @@ const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
           {isCephDriver && (
             <MenuItem
               label={CEPH_CONFIGURATION}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isPowerFlexDriver && (
+            <MenuItem
+              label={POWERFLEX}
               {...menuItemProps}
               disableReason={disableReason}
             />

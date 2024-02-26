@@ -1,6 +1,9 @@
 import { AbortControllerState, checkDuplicateName } from "util/helpers";
 import { AnyObject, TestFunction } from "yup";
 import { LxdConfigOptionsKeys } from "types/config";
+import { FormikProps } from "formik";
+import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import { powerFlex } from "util/storageOptions";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
@@ -8,6 +11,15 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_rbd_clone_copy: "ceph.rbd.clone_copy",
   ceph_user_name: "ceph.user.name",
   ceph_rbd_features: "ceph.rbd.features",
+  powerflex_clone_copy: "powerflex.clone_copy",
+  powerflex_domain: "powerflex.domain",
+  powerflex_gateway: "powerflex.gateway",
+  powerflex_gateway_verify: "powerflex.gateway.verify",
+  powerflex_mode: "powerflex.mode",
+  powerflex_pool: "powerflex.pool",
+  powerflex_sdt: "powerflex.sdt",
+  powerflex_user_name: "powerflex.user.name",
+  powerflex_user_password: "powerflex.user.password",
   zfs_clone_copy: "zfs.clone_copy",
   zfs_export: "zfs.export",
   zfs_pool_name: "zfs.pool_name",
@@ -34,6 +46,7 @@ const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   lvm: "storage-lvm",
   zfs: "storage-zfs",
   ceph: "storage-ceph",
+  powerflex: "storage-powerflex",
 };
 
 export const storagePoolFormDriverToOptionKey = (
@@ -61,4 +74,15 @@ export const testDuplicateStoragePoolName = (
       );
     },
   ];
+};
+
+export const isPowerflexIncomplete = (
+  formik: FormikProps<StoragePoolFormValues>,
+): boolean => {
+  return (
+    formik.values.driver === powerFlex &&
+    (!formik.values.powerflex_pool ||
+      !formik.values.powerflex_gateway ||
+      !formik.values.powerflex_user_password)
+  );
 };

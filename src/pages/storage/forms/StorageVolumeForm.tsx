@@ -44,6 +44,7 @@ export interface StorageVolumeFormValues {
   snapshots_schedule?: string;
   block_filesystem?: string;
   block_mount_options?: string;
+  block_type?: string;
   zfs_blocksize?: string;
   zfs_block_mode?: string;
   zfs_delegate?: string;
@@ -71,6 +72,7 @@ export const volumeFormToPayload = (
       [getVolumeKey("snapshots_schedule")]: values.snapshots_schedule,
       [getVolumeKey("block_filesystem")]: values.block_filesystem,
       [getVolumeKey("block_mount_options")]: values.block_mount_options,
+      [getVolumeKey("block_type")]: values.block_type,
       [getVolumeKey("zfs_blocksize")]: values.zfs_blocksize,
       [getVolumeKey("zfs_block_mode")]: values.zfs_block_mode,
       [getVolumeKey("zfs_delegate")]: values.zfs_delegate,
@@ -169,7 +171,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
             <StorageVolumeFormSnapshots formik={formik} />
           )}
           {section === slugify(FILESYSTEM) && (
-            <StorageVolumeFormBlock formik={formik} />
+            <StorageVolumeFormBlock formik={formik} poolDriver={poolDriver} />
           )}
           {section === slugify(ZFS) && <StorageVolumeFormZFS formik={formik} />}
         </Col>
