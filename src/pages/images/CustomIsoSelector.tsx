@@ -39,7 +39,10 @@ const CustomIsoSelector: FC<Props> = ({
   ];
 
   const rows = images.map((image) => {
+    const selectIso = () => onSelect(image, "virtual-machine");
+
     return {
+      className: "u-row",
       columns: [
         {
           content: (
@@ -49,16 +52,19 @@ const CustomIsoSelector: FC<Props> = ({
           ),
           role: "cell",
           "aria-label": "Name",
+          onClick: selectIso,
         },
         {
           content: image.pool,
           role: "cell",
           "aria-label": "Storage pool",
+          onClick: selectIso,
         },
         {
           content: isoTimeToString(new Date(image.created_at).toISOString()),
           role: "cell",
           "aria-label": "Uploaded at",
+          onClick: selectIso,
         },
         {
           content:
@@ -66,6 +72,7 @@ const CustomIsoSelector: FC<Props> = ({
             humanFileSize(+image.volume.config.size),
           role: "cell",
           "aria-label": "Size",
+          onClick: selectIso,
         },
         {
           content: (
@@ -76,7 +83,7 @@ const CustomIsoSelector: FC<Props> = ({
                   ? "positive"
                   : ""
               }
-              onClick={() => onSelect(image, "virtual-machine")}
+              onClick={selectIso}
               dense
             >
               Select
@@ -85,6 +92,7 @@ const CustomIsoSelector: FC<Props> = ({
           role: "cell",
           "aria-label": "Actions",
           className: "u-align--right",
+          onClick: selectIso,
         },
       ],
       sortData: {
@@ -102,10 +110,8 @@ const CustomIsoSelector: FC<Props> = ({
         <MainTable
           headers={headers}
           rows={rows}
-          paginate={30}
-          responsive
           sortable
-          className="u-table-layout--auto"
+          className="table-iso-select u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
               <Loader text="Loading images..." />

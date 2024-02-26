@@ -59,7 +59,10 @@ const CustomVolumeSelectModal: FC<Props> = ({
     : volumes
         .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
         .map((volume) => {
+          const selectVolume = () => handleSelect(volume);
+
           return {
+            className: "u-row",
             columns: [
               {
                 content: (
@@ -72,21 +75,25 @@ const CustomVolumeSelectModal: FC<Props> = ({
                 ),
                 role: "cell",
                 "aria-label": "Name",
+                onClick: selectVolume,
               },
               {
                 content: volume.pool,
                 role: "cell",
                 "aria-label": "Storage pool",
+                onClick: selectVolume,
               },
               {
                 content: renderContentType(volume),
                 role: "cell",
                 "aria-label": "Content type",
+                onClick: selectVolume,
               },
               {
                 content: volume.used_by?.length,
                 role: "cell",
                 "aria-label": "Used by",
+                onClick: selectVolume,
               },
               {
                 content: (
@@ -108,6 +115,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
                 role: "cell",
                 "aria-label": "Actions",
                 className: "u-align--right",
+                onClick: selectVolume,
               },
             ],
           };
@@ -125,9 +133,8 @@ const CustomVolumeSelectModal: FC<Props> = ({
           id="volume-select-table"
           headers={headers}
           rows={rows}
-          paginate={30}
           sortable
-          className="u-table-layout--auto"
+          className="table-volume-select u-table-layout--auto"
           emptyStateMsg={
             isLoading || isFetching ? (
               <Loader text="Loading volumes..." />
