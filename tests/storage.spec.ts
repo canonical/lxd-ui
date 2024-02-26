@@ -1,4 +1,4 @@
-import { test } from "./fixtures/lxd-test";
+import { expect, test } from "./fixtures/lxd-test";
 import {
   createPool,
   deletePool,
@@ -104,4 +104,11 @@ test("custom storage volume add snapshot from CTA", async ({ page }) => {
   await page.waitForSelector(`text=Snapshot ${snapshot} created.`);
 
   await deleteVolume(page, volume);
+});
+
+test("navigate to custom volume via pool used by list", async ({ page }) => {
+  await visitVolume(page, volume);
+  await page.locator(`tr:has-text("Pool")`).getByRole("link").click();
+  await page.getByRole("link", { name: volume }).click();
+  await expect(page).toHaveURL(/volumes\/custom\//);
 });
