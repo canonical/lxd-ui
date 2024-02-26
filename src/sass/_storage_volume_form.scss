@@ -21,4 +21,11 @@
     min-height: 100%;
     padding-bottom: 0;
   }
+
+  .table-volume-select {
+    .u-row:hover {
+      background-color: $colors--light-theme--background-hover;
+      cursor: pointer;
+    }
+  }
 }
