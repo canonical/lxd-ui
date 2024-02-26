@@ -126,6 +126,10 @@
     max-width: 54rem;
   }
 
+  .read-only .monaco-editor .cursors-layer > .cursor {
+    display: none !important;
+  }
+
   .cpu-limit-label,
   .ip-address-selector,
   .memory-limit-label {

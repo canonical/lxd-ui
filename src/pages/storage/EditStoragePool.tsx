@@ -12,16 +12,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import StoragePoolForm, {
-  storagePoolFormToPayload,
+  toStoragePool,
   StoragePoolFormValues,
 } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
-import { getStoragePoolEditValues } from "util/storagePoolEdit";
+import { toStoragePoolFormValues } from "util/storagePoolForm";
 import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { yamlToObject } from "util/yaml";
 
 interface Props {
   pool: LxdStoragePool;
@@ -56,10 +57,12 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   });
 
   const formik = useFormik<StoragePoolFormValues>({
-    initialValues: getStoragePoolEditValues(pool),
+    initialValues: toStoragePoolFormValues(pool),
     validationSchema: StoragePoolSchema,
     onSubmit: (values) => {
-      const savedPool = storagePoolFormToPayload(values);
+      const savedPool = values.yaml
+        ? (yamlToObject(values.yaml) as LxdStoragePool)
+        : toStoragePool(values);
 
       const mutation =
         clusterMembers.length > 0
@@ -75,7 +78,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
             project,
             member,
           );
-          void formik.setValues(getStoragePoolEditValues(updatedPool));
+          void formik.setValues(toStoragePoolFormValues(updatedPool));
         })
         .catch((e) => {
           notify.failure("Storage pool update failed", e);
@@ -89,7 +92,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
     },
   });
 
-  const setSection = (newSection: string) => {
+  const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
     newSection === MAIN_CONFIGURATION
       ? navigate(baseUrl)
@@ -101,7 +104,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       <StoragePoolForm
         formik={formik}
         section={section ?? slugify(MAIN_CONFIGURATION)}
-        setSection={setSection}
+        setSection={updateSection}
       />
       <FormFooterLayout>
         {formik.values.readOnly ? (
@@ -115,7 +118,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           <>
             <Button
               appearance="base"
-              onClick={() => formik.setValues(getStoragePoolEditValues(pool))}
+              onClick={() => formik.setValues(toStoragePoolFormValues(pool))}
             >
               Cancel
             </Button>

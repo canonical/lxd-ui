@@ -1,11 +1,19 @@
-import React, { FC, useEffect } from "react";
-import { Form, Input, Row, Col, useNotify } from "@canonical/react-components";
+import React, { FC, ReactNode, useEffect, useState } from "react";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  useNotify,
+  Notification,
+} from "@canonical/react-components";
 import { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
   CEPH_CONFIGURATION,
   MAIN_CONFIGURATION,
   POWERFLEX,
+  YAML_CONFIGURATION,
   ZFS_CONFIGURATION,
 } from "./StoragePoolFormMenu";
 import useEventListener from "@use-it/event-listener";
@@ -19,6 +27,11 @@ import {
 } from "util/storageOptions";
 import { getPoolKey } from "util/storagePool";
 import { slugify } from "util/slugify";
+import YamlForm from "components/forms/YamlForm";
+import { dump as dumpYaml } from "js-yaml";
+import { handleConfigKeys } from "util/storagePoolForm";
+import YamlConfirmation from "components/forms/YamlConfirmation";
+import { useDocs } from "context/useDocs";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
@@ -49,6 +62,8 @@ export interface StoragePoolFormValues {
   zfs_clone_copy?: string;
   zfs_export?: string;
   zfs_pool_name?: string;
+  yaml?: string;
+  barePool?: LxdStoragePool;
 }
 
 interface Props {
@@ -57,7 +72,7 @@ interface Props {
   setSection: (section: string) => void;
 }
 
-export const storagePoolFormToPayload = (
+export const toStoragePool = (
   values: StoragePoolFormValues,
 ): LxdStoragePool => {
   const isCephDriver = values.driver === cephDriver;
@@ -103,16 +118,46 @@ export const storagePoolFormToPayload = (
     };
   };
 
+  const excludeMainKeys = new Set([
+    "used_by",
+    "etag",
+    "status",
+    "locations",
+    "config",
+    "name",
+    "description",
+    "driver",
+    "source",
+  ]);
+  const missingMainFields = Object.fromEntries(
+    Object.entries(values.barePool ?? {}).filter(
+      (e) => !excludeMainKeys.has(e[0]),
+    ),
+  );
+
+  const excludeConfigKeys = new Set(handleConfigKeys);
+  const missingConfigFields = Object.fromEntries(
+    Object.entries(values.barePool?.config ?? {}).filter(
+      (e) => !excludeConfigKeys.has(e[0]),
+    ),
+  );
+
   return {
+    ...missingMainFields,
     name: values.name,
     description: values.description,
     driver: values.driver,
-    source: values.driver !== btrfsDriver ? values.source : undefined,
-    config: getConfig(),
+    config: {
+      ...missingConfigFields,
+      ...getConfig(),
+      source: values.driver !== btrfsDriver ? values.source : undefined,
+    },
   };
 };
 
 const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
+  const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
+  const docBaseLink = useDocs();
   const notify = useNotify();
 
   const updateFormHeight = () => {
@@ -121,13 +166,35 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
+  const getYaml = () => dumpYaml(toStoragePool(formik.values));
+
+  const handleSetActive = (val: string) => {
+    if (Boolean(formik.values.yaml) && val !== YAML_CONFIGURATION) {
+      const handleConfirm = () => {
+        void formik.setFieldValue("yaml", undefined);
+        setConfirmModal(null);
+        setSection(val);
+      };
+
+      setConfirmModal(
+        <YamlConfirmation
+          onConfirm={handleConfirm}
+          close={() => setConfirmModal(null)}
+        />,
+      );
+    } else {
+      setSection(val);
+    }
+  };
+
   return (
     <Form className="form storage-pool-form" onSubmit={formik.handleSubmit}>
+      {confirmModal}
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
       <StoragePoolFormMenu
         active={section}
-        setActive={setSection}
+        setActive={handleSetActive}
         formik={formik}
       />
       <Row className="form-contents" key={section}>
@@ -143,6 +210,26 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
           )}
           {section === slugify(ZFS_CONFIGURATION) && (
             <StoragePoolFormZFS formik={formik} />
+          )}
+          {section === slugify(YAML_CONFIGURATION) && (
+            <YamlForm
+              key={`yaml-form-${formik.values.readOnly}`}
+              yaml={getYaml()}
+              setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
+              readOnly={formik.values.readOnly}
+            >
+              <Notification severity="information" title="YAML Configuration">
+                This is the YAML representation of the storage pool.
+                <br />
+                <a
+                  href={`${docBaseLink}/explanation/storage/#storage-pools`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn more about storage pools
+                </a>
+              </Notification>
+            </YamlForm>
           )}
         </Col>
       </Row>

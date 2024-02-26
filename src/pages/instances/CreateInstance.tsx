@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -74,6 +74,7 @@ import {
 } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useDocs } from "context/useDocs";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -91,6 +92,7 @@ interface PresetFormState {
 }
 
 const CreateInstance: FC = () => {
+  const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const location = useLocation() as Location<PresetFormState | null>;
   const navigate = useNavigate();
@@ -381,6 +383,7 @@ const CreateInstance: FC = () => {
       <Form onSubmit={formik.handleSubmit} className="form">
         <InstanceFormMenu
           active={section}
+          formik={formik}
           setActive={updateSection}
           isConfigDisabled={!formik.values.image}
           isConfigOpen={!!formik.values.image && isConfigOpen}
@@ -421,16 +424,20 @@ const CreateInstance: FC = () => {
 
             {section === YAML_CONFIGURATION && (
               <YamlForm
+                key={`yaml-form-${formik.values.readOnly}`}
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >
-                <Notification
-                  severity="caution"
-                  title="Before you edit the YAML"
-                  titleElement="h2"
-                >
-                  Changes will be discarded, when switching back to the guided
-                  forms.
+                <Notification severity="information" title="YAML Configuration">
+                  This is the YAML representation of the instance.
+                  <br />
+                  <a
+                    href={`${docBaseLink}/instances`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn more about instances
+                  </a>
                 </Notification>
               </YamlForm>
             )}

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -55,6 +55,7 @@ import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLink from "pages/instances/InstanceLink";
+import { useDocs } from "context/useDocs";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -79,6 +80,7 @@ interface Props {
 }
 
 const EditInstance: FC<Props> = ({ instance }) => {
+  const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const { project, section } = useParams<{
@@ -185,6 +187,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
           toggleConfigOpen={toggleMenu}
           hasDiskError={hasDiskError(formik)}
           hasNetworkError={hasNetworkError(formik)}
+          formik={formik}
         />
         <Row className="form-contents" key={section}>
           <Col size={12}>
@@ -218,19 +221,22 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(YAML_CONFIGURATION) && (
               <YamlForm
+                key={`yaml-form-${formik.values.readOnly}`}
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
                 readOnly={readOnly}
               >
-                {!readOnly && (
-                  <Notification
-                    severity="caution"
-                    title="Before you edit the YAML"
+                <Notification severity="information" title="YAML Configuration">
+                  This is the YAML representation of the instance.
+                  <br />
+                  <a
+                    href={`${docBaseLink}/instances`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Changes will be discarded, when switching back to the guided
-                    forms.
-                  </Notification>
-                )}
+                    Learn more about instances
+                  </a>
+                </Notification>
               </YamlForm>
             )}
           </Col>

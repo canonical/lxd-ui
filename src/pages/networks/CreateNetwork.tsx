@@ -21,7 +21,6 @@ import { fetchClusterMembers } from "api/cluster";
 import BaseLayout from "components/BaseLayout";
 import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
-import { YAML_CONFIGURATION } from "pages/profiles/forms/ProfileFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 
@@ -105,6 +104,10 @@ const CreateNetwork: FC = () => {
     return dumpYaml(payload);
   };
 
+  const updateSection = (newSection: string) => {
+    setSection(slugify(newSection));
+  };
+
   return (
     <BaseLayout title="Create a network" contentClassName="create-network">
       <NotificationRow />
@@ -113,12 +116,7 @@ const CreateNetwork: FC = () => {
         getYaml={getYaml}
         project={project}
         section={section}
-        setSection={(section) => {
-          if (Boolean(formik.values.yaml) && section !== YAML_CONFIGURATION) {
-            void formik.setFieldValue("yaml", undefined);
-          }
-          setSection(slugify(section));
-        }}
+        setSection={updateSection}
       />
       <FormFooterLayout>
         <Button

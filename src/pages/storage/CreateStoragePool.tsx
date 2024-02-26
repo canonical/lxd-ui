@@ -15,13 +15,15 @@ import {
 } from "util/storagePool";
 import StoragePoolForm, {
   StoragePoolFormValues,
-  storagePoolFormToPayload,
+  toStoragePool,
 } from "./forms/StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { yamlToObject } from "util/yaml";
+import { LxdStoragePool } from "types/storage";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -56,7 +58,10 @@ const CreateStoragePool: FC = () => {
     },
     validationSchema: CreateStoragePoolSchema,
     onSubmit: (values) => {
-      const storagePool = storagePoolFormToPayload(values);
+      const storagePool = values.yaml
+        ? (yamlToObject(values.yaml) as LxdStoragePool)
+        : toStoragePool(values);
+
       const mutation =
         clusterMembers.length > 0
           ? () => createClusteredPool(storagePool, project, clusterMembers)
@@ -77,6 +82,10 @@ const CreateStoragePool: FC = () => {
     },
   });
 
+  const updateSection = (newSection: string) => {
+    setSection(slugify(newSection));
+  };
+
   return (
     <BaseLayout
       title="Create a storage pool"
@@ -86,7 +95,7 @@ const CreateStoragePool: FC = () => {
       <StoragePoolForm
         formik={formik}
         section={section}
-        setSection={(newSection) => setSection(slugify(newSection))}
+        setSection={updateSection}
       />
       <FormFooterLayout>
         <Button
