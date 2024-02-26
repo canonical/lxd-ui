@@ -16,24 +16,19 @@ import {
 } from "./helpers/storageVolume";
 import { activateOverride, setInput } from "./helpers/configuration";
 import { randomSnapshotName } from "./helpers/snapshots";
-import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let volume = randomVolumeName();
 
-test.beforeAll(async ({ browser, browserName, hasCoverage }) => {
+test.beforeAll(async ({ browser, browserName }) => {
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   volume = `${browserName}-${volume}`;
   await createVolume(page, volume);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test.afterAll(async ({ browser, hasCoverage }) => {
+test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await deleteVolume(page, volume);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 

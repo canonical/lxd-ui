@@ -15,24 +15,19 @@ import {
   toggleNotificationList,
   dismissFirstNotificationFromList,
 } from "./helpers/notification";
-import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let instance = randomInstanceName();
 
-test.beforeAll(async ({ browserName, browser, hasCoverage }) => {
+test.beforeAll(async ({ browserName, browser }) => {
   instance = `${browserName}-${instance}`;
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await createInstance(page, instance);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test.afterAll(async ({ browser, hasCoverage }) => {
+test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await deleteInstance(page, instance);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 

@@ -13,25 +13,20 @@ import {
   assertReadMode,
   setOption,
 } from "./helpers/configuration";
-import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let network = randomNetworkName();
 
-test.beforeAll(async ({ browser, browserName, hasCoverage }) => {
+test.beforeAll(async ({ browser, browserName }) => {
   // network names can only be 15 characters long
   network = `${browserName.substring(0, 2)}-${network}`;
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await createNetwork(page, network);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test.afterAll(async ({ browser, hasCoverage }) => {
+test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await deleteNetwork(page, network);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 

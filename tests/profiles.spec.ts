@@ -18,24 +18,19 @@ import {
   saveProfile,
   visitProfile,
 } from "./helpers/profile";
-import { finishCoverage, startCoverage } from "./fixtures/coverage";
 
 let profile = randomProfileName();
 
-test.beforeAll(async ({ browserName, browser, hasCoverage }) => {
+test.beforeAll(async ({ browserName, browser }) => {
   profile = `${browserName}-${profile}`;
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await createProfile(page, profile);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
-test.afterAll(async ({ browser, hasCoverage }) => {
+test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
-  await startCoverage(page, hasCoverage);
   await deleteProfile(page, profile);
-  await finishCoverage(page, hasCoverage);
   await page.close();
 });
 
