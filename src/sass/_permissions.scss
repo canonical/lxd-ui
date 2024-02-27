@@ -1,0 +1,21 @@
+.permissions {
+  .permission-groups-table {
+    .permission-group-actions button {
+      padding: 0;
+    }
+
+    @media screen and (pointer: fine) {
+      .storage-volume-actions {
+        visibility: hidden;
+      }
+
+      .u-row:hover {
+        background-color: $colors--light-theme--background-hover;
+
+        .storage-volume-actions {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}

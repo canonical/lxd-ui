@@ -9,6 +9,8 @@ import { setTitle } from "util/title";
 import CustomLayout from "components/CustomLayout";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
+import PermissionIdentityDetail from "pages/permissions/PermissionIdentityDetail";
+import CreateIdentityProviderGroup from "pages/permissions/CreateIdentityProviderGroup";
 
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -42,6 +44,7 @@ const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
 const ProjectConfig = lazy(() => import("pages/projects/ProjectConfiguration"));
 const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
+const Permissions = lazy(() => import("pages/permissions/Permissions"));
 const Settings = lazy(() => import("pages/settings/Settings"));
 const Storage = lazy(() => import("pages/storage/Storage"));
 const StoragePoolDetail = lazy(() => import("pages/storage/StoragePoolDetail"));
@@ -50,6 +53,15 @@ const StorageVolumeCreate = lazy(
 );
 const StorageVolumeDetail = lazy(
   () => import("pages/storage/StorageVolumeDetail"),
+);
+const PermissionGroupDetail = lazy(
+  () => import("pages/permissions/PermissionGroupDetail"),
+);
+const IdentityProviderGroupDetail = lazy(
+  () => import("pages/permissions/IdentityProviderGroupDetail"),
+);
+const CreatePermissionGroup = lazy(
+  () => import("pages/permissions/CreatePermissionGroup"),
 );
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
 
@@ -351,6 +363,46 @@ const App: FC = () => {
         <Route
           path="/ui/warnings"
           element={<ProtectedRoute outlet={<WarningList />} />}
+        />
+        <Route
+          path="/ui/permissions"
+          element={<ProtectedRoute outlet={<Permissions />} />}
+        />
+        <Route
+          path="/ui/permissions/:activeTab"
+          element={<ProtectedRoute outlet={<Permissions />} />}
+        />
+        <Route
+          path="/ui/permissions/lxd-groups/create"
+          element={<ProtectedRoute outlet={<CreatePermissionGroup />} />}
+        />
+        <Route
+          path="/ui/permissions/lxd-group/:name"
+          element={<ProtectedRoute outlet={<PermissionGroupDetail />} />}
+        />
+        <Route
+          path="/ui/permissions/lxd-group/:name/:activeTab"
+          element={<ProtectedRoute outlet={<PermissionGroupDetail />} />}
+        />
+        <Route
+          path="/ui/permissions/idp-groups/create"
+          element={<ProtectedRoute outlet={<CreateIdentityProviderGroup />} />}
+        />
+        <Route
+          path="/ui/permissions/idp-group/:name"
+          element={<ProtectedRoute outlet={<IdentityProviderGroupDetail />} />}
+        />
+        <Route
+          path="/ui/permissions/idp-group/:name/:activeTab"
+          element={<ProtectedRoute outlet={<IdentityProviderGroupDetail />} />}
+        />
+        <Route
+          path="/ui/permissions/identity/:authMethod/:name"
+          element={<ProtectedRoute outlet={<PermissionIdentityDetail />} />}
+        />
+        <Route
+          path="/ui/permissions/identity/:authMethod/:name/:activeTab"
+          element={<ProtectedRoute outlet={<PermissionIdentityDetail />} />}
         />
         <Route
           path="/ui/settings"

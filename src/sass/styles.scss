@@ -21,6 +21,7 @@
 @include vf-p-icon-fullscreen;
 @include vf-p-icon-get-link;
 @include vf-p-icon-import;
+@include vf-p-icon-lock-locked;
 @include vf-p-icon-machines;
 @include vf-p-icon-mount;
 @include vf-p-icon-open-terminal;
@@ -45,6 +46,8 @@
 @include vf-p-icon-units;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
+@include vf-p-icon-user-group;
+@include vf-p-icon-tag;
 
 $border-thin: 1px solid $color-mid-light !default;
 
@@ -96,6 +99,9 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "storage";
 @import "toast";
 @import "upper_controls_bar";
+@import "permission_group_form";
+@import "permission_group_overview";
+@import "permission_identity_form";
 
 body {
   // needed for notification list expanding animation

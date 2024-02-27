@@ -20,5 +20,6 @@ export const useSupportedFeatures = () => {
       !!serverVersion && serverMajor >= 5 && serverMinor >= 19,
     hasDocumentationObject:
       !!serverVersion && serverMajor >= 5 && serverMinor >= 20,
+    hasPermissions: apiExtensions.has("access_management"),
   };
 };
