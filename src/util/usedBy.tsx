@@ -1,7 +1,9 @@
 export interface LxdUsedBy {
   name: string;
   project: string;
-  instance: string;
+  instance?: string;
+  volume?: string;
+  pool?: string;
 }
 
 /**
@@ -11,6 +13,7 @@ export interface LxdUsedBy {
  * "/1.0/instances/pet-lark"
  * "/1.0/instances/relaxed-basilisk/snapshots/ff?project=foo"
  * "/1.0/profiles/default?project=foo"
+ * "/1.0/storage-pools/pool-dir/volumes/custom/test/snapshots/snap1?project=bar"
  */
 export const filterUsedByType = (
   type: "instances" | "profiles" | "snapshots" | "images" | "volumes",
@@ -20,6 +23,10 @@ export const filterUsedByType = (
     usedByPaths
       ?.filter((path) => {
         if (type === "instances" && path.includes("/snapshots/")) {
+          return false;
+        }
+
+        if (type === "volumes" && path.includes("/snapshots/")) {
           return false;
         }
 
@@ -42,7 +49,18 @@ export const filterUsedByType = (
         return {
           name,
           project: url.searchParams.get("project") ?? "default",
-          instance: type === "snapshots" ? url.pathname.split("/")[4] : "",
+          instance:
+            type === "snapshots" && url.pathname.includes("1.0/instances")
+              ? url.pathname.split("/")[4]
+              : undefined,
+          volume:
+            type === "snapshots" && url.pathname.includes("1.0/storage-pools")
+              ? url.pathname.split("/")[7]
+              : undefined,
+          pool:
+            type === "snapshots" && url.pathname.includes("1.0/storage-pools")
+              ? url.pathname.split("/")[4]
+              : undefined,
         };
       })
       .sort((a, b) => {

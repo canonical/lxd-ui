@@ -85,14 +85,30 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[SNAPSHOTS].map((item) => (
-                <div key={`${item.instance}-${item.name}-${item.project}`}>
-                  <Link
-                    to={`/ui/project/${item.project}/instances/detail/${item.instance}/snapshots`}
-                  >
-                    {`${item.instance} ${item.name}`}
-                  </Link>
-                  {item.project !== project && ` (project ${item.project})`}
-                </div>
+                <>
+                  {item.instance && (
+                    <div key={`${item.instance}-${item.name}-${item.project}`}>
+                      <Link
+                        to={`/ui/project/${item.project}/instances/detail/${item.instance}/snapshots`}
+                      >
+                        {`${item.instance} ${item.name}`}
+                      </Link>
+                      {item.project !== project && ` (project ${item.project})`}
+                    </div>
+                  )}
+                  {item.volume && (
+                    <div
+                      key={`${item.volume}-${item.name}-${item.project}-${item.pool}`}
+                    >
+                      <Link
+                        to={`/ui/project/${item.project}/storage/detail/${item.pool}/volumes/custom/${item.volume}/snapshots`}
+                      >
+                        {`${item.volume} ${item.name}`}
+                      </Link>
+                      {item.project !== project && ` (project ${item.project})`}
+                    </div>
+                  )}
+                </>
               ))}
             />
           </td>
