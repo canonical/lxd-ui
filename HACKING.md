@@ -83,6 +83,9 @@ Now you can open https://localhost:8407/ to reach lxd-ui.
 
 To enable pre-commit checks, after the first successful run of `dotrun`, execute `yarn hooks-add`. To remove them, run `yarn hooks-remove`.
 
+# License and copyright
+All contributors must sign the [Canonical contributor license agreement](https://ubuntu.com/legal/contributors), which gives Canonical permission to use the contributions. The author of a change remains the copyright holder of their code (no copyright assignment).
+
 # Signing off commits
 All commits are required to be signed off using a GPG key. You can use the following references to set up your git configurations for commit signing.
 1. [Generating a new GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key) or [use an existing GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/checking-for-existing-gpg-keys). Make sure that the GPG key is associated to the email that you are using within your git configuration. If you have multiple GPG keys set up, you should [tell git about your signing GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key).
