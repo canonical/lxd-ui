@@ -50,7 +50,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       renameStorageVolume(project, volume, values.name)
         .then(() => {
           navigate(
-            `/ui/project/${project}/storage/detail/${volume.pool}/volumes/${volume.type}/${values.name}`,
+            `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`,
           );
           toastNotify.success(
             `Storage volume ${volume.name} renamed to ${values.name}.`,

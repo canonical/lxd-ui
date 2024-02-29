@@ -84,7 +84,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       })
         .then(() => {
           const verb = group ? "saved" : "created";
-          navigate(`/ui/cluster/groups/detail/${values.name}`);
+          navigate(`/ui/cluster/group/${values.name}`);
           toastNotify.success(`Cluster group ${values.name} ${verb}.`);
         })
         .catch((e: Error) => {

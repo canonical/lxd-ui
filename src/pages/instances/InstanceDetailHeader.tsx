@@ -66,7 +66,7 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            navigate(`/ui/project/${project}/instances/detail/${values.name}`);
+            navigate(`/ui/project/${project}/instance/${values.name}`);
             toastNotify.success(
               <>
                 Instance <strong>{getInstanceName(operation.metadata)}</strong>{" "}

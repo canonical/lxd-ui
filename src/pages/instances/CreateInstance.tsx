@@ -200,7 +200,7 @@ const CreateInstance: FC = () => {
     isIsoImage: boolean,
   ) => {
     const instanceLink = (
-      <Link to={`/ui/project/${project}/instances/detail/${instanceName}`}>
+      <Link to={`/ui/project/${project}/instance/${instanceName}`}>
         {instanceName}
       </Link>
     );
@@ -218,7 +218,7 @@ const CreateInstance: FC = () => {
         );
       });
     } else {
-      const consoleUrl = `/ui/project/${project}/instances/detail/${instanceName}/console`;
+      const consoleUrl = `/ui/project/${project}/instance/${instanceName}/console`;
       const message = isIsoImage && (
         <>
           <p>Continue the installation process from its console.</p>

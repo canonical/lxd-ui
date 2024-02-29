@@ -48,7 +48,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
         {
           content: (
             <Link
-              to={`/ui/project/${instance.project}/profiles/detail/${profile}`}
+              to={`/ui/project/${instance.project}/profile/${profile}`}
               title={`Profile ${profile}`}
             >
               {profile}

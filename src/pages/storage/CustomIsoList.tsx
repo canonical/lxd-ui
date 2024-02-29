@@ -86,7 +86,7 @@ const CustomIsoList: FC<Props> = ({ project }) => {
         {
           content: (
             <div className="u-truncate" title={image.pool}>
-              <Link to={`/ui/project/${project}/storage/detail/${image.pool}`}>
+              <Link to={`/ui/project/${project}/storage/pool/${image.pool}`}>
                 {image.pool}
               </Link>
             </div>

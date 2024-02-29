@@ -124,7 +124,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       void formik.setFieldValue("yaml", undefined);
     }
 
-    const baseUrl = `/ui/project/${project}/networks/detail/${network.name}/configuration`;
+    const baseUrl = `/ui/project/${project}/network/${network.name}/configuration`;
     newSection === MAIN_CONFIGURATION
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);

@@ -90,7 +90,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   });
 
   const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/storage/detail/${pool.name}/configuration`;
+    const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
     newSection === MAIN_CONFIGURATION
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);

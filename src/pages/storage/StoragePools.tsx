@@ -86,7 +86,7 @@ const StoragePools: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/project/${project}/storage/detail/${pool.name}`}>
+            <Link to={`/ui/project/${project}/storage/pool/${pool.name}`}>
               {pool.name}
             </Link>
           ),

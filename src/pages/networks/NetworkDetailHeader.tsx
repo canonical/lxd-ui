@@ -48,7 +48,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       }
       renameNetwork(name, values.name, project)
         .then(() => {
-          navigate(`/ui/project/${project}/networks/detail/${values.name}`);
+          navigate(`/ui/project/${project}/network/${values.name}`);
           toastNotify.success(`Network ${name} renamed to ${values.name}.`);
           void formik.setFieldValue("isRenaming", false);
         })

@@ -162,7 +162,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                       items={data.profiles.map((item) => (
                         <div key={item.name}>
                           <Link
-                            to={`/ui/project/${item.project}/profiles/detail/${item.name}`}
+                            to={`/ui/project/${item.project}/profile/${item.name}`}
                           >
                             {item.name}
                           </Link>

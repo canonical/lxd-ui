@@ -150,7 +150,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
       void formik.setFieldValue("yaml", undefined);
     }
 
-    const baseUrl = `/ui/project/${project}/profiles/detail/${profile.name}/configuration`;
+    const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     newSection === MAIN_CONFIGURATION
       ? navigate(baseUrl)
       : navigate(`${baseUrl}/${slugify(newSection)}`);
@@ -176,7 +176,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
         <Notification severity="caution" title="Inherited profile">
           Modifications are only available in the{" "}
           <Link
-            to={`/ui/project/default/profiles/detail/${profile.name}/configuration`}
+            to={`/ui/project/default/profile/${profile.name}/configuration`}
           >
             default project
           </Link>
