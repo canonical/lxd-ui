@@ -63,7 +63,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
           {
             content: (
               <Link
-                to={`/ui/project/${instance.project}/networks/detail/${network.name}`}
+                to={`/ui/project/${instance.project}/network/${network.name}`}
                 title={`Network ${network.name}`}
               >
                 {network.name}

@@ -17,11 +17,11 @@ export const generateLinkForVolumeDetail = (args: {
   project: string;
 }) => {
   const { volume, project } = args;
-  let path = `storage/detail/${volume.pool}/volumes/${volume.type}/${volume.name}`;
+  let path = `storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}`;
 
   // NOTE: name of a volume created from an instance is exactly the same as the instance name
   if (volume.type === "container" || volume.type === "virtual-machine") {
-    path = `instances/detail/${volume.name}`;
+    path = `instance/${volume.name}`;
   }
 
   if (volume.type === "image") {

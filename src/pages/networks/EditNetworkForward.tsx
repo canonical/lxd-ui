@@ -73,9 +73,7 @@ const EditNetworkForward: FC = () => {
               queryKeys.forwards,
             ],
           });
-          navigate(
-            `/ui/project/${project}/networks/detail/${network}/forwards`,
-          );
+          navigate(`/ui/project/${project}/network/${network}/forwards`);
           toastNotify.success(
             `Network forward ${forward.listen_address} updated.`,
           );
@@ -108,7 +106,7 @@ const EditNetworkForward: FC = () => {
       <FormFooterLayout>
         <Link
           className="p-button--base"
-          to={`/ui/project/${project}/networks/detail/${network}/forwards`}
+          to={`/ui/project/${project}/network/${network}/forwards`}
         >
           Cancel
         </Link>

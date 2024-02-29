@@ -113,7 +113,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instances/detail/:name"
+          path="/ui/project/:project/instance/:name"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<InstanceDetail />} />}
@@ -121,7 +121,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instances/detail/:name/:activeTab"
+          path="/ui/project/:project/instance/:name/:activeTab"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<InstanceDetail />} />}
@@ -129,7 +129,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/instances/detail/:name/:activeTab/:section"
+          path="/ui/project/:project/instance/:name/:activeTab/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<InstanceDetail />} />}
@@ -153,7 +153,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profiles/detail/:name"
+          path="/ui/project/:project/profile/:name"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -161,7 +161,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profiles/detail/:name/:activeTab"
+          path="/ui/project/:project/profile/:name/:activeTab"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -169,7 +169,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/profiles/detail/:name/:activeTab/:section"
+          path="/ui/project/:project/profile/:name/:activeTab/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<ProfileDetail />} />}
@@ -193,7 +193,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/detail/:name"
+          path="/ui/project/:project/network/:name"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -201,7 +201,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/detail/:name/:activeTab"
+          path="/ui/project/:project/network/:name/:activeTab"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -209,7 +209,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/detail/:name/:activeTab/:section"
+          path="/ui/project/:project/network/:name/:activeTab/:section"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<NetworkDetail />} />}
@@ -217,7 +217,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/detail/:network/forwards/create"
+          path="/ui/project/:project/network/:network/forwards/create"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateNetworkForward />} />}
@@ -225,7 +225,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/networks/detail/:network/forwards/:forwardAddress/edit"
+          path="/ui/project/:project/network/:network/forwards/:forwardAddress/edit"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
@@ -289,7 +289,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/detail/:name"
+          path="/ui/project/:project/storage/pool/:name"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StoragePoolDetail />} />}
@@ -297,23 +297,23 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/detail/:name/:activeTab"
+          path="/ui/project/:project/storage/pool/:name/:activeTab"
           element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:name/:activeTab/:section"
+          path="/ui/project/:project/storage/pool/:name/:activeTab/:section"
           element={<ProtectedRoute outlet={<StoragePoolDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/volumes/:type/:volume"
+          path="/ui/project/:project/storage/pool/:pool/volumes/:type/:volume"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/volumes/:type/:volume/:activeTab"
+          path="/ui/project/:project/storage/pool/:pool/volumes/:type/:volume/:activeTab"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
-          path="/ui/project/:project/storage/detail/:pool/volumes/:type/:volume/:activeTab/:section"
+          path="/ui/project/:project/storage/pool/:pool/volumes/:type/:volume/:activeTab/:section"
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
@@ -329,7 +329,7 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<CreateClusterGroup />} />}
         />
         <Route
-          path="/ui/cluster/groups/detail/:group"
+          path="/ui/cluster/group/:group"
           element={
             <ProtectedRoute
               outlet={<ClusterGroupLoader outlet={<ClusterList />} />}
@@ -337,7 +337,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/cluster/groups/detail/:group/edit"
+          path="/ui/cluster/group/:group/edit"
           element={
             <ProtectedRoute
               outlet={<ClusterGroupLoader outlet={<EditClusterGroup />} />}

@@ -237,7 +237,7 @@ const StorageVolumes: FC = () => {
         },
         {
           content: (
-            <Link to={`/ui/project/${project}/storage/detail/${volume.pool}`}>
+            <Link to={`/ui/project/${project}/storage/pool/${volume.pool}`}>
               {volume.pool}
             </Link>
           ),

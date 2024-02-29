@@ -72,7 +72,7 @@ const InstanceDetail: FC = () => {
           <TabLinks
             tabs={tabs}
             activeTab={activeTab}
-            tabUrl={`/ui/project/${project}/instances/detail/${name}`}
+            tabUrl={`/ui/project/${project}/instance/${name}`}
           />
 
           {!activeTab && (

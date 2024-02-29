@@ -54,7 +54,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
                 <th className="p-muted-heading">Pool</th>
                 <td>
                   <Link
-                    to={`/ui/project/${project}/storage/detail/${volume.pool}`}
+                    to={`/ui/project/${project}/storage/pool/${volume.pool}`}
                   >
                     {volume.pool}
                   </Link>

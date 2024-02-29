@@ -48,7 +48,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
       {!featuresProfiles && (
         <Notification severity="caution" title="Inherited profile">
           Modifications are only available in the{" "}
-          <Link to={`/ui/project/default/profiles/detail/${profile.name}`}>
+          <Link to={`/ui/project/default/profile/${profile.name}`}>
             default project
           </Link>
           .
@@ -127,7 +127,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
         </Col>
         <Col size={7} className="view-config">
           <Link
-            to={`/ui/project/${project}/profiles/detail/${
+            to={`/ui/project/${project}/profile/${
               profile.name
             }/configuration/${slugify(CLOUD_INIT)}`}
           >

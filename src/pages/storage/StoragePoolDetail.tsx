@@ -77,7 +77,7 @@ const StoragePoolDetail: FC = () => {
         <TabLinks
           tabs={tabs}
           activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/storage/detail/${name}`}
+          tabUrl={`/ui/project/${project}/storage/pool/${name}`}
         />
 
         {!activeTab && (

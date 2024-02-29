@@ -60,7 +60,7 @@ const NetworkList: FC = () => {
       columns: [
         {
           content: (
-            <Link to={`/ui/project/${project}/networks/detail/${network.name}`}>
+            <Link to={`/ui/project/${project}/network/${network.name}`}>
               {network.name}
             </Link>
           ),
