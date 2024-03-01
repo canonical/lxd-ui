@@ -308,7 +308,7 @@ const InstanceSnapshots = (props: Props) => {
             <a
               href={`${docBaseLink}/howto/storage_backup_volume/#storage-backup-snapshots`}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Learn more about snapshots
               <Icon className="external-link-icon" name="external-link" />

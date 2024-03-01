@@ -187,7 +187,7 @@ const StoragePools: FC = () => {
         <a
           href={`${docBaseLink}/explanation/storage/`}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           Learn more about storage
           <Icon className="external-link-icon" name="external-link" />

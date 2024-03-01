@@ -15,7 +15,7 @@ const NoMatch: FC = () => {
             <a
               href="https://github.com/canonical/lxd-ui/issues/new"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               title="Report a bug"
             >
               Report a bug

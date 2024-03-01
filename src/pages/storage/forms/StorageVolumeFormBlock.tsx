@@ -55,7 +55,7 @@ const StorageVolumeFormBlock: FC<Props> = ({ formik }) => {
                   For a list of available options visit{" "}
                   <a
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     href="https://manpages.ubuntu.com/manpages/jammy/en/man8/mount.8.html#filesystem-independent%20mount%20options"
                   >
                     mount manpages
