@@ -160,7 +160,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
               <a
                 href={`${docBaseLink}/howto/network_forwards/`}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Learn more about network forwards
                 <Icon className="external-link-icon" name="external-link" />

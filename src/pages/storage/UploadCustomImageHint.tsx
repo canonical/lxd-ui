@@ -14,7 +14,7 @@ const UploadCustomImageHint: FC = () => {
               className="p-notification__action"
               href="https://ubuntu.com/tutorials/how-to-install-a-windows-11-vm-using-lxd#1-overview"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Windows ISO images
               <Icon className="external-link-icon" name="external-link" />

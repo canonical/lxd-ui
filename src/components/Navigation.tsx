@@ -271,7 +271,7 @@ const Navigation: FC = () => {
                       className="p-side-navigation__link"
                       href={docBaseLink}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       title="Documentation"
                     >
                       <Icon
@@ -286,7 +286,7 @@ const Navigation: FC = () => {
                       className="p-side-navigation__link"
                       href="https://discourse.ubuntu.com/c/lxd/126"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       title="Discussion"
                     >
                       <Icon
@@ -301,7 +301,7 @@ const Navigation: FC = () => {
                       className="p-side-navigation__link"
                       href="https://github.com/canonical/lxd-ui/issues/new"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       title="Report a bug"
                     >
                       <Icon

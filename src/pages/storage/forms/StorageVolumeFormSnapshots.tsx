@@ -46,7 +46,7 @@ const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
                     <a
                       href={`${docBaseLink}/reference/instance_options/#instance-options-snapshots-names`}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
                       Automatic snapshot names
                     </a>

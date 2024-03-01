@@ -181,7 +181,7 @@ const NetworkList: FC = () => {
                 <a
                   href={`${docBaseLink}/explanation/networks/`}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   Learn more about networks
                   <Icon className="external-link-icon" name="external-link" />
