@@ -14,7 +14,6 @@ import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
 import { LxdClusterMember } from "types/cluster";
-import { cephDriver } from "util/storageOptions";
 
 export const fetchStoragePool = (
   pool: string,
@@ -73,27 +72,32 @@ export const createPool = (
   });
 };
 
-const getClusterPool = (
-  pool: Partial<LxdStoragePool>,
-): Partial<LxdStoragePool> => {
-  const poolForCluster = { ...pool };
-  if (pool.driver !== cephDriver) {
-    delete poolForCluster.config;
+const getClusterAndMemberPools = (pool: Partial<LxdStoragePool>) => {
+  const memberSpecificConfigKeys = new Set([
+    "source",
+    "size",
+    "zfs.pool_name",
+    "lvm.thinpool_name",
+    "lvm.vg_name",
+  ]);
+  const configKeys = Object.keys(pool.config || {});
+  const memberConfig: LxdStoragePool["config"] = {};
+  const clusterConfig: LxdStoragePool["config"] = {};
+  for (const key of configKeys) {
+    if (memberSpecificConfigKeys.has(key)) {
+      memberConfig[key] = pool.config?.[key];
+    } else {
+      clusterConfig[key] = pool.config?.[key];
+    }
   }
 
-  return poolForCluster;
-};
+  const clusterPool = { ...pool, config: clusterConfig };
+  const memberPool = { ...pool, config: memberConfig };
 
-const getMemberPool = (
-  pool: Partial<LxdStoragePool>,
-): Partial<LxdStoragePool> => {
-  const poolForMember = { ...pool };
-  // config keys for ceph storage pool cannot be member specific
-  if (pool.driver === cephDriver) {
-    delete poolForMember.config;
-  }
-
-  return poolForMember;
+  return {
+    clusterPool,
+    memberPool,
+  };
 };
 
 export const createClusteredPool = (
@@ -101,7 +105,7 @@ export const createClusteredPool = (
   project: string,
   clusterMembers: LxdClusterMember[],
 ): Promise<void> => {
-  const memberPool = getMemberPool(pool);
+  const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
       clusterMembers.map((item) =>
@@ -110,7 +114,7 @@ export const createClusteredPool = (
     )
       .then(handleSettledResult)
       .then(() => {
-        return createPool(getClusterPool(pool), project);
+        return createPool(clusterPool, project);
       })
       .then(resolve)
       .catch(reject);
@@ -139,7 +143,7 @@ export const updateClusteredPool = (
   project: string,
   clusterMembers: LxdClusterMember[],
 ): Promise<void> => {
-  const memberPool = getMemberPool(pool);
+  const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
       clusterMembers.map(async (item) =>
@@ -147,7 +151,7 @@ export const updateClusteredPool = (
       ),
     )
       .then(handleSettledResult)
-      .then(() => updatePool(getClusterPool(pool), project))
+      .then(() => updatePool(clusterPool, project))
       .then(resolve)
       .catch(reject);
   });

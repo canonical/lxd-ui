@@ -8,6 +8,9 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_rbd_clone_copy: "ceph.rbd.clone_copy",
   ceph_user_name: "ceph.user.name",
   ceph_rbd_features: "ceph.rbd.features",
+  zfs_clone_copy: "zfs.clone_copy",
+  zfs_export: "zfs.export",
+  zfs_pool_name: "zfs.pool_name",
 };
 
 export const getPoolKey = (formField: string): string => {

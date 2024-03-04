@@ -5,10 +5,11 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik";
 import { StoragePoolFormValues } from "./StoragePoolForm";
-import { cephDriver } from "util/storageOptions";
+import { cephDriver, zfsDriver } from "util/storageOptions";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const CEPH_CONFIGURATION = "Ceph";
+export const ZFS_CONFIGURATION = "ZFS";
 
 interface Props {
   active: string;
@@ -24,6 +25,7 @@ const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
   };
 
   const isCephDriver = formik.values.driver === cephDriver;
+  const isZfsDriver = formik.values.driver === zfsDriver;
   const hasName = formik.values.name.length > 0;
   const disableReason = hasName
     ? undefined
@@ -42,6 +44,13 @@ const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
           {isCephDriver && (
             <MenuItem
               label={CEPH_CONFIGURATION}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isZfsDriver && (
+            <MenuItem
+              label={ZFS_CONFIGURATION}
               {...menuItemProps}
               disableReason={disableReason}
             />

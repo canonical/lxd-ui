@@ -18,5 +18,8 @@ export const getStoragePoolEditValues = (
     ceph_rbd_clone_copy: pool.config["ceph.rbd.clone_copy"],
     ceph_user_name: pool.config["ceph.user.name"],
     ceph_rbd_features: pool.config["ceph.rbd.features"],
+    zfs_clone_copy: pool.config["zfs.clone_copy"],
+    zfs_export: pool.config["zfs.export"],
+    zfs_pool_name: pool.config["zfs.pool_name"],
   };
 };
