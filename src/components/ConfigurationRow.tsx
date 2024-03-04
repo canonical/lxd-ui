@@ -94,17 +94,19 @@ export const getConfigurationRow = ({
             })}
           </div>,
         )}
-        <div>
-          <Button
-            onClick={toggleDefault}
-            type="button"
-            appearance="base"
-            title="Clear override"
-            hasIcon
-          >
-            <Icon name="close" className="clear-configuration-icon" />
-          </Button>
-        </div>
+        {!disabled && (
+          <div>
+            <Button
+              onClick={toggleDefault}
+              type="button"
+              appearance="base"
+              title="Clear override"
+              hasIcon
+            >
+              <Icon name="close" className="clear-configuration-icon" />
+            </Button>
+          </div>
+        )}
       </div>
     );
   };

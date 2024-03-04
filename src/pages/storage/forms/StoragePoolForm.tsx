@@ -5,14 +5,16 @@ import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
   CEPH_CONFIGURATION,
   MAIN_CONFIGURATION,
+  ZFS_CONFIGURATION,
 } from "./StoragePoolFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdStoragePool } from "types/storage";
-import { btrfsDriver, cephDriver } from "util/storageOptions";
+import { btrfsDriver, cephDriver, zfsDriver } from "util/storageOptions";
 import { getPoolKey } from "util/storagePool";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import { slugify } from "util/slugify";
+import StoragePoolFormZFS from "./StoragePoolFormZFS";
 
 export interface StoragePoolFormValues {
   isCreating: boolean;
@@ -28,6 +30,9 @@ export interface StoragePoolFormValues {
   ceph_rbd_clone_copy?: string;
   ceph_user_name?: string;
   ceph_rbd_features?: string;
+  zfs_clone_copy?: string;
+  zfs_export?: string;
+  zfs_pool_name?: string;
 }
 
 interface Props {
@@ -40,6 +45,7 @@ export const storagePoolFormToPayload = (
   values: StoragePoolFormValues,
 ): LxdStoragePool => {
   const isCephDriver = values.driver === cephDriver;
+  const isZFSDriver = values.driver === zfsDriver;
   const hasValidSize = values.size?.match(/^\d/);
 
   const getConfig = () => {
@@ -51,6 +57,13 @@ export const storagePoolFormToPayload = (
         [getPoolKey("ceph_user_name")]: values.ceph_user_name,
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
         source: values.source,
+      };
+    } else if (isZFSDriver) {
+      return {
+        [getPoolKey("zfs_clone_copy")]: values.zfs_clone_copy ?? "",
+        [getPoolKey("zfs_export")]: values.zfs_export ?? "",
+        [getPoolKey("zfs_pool_name")]: values.zfs_pool_name,
+        size: hasValidSize ? values.size : undefined,
       };
     } else {
       return {
@@ -93,6 +106,9 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
           )}
           {section === slugify(CEPH_CONFIGURATION) && (
             <StoragePoolFormCeph formik={formik} />
+          )}
+          {section === slugify(ZFS_CONFIGURATION) && (
+            <StoragePoolFormZFS formik={formik} />
           )}
         </Col>
       </Row>
