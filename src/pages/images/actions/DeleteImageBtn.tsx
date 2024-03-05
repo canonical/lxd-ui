@@ -20,26 +20,36 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    void deleteImage(image, project).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () => {
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.images],
-          });
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.projects, project],
-          });
-          toastNotify.success(`Image ${image.properties.description} deleted.`);
-        },
-        (msg) =>
-          toastNotify.failure(
-            `Image ${image.properties.description} deletion failed`,
-            new Error(msg),
-          ),
-        () => setLoading(false),
-      ),
-    );
+    void deleteImage(image, project)
+      .then((operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.images],
+            });
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.projects, project],
+            });
+            toastNotify.success(
+              `Image ${image.properties.description} deleted.`,
+            );
+          },
+          (msg) =>
+            toastNotify.failure(
+              `Image ${image.properties.description} deletion failed`,
+              new Error(msg),
+            ),
+          () => setLoading(false),
+        ),
+      )
+      .catch((e) => {
+        toastNotify.failure(
+          `Image ${image.properties.description} deletion failed`,
+          e,
+        );
+        setLoading(false);
+      });
   };
 
   return (

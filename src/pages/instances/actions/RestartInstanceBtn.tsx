@@ -27,31 +27,38 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
-    void restartInstance(instance, isForce).then((operation) => {
-      eventQueue.set(
-        operation.metadata.id,
-        () =>
-          toastNotify.success(
-            <>
-              Instance <InstanceLink instance={instance} /> restarted.
-            </>,
-          ),
-        (msg) =>
-          toastNotify.failure(
-            "Instance restart failed",
-            new Error(msg),
-            <>
-              Instance <ItemName item={instance} bold />:
-            </>,
-          ),
-        () => {
-          instanceLoading.setFinish(instance);
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
-        },
-      );
-    });
+    void restartInstance(instance, isForce)
+      .then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () =>
+            toastNotify.success(
+              <>
+                Instance <InstanceLink instance={instance} /> restarted.
+              </>,
+            ),
+          (msg) =>
+            toastNotify.failure(
+              "Instance restart failed",
+              new Error(msg),
+              <InstanceLink instance={instance} />,
+            ),
+          () => {
+            instanceLoading.setFinish(instance);
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.instances],
+            });
+          },
+        );
+      })
+      .catch((e) => {
+        toastNotify.failure(
+          "Instance restart failed",
+          e,
+          <InstanceLink instance={instance} />,
+        );
+        instanceLoading.setFinish(instance);
+      });
   };
 
   const disabledStatuses = ["Stopped", "Frozen", "Error"];

@@ -47,24 +47,29 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         formik.setSubmitting(false);
         return;
       }
-      void renameProject(project.name, values.name).then((operation) =>
-        eventQueue.set(
-          operation.metadata.id,
-          () => {
-            navigate(`/ui/project/${values.name}/configuration`);
-            toastNotify.success(
-              `Project ${project.name} renamed to ${values.name}.`,
-            );
-            void formik.setFieldValue("isRenaming", false);
-          },
-          (msg) =>
-            toastNotify.failure(
-              `Renaming project ${project.name} failed`,
-              new Error(msg),
-            ),
-          () => formik.setSubmitting(false),
-        ),
-      );
+      void renameProject(project.name, values.name)
+        .then((operation) =>
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              navigate(`/ui/project/${values.name}/configuration`);
+              toastNotify.success(
+                `Project ${project.name} renamed to ${values.name}.`,
+              );
+              void formik.setFieldValue("isRenaming", false);
+            },
+            (msg) =>
+              toastNotify.failure(
+                `Renaming project ${project.name} failed`,
+                new Error(msg),
+              ),
+            () => formik.setSubmitting(false),
+          ),
+        )
+        .catch((e) => {
+          formik.setSubmitting(false);
+          toastNotify.failure(`Renaming project ${project.name} failed`, e);
+        });
     },
   });
 

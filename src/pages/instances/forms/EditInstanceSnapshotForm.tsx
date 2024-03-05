@@ -56,8 +56,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
           name: newName,
         } as LxdInstanceSnapshot)
       : snapshot;
-    void updateInstanceSnapshot(instance, targetSnapshot, expiresAt).then(
-      (operation) =>
+    void updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
+      .then((operation) =>
         eventQueue.set(
           operation.metadata.id,
           () => notifyUpdateSuccess(newName ?? snapshot.name),
@@ -69,29 +69,38 @@ const EditInstanceSnapshotForm: FC<Props> = ({
             formik.setSubmitting(false);
           },
         ),
-    );
+      )
+      .catch((e) => {
+        toastNotify.failure("Snapshot update failed", e);
+        formik.setSubmitting(false);
+      });
   };
 
   const rename = (newName: string, expiresAt?: string) => {
-    void renameInstanceSnapshot(instance, snapshot, newName).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () => {
-          if (expiresAt) {
-            update(expiresAt, newName);
-          } else {
-            notifyUpdateSuccess(newName);
-          }
-        },
-        (msg) => {
-          toastNotify.failure(
-            `Snapshot rename failed for instance ${instance.name}`,
-            new Error(msg),
-          );
-          formik.setSubmitting(false);
-        },
-      ),
-    );
+    void renameInstanceSnapshot(instance, snapshot, newName)
+      .then((operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            if (expiresAt) {
+              update(expiresAt, newName);
+            } else {
+              notifyUpdateSuccess(newName);
+            }
+          },
+          (msg) => {
+            toastNotify.failure(
+              `Snapshot rename failed for instance ${instance.name}`,
+              new Error(msg),
+            );
+            formik.setSubmitting(false);
+          },
+        ),
+      )
+      .catch((e) => {
+        toastNotify.failure("Snapshot rename failed", e);
+        formik.setSubmitting(false);
+      });
   };
 
   const [expiryDate, expiryTime] =

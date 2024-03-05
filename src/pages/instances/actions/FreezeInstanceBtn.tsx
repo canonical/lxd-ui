@@ -25,31 +25,38 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleFreeze = () => {
     instanceLoading.setLoading(instance, "Freezing");
-    void freezeInstance(instance).then((operation) => {
-      eventQueue.set(
-        operation.metadata.id,
-        () =>
-          toastNotify.success(
-            <>
-              Instance <InstanceLink instance={instance} /> frozen.
-            </>,
-          ),
-        (msg) =>
-          toastNotify.failure(
-            "Instance freeze failed",
-            new Error(msg),
-            <>
-              Instance <ItemName item={instance} bold />:
-            </>,
-          ),
-        () => {
-          instanceLoading.setFinish(instance);
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
-        },
-      );
-    });
+    void freezeInstance(instance)
+      .then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () =>
+            toastNotify.success(
+              <>
+                Instance <InstanceLink instance={instance} /> frozen.
+              </>,
+            ),
+          (msg) =>
+            toastNotify.failure(
+              "Instance freeze failed",
+              new Error(msg),
+              <InstanceLink instance={instance} />,
+            ),
+          () => {
+            instanceLoading.setFinish(instance);
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.instances],
+            });
+          },
+        );
+      })
+      .catch((e) => {
+        toastNotify.failure(
+          "Instance freeze failed",
+          e,
+          <InstanceLink instance={instance} />,
+        );
+        instanceLoading.setFinish(instance);
+      });
   };
 
   const isDisabled = isLoading || instance.status !== "Running";

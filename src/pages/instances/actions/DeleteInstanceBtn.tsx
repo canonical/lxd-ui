@@ -11,6 +11,7 @@ import { useEventQueue } from "context/eventQueue";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
+import InstanceLink from "pages/instances/InstanceLink";
 
 interface Props {
   instance: LxdInstance;
@@ -26,27 +27,34 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleDelete = () => {
     setLoading(true);
-    void deleteInstance(instance).then((operation) => {
-      eventQueue.set(
-        operation.metadata.id,
-        () => {
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.projects, instance.project],
-          });
-          navigate(`/ui/project/${instance.project}/instances`);
-          toastNotify.success(`Instance ${instance.name} deleted.`);
-        },
-        (msg) =>
-          toastNotify.failure(
-            "Instance deletion failed",
-            new Error(msg),
-            <>
-              Instance <ItemName item={instance} bold />:
-            </>,
-          ),
-        () => setLoading(false),
-      );
-    });
+    void deleteInstance(instance)
+      .then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () => {
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.projects, instance.project],
+            });
+            navigate(`/ui/project/${instance.project}/instances`);
+            toastNotify.success(`Instance ${instance.name} deleted.`);
+          },
+          (msg) =>
+            toastNotify.failure(
+              "Instance deletion failed",
+              new Error(msg),
+              <InstanceLink instance={instance} />,
+            ),
+          () => setLoading(false),
+        );
+      })
+      .catch((e) => {
+        toastNotify.failure(
+          "Instance deletion failed",
+          e,
+          <InstanceLink instance={instance} />,
+        );
+        setLoading(false);
+      });
   };
 
   const isDeletableStatus = deletableStatuses.includes(instance.status);

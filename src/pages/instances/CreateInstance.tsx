@@ -210,13 +210,17 @@ const CreateInstance: FC = () => {
       void startInstance({
         name: instanceName,
         project: project,
-      } as LxdInstance).then((operation) => {
-        eventQueue.set(
-          operation.metadata.id,
-          () => notifyCreatedAndStarted(instanceLink),
-          (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg)),
-        );
-      });
+      } as LxdInstance)
+        .then((operation) => {
+          eventQueue.set(
+            operation.metadata.id,
+            () => notifyCreatedAndStarted(instanceLink),
+            (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg)),
+          );
+        })
+        .catch((e: Error) => {
+          notifyCreatedButStartFailed(instanceLink, e);
+        });
     } else {
       const consoleUrl = `/ui/project/${project}/instance/${instanceName}/console`;
       const message = isIsoImage && (

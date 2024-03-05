@@ -85,20 +85,31 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       projectName,
       setUploadState,
       uploadController,
-    ).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () => onFinish(name, pool),
-        (msg) => toastNotify.failure("Image import failed", new Error(msg)),
-        () => {
-          setLoading(false);
-          setUploadState(null);
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.storage, pool, queryKeys.volumes, projectName],
-          });
-        },
-      ),
-    );
+    )
+      .then((operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () => onFinish(name, pool),
+          (msg) => toastNotify.failure("Image import failed", new Error(msg)),
+          () => {
+            setLoading(false);
+            setUploadState(null);
+            void queryClient.invalidateQueries({
+              queryKey: [
+                queryKeys.storage,
+                pool,
+                queryKeys.volumes,
+                projectName,
+              ],
+            });
+          },
+        ),
+      )
+      .catch((e) => {
+        toastNotify.failure("Image import failed", e);
+        setLoading(false);
+        setUploadState(null);
+      });
   };
 
   const changeFile = (e: ChangeEvent<HTMLInputElement>) => {

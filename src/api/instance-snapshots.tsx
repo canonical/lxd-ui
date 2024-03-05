@@ -58,16 +58,19 @@ export const deleteInstanceSnapshotBulk = (
   return new Promise((resolve) => {
     void Promise.allSettled(
       snapshotNames.map(async (name) => {
-        return await deleteInstanceSnapshot(instance, { name }).then(
-          (operation) => {
+        return await deleteInstanceSnapshot(instance, { name })
+          .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => pushSuccess(results),
               (msg) => pushFailure(results, msg),
               () => continueOrFinish(results, snapshotNames.length, resolve),
             );
-          },
-        );
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, snapshotNames.length, resolve);
+          });
       }),
     );
   });
