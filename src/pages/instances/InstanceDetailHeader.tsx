@@ -15,6 +15,7 @@ import {
   instanceLinkFromOperation,
 } from "util/instances";
 import { getInstanceName } from "util/operations";
+import InstanceLink from "pages/instances/InstanceLink";
 
 interface Props {
   name: string;
@@ -58,32 +59,42 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
         formik.setSubmitting(false);
         return;
       }
-      void renameInstance(name, values.name, project).then((operation) => {
-        const instanceLink = instanceLinkFromName({
-          instanceName: values.name,
-          project,
+      void renameInstance(name, values.name, project)
+        .then((operation) => {
+          const instanceLink = instanceLinkFromName({
+            instanceName: values.name,
+            project,
+          });
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              navigate(`/ui/project/${project}/instance/${values.name}`);
+              toastNotify.success(
+                <>
+                  Instance{" "}
+                  <strong>{getInstanceName(operation.metadata)}</strong> renamed
+                  to {instanceLink}.
+                </>,
+              );
+              void formik.setFieldValue("isRenaming", false);
+            },
+            (msg) =>
+              toastNotify.failure(
+                "Renaming instance failed.",
+                new Error(msg),
+                instanceLinkFromOperation({ operation, project }),
+              ),
+            () => formik.setSubmitting(false),
+          );
+        })
+        .catch((e) => {
+          formik.setSubmitting(false);
+          toastNotify.failure(
+            `Renaming instance failed.`,
+            e,
+            instance ? <InstanceLink instance={instance} /> : undefined,
+          );
         });
-        eventQueue.set(
-          operation.metadata.id,
-          () => {
-            navigate(`/ui/project/${project}/instance/${values.name}`);
-            toastNotify.success(
-              <>
-                Instance <strong>{getInstanceName(operation.metadata)}</strong>{" "}
-                renamed to {instanceLink}.
-              </>,
-            );
-            void formik.setFieldValue("isRenaming", false);
-          },
-          (msg) =>
-            toastNotify.failure(
-              "Renaming instance failed.",
-              new Error(msg),
-              instanceLinkFromOperation({ operation, project }),
-            ),
-          () => formik.setSubmitting(false),
-        );
-      });
     },
   });
 

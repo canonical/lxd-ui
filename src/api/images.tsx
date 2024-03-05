@@ -54,14 +54,19 @@ export const deleteImageBulk = (
     void Promise.allSettled(
       fingerprints.map((name) => {
         const image = { fingerprint: name } as LxdImage;
-        return deleteImage(image, project).then((operation) => {
-          eventQueue.set(
-            operation.metadata.id,
-            () => pushSuccess(results),
-            (msg) => pushFailure(results, msg),
-            () => continueOrFinish(results, fingerprints.length, resolve),
-          );
-        });
+        return deleteImage(image, project)
+          .then((operation) => {
+            eventQueue.set(
+              operation.metadata.id,
+              () => pushSuccess(results),
+              (msg) => pushFailure(results, msg),
+              () => continueOrFinish(results, fingerprints.length, resolve),
+            );
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, fingerprints.length, resolve);
+          });
       }),
     );
   });

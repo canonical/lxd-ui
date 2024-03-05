@@ -41,19 +41,21 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
         values,
       ) as LxdInstance;
 
-      void updateInstance(instancePayload, project ?? "").then((operation) => {
-        eventQueue.set(
-          operation.metadata.id,
-          () => onSuccess("Configuration updated."),
-          (msg) => onFailure("Configuration update failed", new Error(msg)),
-          () => {
-            close();
-            void queryClient.invalidateQueries({
-              queryKey: [queryKeys.instances],
-            });
-          },
-        );
-      });
+      void updateInstance(instancePayload, project ?? "")
+        .then((operation) => {
+          eventQueue.set(
+            operation.metadata.id,
+            () => onSuccess("Configuration updated."),
+            (msg) => onFailure("Configuration update failed", new Error(msg)),
+            () => {
+              close();
+              void queryClient.invalidateQueries({
+                queryKey: [queryKeys.instances],
+              });
+            },
+          );
+        })
+        .catch((e) => onFailure("Configuration update failed", e));
     },
   });
 

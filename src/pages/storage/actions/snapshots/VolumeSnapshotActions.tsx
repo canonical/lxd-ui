@@ -33,25 +33,30 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
 
   const handleDelete = () => {
     setDeleting(true);
-    void deleteVolumeSnapshot(volume, snapshot).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () => toastNotify.success(`Snapshot ${snapshot.name} deleted`),
-        (msg) =>
-          toastNotify.failure(
-            `Snapshot ${snapshot.name} deletion failed`,
-            new Error(msg),
-          ),
-        () => {
-          setDeleting(false);
-          void queryClient.invalidateQueries({
-            predicate: (query) =>
-              query.queryKey[0] === queryKeys.volumes ||
-              query.queryKey[0] === queryKeys.storage,
-          });
-        },
-      ),
-    );
+    void deleteVolumeSnapshot(volume, snapshot)
+      .then((operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () => toastNotify.success(`Snapshot ${snapshot.name} deleted`),
+          (msg) =>
+            toastNotify.failure(
+              `Snapshot ${snapshot.name} deletion failed`,
+              new Error(msg),
+            ),
+          () => {
+            setDeleting(false);
+            void queryClient.invalidateQueries({
+              predicate: (query) =>
+                query.queryKey[0] === queryKeys.volumes ||
+                query.queryKey[0] === queryKeys.storage,
+            });
+          },
+        ),
+      )
+      .catch((e) => {
+        notify.failure("Snapshot deletion failed", e);
+        setDeleting(false);
+      });
   };
 
   const handleRestore = () => {

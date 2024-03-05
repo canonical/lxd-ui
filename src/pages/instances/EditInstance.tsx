@@ -54,7 +54,7 @@ import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { instanceLinkFromName } from "util/instances";
+import InstanceLink from "pages/instances/InstanceLink";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -111,33 +111,34 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
       // ensure the etag is set (it is missing on the yaml)
       instancePayload.etag = instance.etag;
+      const instanceLink = <InstanceLink instance={instance} />;
 
-      void updateInstance(instancePayload, project).then((operation) => {
-        const instanceName = values.name;
-        const instanceLink = instanceLinkFromName({
-          instanceName,
-          project,
+      void updateInstance(instancePayload, project)
+        .then((operation) => {
+          eventQueue.set(
+            operation.metadata.id,
+            () => {
+              toastNotify.success(<>Instance {instanceLink} updated.</>);
+              void formik.setValues(getInstanceEditValues(instancePayload));
+            },
+            (msg) =>
+              toastNotify.failure(
+                "Instance update failed.",
+                new Error(msg),
+                instanceLink,
+              ),
+            () => {
+              formik.setSubmitting(false);
+              void queryClient.invalidateQueries({
+                queryKey: [queryKeys.instances],
+              });
+            },
+          );
+        })
+        .catch((e) => {
+          formik.setSubmitting(false);
+          toastNotify.failure("Instance update failed.", e, instanceLink);
         });
-        eventQueue.set(
-          operation.metadata.id,
-          () => {
-            toastNotify.success(<>Instance {instanceLink} updated.</>);
-            void formik.setValues(getInstanceEditValues(instancePayload));
-          },
-          (msg) =>
-            toastNotify.failure(
-              "Instance update failed.",
-              new Error(msg),
-              instanceLink,
-            ),
-          () => {
-            formik.setSubmitting(false);
-            void queryClient.invalidateQueries({
-              queryKey: [queryKeys.instances],
-            });
-          },
-        );
-      });
     },
   });
 

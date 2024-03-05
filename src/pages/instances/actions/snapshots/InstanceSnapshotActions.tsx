@@ -34,30 +34,35 @@ const InstanceSnapshotActions: FC<Props> = ({
 
   const handleDelete = () => {
     setDeleting(true);
-    void deleteInstanceSnapshot(instance, snapshot).then((operation) =>
-      eventQueue.set(
-        operation.metadata.id,
-        () =>
-          onSuccess(
-            <>
-              Snapshot <ItemName item={snapshot} bold /> deleted.
-            </>,
-          ),
-        (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
-        () => {
-          setDeleting(false);
-          void queryClient.invalidateQueries({
-            predicate: (query) => query.queryKey[0] === queryKeys.instances,
-          });
-        },
-      ),
-    );
+    void deleteInstanceSnapshot(instance, snapshot)
+      .then((operation) =>
+        eventQueue.set(
+          operation.metadata.id,
+          () =>
+            onSuccess(
+              <>
+                Snapshot <ItemName item={snapshot} bold /> deleted.
+              </>,
+            ),
+          (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
+          () => {
+            setDeleting(false);
+            void queryClient.invalidateQueries({
+              predicate: (query) => query.queryKey[0] === queryKeys.instances,
+            });
+          },
+        ),
+      )
+      .catch((e) => {
+        onFailure("Snapshot deletion failed", e);
+        setDeleting(false);
+      });
   };
 
   const handleRestore = () => {
     setRestoring(true);
-    void restoreInstanceSnapshot(instance, snapshot, restoreState).then(
-      (operation) =>
+    void restoreInstanceSnapshot(instance, snapshot, restoreState)
+      .then((operation) =>
         eventQueue.set(
           operation.metadata.id,
           () =>
@@ -74,7 +79,11 @@ const InstanceSnapshotActions: FC<Props> = ({
             });
           },
         ),
-    );
+      )
+      .catch((e) => {
+        onFailure("Snapshot restore failed", e);
+        setRestoring(false);
+      });
   };
 
   return (

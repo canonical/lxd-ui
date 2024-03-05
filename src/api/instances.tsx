@@ -171,16 +171,19 @@ export const updateInstanceBulkAction = (
   return new Promise((resolve) => {
     void Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
-        return await putInstanceAction(name, project, action, isForce).then(
-          (operation) => {
+        return await putInstanceAction(name, project, action, isForce)
+          .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
               () => pushSuccess(results),
               (msg) => pushFailure(results, msg),
               () => continueOrFinish(results, actions.length, resolve),
             );
-          },
-        );
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, actions.length, resolve);
+          });
       }),
     );
   });
@@ -207,14 +210,19 @@ export const deleteInstanceBulk = (
   return new Promise((resolve) => {
     void Promise.allSettled(
       instances.map(async (instance) => {
-        return await deleteInstance(instance).then((operation) => {
-          eventQueue.set(
-            operation.metadata.id,
-            () => pushSuccess(results),
-            (msg) => pushFailure(results, msg),
-            () => continueOrFinish(results, instances.length, resolve),
-          );
-        });
+        return await deleteInstance(instance)
+          .then((operation) => {
+            eventQueue.set(
+              operation.metadata.id,
+              () => pushSuccess(results),
+              (msg) => pushFailure(results, msg),
+              () => continueOrFinish(results, instances.length, resolve),
+            );
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, instances.length, resolve);
+          });
       }),
     );
   });

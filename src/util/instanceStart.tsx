@@ -25,31 +25,36 @@ export const useInstanceStart = (instance: LxdInstance) => {
     instanceLoading.setLoading(instance, "Starting");
     const mutation =
       instance.status === "Frozen" ? unfreezeInstance : startInstance;
-    void mutation(instance).then((operation) => {
-      eventQueue.set(
-        operation.metadata.id,
-        () =>
-          toastNotify.success(
-            <>
-              Instance <InstanceLink instance={instance} /> started.
-            </>,
-          ),
-        (msg) =>
-          toastNotify.failure(
-            "Instance start failed",
-            new Error(msg),
-            <>
-              Instance <ItemName item={instance} bold />:
-            </>,
-          ),
-        () => {
-          instanceLoading.setFinish(instance);
-          void queryClient.invalidateQueries({
-            queryKey: [queryKeys.instances],
-          });
-        },
-      );
-    });
+    void mutation(instance)
+      .then((operation) => {
+        eventQueue.set(
+          operation.metadata.id,
+          () =>
+            toastNotify.success(
+              <>
+                Instance <InstanceLink instance={instance} /> started.
+              </>,
+            ),
+          (msg) =>
+            toastNotify.failure(
+              "Instance start failed",
+              new Error(msg),
+              <>
+                Instance <ItemName item={instance} bold />:
+              </>,
+            ),
+          () => {
+            instanceLoading.setFinish(instance);
+            void queryClient.invalidateQueries({
+              queryKey: [queryKeys.instances],
+            });
+          },
+        );
+      })
+      .catch((e) => {
+        toastNotify.failure("Instance start failed", e);
+        instanceLoading.setFinish(instance);
+      });
   };
   return { handleStart, isLoading, isDisabled };
 };

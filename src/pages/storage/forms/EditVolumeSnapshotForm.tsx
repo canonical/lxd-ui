@@ -57,15 +57,20 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
         volume,
         snapshot,
         newName,
-      }).then((operation) =>
-        eventQueue.set(operation.metadata.id, resolve, (msg) => {
-          toastNotify.failure(
-            `Snapshot ${snapshot.name} rename failed`,
-            new Error(msg),
-          );
+      })
+        .then((operation) =>
+          eventQueue.set(operation.metadata.id, resolve, (msg) => {
+            toastNotify.failure(
+              `Snapshot ${snapshot.name} rename failed`,
+              new Error(msg),
+            );
+            formik.setSubmitting(false);
+          }),
+        )
+        .catch((e) => {
+          notify.failure("Snapshot rename failed", e);
           formik.setSubmitting(false);
-        }),
-      );
+        });
     });
   };
 
