@@ -1082,19 +1082,19 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@canonical/react-components@0.50.3":
-  version "0.50.3"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.50.3.tgz#32f1f5a948ae1da8a00168e6d5a5b9925184da62"
-  integrity sha512-SIxYMaNJiFs0C5Veppl+DgVVxNh0sPF/q10a47+orkykia1340P1nZQC6zLtJv5GjpRn514V1jsRD6h2EMtcHA==
+"@canonical/react-components@0.50.4":
+  version "0.50.4"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.50.4.tgz#736797aa96cee61cdcb8215a712dd0506e6b2c62"
+  integrity sha512-q0A7etXiQY73Yc4cDCIXM2n2Efx05P1bLl0DBLts9MlLpcZYKmvyGdC1B0BN6XfxgMSopN3fJV28pXJVrPbUtg==
   dependencies:
     "@types/jest" "29.5.11"
-    "@types/node" "18.19.4"
+    "@types/node" "20.8.5"
     "@types/react" "18.2.46"
     "@types/react-dom" "18.2.18"
     "@types/react-table" "7.7.19"
     classnames "2.5.1"
     jest-environment-jsdom "29.7.0"
-    nanoid "5.0.4"
+    lodash.isequal "4.5.0"
     prop-types "15.8.1"
     react-table "7.8.0"
     react-useportal "1.0.19"
@@ -1802,12 +1802,12 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@18.19.4":
-  version "18.19.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.4.tgz#89672e84f11a2c19543d694dac00ab8d7bc20ddb"
-  integrity sha512-xNzlUhzoHotIsnFoXmJB+yWmBvFZgKCI9TtPIEdYIMM1KWfwuY8zh7wvc1u1OAXlC7dlf6mZVx/s+Y5KfFz19A==
+"@types/node@20.8.5":
+  version "20.8.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.8.5.tgz#13352ae1f80032171616910e8aba2e3e52e57d96"
+  integrity sha512-SPlobFgbidfIeOYlzXiEjSYeIJiOCthv+9tSQVpvk4PAdIIc+2SmjNVzWXk9t0Y7dl73Zdf+OgXKHX9XtkqUpw==
   dependencies:
-    undici-types "~5.26.4"
+    undici-types "~5.25.1"
 
 "@types/prop-types@*":
   version "15.7.11"
@@ -4857,11 +4857,6 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nanoid@5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-5.0.4.tgz#d2b608d8169d7da669279127615535705aa52edf"
-  integrity sha512-vAjmBf13gsmhXSgBrtIclinISzFFy22WwCYoyilZlsrRXNIHSwgFQ1bEdjRwMT3aoadeIF6HMuDRlOxzfXV8ig==
-
 nanoid@^3.3.7:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.7.tgz#d0c301a691bc8d54efa0a2226ccf3fe2fd656bd8"
@@ -6493,6 +6488,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici-types@~5.25.1:
+  version "5.25.3"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.25.3.tgz#e044115914c85f0bcbb229f346ab739f064998c3"
+  integrity sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==
 
 undici-types@~5.26.4:
   version "5.26.5"
