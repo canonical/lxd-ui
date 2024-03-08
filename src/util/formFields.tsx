@@ -3,9 +3,15 @@ import { LxdInstance } from "types/instance";
 import { OptionHTMLAttributes } from "react";
 import { LxdConfigPair } from "types/config";
 import { LxdProject } from "types/project";
+import { LxdStorageVolume } from "types/storage";
 
 export const getUnhandledKeyValues = (
-  item: LxdConfigPair | LxdInstance | LxdProfile | LxdProject,
+  item:
+    | LxdConfigPair
+    | LxdInstance
+    | LxdProfile
+    | LxdProject
+    | LxdStorageVolume,
   handledKeys: Set<string>,
 ) => {
   return Object.fromEntries(

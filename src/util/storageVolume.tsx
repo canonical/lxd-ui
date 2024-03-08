@@ -32,6 +32,7 @@ export const testDuplicateStorageVolumeName = (
 };
 
 const storageVolumeFormFieldToPayloadName: Record<string, string> = {
+  size: "size",
   security_shifted: "security.shifted",
   security_unmapped: "security.unmapped",
   snapshots_expiry: "snapshots.expiry",
@@ -62,10 +63,14 @@ export const getZfsVolumeFormFields = (): (keyof StorageVolumeFormValues)[] => {
 };
 
 export const getVolumeKey = (key: string): string => {
-  if (Object.keys(storageVolumeFormFieldToPayloadName).includes(key)) {
+  if (key in storageVolumeFormFieldToPayloadName) {
     return storageVolumeFormFieldToPayloadName[key];
   }
   return key;
+};
+
+export const getVolumeConfigKeys = (): Set<string> => {
+  return new Set(Object.values(storageVolumeFormFieldToPayloadName));
 };
 
 export const renderVolumeType = (volume: LxdStorageVolume): string => {
