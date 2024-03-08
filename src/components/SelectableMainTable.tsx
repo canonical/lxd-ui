@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, PointerEvent, useState } from "react";
 import {
   MainTableRow,
   Props as MainTableProps,
@@ -10,6 +10,7 @@ import {
   MainTable,
 } from "@canonical/react-components";
 import classnames from "classnames";
+import useEventListener from "@use-it/event-listener";
 
 interface SelectableMainTableProps {
   filteredNames: string[];
@@ -34,20 +35,35 @@ const SelectableMainTable: FC<Props> = ({
   headers,
   ...props
 }: Props) => {
+  const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
   const isAllSelected =
     selectedNames.length === filteredNames.length && selectedNames.length > 0;
   const isSomeSelected = selectedNames.length > 0;
 
+  const isCheckBoxTarget = (target: HTMLElement) => {
+    return target.className === "p-checkbox__label";
+  };
+
+  // This is required to prevent default behaviour of text selection for the SHIFT + click mouse event
+  useEventListener<"mousedown">("mousedown", (event) => {
+    if (event.shiftKey && isCheckBoxTarget(event.target as HTMLElement)) {
+      event.preventDefault();
+    }
+  });
+
   const selectAll = () => {
     setSelectedNames(filteredNames);
+    setCurrentSelectedIndex(undefined);
   };
 
   const selectPage = () => {
     setSelectedNames(rows.map((row) => row.name ?? ""));
+    setCurrentSelectedIndex(undefined);
   };
 
   const selectNone = () => {
     setSelectedNames([]);
+    setCurrentSelectedIndex(undefined);
   };
 
   const headersWithCheckbox = [
@@ -90,15 +106,41 @@ const SelectableMainTable: FC<Props> = ({
     ...(headers ?? []),
   ];
 
-  const rowsWithCheckbox = rows.map((row) => {
+  const rowsWithCheckbox = rows.map((row, rowIndex) => {
     const isRowSelected = selectedNames.includes(row.name ?? "");
     const isRowProcessing = processingNames.includes(row.name ?? "");
 
-    const toggleRow = () => {
+    const toggleRow = (event: PointerEvent<HTMLInputElement>) => {
+      if (
+        event.nativeEvent.shiftKey &&
+        currentSelectedIndex !== undefined &&
+        !isRowSelected
+      ) {
+        const selectedNamesLookup = new Set(selectedNames);
+        const newSelection = [...selectedNames];
+        const startIndex = Math.min(rowIndex, currentSelectedIndex);
+        const endIndex = Math.max(rowIndex, currentSelectedIndex);
+        for (let i = startIndex; i < endIndex + 1; i++) {
+          const rowName = rows[i].name;
+          if (rowName && !selectedNamesLookup.has(rowName)) {
+            newSelection.push(rowName);
+          }
+        }
+        setSelectedNames(newSelection);
+        setCurrentSelectedIndex(rowIndex);
+        return;
+      }
+
       const newSelection = isRowSelected
         ? selectedNames.filter((candidate) => candidate !== row.name)
         : [...selectedNames, row.name ?? ""];
       setSelectedNames(newSelection);
+
+      if (isRowSelected) {
+        setCurrentSelectedIndex(undefined);
+      } else {
+        setCurrentSelectedIndex(rowIndex);
+      }
     };
 
     const columns = [
