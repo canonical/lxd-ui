@@ -19,6 +19,7 @@ import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
 import { FormikProps } from "formik/dist/types";
 import {
   getFilesystemVolumeFormFields,
+  getVolumeConfigKeys,
   getVolumeKey,
   getZfsVolumeFormFields,
 } from "util/storageVolume";
@@ -29,6 +30,7 @@ import {
 } from "types/storage";
 import { slugify } from "util/slugify";
 import { driversWithFilesystemSupport } from "util/storageOptions";
+import { getUnhandledKeyValues } from "util/formFields";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -59,9 +61,14 @@ export interface StorageVolumeFormValues {
 export const volumeFormToPayload = (
   values: StorageVolumeFormValues,
   project: string,
+  volume?: LxdStorageVolume,
 ): LxdStorageVolume => {
   const hasValidSize = values.size?.match(/^\d/);
-  return {
+  const unhandledVolumeConfigs = getUnhandledKeyValues(
+    volume?.config || {},
+    getVolumeConfigKeys(),
+  );
+  const payload = {
     name: values.name,
     config: {
       size: hasValidSize ? values.size : undefined,
@@ -79,6 +86,7 @@ export const volumeFormToPayload = (
       [getVolumeKey("zfs_remove_snapshots")]: values.zfs_remove_snapshots,
       [getVolumeKey("zfs_use_refquota")]: values.zfs_use_refquota,
       [getVolumeKey("zfs_reserve_space")]: values.zfs_reserve_space,
+      ...unhandledVolumeConfigs,
     },
     project,
     type: values.volumeType,
@@ -87,6 +95,17 @@ export const volumeFormToPayload = (
     location: "",
     created_at: "",
     pool: values.pool,
+  };
+
+  const allPayloadKeys = Object.keys(payload);
+  const unhandledVolumeMainConfigs = getUnhandledKeyValues(
+    volume || {},
+    new Set(allPayloadKeys),
+  );
+
+  return {
+    ...payload,
+    ...unhandledVolumeMainConfigs,
   };
 };
 

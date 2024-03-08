@@ -1,3 +1,5 @@
+import { LxdConfigPair } from "./config";
+
 export interface LxdStoragePool {
   config: {
     size?: string;
@@ -38,7 +40,7 @@ export interface LxdStorageVolume {
     "zfs.use_refquota"?: string;
     "zfs.reserve_space"?: string;
     size?: string;
-  };
+  } & LxdConfigPair;
   content_type: LxdStorageVolumeContentType;
   created_at: string;
   description: string;

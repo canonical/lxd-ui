@@ -41,7 +41,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
     initialValues: getStorageVolumeEditValues(volume),
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
-      const saveVolume = volumeFormToPayload(values, project);
+      const saveVolume = volumeFormToPayload(values, project, volume);
       updateStorageVolume(values.pool, project, {
         ...saveVolume,
         etag: volume.etag,
