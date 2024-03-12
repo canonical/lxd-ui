@@ -1,9 +1,13 @@
 import { FC } from "react";
 import { NotificationConsumer, Row } from "@canonical/react-components";
 
-const NotificationRow: FC = () => {
+interface Props {
+  className?: string;
+}
+
+const NotificationRow: FC<Props> = ({ className }) => {
   return (
-    <Row>
+    <Row className={className}>
       <NotificationConsumer />
     </Row>
   );

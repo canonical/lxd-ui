@@ -1,5 +1,21 @@
-.is-overlay {
+.l-aside.is-overlay {
+  // mobile
+  background-color: #fff;
   height: 100vh;
+  padding: 0 $sph--x-large;
+  padding-bottom: $spv--medium;
+  padding-top: $spv--small;
   position: absolute;
+  right: 0;
   z-index: 103 !important;
+
+  .p-panel__header {
+    padding: 0;
+  }
+
+  .panel-footer {
+    hr {
+      margin-bottom: $spv--medium;
+    }
+  }
 }

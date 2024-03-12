@@ -5,6 +5,8 @@ import { isWidthBelow } from "util/helpers";
 const isSmallScreen = () => isWidthBelow(620);
 const isMediumScreen = () => isWidthBelow(820);
 
+const noCollapseEvents = new Set(["search-and-filter"]);
+
 export const useMenuCollapsed = () => {
   const [menuCollapsed, setMenuCollapsed] = useState(isMediumScreen());
 
@@ -12,7 +14,7 @@ export const useMenuCollapsed = () => {
     if (isSmallScreen()) {
       return;
     }
-    if (!("detail" in e) || e.detail !== "search-and-filter") {
+    if (!("detail" in e) || !noCollapseEvents.has(e.detail)) {
       setMenuCollapsed(isMediumScreen());
     }
   };

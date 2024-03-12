@@ -4,6 +4,7 @@ import {
   Icon,
   List,
   MainTable,
+  Row,
   SearchBox,
   TablePagination,
 } from "@canonical/react-components";
@@ -16,21 +17,28 @@ import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
 import ScrollableTable from "components/ScrollableTable";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import CustomLayout from "components/CustomLayout";
+import PageHeader from "components/PageHeader";
+import HelpLink from "components/HelpLink";
+import NotificationRow from "components/NotificationRow";
 
-interface Props {
-  project: string;
-}
-
-const CustomIsoList: FC<Props> = ({ project }) => {
+const CustomIsoList: FC = () => {
   const docBaseLink = useDocs();
   const { hasStorageVolumesAll } = useSupportedFeatures();
   const toastNotify = useToastNotification();
   const [query, setQuery] = useState<string>("");
+  const { project } = useParams<{
+    project: string;
+  }>();
+
+  if (!project) {
+    return <>Missing project</>;
+  }
 
   const { data: images = [], isLoading } = useQuery({
     queryKey: [queryKeys.isoVolumes, project],
@@ -140,7 +148,9 @@ const CustomIsoList: FC<Props> = ({ project }) => {
     return <Loader text="Loading custom ISOs..." />;
   }
 
-  return images.length === 0 ? (
+  const hasImages = images.length !== 0;
+
+  const content = !hasImages ? (
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
@@ -161,22 +171,6 @@ const CustomIsoList: FC<Props> = ({ project }) => {
     </EmptyState>
   ) : (
     <div className="custom-iso-list">
-      <div className="upper-controls-bar">
-        <div className="search-box-wrapper">
-          <SearchBox
-            name="search-snapshot"
-            className="search-box margin-right"
-            type="text"
-            onChange={(value) => {
-              setQuery(value);
-            }}
-            placeholder="Search for custom ISOs"
-            value={query}
-            aria-label="Search for custom ISOs"
-          />
-        </div>
-        <UploadCustomIsoBtn />
-      </div>
       <ScrollableTable
         dependencies={[images]}
         tableId="custom-iso-table"
@@ -200,6 +194,51 @@ const CustomIsoList: FC<Props> = ({ project }) => {
         </TablePagination>
       </ScrollableTable>
     </div>
+  );
+
+  return (
+    <CustomLayout
+      contentClassName="detail-page"
+      header={
+        <PageHeader>
+          <PageHeader.Left>
+            <PageHeader.Title>
+              <HelpLink
+                href={`${docBaseLink}/explanation/storage/`}
+                title="Learn more about storage pools, volumes and buckets"
+              >
+                Custom ISOs
+              </HelpLink>
+            </PageHeader.Title>
+            {hasImages && (
+              <PageHeader.Search>
+                <div className="search-box-wrapper">
+                  <SearchBox
+                    name="search-snapshot"
+                    className="search-box margin-right"
+                    type="text"
+                    onChange={(value) => {
+                      setQuery(value);
+                    }}
+                    placeholder="Search for custom ISOs"
+                    value={query}
+                    aria-label="Search for custom ISOs"
+                  />
+                </div>
+              </PageHeader.Search>
+            )}
+          </PageHeader.Left>
+          {hasImages && (
+            <PageHeader.BaseActions>
+              <UploadCustomIsoBtn className="u-float-right u-no-margin--bottom" />
+            </PageHeader.BaseActions>
+          )}
+        </PageHeader>
+      }
+    >
+      <NotificationRow />
+      <Row>{content}</Row>
+    </CustomLayout>
   );
 };
 

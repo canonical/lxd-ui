@@ -1,29 +1,33 @@
 import { DependencyList, FC, ReactNode, useEffect } from "react";
 import useEventListener from "@use-it/event-listener";
-import { getAbsoluteHeightBelow, getParentsBottomSpacing } from "util/helpers";
+import {
+  getAbsoluteHeightBelowById,
+  getParentsBottomSpacing,
+} from "util/helpers";
 
 interface Props {
   children: ReactNode;
   dependencies: DependencyList;
-  belowIds?: string[];
   tableId: string;
+  belowIds?: string[];
 }
 
 const ScrollableTable: FC<Props> = ({
   dependencies,
   children,
-  belowIds = [],
   tableId,
+  belowIds = [],
 }) => {
   const updateTBodyHeight = () => {
     const table = document.getElementById(tableId);
     if (!table || table.children.length !== 2) {
       return;
     }
+
     const tBody = table.children[1];
     const above = tBody.getBoundingClientRect().top + 1;
     const below = belowIds.reduce(
-      (acc, belowId) => acc + getAbsoluteHeightBelow(belowId),
+      (acc, belowId) => acc + getAbsoluteHeightBelowById(belowId),
       0,
     );
     const parentsBottomSpacing = getParentsBottomSpacing(table);

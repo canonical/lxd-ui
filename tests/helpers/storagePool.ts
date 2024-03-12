@@ -7,7 +7,8 @@ export const randomPoolName = (): string => {
 
 export const createPool = async (page: Page, pool: string) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage" }).click();
+  await page.getByRole("button", { name: "Storage" }).click();
+  await page.getByRole("link", { name: "Pools" }).click();
   await page.getByRole("button", { name: "Create pool" }).click();
   await page.getByPlaceholder("Enter name").fill(pool);
   await page.getByLabel("Driver").selectOption("dir");
@@ -27,7 +28,8 @@ export const deletePool = async (page: Page, pool: string) => {
 
 export const visitPool = async (page: Page, pool: string) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage" }).click();
+  await page.getByRole("button", { name: "Storage" }).click();
+  await page.getByRole("link", { name: "Pools" }).click();
   await page.getByRole("link", { name: pool }).first().click();
 };
 
