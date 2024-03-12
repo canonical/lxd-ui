@@ -7,16 +7,15 @@ import CustomIsoList from "pages/storage/CustomIsoList";
 import StoragePools from "pages/storage/StoragePools";
 import StorageVolumes from "pages/storage/StorageVolumes";
 import HelpLink from "components/HelpLink";
-import TabLinks from "components/TabLinks";
 import { useDocs } from "context/useDocs";
-import { storageTabs } from "util/projects";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { storageTabToName } from "util/projects";
 
 const Storage: FC = () => {
   const docBaseLink = useDocs();
   const { project, activeTab } = useParams<{
     project: string;
-    activeTab?: string;
+    activeTab: string;
   }>();
   const { hasCustomVolumeIso } = useSupportedFeatures();
 
@@ -31,24 +30,14 @@ const Storage: FC = () => {
           href={`${docBaseLink}/explanation/storage/`}
           title="Learn more about storage pools, volumes and buckets"
         >
-          Storage
+          {`Storage ${storageTabToName[activeTab || ""]}`}
         </HelpLink>
       }
       contentClassName="detail-page"
     >
       <NotificationRow />
       <Row>
-        <TabLinks
-          tabs={
-            hasCustomVolumeIso
-              ? storageTabs
-              : storageTabs.filter((tab) => tab !== "Custom ISOs")
-          }
-          activeTab={activeTab}
-          tabUrl={`/ui/project/${project}/storage`}
-        />
-
-        {!activeTab && (
+        {activeTab === "pools" && (
           <div role="tabpanel">
             <StoragePools />
           </div>

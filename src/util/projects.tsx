@@ -2,6 +2,11 @@ import { LxdProject } from "types/project";
 import { slugify } from "./slugify";
 
 export const storageTabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
+export const storageTabToName: Record<string, string> = {
+  pools: "Pools",
+  volumes: "Volumes",
+  "custom-isos": "Custom ISOs",
+};
 export const storageTabPaths = storageTabs.map((tab) => slugify(tab));
 export const projectSubpages = [
   "instances",

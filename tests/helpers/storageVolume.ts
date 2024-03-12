@@ -7,8 +7,8 @@ export const randomVolumeName = (): string => {
 
 export const createVolume = async (page: Page, volume: string) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage" }).click();
-  await page.getByTestId("tab-link-Volumes").click();
+  await page.getByRole("button", { name: "Storage" }).click();
+  await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByRole("button", { name: "Create volume" }).click();
   await page.getByPlaceholder("Enter name").fill(volume);
   await page.getByPlaceholder("Enter value").fill("1");
@@ -29,8 +29,8 @@ export const deleteVolume = async (page: Page, volume: string) => {
 
 export const visitVolume = async (page: Page, volume: string) => {
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage" }).click();
-  await page.getByTestId("tab-link-Volumes").click();
+  await page.getByRole("button", { name: "Storage" }).click();
+  await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByPlaceholder("Search and filter").fill(volume);
   await page.getByPlaceholder("Search and filter").press("Enter");
   await page.getByPlaceholder("Add filter").press("Escape");

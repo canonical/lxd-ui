@@ -1,0 +1,29 @@
+.permission-identities,
+.permission-identity-groups {
+  .search-wrapper {
+    margin-bottom: -0.3rem; // needed to align button with search filter
+    width: 100%;
+  }
+
+  .name-link {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.identity-groups-panel {
+  .group-count {
+    margin-bottom: $spv--large;
+  }
+}
+
+#permission-identity-groups-table {
+  .selected-row {
+    background-color: white;
+  }
+
+  .modified-status {
+    width: 50px;
+  }
+}

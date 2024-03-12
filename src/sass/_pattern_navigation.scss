@@ -81,6 +81,12 @@
   display: none;
 }
 
+.hide-nav-items {
+  .sidenav-top-ul {
+    display: none;
+  }
+}
+
 .sidenav-bottom-ul {
   bottom: $spv--x-large;
   position: absolute;
@@ -142,6 +148,32 @@
       left: 2.5rem;
     }
   }
+}
+
+.accordian-nav-menu {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
+  .p-icon--chevron-up {
+    margin-right: $sph--small;
+  }
+
+  .closed {
+    rotate: 90deg;
+  }
+
+  .open {
+    rotate: 180deg;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.accordian-nav-secondary {
+  padding-left: 4rem !important;
 }
 
 @include mobile {
