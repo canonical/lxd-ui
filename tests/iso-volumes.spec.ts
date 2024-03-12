@@ -16,8 +16,8 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   const isoName = randomIso();
 
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage", exact: true }).click();
-  await page.getByTestId("tab-link-Custom ISOs").click();
+  await page.getByRole("button", { name: "Storage", exact: true }).click();
+  await page.getByRole("link", { name: "Custom ISOs" }).click();
   await page.getByRole("button", { name: "Upload custom ISO" }).click();
   await page.getByLabel("Local file").setInputFiles(ISO_FILE);
   await page.getByLabel("Alias").fill(isoName);
@@ -73,8 +73,8 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
 
   await deleteInstance(page, instance);
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage", exact: true }).click();
-  await page.getByTestId("tab-link-Custom ISOs").click();
+  await page.getByRole("button", { name: "Storage", exact: true }).click();
+  await page.getByRole("link", { name: "Custom ISOs" }).click();
   await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
   await page.getByRole("button", { name: "Delete" }).click();
   await page.getByText("Delete", { exact: true }).click();
@@ -90,8 +90,8 @@ test("not allowed to upload custom iso for lxd v5.0/edge", async ({
     `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
   );
   await page.goto("/ui/");
-  await page.getByRole("link", { name: "Storage", exact: true }).click();
-  await expect(page.getByTestId("tab-link-Custom ISOs")).toBeHidden();
+  await page.getByRole("button", { name: "Storage", exact: true }).click();
+  await expect(page.getByRole("link", { name: "Custom ISOs" })).toBeHidden();
 });
 
 test("not allowed to launch instance with custom iso for lxd v5.0/edge", async ({

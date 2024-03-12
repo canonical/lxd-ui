@@ -59,7 +59,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
     <RenameHeader
       name={name}
       parentItems={[
-        <Link to={`/ui/project/${project}/storage`} key={1}>
+        <Link to={`/ui/project/${project}/storage/pools`} key={1}>
           Storage pools
         </Link>,
       ]}

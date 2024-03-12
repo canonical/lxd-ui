@@ -10,6 +10,7 @@
 @include vf-p-icon-begin-downloading;
 @include vf-p-icon-canvas;
 @include vf-p-icon-change-version;
+@include vf-p-icon-change-version;
 @include vf-p-icon-close;
 @include vf-p-icon-connected;
 @include vf-p-icon-containers;
@@ -21,10 +22,12 @@
 @include vf-p-icon-fullscreen;
 @include vf-p-icon-get-link;
 @include vf-p-icon-import;
+@include vf-p-icon-lock-locked;
 @include vf-p-icon-machines;
 @include vf-p-icon-mount;
 @include vf-p-icon-open-terminal;
 @include vf-p-icon-pause;
+@include vf-p-icon-plans;
 @include vf-p-icon-play;
 @include vf-p-icon-pods;
 @include vf-p-icon-power-off;
@@ -43,6 +46,7 @@
 @include vf-p-icon-switcher-environments;
 @include vf-p-icon-task-outstanding;
 @include vf-p-icon-units;
+@include vf-p-icon-user-group;
 @include vf-p-icon-video-play;
 @include vf-p-icon-warning-grey;
 
@@ -69,6 +73,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "instance_list";
 @import "login";
 @import "meter";
+@import "modified_actions";
 @import "network_detail_overview";
 @import "network_form";
 @import "network_forwards_form";
@@ -78,6 +83,9 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "page_header";
 @import "pattern_navigation";
 @import "pattern_terminal";
+@import "permission_confirm_modal";
+@import "permission_group_selection";
+@import "permission_groups";
 @import "profile_detail_overview";
 @import "profile_detail_panel";
 @import "profile_list";
@@ -96,6 +104,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "storage_pool_form";
 @import "storage_volume_form";
 @import "storage";
+@import "tag";
 @import "toast";
 @import "upper_controls_bar";
 

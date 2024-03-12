@@ -11,15 +11,20 @@ import {
 } from "@canonical/react-components";
 import classnames from "classnames";
 import useEventListener from "@use-it/event-listener";
+import { pluralize } from "util/instanceBulkActions";
 
 interface SelectableMainTableProps {
   filteredNames: string[];
   itemName: string;
   parentName: string;
   selectedNames: string[];
-  setSelectedNames: (val: string[]) => void;
+  setSelectedNames: (val: string[], isUnselectAll?: boolean) => void;
   processingNames: string[];
   rows: MainTableRow[];
+  indeterminateNames?: string[];
+  disableSelect?: boolean;
+  onToggleRow?: (rowName: string) => void;
+  hideContextualMenu?: boolean;
 }
 
 type Props = SelectableMainTableProps & MainTableProps;
@@ -33,12 +38,16 @@ const SelectableMainTable: FC<Props> = ({
   processingNames,
   rows,
   headers,
+  indeterminateNames = [],
+  disableSelect = false,
+  onToggleRow,
+  hideContextualMenu,
   ...props
 }: Props) => {
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
   const isAllSelected =
     selectedNames.length === filteredNames.length && selectedNames.length > 0;
-  const isSomeSelected = selectedNames.length > 0;
+  const isSomeSelected = selectedNames.length + indeterminateNames.length > 0;
 
   const isCheckBoxTarget = (target: HTMLElement) => {
     return target.className === "p-checkbox__label";
@@ -57,12 +66,16 @@ const SelectableMainTable: FC<Props> = ({
   };
 
   const selectPage = () => {
-    setSelectedNames(rows.map((row) => row.name ?? ""));
+    const allNames = rows
+      .filter((row) => !!row.name)
+      .map((row) => row.name ?? "");
+    setSelectedNames(allNames);
     setCurrentSelectedIndex(undefined);
   };
 
   const selectNone = () => {
-    setSelectedNames([]);
+    const isUnselectAll = true;
+    setSelectedNames([], isUnselectAll);
     setCurrentSelectedIndex(undefined);
   };
 
@@ -76,41 +89,56 @@ const SelectableMainTable: FC<Props> = ({
             checked={isAllSelected}
             indeterminate={isSomeSelected && !isAllSelected}
             onChange={isSomeSelected ? selectNone : selectPage}
+            disabled={disableSelect}
           />
-          <ContextualMenu
-            className="select-context-menu"
-            position="left"
-            title="Multiselect"
-            toggleAppearance="base"
-            toggleClassName="has-icon u-no-margin--bottom"
-            toggleLabel={<Icon name="chevron-down" />}
-            toggleProps={{
-              "aria-label": "multiselect rows",
-            }}
-            links={[
-              {
-                children: `Select all ${itemName}s on this page`,
-                onClick: selectPage,
-              },
-              {
-                children: `Select all ${parentName} ${itemName}s`,
-                onClick: selectAll,
-              },
-            ]}
-          />
+          {!hideContextualMenu && (
+            <ContextualMenu
+              className="select-context-menu"
+              position="left"
+              title="Multiselect"
+              toggleAppearance="base"
+              toggleClassName="has-icon u-no-margin--bottom"
+              toggleLabel={<Icon name="chevron-down" />}
+              toggleProps={{
+                "aria-label": "multiselect rows",
+                disabled: disableSelect,
+              }}
+              links={[
+                {
+                  children: `Select all ${pluralize(itemName, 2)} on this page`,
+                  onClick: selectPage,
+                },
+                {
+                  children: `Select all ${parentName} ${pluralize(itemName, 2)}`,
+                  onClick: selectAll,
+                },
+              ]}
+            />
+          )}
         </>
       ),
-      className: "select select-header",
+      className: classnames("select select-header", {
+        "no-menu": hideContextualMenu,
+      }),
       "aria-label": "select",
     },
     ...(headers ?? []),
   ];
 
+  const selectedNamesLookup = new Set(selectedNames);
+  const processingNamesLookup = new Set(processingNames);
+  const indeterminateNamesLookup = new Set(indeterminateNames);
   const rowsWithCheckbox = rows.map((row, rowIndex) => {
-    const isRowSelected = selectedNames.includes(row.name ?? "");
-    const isRowProcessing = processingNames.includes(row.name ?? "");
+    const isRowSelected = selectedNamesLookup.has(row.name ?? "");
+    const isRowProcessing = processingNamesLookup.has(row.name ?? "");
+    const isRowIndeterminate = indeterminateNamesLookup.has(row.name ?? "");
 
     const toggleRow = (event: PointerEvent<HTMLInputElement>) => {
+      if (onToggleRow) {
+        onToggleRow(row.name ?? "");
+        return;
+      }
+
       if (
         event.nativeEvent.shiftKey &&
         currentSelectedIndex !== undefined &&
@@ -153,7 +181,8 @@ const SelectableMainTable: FC<Props> = ({
             labelClassName="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}
-            disabled={isRowProcessing || !row.name}
+            disabled={isRowProcessing || !row.name || disableSelect}
+            indeterminate={isRowIndeterminate && !isRowSelected}
           />
         ),
         role: "rowheader",
@@ -167,7 +196,7 @@ const SelectableMainTable: FC<Props> = ({
       "processing-row": isRowProcessing,
     });
 
-    const key = row.name;
+    const key = row.key ?? row.name;
 
     return {
       ...row,

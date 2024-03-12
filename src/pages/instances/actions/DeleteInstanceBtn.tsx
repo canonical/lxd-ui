@@ -4,7 +4,7 @@ import { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
-import { useDeleteIcon } from "context/useDeleteIcon";
+import { useSmallScreen } from "context/useSmallScreen";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
@@ -19,7 +19,7 @@ interface Props {
 
 const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   const eventQueue = useEventQueue();
-  const isDeleteIcon = useDeleteIcon();
+  const isDeleteIcon = useSmallScreen();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);

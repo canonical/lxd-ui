@@ -3,7 +3,7 @@ import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import { LxdProfile } from "types/profile";
 import ItemName from "components/ItemName";
-import { useDeleteIcon } from "context/useDeleteIcon";
+import { useSmallScreen } from "context/useSmallScreen";
 import {
   ConfirmationButton,
   Icon,
@@ -25,7 +25,7 @@ const DeleteProfileBtn: FC<Props> = ({
   project,
   featuresProfiles,
 }) => {
-  const isDeleteIcon = useDeleteIcon();
+  const isDeleteIcon = useSmallScreen();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();

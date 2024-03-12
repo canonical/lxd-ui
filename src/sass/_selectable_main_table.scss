@@ -5,6 +5,10 @@
   .multiselect-checkbox {
     display: inline-block;
   }
+
+  &.no-menu {
+    padding-top: 0.75rem;
+  }
 }
 
 // fix for safari https://warthogs.atlassian.net/browse/WD-7486

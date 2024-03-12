@@ -1,17 +1,23 @@
 import { DependencyList, FC, ReactNode, useEffect, useRef } from "react";
 import useEventListener from "@use-it/event-listener";
-import { getAbsoluteHeightBelow, getParentsBottomSpacing } from "util/helpers";
+import {
+  getAbsoluteHeightBelowById,
+  getParentsBottomSpacing,
+} from "util/helpers";
+import classnames from "classnames";
 
 interface Props {
   children: ReactNode;
   dependencies: DependencyList;
-  belowId?: string;
+  belowIds?: string[];
+  className?: string;
 }
 
 const ScrollableContainer: FC<Props> = ({
   dependencies,
   children,
-  belowId = "",
+  belowIds = ["status-bar"],
+  className,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -20,11 +26,13 @@ const ScrollableContainer: FC<Props> = ({
     if (!childContainer) {
       return;
     }
+
     const above = childContainer.getBoundingClientRect().top + 1;
-    const below = getAbsoluteHeightBelow(belowId);
-    const parentsBottomSpacing =
-      getParentsBottomSpacing(childContainer) +
-      getAbsoluteHeightBelow("status-bar");
+    const below = belowIds.reduce(
+      (acc, belowId) => acc + getAbsoluteHeightBelowById(belowId),
+      0,
+    );
+    const parentsBottomSpacing = getParentsBottomSpacing(childContainer);
     const offset = Math.ceil(above + below + parentsBottomSpacing);
     const style = `height: calc(100vh - ${offset}px); min-height: calc(100vh - ${offset}px)`;
     childContainer.setAttribute("style", style);
@@ -34,7 +42,7 @@ const ScrollableContainer: FC<Props> = ({
   useEffect(updateChildContainerHeight, [...dependencies, ref]);
 
   return (
-    <div ref={ref} className="scrollable-container">
+    <div ref={ref} className={classnames("scrollable-container", className)}>
       <div className="content-details">{children}</div>
     </div>
   );

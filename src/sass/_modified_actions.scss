@@ -1,0 +1,17 @@
+.modified-actions {
+  align-items: center;
+  display: flex;
+  gap: $sph--large;
+  justify-content: flex-end;
+  margin-bottom: calc(0.75 * $spv--large);
+
+  .modified-status {
+    align-items: center;
+    display: flex;
+    gap: $sp-unit;
+
+    span {
+      color: $color-mid-dark;
+    }
+  }
+}

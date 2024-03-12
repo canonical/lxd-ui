@@ -6,7 +6,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import ItemName from "components/ItemName";
 import { isProjectEmpty } from "util/projects";
-import { useDeleteIcon } from "context/useDeleteIcon";
+import { useSmallScreen } from "context/useSmallScreen";
 import {
   ConfirmationButton,
   Icon,
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
-  const isDeleteIcon = useDeleteIcon();
+  const isDeleteIcon = useSmallScreen();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();

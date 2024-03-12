@@ -1,0 +1,115 @@
+@import "./helpers";
+
+.permission-groups {
+  .groups-table {
+    .name {
+      width: 15%;
+    }
+
+    .description {
+      width: 45%;
+
+      span {
+        @include u-line-clamp-truncate(2);
+      }
+    }
+
+    .identities,
+    .permissions {
+      width: 10%;
+    }
+  }
+}
+
+.permission-groups-filter {
+  margin-bottom: -0.3rem; // needed to align button with search filter
+  width: 100%;
+}
+
+.show-menu-above {
+  bottom: 1.8rem;
+}
+
+#group-identities-table {
+  .selected-row {
+    background-color: white;
+  }
+
+  .modified-status {
+    width: 50px;
+  }
+}
+
+.delete-group-confirm-modal {
+  .p-modal__footer {
+    display: flex;
+    gap: $sph--large;
+
+    .confirm-input {
+      flex-grow: 1;
+    }
+  }
+}
+
+.edit-permissions-panel {
+  width: 46rem !important;
+
+  .p-card__title {
+    font-size: #{map-get($font-sizes, h3)}rem;
+  }
+
+  .permission-selector {
+    align-items: flex-end;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-evenly;
+
+    .p-form__group {
+      width: 30%;
+    }
+
+    .add-entitlement {
+      flex-grow: 1;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .hide-modified-status {
+    opacity: 0;
+  }
+
+  .permissions-table {
+    td.resource-type,
+    th.resource-type {
+      width: 20%;
+    }
+
+    td.resource,
+    th.resource {
+      width: 35%;
+    }
+
+    td.entitlement,
+    th.entitlement {
+      width: 30%;
+    }
+
+    tr.strikeout {
+      td {
+        position: relative;
+      }
+
+      td:not(.actions)::before {
+        border-bottom: 1px solid black;
+        content: "";
+        left: 0;
+        position: absolute;
+        top: 1.2rem;
+        width: 100%;
+      }
+    }
+  }
+}

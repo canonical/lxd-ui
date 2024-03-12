@@ -1,0 +1,25 @@
+@import "./helpers";
+
+.group-selection {
+  .group-selection-table {
+    .selected-row {
+      background-color: white;
+    }
+
+    .modified-status {
+      width: 50px;
+    }
+
+    .name {
+      width: 30%;
+    }
+
+    .description {
+      width: 50%;
+
+      span {
+        @include u-line-clamp-truncate(2);
+      }
+    }
+  }
+}

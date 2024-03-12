@@ -1,4 +1,4 @@
-import { getAbsoluteHeightBelow } from "./helpers";
+import { getAbsoluteHeightBelowById } from "./helpers";
 
 type HeightProperty = "height" | "max-height" | "min-height";
 
@@ -22,7 +22,7 @@ export const updateMaxHeight = (
     : 0;
 
   below += belowIds.reduce(
-    (acc, belowId) => acc + getAbsoluteHeightBelow(belowId),
+    (acc, belowId) => acc + getAbsoluteHeightBelowById(belowId),
     0,
   );
   const offset = Math.ceil(above + below + additionalOffset);

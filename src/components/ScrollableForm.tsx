@@ -11,7 +11,7 @@ const ScrollableForm: FC<Props> = ({ children }) => {
   return (
     <ScrollableContainer
       dependencies={[notify.notification]}
-      belowId="form-footer"
+      belowIds={["status-bar", "form-footer"]}
     >
       {children}
     </ScrollableContainer>

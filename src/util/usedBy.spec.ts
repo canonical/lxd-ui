@@ -3,7 +3,7 @@ import { filterUsedByType } from "./usedBy";
 describe("filterUsedByType", () => {
   it("finds standard instance", () => {
     const paths = ["/1.0/instances/pet-lark"];
-    const results = filterUsedByType("instances", paths);
+    const results = filterUsedByType("instance", paths);
 
     expect(results[0].name).toBe("pet-lark");
     expect(results[0].project).toBe("default");
@@ -11,7 +11,7 @@ describe("filterUsedByType", () => {
 
   it("finds snapshot with custom project", () => {
     const paths = ["/1.0/instances/relaxed-basilisk/snapshots/ff?project=foo"];
-    const results = filterUsedByType("snapshots", paths);
+    const results = filterUsedByType("snapshot", paths);
 
     expect(results[0].instance).toBe("relaxed-basilisk");
     expect(results[0].name).toBe("ff");
@@ -20,7 +20,7 @@ describe("filterUsedByType", () => {
 
   it("finds profile with custom project", () => {
     const paths = ["/1.0/profiles/my_profile?project=foo"];
-    const results = filterUsedByType("profiles", paths);
+    const results = filterUsedByType("profile", paths);
 
     expect(results[0].name).toBe("my_profile");
     expect(results[0].project).toBe("foo");
@@ -31,7 +31,7 @@ describe("filterUsedByType", () => {
     const paths = [
       "/1.0/storage-pools/dir/volumes/custom/t%25C3%25BCdeld%25C3%25BC",
     ];
-    const results = filterUsedByType("volumes", paths);
+    const results = filterUsedByType("volume", paths);
 
     expect(results[0].name).toBe("tüdeldü");
     expect(results[0].project).toBe("default");
@@ -42,7 +42,7 @@ describe("filterUsedByType", () => {
     const paths = [
       "/1.0/instances/absolute-jennet/snapshots/snap0?project=Animals",
     ];
-    const results = filterUsedByType("snapshots", paths);
+    const results = filterUsedByType("snapshot", paths);
 
     expect(results[0].name).toBe("snap0");
     expect(results[0].project).toBe("Animals");
@@ -54,7 +54,7 @@ describe("filterUsedByType", () => {
     const paths = [
       "/1.0/storage-pools/poolName/volumes/custom/volumeName/snapshots/snap1?project=fooProject",
     ];
-    const results = filterUsedByType("snapshots", paths);
+    const results = filterUsedByType("snapshot", paths);
 
     expect(results[0].name).toBe("snap1");
     expect(results[0].project).toBe("fooProject");

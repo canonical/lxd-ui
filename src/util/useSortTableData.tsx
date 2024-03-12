@@ -33,7 +33,7 @@ const useSortTableData = (props: Props) => {
     } else {
       setSortDirection("ascending");
     }
-    setSort(newSort);
+    setSort(newSort || defaultSort);
   };
 
   return {

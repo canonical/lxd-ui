@@ -248,8 +248,7 @@ export const logout = (): void =>
 export const capitalizeFirstLetter = (val: string): string =>
   val.charAt(0).toUpperCase() + val.slice(1);
 
-export const getAbsoluteHeightBelow = (belowId: string): number => {
-  const element = belowId ? document.getElementById(belowId) : undefined;
+export const getElementAbsoluteHeight = (element: HTMLElement) => {
   if (!element) {
     return 0;
   }
@@ -260,6 +259,34 @@ export const getAbsoluteHeightBelow = (belowId: string): number => {
   return element.offsetHeight + margin + padding + 1;
 };
 
+export const getAbsoluteHeightBelowById = (belowId: string): number => {
+  const element = belowId ? document.getElementById(belowId) : undefined;
+  if (!element) {
+    return 0;
+  }
+  return getElementAbsoluteHeight(element);
+};
+
+export const getAbsoluteHeightBelowBySelector = (selector: string): number => {
+  const element = selector ? document.querySelector(selector) : undefined;
+  if (!element) {
+    return 0;
+  }
+  return getElementAbsoluteHeight(element as HTMLElement);
+};
+
 export const generateUUID = (): string => {
   return crypto.randomBytes(16).toString("hex");
+};
+
+export const getClientOS = (userAgent: string) => {
+  if (userAgent.includes("Windows")) {
+    return "windows";
+  } else if (userAgent.includes("Mac OS")) {
+    return "macos";
+  } else if (userAgent.includes("Linux")) {
+    return "linux";
+  }
+
+  return null;
 };
