@@ -1,4 +1,4 @@
-export const queryKeys: Record<string, string> = {
+export const queryKeys = {
   certificates: "certificates",
   cluster: "cluster",
   configOptions: "configOptions",
@@ -22,4 +22,8 @@ export const queryKeys: Record<string, string> = {
   volumes: "volumes",
   warnings: "warnings",
   snapshots: "snapshots",
+  identities: "identities",
+  authGroups: "authGroups",
+  idpGroups: "idpGroups",
+  permissions: "permissions",
 };

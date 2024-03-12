@@ -17,6 +17,10 @@ import CreateStoragePoolBtn from "pages/storage/actions/CreateStoragePoolBtn";
 import ScrollableTable from "components/ScrollableTable";
 import StorageVolumesInPoolBtn from "pages/storage/actions/StorageVolumesInPoolBtn";
 import { useDocs } from "context/useDocs";
+import HelpLink from "components/HelpLink";
+import NotificationRow from "components/NotificationRow";
+import CustomLayout from "components/CustomLayout";
+import PageHeader from "components/PageHeader";
 
 const StoragePools: FC = () => {
   const docBaseLink = useDocs();
@@ -157,44 +161,74 @@ const StoragePools: FC = () => {
     return <Loader text="Loading storage pools..." />;
   }
 
-  return pools.length > 0 ? (
-    <Row>
-      <div className="upper-controls-bar">
-        <CreateStoragePoolBtn project={project} />
-      </div>
-      <ScrollableTable
-        dependencies={[pools]}
-        tableId="storage-pool-table"
-        belowIds={["status-bar"]}
-      >
-        <MainTable
-          id="storage-pool-table"
-          headers={headers}
-          rows={rows}
-          sortable
-          className="storage-pool-table"
-        />
-      </ScrollableTable>
-    </Row>
-  ) : (
-    <EmptyState
-      className="empty-state"
-      image={<Icon name="pods" className="empty-state-icon" />}
-      title="No pools found in this project"
-    >
-      <p>Storage pools will appear here.</p>
-      <p>
-        <a
-          href={`${docBaseLink}/explanation/storage/`}
-          target="_blank"
-          rel="noopener noreferrer"
+  const content =
+    pools.length > 0 ? (
+      <Row>
+        <ScrollableTable
+          dependencies={[pools]}
+          tableId="storage-pool-table"
+          belowIds={["status-bar"]}
         >
-          Learn more about storage
-          <Icon className="external-link-icon" name="external-link" />
-        </a>
-      </p>
-      <CreateStoragePoolBtn project={project} className="empty-state-button" />
-    </EmptyState>
+          <MainTable
+            id="storage-pool-table"
+            headers={headers}
+            rows={rows}
+            sortable
+            className="storage-pool-table"
+          />
+        </ScrollableTable>
+      </Row>
+    ) : (
+      <EmptyState
+        className="empty-state"
+        image={<Icon name="pods" className="empty-state-icon" />}
+        title="No pools found in this project"
+      >
+        <p>Storage pools will appear here.</p>
+        <p>
+          <a
+            href={`${docBaseLink}/explanation/storage/`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about storage
+            <Icon className="external-link-icon" name="external-link" />
+          </a>
+        </p>
+        <CreateStoragePoolBtn
+          project={project}
+          className="empty-state-button"
+        />
+      </EmptyState>
+    );
+
+  return (
+    <CustomLayout
+      contentClassName="detail-page"
+      header={
+        <PageHeader>
+          <PageHeader.Left>
+            <PageHeader.Title>
+              <HelpLink
+                href={`${docBaseLink}/explanation/storage/`}
+                title="Learn more about storage pools, volumes and buckets"
+              >
+                Pools
+              </HelpLink>
+            </PageHeader.Title>
+          </PageHeader.Left>
+          <PageHeader.BaseActions>
+            <CreateStoragePoolBtn
+              project={project}
+              className="u-float-right u-no-margin--bottom"
+            />
+          </PageHeader.BaseActions>
+        </PageHeader>
+      }
+    >
+      <NotificationRow />
+      <Row>{content}</Row>
+    </CustomLayout>
   );
 };
 

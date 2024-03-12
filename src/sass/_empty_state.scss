@@ -1,12 +1,6 @@
 .empty-state {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: min(5vh, $spv--strip-regular);
+  margin: min(5vh, $spv--strip-regular) auto;
   width: 67%;
-
-  @include desktop {
-    width: 50%;
-  }
 
   .empty-state-icon {
     height: 2.5rem;
@@ -14,6 +8,10 @@
     margin-top: $spv--x-large;
     opacity: 0.25;
     width: 2.5rem;
+  }
+
+  @include desktop {
+    width: 50%;
   }
 
   h4 {

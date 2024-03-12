@@ -1,0 +1,51 @@
+.modified-actions {
+  align-items: center;
+  display: flex;
+  gap: $sph--large;
+  justify-content: flex-end;
+  margin-bottom: calc(0.75 * $spv--large);
+
+  .modified-status {
+    align-items: center;
+    display: flex;
+    gap: $sp-unit;
+
+    span {
+      color: $color-mid-dark;
+    }
+  }
+}
+
+#group-selection-table {
+  .selected-row {
+    background-color: white;
+  }
+
+  .modified-status {
+    width: 50px;
+  }
+
+  .name {
+    width: 30%;
+  }
+
+  .description {
+    width: 50%;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @supports (-webkit-line-clamp: 2) {
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: initial;
+        word-wrap: break-word;
+      }
+    }
+  }
+}

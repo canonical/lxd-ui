@@ -69,7 +69,7 @@ const Footer: FC<PropsWithChildren & CommonProps> = ({
   className,
 }) => {
   return (
-    <div className={classnames("panel-footer", className)}>
+    <div className={classnames("panel-footer", className)} id="panel-footer">
       <hr />
       {children}
     </div>

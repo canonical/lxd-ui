@@ -1,0 +1,152 @@
+.permission-groups {
+  .search-wrapper {
+    margin-bottom: -0.3rem; // needed to align button with search filter
+    width: 100%;
+  }
+
+  .groups-table {
+    .name {
+      width: 15%;
+    }
+
+    .description {
+      width: 45%;
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        @supports (-webkit-line-clamp: 2) {
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: initial;
+          word-wrap: break-word;
+        }
+      }
+    }
+
+    .identities,
+    .permissions {
+      width: 10%;
+    }
+  }
+}
+
+.show-menu-above {
+  bottom: 1.8rem;
+}
+
+.group-identities-panel,
+.edit-permissions-panel {
+  .modified-actions {
+    align-items: center;
+    display: flex;
+    gap: $sph--large;
+    justify-content: flex-end;
+    margin-bottom: calc(0.75 * $spv--large);
+
+    .modified-status {
+      align-items: center;
+      display: flex;
+      gap: $sp-unit;
+
+      span {
+        color: $color-mid-dark;
+      }
+    }
+  }
+}
+
+#group-identities-table {
+  .selected-row {
+    background-color: white;
+  }
+
+  .modified-status {
+    width: 50px;
+  }
+}
+
+.delete-group-confirm-modal {
+  // remove the cancel button
+  .p-modal__footer {
+    display: flex;
+    gap: $sph--large;
+    justify-content: space-between;
+
+    .p-button {
+      display: none;
+    }
+
+    .confirm-input {
+      flex-grow: 1;
+    }
+  }
+}
+
+.edit-permissions-panel {
+  width: 46rem !important;
+
+  .p-card__title {
+    font-size: 1.2rem;
+  }
+
+  .permission-selector {
+    align-items: flex-end;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-evenly;
+
+    .p-form__group {
+      width: 30%;
+    }
+
+    .add-entitlement {
+      flex-grow: 1;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .hide-modified-status {
+    opacity: 0;
+  }
+
+  .permissions-table {
+    td.resource-type,
+    th.resource-type {
+      width: 20%;
+    }
+
+    td.resource,
+    th.resource {
+      width: 35%;
+    }
+
+    td.entitlement,
+    th.entitlement {
+      width: 30%;
+    }
+
+    tr.strikeout {
+      td {
+        position: relative;
+      }
+
+      td:not(.actions)::before {
+        border-bottom: 1px solid black;
+        content: "";
+        left: 0;
+        position: absolute;
+        top: 1.2rem;
+        width: 100%;
+      }
+    }
+  }
+}

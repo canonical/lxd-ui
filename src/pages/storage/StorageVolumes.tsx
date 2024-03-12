@@ -6,6 +6,7 @@ import {
   EmptyState,
   Icon,
   MainTable,
+  Row,
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
@@ -48,6 +49,10 @@ import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
 import useEventListener from "@use-it/event-listener";
 import useSortTableData from "util/useSortTableData";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import CustomLayout from "components/CustomLayout";
+import PageHeader from "components/PageHeader";
+import HelpLink from "components/HelpLink";
+import NotificationRow from "components/NotificationRow";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -358,7 +363,9 @@ const StorageVolumes: FC = () => {
   const defaultPoolForVolumeCreate =
     filters.pools.length === 1 ? filters.pools[0] : "";
 
-  return volumes.length === 0 ? (
+  const hasVolumes = volumes.length !== 0;
+
+  const content = !hasVolumes ? (
     <EmptyState
       className="empty-state"
       image={<Icon name="mount" className="empty-state-icon" />}
@@ -379,17 +386,6 @@ const StorageVolumes: FC = () => {
     </EmptyState>
   ) : (
     <div className="storage-volumes">
-      <div className="upper-controls-bar">
-        <div className="search-box-wrapper">
-          <StorageVolumesFilter key={project} volumes={volumes} />
-        </div>
-        <div>
-          <CreateVolumeBtn
-            project={project}
-            defaultPool={defaultPoolForVolumeCreate}
-          />
-        </div>
-      </div>
       <ScrollableTable
         dependencies={[volumes]}
         tableId="volume-table"
@@ -413,6 +409,43 @@ const StorageVolumes: FC = () => {
         </TablePagination>
       </ScrollableTable>
     </div>
+  );
+
+  return (
+    <CustomLayout
+      contentClassName="detail-page"
+      header={
+        <PageHeader>
+          <PageHeader.Left>
+            <PageHeader.Title>
+              <HelpLink
+                href={`${docBaseLink}/explanation/storage/`}
+                title="Learn more about storage pools, volumes and buckets"
+              >
+                Volumes
+              </HelpLink>
+            </PageHeader.Title>
+            {hasVolumes && (
+              <PageHeader.Search>
+                <StorageVolumesFilter key={project} volumes={volumes} />
+              </PageHeader.Search>
+            )}
+          </PageHeader.Left>
+          {hasVolumes && (
+            <PageHeader.BaseActions>
+              <CreateVolumeBtn
+                project={project}
+                defaultPool={defaultPoolForVolumeCreate}
+                className="u-float-right u-no-margin--bottom"
+              />
+            </PageHeader.BaseActions>
+          )}
+        </PageHeader>
+      }
+    >
+      <NotificationRow />
+      <Row>{content}</Row>
+    </CustomLayout>
   );
 };
 

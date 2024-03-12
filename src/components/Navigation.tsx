@@ -4,13 +4,18 @@ import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
-import { isWidthBelow, logout } from "util/helpers";
+import { getElementAbsoluteHeight, isWidthBelow, logout } from "util/helpers";
 import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
+import NavAccordion from "./NavAccordion";
+import useEventListener from "@use-it/event-listener";
+import { enablePermissionsFeature } from "util/permissions";
 
 const isSmallScreen = () => isWidthBelow(620);
+const isMediumScreen = () => isWidthBelow(820);
 
 const Navigation: FC = () => {
   const { isRestricted, isOidc } = useAuth();
@@ -20,10 +25,21 @@ const Navigation: FC = () => {
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default",
   );
+  const { hasCustomVolumeIso } = useSupportedFeatures();
+  const enablePermissions = enablePermissionsFeature();
+  const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
     project && project.name !== projectName && setProjectName(project.name);
   }, [project?.name]);
+
+  useEffect(() => {
+    if (!menuCollapsed) {
+      adjustNavigationScrollForOverflow();
+    } else {
+      setScroll(false);
+    }
+  }, [menuCollapsed]);
 
   const { isAuthenticated } = useAuth();
   const softToggleMenu = () => {
@@ -36,6 +52,43 @@ const Navigation: FC = () => {
     setMenuCollapsed((prev) => !prev);
     e.stopPropagation();
   };
+
+  const hoverToggleMenu = (collapse: boolean) => {
+    const isPointerDevice = window.matchMedia("(pointer: fine)");
+    if (isMediumScreen() && !isSmallScreen() && isPointerDevice.matches) {
+      setMenuCollapsed(collapse);
+    }
+  };
+
+  const adjustNavigationScrollForOverflow = () => {
+    const navHeader = document.querySelector(".l-navigation .p-panel__header");
+    const navContent = document.querySelector(
+      ".l-navigation .p-panel__content",
+    );
+    const navFooter = document.querySelector(
+      ".l-navigation .sidenav-bottom-ul",
+    );
+    const navHeaderHeight = getElementAbsoluteHeight(navHeader as HTMLElement);
+    const navContentHeight = getElementAbsoluteHeight(
+      navContent as HTMLElement,
+    );
+    const navFooterHeight = getElementAbsoluteHeight(navFooter as HTMLElement);
+
+    let totalNavHeight = navHeaderHeight + navContentHeight + navFooterHeight;
+    // when the continer is in scrolling mode, p-panel__content includes the footer height already since it's not absolutely positioned
+    if (scroll) {
+      totalNavHeight = navHeaderHeight + navContentHeight;
+    }
+    const isNavigationPanelOverflow = totalNavHeight >= window.innerHeight;
+
+    if (isNavigationPanelOverflow) {
+      setScroll(true);
+    } else {
+      setScroll(false);
+    }
+  };
+
+  useEventListener("resize", adjustNavigationScrollForOverflow);
 
   return (
     <>
@@ -60,8 +113,10 @@ const Navigation: FC = () => {
         className={classnames("l-navigation", {
           "is-collapsed": menuCollapsed,
           "is-pinned": !menuCollapsed,
+          "is-scroll": scroll,
         })}
-        onClick={softToggleMenu}
+        onMouseEnter={() => hoverToggleMenu(false)}
+        onMouseLeave={() => hoverToggleMenu(true)}
       >
         <div className="l-navigation__drawer">
           <div className="p-panel is-dark">
@@ -90,10 +145,11 @@ const Navigation: FC = () => {
                           activeProject={projectName}
                         />
                       </li>
-                      <li className="p-side-navigation__item secondary">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           to={`/ui/project/${projectName}/instances`}
                           title={`Instances (${projectName})`}
+                          onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -102,10 +158,11 @@ const Navigation: FC = () => {
                           Instances
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item secondary">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           to={`/ui/project/${projectName}/profiles`}
                           title={`Profiles (${projectName})`}
+                          onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -114,10 +171,11 @@ const Navigation: FC = () => {
                           Profiles
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item secondary">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           to={`/ui/project/${projectName}/networks`}
                           title={`Networks (${projectName})`}
+                          onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -126,22 +184,66 @@ const Navigation: FC = () => {
                           Networks
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item secondary">
-                        <NavLink
-                          to={`/ui/project/${projectName}/storage`}
+                      <li className="p-side-navigation__item">
+                        <NavAccordion
+                          baseUrl={`/ui/project/${projectName}/storage`}
                           title={`Storage (${projectName})`}
+                          iconName="pods"
+                          label="Storage"
+                          onToggle={adjustNavigationScrollForOverflow}
                         >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="pods"
-                          />{" "}
-                          Storage
-                        </NavLink>
+                          {[
+                            <li
+                              className="p-side-navigation__item"
+                              key={`/ui/project/${projectName}/storage/pools`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/storage/pools`}
+                                title="Pools"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Pools
+                              </NavLink>
+                            </li>,
+                            <li
+                              className="p-side-navigation__item"
+                              key={`/ui/project/${projectName}/storage/volumes`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/storage/volumes`}
+                                title="Volumes"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                Volumes
+                              </NavLink>
+                            </li>,
+                            ...(hasCustomVolumeIso
+                              ? [
+                                  <li
+                                    className="p-side-navigation__item"
+                                    key={`/ui/project/${projectName}/storage/custom-isos`}
+                                  >
+                                    <NavLink
+                                      to={`/ui/project/${projectName}/storage/custom-isos`}
+                                      title="Custom ISOs"
+                                      onClick={softToggleMenu}
+                                      className="accordion-nav-secondary"
+                                    >
+                                      Custom ISOs
+                                    </NavLink>
+                                  </li>,
+                                ]
+                              : []),
+                          ]}
+                        </NavAccordion>
                       </li>
-                      <li className="p-side-navigation__item secondary">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           to={`/ui/project/${projectName}/images`}
                           title={`Images (${projectName})`}
+                          onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -150,10 +252,11 @@ const Navigation: FC = () => {
                           Images
                         </NavLink>
                       </li>
-                      <li className="p-side-navigation__item secondary">
+                      <li className="p-side-navigation__item">
                         <NavLink
                           to={`/ui/project/${projectName}/configuration`}
                           title={`Configuration (${projectName})`}
+                          onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -164,7 +267,11 @@ const Navigation: FC = () => {
                       </li>
                       <hr className="is-dark navigation-hr" />
                       <li className="p-side-navigation__item">
-                        <NavLink to="/ui/cluster" title="Cluster">
+                        <NavLink
+                          to="/ui/cluster"
+                          title="Cluster"
+                          onClick={softToggleMenu}
+                        >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="machines"
@@ -176,6 +283,7 @@ const Navigation: FC = () => {
                         <NavLink
                           to={`/ui/operations`}
                           title={`Operations (${projectName})`}
+                          onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
@@ -186,7 +294,11 @@ const Navigation: FC = () => {
                       </li>
                       {!isRestricted && (
                         <li className="p-side-navigation__item">
-                          <NavLink to="/ui/warnings" title="Warnings">
+                          <NavLink
+                            to="/ui/warnings"
+                            title="Warnings"
+                            onClick={softToggleMenu}
+                          >
                             <Icon
                               className="is-light p-side-navigation__icon"
                               name="warning-grey"
@@ -195,8 +307,66 @@ const Navigation: FC = () => {
                           </NavLink>
                         </li>
                       )}
+                      {enablePermissions && (
+                        <li className="p-side-navigation__item">
+                          <NavAccordion
+                            baseUrl="/ui/permissions"
+                            title={`Permissions`}
+                            iconName="user"
+                            label="Permissions"
+                            onToggle={adjustNavigationScrollForOverflow}
+                          >
+                            {[
+                              <li
+                                className="p-side-navigation__item"
+                                key="/ui/permissions/identities"
+                              >
+                                <NavLink
+                                  to="/ui/permissions/identities"
+                                  title="Identities"
+                                  onClick={softToggleMenu}
+                                  activeUrlMatches={["permissions/identity"]}
+                                  className="accordion-nav-secondary"
+                                >
+                                  Identities
+                                </NavLink>
+                              </li>,
+                              <li
+                                className="p-side-navigation__item"
+                                key="/ui/permissions/groups"
+                              >
+                                <NavLink
+                                  to="/ui/permissions/groups"
+                                  title="LXD groups"
+                                  onClick={softToggleMenu}
+                                  className="accordion-nav-secondary"
+                                >
+                                  Groups
+                                </NavLink>
+                              </li>,
+                              <li
+                                className="p-side-navigation__item"
+                                key="/ui/permissions/idp-groups"
+                              >
+                                <NavLink
+                                  to="/ui/permissions/idp-groups"
+                                  title="Identity provider groups"
+                                  onClick={softToggleMenu}
+                                  className="accordion-nav-secondary"
+                                >
+                                  IDP groups
+                                </NavLink>
+                              </li>,
+                            ]}
+                          </NavAccordion>
+                        </li>
+                      )}
                       <li className="p-side-navigation__item">
-                        <NavLink to="/ui/settings" title="Settings">
+                        <NavLink
+                          to="/ui/settings"
+                          title="Settings"
+                          onClick={softToggleMenu}
+                        >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="settings"
@@ -209,7 +379,10 @@ const Navigation: FC = () => {
                           <a
                             className="p-side-navigation__link"
                             title="Log out"
-                            onClick={logout}
+                            onClick={() => {
+                              logout();
+                              softToggleMenu();
+                            }}
                           >
                             <Icon
                               className="is-light p-side-navigation__icon"
@@ -224,7 +397,11 @@ const Navigation: FC = () => {
                   {!isAuthenticated && (
                     <>
                       <li className="p-side-navigation__item">
-                        <NavLink to="/ui/login" title="Login">
+                        <NavLink
+                          to="/ui/login"
+                          title="Login"
+                          onClick={softToggleMenu}
+                        >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="profile"

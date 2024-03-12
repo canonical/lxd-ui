@@ -43,7 +43,9 @@ const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
 const ProjectConfig = lazy(() => import("pages/projects/ProjectConfiguration"));
 const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
 const Settings = lazy(() => import("pages/settings/Settings"));
-const Storage = lazy(() => import("pages/storage/Storage"));
+const StoragePools = lazy(() => import("pages/storage/StoragePools"));
+const StorageVolumes = lazy(() => import("pages/storage/StorageVolumes"));
+const CustomIsoList = lazy(() => import("pages/storage/CustomIsoList"));
 const StoragePoolDetail = lazy(() => import("pages/storage/StoragePoolDetail"));
 const StorageVolumeCreate = lazy(
   () => import("pages/storage/forms/StorageVolumeCreate"),
@@ -52,6 +54,15 @@ const StorageVolumeDetail = lazy(
   () => import("pages/storage/StorageVolumeDetail"),
 );
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
+const PermissionIdentities = lazy(
+  () => import("pages/permissions/PermissionIdentities"),
+);
+const PermissionGroups = lazy(
+  () => import("pages/permissions/PermissionGroups"),
+);
+const PermissionIdpGroups = lazy(
+  () => import("pages/permissions/PermissionIdpGroups"),
+);
 
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
@@ -261,13 +272,15 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<CreateProject />} />}
         />
         <Route
-          path="/ui/project/:project/storage"
+          path="/ui/project/:project/storage/pools"
           element={
-            <ProtectedRoute outlet={<ProjectLoader outlet={<Storage />} />} />
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<StoragePools />} />}
+            />
           }
         />
         <Route
-          path="/ui/project/:project/storage/create"
+          path="/ui/project/:project/storage/pools/create"
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<CreateStoragePool />} />}
@@ -275,9 +288,11 @@ const App: FC = () => {
           }
         />
         <Route
-          path="/ui/project/:project/storage/:activeTab"
+          path="/ui/project/:project/storage/volumes"
           element={
-            <ProtectedRoute outlet={<ProjectLoader outlet={<Storage />} />} />
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<StorageVolumes />} />}
+            />
           }
         />
         <Route
@@ -285,6 +300,14 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<StorageVolumeCreate />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/storage/custom-isos"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CustomIsoList />} />}
             />
           }
         />
@@ -351,6 +374,18 @@ const App: FC = () => {
         <Route
           path="/ui/warnings"
           element={<ProtectedRoute outlet={<WarningList />} />}
+        />
+        <Route
+          path="/ui/permissions/identities"
+          element={<ProtectedRoute outlet={<PermissionIdentities />} />}
+        />
+        <Route
+          path="/ui/permissions/groups"
+          element={<ProtectedRoute outlet={<PermissionGroups />} />}
+        />
+        <Route
+          path="/ui/permissions/idp-groups"
+          element={<ProtectedRoute outlet={<PermissionIdpGroups />} />}
         />
         <Route
           path="/ui/settings"

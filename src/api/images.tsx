@@ -22,9 +22,11 @@ export const fetchImage = (
   });
 };
 
-export const fetchImageList = (project: string): Promise<LxdImage[]> => {
+export const fetchImageList = (project?: string): Promise<LxdImage[]> => {
+  const url =
+    "/1.0/images?recursion=1" + (project ? `&project=${project}` : "");
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/images?recursion=1&project=${project}`)
+    fetch(url)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
       .catch(reject);

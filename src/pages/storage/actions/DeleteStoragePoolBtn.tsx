@@ -8,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { deleteStoragePool } from "api/storage-pools";
 import classnames from "classnames";
 import ItemName from "components/ItemName";
-import { useDeleteIcon } from "context/useDeleteIcon";
+import { useSmallScreen } from "context/useSmallScreen";
 import { useNavigate } from "react-router-dom";
 import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
@@ -25,7 +25,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
   project,
   shouldExpand = false,
 }) => {
-  const isSmallScreen = useDeleteIcon();
+  const isSmallScreen = useSmallScreen();
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();

@@ -1,0 +1,11 @@
+.tag {
+  border: 1px solid #666;
+  border-radius: 4px;
+  color: #666;
+  display: inline-block;
+  font-size: calc($sp-unit * 1.875);
+  font-weight: 500;
+  margin-left: $sph--small;
+  padding: 0 $sph--small;
+  text-transform: capitalize;
+}

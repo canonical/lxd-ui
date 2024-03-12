@@ -21,7 +21,7 @@ interface Props {
   controls?: ReactNode;
   isLoaded: boolean;
   renameDisabledReason?: string;
-  formik: FormikProps<RenameHeaderValues>;
+  formik?: FormikProps<RenameHeaderValues>;
 }
 
 const RenameHeader: FC<Props> = ({
@@ -36,7 +36,7 @@ const RenameHeader: FC<Props> = ({
 }) => {
   const canRename = renameDisabledReason === undefined;
   const enableRename = () => {
-    if (!canRename) {
+    if (!canRename || !formik) {
       return;
     }
     void formik.setValues({
@@ -61,7 +61,7 @@ const RenameHeader: FC<Props> = ({
                   {item}
                 </li>
               ))}
-              {formik.values.isRenaming ? (
+              {formik?.values.isRenaming ? (
                 <li className="p-breadcrumbs__item rename">
                   <Input
                     autoFocus
@@ -113,12 +113,12 @@ const RenameHeader: FC<Props> = ({
               )}
             </ol>
           </nav>
-          {!formik.values.isRenaming && centerControls}
+          {!formik?.values.isRenaming && centerControls}
         </div>
       ) : (
         <h4 className="p-panel__title">{name}</h4>
       )}
-      {isLoaded && !formik.values.isRenaming && (
+      {isLoaded && !formik?.values.isRenaming && (
         <div className="p-panel__controls">{controls}</div>
       )}
     </div>

@@ -6,9 +6,10 @@ interface Props {
   totalCount: number;
   filteredNames: string[];
   itemName: string;
-  parentName: string;
+  parentName?: string;
   selectedNames: string[];
   setSelectedNames: (val: string[]) => void;
+  hideActions?: boolean;
 }
 
 const SelectedTableNotification: FC<Props> = ({
@@ -18,6 +19,7 @@ const SelectedTableNotification: FC<Props> = ({
   parentName,
   selectedNames,
   setSelectedNames,
+  hideActions,
 }: Props) => {
   const isAllSelected = selectedNames.length === filteredNames.length;
 
@@ -39,31 +41,36 @@ const SelectedTableNotification: FC<Props> = ({
             </>
           ) : (
             <>
-              All <b>{filteredNames.length}</b> {itemName}s selected.{" "}
+              All <b>{filteredNames.length}</b>{" "}
+              {pluralize(itemName, filteredNames.length)} selected.{" "}
             </>
           )}
-          <Button
-            appearance="link"
-            className="u-no-margin--bottom u-no-padding--top"
-            onClick={selectNone}
-          >
-            Clear selection
-          </Button>
+          {!hideActions && (
+            <Button
+              appearance="link"
+              className="u-no-margin--bottom u-no-padding--top"
+              onClick={selectNone}
+            >
+              Clear selection
+            </Button>
+          )}
         </>
       ) : (
         <>
           <b>{selectedNames.length}</b>{" "}
           {pluralize(itemName, selectedNames.length)} selected.{" "}
-          <Button
-            appearance="link"
-            className="u-no-margin--bottom u-no-padding--top"
-            onClick={selectAll}
-          >
-            Select all <b>{filteredNames.length}</b>{" "}
-            {filteredNames.length === totalCount
-              ? `${itemName}s in ${parentName}`
-              : `filtered ${itemName}s`}
-          </Button>
+          {!hideActions && (
+            <Button
+              appearance="link"
+              className="u-no-margin--bottom u-no-padding--top"
+              onClick={selectAll}
+            >
+              Select all <b>{filteredNames.length}</b>{" "}
+              {filteredNames.length === totalCount
+                ? `${pluralize(itemName, filteredNames.length)} ${parentName ? `in ${parentName}` : ""}`
+                : `filtered ${pluralize(itemName, filteredNames.length)}`}
+            </Button>
+          )}
         </>
       )}
     </div>

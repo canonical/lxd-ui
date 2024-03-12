@@ -1,0 +1,56 @@
+.permission-confirm-modal {
+  .confirm-table {
+    overflow-y: auto;
+
+    .modified-item {
+      margin-bottom: $spv--small;
+    }
+
+    .modified-row {
+      border-top: $border-thin;
+    }
+
+    .removed {
+      text-decoration: line-through;
+    }
+
+    tr {
+      border: none;
+    }
+
+    thead {
+      background-color: white;
+      border-bottom: $border-thin;
+      position: sticky;
+      top: 0;
+    }
+
+    .display-by-header {
+      position: relative;
+    }
+
+    .display-by-button {
+      bottom: 0.45rem;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  // modal styling
+  @include large {
+    .p-modal__dialog {
+      width: 45rem;
+    }
+  }
+
+  @include mobile-and-tablet {
+    .p-modal__dialog {
+      margin: auto;
+      width: auto;
+    }
+  }
+
+  .p-notification--caution {
+    margin-top: $spv--large;
+  }
+}

@@ -15,7 +15,7 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
       appearance="positive"
       className={className}
       hasIcon
-      onClick={() => navigate(`/ui/project/${project}/storage/create`)}
+      onClick={() => navigate(`/ui/project/${project}/storage/pools/create`)}
     >
       Create pool
     </Button>

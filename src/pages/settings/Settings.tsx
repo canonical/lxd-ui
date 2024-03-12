@@ -31,6 +31,7 @@ const Settings: FC = () => {
     settings,
     isSettingsLoading,
     settingsError,
+    hasAccessManagement,
   } = useSupportedFeatures();
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
@@ -76,6 +77,17 @@ const Settings: FC = () => {
     shortdesc: "Title for the LXD-UI web page. Shows the hostname when unset.",
     type: "string",
   });
+
+  if (hasAccessManagement) {
+    configFields.push({
+      key: "user.show_permissions",
+      category: "user",
+      default: "false",
+      shortdesc:
+        "Show the permissions feature. If oidc configs are set, the permissions feature is available in the UI independent of this setting.",
+      type: "bool",
+    });
+  }
 
   let lastCategory = "";
   const rows = configFields
