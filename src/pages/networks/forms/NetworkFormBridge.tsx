@@ -17,7 +17,6 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
           formik,
           name: "bridge_mtu",
           label: "MTU",
-          help: "Bridge MTU (default varies if tunnel or fan setup)",
           defaultValue: "",
           children: <Input type="text" />,
         }),
@@ -26,7 +25,6 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
           formik,
           name: "bridge_hwaddr",
           label: "Hardware address",
-          help: "MAC address for the bridge",
           defaultValue: "",
           children: <Input type="text" />,
         }),
@@ -37,7 +35,6 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
                 formik,
                 name: "bridge_driver",
                 label: "Bridge driver",
-                help: "Native or openvswitch",
                 defaultValue: "",
                 children: (
                   <Select
