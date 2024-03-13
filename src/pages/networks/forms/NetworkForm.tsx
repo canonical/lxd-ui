@@ -10,6 +10,7 @@ import {
 import {
   LxdNetwork,
   LxdNetworkBridgeDriver,
+  LxdNetworkConfig,
   LxdNetworkDnsMode,
   LxdNetworkType,
 } from "types/network";
@@ -31,9 +32,9 @@ import NetworkFormDns from "pages/networks/forms/NetworkFormDns";
 import NetworkFormIpv4 from "pages/networks/forms/NetworkFormIpv4";
 import NetworkFormIpv6 from "pages/networks/forms/NetworkFormIpv6";
 import { slugify } from "util/slugify";
-import { handleConfigKeys } from "util/networkForm";
 import { useDocs } from "context/useDocs";
 import YamlConfirmation from "components/forms/YamlConfirmation";
+import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -88,10 +89,12 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
     ),
   );
 
-  const excludeConfigKeys = new Set(handleConfigKeys);
+  const excludeConfigKeys = getHandledNetworkConfigKeys();
   const missingConfigFields = Object.fromEntries(
     Object.entries(values.bareNetwork?.config ?? {}).filter(
-      (e) => !excludeConfigKeys.has(e[0]) && !e[0].startsWith("volatile"),
+      (e) =>
+        !excludeConfigKeys.has(e[0] as keyof LxdNetworkConfig) &&
+        !e[0].startsWith("volatile"),
     ),
   );
 
@@ -102,30 +105,30 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
     type: values.networkType,
     config: {
       ...missingConfigFields,
-      ["bridge.driver"]: values.bridge_driver,
-      ["bridge.hwaddr"]: values.bridge_hwaddr,
-      ["bridge.mtu"]: values.bridge_mtu,
-      ["dns.domain"]: values.dns_domain,
-      ["dns.mode"]: values.dns_mode,
-      ["dns.search"]: values.dns_search,
-      ["ipv4.address"]: values.ipv4_address,
-      ["ipv4.dhcp"]: values.ipv4_dhcp,
-      ["ipv4.dhcp.expiry"]: values.ipv4_dhcp_expiry,
-      ["ipv4.dhcp.ranges"]: values.ipv4_dhcp_ranges,
-      ["ipv4.l3only"]: values.ipv4_l3only,
-      ["ipv4.nat"]: values.ipv4_nat,
-      ["ipv4.nat.address"]: values.ipv4_nat_address,
-      ["ipv4.ovn.ranges"]: values.ipv4_ovn_ranges,
-      ["ipv6.address"]: values.ipv6_address,
-      ["ipv6.dhcp"]: values.ipv6_dhcp,
-      ["ipv6.dhcp.expiry"]: values.ipv6_dhcp_expiry,
-      ["ipv6.dhcp.ranges"]: values.ipv6_dhcp_ranges,
-      ["ipv6.dhcp.stateful"]: values.ipv6_dhcp_stateful,
-      ["ipv6.l3only"]: values.ipv6_l3only,
-      ["ipv6.nat"]: values.ipv6_nat,
-      ["ipv6.nat.address"]: values.ipv6_nat_address,
-      ["ipv6.ovn.ranges"]: values.ipv6_ovn_ranges,
-      ["network"]: values.network,
+      [getNetworkKey("bridge_driver")]: values.bridge_driver,
+      [getNetworkKey("bridge_hwaddr")]: values.bridge_hwaddr,
+      [getNetworkKey("bridge_mtu")]: values.bridge_mtu,
+      [getNetworkKey("dns_domain")]: values.dns_domain,
+      [getNetworkKey("dns_mode")]: values.dns_mode,
+      [getNetworkKey("dns_search")]: values.dns_search,
+      [getNetworkKey("ipv4_address")]: values.ipv4_address,
+      [getNetworkKey("ipv4_dhcp")]: values.ipv4_dhcp,
+      [getNetworkKey("ipv4_dhcp_expiry")]: values.ipv4_dhcp_expiry,
+      [getNetworkKey("ipv4_dhcp_ranges")]: values.ipv4_dhcp_ranges,
+      [getNetworkKey("ipv4_l3only")]: values.ipv4_l3only,
+      [getNetworkKey("ipv4_nat")]: values.ipv4_nat,
+      [getNetworkKey("ipv4_nat_address")]: values.ipv4_nat_address,
+      [getNetworkKey("ipv4_ovn_ranges")]: values.ipv4_ovn_ranges,
+      [getNetworkKey("ipv6_address")]: values.ipv6_address,
+      [getNetworkKey("ipv6_dhcp")]: values.ipv6_dhcp,
+      [getNetworkKey("ipv6_dhcp_expiry")]: values.ipv6_dhcp_expiry,
+      [getNetworkKey("ipv6_dhcp_ranges")]: values.ipv6_dhcp_ranges,
+      [getNetworkKey("ipv6_dhcp_stateful")]: values.ipv6_dhcp_stateful,
+      [getNetworkKey("ipv6_l3only")]: values.ipv6_l3only,
+      [getNetworkKey("ipv6_nat")]: values.ipv6_nat,
+      [getNetworkKey("ipv6_nat_address")]: values.ipv6_nat_address,
+      [getNetworkKey("ipv6_ovn_ranges")]: values.ipv6_ovn_ranges,
+      [getNetworkKey("network")]: values.network,
     },
   };
 };

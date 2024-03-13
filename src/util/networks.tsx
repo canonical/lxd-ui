@@ -1,6 +1,6 @@
 import { LxdInstance } from "types/instance";
 import { LxdNetwork, LxdNetworkConfig } from "types/network";
-import { ConfigRowMetadata } from "util/configInheritance";
+import { LxdConfigOptionsKeys } from "types/config";
 
 export const getIpAddresses = (
   instance: LxdInstance,
@@ -17,37 +17,61 @@ export const getIpAddresses = (
     .filter((item) => item.family === family);
 };
 
-const networkDefaults: Record<string, string> = {
-  bridge_driver: "native",
-  bridge_hwaddr: "-",
-  bridge_mtu: "1500",
-  dns_domain: "lxd",
-  dns_mode: "managed",
-  dns_search: "-",
-  ipv4_address: "auto",
-  ipv4_dhcp: "true",
-  ipv4_dhcp_expiry: "1h",
-  ipv4_dhcp_ranges: "all addresses",
-  ipv4_l3only: "false",
-  ipv4_nat: "true",
-  ipv4_nat_address: "-",
-  ipv4_ovn_ranges: "-",
-  ipv6_address: "auto",
-  ipv6_dhcp: "true",
-  ipv6_dhcp_expiry: "1h",
-  ipv6_dhcp_ranges: "all addresses",
-  ipv6_dhcp_stateful: "false",
-  ipv6_l3only: "false",
-  ipv6_nat: "true",
-  ipv6_nat_address: ".",
-  ipv6_ovn_ranges: "-",
+export const networkFormFieldToPayloadName: Record<
+  string,
+  keyof LxdNetworkConfig
+> = {
+  bridge_driver: "bridge.driver",
+  bridge_hwaddr: "bridge.hwaddr",
+  bridge_mtu: "bridge.mtu",
+  dns_domain: "dns.domain",
+  dns_mode: "dns.mode",
+  dns_search: "dns.search",
+  ipv4_address: "ipv4.address",
+  ipv4_dhcp: "ipv4.dhcp",
+  ipv4_dhcp_expiry: "ipv4.dhcp.expiry",
+  ipv4_dhcp_ranges: "ipv4.dhcp.ranges",
+  ipv4_l3only: "ipv4.l3only",
+  ipv4_nat: "ipv4.nat",
+  ipv4_nat_address: "ipv4.nat.address",
+  ipv4_ovn_ranges: "ipv4.ovn.ranges",
+  ipv6_address: "ipv6.address",
+  ipv6_dhcp: "ipv6.dhcp",
+  ipv6_dhcp_expiry: "ipv6.dhcp.expiry",
+  ipv6_dhcp_ranges: "ipv6.dhcp.ranges",
+  ipv6_dhcp_stateful: "ipv6.dhcp.stateful",
+  ipv6_l3only: "ipv6.l3only",
+  ipv6_nat: "ipv6.nat",
+  ipv6_nat_address: "ipv6.nat.address",
+  ipv6_ovn_ranges: "ipv6.ovn.ranges",
+  network: "network",
 };
 
-export const getNetworkDefault = (formField: string): ConfigRowMetadata => {
-  if (Object.keys(networkDefaults).includes(formField)) {
-    return { value: networkDefaults[formField], source: "LXD" };
+export const getHandledNetworkConfigKeys = () => {
+  return new Set(Object.values(networkFormFieldToPayloadName));
+};
+
+export const getNetworkKey = (formField: string): keyof LxdNetworkConfig => {
+  if (!(formField in networkFormFieldToPayloadName)) {
+    throw new Error(
+      `Could not find ${formField} in networkFormFieldToPayloadName`,
+    );
   }
-  return { value: "", source: "LXD" };
+  return networkFormFieldToPayloadName[formField];
+};
+
+const networkTypeToOptionKey: Record<string, LxdConfigOptionsKeys> = {
+  bridge: "network-bridge",
+  ovn: "network-ovn",
+};
+
+export const networkFormTypeToOptionKey = (
+  type: string,
+): LxdConfigOptionsKeys => {
+  if (!(type in networkTypeToOptionKey)) {
+    throw new Error(`Could not find ${type} in networkTypeToOptionKey`);
+  }
+  return networkTypeToOptionKey[type];
 };
 
 const hasNetworkConfigDiff = (

@@ -101,7 +101,6 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               label: "Security shifted",
               name: "security_shifted",
               defaultValue: "",
-              help: "Enable id shifting overlay (allows attach to multiple isolated instances)",
               disabled: formik.values.security_unmapped === "true",
               disabledReason:
                 "This setting can't be changed while security unmapped is set to true",
@@ -113,7 +112,6 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               label: "Security unmapped",
               name: "security_unmapped",
               defaultValue: "",
-              help: "Disable id mapping for the volume",
               disabled: formik.values.security_shifted === "true",
               disabledReason:
                 "This setting can't be changed while security shifted is set to true",
