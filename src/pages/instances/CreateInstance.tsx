@@ -314,12 +314,12 @@ const CreateInstance: FC = () => {
     }
     void formik.setFieldValue("devices", devices);
 
-    if (type) {
-      void formik.setFieldValue("instanceType", type);
-    } else if (isVmOnlyImage(image)) {
+    if (isVmOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "virtual-machine");
     } else if (isContainerOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "container");
+    } else if (type) {
+      void formik.setFieldValue("instanceType", type);
     }
   };
 
