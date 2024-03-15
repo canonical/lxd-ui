@@ -53,6 +53,6 @@ export const InstanceLoadingProvider: FC<Props> = ({ children }) => {
   );
 };
 
-export function useInstanceLoading() {
+export function useInstanceLoading(): InstanceLoadingType {
   return useContext(InstanceLoadingContext);
 }
