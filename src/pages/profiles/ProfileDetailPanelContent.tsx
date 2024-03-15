@@ -18,7 +18,7 @@ const ProfileDetailPanelContent: FC<Props> = ({ profile, project }) => {
   const usageCount = getProfileInstances(
     project.name,
     isDefaultProject,
-    profile?.used_by,
+    profile.used_by,
   ).length;
 
   const featuresProfiles = isProjectWithProfiles(project);
