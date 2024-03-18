@@ -16,6 +16,12 @@ declare global {
   }
 }
 
+interface SpiceWheelEvent extends CustomEvent {
+  detail: {
+    wheelEvent: WheelEvent;
+  };
+}
+
 interface Props {
   instance: LxdInstance;
   onMount: (handler: () => void) => void;
@@ -42,7 +48,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   };
 
   const handleResize = () => {
-    updateMaxHeight("spice-wrapper", undefined, 10);
+    updateMaxHeight("spice-wrapper");
     SpiceHtml5.handle_resize();
   };
 
@@ -108,6 +114,17 @@ const InstanceGraphicConsole: FC<Props> = ({
 
   useEventListener("resize", handleResize);
   useEffect(handleResize, [notify.notification?.message]);
+
+  useEventListener("spice-wheel", (e) => {
+    if (!spiceRef.current?.parentElement || !Object.hasOwn(e, "detail")) {
+      return;
+    }
+    const wheelEvent = (e as SpiceWheelEvent).detail.wheelEvent;
+    spiceRef.current.parentElement.scrollBy(
+      wheelEvent.deltaX,
+      wheelEvent.deltaY,
+    );
+  });
 
   useEffect(() => {
     notify.clear();

@@ -164,6 +164,8 @@ function handle_mousewheel(e)
         this.sc.inputs.send_msg(msg);
 
     e.preventDefault();
+
+    window.dispatchEvent(new CustomEvent("spice-wheel", { detail: { wheelEvent: e } }));
 }
 
 function handle_keydown(e)

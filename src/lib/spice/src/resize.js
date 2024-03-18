@@ -48,9 +48,9 @@ function resize_helper(sc)
 
     var height = window.innerHeight - wrapper.getBoundingClientRect().top;
 
-    /* leave a margin at the bottom when not in full screen */
+    /* leave a margin at the bottom (and reserve status bar height) when not in full screen */
     if (!isFullScreen) {
-        height = height - 20;
+        height = height - 65;
     }
 
     /* minimum height constraint */
