@@ -22,6 +22,7 @@ import { LxdStoragePool } from "types/storage";
 import {
   btrfsDriver,
   cephDriver,
+  getSupportedStorageDrivers,
   powerFlex,
   zfsDriver,
 } from "util/storageOptions";
@@ -35,6 +36,7 @@ import { useDocs } from "context/useDocs";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
+import { useSettings } from "context/useSettings";
 
 export interface StoragePoolFormValues {
   isCreating: boolean;
@@ -158,6 +160,7 @@ export const toStoragePool = (
 const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
   const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
   const docBaseLink = useDocs();
+  const { data: settings } = useSettings();
   const notify = useNotify();
 
   const updateFormHeight = () => {
@@ -187,6 +190,11 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
     }
   };
 
+  const supportedStorageDrivers = getSupportedStorageDrivers(settings);
+  const isSupportedStorageDriver = supportedStorageDrivers.has(
+    formik.values.driver,
+  );
+
   return (
     <Form className="form storage-pool-form" onSubmit={formik.handleSubmit}>
       {confirmModal}
@@ -196,6 +204,7 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
         active={section}
         setActive={handleSetActive}
         formik={formik}
+        isSupportedStorageDriver={isSupportedStorageDriver}
       />
       <Row className="form-contents" key={section}>
         <Col size={12}>
@@ -219,7 +228,7 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
               readOnly={formik.values.readOnly}
             >
               <Notification severity="information" title="YAML Configuration">
-                This is the YAML representation of the storage pool.
+                {`${isSupportedStorageDriver ? "" : `The ${formik.values.driver} driver is not fully supported in the web interface. `}This is the YAML representation of the storage pool.`}
                 <br />
                 <a
                   href={`${docBaseLink}/explanation/storage/#storage-pools`}

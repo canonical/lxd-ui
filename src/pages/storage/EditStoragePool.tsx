@@ -19,10 +19,15 @@ import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { toStoragePoolFormValues } from "util/storagePoolForm";
-import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
+import {
+  MAIN_CONFIGURATION,
+  YAML_CONFIGURATION,
+} from "./forms/StoragePoolFormMenu";
 import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
+import { useSettings } from "context/useSettings";
+import { getSupportedStorageDrivers } from "util/storageOptions";
 
 interface Props {
   pool: LxdStoragePool;
@@ -31,6 +36,7 @@ interface Props {
 const EditStoragePool: FC<Props> = ({ pool }) => {
   const navigate = useNavigate();
   const notify = useNotify();
+  const { data: settings } = useSettings();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project, section } = useParams<{
@@ -99,11 +105,16 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
 
+  const supportedStorageDrivers = getSupportedStorageDrivers(settings);
+  const defaultFormSection = supportedStorageDrivers.has(formik.values.driver)
+    ? slugify(MAIN_CONFIGURATION)
+    : slugify(YAML_CONFIGURATION);
+
   return (
     <div className="edit-storage-pool">
       <StoragePoolForm
         formik={formik}
-        section={section ?? slugify(MAIN_CONFIGURATION)}
+        section={section ?? defaultFormSection}
         setSection={updateSection}
       />
       <FormFooterLayout>

@@ -5,12 +5,15 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import Loader from "components/Loader";
 import { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
+import { useSettings } from "context/useSettings";
+import { getSupportedStorageDrivers } from "util/storageOptions";
 
 interface Props {
   project: string;
   value: string;
   setValue: (value: string) => void;
   selectProps?: SelectProps;
+  hidePoolsWithUnsupportedDrivers?: boolean;
 }
 
 const StoragePoolSelector: FC<Props> = ({
@@ -18,8 +21,10 @@ const StoragePoolSelector: FC<Props> = ({
   value,
   setValue,
   selectProps,
+  hidePoolsWithUnsupportedDrivers = false,
 }) => {
   const notify = useNotify();
+  const { data: settings } = useSettings();
   const {
     data: pools = [],
     error,
@@ -29,11 +34,20 @@ const StoragePoolSelector: FC<Props> = ({
     queryFn: () => fetchStoragePools(project),
   });
 
+  const supportedStorageDrivers = getSupportedStorageDrivers(settings);
+  const poolsWithSupportedDriver = pools.filter((pool) =>
+    supportedStorageDrivers.has(pool.driver),
+  );
+
+  const poolsToUse = hidePoolsWithUnsupportedDrivers
+    ? poolsWithSupportedDriver
+    : pools;
+
   useEffect(() => {
-    if (!value && pools.length > 0) {
-      setValue(pools[0].name);
+    if (!value && poolsToUse.length > 0) {
+      setValue(poolsToUse[0].name);
     }
-  }, [value, pools]);
+  }, [value, poolsToUse]);
 
   if (isLoading) {
     return <Loader text="Loading storage pools..." />;
@@ -44,7 +58,7 @@ const StoragePoolSelector: FC<Props> = ({
   }
 
   const getStoragePoolOptions = () => {
-    const options = pools.map((pool) => {
+    const options = poolsToUse.map((pool) => {
       return {
         label: pool.name,
         value: pool.name,
@@ -52,7 +66,8 @@ const StoragePoolSelector: FC<Props> = ({
       };
     });
     options.unshift({
-      label: pools.length === 0 ? "No storage pool available" : "Select option",
+      label:
+        poolsToUse.length === 0 ? "No storage pool available" : "Select option",
       value: "",
       disabled: true,
     });

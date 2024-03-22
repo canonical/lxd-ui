@@ -35,6 +35,14 @@ export const getStorageDriverOptions = (
   );
 };
 
+export const getSupportedStorageDrivers = (
+  settings?: LxdSettings,
+): Set<string> => {
+  return new Set(
+    getStorageDriverOptions(settings).map((driver) => driver.value as string),
+  );
+};
+
 const storageDriverToSourceHelp: Record<string, string> = {
   dir: "Optional, path to an existing directory",
   lvm: "Optional, path to an existing block device, loop file or LVM volume group",

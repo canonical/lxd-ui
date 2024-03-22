@@ -1,14 +1,13 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
   ActionButton,
   Button,
   Input,
-  Select,
   useNotify,
 } from "@canonical/react-components";
-import { createIsoStorageVolume, fetchStoragePools } from "api/storage-pools";
+import { createIsoStorageVolume } from "api/storage-pools";
 import { useProject } from "context/project";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
@@ -18,6 +17,7 @@ import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import StoragePoolSelector from "./StoragePoolSelector";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -42,28 +42,6 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
   }, []);
 
   const projectName = project?.name ?? "";
-
-  const {
-    data: pools = [],
-    isLoading: arePoolsLoading,
-    error: poolError,
-  } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(projectName),
-  });
-
-  if (poolError) {
-    notify.failure("Loading storage pools failed", poolError);
-    onCancel();
-  }
-
-  if (arePoolsLoading) {
-    return <Loader />;
-  }
-
-  if (pools.length > 0 && !pool) {
-    setPool(pools[0].name);
-  }
 
   const handleCancel = () => {
     uploadAbort?.abort();
@@ -142,19 +120,16 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           disabled={file === null}
           stacked
         />
-        <Select
-          label="Storage pool"
-          id="storagePool"
-          options={pools.map((pool) => ({
-            label: pool.name,
-            value: pool.name,
-          }))}
-          onChange={(e) => {
-            setPool(e.target.value);
-          }}
+        <StoragePoolSelector
+          project={projectName}
           value={pool}
-          disabled={file === null}
-          stacked
+          setValue={setPool}
+          selectProps={{
+            id: "storagePool",
+            label: "Storage pool",
+            disabled: file === null,
+            stacked: true,
+          }}
         />
       </div>
       {uploadState && (
