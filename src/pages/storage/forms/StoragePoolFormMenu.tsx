@@ -18,9 +18,15 @@ interface Props {
   active: string;
   setActive: (val: string) => void;
   formik: FormikProps<StoragePoolFormValues>;
+  isSupportedStorageDriver: boolean;
 }
 
-const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
+const StoragePoolFormMenu: FC<Props> = ({
+  formik,
+  active,
+  setActive,
+  isSupportedStorageDriver,
+}) => {
   const notify = useNotify();
   const menuItemProps = {
     active,
@@ -42,11 +48,14 @@ const StoragePoolFormMenu: FC<Props> = ({ formik, active, setActive }) => {
   };
   useEffect(resize, [notify.notification?.message]);
   useEventListener("resize", resize);
+
   return (
     <div className="p-side-navigation--accordion form-navigation">
       <nav aria-label="Storage pool form navigation">
         <ul className="p-side-navigation__list">
-          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
+          {isSupportedStorageDriver && (
+            <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
+          )}
           {isCephDriver && (
             <MenuItem
               label={CEPH_CONFIGURATION}
