@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, Col, Icon, Row } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
@@ -22,52 +22,50 @@ const Login: FC = () => {
 
   return (
     <CustomLayout>
-      <Row className="empty-state">
-        <Col size={6} className="col-start-large-4">
-          <Icon name="containers" className="empty-state-icon lxd-icon" />
-          <h1 className="p-heading--4 u-sv-2">Login</h1>
-          {hasOidc && (
-            <>
-              <p className="u-sv1">Choose your login method</p>
-              <a className="p-button--positive" href="/oidc/login">
-                Login with SSO
-              </a>
-              <h2 className="p-heading--5 u-sv-2">Other methods</h2>
-              <div>
-                Either{" "}
-                <Link to="/ui/login/certificate-generate">
-                  create a new certificate
-                </Link>
-              </div>
-              <div>
-                Or{" "}
-                <Link to="/ui/login/certificate-add">
-                  use an existing certificate
-                </Link>{" "}
-                already added to your browser
-              </div>
-            </>
-          )}
-          {!hasOidc && (
-            <>
-              <p className="u-sv1">Certificate selection</p>
-              <Button
-                appearance={"positive"}
-                onClick={() => navigate("/ui/login/certificate-generate")}
-              >
-                Create a new certificate
-              </Button>
-              <p>
-                Or{" "}
-                <Link to="/ui/login/certificate-add">
-                  use an existing certificate
-                </Link>{" "}
-                already added to your browser
-              </p>
-            </>
-          )}
-        </Col>
-      </Row>
+      <div className="empty-state login">
+        <Icon name="containers" className="empty-state-icon lxd-icon" />
+        <h1 className="p-heading--4 u-sv-2">Login</h1>
+        {hasOidc && (
+          <>
+            <p className="u-sv1">Choose your login method</p>
+            <a className="p-button--positive" href="/oidc/login">
+              Login with SSO
+            </a>
+            <h2 className="p-heading--5 u-sv-2">Other methods</h2>
+            <div>
+              Either{" "}
+              <Link to="/ui/login/certificate-generate">
+                create a new certificate
+              </Link>
+            </div>
+            <div>
+              Or{" "}
+              <Link to="/ui/login/certificate-add">
+                use an existing certificate
+              </Link>{" "}
+              already added to your browser
+            </div>
+          </>
+        )}
+        {!hasOidc && (
+          <>
+            <p className="u-sv1">Certificate selection</p>
+            <Button
+              appearance={"positive"}
+              onClick={() => navigate("/ui/login/certificate-generate")}
+            >
+              Create a new certificate
+            </Button>
+            <p>
+              Or{" "}
+              <Link to="/ui/login/certificate-add">
+                use an existing certificate
+              </Link>{" "}
+              already added to your browser
+            </p>
+          </>
+        )}
+      </div>
     </CustomLayout>
   );
 };
