@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect, useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { loader } from "@monaco-editor/react";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
@@ -27,6 +27,8 @@ const YamlForm: FC<Props> = ({
 }) => {
   const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  loader.config({ paths: { vs: "/ui/monaco-editor/min/vs" } });
 
   const updateFormHeight = () => {
     if (!editor || !containerRef.current) {

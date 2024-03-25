@@ -12,6 +12,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/ui/, ""),
         secure: false,
       },
+      "/ui/monaco-editor": {
+        target: "https://localhost:8407/node_modules",
+        rewrite: (path) => path.replace(/^\/ui/, ""),
+        secure: false,
+      },
     },
   },
   build: {
