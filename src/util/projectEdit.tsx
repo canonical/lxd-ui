@@ -1,6 +1,17 @@
 import { LxdProject } from "types/project";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { isProjectWithProfiles } from "./projects";
+import { getProjectConfigKeys } from "util/projectConfigFields";
+import {
+  projectDetailPayload,
+  projectDetailRestrictionPayload,
+} from "pages/projects/forms/ProjectDetailsForm";
+import { resourceLimitsPayload } from "pages/projects/forms/ProjectResourceLimitsForm";
+import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestrictionForm";
+import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
+import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
+import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
+import { getUnhandledKeyValues } from "util/formFields";
 
 export const getProjectEditValues = (
   project: LxdProject,
@@ -81,5 +92,31 @@ export const getProjectEditValues = (
     restricted_network_subnets: project.config["restricted.networks.subnets"],
     restricted_network_uplinks: project.config["restricted.networks.uplinks"],
     restricted_network_zones: project.config["restricted.networks.zones"],
+  };
+};
+
+export const getProjectPayload = (
+  project: LxdProject,
+  values: ProjectFormValues,
+) => {
+  const handledConfigKeys = getProjectConfigKeys();
+  const handledKeys = new Set(["name", "description", "config"]);
+
+  return {
+    ...projectDetailPayload(values),
+    config: {
+      ...projectDetailRestrictionPayload(values),
+      ...resourceLimitsPayload(values),
+      ...(values.restricted
+        ? {
+            ...clusterRestrictionPayload(values),
+            ...instanceRestrictionPayload(values),
+            ...deviceUsageRestrictionPayload(values),
+            ...networkRestrictionPayload(values),
+          }
+        : {}),
+      ...getUnhandledKeyValues(project.config, handledConfigKeys),
+    },
+    ...getUnhandledKeyValues(project, handledKeys),
   };
 };

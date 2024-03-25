@@ -4,26 +4,15 @@ import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
-import {
-  projectDetailPayload,
-  projectDetailRestrictionPayload,
-} from "pages/projects/forms/ProjectDetailsForm";
 import { useFormik } from "formik";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
 import { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import { resourceLimitsPayload } from "pages/projects/forms/ProjectResourceLimitsForm";
-import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestrictionForm";
-import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
-import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
-import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
-import { getProjectEditValues } from "util/projectEdit";
+import { getProjectEditValues, getProjectPayload } from "util/projectEdit";
 import { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
-import { getUnhandledKeyValues } from "util/formFields";
-import { getProjectConfigKeys } from "util/projectConfigFields";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 import { useAuth } from "context/auth";
 import CustomLayout from "components/CustomLayout";
@@ -71,7 +60,7 @@ const EditProject: FC<Props> = ({ project }) => {
         values.features_storage_buckets = undefined;
       }
 
-      const projectPayload = getPayload(values) as LxdProject;
+      const projectPayload = getProjectPayload(project, values) as LxdProject;
 
       projectPayload.etag = project.etag;
 
@@ -91,29 +80,6 @@ const EditProject: FC<Props> = ({ project }) => {
         });
     },
   });
-
-  const getPayload = (values: ProjectFormValues) => {
-    const handledConfigKeys = getProjectConfigKeys();
-    const handledKeys = new Set(["name", "description", "config"]);
-
-    return {
-      ...projectDetailPayload(values),
-      config: {
-        ...projectDetailRestrictionPayload(values),
-        ...resourceLimitsPayload(values),
-        ...(values.restricted
-          ? {
-              ...clusterRestrictionPayload(values),
-              ...instanceRestrictionPayload(values),
-              ...deviceUsageRestrictionPayload(values),
-              ...networkRestrictionPayload(values),
-            }
-          : {}),
-        ...getUnhandledKeyValues(project.config, handledConfigKeys),
-      },
-      ...getUnhandledKeyValues(project, handledKeys),
-    };
-  };
 
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project.name}/configuration`;
