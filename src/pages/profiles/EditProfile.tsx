@@ -15,22 +15,18 @@ import { queryKeys } from "util/queryKeys";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { FormDeviceValues, formDeviceToPayload } from "util/formDevices";
+import { FormDeviceValues } from "util/formDevices";
 import SecurityPoliciesForm, {
   SecurityPoliciesFormValues,
-  securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
 import InstanceSnapshotsForm, {
   SnapshotFormValues,
-  snapshotsPayload,
 } from "components/forms/InstanceSnapshotsForm";
 import CloudInitForm, {
   CloudInitFormValues,
-  cloudInitPayload,
 } from "components/forms/CloudInitForm";
 import ResourceLimitsForm, {
   ResourceLimitsFormValues,
-  resourceLimitsPayload,
 } from "components/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import { updateProfile } from "api/profiles";
@@ -50,17 +46,15 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import ProfileDetailsForm, {
-  profileDetailPayload,
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
-import { getUnhandledKeyValues } from "util/formFields";
-import { getProfileConfigKeys } from "util/instanceConfigFields";
 import { getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
+import { getProfilePayload } from "util/profileEdit";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -106,7 +100,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     validationSchema: ProfileSchema,
     onSubmit: (values) => {
       const profilePayload = (
-        values.yaml ? yamlToObject(values.yaml) : getPayload(values)
+        values.yaml
+          ? yamlToObject(values.yaml)
+          : getProfilePayload(profile, values)
       ) as LxdProfile;
 
       // ensure the etag is set (it is missing on the yaml)
@@ -129,24 +125,6 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     },
   });
 
-  const getPayload = (values: EditProfileFormValues) => {
-    const handledConfigKeys = getProfileConfigKeys();
-    const handledKeys = new Set(["name", "description", "devices", "config"]);
-
-    return {
-      ...profileDetailPayload(values),
-      devices: formDeviceToPayload(values.devices),
-      config: {
-        ...resourceLimitsPayload(values),
-        ...securityPoliciesPayload(values),
-        ...snapshotsPayload(values),
-        ...cloudInitPayload(values),
-        ...getUnhandledKeyValues(profile.config, handledConfigKeys),
-      },
-      ...getUnhandledKeyValues(profile, handledKeys),
-    };
-  };
-
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     newSection === MAIN_CONFIGURATION
@@ -160,9 +138,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
   const getYaml = () => {
     const exclude = new Set(["used_by", "etag"]);
-    const profile = getPayload(formik.values);
+    const profilePayload = getProfilePayload(profile, formik.values);
     const bareProfile = Object.fromEntries(
-      Object.entries(profile).filter((e) => !exclude.has(e[0])),
+      Object.entries(profilePayload).filter((e) => !exclude.has(e[0])),
     );
     return dumpYaml(bareProfile);
   };

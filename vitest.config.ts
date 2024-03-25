@@ -8,6 +8,7 @@ export default mergeConfig(
       sourcemap: "inline",
     },
     test: {
+      environment: "jsdom",
       globals: true,
       include: ["./src/**/*.spec.{ts,tsx}"],
       coverage: {
