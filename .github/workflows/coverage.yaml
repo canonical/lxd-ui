@@ -76,6 +76,8 @@ jobs:
           sudo chmod -R 0777 ../lxd-ui
           yarn test-coverage
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
+          DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
+          docker stop $DOTRUN_CONTAINER_ID
 
       - name: Upload coverage report
         if: always()
