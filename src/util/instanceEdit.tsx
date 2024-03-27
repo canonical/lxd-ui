@@ -34,6 +34,7 @@ const getEditValues = (
 
     security_protection_delete: item.config["security.protection.delete"],
     security_privileged: item.config["security.privileged"],
+    security_nesting: item.config["security.nesting"],
     security_protection_shift: item.config["security.protection.shift"],
     security_idmap_base: item.config["security.idmap.base"],
     security_idmap_size: item.config["security.idmap.size"]
