@@ -2,6 +2,7 @@ import useEventListener from "@use-it/event-listener";
 import usePanelParams, { panels } from "util/usePanelParams";
 import InstanceDetailPanel from "pages/instances/InstanceDetailPanel";
 import ProfileDetailPanel from "pages/profiles/ProfileDetailPanel";
+import PermissionIdentityEditGroupsPanel from "pages/permissions/panels/PermissionIdentityEditGroupsPanel";
 
 export default function Panels() {
   const panelParams = usePanelParams();
@@ -17,6 +18,8 @@ export default function Panels() {
         return <InstanceDetailPanel />;
       case panels.profileSummary:
         return <ProfileDetailPanel />;
+      case panels.identityGroups:
+        return <PermissionIdentityEditGroupsPanel />;
       default:
         return null;
     }

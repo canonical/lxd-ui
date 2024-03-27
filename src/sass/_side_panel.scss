@@ -1,5 +1,30 @@
 .is-overlay {
+  // mobile
+  background-color: #fff;
   height: 100vh;
+  padding: 0 calc($sp-unit * 3);
+  padding-bottom: calc($sp-unit * 1.5);
+  padding-top: $sp-unit;
   position: absolute;
+  right: 0;
+  width: 100vw;
   z-index: 103 !important;
+
+  @include medium {
+    width: 500px;
+  }
+
+  @include large {
+    width: 650px;
+  }
+
+  .p-panel__header {
+    padding: 0;
+  }
+
+  .panel-footer {
+    hr {
+      margin-bottom: calc($sp-unit * 1.5);
+    }
+  }
 }

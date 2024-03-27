@@ -1,13 +1,21 @@
-import { FC, ReactNode } from "react";
+import { FC, LinkHTMLAttributes, ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
+import classnames from "classnames";
 
 interface Props {
   to: string;
   title: string;
   children: ReactNode;
+  className?: string;
 }
 
-const NavLink: FC<Props> = ({ to, title, children }) => {
+const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
+  to,
+  title,
+  children,
+  className,
+  ...linkProps
+}) => {
   const location = useLocation();
 
   // ignore last char to consider /instances and /instance as active
@@ -19,7 +27,8 @@ const NavLink: FC<Props> = ({ to, title, children }) => {
       title={title}
       to={to}
       aria-current={isActive ? "page" : undefined}
-      className="p-side-navigation__link"
+      className={classnames("p-side-navigation__link", className)}
+      {...linkProps}
     >
       {children}
     </Link>

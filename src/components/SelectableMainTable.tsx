@@ -20,6 +20,10 @@ interface SelectableMainTableProps {
   setSelectedNames: (val: string[]) => void;
   processingNames: string[];
   rows: MainTableRow[];
+  // NOTE: indeterminate names are only effective during initialisation of this component
+  indeterminateNames?: string[];
+  unSelectableNames?: Set<string>;
+  onToggleRow?: (name: string, action: "select" | "unselect") => void;
 }
 
 type Props = SelectableMainTableProps & MainTableProps;
@@ -33,6 +37,9 @@ const SelectableMainTable: FC<Props> = ({
   processingNames,
   rows,
   headers,
+  indeterminateNames,
+  unSelectableNames,
+  onToggleRow,
   ...props
 }: Props) => {
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
@@ -57,7 +64,13 @@ const SelectableMainTable: FC<Props> = ({
   };
 
   const selectPage = () => {
-    setSelectedNames(rows.map((row) => row.name ?? ""));
+    let selectableRows = rows;
+    if (unSelectableNames) {
+      selectableRows = rows.filter(
+        (row) => !unSelectableNames.has(row.name || ""),
+      );
+    }
+    setSelectedNames(selectableRows.map((row) => row.name ?? ""));
     setCurrentSelectedIndex(undefined);
   };
 
@@ -106,11 +119,21 @@ const SelectableMainTable: FC<Props> = ({
     ...(headers ?? []),
   ];
 
+  const selectedNamesLookup = new Set(selectedNames);
+  const processingNamesLookup = new Set(processingNames);
+  const indeterminateNamesLookup = new Set(indeterminateNames);
   const rowsWithCheckbox = rows.map((row, rowIndex) => {
-    const isRowSelected = selectedNames.includes(row.name ?? "");
-    const isRowProcessing = processingNames.includes(row.name ?? "");
+    const isRowSelected = selectedNamesLookup.has(row.name ?? "");
+    const isRowProcessing = processingNamesLookup.has(row.name ?? "");
+    const isRowIndeterminate = indeterminateNamesLookup.has(row.name ?? "");
 
     const toggleRow = (event: PointerEvent<HTMLInputElement>) => {
+      if (onToggleRow) {
+        const action = isRowSelected ? "unselect" : "select";
+        onToggleRow(row.name || "", action);
+        return;
+      }
+
       if (
         event.nativeEvent.shiftKey &&
         currentSelectedIndex !== undefined &&
@@ -153,7 +176,12 @@ const SelectableMainTable: FC<Props> = ({
             labelClassName="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}
-            disabled={isRowProcessing || !row.name}
+            disabled={
+              isRowProcessing ||
+              !row.name ||
+              (unSelectableNames && unSelectableNames.has(row.name))
+            }
+            indeterminate={isRowIndeterminate}
           />
         ),
         role: "rowheader",

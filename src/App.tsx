@@ -52,6 +52,12 @@ const StorageVolumeDetail = lazy(
   () => import("pages/storage/StorageVolumeDetail"),
 );
 const WarningList = lazy(() => import("pages/warnings/WarningList"));
+const PermissionIdentities = lazy(
+  () => import("pages/permissions/PermissionIdentities"),
+);
+const PermissionIdentityDetail = lazy(
+  () => import("pages/permissions/PermissionIdentityDetail"),
+);
 
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
@@ -261,12 +267,6 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<CreateProject />} />}
         />
         <Route
-          path="/ui/project/:project/storage"
-          element={
-            <ProtectedRoute outlet={<ProjectLoader outlet={<Storage />} />} />
-          }
-        />
-        <Route
           path="/ui/project/:project/storage/create"
           element={
             <ProtectedRoute
@@ -351,6 +351,18 @@ const App: FC = () => {
         <Route
           path="/ui/warnings"
           element={<ProtectedRoute outlet={<WarningList />} />}
+        />
+        <Route
+          path="/ui/permissions/identities"
+          element={<ProtectedRoute outlet={<PermissionIdentities />} />}
+        />
+        <Route
+          path="/ui/permissions/identity/:authMethod/:name"
+          element={<ProtectedRoute outlet={<PermissionIdentityDetail />} />}
+        />
+        <Route
+          path="/ui/permissions/identity/:authMethod/:name/:activeTab"
+          element={<ProtectedRoute outlet={<PermissionIdentityDetail />} />}
         />
         <Route
           path="/ui/settings"
