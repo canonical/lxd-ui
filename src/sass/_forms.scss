@@ -12,6 +12,8 @@
 .cluster-group-form,
 .storage-volume-form,
 .edit-storage-volume,
+.create-permission-group,
+.edit-permission-group,
 .volume-create-form {
   padding-bottom: 0;
 
@@ -335,6 +337,7 @@
 .create-project,
 .edit-project,
 .create-storage-pool,
+.create-permission-group,
 .storage-volume-form {
   .bottom-btns {
     margin-top: 1rem;
@@ -347,6 +350,7 @@
 .edit-network,
 .edit-profile,
 .edit-storage-pool,
+.edit-permission-group,
 .edit-storage-volume {
   .bottom-btns {
     margin-top: 1rem;

@@ -9,6 +9,7 @@ import { useProject } from "context/project";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const isSmallScreen = () => isWidthBelow(620);
 
@@ -20,6 +21,7 @@ const Navigation: FC = () => {
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default",
   );
+  const { hasPermissions } = useSupportedFeatures();
 
   useEffect(() => {
     project && project.name !== projectName && setProjectName(project.name);
@@ -192,6 +194,17 @@ const Navigation: FC = () => {
                               name="warning-grey"
                             />{" "}
                             Warnings
+                          </NavLink>
+                        </li>
+                      )}
+                      {hasPermissions && (
+                        <li className="p-side-navigation__item">
+                          <NavLink to="/ui/permissions" title="Permissions">
+                            <Icon
+                              className="is-light p-side-navigation__icon"
+                              name="lock-locked"
+                            />{" "}
+                            Permissions
                           </NavLink>
                         </li>
                       )}
