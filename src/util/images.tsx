@@ -42,9 +42,9 @@ export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
   return {
     aliases: image.update_source?.alias ?? image.fingerprint,
     arch: image.architecture === "x86_64" ? "amd64" : image.architecture,
-    os: image.properties.os,
+    os: image.properties?.os ?? "",
     created_at: new Date(image.uploaded_at).getTime(),
-    release: image.properties.release,
+    release: image.properties?.release ?? "",
     server: image.update_source?.server,
     type: image.type,
   };

@@ -10,7 +10,7 @@ interface LxdImageAlias {
 export interface LxdImage {
   fingerprint: string;
   public: boolean;
-  properties: {
+  properties?: {
     description: string;
     os: string;
     release: string;
