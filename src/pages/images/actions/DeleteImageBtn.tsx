@@ -18,6 +18,8 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
+  const description = image.properties?.description ?? image.fingerprint;
+
   const handleDelete = () => {
     setLoading(true);
     void deleteImage(image, project)
@@ -31,23 +33,18 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
             void queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, project],
             });
-            toastNotify.success(
-              `Image ${image.properties.description} deleted.`,
-            );
+            toastNotify.success(`Image ${description} deleted.`);
           },
           (msg) =>
             toastNotify.failure(
-              `Image ${image.properties.description} deletion failed`,
+              `Image ${description} deletion failed`,
               new Error(msg),
             ),
           () => setLoading(false),
         ),
       )
       .catch((e) => {
-        toastNotify.failure(
-          `Image ${image.properties.description} deletion failed`,
-          e,
-        );
+        toastNotify.failure(`Image ${description} deletion failed`, e);
         setLoading(false);
       });
   };
@@ -59,8 +56,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete image{" "}
-            <b>{image.properties.description}</b>.<br />
+            This will permanently delete image <b>{description}</b>.<br />
             This action cannot be undone, and can result in data loss.
           </p>
         ),

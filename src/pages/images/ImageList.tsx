@@ -89,7 +89,9 @@ const ImageList: FC = () => {
   const filteredImages = images.filter(
     (item) =>
       !query ||
-      item.properties.description.toLowerCase().includes(query.toLowerCase()) ||
+      (item.properties?.description ?? "")
+        .toLowerCase()
+        .includes(query.toLowerCase()) ||
       item.aliases
         .map((alias) => alias.name)
         .join(", ")
@@ -114,12 +116,13 @@ const ImageList: FC = () => {
     );
 
     const imageAlias = image.aliases.map((alias) => alias.name).join(", ");
+    const description = image.properties?.description ?? image.fingerprint;
 
     return {
       name: image.fingerprint,
       columns: [
         {
-          content: image.properties.description,
+          content: description,
           role: "cell",
           "aria-label": "Name",
         },
@@ -167,7 +170,7 @@ const ImageList: FC = () => {
         },
       ],
       sortData: {
-        name: image.properties.description.toLowerCase(),
+        name: description.toLowerCase(),
         alias: imageAlias.toLowerCase(),
         architecture: image.architecture,
         public: image.public,
