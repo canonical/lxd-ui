@@ -11,7 +11,6 @@ import {
 } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { isoTimeToString } from "util/helpers";
-import { loadVolumes } from "context/loadIsoVolumes";
 import ScrollableTable from "components/ScrollableTable";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import StorageVolumesFilter, {
@@ -49,6 +48,7 @@ import useEventListener from "@use-it/event-listener";
 import { useProject } from "context/project";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
+import { fetchAllStorageVolumes } from "api/storage-pools";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -84,7 +84,7 @@ const StorageVolumes: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.volumes, project],
-    queryFn: () => loadVolumes(project),
+    queryFn: () => fetchAllStorageVolumes(project),
   });
 
   if (error) {

@@ -203,6 +203,19 @@ export const fetchStorageVolumes = (
   });
 };
 
+export const fetchAllStorageVolumes = (
+  project: string,
+): Promise<LxdStorageVolume[]> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-volumes?recursion=1&project=${project}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
+        resolve(data.metadata),
+      )
+      .catch(reject);
+  });
+};
+
 export const fetchStorageVolume = (
   pool: string,
   project: string,
