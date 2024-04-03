@@ -49,6 +49,7 @@ import useEventListener from "@use-it/event-listener";
 import { useProject } from "context/project";
 import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -56,6 +57,7 @@ const StorageVolumes: FC = () => {
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
+  const { hasStorageVolumesAll } = useSupportedFeatures();
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
   };
@@ -84,7 +86,7 @@ const StorageVolumes: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.volumes, project],
-    queryFn: () => loadVolumes(project),
+    queryFn: () => loadVolumes(project, hasStorageVolumesAll),
   });
 
   if (error) {

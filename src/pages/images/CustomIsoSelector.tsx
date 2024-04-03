@@ -8,6 +8,7 @@ import Loader from "components/Loader";
 import { useProject } from "context/project";
 import { LxdImageType, RemoteImage } from "types/image";
 import { IsoImage } from "types/iso";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   primaryImage: IsoImage | null;
@@ -24,10 +25,11 @@ const CustomIsoSelector: FC<Props> = ({
 }) => {
   const { project } = useProject();
   const projectName = project?.name ?? "";
+  const { hasStorageVolumesAll } = useSupportedFeatures();
 
   const { data: images = [], isLoading } = useQuery({
     queryKey: [queryKeys.isoVolumes, project],
-    queryFn: () => loadIsoVolumes(projectName),
+    queryFn: () => loadIsoVolumes(projectName, hasStorageVolumesAll),
   });
 
   const headers = [
