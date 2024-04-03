@@ -9,7 +9,12 @@ import {
 } from "@canonical/react-components";
 import ProfileSelect from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
-import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
+import {
+  isContainerOnlyImage,
+  isVmOnlyImage,
+  LOCAL_IMAGE,
+  LOCAL_ISO,
+} from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
@@ -45,6 +50,15 @@ export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
       type: "image",
     },
   };
+
+  if (values.image?.server === LOCAL_IMAGE) {
+    payload.source = {
+      type: "image",
+      certificate: "",
+      fingerprint: values.image?.fingerprint,
+      allow_inconsistent: false,
+    };
+  }
 
   if (values.image?.server === LOCAL_ISO) {
     payload.source = {

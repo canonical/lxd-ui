@@ -38,14 +38,17 @@ export const isoToRemoteImage = (volume: LxdStorageVolume): RemoteImage => {
   };
 };
 
+export const LOCAL_IMAGE = "local-image";
+
 export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
   return {
-    aliases: image.update_source?.alias ?? image.fingerprint,
+    aliases: image.update_source?.alias ?? image.aliases?.[0]?.name ?? "",
+    fingerprint: image.fingerprint,
     arch: image.architecture === "x86_64" ? "amd64" : image.architecture,
     os: image.properties?.os ?? "",
     created_at: new Date(image.uploaded_at).getTime(),
     release: image.properties?.release ?? "",
-    server: image.update_source?.server,
+    server: LOCAL_IMAGE,
     type: image.type,
   };
 };

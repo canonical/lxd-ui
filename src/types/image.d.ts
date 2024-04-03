@@ -60,6 +60,7 @@ export interface RemoteImage {
   server?: string;
   volume?: LxdStorageVolume;
   type?: LxdImageType;
+  fingerprint?: string;
 }
 
 export interface RemoteImageList {
