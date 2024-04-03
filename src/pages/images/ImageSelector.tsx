@@ -41,6 +41,9 @@ const minimalJson =
   "https://cloud-images.ubuntu.com/minimal/releases/streams/v1/com.ubuntu.cloud:released:download.json";
 const minimalServer = "https://cloud-images.ubuntu.com/minimal/releases/";
 
+const imagesLxdJson = "https://images.lxd.canonical.com/streams/v1/images.json";
+const imagesLxdServer = "https://images.lxd.canonical.com/";
+
 const ANY = "any";
 const CONTAINER = "container";
 const VM = "virtual-machine";
@@ -82,13 +85,23 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     queryFn: () => loadImages(minimalJson, minimalServer),
   });
 
+  const { data: imagesLxdImages = [], isLoading: isImagesLxdLoading } =
+    useQuery({
+      queryKey: [queryKeys.images, imagesLxdServer],
+      queryFn: () => loadImages(imagesLxdJson, imagesLxdServer),
+    });
+
   const { data: localImages = [], isLoading: isLocalImageLoading } = useQuery({
     queryKey: [queryKeys.images, project],
     queryFn: () => fetchImageList(project ?? ""),
   });
 
   const isLoading =
-    isCiLoading || isMinimalLoading || isLocalImageLoading || isSettingsLoading;
+    isCiLoading ||
+    isMinimalLoading ||
+    isImagesLxdLoading ||
+    isLocalImageLoading ||
+    isSettingsLoading;
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
@@ -99,6 +112,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         .map(localLxdToRemoteImage)
         .concat([...minimalImages].reverse().sort(byLtsFirst))
         .concat([...canonicalImages].reverse().sort(byLtsFirst))
+        .concat([...imagesLxdImages])
         .filter((image) => archSupported.includes(image.arch));
 
   const archAll = [...new Set(images.map((item) => item.arch))]
@@ -204,6 +218,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         }
         if (item.server === minimalServer) {
           return "Ubuntu Minimal";
+        }
+        if (item.server === imagesLxdServer) {
+          return "LXD Images";
         }
         return "Custom";
       };
