@@ -9,7 +9,8 @@ export const severityOrder = [
 
 export const iconLookup = {
   positive: ICONS.success,
-  information: ICONS.information,
+  // custom name for info icon to override default color from vanilla
+  information: "info--notification",
   caution: ICONS.warning,
   negative: ICONS.error,
 } as const;

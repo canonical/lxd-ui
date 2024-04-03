@@ -12,7 +12,7 @@ const HelpLink: FC<Props> = ({ children, href, title }) => {
     <div className="help-link">
       {children}
       <a href={href} target="_blank" rel="noopener noreferrer" title={title}>
-        <Icon name="info--dark" className="help-link-icon" />
+        <Icon name="information" className="help-link-icon" />
       </a>
     </div>
   );

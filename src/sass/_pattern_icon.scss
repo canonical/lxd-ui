@@ -9,12 +9,7 @@
   }
 }
 
-.p-icon--info--light {
+.p-icon--info--notification {
   @extend %icon;
-  @include vf-icon-info($colors--dark-theme--icon);
-}
-
-.p-icon--info--dark {
-  @extend %icon;
-  @include vf-icon-info($colors--light-theme--icon);
+  @include vf-icon-info-coloured-themed;
 }
