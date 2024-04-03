@@ -253,7 +253,7 @@ const Navigation: FC = () => {
                     >
                       <Icon
                         className="p-side-navigation__icon"
-                        name="info--light"
+                        name="information"
                       />{" "}
                       Documentation
                     </a>
