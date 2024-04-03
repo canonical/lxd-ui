@@ -16,6 +16,7 @@ export const useSupportedFeatures = () => {
     hasProjectsNetworksZones: apiExtensions.has("projects_networks_zones"),
     hasStorageBuckets: apiExtensions.has("storage_buckets"),
     hasMetadataConfiguration: apiExtensions.has("metadata_configuration"),
+    hasStorageVolumesAll: apiExtensions.has("storage_volumes_all"),
     hasLocalDocumentation:
       !!serverVersion && serverMajor >= 5 && serverMinor >= 19,
     hasDocumentationObject:
