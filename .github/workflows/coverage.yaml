@@ -64,7 +64,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install Playwright Browser
         run: npx playwright install --with-deps chromium
@@ -78,6 +78,7 @@ jobs:
           zip -r coverage/playwright-report/cobertura-coverage.zip coverage/playwright-report/cobertura-coverage.xml
           DOTRUN_CONTAINER_ID=$(docker ps | awk '{print $1}' | tail -n1)
           docker stop $DOTRUN_CONTAINER_ID
+          rm -rf coverage/playwright-report/lxd-ui/ui/monaco-editor/
 
       - name: Upload coverage report
         if: always()
