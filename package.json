@@ -111,6 +111,6 @@
     "src/**/*.scss": "stylelint"
   },
   "resolutions": {
-    "rollup": "@rollup/wasm-node@4.13.1"
+    "rollup": "@rollup/wasm-node@4.13.2"
   }
 }
