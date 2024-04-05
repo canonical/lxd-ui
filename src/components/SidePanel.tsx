@@ -1,7 +1,9 @@
 import { FC, PropsWithChildren, ReactNode } from "react";
-import Loader from "components/Loader";
 import classnames from "classnames";
 import { Spinner } from "@canonical/react-components";
+import { createPortal } from "react-dom";
+import usePanelParams from "util/usePanelParams";
+import useEventListener from "@use-it/event-listener";
 
 interface CommonProps {
   className?: string;
@@ -95,7 +97,14 @@ const SidePanelComponent: FC<SidePanelProps> = ({
   width,
   pinned,
 }) => {
-  return (
+  const panelParams = usePanelParams();
+
+  useEventListener("keydown", (e: KeyboardEvent) => {
+    // Close panel if Escape key is pressed
+    if (e.code === "Escape") panelParams.clear();
+  });
+
+  return createPortal(
     <aside
       className={classnames("l-aside", className, {
         "is-narrow": width === "narrow",
@@ -111,13 +120,10 @@ const SidePanelComponent: FC<SidePanelProps> = ({
           <Spinner />
         </div>
       ) : (
-        <>
-          {loading && <Loader />}
-          {!loading && hasError && <>Loading failed</>}
-          {!hasError && children}
-        </>
+        <>{hasError ? <>Loading failed</> : children}</>
       )}
-    </aside>
+    </aside>,
+    document.getElementById("l-application") as Element,
   );
 };
 

@@ -15,7 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
-import usePanelParams from "util/usePanelParams";
+import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
@@ -27,6 +27,7 @@ import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
+import ProfileDetailPanel from "./ProfileDetailPanel";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -166,90 +167,93 @@ const ProfileList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   return (
-    <CustomLayout
-      mainClassName="profile-list"
-      contentClassName="profile-content"
-      header={
-        <PageHeader>
-          <PageHeader.Left>
-            <PageHeader.Title>
-              <HelpLink
-                href={`${docBaseLink}/profiles/`}
-                title="Learn how to use profiles"
-              >
-                Profiles
-              </HelpLink>
-            </PageHeader.Title>
-            <PageHeader.Search>
-              <SearchBox
-                className="search-box margin-right u-no-margin--bottom"
-                name="search-profile"
-                type="text"
-                onChange={(value) => {
-                  setQuery(value);
-                }}
-                placeholder="Search"
-                value={query}
-                aria-label="Search"
-              />
-            </PageHeader.Search>
-          </PageHeader.Left>
-          {featuresProfiles && (
-            <PageHeader.BaseActions>
-              <Button
-                appearance="positive"
-                className="u-no-margin--bottom u-float-right"
-                onClick={() =>
-                  navigate(`/ui/project/${projectName}/profiles/create`)
-                }
-              >
-                Create profile
-              </Button>
-            </PageHeader.BaseActions>
-          )}
-        </PageHeader>
-      }
-    >
-      <NotificationRow />
-      <Row className="no-grid-gap">
-        <Col size={12}>
-          {!isLoading && !featuresProfiles && (
-            <Notification severity="caution" title="Profiles disabled">
-              The feature has been disabled on a project level. All the
-              available profiles are inherited from the{" "}
-              <Link to="/ui/project/default/profiles">default project</Link>.
-            </Notification>
-          )}
-          <ScrollableTable
-            dependencies={[filteredProfiles, notify.notification]}
-            tableId="profile-table"
-            belowIds={["status-bar"]}
-          >
-            <TablePagination
-              id="pagination"
-              data={sortedRows}
-              itemName="profile"
-              className="u-no-margin--top"
-              aria-label="Table pagination control"
+    <>
+      <CustomLayout
+        mainClassName="profile-list"
+        contentClassName="profile-content"
+        header={
+          <PageHeader>
+            <PageHeader.Left>
+              <PageHeader.Title>
+                <HelpLink
+                  href={`${docBaseLink}/profiles/`}
+                  title="Learn how to use profiles"
+                >
+                  Profiles
+                </HelpLink>
+              </PageHeader.Title>
+              <PageHeader.Search>
+                <SearchBox
+                  className="search-box margin-right u-no-margin--bottom"
+                  name="search-profile"
+                  type="text"
+                  onChange={(value) => {
+                    setQuery(value);
+                  }}
+                  placeholder="Search"
+                  value={query}
+                  aria-label="Search"
+                />
+              </PageHeader.Search>
+            </PageHeader.Left>
+            {featuresProfiles && (
+              <PageHeader.BaseActions>
+                <Button
+                  appearance="positive"
+                  className="u-no-margin--bottom u-float-right"
+                  onClick={() =>
+                    navigate(`/ui/project/${projectName}/profiles/create`)
+                  }
+                >
+                  Create profile
+                </Button>
+              </PageHeader.BaseActions>
+            )}
+          </PageHeader>
+        }
+      >
+        <NotificationRow />
+        <Row className="no-grid-gap">
+          <Col size={12}>
+            {!isLoading && !featuresProfiles && (
+              <Notification severity="caution" title="Profiles disabled">
+                The feature has been disabled on a project level. All the
+                available profiles are inherited from the{" "}
+                <Link to="/ui/project/default/profiles">default project</Link>.
+              </Notification>
+            )}
+            <ScrollableTable
+              dependencies={[filteredProfiles, notify.notification]}
+              tableId="profile-table"
+              belowIds={["status-bar"]}
             >
-              <MainTable
-                id="profile-table"
-                headers={headers}
-                sortable
-                emptyStateMsg={
-                  isLoading ? (
-                    <Loader text="Loading profiles..." />
-                  ) : (
-                    <>No profile found matching this search</>
-                  )
-                }
-                onUpdateSort={updateSort}
-              />
-            </TablePagination>
-          </ScrollableTable>
-        </Col>
-      </Row>
-    </CustomLayout>
+              <TablePagination
+                id="pagination"
+                data={sortedRows}
+                itemName="profile"
+                className="u-no-margin--top"
+                aria-label="Table pagination control"
+              >
+                <MainTable
+                  id="profile-table"
+                  headers={headers}
+                  sortable
+                  emptyStateMsg={
+                    isLoading ? (
+                      <Loader text="Loading profiles..." />
+                    ) : (
+                      <>No profile found matching this search</>
+                    )
+                  }
+                  onUpdateSort={updateSort}
+                />
+              </TablePagination>
+            </ScrollableTable>
+          </Col>
+        </Row>
+      </CustomLayout>
+      {panelParams.panel === panels.profileSummary && <ProfileDetailPanel />}
+    </>
   );
 };
 
