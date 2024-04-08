@@ -110,8 +110,8 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     : localImages
         .filter((image) => !image.cached)
         .map(localLxdToRemoteImage)
-        .concat([...minimalImages].reverse().sort(byLtsFirst))
         .concat([...canonicalImages].reverse().sort(byLtsFirst))
+        .concat([...minimalImages].reverse().sort(byLtsFirst))
         .concat([...imagesLxdImages])
         .filter((image) => archSupported.includes(image.arch));
 
