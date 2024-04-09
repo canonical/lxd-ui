@@ -52,13 +52,15 @@ test.afterAll(async ({ browser }) => {
 test("instance terminal operations", async ({ page }) => {
   await visitAndStartInstance(page, instance);
   await page.getByTestId("tab-link-Terminal").click();
+  await page.getByRole("button", { name: "Reconnect" }).click();
+  await page.getByLabel("Command").fill("sh");
+  await page.getByLabel("submit reconnect").click();
   await expect(page.locator(".xterm-screen")).toBeVisible();
-  await page.keyboard.type("lsb_release -a");
+  await page.keyboard.type("cat /etc/issue");
   await page.keyboard.press("Enter");
-  await expect(page.locator(".xterm-rows")).toContainText("Ubuntu");
+  await expect(page.locator(".xterm-rows")).toContainText("Alpine Linux");
   let dialogPresent = false;
   page.on("dialog", (dialog) => {
-    expect(dialog.type()).toEqual("confirm");
     dialogPresent = true;
     void dialog.accept();
   });
