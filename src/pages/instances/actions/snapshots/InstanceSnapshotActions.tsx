@@ -12,6 +12,7 @@ import ItemName from "components/ItemName";
 import ConfirmationForce from "components/ConfirmationForce";
 import { useEventQueue } from "context/eventQueue";
 import InstanceEditSnapshotBtn from "./InstanceEditSnapshotBtn";
+import CreateImageFromInstanceSnapshotBtn from "pages/instances/actions/snapshots/CreateImageFromInstanceSnapshotBtn";
 
 interface Props {
   instance: LxdInstance;
@@ -102,6 +103,13 @@ const InstanceSnapshotActions: FC<Props> = ({
             isDeleting={isDeleting}
             isRestoring={isRestoring}
           />,
+          <CreateImageFromInstanceSnapshotBtn
+            key="publish"
+            instance={instance}
+            snapshot={snapshot}
+            isRestoring={isRestoring}
+            isDeleting={isDeleting}
+          />,
           <ConfirmationButton
             key="restore"
             appearance="base"
@@ -123,7 +131,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   force={[restoreState, setRestoreState]}
                 />
               ) : undefined,
-              confirmButtonLabel: "Restore",
+              confirmButtonLabel: "Restore snapshot",
               confirmButtonAppearance: "positive",
               close: () => setRestoreState(true),
               onConfirm: handleRestore,
@@ -148,7 +156,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Delete",
+              confirmButtonLabel: "Delete snapshot",
               onConfirm: handleDelete,
             }}
             disabled={isDeleting || isRestoring}

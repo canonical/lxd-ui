@@ -4,10 +4,11 @@ import {
   pushFailure,
   pushSuccess,
 } from "util/helpers";
-import { ImportImage, LxdImage } from "types/image";
+import { LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
+import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 
 export const fetchImage = (
   image: string,
@@ -72,21 +73,38 @@ export const deleteImageBulk = (
   });
 };
 
-export const importImage = (
-  remoteImage: ImportImage,
+export const createImageFromInstanceSnapshot = (
+  instance: LxdInstance,
+  snapshot: LxdInstanceSnapshot,
+  isPublic: boolean,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/images", {
       method: "POST",
       body: JSON.stringify({
-        auto_update: true,
+        public: isPublic,
         source: {
-          alias: remoteImage.aliases.split(",")[0],
-          mode: "pull",
-          protocol: "simplestreams",
-          type: "image",
-          server: remoteImage.server,
+          type: "snapshot",
+          name: `${instance.name}/${snapshot.name}`,
         },
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const createImageAlias = (
+  fingerprint: string,
+  alias: string,
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    fetch("/1.0/images/aliases", {
+      method: "POST",
+      body: JSON.stringify({
+        target: fingerprint,
+        name: alias,
       }),
     })
       .then(handleResponse)

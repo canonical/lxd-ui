@@ -48,7 +48,7 @@ const SnapshotForm: FC<Props> = (props) => {
             disabled={!formik.isValid}
             onClick={() => void formik.submitForm()}
           >
-            {isEdit ? "Save" : "Create"}
+            {isEdit ? "Save changes" : "Create snapshot"}
           </ActionButton>
         </>
       }

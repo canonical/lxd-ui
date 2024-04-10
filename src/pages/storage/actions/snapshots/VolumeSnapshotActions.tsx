@@ -132,7 +132,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Delete",
+              confirmButtonLabel: "Delete snapshot",
               onConfirm: handleDelete,
             }}
             disabled={isDeleting || isRestoring}
