@@ -19,7 +19,7 @@ const Events: FC = () => {
       return;
     }
     if (event.metadata.status === "Success") {
-      eventCallback.onSuccess();
+      eventCallback.onSuccess(event);
       eventCallback.onFinish?.();
       eventQueue.remove(event.metadata.id);
     }

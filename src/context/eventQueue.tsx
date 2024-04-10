@@ -1,10 +1,11 @@
 import { createContext, FC, ReactNode, useContext } from "react";
+import { LxdEvent } from "types/event";
 
 export interface EventQueue {
   get: (operationId: string) => EventCallback | undefined;
   set: (
     operationId: string,
-    onSuccess: () => void,
+    onSuccess: (event: LxdEvent) => void,
     onFailure: (msg: string) => void,
     onFinish?: () => void,
   ) => void;
@@ -22,7 +23,7 @@ interface Props {
 }
 
 interface EventCallback {
-  onSuccess: () => void;
+  onSuccess: (event: LxdEvent) => void;
   onFailure: (msg: string) => void;
   onFinish?: () => void;
 }
