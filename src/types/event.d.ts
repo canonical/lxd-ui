@@ -5,6 +5,9 @@ export interface LxdEvent {
     id: string;
     action: string;
     description: string;
+    metadata?: {
+      fingerprint?: string;
+    };
     source: string;
     resources: {
       instances: [string];
