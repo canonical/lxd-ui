@@ -62,13 +62,13 @@ jobs:
           sudo lxc config set cluster.https_address "127.0.0.1"
           sudo lxc cluster enable local
 
-      - name: Produce a local image
+      - name: Create a custom image
         shell: bash
         run: |
           set -x
           sudo lxc launch ubuntu-minimal:22.04 my-instance
           sudo lxc publish my-instance --alias my-custom-image --force
-          sudo lxc remove my-instance --force
+          sudo lxc delete my-instance --force
 
       - uses: actions/setup-node@v4
         with:
