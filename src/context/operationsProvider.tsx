@@ -17,6 +17,7 @@ type OperationsContextType = {
   runningOperations: LxdOperation[];
   error: Error | null;
   isLoading: boolean;
+  isFetching: boolean;
   refetchOperations: (options?: RefetchOptions) => void;
 };
 
@@ -29,6 +30,7 @@ const OperationsContext = createContext<OperationsContextType>({
   runningOperations: [],
   error: null,
   isLoading: false,
+  isFetching: false,
   refetchOperations: () => null,
 });
 
@@ -39,6 +41,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     data: operationList,
     error,
     isLoading,
+    isFetching,
     refetch,
   } = useQuery({
     queryKey: [queryKeys.operations],
@@ -78,6 +81,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     runningOperations: running,
     error,
     isLoading,
+    isFetching,
     refetchOperations: debouncedRefetch,
   };
 
