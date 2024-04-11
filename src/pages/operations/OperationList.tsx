@@ -15,6 +15,7 @@ import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
 import { getProjectName } from "util/operations";
 import { useOperations } from "context/operationsProvider";
+import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn";
 
 const OperationList: FC = () => {
   const notify = useNotify();
@@ -122,7 +123,10 @@ const OperationList: FC = () => {
 
   return (
     <>
-      <BaseLayout title="Ongoing operations">
+      <BaseLayout
+        title="Ongoing operations"
+        controls={<RefreshOperationsBtn />}
+      >
         <NotificationRow />
         <Row>
           {operations.length > 0 && (
