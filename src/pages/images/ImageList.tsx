@@ -27,6 +27,7 @@ import NotificationRow from "components/NotificationRow";
 import { useDocs } from "context/useDocs";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
+import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 
 const ImageList: FC = () => {
   const docBaseLink = useDocs();
@@ -225,6 +226,9 @@ const ImageList: FC = () => {
               />
             )}
           </PageHeader.Left>
+          <PageHeader.BaseActions>
+            <CustomIsoBtn project={project} />
+          </PageHeader.BaseActions>
         </PageHeader>
       }
     >
