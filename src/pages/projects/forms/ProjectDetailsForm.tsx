@@ -15,6 +15,7 @@ import { LxdProject } from "types/project";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { LxdConfigPair } from "types/config";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -30,7 +31,9 @@ export interface ProjectDetailsFormValues {
   entityType: "project";
 }
 
-export const projectDetailPayload = (values: ProjectDetailsFormValues) => {
+export const projectDetailPayload = (
+  values: ProjectDetailsFormValues,
+): Partial<LxdProject> => {
   return {
     name: values.name,
     description: values.description,
@@ -39,7 +42,7 @@ export const projectDetailPayload = (values: ProjectDetailsFormValues) => {
 
 export const projectDetailRestrictionPayload = (
   values: ProjectDetailsFormValues,
-) => {
+): LxdConfigPair => {
   const boolToPayload = (value?: boolean) => {
     if (value === undefined) {
       return undefined;
