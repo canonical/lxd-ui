@@ -40,7 +40,7 @@ const projectConfigFormFieldsToPayload: Record<string, string> = {
   limits_processes: "limits.processes",
 };
 
-export const getProjectKey = (formField: string) => {
+export const getProjectKey = (formField: string): string => {
   if (!(formField in projectConfigFormFieldsToPayload)) {
     throw new Error(
       `Could not find ${formField} in projectConfigFormFieldsToPayload`,
@@ -49,6 +49,6 @@ export const getProjectKey = (formField: string) => {
   return projectConfigFormFieldsToPayload[formField];
 };
 
-export const getProjectConfigKeys = () => {
+export const getProjectConfigKeys = (): Set<string> => {
   return new Set(Object.values(projectConfigFormFieldsToPayload));
 };

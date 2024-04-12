@@ -98,7 +98,7 @@ export const getProjectEditValues = (
 export const getProjectPayload = (
   project: LxdProject,
   values: ProjectFormValues,
-) => {
+): Partial<LxdProject> => {
   const handledConfigKeys = getProjectConfigKeys();
   const handledKeys = new Set(["name", "description", "config"]);
 

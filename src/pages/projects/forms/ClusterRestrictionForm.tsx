@@ -7,13 +7,16 @@ import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
+import { LxdConfigPair } from "types/config";
 
 export interface ClusterRestrictionFormValues {
   restricted_cluster_groups?: string;
   restricted_cluster_target?: string;
 }
 
-export const clusterRestrictionPayload = (values: ProjectFormValues) => {
+export const clusterRestrictionPayload = (
+  values: ProjectFormValues,
+): LxdConfigPair => {
   return {
     [getProjectKey("restricted_cluster_groups")]:
       values.restricted_cluster_groups,
