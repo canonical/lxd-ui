@@ -56,6 +56,7 @@ test("instance terminal operations", async ({ page }) => {
   await page.getByLabel("Command").fill("sh");
   await page.getByLabel("submit reconnect").click();
   await expect(page.getByText("~ #")).toBeVisible();
+  await page.waitForTimeout(1000); // ensure the terminal is ready
   await page.keyboard.type("cat /etc/issue");
   await page.keyboard.press("Enter");
   await expect(page.locator(".xterm-rows")).toContainText("Alpine Linux");
