@@ -29,7 +29,7 @@ import { fetchImageList } from "api/images";
 import { useParams } from "react-router-dom";
 
 interface Props {
-  onSelect: (image: RemoteImage, type: LxdImageType | null) => void;
+  onSelect: (image: RemoteImage, type?: LxdImageType) => void;
   onClose: () => void;
 }
 
@@ -53,7 +53,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [os, setOs] = useState<string>("");
   const [release, setRelease] = useState<string>("");
   const [arch, setArch] = useState<string>("amd64");
-  const [type, setType] = useState<LxdImageType | null>(null);
+  const [type, setType] = useState<LxdImageType | undefined>(undefined);
   const [variant, setVariant] = useState<string>(ANY);
   const { project } = useParams<{ project: string }>();
 

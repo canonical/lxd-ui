@@ -1,6 +1,6 @@
 import { LxdStorageVolume } from "types/storage";
 
-export type LxdImageType = "container" | "virtual-machine" | "iso-volume";
+export type LxdImageType = "container" | "virtual-machine";
 
 interface LxdImageAlias {
   name: string;

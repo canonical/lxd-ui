@@ -302,7 +302,7 @@ const CreateInstance: FC = () => {
 
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 
-  const handleSelectImage = (image: RemoteImage, type: LxdImageType | null) => {
+  const handleSelectImage = (image: RemoteImage, type?: LxdImageType) => {
     void formik.setFieldValue("image", image);
 
     const devices = formik.values.devices.filter(
@@ -314,21 +314,19 @@ const CreateInstance: FC = () => {
     }
     void formik.setFieldValue("devices", devices);
 
-    if (isVmOnlyImage(image)) {
+    if (type) {
+      void formik.setFieldValue("instanceType", type);
+    } else if (isVmOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "virtual-machine");
     } else if (isContainerOnlyImage(image)) {
       void formik.setFieldValue("instanceType", "container");
-    } else if (type) {
-      void formik.setFieldValue("instanceType", type);
     }
   };
 
   useEffect(() => {
-    if (location.state?.selectedImage) {
-      const type = location.state.selectedImage.volume
-        ? "iso-volume"
-        : location.state.selectedImage.type ?? null;
-      handleSelectImage(location.state.selectedImage, type);
+    const imageFromLink = location.state?.selectedImage;
+    if (imageFromLink) {
+      handleSelectImage(imageFromLink, imageFromLink.type);
     }
   }, [location.state?.selectedImage]);
 

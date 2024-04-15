@@ -73,7 +73,7 @@ export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
-  onSelectImage: (image: RemoteImage, type: LxdImageType | null) => void;
+  onSelectImage: (image: RemoteImage, type?: LxdImageType) => void;
   project: string;
 }
 
