@@ -5,13 +5,13 @@ import { LxdImageType, RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
 
 interface Props {
-  onSelect: (image: RemoteImage, type: LxdImageType | null) => void;
+  onSelect: (image: RemoteImage, type?: LxdImageType) => void;
 }
 
 const UseCustomIsoBtn: FC<Props> = ({ onSelect }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
-  const handleSelect = (image: RemoteImage, type: LxdImageType | null) => {
+  const handleSelect = (image: RemoteImage, type?: LxdImageType) => {
     closePortal();
     onSelect(image, type);
   };

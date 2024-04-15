@@ -7,7 +7,7 @@ import { IsoImage } from "types/iso";
 
 interface Props {
   onClose: () => void;
-  onSelect: (image: RemoteImage, type: LxdImageType | null) => void;
+  onSelect: (image: RemoteImage, type?: LxdImageType) => void;
 }
 
 const SELECT_ISO = "selectIso";
