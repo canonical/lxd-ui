@@ -12,7 +12,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   primaryImage: IsoImage | null;
-  onSelect: (image: RemoteImage, type: LxdImageType | null) => void;
+  onSelect: (image: RemoteImage, type?: LxdImageType) => void;
   onUpload: () => void;
   onCancel: () => void;
 }
