@@ -11,14 +11,14 @@ jobs:
     if: ${{ github.repository_owner == 'canonical' }}
     steps:
     - uses: actions/checkout@v4
-      with:
-        ref: demo
     - name: Fetch rebase and push
       if: github.ref == 'refs/heads/main'
       run: |
         git config --global user.email "github-action@example.com"
         git config --global user.name "GitHub Action"
-        git fetch origin main --depth 1
+        git branch demo
         git checkout demo
-        git rebase -X ours origin/main # in rebase ours is the incoming branch
-        git push --force
+        touch wip-file
+        git add wip-file
+        git commit -am "wip"
+        git push origin demo --force
