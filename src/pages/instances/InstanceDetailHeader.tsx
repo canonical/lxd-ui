@@ -7,12 +7,12 @@ import { renameInstance } from "api/instances";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { checkDuplicateName } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {
   instanceLinkFromName,
   instanceLinkFromOperation,
+  instanceNameValidation,
 } from "util/instances";
 import { getInstanceName } from "util/operations";
 import InstanceLink from "pages/instances/InstanceLink";
@@ -30,21 +30,9 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "An instance with this name already exists",
-        (value) =>
-          instance?.name === value ||
-          checkDuplicateName(value, project, controllerState, "instances"),
-      )
-      .matches(/^[A-Za-z0-9-]+$/, {
-        message: "Only alphanumeric and hyphen characters are allowed",
-      })
-      .matches(/^[A-Za-z].*$/, {
-        message: "Instance name must start with a letter",
-      })
-      .required("Instance name is required"),
+    name: instanceNameValidation(project, controllerState).required(
+      "Instance name is required",
+    ),
   });
 
   const formik = useFormik<RenameHeaderValues>({

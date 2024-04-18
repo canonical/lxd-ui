@@ -40,6 +40,14 @@
       .cancel {
         margin-right: $sph--small;
       }
+
+      .p-form-validation__message {
+        font-variant-caps: initial;
+        font-variant-numeric: initial;
+        font-weight: initial;
+        letter-spacing: initial;
+        text-indent: initial;
+      }
     }
   }
 
