@@ -16,7 +16,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
-import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -75,6 +74,7 @@ import {
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
+import { instanceNameValidation } from "util/instances";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -109,20 +109,7 @@ const CreateInstance: FC = () => {
   }
 
   const InstanceSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(
-        "deduplicate",
-        "An instance with this name already exists",
-        (value) =>
-          checkDuplicateName(value, project, controllerState, "instances"),
-      )
-      .matches(/^[A-Za-z0-9-]+$/, {
-        message: "Only alphanumeric and hyphen characters are allowed",
-      })
-      .matches(/^[A-Za-z].*$/, {
-        message: "Instance name must start with a letter",
-      })
-      .optional(),
+    name: instanceNameValidation(project, controllerState).optional(),
     instanceType: Yup.string().required("Instance type is required"),
   });
 

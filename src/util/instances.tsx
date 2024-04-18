@@ -2,6 +2,8 @@ import { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
 import InstanceLink from "pages/instances/InstanceLink";
 import { ReactNode } from "react";
+import { AbortControllerState, checkDuplicateName } from "./helpers";
+import * as Yup from "yup";
 
 export const instanceLinkFromName = (args: {
   instanceName: string;
@@ -24,3 +26,23 @@ export const instanceLinkFromOperation = (args: {
   }
   return <InstanceLink instance={{ name: linkText, project: project || "" }} />;
 };
+
+export const instanceNameValidation = (
+  project: string,
+  controllerState: AbortControllerState,
+): Yup.StringSchema =>
+  Yup.string()
+    .test("deduplicate", "An instance with this name already exists", (value) =>
+      checkDuplicateName(value, project, controllerState, "instances"),
+    )
+    .test(
+      "size",
+      "Instance name must be between 1 and 63 characters",
+      (value) => !value || value.length < 64,
+    )
+    .matches(/^[A-Za-z0-9-]+$/, {
+      message: "Only alphanumeric and hyphen characters are allowed",
+    })
+    .matches(/^[A-Za-z].*$/, {
+      message: "Instance name must start with a letter",
+    });
