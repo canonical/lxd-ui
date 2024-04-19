@@ -57,6 +57,20 @@ const config: PlaywrightTestConfig<TestOptions> = {
       },
     },
     {
+      name: "chromium:lxd-5.21-edge",
+      use: {
+        ...devices["Desktop Chrome"],
+        lxdVersion: "5.21-edge",
+      },
+    },
+    {
+      name: "firefox:lxd-5.21-edge",
+      use: {
+        ...devices["Desktop Firefox"],
+        lxdVersion: "5.21-edge",
+      },
+    },
+    {
       name: "chromium:lxd-latest-edge",
       use: {
         ...devices["Desktop Chrome"],
