@@ -24,8 +24,8 @@ const OperationInstanceName: FC<Props> = ({ operation }) => {
     "Freezing instance",
     "Snapshotting instance",
     "Restoring snapshot",
-    // "Deleting snapshot",  broken response, see https://github.com/lxc/lxd/issues/11713
-    // "Updating snapshot",  broken response, see https://github.com/lxc/lxd/issues/11713
+    // "Deleting snapshot",  broken response, see https://github.com/canonical/lxd/issues/11713
+    // "Updating snapshot",  broken response, see https://github.com/canonical/lxd/issues/11713
     "Updating instance",
     "Renaming instance",
     "Executing command",
