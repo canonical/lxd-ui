@@ -43,17 +43,17 @@ const config: PlaywrightTestConfig<TestOptions> = {
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "chromium:lxd-5.0-stable",
+      name: "chromium:lxd-5.0-edge",
       use: {
         ...devices["Desktop Chrome"],
-        lxdVersion: "5.0-stable",
+        lxdVersion: "5.0-edge",
       },
     },
     {
-      name: "firefox:lxd-5.0-stable",
+      name: "firefox:lxd-5.0-edge",
       use: {
         ...devices["Desktop Firefox"],
-        lxdVersion: "5.0-stable",
+        lxdVersion: "5.0-edge",
       },
     },
     {
