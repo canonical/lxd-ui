@@ -1,4 +1,4 @@
-// ARCHITECTURE_NAMES and ARCHITECTURE_ALIASES come from https://github.com/lxc/lxd/blob/HEAD/shared/osarch/architectures.go
+// ARCHITECTURE_NAMES and ARCHITECTURE_ALIASES come from https://github.com/canonical/lxd/blob/HEAD/shared/osarch/architectures.go
 const ARCHITECTURE_NAMES: Record<string, string> = {
   ARCH_32BIT_INTEL_X86: "i686",
   ARCH_64BIT_INTEL_X86: "x86_64",
