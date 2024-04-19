@@ -54,8 +54,10 @@ The e2e test suite is run whenever a pull request is created and updated. This i
 
 | lxd version  | browser  |
 | -----------  | -------- |
-| 5.0/stable   | chromium |
-| 5.0/stable   | firefox  |
+| 5.0/edge     | chromium |
+| 5.0/edge     | firefox  |
+| 5.21/edge    | chromium |
+| 5.21/edge    | firefox  |
 | latest/edge  | chromium |
 | latest/edge  | firefox  |
 
@@ -65,7 +67,7 @@ For each parameter combination, a playwright project defined in [playwright.conf
     flowchart TD
     A(pull request created) -->|other workflow jobs| B(browser-e2e-test)
     B --> C{Github Matrix Runner}
-    C -->|5.0/stable chromium| D[Run chromium:lxd-5.0-stable]
+    C -->|5.0/edge chromium| D[Run chromium:lxd-5.0-edge]
     C --> E[...]
     C -->|latest/edge firefox| F[Run firefox:lxd-latest-edge]
 ```
