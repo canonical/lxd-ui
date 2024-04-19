@@ -68,7 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lxd_channel: ["5.0/stable", "latest/edge"]
+        lxd_channel: ["5.0/stable", "5.21/edge", "latest/edge"]
         browser: ["chromium", "firefox"]
     outputs:
       job_status: ${{job.status}}
