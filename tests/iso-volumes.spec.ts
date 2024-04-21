@@ -10,8 +10,8 @@ export const randomIso = (): string => {
 
 test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   test.skip(
-    lxdVersion === "5.0-stable",
-    "custom storage volume iso import not supported in lxd v5.0/stable",
+    lxdVersion === "5.0-edge",
+    "custom storage volume iso import not supported in lxd v5.0/edge",
   );
   const isoName = randomIso();
 
@@ -45,8 +45,8 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
 
 test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   test.skip(
-    lxdVersion === "5.0-stable",
-    "custom storage volume iso import not supported in lxd v5.0/stable",
+    lxdVersion === "5.0-edge",
+    "custom storage volume iso import not supported in lxd v5.0/edge",
   );
 
   const instance = randomInstanceName();
@@ -81,27 +81,27 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   await page.getByText(`Custom iso ${isoName} deleted.`).click();
 });
 
-test("not allowed to upload custom iso for lxd v5.0/stable", async ({
+test("not allowed to upload custom iso for lxd v5.0/edge", async ({
   page,
   lxdVersion,
 }) => {
   test.skip(
-    lxdVersion !== "5.0-stable",
-    `this test is specific to lxd v5.0/stable, current lxd snap channel is ${lxdVersion}`,
+    lxdVersion !== "5.0-edge",
+    `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
   );
   await page.goto("/ui/");
   await page.getByRole("link", { name: "Storage", exact: true }).click();
   await expect(page.getByTestId("tab-link-Custom ISOs")).toBeHidden();
 });
 
-test("not allowed to launch instance with custom iso for lxd v5.0/stable", async ({
+test("not allowed to launch instance with custom iso for lxd v5.0/edge", async ({
   page,
   lxdVersion,
 }) => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
   test.skip(
-    lxdVersion !== "5.0-stable",
-    `this test is specific to lxd v5.0/stable, current lxd snap channel is ${lxdVersion}`,
+    lxdVersion !== "5.0-edge",
+    `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
   );
 
   const instance = randomInstanceName();

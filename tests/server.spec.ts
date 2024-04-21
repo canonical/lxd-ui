@@ -34,8 +34,8 @@ const settings: {
 
 test("test all non-critical server settings", async ({ page, lxdVersion }) => {
   test.skip(
-    lxdVersion === "5.0-stable",
-    "/1.0/metadata/configuration endpoint not available in lxd v5.0/stable",
+    lxdVersion === "5.0-edge",
+    "/1.0/metadata/configuration endpoint not available in lxd v5.0/edge",
   );
   await visitServerSettings(page);
   for (const setting of settings) {
@@ -44,13 +44,13 @@ test("test all non-critical server settings", async ({ page, lxdVersion }) => {
   }
 });
 
-test("only user server setting available for lxd v5.0/stable", async ({
+test("only user server setting available for lxd v5.0/edge", async ({
   page,
   lxdVersion,
 }) => {
   test.skip(
-    lxdVersion !== "5.0-stable",
-    `this test is specific to lxd v5.0/stable, current lxd snap channel is ${lxdVersion}`,
+    lxdVersion !== "5.0-edge",
+    `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
   );
 
   await visitServerSettings(page);
