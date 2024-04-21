@@ -39,7 +39,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
     .getByRole("combobox", { name: "Features" })
     .selectOption("customised");
   await page.locator("span").filter({ hasText: "Networks" }).click();
-  if (lxdVersion === "5.0-stable") {
+  if (lxdVersion === "5.0-edge") {
     await expect(
       page.locator("label").filter({ hasText: "Network zones" }),
     ).toBeHidden();
@@ -108,7 +108,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
 
   await page.getByText("DescriptionA-new-description").click();
   await expect(page.locator("input#features_networks")).toHaveValue("on");
-  if (lxdVersion !== "5.0-stable") {
+  if (lxdVersion !== "5.0-edge") {
     await expect(page.locator("input#features_networks_zones")).toHaveValue(
       "on",
     );

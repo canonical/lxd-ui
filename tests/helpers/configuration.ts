@@ -96,7 +96,7 @@ export const setSchedule = async (
   lxdVersion: LxdVersions,
 ) => {
   const scheduleFieldText =
-    lxdVersion === "5.0-stable"
+    lxdVersion === "5.0-edge"
       ? "Schedule"
       : "Schedule Schedule for automatic instance snapshots - From: LXD";
 

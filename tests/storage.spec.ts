@@ -73,7 +73,7 @@ test("storage volume edit snapshot configuration", async ({
   );
   await setInput(page, "Expire after", "Enter expiry expression", "3m");
   const scheduleFieldText =
-    lxdVersion === "5.0-stable"
+    lxdVersion === "5.0-edge"
       ? "Schedule"
       : "Schedule Schedule for automatic volume snapshots";
   await activateOverride(page, scheduleFieldText);
