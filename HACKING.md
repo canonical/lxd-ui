@@ -113,9 +113,10 @@ The tests expect the environment on localhost to be accessible. Execute `dotrun`
 
     yarn test-e2e-edge
 
-or against the LTS LXD version with
+or against the LTS LXD versions with
     
-    yarn test-e2e-stable
+    yarn test-e2e-5.21-edge
+    yarn test-e2e-5.0-edge
 
 ### Nice utilities from Playwright
 
