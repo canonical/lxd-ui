@@ -86,7 +86,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
       return "";
     }
     if (memoryLimit.unit === "%") {
-      return humanFileSize(maxMemory, true);
+      return humanFileSize(maxMemory);
     }
     const formattedValue = getFormattedMaxValue(memoryLimit.unit) ?? 0;
     if (formattedValue < 1) {
