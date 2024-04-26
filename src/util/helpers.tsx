@@ -99,18 +99,16 @@ export const handleTextResponse = async (
   return response.text();
 };
 
-export const humanFileSize = (bytes: number, toBibyte = false): string => {
+export const humanFileSize = (bytes: number): string => {
   if (Math.abs(bytes) < 1000) {
     return `${bytes} B`;
   }
 
-  const units = toBibyte
-    ? ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"]
-    : ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const units = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
   let u = -1;
 
   do {
-    bytes /= toBibyte ? 1024 : 1000;
+    bytes /= 1024;
     ++u;
   } while (
     Math.round(Math.abs(bytes) * 10) / 10 >= 1000 &&
