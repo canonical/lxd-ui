@@ -40,13 +40,14 @@ const ARCHITECTURE_ALIASES: Record<string, string[]> = {
 
 export const getArchitectureAliases = (names: string[]): string[] => {
   const aliases: string[] = [];
+  const nameKeys = Object.keys(ARCHITECTURE_NAMES);
+
   names.map((value) => {
-    const key = Object.keys(ARCHITECTURE_NAMES).find(
-      (key) => ARCHITECTURE_NAMES[key] === value,
-    );
-    if (key) {
-      aliases.push(...ARCHITECTURE_ALIASES[key]);
+    const nameKey = nameKeys.find((key) => ARCHITECTURE_NAMES[key] === value);
+    if (nameKey && nameKey in ARCHITECTURE_ALIASES) {
+      aliases.push(...ARCHITECTURE_ALIASES[nameKey]);
     }
+    aliases.push(value);
   });
   return aliases;
 };
