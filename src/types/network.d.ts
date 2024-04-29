@@ -1,5 +1,10 @@
 export type LxdNetworkBridgeDriver = "native" | "openvswitch";
-export type LxdNetworkType = "bridge" | "ovn";
+export type LxdNetworkType =
+  | "bridge"
+  | "ovn"
+  | "physical"
+  | "macvlan"
+  | "sriov";
 export type LxdNetworkDnsMode = "none" | "managed" | "dynamic";
 export type LxdNetworkFanType = "vxlan" | "ipip";
 
