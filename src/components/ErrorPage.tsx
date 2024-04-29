@@ -7,6 +7,7 @@ import {
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
+import { UI_VERSION } from "util/version";
 
 type Props = {
   error?: Error;
@@ -14,7 +15,22 @@ type Props = {
 
 const ErrorPage: FC<Props> = ({ error }) => {
   const body = encodeURIComponent(
-    `\`\`\`\n${error?.stack ?? "No stack trace"}\n\`\`\``,
+    `# Description
+
+A brief description of the problem. Should include what you were
+attempting to do, what you did, what happened and what you expected to
+see happen.
+
+# Metadata
+
+UI Version: ${UI_VERSION}
+Path: ${location.pathname}${location.search}
+
+# Stacktrace
+
+\`\`\`
+${error?.stack ?? "No stack trace"}
+\`\`\``,
   );
   const url = `https://github.com/canonical/lxd-ui/issues/new?labels=bug&title=Error%20report&body=${body}`;
 
