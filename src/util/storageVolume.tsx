@@ -120,3 +120,27 @@ export const getSnapshotsPerVolume = (volumes: LxdStorageVolume[]) => {
 const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
   window.innerWidth <= collapsedViewMaxWidth;
+
+export const generateLinkForVolumeDetail = (
+  volume: LxdStorageVolume,
+  project: string,
+): string => {
+  // NOTE: name of a volume created from an instance is exactly the same as the instance name
+  if (volume.type === "container" || volume.type === "virtual-machine") {
+    return `/ui/project/${project}/instance/${volume.name}`;
+  }
+
+  if (volume.type === "image") {
+    return `/ui/project/${project}/images`;
+  }
+
+  if (volume.type === "custom" && volume.content_type === "iso") {
+    return `/ui/project/${project}/storage/custom-isos`;
+  }
+
+  return `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}`;
+};
+
+export const hasVolumeDetailPage = (volume: LxdStorageVolume): boolean => {
+  return generateLinkForVolumeDetail(volume, "").includes("/storage/pool/");
+};
