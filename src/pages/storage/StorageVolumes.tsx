@@ -29,6 +29,7 @@ import {
   getSnapshotsPerVolume,
   isSnapshot,
   renderVolumeType,
+  hasVolumeDetailPage,
 } from "util/storageVolume";
 import {
   ACTIONS_COL,
@@ -44,10 +45,7 @@ import {
 } from "util/storageVolumeTable";
 import StorageVolumeNameLink from "./StorageVolumeNameLink";
 import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
-import classnames from "classnames";
 import useEventListener from "@use-it/event-listener";
-import { useProject } from "context/project";
-import { isSnapshotsDisabled } from "util/snapshots";
 import useSortTableData from "util/useSortTableData";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 
@@ -62,8 +60,6 @@ const StorageVolumes: FC = () => {
     setSmallScreen(figureCollapsedScreen());
   };
   useEventListener("resize", resize);
-  const { project: projectConfig, isLoading: isProjectLoading } = useProject();
-  const snapshotsDisabled = isSnapshotsDisabled(projectConfig);
 
   const filters: StorageVolumesFilterType = {
     queries: searchParams.getAll(QUERY),
@@ -221,11 +217,7 @@ const StorageVolumes: FC = () => {
         {
           content: (
             <>
-              <StorageVolumeNameLink
-                volume={volume}
-                project={project}
-                isExternalLink={volume.type !== "custom"}
-              />
+              <StorageVolumeNameLink volume={volume} />
               {isSmallScreen && (
                 <div className="u-text--muted">
                   {isoTimeToString(volume.created_at)}
@@ -320,31 +312,24 @@ const StorageVolumes: FC = () => {
             ]),
         {
           className: "actions u-align--right",
-          content:
-            volume.type === "custom" ? (
-              <CustomStorageVolumeActions
-                volume={volume}
-                project={project}
-                snapshotDisabled={snapshotsDisabled}
-                className={classnames(
-                  "storage-volume-actions",
-                  "u-no-margin--bottom",
-                )}
-              />
-            ) : (
-              <StorageVolumeNameLink
-                volume={volume}
-                project={project}
-                isExternalLink
-                overrideName={`go to ${
-                  volume.type === "image" ? "images list" : "instance"
-                }`}
-                className={classnames(
-                  "storage-volume-actions",
-                  "u-align--right",
-                )}
-              />
-            ),
+          content: hasVolumeDetailPage(volume) ? (
+            <CustomStorageVolumeActions
+              volume={volume}
+              className="storage-volume-actions u-no-margin--bottom"
+            />
+          ) : (
+            <StorageVolumeNameLink
+              volume={volume}
+              overrideName={`go to ${
+                volume.type === "image"
+                  ? "images list"
+                  : volume.content_type === "iso"
+                    ? "custom ISOs"
+                    : "instance"
+              }`}
+              className="storage-volume-actions u-align--right"
+            />
+          ),
           role: "cell",
           "aria-label": ACTIONS_COL,
           style: { width: COLUMN_WIDTHS[ACTIONS_COL] },
@@ -366,7 +351,7 @@ const StorageVolumes: FC = () => {
     rows,
   });
 
-  if (isLoading || isProjectLoading) {
+  if (isLoading) {
     return <Loader text="Loading storage volumes..." />;
   }
 

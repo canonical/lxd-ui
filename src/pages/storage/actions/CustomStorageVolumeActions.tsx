@@ -5,21 +5,18 @@ import { LxdStorageVolume } from "types/storage";
 import DeleteStorageVolumeBtn from "./DeleteStorageVolumeBtn";
 import VolumeAddSnapshotBtn from "./snapshots/VolumeAddSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { isSnapshotsDisabled } from "util/snapshots";
+import { useProject } from "context/project";
 
 interface Props {
   volume: LxdStorageVolume;
-  project: string;
   className?: string;
-  snapshotDisabled?: boolean;
 }
 
-const CustomStorageVolumeActions: FC<Props> = ({
-  volume,
-  className,
-  project,
-  snapshotDisabled,
-}) => {
+const CustomStorageVolumeActions: FC<Props> = ({ volume, className }) => {
   const toastNotify = useToastNotification();
+  const { project } = useProject();
+
   return (
     <List
       inline
@@ -29,12 +26,12 @@ const CustomStorageVolumeActions: FC<Props> = ({
           key="add-snapshot"
           volume={volume}
           isCTA
-          isDisabled={snapshotDisabled}
+          isDisabled={isSnapshotsDisabled(project)}
         />,
         <DeleteStorageVolumeBtn
           key="delete"
           volume={volume}
-          project={project}
+          project={project?.name ?? ""}
           onFinish={() => {
             toastNotify.success(`Storage volume ${volume.name} deleted.`);
           }}
