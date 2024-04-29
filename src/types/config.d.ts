@@ -28,7 +28,10 @@ export interface LxdConfigOptions {
     cluster: LxcConfigOptionCategories;
     instance: LxcConfigOptionCategories;
     "network-bridge": LxcConfigOptionCategories;
+    "network-macvlan": LxcConfigOptionCategories;
     "network-ovn": LxcConfigOptionCategories;
+    "network-physical": LxcConfigOptionCategories;
+    "network-sriov": LxcConfigOptionCategories;
     project: LxcConfigOptionCategories;
     server: LxcConfigOptionCategories;
     "storage-btrfs": LxcConfigOptionCategories;

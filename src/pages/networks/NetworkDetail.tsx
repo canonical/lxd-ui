@@ -13,8 +13,6 @@ import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 
-const tabs: string[] = ["Overview", "Configuration", "Forwards"];
-
 const NetworkDetail: FC = () => {
   const { name, project, activeTab } = useParams<{
     name: string;
@@ -39,6 +37,19 @@ const NetworkDetail: FC = () => {
     return <Loader />;
   }
 
+  const getTabs = () => {
+    if (!network?.managed) {
+      return ["Overview"];
+    }
+
+    const type = network?.type ?? "";
+    if (type === "physical") {
+      return ["Overview", "Configuration"];
+    }
+
+    return ["Overview", "Configuration", "Forwards"];
+  };
+
   return (
     <CustomLayout
       header={
@@ -48,7 +59,7 @@ const NetworkDetail: FC = () => {
     >
       <Row>
         <TabLinks
-          tabs={network?.managed ? tabs : ["Overview"]}
+          tabs={getTabs()}
           activeTab={activeTab}
           tabUrl={`/ui/project/${project}/network/${name}`}
         />

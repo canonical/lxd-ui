@@ -63,6 +63,9 @@ export const getNetworkKey = (formField: string): keyof LxdNetworkConfig => {
 const networkTypeToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   bridge: "network-bridge",
   ovn: "network-ovn",
+  macvlan: "network-macvlan",
+  physical: "network-physical",
+  sriov: "network-sriov",
 };
 
 export const networkFormTypeToOptionKey = (

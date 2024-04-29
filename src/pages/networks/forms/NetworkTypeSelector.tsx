@@ -50,6 +50,14 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           value: "ovn",
           disabled: !hasOvn,
         },
+        ...(formik.values.networkType === "physical"
+          ? [
+              {
+                label: "Physical",
+                value: "physical",
+              },
+            ]
+          : []),
       ]}
       onChange={(e) => {
         if (e.target.value === "bridge") {
@@ -71,7 +79,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
         }
       }}
       value={formik.values.networkType}
-      disabled={formik.values.readOnly}
+      disabled={formik.values.readOnly || !formik.values.isCreating}
     />
   );
 };

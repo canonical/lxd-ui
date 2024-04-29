@@ -42,51 +42,53 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
       <nav aria-label="Network form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
-          <li className="p-side-navigation__item">
-            <Button
-              type="button"
-              className="p-side-navigation__accordion-button"
-              aria-expanded={
-                !disableReason && isAdvancedOpen ? "true" : "false"
-              }
-              onClick={() => setAdvancedOpen(!isAdvancedOpen)}
-              disabled={Boolean(disableReason)}
-              title={disableReason}
-            >
-              Advanced
-            </Button>
-            <ul
-              className="p-side-navigation__list"
-              aria-expanded={
-                !disableReason && isAdvancedOpen ? "true" : "false"
-              }
-            >
-              <MenuItem
-                label={BRIDGE}
-                {...menuItemProps}
-                disableReason={disableReason}
-              />
-              <MenuItem
-                label={DNS}
-                {...menuItemProps}
-                disableReason={disableReason}
-              />
-              {formik.values.ipv4_address !== "none" && (
+          {formik.values.networkType !== "physical" && (
+            <li className="p-side-navigation__item">
+              <Button
+                type="button"
+                className="p-side-navigation__accordion-button"
+                aria-expanded={
+                  !disableReason && isAdvancedOpen ? "true" : "false"
+                }
+                onClick={() => setAdvancedOpen(!isAdvancedOpen)}
+                disabled={Boolean(disableReason)}
+                title={disableReason}
+              >
+                Advanced
+              </Button>
+              <ul
+                className="p-side-navigation__list"
+                aria-expanded={
+                  !disableReason && isAdvancedOpen ? "true" : "false"
+                }
+              >
                 <MenuItem
-                  label={IPV4}
+                  label={BRIDGE}
                   {...menuItemProps}
                   disableReason={disableReason}
                 />
-              )}
-              {formik.values.ipv6_address !== "none" && (
                 <MenuItem
-                  label={IPV6}
+                  label={DNS}
                   {...menuItemProps}
                   disableReason={disableReason}
                 />
-              )}
-            </ul>
-          </li>
+                {formik.values.ipv4_address !== "none" && (
+                  <MenuItem
+                    label={IPV4}
+                    {...menuItemProps}
+                    disableReason={disableReason}
+                  />
+                )}
+                {formik.values.ipv6_address !== "none" && (
+                  <MenuItem
+                    label={IPV6}
+                    {...menuItemProps}
+                    disableReason={disableReason}
+                  />
+                )}
+              </ul>
+            </li>
+          )}
           <MenuItem
             label={YAML_CONFIGURATION}
             {...menuItemProps}
