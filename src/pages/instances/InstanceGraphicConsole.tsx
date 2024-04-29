@@ -116,7 +116,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   useEffect(handleResize, [notify.notification?.message]);
 
   useEventListener("spice-wheel", (e) => {
-    if (!spiceRef.current?.parentElement || !Object.hasOwn(e, "detail")) {
+    if (!spiceRef.current?.parentElement || !("detail" in e)) {
       return;
     }
     const wheelEvent = (e as SpiceWheelEvent).detail.wheelEvent;
