@@ -221,7 +221,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(YAML_CONFIGURATION) && (
               <YamlForm
-                key={`yaml-form-${formik.values.readOnly}`}
+                key={`yaml-form-${formik.values.readOnly}-${getYaml()}`}
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
                 readOnly={readOnly}
