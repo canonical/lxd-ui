@@ -6,3 +6,5 @@ lxd sql global "
     FROM identities
     WHERE name IN ('foo', 'bar');
 "
+
+sudo lxc config set user.show_permissions=false

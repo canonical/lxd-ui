@@ -148,8 +148,18 @@ jobs:
           LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
           echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
 
+      - name: Create OIDC users
+        if: ${{ matrix.lxd_channel != '5.0/edge' }}
+        shell: bash
+        run: ./tests/scripts/create_oidc_identities
+
       - name: Run Playwright tests
         run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
+
+      - name: Delete OIDC users
+        if: ${{ matrix.lxd_channel != '5.0/edge' }}
+        shell: bash
+        run: ./tests/scripts/delete_oidc_identities
 
       - name: Rename Playwright report
         if: always()

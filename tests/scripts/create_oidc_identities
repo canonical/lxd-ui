@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 set -e
 
+sudo lxc config set user.show_permissions=true
+
 # create oidc user foo
 lxd sql global "
     INSERT OR REPLACE INTO identities 
