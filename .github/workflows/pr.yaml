@@ -125,6 +125,7 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
           sudo lxc cluster enable local
+          sudo lxc config set user.show_permissions=true
 
       - name: Create a custom image
         shell: bash
@@ -147,6 +148,11 @@ jobs:
           # need to change / to - in lxd channel string for report naming
           LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
           echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
+
+      - name: Create OIDC users
+        if: ${{ matrix.lxd_channel != '5.0/edge' }}
+        shell: bash
+        run: ./tests/scripts/create_oidc_identities
 
       - name: Run Playwright tests
         run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}

@@ -5,7 +5,8 @@
   <br/>
   <pre><code>snap install lxd
 lxd init # can accept all defaults
-lxc config set core.https_address "[::]:8443"</code></pre>
+lxc config set core.https_address "[::]:8443"
+lxc config set user.show_permissions=true</code></pre>
 </details>
 
 <details>
