@@ -61,6 +61,7 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
           sudo lxc cluster enable local
+          sudo lxc config set user.show_permissions=true
 
       - name: Create a custom image
         shell: bash
@@ -76,6 +77,10 @@ jobs:
 
       - name: Install Playwright Browser
         run: npx playwright install --with-deps chromium
+
+      - name: Create OIDC users
+        shell: bash
+        run: ./tests/scripts/create_oidc_identities
 
       - name: Run tests with coverage
         shell: bash

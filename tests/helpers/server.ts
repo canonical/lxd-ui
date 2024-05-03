@@ -81,3 +81,9 @@ export const resetSetting = async (
   await page.getByRole("button", { name: "Close notification" }).click();
   await validateSettingValue(settingRow, defaultValue);
 };
+
+export const getServerSettingValue = (page: Page, settingName: string) => {
+  const settingRow = page.locator("css=tr", { hasText: settingName });
+  const settingValueCell = settingRow.locator("css=.readmode-value");
+  return settingValueCell.textContent();
+};
