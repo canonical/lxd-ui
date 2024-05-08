@@ -171,10 +171,10 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         return true;
       }
       return (
-        item.aliases.includes(query) ||
-        item.arch.includes(query) ||
-        item.os.includes(query) ||
-        item.release.includes(query)
+        item.aliases.toLowerCase().includes(query) ||
+        item.arch.toLowerCase().includes(query) ||
+        item.os.toLowerCase().includes(query) ||
+        item.release.toLowerCase().includes(query)
       );
     })
     .map((item) => {
@@ -414,12 +414,11 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 name="search-image"
                 type="text"
                 onChange={(value) => {
-                  setQuery(value);
+                  setQuery(value.toLowerCase());
                   setOs("");
                   setRelease("");
                 }}
                 placeholder="Search an image"
-                value={query}
               />
             </div>
           </div>
