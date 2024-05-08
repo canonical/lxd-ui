@@ -5,15 +5,19 @@ Targets small and large scale private clouds.
 
 # Install
 
-Get the LXD snap
+1. Get the LXD snap
 
-    sudo snap install --channel=latest/stable lxd
+       sudo snap install --channel=latest/stable lxd
 
-Or refresh to ensure at least version 5.14 is installed
+   Or refresh to ensure at least version 5.21 LTS is installed
 
-    sudo snap refresh --channel=latest/stable lxd
+       sudo snap refresh --channel=latest/stable lxd
 
-Follow the guide to [access the LXD web UI](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/).
+2. Make sure that your LXD server is exposed to the network. For example listen on port 8443 of all available interfaces:
+
+       lxc config set core.https_address :8443
+
+3. Done. Access the UI in your browser by entering the server address (for example on localhost, https://127.0.0.1:8443). You can find more information on the UI in the [LXD documentation](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/).
 
 # Contributing
 
