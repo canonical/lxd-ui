@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import classnames from "classnames";
+import { AppMain, Panel } from "@canonical/react-components";
 
 interface Props {
   title: string | ReactNode;
@@ -17,17 +17,15 @@ const BaseLayout: FC<Props> = ({
   contentClassName,
 }: Props) => {
   return (
-    <main className={classnames("l-main", mainClassName)}>
-      <div className="p-panel">
-        <div className="p-panel__header">
-          <h1 className="p-panel__title">{title}</h1>
-          {controls && <div className="p-panel__controls">{controls}</div>}
-        </div>
-        <div className={classnames("p-panel__content", contentClassName)}>
-          {children}
-        </div>
-      </div>
-    </main>
+    <AppMain className={mainClassName}>
+      <Panel
+        contentClassName={contentClassName}
+        controls={controls}
+        title={title}
+      >
+        {children}
+      </Panel>
+    </AppMain>
   );
 };
 

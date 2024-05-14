@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, ReactNode } from "react";
 import classnames from "classnames";
-import { Spinner } from "@canonical/react-components";
+import { AppAside, Panel, Spinner } from "@canonical/react-components";
 import { createPortal } from "react-dom";
 import usePanelParams from "util/usePanelParams";
 import useEventListener from "@use-it/event-listener";
@@ -51,7 +51,7 @@ const Container: FC<PropsWithChildren & CommonProps> = ({
   children,
   className,
 }) => {
-  return <div className={classnames("p-panel", className)}>{children}</div>;
+  return <Panel className={className}>{children}</Panel>;
 };
 
 const Content: FC<PropsWithChildren & CommonProps> = ({
@@ -105,15 +105,15 @@ const SidePanelComponent: FC<SidePanelProps> = ({
   });
 
   return createPortal(
-    <aside
-      className={classnames("l-aside", className, {
+    <AppAside
+      className={classnames(className, {
         "is-narrow": width === "narrow",
         "is-wide": width === "wide",
-        "is-pinned": pinned,
         "is-split": isSplit,
         "is-overlay": isOverlay,
       })}
       aria-label="Side panel"
+      pinned={pinned}
     >
       {loading ? (
         <div className="loading">
@@ -122,7 +122,7 @@ const SidePanelComponent: FC<SidePanelProps> = ({
       ) : (
         <>{hasError ? <>Loading failed</> : children}</>
       )}
-    </aside>,
+    </AppAside>,
     document.getElementById("l-application") as Element,
   );
 };
