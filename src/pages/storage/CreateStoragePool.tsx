@@ -72,7 +72,7 @@ const CreateStoragePool: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          navigate(`/ui/project/${project}/storage`);
+          navigate(`/ui/project/${project}/storage/pools`);
           toastNotify.success(`Storage pool ${storagePool.name} created.`);
         })
         .catch((e) => {
@@ -100,7 +100,7 @@ const CreateStoragePool: FC = () => {
       <FormFooterLayout>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/storage`)}
+          onClick={() => navigate(`/ui/project/${project}/storage/pools`)}
         >
           Cancel
         </Button>

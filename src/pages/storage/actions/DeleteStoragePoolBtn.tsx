@@ -39,7 +39,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],
         });
-        navigate(`/ui/project/${project}/storage`);
+        navigate(`/ui/project/${project}/storage/pools`);
         toastNotify.success(`Storage pool ${pool.name} deleted.`);
       })
       .catch((e) => {
