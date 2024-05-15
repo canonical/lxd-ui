@@ -2,6 +2,8 @@ domain: lxd-ui
 
 image: prod-comms.ps5.docker-registry.canonical.com/lxd-ui
 
+useProxy: false
+
 env:
   - name: LXD_UI_BACKEND_IP
     secretKeyRef:
