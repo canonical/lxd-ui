@@ -1,6 +1,5 @@
 import { FC } from "react";
-import Navigation from "components/Navigation";
-import { Application, QueuedNotification } from "@canonical/react-components";
+import { QueuedNotification } from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
 import { EventQueueProvider } from "context/eventQueue";
@@ -14,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import CombinedNotificationProvider from "context/CombinedNotificationProvider";
 import StatusBar from "components/StatusBar";
 import OperationsProvider from "context/operationsProvider";
+import Layout from "components/Layout";
 
 const queryClient = new QueryClient();
 
@@ -32,14 +32,13 @@ const Root: FC = () => {
               <InstanceLoadingProvider>
                 <OperationsProvider>
                   <EventQueueProvider>
-                    <Application id="l-application">
-                      <Navigation />
+                    <Layout>
                       <ErrorBoundary fallback={ErrorPage}>
                         <App />
                         <Events />
                         <StatusBar />
                       </ErrorBoundary>
-                    </Application>
+                    </Layout>
                   </EventQueueProvider>
                 </OperationsProvider>
               </InstanceLoadingProvider>
