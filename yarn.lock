@@ -1093,16 +1093,16 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@canonical/react-components@0.52.0":
-  version "0.52.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.52.0.tgz#a2c53a90f62ea983f6b887b78662d71b9f40b4a8"
-  integrity sha512-LLGRQ5pbChh07YVubb2T937iLsUK/qPITjCw342lGqv5LhF95ihSpeFkyrHXAX7NpthLW8uHrjVASsA3FtzOgg==
+"@canonical/react-components@0.53.2":
+  version "0.53.2"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.53.2.tgz#68c44478d14c18d055ae826c08e97a5bf5628722"
+  integrity sha512-mSt/A8S8m6vq4m8nU4zLQRssvuwnuYEAXGFfV/vBi8uckQ6IZKHw/TatskUUGz4R77as8m4L8a+dSYm/pEtVVg==
   dependencies:
-    "@types/jest" "29.5.11"
-    "@types/node" "20.8.5"
-    "@types/react" "18.2.46"
-    "@types/react-dom" "18.2.18"
-    "@types/react-table" "7.7.19"
+    "@types/jest" "29.5.12"
+    "@types/node" "20.12.11"
+    "@types/react" "18.3.1"
+    "@types/react-dom" "18.3.0"
+    "@types/react-table" "7.7.20"
     classnames "2.5.1"
     jest-environment-jsdom "29.7.0"
     lodash.isequal "4.5.0"
@@ -1660,10 +1660,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@29.5.11":
-  version "29.5.11"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-29.5.11.tgz#0c13aa0da7d0929f078ab080ae5d4ced80fa2f2c"
-  integrity sha512-S2mHmYIVe13vrm6q4kN6fLYYAka15ALQki/vgDC3mIukEOx8WJlv0kQPM+d4w8Gp6u0uSdKND04IlTXBv0rwnQ==
+"@types/jest@29.5.12":
+  version "29.5.12"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-29.5.12.tgz#7f7dc6eb4cf246d2474ed78744b05d06ce025544"
+  integrity sha512-eDC8bTvT/QhYdxJAulQikueigY5AsdBRH2yDKW3yveW7svY3+DzN84/2NUgkw10RTiJbWqZrTtoGVdYlvFJdLw==
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
@@ -1708,12 +1708,12 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@20.8.5":
-  version "20.8.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.8.5.tgz#13352ae1f80032171616910e8aba2e3e52e57d96"
-  integrity sha512-SPlobFgbidfIeOYlzXiEjSYeIJiOCthv+9tSQVpvk4PAdIIc+2SmjNVzWXk9t0Y7dl73Zdf+OgXKHX9XtkqUpw==
+"@types/node@20.12.11":
+  version "20.12.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.11.tgz#c4ef00d3507000d17690643278a60dc55a9dc9be"
+  integrity sha512-vDg9PZ/zi+Nqp6boSOT7plNuthRugEKixDv5sFTIpkE89MmNtEArAShI4mxuX2+UrLEe9pxC1vm2cjm9YlWbJw==
   dependencies:
-    undici-types "~5.25.1"
+    undici-types "~5.26.4"
 
 "@types/prop-types@*":
   version "15.7.12"
@@ -1735,6 +1735,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-dom@18.3.0":
+  version "18.3.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.3.0.tgz#0cbc818755d87066ab6ca74fbedb2547d74a82b0"
+  integrity sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@5.3.3":
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.3.3.tgz#e9d6b4a66fcdbd651a5f106c2656a30088cc1e83"
@@ -1752,10 +1759,10 @@
     "@types/history" "^4.7.11"
     "@types/react" "*"
 
-"@types/react-table@7.7.19":
-  version "7.7.19"
-  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.19.tgz#5175cb52a7df9e0234a67bdbdfe592738c92c862"
-  integrity sha512-47jMa1Pai7ily6BXJCW33IL5ghqmCWs2VM9s+h1D4mCaK5P4uNkZOW3RMMg8MCXBvAJ0v9+sPqKjhid0PaJPQA==
+"@types/react-table@7.7.20":
+  version "7.7.20"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.20.tgz#2f68e70ca7a703ad8011a8da55c38482f0eb4314"
+  integrity sha512-ahMp4pmjVlnExxNwxyaDrFgmKxSbPwU23sGQw2gJK4EhCvnvmib2s/O/+y1dfV57dXOwpr2plfyBol+vEHbi2w==
   dependencies:
     "@types/react" "*"
 
@@ -1767,15 +1774,6 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
-"@types/react@18.2.46":
-  version "18.2.46"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.46.tgz#f04d6c528f8f136ea66333bc66abcae46e2680df"
-  integrity sha512-nNCvVBcZlvX4NU1nRRNV/mFl1nNRuTuslAJglQsq+8ldXe5Xv0Wd2f7WTE3jOxhLH2BFfiZGC6GCp+kHQbgG+w==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
 "@types/react@18.2.48":
   version "18.2.48"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.48.tgz#11df5664642d0bd879c1f58bc1d37205b064e8f1"
@@ -1783,6 +1781,14 @@
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@18.3.1":
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.1.tgz#fed43985caa834a2084d002e4771e15dfcbdbe8e"
+  integrity sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==
+  dependencies:
+    "@types/prop-types" "*"
     csstype "^3.0.2"
 
 "@types/scheduler@*":
@@ -6348,11 +6354,6 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
-
-undici-types@~5.25.1:
-  version "5.25.3"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.25.3.tgz#e044115914c85f0bcbb229f346ab739f064998c3"
-  integrity sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==
 
 undici-types@~5.26.4:
   version "5.26.5"

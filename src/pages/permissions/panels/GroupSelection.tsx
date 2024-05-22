@@ -147,7 +147,7 @@ const GroupSelection: FC<Props> = ({
         </ScrollableTable>
       ) : (
         <EmptyState
-          className="empty-state"
+          className="empty-state empty-state__full-width"
           image={<Icon name="user-group" className="empty-state-icon" />}
           title="No groups"
         >
