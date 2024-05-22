@@ -80,5 +80,6 @@ dist/
 /playwright-report/
 /playwright/.cache/
 /coverage
+tests/screenshots
 
 haproxy-local.cfg

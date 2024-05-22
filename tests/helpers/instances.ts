@@ -8,9 +8,11 @@ export const randomInstanceName = (): string => {
 export const createInstance = async (
   page: Page,
   instance: string,
-  type = "container",
+  type: string = "container",
+  project: string = "default",
+  image: string = "alpine/3.19/cloud",
 ) => {
-  await page.goto("/ui/");
+  await page.goto(`/ui/project/${project}`);
   await page
     .getByRole("link", { name: "Instances", exact: true })
     .first()
@@ -20,8 +22,8 @@ export const createInstance = async (
   await page.getByLabel("Instance name").fill(instance);
   await page.getByRole("button", { name: "Browse images" }).click();
   await page.getByPlaceholder("Search an image").click();
-  await page.getByPlaceholder("Search an image").fill("alpine/3.19/cloud");
-  await page.getByRole("button", { name: "Select" }).click();
+  await page.getByPlaceholder("Search an image").fill(image);
+  await page.getByRole("button", { name: "Select" }).first().click();
   await page
     .getByRole("combobox", { name: "Instance type" })
     .selectOption(type);
@@ -30,8 +32,12 @@ export const createInstance = async (
   await page.waitForSelector(`text=Created instance ${instance}.`);
 };
 
-export const visitInstance = async (page: Page, instance: string) => {
-  await page.goto("/ui/");
+export const visitInstance = async (
+  page: Page,
+  instance: string,
+  project: string = "default",
+) => {
+  await page.goto(`/ui/project/${project}`);
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();
@@ -49,8 +55,12 @@ export const saveInstance = async (page: Page, instance: string) => {
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
-export const deleteInstance = async (page: Page, instance: string) => {
-  await visitInstance(page, instance);
+export const deleteInstance = async (
+  page: Page,
+  instance: string,
+  project: string = "default",
+) => {
+  await visitInstance(page, instance, project);
   const stopButton = page.getByRole("button", { name: "Stop", exact: true });
   if (await stopButton.isEnabled()) {
     await page.keyboard.down("Shift");
