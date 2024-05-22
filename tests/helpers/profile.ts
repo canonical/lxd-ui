@@ -5,13 +5,21 @@ export const randomProfileName = (): string => {
   return `playwright-profile-${randomNameSuffix()}`;
 };
 
-export const createProfile = async (page: Page, profile: string) => {
-  await startProfileCreation(page, profile);
+export const createProfile = async (
+  page: Page,
+  profile: string,
+  project: string = "default",
+) => {
+  await startProfileCreation(page, profile, project);
   await finishProfileCreation(page, profile);
 };
 
-export const startProfileCreation = async (page: Page, profile: string) => {
-  await page.goto("/ui/");
+export const startProfileCreation = async (
+  page: Page,
+  profile: string,
+  project: string = "default",
+) => {
+  await page.goto(`/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
   await page.getByRole("button", { name: "Create profile" }).click();
   await page.getByLabel("Profile name").fill(profile);
@@ -22,8 +30,12 @@ export const finishProfileCreation = async (page: Page, profile: string) => {
   await page.waitForSelector(`text=Profile ${profile} created.`);
 };
 
-export const deleteProfile = async (page: Page, profile: string) => {
-  await visitProfile(page, profile);
+export const deleteProfile = async (
+  page: Page,
+  profile: string,
+  project: string = "default",
+) => {
+  await visitProfile(page, profile, project);
   await page.getByRole("button", { name: "Delete" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
@@ -32,8 +44,12 @@ export const deleteProfile = async (page: Page, profile: string) => {
   await page.waitForSelector(`text=Profile ${profile} deleted.`);
 };
 
-export const visitProfile = async (page: Page, profile: string) => {
-  await page.goto("/ui/");
+export const visitProfile = async (
+  page: Page,
+  profile: string,
+  project: string = "default",
+) => {
+  await page.goto(`/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(profile);
