@@ -81,12 +81,21 @@
       }
     }
 
-    .profile-action-btn {
-      margin-right: $sph--large;
+    .profile-actions {
+      display: flex;
+
+      .profile-action-btn {
+        margin-right: $sph--large;
+      }
     }
 
-    .profile-delete-btn {
+    .profile-remove-btn {
+      align-self: flex-start;
       margin-left: $sph--large;
+    }
+
+    .profile-add-btn {
+      display: block;
     }
 
     .delete-device {
@@ -111,7 +120,7 @@
     }
   }
 
-  @media screen and (width <= 1400px) {
+  @media screen and (width <=1400px) {
     .cpu-limit-label,
     .memory-limit-label {
       display: block !important;

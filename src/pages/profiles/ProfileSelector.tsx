@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import {
   Button,
   Icon,
@@ -38,6 +38,14 @@ const ProfileSelector: FC<Props> = ({
     queryFn: () => fetchProfiles(project),
   });
 
+  useEffect(() => {
+    const contentdetails = document.getElementById("content-details");
+
+    if (contentdetails) {
+      contentdetails.scrollTop = contentdetails.scrollHeight;
+    }
+  }, [selected]);
+
   if (isLoading) {
     return <Loader text="Loading profiles..." />;
   }
@@ -53,7 +61,7 @@ const ProfileSelector: FC<Props> = ({
   );
 
   const addProfile = () => {
-    const nextProfile = unselected.pop()?.name;
+    const nextProfile = unselected[0]?.name;
     if (nextProfile) {
       setSelected([...selected, nextProfile]);
     }
@@ -94,59 +102,65 @@ const ProfileSelector: FC<Props> = ({
               title={title}
             ></Select>
           </div>
-          {!readOnly && (index > 0 || selected.length > 1) && (
-            <div>
-              <Button
-                appearance="link"
-                className="profile-action-btn"
-                onClick={() => {
-                  const newSelection = [...selected];
-                  newSelection.splice(index, 1);
-                  newSelection.splice(index - 1, 0, value);
-                  setSelected(newSelection);
-                }}
-                type="button"
-                aria-label="move profile up"
-                title="move profile up"
-                disabled={index === 0}
-              >
-                <Icon name="chevron-up" />
-              </Button>
-              <Button
-                appearance="link"
-                className="profile-action-btn"
-                onClick={() => {
-                  const newSelection = [...selected];
-                  newSelection.splice(index, 1);
-                  newSelection.splice(index + 1, 0, value);
-                  setSelected(newSelection);
-                }}
-                type="button"
-                aria-label="move profile down"
-                title="move profile down"
-                disabled={index === selected.length - 1}
-              >
-                <Icon name="chevron-down" />
-              </Button>
-              {index > 0 && (
+
+          <div className="profile-actions">
+            {!readOnly && (index > 0 || selected.length > 1) && (
+              <div>
                 <Button
                   appearance="link"
-                  className="profile-delete-btn"
-                  onClick={() =>
-                    setSelected(selected.filter((item) => item !== value))
-                  }
+                  className="profile-action-btn"
+                  onClick={() => {
+                    const newSelection = [...selected];
+                    newSelection.splice(index, 1);
+                    newSelection.splice(index - 1, 0, value);
+                    setSelected(newSelection);
+                  }}
                   type="button"
+                  aria-label="move profile up"
+                  title="move profile up"
+                  disabled={index === 0}
                 >
-                  Delete
+                  <Icon name="chevron-up" />
                 </Button>
-              )}
-            </div>
-          )}
+                <Button
+                  appearance="link"
+                  className="profile-action-btn"
+                  onClick={() => {
+                    const newSelection = [...selected];
+                    newSelection.splice(index, 1);
+                    newSelection.splice(index + 1, 0, value);
+                    setSelected(newSelection);
+                  }}
+                  type="button"
+                  aria-label="move profile down"
+                  title="move profile down"
+                  disabled={index === selected.length - 1}
+                >
+                  <Icon name="chevron-down" />
+                </Button>
+              </div>
+            )}
+
+            {!readOnly && (
+              <Button
+                appearance="link"
+                className="profile-remove-btn"
+                onClick={() =>
+                  setSelected(selected.filter((item) => item !== value))
+                }
+                type="button"
+              >
+                Remove
+              </Button>
+            )}
+          </div>
         </div>
       ))}
       {!readOnly && (
         <Button
+          id="addProfileButton"
           disabled={unselected.length === 0}
+          className="profile-add-btn"
           onClick={addProfile}
           type="button"
         >
