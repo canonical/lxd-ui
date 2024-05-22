@@ -43,7 +43,9 @@ const ScrollableContainer: FC<Props> = ({
 
   return (
     <div ref={ref} className={classnames("scrollable-container", className)}>
-      <div className="content-details">{children}</div>
+      <div id="content-details" className="content-details">
+        {children}
+      </div>
     </div>
   );
 };
