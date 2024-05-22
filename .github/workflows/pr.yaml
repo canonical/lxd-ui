@@ -77,7 +77,7 @@ jobs:
 
       - name: Install Dotrun
         run: |
-          sudo pip3 install dotrun
+          sudo pip3 install dotrun requests==2.31.0 # requests version is pinned to avoid breaking changes, can be removed once issue is resolved: https://github.com/docker/docker-py/issues/3256
 
       - name: Restore cached keys
         uses: actions/cache/restore@v3
@@ -221,7 +221,7 @@ jobs:
 
       - name: Install Dotrun
         run: |
-          sudo pip3 install dotrun
+          sudo pip3 install dotrun requests==2.31.0 # requests version is pinned to avoid breaking changes, can be removed once issue is resolved: https://github.com/docker/docker-py/issues/3256
 
       - name: Install LXD-UI dependencies
         run: |
