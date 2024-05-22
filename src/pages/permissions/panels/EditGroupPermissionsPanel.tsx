@@ -384,7 +384,7 @@ const EditGroupPermissionsPanel: FC<Props> = ({ group }) => {
             />
             {!permissions.length ? (
               <EmptyState
-                className="empty-state full-width show-left-icon"
+                className="empty-state empty-state__full-width"
                 image={<Icon name="plans" className="empty-state-icon" />}
                 title="No permissions"
               >
