@@ -42,9 +42,14 @@ export const collectAllStorageVolumes = async (
     pools.map(async (pool) => fetchStorageVolumes(pool.name, project)),
   );
 
-  poolVolumes.forEach((result) => {
+  poolVolumes.forEach((result, index) => {
     if (result.status === "fulfilled") {
-      allVolumes.push(...result.value);
+      const pool = pools[index];
+      const volumes = result.value.map((volume) => ({
+        ...volume,
+        pool: pool.name,
+      }));
+      allVolumes.push(...volumes);
     } else {
       throw new Error("Failed to load iso images");
     }
