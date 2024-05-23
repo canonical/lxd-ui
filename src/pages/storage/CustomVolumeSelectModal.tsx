@@ -8,6 +8,7 @@ import ScrollableTable from "components/ScrollableTable";
 import { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
 import { renderContentType } from "util/storageVolume";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   project: string;
@@ -25,6 +26,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
   onCreate,
 }) => {
   const notify = useNotify();
+  const { hasStorageVolumesAll } = useSupportedFeatures();
 
   const {
     data: volumes = [],
@@ -34,7 +36,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
   } = useQuery({
     queryKey: [queryKeys.customVolumes],
     refetchOnMount: (query) => query.state.isInvalidated,
-    queryFn: () => loadCustomVolumes(project),
+    queryFn: () => loadCustomVolumes(project, hasStorageVolumesAll),
   });
 
   if (error) {
