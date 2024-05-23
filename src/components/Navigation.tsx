@@ -14,6 +14,7 @@ import NavAccordion, { AccordionNavMenu } from "./NavAccordion";
 import useEventListener from "@use-it/event-listener";
 import { enablePermissionsFeature } from "util/permissions";
 import { Location, useLocation } from "react-router-dom";
+import { useLoggedInUser } from "context/useLoggedInUser";
 
 const isSmallScreen = () => isWidthBelow(620);
 
@@ -41,6 +42,7 @@ const Navigation: FC = () => {
     project && !isLoading ? project.name : "default",
   );
   const { hasCustomVolumeIso } = useSupportedFeatures();
+  const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
   const enablePermissions = enablePermissionsFeature();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
@@ -418,24 +420,6 @@ const Navigation: FC = () => {
                           Settings
                         </NavLink>
                       </li>
-                      {isOidc && (
-                        <li className="p-side-navigation__item">
-                          <a
-                            className="p-side-navigation__link"
-                            title="Log out"
-                            onClick={() => {
-                              logout();
-                              softToggleMenu();
-                            }}
-                          >
-                            <Icon
-                              className="is-light p-side-navigation__icon"
-                              name="power-off"
-                            />{" "}
-                            Log out
-                          </a>
-                        </li>
-                      )}
                     </>
                   )}
                   {!isAuthenticated && (
@@ -449,7 +433,7 @@ const Navigation: FC = () => {
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="profile"
-                          />{" "}
+                          />
                           Login
                         </NavLink>
                       </li>
@@ -464,6 +448,29 @@ const Navigation: FC = () => {
                     },
                   )}
                 >
+                  {isAuthenticated && (
+                    <li className="p-side-navigation__item">
+                      <div
+                        className="p-side-navigation__link"
+                        title={`${loggedInUserName} (${loggedInUserID})`}
+                      >
+                        {authMethod == "tls" ? (
+                          <Icon
+                            className="p-side-navigation__icon is-dark"
+                            name="lock-locked"
+                          />
+                        ) : authMethod == "oidc" ? (
+                          <Icon
+                            className="p-side-navigation__icon is-dark"
+                            name="profile"
+                          />
+                        ) : (
+                          <></>
+                        )}
+                        <div className="u-truncate">{loggedInUserName}</div>
+                      </div>
+                    </li>
+                  )}
                   <li className="p-side-navigation__item">
                     <a
                       className="p-side-navigation__link"
@@ -475,7 +482,7 @@ const Navigation: FC = () => {
                       <Icon
                         className="p-side-navigation__icon"
                         name="information"
-                      />{" "}
+                      />
                       Documentation
                     </a>
                   </li>
@@ -490,7 +497,7 @@ const Navigation: FC = () => {
                       <Icon
                         className="is-light p-side-navigation__icon"
                         name="share"
-                      />{" "}
+                      />
                       Discussion
                     </a>
                   </li>
@@ -505,10 +512,28 @@ const Navigation: FC = () => {
                       <Icon
                         className="is-light p-side-navigation__icon"
                         name="code"
-                      />{" "}
+                      />
                       Report a bug
                     </a>
                   </li>
+                  {isOidc && (
+                    <li className="p-side-navigation__item">
+                      <a
+                        className="p-side-navigation__link"
+                        title="Log out"
+                        onClick={() => {
+                          logout();
+                          softToggleMenu();
+                        }}
+                      >
+                        <Icon
+                          className="is-light p-side-navigation__icon p-side-logout"
+                          name="export"
+                        />
+                        Log out
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
