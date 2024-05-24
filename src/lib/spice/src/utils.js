@@ -37,27 +37,6 @@ var DUMP_CANVASES = false;
 var EMPTY_GIF_IMAGE = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
 /*----------------------------------------------------------------------------
-**  combine_array_buffers
-**      Combine two array buffers.
-**      FIXME - this can't be optimal.  See wire.js about eliminating the need.
-**--------------------------------------------------------------------------*/
-function combine_array_buffers(a1, a2)
-{
-    var in1 = new Uint8Array(a1);
-    var in2 = new Uint8Array(a2);
-    var ret = new ArrayBuffer(a1.byteLength + a2.byteLength);
-    var out = new Uint8Array(ret);
-    var o = 0;
-    var i;
-    for (i = 0; i < in1.length; i++)
-        out[o++] = in1[i];
-    for (i = 0; i < in2.length; i++)
-        out[o++] = in2[i];
-
-    return ret;
-}
-
-/*----------------------------------------------------------------------------
 **  hexdump_buffer
 **--------------------------------------------------------------------------*/
 function hexdump_buffer(a)
@@ -354,7 +333,6 @@ export {
   DUMP_DRAWS,
   DUMP_CANVASES,
   EMPTY_GIF_IMAGE,
-  combine_array_buffers,
   hexdump_buffer,
   arraybuffer_to_str,
   keycode_to_start_scan,
