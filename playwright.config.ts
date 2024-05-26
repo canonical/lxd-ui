@@ -1,6 +1,13 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
-import { TestOptions } from "./tests/fixtures/lxd-test";
+import { TestOptions, authFile } from "./tests/fixtures/lxd-test";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// provide environment variables from .env.local to all tests
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -42,6 +49,17 @@ const config: PlaywrightTestConfig<TestOptions> = {
 
   /* Configure projects for major browsers */
   projects: [
+    // Setup project
+    {
+      name: "setup-chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
+      name: "setup-firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: /.*\.setup\.ts/,
+    },
     {
       name: "chromium:lxd-5.0-edge",
       use: {
@@ -61,36 +79,46 @@ const config: PlaywrightTestConfig<TestOptions> = {
       use: {
         ...devices["Desktop Chrome"],
         lxdVersion: "5.21-edge",
+        storageState: authFile,
       },
+      dependencies: ["setup-chromium"],
     },
     {
       name: "firefox:lxd-5.21-edge",
       use: {
         ...devices["Desktop Firefox"],
         lxdVersion: "5.21-edge",
+        storageState: authFile,
       },
+      dependencies: ["setup-firefox"],
     },
     {
       name: "chromium:lxd-latest-edge",
       use: {
         ...devices["Desktop Chrome"],
         lxdVersion: "latest-edge",
+        storageState: authFile,
       },
+      dependencies: ["setup-chromium"],
     },
     {
       name: "firefox:lxd-latest-edge",
       use: {
         ...devices["Desktop Firefox"],
         lxdVersion: "latest-edge",
+        storageState: authFile,
       },
+      dependencies: ["setup-firefox"],
     },
     {
       name: "coverage",
       use: {
         ...devices["Desktop Chrome"],
         lxdVersion: "latest-edge",
+        storageState: authFile,
         hasCoverage: true,
       },
+      dependencies: ["setup-chromium"],
     },
   ],
 };

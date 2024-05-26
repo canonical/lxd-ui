@@ -137,6 +137,18 @@ The e2e tests can be run against LXD 5.0, or the edge version of LXD. If you wan
 
     snap refresh lxd --channel latest/edge
 
+The tests are carried out for oidc authenticated identities and therefore will require oidc setup for your lxd server. You may refer to the [Setup oidc login wiki page](https://github.com/canonical/lxd-ui/wiki/Setup-oidc-login) for setup instructions. Once you have completed the oidc setup, create a `.env.local` file at the root level of the project and ensure the environment variables shown below are set against the relevant lxd server oidc config values:
+    # Configs that enables OIDC authentication for the lxd server
+    LXD_OIDC_CLIENT_ID=[oidc.client.id]
+    LXD_OIDC_ISSUER=[oidc.issuer]
+    LXD_OIDC_AUDIENCE=[oidc.audience]
+    # Config required for provisioning the OIDC identity with admin permission
+    LXD_OIDC_GROUPS_CLAIM=[oidc.groups.claim]
+    
+    # user email and password from your identity provider for the identity that you intend to authenticate with
+    LXD_OIDC_USER=[login-user-email]
+    LXD_OIDC_PASSWORD=[login-user-password]
+
 The tests expect the environment on localhost to be accessible. Execute `dotrun` first then run the tests against the latest LXD version with
 
     yarn test-e2e-edge

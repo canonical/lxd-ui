@@ -26,3 +26,5 @@ export const test = base.extend<TestOptions>({
 });
 
 export const expect = test.expect;
+
+export const authFile = "tests/.auth/user.json";

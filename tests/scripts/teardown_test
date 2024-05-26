@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+set -e
+
+lxd sql global "
+    DELETE
+    FROM identities
+    WHERE name IN ('foo', 'bar', 'admin');
+"
+lxc auth identity-provider-group delete admin
+lxc auth group delete login-admin
+
+# add tls cert back
+lxc config trust add keys/lxd-ui.crt
