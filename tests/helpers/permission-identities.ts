@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 
-// These identities are created by the create_oidc_identities script in tests/scripts
+// These identities are created by the setup_test script in tests/scripts
 export const identityBar = "bar@bar.com";
 export const identityFoo = "foo@foo.com";
 

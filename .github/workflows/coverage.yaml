@@ -6,8 +6,16 @@ on:
 
 jobs:
   e2e-coverage:
+    environment: ci-end-to-end
     name: e2e-test-coverage
     runs-on: ubuntu-latest
+    env:
+      LXD_OIDC_CLIENT_ID: ${{ secrets.LXD_OIDC_CLIENT_ID }}
+      LXD_OIDC_ISSUER: ${{ secrets.LXD_OIDC_ISSUER }}
+      LXD_OIDC_AUDIENCE: ${{ secrets.LXD_OIDC_AUDIENCE }}
+      LXD_OIDC_USER: ${{ secrets.LXD_OIDC_USER }}
+      LXD_OIDC_PASSWORD: ${{ secrets.LXD_OIDC_PASSWORD }}
+      LXD_OIDC_GROUPS_CLAIM: ${{ secrets.LXD_OIDC_GROUPS_CLAIM }}
     steps:
       - uses: actions/checkout@v4
 
@@ -78,9 +86,9 @@ jobs:
       - name: Install Playwright Browser
         run: npx playwright install --with-deps chromium
 
-      - name: Create OIDC users
+      - name: Setup for tests
         shell: bash
-        run: ./tests/scripts/create_oidc_identities
+        run: ./tests/scripts/setup_test
 
       - name: Run tests with coverage
         shell: bash
