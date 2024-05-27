@@ -7,7 +7,7 @@ import {
 import { createProject, deleteProject } from "./helpers/projects";
 import { createProfile, deleteProfile, visitProfile } from "./helpers/profile";
 
-test.beforeAll(() => {
+test.beforeEach(() => {
   test.skip(
     Boolean(process.env.CI),
     "This suite is only run manually to create screenshots for the readme file",
