@@ -1,6 +1,6 @@
 import Loader from "components/Loader";
-import NoMatch from "components/NoMatch";
 import { useProject } from "context/project";
+import NoProject from "components/NoProject";
 
 interface Props {
   outlet: JSX.Element;
@@ -14,7 +14,7 @@ const ProjectLoader = ({ outlet }: Props) => {
   }
 
   if (!project) {
-    return <NoMatch />;
+    return <NoProject />;
   }
 
   return outlet;

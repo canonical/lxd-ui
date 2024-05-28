@@ -9,6 +9,7 @@ import { setTitle } from "util/title";
 import CustomLayout from "components/CustomLayout";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
+import NoProject from "components/NoProject";
 
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -67,7 +68,8 @@ const PermissionIdpGroups = lazy(
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
 const App: FC = () => {
-  const { defaultProject, isAuthLoading, isAuthenticated } = useAuth();
+  const { defaultProject, hasNoProjects, isAuthLoading, isAuthenticated } =
+    useAuth();
   setTitle();
 
   if (isAuthLoading) {
@@ -93,7 +95,11 @@ const App: FC = () => {
             path={path}
             element={
               <Navigate
-                to={`/ui/project/${defaultProject}/instances`}
+                to={
+                  hasNoProjects
+                    ? "/ui/no-project"
+                    : `/ui/project/${defaultProject}/instances`
+                }
                 replace={true}
               />
             }
@@ -397,6 +403,7 @@ const App: FC = () => {
           element={<CertificateGenerate />}
         />
         <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
+        <Route path="ui/no-project" element={<NoProject />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>
