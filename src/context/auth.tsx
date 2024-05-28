@@ -11,6 +11,7 @@ interface ContextProps {
   isOidc: boolean;
   isRestricted: boolean;
   defaultProject: string;
+  hasNoProjects: boolean;
 }
 
 const initialState: ContextProps = {
@@ -19,6 +20,7 @@ const initialState: ContextProps = {
   isOidc: false,
   isRestricted: false,
   defaultProject: "default",
+  hasNoProjects: false,
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -30,7 +32,7 @@ interface ProviderProps {
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const { data: settings, isLoading } = useSettings();
 
-  const { data: projects = [] } = useQuery({
+  const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
     queryFn: fetchProjects,
     enabled: settings?.auth === "trusted",
@@ -63,6 +65,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         isAuthLoading: isLoading,
         isRestricted,
         defaultProject,
+        hasNoProjects: projects.length === 0 && !isProjectsLoading,
       }}
     >
       {children}
