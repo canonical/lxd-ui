@@ -5,13 +5,20 @@ export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
 };
 
-export const createVolume = async (page: Page, volume: string) => {
+export const createVolume = async (
+  page: Page,
+  volume: string,
+  volumeType = "filesystem",
+) => {
   await page.goto("/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByRole("button", { name: "Create volume" }).click();
   await page.getByPlaceholder("Enter name").fill(volume);
   await page.getByPlaceholder("Enter value").fill("1");
+  await page
+    .getByPlaceholder("Enter content type")
+    .selectOption({ label: volumeType });
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForSelector(`text=Storage volume ${volume} created.`);
   await page.getByRole("button", { name: "Close notification" }).click();

@@ -114,3 +114,28 @@ test("navigate to custom volume via pool used by list", async ({ page }) => {
   await page.getByRole("link", { name: volume }).click();
   await expect(page).toHaveURL(/volumes\/custom\//);
 });
+
+test("storage pool with driver zfs", async ({ page }) => {
+  const pool = randomPoolName();
+  await createPool(page, pool, "ZFS");
+
+  await expect(page.getByRole("link", { name: pool })).toBeVisible();
+
+  await deletePool(page, pool);
+
+  await expect(page.getByRole("link", { name: pool })).toBeHidden();
+});
+
+test("storage volume of type block", async ({ page }) => {
+  const volume = randomVolumeName();
+  await createVolume(page, volume, "block");
+
+  await expect(
+    page
+      .getByRole("row", { name: "Name" })
+      .filter({ hasText: volume })
+      .getByRole("cell", { name: "Content Type" }),
+  ).toHaveText("Block");
+
+  await deleteVolume(page, volume);
+});
