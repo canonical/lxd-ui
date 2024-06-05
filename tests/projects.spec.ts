@@ -5,6 +5,7 @@ import {
   setOption,
   setTextarea,
 } from "./helpers/configuration";
+import { assertTextVisible } from "./helpers/permissions";
 import {
   createProject,
   deleteProject,
@@ -46,8 +47,8 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   } else {
     await page.locator("label").filter({ hasText: "Network zones" }).click();
   }
-  await page.getByText("Allow custom restrictions on a project level").click();
 
+  await page.getByText("Allow custom restrictions on a project level").click();
   await page.getByText("Resource limits").click();
   await setInput(page, "Max number of instances", "Enter number", "1");
   await setInput(page, "Max number of containers", "Enter number", "2");
@@ -106,7 +107,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
 
   await page.getByText("Project details").click();
 
-  await page.getByText("DescriptionA-new-description").click();
+  await assertTextVisible(page, "DescriptionA-new-description");
   await expect(page.locator("input#features_networks")).toHaveValue("on");
   if (lxdVersion !== "5.0-edge") {
     await expect(page.locator("input#features_networks_zones")).toHaveValue(

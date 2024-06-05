@@ -25,6 +25,7 @@ import {
   deleteProfile,
   randomProfileName,
 } from "./helpers/profile";
+import { assertTextVisible } from "./helpers/permissions";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -55,7 +56,7 @@ test("instance terminal operations", async ({ page }) => {
   await page.getByRole("button", { name: "Reconnect" }).click();
   await page.getByLabel("Command").fill("sh");
   await page.getByLabel("submit reconnect").click();
-  await expect(page.getByText("~ #")).toBeVisible();
+  await assertTextVisible(page, "~ #");
   await page.waitForTimeout(1000); // ensure the terminal is ready
   await page.keyboard.type("cat /etc/issue");
   await page.keyboard.press("Enter");
@@ -85,7 +86,7 @@ test("instance edit basic details", async ({ page }) => {
 
   await saveInstance(page, instance);
 
-  await page.getByText("DescriptionA-new-description").click();
+  await assertTextVisible(page, "DescriptionA-new-description");
   await expect(page.locator("#profile-0")).toHaveValue(profile);
   await expect(page.locator("#profile-1")).toHaveValue("default");
 });
@@ -213,11 +214,7 @@ test("instance yaml edit", async ({ page }) => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
   await editInstance(page, vmInstance);
   await page.getByText("YAML configuration").click();
-
   await page.locator(".view-lines").click();
-  await page.keyboard.press("PageDown");
-  await page.keyboard.press("PageDown");
-  await page.keyboard.press("PageDown");
   await page.getByText("description: ''").click();
   await page.keyboard.press("End");
   await page.keyboard.press("ArrowLeft");
@@ -225,5 +222,5 @@ test("instance yaml edit", async ({ page }) => {
   await saveInstance(page, vmInstance);
 
   await page.getByText("Main configuration").click();
-  await page.getByText("DescriptionA-new-description").click();
+  await assertTextVisible(page, "DescriptionA-new-description");
 });

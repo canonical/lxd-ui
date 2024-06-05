@@ -8,12 +8,13 @@ export const skipIfNotSupported = (lxdVersion: LxdVersions) =>
     "Fine grained authorisation is not available for lxd 5.0",
   );
 
-export const assertModificationStatus = async (
+export const assertTextVisible = async (
   page: Page,
-  statusText: string,
+  textValue: string,
+  exact = false,
 ) => {
-  const status = page.getByText(statusText);
-  await expect(status).toBeVisible();
+  const textLocator = page.getByText(textValue, { exact: exact });
+  await expect(textLocator).toBeVisible();
 };
 
 export const undoChange = async (page: Page) => {

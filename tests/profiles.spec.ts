@@ -9,6 +9,7 @@ import {
   setOption,
   setSchedule,
 } from "./helpers/configuration";
+import { assertTextVisible } from "./helpers/permissions";
 import {
   createProfile,
   deleteProfile,
@@ -47,7 +48,7 @@ test("profile edit basic details", async ({ page }) => {
 
   await saveProfile(page, profile);
 
-  await page.getByText("DescriptionA-new-description").click();
+  await assertTextVisible(page, "DescriptionA-new-description");
 });
 
 test("profile cpu and memory", async ({ page }) => {
@@ -166,5 +167,5 @@ name: ${profile}`);
   await saveProfile(page, profile);
 
   await page.getByText("Main configuration").click();
-  await page.getByText("DescriptionA-new-description").click();
+  await assertTextVisible(page, "DescriptionA-new-description");
 });

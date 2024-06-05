@@ -16,6 +16,7 @@ import {
 } from "./helpers/instances";
 import { attachVolume, detachVolume } from "./helpers/devices";
 import { deleteVolume, randomVolumeName } from "./helpers/storageVolume";
+import { assertTextVisible } from "./helpers/permissions";
 
 test("instance attach custom volumes and detach inherited volumes", async ({
   page,
@@ -41,7 +42,7 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   await saveInstance(page, instance);
 
   await page.getByRole("gridcell", { name: "Detached" }).click();
-  await page.getByText("/baz").click();
+  await assertTextVisible(page, "/baz");
 
   await deleteInstance(page, instance);
   await deleteVolume(page, instanceVolume);
