@@ -12,7 +12,7 @@ import {
   visitIdentitiesPage,
 } from "./helpers/permission-identities";
 import {
-  assertModificationStatus,
+  assertTextVisible,
   confirmGroupsModifiedForIdentity,
   redoChange,
   undoChange,
@@ -33,11 +33,11 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
     .getByLabel("Manage groups")
     .click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);
-  await assertModificationStatus(page, "2 groups will be modified");
+  await assertTextVisible(page, "2 groups will be modified");
   await undoChange(page);
-  await assertModificationStatus(page, "1 group will be modified");
+  await assertTextVisible(page, "1 group will be modified");
   await redoChange(page);
-  await assertModificationStatus(page, "2 groups will be modified");
+  await assertTextVisible(page, "2 groups will be modified");
   await page.getByRole("button", { name: "Apply 2 group changes" }).click();
   await confirmGroupsModifiedForIdentity(
     page,
@@ -52,7 +52,7 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
     .getByLabel("Manage groups")
     .click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);
-  await assertModificationStatus(page, "2 groups will be modified");
+  await assertTextVisible(page, "2 groups will be modified");
   await page.getByRole("button", { name: "Apply 2 group changes" }).click();
   await confirmGroupsModifiedForIdentity(
     page,
@@ -76,7 +76,7 @@ test("manage groups for many identities", async ({ page, lxdVersion }) => {
   await selectIdentitiesToModify(page, [identityFoo, identityBar]);
   await page.getByLabel("Modify groups").click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);
-  await assertModificationStatus(page, "2 groups will be modified");
+  await assertTextVisible(page, "2 groups will be modified");
   await page.getByRole("button", { name: "Apply 2 group changes" }).click();
   await confirmGroupsModifiedForIdentity(
     page,
@@ -94,7 +94,7 @@ test("manage groups for many identities", async ({ page, lxdVersion }) => {
   await page.waitForSelector(`text=Updated groups for 2 identities`);
   await page.getByLabel("Modify groups").click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);
-  await assertModificationStatus(page, "2 groups will be modified");
+  await assertTextVisible(page, "2 groups will be modified");
   await page.getByRole("button", { name: "Apply 2 group changes" }).click();
   await confirmGroupsModifiedForIdentity(
     page,

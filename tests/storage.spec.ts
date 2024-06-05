@@ -16,6 +16,7 @@ import {
 } from "./helpers/storageVolume";
 import { activateOverride, setInput } from "./helpers/configuration";
 import { randomSnapshotName } from "./helpers/snapshots";
+import { assertTextVisible } from "./helpers/permissions";
 
 let volume = randomVolumeName();
 
@@ -41,8 +42,8 @@ test("storage pool create, edit and remove", async ({ page }) => {
   await savePool(page, pool);
 
   await page.getByTestId("tab-link-Overview").click();
-  await page.getByText("DescriptionA-new-description").click();
-  await page.getByText("StatusCreated").click();
+  await assertTextVisible(page, "DescriptionA-new-description");
+  await assertTextVisible(page, "StatusCreated");
 
   await deletePool(page, pool);
 });
@@ -53,7 +54,7 @@ test("storage volume create, edit and remove", async ({ page }) => {
   await saveVolume(page, volume);
 
   await page.getByTestId("tab-link-Overview").click();
-  await page.getByText("size2GiB").click();
+  await assertTextVisible(page, "size2GiB");
 });
 
 test("storage volume edit snapshot configuration", async ({

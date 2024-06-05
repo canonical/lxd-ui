@@ -15,7 +15,7 @@ import {
 } from "./helpers/permission-groups";
 import { identityBar, identityFoo } from "./helpers/permission-identities";
 import {
-  assertModificationStatus,
+  assertTextVisible,
   confirmIdentitiesModifiedForGroup,
   redoChange,
   undoChange,
@@ -51,7 +51,7 @@ test("add new permissions to group", async ({ page, lxdVersion }) => {
   await undoChange(page);
   await expect(page.getByText("1 permission will be modified")).toBeHidden();
   await redoChange(page);
-  await assertModificationStatus(page, "1 permission will be modified");
+  await assertTextVisible(page, "1 permission will be modified");
   await page.getByRole("button", { name: "Save changes" }).click();
   await page.waitForSelector(`text=Permissions for group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
@@ -64,14 +64,14 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await createGroup(page, group, group);
   await selectGroupAction(page, group, "Manage permissions");
   await addPermission(page, "server", "server", "admin");
-  await assertModificationStatus(page, "1 permission will be modified");
+  await assertTextVisible(page, "1 permission will be modified");
   await page.getByRole("button", { name: "Save changes" }).click();
   await page.waitForSelector(`text=Permissions for group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
   await selectGroupAction(page, group, "Manage permissions");
   await removePermission(page, "server", "server", "admin");
   await addPermission(page, "project", "default", "can_view");
-  await assertModificationStatus(page, "2 permissions will be modified");
+  await assertTextVisible(page, "2 permissions will be modified");
   await page.getByRole("button", { name: "Save changes" }).click();
   await page.waitForSelector(`text=Permissions for group ${group} updated.`);
   await assertGroupPermissionsCount(page, group, 1);
@@ -84,14 +84,14 @@ test("manage identities for single group", async ({ page, lxdVersion }) => {
   await createGroup(page, group, group);
   await selectGroupAction(page, group, "Manage identities");
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
-  await assertModificationStatus(page, "2 identities will be modified");
+  await assertTextVisible(page, "2 identities will be modified");
   await page.getByRole("button", { name: "Apply 2 identity changes" }).click();
   await confirmIdentitiesModifiedForGroup(page, group, ["foo", "bar"], "added");
   await page.getByRole("button", { name: "Confirm changes" }).click();
   await page.waitForSelector(`text=Updated identities for ${group}`);
   await selectGroupAction(page, group, "Manage identities");
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
-  await assertModificationStatus(page, "2 identities will be modified");
+  await assertTextVisible(page, "2 identities will be modified");
   await page.getByRole("button", { name: "Apply 2 identity changes" }).click();
   await confirmIdentitiesModifiedForGroup(
     page,
@@ -113,7 +113,7 @@ test("manage identities for many groups", async ({ page, lxdVersion }) => {
   await selectGroupsToModify(page, [groupOne, groupTwo]);
   await page.getByRole("button", { name: "Manage identities" }).click();
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
-  await assertModificationStatus(page, "2 identities will be modified");
+  await assertTextVisible(page, "2 identities will be modified");
   await page.getByRole("button", { name: "Apply 2 identity changes" }).click();
   await confirmIdentitiesModifiedForGroup(
     page,
@@ -131,7 +131,7 @@ test("manage identities for many groups", async ({ page, lxdVersion }) => {
   await page.waitForSelector(`text=Updated identities for 2 groups`);
   await page.getByRole("button", { name: "Manage identities" }).click();
   await toggleIdentitiesForGroups(page, [identityFoo, identityBar]);
-  await assertModificationStatus(page, "2 identities will be modified");
+  await assertTextVisible(page, "2 identities will be modified");
   await page.getByRole("button", { name: "Apply 2 identity changes" }).click();
   await confirmIdentitiesModifiedForGroup(
     page,
