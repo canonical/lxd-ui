@@ -26,6 +26,7 @@ export const networkFormFieldToPayloadName: Record<
   bridge_mtu: "bridge.mtu",
   dns_domain: "dns.domain",
   dns_mode: "dns.mode",
+  dns_nameservers: "dns.nameservers",
   dns_search: "dns.search",
   ipv4_address: "ipv4.address",
   ipv4_dhcp: "ipv4.dhcp",
@@ -35,6 +36,9 @@ export const networkFormFieldToPayloadName: Record<
   ipv4_nat: "ipv4.nat",
   ipv4_nat_address: "ipv4.nat.address",
   ipv4_ovn_ranges: "ipv4.ovn.ranges",
+  ipv4_gateway: "ipv4.gateway",
+  ipv4_routes: "ipv4.routes",
+  ipv4_routes_anycast: "ipv4.routes.anycast",
   ipv6_address: "ipv6.address",
   ipv6_dhcp: "ipv6.dhcp",
   ipv6_dhcp_expiry: "ipv6.dhcp.expiry",
@@ -44,7 +48,12 @@ export const networkFormFieldToPayloadName: Record<
   ipv6_nat: "ipv6.nat",
   ipv6_nat_address: "ipv6.nat.address",
   ipv6_ovn_ranges: "ipv6.ovn.ranges",
+  ipv6_gateway: "ipv6.gateway",
+  ipv6_routes: "ipv6.routes",
+  ipv6_routes_anycast: "ipv6.routes.anycast",
   network: "network",
+  ovn_ingress_mode: "ovn.ingress_mode",
+  parent: "parent",
 };
 
 export const getHandledNetworkConfigKeys = () => {

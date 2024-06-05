@@ -10,6 +10,7 @@ import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
+import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const NetworkFormMain: FC<Props> = ({ formik, project }) => {
-  const getFormProps = (id: "network" | "name" | "description") => {
+  const getFormProps = (id: "network" | "name" | "description" | "parent") => {
     return {
       id: id,
       name: id,
@@ -59,6 +60,13 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
               isDisabled={formik.values.readOnly}
             />
           )}
+          {formik.values.networkType === "physical" &&
+            formik.values.isCreating && (
+              <NetworkParentSelector
+                props={getFormProps("parent")}
+                isDisabled={formik.values.readOnly}
+              />
+            )}
         </Col>
       </Row>
       {formik.values.networkType !== "physical" && (
@@ -92,17 +100,15 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
               ),
             }),
 
-            ...(formik.values.ipv4_address !== "none"
-              ? [
-                  getConfigurationRow({
-                    formik,
-                    name: "ipv4_nat",
-                    label: "IPv4 NAT",
-                    defaultValue: "",
-                    children: <Select options={optionTrueFalse} />,
-                  }),
-                ]
-              : []),
+            getConfigurationRow({
+              formik,
+              name: "ipv4_nat",
+              label: "IPv4 NAT",
+              defaultValue: "",
+              children: <Select options={optionTrueFalse} />,
+              disabled: formik.values.ipv4_address === "none",
+              disabledReason: "IPv4 address is set to none",
+            }),
 
             getConfigurationRow({
               formik,
@@ -134,17 +140,15 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
               ),
             }),
 
-            ...(formik.values.ipv6_address !== "none"
-              ? [
-                  getConfigurationRow({
-                    formik,
-                    name: "ipv6_nat",
-                    label: "IPv6 NAT",
-                    defaultValue: "",
-                    children: <Select options={optionTrueFalse} />,
-                  }),
-                ]
-              : []),
+            getConfigurationRow({
+              formik,
+              name: "ipv6_nat",
+              label: "IPv6 NAT",
+              defaultValue: "",
+              children: <Select options={optionTrueFalse} />,
+              disabled: formik.values.ipv6_address === "none",
+              disabledReason: "IPv6 address is set to none",
+            }),
           ]}
         />
       )}

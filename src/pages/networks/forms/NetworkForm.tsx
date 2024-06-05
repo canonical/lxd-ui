@@ -20,6 +20,7 @@ import NetworkFormMenu, {
   IPV4,
   IPV6,
   MAIN_CONFIGURATION,
+  OVN,
   YAML_CONFIGURATION,
 } from "pages/networks/forms/NetworkFormMenu";
 import { FormikProps } from "formik/dist/types";
@@ -35,6 +36,7 @@ import { slugify } from "util/slugify";
 import { useDocs } from "context/useDocs";
 import YamlConfirmation from "components/forms/YamlConfirmation";
 import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
+import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -47,6 +49,7 @@ export interface NetworkFormValues {
   bridge_mtu?: string;
   dns_domain?: string;
   dns_mode?: LxdNetworkDnsMode;
+  dns_nameservers?: string;
   dns_search?: string;
   ipv4_address?: string;
   ipv4_dhcp?: string;
@@ -56,6 +59,9 @@ export interface NetworkFormValues {
   ipv4_nat?: string;
   ipv4_nat_address?: string;
   ipv4_ovn_ranges?: string;
+  ipv4_gateway?: string;
+  ipv4_routes?: string;
+  ipv4_routes_anycast?: string;
   ipv6_address?: string;
   ipv6_dhcp?: string;
   ipv6_dhcp_expiry?: string;
@@ -65,7 +71,12 @@ export interface NetworkFormValues {
   ipv6_nat?: string;
   ipv6_nat_address?: string;
   ipv6_ovn_ranges?: string;
+  ipv6_gateway?: string;
+  ipv6_routes?: string;
+  ipv6_routes_anycast?: string;
   network?: string;
+  ovn_ingress_mode?: string;
+  parent?: string;
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
@@ -110,6 +121,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("bridge_mtu")]: values.bridge_mtu,
       [getNetworkKey("dns_domain")]: values.dns_domain,
       [getNetworkKey("dns_mode")]: values.dns_mode,
+      [getNetworkKey("dns_nameservers")]: values.dns_nameservers,
       [getNetworkKey("dns_search")]: values.dns_search,
       [getNetworkKey("ipv4_address")]: values.ipv4_address,
       [getNetworkKey("ipv4_dhcp")]: values.ipv4_dhcp,
@@ -119,6 +131,9 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("ipv4_nat")]: values.ipv4_nat,
       [getNetworkKey("ipv4_nat_address")]: values.ipv4_nat_address,
       [getNetworkKey("ipv4_ovn_ranges")]: values.ipv4_ovn_ranges,
+      [getNetworkKey("ipv4_gateway")]: values.ipv4_gateway,
+      [getNetworkKey("ipv4_routes")]: values.ipv4_routes,
+      [getNetworkKey("ipv4_routes_anycast")]: values.ipv4_routes_anycast,
       [getNetworkKey("ipv6_address")]: values.ipv6_address,
       [getNetworkKey("ipv6_dhcp")]: values.ipv6_dhcp,
       [getNetworkKey("ipv6_dhcp_expiry")]: values.ipv6_dhcp_expiry,
@@ -128,7 +143,12 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("ipv6_nat")]: values.ipv6_nat,
       [getNetworkKey("ipv6_nat_address")]: values.ipv6_nat_address,
       [getNetworkKey("ipv6_ovn_ranges")]: values.ipv6_ovn_ranges,
+      [getNetworkKey("ipv6_gateway")]: values.ipv6_gateway,
+      [getNetworkKey("ipv6_routes")]: values.ipv6_routes,
+      [getNetworkKey("ipv6_routes_anycast")]: values.ipv6_routes_anycast,
       [getNetworkKey("network")]: values.network,
+      [getNetworkKey("ovn_ingress_mode")]: values.ovn_ingress_mode,
+      [getNetworkKey("parent")]: values.parent,
     },
   };
 };
@@ -196,6 +216,7 @@ const NetworkForm: FC<Props> = ({
           {section === slugify(DNS) && <NetworkFormDns formik={formik} />}
           {section === slugify(IPV4) && <NetworkFormIpv4 formik={formik} />}
           {section === slugify(IPV6) && <NetworkFormIpv6 formik={formik} />}
+          {section === slugify(OVN) && <NetworkFormOvn formik={formik} />}
           {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm
               key={`yaml-form-${formik.values.readOnly}`}

@@ -13,13 +13,17 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
   return (
     <ScrollableConfigurationTable
       rows={[
-        getConfigurationRow({
-          formik,
-          name: "dns_domain",
-          label: "DNS domain",
-          defaultValue: "",
-          children: <Input type="text" />,
-        }),
+        ...(formik.values.networkType !== "physical"
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "dns_domain",
+                label: "DNS domain",
+                defaultValue: "",
+                children: <Input type="text" />,
+              }),
+            ]
+          : []),
 
         ...(formik.values.networkType === "bridge"
           ? [
@@ -55,13 +59,25 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
             ]
           : []),
 
-        getConfigurationRow({
-          formik,
-          name: "dns_search",
-          label: "DNS search",
-          defaultValue: "",
-          children: <Textarea />,
-        }),
+        ...(formik.values.networkType === "physical"
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "dns_nameservers",
+                label: "DNS nameservers",
+                defaultValue: "",
+                children: <Input type="text" />,
+              }),
+            ]
+          : [
+              getConfigurationRow({
+                formik,
+                name: "dns_search",
+                label: "DNS search",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+            ]),
       ]}
     />
   );
