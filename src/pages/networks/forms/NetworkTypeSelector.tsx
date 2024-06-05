@@ -50,32 +50,69 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           value: "ovn",
           disabled: !hasOvn,
         },
-        ...(formik.values.networkType === "physical"
-          ? [
-              {
-                label: "Physical",
-                value: "physical",
-              },
-            ]
-          : []),
+        {
+          label: "Physical",
+          value: "physical",
+        },
       ]}
       onChange={(e) => {
         if (e.target.value === "bridge") {
           void formik.setFieldValue("networkType", "bridge");
           void formik.setFieldValue("network", undefined);
+          void formik.setFieldValue("parent", undefined);
+          void formik.setFieldValue("dns_nameservers", undefined);
           void formik.setFieldValue("ipv4_l3only", undefined);
+          void formik.setFieldValue("ipv4_gateway", undefined);
+          void formik.setFieldValue("ipv4_routes", undefined);
+          void formik.setFieldValue("ipv4_routes_anycast", undefined);
           void formik.setFieldValue("ipv6_l3only", undefined);
+          void formik.setFieldValue("ipv6_gateway", undefined);
+          void formik.setFieldValue("ipv6_routes", undefined);
+          void formik.setFieldValue("ipv6_routes_anycast", undefined);
+          void formik.setFieldValue("ovn_ingress_mode", undefined);
         }
         if (e.target.value === "ovn") {
           void formik.setFieldValue("networkType", "ovn");
           void formik.setFieldValue("bridge_driver", undefined);
           void formik.setFieldValue("dns_mode", undefined);
+          void formik.setFieldValue("parent", undefined);
+          void formik.setFieldValue("dns_nameservers", undefined);
           void formik.setFieldValue("ipv4_dhcp_expiry", undefined);
           void formik.setFieldValue("ipv4_dhcp_ranges", undefined);
           void formik.setFieldValue("ipv4_ovn_ranges", undefined);
+          void formik.setFieldValue("ipv4_gateway", undefined);
+          void formik.setFieldValue("ipv4_routes", undefined);
+          void formik.setFieldValue("ipv4_routes_anycast", undefined);
           void formik.setFieldValue("ipv6_dhcp_expiry", undefined);
           void formik.setFieldValue("ipv6_dhcp_ranges", undefined);
           void formik.setFieldValue("ipv6_ovn_ranges", undefined);
+          void formik.setFieldValue("ipv6_gateway", undefined);
+          void formik.setFieldValue("ipv6_routes", undefined);
+          void formik.setFieldValue("ipv6_routes_anycast", undefined);
+          void formik.setFieldValue("ovn_ingress_mode", undefined);
+        }
+        if (e.target.value === "physical") {
+          void formik.setFieldValue("networkType", "physical");
+          void formik.setFieldValue("network", undefined);
+          void formik.setFieldValue("bridge_driver", undefined);
+          void formik.setFieldValue("bridge_hwaddr", undefined);
+          void formik.setFieldValue("bridge_mtu", undefined);
+          void formik.setFieldValue("dns_domain", undefined);
+          void formik.setFieldValue("dns_mode", undefined);
+          void formik.setFieldValue("dns_search", undefined);
+          void formik.setFieldValue("ipv4_address", undefined);
+          void formik.setFieldValue("ipv4_dhcp", undefined);
+          void formik.setFieldValue("ipv4_dhcp_expiry", undefined);
+          void formik.setFieldValue("ipv4_dhcp_ranges", undefined);
+          void formik.setFieldValue("ipv4_ovn_ranges", undefined);
+          void formik.setFieldValue("ipv4_l3only", undefined);
+          void formik.setFieldValue("ipv6_address", undefined);
+          void formik.setFieldValue("ipv6_dhcp", undefined);
+          void formik.setFieldValue("ipv6_dhcp_stateful", undefined);
+          void formik.setFieldValue("ipv6_dhcp_expiry", undefined);
+          void formik.setFieldValue("ipv6_dhcp_ranges", undefined);
+          void formik.setFieldValue("ipv6_ovn_ranges", undefined);
+          void formik.setFieldValue("ipv6_l3only", undefined);
         }
       }}
       value={formik.values.networkType}

@@ -15,6 +15,7 @@ export interface LxdNetworkConfig {
   "bridge.mtu"?: string;
   "dns.domain"?: string;
   "dns.mode"?: LxdNetworkDnsMode;
+  "dns.nameservers"?: string;
   "dns.search"?: string;
   "dns.zone.forward"?: string;
   "dns.zone.reverse.ipv4"?: string;
@@ -28,12 +29,14 @@ export interface LxdNetworkConfig {
   "ipv4.dhcp.gateway"?: string;
   "ipv4.dhcp.ranges"?: string;
   "ipv4.firewall"?: string;
+  "ipv4.gateway"?: string;
   "ipv4.l3only"?: string;
   "ipv4.nat"?: string;
   "ipv4.nat.address"?: string;
   "ipv4.nat.order"?: string;
   "ipv4.ovn.ranges"?: string;
   "ipv4.routes"?: string;
+  "ipv4.routes.anycast"?: string;
   "ipv4.routing"?: string;
   "ipv6.address"?: string;
   "ipv6.dhcp"?: string;
@@ -41,14 +44,18 @@ export interface LxdNetworkConfig {
   "ipv6.dhcp.ranges"?: string;
   "ipv6.dhcp.stateful"?: string;
   "ipv6.firewall"?: string;
+  "ipv6.gateway"?: string;
   "ipv6.l3only"?: string;
   "ipv6.nat"?: string;
   "ipv6.nat.address"?: string;
   "ipv6.nat.order"?: string;
   "ipv6.ovn.ranges"?: string;
   "ipv6.routes"?: string;
+  "ipv6.routes.anycast"?: string;
   "ipv6.routing"?: string;
+  "ovn.ingress_mode"?: string;
   network?: string;
+  parent?: string;
   [key: `user.${string}`]: string;
 }
 

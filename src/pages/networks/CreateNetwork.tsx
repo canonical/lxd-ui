@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
-import { createClusterBridge, createNetwork } from "api/networks";
+import { createClusterNetwork, createNetwork } from "api/networks";
 import NetworkForm, {
   NetworkFormValues,
   toNetwork,
@@ -81,7 +81,7 @@ const CreateNetwork: FC = () => {
 
       const mutation =
         isClustered && values.networkType !== "ovn"
-          ? () => createClusterBridge(network, project, clusterMembers)
+          ? () => createClusterNetwork(network, project, clusterMembers)
           : () => createNetwork(network, project);
 
       mutation()

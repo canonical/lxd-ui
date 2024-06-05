@@ -19,7 +19,7 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress }) => {
           onChange={() => setAddress("auto")}
         />
         <RadioInput
-          label="off"
+          label="none"
           checked={address === "none"}
           onChange={() => setAddress("none")}
         />

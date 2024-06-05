@@ -16,15 +16,21 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
   return (
     <ScrollableConfigurationTable
       rows={[
-        getConfigurationRow({
-          formik,
-          name: "ipv4_dhcp",
-          label: "IPv4 DHCP",
-          defaultValue: "",
-          children: <Select options={optionTrueFalse} />,
-        }),
+        ...(formik.values.networkType !== "physical"
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "ipv4_dhcp",
+                label: "IPv4 DHCP",
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
+              }),
+            ]
+          : []),
 
-        ...(formik.values.networkType !== "ovn" && hasDhcp
+        ...(formik.values.networkType !== "ovn" &&
+        formik.values.networkType !== "physical" &&
+        hasDhcp
           ? [
               getConfigurationRow({
                 formik,
@@ -64,6 +70,32 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
                 label: "IPv4 OVN ranges",
                 defaultValue: "",
                 children: <Textarea />,
+              }),
+            ]
+          : []),
+
+        ...(formik.values.networkType === "physical"
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "ipv4_gateway",
+                label: "IPv4 gateway",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+              getConfigurationRow({
+                formik,
+                name: "ipv4_routes",
+                label: "IPv4 routes",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+              getConfigurationRow({
+                formik,
+                name: "ipv4_routes_anycast",
+                label: "IPv4 routes anycast",
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
               }),
             ]
           : []),
