@@ -58,7 +58,13 @@ export const configDescriptionToHtml = (
         return;
       }
       const docPath = line.split(": ")[1];
-      const linkText = token.replaceAll("-", " ");
+      const linkTextCandidate = line
+        .split(":")[0]
+        .replace(/\s\s+/g, " ")
+        .trim();
+      const linkText = linkTextCandidate.includes(" ") // some lines in the object.inv.txt file have a description before the : and a link after
+        ? linkTextCandidate.substring(linkTextCandidate.indexOf(" ") + 1)
+        : token.replaceAll("-", " ");
       const link = `<a href="${docBaseLink}/${docPath}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
 
       result = result.replaceAll(tag, link);

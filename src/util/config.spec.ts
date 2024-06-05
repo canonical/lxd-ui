@@ -81,7 +81,7 @@ describe("toConfigFields and replaceDocLinks", () => {
     );
 
     expect(result).toBe(
-      'Specify a Pongo2 template string that represents the snapshot name.<br>This template is used for scheduled snapshots and for unnamed snapshots.<br><br>See <a href="https://docs.example.org/reference/instance_options/#instance-options-snapshots-names" target="_blank" rel="noopener noreferrer">instance options snapshots names</a> for more information.',
+      'Specify a Pongo2 template string that represents the snapshot name.<br>This template is used for scheduled snapshots and for unnamed snapshots.<br><br>See <a href="https://docs.example.org/reference/instance_options/#instance-options-snapshots-names" target="_blank" rel="noopener noreferrer">Automatic snapshot names</a> for more information.',
     );
   });
 
