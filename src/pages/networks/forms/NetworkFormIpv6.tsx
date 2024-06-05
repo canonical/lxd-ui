@@ -16,15 +16,21 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
   return (
     <ScrollableConfigurationTable
       rows={[
-        getConfigurationRow({
-          formik,
-          name: "ipv6_dhcp",
-          label: "IPv6 DHCP",
-          defaultValue: "",
-          children: <Select options={optionTrueFalse} />,
-        }),
+        ...(formik.values.networkType !== "physical"
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "ipv6_dhcp",
+                label: "IPv6 DHCP",
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
+              }),
+            ]
+          : []),
 
-        ...(hasDhcp && formik.values.networkType !== "ovn"
+        ...(hasDhcp &&
+        formik.values.networkType !== "ovn" &&
+        formik.values.networkType !== "physical"
           ? [
               getConfigurationRow({
                 formik,
@@ -44,7 +50,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
             ]
           : []),
 
-        ...(hasDhcp
+        ...(hasDhcp && formik.values.networkType !== "physical"
           ? [
               getConfigurationRow({
                 formik,
@@ -76,6 +82,32 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 label: "IPv6 OVN ranges",
                 defaultValue: "",
                 children: <Textarea />,
+              }),
+            ]
+          : []),
+
+        ...(formik.values.networkType === "physical"
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "ipv6_gateway",
+                label: "IPv6 gateway",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+              getConfigurationRow({
+                formik,
+                name: "ipv6_routes",
+                label: "IPv6 routes",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+              getConfigurationRow({
+                formik,
+                name: "ipv6_routes_anycast",
+                label: "IPv6 routes anycast",
+                defaultValue: "",
+                children: <Select options={optionTrueFalse} />,
               }),
             ]
           : []),

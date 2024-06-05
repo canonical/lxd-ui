@@ -25,6 +25,9 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
     return <>Missing project</>;
   }
 
+  const isPhysicalManagedNetwork =
+    network.type === "physical" && network.managed;
+
   const { data: networkState, isLoading } = useQuery({
     queryKey: [
       queryKeys.projects,
@@ -34,6 +37,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
       queryKeys.state,
     ],
     queryFn: () => fetchNetworkState(network.name, project),
+    enabled: !isPhysicalManagedNetwork,
   });
 
   const updateContentHeight = () => {
@@ -92,39 +96,41 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
           </table>
         </Col>
       </Row>
-      <Row className="section">
-        <Col size={3}>
-          <h2 className="p-heading--5">Status</h2>
-        </Col>
-        <Col size={7}>
-          <table>
-            <tbody>
-              <tr className="list-wrapper">
-                <th className="p-muted-heading">RX</th>
-                <td>
-                  {humanFileSize(networkState?.counters.bytes_received ?? 0)} (
-                  {networkState?.counters.packets_received ?? 0} packets)
-                </td>
-              </tr>
-              <tr className="list-wrapper">
-                <th className="p-muted-heading">TX</th>
-                <td>
-                  {humanFileSize(networkState?.counters.bytes_sent ?? 0)} (
-                  {networkState?.counters.packets_sent ?? 0} packets)
-                </td>
-              </tr>
-              <tr className="list-wrapper">
-                <th className="p-muted-heading">MAC address</th>
-                <td>{networkState?.hwaddr ?? "-"}</td>
-              </tr>
-              <tr className="list-wrapper">
-                <th className="p-muted-heading">MTU</th>
-                <td>{networkState?.mtu ?? "-"}</td>
-              </tr>
-            </tbody>
-          </table>
-        </Col>
-      </Row>
+      {!isPhysicalManagedNetwork && (
+        <Row className="section">
+          <Col size={3}>
+            <h2 className="p-heading--5">Status</h2>
+          </Col>
+          <Col size={7}>
+            <table>
+              <tbody>
+                <tr className="list-wrapper">
+                  <th className="p-muted-heading">RX</th>
+                  <td>
+                    {humanFileSize(networkState?.counters.bytes_received ?? 0)}{" "}
+                    ({networkState?.counters.packets_received ?? 0} packets)
+                  </td>
+                </tr>
+                <tr className="list-wrapper">
+                  <th className="p-muted-heading">TX</th>
+                  <td>
+                    {humanFileSize(networkState?.counters.bytes_sent ?? 0)} (
+                    {networkState?.counters.packets_sent ?? 0} packets)
+                  </td>
+                </tr>
+                <tr className="list-wrapper">
+                  <th className="p-muted-heading">MAC address</th>
+                  <td>{networkState?.hwaddr ?? "-"}</td>
+                </tr>
+                <tr className="list-wrapper">
+                  <th className="p-muted-heading">MTU</th>
+                  <td>{networkState?.mtu ?? "-"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </Col>
+        </Row>
+      )}
       <Row className="usage list-wrapper">
         <Col size={3}>
           <h2 className="p-heading--5">Usage ({usageCount})</h2>

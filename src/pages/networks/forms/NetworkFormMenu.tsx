@@ -11,6 +11,7 @@ export const BRIDGE = "Bridge";
 export const DNS = "DNS";
 export const IPV4 = "IPv4";
 export const IPV6 = "IPv6";
+export const OVN = "OVN";
 export const YAML_CONFIGURATION = "YAML configuration";
 
 interface Props {
@@ -28,8 +29,15 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
   };
 
   const hasName = formik.values.name.length > 0;
+  const isPhysicalWithoutParent =
+    formik.values.networkType === "physical" &&
+    !formik.values.parent &&
+    formik.values.isCreating;
+
   const disableReason = hasName
-    ? undefined
+    ? isPhysicalWithoutParent
+      ? "Please select a parent network to enable this section"
+      : ""
     : "Please enter a network name to enable this section";
 
   const resize = () => {
@@ -42,53 +50,60 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
       <nav aria-label="Network form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
-          {formik.values.networkType !== "physical" && (
-            <li className="p-side-navigation__item">
-              <Button
-                type="button"
-                className="p-side-navigation__accordion-button"
-                aria-expanded={
-                  !disableReason && isAdvancedOpen ? "true" : "false"
-                }
-                onClick={() => setAdvancedOpen(!isAdvancedOpen)}
-                disabled={Boolean(disableReason)}
-                title={disableReason}
-              >
-                Advanced
-              </Button>
-              <ul
-                className="p-side-navigation__list"
-                aria-expanded={
-                  !disableReason && isAdvancedOpen ? "true" : "false"
-                }
-              >
+          <li className="p-side-navigation__item">
+            <Button
+              type="button"
+              className="p-side-navigation__accordion-button"
+              aria-expanded={
+                !disableReason && isAdvancedOpen ? "true" : "false"
+              }
+              onClick={() => setAdvancedOpen(!isAdvancedOpen)}
+              disabled={Boolean(disableReason)}
+              title={disableReason}
+            >
+              Advanced
+            </Button>
+            <ul
+              className="p-side-navigation__list"
+              aria-expanded={
+                !disableReason && isAdvancedOpen ? "true" : "false"
+              }
+            >
+              {formik.values.networkType !== "physical" && (
                 <MenuItem
                   label={BRIDGE}
                   {...menuItemProps}
                   disableReason={disableReason}
                 />
+              )}
+              <MenuItem
+                label={DNS}
+                {...menuItemProps}
+                disableReason={disableReason}
+              />
+              {formik.values.ipv4_address !== "none" && (
                 <MenuItem
-                  label={DNS}
+                  label={IPV4}
                   {...menuItemProps}
                   disableReason={disableReason}
                 />
-                {formik.values.ipv4_address !== "none" && (
-                  <MenuItem
-                    label={IPV4}
-                    {...menuItemProps}
-                    disableReason={disableReason}
-                  />
-                )}
-                {formik.values.ipv6_address !== "none" && (
-                  <MenuItem
-                    label={IPV6}
-                    {...menuItemProps}
-                    disableReason={disableReason}
-                  />
-                )}
-              </ul>
-            </li>
-          )}
+              )}
+              {formik.values.ipv6_address !== "none" && (
+                <MenuItem
+                  label={IPV6}
+                  {...menuItemProps}
+                  disableReason={disableReason}
+                />
+              )}
+              {formik.values.networkType === "physical" && (
+                <MenuItem
+                  label={OVN}
+                  {...menuItemProps}
+                  disableReason={disableReason}
+                />
+              )}
+            </ul>
+          </li>
           <MenuItem
             label={YAML_CONFIGURATION}
             {...menuItemProps}

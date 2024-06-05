@@ -37,7 +37,7 @@ export const fetchNetworkState = (
   });
 };
 
-export const createClusterBridge = (
+export const createClusterNetwork = (
   network: Partial<LxdNetwork>,
   project: string,
   clusterMembers: LxdClusterMember[],
@@ -47,6 +47,9 @@ export const createClusterBridge = (
       name: network.name,
       description: network.description,
       type: network.type,
+      config: {
+        parent: network.config?.parent,
+      },
     };
 
     void Promise.allSettled(
@@ -65,6 +68,8 @@ export const createClusterBridge = (
           reject(error);
           return;
         }
+        // The network parent is cluster member specific, so we omit it on the cluster wide network configuration.
+        delete network.config?.parent;
         createNetwork(network, project).then(resolve).catch(reject);
       })
       .catch(reject);

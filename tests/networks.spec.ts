@@ -30,7 +30,7 @@ test.afterAll(async ({ browser }) => {
   await page.close();
 });
 
-test("network edit basic details", async ({ page }) => {
+test("bridge network edit basic detail", async ({ page }) => {
   await editNetwork(page, network);
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await setOption(page, "IPv4 NAT", "false");
@@ -96,4 +96,56 @@ test("network edit basic details", async ({ page }) => {
 
 test("network forwards", async ({ page }) => {
   await createNetworkForward(page, network);
+});
+
+test("physical managed network create edit and delete", async ({ page }) => {
+  const name = randomNetworkName();
+  await createNetwork(page, name, "physical");
+  await editNetwork(page, name);
+  await page.getByText("DNS", { exact: true }).click();
+  await activateOverride(page, "DNS nameservers");
+  await page.getByLabel("DNS nameservers").fill("1.2.3.4");
+
+  await page.getByText("IPv4", { exact: true }).click();
+  await activateOverride(page, "IPv4 OVN ranges");
+  await page.getByLabel("IPv4 OVN ranges").fill("1.2.3.4-1.2.3.5");
+  await activateOverride(page, "IPv4 gateway");
+  await page.getByLabel("IPv4 gateway").fill("1.2.3.4/1");
+  await activateOverride(page, "IPv4 routes anycast");
+  await page.getByLabel("IPv4 routes anycast").selectOption("true");
+
+  await page.getByText("IPv6", { exact: true }).click();
+  await activateOverride(page, "IPv6 OVN ranges");
+  await page.getByLabel("IPv6 OVN ranges").fill("2600::1-2600::2");
+  await activateOverride(page, "IPv6 gateway");
+  await page.getByLabel("IPv6 gateway").fill("2600::/1");
+  await activateOverride(page, "IPv6 routes anycast");
+  await page.getByLabel("IPv6 routes anycast").selectOption("true");
+
+  await page.getByText("OVN", { exact: true }).click();
+  await activateOverride(page, "OVN ingress mode");
+  await page.getByLabel("OVN ingress mode").selectOption("routed");
+
+  await saveNetwork(page, name);
+
+  await visitNetwork(page, name);
+  await page.getByTestId("tab-link-Configuration").click();
+
+  await page.getByText("DNS", { exact: true }).click();
+  await assertReadMode(page, "DNS nameservers", "1.2.3.4");
+
+  await page.getByText("IPv4", { exact: true }).click();
+  await assertReadMode(page, "IPv4 OVN ranges", "1.2.3.4-1.2.3.5");
+  await assertReadMode(page, "IPv4 gateway", "1.2.3.4/1");
+  await assertReadMode(page, "IPv4 routes anycast", "true");
+
+  await page.getByText("IPv6", { exact: true }).click();
+  await assertReadMode(page, "IPv6 OVN ranges", "2600::1-2600::2");
+  await assertReadMode(page, "IPv6 gateway", "2600::/1");
+  await assertReadMode(page, "IPv6 routes anycast", "true");
+
+  await page.getByText("OVN", { exact: true }).click();
+  await assertReadMode(page, "OVN ingress mode", "routed");
+
+  await deleteNetwork(page, name);
 });

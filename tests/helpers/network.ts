@@ -1,17 +1,26 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
+import { LxdNetworkType } from "types/network";
 
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
 };
 
-export const createNetwork = async (page: Page, network: string) => {
+export const createNetwork = async (
+  page: Page,
+  network: string,
+  type: LxdNetworkType = "bridge",
+) => {
   await page.goto("/ui/");
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
+  await page.getByLabel("Type").selectOption(type);
   await page.getByLabel("Name").click();
   await page.getByLabel("Name").fill(network);
+  if (type === "physical") {
+    await page.getByLabel("Parent").selectOption({ index: 1 });
+  }
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.waitForSelector(`text=Network ${network} created.`);
   await page.getByRole("button", { name: "Close notification" }).click();
