@@ -87,3 +87,10 @@ export const getServerSettingValue = (page: Page, settingName: string) => {
   const settingValueCell = settingRow.locator("css=.readmode-value");
   return settingValueCell.textContent();
 };
+
+export const openServerSetting = async (page: Page, setting: string) => {
+  await page
+    .locator("css=tr", { hasText: setting })
+    .getByRole("button")
+    .click();
+};
