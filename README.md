@@ -23,12 +23,19 @@ Targets small and large scale private clouds.
 
 You might want to:
 
+- Read the [contributing guide](CONTRIBUTING.md), to learn about our development process and how to build and test your changes.
 - [View the source](https://github.com/canonical/lxd-ui) on GitHub.
-- Read about [running the UI from git checkout](HACKING.md), tests and advanced setup.
 
 # Architecture
 
-LXD-UI is a single page application written in TypeScript and React. See [Architecture](ARCHITECTURE.MD) for details on bundling with [LXD](https://github.com/canonical/lxd) and the dev setup. 
+LXD-UI is a single page application written in TypeScript and React. See [Architecture](ARCHITECTURE.MD) for details on bundling with [LXD](https://github.com/canonical/lxd) and the dev setup.
+
+# Changelog
+
+The [changelog](https://github.com/canonical/lxd-ui/releases) is regularly updated to reflect what's changed in each new release.
+
+# Roadmap
+Future plans and high-priority features and enhancements can be found in the [roadmap](ROADMAP.md).
 
 # Examples
 
