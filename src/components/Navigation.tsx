@@ -88,36 +88,28 @@ const Navigation: FC = () => {
 
   const adjustNavigationScrollForOverflow = () => {
     const navHeader = document.querySelector(".l-navigation .p-panel__header");
-    const navContent = document.querySelector(
-      ".l-navigation .p-panel__content",
-    );
-    const navFooter = document.querySelector(
-      ".l-navigation .sidenav-bottom-ul",
-    );
-    const navToggle = document.querySelector(
-      ".l-navigation .sidenav-toggle-wrapper",
+    const navTop = document.querySelector(".l-navigation .p-panel__content");
+    const navBottom = document.querySelector(
+      ".l-navigation .sidenav-bottom-container",
     );
     const navHeaderHeight = getElementAbsoluteHeight(navHeader as HTMLElement);
-    const navContentHeight = getElementAbsoluteHeight(
-      navContent as HTMLElement,
-    );
-    const navFooterHeight = getElementAbsoluteHeight(navFooter as HTMLElement);
-    const navToggleHeight = getElementAbsoluteHeight(navToggle as HTMLElement);
+    const navTopHeight = getElementAbsoluteHeight(navTop as HTMLElement);
+    const navBottomHeight = getElementAbsoluteHeight(navBottom as HTMLElement);
 
-    let totalNavHeight = navHeaderHeight + navContentHeight + navFooterHeight;
-
-    // when the continer is in scrolling mode, p-panel__content includes the footer height already since it's not absolutely positioned
-    // also need to take into account the toggle height
-    if (scroll) {
-      const footerOffset = navToggleHeight - navFooterHeight;
-      totalNavHeight = totalNavHeight + footerOffset;
-    }
+    const totalNavHeight = navHeaderHeight + navTopHeight + navBottomHeight;
 
     const isNavigationPanelOverflow = totalNavHeight >= window.innerHeight;
 
+    const targetNavTopHeight =
+      window.innerHeight - navHeaderHeight - navBottomHeight;
+
     if (isNavigationPanelOverflow) {
+      const style = `height: ${targetNavTopHeight}px`;
+      navTop?.setAttribute("style", style);
       setScroll(true);
     } else {
+      const style = `height: auto`;
+      navTop?.setAttribute("style", style);
       setScroll(false);
     }
   };
@@ -179,7 +171,7 @@ const Navigation: FC = () => {
               </div>
             </div>
             <div className="p-panel__content">
-              <div className="p-side-navigation--icons is-dark">
+              <div className="p-side-navigation--icons is-dark sidenav-top-container">
                 <ul className="p-side-navigation__list sidenav-top-ul">
                   {isAuthenticated && (
                     <>
@@ -440,6 +432,8 @@ const Navigation: FC = () => {
                     </>
                   )}
                 </ul>
+              </div>
+              <div className="p-side-navigation--icons is-dark sidenav-bottom-container">
                 <ul
                   className={classnames(
                     "p-side-navigation__list sidenav-bottom-ul",
@@ -448,6 +442,7 @@ const Navigation: FC = () => {
                     },
                   )}
                 >
+                  <hr className="is-dark navigation-hr" />
                   {isAuthenticated && (
                     <li className="p-side-navigation__item">
                       <div
@@ -535,25 +530,25 @@ const Navigation: FC = () => {
                     </li>
                   )}
                 </ul>
+                <div
+                  className={classnames("sidenav-toggle-wrapper", {
+                    "authenticated-nav": isAuthenticated,
+                  })}
+                >
+                  <Button
+                    appearance="base"
+                    aria-label={`${
+                      menuCollapsed ? "expand" : "collapse"
+                    } main navigation`}
+                    hasIcon
+                    dense
+                    className="sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small"
+                    onClick={hardToggleMenu}
+                  >
+                    <Icon light name="sidebar-toggle" />
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div
-              className={classnames("sidenav-toggle-wrapper", {
-                "authenticated-nav": isAuthenticated,
-              })}
-            >
-              <Button
-                appearance="base"
-                aria-label={`${
-                  menuCollapsed ? "expand" : "collapse"
-                } main navigation`}
-                hasIcon
-                dense
-                className="sidenav-toggle is-dark u-no-margin l-navigation-collapse-toggle u-hide--small"
-                onClick={hardToggleMenu}
-              >
-                <Icon light name="sidebar-toggle" />
-              </Button>
             </div>
           </div>
         </div>
