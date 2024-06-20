@@ -202,6 +202,10 @@ body {
 
   .p-breadcrumbs__items {
     margin-bottom: 0;
+
+    .continuous-breadcrumb {
+      display: inline;
+    }
   }
 
   .p-breadcrumbs__item {
@@ -211,6 +215,19 @@ body {
     margin-bottom: 0;
     margin-top: 0;
     padding-top: 0;
+  }
+
+  .continuous-breadcrumb::after {
+    content: "/";
+    padding: 0 5px; // Adjust spacing as needed
+  }
+
+  .continuous-breadcrumb:last-child::after {
+    content: ""; // Remove the slash from the last item
+  }
+
+  .p-breadcrumbs__item::before {
+    content: none;
   }
 
   .p-breadcrumbs__item:first-of-type {
