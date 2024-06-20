@@ -36,6 +36,7 @@ const RenameHeader: FC<Props> = ({
 }) => {
   const canRename = renameDisabledReason === undefined;
   const enableRename = () => {
+    window.dispatchEvent(new Event("resize"));
     if (!canRename || !formik) {
       return;
     }
@@ -48,76 +49,73 @@ const RenameHeader: FC<Props> = ({
   return (
     <div className="p-panel__header rename-header">
       <h1 className="u-off-screen">{name}</h1>
-      {isLoaded ? (
-        <div className={classnames("p-panel__title", titleClassName)}>
-          <nav
-            key="breadcrumbs"
-            className="p-breadcrumbs p-breadcrumbs--large"
-            aria-label="Breadcrumbs"
-          >
-            <ol className="p-breadcrumbs__items">
-              {parentItems.map((item, key) => (
-                <li className="p-breadcrumbs__item" key={key}>
-                  {item}
-                </li>
-              ))}
-              {formik?.values.isRenaming ? (
-                <li className="p-breadcrumbs__item rename">
-                  <Input
-                    autoFocus
-                    id="name"
-                    name="name"
-                    className="name-input"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    error={formik.touched.name ? formik.errors.name : null}
-                    onKeyUp={(e) =>
-                      e.key === "Enter" && void formik.submitForm()
+      <div className={classnames("p-panel__title", titleClassName)}>
+        <nav
+          key="breadcrumbs"
+          className="p-breadcrumbs p-breadcrumbs--large"
+          aria-label="Breadcrumbs"
+        >
+          <ol className="p-breadcrumbs__items">
+            {parentItems.map((item, key) => (
+              <li
+                className="p-heading--4 u-no-margin--bottom continuous-breadcrumb"
+                key={key}
+              >
+                {item}
+              </li>
+            ))}
+            {formik?.values.isRenaming ? (
+              <li className="p-breadcrumbs__item rename">
+                <Input
+                  autoFocus
+                  id="name"
+                  name="name"
+                  className="name-input"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  error={formik.touched.name ? formik.errors.name : null}
+                  onKeyUp={(e) => e.key === "Enter" && void formik.submitForm()}
+                  type="text"
+                />
+                <div>
+                  <Button
+                    appearance="base"
+                    className="cancel"
+                    onClick={() =>
+                      void formik.setFieldValue("isRenaming", false)
                     }
-                    type="text"
-                  />
-                  <div>
-                    <Button
-                      appearance="base"
-                      className="cancel"
-                      onClick={() =>
-                        void formik.setFieldValue("isRenaming", false)
-                      }
-                    >
-                      Cancel
-                    </Button>
-                    <ActionButton
-                      appearance="positive"
-                      loading={formik.isSubmitting}
-                      disabled={!formik.isValid || name === formik.values.name}
-                      onClick={() => void formik.submitForm()}
-                    >
-                      Save
-                    </ActionButton>
-                  </div>
-                </li>
-              ) : (
-                <li
-                  className="p-breadcrumbs__item name u-truncate"
-                  onClick={enableRename}
-                  title={`Rename ${name}`}
-                >
-                  <Tooltip
-                    message={!canRename && renameDisabledReason}
-                    position="btm-left"
                   >
-                    {name}
-                  </Tooltip>
-                </li>
-              )}
-            </ol>
-          </nav>
-          {!formik?.values.isRenaming && centerControls}
-        </div>
-      ) : (
-        <h4 className="p-panel__title">{name}</h4>
-      )}
+                    Cancel
+                  </Button>
+                  <ActionButton
+                    appearance="positive"
+                    loading={formik.isSubmitting}
+                    disabled={!formik.isValid || name === formik.values.name}
+                    onClick={() => void formik.submitForm()}
+                  >
+                    Save
+                  </ActionButton>
+                </div>
+              </li>
+            ) : (
+              <li
+                className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb"
+                onClick={enableRename}
+                title={`Rename ${name}`}
+              >
+                <Tooltip
+                  message={!canRename && renameDisabledReason}
+                  position="btm-left"
+                >
+                  {name}
+                </Tooltip>
+              </li>
+            )}
+          </ol>
+        </nav>
+        {!formik?.values.isRenaming && centerControls}
+      </div>
       {isLoaded && !formik?.values.isRenaming && (
         <div className="p-panel__controls">{controls}</div>
       )}

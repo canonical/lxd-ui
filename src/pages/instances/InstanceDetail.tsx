@@ -54,6 +54,7 @@ const InstanceDetail: FC = () => {
           name={name}
           instance={instance}
           project={project}
+          isLoading={isLoading}
         />
       }
       contentClassName="detail-page"

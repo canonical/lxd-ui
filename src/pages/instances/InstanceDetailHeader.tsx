@@ -21,9 +21,15 @@ interface Props {
   name: string;
   instance?: LxdInstance;
   project: string;
+  isLoading: boolean;
 }
 
-const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
+const InstanceDetailHeader: FC<Props> = ({
+  name,
+  instance,
+  project,
+  isLoading,
+}) => {
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
@@ -87,33 +93,39 @@ const InstanceDetailHeader: FC<Props> = ({ name, instance, project }) => {
   });
 
   return (
-    <RenameHeader
-      name={name}
-      titleClassName="instance-detail-title"
-      parentItems={[
-        <Link to={`/ui/project/${project}/instances`} key={1}>
-          Instances
-        </Link>,
-      ]}
-      renameDisabledReason={
-        instance?.status !== "Stopped"
-          ? "Stop the instance to rename"
-          : undefined
-      }
-      centerControls={
-        instance ? (
-          <div>
-            <i className="status u-text--muted">{instance.status}</i>
-            <InstanceStateActions key="state" instance={instance} />
-          </div>
-        ) : null
-      }
-      controls={
-        instance ? <DeleteInstanceBtn key="delete" instance={instance} /> : null
-      }
-      isLoaded={Boolean(instance)}
-      formik={formik}
-    />
+    !isLoading && (
+      <RenameHeader
+        name={name}
+        titleClassName="instance-detail-title"
+        parentItems={[
+          <Link to={`/ui/project/${project}/instances`} key={1}>
+            Instances
+          </Link>,
+        ]}
+        renameDisabledReason={
+          !instance
+            ? "Invalid Instance: Cannot be renamed"
+            : instance?.status !== "Stopped"
+              ? "Stop the instance to rename"
+              : undefined
+        }
+        centerControls={
+          instance ? (
+            <div>
+              <i className="status u-text--muted">{instance.status}</i>
+              <InstanceStateActions key="state" instance={instance} />
+            </div>
+          ) : null
+        }
+        controls={
+          instance ? (
+            <DeleteInstanceBtn key="delete" instance={instance} />
+          ) : null
+        }
+        isLoaded={Boolean(instance)}
+        formik={formik}
+      />
+    )
   );
 };
 
