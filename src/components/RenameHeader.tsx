@@ -42,6 +42,7 @@ const RenameHeader: FC<Props> = ({
     }
     void formik.setValues({
       ...formik.values,
+      name: name,
       isRenaming: !formik.values.isRenaming,
     });
   };
