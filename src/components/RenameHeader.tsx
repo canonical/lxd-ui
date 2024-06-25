@@ -35,14 +35,14 @@ const RenameHeader: FC<Props> = ({
   renameDisabledReason,
 }) => {
   const canRename = renameDisabledReason === undefined;
-  const enableRename = () => {
-    window.dispatchEvent(new Event("resize"));
+  const toggleRename = () => {
+    setTimeout(() => window.dispatchEvent(new Event("resize")), 10);
     if (!canRename || !formik) {
       return;
     }
     void formik.setValues({
       ...formik.values,
-      isRenaming: true,
+      isRenaming: !formik.values.isRenaming,
     });
   };
 
@@ -82,9 +82,7 @@ const RenameHeader: FC<Props> = ({
                   <Button
                     appearance="base"
                     className="cancel"
-                    onClick={() =>
-                      void formik.setFieldValue("isRenaming", false)
-                    }
+                    onClick={toggleRename}
                   >
                     Cancel
                   </Button>
@@ -101,7 +99,7 @@ const RenameHeader: FC<Props> = ({
             ) : (
               <li
                 className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb"
-                onClick={enableRename}
+                onClick={toggleRename}
                 title={`Rename ${name}`}
               >
                 <Tooltip
