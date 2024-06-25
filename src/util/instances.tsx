@@ -30,10 +30,15 @@ export const instanceLinkFromOperation = (args: {
 export const instanceNameValidation = (
   project: string,
   controllerState: AbortControllerState,
+  oldName?: string,
 ): Yup.StringSchema =>
   Yup.string()
-    .test("deduplicate", "An instance with this name already exists", (value) =>
-      checkDuplicateName(value, project, controllerState, "instances"),
+    .test(
+      "deduplicate",
+      "An instance with this name already exists",
+      (value) =>
+        oldName === value ||
+        checkDuplicateName(value, project, controllerState, "instances"),
     )
     .test(
       "size",

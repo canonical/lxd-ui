@@ -36,7 +36,7 @@ const InstanceDetailHeader: FC<Props> = ({
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
-    name: instanceNameValidation(project, controllerState).required(
+    name: instanceNameValidation(project, controllerState, name).required(
       "Instance name is required",
     ),
   });
