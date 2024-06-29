@@ -1,8 +1,0 @@
-#! /usr/bin/env bash
-set -e
-
-lxd sql global "
-    DELETE
-    FROM identities
-    WHERE name IN ('foo', 'bar');
-"

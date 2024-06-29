@@ -78,9 +78,23 @@ jobs:
       - name: Install Playwright Browser
         run: npx playwright install --with-deps chromium
 
-      - name: Create OIDC users
+      - name: Setup for tests
         shell: bash
-        run: ./tests/scripts/create_oidc_identities
+        env:
+          LXD_OIDC_CLIENT_ID: ${{ secrets.LXD_OIDC_CLIENT_ID }}
+          LXD_OIDC_ISSUER: ${{ secrets.LXD_OIDC_ISSUER }}
+          LXD_OIDC_AUDIENCE: ${{ secrets.LXD_OIDC_AUDIENCE }}
+          LXD_OIDC_USER: ${{ secrets.LXD_OIDC_USER }}
+          LXD_OIDC_PASSWORD: ${{ secrets.LXD_OIDC_PASSWORD }}
+          LXD_OIDC_GROUPS_CLAIM: ${{ secrets.LXD_OIDC_GROUPS_CLAIM }}
+        run: |
+          echo "LXD_OIDC_CLIENT_ID=$LXD_OIDC_CLIENT_ID" >> .env.local
+          echo "LXD_OIDC_ISSUER=$LXD_OIDC_ISSUER" >> .env.local
+          echo "LXD_OIDC_AUDIENCE=$LXD_OIDC_AUDIENCE" >> .env.local
+          echo "LXD_OIDC_USER=$LXD_OIDC_USER" >> .env.local
+          echo "LXD_OIDC_PASSWORD=$LXD_OIDC_PASSWORD" >> .env.local
+          echo "LXD_OIDC_GROUPS_CLAIM=$LXD_OIDC_GROUPS_CLAIM" >> .env.local
+          ./tests/scripts/setup_test
 
       - name: Run tests with coverage
         shell: bash

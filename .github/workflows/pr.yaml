@@ -149,10 +149,27 @@ jobs:
           LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
           echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
 
-      - name: Create OIDC users
+      - name: Setup for tests
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
         shell: bash
-        run: ./tests/scripts/create_oidc_identities
+        env:
+          LXD_OIDC_CLIENT_ID: ${{ secrets.LXD_OIDC_CLIENT_ID }}
+          LXD_OIDC_ISSUER: ${{ secrets.LXD_OIDC_ISSUER }}
+          LXD_OIDC_AUDIENCE: ${{ secrets.LXD_OIDC_AUDIENCE }}
+          LXD_OIDC_USER: ${{ secrets.LXD_OIDC_USER }}
+          LXD_OIDC_PASSWORD: ${{ secrets.LXD_OIDC_PASSWORD }}
+          LXD_OIDC_GROUPS_CLAIM: ${{ secrets.LXD_OIDC_GROUPS_CLAIM }}
+        run: |
+          echo "LXD_OIDC_CLIENT_ID=$LXD_OIDC_CLIENT_ID" >> .env.local
+          echo "LXD_OIDC_ISSUER=$LXD_OIDC_ISSUER" >> .env.local
+          echo "LXD_OIDC_AUDIENCE=$LXD_OIDC_AUDIENCE" >> .env.local
+          echo "LXD_OIDC_USER=$LXD_OIDC_USER" >> .env.local
+          echo "LXD_OIDC_PASSWORD=$LXD_OIDC_PASSWORD" >> .env.local
+          echo "LXD_OIDC_GROUPS_CLAIM=$LXD_OIDC_GROUPS_CLAIM" >> .env.local
+          ./tests/scripts/setup_test
+
+      - name: show lxd configs
+        run: sudo lxc config show
 
       - name: Run Playwright tests
         run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
