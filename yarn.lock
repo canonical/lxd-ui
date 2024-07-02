@@ -1093,10 +1093,10 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@canonical/react-components@0.58.0":
-  version "0.58.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.58.0.tgz#0d2dbf4cd0efdf913e362fa3d1a4ed8009189b71"
-  integrity sha512-zFN8XpIp+uF0c7CW5/9LSsOWDZAtXs9BkDxW+X+5Hn3gEai9Medwdfsp42jdkAheFdTgFy7hQxjx9hKzB2zyAg==
+"@canonical/react-components@0.59.0":
+  version "0.59.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.59.0.tgz#7a0b22643c728b388d7af8cda8c7e72446503552"
+  integrity sha512-zvDSd42aEshaXXo7gFsVqjJPRjm2tISnjxC1cZHu/IEqLGuExuohpVjeYyhHzV/i5VJHfOYvzZMONGgfYkW6eQ==
   dependencies:
     "@types/jest" "29.5.12"
     "@types/node" "20.12.11"
@@ -6453,10 +6453,10 @@ v8-to-istanbul@9.2.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-vanilla-framework@4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.13.0.tgz#3901952faf819be42b24d2efc719c73de384a8ab"
-  integrity sha512-mUSJqs56ycxpEZwplTOiy4SfihjWsPiAddnQZ9b0s0ak8mLHVxnJF1aNIpPixPWK/NvhD9jVACn5qa2pGabRMQ==
+vanilla-framework@4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.14.0.tgz#dca425c806462179467030ac30ef496997e2d8cb"
+  integrity sha512-YctHWwH1SbIltBMMVdeiVW1QtxVjaU15jLKiubgVjE9AByuK/EriyZnPQkXtb/+Rwf1mtF24rae+mmG8aFqUJw==
 
 vary@~1.1.2:
   version "1.1.2"
