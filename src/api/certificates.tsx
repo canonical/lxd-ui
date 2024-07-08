@@ -11,13 +11,17 @@ export const fetchCertificates = (): Promise<LxdCertificate[]> => {
   });
 };
 
-export const addCertificate = (token: string): Promise<void> => {
+export const addCertificate = (
+  token: string,
+  hasExplicitTrustToken: boolean,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
+    const tokenFieldName = hasExplicitTrustToken ? "trust_token" : "password";
     fetch(`/1.0/certificates`, {
       method: "POST",
       body: JSON.stringify({
         type: "client",
-        password: token,
+        [tokenFieldName]: token,
       }),
     })
       .then(handleResponse)

@@ -22,5 +22,6 @@ export const useSupportedFeatures = () => {
     hasDocumentationObject:
       !!serverVersion && serverMajor >= 5 && serverMinor >= 20,
     hasAccessManagement: apiExtensions.has("access_management"),
+    hasExplicitTrustToken: apiExtensions.has("explicit_trust_token"),
   };
 };
