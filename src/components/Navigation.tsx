@@ -73,7 +73,13 @@ const Navigation: FC = () => {
 
   useEffect(() => {
     adjustNavigationScrollForOverflow();
-  }, [openNavMenus, isAuthenticated]);
+  }, [
+    openNavMenus,
+    isAuthenticated,
+    loggedInUserID,
+    loggedInUserName,
+    authMethod,
+  ]);
 
   const softToggleMenu = () => {
     if (isSmallScreen()) {
