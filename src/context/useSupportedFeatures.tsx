@@ -18,9 +18,11 @@ export const useSupportedFeatures = () => {
     hasMetadataConfiguration: apiExtensions.has("metadata_configuration"),
     hasStorageVolumesAll: apiExtensions.has("storage_volumes_all"),
     hasLocalDocumentation:
-      !!serverVersion && serverMajor >= 5 && serverMinor >= 19,
+      (!!serverVersion && serverMajor >= 5 && serverMinor >= 19) ||
+      serverMajor > 5,
     hasDocumentationObject:
-      !!serverVersion && serverMajor >= 5 && serverMinor >= 20,
+      (!!serverVersion && serverMajor >= 5 && serverMinor >= 20) ||
+      serverMajor > 5,
     hasAccessManagement: apiExtensions.has("access_management"),
     hasExplicitTrustToken: apiExtensions.has("explicit_trust_token"),
   };
