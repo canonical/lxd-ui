@@ -15,6 +15,10 @@ const getRandomBytes = (n: number) => {
   return a;
 };
 
+export const sanitizeOrgName = (orgName: string) => {
+  return orgName.replace(/[^a-zA-Z0-9 '()+,-./:=?]/g, "");
+};
+
 const details = [
   {
     name: "countryName",
@@ -26,7 +30,7 @@ const details = [
   },
   {
     name: "organizationName",
-    value: `LXD UI ${location.hostname} (Browser Generated)`,
+    value: sanitizeOrgName(`LXD UI ${location.hostname} (Browser Generated)`),
   },
 ];
 
