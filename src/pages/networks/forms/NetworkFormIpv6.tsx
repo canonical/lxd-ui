@@ -28,8 +28,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
             ]
           : []),
 
-        ...(hasDhcp &&
-        formik.values.networkType !== "ovn" &&
+        ...(formik.values.networkType !== "ovn" &&
         formik.values.networkType !== "physical"
           ? [
               getConfigurationRow({
@@ -37,6 +36,8 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 name: "ipv6_dhcp_expiry",
                 label: "IPv6 DHCP expiry",
                 defaultValue: "",
+                disabled: !hasDhcp,
+                disabledReason: "IPv6 DHCP is disabled",
                 children: <Input type="text" />,
               }),
 
@@ -45,18 +46,22 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 name: "ipv6_dhcp_ranges",
                 label: "IPv6 DHCP ranges",
                 defaultValue: "",
+                disabled: !hasDhcp,
+                disabledReason: "IPv6 DHCP is disabled",
                 children: <Textarea />,
               }),
             ]
           : []),
 
-        ...(hasDhcp && formik.values.networkType !== "physical"
+        ...(formik.values.networkType !== "physical"
           ? [
               getConfigurationRow({
                 formik,
                 name: "ipv6_dhcp_stateful",
                 label: "IPv6 DHCP stateful",
                 defaultValue: "",
+                disabled: !hasDhcp,
+                disabledReason: "IPv6 DHCP is disabled",
                 children: <Select options={optionTrueFalse} />,
               }),
             ]
