@@ -29,14 +29,15 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
           : []),
 
         ...(formik.values.networkType !== "ovn" &&
-        formik.values.networkType !== "physical" &&
-        hasDhcp
+        formik.values.networkType !== "physical"
           ? [
               getConfigurationRow({
                 formik,
                 name: "ipv4_dhcp_expiry",
                 label: "IPv4 DHCP expiry",
                 defaultValue: "",
+                disabled: !hasDhcp,
+                disabledReason: "IPv4 DHCP is disabled",
                 children: <Input type="text" />,
               }),
 
@@ -45,6 +46,8 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
                 name: "ipv4_dhcp_ranges",
                 label: "IPv4 DHCP ranges",
                 defaultValue: "",
+                disabled: !hasDhcp,
+                disabledReason: "IPv4 DHCP is disabled",
                 children: <Textarea />,
               }),
             ]
