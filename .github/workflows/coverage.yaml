@@ -177,11 +177,3 @@ jobs:
           curl --silent --show-error "https://canonical.tiobe.com/tiobeweb/TICS/api/public/v1/fapi/installtics/Script?cfg=default&platform=linux&url=https://canonical.tiobe.com/tiobeweb/TICS/" > install_tics.sh
           . ./install_tics.sh
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
-
-      - name: Upload TICS report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: tics-report
-          path: /tmp/tics/ticstmpdir
-          retention-days: 7
