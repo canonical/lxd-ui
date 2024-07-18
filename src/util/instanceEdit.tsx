@@ -12,6 +12,7 @@ import { getUnhandledKeyValues } from "util/formFields";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import * as Yup from "yup";
 import { EditProfileFormValues } from "pages/profiles/EditProfile";
+import { migrationPayload } from "components/forms/MigrationForm";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,
@@ -34,6 +35,7 @@ const getEditValues = (
 
     security_protection_delete: item.config["security.protection.delete"],
     security_privileged: item.config["security.privileged"],
+    security_nesting: item.config["security.nesting"],
     security_protection_shift: item.config["security.protection.shift"],
     security_idmap_base: item.config["security.idmap.base"],
     security_idmap_size: item.config["security.idmap.size"]
@@ -48,6 +50,8 @@ const getEditValues = (
     snapshots_expiry: item.config["snapshots.expiry"],
     snapshots_schedule: item.config["snapshots.schedule"],
     snapshots_schedule_stopped: item.config["snapshots.schedule.stopped"],
+
+    migration_stateful: item.config["migration.stateful"],
 
     cloud_init_network_config: item.config["cloud-init.network-config"],
     cloud_init_user_data: item.config["cloud-init.user-data"],
@@ -99,6 +103,7 @@ export const getInstancePayload = (
       ...resourceLimitsPayload(values),
       ...securityPoliciesPayload(values),
       ...snapshotsPayload(values),
+      ...migrationPayload(values),
       ...cloudInitPayload(values),
       ...getUnhandledKeyValues(instance.config, handledConfigKeys),
     },

@@ -51,6 +51,7 @@ import InstanceFormMenu, {
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
+  MIGRATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
@@ -75,12 +76,17 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { instanceNameValidation } from "util/instances";
+import MigrationForm, {
+  MigrationFormValues,
+  migrationPayload,
+} from "components/forms/MigrationForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
+  MigrationFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -331,6 +337,7 @@ const CreateInstance: FC = () => {
         ...resourceLimitsPayload(values),
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
+        ...migrationPayload(values),
         ...cloudInitPayload(values),
       },
     };
@@ -404,6 +411,8 @@ const CreateInstance: FC = () => {
             )}
 
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
+
+            {section === MIGRATION && <MigrationForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

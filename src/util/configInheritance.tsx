@@ -23,6 +23,7 @@ import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { useSettings } from "context/useSettings";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -193,6 +194,21 @@ const getInstanceProfileProjectDefaults = (
       return { value: "-", source: "LXD (container)", configField };
     } else {
       return { value: "1GB", source: "LXD (VM)", configField };
+    }
+  }
+
+  // migration.stateful is inherited through 4 levels:
+  // 1. LXD default
+  // 2. server setting "instances.migration.stateful"
+  // 3. by a profile
+  // 4. by the instance itself
+  // here we handle level 2. level 1 is handled below. Levels 3 and 4 are handled by the caller.
+  if (configKey === "migration.stateful") {
+    const { data: settings } = useSettings();
+    const serverSetting = settings?.config?.["instances.migration.stateful"];
+
+    if (serverSetting) {
+      return { value: serverSetting, source: "Server settings", configField };
     }
   }
 
