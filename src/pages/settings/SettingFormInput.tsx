@@ -60,7 +60,7 @@ const SettingFormInput: FC<Props> = ({
       <Button appearance="base" onClick={onCancel}>
         Cancel
       </Button>
-      <Button appearance="positive" onClick={() => onSubmit(value)}>
+      <Button appearance="positive" type="submit">
         Save
       </Button>
       {canBeReset && (
