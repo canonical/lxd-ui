@@ -34,6 +34,7 @@ import ProfileFormMenu, {
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
+  MIGRATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
@@ -55,12 +56,16 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { getProfilePayload } from "util/profileEdit";
+import MigrationForm, {
+  MigrationFormValues,
+} from "components/forms/MigrationForm";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
+  MigrationFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -193,6 +198,10 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
             {section === slugify(SNAPSHOTS) && (
               <InstanceSnapshotsForm formik={formik} />
+            )}
+
+            {section === slugify(MIGRATION) && (
+              <MigrationForm formik={formik} />
             )}
 
             {section === slugify(CLOUD_INIT) && (

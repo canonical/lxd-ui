@@ -33,6 +33,7 @@ import EditInstanceDetails from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
   CLOUD_INIT,
   MAIN_CONFIGURATION,
+  MIGRATION,
   NETWORK_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
@@ -56,6 +57,9 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLink from "pages/instances/InstanceLink";
 import { useDocs } from "context/useDocs";
+import MigrationForm, {
+  MigrationFormValues,
+} from "components/forms/MigrationForm";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -72,6 +76,7 @@ export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
+  MigrationFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -213,6 +218,10 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(SNAPSHOTS) && (
               <InstanceSnapshotsForm formik={formik} />
+            )}
+
+            {section === slugify(MIGRATION) && (
+              <MigrationForm formik={formik} />
             )}
 
             {section === slugify(CLOUD_INIT) && (
