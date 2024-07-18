@@ -39,6 +39,7 @@ import ProfileFormMenu, {
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
+  MIGRATION,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
@@ -59,12 +60,17 @@ import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
+import MigrationForm, {
+  MigrationFormValues,
+  migrationPayload,
+} from "components/forms/MigrationForm";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
+  MigrationFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -138,6 +144,7 @@ const CreateProfile: FC = () => {
         ...resourceLimitsPayload(values),
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
+        ...migrationPayload(values),
         ...cloudInitPayload(values),
       },
     };
@@ -194,6 +201,8 @@ const CreateProfile: FC = () => {
             )}
 
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
+
+            {section === MIGRATION && <MigrationForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

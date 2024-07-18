@@ -11,6 +11,7 @@ export const DISK_DEVICES = "Disk devices";
 export const NETWORK_DEVICES = "Network devices";
 export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
+export const MIGRATION = "Migration";
 export const SNAPSHOTS = "Snapshots";
 export const CLOUD_INIT = "Cloud init";
 export const YAML_CONFIGURATION = "YAML configuration";
@@ -104,6 +105,7 @@ const InstanceFormMenu: FC<Props> = ({
               <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
               <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
               <MenuItem label={SNAPSHOTS} {...menuItemProps} />
+              <MenuItem label={MIGRATION} {...menuItemProps} />
               <MenuItem label={CLOUD_INIT} {...menuItemProps} />
             </ul>
           </li>
