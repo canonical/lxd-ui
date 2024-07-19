@@ -1093,10 +1093,10 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
-"@canonical/react-components@0.59.0":
-  version "0.59.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.59.0.tgz#7a0b22643c728b388d7af8cda8c7e72446503552"
-  integrity sha512-zvDSd42aEshaXXo7gFsVqjJPRjm2tISnjxC1cZHu/IEqLGuExuohpVjeYyhHzV/i5VJHfOYvzZMONGgfYkW6eQ==
+"@canonical/react-components@0.59.1":
+  version "0.59.1"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-0.59.1.tgz#bcc4cc6ec7b309a179fca2aaffd58f03a75df4e1"
+  integrity sha512-vHd287WhZxJpojGCYW312Z/BcorO1ybQ7CEE/MRERXl7XUYZlvx9i8AortoesAxFZK/BgujQgafx/zesL/9uUQ==
   dependencies:
     "@types/jest" "29.5.12"
     "@types/node" "20.12.11"
