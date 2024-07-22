@@ -6,6 +6,7 @@ import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import PasswordModal from "pages/login/PasswordModal";
 import CustomLayout from "components/CustomLayout";
+import HelpLink from "components/HelpLink";
 
 interface Certs {
   crt: string;
@@ -82,7 +83,14 @@ const CertificateGenerate: FC = () => {
       mainClassName="certificate-generate"
       header={
         <div className="p-panel__header is-sticky">
-          <h1 className="p-panel__title">Setup LXD UI</h1>
+          <h1 className="p-panel__title">
+            <HelpLink
+              href="https://github.com/canonical/lxd-ui/wiki/Authentication-Setup-FAQ"
+              title="Authentication Setup FAQ"
+            >
+              Setup LXD UI
+            </HelpLink>
+          </h1>
         </div>
       }
     >
