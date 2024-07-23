@@ -6,6 +6,7 @@ import Loader from "components/Loader";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
+import HelpLink from "components/HelpLink";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -24,7 +25,14 @@ const CertificateAdd: FC = () => {
       mainClassName="certificate-generate"
       header={
         <div className="p-panel__header is-sticky">
-          <h1 className="p-panel__title">Add existing certificate</h1>
+          <h1 className="p-panel__title">
+            <HelpLink
+              href="https://github.com/canonical/lxd-ui/wiki/Authentication-Setup-FAQ"
+              title="Authentication Setup FAQ"
+            >
+              Add existing certificate
+            </HelpLink>
+          </h1>
         </div>
       }
     >
@@ -33,7 +41,16 @@ const CertificateAdd: FC = () => {
       ) : (
         <Row>
           <Notification severity="caution">
-            A client certificate must be present and selected in your browser
+            A client certificate must be present and selected in your browser.
+            <br />
+            Learn more in the{" "}
+            <a
+              href="https://github.com/canonical/lxd-ui/wiki/Authentication-Setup-FAQ#reusing-certificates"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Authentication Setup FAQ
+            </a>
           </Notification>
         </Row>
       )}
