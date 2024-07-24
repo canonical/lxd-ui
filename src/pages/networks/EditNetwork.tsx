@@ -70,12 +70,16 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const formik = useFormik<NetworkFormValues>({
     initialValues: toNetworkFormValues(network),
     validationSchema: NetworkSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       const yaml = values.yaml ? values.yaml : getYaml();
       const saveNetwork = yamlToObject(yaml) as LxdNetwork;
       updateNetwork({ ...saveNetwork, etag: network.etag }, project)
         .then(() => {
-          void formik.setValues(toNetworkFormValues(saveNetwork));
+          formik.resetForm({
+            values: toNetworkFormValues(saveNetwork),
+          });
+
           void queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
