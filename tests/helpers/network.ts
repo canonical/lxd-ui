@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { LxdNetworkType } from "types/network";
+import { activateAllTableOverrides } from "./configuration";
 
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
@@ -40,6 +41,7 @@ export const visitNetwork = async (page: Page, network: string) => {
   await page.goto("/ui/");
   await page.getByTitle("Networks (default)").click();
   await page.getByRole("link", { name: network }).first().click();
+  await page.getByTestId("tab-link-Configuration").click();
 };
 
 export const saveNetwork = async (page: Page, network: string) => {
@@ -48,17 +50,42 @@ export const saveNetwork = async (page: Page, network: string) => {
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
-export const editNetwork = async (page: Page, network: string) => {
-  await visitNetwork(page, network);
-  await page.getByTestId("tab-link-Configuration").click();
+export const editNetwork = async (page: Page) => {
   await page.getByRole("button", { name: "Edit network" }).click();
 };
 
-export const createNetworkForward = async (page: Page, network: string) => {
-  await visitNetwork(page, network);
+export const prepareNetworkTabEdit = async (
+  page: Page,
+  tabLocation: string,
+  networkName: string,
+) => {
+  await visitNetwork(page, networkName);
+  await page
+    .getByLabel("Network form navigation")
+    .getByText(tabLocation)
+    .click();
+  await editNetwork(page);
+  await activateAllTableOverrides(page);
+};
 
-  await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit network" }).click();
+export const visitNetworkConfiguration = async (page: Page, tab: string) => {
+  await page
+    .getByRole("button", {
+      name: "Advanced",
+    })
+    .click();
+  await page
+    .getByLabel("Network form navigation")
+    .getByText(tab, { exact: true })
+    .click();
+  await activateAllTableOverrides(page);
+};
+
+export const createNetworkForward = async (page: Page, network: string) => {
+  await createNetwork(page, network);
+  await visitNetwork(page, network);
+  await editNetwork(page);
+
   const networkSubnet = await page.inputValue("input#ipv4_address");
 
   const listenAddress = networkSubnet.replace("1/24", "1");
@@ -85,4 +112,6 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page
     .getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`)
     .click();
+
+  await deleteNetwork(page, network);
 };

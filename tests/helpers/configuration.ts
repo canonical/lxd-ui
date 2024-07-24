@@ -20,12 +20,7 @@ export const setInput = async (
   await page.getByPlaceholder(placeholder).last().fill(value);
 };
 
-export const setTextarea = async (
-  page: Page,
-  field: string,
-  placeholder: string,
-  value: string,
-) => {
+export const setTextarea = async (page: Page, field: string, value: string) => {
   await activateOverride(page, field);
   await page.getByRole("row", { name: field }).getByRole("textbox").click();
   await page.getByRole("textbox", { name: field }).fill(value);
@@ -134,4 +129,25 @@ export const assertReadMode = async (
     .getByRole("gridcell", { name: value, exact: true })
     .getByText(value)
     .click();
+};
+
+export const activateAllTableOverrides = async (page: Page) => {
+  const overrideButtons = await page
+    .locator('td[role="gridcell"].override button')
+    .all();
+
+  for (const button of overrideButtons) {
+    await button.click();
+  }
+};
+
+export const checkAllOptions = async (
+  page: Page,
+  name: string,
+  options: string[],
+) => {
+  await activateOverride(page, name);
+  for (const option of options) {
+    await page.getByRole("combobox", { name: name }).selectOption(option);
+  }
 };

@@ -1,151 +1,315 @@
 import { test } from "./fixtures/lxd-test";
 import {
+  activateAllTableOverrides,
+  checkAllOptions,
+  setTextarea,
+} from "./helpers/configuration";
+import {
   createNetwork,
   createNetworkForward,
   deleteNetwork,
   editNetwork,
+  prepareNetworkTabEdit,
   randomNetworkName,
-  saveNetwork,
   visitNetwork,
+  visitNetworkConfiguration,
 } from "./helpers/network";
 import {
-  activateOverride,
-  assertReadMode,
-  setOption,
-} from "./helpers/configuration";
+  getServerSettingValue,
+  updateSetting,
+  visitServerSettings,
+} from "./helpers/server";
 
 let network = randomNetworkName();
+let initialNorthboundNetworkValue: string = "";
 
-test.beforeAll(async ({ browser, browserName }) => {
-  // network names can only be 15 characters long
-  network = `${browserName.substring(0, 2)}-${network}`;
-  const page = await browser.newPage();
-  await createNetwork(page, network);
-  await page.close();
+test.describe("bridge type", () => {
+  test.beforeAll(async ({ browser, browserName }) => {
+    // network names can only be 15 characters long
+    network = `${browserName.substring(0, 2)}-${network}`;
+    const page = await browser.newPage();
+    await createNetwork(page, network);
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await deleteNetwork(page, network);
+    await page.close();
+  });
+
+  test("configure main bridge network settings", async ({ page }) => {
+    await visitNetwork(page, network);
+    await editNetwork(page);
+
+    const DESCRIPTION = "A-new-description";
+    await page.getByPlaceholder("Enter description").fill(DESCRIPTION);
+
+    const radioButtons = await page.$$("input[type=radio]");
+    for (const button of radioButtons) {
+      await button.click({ force: true });
+    }
+
+    const IPV4_ADDRESS = "10.141.1.1/24";
+    await page.getByLabel("IPv4 address").fill(IPV4_ADDRESS);
+
+    const IPV6_ADDRESS = "2001:db8::1/64";
+    await page.getByLabel("IPv6 address").fill(IPV6_ADDRESS);
+
+    const options = ["false", "true"];
+    await checkAllOptions(page, "IPv4 NAT", options);
+    await checkAllOptions(page, "IPv6 NAT", options);
+  });
+
+  test("set bridge network driver and hardware details", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "Bridge", network);
+
+    const MTU = "1300";
+    await setTextarea(page, "MTU", MTU);
+
+    const HARDWARE_ADDRESS = "00:11:22:33:44:55";
+    await setTextarea(page, "Hardware address", HARDWARE_ADDRESS);
+
+    const options = ["openvswitch", "native"];
+    await checkAllOptions(page, "Bridge driver", options);
+  });
+
+  test("configure bridge DNS settings", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "DNS", network);
+
+    const DNS_DOMAIN = "example.com";
+    await setTextarea(page, "DNS domain", DNS_DOMAIN);
+
+    const DNS_SEARCH = "search.example.com";
+    await setTextarea(page, "DNS search", DNS_SEARCH);
+
+    const options = ["none", "managed", "dynamic"];
+    await checkAllOptions(page, "DNS mode", options);
+  });
+
+  test("set bridge IPv4 DHCP and range configuration", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "IPv4", network);
+
+    const options = ["false", "true"];
+    for (const option of options) {
+      await page
+        .getByRole("combobox", { name: "IPv4 DHCP", exact: true })
+        .selectOption(option);
+    }
+
+    const DHCP_EXPIRY = "2h";
+    await setTextarea(page, "IPv4 DHCP expiry", DHCP_EXPIRY);
+
+    const OVN_RANGES = "10.141.1.50-10.141.1.99";
+    await setTextarea(page, "IPv4 OVN ranges", OVN_RANGES);
+
+    const DHCP_RANGES = "192.168.1.100-192.168.1.150";
+    await setTextarea(page, "IPv4 DHCP ranges", DHCP_RANGES);
+  });
+
+  test("configure bridge IPv6 DHCP and range settings", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "IPv6", network);
+
+    const options = ["false", "true"];
+    for (const option of options) {
+      await page
+        .getByRole("combobox", { name: "IPv6 DHCP", exact: true })
+        .selectOption(option);
+    }
+    await checkAllOptions(page, "IPv6 DHCP stateful", options);
+
+    const DHCP_EXPIRY = "2h";
+    await setTextarea(page, "IPv6 DHCP expiry", DHCP_EXPIRY);
+
+    const DHCP_RANGES = "2001:db8::100-2001:db8::150";
+    await setTextarea(page, "IPv6 DHCP ranges", DHCP_RANGES);
+
+    const OVN_RANGES = "2001:db8::100-2001:db8::150";
+    await setTextarea(page, "IPv6 OVN ranges", OVN_RANGES);
+  });
 });
 
-test.afterAll(async ({ browser }) => {
-  const page = await browser.newPage();
-  await deleteNetwork(page, network);
-  await page.close();
+test.describe("physical type", () => {
+  test.beforeAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await createNetwork(page, network, "physical");
+    await page.close();
+  });
+
+  test.afterAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await deleteNetwork(page, network);
+    await page.close();
+  });
+
+  test("configure physical network DNS nameservers", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "DNS", network);
+
+    const DNS_NAMESERVERS = "32.152.61.210";
+    await setTextarea(page, "DNS nameservers", DNS_NAMESERVERS);
+  });
+
+  test("set physical network IPv4 routes and gateway", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "IPv4", network);
+
+    const IPV4_ADDRESS = "10.141.1.1/24";
+    await setTextarea(page, "IPv4 gateway", IPV4_ADDRESS);
+
+    const OVN_RANGES = "10.141.1.100-10.141.1.110";
+    await setTextarea(page, "IPv4 OVN ranges", OVN_RANGES);
+
+    const IPV4_ROUTES = "10.141.1.1";
+    await page.getByLabel("IPv4 routes", { exact: true }).fill(IPV4_ROUTES);
+
+    const options = ["true", "false"];
+    await checkAllOptions(page, "IPv4 routes anycast", options);
+  });
+
+  test("configure physical network IPv6 routes and gateway", async ({
+    page,
+  }) => {
+    await prepareNetworkTabEdit(page, "IPv6", network);
+
+    const OVN_RANGES = "2001:db8::100-2001:db8::150";
+    await setTextarea(page, "IPv6 OVN ranges", OVN_RANGES);
+
+    const IPV6_GATEWAY = "2001:db8::100";
+    await setTextarea(page, "IPv6 gateway", IPV6_GATEWAY);
+    await page.getByLabel("IPv6 routes", { exact: true }).fill(IPV6_GATEWAY);
+
+    const options = ["true", "false"];
+    await checkAllOptions(page, "IPv6 routes anycast", options);
+  });
+
+  test("set physical network OVN ingress mode", async ({ page }) => {
+    await prepareNetworkTabEdit(page, "OVN", network);
+
+    const options = ["l2proxy", "routed"];
+    await checkAllOptions(page, "OVN ingress mode", options);
+  });
 });
 
-test("bridge network edit basic detail", async ({ page }) => {
-  await editNetwork(page, network);
-  await page.getByPlaceholder("Enter description").fill("A-new-description");
-  await setOption(page, "IPv4 NAT", "false");
-  await setOption(page, "IPv6 NAT", "false");
+test.describe("OVN type", () => {
+  test.beforeAll(async ({ browser, lxdVersion }) => {
+    if (lxdVersion === "5.0-edge") {
+      return;
+    }
 
-  await page
-    .getByLabel("Network form navigation")
-    .getByText("Bridge", { exact: true })
-    .click();
-  await activateOverride(page, "MTU");
-  await page.getByLabel("MTU").fill("1300");
-  await activateOverride(page, "Bridge driver");
-  await page
-    .getByRole("combobox", { name: "Bridge driver" })
-    .selectOption("native");
+    const page = await browser.newPage();
 
-  await page.getByText("DNS").click();
-  await activateOverride(page, "DNS domain");
-  await page.getByLabel("DNS domain").fill("abc");
-  await activateOverride(page, "DNS mode");
-  await page.getByRole("combobox", { name: "DNS mode" }).selectOption("none");
-  await activateOverride(page, "DNS search");
-  await page.getByLabel("DNS search").fill("abc");
+    await visitServerSettings(page);
+    initialNorthboundNetworkValue =
+      (await getServerSettingValue(
+        page,
+        "network.ovn.northbound_connection",
+      )) ?? "";
+    await updateSetting(
+      page,
+      "network.ovn.northbound_connection",
+      "text",
+      "foo",
+    );
 
-  await page.getByText("IPv4").click();
-  await activateOverride(page, "IPv4 DHCP expiry");
-  await page.getByLabel("IPv4 DHCP expiry").fill("2h");
+    await page.close();
+  });
 
-  await page.getByText("IPv6").click();
-  await activateOverride(page, "IPv6 DHCP expiry");
-  await page.getByLabel("IPv6 DHCP expiry").fill("3h");
-  await activateOverride(page, "IPv6 DHCP stateful");
-  await setOption(page, "IPv6 DHCP stateful", "true");
+  test.afterAll(async ({ browser, lxdVersion }) => {
+    if (lxdVersion === "5.0-edge") {
+      return;
+    }
 
-  await saveNetwork(page, network);
+    const page = await browser.newPage();
 
-  await visitNetwork(page, network);
-  await page.getByRole("cell", { name: "A-new-description" }).click();
+    await visitServerSettings(page);
+    await updateSetting(
+      page,
+      "network.ovn.northbound_connection",
+      "text",
+      initialNorthboundNetworkValue,
+    );
 
-  await page.getByTestId("tab-link-Configuration").click();
-  await assertReadMode(page, "IPv4 NAT", "false");
-  await assertReadMode(page, "IPv6 NAT", "false");
+    await page.close();
+  });
 
-  await page
-    .getByLabel("Network form navigation")
-    .getByText("Bridge", { exact: true })
-    .click();
-  await assertReadMode(page, "MTU", "1300");
-  await assertReadMode(page, "Bridge driver", "native");
+  test.beforeEach(async ({ page, lxdVersion }) => {
+    test.skip(
+      lxdVersion === "5.0-edge",
+      "OVN can not be configured in lxd v5.0/edge",
+    );
 
-  await page.getByText("DNS", { exact: true }).click();
-  await assertReadMode(page, "DNS domain", "abc");
-  await assertReadMode(page, "DNS mode", "none");
-  await assertReadMode(page, "DNS search", "abc");
+    await page.goto("/ui/");
+    await page.getByRole("link", { name: "Networks", exact: true }).click();
+    await page.getByRole("button", { name: "Create network" }).click();
+    await page.getByRole("heading", { name: "Create a network" }).click();
+    await page.getByLabel("Type").selectOption("OVN");
+    await page.getByLabel("Name").click();
+    await page.getByLabel("Name").fill(network);
+    await page.getByLabel("Uplink").selectOption({ index: 2 });
+  });
 
-  await page.getByText("IPv4", { exact: true }).click();
-  await assertReadMode(page, "IPv4 DHCP expiry", "2h");
+  test("configure main OVN network settings", async ({ page }) => {
+    await activateAllTableOverrides(page);
 
-  await page.getByText("IPv6", { exact: true }).click();
-  await assertReadMode(page, "IPv6 DHCP expiry", "3h");
-  await assertReadMode(page, "IPv6 DHCP stateful", "true");
+    const DESCRIPTION = "A-new-description";
+    await page.getByPlaceholder("Enter description").fill(DESCRIPTION);
+
+    const radioButtons = await page.$$("input[type=radio]");
+    for (const button of radioButtons) {
+      await button.click({ force: true });
+    }
+    const IPV4_ADDRESS = "10.141.1.1/24";
+    await page.getByLabel("IPv4 address").fill(IPV4_ADDRESS);
+
+    const IPV6_ADDRESS = "2001:db8::1/64";
+    await page.getByLabel("IPv6 address").fill(IPV6_ADDRESS);
+
+    const options = ["false", "true"];
+    await checkAllOptions(page, "IPv4 NAT", options);
+    await checkAllOptions(page, "IPv6 NAT", options);
+  });
+
+  test("set OVN bridge MTU and hardware address", async ({ page }) => {
+    await visitNetworkConfiguration(page, "Bridge");
+
+    const MTU = "1300";
+    await setTextarea(page, "MTU", MTU);
+
+    const HARDWARE_ADDRESS = "00:11:22:33:44:55";
+    await setTextarea(page, "Hardware address", HARDWARE_ADDRESS);
+  });
+
+  test("configure OVN network DNS settings", async ({ page }) => {
+    await visitNetworkConfiguration(page, "DNS");
+
+    const DNS_DOMAIN = "example.com";
+    await setTextarea(page, "DNS domain", DNS_DOMAIN);
+
+    const DNS_SEARCH = "search.example.com";
+    await setTextarea(page, "DNS search", DNS_SEARCH);
+  });
+
+  test("set OVN network IPv4 DHCP and L3 options", async ({ page }) => {
+    await visitNetworkConfiguration(page, "IPv4");
+
+    const options = ["false", "true"];
+    await checkAllOptions(page, "IPv4 DHCP", options);
+    await checkAllOptions(page, "IPv4 L3 only", options);
+  });
+
+  test("configure OVN network IPv6 DHCP and L3 settings", async ({ page }) => {
+    await visitNetworkConfiguration(page, "IPv6");
+
+    const options = ["false", "true"];
+    for (const option of options) {
+      await page
+        .getByRole("combobox", { name: "IPv6 DHCP", exact: true })
+        .selectOption(option);
+    }
+    await checkAllOptions(page, "IPv6 DHCP stateful", options);
+    await checkAllOptions(page, "IPv6 L3 only", options);
+  });
 });
 
-test("network forwards", async ({ page }) => {
+test("create network forward for specified network", async ({ page }) => {
   await createNetworkForward(page, network);
-});
-
-test("physical managed network create edit and delete", async ({ page }) => {
-  const name = randomNetworkName();
-  await createNetwork(page, name, "physical");
-  await editNetwork(page, name);
-  await page.getByText("DNS", { exact: true }).click();
-  await activateOverride(page, "DNS nameservers");
-  await page.getByLabel("DNS nameservers").fill("1.2.3.4");
-
-  await page.getByText("IPv4", { exact: true }).click();
-  await activateOverride(page, "IPv4 OVN ranges");
-  await page.getByLabel("IPv4 OVN ranges").fill("1.2.3.4-1.2.3.5");
-  await activateOverride(page, "IPv4 gateway");
-  await page.getByLabel("IPv4 gateway").fill("1.2.3.4/1");
-  await activateOverride(page, "IPv4 routes anycast");
-  await page.getByLabel("IPv4 routes anycast").selectOption("true");
-
-  await page.getByText("IPv6", { exact: true }).click();
-  await activateOverride(page, "IPv6 OVN ranges");
-  await page.getByLabel("IPv6 OVN ranges").fill("2600::1-2600::2");
-  await activateOverride(page, "IPv6 gateway");
-  await page.getByLabel("IPv6 gateway").fill("2600::/1");
-  await activateOverride(page, "IPv6 routes anycast");
-  await page.getByLabel("IPv6 routes anycast").selectOption("true");
-
-  await page.getByText("OVN", { exact: true }).click();
-  await activateOverride(page, "OVN ingress mode");
-  await page.getByLabel("OVN ingress mode").selectOption("routed");
-
-  await saveNetwork(page, name);
-
-  await visitNetwork(page, name);
-  await page.getByTestId("tab-link-Configuration").click();
-
-  await page.getByText("DNS", { exact: true }).click();
-  await assertReadMode(page, "DNS nameservers", "1.2.3.4");
-
-  await page.getByText("IPv4", { exact: true }).click();
-  await assertReadMode(page, "IPv4 OVN ranges", "1.2.3.4-1.2.3.5");
-  await assertReadMode(page, "IPv4 gateway", "1.2.3.4/1");
-  await assertReadMode(page, "IPv4 routes anycast", "true");
-
-  await page.getByText("IPv6", { exact: true }).click();
-  await assertReadMode(page, "IPv6 OVN ranges", "2600::1-2600::2");
-  await assertReadMode(page, "IPv6 gateway", "2600::/1");
-  await assertReadMode(page, "IPv6 routes anycast", "true");
-
-  await page.getByText("OVN", { exact: true }).click();
-  await assertReadMode(page, "OVN ingress mode", "routed");
-
-  await deleteNetwork(page, name);
 });

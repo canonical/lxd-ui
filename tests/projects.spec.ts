@@ -92,14 +92,9 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
     .getByRole("navigation", { name: "Project form navigation" })
     .getByText("Networks")
     .click();
-  await setTextarea(
-    page,
-    "Available networks",
-    "Enter network names",
-    "lxcbr0",
-  );
-  await setTextarea(page, "Network uplinks", "Enter network names", "lxcbr0");
-  await setTextarea(page, "Network zones", "Enter network zones", "foo,bar");
+  await setTextarea(page, "Available networks", "lxcbr0");
+  await setTextarea(page, "Network uplinks", "lxcbr0");
+  await setTextarea(page, "Network zones", "foo,bar");
 
   await page.getByRole("button", { name: "Save changes" }).click();
   await page.waitForSelector(`text=Project ${project} updated.`);
