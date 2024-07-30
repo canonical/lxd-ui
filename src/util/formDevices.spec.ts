@@ -8,7 +8,9 @@ const deviceYaml =
   "  root:\n" +
   "    path: /\n" +
   "    pool: big-pool\n" +
+  "    size: 10GiB\n" +
   "    type: disk\n" +
+  "    size.state: 3GiB\n" +
   "  eth0:\n" +
   "    network: lxcbr\n" +
   "    type: nic\n" +
