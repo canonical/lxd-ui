@@ -1,9 +1,15 @@
 import { test } from "./fixtures/lxd-test";
+import { deleteAllImages } from "./helpers/images";
 import {
   createInstance,
   deleteInstance,
   randomInstanceName,
 } from "./helpers/instances";
+import {
+  createCustomProject,
+  deleteProject,
+  randomProjectName,
+} from "./helpers/projects";
 import {
   createInstanceSnapshot,
   deleteInstanceSnapshot,
@@ -14,6 +20,7 @@ import {
   restoreStorageVolumeSnapshot,
   editStorageVolumeSnapshot,
   deleteStorageVolumeSnapshot,
+  createImageFromSnapshot,
 } from "./helpers/snapshots";
 import {
   createVolume,
@@ -53,4 +60,24 @@ test("custom storage volume snapshot create, restore, edit and remove", async ({
   await deleteStorageVolumeSnapshot(page, newName);
 
   await deleteVolume(page, volume);
+});
+
+test("publish image from instance snapshot in custom project", async ({
+  page,
+}) => {
+  const project = randomProjectName();
+  await createCustomProject(page, project);
+
+  const instance = randomInstanceName();
+  const type = "container";
+  await createInstance(page, instance, type, project);
+
+  const snapshot = randomSnapshotName();
+  await createInstanceSnapshot(page, instance, snapshot, project);
+  await createImageFromSnapshot(page, snapshot);
+
+  await deleteInstanceSnapshot(page, snapshot);
+  await deleteInstance(page, instance, project);
+  await deleteAllImages(page, project);
+  await deleteProject(page, project);
 });
