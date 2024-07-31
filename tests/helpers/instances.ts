@@ -27,6 +27,13 @@ export const createInstance = async (
   await page
     .getByRole("combobox", { name: "Instance type" })
     .selectOption(type);
+
+  if (project !== "default") {
+    await page.getByRole("button", { name: "Advanced" }).click();
+    await page.getByText("Disk devices").click();
+    await page.getByRole("button", { name: "Create override" }).click();
+  }
+
   await page.getByRole("button", { name: "Create" }).first().click();
 
   await page.waitForSelector(`text=Created instance ${instance}.`);

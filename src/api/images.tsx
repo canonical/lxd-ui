@@ -81,7 +81,7 @@ export const createImageFromInstanceSnapshot = (
   isPublic: boolean,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/images", {
+    fetch(`/1.0/images?project=${instance.project}`, {
       method: "POST",
       body: JSON.stringify({
         public: isPublic,
