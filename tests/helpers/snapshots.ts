@@ -9,8 +9,10 @@ export const createInstanceSnapshot = async (
   page: Page,
   instance: string,
   snapshot: string,
+  project?: string,
 ) => {
-  await page.goto("/ui/");
+  const route = project ? `/ui/project/${project}/instances` : "/ui";
+  await page.goto(route);
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();
@@ -170,4 +172,22 @@ export const deleteStorageVolumeSnapshot = async (
     .click();
 
   await page.waitForSelector(`text=Snapshot ${snapshot} deleted`);
+};
+
+export const createImageFromSnapshot = async (page: Page, snapshot: string) => {
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .hover();
+  await page
+    .getByRole("row", { name: "Name" })
+    .filter({ hasText: snapshot })
+    .getByRole("button", { name: "Create image" })
+    .click();
+  await page
+    .getByLabel("Create image from instance")
+    .getByRole("button", { name: "Create image" })
+    .click();
+
+  await page.waitForSelector(`text=Image created from snapshot ${snapshot}`);
 };

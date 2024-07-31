@@ -5,15 +5,29 @@ export const randomProjectName = (): string => {
   return `playwright-project-${randomNameSuffix()}`;
 };
 
-export const createProject = async (page: Page, project: string) => {
+const openProjectCreationForm = async (page: Page) => {
   await page.goto("/ui/");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("button", { name: "Create project" }).click();
+};
+
+const submitProjectCreationForm = async (page: Page, project: string) => {
   await page.getByPlaceholder("Enter name").click();
   await page.getByPlaceholder("Enter name").fill(project);
   await page.getByRole("button", { name: "Create" }).click();
   await page.waitForSelector(`text=Project ${project} created.`);
   await page.getByRole("button", { name: "Close notification" }).click();
+};
+
+export const createProject = async (page: Page, project: string) => {
+  await openProjectCreationForm(page);
+  await submitProjectCreationForm(page, project);
+};
+
+export const createCustomProject = async (page: Page, project: string) => {
+  await openProjectCreationForm(page);
+  await page.getByLabel("Features").selectOption("customised");
+  await submitProjectCreationForm(page, project);
 };
 
 export const renameProject = async (

@@ -14,6 +14,11 @@
 // fix for safari https://warthogs.atlassian.net/browse/WD-7486
 .multiselect-checkbox span.p-checkbox__label {
   padding-left: 0;
+
+  // applying the above style breaks the checkbox in firefox
+  @-moz-document url-prefix() {
+    padding-left: 2rem;
+  }
 }
 
 .selected-row {
