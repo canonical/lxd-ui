@@ -80,6 +80,7 @@ import MigrationForm, {
   MigrationFormValues,
   migrationPayload,
 } from "components/forms/MigrationForm";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -109,6 +110,7 @@ const CreateInstance: FC = () => {
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(MAIN_CONFIGURATION);
   const [isConfigOpen, setConfigOpen] = useState(false);
+  const { hasInstanceCreateStart } = useSupportedFeatures();
 
   if (!project) {
     return <>Missing project</>;
@@ -189,6 +191,15 @@ const CreateInstance: FC = () => {
     clearCache();
   };
 
+  const notifyCreationAndStarting = (instanceName: string) => {
+    toastNotify.info(
+      <>
+        Instance {instanceName} creation has begun. The instance will
+        automatically start upon completion.
+      </>,
+    );
+  };
+
   const creationCompletedHandler = (
     instanceName: string,
     shouldStart: boolean,
@@ -200,7 +211,8 @@ const CreateInstance: FC = () => {
       </Link>
     );
 
-    if (shouldStart) {
+    // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
+    if (shouldStart && !hasInstanceCreateStart) {
       notifyCreatedNowStarting(instanceLink);
       void startInstance({
         name: instanceName,
@@ -216,19 +228,24 @@ const CreateInstance: FC = () => {
         .catch((e: Error) => {
           notifyCreatedButStartFailed(instanceLink, e);
         });
-    } else {
-      const consoleUrl = `/ui/project/${project}/instance/${instanceName}/console`;
-      const message = isIsoImage && (
-        <>
-          <p>Continue the installation process from its console.</p>
-          <Button onClick={() => navigate(consoleUrl)} hasIcon>
-            <Icon name="canvas" />
-            <span>Open console</span>
-          </Button>
-        </>
-      );
-      notifyCreated(instanceLink, message);
+
+      return;
     }
+
+    const consoleUrl = `/ui/project/${project}/instance/${instanceName}/console`;
+    const message = isIsoImage && (
+      <>
+        <p>Continue the installation process from its console.</p>
+        <Button onClick={() => navigate(consoleUrl)} hasIcon>
+          <Icon name="canvas" />
+          <span>Open console</span>
+        </Button>
+      </>
+    );
+
+    shouldStart
+      ? notifyCreatedAndStarted(instanceLink)
+      : notifyCreated(instanceLink, message);
   };
 
   const { data: profiles = [] } = useQuery({
@@ -237,7 +254,7 @@ const CreateInstance: FC = () => {
   });
 
   const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
-    const instancePayload: Partial<LxdInstance> = values.yaml
+    const instance: Partial<LxdInstance> = values.yaml
       ? yamlToObject(values.yaml)
       : getPayload(values);
 
@@ -250,13 +267,27 @@ const CreateInstance: FC = () => {
     const formUrl = location.pathname + location.search;
     navigate(`/ui/project/${project}/instances`);
 
+    // NOTE: for lxd version that has the instance_create_start api extension
+    // we can create and start the instance in one go by setting the 'start' property to true
+    // we still need to keep the old way of create and start instances since users may be using an older version of lxd
+    const instancePayload = {
+      ...instance,
+      start: hasInstanceCreateStart ? shouldStart : undefined,
+    };
+
     createInstance(JSON.stringify(instancePayload), project, values.target)
       .then((operation) => {
         const instanceName = getInstanceName(operation.metadata);
         if (!instanceName) {
           return;
         }
-        notifyCreationStarted(instanceName);
+
+        if (shouldStart && hasInstanceCreateStart) {
+          notifyCreationAndStarting(instanceName);
+        } else {
+          notifyCreationStarted(instanceName);
+        }
+
         const isIsoImage = values.image?.server === LOCAL_ISO;
         eventQueue.set(
           operation.metadata.id,

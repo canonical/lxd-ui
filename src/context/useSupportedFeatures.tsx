@@ -25,5 +25,6 @@ export const useSupportedFeatures = () => {
       serverMajor > 5,
     hasAccessManagement: apiExtensions.has("access_management"),
     hasExplicitTrustToken: apiExtensions.has("explicit_trust_token"),
+    hasInstanceCreateStart: apiExtensions.has("instance_create_start"),
   };
 };
