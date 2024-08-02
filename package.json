@@ -15,7 +15,7 @@
     "lint-scss": "stylelint 'src/**/*.scss'",
     "lint-js-eslint": "eslint 'src/**/*.{json,tsx,ts}' 'tests/**/*.ts' .eslintrc.cjs babel.config.js",
     "lint-js-prettier": "prettier 'src/**/*.{json,tsx,ts}' 'tests/**/*.ts' .eslintrc.cjs babel.config.js --check",
-    "lint-js": "yarn lint-js-eslint && yarn lint-js-prettier",
+    "lint-js": "tsc --noEmit && yarn lint-js-eslint && yarn lint-js-prettier",
     "hooks-add": "husky install",
     "hooks-remove": "husky uninstall",
     "start": "concurrently --kill-others --raw 'vite --host | grep -v 3000' 'yarn serve'",

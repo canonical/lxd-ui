@@ -156,7 +156,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
               },
             ]),
         {
-          content: isoTimeToString(snapshot.expires_at),
+          content: isoTimeToString(snapshot.expires_at ?? ""),
           role: "rowheader",
           "aria-label": "Expires at",
           className: "expiration",
