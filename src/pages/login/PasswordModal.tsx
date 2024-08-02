@@ -17,7 +17,7 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
   const PasswordSchema = Yup.object().shape({
     password: Yup.string(),
     passwordConfirm: Yup.string().oneOf(
-      [Yup.ref("password"), null],
+      [Yup.ref("password"), ""],
       "Passwords must match",
     ),
   });
