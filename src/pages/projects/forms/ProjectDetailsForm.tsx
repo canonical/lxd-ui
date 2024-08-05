@@ -178,7 +178,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
           />
           {features === "customised" && (
             <>
-              Allow the following features:
+              Isolate the following features:
               <CheckboxInput
                 id="features_images"
                 name="features_images"
