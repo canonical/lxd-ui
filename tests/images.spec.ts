@@ -4,6 +4,10 @@ import { deleteInstance, randomInstanceName } from "./helpers/instances";
 test("search for custom image and create an instance from it", async ({
   page,
 }) => {
+  test.skip(
+    Boolean(!process.env.CI),
+    "Skipping test locally for custom image creation",
+  );
   const customInstance = randomInstanceName();
   const image = "my-custom-image"; // this is created in pr.yaml and coverage.yaml
 

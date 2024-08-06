@@ -83,3 +83,4 @@ dist/
 tests/screenshots
 
 haproxy-local.cfg
+tests/.auth

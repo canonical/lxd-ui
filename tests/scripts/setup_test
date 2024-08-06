@@ -1,0 +1,53 @@
+#! /usr/bin/env bash
+set -e
+
+# remove tls cert for oidc login
+FINGERPRINT=$(lxc config trust list | grep lxd-ui.crt | awk '{print $8}')
+lxc config trust remove ${FINGERPRINT}
+
+# setup oidc configs
+if [ -f .env.local ]
+then
+  set -o allexport; source .env.local; set +o allexport
+fi
+lxc config set oidc.issuer=${LXD_OIDC_ISSUER}
+lxc config set oidc.client.id=${LXD_OIDC_CLIENT_ID}
+lxc config set oidc.audience=${LXD_OIDC_AUDIENCE}
+lxc config set oidc.groups.claim=${LXD_OIDC_GROUPS_CLAIM}
+
+# create identity provider group mapping
+lxc auth group create login-admin
+lxc auth group permission add login-admin server admin
+# The name of the identity provider group should be the same as the role name assigned to the user
+lxc auth identity-provider-group create admin
+lxc auth identity-provider-group group add admin login-admin
+
+# create oidc user foo
+lxd sql global "
+    INSERT OR REPLACE INTO identities 
+    (id, auth_method, type, identifier, name, metadata) 
+    VALUES 
+    (
+        (SELECT id from identities WHERE name='foo'),
+        2, 
+        5, 
+        'foo@foo.com', 
+        'foo', 
+        '{}'
+    );
+"
+
+# create oidc user bar
+lxd sql global "
+    INSERT OR REPLACE INTO identities 
+    (id, auth_method, type, identifier, name, metadata) 
+    VALUES 
+    (
+        (SELECT id from identities WHERE name='bar'),
+        2, 
+        5, 
+        'bar@bar.com', 
+        'bar', 
+        '{}'
+    );
+"
