@@ -3,6 +3,7 @@ import {
   handleResponse,
   pushFailure,
   pushSuccess,
+  handleRawResponse,
 } from "util/helpers";
 import { LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
@@ -111,6 +112,20 @@ export const createImageAlias = (
     })
       .then(handleResponse)
       .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const exportImage = (
+  fingerprint: string,
+  onDownload: (response: Response) => Promise<void>,
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images/${fingerprint}/export`)
+      .then(handleRawResponse)
+      .then((response) => {
+        onDownload(response).then(resolve).catch(reject);
+      })
       .catch(reject);
   });
 };
