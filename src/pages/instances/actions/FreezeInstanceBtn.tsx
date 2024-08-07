@@ -59,7 +59,10 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
       });
   };
 
-  const isDisabled = isLoading || instance.status !== "Running";
+  const isDisabled =
+    isLoading ||
+    instance.status !== "Running" ||
+    instanceLoading.getType(instance) === "Migrating";
 
   return (
     <ConfirmationButton

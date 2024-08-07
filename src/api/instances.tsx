@@ -104,6 +104,33 @@ export const migrateInstance = (
   });
 };
 
+export const migrateInstanceBulk = (
+  instances: LxdInstance[],
+  eventQueue: EventQueue,
+  target: string,
+): Promise<PromiseSettledResult<void>[]> => {
+  const results: PromiseSettledResult<void>[] = [];
+  return new Promise((resolve) => {
+    void Promise.allSettled(
+      instances.map((instance) => {
+        return migrateInstance(instance.name, instance.project, target)
+          .then((operation) => {
+            eventQueue.set(
+              operation.metadata.id,
+              () => pushSuccess(results),
+              (msg) => pushFailure(results, msg),
+              () => continueOrFinish(results, instances.length, resolve),
+            );
+          })
+          .catch((e) => {
+            pushFailure(results, e instanceof Error ? e.message : "");
+            continueOrFinish(results, instances.length, resolve);
+          });
+      }),
+    );
+  });
+};
+
 export const startInstance = (
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {

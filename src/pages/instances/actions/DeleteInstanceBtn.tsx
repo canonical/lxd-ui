@@ -12,6 +12,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLink from "pages/instances/InstanceLink";
+import { useInstanceLoading } from "context/instanceLoading";
 
 interface Props {
   instance: LxdInstance;
@@ -22,6 +23,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   const isDeleteIcon = useSmallScreen();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const instanceLoading = useInstanceLoading();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -58,7 +60,10 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   };
 
   const isDeletableStatus = deletableStatuses.includes(instance.status);
-  const isDisabled = isLoading || !isDeletableStatus;
+  const isDisabled =
+    isLoading ||
+    !isDeletableStatus ||
+    instanceLoading.getType(instance) === "Migrating";
   const getHoverText = () => {
     if (!isDeletableStatus) {
       return "Stop the instance to delete it";
