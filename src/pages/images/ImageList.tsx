@@ -28,6 +28,7 @@ import { useDocs } from "context/useDocs";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
+import ExportImageTarballBtn from "./actions/ExportImageTarballBtn";
 
 const ImageList: FC = () => {
   const docBaseLink = useDocs();
@@ -111,6 +112,7 @@ const ImageList: FC = () => {
             project={project}
             image={localLxdToRemoteImage(image)}
           />,
+          <ExportImageTarballBtn key="export-image" image={image} />,
           <DeleteImageBtn key="delete" image={image} project={project} />,
         ]}
       />
