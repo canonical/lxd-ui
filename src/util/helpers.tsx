@@ -65,6 +65,27 @@ export const handleResponse = async (response: Response) => {
   return response.json();
 };
 
+export const handleBinaryData = async (response: Response) => {
+  if (!response.ok) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const result: ErrorResponse = await response.json();
+    throw Error(result.error);
+  }
+
+  // assume content type will be application/octet-stream
+  const contentDisposition = response.headers.get("Content-Disposition");
+  let filename = "test.tar.gz";
+  if (contentDisposition && contentDisposition.includes("filename")) {
+    filename = contentDisposition.split("filename=")[1].trim();
+  }
+
+  const blob = await response.blob();
+  return {
+    blob,
+    filename,
+  };
+};
+
 export const handleSettledResult = (
   results: PromiseSettledResult<unknown>[],
 ): void => {
@@ -289,4 +310,96 @@ export const getClientOS = (userAgent: string) => {
   }
 
   return null;
+};
+
+export const handleLXDImageResponse = async (
+  response: Response,
+): Promise<ParsedMultipartData[]> => {
+  if (!response.ok) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const result: ErrorResponse = await response.json();
+    throw Error(result.error);
+  }
+
+  try {
+    const contentType = response.headers.get("Content-Type");
+    if (contentType?.includes("application/octet-stream")) {
+      // backend may return a filename in the Content-Disposition header
+      // e.g. content-disposition: attachment; filename=111.txt
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = "test.tar.gz";
+      if (contentDisposition && contentDisposition.includes("filename")) {
+        filename = contentDisposition.split("filename=")[1];
+      }
+
+      const blob = await response.blob();
+      return [
+        {
+          body: blob,
+          filename,
+        },
+      ];
+    } else {
+      //Multipart parsing
+      const multipartData = await parseMultipartDataWithStream(response);
+      return multipartData;
+    }
+  } catch (e) {
+    throw Error(e as string);
+  }
+};
+
+type ParsedMultipartData = {
+  filename: string;
+  headers?: { [header: string]: string };
+  body: Blob;
+};
+
+export const parseMultipartDataWithStream = async (
+  response: Response,
+): Promise<ParsedMultipartData[]> => {
+  const boundary = response.headers.get("Content-Type")?.split("boundary=")[1];
+  const reader = response.body?.getReader();
+
+  const chunks: BlobPart[] = [];
+  let result: ReadableStreamReadResult<Uint8Array>;
+
+  if (reader) {
+    while (!(result = await reader.read()).done) {
+      chunks.push(result.value);
+    }
+  }
+
+  const blob = new Blob(chunks);
+  const text = await blob.text();
+
+  const parts = text
+    .split(`--${boundary}`)
+    .map((part) => part.trim())
+    .filter((part) => part && part !== "--");
+
+  const data: ParsedMultipartData[] = [];
+  for (const part of parts) {
+    // headers and body are separated by two new lines
+    const [header, body] = part.split("\r\n\r\n");
+
+    // headers are separated by a single new line
+    const headerTexts = header.split("\r\n");
+    const headers: ParsedMultipartData["headers"] = {};
+    for (const headerText of headerTexts) {
+      const [headerKey, headerValue] = headerText.split(": ");
+      headers[headerKey.toLowerCase()] = headerValue;
+    }
+
+    const filename = headers["content-disposition"]?.split("filename=")[1];
+    const blob = new Blob([body.trim()], { type: headers["content-type"] });
+
+    data.push({
+      filename,
+      headers,
+      body: blob,
+    });
+  }
+
+  return data;
 };
