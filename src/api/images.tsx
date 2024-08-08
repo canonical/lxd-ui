@@ -3,6 +3,7 @@ import {
   handleResponse,
   pushFailure,
   pushSuccess,
+  handleLXDImageResponse,
 } from "util/helpers";
 import { LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
@@ -111,6 +112,26 @@ export const createImageAlias = (
     })
       .then(handleResponse)
       .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const getExportedImage = (fingerprint: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images/${fingerprint}/export`)
+      .then(handleLXDImageResponse)
+      .then((data) => {
+        for (const part of data) {
+          const url = window.URL.createObjectURL(part.body);
+          const a = document.createElement("a");
+          a.style.display = "none";
+          a.href = url;
+          a.download = part.filename ? part.filename : "image.tar";
+          a.click();
+          window.URL.revokeObjectURL(url);
+        }
+        resolve();
+      })
       .catch(reject);
   });
 };
