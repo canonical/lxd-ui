@@ -114,3 +114,25 @@ export const createImageAlias = (
       .catch(reject);
   });
 };
+
+export const publishImage = (
+  //Also known as create Image from an Instance.
+  instance: LxdInstance,
+  isPublic: boolean,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images`, {
+      method: "POST",
+      body: JSON.stringify({
+        public: isPublic,
+        source: {
+          name: instance.name,
+          type: "instance",
+        },
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
