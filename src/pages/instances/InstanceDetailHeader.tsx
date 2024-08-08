@@ -16,6 +16,7 @@ import {
 } from "util/instances";
 import { getInstanceName } from "util/operations";
 import InstanceLink from "pages/instances/InstanceLink";
+import PublishInstanceBtn from "./actions/PublishInstanceBtn";
 
 interface Props {
   name: string;
@@ -119,7 +120,10 @@ const InstanceDetailHeader: FC<Props> = ({
         }
         controls={
           instance ? (
-            <DeleteInstanceBtn key="delete" instance={instance} />
+            <>
+              <PublishInstanceBtn key="publish" instance={instance} />
+              <DeleteInstanceBtn key="delete" instance={instance} />
+            </>
           ) : null
         }
         isLoaded={Boolean(instance)}
