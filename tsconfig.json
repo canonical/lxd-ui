@@ -27,7 +27,7 @@
     "isolatedModules": true,
     "noEmit": false,
     "sourceMap": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "@types/wicg-file-system-access"]
   },
   "include": [
     "./src",
