@@ -190,7 +190,7 @@ jobs:
     
     # NOTE: there is no need to install playwright dependencies since we only need to merge reports here
     - name: Merge into HTML Report
-      run: npx playwright merge-reports --reporter html ./blob-reports
+      run: npx playwright merge-reports --config=merge.playwright.config.ts ./blob-reports
 
     - name: Save additional test information
       if: always()
