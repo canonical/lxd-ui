@@ -26,6 +26,7 @@ import InstanceCreateDetailsForm, {
   InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceCreateDetailsForm";
 import {
+  FormDevice,
   formDeviceToPayload,
   FormDeviceValues,
   remoteImageToIsoDevice,
@@ -329,7 +330,7 @@ const CreateInstance: FC = () => {
   const handleSelectImage = (image: RemoteImage, type?: LxdImageType) => {
     void formik.setFieldValue("image", image);
 
-    const devices = formik.values.devices.filter(
+    const devices: FormDevice[] = formik.values.devices.filter(
       (item) => item.type !== "iso-volume",
     );
     if (image.server === LOCAL_ISO) {
