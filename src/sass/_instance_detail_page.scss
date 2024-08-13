@@ -7,3 +7,9 @@
     margin: 0 $sph--large;
   }
 }
+
+.create-image-from-instance-modal {
+  .p-modal__dialog {
+    width: 35rem;
+  }
+}

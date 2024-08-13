@@ -25,6 +25,7 @@ interface SelectableMainTableProps {
   disableSelect?: boolean;
   onToggleRow?: (rowName: string) => void;
   hideContextualMenu?: boolean;
+  defaultSortKey?: string;
 }
 
 type Props = SelectableMainTableProps & MainTableProps;
@@ -42,6 +43,7 @@ const SelectableMainTable: FC<Props> = ({
   disableSelect = false,
   onToggleRow,
   hideContextualMenu,
+  defaultSortKey,
   ...props
 }: Props) => {
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
@@ -211,6 +213,8 @@ const SelectableMainTable: FC<Props> = ({
       expanding={true}
       headers={headersWithCheckbox}
       rows={[...rowsWithCheckbox]}
+      defaultSort={defaultSortKey}
+      defaultSortDirection="descending"
       {...props}
     />
   );

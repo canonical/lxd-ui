@@ -114,3 +114,24 @@ export const createImageAlias = (
       .catch(reject);
   });
 };
+
+export const createImageFromInstance = (
+  instance: LxdInstance,
+  isPublic: boolean,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images?project=${instance.project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        public: isPublic,
+        source: {
+          name: instance.name,
+          type: "instance",
+        },
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
