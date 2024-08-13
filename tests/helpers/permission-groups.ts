@@ -11,9 +11,7 @@ export const visitGroupsPage = async (page: Page) => {
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Groups", exact: true }).click();
   await expect(
-    page
-      .getByRole("heading", { name: "Groups Learn more about" })
-      .locator("div"),
+    page.getByRole("heading", { name: "Groups" }).locator("div"),
   ).toBeVisible();
 };
 

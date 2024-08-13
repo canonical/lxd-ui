@@ -75,10 +75,7 @@ export const setMemLimit = async (
   await page.getByText("Resource limits").click();
   await page.getByRole("button", { name: "Edit" }).click();
   await activateOverride(page, "Memory limit");
-  await page
-    .getByRole("gridcell", { name: "Memory limit" })
-    .getByText(type)
-    .click();
+  await page.getByRole("row", { name: "Memory limit" }).getByText(type).click();
   const text = type === "percentage" ? "Enter percentage" : "Enter value";
   await page.getByPlaceholder(text).click();
   await page.getByPlaceholder(text).press("Control+a");

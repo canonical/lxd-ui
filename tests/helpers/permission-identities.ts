@@ -10,9 +10,7 @@ export const visitIdentitiesPage = async (page: Page) => {
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Identities" }).click();
   await expect(
-    page
-      .getByRole("heading", { name: "Identities Learn more about" })
-      .locator("div"),
+    page.getByRole("heading", { name: "Identities" }).locator("div"),
   ).toBeVisible();
 };
 
