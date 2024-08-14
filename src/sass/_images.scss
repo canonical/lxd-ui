@@ -29,3 +29,11 @@
     margin-top: -7px;
   }
 }
+
+.upload-image-modal {
+  .p-modal__dialog {
+    @include large {
+      width: 35rem;
+    }
+  }
+}

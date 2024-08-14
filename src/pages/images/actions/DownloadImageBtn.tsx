@@ -7,7 +7,7 @@ interface Props {
   image: LxdImage;
 }
 
-const ExportImageTarballBtn: FC<Props> = ({ image }) => {
+const DownloadImageBtn: FC<Props> = ({ image }) => {
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const description = image.properties?.description ?? image.fingerprint;
@@ -51,4 +51,4 @@ const ExportImageTarballBtn: FC<Props> = ({ image }) => {
   );
 };
 
-export default ExportImageTarballBtn;
+export default DownloadImageBtn;
