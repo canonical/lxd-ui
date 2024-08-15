@@ -1,3 +1,4 @@
+import { LxdMetadata } from "types/config";
 import {
   generateEntitlementOptions,
   generatePermissionSort,
@@ -69,6 +70,7 @@ describe("General util functions for permissions feature", () => {
         disabled: true,
         label: "Select an option",
         value: "",
+        title: "",
       },
       {
         value: "/1.0/instances/instance-1?project=default",
@@ -85,7 +87,7 @@ describe("General util functions for permissions feature", () => {
     ]);
   });
 
-  it("generateEntitlementOptions", () => {
+  describe("generateEntitlementOptions", () => {
     const resourceType = "server";
     const permissions = [
       {
@@ -110,44 +112,121 @@ describe("General util functions for permissions feature", () => {
       },
     ];
 
-    const entitlementOptions = generateEntitlementOptions(
-      resourceType,
-      permissions,
-    );
+    it("should have description titles in entitlement options if metadata is provided", () => {
+      const metadata: LxdMetadata = {
+        configs: {
+          cluster: {},
+          instance: {},
+          "network-bridge": {},
+          "network-macvlan": {},
+          "network-ovn": {},
+          "network-physical": {},
+          "network-sriov": {},
+          project: {},
+          server: {},
+          "storage-btrfs": {},
+          "storage-ceph": {},
+          "storage-cephfs": {},
+          "storage-cephobject": {},
+          "storage-dir": {},
+          "storage-lvm": {},
+          "storage-powerflex": {},
+          "storage-zfs": {},
+        },
+        entities: {
+          server: [
+            {
+              name: "admin",
+              description: "admin entitlement description",
+            },
+          ],
+        },
+      };
 
-    expect(entitlementOptions).toEqual([
-      {
-        disabled: true,
-        label: "Select an option",
-        value: "",
-      },
-      {
-        disabled: true,
-        label: "Built-in roles",
-        value: "",
-      },
-      {
-        label: "admin",
-        value: "admin",
-      },
-      {
-        label: "viewer",
-        value: "viewer",
-      },
-      {
-        disabled: true,
-        label: "Granular entitlements",
-        value: "",
-      },
-      {
-        label: "can_edit",
-        value: "can_edit",
-      },
-      {
-        label: "can_view",
-        value: "can_view",
-      },
-    ]);
+      const entitlementOptions = generateEntitlementOptions(
+        resourceType,
+        permissions,
+        metadata,
+      );
+
+      expect(entitlementOptions).toEqual([
+        {
+          disabled: true,
+          label: "Select an option",
+          value: "",
+          title: "",
+        },
+        {
+          disabled: true,
+          label: "Built-in roles",
+          value: "",
+        },
+        {
+          label: "admin",
+          value: "admin",
+          title: "admin entitlement description",
+        },
+        {
+          label: "viewer",
+          value: "viewer",
+        },
+        {
+          disabled: true,
+          label: "Granular entitlements",
+          value: "",
+        },
+        {
+          label: "can_edit",
+          value: "can_edit",
+        },
+        {
+          label: "can_view",
+          value: "can_view",
+        },
+      ]);
+    });
+
+    it("should generate entitlement options without metadata", () => {
+      const entitlementOptions = generateEntitlementOptions(
+        resourceType,
+        permissions,
+      );
+
+      expect(entitlementOptions).toEqual([
+        {
+          disabled: true,
+          label: "Select an option",
+          value: "",
+          title: "",
+        },
+        {
+          disabled: true,
+          label: "Built-in roles",
+          value: "",
+        },
+        {
+          label: "admin",
+          value: "admin",
+        },
+        {
+          label: "viewer",
+          value: "viewer",
+        },
+        {
+          disabled: true,
+          label: "Granular entitlements",
+          value: "",
+        },
+        {
+          label: "can_edit",
+          value: "can_edit",
+        },
+        {
+          label: "can_view",
+          value: "can_view",
+        },
+      ]);
+    });
   });
 
   it("generatePermissionSort", () => {

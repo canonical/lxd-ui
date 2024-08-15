@@ -6,11 +6,19 @@ import {
   ResourceDetail,
   extractResourceDetailsFromUrl,
 } from "./resourceDetails";
+import { LxdMetadata } from "types/config";
+import { capitalizeFirstLetter } from "./helpers";
+
+type EntitlementOption = OptionHTMLAttributes<HTMLOptionElement> & {
+  disabled?: boolean;
+  title?: string;
+};
 
 export const defaultOption = {
   disabled: true,
   label: "Select an option",
   value: "",
+  title: "",
 };
 
 export const noneAvailableOption = {
@@ -87,6 +95,30 @@ export const resourceTypeOptions = [
   },
 ];
 
+export const getResourceTypeOptions = (metadata?: LxdMetadata | null) => {
+  if (!metadata || !metadata.entities) {
+    return resourceTypeOptions;
+  }
+
+  const options: typeof resourceTypeOptions = [
+    {
+      ...defaultOption,
+    },
+  ];
+
+  const resourceTypes = Object.keys(metadata.entities);
+  for (const resourceType of resourceTypes) {
+    const label = resourceType.split("_");
+    label[0] = capitalizeFirstLetter(label[0]);
+    options.push({
+      value: resourceType,
+      label: label.join(" "),
+    });
+  }
+
+  return options;
+};
+
 const sortOptions = (
   a: OptionHTMLAttributes<HTMLOptionElement>,
   b: OptionHTMLAttributes<HTMLOptionElement>,
@@ -138,17 +170,24 @@ export const generateResourceOptions = (
   return resourceOptions;
 };
 
+export const getEntitlementDescriptions = (
+  metadata: LxdMetadata,
+  resourceType: string,
+) => {
+  const entitlementDescriptions: Record<string, string> = {};
+  const entitlements = metadata.entities[resourceType];
+  for (const entitlement of entitlements) {
+    entitlementDescriptions[entitlement.name] = entitlement.description;
+  }
+
+  return entitlementDescriptions;
+};
+
 export const generateEntitlementOptions = (
   resourceType: string,
   permissions?: LxdPermission[],
-): (
-  | OptionHTMLAttributes<HTMLOptionElement>
-  | {
-      disabled: boolean;
-      label: string;
-      value: string;
-    }
-)[] => {
+  metadata?: LxdMetadata | null,
+): EntitlementOption[] => {
   if (!permissions || !resourceType) {
     return [defaultOption];
   }
@@ -157,10 +196,8 @@ export const generateEntitlementOptions = (
   const resource = permissions[0].url;
 
   // split entitlement options into two based on 'can_' prefix
-  const genericEntitlementOptions: OptionHTMLAttributes<HTMLOptionElement>[] =
-    [];
-  const granularEntitlementOptions: OptionHTMLAttributes<HTMLOptionElement>[] =
-    [];
+  const genericEntitlementOptions: EntitlementOption[] = [];
+  const granularEntitlementOptions: EntitlementOption[] = [];
   for (const permission of permissions) {
     if (permission.url !== resource) {
       continue;
@@ -198,6 +235,30 @@ export const generateEntitlementOptions = (
       label: "Granular entitlements",
       value: "",
     });
+  }
+
+  const allEntitlementOptions = [
+    defaultOption,
+    ...genericEntitlementOptions,
+    ...granularEntitlementOptions,
+  ];
+
+  // enrich entitlement options with descriptions if metadata is available
+  if (metadata && metadata.entities) {
+    const entitlementDescriptions = getEntitlementDescriptions(
+      metadata,
+      resourceType,
+    );
+
+    for (const option of allEntitlementOptions) {
+      if (
+        option.value &&
+        typeof option.value === "string" &&
+        entitlementDescriptions[option.value]
+      ) {
+        option.title = entitlementDescriptions[option.value];
+      }
+    }
   }
 
   return [

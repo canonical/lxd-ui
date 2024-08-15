@@ -1,7 +1,7 @@
 import { handleResponse, handleTextResponse } from "util/helpers";
 import { LxdSettings } from "types/server";
 import { LxdApiResponse } from "types/apiResponse";
-import { LxdConfigOptions, LxdConfigPair } from "types/config";
+import { LxdMetadata, LxdConfigPair } from "types/config";
 import { LxdResources } from "types/resources";
 
 export const fetchSettings = (): Promise<LxdSettings> => {
@@ -38,7 +38,7 @@ export const fetchResources = (): Promise<LxdResources> => {
 
 export const fetchConfigOptions = (
   hasMetadataConfiguration: boolean,
-): Promise<LxdConfigOptions | null> => {
+): Promise<LxdMetadata | null> => {
   if (!hasMetadataConfiguration) {
     return new Promise((resolve) => resolve(null));
   }
@@ -46,7 +46,7 @@ export const fetchConfigOptions = (
   return new Promise((resolve, reject) => {
     fetch("/1.0/metadata/configuration")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdConfigOptions>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdMetadata>) => resolve(data.metadata))
       .catch(reject);
   });
 };

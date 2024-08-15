@@ -23,7 +23,16 @@ export interface LxcConfigOptionCategories {
   };
 }
 
-export interface LxdConfigOptions {
+export interface LxdEntitlement {
+  name: string;
+  description: string;
+}
+
+export interface LxdEntityEntitlements {
+  [entity: string]: LxdEntitlement[];
+}
+
+export interface LxdMetadata {
   configs: {
     cluster: LxcConfigOptionCategories;
     instance: LxcConfigOptionCategories;
@@ -43,6 +52,7 @@ export interface LxdConfigOptions {
     "storage-powerflex": LxcConfigOptionCategories;
     "storage-zfs": LxcConfigOptionCategories;
   };
+  entities: LxdEntityEntitlements;
 }
 
-export type LxdConfigOptionsKeys = keyof LxdConfigOptions["configs"];
+export type LxdConfigOptionsKeys = keyof LxdMetadata["configs"];
