@@ -78,6 +78,8 @@ const CertificateGenerate: FC = () => {
     downloadLink.click();
   };
 
+  const crtFileName = `lxd-ui-${location.hostname}.crt`;
+
   return (
     <CustomLayout
       mainClassName="certificate-generate"
@@ -144,34 +146,34 @@ const CertificateGenerate: FC = () => {
                 </Col>
                 <Col size={8}>
                   <div className="p-stepped-list__content">
-                    <p>
-                      Download <code>{"<certificate-name>"}.crt</code> and add
-                      it to the LXD trust store
-                    </p>
+                    <Row>
+                      <Col size={6}>
+                        <p>
+                          Download the <code>.crt</code> file and add it to the
+                          LXD trust store
+                        </p>
+                      </Col>
+                      {certs && (
+                        <Col size={2}>
+                          <Button
+                            className="download-crt"
+                            onClick={() => downloadText(crtFileName, certs.crt)}
+                          >
+                            Download&nbsp;crt
+                          </Button>
+                        </Col>
+                      )}
+                    </Row>
                     <div className="p-code-snippet">
                       <pre className="p-code-snippet__block--icon">
                         <code>
                           lxc config trust add Downloads/
-                          {"<certificate-name>"}.crt
+                          {crtFileName}
                         </code>
                       </pre>
                     </div>
                   </div>
                 </Col>
-                {certs && (
-                  <Col size={3}>
-                    <Button
-                      onClick={() =>
-                        downloadText(
-                          `lxd-ui-${location.hostname}.crt`,
-                          certs.crt,
-                        )
-                      }
-                    >
-                      Download crt
-                    </Button>
-                  </Col>
-                )}
               </Row>
             </li>
             <li className="p-stepped-list__item">
