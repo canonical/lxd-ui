@@ -142,15 +142,18 @@ const CertificateGenerate: FC = () => {
                 <Col size={3}>
                   <h2 className="p-stepped-list__title p-heading--5">Trust</h2>
                 </Col>
-                <Col size={6}>
+                <Col size={8}>
                   <div className="p-stepped-list__content">
                     <p>
-                      Download <code>lxd-ui.crt</code> and add it to the LXD
-                      trust store
+                      Download <code>{"<certificate-name>"}.crt</code> and add
+                      it to the LXD trust store
                     </p>
                     <div className="p-code-snippet">
                       <pre className="p-code-snippet__block--icon">
-                        <code>lxc config trust add Downloads/lxd-ui.crt</code>
+                        <code>
+                          lxc config trust add Downloads/
+                          {"<certificate-name>"}.crt
+                        </code>
                       </pre>
                     </div>
                   </div>

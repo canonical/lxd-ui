@@ -41,7 +41,7 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
 
   const downloadPfx = (
     <li className="p-list__item u-clearfix">
-      Download <code>lxd-ui.pfx</code>
+      Download the <code>.pfx</code> file for importing to your browser.
       {sendPfx && (
         <div className="u-float-right--large">
           <Button onClick={sendPfx}>Download pfx</Button>
@@ -82,9 +82,8 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
                 <code>Import</code>.
               </li>
               <li className="p-list__item">
-                Select the <code>lxd-ui.pfx</code> file you just downloaded.
-                Enter your password, or leave the field empty if you have not
-                set one.
+                Select the <code>.pfx</code> file you just downloaded. Enter
+                your password, or leave the field empty if you have not set one.
               </li>
               <li className="p-list__item">
                 Restart the browser and open LXD-UI. Select the LXD-UI
