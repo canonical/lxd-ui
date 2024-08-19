@@ -15,5 +15,9 @@
     .p-stepped-list__item:first-child::after {
       display: none;
     }
+
+    .p-stepped-list__item {
+      padding-top: $spv--x-small;
+    }
   }
 }
