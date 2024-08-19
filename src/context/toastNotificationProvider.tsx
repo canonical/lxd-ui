@@ -4,7 +4,6 @@ import {
   ValueOf,
   failure,
   info,
-  success,
 } from "@canonical/react-components";
 import { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
 import ToastNotification from "components/ToastNotification";
@@ -28,7 +27,10 @@ export type ToastNotificationType = NotificationType & {
 
 type ToastNotificationHelper = {
   notifications: ToastNotificationType[];
-  success: (message: ReactNode) => ToastNotificationType;
+  success: (
+    message: ReactNode,
+    actions?: NotificationAction[],
+  ) => ToastNotificationType;
   info: (message: ReactNode, title?: string) => ToastNotificationType;
   failure: (
     title: string,
@@ -165,7 +167,12 @@ const ToastNotificationProvider: FC<PropsWithChildren> = ({ children }) => {
     failure: (title, error, message, actions) =>
       addNotification(failure(title, error, message, actions)),
     info: (message, title) => addNotification(info(message, title)),
-    success: (message) => addNotification(success(message)),
+    success: (message, actions) =>
+      addNotification({
+        message,
+        actions,
+        type: NotificationSeverity.POSITIVE,
+      } as NotificationType),
     clear,
     toggleListView,
     isListView: showList,
