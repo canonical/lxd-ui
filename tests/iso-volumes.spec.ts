@@ -2,6 +2,7 @@ import { test, expect } from "./fixtures/lxd-test";
 import { randomNameSuffix } from "./helpers/name";
 import { deleteInstance, randomInstanceName } from "./helpers/instances";
 import { assertTextVisible } from "./helpers/permissions";
+import { activateOverride } from "./helpers/configuration";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
 
@@ -68,6 +69,12 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   await page
     .locator(".u-align--right > .p-button--positive", { hasText: "Select" })
     .click();
+  await page.getByRole("button", { name: "Advanced" }).click();
+  await page.getByText("Migration").click();
+  await activateOverride(page, "Stateful migration");
+  await page
+    .getByRole("combobox", { name: "Stateful migration" })
+    .selectOption("Deny");
   await page.getByRole("button", { name: "Create" }).click();
 
   await page.waitForSelector(`text=Created instance ${instance}.`);

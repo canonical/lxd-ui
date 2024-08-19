@@ -33,6 +33,7 @@
     "./src",
     ".eslintrc.cjs",
     "babel.config.js",
+    "merge.playwright.config.ts",
     "playwright.config.ts",
     "webpack.config.js",
     "./tests/**/*.ts",
