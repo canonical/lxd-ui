@@ -19,6 +19,7 @@ import InstanceLink from "pages/instances/InstanceLink";
 import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
+import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
 
 interface Props {
   name: string;
@@ -128,6 +129,7 @@ const InstanceDetailHeader: FC<Props> = ({
               {isClustered ? (
                 <MigrateInstanceBtn instance={instance} project={project} />
               ) : null}
+              <CreateImageFromInstanceBtn key="publish" instance={instance} />
               <DeleteInstanceBtn key="delete" instance={instance} />
             </>
           ) : null

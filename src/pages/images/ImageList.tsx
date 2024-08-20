@@ -279,6 +279,7 @@ const ImageList: FC = () => {
                 headers={headers}
                 sortable
                 className="image-table"
+                defaultSortKey="uploaded_at"
                 emptyStateMsg="No images found matching this search"
                 onUpdateSort={updateSort}
                 selectedNames={selectedNames}
