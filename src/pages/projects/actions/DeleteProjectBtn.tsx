@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, ReactNode, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
@@ -10,14 +10,69 @@ import { useSmallScreen } from "context/useSmallScreen";
 import {
   ConfirmationButton,
   Icon,
+  Tooltip,
   useNotify,
 } from "@canonical/react-components";
 import classnames from "classnames";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { filterUsedByType } from "util/usedBy";
+import { ResourceType } from "util/resourceDetails";
 
 interface Props {
   project: LxdProject;
 }
+
+const generateProjectUsedByTooltip = (project: LxdProject) => {
+  const resourceLabelAndLink: Record<string, { label: string; link: string }> =
+    {
+      instance: {
+        label: "Instances",
+        link: `/ui/project/${project.name}/instances`,
+      },
+      profile: {
+        label: "Profiles",
+        link: `/ui/project/${project.name}/profiles`,
+      },
+      image: {
+        label: "Images",
+        link: `/ui/project/${project.name}/images`,
+      },
+      volume: {
+        label: "Custom volumes",
+        link: `/ui/project/${project.name}/storage/volumes`,
+      },
+    };
+
+  const resourceTypes = Object.keys(resourceLabelAndLink);
+  const usedByItems: ReactNode[] = [];
+  for (const resourceType of resourceTypes) {
+    const usedBy = filterUsedByType(
+      resourceType as ResourceType,
+      project.used_by,
+    );
+
+    if (usedBy.length > 0) {
+      const label = resourceLabelAndLink[resourceType].label;
+      const link = resourceLabelAndLink[resourceType].link;
+      usedByItems.push(
+        <li
+          key={resourceType}
+          className="p-list__item is-dark u-no-margin--bottom"
+        >
+          {<Link to={link}>{label}</Link>} ({usedBy.length})
+        </li>,
+      );
+    }
+  }
+
+  return (
+    <>
+      Non-empty project cannot be deleted.
+      <p className="u-no-margin--bottom">Project is used by:</p>
+      <ul className="p-list u-no-margin--bottom">{usedByItems}</ul>
+    </>
+  );
+};
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const isDeleteIcon = useSmallScreen();
@@ -34,7 +89,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       return "The default project cannot be deleted";
     }
     if (!isEmpty) {
-      return "Non-empty projects cannot be deleted";
+      return "";
     }
     return "Delete project";
   };
@@ -81,8 +136,16 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      {isDeleteIcon && <Icon name="delete" />}
-      {!isDeleteIcon && <span>Delete project</span>}
+      <Tooltip
+        message={
+          !isEmpty && !isDefaultProject
+            ? generateProjectUsedByTooltip(project)
+            : ""
+        }
+      >
+        {isDeleteIcon && <Icon name="delete" />}
+        {!isDeleteIcon && <span>Delete project</span>}
+      </Tooltip>
     </ConfirmationButton>
   );
 };

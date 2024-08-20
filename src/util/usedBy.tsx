@@ -1,4 +1,4 @@
-import { extractResourceDetailsFromUrl } from "./resourceDetails";
+import { extractResourceDetailsFromUrl, ResourceType } from "./resourceDetails";
 export interface LxdUsedBy {
   name: string;
   project: string;
@@ -17,7 +17,7 @@ export interface LxdUsedBy {
  * "/1.0/storage-pools/pool-dir/volumes/custom/test/snapshots/snap1?project=bar"
  */
 export const filterUsedByType = (
-  type: "instance" | "profile" | "snapshot" | "image" | "volume",
+  type: ResourceType,
   usedByPaths?: string[],
 ): LxdUsedBy[] => {
   return (
