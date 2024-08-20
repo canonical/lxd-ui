@@ -1,0 +1,25 @@
+.migrate-instance-modal {
+  .migrate-instance-table {
+    .u-row:hover {
+      background-color: $colors--light-theme--background-hover;
+      cursor: pointer;
+    }
+
+    @include large {
+      min-width: 45rem;
+    }
+  }
+
+  .migrate-instance-summary {
+    align-items: center;
+    display: flex;
+
+    @include large {
+      min-width: 45rem;
+    }
+  }
+
+  .migrate-instance-name {
+    max-width: 20rem;
+  }
+}

@@ -16,6 +16,9 @@ import {
 } from "util/instances";
 import { getInstanceName } from "util/operations";
 import InstanceLink from "pages/instances/InstanceLink";
+import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
 
 interface Props {
   name: string;
@@ -34,6 +37,8 @@ const InstanceDetailHeader: FC<Props> = ({
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const RenameSchema = Yup.object().shape({
     name: instanceNameValidation(project, controllerState, name).required(
@@ -119,7 +124,12 @@ const InstanceDetailHeader: FC<Props> = ({
         }
         controls={
           instance ? (
-            <DeleteInstanceBtn key="delete" instance={instance} />
+            <>
+              {isClustered ? (
+                <MigrateInstanceBtn instance={instance} project={project} />
+              ) : null}
+              <DeleteInstanceBtn key="delete" instance={instance} />
+            </>
           ) : null
         }
         isLoaded={Boolean(instance)}

@@ -19,7 +19,10 @@ export const useInstanceStart = (instance: LxdInstance) => {
     instance.status === "Starting";
 
   const enabledStatuses = ["Stopped", "Frozen"];
-  const isDisabled = isLoading || !enabledStatuses.includes(instance.status);
+  const isDisabled =
+    isLoading ||
+    !enabledStatuses.includes(instance.status) ||
+    instanceLoading.getType(instance) === "Migrating";
 
   const handleStart = () => {
     instanceLoading.setLoading(instance, "Starting");

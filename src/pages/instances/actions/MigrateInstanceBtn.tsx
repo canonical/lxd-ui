@@ -1,100 +1,102 @@
 import { FC } from "react";
-import { Button } from "@canonical/react-components";
-import MigrateInstanceForm from "pages/instances/MigrateInstanceForm";
+import { ActionButton } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import { migrateInstance } from "api/instances";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { fetchClusterMembers } from "api/cluster";
-import Loader from "components/Loader";
 import { useEventQueue } from "context/eventQueue";
 import ItemName from "components/ItemName";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { LxdInstance } from "types/instance";
+import { useInstanceLoading } from "context/instanceLoading";
+import MigrateInstanceModal from "../MigrateInstanceModal";
 
 interface Props {
-  instance: string;
-  location: string;
+  instance: LxdInstance;
   project: string;
-  onFinish: (newLocation: string) => void;
 }
 
-const MigrateInstanceBtn: FC<Props> = ({
-  instance,
-  location,
-  project,
-  onFinish,
-}) => {
+const MigrateInstanceBtn: FC<Props> = ({ instance, project }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
+  const instanceLoading = useInstanceLoading();
+  const isLoading =
+    instanceLoading.getType(instance) === "Migrating" ||
+    instance.status === "Migrating";
 
-  const { data: members = [], isLoading } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.members],
-    queryFn: fetchClusterMembers,
-  });
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  const handleSuccess = (newTarget: string) => {
+  const handleSuccess = (newTarget: string, instanceName: string) => {
     toastNotify.success(
       <>
-        Migration finished for instance{" "}
-        <ItemName item={{ name: instance }} bold />
+        Instance <ItemName item={{ name: instanceName }} bold /> successfully
+        migrated to <ItemName item={{ name: newTarget }} bold />
       </>,
     );
-    onFinish(newTarget);
-    void queryClient.invalidateQueries({
-      queryKey: [queryKeys.instances, instance],
-    });
   };
 
-  const notifyFailure = (e: unknown) => {
-    toastNotify.failure(`Migration failed on instance ${instance}`, e);
+  const notifyFailure = (e: unknown, instanceName: string) => {
+    instanceLoading.setFinish(instance);
+    toastNotify.failure(`Migration failed on instance ${instanceName}`, e);
   };
 
-  const handleFailure = (msg: string) => {
-    notifyFailure(new Error(msg));
+  const handleFailure = (msg: string, instanceName: string) => {
+    notifyFailure(new Error(msg), instanceName);
+  };
+
+  const handleFinish = () => {
     void queryClient.invalidateQueries({
-      queryKey: [queryKeys.instances, instance],
+      queryKey: [queryKeys.instances, instance.name],
     });
+    instanceLoading.setFinish(instance);
   };
 
   const handleMigrate = (target: string) => {
-    migrateInstance(instance, project, target)
+    instanceLoading.setLoading(instance, "Migrating");
+    migrateInstance(instance.name, project, target)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => handleSuccess(target),
-          handleFailure,
+          () => handleSuccess(target, instance.name),
+          (err) => handleFailure(err, instance.name),
+          handleFinish,
         );
-        toastNotify.info(`Migration started for instance ${instance}`);
-        closePortal();
+        toastNotify.info(`Migration started for instance ${instance.name}`);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances, instance.name, project],
+        });
       })
       .catch((e) => {
-        notifyFailure(e);
+        notifyFailure(e, instance.name);
+      })
+      .finally(() => {
         closePortal();
       });
   };
+
+  const isDisabled = isLoading || !!instanceLoading.getType(instance);
 
   return (
     <>
       {isOpen && (
         <Portal>
-          <MigrateInstanceForm
+          <MigrateInstanceModal
             close={closePortal}
             migrate={handleMigrate}
-            instance={instance}
-            location={location}
-            members={members}
+            instances={[instance]}
           />
         </Portal>
       )}
-      <Button className="instance-migrate" onClick={openPortal} type="button">
-        Migrate
-      </Button>
+      <ActionButton
+        onClick={openPortal}
+        type="button"
+        className="instance-migrate"
+        loading={isLoading}
+        disabled={isDisabled}
+        aria-label={`Migrate instance ${instance.name}`}
+      >
+        <span>Migrate</span>
+      </ActionButton>
     </>
   );
 };

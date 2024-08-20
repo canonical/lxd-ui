@@ -4,7 +4,6 @@ import ProfileSelect from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useSettings } from "context/useSettings";
-import MigrateInstanceBtn from "pages/instances/actions/MigrateInstanceBtn";
 import { isClusteredServer } from "util/settings";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
@@ -72,18 +71,6 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               disabled={true}
             />
           </Col>
-          {!readOnly && (
-            <Col size={4}>
-              <MigrateInstanceBtn
-                instance={formik.values.name}
-                location={formik.values.location}
-                project={project}
-                onFinish={(newLocation: string) =>
-                  void formik.setFieldValue("location", newLocation)
-                }
-              />
-            </Col>
-          )}
         </Row>
       )}
       <ProfileSelect

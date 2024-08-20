@@ -57,6 +57,9 @@ import { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
+import BulkMigrateInstanceBtn from "./actions/BulkMigrateInstanceBtn";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -79,6 +82,8 @@ const InstanceList: FC = () => {
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
   const [searchParams] = useSearchParams();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const filters: InstanceFilters = {
     queries: searchParams.getAll("query"),
@@ -135,11 +140,12 @@ const InstanceList: FC = () => {
   const creationOperations = (operationList?.running ?? [])
     .concat(operationList?.success ?? [])
     .filter((operation) => {
+      const name = getInstanceName(operation);
       const isCreating = operation.description === "Creating instance";
-      if (!isCreating) {
+      const isProcessing = processingNames.includes(name);
+      if (!isCreating || isProcessing) {
         return false;
       }
-      const name = getInstanceName(operation);
       const isInInstanceList = instances.some((item) => item.name === name);
       const isRunning = operation.status === "Running";
 
@@ -518,6 +524,13 @@ const InstanceList: FC = () => {
                     onStart={() => setProcessingNames(selectedNames)}
                     onFinish={() => setProcessingNames([])}
                   />
+                  {isClustered ? (
+                    <BulkMigrateInstanceBtn
+                      instances={selectedInstances}
+                      onStart={() => setProcessingNames(selectedNames)}
+                      onFinish={() => setProcessingNames([])}
+                    />
+                  ) : null}
                   <InstanceBulkDelete
                     instances={selectedInstances}
                     onStart={setProcessingNames}
