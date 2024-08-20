@@ -63,7 +63,7 @@ const StorageVolumeCreate: FC = () => {
             queryKey: [queryKeys.storage],
           });
           void queryClient.invalidateQueries({
-            queryKey: [queryKeys.customVolumes],
+            queryKey: [queryKeys.customVolumes, project],
           });
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project],

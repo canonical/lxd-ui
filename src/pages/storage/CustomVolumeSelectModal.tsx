@@ -34,7 +34,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
     isLoading,
     isFetching,
   } = useQuery({
-    queryKey: [queryKeys.customVolumes],
+    queryKey: [queryKeys.customVolumes, project],
     refetchOnMount: (query) => query.state.isInvalidated,
     queryFn: () => loadCustomVolumes(project, hasStorageVolumesAll),
   });
