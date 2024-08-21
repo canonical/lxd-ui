@@ -3,7 +3,7 @@ import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { createImageAlias, createImageFromInstanceSnapshot } from "api/images";
+import { createImage, createImageAlias } from "api/images";
 import {
   ActionButton,
   Button,
@@ -39,6 +39,22 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
     );
   };
 
+  const getSnapshotToImageBody = (
+    instance: LxdInstance,
+    snapshot: LxdInstanceSnapshot,
+    isPublic: boolean,
+  ): string => {
+    const body = JSON.stringify({
+      public: isPublic,
+      source: {
+        type: "snapshot",
+        name: `${instance.name}/${snapshot.name}`,
+      },
+    });
+
+    return body;
+  };
+
   const formik = useFormik<{ alias: string; isPublic: boolean }>({
     initialValues: {
       alias: "",
@@ -50,7 +66,10 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
     onSubmit: (values) => {
       const alias = values.alias;
 
-      createImageFromInstanceSnapshot(instance, snapshot, values.isPublic)
+      createImage(
+        getSnapshotToImageBody(instance, snapshot, values.isPublic),
+        instance,
+      )
         .then((operation) => {
           toastNotify.info(
             <>
