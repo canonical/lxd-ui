@@ -18,12 +18,7 @@ const UseCustomIsoBtn: FC<Props> = ({ onSelect }) => {
 
   return (
     <>
-      <Button
-        appearance="link"
-        onClick={openPortal}
-        type="button"
-        id="select-custom-iso"
-      >
+      <Button onClick={openPortal} type="button" id="select-custom-iso">
         <span>Use custom ISO</span>
       </Button>
       {isOpen && (

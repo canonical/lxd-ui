@@ -11,6 +11,8 @@ import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
+import axios, { AxiosResponse } from "axios";
+import { UploadState } from "types/storage";
 
 export const fetchInstance = (
   name: string,
@@ -357,6 +359,37 @@ export const fetchInstanceLogFile = (
     })
       .then(handleTextResponse)
       .then((data: string) => resolve(data))
+      .catch(reject);
+  });
+};
+
+export const uploadInstance = (
+  file: File,
+  name: string,
+  project: string | undefined,
+  pool: string | undefined,
+  setUploadState: (value: UploadState) => void,
+  uploadController: AbortController,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/1.0/instances?project=${project}`, file, {
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "X-LXD-name": name,
+          "X-LXD-pool": pool,
+        },
+        onUploadProgress: (event) => {
+          setUploadState({
+            percentage: event.progress ? Math.floor(event.progress * 100) : 0,
+            loaded: event.loaded,
+            total: event.total,
+          });
+        },
+        signal: uploadController.signal,
+      })
+      .then((response: AxiosResponse<LxdOperationResponse>) => response.data)
+      .then(resolve)
       .catch(reject);
   });
 };

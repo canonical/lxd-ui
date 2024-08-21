@@ -319,6 +319,7 @@
   .base-image {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
 
     .image-name {
       flex-grow: 1;

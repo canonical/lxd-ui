@@ -18,6 +18,8 @@ import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import StoragePoolSelector from "./StoragePoolSelector";
+import { AxiosError } from "axios";
+import { LxdSyncResponse } from "types/apiResponse";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -83,8 +85,9 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           },
         ),
       )
-      .catch((e) => {
-        toastNotify.failure("Image import failed", e);
+      .catch((e: AxiosError<LxdSyncResponse<null>>) => {
+        const error = new Error(e.response?.data.error);
+        toastNotify.failure("Image import failed", error);
         setLoading(false);
         setUploadState(null);
       });
