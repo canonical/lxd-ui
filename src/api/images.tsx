@@ -8,7 +8,7 @@ import { LxdImage } from "types/image";
 import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
-import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
+import { LxdInstance } from "types/instance";
 
 export const fetchImage = (
   image: string,
@@ -75,28 +75,6 @@ export const deleteImageBulk = (
   });
 };
 
-export const createImageFromInstanceSnapshot = (
-  instance: LxdInstance,
-  snapshot: LxdInstanceSnapshot,
-  isPublic: boolean,
-): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/images?project=${instance.project}`, {
-      method: "POST",
-      body: JSON.stringify({
-        public: isPublic,
-        source: {
-          type: "snapshot",
-          name: `${instance.name}/${snapshot.name}`,
-        },
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
-};
-
 export const createImageAlias = (
   fingerprint: string,
   alias: string,
@@ -115,20 +93,14 @@ export const createImageAlias = (
   });
 };
 
-export const createImageFromInstance = (
+export const createImage = (
+  body: string,
   instance: LxdInstance,
-  isPublic: boolean,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?project=${instance.project}`, {
       method: "POST",
-      body: JSON.stringify({
-        public: isPublic,
-        source: {
-          name: instance.name,
-          type: "instance",
-        },
-      }),
+      body: body,
     })
       .then(handleResponse)
       .then(resolve)
