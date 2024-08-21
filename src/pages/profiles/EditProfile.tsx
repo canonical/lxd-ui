@@ -40,6 +40,8 @@ import ProfileFormMenu, {
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
+  GPU_DEVICES,
+  OTHER_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
@@ -59,6 +61,8 @@ import { getProfilePayload } from "util/profileEdit";
 import MigrationForm, {
   MigrationFormValues,
 } from "components/forms/MigrationForm";
+import GPUDeviceForm from "components/forms/GPUDeviceForm";
+import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 
@@ -184,6 +188,14 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
             {section === slugify(NETWORK_DEVICES) && (
               <NetworkDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === slugify(GPU_DEVICES) && (
+              <GPUDeviceForm formik={formik} project={project} />
+            )}
+
+            {section === slugify(OTHER_DEVICES) && (
+              <OtherDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(RESOURCE_LIMITS) && (

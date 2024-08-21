@@ -5,11 +5,15 @@ import ConfigurationTable from "components/ConfigurationTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { InheritedVolume } from "util/configInheritance";
-import { getDiskDeviceRow } from "./DiskDeviceRow";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
-import { removeDevice } from "util/formDevices";
+import {
+  addNoneDevice,
+  findNoneDeviceIndex,
+  removeDevice,
+} from "util/formDevices";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
+import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
 import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
@@ -18,27 +22,11 @@ interface Props {
 }
 
 const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
-  const addNoneDevice = (name: string) => {
-    const copy = [...formik.values.devices];
-    copy.push({
-      type: "none",
-      name,
-    });
-    void formik.setFieldValue("devices", copy);
-  };
-
-  const findNoneDevice = (name: string) => {
-    return formik.values.devices.findIndex(
-      (item) => item.name === name && item.type === "none",
-    );
-  };
-
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
 
   const rows: MainTableRow[] = [];
-
   inheritedVolumes.map((item) => {
-    const noneDeviceId = findNoneDevice(item.key);
+    const noneDeviceId = findNoneDeviceIndex(item.key, formik);
     const isNoneDevice = noneDeviceId !== -1;
 
     rows.push(
@@ -53,7 +41,11 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
             <b>{item.key}</b>
           </div>
         ),
-        inherited: "",
+        inherited: (
+          <div className="p-text--small u-text--muted u-no-margin--bottom">
+            From: {item.source}
+          </div>
+        ),
         override: isNoneDevice ? (
           <Button
             appearance="base"
@@ -72,7 +64,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           <DetachDiskDeviceBtn
             onDetach={() => {
               ensureEditMode(formik);
-              addNoneDevice(item.key);
+              addNoneDevice(item.key, formik);
             }}
           />
         ),
@@ -80,48 +72,44 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
     );
 
     rows.push(
-      getDiskDeviceRow({
+      getInheritedDeviceRow({
         label: "Pool / volume",
         inheritValue: (
           <>
             {item.disk.pool} / {item.disk.source}
           </>
         ),
-        inheritSource: item.source,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );
 
     rows.push(
-      getDiskDeviceRow({
+      getInheritedDeviceRow({
         label: "Mount point",
         inheritValue: item.disk.path,
-        inheritSource: item.source,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );
 
     rows.push(
-      getDiskDeviceRow({
+      getInheritedDeviceRow({
         label: "Read limit",
         inheritValue: item.disk["limits.read"]
           ? `${item.disk["limits.read"]} IOPS`
           : "none",
-        inheritSource: item.source,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
     );
 
     rows.push(
-      getDiskDeviceRow({
+      getInheritedDeviceRow({
         label: "Write limit",
         inheritValue: item.disk["limits.write"]
           ? `${item.disk["limits.write"]} IOPS`
           : "none",
-        inheritSource: item.source,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
       }),
@@ -129,8 +117,8 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
   });
 
   return inheritedVolumes.length > 0 ? (
-    <div className="inherited-disk-devices">
-      <h2 className="p-heading--4">Inherited devices</h2>
+    <div className="inherited-devices">
+      <h2 className="p-heading--4">Inherited disk devices</h2>
       <ConfigurationTable rows={rows} />
     </div>
   ) : null;

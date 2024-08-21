@@ -55,7 +55,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
 
   return (
     <div
-      className={classnames("disk-device-form", {
+      className={classnames("disk-device-form", "device-form", {
         "disk-device-form--edit": !formik.values.readOnly,
       })}
     >

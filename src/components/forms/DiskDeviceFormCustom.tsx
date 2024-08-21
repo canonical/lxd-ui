@@ -4,8 +4,12 @@ import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { InheritedVolume } from "util/configInheritance";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
-import { FormDiskDevice, removeDevice } from "util/formDevices";
-import RenameDiskDeviceInput from "./RenameDiskDeviceInput";
+import {
+  deduplicateName,
+  FormDiskDevice,
+  removeDevice,
+} from "util/formDevices";
+import RenameDeviceInput from "./RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
@@ -35,11 +39,15 @@ const DiskDeviceFormCustom: FC<Props> = ({
     setTimeout(() => document.getElementById(name)?.focus(), 100);
   };
 
+  const existingDeviceNames: string[] = [];
+  existingDeviceNames.push(...inheritedVolumes.map((item) => item.key));
+  existingDeviceNames.push(...formik.values.devices.map((item) => item.name));
+
   const addVolume = (volume: LxdStorageVolume) => {
     const copy = [...formik.values.devices];
     copy.push({
       type: "disk",
-      name: deduplicateName(1),
+      name: deduplicateName("volume", 1, existingDeviceNames),
       path: volume.content_type === "filesystem" ? "" : undefined,
       pool: volume.pool,
       source: volume.name,
@@ -65,17 +73,6 @@ const DiskDeviceFormCustom: FC<Props> = ({
     }
   };
 
-  const deduplicateName = (index: number): string => {
-    const candidate = `volume-${index}`;
-    const hasConflict =
-      formik.values.devices.some((item) => item.name === candidate) ||
-      inheritedVolumes.some((item) => item.key === candidate);
-    if (hasConflict) {
-      return deduplicateName(index + 1);
-    }
-    return candidate;
-  };
-
   const editButton = (fieldName: string) => (
     <Button
       appearance="base"
@@ -93,15 +90,14 @@ const DiskDeviceFormCustom: FC<Props> = ({
   );
 
   const rows: MainTableRow[] = [];
-
   customVolumes.map((formVolume) => {
     const index = formik.values.devices.indexOf(formVolume);
 
     rows.push(
       getConfigurationRowBase({
-        className: "no-border-top custom-disk-device-name",
+        className: "no-border-top custom-device-name",
         configuration: (
-          <RenameDiskDeviceInput
+          <RenameDeviceInput
             name={formVolume.name}
             index={index}
             setName={(name) => {
@@ -284,11 +280,11 @@ const DiskDeviceFormCustom: FC<Props> = ({
   });
 
   return (
-    <div className="custom-disk-devices">
+    <div className="custom-devices">
       {customVolumes.length > 0 && (
         <>
-          <h2 className="p-heading--4 custom-disk-devices-heading">
-            Custom devices
+          <h2 className="p-heading--4 custom-devices-heading">
+            Custom disk devices
           </h2>
           <ConfigurationTable rows={rows} />
         </>

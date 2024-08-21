@@ -103,6 +103,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
 
   return (
     <ScrollableConfigurationTable
+      className="device-form"
       rows={[
         ...inheritedNetworks.map((item) => {
           return getConfigurationRowBase({

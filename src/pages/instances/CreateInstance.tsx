@@ -57,6 +57,8 @@ import InstanceFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
   NETWORK_DEVICES,
+  GPU_DEVICES,
+  OTHER_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -81,6 +83,8 @@ import MigrationForm, {
   migrationPayload,
 } from "components/forms/MigrationForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import GPUDevicesForm from "components/forms/GPUDeviceForm";
+import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 
@@ -426,6 +430,14 @@ const CreateInstance: FC = () => {
 
             {section === NETWORK_DEVICES && (
               <NetworkDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === GPU_DEVICES && (
+              <GPUDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === OTHER_DEVICES && (
+              <OtherDeviceForm formik={formik} project={project} />
             )}
 
             {section === RESOURCE_LIMITS && (

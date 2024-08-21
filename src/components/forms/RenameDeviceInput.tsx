@@ -7,10 +7,11 @@ interface Props {
   setName: (val: string) => void;
 }
 
-const RenameDiskDeviceInput: FC<Props> = ({ name, index, setName }) => {
+const RenameDeviceInput: FC<Props> = ({ name, index, setName }) => {
   const [isEditing, setEditing] = useState(false);
+
   return (
-    <div className="rename-disk-device device-name">
+    <div className="rename-device device-name">
       {isEditing ? (
         <Input
           autoFocus
@@ -22,16 +23,17 @@ const RenameDiskDeviceInput: FC<Props> = ({ name, index, setName }) => {
         />
       ) : (
         <>
-          <Label forId={`pool-${index}-pool-name`}>
+          <Label forId={`device-${index}-name`}>
             <b>{name}</b>
           </Label>
           <Button
-            id={`pool-${index}-pool-name`}
+            id={`device-${index}-name`}
             hasIcon
+            dense
             onClick={() => setEditing(true)}
             appearance="base"
             className="u-no-margin--bottom"
-            aria-label={`Rename disk device`}
+            aria-label={`Rename device`}
           >
             <Icon name="edit" />
           </Button>
@@ -41,4 +43,4 @@ const RenameDiskDeviceInput: FC<Props> = ({ name, index, setName }) => {
   );
 };
 
-export default RenameDiskDeviceInput;
+export default RenameDeviceInput;

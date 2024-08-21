@@ -1,8 +1,10 @@
 import {
   LxdDevices,
   LxdDiskDevice,
+  LxdGPUDevice,
   LxdIsoDevice,
   LxdNicDevice,
+  LxdOtherDevice,
 } from "types/device";
 import { RemoteImage } from "types/image";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
@@ -54,6 +56,8 @@ export type FormDevice =
   | NoneDevice
   | CustomNetworkDevice
   | IsoVolumeDevice
+  | LxdGPUDevice
+  | LxdOtherDevice
   | EmptyDevice;
 
 export interface FormDeviceValues {
@@ -149,6 +153,18 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           },
           type: "disk",
         };
+      case "gpu":
+      case "infiniband":
+      case "pci":
+      case "tpm":
+      case "unix-block":
+      case "unix-char":
+      case "unix-hotplug":
+      case "usb":
+        return {
+          ...item,
+          name: key,
+        };
       case "none":
         return {
           name: key,
@@ -177,6 +193,27 @@ export const remoteImageToIsoDevice = (image: RemoteImage): FormDevice => {
   };
 };
 
+export const addNoneDevice = (
+  name: string,
+  formik: InstanceAndProfileFormikProps,
+) => {
+  const copy = [...formik.values.devices];
+  copy.push({
+    type: "none",
+    name,
+  });
+  void formik.setFieldValue("devices", copy);
+};
+
+export const findNoneDeviceIndex = (
+  name: string,
+  formik: InstanceAndProfileFormikProps,
+) => {
+  return formik.values.devices.findIndex(
+    (item) => item.name === name && item.type === "none",
+  );
+};
+
 export const removeDevice = (
   index: number,
   formik: InstanceAndProfileFormikProps,
@@ -184,4 +221,17 @@ export const removeDevice = (
   const copy = [...formik.values.devices];
   copy.splice(index, 1);
   void formik.setFieldValue("devices", copy);
+};
+
+export const deduplicateName = (
+  prefix: string,
+  index: number,
+  existingNames: string[],
+): string => {
+  const candidate = `${prefix}-${index}`;
+  const hasConflict = existingNames.some((item) => item === candidate);
+  if (hasConflict) {
+    return deduplicateName(prefix, index + 1, existingNames);
+  }
+  return candidate;
 };

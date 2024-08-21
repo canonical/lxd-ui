@@ -9,6 +9,8 @@ import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfi
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk devices";
 export const NETWORK_DEVICES = "Network devices";
+export const GPU_DEVICES = "GPU devices";
+export const OTHER_DEVICES = "Other devices";
 export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
 export const SNAPSHOTS = "Snapshots";
@@ -55,6 +57,8 @@ const ProfileFormMenu: FC<Props> = ({ active, setActive, hasName, formik }) => {
             hasError={hasNetworkError(formik)}
             {...menuItemProps}
           />
+          <MenuItem label={GPU_DEVICES} {...menuItemProps} />
+          <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
           <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
           <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
           <MenuItem label={SNAPSHOTS} {...menuItemProps} />

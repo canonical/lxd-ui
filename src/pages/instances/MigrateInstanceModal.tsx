@@ -178,7 +178,7 @@ const MigrateInstanceModal: FC<Props> = ({ close, migrate, instances }) => {
       {selectedMember ? (
         summary
       ) : (
-        <div className="migrate-instance-table">
+        <div className="migrate-instance-table u-selectable-table-rows">
           <ScrollableTable
             dependencies={[]}
             tableId="migrate-instance-table"

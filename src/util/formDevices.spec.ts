@@ -29,6 +29,10 @@ const deviceYaml =
   "    listen: tcp:192.168.0.90:9090\n" +
   "    nat: 'true'\n" +
   "    type: proxy\n" +
+  "  foobar:\n" +
+  "    id: ababab\n" +
+  "    gputype: physical\n" +
+  "    type: gpu\n" +
   "";
 
 describe("parseDevices and formDeviceToPayload", () => {
@@ -44,6 +48,7 @@ describe("parseDevices and formDeviceToPayload", () => {
     expect(matchFormDeviceType("nic").length).toBe(1);
     expect(matchFormDeviceType("custom-nic").length).toBe(1);
     expect(matchFormDeviceType("unknown").length).toBe(2);
+    expect(matchFormDeviceType("gpu").length).toBe(1);
 
     const outYaml = dumpYaml({ devices: payload });
     expect(outYaml).toBe(deviceYaml);

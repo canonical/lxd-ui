@@ -1,10 +1,5 @@
 .migrate-instance-modal {
   .migrate-instance-table {
-    .u-row:hover {
-      background-color: $colors--light-theme--background-hover;
-      cursor: pointer;
-    }
-
     @include large {
       min-width: 45rem;
     }
