@@ -24,7 +24,7 @@ import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import UploadInstanceBtn from "pages/images/actions/UploadInstanceBtn";
+import UploadInstanceBtn from "pages/instances/actions/UploadInstanceBtn";
 
 export interface InstanceDetailsFormValues {
   name?: string;

@@ -20,6 +20,7 @@ import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
+import DuplicateInstanceBtn from "./actions/DuplicateInstanceBtn";
 
 interface Props {
   name: string;
@@ -130,6 +131,11 @@ const InstanceDetailHeader: FC<Props> = ({
                 <MigrateInstanceBtn instance={instance} project={project} />
               ) : null}
               <CreateImageFromInstanceBtn key="publish" instance={instance} />
+              <DuplicateInstanceBtn
+                key="duplicate"
+                instance={instance}
+                isLoading={isLoading}
+              />
               <DeleteInstanceBtn key="delete" instance={instance} />
             </>
           ) : null

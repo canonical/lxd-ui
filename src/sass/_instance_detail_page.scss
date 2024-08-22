@@ -8,8 +8,11 @@
   }
 }
 
+.duplicate-instances-modal,
 .create-image-from-instance-modal {
   .p-modal__dialog {
-    width: 35rem;
+    @include large {
+      width: 35rem;
+    }
   }
 }
