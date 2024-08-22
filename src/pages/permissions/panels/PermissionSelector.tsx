@@ -1,13 +1,15 @@
 import { Button, Select, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
+import { fetchConfigOptions } from "api/server";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { LxdPermission } from "types/permissions";
 import {
   generateEntitlementOptions,
   generateResourceOptions,
+  getResourceTypeOptions,
   noneAvailableOption,
-  resourceTypeOptions,
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
 
@@ -28,6 +30,7 @@ const PermissionSelector: FC<Props> = ({
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
   const [entitlement, setEntitlement] = useState("");
+  const { hasMetadataConfiguration } = useSupportedFeatures();
 
   const {
     data: permissions,
@@ -38,6 +41,13 @@ const PermissionSelector: FC<Props> = ({
     queryFn: () => fetchPermissions({ resourceType }),
     enabled: !!resourceType,
   });
+
+  const { data: metadata, isLoading: isMetadataLoading } = useQuery({
+    queryKey: [queryKeys.configOptions],
+    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+  });
+
+  const isLoading = isPermissionsLoading || isMetadataLoading;
 
   useEffect(() => {
     document.getElementById("resourceType")?.focus();
@@ -116,6 +126,7 @@ const PermissionSelector: FC<Props> = ({
   const entitlementOptions = generateEntitlementOptions(
     resourceType,
     permissions,
+    metadata,
   );
 
   const isServerResourceType = resourceType === "server";
@@ -127,7 +138,7 @@ const PermissionSelector: FC<Props> = ({
         id="resourceType"
         name="resourceType"
         label={<strong>Resource Type</strong>}
-        options={resourceTypeOptions}
+        options={getResourceTypeOptions(metadata)}
         className="u-no-margin--bottom"
         aria-label="Resource type"
         onChange={handleResourceTypeChange}
@@ -143,7 +154,7 @@ const PermissionSelector: FC<Props> = ({
         onChange={handleResourceChange}
         value={resource}
         disabled={
-          isPermissionsLoading ||
+          isLoading ||
           !resourceType ||
           isServerResourceType ||
           !hasResourceOptions
@@ -158,7 +169,7 @@ const PermissionSelector: FC<Props> = ({
         aria-label="Entitlement"
         onChange={handleEntitlementChange}
         value={entitlement}
-        disabled={isPermissionsLoading || (!resource && !isServerResourceType)}
+        disabled={isLoading || (!resource && !isServerResourceType)}
       />
       <div className="add-entitlement">
         <Button
