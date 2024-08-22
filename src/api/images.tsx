@@ -9,6 +9,8 @@ import { LxdApiResponse } from "types/apiResponse";
 import { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
 import { LxdInstance } from "types/instance";
+import { UploadState } from "types/storage";
+import axios, { AxiosResponse } from "axios";
 
 export const fetchImage = (
   image: string,
@@ -103,6 +105,31 @@ export const createImage = (
       body: body,
     })
       .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const uploadImage = (
+  body: File | FormData,
+  isPublic: boolean,
+  setUploadState: (value: UploadState) => void,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/1.0/images`, body, {
+        headers: {
+          "X-LXD-public": JSON.stringify(isPublic),
+        },
+        onUploadProgress: (event) => {
+          setUploadState({
+            percentage: event.progress ? Math.floor(event.progress * 100) : 0,
+            loaded: event.loaded,
+            total: event.total,
+          });
+        },
+      })
+      .then((response: AxiosResponse<LxdOperationResponse>) => response.data)
       .then(resolve)
       .catch(reject);
   });

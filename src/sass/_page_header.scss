@@ -21,11 +21,6 @@
       width: 45vw;
     }
   }
-
-  .page-header__base-actions {
-    align-self: flex-start;
-    flex: 1;
-  }
 }
 
 @media screen and (min-width: $breakpoint-large) and (width <= 1135px) {
