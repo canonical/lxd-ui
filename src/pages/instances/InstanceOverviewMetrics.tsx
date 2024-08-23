@@ -50,7 +50,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
         <table>
           <tbody>
             <tr className="metric-row">
-              <th className="p-muted-heading">Memory</th>
+              <th className="u-text--muted">Memory</th>
               <td>
                 {instanceMetrics.memory ? (
                   <div>
@@ -77,7 +77,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
               </td>
             </tr>
             <tr className="metric-row">
-              <th className="p-muted-heading">Disk</th>
+              <th className="u-text--muted">Disk</th>
               <td>
                 {instanceMetrics.disk ? (
                   <div>

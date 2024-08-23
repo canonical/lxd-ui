@@ -27,11 +27,11 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
   }
 
   const profileHeaders = [
-    { content: "Name", sortKey: "name", className: "p-muted-heading" },
+    { content: "Name", sortKey: "name", className: "u-text--muted" },
     {
       content: "Description",
       sortKey: "description",
-      className: "p-muted-heading",
+      className: "u-text--muted",
     },
   ];
 

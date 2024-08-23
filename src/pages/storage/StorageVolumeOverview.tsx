@@ -31,27 +31,27 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
           <table>
             <tbody>
               <tr>
-                <th className="p-muted-heading">Name</th>
+                <th className="u-text--muted">Name</th>
                 <td>{volume.name}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Type</th>
+                <th className="u-text--muted">Type</th>
                 <td>{renderVolumeType(volume)}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Content type</th>
+                <th className="u-text--muted">Content type</th>
                 <td>{renderContentType(volume)}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Description</th>
+                <th className="u-text--muted">Description</th>
                 <td>{volume.description ? volume.description : "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Location</th>
+                <th className="u-text--muted">Location</th>
                 <td>{volume.location}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Pool</th>
+                <th className="u-text--muted">Pool</th>
                 <td>
                   <Link
                     to={`/ui/project/${project}/storage/pool/${volume.pool}`}
@@ -61,17 +61,17 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Date created</th>
+                <th className="u-text--muted">Date created</th>
                 <td>{isoTimeToString(volume.created_at)}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Size</th>
+                <th className="u-text--muted">Size</th>
                 <td>
                   <StorageVolumeSize volume={volume} />
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Custom config</th>
+                <th className="u-text--muted">Custom config</th>
                 <td>
                   {Object.entries(volume.config).length === 0 ? (
                     "-"

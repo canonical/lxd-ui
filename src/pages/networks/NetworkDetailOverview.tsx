@@ -67,29 +67,29 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
           <table>
             <tbody>
               <tr>
-                <th className="p-muted-heading">Name</th>
+                <th className="u-text--muted">Name</th>
                 <td>
                   <ItemName item={network} />
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Description</th>
+                <th className="u-text--muted">Description</th>
                 <td>{network.description ? network.description : "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Type</th>
+                <th className="u-text--muted">Type</th>
                 <td>{network.type}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">State</th>
+                <th className="u-text--muted">State</th>
                 <td>{network.status}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">IPv4</th>
+                <th className="u-text--muted">IPv4</th>
                 <td>{network.config["ipv4.address"]}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">IPv6</th>
+                <th className="u-text--muted">IPv6</th>
                 <td>{network.config["ipv6.address"]}</td>
               </tr>
             </tbody>
@@ -105,25 +105,25 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
             <table>
               <tbody>
                 <tr className="list-wrapper">
-                  <th className="p-muted-heading">RX</th>
+                  <th className="u-text--muted">RX</th>
                   <td>
                     {humanFileSize(networkState?.counters.bytes_received ?? 0)}{" "}
                     ({networkState?.counters.packets_received ?? 0} packets)
                   </td>
                 </tr>
                 <tr className="list-wrapper">
-                  <th className="p-muted-heading">TX</th>
+                  <th className="u-text--muted">TX</th>
                   <td>
                     {humanFileSize(networkState?.counters.bytes_sent ?? 0)} (
                     {networkState?.counters.packets_sent ?? 0} packets)
                   </td>
                 </tr>
                 <tr className="list-wrapper">
-                  <th className="p-muted-heading">MAC address</th>
+                  <th className="u-text--muted">MAC address</th>
                   <td>{networkState?.hwaddr ?? "-"}</td>
                 </tr>
                 <tr className="list-wrapper">
-                  <th className="p-muted-heading">MTU</th>
+                  <th className="u-text--muted">MTU</th>
                   <td>{networkState?.mtu ?? "-"}</td>
                 </tr>
               </tbody>
@@ -139,7 +139,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
           <table>
             <tbody>
               <tr className="list-wrapper">
-                <th className="p-muted-heading">
+                <th className="u-text--muted">
                   Instances ({data.instances.length})
                 </th>
                 <td>
@@ -159,7 +159,7 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                 </td>
               </tr>
               <tr className="list-wrapper">
-                <th className="p-muted-heading">
+                <th className="u-text--muted">
                   Profiles ({data.profiles.length})
                 </th>
                 <td>

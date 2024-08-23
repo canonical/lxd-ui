@@ -62,13 +62,13 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           <table>
             <tbody>
               <tr>
-                <th className="p-muted-heading">Name</th>
+                <th className="u-text--muted">Name</th>
                 <td>
                   <ItemName item={profile} />
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Description</th>
+                <th className="u-text--muted">Description</th>
                 <td>{profile.description ? profile.description : "-"}</td>
               </tr>
             </tbody>
@@ -83,13 +83,13 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           <table>
             <tbody>
               <tr className="list-wrapper">
-                <th className="p-muted-heading">Networks</th>
+                <th className="u-text--muted">Networks</th>
                 <td>
                   <ProfileNetworkList profile={profile} />
                 </td>
               </tr>
               <tr className="list-wrapper">
-                <th className="p-muted-heading">Storage</th>
+                <th className="u-text--muted">Storage</th>
                 <td>
                   <ProfileStorageList profile={profile} />
                 </td>
@@ -106,11 +106,11 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           <table>
             <tbody>
               <tr>
-                <th className="p-muted-heading">CPU</th>
+                <th className="u-text--muted">CPU</th>
                 <td>{profile.config["limits.cpu"] || "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Memory</th>
+                <th className="u-text--muted">Memory</th>
                 <td>{profile.config["limits.memory"] || "-"}</td>
               </tr>
             </tbody>
@@ -146,7 +146,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
                 <ProfileInstances
                   profile={profile}
                   project={project}
-                  headingClassName="p-muted-heading"
+                  headingClassName="u-text--muted"
                 />
               </tbody>
             </table>

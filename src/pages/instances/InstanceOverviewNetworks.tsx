@@ -34,17 +34,17 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
   const hasNetworks = instanceNetworks.length > 0;
 
   const networksHeaders = [
-    { content: "Name", sortKey: "name", className: "p-muted-heading" },
+    { content: "Name", sortKey: "name", className: "u-text--muted" },
     {
       content: "Interface",
       sortKey: "interfaceName",
-      className: "p-muted-heading",
+      className: "u-text--muted",
     },
-    { content: "Type", sortKey: "type", className: "p-muted-heading" },
+    { content: "Type", sortKey: "type", className: "u-text--muted" },
     {
       content: "Managed",
       sortKey: "managed",
-      className: "p-muted-heading u-hide--small u-hide--medium",
+      className: "u-text--muted u-hide--small u-hide--medium",
     },
   ];
 

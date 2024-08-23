@@ -30,7 +30,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
     <table>
       <tbody>
         <tr>
-          <th className="p-muted-heading">
+          <th className="u-text--muted">
             Instances ({data[INSTANCES].length})
           </th>
           <td>
@@ -45,9 +45,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           </td>
         </tr>
         <tr>
-          <th className="p-muted-heading">
-            Profiles ({data[PROFILES].length})
-          </th>
+          <th className="u-text--muted">Profiles ({data[PROFILES].length})</th>
           <td>
             <ExpandableList
               items={data[PROFILES].map((item) => (
@@ -62,7 +60,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           </td>
         </tr>
         <tr>
-          <th className="p-muted-heading">Images ({data[IMAGES].length})</th>
+          <th className="u-text--muted">Images ({data[IMAGES].length})</th>
           <td>
             <ExpandableList
               items={data[IMAGES].map((item) => (
@@ -77,7 +75,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           </td>
         </tr>
         <tr>
-          <th className="p-muted-heading">
+          <th className="u-text--muted">
             Snapshots ({data[SNAPSHOTS].length})
           </th>
           <td>
@@ -112,7 +110,7 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           </td>
         </tr>
         <tr>
-          <th className="p-muted-heading">
+          <th className="u-text--muted">
             Custom volumes ({data[CUSTOM_VOLUMES].length})
           </th>
           <td>
