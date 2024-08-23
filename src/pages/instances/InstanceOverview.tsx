@@ -44,15 +44,15 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
           <table>
             <tbody>
               <tr>
-                <th className="p-muted-heading">Base image</th>
+                <th className="u-text--muted">Base image</th>
                 <td>{instance.config["image.description"] ?? "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Description</th>
+                <th className="u-text--muted">Description</th>
                 <td>{instance.description ? instance.description : "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Type</th>
+                <th className="u-text--muted">Type</th>
                 <td>
                   {
                     instanceCreationTypes.filter(
@@ -62,23 +62,23 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">IPv4</th>
+                <th className="u-text--muted">IPv4</th>
                 <td>
                   <InstanceIps instance={instance} family="inet" />
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">IPv6</th>
+                <th className="u-text--muted">IPv6</th>
                 <td>
                   <InstanceIps instance={instance} family="inet6" />
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Architecture</th>
+                <th className="u-text--muted">Architecture</th>
                 <td>{instance.architecture}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Location</th>
+                <th className="u-text--muted">Location</th>
                 <td>
                   {settings?.environment?.server_clustered
                     ? instance.location
@@ -86,15 +86,15 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">PID</th>
+                <th className="u-text--muted">PID</th>
                 <td>{pid}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Date created</th>
+                <th className="u-text--muted">Date created</th>
                 <td>{isoTimeToString(instance.created_at)}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Last used</th>
+                <th className="u-text--muted">Last used</th>
                 <td>{isoTimeToString(instance.last_used_at)}</td>
               </tr>
             </tbody>
