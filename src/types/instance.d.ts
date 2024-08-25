@@ -57,6 +57,10 @@ interface LxdInstanceSnapshot {
   created_at: string;
   expires_at: string;
   stateful: boolean;
+  ephemeral: boolean;
+  config: {
+    "volatile.base_image"?: string;
+  };
 }
 
 export type LxdInstanceAction =

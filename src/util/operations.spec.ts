@@ -1,10 +1,10 @@
 import { getInstanceName, getProjectName } from "./operations";
 import { LxdOperation } from "types/operation";
 
-const craftOperation = (url: string) => {
+const craftOperation = (...url: string[]) => {
   return {
     resources: {
-      instances: [url],
+      instances: [...url],
     },
   } as LxdOperation;
 };
@@ -26,22 +26,13 @@ describe("getInstanceName", () => {
     expect(name).toBe("testInstance2");
   });
 
-  it("identifies instance name from snapshot operation", () => {
+  it("identifies instance name from an instance creation operation with snapshot as source", () => {
     const operation = craftOperation(
-      "/1.0/instances/testInstance3/snapshots/testSnap",
+      "/1.0/instances/targetInstanceName",
+      "/1.0/instances/sourceInstanceName/testSnap",
     );
     const name = getInstanceName(operation);
-
-    expect(name).toBe("testInstance3");
-  });
-
-  it("identifies instance name from a snapshot operation in a custom project", () => {
-    const operation = craftOperation(
-      "/1.0/instances/testInstance3/snapshots/testSnap?project=project",
-    );
-    const name = getInstanceName(operation);
-
-    expect(name).toBe("testInstance3");
+    expect(name).toBe("targetInstanceName");
   });
 });
 

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { LxdInstance } from "types/instance";
+import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {
@@ -17,7 +17,7 @@ import { useSettings } from "context/useSettings";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import { fetchProjects } from "api/projects";
 import { LxdDiskDevice } from "types/device";
@@ -27,25 +27,66 @@ import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 
 interface Props {
   instance: LxdInstance;
+  snapshot: LxdInstanceSnapshot;
   close: () => void;
 }
 
-export interface LxdInstanceDuplicate {
+interface CreateInstanceFromSnapshotValues {
   instanceName: string;
   targetProject: string;
   targetClusterMember?: string;
   targetStoragePool: string;
-  allowInconsistent: boolean;
-  instanceOnly: boolean;
   stateful: boolean;
 }
 
-const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
+const instanceFromSnapshotPayload = (
+  values: CreateInstanceFromSnapshotValues,
+  instance: LxdInstance,
+  snapshot: LxdInstanceSnapshot,
+) => {
+  const basePayload: Record<string, unknown> = {
+    name: values.instanceName,
+    description: instance.description,
+    architecture: instance.architecture,
+    ephemeral: snapshot.ephemeral,
+    mode: "pull",
+    devices: {
+      ...instance.devices,
+      root: {
+        path: "/",
+        type: "disk",
+        pool: values.targetStoragePool,
+      },
+    },
+  };
+
+  const source: Record<string, unknown> = {
+    project: instance.project,
+    type: "copy",
+    source: `${instance.name}/${snapshot.name}`,
+    base_image: snapshot.config["volatile.base_image"] ?? "",
+  };
+
+  if (snapshot.stateful && values.stateful) {
+    basePayload["stateful"] = true;
+    source["live"] = false;
+  }
+
+  return {
+    ...basePayload,
+    source,
+  };
+};
+
+const CreateInstanceFromSnapshotForm: FC<Props> = ({
+  instance,
+  snapshot,
+  close,
+}) => {
   const toastNotify = useToastNotification();
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
   const controllerState = useState<AbortController | null>(null);
-  const navigate = useNavigate();
   const eventQueue = useEventQueue();
 
   const { data: projects = [], isLoading: projectsLoading } = useQuery({
@@ -63,29 +104,21 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
     queryFn: () => fetchInstances(instance.project),
   });
 
-  const notifySuccess = (instanceName: string, instanceProject: string) => {
-    const message = (
-      <>
-        Created instance <strong>{instanceName}</strong>.
-      </>
+  const notifySuccess = (name: string, project: string) => {
+    const instanceLink = (
+      <Link to={`/ui/project/${project}/instance/${name}`}>{name}</Link>
     );
 
-    const actions = [
-      {
-        label: "Configure",
-        onClick: () =>
-          navigate(
-            `/ui/project/${instanceProject}/instance/${instanceName}/configuration`,
-          ),
-      },
-    ];
-
-    toastNotify.success(message, actions);
+    const message = <>Created instance {instanceLink}.</>;
+    toastNotify.success(message);
   };
 
-  const getDuplicatedInstanceName = (instance: LxdInstance): string => {
+  const getNewInstanceName = (instance: LxdInstance): string => {
     const instanceNames = instances.map((instance) => instance.name);
-    const newInstanceName = truncateInstanceName(instance.name, "-duplicate");
+    const newInstanceName = truncateInstanceName(
+      instance.name,
+      `-${snapshot.name}-copy`,
+    );
 
     if (instanceNames.includes(newInstanceName)) {
       let count = 1;
@@ -98,12 +131,27 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
     return newInstanceName;
   };
 
-  const formik = useFormik<LxdInstanceDuplicate>({
+  const validate = (values: CreateInstanceFromSnapshotValues) => {
+    const errors: Partial<CreateInstanceFromSnapshotValues> = {};
+    if (values.stateful) {
+      if (values.targetProject === instance.project) {
+        errors.targetProject =
+          "Stateful instance snapshot duplication must be in a different project";
+      }
+
+      if (values.instanceName !== instance.name) {
+        errors.instanceName =
+          "Instance name must be the same for stateful duplication";
+      }
+    }
+
+    return errors;
+  };
+
+  const formik = useFormik<CreateInstanceFromSnapshotValues>({
     initialValues: {
-      instanceName: getDuplicatedInstanceName(instance),
+      instanceName: getNewInstanceName(instance),
       targetProject: instance.project,
-      allowInconsistent: false,
-      instanceOnly: false,
       stateful: false,
       targetClusterMember: isClustered ? instance.location : "",
       targetStoragePool:
@@ -111,46 +159,30 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
         storagePools[0]?.name,
     },
     enableReinitialize: true,
+    validate,
     validationSchema: Yup.object().shape({
       instanceName: instanceNameValidation(
         instance.project,
         controllerState,
+        instance.name,
       ).required(),
     }),
     onSubmit: (values) => {
       createInstance(
-        JSON.stringify({
-          description: instance.description,
-          name: values.instanceName,
-          architecture: instance.architecture,
-          source: {
-            allow_inconsistent: values.allowInconsistent,
-            instance_only: values.instanceOnly,
-            source: instance.name,
-            type: "copy",
-            project: instance.project,
-          },
-          stateful: values.stateful,
-          devices: {
-            ...instance.devices,
-            root: {
-              path: "/",
-              type: "disk",
-              pool: values.targetStoragePool,
-            },
-          },
-        }),
+        JSON.stringify(instanceFromSnapshotPayload(values, instance, snapshot)),
         values.targetProject,
         values.targetClusterMember,
       )
         .then((operation) => {
-          toastNotify.info(`Duplication of instance ${instance.name} started.`);
+          toastNotify.info(
+            `Instance creation started for ${values.instanceName}.`,
+          );
           eventQueue.set(
             operation.metadata.id,
             () => notifySuccess(values.instanceName, values.targetProject),
             (msg) =>
               toastNotify.failure(
-                "Instance duplication failed.",
+                "Instance creation failed.",
                 new Error(msg),
                 <InstanceLink instance={instance} />,
               ),
@@ -158,7 +190,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
         })
         .catch((e) => {
           toastNotify.failure(
-            "Instance duplication failed.",
+            "Instance creation failed.",
             e,
             <InstanceLink instance={instance} />,
           );
@@ -172,8 +204,8 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   return (
     <Modal
       close={close}
-      className="duplicate-instances-modal"
-      title="Duplicate Instance"
+      className="create-instance-from-snapshot-modal"
+      title="Create instance from snapshot"
       buttonRow={
         <>
           <Button
@@ -191,19 +223,23 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
             disabled={!formik.isValid || storagePoolsLoading || projectsLoading}
             onClick={() => void formik.submitForm()}
           >
-            Duplicate
+            Create
           </ActionButton>
         </>
       }
     >
       <Form onSubmit={formik.handleSubmit}>
         <Input
+          type="text"
+          label="Snapshot name"
+          disabled
+          value={snapshot.name}
+        />
+        <Input
           {...formik.getFieldProps("instanceName")}
           type="text"
           label="New instance name"
-          error={
-            formik.touched.instanceName ? formik.errors.instanceName : null
-          }
+          error={formik.errors.instanceName}
         />
         <ClusterMemberSelector
           {...formik.getFieldProps("targetClusterMember")}
@@ -231,31 +267,15 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
               value: project.name,
             };
           })}
+          error={formik.errors.targetProject}
         />
-        <Input
-          {...formik.getFieldProps("allowInconsistent")}
-          type="checkbox"
-          label="Ignore copy errors for volatile files"
-          error={
-            formik.touched.allowInconsistent
-              ? formik.errors.allowInconsistent
-              : null
-          }
-        />
-        <Input
-          {...formik.getFieldProps("instanceOnly")}
-          type="checkbox"
-          label="Copy without instance snapshots"
-          error={
-            formik.touched.instanceOnly ? formik.errors.instanceOnly : null
-          }
-        />
-        <Input
-          {...formik.getFieldProps("stateful")}
-          type="checkbox"
-          label="Copy stateful"
-          error={formik.touched.stateful ? formik.errors.stateful : null}
-        />
+        {snapshot.stateful && (
+          <Input
+            {...formik.getFieldProps("stateful")}
+            type="checkbox"
+            label="Copy stateful"
+          />
+        )}
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
       </Form>
@@ -263,4 +283,4 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   );
 };
 
-export default DuplicateInstanceForm;
+export default CreateInstanceFromSnapshotForm;

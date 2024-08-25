@@ -13,6 +13,7 @@ import ConfirmationForce from "components/ConfirmationForce";
 import { useEventQueue } from "context/eventQueue";
 import InstanceEditSnapshotBtn from "./InstanceEditSnapshotBtn";
 import CreateImageFromInstanceSnapshotBtn from "pages/instances/actions/snapshots/CreateImageFromInstanceSnapshotBtn";
+import CreateInstanceFromSnapshotBtn from "./CreateInstanceFromSnapshotBtn";
 
 interface Props {
   instance: LxdInstance;
@@ -103,13 +104,6 @@ const InstanceSnapshotActions: FC<Props> = ({
             isDeleting={isDeleting}
             isRestoring={isRestoring}
           />,
-          <CreateImageFromInstanceSnapshotBtn
-            key="publish"
-            instance={instance}
-            snapshot={snapshot}
-            isRestoring={isRestoring}
-            isDeleting={isDeleting}
-          />,
           <ConfirmationButton
             key="restore"
             appearance="base"
@@ -142,6 +136,20 @@ const InstanceSnapshotActions: FC<Props> = ({
           >
             <Icon name="change-version" />
           </ConfirmationButton>,
+          <CreateImageFromInstanceSnapshotBtn
+            key="publish"
+            instance={instance}
+            snapshot={snapshot}
+            isRestoring={isRestoring}
+            isDeleting={isDeleting}
+          />,
+          <CreateInstanceFromSnapshotBtn
+            key="duplicate"
+            instance={instance}
+            snapshot={snapshot}
+            isDeleting={isDeleting}
+            isRestoring={isRestoring}
+          />,
           <ConfirmationButton
             key="delete"
             appearance="base"
