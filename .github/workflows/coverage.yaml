@@ -16,7 +16,7 @@ jobs:
           sudo pip3 install dotrun requests==2.31.0 # requests version is pinned to avoid breaking changes, can be removed once issue is resolved: https://github.com/docker/docker-py/issues/3256
 
       - name: Restore cached keys
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: keys
           key: keys-folder
@@ -43,7 +43,7 @@ jobs:
           sudo chmod 0777 keys
           
       - name: Save keys
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: keys
           key: keys-folder

@@ -1,5 +1,5 @@
 # Build js / css
-FROM node:21 AS yarn-dependencies
+FROM node:22 AS yarn-dependencies
 WORKDIR /srv
 COPY . .
 RUN yarn --network-concurrency 2
@@ -10,7 +10,7 @@ RUN mv entrypoint /srv/deploy/
 RUN mv haproxy-demo.cfg /srv/deploy/
 
 # Build the demo image
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 # Set up environment
 ENV LANG C.UTF-8
