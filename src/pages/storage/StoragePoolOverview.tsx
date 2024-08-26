@@ -28,29 +28,29 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
           <table>
             <tbody>
               <tr>
-                <th className="p-muted-heading">Name</th>
+                <th className="u-text--muted">Name</th>
                 <td>{pool.name}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Status</th>
+                <th className="u-text--muted">Status</th>
                 <td>{pool.status}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Size</th>
+                <th className="u-text--muted">Size</th>
                 <td>
                   <StoragePoolSize pool={pool} />
                 </td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Source</th>
+                <th className="u-text--muted">Source</th>
                 <td>{pool.config?.source ?? "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Description</th>
+                <th className="u-text--muted">Description</th>
                 <td>{pool.description ? pool.description : "-"}</td>
               </tr>
               <tr>
-                <th className="p-muted-heading">Driver</th>
+                <th className="u-text--muted">Driver</th>
                 <td>{pool.driver}</td>
               </tr>
             </tbody>
