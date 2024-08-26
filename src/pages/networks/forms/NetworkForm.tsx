@@ -37,6 +37,7 @@ import { useDocs } from "context/useDocs";
 import YamlConfirmation from "components/forms/YamlConfirmation";
 import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
+import { ensureEditMode } from "util/instanceEdit";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -159,6 +160,7 @@ interface Props {
   project: string;
   section: string;
   setSection: (section: string) => void;
+  version?: number;
 }
 
 const NetworkForm: FC<Props> = ({
@@ -167,6 +169,7 @@ const NetworkForm: FC<Props> = ({
   project,
   section,
   setSection,
+  version = 0,
 }) => {
   const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
   const docBaseLink = useDocs();
@@ -219,10 +222,12 @@ const NetworkForm: FC<Props> = ({
           {section === slugify(OVN) && <NetworkFormOvn formik={formik} />}
           {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm
-              key={`yaml-form-${formik.values.readOnly}`}
+              key={`yaml-form-${version}`}
               yaml={getYaml()}
-              setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-              readOnly={formik.values.readOnly}
+              setYaml={(yaml) => {
+                ensureEditMode(formik);
+                void formik.setFieldValue("yaml", yaml);
+              }}
             >
               <Notification severity="information" title="YAML Configuration">
                 This is the YAML representation of the network.

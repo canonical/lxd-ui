@@ -132,7 +132,6 @@ test("Ensure the documentation link text and link targets are present: Project >
   const project = randomProjectName();
   await createProject(page, project);
   await page.getByRole("link", { name: "Configuration" }).click();
-  await page.getByRole("button", { name: "Edit configuration" }).click();
   await page.getByText("Allow custom restrictions on a project level").click();
 
   await page.getByText("Resource limits").click();

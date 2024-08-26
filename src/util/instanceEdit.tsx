@@ -13,6 +13,7 @@ import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import * as Yup from "yup";
 import { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
+import { ConfigurationRowFormikProps } from "components/ConfigurationRow";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,
@@ -118,3 +119,9 @@ export const InstanceEditSchema: Yup.ObjectSchema<{
   name: Yup.string().required("Instance name is required"),
   instanceType: Yup.string().required("Instance type is required"),
 });
+
+export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
+  if (formik.values.readOnly) {
+    void formik.setFieldValue("readOnly", false);
+  }
+};

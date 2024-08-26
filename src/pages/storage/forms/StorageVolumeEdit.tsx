@@ -84,14 +84,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
         setSection={setSection}
       />
       <FormFooterLayout>
-        {formik.values.readOnly ? (
-          <Button
-            appearance="positive"
-            onClick={() => void formik.setFieldValue("readOnly", false)}
-          >
-            Edit volume
-          </Button>
-        ) : (
+        {formik.values.readOnly ? null : (
           <>
             <Button
               appearance="base"

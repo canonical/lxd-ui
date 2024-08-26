@@ -43,6 +43,14 @@
     }
   }
 
+  .custom-disk-read-mode {
+    display: flex;
+
+    .custom-disk-value {
+      flex-grow: 1;
+    }
+  }
+
   .custom-disk-volume-source,
   .custom-disk-device-limits {
     align-items: center;

@@ -49,7 +49,7 @@ import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import ProfileDetailsForm, {
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
-import { getProfileEditValues } from "util/instanceEdit";
+import { ensureEditMode, getProfileEditValues } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
@@ -85,6 +85,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isConfigOpen, setConfigOpen] = useState(true);
+  const [version, setVersion] = useState(0);
 
   if (!project) {
     return <>Missing project</>;
@@ -210,10 +211,12 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
             {section === slugify(YAML_CONFIGURATION) && (
               <YamlForm
-                key={`yaml-form-${formik.values.readOnly}`}
+                key={`yaml-form-${version}`}
                 yaml={getYaml()}
-                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                readOnly={readOnly}
+                setYaml={(yaml) => {
+                  ensureEditMode(formik);
+                  void formik.setFieldValue("yaml", yaml);
+                }}
               >
                 <Notification severity="information" title="YAML Configuration">
                   This is the YAML representation of the profile.
@@ -232,19 +235,14 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
         </Row>
       </Form>
       <FormFooterLayout>
-        {readOnly ? (
-          <Button
-            appearance="positive"
-            disabled={!featuresProfiles}
-            onClick={() => void formik.setFieldValue("readOnly", false)}
-          >
-            Edit profile
-          </Button>
-        ) : (
+        {readOnly ? null : (
           <>
             <Button
               appearance="base"
-              onClick={() => formik.setValues(getProfileEditValues(profile))}
+              onClick={() => {
+                setVersion((old) => old + 1);
+                void formik.setValues(getProfileEditValues(profile));
+              }}
             >
               Cancel
             </Button>

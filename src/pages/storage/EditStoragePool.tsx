@@ -45,6 +45,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   }>();
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
+  const [version, setVersion] = useState(0);
 
   if (!project) {
     return <>Missing project</>;
@@ -116,20 +117,17 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
         formik={formik}
         section={section ?? defaultFormSection}
         setSection={updateSection}
+        version={version}
       />
       <FormFooterLayout>
-        {formik.values.readOnly ? (
-          <Button
-            appearance="positive"
-            onClick={() => void formik.setFieldValue("readOnly", false)}
-          >
-            Edit pool
-          </Button>
-        ) : (
+        {formik.values.readOnly ? null : (
           <>
             <Button
               appearance="base"
-              onClick={() => formik.setValues(toStoragePoolFormValues(pool))}
+              onClick={() => {
+                setVersion((old) => old + 1);
+                void formik.setValues(toStoragePoolFormValues(pool));
+              }}
             >
               Cancel
             </Button>

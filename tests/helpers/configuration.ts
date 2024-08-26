@@ -54,7 +54,6 @@ export const setCpuLimit = async (
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await page.getByRole("button", { name: "Edit" }).click();
   await activateOverride(page, "Exposed CPU limit");
   await page.getByText(type).first().click();
   const placeholder =
@@ -73,7 +72,6 @@ export const setMemLimit = async (
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await page.getByRole("button", { name: "Edit" }).click();
   await activateOverride(page, "Memory limit");
   await page.getByRole("row", { name: "Memory limit" }).getByText(type).click();
   const text = type === "percentage" ? "Enter percentage" : "Enter value";
@@ -104,10 +102,24 @@ export const setSchedule = async (
 
 export const activateOverride = async (page: Page, field: string) => {
   if (
-    !(await page
+    await page
       .getByRole("row", { name: field })
-      .getByRole("button", { name: "Clear override" })
-      .isVisible())
+      .getByRole("button", { name: "Edit" })
+      .isVisible()
+  ) {
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Edit" })
+      .click();
+
+    return;
+  }
+
+  if (
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Create override" })
+      .isVisible()
   ) {
     await page
       .getByRole("row", { name: field })

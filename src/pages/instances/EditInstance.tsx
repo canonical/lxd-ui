@@ -46,6 +46,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import {
+  ensureEditMode,
   getInstanceEditValues,
   getInstancePayload,
   InstanceEditSchema,
@@ -95,6 +96,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isConfigOpen, setConfigOpen] = useState(true);
+  const [version, setVersion] = useState(0);
 
   if (!project) {
     return <>Missing project</>;
@@ -230,10 +232,12 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(YAML_CONFIGURATION) && (
               <YamlForm
-                key={`yaml-form-${formik.values.readOnly}-${getYaml()}`}
+                key={`yaml-form-${version}`}
                 yaml={getYaml()}
-                setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-                readOnly={readOnly}
+                setYaml={(yaml) => {
+                  ensureEditMode(formik);
+                  void formik.setFieldValue("yaml", yaml);
+                }}
               >
                 <Notification severity="information" title="YAML Configuration">
                   This is the YAML representation of the instance.
@@ -252,20 +256,14 @@ const EditInstance: FC<Props> = ({ instance }) => {
         </Row>
       </Form>
       <FormFooterLayout>
-        {readOnly ? (
-          <Button
-            appearance="positive"
-            onClick={() => {
-              void formik.setFieldValue("readOnly", false);
-            }}
-          >
-            Edit instance
-          </Button>
-        ) : (
+        {readOnly ? null : (
           <>
             <Button
               appearance="base"
-              onClick={() => formik.setValues(getInstanceEditValues(instance))}
+              onClick={() => {
+                void formik.setValues(getInstanceEditValues(instance));
+                setVersion((old) => old + 1);
+              }}
             >
               Cancel
             </Button>

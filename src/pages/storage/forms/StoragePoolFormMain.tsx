@@ -16,6 +16,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { getCephPoolFormFields } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
+import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -50,7 +51,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             type="text"
             label="Name"
             required
-            disabled={!formik.values.isCreating || formik.values.readOnly}
+            disabled={!formik.values.isCreating}
             help={
               !formik.values.isCreating
                 ? "Cannot rename storage pools"
@@ -60,8 +61,11 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           <AutoExpandingTextArea
             {...getFormProps("description")}
             label="Description"
-            disabled={formik.values.readOnly}
             dynamicHeight
+            onChange={(e) => {
+              ensureEditMode(formik);
+              formik.handleChange(e);
+            }}
           />
           <Select
             id="driver"
@@ -94,7 +98,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             }}
             value={formik.values.driver}
             required
-            disabled={!formik.values.isCreating || formik.values.readOnly}
+            disabled={!formik.values.isCreating}
           />
           {!isCephDriver && !isDirDriver && !isPowerFlexDriver && (
             <DiskSizeSelector
@@ -105,12 +109,11 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   ? "Not available"
                   : "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
               }
-              setMemoryLimit={(val?: string) =>
-                void formik.setFieldValue("size", val)
-              }
-              disabled={
-                formik.values.driver === dirDriver || formik.values.readOnly
-              }
+              setMemoryLimit={(val?: string) => {
+                ensureEditMode(formik);
+                void formik.setFieldValue("size", val);
+              }}
+              disabled={formik.values.driver === dirDriver}
             />
           )}
           {!isPowerFlexDriver && (
@@ -119,8 +122,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               type="text"
               disabled={
                 formik.values.driver === btrfsDriver ||
-                !formik.values.isCreating ||
-                formik.values.readOnly
+                !formik.values.isCreating
               }
               help={
                 formik.values.isCreating
@@ -138,6 +140,10 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Powerflex pool"
                 placeholder="Enter powerflex pool"
                 help="ID or name of the remote PowerFlex storage pool"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
                 required
               />
               <Input
@@ -146,6 +152,10 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Domain"
                 placeholder="Enter domain"
                 help="Name of the PowerFlex protection domain. Required if the Powerflex pool is a name."
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
               />
               <Input
                 {...formik.getFieldProps("powerflex_gateway")}
@@ -153,6 +163,10 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Gateway"
                 placeholder="Enter gateway"
                 help="Address of the PowerFlex Gateway"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
                 required
               />
               <Input
@@ -166,6 +180,10 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                     <code>admin</code> if left empty.
                   </>
                 }
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
               />
               <Input
                 {...formik.getFieldProps("powerflex_user_password")}
@@ -173,6 +191,10 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Password"
                 placeholder="Enter password"
                 help="Password for PowerFlex Gateway authentication"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
                 required
               />
             </>

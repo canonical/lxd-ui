@@ -11,6 +11,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { optionTrueFalse } from "util/instanceOptions";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ScrollableForm from "components/ScrollableForm";
+import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
@@ -39,7 +40,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             {...getFormProps(formik, "name")}
             type="text"
             label="Name"
-            disabled={formik.values.readOnly || !formik.values.isCreating}
+            disabled={!formik.values.isCreating}
             required={formik.values.isCreating}
             help={
               formik.values.isCreating
@@ -55,12 +56,11 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
                 ? "Size of storage volume. If empty, volume will not have a size limit within its storage pool."
                 : "Size is immutable for non-custom volumes."
             }
-            setMemoryLimit={(val?: string) =>
-              void formik.setFieldValue("size", val)
-            }
-            disabled={
-              formik.values.readOnly || formik.values.volumeType !== "custom"
-            }
+            setMemoryLimit={(val?: string) => {
+              ensureEditMode(formik);
+              void formik.setFieldValue("size", val);
+            }}
+            disabled={formik.values.volumeType !== "custom"}
           />
           <Select
             {...getFormProps(formik, "content_type")}
@@ -90,7 +90,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
               }
               void formik.setFieldValue("content_type", e.target.value);
             }}
-            disabled={formik.values.readOnly || !formik.values.isCreating}
+            disabled={!formik.values.isCreating}
           />
         </Col>
       </Row>

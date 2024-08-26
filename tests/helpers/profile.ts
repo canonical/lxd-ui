@@ -78,5 +78,4 @@ export const saveProfile = async (page: Page, profile: string) => {
 export const editProfile = async (page: Page, profile: string) => {
   await visitProfile(page, profile);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit profile" }).click();
 };

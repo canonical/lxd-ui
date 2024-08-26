@@ -11,6 +11,7 @@ import { optionTrueFalse } from "util/instanceOptions";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
+import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -23,7 +24,10 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
       id: id,
       name: id,
       onBlur: formik.handleBlur,
-      onChange: formik.handleChange,
+      onChange: (e: unknown) => {
+        ensureEditMode(formik);
+        formik.handleChange(e);
+      },
       value: formik.values[id] ?? "",
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
       placeholder: `Enter ${id.replaceAll("_", " ")}`,
@@ -50,22 +54,14 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
           <AutoExpandingTextArea
             {...getFormProps("description")}
             label="Description"
-            disabled={formik.values.readOnly}
             dynamicHeight
           />
           {formik.values.networkType === "ovn" && (
-            <UplinkSelector
-              props={getFormProps("network")}
-              project={project}
-              isDisabled={formik.values.readOnly}
-            />
+            <UplinkSelector props={getFormProps("network")} project={project} />
           )}
           {formik.values.networkType === "physical" &&
             formik.values.isCreating && (
-              <NetworkParentSelector
-                props={getFormProps("parent")}
-                isDisabled={formik.values.readOnly}
-              />
+              <NetworkParentSelector props={getFormProps("parent")} />
             )}
         </Col>
       </Row>

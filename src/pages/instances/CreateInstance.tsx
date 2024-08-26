@@ -450,7 +450,6 @@ const CreateInstance: FC = () => {
 
             {section === YAML_CONFIGURATION && (
               <YamlForm
-                key={`yaml-form-${formik.values.readOnly}`}
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >

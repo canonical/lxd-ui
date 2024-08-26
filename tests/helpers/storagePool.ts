@@ -36,7 +36,6 @@ export const visitPool = async (page: Page, pool: string) => {
 export const editPool = async (page: Page, pool: string) => {
   await visitPool(page, pool);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit pool" }).click();
 };
 
 export const savePool = async (page: Page, pool: string) => {

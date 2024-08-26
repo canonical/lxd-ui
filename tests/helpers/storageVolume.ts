@@ -47,7 +47,6 @@ export const visitVolume = async (page: Page, volume: string) => {
 export const editVolume = async (page: Page, volume: string) => {
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit volume" }).click();
 };
 
 export const saveVolume = async (page: Page, volume: string) => {

@@ -53,7 +53,6 @@ export const visitInstance = async (
 export const editInstance = async (page: Page, instance: string) => {
   await visitInstance(page, instance);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit instance" }).click();
 };
 
 export const saveInstance = async (page: Page, instance: string) => {
