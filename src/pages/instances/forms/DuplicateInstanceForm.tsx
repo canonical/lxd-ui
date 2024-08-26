@@ -14,7 +14,7 @@ import * as Yup from "yup";
 import { createInstance, fetchInstances } from "api/instances";
 import { isClusteredServer } from "util/settings";
 import { useSettings } from "context/useSettings";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { fetchClusterMembers } from "api/cluster";
@@ -47,7 +47,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   const controllerState = useState<AbortController | null>(null);
   const navigate = useNavigate();
   const eventQueue = useEventQueue();
-  const queryClient = useQueryClient();
 
   const { data: projects = [], isLoading: projectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
@@ -102,11 +101,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
       }
       return `${newInstanceName}-${count}`;
     }
-    void queryClient.invalidateQueries({
-      predicate: (query) => {
-        return query.queryKey[0] === queryKeys.instances;
-      },
-    });
 
     return newInstanceName;
   };
