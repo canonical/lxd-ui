@@ -337,7 +337,7 @@ export const fetchInstanceLogFile = (
 };
 
 export const uploadInstance = (
-  file: File,
+  file: File | null,
   name: string,
   project: string | undefined,
   pool: string | undefined,
