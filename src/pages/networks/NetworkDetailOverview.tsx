@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Row } from "@canonical/react-components";
+import { Col, Notification, Row } from "@canonical/react-components";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ItemName from "components/ItemName";
@@ -25,10 +25,12 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
     return <>Missing project</>;
   }
 
-  const isPhysicalManagedNetwork =
-    network.type === "physical" && network.managed;
-
-  const { data: networkState, isLoading } = useQuery({
+  const {
+    data: networkState,
+    isLoading,
+    error: networkStateError,
+    isError: isNetworkStateError,
+  } = useQuery({
     queryKey: [
       queryKeys.projects,
       project,
@@ -36,8 +38,8 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
       network.name,
       queryKeys.state,
     ],
+    retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
     queryFn: () => fetchNetworkState(network.name, project),
-    enabled: !isPhysicalManagedNetwork,
   });
 
   const updateContentHeight = () => {
@@ -96,12 +98,17 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
           </table>
         </Col>
       </Row>
-      {!isPhysicalManagedNetwork && (
-        <Row className="section">
-          <Col size={3}>
-            <h2 className="p-heading--5">Status</h2>
-          </Col>
-          <Col size={7}>
+      <Row className="section">
+        <Col size={3}>
+          <h2 className="p-heading--5">Status</h2>
+        </Col>
+        <Col size={7}>
+          {isNetworkStateError && (
+            <Notification severity="negative" borderless>
+              Could not load network state: {networkStateError.message}
+            </Notification>
+          )}
+          {!isNetworkStateError && (
             <table>
               <tbody>
                 <tr className="list-wrapper">
@@ -128,9 +135,9 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                 </tr>
               </tbody>
             </table>
-          </Col>
-        </Row>
-      )}
+          )}
+        </Col>
+      </Row>
       <Row className="usage list-wrapper">
         <Col size={3}>
           <h2 className="p-heading--5">Usage ({usageCount})</h2>
