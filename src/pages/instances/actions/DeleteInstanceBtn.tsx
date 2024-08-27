@@ -4,8 +4,7 @@ import { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
-import { useSmallScreen } from "context/useSmallScreen";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
+import { ConfirmationButton } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { queryKeys } from "util/queryKeys";
@@ -16,11 +15,12 @@ import { useInstanceLoading } from "context/instanceLoading";
 
 interface Props {
   instance: LxdInstance;
+  classname?: string;
+  onClose?: () => void;
 }
 
-const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
+const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const eventQueue = useEventQueue();
-  const isDeleteIcon = useSmallScreen();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const instanceLoading = useInstanceLoading();
@@ -74,12 +74,11 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      appearance={isDeleteIcon ? "base" : "default"}
-      className={classnames("u-no-margin--bottom", {
-        "has-icon": isDeleteIcon,
-      })}
+      appearance="default"
+      className={classnames("u-no-margin--bottom", classname)}
       loading={isLoading}
       confirmationModalProps={{
+        close: onClose,
         title: "Confirm delete",
         children: (
           <p>
@@ -95,8 +94,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      {isDeleteIcon && <Icon name="delete" />}
-      {!isDeleteIcon && <span>Delete instance</span>}
+      <span>Delete instance</span>
     </ConfirmationButton>
   );
 };

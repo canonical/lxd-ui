@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
 import { LxdInstance } from "types/instance";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { renameInstance } from "api/instances";
@@ -16,11 +15,7 @@ import {
 } from "util/instances";
 import { getInstanceName } from "util/operations";
 import InstanceLink from "pages/instances/InstanceLink";
-import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
-import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
-import DuplicateInstanceBtn from "./actions/DuplicateInstanceBtn";
+import InstanceDetailActions from "./InstanceDetailActions";
 
 interface Props {
   name: string;
@@ -39,8 +34,6 @@ const InstanceDetailHeader: FC<Props> = ({
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
 
   const RenameSchema = Yup.object().shape({
     name: instanceNameValidation(project, controllerState, name).required(
@@ -126,18 +119,11 @@ const InstanceDetailHeader: FC<Props> = ({
         }
         controls={
           instance ? (
-            <>
-              {isClustered ? (
-                <MigrateInstanceBtn instance={instance} project={project} />
-              ) : null}
-              <CreateImageFromInstanceBtn key="publish" instance={instance} />
-              <DuplicateInstanceBtn
-                key="duplicate"
-                instance={instance}
-                isLoading={isLoading}
-              />
-              <DeleteInstanceBtn key="delete" instance={instance} />
-            </>
+            <InstanceDetailActions
+              instance={instance}
+              project={project}
+              isLoading={isLoading}
+            />
           ) : null
         }
         isLoaded={Boolean(instance)}

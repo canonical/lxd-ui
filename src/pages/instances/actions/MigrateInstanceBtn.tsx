@@ -10,18 +10,30 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
 import MigrateInstanceModal from "../MigrateInstanceModal";
+import classNames from "classnames";
+import { isClusteredServer } from "util/settings";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   instance: LxdInstance;
   project: string;
+  classname?: string;
+  onClose?: () => void;
 }
 
-const MigrateInstanceBtn: FC<Props> = ({ instance, project }) => {
+const MigrateInstanceBtn: FC<Props> = ({
+  instance,
+  project,
+  classname,
+  onClose,
+}) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const queryClient = useQueryClient();
   const instanceLoading = useInstanceLoading();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
   const isLoading =
     instanceLoading.getType(instance) === "Migrating" ||
     instance.status === "Migrating";
@@ -70,33 +82,42 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, project }) => {
         notifyFailure(e, instance.name);
       })
       .finally(() => {
-        closePortal();
+        handleClose();
       });
+  };
+
+  const handleClose = () => {
+    closePortal();
+    onClose?.();
   };
 
   const isDisabled = isLoading || !!instanceLoading.getType(instance);
 
   return (
     <>
-      {isOpen && (
-        <Portal>
-          <MigrateInstanceModal
-            close={closePortal}
-            migrate={handleMigrate}
-            instances={[instance]}
-          />
-        </Portal>
-      )}
-      <ActionButton
-        onClick={openPortal}
-        type="button"
-        className="instance-migrate"
-        loading={isLoading}
-        disabled={isDisabled}
-        aria-label={`Migrate instance ${instance.name}`}
-      >
-        <span>Migrate</span>
-      </ActionButton>
+      {isClustered ? (
+        <>
+          {isOpen && (
+            <Portal>
+              <MigrateInstanceModal
+                close={handleClose}
+                migrate={handleMigrate}
+                instances={[instance]}
+              />
+            </Portal>
+          )}
+          <ActionButton
+            onClick={openPortal}
+            type="button"
+            className={classNames("instance-migrate", classname)}
+            loading={isLoading}
+            disabled={isDisabled}
+            aria-label={`Migrate instance ${instance.name}`}
+          >
+            <span>Migrate</span>
+          </ActionButton>
+        </>
+      ) : null}
     </>
   );
 };
