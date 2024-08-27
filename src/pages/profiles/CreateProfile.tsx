@@ -4,7 +4,6 @@ import {
   Button,
   Col,
   Form,
-  Notification,
   Row,
   useNotify,
 } from "@canonical/react-components";
@@ -64,6 +63,8 @@ import MigrationForm, {
   MigrationFormValues,
   migrationPayload,
 } from "components/forms/MigrationForm";
+import YamlSwitch from "components/forms/YamlSwitch";
+import YamlNotification from "components/forms/YamlNotification";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -83,7 +84,6 @@ const CreateProfile: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(MAIN_CONFIGURATION);
-  const [isConfigOpen, setConfigOpen] = useState(false);
 
   if (!project) {
     return <>Missing project</>;
@@ -157,10 +157,6 @@ const CreateProfile: FC = () => {
     setSection(newItem);
   };
 
-  const toggleMenu = () => {
-    setConfigOpen((old) => !old);
-  };
-
   function getYaml() {
     const payload = getCreationPayload(formik.values);
     return dumpYaml(payload);
@@ -169,14 +165,14 @@ const CreateProfile: FC = () => {
   return (
     <BaseLayout title="Create a profile" contentClassName="create-profile">
       <Form onSubmit={formik.handleSubmit} className="form">
-        <ProfileFormMenu
-          active={section}
-          setActive={updateSection}
-          isConfigOpen={Boolean(formik.values.name) && isConfigOpen}
-          toggleConfigOpen={toggleMenu}
-          hasName={Boolean(formik.values.name)}
-          formik={formik}
-        />
+        {section !== YAML_CONFIGURATION && (
+          <ProfileFormMenu
+            active={section}
+            setActive={updateSection}
+            hasName={Boolean(formik.values.name)}
+            formik={formik}
+          />
+        )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
             <NotificationRow />
@@ -211,23 +207,28 @@ const CreateProfile: FC = () => {
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >
-                <Notification severity="information" title="YAML Configuration">
-                  This is the YAML representation of the profile.
-                  <br />
-                  <a
-                    href={`${docBaseLink}/profiles`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn more about profiles
-                  </a>
-                </Notification>
+                <YamlNotification
+                  entity="profile"
+                  href={`${docBaseLink}/profiles`}
+                />
               </YamlForm>
             )}
           </Col>
         </Row>
       </Form>
       <FormFooterLayout>
+        <div className="yaml-switch">
+          <YamlSwitch
+            formik={formik}
+            section={section}
+            setSection={updateSection}
+            disableReason={
+              formik.values.name
+                ? undefined
+                : "Please enter a profile name before adding custom configuration"
+            }
+          />
+        </div>
         <Button
           appearance="base"
           onClick={() => navigate(`/ui/project/${project}/profiles`)}

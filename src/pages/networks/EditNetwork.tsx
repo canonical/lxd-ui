@@ -24,6 +24,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import YamlSwitch from "components/forms/YamlSwitch";
 
 interface Props {
   network: LxdNetwork;
@@ -122,6 +123,16 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         version={version}
       />
       <FormFooterLayout>
+        <YamlSwitch
+          formik={formik}
+          section={section}
+          setSection={setSection}
+          disableReason={
+            formik.values.name
+              ? undefined
+              : "Please enter a network name to enable this section"
+          }
+        />
         {readOnly ? null : (
           <>
             <Button

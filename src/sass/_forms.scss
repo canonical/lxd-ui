@@ -107,11 +107,11 @@
         margin-top: 2.5rem;
       }
     }
+  }
 
-    .is-disabled {
-      cursor: not-allowed;
-      opacity: 0.33;
-    }
+  .is-disabled {
+    cursor: not-allowed;
+    opacity: 0.33;
   }
 
   @include mobile-and-tablet {
@@ -129,10 +129,6 @@
         margin-right: 0 !important;
       }
     }
-  }
-
-  .code-editor-wrapper {
-    max-width: 54rem;
   }
 
   .read-only .monaco-editor .cursors-layer > .cursor {
@@ -210,6 +206,10 @@
       display: inherit !important;
       margin-left: $sph--x-small;
     }
+  }
+
+  .yaml-switch {
+    margin-left: $sph--x-large;
   }
 }
 
@@ -352,6 +352,14 @@
     min-height: 3.5rem;
     padding-right: 1.5rem;
   }
+
+  .form {
+    max-width: 72rem;
+  }
+
+  .form-contents:has(.code-editor-wrapper) {
+    padding-left: 1.5rem;
+  }
 }
 
 .edit-instance,
@@ -363,5 +371,13 @@
     margin-top: 1rem;
     max-width: 70.5rem;
     min-height: 3.5rem;
+  }
+
+  .form {
+    max-width: 70.5rem;
+  }
+
+  .form-contents:has(.code-editor-wrapper) {
+    padding-left: 0;
   }
 }

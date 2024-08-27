@@ -5,7 +5,6 @@ import {
   Col,
   Form,
   Icon,
-  Notification,
   Row,
   useNotify,
 } from "@canonical/react-components";
@@ -82,6 +81,8 @@ import MigrationForm, {
   migrationPayload,
 } from "components/forms/MigrationForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import YamlSwitch from "components/forms/YamlSwitch";
+import YamlNotification from "components/forms/YamlNotification";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -110,7 +111,6 @@ const CreateInstance: FC = () => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [section, setSection] = useState(MAIN_CONFIGURATION);
-  const [isConfigOpen, setConfigOpen] = useState(false);
   const { hasInstanceCreateStart } = useSupportedFeatures();
 
   if (!project) {
@@ -260,7 +260,6 @@ const CreateInstance: FC = () => {
       : getPayload(values);
 
     if (hasNoRootDisk(values, profiles)) {
-      setConfigOpen(true);
       setSection(DISK_DEVICES);
       return;
     }
@@ -382,10 +381,6 @@ const CreateInstance: FC = () => {
     setSection(newItem);
   };
 
-  const toggleMenu = () => {
-    setConfigOpen((old) => !old);
-  };
-
   function getYaml() {
     if (
       location.state?.retryFormSection === YAML_CONFIGURATION &&
@@ -405,16 +400,15 @@ const CreateInstance: FC = () => {
   return (
     <BaseLayout title="Create an instance" contentClassName="create-instance">
       <Form onSubmit={formik.handleSubmit} className="form">
-        <InstanceFormMenu
-          active={section}
-          formik={formik}
-          setActive={updateSection}
-          isConfigDisabled={!formik.values.image}
-          isConfigOpen={!!formik.values.image && isConfigOpen}
-          toggleConfigOpen={toggleMenu}
-          hasDiskError={diskError || hasNoRootDisk(formik.values, profiles)}
-          hasNetworkError={networkError}
-        />
+        {section !== YAML_CONFIGURATION && (
+          <InstanceFormMenu
+            active={section}
+            setActive={updateSection}
+            isConfigDisabled={!formik.values.image}
+            hasDiskError={diskError || hasNoRootDisk(formik.values, profiles)}
+            hasNetworkError={networkError}
+          />
+        )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
             <NotificationRow />
@@ -453,23 +447,28 @@ const CreateInstance: FC = () => {
                 yaml={getYaml()}
                 setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
               >
-                <Notification severity="information" title="YAML Configuration">
-                  This is the YAML representation of the instance.
-                  <br />
-                  <a
-                    href={`${docBaseLink}/instances`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn more about instances
-                  </a>
-                </Notification>
+                <YamlNotification
+                  entity="instance"
+                  href={`${docBaseLink}/instances`}
+                />
               </YamlForm>
             )}
           </Col>
         </Row>
       </Form>
       <FormFooterLayout>
+        <div className="yaml-switch">
+          <YamlSwitch
+            formik={formik}
+            section={section}
+            setSection={updateSection}
+            disableReason={
+              formik.values.image
+                ? undefined
+                : "Please select an image before adding custom configuration"
+            }
+          />
+        </div>
         <Button
           appearance="base"
           onClick={() =>

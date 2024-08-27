@@ -4,7 +4,6 @@ import {
   Button,
   Col,
   Form,
-  Notification,
   Row,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -32,13 +31,13 @@ import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import EditInstanceDetails from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
   CLOUD_INIT,
+  DISK_DEVICES,
   MAIN_CONFIGURATION,
   MIGRATION,
   NETWORK_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
-  DISK_DEVICES,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
@@ -61,6 +60,8 @@ import { useDocs } from "context/useDocs";
 import MigrationForm, {
   MigrationFormValues,
 } from "components/forms/MigrationForm";
+import YamlSwitch from "components/forms/YamlSwitch";
+import YamlNotification from "components/forms/YamlNotification";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -95,7 +96,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
   }>();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [isConfigOpen, setConfigOpen] = useState(true);
   const [version, setVersion] = useState(0);
 
   if (!project) {
@@ -162,10 +162,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
       : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
 
-  const toggleMenu = () => {
-    setConfigOpen((old) => !old);
-  };
-
   const getYaml = () => {
     const exclude = new Set([
       "backups",
@@ -186,16 +182,15 @@ const EditInstance: FC<Props> = ({ instance }) => {
   return (
     <div className="edit-instance">
       <Form onSubmit={formik.handleSubmit} className="form">
-        <InstanceFormMenu
-          active={section ?? slugify(MAIN_CONFIGURATION)}
-          setActive={updateSection}
-          isConfigDisabled={false}
-          isConfigOpen={isConfigOpen}
-          toggleConfigOpen={toggleMenu}
-          hasDiskError={hasDiskError(formik)}
-          hasNetworkError={hasNetworkError(formik)}
-          formik={formik}
-        />
+        {section !== slugify(YAML_CONFIGURATION) && (
+          <InstanceFormMenu
+            active={section ?? slugify(MAIN_CONFIGURATION)}
+            setActive={updateSection}
+            isConfigDisabled={false}
+            hasDiskError={hasDiskError(formik)}
+            hasNetworkError={hasNetworkError(formik)}
+          />
+        )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
@@ -239,23 +234,21 @@ const EditInstance: FC<Props> = ({ instance }) => {
                   void formik.setFieldValue("yaml", yaml);
                 }}
               >
-                <Notification severity="information" title="YAML Configuration">
-                  This is the YAML representation of the instance.
-                  <br />
-                  <a
-                    href={`${docBaseLink}/instances`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn more about instances
-                  </a>
-                </Notification>
+                <YamlNotification
+                  entity="instance"
+                  href={`${docBaseLink}/instances`}
+                />
               </YamlForm>
             )}
           </Col>
         </Row>
       </Form>
       <FormFooterLayout>
+        <YamlSwitch
+          formik={formik}
+          section={section}
+          setSection={updateSection}
+        />
         {readOnly ? null : (
           <>
             <Button

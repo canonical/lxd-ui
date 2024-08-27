@@ -4,6 +4,10 @@
     max-width: 54rem !important;
   }
 
+  .form-contents:has(.code-editor-wrapper) > div {
+    max-width: initial !important;
+  }
+
   @media screen and (width <= 1420px) {
     .configuration-table {
       .configuration {

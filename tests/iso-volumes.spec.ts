@@ -69,7 +69,6 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   await page
     .locator(".u-align--right > .p-button--positive", { hasText: "Select" })
     .click();
-  await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Migration").click();
   await activateOverride(page, "Stateful migration");
   await page

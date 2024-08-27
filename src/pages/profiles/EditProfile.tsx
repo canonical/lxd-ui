@@ -35,11 +35,11 @@ import ProfileFormMenu, {
   DISK_DEVICES,
   MAIN_CONFIGURATION,
   MIGRATION,
+  NETWORK_DEVICES,
   RESOURCE_LIMITS,
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
-  NETWORK_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
@@ -59,6 +59,8 @@ import { getProfilePayload } from "util/profileEdit";
 import MigrationForm, {
   MigrationFormValues,
 } from "components/forms/MigrationForm";
+import YamlSwitch from "components/forms/YamlSwitch";
+import YamlNotification from "components/forms/YamlNotification";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -84,7 +86,6 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   }>();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [isConfigOpen, setConfigOpen] = useState(true);
   const [version, setVersion] = useState(0);
 
   if (!project) {
@@ -138,10 +139,6 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
       : navigate(`${baseUrl}/${slugify(newSection)}`);
   };
 
-  const toggleMenu = () => {
-    setConfigOpen((old) => !old);
-  };
-
   const getYaml = () => {
     const exclude = new Set(["used_by", "etag"]);
     const profilePayload = getProfilePayload(profile, formik.values);
@@ -167,14 +164,14 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
         </Notification>
       )}
       <Form onSubmit={formik.handleSubmit} className="form">
-        <ProfileFormMenu
-          active={section ?? slugify(MAIN_CONFIGURATION)}
-          setActive={updateSection}
-          isConfigOpen={isConfigOpen}
-          toggleConfigOpen={toggleMenu}
-          hasName={true}
-          formik={formik}
-        />
+        {section !== slugify(YAML_CONFIGURATION) && (
+          <ProfileFormMenu
+            active={section ?? slugify(MAIN_CONFIGURATION)}
+            setActive={updateSection}
+            hasName={true}
+            formik={formik}
+          />
+        )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
@@ -218,23 +215,21 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
                   void formik.setFieldValue("yaml", yaml);
                 }}
               >
-                <Notification severity="information" title="YAML Configuration">
-                  This is the YAML representation of the profile.
-                  <br />
-                  <a
-                    href={`${docBaseLink}/profiles`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn more about profiles
-                  </a>
-                </Notification>
+                <YamlNotification
+                  entity="profile"
+                  href={`${docBaseLink}/profiles`}
+                />
               </YamlForm>
             )}
           </Col>
         </Row>
       </Form>
       <FormFooterLayout>
+        <YamlSwitch
+          formik={formik}
+          section={section}
+          setSection={updateSection}
+        />
         {readOnly ? null : (
           <>
             <Button

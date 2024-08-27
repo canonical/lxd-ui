@@ -1,12 +1,5 @@
-import { FC, ReactNode, useEffect, useState } from "react";
-import {
-  Col,
-  Form,
-  Input,
-  Notification,
-  Row,
-  useNotify,
-} from "@canonical/react-components";
+import { FC, useEffect } from "react";
+import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
 import {
   LxdNetwork,
   LxdNetworkBridgeDriver,
@@ -34,9 +27,9 @@ import NetworkFormIpv4 from "pages/networks/forms/NetworkFormIpv4";
 import NetworkFormIpv6 from "pages/networks/forms/NetworkFormIpv6";
 import { slugify } from "util/slugify";
 import { useDocs } from "context/useDocs";
-import YamlConfirmation from "components/forms/YamlConfirmation";
 import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
+import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/instanceEdit";
 
 export interface NetworkFormValues {
@@ -171,7 +164,6 @@ const NetworkForm: FC<Props> = ({
   setSection,
   version = 0,
 }) => {
-  const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
   const docBaseLink = useDocs();
   const notify = useNotify();
 
@@ -181,35 +173,17 @@ const NetworkForm: FC<Props> = ({
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
-  const handleSetActive = (val: string) => {
-    if (Boolean(formik.values.yaml) && val !== YAML_CONFIGURATION) {
-      const handleConfirm = () => {
-        void formik.setFieldValue("yaml", undefined);
-        setConfirmModal(null);
-        setSection(val);
-      };
-
-      setConfirmModal(
-        <YamlConfirmation
-          onConfirm={handleConfirm}
-          close={() => setConfirmModal(null)}
-        />,
-      );
-    } else {
-      setSection(val);
-    }
-  };
-
   return (
     <Form className="form network-form" onSubmit={formik.handleSubmit}>
-      {confirmModal}
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
-      <NetworkFormMenu
-        active={section}
-        setActive={handleSetActive}
-        formik={formik}
-      />
+      {section !== slugify(YAML_CONFIGURATION) && (
+        <NetworkFormMenu
+          active={section}
+          setActive={setSection}
+          formik={formik}
+        />
+      )}
       <Row className="form-contents" key={section}>
         <Col size={12}>
           {section === slugify(MAIN_CONFIGURATION) && (
@@ -229,17 +203,10 @@ const NetworkForm: FC<Props> = ({
                 void formik.setFieldValue("yaml", yaml);
               }}
             >
-              <Notification severity="information" title="YAML Configuration">
-                This is the YAML representation of the network.
-                <br />
-                <a
-                  href={`${docBaseLink}/explanation/networks/#managed-networks`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn more about networks
-                </a>
-              </Notification>
+              <YamlNotification
+                entity="network"
+                href={`${docBaseLink}/explanation/networks/#managed-networks`}
+              />
             </YamlForm>
           )}
         </Col>

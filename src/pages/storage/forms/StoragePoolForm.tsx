@@ -1,11 +1,11 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import {
+  Col,
   Form,
   Input,
-  Row,
-  Col,
-  useNotify,
   Notification,
+  Row,
+  useNotify,
 } from "@canonical/react-components";
 import { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
@@ -31,7 +31,6 @@ import { slugify } from "util/slugify";
 import YamlForm from "components/forms/YamlForm";
 import { dump as dumpYaml } from "js-yaml";
 import { handleConfigKeys } from "util/storagePoolForm";
-import YamlConfirmation from "components/forms/YamlConfirmation";
 import { useDocs } from "context/useDocs";
 import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
@@ -165,7 +164,6 @@ const StoragePoolForm: FC<Props> = ({
   setSection,
   version = 0,
 }) => {
-  const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
   const docBaseLink = useDocs();
   const { data: settings } = useSettings();
   const notify = useNotify();
@@ -178,25 +176,6 @@ const StoragePoolForm: FC<Props> = ({
 
   const getYaml = () => dumpYaml(toStoragePool(formik.values));
 
-  const handleSetActive = (val: string) => {
-    if (Boolean(formik.values.yaml) && val !== YAML_CONFIGURATION) {
-      const handleConfirm = () => {
-        void formik.setFieldValue("yaml", undefined);
-        setConfirmModal(null);
-        setSection(val);
-      };
-
-      setConfirmModal(
-        <YamlConfirmation
-          onConfirm={handleConfirm}
-          close={() => setConfirmModal(null)}
-        />,
-      );
-    } else {
-      setSection(val);
-    }
-  };
-
   const supportedStorageDrivers = getSupportedStorageDrivers(settings);
   const isSupportedStorageDriver = supportedStorageDrivers.has(
     formik.values.driver,
@@ -204,15 +183,16 @@ const StoragePoolForm: FC<Props> = ({
 
   return (
     <Form className="form storage-pool-form" onSubmit={formik.handleSubmit}>
-      {confirmModal}
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
-      <StoragePoolFormMenu
-        active={section}
-        setActive={handleSetActive}
-        formik={formik}
-        isSupportedStorageDriver={isSupportedStorageDriver}
-      />
+      {section !== slugify(YAML_CONFIGURATION) && (
+        <StoragePoolFormMenu
+          active={section}
+          setActive={setSection}
+          formik={formik}
+          isSupportedStorageDriver={isSupportedStorageDriver}
+        />
+      )}
       <Row className="form-contents" key={section}>
         <Col size={12}>
           {section === slugify(MAIN_CONFIGURATION) && (

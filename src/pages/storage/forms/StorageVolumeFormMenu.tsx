@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { Button, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik/dist/types";
@@ -19,7 +19,6 @@ interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
   poolDriver: string;
   contentType: LxdStorageVolumeContentType;
-  isCreating: boolean;
 }
 
 const StorageVolumeFormMenu: FC<Props> = ({
@@ -28,10 +27,8 @@ const StorageVolumeFormMenu: FC<Props> = ({
   formik,
   poolDriver,
   contentType,
-  isCreating,
 }) => {
   const notify = useNotify();
-  const [isAdvancedOpen, setAdvancedOpen] = useState(!isCreating);
   const menuItemProps = {
     active,
     setActive,
@@ -52,47 +49,26 @@ const StorageVolumeFormMenu: FC<Props> = ({
       <nav aria-label="Storage volume form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
-          <li className="p-side-navigation__item">
-            <Button
-              type="button"
-              className="p-side-navigation__accordion-button"
-              aria-expanded={
-                !disableReason && isAdvancedOpen ? "true" : "false"
-              }
-              onClick={() => setAdvancedOpen(!isAdvancedOpen)}
-              disabled={Boolean(disableReason)}
-              title={disableReason}
-            >
-              Advanced
-            </Button>
-            <ul
-              className="p-side-navigation__list"
-              aria-expanded={
-                !disableReason && isAdvancedOpen ? "true" : "false"
-              }
-            >
+          <MenuItem
+            label={SNAPSHOTS}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
+          {contentType === "filesystem" &&
+            driversWithFilesystemSupport.includes(poolDriver) && (
               <MenuItem
-                label={SNAPSHOTS}
+                label={FILESYSTEM}
                 {...menuItemProps}
                 disableReason={disableReason}
               />
-              {contentType === "filesystem" &&
-                driversWithFilesystemSupport.includes(poolDriver) && (
-                  <MenuItem
-                    label={FILESYSTEM}
-                    {...menuItemProps}
-                    disableReason={disableReason}
-                  />
-                )}
-              {poolDriver === zfsDriver && (
-                <MenuItem
-                  label={ZFS}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
-            </ul>
-          </li>
+            )}
+          {poolDriver === zfsDriver && (
+            <MenuItem
+              label={ZFS}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
         </ul>
       </nav>
     </div>
