@@ -290,3 +290,11 @@ export const getClientOS = (userAgent: string) => {
 
   return null;
 };
+
+export const getFileExtension = (filename: string): string => {
+  if (!filename.includes(".")) {
+    return "";
+  }
+
+  return `.${filename.split(".").pop()}` || "";
+};

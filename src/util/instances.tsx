@@ -2,7 +2,11 @@ import { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
 import InstanceLink from "pages/instances/InstanceLink";
 import { ReactNode } from "react";
-import { AbortControllerState, checkDuplicateName } from "./helpers";
+import {
+  AbortControllerState,
+  checkDuplicateName,
+  getFileExtension,
+} from "./helpers";
 import * as Yup from "yup";
 
 export const instanceLinkFromName = (args: {
@@ -62,4 +66,19 @@ export const truncateInstanceName = (
   }
 
   return name + suffix;
+};
+
+export const sanitizeInstanceName = (name: string): string => {
+  return name.replace(/[^A-Za-z0-9-]/g, "-");
+};
+
+export const fileToInstanceName = (
+  fileName: string,
+  suffix?: string,
+): string => {
+  const fileExtension = getFileExtension(fileName);
+  fileName = fileExtension ? fileName.replace(fileExtension, "") : fileName;
+  const sanitisedFileName = sanitizeInstanceName(fileName);
+  const instanceName = truncateInstanceName(sanitisedFileName, suffix);
+  return instanceName;
 };

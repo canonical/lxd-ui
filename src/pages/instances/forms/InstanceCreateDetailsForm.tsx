@@ -24,7 +24,7 @@ import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import UploadInstanceBtn from "pages/instances/actions/UploadInstanceBtn";
+import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
 
 export interface InstanceDetailsFormValues {
   name?: string;
@@ -143,7 +143,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                 {hasCustomVolumeIso && (
                   <UseCustomIsoBtn onSelect={onSelectImage} />
                 )}
-                <UploadInstanceBtn />
+                <UploadInstanceFileBtn />
               </>
             )}
           </div>
