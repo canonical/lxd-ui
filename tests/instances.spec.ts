@@ -224,3 +224,15 @@ test("instance yaml edit", async ({ page }) => {
   await page.getByText("Main configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
 });
+
+test("Duplicate an instance", async ({ page }) => {
+  await visitInstance(page, instance);
+  await page.getByRole("button", { name: "Duplicate" }).click();
+  await page
+    .getByRole("dialog", { name: "Duplicate Instance" })
+    .getByRole("button", { name: "Duplicate" })
+    .click();
+
+  await page.waitForSelector(`text=Created instance ${instance}-duplicate.`);
+  await deleteInstance(page, `${instance}-duplicate`);
+});
