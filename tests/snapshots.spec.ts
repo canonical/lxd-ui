@@ -76,7 +76,6 @@ test("publish image from instance snapshot in custom project", async ({
   await createInstanceSnapshot(page, instance, snapshot, project);
   await createImageFromSnapshot(page, snapshot);
 
-  await deleteInstanceSnapshot(page, snapshot);
   await deleteInstance(page, instance, project);
   await deleteAllImages(page, project);
   await deleteProject(page, project);
