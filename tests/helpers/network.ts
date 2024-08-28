@@ -59,11 +59,6 @@ export const prepareNetworkTabEdit = async (
 
 export const visitNetworkConfiguration = async (page: Page, tab: string) => {
   await page
-    .getByRole("button", {
-      name: "Advanced",
-    })
-    .click();
-  await page
     .getByLabel("Network form navigation")
     .getByText(tab, { exact: true })
     .click();

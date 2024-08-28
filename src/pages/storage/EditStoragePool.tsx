@@ -28,6 +28,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
 import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
+import YamlSwitch from "components/forms/YamlSwitch";
 
 interface Props {
   pool: LxdStoragePool;
@@ -120,6 +121,11 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
         version={version}
       />
       <FormFooterLayout>
+        <YamlSwitch
+          formik={formik}
+          section={section}
+          setSection={updateSection}
+        />
         {formik.values.readOnly ? null : (
           <>
             <Button

@@ -77,11 +77,6 @@ const StoragePoolFormMenu: FC<Props> = ({
               disableReason={disableReason}
             />
           )}
-          <MenuItem
-            label={YAML_CONFIGURATION}
-            {...menuItemProps}
-            disableReason={disableReason}
-          />
         </ul>
       </nav>
     </div>

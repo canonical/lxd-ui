@@ -24,6 +24,7 @@ import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
 import { LxdStoragePool } from "types/storage";
+import YamlSwitch from "components/forms/YamlSwitch";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -98,6 +99,18 @@ const CreateStoragePool: FC = () => {
         setSection={updateSection}
       />
       <FormFooterLayout>
+        <div className="yaml-switch">
+          <YamlSwitch
+            formik={formik}
+            section={section}
+            setSection={updateSection}
+            disableReason={
+              formik.values.name
+                ? undefined
+                : "Please enter a storage pool name to enable this section"
+            }
+          />
+        </div>
         <Button
           appearance="base"
           onClick={() => navigate(`/ui/project/${project}/storage/pools`)}

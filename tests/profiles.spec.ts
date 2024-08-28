@@ -157,6 +157,7 @@ test("profile cloud init", async ({ page }) => {
 test("profile yaml edit", async ({ page }) => {
   await editProfile(page, profile);
   await page.getByText("YAML configuration").click();
+  await page.getByRole("button", { name: "Close notification" }).click();
 
   await page.locator(".view-lines").click();
   await page.keyboard.press("Control+a");
@@ -166,6 +167,6 @@ devices: {}
 name: ${profile}`);
   await saveProfile(page, profile);
 
-  await page.getByText("Main configuration").click();
+  await page.locator("#form-footer").getByText("YAML Configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
 });

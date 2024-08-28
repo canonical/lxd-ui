@@ -179,7 +179,6 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
         formik={formik}
         poolDriver={poolDriver}
         contentType={formik.values.content_type}
-        isCreating={formik.values.isCreating}
       />
       <Row className="form-contents">
         <Col size={12}>

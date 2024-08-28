@@ -214,6 +214,8 @@ test("instance yaml edit", async ({ page }) => {
   test.skip(Boolean(process.env.CI), "github runners lack vm support");
   await editInstance(page, vmInstance);
   await page.getByText("YAML configuration").click();
+  await page.getByRole("button", { name: "Close notification" }).click();
+
   await page.locator(".view-lines").click();
   await page.getByText("description: ''").click();
   await page.keyboard.press("End");
@@ -221,7 +223,7 @@ test("instance yaml edit", async ({ page }) => {
   await page.keyboard.type("A-new-description");
   await saveInstance(page, vmInstance);
 
-  await page.getByText("Main configuration").click();
+  await page.getByText("YAML Configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
 });
 

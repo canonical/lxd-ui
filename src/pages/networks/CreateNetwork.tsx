@@ -23,6 +23,7 @@ import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import YamlSwitch from "components/forms/YamlSwitch";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -119,6 +120,18 @@ const CreateNetwork: FC = () => {
         setSection={updateSection}
       />
       <FormFooterLayout>
+        <div className="yaml-switch">
+          <YamlSwitch
+            formik={formik}
+            section={section}
+            setSection={updateSection}
+            disableReason={
+              formik.values.name
+                ? undefined
+                : "Please enter a network name to enable this section"
+            }
+          />
+        </div>
         <Button
           appearance="base"
           onClick={() => navigate(`/ui/project/${project}/networks`)}

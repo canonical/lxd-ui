@@ -3,4 +3,8 @@
     margin-left: 0;
     max-width: 54rem !important;
   }
+
+  .form-contents:has(.code-editor-wrapper) > div {
+    max-width: initial !important;
+  }
 }

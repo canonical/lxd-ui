@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { Button, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik/dist/types";
@@ -22,7 +22,6 @@ interface Props {
 
 const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
   const notify = useNotify();
-  const [isAdvancedOpen, setAdvancedOpen] = useState(!formik.values.isCreating);
   const menuItemProps = {
     active,
     setActive,
@@ -50,65 +49,39 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
       <nav aria-label="Network form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
-          <li className="p-side-navigation__item">
-            <Button
-              type="button"
-              className="p-side-navigation__accordion-button"
-              aria-expanded={
-                !disableReason && isAdvancedOpen ? "true" : "false"
-              }
-              onClick={() => setAdvancedOpen(!isAdvancedOpen)}
-              disabled={Boolean(disableReason)}
-              title={disableReason}
-            >
-              Advanced
-            </Button>
-            <ul
-              className="p-side-navigation__list"
-              aria-expanded={
-                !disableReason && isAdvancedOpen ? "true" : "false"
-              }
-            >
-              {formik.values.networkType !== "physical" && (
-                <MenuItem
-                  label={BRIDGE}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
-              <MenuItem
-                label={DNS}
-                {...menuItemProps}
-                disableReason={disableReason}
-              />
-              {formik.values.ipv4_address !== "none" && (
-                <MenuItem
-                  label={IPV4}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
-              {formik.values.ipv6_address !== "none" && (
-                <MenuItem
-                  label={IPV6}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
-              {formik.values.networkType === "physical" && (
-                <MenuItem
-                  label={OVN}
-                  {...menuItemProps}
-                  disableReason={disableReason}
-                />
-              )}
-            </ul>
-          </li>
+          {formik.values.networkType !== "physical" && (
+            <MenuItem
+              label={BRIDGE}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
           <MenuItem
-            label={YAML_CONFIGURATION}
+            label={DNS}
             {...menuItemProps}
             disableReason={disableReason}
           />
+          {formik.values.ipv4_address !== "none" && (
+            <MenuItem
+              label={IPV4}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {formik.values.ipv6_address !== "none" && (
+            <MenuItem
+              label={IPV6}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {formik.values.networkType === "physical" && (
+            <MenuItem
+              label={OVN}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
         </ul>
       </nav>
     </div>

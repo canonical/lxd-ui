@@ -9,7 +9,8 @@ interface Props {
 const YamlConfirmation: FC<Props> = ({ onConfirm, close }) => {
   return (
     <ConfirmationModal
-      confirmButtonLabel="Discard changes"
+      confirmButtonLabel="Leave without saving"
+      cancelButtonLabel="Continue editing"
       onConfirm={onConfirm}
       close={close}
       title="Confirm"

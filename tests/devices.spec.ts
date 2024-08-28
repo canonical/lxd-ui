@@ -26,7 +26,6 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   const instanceVolume = randomVolumeName();
 
   await startProfileCreation(page, profile);
-  await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Disk devices").click();
   await attachVolume(page, profileVolume, "/foo");
   await finishProfileCreation(page, profile);
@@ -55,7 +54,6 @@ test("profile edit custom volumes", async ({ page }) => {
   const volume = randomVolumeName();
 
   await startProfileCreation(page, profile);
-  await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Disk devices").click();
   await page.getByRole("button", { name: "Create override" }).click();
   await page.getByPlaceholder("Enter value").fill("3");
@@ -87,7 +85,6 @@ test("profile edit networks", async ({ page }) => {
   const profile = randomProfileName();
 
   await startProfileCreation(page, profile);
-  await page.getByRole("button", { name: "Advanced" }).click();
   await page.getByText("Network devices").click();
   await page.getByRole("button", { name: "Attach network" }).click();
   await page.getByPlaceholder("Enter name").fill("eth0");
