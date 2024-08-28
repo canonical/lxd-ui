@@ -3,6 +3,14 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+        silenceDeprecations: ["mixed-decls"],
+      },
+    },
+  },
   plugins: [tsconfigPaths(), react()],
   server: {
     port: 3000,
