@@ -8,7 +8,6 @@ import {
   createNetwork,
   createNetworkForward,
   deleteNetwork,
-  editNetwork,
   prepareNetworkTabEdit,
   randomNetworkName,
   visitNetwork,
@@ -40,7 +39,6 @@ test.describe("bridge type", () => {
 
   test("configure main bridge network settings", async ({ page }) => {
     await visitNetwork(page, network);
-    await editNetwork(page);
 
     const DESCRIPTION = "A-new-description";
     await page.getByPlaceholder("Enter description").fill(DESCRIPTION);

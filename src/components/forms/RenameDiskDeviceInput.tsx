@@ -5,25 +5,10 @@ interface Props {
   name: string;
   index: number;
   setName: (val: string) => void;
-  readOnly: boolean;
 }
 
-const RenameDiskDeviceInput: FC<Props> = ({
-  name,
-  index,
-  setName,
-  readOnly,
-}) => {
+const RenameDiskDeviceInput: FC<Props> = ({ name, index, setName }) => {
   const [isEditing, setEditing] = useState(false);
-
-  if (readOnly) {
-    return (
-      <div className="rename-disk-device device-name">
-        <b>{name}</b>
-      </div>
-    );
-  }
-
   return (
     <div className="rename-disk-device device-name">
       {isEditing ? (

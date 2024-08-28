@@ -38,6 +38,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const { section } = useParams<{ section?: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const [version, setVersion] = useState(0);
 
   if (!network?.managed) {
     return (
@@ -118,20 +119,17 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         project={project}
         section={section ?? slugify(MAIN_CONFIGURATION)}
         setSection={setSection}
+        version={version}
       />
       <FormFooterLayout>
-        {readOnly ? (
-          <Button
-            appearance="positive"
-            onClick={() => void formik.setFieldValue("readOnly", false)}
-          >
-            Edit network
-          </Button>
-        ) : (
+        {readOnly ? null : (
           <>
             <Button
               appearance="base"
-              onClick={() => formik.setValues(toNetworkFormValues(network))}
+              onClick={() => {
+                setVersion((old) => old + 1);
+                void formik.setValues(toNetworkFormValues(network));
+              }}
             >
               Cancel
             </Button>

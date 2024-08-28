@@ -37,6 +37,7 @@ import StoragePoolFormCeph from "./StoragePoolFormCeph";
 import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
 import { useSettings } from "context/useSettings";
+import { ensureEditMode } from "util/instanceEdit";
 
 export interface StoragePoolFormValues {
   isCreating: boolean;
@@ -72,6 +73,7 @@ interface Props {
   formik: FormikProps<StoragePoolFormValues>;
   section: string;
   setSection: (section: string) => void;
+  version?: number;
 }
 
 export const toStoragePool = (
@@ -157,7 +159,12 @@ export const toStoragePool = (
   };
 };
 
-const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
+const StoragePoolForm: FC<Props> = ({
+  formik,
+  section,
+  setSection,
+  version = 0,
+}) => {
   const [confirmModal, setConfirmModal] = useState<ReactNode | null>(null);
   const docBaseLink = useDocs();
   const { data: settings } = useSettings();
@@ -222,10 +229,12 @@ const StoragePoolForm: FC<Props> = ({ formik, section, setSection }) => {
           )}
           {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm
-              key={`yaml-form-${formik.values.readOnly}`}
+              key={`yaml-form-${version}`}
               yaml={getYaml()}
-              setYaml={(yaml) => void formik.setFieldValue("yaml", yaml)}
-              readOnly={formik.values.readOnly}
+              setYaml={(yaml) => {
+                ensureEditMode(formik);
+                void formik.setFieldValue("yaml", yaml);
+              }}
             >
               <Notification severity="information" title="YAML Configuration">
                 {`${isSupportedStorageDriver ? "" : `The ${formik.values.driver} driver is not fully supported in the web interface. `}This is the YAML representation of the storage pool.`}

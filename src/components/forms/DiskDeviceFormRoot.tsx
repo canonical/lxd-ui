@@ -13,6 +13,7 @@ import { LxdStoragePool } from "types/storage";
 import { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk } from "util/instanceValidation";
+import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -64,33 +65,37 @@ const DiskDeviceFormRoot: FC<Props> = ({
             className: "override-with-form",
             configuration: <b className="device-name">Root storage</b>,
             inherited: "",
-            override:
-              !readOnly &&
-              (hasRootStorage ? (
-                <div>
-                  <Button
-                    onClick={() => removeDevice(rootIndex, formik)}
-                    type="button"
-                    appearance="base"
-                    title="Clear override"
-                    hasIcon
-                    className="u-no-margin--bottom"
-                  >
-                    <Icon name="close" className="clear-configuration-icon" />
-                  </Button>
-                </div>
-              ) : (
+            override: hasRootStorage ? (
+              <div>
                 <Button
-                  onClick={addRootStorage}
+                  onClick={() => {
+                    ensureEditMode(formik);
+                    removeDevice(rootIndex, formik);
+                  }}
                   type="button"
                   appearance="base"
-                  title="Create override"
-                  className="u-no-margin--bottom"
+                  title="Clear override"
                   hasIcon
+                  className="u-no-margin--bottom"
                 >
-                  <Icon name="edit" />
+                  <Icon name="close" className="clear-configuration-icon" />
                 </Button>
-              )),
+              </div>
+            ) : (
+              <Button
+                onClick={() => {
+                  ensureEditMode(formik);
+                  addRootStorage();
+                }}
+                type="button"
+                appearance="base"
+                title="Create override"
+                className="u-no-margin--bottom"
+                hasIcon
+              >
+                <Icon name="edit" />
+              </Button>
+            ),
           }),
 
           getDiskDeviceRow({

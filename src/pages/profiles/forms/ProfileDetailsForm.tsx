@@ -4,6 +4,7 @@ import { FormikProps } from "formik/dist/types";
 import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
+import { ensureEditMode } from "util/instanceEdit";
 
 export interface ProfileDetailsFormValues {
   name: string;
@@ -25,7 +26,6 @@ interface Props {
 }
 
 const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
-  const readOnly = formik.values.readOnly;
   const isDefaultProfile = formik.values.name === "default";
 
   return (
@@ -56,9 +56,13 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             label="Description"
             placeholder="Enter description"
             onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              if (isEdit) {
+                ensureEditMode(formik);
+              }
+              formik.handleChange(e);
+            }}
             value={formik.values.description}
-            disabled={readOnly}
             dynamicHeight
           />
         </Col>

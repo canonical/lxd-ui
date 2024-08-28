@@ -44,16 +44,6 @@ export const visitNetwork = async (page: Page, network: string) => {
   await page.getByTestId("tab-link-Configuration").click();
 };
 
-export const saveNetwork = async (page: Page, network: string) => {
-  await page.getByRole("button", { name: "Save changes" }).click();
-  await page.waitForSelector(`text=Network ${network} updated.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
-};
-
-export const editNetwork = async (page: Page) => {
-  await page.getByRole("button", { name: "Edit network" }).click();
-};
-
 export const prepareNetworkTabEdit = async (
   page: Page,
   tabLocation: string,
@@ -64,7 +54,6 @@ export const prepareNetworkTabEdit = async (
     .getByLabel("Network form navigation")
     .getByText(tabLocation)
     .click();
-  await editNetwork(page);
   await activateAllTableOverrides(page);
 };
 
@@ -84,7 +73,7 @@ export const visitNetworkConfiguration = async (page: Page, tab: string) => {
 export const createNetworkForward = async (page: Page, network: string) => {
   await createNetwork(page, network);
   await visitNetwork(page, network);
-  await editNetwork(page);
+  await page.getByRole("gridcell", { name: "/24" }).getByRole("button").click();
 
   const networkSubnet = await page.inputValue("input#ipv4_address");
 

@@ -102,16 +102,7 @@ const EditProject: FC<Props> = ({ project }) => {
       />
       {!isRestricted && (
         <FormFooterLayout>
-          {formik.values.readOnly ? (
-            <>
-              <Button
-                appearance="positive"
-                onClick={() => void formik.setFieldValue("readOnly", false)}
-              >
-                Edit configuration
-              </Button>
-            </>
-          ) : (
+          {formik.values.readOnly ? null : (
             <>
               <Button
                 appearance="base"

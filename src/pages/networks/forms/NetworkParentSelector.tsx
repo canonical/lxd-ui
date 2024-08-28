@@ -7,11 +7,10 @@ import { fetchNetworks } from "api/networks";
 import { useParams } from "react-router-dom";
 
 interface Props {
-  isDisabled: boolean;
   props?: Record<string, unknown>;
 }
 
-const NetworkParentSelector: FC<Props> = ({ isDisabled, props }) => {
+const NetworkParentSelector: FC<Props> = ({ props }) => {
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -44,7 +43,6 @@ const NetworkParentSelector: FC<Props> = ({ isDisabled, props }) => {
     <Select
       label="Parent"
       help="Existing interface to use for network"
-      disabled={isDisabled}
       options={options}
       required
       {...props}

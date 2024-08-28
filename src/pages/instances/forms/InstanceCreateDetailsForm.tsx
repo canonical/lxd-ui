@@ -7,7 +7,7 @@ import {
   Row,
   Select,
 } from "@canonical/react-components";
-import ProfileSelect from "pages/profiles/ProfileSelector";
+import ProfileSelector from "pages/profiles/ProfileSelector";
 import SelectImageBtn from "pages/images/actions/SelectImageBtn";
 import {
   isContainerOnlyImage,
@@ -170,7 +170,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
           <InstanceLocationSelect formik={formik} />
         </Col>
       </Row>
-      <ProfileSelect
+      <ProfileSelector
         project={project}
         selected={formik.values.profiles}
         setSelected={(value) => void formik.setFieldValue("profiles", value)}

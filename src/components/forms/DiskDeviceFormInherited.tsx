@@ -10,6 +10,7 @@ import { MainTableRow } from "@canonical/react-components/dist/components/MainTa
 import classnames from "classnames";
 import { removeDevice } from "util/formDevices";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
+import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -53,23 +54,27 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           </div>
         ),
         inherited: "",
-        override: readOnly ? (
-          isNoneDevice ? (
-            <>Detached</>
-          ) : null
-        ) : isNoneDevice ? (
+        override: isNoneDevice ? (
           <Button
             appearance="base"
             type="button"
             title="Reattach volume"
-            onClick={() => removeDevice(noneDeviceId, formik)}
+            onClick={() => {
+              ensureEditMode(formik);
+              removeDevice(noneDeviceId, formik);
+            }}
             className="has-icon u-no-margin--bottom"
           >
             <Icon name="connected"></Icon>
             <span>Reattach</span>
           </Button>
         ) : (
-          <DetachDiskDeviceBtn onDetach={() => addNoneDevice(item.key)} />
+          <DetachDiskDeviceBtn
+            onDetach={() => {
+              ensureEditMode(formik);
+              addNoneDevice(item.key);
+            }}
+          />
         ),
       }),
     );

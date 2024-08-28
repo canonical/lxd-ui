@@ -9,16 +9,11 @@ import { fetchProject } from "api/projects";
 const UPLINK_NETWORK_TYPES = ["bridge", "physical"];
 
 interface Props {
-  isDisabled: boolean;
   project: string;
   props?: Record<string, unknown>;
 }
 
-const UplinkSelector: FC<Props> = ({
-  isDisabled,
-  project: projectName,
-  props,
-}) => {
+const UplinkSelector: FC<Props> = ({ project: projectName, props }) => {
   const { data: networks = [], isLoading: isNetworkLoading } = useQuery({
     queryKey: [queryKeys.networks, "default"],
     queryFn: () => fetchNetworks("default"),
@@ -54,7 +49,6 @@ const UplinkSelector: FC<Props> = ({
     <Select
       label="Uplink"
       help="Uplink network to use for external network access"
-      disabled={isDisabled}
       options={options}
       required
       {...props}

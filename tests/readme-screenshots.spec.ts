@@ -36,7 +36,6 @@ test("instance list screen", async ({ page }) => {
   await createProject(page, project);
   await visitProfile(page, "default", project);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByRole("button", { name: "Edit profile" }).click();
   await page.getByText("Disk devices").click();
   await page.getByRole("button", { name: "Create override" }).click();
   await page.getByRole("button", { name: "Save changes" }).click();

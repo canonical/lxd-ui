@@ -14,6 +14,7 @@ import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { getConfigRowMetadata } from "util/configInheritance";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import { ensureEditMode } from "util/instanceEdit";
 
 export type ConfigurationRowFormikValues =
   | InstanceAndProfileFormValues
@@ -22,7 +23,7 @@ export type ConfigurationRowFormikValues =
   | ProjectFormValues
   | StoragePoolFormValues;
 
-type ConfigurationRowFormikProps =
+export type ConfigurationRowFormikProps =
   | InstanceAndProfileFormikProps
   | FormikProps<NetworkFormValues>
   | FormikProps<ProjectFormValues>
@@ -60,12 +61,20 @@ export const getConfigurationRow = ({
   const overrideValue = readOnlyRenderer(value === "" ? "-" : value);
   const metadata = getConfigRowMetadata(formik.values, name);
 
+  const enableOverride = () => {
+    void formik.setFieldValue(name, defaultValue);
+  };
+
+  const focusOverride = () => {
+    setTimeout(() => document.getElementById(name)?.focus(), 100);
+  };
+
   const toggleDefault = () => {
     if (isOverridden) {
       void formik.setFieldValue(name, undefined);
     } else {
-      void formik.setFieldValue(name, defaultValue);
-      setTimeout(() => document.getElementById(name)?.focus(), 100);
+      enableOverride();
+      focusOverride();
     }
   };
 
@@ -132,7 +141,29 @@ export const getConfigurationRow = ({
 
   const renderOverride = (): ReactNode => {
     if (formik.values.readOnly) {
-      return overrideValue;
+      return (
+        <>
+          {overrideValue}
+          {!disabled && (
+            <Button
+              onClick={() => {
+                ensureEditMode(formik);
+                if (!isOverridden) {
+                  enableOverride();
+                }
+                focusOverride();
+              }}
+              className="u-no-margin--bottom"
+              type="button"
+              appearance="base"
+              title={isOverridden ? "Edit" : "Create override"}
+              hasIcon
+            >
+              <Icon name="edit" />
+            </Button>
+          )}
+        </>
+      );
     }
     if (isOverridden) {
       return getForm();

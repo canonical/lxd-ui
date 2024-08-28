@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Icon, Input, Label } from "@canonical/react-components";
+import React, { FC } from "react";
+import { Button, Icon, Input, Label } from "@canonical/react-components";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { InheritedVolume } from "util/configInheritance";
@@ -13,6 +13,7 @@ import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
 import { LxdStorageVolume } from "types/storage";
 import { isDiskDeviceMountPointMissing } from "util/instanceValidation";
+import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -30,6 +31,10 @@ const DiskDeviceFormCustom: FC<Props> = ({
     .filter((device) => device.name !== "root" && device.type === "disk")
     .map((device) => device as FormDiskDevice);
 
+  const focusField = (name: string) => {
+    setTimeout(() => document.getElementById(name)?.focus(), 100);
+  };
+
   const addVolume = (volume: LxdStorageVolume) => {
     const copy = [...formik.values.devices];
     copy.push({
@@ -42,7 +47,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
     void formik.setFieldValue("devices", copy);
 
     const name = `devices.${copy.length - 1}.path`;
-    setTimeout(() => document.getElementById(name)?.focus(), 100);
+    focusField(name);
   };
 
   const changeVolume = (
@@ -71,6 +76,22 @@ const DiskDeviceFormCustom: FC<Props> = ({
     return candidate;
   };
 
+  const editButton = (fieldName: string) => (
+    <Button
+      appearance="base"
+      className="u-no-margin--bottom"
+      hasIcon
+      dense
+      title="Edit"
+      onClick={() => {
+        ensureEditMode(formik);
+        focusField(fieldName);
+      }}
+    >
+      <Icon name="edit" />
+    </Button>
+  );
+
   const rows: MainTableRow[] = [];
 
   customVolumes.map((formVolume) => {
@@ -83,15 +104,20 @@ const DiskDeviceFormCustom: FC<Props> = ({
           <RenameDiskDeviceInput
             name={formVolume.name}
             index={index}
-            readOnly={readOnly}
-            setName={(name) =>
-              void formik.setFieldValue(`devices.${index}.name`, name)
-            }
+            setName={(name) => {
+              ensureEditMode(formik);
+              void formik.setFieldValue(`devices.${index}.name`, name);
+            }}
           />
         ),
         inherited: "",
-        override: !readOnly && (
-          <DetachDiskDeviceBtn onDetach={() => removeDevice(index, formik)} />
+        override: (
+          <DetachDiskDeviceBtn
+            onDetach={() => {
+              ensureEditMode(formik);
+              removeDevice(index, formik);
+            }}
+          />
         ),
       }),
     );
@@ -105,33 +131,29 @@ const DiskDeviceFormCustom: FC<Props> = ({
         inherited: (
           <div className="custom-disk-volume-source">
             <div
-              className={classnames("mono-font", {
-                "u-truncate": !formik.values.readOnly,
-              })}
-              title={
-                formik.values.readOnly
-                  ? undefined
-                  : `${formVolume.pool} / ${formVolume.source ?? ""}`
-              }
+              className={classnames("mono-font", "u-truncate")}
+              title={`${formVolume.pool} / ${formVolume.source ?? ""}`}
             >
               <b>
                 {formVolume.pool} / {formVolume.source}
               </b>
             </div>
-            {!readOnly && (
-              <CustomVolumeSelectBtn
-                project={project}
-                setValue={(volume) => changeVolume(volume, formVolume, index)}
-                buttonProps={{
-                  id: `devices.${index}.pool`,
-                  appearance: "base",
-                  className: "u-no-margin--bottom",
-                  "aria-label": `Select storage volume`,
-                }}
-              >
-                <Icon name="edit" />
-              </CustomVolumeSelectBtn>
-            )}
+            <CustomVolumeSelectBtn
+              project={project}
+              setValue={(volume) => {
+                ensureEditMode(formik);
+                changeVolume(volume, formVolume, index);
+              }}
+              buttonProps={{
+                id: `devices.${index}.pool`,
+                appearance: "base",
+                className: "u-no-margin--bottom",
+                title: "Select storage volume",
+                dense: true,
+              }}
+            >
+              <Icon name="edit" />
+            </CustomVolumeSelectBtn>
           </div>
         ),
         override: "",
@@ -149,8 +171,11 @@ const DiskDeviceFormCustom: FC<Props> = ({
             </Label>
           ),
           inherited: readOnly ? (
-            <div className="mono-font">
-              <b>{formVolume.path}</b>
+            <div className="custom-disk-read-mode">
+              <div className="mono-font custom-disk-value">
+                <b>{formVolume.path}</b>
+              </div>
+              {editButton(`devices.${index}.path`)}
             </div>
           ) : (
             <Input
@@ -182,12 +207,15 @@ const DiskDeviceFormCustom: FC<Props> = ({
           <Label forId={`devices.${index}.limits.read`}>Read limit</Label>
         ),
         inherited: readOnly ? (
-          <div className="mono-font">
-            <b>
-              {formVolume.limits?.read
-                ? `${formVolume.limits.read} IOPS`
-                : "none"}
-            </b>
+          <div className="custom-disk-read-mode">
+            <div className="mono-font custom-disk-value">
+              <b>
+                {formVolume.limits?.read
+                  ? `${formVolume.limits.read} IOPS`
+                  : "none"}
+              </b>
+            </div>
+            {editButton(`devices.${index}.limits.read`)}
           </div>
         ) : (
           <div className="custom-disk-device-limits">
@@ -220,12 +248,15 @@ const DiskDeviceFormCustom: FC<Props> = ({
           <Label forId={`devices.${index}.limits.write`}>Write limit</Label>
         ),
         inherited: readOnly ? (
-          <div className="mono-font">
-            <b>
-              {formVolume.limits?.write
-                ? `${formVolume.limits.write} IOPS`
-                : "none"}
-            </b>
+          <div className="custom-disk-read-mode">
+            <div className="mono-font custom-disk-value">
+              <b>
+                {formVolume.limits?.write
+                  ? `${formVolume.limits.write} IOPS`
+                  : "none"}
+              </b>
+            </div>
+            {editButton(`devices.${index}.limits.write`)}
           </div>
         ) : (
           <div className="custom-disk-device-limits">
@@ -262,12 +293,16 @@ const DiskDeviceFormCustom: FC<Props> = ({
           <ConfigurationTable rows={rows} />
         </>
       )}
-      {!readOnly && (
-        <CustomVolumeSelectBtn project={project} setValue={addVolume}>
-          <Icon name="plus" />
-          <span>Attach disk device</span>
-        </CustomVolumeSelectBtn>
-      )}
+      <CustomVolumeSelectBtn
+        project={project}
+        setValue={(volume) => {
+          ensureEditMode(formik);
+          addVolume(volume);
+        }}
+      >
+        <Icon name="plus" />
+        <span>Attach disk device</span>
+      </CustomVolumeSelectBtn>
     </div>
   );
 };
