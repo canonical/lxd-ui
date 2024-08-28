@@ -68,7 +68,7 @@ const UploadInstanceBtn: FC = () => {
   const handleSuccess = (instanceName: string) => {
     const message = (
       <>
-        Created Instance <strong>{instanceName}</strong>.
+        Created instance <strong>{instanceName}</strong>.
       </>
     );
 
