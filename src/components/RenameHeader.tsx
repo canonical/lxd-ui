@@ -99,7 +99,7 @@ const RenameHeader: FC<Props> = ({
               </li>
             ) : (
               <li
-                className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb"
+                className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb u-truncate"
                 onClick={toggleRename}
                 title={`Rename ${name}`}
               >
