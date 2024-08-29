@@ -11,8 +11,8 @@ import { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
 import MigrateInstanceModal from "../MigrateInstanceModal";
 import classNames from "classnames";
-import { isClusteredServer } from "util/settings";
 import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
 
 interface Props {
   instance: LxdInstance;
@@ -93,33 +93,29 @@ const MigrateInstanceBtn: FC<Props> = ({
 
   const isDisabled = isLoading || !!instanceLoading.getType(instance);
 
-  return (
+  return isClustered ? (
     <>
-      {isClustered ? (
-        <>
-          {isOpen && (
-            <Portal>
-              <MigrateInstanceModal
-                close={handleClose}
-                migrate={handleMigrate}
-                instances={[instance]}
-              />
-            </Portal>
-          )}
-          <ActionButton
-            onClick={openPortal}
-            type="button"
-            className={classNames("instance-migrate", classname)}
-            loading={isLoading}
-            disabled={isDisabled}
-            aria-label={`Migrate instance ${instance.name}`}
-          >
-            <span>Migrate</span>
-          </ActionButton>
-        </>
-      ) : null}
+      {isOpen && (
+        <Portal>
+          <MigrateInstanceModal
+            close={handleClose}
+            migrate={handleMigrate}
+            instance={instance}
+          />
+        </Portal>
+      )}
+      <ActionButton
+        onClick={openPortal}
+        type="button"
+        className={classNames("instance-migrate", classname)}
+        loading={isLoading}
+        disabled={isDisabled}
+        aria-label={`Migrate instance ${instance.name}`}
+      >
+        <span>Migrate</span>
+      </ActionButton>
     </>
-  );
+  ) : null;
 };
 
 export default MigrateInstanceBtn;
