@@ -5,6 +5,10 @@ export const randomInstanceName = (): string => {
   return `playwright-instance-${randomNameSuffix()}`;
 };
 
+export const randomImageName = (): string => {
+  return `playwright-image-${randomNameSuffix()}`;
+};
+
 export const createInstance = async (
   page: Page,
   instance: string,
@@ -141,4 +145,15 @@ export const visitAndStopInstance = async (page: Page, instance: string) => {
     await page.keyboard.up("Shift");
     await page.waitForSelector(`text=Instance ${instance} stopped.`);
   }
+};
+
+export const createImageFromInstance = async (page: Page, instance: string) => {
+  const imageAlias = randomImageName();
+  await visitInstance(page, instance);
+  await page.getByRole("button", { name: "Create Image" }).click();
+  await page.getByLabel("Alias").fill(imageAlias);
+  await page.getByText("Create image", { exact: true }).click();
+  await page.waitForSelector(`text=Image created from instance ${instance}.`);
+
+  return imageAlias;
 };

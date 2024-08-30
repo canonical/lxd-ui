@@ -1,5 +1,6 @@
 import { test, expect } from "./fixtures/lxd-test";
 import {
+  createImageFromInstance,
   createInstance,
   deleteInstance,
   editInstance,
@@ -26,6 +27,7 @@ import {
   randomProfileName,
 } from "./helpers/profile";
 import { assertTextVisible } from "./helpers/permissions";
+import { deleteImage, getImageNameFromAlias } from "./helpers/images";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -237,4 +239,11 @@ test("Duplicate an instance", async ({ page }) => {
 
   await page.waitForSelector(`text=Created instance ${instance}-duplicate.`);
   await deleteInstance(page, `${instance}-duplicate`);
+});
+
+test("Create an image from an instance", async ({ page }) => {
+  await page.goto("/ui/");
+  const imageAlias = await createImageFromInstance(page, instance);
+  const imageName = await getImageNameFromAlias(page, imageAlias);
+  await deleteImage(page, imageName);
 });
