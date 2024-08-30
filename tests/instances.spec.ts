@@ -247,3 +247,64 @@ test("Create an image from an instance", async ({ page }) => {
   const imageName = await getImageNameFromAlias(page, imageAlias);
   await deleteImage(page, imageName);
 });
+
+test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
+  await page.goto("/ui/");
+  await page.getByPlaceholder("Search").click();
+  await page.getByPlaceholder("Search and filter").fill(instance);
+  await page.getByPlaceholder("Search and filter").press("Enter");
+  await page.getByPlaceholder("Add filter").press("Escape");
+
+  //Bulk start instances
+  await page
+    .getByRole("row", { name: "select Name Type Description Status Actions" })
+    .getByLabel("multiselect rows")
+    .click();
+  await page
+    .getByRole("button", { name: "Select all instances on this" })
+    .click();
+  await page
+    .locator("button")
+    .filter({ hasText: /^Start$/ })
+    .click();
+  await page
+    .getByLabel("Confirm start")
+    .getByRole("button", { name: "Start" })
+    .click();
+  await page.waitForSelector(`text=instance started.`);
+
+  //Bulk restart instances
+  await page.locator("button").filter({ hasText: "Restart" }).click();
+  await page
+    .getByLabel("Confirm restart")
+    .getByRole("button", { name: "Restart" })
+    .click();
+  await page.waitForSelector(`text=instance restarted.`);
+
+  //Bulk freeze instances
+  await page.locator("button").filter({ hasText: "Freeze" }).click();
+  await page
+    .getByRole("dialog", { name: "Confirm freeze" })
+    .getByRole("button", { name: "Freeze" })
+    .click();
+  await page.waitForSelector(`text=instance frozen.`);
+
+  //Bulk Start instances
+  await page
+    .locator("button")
+    .filter({ hasText: /^Start$/ })
+    .click();
+  await page
+    .getByRole("dialog", { name: "Confirm start" })
+    .getByRole("button", { name: "Start" })
+    .click();
+  await page.waitForSelector(`text=instance started.`);
+
+  //Bulk Stop instances
+  await page.locator("button").filter({ hasText: "Stop" }).click();
+  await page
+    .getByRole("dialog", { name: "Confirm stop" })
+    .getByRole("button", { name: "Stop" })
+    .click();
+  await page.waitForSelector(`text=instance stopped.`);
+});
