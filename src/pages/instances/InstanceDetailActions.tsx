@@ -7,6 +7,7 @@ import DuplicateInstanceBtn from "./actions/DuplicateInstanceBtn";
 import { ContextualMenu } from "@canonical/react-components";
 import { isWidthBelow } from "util/helpers";
 import useEventListener from "@use-it/event-listener";
+import ExportInstanceBtn from "pages/instances/actions/ExportInstanceBtn";
 
 interface Props {
   instance: LxdInstance;
@@ -36,6 +37,11 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
       key="duplicate"
       instance={instance}
       isLoading={isLoading}
+      classname={classname}
+    />,
+    <ExportInstanceBtn
+      key="export"
+      instance={instance}
       classname={classname}
     />,
     <DeleteInstanceBtn

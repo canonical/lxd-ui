@@ -393,3 +393,26 @@ export const uploadInstance = (
       .catch(reject);
   });
 };
+
+export const createInstanceBackup = (
+  instanceName: string,
+  project: string,
+  expiresAt: string,
+  backupName: string,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/instances/${instanceName}/backups?project=${project}`, {
+      method: "POST",
+      body: JSON.stringify({
+        compression_algorithm: "gzip",
+        expires_at: expiresAt,
+        instance_only: false,
+        name: backupName,
+        optimized_storage: true,
+      }),
+    })
+      .then(handleResponse)
+      .then((data: LxdOperationResponse) => resolve(data))
+      .catch(reject);
+  });
+};
