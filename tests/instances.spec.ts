@@ -308,3 +308,28 @@ test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
     .click();
   await page.waitForSelector(`text=instance stopped.`);
 });
+
+test("Export and Upload an instance", async ({ page }) => {
+  //Export an instance
+  await visitInstance(page, instance);
+  const downloadPromise = page.waitForEvent("download");
+
+  await page.getByRole("button", { name: "Export" }).click();
+  const download = await downloadPromise;
+  await page.waitForSelector(`text=Instance ${instance} download started`);
+  const INSTANCE_FILE = "tests/fixtures/instance.tar.gz";
+  await download.saveAs(INSTANCE_FILE);
+
+  //Upload an instance
+  await page.goto("/ui/");
+  await page.getByRole("button", { name: "Create instance" }).click();
+  await page.getByRole("button", { name: "Upload instance" }).click();
+  await page.getByLabel("Instance backup file").setInputFiles(INSTANCE_FILE);
+  await page.getByRole("textbox", { name: "Enter name" }).fill(`${instance}-1`);
+  await page
+    .getByLabel("Upload instance")
+    .getByRole("button", { name: "Upload and create" })
+    .click();
+  await page.waitForSelector(`text=Created instance ${instance}-1`);
+  await deleteInstance(page, `${instance}-1`);
+});
