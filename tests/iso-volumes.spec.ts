@@ -50,6 +50,10 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
     lxdVersion === "5.0-edge",
     "custom storage volume iso import not supported in lxd v5.0/edge",
   );
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
 
   const instance = randomInstanceName();
   const isoName = randomIso();
