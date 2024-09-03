@@ -205,7 +205,11 @@ test("instance edit cloud init configuration", async ({ page }) => {
 });
 
 test("instance create vm", async ({ page }) => {
-  test.skip(Boolean(process.env.CI), "github runners lack vm support");
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+
   await editInstance(page, vmInstance);
 
   await page.getByText("Security policies").click();
@@ -217,7 +221,11 @@ test("instance create vm", async ({ page }) => {
 });
 
 test("instance yaml edit", async ({ page }) => {
-  test.skip(Boolean(process.env.CI), "github runners lack vm support");
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+
   await editInstance(page, vmInstance);
   await page.getByText("YAML configuration").click();
   await page.getByRole("button", { name: "Close notification" }).click();
