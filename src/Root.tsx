@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Navigation from "components/Navigation";
-import { QueuedNotification } from "@canonical/react-components";
+import { Application, QueuedNotification } from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
 import { EventQueueProvider } from "context/eventQueue";
@@ -32,18 +32,14 @@ const Root: FC = () => {
               <InstanceLoadingProvider>
                 <OperationsProvider>
                   <EventQueueProvider>
-                    <div
-                      id="l-application"
-                      className="l-application"
-                      role="presentation"
-                    >
+                    <Application id="l-application">
                       <Navigation />
                       <ErrorBoundary fallback={ErrorPage}>
                         <App />
                         <Events />
                         <StatusBar />
                       </ErrorBoundary>
-                    </div>
+                    </Application>
                   </EventQueueProvider>
                 </OperationsProvider>
               </InstanceLoadingProvider>

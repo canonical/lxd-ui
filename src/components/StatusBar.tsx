@@ -3,7 +3,7 @@ import classnames from "classnames";
 import Version from "./Version";
 import OperationStatus from "./OperationStatus";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { ICONS, Icon } from "@canonical/react-components";
+import { AppStatus, ICONS, Icon } from "@canonical/react-components";
 import { iconLookup, severityOrder } from "util/notifications";
 import useEventListener from "@use-it/event-listener";
 import { useAuth } from "context/auth";
@@ -44,8 +44,8 @@ const StatusBar: FC<Props> = ({ className }) => {
   const hasNotifications = !!notifications.length;
   return (
     <>
-      <aside
-        className={classnames("l-status status-bar", className)}
+      <AppStatus
+        className={classnames("status-bar", className)}
         id="status-bar"
       >
         <Version />
@@ -66,7 +66,7 @@ const StatusBar: FC<Props> = ({ className }) => {
             </button>
           )}
         </div>
-      </aside>
+      </AppStatus>
     </>
   );
 };

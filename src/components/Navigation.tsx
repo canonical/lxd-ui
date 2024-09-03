@@ -1,5 +1,5 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { Button, Icon, SideNavigationItem } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
@@ -187,7 +187,7 @@ const Navigation: FC = () => {
                           activeProject={projectName}
                         />
                       </li>
-                      <li className="p-side-navigation__item">
+                      <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/instances`}
                           title={`Instances (${projectName})`}
@@ -199,8 +199,8 @@ const Navigation: FC = () => {
                           />{" "}
                           Instances
                         </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item">
+                      </SideNavigationItem>
+                      <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/profiles`}
                           title={`Profiles (${projectName})`}
@@ -212,8 +212,9 @@ const Navigation: FC = () => {
                           />{" "}
                           Profiles
                         </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item">
+                      </SideNavigationItem>
+
+                      <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/networks`}
                           title={`Networks (${projectName})`}
@@ -225,8 +226,8 @@ const Navigation: FC = () => {
                           />{" "}
                           Networks
                         </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item">
+                      </SideNavigationItem>
+                      <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/storage`}
                           title={`Storage (${projectName})`}
@@ -236,8 +237,7 @@ const Navigation: FC = () => {
                           open={openNavMenus.includes("storage")}
                         >
                           {[
-                            <li
-                              className="p-side-navigation__item"
+                            <SideNavigationItem
                               key={`/ui/project/${projectName}/storage/pools`}
                             >
                               <NavLink
@@ -248,9 +248,8 @@ const Navigation: FC = () => {
                               >
                                 Pools
                               </NavLink>
-                            </li>,
-                            <li
-                              className="p-side-navigation__item"
+                            </SideNavigationItem>,
+                            <SideNavigationItem
                               key={`/ui/project/${projectName}/storage/volumes`}
                             >
                               <NavLink
@@ -261,11 +260,10 @@ const Navigation: FC = () => {
                               >
                                 Volumes
                               </NavLink>
-                            </li>,
+                            </SideNavigationItem>,
                             ...(hasCustomVolumeIso
                               ? [
-                                  <li
-                                    className="p-side-navigation__item"
+                                  <SideNavigationItem
                                     key={`/ui/project/${projectName}/storage/custom-isos`}
                                   >
                                     <NavLink
@@ -276,13 +274,13 @@ const Navigation: FC = () => {
                                     >
                                       Custom ISOs
                                     </NavLink>
-                                  </li>,
+                                  </SideNavigationItem>,
                                 ]
                               : []),
                           ]}
                         </NavAccordion>
-                      </li>
-                      <li className="p-side-navigation__item">
+                      </SideNavigationItem>
+                      <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/images`}
                           title={`Images (${projectName})`}
@@ -294,8 +292,8 @@ const Navigation: FC = () => {
                           />{" "}
                           Images
                         </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item">
+                      </SideNavigationItem>
+                      <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/configuration`}
                           title={`Configuration (${projectName})`}
@@ -307,9 +305,9 @@ const Navigation: FC = () => {
                           />{" "}
                           Configuration
                         </NavLink>
-                      </li>
+                      </SideNavigationItem>
                       <hr className="is-dark navigation-hr" />
-                      <li className="p-side-navigation__item">
+                      <SideNavigationItem>
                         <NavLink
                           to="/ui/cluster"
                           title="Cluster"
@@ -321,8 +319,8 @@ const Navigation: FC = () => {
                           />{" "}
                           Cluster
                         </NavLink>
-                      </li>
-                      <li className="p-side-navigation__item">
+                      </SideNavigationItem>
+                      <SideNavigationItem>
                         <NavLink
                           to={`/ui/operations`}
                           title={`Operations (${projectName})`}
@@ -334,9 +332,9 @@ const Navigation: FC = () => {
                           />{" "}
                           Operations
                         </NavLink>
-                      </li>
+                      </SideNavigationItem>
                       {!isRestricted && (
-                        <li className="p-side-navigation__item">
+                        <SideNavigationItem>
                           <NavLink
                             to="/ui/warnings"
                             title="Warnings"
@@ -348,10 +346,10 @@ const Navigation: FC = () => {
                             />{" "}
                             Warnings
                           </NavLink>
-                        </li>
+                        </SideNavigationItem>
                       )}
                       {enablePermissions && (
-                        <li className="p-side-navigation__item">
+                        <SideNavigationItem>
                           <NavAccordion
                             baseUrl="/ui/permissions"
                             title={`Permissions`}
@@ -361,10 +359,7 @@ const Navigation: FC = () => {
                             open={openNavMenus.includes("permissions")}
                           >
                             {[
-                              <li
-                                className="p-side-navigation__item"
-                                key="/ui/permissions/identities"
-                              >
+                              <SideNavigationItem key="/ui/permissions/identities">
                                 <NavLink
                                   to="/ui/permissions/identities"
                                   title="Identities"
@@ -374,11 +369,8 @@ const Navigation: FC = () => {
                                 >
                                   Identities
                                 </NavLink>
-                              </li>,
-                              <li
-                                className="p-side-navigation__item"
-                                key="/ui/permissions/groups"
-                              >
+                              </SideNavigationItem>,
+                              <SideNavigationItem key="/ui/permissions/groups">
                                 <NavLink
                                   to="/ui/permissions/groups"
                                   title="LXD groups"
@@ -387,11 +379,8 @@ const Navigation: FC = () => {
                                 >
                                   Groups
                                 </NavLink>
-                              </li>,
-                              <li
-                                className="p-side-navigation__item"
-                                key="/ui/permissions/idp-groups"
-                              >
+                              </SideNavigationItem>,
+                              <SideNavigationItem key="/ui/permissions/idp-groups">
                                 <NavLink
                                   to="/ui/permissions/idp-groups"
                                   title="Identity provider groups"
@@ -400,12 +389,12 @@ const Navigation: FC = () => {
                                 >
                                   IDP groups
                                 </NavLink>
-                              </li>,
+                              </SideNavigationItem>,
                             ]}
                           </NavAccordion>
-                        </li>
+                        </SideNavigationItem>
                       )}
-                      <li className="p-side-navigation__item">
+                      <SideNavigationItem>
                         <NavLink
                           to="/ui/settings"
                           title="Settings"
@@ -417,12 +406,12 @@ const Navigation: FC = () => {
                           />{" "}
                           Settings
                         </NavLink>
-                      </li>
+                      </SideNavigationItem>
                     </>
                   )}
                   {!isAuthenticated && (
                     <>
-                      <li className="p-side-navigation__item">
+                      <SideNavigationItem>
                         <NavLink
                           to="/ui/login"
                           title="Login"
@@ -434,7 +423,7 @@ const Navigation: FC = () => {
                           />
                           Login
                         </NavLink>
-                      </li>
+                      </SideNavigationItem>
                     </>
                   )}
                 </ul>
@@ -450,7 +439,7 @@ const Navigation: FC = () => {
                 >
                   <hr className="is-dark navigation-hr" />
                   {isAuthenticated && (
-                    <li className="p-side-navigation__item">
+                    <SideNavigationItem>
                       <div
                         className="p-side-navigation__link"
                         title={`${loggedInUserName} (${loggedInUserID})`}
@@ -470,9 +459,9 @@ const Navigation: FC = () => {
                         )}
                         <div className="u-truncate">{loggedInUserName}</div>
                       </div>
-                    </li>
+                    </SideNavigationItem>
                   )}
-                  <li className="p-side-navigation__item">
+                  <SideNavigationItem>
                     <a
                       className="p-side-navigation__link"
                       href={docBaseLink}
@@ -486,8 +475,8 @@ const Navigation: FC = () => {
                       />
                       Documentation
                     </a>
-                  </li>
-                  <li className="p-side-navigation__item">
+                  </SideNavigationItem>
+                  <SideNavigationItem>
                     <a
                       className="p-side-navigation__link"
                       href="https://discourse.ubuntu.com/c/lxd/126"
@@ -501,8 +490,8 @@ const Navigation: FC = () => {
                       />
                       Discussion
                     </a>
-                  </li>
-                  <li className="p-side-navigation__item">
+                  </SideNavigationItem>
+                  <SideNavigationItem>
                     <a
                       className="p-side-navigation__link"
                       href="https://github.com/canonical/lxd-ui/issues/new"
@@ -516,9 +505,9 @@ const Navigation: FC = () => {
                       />
                       Report a bug
                     </a>
-                  </li>
+                  </SideNavigationItem>
                   {isOidc && (
-                    <li className="p-side-navigation__item">
+                    <SideNavigationItem>
                       <a
                         className="p-side-navigation__link"
                         title="Log out"
@@ -533,7 +522,7 @@ const Navigation: FC = () => {
                         />
                         Log out
                       </a>
-                    </li>
+                    </SideNavigationItem>
                   )}
                 </ul>
                 <div
