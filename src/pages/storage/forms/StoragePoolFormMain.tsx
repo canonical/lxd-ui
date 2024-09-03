@@ -61,7 +61,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           <AutoExpandingTextArea
             {...getFormProps("description")}
             label="Description"
-            dynamicHeight
             onChange={(e) => {
               ensureEditMode(formik);
               formik.handleChange(e);

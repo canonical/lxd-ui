@@ -56,7 +56,6 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               formik.handleChange(e);
             }}
             value={formik.values.description}
-            dynamicHeight
           />
         </Col>
       </Row>

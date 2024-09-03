@@ -115,7 +115,6 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
-            dynamicHeight
           />
         </Col>
       </Row>

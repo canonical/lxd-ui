@@ -145,7 +145,6 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               formik.handleChange(e);
             }}
             value={formik.values.description}
-            dynamicHeight
           />
           <Select
             id="features"

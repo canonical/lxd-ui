@@ -63,7 +63,6 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
               formik.handleChange(e);
             }}
             value={formik.values.description}
-            dynamicHeight
           />
         </Col>
       </Row>
