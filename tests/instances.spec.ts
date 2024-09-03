@@ -40,14 +40,18 @@ test.beforeAll(async ({ browser, browserName }) => {
   const page = await browser.newPage();
   await createProfile(page, profile);
   await createInstance(page, instance);
-  await createInstance(page, vmInstance, "virtual-machine");
+  if (!process.env.CI) {
+    await createInstance(page, vmInstance, "virtual-machine");
+  }
   await page.close();
 });
 
 test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
   await deleteInstance(page, instance);
-  await deleteInstance(page, vmInstance);
+  if (!process.env.CI) {
+    await deleteInstance(page, vmInstance);
+  }
   await deleteProfile(page, profile);
   await page.close();
 });
