@@ -127,13 +127,13 @@ test("instance edit resource limits", async ({ page }) => {
   await page.getByText("Resource limits").click();
   await setOption(page, "Memory swap", "true");
   await setOption(page, "Disk priority", "1");
-  await setInput(page, "Max number of processes", "Enter number", "2");
+  await setInput(page, "Max number of processes", "Enter number", "42");
 
   await saveInstance(page, instance);
 
   await assertReadMode(page, "Memory swap (Containers only)", "Allow");
   await assertReadMode(page, "Disk priority", "1");
-  await assertReadMode(page, "Max number of processes (Containers only)", "2");
+  await assertReadMode(page, "Max number of processes (Containers only)", "42");
 });
 
 test("instance edit security policies", async ({ page }) => {
@@ -231,7 +231,10 @@ test("instance yaml edit", async ({ page }) => {
   await page.getByRole("button", { name: "Close notification" }).click();
 
   await page.locator(".view-lines").click();
-  await page.getByText("description: ''").click();
+  await page.getByLabel("Editor content;Press Alt+F1").press("ControlOrMeta+f");
+  await page.getByPlaceholder("Find").fill("description: ''");
+  await page.getByPlaceholder("Find").press("Escape");
+  await page.getByText("description: ''").first().click();
   await page.keyboard.press("End");
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.type("A-new-description");
