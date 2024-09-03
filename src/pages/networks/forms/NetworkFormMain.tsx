@@ -54,7 +54,6 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
           <AutoExpandingTextArea
             {...getFormProps("description")}
             label="Description"
-            dynamicHeight
           />
           {formik.values.networkType === "ovn" && (
             <UplinkSelector props={getFormProps("network")} project={project} />

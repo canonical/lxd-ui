@@ -139,7 +139,6 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
                 error={
                   formik.touched.description ? formik.errors.description : null
                 }
-                dynamicHeight
               />
             </div>
             <div className="choose-label">

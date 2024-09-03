@@ -39,7 +39,6 @@ const GroupForm: FC<Props> = ({ formik }) => {
       <AutoExpandingTextArea
         {...getFormProps("description")}
         label="Description"
-        dynamicHeight
       />
     </Form>
   );
