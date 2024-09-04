@@ -81,5 +81,7 @@ dist/
 /playwright/.cache/
 /coverage
 tests/screenshots
+tests/fixtures/image.tar.gz
+tests/fixtures/instance.tar.gz
 
 haproxy-local.cfg
