@@ -360,7 +360,6 @@ export const enablePermissionsFeature = (): boolean => {
     (settings?.config?.["user.show_permissions"] ?? "false") === "true";
 
   const hasOIDCSettings =
-    !!settings?.config?.["oidc.audience"] &&
     !!settings?.config?.["oidc.client.id"] &&
     !!settings?.config?.["oidc.issuer"];
 
