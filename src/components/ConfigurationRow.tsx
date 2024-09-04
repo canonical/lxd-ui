@@ -103,19 +103,20 @@ export const getConfigurationRow = ({
             })}
           </div>,
         )}
-        {!disabled && (
+        {
           <div>
             <Button
               onClick={toggleDefault}
               type="button"
               appearance="base"
-              title="Clear override"
+              title={disabled ? disabledReason : "Clear override"}
+              disabled={disabled}
               hasIcon
             >
               <Icon name="close" className="clear-configuration-icon" />
             </Button>
           </div>
-        )}
+        }
       </div>
     );
   };
@@ -144,24 +145,29 @@ export const getConfigurationRow = ({
       return (
         <>
           {overrideValue}
-          {!disabled && (
-            <Button
-              onClick={() => {
-                ensureEditMode(formik);
-                if (!isOverridden) {
-                  enableOverride();
-                }
-                focusOverride();
-              }}
-              className="u-no-margin--bottom"
-              type="button"
-              appearance="base"
-              title={isOverridden ? "Edit" : "Create override"}
-              hasIcon
-            >
-              <Icon name="edit" />
-            </Button>
-          )}
+          <Button
+            onClick={() => {
+              ensureEditMode(formik);
+              if (!isOverridden) {
+                enableOverride();
+              }
+              focusOverride();
+            }}
+            className="u-no-margin--bottom"
+            type="button"
+            appearance="base"
+            title={
+              disabled
+                ? disabledReason
+                : isOverridden
+                  ? "Edit"
+                  : "Create override"
+            }
+            disabled={disabled}
+            hasIcon
+          >
+            <Icon name="edit" />
+          </Button>
         </>
       );
     }

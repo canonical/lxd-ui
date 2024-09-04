@@ -41,6 +41,9 @@ const MigrationForm: FC<Props> = ({ formik }) => {
           name: "migration_stateful",
           defaultValue: "",
           disabled: isVmOnlyDisabled,
+          disabledReason: isVmOnlyDisabled
+            ? "Only available for virtual machines"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select options={optionAllowDeny} disabled={isVmOnlyDisabled} />

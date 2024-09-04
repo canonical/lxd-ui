@@ -109,7 +109,11 @@ test("not allowed to launch instance with custom iso for lxd v5.0/edge", async (
   page,
   lxdVersion,
 }) => {
-  test.skip(Boolean(process.env.CI), "github runners lack vm support");
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+
   test.skip(
     lxdVersion !== "5.0-edge",
     `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,

@@ -90,6 +90,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Memory swap (Containers only)",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -113,6 +116,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Max number of processes (Containers only)",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           children: (
             <Input
               placeholder="Enter number"

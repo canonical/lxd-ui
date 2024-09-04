@@ -81,6 +81,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_privileged",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -96,6 +99,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_nesting",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -111,6 +117,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_protection_shift",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -123,6 +132,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_idmap_base",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           children: (
             <Input
               placeholder="Enter ID"
@@ -141,6 +153,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_idmap_size",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           children: (
             <Input
               placeholder="Enter number"
@@ -160,6 +175,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_idmap_isolated",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -172,6 +190,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_devlxd",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -185,6 +206,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_devlxd_images",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
+          disabledReason: isContainerOnlyDisabled
+            ? "Only available for containers"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -197,6 +221,9 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           name: "security_secureboot",
           defaultValue: "",
           disabled: isVmOnlyDisabled,
+          disabledReason: isVmOnlyDisabled
+            ? "Only available for virtual machines"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
           children: (
             <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />
