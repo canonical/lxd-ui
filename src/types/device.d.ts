@@ -76,6 +76,17 @@ export type LxdGPUDevice =
   | LxdMigGPUDevice
   | LxdSriovGPUDevice;
 
+export interface LxdProxyDevice {
+  name: string;
+  type: "proxy";
+  bind?: string;
+  mode?: string;
+  nat?: string;
+  proxy_protocol?: string;
+  listen?: string;
+  connect?: string;
+}
+
 export type LxdOtherDevice =
   | LxdInfinibandDevice
   | LxdPCIDevice
@@ -169,6 +180,7 @@ export type LxdDeviceValue =
   | LxdNicDevice
   | LxdNoneDevice
   | LxdGPUDevice
-  | LxdOtherDevice;
+  | LxdOtherDevice
+  | LxdProxyDevice;
 
 export type LxdDevices = Record<string, LxdDeviceValue>;

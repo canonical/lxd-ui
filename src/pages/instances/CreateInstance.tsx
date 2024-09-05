@@ -59,6 +59,7 @@ import InstanceFormMenu, {
   NETWORK_DEVICES,
   GPU_DEVICES,
   OTHER_DEVICES,
+  PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -87,6 +88,7 @@ import GPUDevicesForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
+import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -434,6 +436,10 @@ const CreateInstance: FC = () => {
 
             {section === GPU_DEVICES && (
               <GPUDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === PROXY_DEVICES && (
+              <ProxyDeviceForm formik={formik} project={project} />
             )}
 
             {section === OTHER_DEVICES && (

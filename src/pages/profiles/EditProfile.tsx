@@ -65,6 +65,8 @@ import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
+import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
+import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -192,6 +194,10 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
             {section === slugify(GPU_DEVICES) && (
               <GPUDeviceForm formik={formik} project={project} />
+            )}
+
+            {section === slugify(PROXY_DEVICES) && (
+              <ProxyDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(OTHER_DEVICES) && (

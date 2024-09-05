@@ -3,18 +3,17 @@ import {
   Button,
   Icon,
   Input,
-  Notification,
+  Label,
+  Select,
   useNotify,
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdGPUDevice } from "types/device";
+import { LxdProxyDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
-import { getInheritedGPUs } from "util/configInheritance";
+import { getInheritedProxies } from "util/configInheritance";
 import Loader from "components/Loader";
-import AttachGPUBtn from "components/forms/SelectGPUBtn";
-import { GpuCard } from "types/resources";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
@@ -30,16 +29,16 @@ import {
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
 import { deviceKeyToLabel } from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
-import { useDocs } from "context/useDocs";
-import GPUDeviceInput from "components/forms/GPUDeviceInput";
+import NewProxyBtn from "components/forms/NewProxyBtn";
+import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
+import { optionEnabledDisabled, optionYesNo } from "util/instanceOptions";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
 }
 
-const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
-  const docBaseLink = useDocs();
+const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
   const notify = useNotify();
 
   const {
@@ -55,29 +54,64 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
     notify.failure("Loading profiles failed", profileError);
   }
 
-  const inheritedGPUs = getInheritedGPUs(formik.values, profiles);
+  const inheritedProxies = getInheritedProxies(formik.values, profiles);
 
   const existingDeviceNames: string[] = [];
-  existingDeviceNames.push(...inheritedGPUs.map((item) => item.key));
+  existingDeviceNames.push(...inheritedProxies.map((item) => item.key));
   existingDeviceNames.push(...formik.values.devices.map((item) => item.name));
 
-  const addGPUCard = (card: GpuCard) => {
+  const addProxy = () => {
     const copy = [...formik.values.devices];
     copy.push({
-      type: "gpu",
-      gputype: "physical",
-      pci: card.pci_address,
-      name: deduplicateName("gpu", 1, existingDeviceNames),
+      type: "proxy",
+      name: deduplicateName("proxy", 1, existingDeviceNames),
     });
     void formik.setFieldValue("devices", copy);
   };
 
-  const hasCustomGPU = formik.values.devices.some(
-    (item) => item.type === "gpu",
+  const hasCustomProxy = formik.values.devices.some(
+    (item) => item.type === "proxy",
   );
 
+  const getProxyDeviceFormRows = (
+    label: string,
+    fieldName: string,
+    index: number,
+    options: {
+      label: string;
+      value: string;
+      disabled?: boolean;
+    }[],
+    value?: string,
+    help?: string,
+  ) => {
+    const key = `devices.${index}.${fieldName}`;
+
+    return getConfigurationRowBase({
+      className: "no-border-top inherited-with-form",
+      configuration: <Label forId={key}>{label}</Label>,
+      inherited: (
+        <Select
+          name={key}
+          id={key}
+          key={key}
+          onBlur={formik.handleBlur}
+          onChange={(e) => {
+            ensureEditMode(formik);
+            void formik.setFieldValue(key, e.target.value);
+          }}
+          value={value ?? ""}
+          options={options}
+          help={<ConfigFieldDescription description={help} />}
+          className="u-no-margin--bottom"
+        />
+      ),
+      override: "",
+    });
+  };
+
   const inheritedRows: MainTableRow[] = [];
-  inheritedGPUs.forEach((item) => {
+  inheritedProxies.forEach((item) => {
     const noneDeviceId = findNoneDeviceIndex(item.key, formik);
     const isNoneDevice = noneDeviceId !== -1;
 
@@ -130,7 +164,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       }),
     );
 
-    Object.keys(item.gpu).forEach((key) => {
+    Object.keys(item.proxy).forEach((key) => {
       if (key === "name" || key === "type") {
         return null;
       }
@@ -138,7 +172,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       inheritedRows.push(
         getInheritedDeviceRow({
           label: deviceKeyToLabel(key),
-          inheritValue: item.gpu[key as keyof typeof item.gpu],
+          inheritValue: item.proxy[key as keyof typeof item.proxy],
           readOnly: false,
           isDeactivated: isNoneDevice,
         }),
@@ -148,10 +182,10 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
 
   const customRows: MainTableRow[] = [];
   formik.values.devices.forEach((formDevice, index) => {
-    if (formDevice.type !== "gpu") {
+    if (formDevice.type !== "proxy") {
       return;
     }
-    const device = formik.values.devices[index] as LxdGPUDevice;
+    const device = formik.values.devices[index] as LxdProxyDevice;
 
     customRows.push(
       getConfigurationRowBase({
@@ -178,7 +212,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach GPU"
+            title="Detach Proxy"
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -187,34 +221,104 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       }),
     );
 
-    Object.keys(device).forEach((key) => {
-      if (key === "name" || key === "type" || key === "pci" || key === "id") {
-        return null;
-      }
-
-      customRows.push(
-        getInheritedDeviceRow({
-          label: deviceKeyToLabel(key),
-          inheritValue: device[key as keyof typeof device],
-          readOnly: false,
-        }),
-      );
-    });
+    customRows.push(
+      getProxyDeviceFormRows(
+        "Bind",
+        "bind",
+        index,
+        [
+          { label: "Select option", value: "", disabled: true },
+          { label: "Host", value: "host" },
+          { label: "Instance", value: "instance" },
+        ],
+        device.bind,
+        "Whether to bind the listen address to the instance or host",
+      ),
+    );
 
     customRows.push(
-      getInheritedDeviceRow({
-        label: "Identify by",
-        inheritValue: (
-          <GPUDeviceInput
-            device={device}
-            onChange={(pci, id) => {
+      getProxyDeviceFormRows(
+        "NAT mode",
+        "nat",
+        index,
+        optionEnabledDisabled,
+        device.nat,
+      ),
+    );
+
+    customRows.push(
+      getProxyDeviceFormRows(
+        "Use HAProxy Protocol",
+        "proxy_protocol",
+        index,
+        optionYesNo,
+        device.proxy_protocol,
+      ),
+    );
+
+    customRows.push(
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: <Label>Listen</Label>,
+        inherited: (
+          <Input
+            name={`devices.${index}.listen`}
+            id={`devices.${index}.listen`}
+            key={`devices.${index}.listen`}
+            onBlur={formik.handleBlur}
+            onChange={(e) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.pci`, pci);
-              void formik.setFieldValue(`devices.${index}.id`, id);
+              void formik.setFieldValue(
+                `devices.${index}.listen`,
+                e.target.value,
+              );
             }}
+            value={device.listen}
+            type="text"
+            help={
+              <ConfigFieldDescription
+                description={
+                  "Use the following format to specify the address and port: <type>:<addr>:<port>[-<port>][,<port>]"
+                }
+              />
+            }
+            className="u-no-margin--bottom"
           />
         ),
-        readOnly: false,
+        override: "",
+      }),
+    );
+
+    customRows.push(
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: <Label>Connect</Label>,
+        inherited: (
+          <Input
+            name={`devices.${index}.connect`}
+            id={`devices.${index}.connect`}
+            key={`devices.${index}.connect`}
+            onBlur={formik.handleBlur}
+            onChange={(e) => {
+              ensureEditMode(formik);
+              void formik.setFieldValue(
+                `devices.${index}.connect`,
+                e.target.value,
+              );
+            }}
+            value={device.connect}
+            type="text"
+            help={
+              <ConfigFieldDescription
+                description={
+                  "Use the following format to specify the address and port: <type>:<addr>:<port>[-<port>][,<port>]"
+                }
+              />
+            }
+            className="u-no-margin--bottom"
+          />
+        ),
+        override: "",
       }),
     );
   });
@@ -228,48 +332,29 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
 
-      <Notification severity="information" title="GPU passthrough">
-        Learn more about{" "}
-        <a
-          href={`${docBaseLink}/reference/devices_gpu/#devices-gpu`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GPU devices
-        </a>{" "}
-        and{" "}
-        <a
-          href={`${docBaseLink}/howto/container_gpu_passthrough_with_docker/#container-gpu-passthrough-with-docker`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          how to pass an NVIDIA GPU to a container
-        </a>
-      </Notification>
-
       {inheritedRows.length > 0 && (
         <div className="inherited-devices">
-          <h2 className="p-heading--4">Inherited GPU devices</h2>
+          <h2 className="p-heading--4">Inherited Proxy devices</h2>
           <ConfigurationTable rows={inheritedRows} />
         </div>
       )}
 
-      {hasCustomGPU && (
+      {hasCustomProxy && (
         <div className="custom-devices">
           <h2 className="p-heading--4 custom-devices-heading">
-            Custom GPU devices
+            Custom Proxy devices
           </h2>
           <ConfigurationTable rows={customRows} />
         </div>
       )}
 
-      <AttachGPUBtn
-        onSelect={(card) => {
+      <NewProxyBtn
+        onSelect={() => {
           ensureEditMode(formik);
-          addGPUCard(card);
+          addProxy();
         }}
       />
     </ScrollableForm>
   );
 };
-export default GPUDevicesForm;
+export default ProxyDeviceForm;

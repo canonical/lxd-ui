@@ -10,6 +10,7 @@ export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk";
 export const NETWORK_DEVICES = "Network";
 export const GPU_DEVICES = "GPU";
+export const PROXY_DEVICES = "Proxy";
 export const OTHER_DEVICES = "Other";
 export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
@@ -85,6 +86,7 @@ const ProfileFormMenu: FC<Props> = ({
                 {...menuItemProps}
               />
               <MenuItem label={GPU_DEVICES} {...menuItemProps} />
+              <MenuItem label={PROXY_DEVICES} {...menuItemProps} />
               <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
             </ul>
           </li>
