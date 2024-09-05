@@ -29,6 +29,19 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   );
   const [isForce, setForce] = useState(false);
 
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.instances],
+    });
+  };
+
+  const delayedClearCache = () => {
+    // Delay clearing the cache, because the instance is reported as RUNNING
+    // when a start operation failed, only shortly after it goes back to STOPPED
+    // and we want to avoid showing the intermediate RUNNING state.
+    setTimeout(clearCache, 1500);
+  };
+
   const handleAction = (desiredAction: LxdInstanceAction) => {
     setActiveAction(desiredAction);
     onStart();
@@ -46,6 +59,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               <b>{count}</b> {pluralize("instance", count)} {action}.
             </>,
           );
+          clearCache();
         } else if (rejectedCount === count) {
           toastNotify.failure(
             `Instance ${desiredAction} failed`,
@@ -55,6 +69,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               {action}.
             </>,
           );
+          delayedClearCache();
         } else {
           toastNotify.failure(
             `Instance ${desiredAction} partially failed`,
@@ -67,13 +82,11 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               could not be {action}.
             </>,
           );
+          delayedClearCache();
         }
         setForce(false);
         onFinish();
         setActiveAction(null);
-        void queryClient.invalidateQueries({
-          queryKey: [queryKeys.instances],
-        });
       },
     );
   };

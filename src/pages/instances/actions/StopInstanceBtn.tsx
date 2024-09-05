@@ -21,6 +21,13 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const toastNotify = useToastNotification();
   const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
+
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.instances],
+    });
+  };
+
   const isLoading =
     instanceLoading.getType(instance) === "Stopping" ||
     instance.status === "Stopping";
@@ -31,23 +38,27 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             toastNotify.success(
               <>
                 Instance <InstanceLink instance={instance} /> stopped.
               </>,
-            ),
-          (msg) =>
+            );
+            clearCache();
+          },
+          (msg) => {
             toastNotify.failure(
               "Instance stop failed",
               new Error(msg),
               <InstanceLink instance={instance} />,
-            ),
+            );
+            // Delay clearing the cache, because the instance is reported as STOPPED
+            // when a stop operation failed, only shortly after it goes back to RUNNING
+            // and we want to avoid showing the intermediate STOPPED state.
+            setTimeout(clearCache, 1500);
+          },
           () => {
             instanceLoading.setFinish(instance);
-            void queryClient.invalidateQueries({
-              queryKey: [queryKeys.instances],
-            });
           },
         );
       })

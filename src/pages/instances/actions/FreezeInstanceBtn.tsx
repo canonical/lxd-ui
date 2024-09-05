@@ -19,6 +19,13 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.instances],
+    });
+  };
+
   const isLoading =
     instanceLoading.getType(instance) === "Freezing" ||
     instance.status === "Freezing";
@@ -29,23 +36,27 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             toastNotify.success(
               <>
                 Instance <InstanceLink instance={instance} /> frozen.
               </>,
-            ),
-          (msg) =>
+            );
+            clearCache();
+          },
+          (msg) => {
             toastNotify.failure(
               "Instance freeze failed",
               new Error(msg),
               <InstanceLink instance={instance} />,
-            ),
+            );
+            // Delay clearing the cache, because the instance is reported as FROZEN
+            // when a freeze operation failed, only shortly after it goes back to RUNNING
+            // and we want to avoid showing the intermediate FROZEN state.
+            setTimeout(clearCache, 1500);
+          },
           () => {
             instanceLoading.setFinish(instance);
-            void queryClient.invalidateQueries({
-              queryKey: [queryKeys.instances],
-            });
           },
         );
       })

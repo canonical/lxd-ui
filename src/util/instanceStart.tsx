@@ -21,6 +21,12 @@ export const useInstanceStart = (instance: LxdInstance) => {
   const enabledStatuses = ["Stopped", "Frozen"];
   const isDisabled = isLoading || !enabledStatuses.includes(instance.status);
 
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      queryKey: [queryKeys.instances],
+    });
+  };
+
   const handleStart = () => {
     instanceLoading.setLoading(instance, "Starting");
     const mutation =
@@ -29,25 +35,29 @@ export const useInstanceStart = (instance: LxdInstance) => {
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             toastNotify.success(
               <>
                 Instance <InstanceLink instance={instance} /> started.
               </>,
-            ),
-          (msg) =>
+            );
+            clearCache();
+          },
+          (msg) => {
             toastNotify.failure(
               "Instance start failed",
               new Error(msg),
               <>
                 Instance <ItemName item={instance} bold />:
               </>,
-            ),
+            );
+            // Delay clearing the cache, because the instance is reported as RUNNING
+            // when a start operation failed, only shortly after it goes back to STOPPED
+            // and we want to avoid showing the intermediate RUNNING state.
+            setTimeout(clearCache, 1500);
+          },
           () => {
             instanceLoading.setFinish(instance);
-            void queryClient.invalidateQueries({
-              queryKey: [queryKeys.instances],
-            });
           },
         );
       })
