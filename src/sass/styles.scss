@@ -93,6 +93,7 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "profile_used_by_default_project";
 @import "progress_bar";
 @import "project_select";
+@import "rename_device";
 @import "rename_header";
 @import "scrollable_container";
 @import "scrollable_table";
@@ -310,4 +311,11 @@ body {
 
 #pagination {
   margin-bottom: 0;
+}
+
+.u-selectable-table-rows {
+  .u-row:hover {
+    background-color: $colors--light-theme--background-hover;
+    cursor: pointer;
+  }
 }

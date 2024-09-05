@@ -7,7 +7,7 @@ import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedRootStorage } from "util/configInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { getDiskDeviceRow } from "./DiskDeviceRow";
+import { getInheritedDeviceRow } from "./InheritedDeviceRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { LxdStoragePool } from "types/storage";
 import { LxdProfile } from "types/profile";
@@ -98,7 +98,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
             ),
           }),
 
-          getDiskDeviceRow({
+          getInheritedDeviceRow({
             label: "Pool",
             id: "storage-pool-selector",
             className: "override-with-form",
@@ -120,7 +120,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
             ),
           }),
 
-          getDiskDeviceRow({
+          getInheritedDeviceRow({
             label: "Size",
             id: "limits_disk",
             className: "override-with-form",

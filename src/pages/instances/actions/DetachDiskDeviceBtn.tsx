@@ -11,7 +11,7 @@ const DetachDiskDeviceBtn: FC<Props> = ({ onDetach }) => {
       appearance="base"
       type="button"
       title="Detach volume"
-      className="has-icon u-no-margin--bottom"
+      className="has-icon u-no-margin--bottom is-dense"
       confirmationModalProps={{
         title: "Confirm volume detach",
         children: (

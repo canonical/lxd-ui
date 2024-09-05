@@ -8,7 +8,7 @@ interface Props {
   id?: string;
   label: string;
   inheritValue: ReactNode;
-  inheritSource: string;
+  inheritSource?: string;
   readOnly: boolean;
   overrideValue?: string;
   overrideForm?: ReactNode;
@@ -18,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-export const getDiskDeviceRow = ({
+export const getInheritedDeviceRow = ({
   id,
   label,
   inheritValue,
@@ -64,7 +64,7 @@ export const getDiskDeviceRow = ({
         {label}
       </div>
     ),
-    inherited: inheritValue && inheritSource && (
+    inherited: inheritValue && (
       <div
         className={classnames({
           "u-text--muted": overrideValue || isDeactivated,
@@ -74,9 +74,11 @@ export const getDiskDeviceRow = ({
         <div className="mono-font">
           <b>{inheritValue}</b>
         </div>
-        <div className="p-text--small u-text--muted u-no-margin--bottom">
-          From: {inheritSource}
-        </div>
+        {inheritSource && (
+          <div className="p-text--small u-text--muted u-no-margin--bottom">
+            From: {inheritSource}
+          </div>
+        )}
       </div>
     ),
     override: readOnly ? (

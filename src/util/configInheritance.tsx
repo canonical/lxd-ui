@@ -2,8 +2,18 @@ import { InstanceAndProfileFormValues } from "components/forms/instanceAndProfil
 import { LxdProfile } from "types/profile";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
-import { isDiskDevice, isNicDevice } from "util/devices";
-import { LxdDiskDevice, LxdNicDevice } from "types/device";
+import {
+  isDiskDevice,
+  isGPUDevice,
+  isNicDevice,
+  isOtherDevice,
+} from "util/devices";
+import {
+  LxdDiskDevice,
+  LxdGPUDevice,
+  LxdNicDevice,
+  LxdOtherDevice,
+} from "types/device";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { ConfigurationRowFormikValues } from "components/ConfigurationRow";
 import { ConfigField } from "types/config";
@@ -295,6 +305,64 @@ export const getInheritedNetworks = (
   }
 
   return inheritedNetworks;
+};
+
+interface InheritedGPU {
+  key: string;
+  gpu: LxdGPUDevice;
+  source: string;
+}
+
+export const getInheritedGPUs = (
+  values: InstanceAndProfileFormValues,
+  profiles: LxdProfile[],
+): InheritedGPU[] => {
+  const inheritedGPUs: InheritedGPU[] = [];
+  if (values.entityType === "instance") {
+    const appliedProfiles = getAppliedProfiles(values, profiles);
+    for (const profile of appliedProfiles) {
+      Object.entries(profile.devices)
+        .filter(([_key, device]) => isGPUDevice(device))
+        .map(([key, gpu]) => {
+          inheritedGPUs.push({
+            key: key,
+            gpu: gpu as LxdGPUDevice,
+            source: `${profile.name} profile`,
+          });
+        });
+    }
+  }
+
+  return inheritedGPUs;
+};
+
+interface InheritedOtherDevice {
+  key: string;
+  device: LxdOtherDevice;
+  source: string;
+}
+
+export const getInheritedOtherDevices = (
+  values: InstanceAndProfileFormValues,
+  profiles: LxdProfile[],
+): InheritedOtherDevice[] => {
+  const inheritedDevices: InheritedOtherDevice[] = [];
+  if (values.entityType === "instance") {
+    const appliedProfiles = getAppliedProfiles(values, profiles);
+    for (const profile of appliedProfiles) {
+      Object.entries(profile.devices)
+        .filter(([_key, device]) => isOtherDevice(device))
+        .map(([key, device]) => {
+          inheritedDevices.push({
+            key: key,
+            device: device as LxdOtherDevice,
+            source: `${profile.name} profile`,
+          });
+        });
+    }
+  }
+
+  return inheritedDevices;
 };
 
 const getAppliedProfiles = (

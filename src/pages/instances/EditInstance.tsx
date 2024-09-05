@@ -39,6 +39,8 @@ import InstanceFormMenu, {
   SECURITY_POLICIES,
   SNAPSHOTS,
   YAML_CONFIGURATION,
+  GPU_DEVICES,
+  OTHER_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -60,6 +62,8 @@ import { useDocs } from "context/useDocs";
 import MigrationForm, {
   MigrationFormValues,
 } from "components/forms/MigrationForm";
+import GPUDeviceForm from "components/forms/GPUDeviceForm";
+import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 
@@ -203,6 +207,14 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(NETWORK_DEVICES) && (
               <NetworkDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === slugify(GPU_DEVICES) && (
+              <GPUDeviceForm formik={formik} project={project} />
+            )}
+
+            {section === slugify(OTHER_DEVICES) && (
+              <OtherDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(RESOURCE_LIMITS) && (

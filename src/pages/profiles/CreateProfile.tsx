@@ -44,6 +44,8 @@ import ProfileFormMenu, {
   SNAPSHOTS,
   YAML_CONFIGURATION,
   NETWORK_DEVICES,
+  GPU_DEVICES,
+  OTHER_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import ProfileDetailsForm, {
   profileDetailPayload,
@@ -63,6 +65,8 @@ import MigrationForm, {
   MigrationFormValues,
   migrationPayload,
 } from "components/forms/MigrationForm";
+import GPUDevicesForm from "components/forms/GPUDeviceForm";
+import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 
@@ -186,6 +190,14 @@ const CreateProfile: FC = () => {
 
             {section === NETWORK_DEVICES && (
               <NetworkDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === GPU_DEVICES && (
+              <GPUDevicesForm formik={formik} project={project} />
+            )}
+
+            {section === OTHER_DEVICES && (
+              <OtherDeviceForm formik={formik} project={project} />
             )}
 
             {section === RESOURCE_LIMITS && (

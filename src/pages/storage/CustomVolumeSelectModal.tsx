@@ -136,7 +136,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
           headers={headers}
           rows={rows}
           sortable
-          className="table-volume-select u-table-layout--auto"
+          className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading || isFetching ? (
               <Loader text="Loading volumes..." />

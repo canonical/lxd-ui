@@ -4,12 +4,14 @@ import {
   getAbsoluteHeightBelowById,
   getParentsBottomSpacing,
 } from "util/helpers";
+import classnames from "classnames";
 
 interface Props {
   children: ReactNode;
   dependencies: DependencyList;
   tableId: string;
   belowIds?: string[];
+  className?: string;
 }
 
 const ScrollableTable: FC<Props> = ({
@@ -17,6 +19,7 @@ const ScrollableTable: FC<Props> = ({
   children,
   tableId,
   belowIds = [],
+  className,
 }) => {
   const updateTBodyHeight = () => {
     const table = document.getElementById(tableId);
@@ -39,7 +42,9 @@ const ScrollableTable: FC<Props> = ({
   useEventListener("resize", updateTBodyHeight);
   useEffect(updateTBodyHeight, [...dependencies]);
 
-  return <div className="scrollable-table">{children}</div>;
+  return (
+    <div className={classnames("scrollable-table", className)}>{children}</div>
+  );
 };
 
 export default ScrollableTable;

@@ -113,7 +113,7 @@ const CustomIsoSelector: FC<Props> = ({
           headers={headers}
           rows={rows}
           sortable
-          className="table-iso-select u-table-layout--auto"
+          className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
               <Loader text="Loading images..." />

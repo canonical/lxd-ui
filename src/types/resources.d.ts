@@ -48,24 +48,24 @@ export interface Threads {
 }
 
 export interface Gpu {
-  cards?: GpuCards[] | null;
+  cards?: GpuCard[] | null;
   total: number;
 }
 
-export interface GpuCards {
-  driver: string;
-  driver_version: string;
-  drm: Drm;
+export interface GpuCard {
+  driver?: string;
+  driver_version?: string;
+  drm?: Drm;
   mdev?: null;
-  numa_node: number;
-  nvidia: Nvidia;
-  pci_address: string;
-  product: string;
-  product_id: string;
-  sriov: Sriov;
-  usb_address: string;
-  vendor: string;
-  vendor_id: string;
+  numa_node?: number;
+  nvidia?: Nvidia;
+  pci_address?: string;
+  product?: string;
+  product_id?: string;
+  sriov?: Sriov;
+  usb_address?: string;
+  vendor?: string;
+  vendor_id?: string;
 }
 
 export interface Drm {
