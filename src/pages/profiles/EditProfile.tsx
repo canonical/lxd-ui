@@ -172,7 +172,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
           <ProfileFormMenu
             active={section ?? slugify(MAIN_CONFIGURATION)}
             setActive={updateSection}
-            hasName={true}
+            isDisabled={false}
             formik={formik}
           />
         )}

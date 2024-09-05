@@ -26,7 +26,7 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   const instanceVolume = randomVolumeName();
 
   await startProfileCreation(page, profile);
-  await page.getByText("Disk devices").click();
+  await page.getByText("Disk", { exact: true }).click();
   await attachVolume(page, profileVolume, "/foo");
   await finishProfileCreation(page, profile);
 
@@ -35,7 +35,7 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   await editInstance(page, instance);
   await page.getByRole("button", { name: "Add profile" }).click();
   await page.locator("#profile-1").selectOption(profile);
-  await page.getByText("Disk devices").click();
+  await page.getByText("Disk", { exact: true }).click();
   await detachVolume(page, "volume-1");
   await attachVolume(page, instanceVolume, "/baz");
   await saveInstance(page, instance);
@@ -54,7 +54,7 @@ test("profile edit custom volumes", async ({ page }) => {
   const volume = randomVolumeName();
 
   await startProfileCreation(page, profile);
-  await page.getByText("Disk devices").click();
+  await page.getByText("Disk", { exact: true }).click();
   await page.getByRole("button", { name: "Create override" }).click();
   await page.getByPlaceholder("Enter value").fill("3");
   await attachVolume(page, volume, "/foo");
@@ -62,7 +62,7 @@ test("profile edit custom volumes", async ({ page }) => {
 
   await visitProfile(page, profile);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByText("Disk devices").click();
+  await page.getByText("Disk", { exact: true }).click();
   await page.getByRole("row", { name: "Size 3GiB" }).click();
   await page.getByRole("gridcell", { name: volume }).click();
   await page.getByRole("gridcell", { name: "/foo" }).click();
@@ -85,7 +85,7 @@ test("profile edit networks", async ({ page }) => {
   const profile = randomProfileName();
 
   await startProfileCreation(page, profile);
-  await page.getByText("Network devices").click();
+  await page.getByText("Network", { exact: true }).click();
   await page.getByRole("button", { name: "Attach network" }).click();
   await page.getByPlaceholder("Enter name").fill("eth0");
   await page.getByLabel("Network").selectOption({ index: 1 });
@@ -93,7 +93,7 @@ test("profile edit networks", async ({ page }) => {
 
   await visitProfile(page, profile);
   await page.getByTestId("tab-link-Configuration").click();
-  await page.getByText("Network devices").click();
+  await page.getByText("Network", { exact: true }).click();
   await page.getByRole("gridcell", { name: "eth0" }).click();
 
   await page.getByRole("button", { name: "Attach network" }).click();

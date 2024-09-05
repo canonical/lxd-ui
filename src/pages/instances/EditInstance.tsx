@@ -190,7 +190,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
           <InstanceFormMenu
             active={section ?? slugify(MAIN_CONFIGURATION)}
             setActive={updateSection}
-            isConfigDisabled={false}
+            isDisabled={false}
             hasDiskError={hasDiskError(formik)}
             hasNetworkError={hasNetworkError(formik)}
           />

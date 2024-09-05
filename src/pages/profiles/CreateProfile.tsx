@@ -173,7 +173,7 @@ const CreateProfile: FC = () => {
           <ProfileFormMenu
             active={section}
             setActive={updateSection}
-            hasName={Boolean(formik.values.name)}
+            isDisabled={!formik.values.name}
             formik={formik}
           />
         )}
