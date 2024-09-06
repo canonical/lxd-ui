@@ -33,7 +33,7 @@ export const createInstance = async (
     .selectOption(type);
 
   if (project !== "default") {
-    await page.getByText("Disk devices").click();
+    await page.getByText("Disk", { exact: true }).click();
     await page.getByRole("button", { name: "Create override" }).click();
   }
 

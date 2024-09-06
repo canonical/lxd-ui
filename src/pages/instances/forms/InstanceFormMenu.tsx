@@ -1,14 +1,14 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 
 export const MAIN_CONFIGURATION = "Main configuration";
-export const DISK_DEVICES = "Disk devices";
-export const NETWORK_DEVICES = "Network devices";
-export const GPU_DEVICES = "GPU devices";
-export const OTHER_DEVICES = "Other devices";
+export const DISK_DEVICES = "Disk";
+export const NETWORK_DEVICES = "Network";
+export const GPU_DEVICES = "GPU";
+export const OTHER_DEVICES = "Other";
 export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
 export const MIGRATION = "Migration";
@@ -17,7 +17,7 @@ export const CLOUD_INIT = "Cloud init";
 export const YAML_CONFIGURATION = "YAML configuration";
 
 interface Props {
-  isConfigDisabled: boolean;
+  isDisabled: boolean;
   active: string;
   setActive: (val: string) => void;
   hasDiskError: boolean;
@@ -25,19 +25,23 @@ interface Props {
 }
 
 const InstanceFormMenu: FC<Props> = ({
-  isConfigDisabled,
+  isDisabled,
   active,
   setActive,
   hasDiskError,
   hasNetworkError,
 }) => {
   const notify = useNotify();
+  const [isDeviceExpanded, setDeviceExpanded] = useState(true);
+
+  const disableReason = isDisabled
+    ? "Please select an image before adding custom configuration"
+    : undefined;
+
   const menuItemProps = {
     active,
     setActive,
-    disableReason: isConfigDisabled
-      ? "Please select an image before adding custom configuration"
-      : undefined,
+    disableReason,
   };
 
   const resize = () => {
@@ -51,18 +55,39 @@ const InstanceFormMenu: FC<Props> = ({
       <nav aria-label="Instance form navigation">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
-          <MenuItem
-            label={DISK_DEVICES}
-            hasError={hasDiskError}
-            {...menuItemProps}
-          />
-          <MenuItem
-            label={NETWORK_DEVICES}
-            hasError={hasNetworkError}
-            {...menuItemProps}
-          />
-          <MenuItem label={GPU_DEVICES} {...menuItemProps} />
-          <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
+          <li className="p-side-navigation__item">
+            <Button
+              type="button"
+              className="p-side-navigation__accordion-button"
+              aria-expanded={isDeviceExpanded ? "true" : "false"}
+              onClick={() => {
+                if (!isDisabled) {
+                  setDeviceExpanded(!isDeviceExpanded);
+                }
+              }}
+              disabled={isDisabled}
+              title={disableReason}
+            >
+              Devices
+            </Button>
+            <ul
+              className="p-side-navigation__list"
+              aria-expanded={isDeviceExpanded ? "true" : "false"}
+            >
+              <MenuItem
+                label={DISK_DEVICES}
+                hasError={hasDiskError}
+                {...menuItemProps}
+              />
+              <MenuItem
+                label={NETWORK_DEVICES}
+                hasError={hasNetworkError}
+                {...menuItemProps}
+              />
+              <MenuItem label={GPU_DEVICES} {...menuItemProps} />
+              <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
+            </ul>
+          </li>
           <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
           <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
           <MenuItem label={SNAPSHOTS} {...menuItemProps} />

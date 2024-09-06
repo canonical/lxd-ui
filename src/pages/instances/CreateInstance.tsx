@@ -408,7 +408,7 @@ const CreateInstance: FC = () => {
           <InstanceFormMenu
             active={section}
             setActive={updateSection}
-            isConfigDisabled={!formik.values.image}
+            isDisabled={!formik.values.image}
             hasDiskError={diskError || hasNoRootDisk(formik.values, profiles)}
             hasNetworkError={networkError}
           />
