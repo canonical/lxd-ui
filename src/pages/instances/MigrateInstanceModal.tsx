@@ -10,17 +10,15 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchClusterMembers } from "api/cluster";
 import Loader from "components/Loader";
-import { pluralize } from "util/instanceBulkActions";
-import { getValidInstancesForMigration } from "util/instanceMigrate";
 import ScrollableTable from "components/ScrollableTable";
 
 interface Props {
   close: () => void;
-  migrate: (target: string, instances: LxdInstance[]) => void;
-  instances: LxdInstance[];
+  migrate: (target: string, instance: LxdInstance) => void;
+  instance: LxdInstance;
 }
 
-const MigrateInstanceModal: FC<Props> = ({ close, migrate, instances }) => {
+const MigrateInstanceModal: FC<Props> = ({ close, migrate, instance }) => {
   const { data: members = [], isLoading } = useQuery({
     queryKey: [queryKeys.cluster, queryKeys.members],
     queryFn: fetchClusterMembers,
@@ -28,16 +26,14 @@ const MigrateInstanceModal: FC<Props> = ({ close, migrate, instances }) => {
 
   const [selectedMember, setSelectedMember] = useState("");
 
-  const isBulkMigration = instances.length > 1;
-
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Escape") {
       close();
     }
   };
 
-  const handleMigrate = (instances: LxdInstance[]) => {
-    migrate(selectedMember, instances);
+  const handleMigrate = (instance: LxdInstance) => {
+    migrate(selectedMember, instance);
     close();
   };
 
@@ -60,7 +56,7 @@ const MigrateInstanceModal: FC<Props> = ({ close, migrate, instances }) => {
 
   const rows = members.map((member) => {
     const disableReason =
-      !isBulkMigration && member.server_name === instances[0].location
+      member.server_name === instance.location
         ? "Instance already running on this member"
         : "";
 
@@ -138,13 +134,15 @@ const MigrateInstanceModal: FC<Props> = ({ close, migrate, instances }) => {
 
   const modalTitle = selectedMember
     ? "Confirm migration"
-    : isBulkMigration
-      ? `Choose target cluster member for ${instances.length} selected ${pluralize("instance", instances.length)}`
-      : `Choose target cluster member for instance ${instances[0].name}`;
+    : `Choose target cluster member for instance ${instance.name}`;
 
-  const { summary, validInstances } = getValidInstancesForMigration(
-    instances,
-    selectedMember,
+  const summary = (
+    <div className="migrate-instance-summary">
+      <p>
+        This will migrate instance <strong>{instance.name}</strong> to cluster
+        member <b>{selectedMember}</b>.
+      </p>
+    </div>
   );
 
   return (
@@ -166,8 +164,8 @@ const MigrateInstanceModal: FC<Props> = ({ close, migrate, instances }) => {
           <ActionButton
             appearance="positive"
             className="u-no-margin--bottom"
-            onClick={() => handleMigrate(validInstances)}
-            disabled={!selectedMember || !validInstances.length}
+            onClick={() => handleMigrate(instance)}
+            disabled={!selectedMember}
           >
             Migrate
           </ActionButton>
