@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import {
   Button,
   Icon,
@@ -28,7 +28,7 @@ import {
   removeDevice,
 } from "util/formDevices";
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
-import { deviceKeyToLabel } from "util/devices";
+import { deviceKeyToLabel, getExistingDeviceNames } from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
 import { useDocs } from "context/useDocs";
 import GPUDeviceInput from "components/forms/GPUDeviceInput";
@@ -57,9 +57,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
 
   const inheritedGPUs = getInheritedGPUs(formik.values, profiles);
 
-  const existingDeviceNames: string[] = [];
-  existingDeviceNames.push(...inheritedGPUs.map((item) => item.key));
-  existingDeviceNames.push(...formik.values.devices.map((item) => item.name));
+  const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
   const addGPUCard = (card: GpuCard) => {
     const copy = [...formik.values.devices];

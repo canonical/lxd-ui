@@ -1,8 +1,7 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
-import { InheritedVolume } from "util/configInheritance";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
 import {
   deduplicateName,
@@ -18,18 +17,16 @@ import classnames from "classnames";
 import { LxdStorageVolume } from "types/storage";
 import { isDiskDeviceMountPointMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
+import { getExistingDeviceNames } from "util/devices";
+import { LxdProfile } from "types/profile";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  inheritedVolumes: InheritedVolume[];
+  profiles: LxdProfile[];
 }
 
-const DiskDeviceFormCustom: FC<Props> = ({
-  formik,
-  project,
-  inheritedVolumes,
-}) => {
+const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const customVolumes = formik.values.devices
     .filter((device) => device.name !== "root" && device.type === "disk")
@@ -39,9 +36,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
     setTimeout(() => document.getElementById(name)?.focus(), 100);
   };
 
-  const existingDeviceNames: string[] = [];
-  existingDeviceNames.push(...inheritedVolumes.map((item) => item.key));
-  existingDeviceNames.push(...formik.values.devices.map((item) => item.name));
+  const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
   const addVolume = (volume: LxdStorageVolume) => {
     const copy = [...formik.values.devices];

@@ -75,7 +75,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
         <DiskDeviceFormCustom
           formik={formik}
           project={project}
-          inheritedVolumes={inheritedVolumes}
+          profiles={profiles}
         />
       </ScrollableForm>
     </div>

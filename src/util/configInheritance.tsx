@@ -365,7 +365,7 @@ export const getInheritedOtherDevices = (
   return inheritedDevices;
 };
 
-const getAppliedProfiles = (
+export const getAppliedProfiles = (
   values: CreateInstanceFormValues | EditInstanceFormValues,
   profiles: LxdProfile[],
 ) => {
