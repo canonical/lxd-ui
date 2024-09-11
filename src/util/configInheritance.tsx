@@ -7,12 +7,14 @@ import {
   isGPUDevice,
   isNicDevice,
   isOtherDevice,
+  isProxyDevice,
 } from "util/devices";
 import {
   LxdDiskDevice,
   LxdGPUDevice,
   LxdNicDevice,
   LxdOtherDevice,
+  LxdProxyDevice,
 } from "types/device";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { ConfigurationRowFormikValues } from "components/ConfigurationRow";
@@ -334,6 +336,35 @@ export const getInheritedGPUs = (
   }
 
   return inheritedGPUs;
+};
+
+interface InheritedProxy {
+  key: string;
+  proxy: LxdProxyDevice;
+  source: string;
+}
+
+export const getInheritedProxies = (
+  values: InstanceAndProfileFormValues,
+  profiles: LxdProfile[],
+): InheritedProxy[] => {
+  const inheritedProxies: InheritedProxy[] = [];
+  if (values.entityType === "instance") {
+    const appliedProfiles = getAppliedProfiles(values, profiles);
+    for (const profile of appliedProfiles) {
+      Object.entries(profile.devices)
+        .filter(([_key, device]) => isProxyDevice(device))
+        .map(([key, proxy]) => {
+          inheritedProxies.push({
+            key: key,
+            proxy: proxy as LxdProxyDevice,
+            source: `${profile.name} profile`,
+          });
+        });
+    }
+  }
+
+  return inheritedProxies;
 };
 
 interface InheritedOtherDevice {

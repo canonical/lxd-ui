@@ -47,7 +47,7 @@ describe("parseDevices and formDeviceToPayload", () => {
     expect(matchFormDeviceType("disk").length).toBe(1);
     expect(matchFormDeviceType("nic").length).toBe(1);
     expect(matchFormDeviceType("custom-nic").length).toBe(1);
-    expect(matchFormDeviceType("unknown").length).toBe(2);
+    expect(matchFormDeviceType("proxy").length).toBe(2);
     expect(matchFormDeviceType("gpu").length).toBe(1);
 
     const outYaml = dumpYaml({ devices: payload });

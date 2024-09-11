@@ -4,6 +4,7 @@ import {
   LxdGPUDevice,
   LxdNicDevice,
   LxdOtherDevice,
+  LxdProxyDevice,
 } from "types/device";
 import { FormDevice } from "util/formDevices";
 
@@ -15,6 +16,10 @@ export const isDiskDevice = (device: LxdDeviceValue): device is LxdDiskDevice =>
 
 export const isGPUDevice = (device: LxdDeviceValue): device is LxdGPUDevice =>
   device.type === "gpu";
+
+export const isProxyDevice = (
+  device: LxdDeviceValue,
+): device is LxdProxyDevice => device.type === "proxy";
 
 export const isOtherDevice = (
   device: LxdDeviceValue | FormDevice,
@@ -56,6 +61,13 @@ export const deviceKeyToLabel = (input: string): string => {
     vendorid: "Vendor ID",
     gputype: "GPU type",
     type: "Type",
+    nat: "NAT mode",
+    bind: "Bind",
+    proxy_protocol: "Use HAproxy protocol",
+    listen: "Listen",
+    connect: "Connect",
+    security_gid: "Security GID",
+    security_id: "Security ID",
   };
   if (input in map) {
     return map[input as keyof typeof map];

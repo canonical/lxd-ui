@@ -5,6 +5,7 @@ import {
   LxdIsoDevice,
   LxdNicDevice,
   LxdOtherDevice,
+  LxdProxyDevice,
 } from "types/device";
 import { RemoteImage } from "types/image";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
@@ -57,6 +58,7 @@ export type FormDevice =
   | CustomNetworkDevice
   | IsoVolumeDevice
   | LxdGPUDevice
+  | LxdProxyDevice
   | LxdOtherDevice
   | EmptyDevice;
 
@@ -154,6 +156,7 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           type: "disk",
         };
       case "gpu":
+      case "proxy":
       case "infiniband":
       case "pci":
       case "tpm":

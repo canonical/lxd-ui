@@ -41,6 +41,7 @@ import InstanceFormMenu, {
   YAML_CONFIGURATION,
   GPU_DEVICES,
   OTHER_DEVICES,
+  PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -66,6 +67,7 @@ import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
+import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -211,6 +213,10 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(GPU_DEVICES) && (
               <GPUDeviceForm formik={formik} project={project} />
+            )}
+
+            {section === slugify(PROXY_DEVICES) && (
+              <ProxyDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(OTHER_DEVICES) && (
