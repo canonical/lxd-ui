@@ -10,6 +10,7 @@ import {
   isProxyDevice,
 } from "util/devices";
 import {
+  LxdDeviceValue,
   LxdDiskDevice,
   LxdGPUDevice,
   LxdNicDevice,
@@ -106,6 +107,12 @@ const getInstanceRowMetadata = (
   return getInstanceProfileProjectDefaults(values, configKey, configField);
 };
 
+const getLxdDefault = (configField: ConfigField | undefined): string => {
+  return configField?.default && configField?.default.length > 0
+    ? configField?.default
+    : "-";
+};
+
 const getProjectRowMetadata = (
   values: ProjectFormValues,
   name: string,
@@ -141,10 +148,7 @@ const getStorageVolumeRowMetadata = (
   const configKey = getVolumeKey(name);
   const configField = configFields.find((item) => item.key === configKey);
 
-  const lxdDefault =
-    configField?.default && configField?.default.length > 0
-      ? configField?.default
-      : "-";
+  const lxdDefault = getLxdDefault(configField);
 
   return { value: lxdDefault, source: "LXD", configField };
 };
@@ -160,10 +164,7 @@ const getNetworkRowMetadata = (
   const configKey = getNetworkKey(name);
   const configField = configFields.find((item) => item.key === configKey);
 
-  const lxdDefault =
-    configField?.default && configField?.default.length > 0
-      ? configField?.default
-      : "-";
+  const lxdDefault = getLxdDefault(configField);
 
   return { value: lxdDefault, source: "LXD", configField };
 };
@@ -180,10 +181,7 @@ const getStoragePoolRowMetadata = (
   const configKey = getPoolKey(name);
   const configField = configFields.find((item) => item.key === configKey);
 
-  const lxdDefault =
-    configField?.default && configField?.default.length > 0
-      ? configField?.default
-      : "-";
+  const lxdDefault = getLxdDefault(configField);
 
   return { value: lxdDefault, source: "LXD", configField };
 };
@@ -224,28 +222,43 @@ const getInstanceProfileProjectDefaults = (
     }
   }
 
-  const lxdDefault =
-    configField?.default && configField?.default.length > 0
-      ? configField?.default
-      : "-";
+  const lxdDefault = getLxdDefault(configField);
 
   return { value: lxdDefault, source: "LXD", configField };
+};
+
+interface InheritedDevice {
+  key: string;
+  device: LxdDeviceValue;
+  source: string;
+}
+
+const getInheritedDevices = (
+  values: InstanceAndProfileFormValues,
+  profiles: LxdProfile[],
+): InheritedDevice[] => {
+  const result: InheritedDevice[] = [];
+  if (values.entityType === "instance") {
+    const appliedProfiles = getAppliedProfiles(values, profiles);
+    for (const profile of appliedProfiles) {
+      Object.entries(profile.devices).map(([key, device]) => {
+        result.push({ key, device, source: `${profile.name} profile` });
+      });
+    }
+  }
+  return result;
 };
 
 export const getInheritedRootStorage = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
 ): [LxdDiskDevice | null, string] => {
-  if (values.entityType === "instance") {
-    const appliedProfiles = getAppliedProfiles(values, profiles);
-    for (const profile of appliedProfiles) {
-      const rootDevice = Object.values(profile.devices)
-        .filter(isDiskDevice)
-        .find((device) => device.path === "/");
-      if (rootDevice) {
-        return [rootDevice, `${profile.name} profile`];
-      }
-    }
+  const rootDisk = getInheritedDevices(values, profiles)
+    .filter((item) => isDiskDevice(item.device))
+    .find((item) => (item.device as LxdDiskDevice).path === "/");
+
+  if (rootDisk) {
+    return [rootDisk.device as LxdDiskDevice, rootDisk.source];
   }
 
   return [null, "LXD"];
@@ -261,23 +274,12 @@ export const getInheritedVolumes = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
 ): InheritedVolume[] => {
-  const inheritedVolumes: InheritedVolume[] = [];
-  if (values.entityType === "instance") {
-    const appliedProfiles = getAppliedProfiles(values, profiles);
-    for (const profile of appliedProfiles) {
-      Object.entries(profile.devices)
-        .filter(([key, device]) => isDiskDevice(device) && key !== "root")
-        .map(([key, disk]) => {
-          inheritedVolumes.push({
-            key: key,
-            disk: disk as LxdDiskDevice,
-            source: `${profile.name} profile`,
-          });
-        });
-    }
-  }
-
-  return inheritedVolumes;
+  return getInheritedDevices(values, profiles)
+    .filter((item) => isDiskDevice(item.device) && item.device.path !== "/")
+    .map((item) => ({
+      ...item,
+      disk: item.device as LxdDiskDevice,
+    }));
 };
 
 interface InheritedNetwork {
@@ -290,23 +292,12 @@ export const getInheritedNetworks = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
 ): InheritedNetwork[] => {
-  const inheritedNetworks: InheritedNetwork[] = [];
-  if (values.entityType === "instance") {
-    const appliedProfiles = getAppliedProfiles(values, profiles);
-    for (const profile of appliedProfiles) {
-      Object.entries(profile.devices)
-        .filter(([_key, network]) => isNicDevice(network))
-        .map(([key, network]) => {
-          inheritedNetworks.push({
-            key: key,
-            network: network as LxdNicDevice,
-            source: `${profile.name} profile`,
-          });
-        });
-    }
-  }
-
-  return inheritedNetworks;
+  return getInheritedDevices(values, profiles)
+    .filter((item) => isNicDevice(item.device))
+    .map((item) => ({
+      ...item,
+      network: item.device as LxdNicDevice,
+    }));
 };
 
 interface InheritedGPU {
@@ -319,23 +310,12 @@ export const getInheritedGPUs = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
 ): InheritedGPU[] => {
-  const inheritedGPUs: InheritedGPU[] = [];
-  if (values.entityType === "instance") {
-    const appliedProfiles = getAppliedProfiles(values, profiles);
-    for (const profile of appliedProfiles) {
-      Object.entries(profile.devices)
-        .filter(([_key, device]) => isGPUDevice(device))
-        .map(([key, gpu]) => {
-          inheritedGPUs.push({
-            key: key,
-            gpu: gpu as LxdGPUDevice,
-            source: `${profile.name} profile`,
-          });
-        });
-    }
-  }
-
-  return inheritedGPUs;
+  return getInheritedDevices(values, profiles)
+    .filter((item) => isGPUDevice(item.device))
+    .map((item) => ({
+      ...item,
+      gpu: item.device as LxdGPUDevice,
+    }));
 };
 
 interface InheritedProxy {
@@ -348,23 +328,12 @@ export const getInheritedProxies = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
 ): InheritedProxy[] => {
-  const inheritedProxies: InheritedProxy[] = [];
-  if (values.entityType === "instance") {
-    const appliedProfiles = getAppliedProfiles(values, profiles);
-    for (const profile of appliedProfiles) {
-      Object.entries(profile.devices)
-        .filter(([_key, device]) => isProxyDevice(device))
-        .map(([key, proxy]) => {
-          inheritedProxies.push({
-            key: key,
-            proxy: proxy as LxdProxyDevice,
-            source: `${profile.name} profile`,
-          });
-        });
-    }
-  }
-
-  return inheritedProxies;
+  return getInheritedDevices(values, profiles)
+    .filter((item) => isProxyDevice(item.device))
+    .map((item) => ({
+      ...item,
+      proxy: item.device as LxdProxyDevice,
+    }));
 };
 
 interface InheritedOtherDevice {
@@ -377,23 +346,12 @@ export const getInheritedOtherDevices = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
 ): InheritedOtherDevice[] => {
-  const inheritedDevices: InheritedOtherDevice[] = [];
-  if (values.entityType === "instance") {
-    const appliedProfiles = getAppliedProfiles(values, profiles);
-    for (const profile of appliedProfiles) {
-      Object.entries(profile.devices)
-        .filter(([_key, device]) => isOtherDevice(device))
-        .map(([key, device]) => {
-          inheritedDevices.push({
-            key: key,
-            device: device as LxdOtherDevice,
-            source: `${profile.name} profile`,
-          });
-        });
-    }
-  }
-
-  return inheritedDevices;
+  return getInheritedDevices(values, profiles)
+    .filter((item) => isOtherDevice(item.device))
+    .map((item) => ({
+      ...item,
+      device: item.device as LxdOtherDevice,
+    }));
 };
 
 export const getAppliedProfiles = (
