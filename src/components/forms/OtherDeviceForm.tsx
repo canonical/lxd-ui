@@ -21,7 +21,11 @@ import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getInheritedOtherDevices } from "util/configInheritance";
-import { deviceKeyToLabel, isOtherDevice } from "util/devices";
+import {
+  deviceKeyToLabel,
+  getExistingDeviceNames,
+  isOtherDevice,
+} from "util/devices";
 import classnames from "classnames";
 import ConfigurationTable from "components/ConfigurationTable";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -72,10 +76,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
   }
 
   const inheritedDevices = getInheritedOtherDevices(formik.values, profiles);
-
-  const existingDeviceNames: string[] = [];
-  existingDeviceNames.push(...inheritedDevices.map((item) => item.key));
-  existingDeviceNames.push(...formik.values.devices.map((item) => item.name));
+  const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
   const addDevice = () => {
     const copy = [...formik.values.devices];

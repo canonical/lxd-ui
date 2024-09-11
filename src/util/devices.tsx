@@ -1,3 +1,4 @@
+import { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
 import {
   LxdDeviceValue,
   LxdDiskDevice,
@@ -6,7 +7,9 @@ import {
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
+import { LxdProfile } from "types/profile";
 import { FormDevice } from "util/formDevices";
+import { getAppliedProfiles } from "./configInheritance";
 
 export const isNicDevice = (device: LxdDeviceValue): device is LxdNicDevice =>
   device.type === "nic";
@@ -73,4 +76,25 @@ export const deviceKeyToLabel = (input: string): string => {
     return map[input as keyof typeof map];
   }
   return input;
+};
+
+export const getExistingDeviceNames = (
+  values: InstanceAndProfileFormValues,
+  profiles: LxdProfile[],
+): string[] => {
+  const existingDeviceNames: string[] = [];
+
+  // Returns devices within the instance
+  existingDeviceNames.push(...values.devices.map((item) => item.name));
+  // Returns devices from any of the profiles assigned to the instance
+  if (values.entityType === "instance") {
+    const appliedProfiles = getAppliedProfiles(values, profiles);
+    for (const profile of appliedProfiles) {
+      Object.entries(profile.devices).map(([key]) => {
+        existingDeviceNames.push(key);
+      });
+    }
+  }
+
+  return existingDeviceNames;
 };
