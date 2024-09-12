@@ -7,7 +7,7 @@ export const randomIdpGroupName = (): string => {
   return `playwright-idp-group-${randomNameSuffix()}`;
 };
 
-export const visitIdpGroupsPage = async (page: Page) => {
+export const visitIdpGroups = async (page: Page) => {
   await page.goto("/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "IDP groups" }).click();
@@ -21,7 +21,7 @@ export const createIdpGroup = async (
   idpGroup: string,
   groups: string[],
 ) => {
-  await visitIdpGroupsPage(page);
+  await visitIdpGroups(page);
   await page.getByRole("button", { name: "Create IDP group" }).click();
   await page.getByPlaceholder("Enter name").fill(idpGroup);
   for (const group of groups) {
@@ -54,7 +54,7 @@ export const editIdpGroup = async (
   newIdpGroupName: string,
   groups: string[],
 ) => {
-  await visitIdpGroupsPage(page);
+  await visitIdpGroups(page);
   await page
     .getByRole("row", { name: `Select ${oldIdpGroupName} Name Number of` })
     .getByLabel("Edit IDP group details")

@@ -4,28 +4,26 @@ import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { LxdPermission } from "types/permissions";
 import {
   generateEntitlementOptions,
   generateResourceOptions,
+  getIdentityNameLookup,
+  getImageNameLookup,
+  getPermissionId,
+  getResourceLabel,
   getResourceTypeOptions,
   noneAvailableOption,
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
-
-export type LxdPermissionWithID = LxdPermission & { id: string };
+import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import { fetchImageList } from "api/images";
+import { fetchIdentities } from "api/auth-identities";
 
 interface Props {
-  imageNamesLookup: Record<string, string>;
-  identityNamesLookup: Record<string, string>;
-  onAddPermission: (permission: LxdPermissionWithID) => void;
+  onAddPermission: (permission: FormPermission) => void;
 }
 
-const PermissionSelector: FC<Props> = ({
-  imageNamesLookup,
-  identityNamesLookup,
-  onAddPermission,
-}) => {
+const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const notify = useNotify();
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
@@ -41,6 +39,19 @@ const PermissionSelector: FC<Props> = ({
     queryFn: () => fetchPermissions({ resourceType }),
     enabled: !!resourceType,
   });
+
+  const { data: images = [] } = useQuery({
+    queryKey: [queryKeys.images],
+    queryFn: () => fetchImageList(),
+  });
+
+  const { data: identities = [] } = useQuery({
+    queryKey: [queryKeys.identities],
+    queryFn: fetchIdentities,
+  });
+
+  const imageNamesLookup = getImageNameLookup(images);
+  const identityNamesLookup = getIdentityNameLookup(identities);
 
   const { data: metadata, isLoading: isMetadataLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
@@ -97,15 +108,21 @@ const PermissionSelector: FC<Props> = ({
   };
 
   const handleAddPermission = () => {
-    const newPermissionId = resourceType + resource + entitlement;
-    const newPermission = {
-      id: newPermissionId,
+    const permission = {
       entity_type: resourceType,
       url: resource,
       entitlement: entitlement,
     };
 
-    onAddPermission(newPermission);
+    onAddPermission({
+      ...permission,
+      id: getPermissionId(permission),
+      resourceLabel: getResourceLabel(
+        permission,
+        imageNamesLookup,
+        identityNamesLookup,
+      ),
+    });
 
     // after adding a permission, only reset the entitlement selector
     setEntitlement("");

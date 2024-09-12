@@ -5,7 +5,7 @@ import { expect } from "../fixtures/lxd-test";
 export const identityBar = "bar@bar.com";
 export const identityFoo = "foo@foo.com";
 
-export const visitIdentitiesPage = async (page: Page) => {
+export const visitIdentities = async (page: Page) => {
   await page.goto("/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Identities" }).click();

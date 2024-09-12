@@ -6,7 +6,7 @@ export const randomGroupName = (): string => {
   return `playwright-group-${randomNameSuffix()}`;
 };
 
-export const visitGroupsPage = async (page: Page) => {
+export const visitGroups = async (page: Page) => {
   await page.goto("/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Groups", exact: true }).click();
@@ -15,36 +15,26 @@ export const visitGroupsPage = async (page: Page) => {
   ).toBeVisible();
 };
 
-export const selectGroupAction = async (
-  page: Page,
-  groupName: string,
-  action:
-    | "Edit group"
-    | "Manage identities"
-    | "Manage permissions"
-    | "Delete group",
-) => {
-  await page
-    .getByRole("row", { name: `Select ${groupName} Name` })
-    .getByLabel("group actions menu")
-    .click();
-  await page.getByRole("button", { name: action }).first().click();
-};
-
 export const renameGroup = async (
   page: Page,
   groupName: string,
   newGroupName: string,
 ) => {
-  await visitGroupsPage(page);
-  await selectGroupAction(page, groupName, "Edit group");
-
+  await visitGroups(page);
+  await openEditGroupPanel(page, groupName);
   await page.getByPlaceholder("Enter name").fill(newGroupName);
 
-  await page.getByRole("button", { name: "Confirm" }).click();
+  await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(
     `text=Group ${newGroupName ?? groupName} updated.`,
   );
+};
+
+export const openEditGroupPanel = async (page: Page, groupName: string) => {
+  await page
+    .getByRole("row", { name: `Select ${groupName} Name` })
+    .getByTitle("Edit group")
+    .click();
 };
 
 export const addPermission = async (
@@ -131,7 +121,7 @@ export const createGroup = async (
   groupName: string,
   description: string,
 ) => {
-  await visitGroupsPage(page);
+  await visitGroups(page);
   await page.getByRole("button", { name: "Create group" }).click();
   await page.getByPlaceholder("Enter name").fill(groupName);
   await page.getByPlaceholder("Enter description").click();
@@ -144,8 +134,11 @@ export const createGroup = async (
 };
 
 export const deleteGroup = async (page: Page, groupName: string) => {
-  await visitGroupsPage(page);
-  await selectGroupAction(page, groupName, "Delete group");
+  await visitGroups(page);
+  await page
+    .getByRole("row", { name: `Select ${groupName}` })
+    .getByTitle("Delete group")
+    .click();
   await page
     .getByPlaceholder("confirm-delete-group")
     .fill("confirm-delete-group");

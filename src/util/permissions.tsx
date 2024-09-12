@@ -3,11 +3,12 @@ import { OptionHTMLAttributes } from "react";
 import { LxdImage } from "types/image";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import {
-  ResourceDetail,
   extractResourceDetailsFromUrl,
+  ResourceDetail,
 } from "./resourceDetails";
 import { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
+import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
 
 type EntitlementOption = OptionHTMLAttributes<HTMLOptionElement> & {
   disabled?: boolean;
@@ -152,7 +153,7 @@ export const generateResourceOptions = (
       imageNamesLookup,
       identityNamesLookup,
     );
-    const resourceLabel = constructResourceSelectorLabel(resource);
+    const resourceLabel = getResourceSelectorLabel(resource);
 
     if (processedResources.has(resourceLabel)) {
       continue;
@@ -268,9 +269,7 @@ export const generateEntitlementOptions = (
   ];
 };
 
-export const constructResourceSelectorLabel = (
-  resource: ResourceDetail,
-): string => {
+const getResourceSelectorLabel = (resource: ResourceDetail): string => {
   const projectName = resource.project
     ? ` (project: ${resource.project}) `
     : "";
@@ -283,7 +282,28 @@ export const getPermissionId = (permission: LxdPermission): string => {
   return permission.entity_type + permission.url + permission.entitlement;
 };
 
-export const generateImageNamesLookup = (
+export const getPermissionIds = (permissions: LxdPermission[]): string[] => {
+  return permissions.map((permission) => {
+    return getPermissionId(permission);
+  });
+};
+
+export const getResourceLabel = (
+  permission: LxdPermission,
+  imageNamesLookup?: Record<string, string>,
+  identityNamesLookup?: Record<string, string>,
+): string => {
+  const resource = extractResourceDetailsFromUrl(
+    permission.entity_type,
+    permission.url,
+    imageNamesLookup,
+    identityNamesLookup,
+  );
+
+  return getResourceSelectorLabel(resource);
+};
+
+export const getImageNameLookup = (
   images: LxdImage[],
 ): Record<string, string> => {
   const nameLookup: Record<string, string> = {};
@@ -295,7 +315,7 @@ export const generateImageNamesLookup = (
   return nameLookup;
 };
 
-export const generateIdentityNamesLookup = (
+export const getIdentityNameLookup = (
   identities: LxdIdentity[],
 ): Record<string, string> => {
   const nameLookup: Record<string, string> = {};
@@ -316,41 +336,25 @@ const getResourceTypeSortOrder = (): Record<string, number> => {
 };
 
 const resourceTypeSortOrder = getResourceTypeSortOrder();
-export const generatePermissionSort = (
-  imageNamesLookup: Record<string, string>,
-  identityNamesLookup: Record<string, string>,
-): ((permissionA: LxdPermission, permissionB: LxdPermission) => number) => {
-  return (permissionA: LxdPermission, permissionB: LxdPermission) => {
-    const resourceTypeComparison =
-      resourceTypeSortOrder[permissionA.entity_type] -
-      resourceTypeSortOrder[permissionB.entity_type];
+export const permissionSort = (
+  permissionA: FormPermission,
+  permissionB: FormPermission,
+): number => {
+  const resourceTypeComparison =
+    resourceTypeSortOrder[permissionA.entity_type] -
+    resourceTypeSortOrder[permissionB.entity_type];
 
-    const resourceA = extractResourceDetailsFromUrl(
-      permissionA.entity_type,
-      permissionA.url,
-      imageNamesLookup,
-      identityNamesLookup,
-    );
+  const resourceNameComparison = permissionA.resourceLabel.localeCompare(
+    permissionB.resourceLabel,
+  );
 
-    const resourceB = extractResourceDetailsFromUrl(
-      permissionB.entity_type,
-      permissionB.url,
-      imageNamesLookup,
-      identityNamesLookup,
-    );
+  const entitlementComparison = permissionA.entitlement.localeCompare(
+    permissionB.entitlement,
+  );
 
-    const resourceLabelA = constructResourceSelectorLabel(resourceA);
-    const resourceLabelB = constructResourceSelectorLabel(resourceB);
-    const resourceNameComparison = resourceLabelA.localeCompare(resourceLabelB);
-
-    const entitlementComparison = permissionA.entitlement.localeCompare(
-      permissionB.entitlement,
-    );
-
-    return (
-      resourceTypeComparison || resourceNameComparison || entitlementComparison
-    );
-  };
+  return (
+    resourceTypeComparison || resourceNameComparison || entitlementComparison
+  );
 };
 
 export const enablePermissionsFeature = (): boolean => {

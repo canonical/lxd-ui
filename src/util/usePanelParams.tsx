@@ -16,7 +16,6 @@ export interface PanelHelper {
   openCreateGroup: () => void;
   openEditGroup: (group: string) => void;
   openGroupIdentities: (group?: string) => void;
-  openGroupPermissions: (group?: string) => void;
   openCreateIdpGroup: () => void;
   openEditIdpGroup: (group: string) => void;
 }
@@ -29,7 +28,6 @@ export const panels = {
   createGroup: "create-groups",
   editGroup: "edit-groups",
   groupIdentities: "group-identities",
-  groupPermissions: "group-permissions",
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
 };
@@ -111,10 +109,6 @@ const usePanelParams = (): PanelHelper => {
 
     openGroupIdentities: (group) => {
       setPanelParams(panels.groupIdentities, { group: group || "" });
-    },
-
-    openGroupPermissions: (group) => {
-      setPanelParams(panels.groupPermissions, { group: group || "" });
     },
 
     openCreateIdpGroup: () => {

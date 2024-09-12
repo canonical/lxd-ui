@@ -11,7 +11,7 @@ import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
@@ -29,7 +29,6 @@ import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import EditGroupIdentitiesBtn from "./actions/EditGroupIdentitiesBtn";
 import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
-import EditGroupPermissionsPanel from "./panels/EditGroupPermissionsPanel";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -49,6 +48,15 @@ const PermissionGroups: FC = () => {
   if (error) {
     notify.failure("Loading groups failed", error);
   }
+
+  useEffect(() => {
+    const validSelections = selectedGroupNames.filter((name) =>
+      groups.some((group) => group.name === name),
+    );
+    if (validSelections.length !== selectedGroupNames.length) {
+      setSelectedGroupNames(validSelections);
+    }
+  }, [groups]);
 
   useEffect(() => {
     if (panelParams.group) {
@@ -86,6 +94,8 @@ const PermissionGroups: FC = () => {
   const selectedGroups = groups.filter((group) =>
     selectedGroupNames.includes(group.name),
   );
+
+  const panelGroup = groups.find((group) => group.name === panelParams.group);
 
   const rows = filteredGroups.map((group) => {
     const allIdentityIds = getIdentityIdsForGroup(group);
@@ -283,18 +293,16 @@ const PermissionGroups: FC = () => {
 
       {panelParams.panel === panels.createGroup && <CreateGroupPanel />}
 
-      {panelParams.panel === panels.editGroup && !!selectedGroups.length && (
-        <EditGroupPanel group={selectedGroups[0]} />
+      {panelParams.panel === panels.editGroup && panelGroup && (
+        <EditGroupPanel
+          group={panelGroup}
+          onClose={() => setSelectedGroupNames([])}
+        />
       )}
 
       {panelParams.panel === panels.groupIdentities &&
         !!selectedGroups.length && (
           <EditGroupIdentitiesPanel groups={selectedGroups} />
-        )}
-
-      {panelParams.panel === panels.groupPermissions &&
-        !!selectedGroups.length && (
-          <EditGroupPermissionsPanel group={selectedGroups[0]} />
         )}
     </>
   );
