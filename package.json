@@ -30,7 +30,7 @@
     "test-report-coverage": "cp coverage/unit/coverage-final.json coverage/playwright/ ; nyc report --reporter html --reporter cobertura --reporter text-summary --temp-dir coverage/playwright --report-dir coverage/playwright-report --exclude 'src/lib/**' --exclude 'src/types/**'"
   },
   "dependencies": {
-    "@canonical/react-components": "1.2.2",
+    "@canonical/react-components": "1.2.3",
     "@monaco-editor/react": "4.6.0",
     "@tanstack/react-query": "5.51.23",
     "@use-it/event-listener": "0.1.7",
