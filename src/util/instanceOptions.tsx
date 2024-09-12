@@ -56,6 +56,7 @@ export const optionYesNo = [
     value: "false",
   },
 ];
+
 export const optionEnabledDisabled = [
   {
     label: "Select option",
@@ -75,3 +76,23 @@ export const optionEnabledDisabled = [
 export const diskPriorities = [...Array(11).keys()].map((i) => {
   return { label: i.toString(), value: i };
 });
+
+export const proxyAddressTypeOptions = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
+    label: "TCP",
+    value: "tcp",
+  },
+  {
+    label: "UDP",
+    value: "udp",
+  },
+  {
+    label: "UNIX",
+    value: "unix",
+  },
+];

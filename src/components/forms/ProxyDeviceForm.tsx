@@ -31,7 +31,8 @@ import { deviceKeyToLabel } from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
 import NewProxyBtn from "components/forms/NewProxyBtn";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import { optionEnabledDisabled, optionYesNo } from "util/instanceOptions";
+import { optionEnabledDisabled } from "util/instanceOptions";
+import { getProxyAddress } from "util/proxyDevices";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -84,6 +85,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
     }[],
     value?: string,
     help?: string,
+    onChange?: (value: string) => void,
+    disabledText?: string,
   ) => {
     const key = `devices.${index}.${fieldName}`;
 
@@ -99,11 +102,14 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           onChange={(e) => {
             ensureEditMode(formik);
             void formik.setFieldValue(key, e.target.value);
+            onChange?.(e.target.value);
           }}
           value={value ?? ""}
           options={options}
           help={<ConfigFieldDescription description={help} />}
           className="u-no-margin--bottom"
+          disabled={disabledText != undefined}
+          title={disabledText}
         />
       ),
       override: "",
@@ -187,6 +193,16 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
     }
     const device = formik.values.devices[index] as LxdProxyDevice;
 
+    const deviceListenParts = device.listen?.split(":") || [];
+    const listenType =
+      deviceListenParts.length > 0 ? deviceListenParts[0] : "tcp";
+
+    const deviceConnectParts = device.connect?.split(":") || [];
+    const connectAddress =
+      deviceConnectParts.length > 1 ? deviceConnectParts[1] : "";
+    const connectPort =
+      deviceConnectParts.length > 2 ? deviceConnectParts[2] : "";
+
     customRows.push(
       getConfigurationRowBase({
         className: "no-border-top custom-device-name",
@@ -233,6 +249,11 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
         ],
         device.bind,
         "Whether to bind the listen address to the instance or host",
+        (value) => {
+          if (value === "instance" && device.nat === "true") {
+            void formik.setFieldValue(`devices.${index}.nat`, "false");
+          }
+        },
       ),
     );
 
@@ -243,84 +264,24 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
         index,
         optionEnabledDisabled,
         device.nat,
+        undefined,
+        (value) => {
+          if (value === "true") {
+            void formik.setFieldValue(
+              `devices.${index}.connect`,
+              `${listenType}:${connectAddress}:${connectPort}`,
+            );
+          }
+        },
+        device.bind === "instance"
+          ? "Only host-bound proxies can use NAT"
+          : undefined,
       ),
     );
 
-    customRows.push(
-      getProxyDeviceFormRows(
-        "Use HAProxy Protocol",
-        "proxy_protocol",
-        index,
-        optionYesNo,
-        device.proxy_protocol,
-      ),
-    );
+    getProxyAddress(customRows, device, index, "listen", formik, "Listen");
 
-    customRows.push(
-      getConfigurationRowBase({
-        className: "no-border-top inherited-with-form",
-        configuration: <Label>Listen</Label>,
-        inherited: (
-          <Input
-            name={`devices.${index}.listen`}
-            id={`devices.${index}.listen`}
-            key={`devices.${index}.listen`}
-            onBlur={formik.handleBlur}
-            onChange={(e) => {
-              ensureEditMode(formik);
-              void formik.setFieldValue(
-                `devices.${index}.listen`,
-                e.target.value,
-              );
-            }}
-            value={device.listen}
-            type="text"
-            help={
-              <ConfigFieldDescription
-                description={
-                  "Use the following format to specify the address and port: <type>:<addr>:<port>[-<port>][,<port>]"
-                }
-              />
-            }
-            className="u-no-margin--bottom"
-          />
-        ),
-        override: "",
-      }),
-    );
-
-    customRows.push(
-      getConfigurationRowBase({
-        className: "no-border-top inherited-with-form",
-        configuration: <Label>Connect</Label>,
-        inherited: (
-          <Input
-            name={`devices.${index}.connect`}
-            id={`devices.${index}.connect`}
-            key={`devices.${index}.connect`}
-            onBlur={formik.handleBlur}
-            onChange={(e) => {
-              ensureEditMode(formik);
-              void formik.setFieldValue(
-                `devices.${index}.connect`,
-                e.target.value,
-              );
-            }}
-            value={device.connect}
-            type="text"
-            help={
-              <ConfigFieldDescription
-                description={
-                  "Use the following format to specify the address and port: <type>:<addr>:<port>[-<port>][,<port>]"
-                }
-              />
-            }
-            className="u-no-margin--bottom"
-          />
-        ),
-        override: "",
-      }),
-    );
+    getProxyAddress(customRows, device, index, "connect", formik, "Connect");
   });
 
   if (isProfileLoading) {
