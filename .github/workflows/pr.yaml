@@ -1,5 +1,5 @@
 name: PR checks
-on: pull_request
+on: [pull_request, pull_request_target]
 
 permissions:
   contents: read
@@ -7,6 +7,7 @@ permissions:
 jobs:
 
   commits:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     permissions:
       pull-requests: read   # to get list of commits from the PR
     name: Canonical CLA signed and Signed-off-by (DCO)
@@ -25,8 +26,8 @@ jobs:
         commits: ${{ steps.get-pr-commits.outputs.commits }}
         
   lint-scss:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -37,8 +38,8 @@ jobs:
         run: yarn lint-scss
 
   lint-js:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -49,8 +50,8 @@ jobs:
         run: yarn lint-js
 
   check-inclusive-naming:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,7 +64,7 @@ jobs:
           fail-on-error: true
 
   browser-e2e-test:
-    environment: ci-end-to-end
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     name: e2e-tests
     runs-on: ubuntu-latest
     strategy:
@@ -178,7 +179,7 @@ jobs:
           retention-days: 1
 
   merge-e2e-reports:
-    if: always()
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     needs: [browser-e2e-test]
     env:
       HTML_REPORT_URL_PATH: reports/pr-${{ github.event.number }}/${{ github.run_id }}/${{ github.run_attempt }}
@@ -222,6 +223,7 @@ jobs:
         echo "Please wait a few minute for the reports to get published before accessing the url!"
 
   js-tests:
+    if: github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork
     name: js-tests
     runs-on: ubuntu-latest
     steps:

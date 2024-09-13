@@ -6,7 +6,6 @@ on:
 
 jobs:
   e2e-coverage:
-    environment: ci-end-to-end
     name: e2e-test-coverage
     runs-on: ubuntu-latest
     env:
