@@ -115,6 +115,6 @@
     "src/**/*.scss": "stylelint"
   },
   "resolutions": {
-    "rollup": "4.20.0"
+    "path-to-regexp": "8.0.0"
   }
 }
