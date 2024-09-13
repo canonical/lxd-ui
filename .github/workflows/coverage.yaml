@@ -6,16 +6,15 @@ on:
 
 jobs:
   e2e-coverage:
-    environment: ci-end-to-end
     name: e2e-test-coverage
     runs-on: ubuntu-latest
     env:
-      LXD_OIDC_CLIENT_ID: ${{ secrets.LXD_OIDC_CLIENT_ID }}
-      LXD_OIDC_ISSUER: ${{ secrets.LXD_OIDC_ISSUER }}
-      LXD_OIDC_AUDIENCE: ${{ secrets.LXD_OIDC_AUDIENCE }}
-      LXD_OIDC_USER: ${{ secrets.LXD_OIDC_USER }}
-      LXD_OIDC_PASSWORD: ${{ secrets.LXD_OIDC_PASSWORD }}
-      LXD_OIDC_GROUPS_CLAIM: ${{ secrets.LXD_OIDC_GROUPS_CLAIM }}
+      LXD_OIDC_CLIENT_ID: "gxj297yfAjmklILK5WqPWDSbtVBAeSQm"
+      LXD_OIDC_ISSUER: "https://dev-xjrvvfikbsv4jxn7.us.auth0.com/"
+      LXD_OIDC_AUDIENCE: "https://dev-xjrvvfikbsv4jxn7.us.auth0.com/api/v2/"
+      LXD_OIDC_USER: "lxd-ui-e2e-tests@example.org"
+      LXD_OIDC_PASSWORD: "lxd-ui-e2e-password"
+      LXD_OIDC_GROUPS_CLAIM: "lxd-idp-groups"
     steps:
       - uses: actions/checkout@v4
 
