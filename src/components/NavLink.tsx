@@ -8,6 +8,7 @@ interface Props {
   children: ReactNode;
   className?: string;
   activeUrlMatches?: string[];
+  ignoreUrlMatches?: string[];
 }
 
 const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
@@ -16,6 +17,7 @@ const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
   children,
   className,
   activeUrlMatches = [],
+  ignoreUrlMatches = [],
   ...linkProps
 }) => {
   const location = useLocation();
@@ -28,6 +30,12 @@ const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
   for (const match of activeUrlMatches) {
     if (location.pathname.includes(match)) {
       isActive = true;
+    }
+  }
+
+  for (const match of ignoreUrlMatches) {
+    if (location.pathname.includes(match)) {
+      isActive = false;
     }
   }
 
