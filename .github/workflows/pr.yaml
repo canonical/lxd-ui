@@ -63,6 +63,7 @@ jobs:
           fail-on-error: true
 
   browser-e2e-test:
+    environment: ci-end-to-end
     name: e2e-tests
     runs-on: ubuntu-latest
     strategy:
@@ -72,6 +73,13 @@ jobs:
         browser: ["chromium", "firefox"]
     outputs:
       job_status: ${{job.status}}
+    env:
+      LXD_OIDC_CLIENT_ID: ${{ secrets.LXD_OIDC_CLIENT_ID }}
+      LXD_OIDC_ISSUER: ${{ secrets.LXD_OIDC_ISSUER }}
+      LXD_OIDC_AUDIENCE: ${{ secrets.LXD_OIDC_AUDIENCE }}
+      LXD_OIDC_USER: ${{ secrets.LXD_OIDC_USER }}
+      LXD_OIDC_PASSWORD: ${{ secrets.LXD_OIDC_PASSWORD }}
+      LXD_OIDC_GROUPS_CLAIM: ${{ secrets.LXD_OIDC_GROUPS_CLAIM }}
     steps:
       - uses: actions/checkout@v4
 
@@ -149,10 +157,10 @@ jobs:
           LXD_CHANNEL=$(echo '${{ matrix.lxd_channel }}' | sed 's#/#-#g')
           echo "LXD_CHANNEL=$LXD_CHANNEL" >> $GITHUB_OUTPUT
 
-      - name: Create OIDC users
+      - name: Setup for tests
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
         shell: bash
-        run: ./tests/scripts/create_oidc_identities
+        run: ./tests/scripts/setup_test
 
       - name: Run Playwright tests
         run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}

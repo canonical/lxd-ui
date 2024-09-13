@@ -1,6 +1,13 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 import { TestOptions } from "./tests/fixtures/lxd-test";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// provide environment variables from .env.local to all tests
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -47,6 +54,17 @@ const config: PlaywrightTestConfig<TestOptions> = {
 
   /* Configure projects for major browsers */
   projects: [
+    // ensure login tests run first since we need to remove the tls certificate from lxd trust store
+    {
+      name: "login-chromium",
+      use: { ...devices["Desktop Chrome"] },
+      testMatch: "login.spec.ts",
+    },
+    {
+      name: "login-firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: "login.spec.ts",
+    },
     {
       name: "chromium:lxd-5.0-edge",
       use: {
@@ -67,6 +85,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Chrome"],
         lxdVersion: "5.21-edge",
       },
+      dependencies: ["login-chromium"],
     },
     {
       name: "firefox:lxd-5.21-edge",
@@ -74,6 +93,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Firefox"],
         lxdVersion: "5.21-edge",
       },
+      dependencies: ["login-firefox"],
     },
     {
       name: "chromium:lxd-latest-edge",
@@ -81,6 +101,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Chrome"],
         lxdVersion: "latest-edge",
       },
+      dependencies: ["login-chromium"],
     },
     {
       name: "firefox:lxd-latest-edge",
@@ -88,6 +109,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         ...devices["Desktop Firefox"],
         lxdVersion: "latest-edge",
       },
+      dependencies: ["login-firefox"],
     },
     {
       name: "coverage",
@@ -96,6 +118,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
         lxdVersion: "latest-edge",
         hasCoverage: true,
       },
+      dependencies: ["login-chromium"],
     },
   ],
 };
