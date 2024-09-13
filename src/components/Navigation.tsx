@@ -373,7 +373,7 @@ const Navigation: FC = () => {
                               <SideNavigationItem key="/ui/permissions/groups">
                                 <NavLink
                                   to="/ui/permissions/groups"
-                                  title="LXD groups"
+                                  title="Groups"
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
                                 >

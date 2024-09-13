@@ -9,7 +9,7 @@ import {
   identityFoo,
   selectIdentitiesToModify,
   toggleGroupsForIdentities,
-  visitIdentitiesPage,
+  visitIdentities,
 } from "./helpers/permission-identities";
 import {
   assertTextVisible,
@@ -27,7 +27,7 @@ test("manage groups for single identity", async ({ page, lxdVersion }) => {
   await createGroup(page, groupOne, groupOne);
   await createGroup(page, groupTwo, groupTwo);
 
-  await visitIdentitiesPage(page);
+  await visitIdentities(page);
   await page
     .getByRole("row", { name: `Select ${identityBar} Name ID` })
     .getByLabel("Manage groups")
@@ -72,7 +72,7 @@ test("manage groups for many identities", async ({ page, lxdVersion }) => {
   await createGroup(page, groupOne, groupOne);
   await createGroup(page, groupTwo, groupTwo);
 
-  await visitIdentitiesPage(page);
+  await visitIdentities(page);
   await selectIdentitiesToModify(page, [identityFoo, identityBar]);
   await page.getByLabel("Modify groups").click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);

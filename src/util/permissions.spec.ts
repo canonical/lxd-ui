@@ -1,7 +1,7 @@
 import { LxdMetadata } from "types/config";
 import {
   generateEntitlementOptions,
-  generatePermissionSort,
+  permissionSort,
   generateResourceOptions,
 } from "./permissions";
 
@@ -236,24 +236,28 @@ describe("General util functions for permissions feature", () => {
         url: "/1.0/auth/identities/oidc/bar@bar.com",
         entitlement: "can_delete",
         id: "identity/1.0/auth/identities/oidc/bar@bar.comcan_delete",
+        resourceLabel: "bar",
       },
       {
         id: "group/1.0/auth/groups/g-1can_delete",
         entity_type: "group",
         url: "/1.0/auth/groups/g-1",
         entitlement: "can_delete",
+        resourceLabel: "g-1",
       },
       {
         entity_type: "server",
         url: "/1.0",
         entitlement: "admin",
         id: "server/1.0admin",
+        resourceLabel: "server",
       },
       {
         entity_type: "project",
         url: "/1.0/projects/default",
         entitlement: "image_alias_manager",
         id: "project/1.0/projects/defaultimage_alias_manager",
+        resourceLabel: "default",
       },
 
       {
@@ -261,27 +265,19 @@ describe("General util functions for permissions feature", () => {
         url: "/1.0/auth/groups/g-1",
         entitlement: "can_view",
         id: "group/1.0/auth/groups/g-1can_view",
+        resourceLabel: "g-1",
       },
       {
         id: "image/1.0/images/a56eb59962b706e727703aaa415ae4c584c8fc6a661fcd3aba83bc9eff237ac0?project=defaultcan_edit",
         entity_type: "image",
         url: "/1.0/images/a56eb59962b706e727703aaa415ae4c584c8fc6a661fcd3aba83bc9eff237ac0?project=default",
         entitlement: "can_edit",
+        resourceLabel:
+          "Alpinelinux 3.16 x86_64 (cloud) (20240415_0234) (project: default)",
       },
     ];
 
-    const identityNamesLookup = {
-      "bar@bar.com": "bar",
-    };
-
-    const imagesNamesLookup = {
-      a56eb59962b706e727703aaa415ae4c584c8fc6a661fcd3aba83bc9eff237ac0:
-        "Alpinelinux 3.16 x86_64 (cloud) (20240415_0234) (project: default)",
-    };
-
-    permissions.sort(
-      generatePermissionSort(imagesNamesLookup, identityNamesLookup),
-    );
+    permissions.sort(permissionSort);
 
     expect(permissions).toEqual([
       {
@@ -289,36 +285,43 @@ describe("General util functions for permissions feature", () => {
         url: "/1.0",
         entitlement: "admin",
         id: "server/1.0admin",
+        resourceLabel: "server",
       },
       {
         entity_type: "identity",
         url: "/1.0/auth/identities/oidc/bar@bar.com",
         entitlement: "can_delete",
         id: "identity/1.0/auth/identities/oidc/bar@bar.comcan_delete",
+        resourceLabel: "bar",
       },
       {
         id: "group/1.0/auth/groups/g-1can_delete",
         entity_type: "group",
         url: "/1.0/auth/groups/g-1",
         entitlement: "can_delete",
+        resourceLabel: "g-1",
       },
       {
         entity_type: "group",
         url: "/1.0/auth/groups/g-1",
         entitlement: "can_view",
         id: "group/1.0/auth/groups/g-1can_view",
+        resourceLabel: "g-1",
       },
       {
         entity_type: "project",
         url: "/1.0/projects/default",
         entitlement: "image_alias_manager",
         id: "project/1.0/projects/defaultimage_alias_manager",
+        resourceLabel: "default",
       },
       {
         id: "image/1.0/images/a56eb59962b706e727703aaa415ae4c584c8fc6a661fcd3aba83bc9eff237ac0?project=defaultcan_edit",
         entity_type: "image",
         url: "/1.0/images/a56eb59962b706e727703aaa415ae4c584c8fc6a661fcd3aba83bc9eff237ac0?project=default",
         entitlement: "can_edit",
+        resourceLabel:
+          "Alpinelinux 3.16 x86_64 (cloud) (20240415_0234) (project: default)",
       },
     ]);
   });

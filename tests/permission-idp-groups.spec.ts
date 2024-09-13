@@ -9,7 +9,7 @@ import {
   deleteIdpGroup,
   editIdpGroup,
   randomIdpGroupName,
-  visitIdpGroupsPage,
+  visitIdpGroups,
 } from "./helpers/permission-idp-groups";
 import { skipIfNotSupported } from "./helpers/permissions";
 import {
@@ -94,14 +94,14 @@ test("show different idp groups notification if oidc.groups.claim is set", async
   const settingName = "oidc.groups.claim";
   const initialSettingValue = await getServerSettingValue(page, settingName);
   await updateSetting(page, settingName, "text", "test");
-  await visitIdpGroupsPage(page);
+  await visitIdpGroups(page);
   const configurationLink = page.getByRole("link", {
     name: "configuration (oidc.groups.claim)",
   });
   await expect(configurationLink).toBeHidden();
   await visitServerSettings(page);
   await resetSetting(page, settingName, "text", "-");
-  await visitIdpGroupsPage(page);
+  await visitIdpGroups(page);
   await expect(configurationLink).toBeVisible();
   await visitServerSettings(page);
   await updateSetting(page, settingName, "text", initialSettingValue || "-");

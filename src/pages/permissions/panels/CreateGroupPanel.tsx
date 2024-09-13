@@ -1,7 +1,7 @@
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";
@@ -12,6 +12,17 @@ import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
+import EditIdentitiesForm, {
+  FormIdentity,
+} from "pages/permissions/panels/EditIdentitiesForm";
+import classnames from "classnames";
+import { updateIdentities } from "api/auth-identities";
+import EditGroupPermissionsForm, {
+  FormPermission,
+} from "pages/permissions/panels/EditGroupPermissionsForm";
+import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
+
+export type GroupSubForm = "identity" | "permission" | null;
 
 const CreateGroupPanel: FC = () => {
   const panelParams = usePanelParams();
@@ -19,6 +30,9 @@ const CreateGroupPanel: FC = () => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
+  const [subForm, setSubForm] = useState<GroupSubForm>(null);
+  const [identities, setIdentities] = useState<FormIdentity[]>([]);
+  const [permissions, setPermissions] = useState<FormPermission[]>([]);
 
   const closePanel = () => {
     panelParams.clear();
@@ -31,6 +45,41 @@ const CreateGroupPanel: FC = () => {
       .required("Group name is required"),
   });
 
+  const handleSuccess = (groupName: string) => {
+    toastNotify.success(`Group ${groupName} created.`);
+    closePanel();
+  };
+
+  const addIdentitiesToGroup = (groupName: string) => {
+    if (identities.length === 0) {
+      handleSuccess(groupName);
+      return;
+    }
+
+    const identitiesWithGroup = identities.map((identity) => {
+      const oldGroups = identity.groups || [];
+      identity.groups = [...oldGroups, groupName];
+      return identity;
+    });
+
+    void updateIdentities(identitiesWithGroup)
+      .then(() => {
+        handleSuccess(groupName);
+      })
+      .catch((e) => {
+        notify.failure(
+          `Group ${groupName} created, failed to add identities.`,
+          e,
+        );
+      })
+      .finally(() => {
+        formik.setSubmitting(false);
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.authGroups],
+        });
+      });
+  };
+
   const formik = useFormik<GroupFormValues>({
     initialValues: {
       name: "",
@@ -41,10 +90,10 @@ const CreateGroupPanel: FC = () => {
       createGroup({
         name: values.name,
         description: values.description,
+        permissions: permissions.filter((p) => !p.isRemoved),
       })
         .then(() => {
-          toastNotify.success(`Group ${values.name} created.`);
-          closePanel();
+          addIdentitiesToGroup(values.name);
         })
         .catch((e) => {
           notify.failure(`Group creation failed`, e);
@@ -60,17 +109,49 @@ const CreateGroupPanel: FC = () => {
 
   return (
     <>
-      <SidePanel isOverlay loading={false} hasError={false}>
+      <SidePanel
+        isOverlay
+        loading={false}
+        hasError={false}
+        className={classnames({
+          "edit-permissions-panel": subForm === "permission",
+        })}
+      >
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create group</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>
+            <GroupHeaderTitle subForm={subForm} setSubForm={setSubForm} />
+          </SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">
           <ScrollableContainer
-            dependencies={[notify.notification]}
+            dependencies={[notify.notification, subForm]}
             belowIds={["panel-footer"]}
           >
-            <GroupForm formik={formik} />
+            {subForm === null && (
+              <GroupForm
+                formik={formik}
+                setSubForm={setSubForm}
+                identityCount={identities.length}
+                identityModifyCount={identities.length}
+                permissionCount={permissions.length}
+                permissionModifyCount={permissions.length}
+                isEditing={false}
+              />
+            )}
+            {subForm === "identity" && (
+              <EditIdentitiesForm
+                selected={identities}
+                setSelected={setIdentities}
+                groupName={formik.values.name}
+              />
+            )}
+            {subForm === "permission" && (
+              <EditGroupPermissionsForm
+                permissions={permissions}
+                setPermissions={setPermissions}
+              />
+            )}
           </ScrollableContainer>
         </SidePanel.Content>
         <SidePanel.Footer className="u-align--right">
