@@ -1,6 +1,7 @@
 import { FC, OptionHTMLAttributes, useState } from "react";
 import {
   Button,
+  CheckboxInput,
   Col,
   MainTable,
   Modal,
@@ -19,6 +20,7 @@ import {
   isContainerOnlyImage,
   isVmOnlyImage,
   LOCAL_ISO,
+  LOCAL_IMAGE,
 } from "util/images";
 import Loader from "components/Loader";
 import { getArchitectureAliases } from "util/architectures";
@@ -55,6 +57,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [arch, setArch] = useState<string>("amd64");
   const [type, setType] = useState<LxdImageType | undefined>(undefined);
   const [variant, setVariant] = useState<string>(ANY);
+  const [hideRemote, setHideRemote] = useState(false);
   const { project } = useParams<{ project: string }>();
 
   const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
@@ -105,15 +108,19 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
-  const images = isLoading
+  let images = isLoading
     ? []
     : localImages
-        .filter((image) => !image.cached)
         .map(localLxdToRemoteImage)
-        .concat([...canonicalImages].reverse().sort(byLtsFirst))
-        .concat([...minimalImages].reverse().sort(byLtsFirst))
-        .concat([...imagesLxdImages])
-        .filter((image) => archSupported.includes(image.arch));
+        .sort((a, b) => Number(b.cached) - Number(a.cached));
+
+  if (!hideRemote) {
+    images = images
+      .concat([...canonicalImages].reverse().sort(byLtsFirst))
+      .concat([...minimalImages].reverse().sort(byLtsFirst))
+      .concat([...imagesLxdImages])
+      .filter((image) => archSupported.includes(image.arch));
+  }
 
   const archAll = [...new Set(images.map((item) => item.arch))]
     .filter((arch) => arch !== "")
@@ -210,19 +217,20 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           : item.variant;
 
       const getSource = () => {
-        if (item.created_at) {
-          return "Local";
+        let source = "Custom";
+        if (!item.cached && item.created_at) {
+          source = "Local";
         }
         if (item.server === canonicalServer) {
-          return "Ubuntu";
+          source = "Ubuntu";
         }
         if (item.server === minimalServer) {
-          return "Ubuntu Minimal";
+          source = "Ubuntu Minimal";
         }
         if (item.server === imagesLxdServer) {
-          return "LXD Images";
+          source = "LXD Images";
         }
-        return "Custom";
+        return source;
       };
 
       return {
@@ -260,7 +268,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             onClick: selectImage,
           },
           {
-            content: getSource(),
+            content: (
+              <>
+                {getSource()}
+                {item.cached && <span className="u-text--muted"> cached</span>}
+              </>
+            ),
             role: "cell",
             "aria-label": "Source",
             onClick: selectImage,
@@ -272,6 +285,11 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 type="button"
                 dense
                 className="u-no-margin--bottom"
+                appearance={
+                  item.cached || item.server === LOCAL_IMAGE
+                    ? "positive"
+                    : "default"
+                }
               >
                 Select
               </Button>
@@ -402,6 +420,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 ...instanceCreationTypes,
               ]}
               value={type ?? ""}
+            />
+            <CheckboxInput
+              aria-label="Only show cached images"
+              checked={hideRemote}
+              label="Show only cached images"
+              onChange={() => setHideRemote((prev) => !prev)}
             />
           </div>
         </Col>
