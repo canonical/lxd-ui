@@ -24,9 +24,10 @@ type GroupEditHistory = {
 
 interface Props {
   idpGroup: IdpGroup;
+  onClose?: () => void;
 }
 
-const EditIdpGroupPanel: FC<Props> = ({ idpGroup }) => {
+const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -122,6 +123,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup }) => {
   const closePanel = () => {
     panelParams.clear();
     notify.clear();
+    onClose?.();
   };
 
   const saveIdpGroup = (values: IdpGroupFormValues) => {
