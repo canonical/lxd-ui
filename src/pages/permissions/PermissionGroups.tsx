@@ -118,13 +118,31 @@ const PermissionGroups: FC = () => {
           title: group.description,
         },
         {
-          content: allIdentityIds.length,
+          content: (
+            <Button
+              appearance="link"
+              dense
+              onClick={() => panelParams.openEditGroup(group.name, "identity")}
+            >
+              {allIdentityIds.length}
+            </Button>
+          ),
           role: "cell",
           className: "u-align--right identities",
           "aria-label": "Identities in this group",
         },
         {
-          content: group.permissions?.length || 0,
+          content: (
+            <Button
+              appearance="link"
+              dense
+              onClick={() =>
+                panelParams.openEditGroup(group.name, "permission")
+              }
+            >
+              {group.permissions?.length || 0}
+            </Button>
+          ),
           role: "cell",
           className: "u-align--right permissions",
           "aria-label": "Permissions for this group",

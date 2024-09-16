@@ -19,10 +19,10 @@ import classnames from "classnames";
 import { LxdGroup, LxdPermission } from "types/permissions";
 
 export type FormPermission = LxdPermission & {
-  id: string;
+  id?: string;
   isRemoved?: boolean;
   isAdded?: boolean;
-  resourceLabel: string;
+  resourceLabel?: string;
 };
 
 interface Props {
@@ -50,7 +50,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
     }
 
     const groupPermissionIds = getPermissionIds(group?.permissions ?? []);
-    const wasInGroup = groupPermissionIds.includes(newPermission.id);
+    const wasInGroup = groupPermissionIds.includes(newPermission.id ?? "");
     const addMe = { ...newPermission, isAdded: !wasInGroup, isRemoved: false };
 
     if (permissionExists && permissionExists.isRemoved) {
@@ -90,7 +90,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
         return (
           permission.entitlement.includes(search) ||
           permission.entity_type.includes(search) ||
-          permission.resourceLabel.toLowerCase().includes(search)
+          permission.resourceLabel?.toLowerCase().includes(search)
         );
       })
     : permissions;
@@ -166,7 +166,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   appearance="base"
                   hasIcon
                   dense
-                  onClick={() => deletePermission(permission.id)}
+                  onClick={() => deletePermission(permission.id ?? "")}
                   type="button"
                   aria-label="Delete permission"
                   title="Delete permission"
@@ -191,7 +191,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
       ],
       sortData: {
         resourceType: permission.entity_type.toLowerCase(),
-        resource: permission.resourceLabel.toLowerCase(),
+        resource: permission.resourceLabel?.toLowerCase(),
         entitlement: permission.entitlement.toLowerCase(),
       },
     };
