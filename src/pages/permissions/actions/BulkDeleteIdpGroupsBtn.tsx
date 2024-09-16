@@ -6,15 +6,10 @@ import DeleteIdpGroupsModal from "./DeleteIdpGroupsModal";
 
 interface Props {
   idpGroups: IdpGroup[];
-  onDelete: () => void;
   className?: string;
 }
 
-const BulkDeleteIdpGroupsBtn: FC<Props> = ({
-  idpGroups,
-  className,
-  onDelete,
-}) => {
+const BulkDeleteIdpGroupsBtn: FC<Props> = ({ idpGroups, className }) => {
   const [confirming, setConfirming] = useState(false);
 
   const handleConfirmDelete = () => {
@@ -22,7 +17,6 @@ const BulkDeleteIdpGroupsBtn: FC<Props> = ({
   };
 
   const handleCloseConfirm = () => {
-    onDelete();
     setConfirming(false);
   };
 

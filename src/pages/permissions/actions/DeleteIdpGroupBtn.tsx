@@ -8,7 +8,7 @@ interface Props {
   idpGroup: IdpGroup;
 }
 
-const DeleteIdepGroupBtn: FC<Props> = ({ idpGroup }) => {
+const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
   return (
@@ -33,4 +33,4 @@ const DeleteIdepGroupBtn: FC<Props> = ({ idpGroup }) => {
   );
 };
 
-export default DeleteIdepGroupBtn;
+export default DeleteIdpGroupBtn;

@@ -27,7 +27,7 @@ import { fetchIdpGroups } from "api/auth-idp-groups";
 import CreateIdpGroupPanel from "./panels/CreateIdpGroupPanel";
 import BulkDeleteIdpGroupsBtn from "./actions/BulkDeleteIdpGroupsBtn";
 import EditIdpGroupPanel from "./panels/EditIdpGroupPanel";
-import DeleteIdepGroupBtn from "./actions/DeleteIdpGroupBtn";
+import DeleteIdpGroupBtn from "./actions/DeleteIdpGroupBtn";
 import { useSettings } from "context/useSettings";
 import { Link } from "react-router-dom";
 
@@ -51,6 +51,15 @@ const PermissionIdpGroups: FC = () => {
   if (error) {
     notify.failure("Loading provider groups failed", error);
   }
+
+  useEffect(() => {
+    const validSelections = selectedGroupNames.filter((name) =>
+      groups.some((group) => group.name === name),
+    );
+    if (validSelections.length !== selectedGroupNames.length) {
+      setSelectedGroupNames(validSelections);
+    }
+  }, [groups]);
 
   useEffect(() => {
     if (panelParams.idpGroup) {
@@ -113,7 +122,7 @@ const PermissionIdpGroups: FC = () => {
                 >
                   <Icon name="edit" />
                 </Button>,
-                <DeleteIdepGroupBtn
+                <DeleteIdpGroupBtn
                   key={`delete-${idpGroup.name}`}
                   idpGroup={idpGroup}
                 />,
@@ -265,7 +274,6 @@ const PermissionIdpGroups: FC = () => {
                   <BulkDeleteIdpGroupsBtn
                     idpGroups={selectedGroups}
                     className="u-no-margin--bottom"
-                    onDelete={() => setSelectedGroupNames([])}
                   />
                 </>
               )}
@@ -293,7 +301,10 @@ const PermissionIdpGroups: FC = () => {
       {panelParams.panel === panels.createIdpGroup && <CreateIdpGroupPanel />}
 
       {panelParams.panel === panels.editIdpGroup && selectedGroups.length && (
-        <EditIdpGroupPanel idpGroup={selectedGroups[0]} />
+        <EditIdpGroupPanel
+          idpGroup={selectedGroups[0]}
+          onClose={() => setSelectedGroupNames([])}
+        />
       )}
     </>
   );
