@@ -234,28 +234,28 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             value={device.type}
             options={[
               {
-                label: "Infiniband (container only)",
+                label: "Infiniband (Containers only)",
                 value: "infiniband",
                 disabled: isVm,
               },
               {
-                label: "PCI (VM only)",
+                label: "PCI (VMs only)",
                 value: "pci",
                 disabled: isContainer,
               },
               { label: "TPM", value: "tpm" },
               {
-                label: "Unix Block (container only)",
+                label: "Unix Block (Containers only)",
                 value: "unix-block",
                 disabled: isVm,
               },
               {
-                label: "Unix Char (container only)",
+                label: "Unix Char (Containers only)",
                 value: "unix-char",
                 disabled: isVm,
               },
               {
-                label: "Unix Hotplug (container only)",
+                label: "Unix Hotplug (Containers only)",
                 value: "unix-hotplug",
                 disabled: isVm,
               },
