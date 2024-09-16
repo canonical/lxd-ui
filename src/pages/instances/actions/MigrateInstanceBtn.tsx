@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ActionButton } from "@canonical/react-components";
+import { ActionButton, Icon } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import { migrateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
@@ -107,11 +107,12 @@ const MigrateInstanceBtn: FC<Props> = ({
       <ActionButton
         onClick={openPortal}
         type="button"
-        className={classNames("instance-migrate", classname)}
+        className={classNames("u-no-margin--bottom has-icon", classname)}
         loading={isLoading}
         disabled={isDisabled}
-        aria-label={`Migrate instance ${instance.name}`}
+        title="Migrate instance"
       >
+        <Icon name="machines" />
         <span>Migrate</span>
       </ActionButton>
     </>

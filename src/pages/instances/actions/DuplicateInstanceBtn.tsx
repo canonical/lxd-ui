@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { LxdInstance } from "types/instance";
-import { Button } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import DuplicateInstanceForm from "../forms/DuplicateInstanceForm";
 import classNames from "classnames";
@@ -35,11 +35,12 @@ const DuplicateInstanceBtn: FC<Props> = ({
       <Button
         appearance="default"
         aria-label="Duplicate instance"
-        className={classNames("u-no-margin--bottom", classname)}
+        className={classNames("u-no-margin--bottom has-icon", classname)}
         disabled={isLoading}
         onClick={openPortal}
         title="Duplicate instance"
       >
+        <Icon name="canvas" />
         <span>Duplicate</span>
       </Button>
     </>

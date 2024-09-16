@@ -4,7 +4,7 @@ import { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";
-import { ConfirmationButton } from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { queryKeys } from "util/queryKeys";
@@ -75,7 +75,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
     <ConfirmationButton
       onHoverText={getHoverText()}
       appearance="default"
-      className={classnames("u-no-margin--bottom", classname)}
+      className={classnames("u-no-margin--bottom has-icon", classname)}
       loading={isLoading}
       confirmationModalProps={{
         close: onClose,
@@ -94,7 +94,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <span>Delete instance</span>
+      <Icon name="delete" />
+      <span>Delete</span>
     </ConfirmationButton>
   );
 };
