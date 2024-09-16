@@ -60,11 +60,14 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
   const addGPUCard = (card: GpuCard) => {
+    const drmId = card.drm?.id ? card.drm.id.toString() : undefined;
+
     const copy = [...formik.values.devices];
     copy.push({
       type: "gpu",
       gputype: "physical",
       pci: card.pci_address,
+      id: card.pci_address === undefined ? drmId : undefined,
       name: deduplicateName("gpu", 1, existingDeviceNames),
     });
     void formik.setFieldValue("devices", copy);
