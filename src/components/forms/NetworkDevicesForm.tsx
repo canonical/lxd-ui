@@ -18,9 +18,10 @@ import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
 import { getInheritedNetworks } from "util/configInheritance";
-import { CustomNetworkDevice } from "util/formDevices";
+import { CustomNetworkDevice, deduplicateName } from "util/formDevices";
 import { isNicDeviceNameMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
+import { getExistingDeviceNames } from "util/devices";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -71,9 +72,15 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     void formik.setFieldValue("devices", copy);
   };
 
+  const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
+
   const addNetwork = () => {
     const copy = [...formik.values.devices];
-    copy.push({ type: "nic", name: "", network: networks[0]?.name ?? "" });
+    copy.push({
+      type: "nic",
+      name: deduplicateName("eth", 1, existingDeviceNames),
+      network: networks[0]?.name ?? "",
+    });
     void formik.setFieldValue("devices", copy);
 
     focusNetwork(copy.length - 1);
