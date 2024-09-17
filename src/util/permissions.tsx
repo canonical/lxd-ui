@@ -309,7 +309,7 @@ export const getImageNameLookup = (
   const nameLookup: Record<string, string> = {};
   for (const image of images) {
     nameLookup[image.fingerprint] =
-      image.properties?.description ?? image.fingerprint;
+      `${image.properties?.description} (${image.type})` ?? image.fingerprint;
   }
 
   return nameLookup;
