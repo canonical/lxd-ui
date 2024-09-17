@@ -2,9 +2,6 @@ import { FC } from "react";
 import { Select } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import { useSettings } from "context/useSettings";
-import { supportsOvnNetwork } from "util/settings";
-import Loader from "components/Loader";
 import { useDocs } from "context/useDocs";
 
 interface Props {
@@ -13,12 +10,6 @@ interface Props {
 
 const NetworkTypeSelector: FC<Props> = ({ formik }) => {
   const docBaseLink = useDocs();
-  const { data: settings, isLoading } = useSettings();
-  const hasOvn = supportsOvnNetwork(settings);
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <Select
@@ -26,18 +17,15 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
       name="networkType"
       label="Type"
       help={
-        hasOvn ? undefined : (
-          <>
-            OVN needs to be configured.{" "}
-            <a
-              href={`${docBaseLink}/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn how to set up OVN
-            </a>
-          </>
-        )
+        formik.values.networkType === "ovn" ? (
+          <a
+            href={`${docBaseLink}/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn how to set up OVN
+          </a>
+        ) : undefined
       }
       required
       options={[
@@ -46,9 +34,8 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           value: "bridge",
         },
         {
-          label: hasOvn ? "OVN" : "OVN (not configured)",
+          label: "OVN",
           value: "ovn",
-          disabled: !hasOvn,
         },
         {
           label: "Physical",
