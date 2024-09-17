@@ -58,6 +58,12 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
     }
   };
 
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey[0] === queryKeys.images,
+    });
+  };
+
   const formik = useFormik<{
     alias: string;
     isPublic: boolean;
@@ -94,11 +100,11 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
               (event) => {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 if (values.alias) {
-                  void createImageAlias(fingerprint, values.alias);
+                  void createImageAlias(fingerprint, values.alias).then(
+                    clearCache,
+                  );
                 }
-                void queryClient.invalidateQueries({
-                  queryKey: [queryKeys.images, project],
-                });
+                clearCache();
                 notifySuccess();
               },
               (msg) => {

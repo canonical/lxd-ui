@@ -28,7 +28,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
           operation.metadata.id,
           () => {
             void queryClient.invalidateQueries({
-              queryKey: [queryKeys.images],
+              predicate: (query) => query.queryKey[0] === queryKeys.images,
             });
             void queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, project],
