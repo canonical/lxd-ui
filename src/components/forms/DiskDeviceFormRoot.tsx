@@ -12,7 +12,7 @@ import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import { LxdStoragePool } from "types/storage";
 import { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
-import { hasNoRootDisk } from "util/instanceValidation";
+import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
@@ -29,9 +29,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
   profiles,
 }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
-  const rootIndex = formik.values.devices.findIndex(
-    (item) => item.type === "disk" && item.name === "root",
-  );
+  const rootIndex = formik.values.devices.findIndex(isRootDisk);
   const hasRootStorage = rootIndex !== -1;
   const formRootDevice = formik.values.devices[
     rootIndex
@@ -46,7 +44,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
     const copy = [...formik.values.devices];
     copy.push({
       type: "disk",
-      name: "root",
+      name: inheritValue?.name ? inheritValue.name : "root",
       path: "/",
       pool: inheritValue ? inheritValue.pool : (pools[0]?.name ?? undefined),
     });
