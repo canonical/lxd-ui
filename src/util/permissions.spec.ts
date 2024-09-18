@@ -67,22 +67,19 @@ describe("General util functions for permissions feature", () => {
     );
     expect(resourceOptions).toEqual([
       {
-        disabled: true,
-        label: "Select an option",
-        value: "",
-        title: "",
-      },
-      {
         value: "/1.0/instances/instance-1?project=default",
         label: "instance-1 (project: default) ",
+        title: "instance-1 (project: default) ",
       },
       {
         value: "/1.0/instances/instance-2?project=default",
         label: "instance-2 (project: default) ",
+        title: "instance-2 (project: default) ",
       },
       {
         value: "/1.0/instances/instance-3?project=default",
         label: "instance-3 (project: default) ",
+        title: "instance-3 (project: default) ",
       },
     ]);
   });
@@ -155,12 +152,6 @@ describe("General util functions for permissions feature", () => {
       expect(entitlementOptions).toEqual([
         {
           disabled: true,
-          label: "Select an option",
-          value: "",
-          title: "",
-        },
-        {
-          disabled: true,
           label: "Built-in roles",
           value: "",
         },
@@ -196,12 +187,6 @@ describe("General util functions for permissions feature", () => {
       );
 
       expect(entitlementOptions).toEqual([
-        {
-          disabled: true,
-          label: "Select an option",
-          value: "",
-          title: "",
-        },
         {
           disabled: true,
           label: "Built-in roles",

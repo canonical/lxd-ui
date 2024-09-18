@@ -1,5 +1,4 @@
 import { LxdIdentity, LxdPermission } from "types/permissions";
-import { OptionHTMLAttributes } from "react";
 import { LxdImage } from "types/image";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import {
@@ -9,18 +8,10 @@ import {
 import { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
-
-type EntitlementOption = OptionHTMLAttributes<HTMLOptionElement> & {
-  disabled?: boolean;
-  title?: string;
-};
-
-export const defaultOption = {
-  disabled: true,
-  label: "Select an option",
-  value: "",
-  title: "",
-};
+import {
+  CustomSelectOption,
+  sortOptions,
+} from "components/select/CustomSelectDropdown";
 
 export const noneAvailableOption = {
   disabled: true,
@@ -31,9 +22,6 @@ export const noneAvailableOption = {
 // the resource types comes from the openFGA authorisation model in lxd
 // ref: https://discourse.ubuntu.com/t/identity-and-access-management-for-lxd/41516
 export const resourceTypeOptions = [
-  {
-    ...defaultOption,
-  },
   {
     value: "server",
     label: "Server",
@@ -96,16 +84,14 @@ export const resourceTypeOptions = [
   },
 ];
 
-export const getResourceTypeOptions = (metadata?: LxdMetadata | null) => {
+export const getResourceTypeOptions = (
+  metadata?: LxdMetadata | null,
+): CustomSelectOption[] => {
   if (!metadata || !metadata.entities) {
     return resourceTypeOptions;
   }
 
-  const options: typeof resourceTypeOptions = [
-    {
-      ...defaultOption,
-    },
-  ];
+  const options: CustomSelectOption[] = [];
 
   const resourceTypes = Object.keys(metadata.entities);
   for (const resourceType of resourceTypes) {
@@ -120,30 +106,17 @@ export const getResourceTypeOptions = (metadata?: LxdMetadata | null) => {
   return options;
 };
 
-const sortOptions = (
-  a: OptionHTMLAttributes<HTMLOptionElement>,
-  b: OptionHTMLAttributes<HTMLOptionElement>,
-): number => {
-  if (b.label === "Select an option") {
-    return 1;
-  }
-
-  return (a.label ?? "").localeCompare(b.label as string);
-};
-
 export const generateResourceOptions = (
   resourceType: string,
   permissions: LxdPermission[],
   imageNamesLookup: Record<string, string>,
   identityNamesLookup: Record<string, string>,
-): OptionHTMLAttributes<HTMLOptionElement>[] => {
+): CustomSelectOption[] => {
   if (!permissions.length || !resourceType) {
     return [];
   }
 
-  const resourceOptions: OptionHTMLAttributes<HTMLOptionElement>[] = [
-    defaultOption,
-  ];
+  const resourceOptions: CustomSelectOption[] = [];
 
   const processedResources = new Set<string>();
   for (const permission of permissions) {
@@ -163,6 +136,7 @@ export const generateResourceOptions = (
     resourceOptions.push({
       value: permission.url,
       label: resourceLabel,
+      title: resourceLabel,
     });
   }
 
@@ -188,17 +162,17 @@ export const generateEntitlementOptions = (
   resourceType: string,
   permissions?: LxdPermission[],
   metadata?: LxdMetadata | null,
-): EntitlementOption[] => {
+): CustomSelectOption[] => {
   if (!permissions || !resourceType) {
-    return [defaultOption];
+    return [];
   }
 
   // entitlements for all resources related to a particular resource type are the same
   const resource = permissions[0].url;
 
   // split entitlement options into two based on 'can_' prefix
-  const genericEntitlementOptions: EntitlementOption[] = [];
-  const granularEntitlementOptions: EntitlementOption[] = [];
+  const genericEntitlementOptions: CustomSelectOption[] = [];
+  const granularEntitlementOptions: CustomSelectOption[] = [];
   for (const permission of permissions) {
     if (permission.url !== resource) {
       continue;
@@ -210,11 +184,15 @@ export const generateEntitlementOptions = (
     };
 
     if (permission.entitlement.includes("can_")) {
-      granularEntitlementOptions.push(option);
+      granularEntitlementOptions.push({
+        ...option,
+      });
       continue;
     }
 
-    genericEntitlementOptions.push(option);
+    genericEntitlementOptions.push({
+      ...option,
+    });
   }
 
   genericEntitlementOptions.sort(sortOptions);
@@ -239,7 +217,6 @@ export const generateEntitlementOptions = (
   }
 
   const allEntitlementOptions = [
-    defaultOption,
     ...genericEntitlementOptions,
     ...granularEntitlementOptions,
   ];
@@ -262,11 +239,7 @@ export const generateEntitlementOptions = (
     }
   }
 
-  return [
-    defaultOption,
-    ...genericEntitlementOptions,
-    ...granularEntitlementOptions,
-  ];
+  return [...genericEntitlementOptions, ...granularEntitlementOptions];
 };
 
 const getResourceSelectorLabel = (resource: ResourceDetail): string => {
