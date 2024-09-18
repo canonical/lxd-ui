@@ -216,6 +216,29 @@
     margin-bottom: $spv--x-large;
   }
 
+  .cloud-init {
+    .configuration {
+      width: 9rem;
+    }
+
+    .inherited {
+      width: auto;
+    }
+
+    .override {
+      width: auto;
+    }
+
+    .override-form {
+      align-items: flex-end;
+      flex-direction: column;
+
+      > :first-child {
+        width: 100%;
+      }
+    }
+  }
+
   .device-form {
     .configuration {
       padding-left: 0;
@@ -275,17 +298,6 @@
 
   .yaml-switch {
     margin-left: $sph--x-large;
-  }
-}
-
-.cloud-init {
-  .override-form {
-    align-items: flex-end;
-    flex-direction: column-reverse;
-
-    > :first-child {
-      width: 100%;
-    }
   }
 }
 

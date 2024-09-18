@@ -69,8 +69,14 @@ export const renameProfile = async (
   await page.waitForSelector(`text=Profile ${oldName} renamed to ${newName}.`);
 };
 
-export const saveProfile = async (page: Page, profile: string) => {
-  await page.getByRole("button", { name: "Save changes" }).click();
+export const saveProfile = async (
+  page: Page,
+  profile: string,
+  changeCount: number,
+) => {
+  const name =
+    changeCount === 1 ? "Save 1 change" : `Save ${changeCount} changes`;
+  await page.getByRole("button", { name }).click();
   await page.waitForSelector(`text=Profile ${profile} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };

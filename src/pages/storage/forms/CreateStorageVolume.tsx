@@ -20,7 +20,7 @@ import { POOL } from "../StorageVolumesFilter";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 
-const StorageVolumeCreate: FC = () => {
+const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -109,4 +109,4 @@ const StorageVolumeCreate: FC = () => {
   );
 };
 
-export default StorageVolumeCreate;
+export default CreateStorageVolume;

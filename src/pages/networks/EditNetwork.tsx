@@ -1,10 +1,5 @@
 import { FC, useState } from "react";
-import {
-  ActionButton,
-  Button,
-  Notification,
-  useNotify,
-} from "@canonical/react-components";
+import { Button, Notification, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -21,10 +16,14 @@ import { dump as dumpYaml } from "js-yaml";
 import { toNetworkFormValues } from "util/networkForm";
 import { slugify } from "util/slugify";
 import { useNavigate, useParams } from "react-router-dom";
-import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
+import {
+  MAIN_CONFIGURATION,
+  YAML_CONFIGURATION,
+} from "pages/networks/forms/NetworkFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
+import FormSubmitBtn from "components/forms/FormSubmitBtn";
 
 interface Props {
   network: LxdNetwork;
@@ -144,14 +143,11 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             >
               Cancel
             </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              disabled={!formik.isValid || !formik.values.name}
-              onClick={() => void formik.submitForm()}
-            >
-              Save changes
-            </ActionButton>
+            <FormSubmitBtn
+              formik={formik}
+              isYaml={section === slugify(YAML_CONFIGURATION)}
+              disabled={!formik.values.name}
+            />
           </>
         )}
       </FormFooterLayout>

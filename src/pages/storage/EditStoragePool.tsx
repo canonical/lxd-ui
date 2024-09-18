@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   fetchStoragePool,
@@ -29,6 +29,7 @@ import { yamlToObject } from "util/yaml";
 import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
 import YamlSwitch from "components/forms/YamlSwitch";
+import FormSubmitBtn from "components/forms/FormSubmitBtn";
 
 interface Props {
   pool: LxdStoragePool;
@@ -67,6 +68,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const formik = useFormik<StoragePoolFormValues>({
     initialValues: toStoragePoolFormValues(pool),
     validationSchema: StoragePoolSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       const savedPool = values.yaml
         ? (yamlToObject(values.yaml) as LxdStoragePool)
@@ -137,14 +139,11 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
             >
               Cancel
             </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              disabled={!formik.isValid}
-              onClick={() => void formik.submitForm()}
-            >
-              Save changes
-            </ActionButton>
+            <FormSubmitBtn
+              formik={formik}
+              isYaml={section === slugify(YAML_CONFIGURATION)}
+              disabled={!formik.values.name}
+            />
           </>
         )}
       </FormFooterLayout>

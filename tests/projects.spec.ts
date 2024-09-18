@@ -95,7 +95,8 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setTextarea(page, "Network uplinks", "lxcbr0");
   await setTextarea(page, "Network zones", "foo,bar");
 
-  await page.getByRole("button", { name: "Save changes" }).click();
+  await page.getByRole("button", { name: "Save 35 changes" }).click();
+
   await page.waitForSelector(`text=Project ${project} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,12 +16,13 @@ import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import FormSubmitBtn from "components/forms/FormSubmitBtn";
 
 interface Props {
   volume: LxdStorageVolume;
 }
 
-const StorageVolumeEdit: FC<Props> = ({ volume }) => {
+const EditStorageVolume: FC<Props> = ({ volume }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -40,6 +41,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: getStorageVolumeEditValues(volume),
     validationSchema: StorageVolumeSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, project, volume);
       updateStorageVolume(values.pool, project, {
@@ -94,14 +96,7 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
             >
               Cancel
             </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              disabled={!formik.isValid || !formik.values.name}
-              onClick={() => void formik.submitForm()}
-            >
-              Save changes
-            </ActionButton>
+            <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
           </>
         )}
       </FormFooterLayout>
@@ -109,4 +104,4 @@ const StorageVolumeEdit: FC<Props> = ({ volume }) => {
   );
 };
 
-export default StorageVolumeEdit;
+export default EditStorageVolume;

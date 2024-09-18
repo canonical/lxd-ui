@@ -38,7 +38,7 @@ test("instance list screen", async ({ page }) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Disk", { exact: true }).click();
   await page.getByRole("button", { name: "Create override" }).click();
-  await page.getByRole("button", { name: "Save changes" }).click();
+  await page.getByRole("button", { name: "Save 1 change" }).click();
   const instances = [
     "comic-glider",
     "deciding-flounder",

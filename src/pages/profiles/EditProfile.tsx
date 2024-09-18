@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import {
-  ActionButton,
   Button,
   Col,
   Form,
@@ -67,6 +66,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
+import FormSubmitBtn from "components/forms/FormSubmitBtn";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -111,6 +111,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const formik = useFormik<EditProfileFormValues>({
     initialValues: getProfileEditValues(profile),
     validationSchema: ProfileSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       const profilePayload = (
         values.yaml
@@ -221,7 +222,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             )}
 
             {section === slugify(CLOUD_INIT) && (
-              <CloudInitForm formik={formik} />
+              <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (
@@ -259,18 +260,11 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             >
               Cancel
             </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              disabled={
-                !formik.isValid ||
-                hasDiskError(formik) ||
-                hasNetworkError(formik)
-              }
-              onClick={() => void formik.submitForm()}
-            >
-              Save changes
-            </ActionButton>
+            <FormSubmitBtn
+              formik={formik}
+              isYaml={section === slugify(YAML_CONFIGURATION)}
+              disabled={hasDiskError(formik) || hasNetworkError(formik)}
+            />
           </>
         )}
       </FormFooterLayout>
