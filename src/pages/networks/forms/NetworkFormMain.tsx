@@ -16,9 +16,10 @@ import { ensureEditMode } from "util/instanceEdit";
 interface Props {
   formik: FormikProps<NetworkFormValues>;
   project: string;
+  isClustered: boolean;
 }
 
-const NetworkFormMain: FC<Props> = ({ formik, project }) => {
+const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
   const getFormProps = (id: "network" | "name" | "description" | "parent") => {
     return {
       id: id,
@@ -59,7 +60,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project }) => {
             <UplinkSelector props={getFormProps("network")} project={project} />
           )}
           {formik.values.networkType === "physical" &&
-            formik.values.isCreating && (
+            (formik.values.isCreating || !isClustered) && (
               <NetworkParentSelector props={getFormProps("parent")} />
             )}
         </Col>

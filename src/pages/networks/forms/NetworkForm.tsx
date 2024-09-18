@@ -31,6 +31,8 @@ import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/instanceEdit";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -166,6 +168,8 @@ const NetworkForm: FC<Props> = ({
 }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -187,7 +191,11 @@ const NetworkForm: FC<Props> = ({
       <Row className="form-contents" key={section}>
         <Col size={12}>
           {section === slugify(MAIN_CONFIGURATION) && (
-            <NetworkFormMain formik={formik} project={project} />
+            <NetworkFormMain
+              formik={formik}
+              project={project}
+              isClustered={isClustered}
+            />
           )}
           {section === slugify(BRIDGE) && <NetworkFormBridge formik={formik} />}
           {section === slugify(DNS) && <NetworkFormDns formik={formik} />}

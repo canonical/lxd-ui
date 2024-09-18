@@ -17,8 +17,8 @@ export const createNetwork = async (
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
   await page.getByLabel("Type").selectOption(type);
-  await page.getByLabel("Name").click();
-  await page.getByLabel("Name").fill(network);
+  await page.getByLabel("Name", { exact: true }).click();
+  await page.getByLabel("Name", { exact: true }).fill(network);
   if (type === "physical") {
     await page.getByLabel("Parent").selectOption({ index: 1 });
   }
