@@ -18,8 +18,12 @@ export const hasNoRootDisk = (
   return missingRoot(values.devices) && !inheritsRoot(values, profiles);
 };
 
+export const isRootDisk = (device: FormDevice): device is FormDiskDevice => {
+  return device.type === "disk" && device.path === "/" && !device.source;
+};
+
 const missingRoot = (devices: FormDevice[]): boolean => {
-  return !devices.some((item) => item.type === "disk" && item.name === "root");
+  return !devices.some(isRootDisk);
 };
 
 const inheritsRoot = (

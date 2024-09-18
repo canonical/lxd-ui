@@ -15,7 +15,10 @@ import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
 import { LxdStorageVolume } from "types/storage";
-import { isDiskDeviceMountPointMissing } from "util/instanceValidation";
+import {
+  isDiskDeviceMountPointMissing,
+  isRootDisk,
+} from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
 import { LxdProfile } from "types/profile";
@@ -29,7 +32,7 @@ interface Props {
 const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const customVolumes = formik.values.devices
-    .filter((device) => device.name !== "root" && device.type === "disk")
+    .filter((item) => item.type === "disk" && !isRootDisk(item))
     .map((device) => device as FormDiskDevice);
 
   const focusField = (name: string) => {

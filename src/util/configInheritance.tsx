@@ -258,7 +258,10 @@ export const getInheritedRootStorage = (
     .find((item) => (item.device as LxdDiskDevice).path === "/");
 
   if (rootDisk) {
-    return [rootDisk.device as LxdDiskDevice, rootDisk.source];
+    return [
+      { ...rootDisk.device, name: rootDisk.key } as LxdDiskDevice,
+      rootDisk.source,
+    ];
   }
 
   return [null, "LXD"];
