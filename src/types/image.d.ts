@@ -15,6 +15,7 @@ export interface LxdImage {
     os: string;
     release: string;
     variant?: string;
+    version?: string;
   };
   update_source?: {
     alias: string;
@@ -61,6 +62,7 @@ export interface RemoteImage {
   volume?: LxdStorageVolume;
   type?: LxdImageType;
   fingerprint?: string;
+  cached?: boolean;
 }
 
 export interface RemoteImageList {

@@ -27,7 +27,12 @@ export const createInstance = async (
   await page.getByRole("button", { name: "Browse images" }).click();
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill(image);
-  await page.getByRole("button", { name: "Select" }).first().click();
+  await page
+    .getByRole("row")
+    .filter({ hasNotText: "cached" })
+    .getByRole("button", { name: "Select" })
+    .first()
+    .click();
   await page
     .getByRole("combobox", { name: "Instance type" })
     .selectOption(type);
@@ -121,7 +126,11 @@ export const createAndStartInstance = async (
   await page.getByRole("button", { name: "Browse images" }).click();
   await page.getByPlaceholder("Search an image").click();
   await page.getByPlaceholder("Search an image").fill("alpine/3.19/cloud");
-  await page.getByRole("button", { name: "Select" }).click();
+  await page
+    .getByRole("row")
+    .filter({ hasNotText: "cached" })
+    .getByRole("button", { name: "Select" })
+    .click();
   await page
     .getByRole("combobox", { name: "Instance type" })
     .selectOption(type);

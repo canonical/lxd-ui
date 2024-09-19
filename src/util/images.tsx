@@ -1,5 +1,6 @@
 import { LxdImage, RemoteImage } from "types/image";
 import { LxdStorageVolume } from "types/storage";
+import { capitalizeFirstLetter } from "./helpers";
 
 export const isVmOnlyImage = (image: RemoteImage): boolean | undefined => {
   if (image.server === LOCAL_ISO || image.type === "virtual-machine") {
@@ -46,11 +47,14 @@ export const localLxdToRemoteImage = (image: LxdImage): RemoteImage => {
     aliases: image.update_source?.alias ?? image.aliases?.[0]?.name ?? "",
     fingerprint: image.fingerprint,
     arch: image.architecture === "x86_64" ? "amd64" : image.architecture,
-    os: image.properties?.os ?? "",
+    os: capitalizeFirstLetter(image.properties?.os ?? ""),
     created_at: new Date(image.uploaded_at).getTime(),
     release: image.properties?.release ?? "",
-    server: LOCAL_IMAGE,
+    release_title: image.properties?.version ?? "",
     type: image.type,
+    cached: image.cached,
+    server: image.cached ? image.update_source?.server : LOCAL_IMAGE,
+    variant: image.properties?.variant,
   };
 };
 
