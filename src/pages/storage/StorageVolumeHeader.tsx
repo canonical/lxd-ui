@@ -9,6 +9,7 @@ import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
+import MigrateVolumeBtn from "./MigrateVolumeBtn";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -66,6 +67,8 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
     },
   });
 
+  const classname = "p-segmented-control__button";
+
   return (
     <RenameHeader
       name={volume.name}
@@ -75,17 +78,27 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
         </Link>,
       ]}
       controls={
-        <DeleteStorageVolumeBtn
-          label="Delete volume"
-          volume={volume}
-          project={project}
-          appearance=""
-          hasIcon={false}
-          onFinish={() => {
-            navigate(`/ui/project/${project}/storage/volumes`);
-            toastNotify.success(`Storage volume ${volume.name} deleted.`);
-          }}
-        />
+        <div className="p-segmented-control">
+          <div className="p-segmented-control__list">
+            <MigrateVolumeBtn
+              storageVolume={volume}
+              project={project}
+              classname={classname}
+            />
+            <DeleteStorageVolumeBtn
+              label="Delete"
+              volume={volume}
+              project={project}
+              appearance=""
+              hasIcon={true}
+              onFinish={() => {
+                navigate(`/ui/project/${project}/storage/volumes`);
+                toastNotify.success(`Storage volume ${volume.name} deleted.`);
+              }}
+              classname={classname}
+            />
+          </div>
+        </div>
       }
       isLoaded={true}
       formik={formik}

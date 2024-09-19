@@ -363,3 +363,21 @@ export const deleteStorageVolume = (
       .catch(reject);
   });
 };
+
+export const migrateStorageVolume = (
+  volume: Partial<LxdStorageVolume>,
+  targetPool: string,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: volume.name,
+        pool: targetPool,
+      }),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};

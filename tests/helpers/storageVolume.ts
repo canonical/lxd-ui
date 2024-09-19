@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
@@ -26,7 +27,7 @@ export const createVolume = async (
 
 export const deleteVolume = async (page: Page, volume: string) => {
   await visitVolume(page, volume);
-  await page.getByRole("button", { name: "Delete volume" }).click();
+  await page.getByRole("button", { name: "Delete" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
@@ -52,4 +53,31 @@ export const editVolume = async (page: Page, volume: string) => {
 export const saveVolume = async (page: Page, volume: string) => {
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Storage volume ${volume} updated.`);
+};
+
+export const migrateVolume = async (
+  page: Page,
+  volume: string,
+  targetPool: string,
+) => {
+  await visitVolume(page, volume);
+  await page.getByRole("button", { name: "Migrate", exact: true }).click();
+  await page
+    .getByRole("dialog", { name: `Choose storage pool for volume ${volume}` })
+    .locator("tr")
+    .filter({ hasText: targetPool })
+    .getByRole("button")
+    .click();
+  await page
+    .getByLabel("Confirm migration")
+    .getByRole("button", { name: "Migrate", exact: true })
+    .click();
+
+  await page.waitForSelector(
+    `text=successfully migrated to pool ${targetPool}`,
+  );
+
+  await expect(page).toHaveURL(
+    `/ui/project/default/storage/pool/${targetPool}/volumes/custom/${volume}`,
+  );
 };

@@ -16,6 +16,7 @@ interface Props {
   appearance?: string;
   hasIcon?: boolean;
   label?: string;
+  classname?: string;
 }
 
 const DeleteStorageVolumeBtn: FC<Props> = ({
@@ -25,6 +26,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   appearance = "base",
   hasIcon = true,
   label,
+  classname,
 }) => {
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
@@ -98,14 +100,14 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
         onConfirm: handleDelete,
       }}
       appearance={appearance}
-      className="has-icon u-no-margin--bottom"
+      className={classname}
       shiftClickEnabled
       showShiftClickHint
       disabled={Boolean(disabledReason)}
       onHoverText={disabledReason}
     >
-      {label && <span>{label}</span>}
       {hasIcon && <Icon name="delete" />}
+      {label && <span>{label}</span>}
     </ConfirmationButton>
   );
 };
