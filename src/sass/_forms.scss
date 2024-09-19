@@ -101,12 +101,6 @@
     .delete-device {
       margin-top: $spv--x-large;
     }
-
-    @include large {
-      .instance-migrate {
-        margin-top: 2.5rem;
-      }
-    }
   }
 
   .is-disabled {

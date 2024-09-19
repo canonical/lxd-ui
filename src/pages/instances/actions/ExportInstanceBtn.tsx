@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { LxdInstance } from "types/instance";
-import { Button } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import classNames from "classnames";
 import { createInstanceBackup } from "api/instances";
 import { useEventQueue } from "context/eventQueue";
@@ -86,10 +86,12 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   return (
     <Button
       appearance="default"
-      className={classNames("u-no-margin--bottom", classname)}
+      className={classNames("u-no-margin--bottom has-icon", classname)}
       onClick={exportInstance}
+      title="Export instance"
     >
-      Export
+      <Icon name="export" />
+      <span>Export</span>
     </Button>
   );
 };

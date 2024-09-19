@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { LxdInstance } from "types/instance";
-import { ActionButton } from "@canonical/react-components";
+import { ActionButton, Icon } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import CreateImageFromInstanceForm from "../forms/CreateImageFromInstanceForm";
 import { useInstanceLoading } from "context/instanceLoading";
@@ -42,7 +42,7 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
       )}
       <ActionButton
         appearance="default"
-        className={classNames("u-no-margin--bottom", classname)}
+        className={classNames("u-no-margin--bottom has-icon", classname)}
         onClick={openPortal}
         aria-label="Create image"
         title={
@@ -50,6 +50,7 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
         }
         disabled={isDisabled}
       >
+        <Icon name="plus" />
         <span>Create Image</span>
       </ActionButton>
     </>

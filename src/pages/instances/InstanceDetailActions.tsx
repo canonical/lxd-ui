@@ -16,10 +16,12 @@ interface Props {
 }
 
 const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
-  const [isLargeScreen, setIsLargeScreen] = useState(isWidthBelow(1200));
+  const [isSmallScreen, setIsSmallScreen] = useState(isWidthBelow(1200));
 
-  useEventListener("resize", () => setIsLargeScreen(isWidthBelow(1200)));
-  const classname = isLargeScreen ? "p-contextual-menu__link" : "";
+  useEventListener("resize", () => setIsSmallScreen(isWidthBelow(1200)));
+  const classname = isSmallScreen
+    ? "p-contextual-menu__link"
+    : "p-segmented-control__button";
 
   const menuElements = [
     <MigrateInstanceBtn
@@ -53,7 +55,7 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
 
   return (
     <>
-      {isLargeScreen ? (
+      {isSmallScreen ? (
         <ContextualMenu
           closeOnOutsideClick={false}
           toggleLabel="Actions"
@@ -70,7 +72,9 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
           )}
         </ContextualMenu>
       ) : (
-        <>{menuElements}</>
+        <div className="p-segmented-control">
+          <div className="p-segmented-control__list">{menuElements}</div>
+        </div>
       )}
     </>
   );
