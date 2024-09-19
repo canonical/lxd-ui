@@ -75,7 +75,7 @@
       border-bottom: 1px solid $colors--light-theme--border-high-contrast;
       font-size: #{map.get($font-sizes, h4-mobile)}rem;
       margin-bottom: $spv--small;
-      width: 50vw;
+      width: 15rem;
 
       span {
         display: inline-block;
@@ -85,15 +85,7 @@
         text-overflow: ellipsis !important;
         vertical-align: top;
         white-space: nowrap !important;
-        width: calc(50vw - 3rem);
-      }
-
-      @include desktop {
-        width: 15rem;
-
-        span {
-          width: 12rem;
-        }
+        width: 11rem;
       }
     }
   }

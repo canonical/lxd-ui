@@ -78,7 +78,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <td>{instance.architecture}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Location</th>
+                <th className="u-text--muted">Cluster member</th>
                 <td>
                   {settings?.environment?.server_clustered
                     ? instance.location
