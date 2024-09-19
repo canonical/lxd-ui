@@ -51,7 +51,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
-  const [subForm, setSubForm] = useState<GroupSubForm>(null);
+  const [subForm, setSubForm] = useState<GroupSubForm>(panelParams.subForm);
   const [confirming, setConfirming] = useState(false);
   const [identities, setIdentities] = useState<FormIdentity[]>(
     getIdentityIdsForGroup(group).map((id) => ({ id: id })) as FormIdentity[],

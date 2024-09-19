@@ -344,8 +344,8 @@ export const permissionSort = (
     resourceTypeSortOrder[permissionA.entity_type] -
     resourceTypeSortOrder[permissionB.entity_type];
 
-  const resourceNameComparison = permissionA.resourceLabel.localeCompare(
-    permissionB.resourceLabel,
+  const resourceNameComparison = permissionA.resourceLabel?.localeCompare(
+    permissionB.resourceLabel ?? "",
   );
 
   const entitlementComparison = permissionA.entitlement.localeCompare(

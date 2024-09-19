@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 
 export interface PanelHelper {
   panel: string | null;
@@ -7,6 +8,7 @@ export interface PanelHelper {
   group: string | null;
   idpGroup: string | null;
   identity: string | null;
+  subForm: GroupSubForm;
   project: string;
   clear: () => void;
   openInstanceSummary: (instance: string, project: string) => void;
@@ -14,7 +16,7 @@ export interface PanelHelper {
   openProfileSummary: (profile: string, project: string) => void;
   openIdentityGroups: (identity?: string) => void;
   openCreateGroup: () => void;
-  openEditGroup: (group: string) => void;
+  openEditGroup: (group: string, subForm?: GroupSubForm) => void;
   openGroupIdentities: (group?: string) => void;
   openCreateIdpGroup: () => void;
   openEditIdpGroup: (group: string) => void;
@@ -64,6 +66,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("panel");
     newParams.delete("profile");
     newParams.delete("project");
+    newParams.delete("sub-form");
     setParams(newParams);
     craftResizeEvent();
   };
@@ -76,6 +79,7 @@ const usePanelParams = (): PanelHelper => {
     identity: params.get("identity"),
     group: params.get("group"),
     idpGroup: params.get("idp-group"),
+    subForm: params.get("sub-form") as GroupSubForm,
 
     clear: () => {
       clearParams();
@@ -103,8 +107,12 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.createGroup);
     },
 
-    openEditGroup: (group) => {
-      setPanelParams(panels.editGroup, { group: group || "" });
+    openEditGroup: (group, subForm) => {
+      const params: ParamMap = { group: group || "" };
+      if (subForm) {
+        params["sub-form"] = subForm;
+      }
+      setPanelParams(panels.editGroup, params);
     },
 
     openGroupIdentities: (group) => {
