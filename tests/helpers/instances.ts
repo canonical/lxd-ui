@@ -63,8 +63,14 @@ export const editInstance = async (page: Page, instance: string) => {
   await page.getByTestId("tab-link-Configuration").click();
 };
 
-export const saveInstance = async (page: Page, instance: string) => {
-  await page.getByRole("button", { name: "Save changes" }).click();
+export const saveInstance = async (
+  page: Page,
+  instance: string,
+  changeCount: number,
+) => {
+  const name =
+    changeCount === 1 ? "Save 1 change" : `Save ${changeCount} changes`;
+  await page.getByRole("button", { name }).click();
   await page.waitForSelector(`text=Instance ${instance} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };

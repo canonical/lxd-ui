@@ -82,8 +82,9 @@ const ProfileSelector: FC<Props> = ({
                 "Each profile overrides the settings specified in previous profiles"
               }
               onChange={(e) => {
-                selected[index] = e.target.value;
-                setSelected(selected);
+                const newValues = [...selected];
+                newValues[index] = e.target.value;
+                setSelected(newValues);
               }}
               options={profiles
                 .filter(

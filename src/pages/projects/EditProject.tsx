@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -21,6 +21,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import FormSubmitBtn from "components/forms/FormSubmitBtn";
 
 interface Props {
   project: LxdProject;
@@ -51,6 +52,7 @@ const EditProject: FC<Props> = ({ project }) => {
   const formik: FormikProps<ProjectFormValues> = useFormik({
     initialValues: initialValues,
     validationSchema: ProjectSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       if (!hasProjectsNetworksZones) {
         values.features_networks_zones = undefined;
@@ -110,14 +112,7 @@ const EditProject: FC<Props> = ({ project }) => {
               >
                 Cancel
               </Button>
-              <ActionButton
-                appearance="positive"
-                loading={formik.isSubmitting}
-                disabled={!formik.isValid || !formik.values.name}
-                onClick={() => void formik.submitForm()}
-              >
-                Save changes
-              </ActionButton>
+              <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
             </>
           )}
         </FormFooterLayout>

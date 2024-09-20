@@ -48,8 +48,8 @@ const StoragePools = lazy(() => import("pages/storage/StoragePools"));
 const StorageVolumes = lazy(() => import("pages/storage/StorageVolumes"));
 const CustomIsoList = lazy(() => import("pages/storage/CustomIsoList"));
 const StoragePoolDetail = lazy(() => import("pages/storage/StoragePoolDetail"));
-const StorageVolumeCreate = lazy(
-  () => import("pages/storage/forms/StorageVolumeCreate"),
+const CreateStorageVolume = lazy(
+  () => import("pages/storage/forms/CreateStorageVolume"),
 );
 const StorageVolumeDetail = lazy(
   () => import("pages/storage/StorageVolumeDetail"),
@@ -305,7 +305,7 @@ const App: FC = () => {
           path="/ui/project/:project/storage/volumes/create"
           element={
             <ProtectedRoute
-              outlet={<ProjectLoader outlet={<StorageVolumeCreate />} />}
+              outlet={<ProjectLoader outlet={<CreateStorageVolume />} />}
             />
           }
         />

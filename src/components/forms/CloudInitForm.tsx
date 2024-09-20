@@ -1,13 +1,16 @@
 import { FC } from "react";
-import { Icon, Tooltip } from "@canonical/react-components";
+import { Button, Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
 import {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";
-import { getConfigurationRow } from "components/ConfigurationRow";
+import { getConfigurationRowBase } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
+import { ensureEditMode } from "util/instanceEdit";
+import classnames from "classnames";
+import { getConfigRowMetadata } from "util/configInheritance";
 
 export interface CloudInitFormValues {
   cloud_init_network_config?: string;
@@ -29,12 +32,74 @@ interface Props {
 }
 
 const CloudInitForm: FC<Props> = ({ formik }) => {
-  const codeRenderer = (value?: unknown) =>
-    value === "-" || value === undefined ? (
-      ""
-    ) : (
-      <CloudInitConfig config={value as string} />
-    );
+  const getCloudInitRow = (label: string, name: string, value?: string) => {
+    const metadata = getConfigRowMetadata(formik.values, name);
+    const isOverridden = value !== undefined;
+
+    return getConfigurationRowBase({
+      configuration: <strong>{label}</strong>,
+      inherited: (
+        <div
+          className={classnames({
+            "u-text--muted": isOverridden,
+            "u-text--line-through": isOverridden,
+          })}
+        >
+          <div className="mono-font">
+            <b>
+              <CloudInitConfig
+                key={`cloud-init-${name}`}
+                config={metadata.value as string}
+              />
+            </b>
+          </div>
+          {metadata && (
+            <div className="p-text--small u-text--muted">
+              From: {metadata.source}
+            </div>
+          )}
+        </div>
+      ),
+      override: isOverridden ? (
+        <>
+          <CloudInitConfig
+            config={value ?? ""}
+            setConfig={(config) => {
+              ensureEditMode(formik);
+              void formik.setFieldValue(name, config);
+            }}
+          />
+          <Button
+            onClick={() => {
+              ensureEditMode(formik);
+              void formik.setFieldValue(name, undefined);
+            }}
+            type="button"
+            appearance="base"
+            title={"Clear override"}
+            hasIcon
+            className="u-no-margin--bottom"
+          >
+            <Icon name="close" className="clear-configuration-icon" />
+          </Button>
+        </>
+      ) : (
+        <Button
+          onClick={() => {
+            ensureEditMode(formik);
+            void formik.setFieldValue(name, "\n\n");
+          }}
+          className="u-no-margin--bottom"
+          type="button"
+          appearance="base"
+          title="Create override"
+          hasIcon
+        >
+          <Icon name="edit" />
+        </Button>
+      ),
+    });
+  };
 
   return (
     <div className="cloud-init">
@@ -48,53 +113,21 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           </Tooltip>
         }
         rows={[
-          getConfigurationRow({
-            formik,
-            label: "Network config",
-            name: "cloud_init_network_config",
-            defaultValue: "\n\n",
-            readOnlyRenderer: codeRenderer,
-            children: (
-              <CloudInitConfig
-                config={formik.values.cloud_init_network_config ?? ""}
-                setConfig={(config) =>
-                  void formik.setFieldValue("cloud_init_network_config", config)
-                }
-              />
-            ),
-          }),
-
-          getConfigurationRow({
-            formik,
-            label: "User data",
-            name: "cloud_init_user_data",
-            defaultValue: "\n\n",
-            readOnlyRenderer: codeRenderer,
-            children: (
-              <CloudInitConfig
-                config={formik.values.cloud_init_user_data ?? ""}
-                setConfig={(config) =>
-                  void formik.setFieldValue("cloud_init_user_data", config)
-                }
-              />
-            ),
-          }),
-
-          getConfigurationRow({
-            formik,
-            label: "Vendor data",
-            name: "cloud_init_vendor_data",
-            defaultValue: "\n\n",
-            readOnlyRenderer: codeRenderer,
-            children: (
-              <CloudInitConfig
-                config={formik.values.cloud_init_vendor_data ?? ""}
-                setConfig={(config) =>
-                  void formik.setFieldValue("cloud_init_vendor_data", config)
-                }
-              />
-            ),
-          }),
+          getCloudInitRow(
+            "Network config",
+            "cloud_init_network_config",
+            formik.values.cloud_init_network_config,
+          ),
+          getCloudInitRow(
+            "User data",
+            "cloud_init_user_data",
+            formik.values.cloud_init_user_data,
+          ),
+          getCloudInitRow(
+            "Vendor data",
+            "cloud_init_vendor_data",
+            formik.values.cloud_init_vendor_data,
+          ),
         ]}
       />
     </div>

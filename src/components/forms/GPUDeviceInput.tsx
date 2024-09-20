@@ -10,7 +10,7 @@ interface Props {
 const GpuDeviceInput: FC<Props> = ({ device, onChange }) => {
   const [type, setType] = useState(device.pci ? "pci" : "id");
   const isPci = type === "pci";
-  const key = `device.${device.id}.${isPci ? "pci" : "id"}`;
+  const key = `device.${device.name}.${isPci ? "pci" : "id"}`;
 
   return (
     <>

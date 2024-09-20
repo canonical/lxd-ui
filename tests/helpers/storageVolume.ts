@@ -50,6 +50,6 @@ export const editVolume = async (page: Page, volume: string) => {
 };
 
 export const saveVolume = async (page: Page, volume: string) => {
-  await page.getByRole("button", { name: "Save changes" }).click();
+  await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Storage volume ${volume} updated.`);
 };

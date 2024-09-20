@@ -7,7 +7,7 @@ import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import StorageVolumeHeader from "pages/storage/StorageVolumeHeader";
 import StorageVolumeOverview from "pages/storage/StorageVolumeOverview";
-import StorageVolumeEdit from "pages/storage/forms/StorageVolumeEdit";
+import EditStorageVolume from "pages/storage/forms/EditStorageVolume";
 import TabLinks from "components/TabLinks";
 import CustomLayout from "components/CustomLayout";
 import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
@@ -83,7 +83,7 @@ const StorageVolumeDetail: FC = () => {
 
         {activeTab === "configuration" && (
           <div role="tabpanel" aria-labelledby="configuration">
-            <StorageVolumeEdit volume={volume} />
+            <EditStorageVolume volume={volume} />
           </div>
         )}
 

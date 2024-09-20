@@ -39,7 +39,7 @@ export const editPool = async (page: Page, pool: string) => {
 };
 
 export const savePool = async (page: Page, pool: string) => {
-  await page.getByRole("button", { name: "Save changes" }).click();
+  await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Storage pool ${pool} updated.`);
   await page.getByRole("button", { name: "Close notification" }).click();
 };

@@ -1,11 +1,5 @@
-import { FC, useEffect, useState } from "react";
-import {
-  ActionButton,
-  Button,
-  Col,
-  Form,
-  Row,
-} from "@canonical/react-components";
+import React, { FC, useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
@@ -68,6 +62,7 @@ import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
+import FormSubmitBtn from "components/forms/FormSubmitBtn";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -117,6 +112,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const formik = useFormik<EditInstanceFormValues>({
     initialValues: getInstanceEditValues(instance),
     validationSchema: InstanceEditSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       const instancePayload = (
         values.yaml
@@ -240,7 +236,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
             )}
 
             {section === slugify(CLOUD_INIT) && (
-              <CloudInitForm formik={formik} />
+              <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (
@@ -278,18 +274,11 @@ const EditInstance: FC<Props> = ({ instance }) => {
             >
               Cancel
             </Button>
-            <ActionButton
-              appearance="positive"
-              loading={formik.isSubmitting}
-              disabled={
-                !formik.isValid ||
-                hasDiskError(formik) ||
-                hasNetworkError(formik)
-              }
-              onClick={() => void formik.submitForm()}
-            >
-              Save changes
-            </ActionButton>
+            <FormSubmitBtn
+              formik={formik}
+              isYaml={section === slugify(YAML_CONFIGURATION)}
+              disabled={hasDiskError(formik) || hasNetworkError(formik)}
+            />
           </>
         )}
       </FormFooterLayout>
