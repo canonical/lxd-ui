@@ -26,5 +26,8 @@ export const useSupportedFeatures = () => {
     hasAccessManagement: apiExtensions.has("access_management"),
     hasExplicitTrustToken: apiExtensions.has("explicit_trust_token"),
     hasInstanceCreateStart: apiExtensions.has("instance_create_start"),
+    hasInstanceImportConversion: apiExtensions.has(
+      "instance_import_conversion",
+    ),
   };
 };
