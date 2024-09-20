@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Col, Input, Row } from "@canonical/react-components";
+import { Col, Input, Row, Select } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
 import { FormikProps } from "formik/dist/types";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
@@ -35,14 +35,13 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
             id="name"
             name="name"
             type="text"
-            label="Instance name"
-            help="Click the name in the header to rename the instance"
+            label="Name"
+            help="Click the instance name in the header to rename the instance"
             placeholder="Enter name"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
-            required
             disabled={true}
           />
           <AutoExpandingTextArea
@@ -62,14 +61,19 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
       {isClustered && (
         <Row>
           <Col size={12}>
-            <Input
+            <Select
               id="target"
               name="target"
-              type="text"
-              label="Instance location"
+              options={[
+                {
+                  label: formik.values.location,
+                  value: formik.values.location,
+                },
+              ]}
+              label="Cluster member"
               value={formik.values.location}
-              required
               disabled={true}
+              help="Use the migrate button in the header to move the instance to another cluster member"
             />
           </Col>
         </Row>

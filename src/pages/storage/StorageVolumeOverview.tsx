@@ -8,6 +8,7 @@ import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";
 import { Link } from "react-router-dom";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   project: string;
@@ -20,6 +21,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
   };
   useEffect(updateContentHeight, [volume]);
   useEventListener("resize", updateContentHeight);
+  const { data: settings } = useSettings();
 
   return (
     <div className="storage-overview-tab">
@@ -47,8 +49,12 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
                 <td>{volume.description ? volume.description : "-"}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Location</th>
-                <td>{volume.location}</td>
+                <th className="u-text--muted">Cluster member</th>
+                <td>
+                  {settings?.environment?.server_clustered
+                    ? volume.location
+                    : "-"}
+                </td>
               </tr>
               <tr>
                 <th className="u-text--muted">Pool</th>
