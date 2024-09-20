@@ -35,6 +35,9 @@ const DiskDeviceFormRoot: FC<Props> = ({
   const formRootDevice = formik.values.devices[
     rootIndex
   ] as LxdDiskDevice | null;
+  // to modify the root storage pool for an exisiting instance, the user must use the "Migrate" functionality
+  const restrictEditStoragePool =
+    formik.values.entityType === "instance" && !formik.values.isCreating;
 
   const [inheritValue, inheritSource] = getInheritedRootStorage(
     formik.values,
@@ -122,16 +125,29 @@ const DiskDeviceFormRoot: FC<Props> = ({
               </>
             ),
             overrideForm: (
-              <StoragePoolSelector
-                project={project}
-                value={formRootDevice?.pool ?? ""}
-                setValue={(value) =>
-                  void formik.setFieldValue(`devices.${rootIndex}.pool`, value)
-                }
-                selectProps={{
-                  className: "u-no-margin--bottom",
-                }}
-              />
+              <>
+                <StoragePoolSelector
+                  project={project}
+                  value={formRootDevice?.pool ?? ""}
+                  setValue={(value) =>
+                    void formik.setFieldValue(
+                      `devices.${rootIndex}.pool`,
+                      value,
+                    )
+                  }
+                  selectProps={{
+                    className: restrictEditStoragePool
+                      ? ""
+                      : "u-no-margin--bottom",
+                    disabled: restrictEditStoragePool,
+                  }}
+                />
+                {restrictEditStoragePool && (
+                  <p className="p-form-help-text">
+                    Use the migrate button in the header to change root storage.
+                  </p>
+                )}
+              </>
             ),
           }),
 
@@ -171,7 +187,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                     void formik.setFieldValue(`devices.${rootIndex}.size`, val)
                   }
                 />
-                <p className="p-form-help-text u-sv-2">
+                <p className="p-form-help-text">
                   Size of root storage. If empty, root storage will not have a
                   size limit.
                 </p>

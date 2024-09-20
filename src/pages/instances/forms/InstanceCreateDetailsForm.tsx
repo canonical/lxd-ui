@@ -34,6 +34,7 @@ export interface InstanceDetailsFormValues {
   profiles: string[];
   target?: string;
   entityType: "instance";
+  isCreating: boolean;
   readOnly: boolean;
 }
 

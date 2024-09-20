@@ -1,8 +1,8 @@
-import { Button, Icon } from "@canonical/react-components";
-import React, { FC } from "react";
+import { FC } from "react";
 import { LxdGroup } from "types/permissions";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import { pluralize } from "util/instanceBulkActions";
+import BackLink from "components/BackLink";
 
 interface Props {
   subForm: GroupSubForm;
@@ -15,26 +15,14 @@ const GroupHeaderTitle: FC<Props> = ({ subForm, setSubForm, group }) => {
     return group ? `Edit group ${group?.name}` : "Create group";
   }
 
-  const backLink = (
-    <>
-      <Icon name="chevron-left" />{" "}
-      <Button
-        onClick={() => setSubForm(null)}
-        dense
-        appearance="link"
-        className="p-heading--4"
-      >
-        {group ? "Edit group" : "Create group"}
-      </Button>
-    </>
-  );
-
   const verb = group ? "Edit" : "Add";
 
   return (
-    <>
-      {backLink} / {verb} {pluralize(subForm, 2)}
-    </>
+    <BackLink
+      linkText={group ? "Edit group" : "Create group"}
+      title={`${verb} ${pluralize(subForm, 2)}`}
+      onClick={() => setSubForm(null)}
+    />
   );
 };
 

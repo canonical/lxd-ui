@@ -91,13 +91,20 @@ export const renameInstance = (
 export const migrateInstance = (
   name: string,
   project: string,
-  target: string,
+  target?: string,
+  pool?: string,
 ): Promise<LxdOperationResponse> => {
+  let url = `/1.0/instances/${name}?project=${project}`;
+  if (target) {
+    url += `&target=${target}`;
+  }
+
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${name}?project=${project}&target=${target}`, {
+    fetch(url, {
       method: "POST",
       body: JSON.stringify({
         migration: true,
+        pool,
       }),
     })
       .then(handleResponse)

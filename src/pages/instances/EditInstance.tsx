@@ -71,6 +71,7 @@ export interface InstanceEditDetailsFormValues {
   location: string;
   profiles: string[];
   entityType: "instance";
+  isCreating: boolean;
   readOnly: boolean;
 }
 

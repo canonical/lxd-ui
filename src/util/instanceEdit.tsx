@@ -67,6 +67,7 @@ export const getInstanceEditValues = (
     instanceType: instance.type,
     profiles: instance.profiles,
     location: instance.location,
+    isCreating: false,
     readOnly: true,
     entityType: "instance",
     ...getEditValues(instance),
