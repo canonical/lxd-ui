@@ -35,8 +35,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
   const formRootDevice = formik.values.devices[
     rootIndex
   ] as LxdDiskDevice | null;
-  // to modify the root storage pool for an exisiting instance, the user must use the "Migrate" functionality
-  const restrictEditStoragePool =
+  const isEditingInstance =
     formik.values.entityType === "instance" && !formik.values.isCreating;
 
   const [inheritValue, inheritSource] = getInheritedRootStorage(
@@ -136,17 +135,13 @@ const DiskDeviceFormRoot: FC<Props> = ({
                     )
                   }
                   selectProps={{
-                    className: restrictEditStoragePool
-                      ? ""
-                      : "u-no-margin--bottom",
-                    disabled: restrictEditStoragePool,
+                    className: isEditingInstance ? "" : "u-no-margin--bottom",
+                    disabled: isEditingInstance,
+                    help: isEditingInstance
+                      ? "Use the migrate button in the header to change root storage."
+                      : "",
                   }}
                 />
-                {restrictEditStoragePool && (
-                  <p className="p-form-help-text">
-                    Use the migrate button in the header to change root storage.
-                  </p>
-                )}
               </>
             ),
           }),

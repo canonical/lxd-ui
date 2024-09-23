@@ -39,6 +39,13 @@
   }
 
   .migrate-instance-name {
+    display: inline;
     max-width: 20rem;
+  }
+
+  .select-title {
+    display: inline-block;
+    margin-bottom: -8px;
+    max-width: 50rem;
   }
 }

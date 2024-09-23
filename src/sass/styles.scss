@@ -319,6 +319,11 @@ body {
     background-color: $colors--light-theme--background-hover;
     cursor: pointer;
   }
+
+  .u-row--disabled:hover {
+    background-color: white;
+    cursor: auto;
+  }
 }
 
 .clickable-cell {

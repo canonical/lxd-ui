@@ -1,9 +1,9 @@
 import { Button, Icon } from "@canonical/react-components";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 interface Props {
   linkText: string;
-  title: string;
+  title: ReactNode;
   onClick: () => void;
 }
 
