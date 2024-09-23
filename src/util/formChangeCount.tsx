@@ -30,6 +30,17 @@ const getPrimitiveFieldChanges = (
     }
   }
 
+  for (const key in formik.initialValues) {
+    if (ignoredFields.has(key) || Object.hasOwn(formik.values, key)) {
+      continue;
+    }
+
+    const keyType = key as keyof ConfigurationRowFormikValues;
+    if (formik.values[keyType] !== formik.initialValues[keyType]) {
+      changeCount++;
+    }
+  }
+
   return changeCount;
 };
 
