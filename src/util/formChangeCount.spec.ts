@@ -151,4 +151,17 @@ describe("formChangeCount", () => {
 
     expect(result).toBe(1);
   });
+
+  it("key was removed", () => {
+    const formik = {
+      initialValues: {
+        name: "value",
+      },
+      values: {},
+    } as ConfigurationRowFormikProps;
+
+    const result = getFormChangeCount(formik);
+
+    expect(result).toBe(1);
+  });
 });
