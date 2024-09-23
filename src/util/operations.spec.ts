@@ -2,9 +2,21 @@ import { getInstanceName, getProjectName } from "./operations";
 import { LxdOperation } from "types/operation";
 
 const craftOperation = (...url: string[]) => {
+  const instances: string[] = [];
+  const instances_snapshots: string[] = [];
+  for (const u of url) {
+    const segments = u.split("/");
+    if (segments.length > 4) {
+      instances_snapshots.push(u);
+    } else {
+      instances.push(u);
+    }
+  }
+
   return {
     resources: {
-      instances: [...url],
+      instances,
+      instances_snapshots,
     },
   } as LxdOperation;
 };
