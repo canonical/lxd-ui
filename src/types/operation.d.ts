@@ -15,6 +15,7 @@ export interface LxdOperation {
   may_cancel: boolean;
   resources?: {
     instances?: string[];
+    instances_snapshots?: string[];
   };
   status: LxdOperationStatus;
   status_code: string;
