@@ -381,3 +381,38 @@ export const migrateStorageVolume = (
       .catch(reject);
   });
 };
+
+// Including project and target params if they did not change from source configs breaks the API call.
+// Therefore, we only include them if they are different from the source configs, that's why both project and target are optional inputs
+export const duplicateStorageVolume = (
+  volume: Partial<LxdStorageVolume>,
+  pool: string,
+  project?: string,
+  target?: string,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    const url = new URL(
+      `/1.0/storage-pools/${pool}/volumes/custom`,
+      window.location.origin,
+    );
+    const params = new URLSearchParams();
+
+    if (project) {
+      params.append("project", project);
+    }
+
+    if (target) {
+      params.append("target", target);
+    }
+
+    url.search = params.toString();
+
+    fetch(url.toString(), {
+      method: "POST",
+      body: JSON.stringify(volume),
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};

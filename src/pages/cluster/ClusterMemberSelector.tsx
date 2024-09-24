@@ -8,12 +8,14 @@ import { isClusteredServer } from "util/settings";
 
 interface Props {
   setMember?: (member: string) => void;
+  disableReason?: string;
 }
 
 const ClusterMemberSelector: FC<SelectProps & Props> = ({
   label,
   disabled,
   setMember,
+  disableReason,
   ...props
 }) => {
   const { data: settings } = useSettings();
@@ -41,7 +43,8 @@ const ClusterMemberSelector: FC<SelectProps & Props> = ({
           value: clusterMember.server_name,
         };
       })}
-      disabled={disabled || clusterMembersLoading}
+      disabled={disabled || clusterMembersLoading || !!disableReason}
+      help={disableReason}
     />
   ) : null;
 };

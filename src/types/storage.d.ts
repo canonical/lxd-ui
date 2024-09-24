@@ -51,6 +51,16 @@ export interface LxdStorageVolume {
   type: LxdStorageVolumeType;
   used_by?: string[];
   etag?: string;
+  source?: {
+    location: string;
+    mode?: "pull" | "push" | "relay";
+    name: string;
+    pool: string;
+    project?: string;
+    refresh?: boolean;
+    type: string;
+    volume_only?: boolean;
+  };
 }
 
 export interface LxdStorageVolumeState {

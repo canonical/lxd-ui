@@ -32,5 +32,8 @@ export const useSupportedFeatures = () => {
     hasEntityTypeMetadata: apiExtensions.has(
       "metadata_configuration_entity_types",
     ),
+    hasClusterInternalCustomVolumeCopy: apiExtensions.has(
+      "cluster_internal_custom_volume_copy",
+    ),
   };
 };
