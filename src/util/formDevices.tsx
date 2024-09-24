@@ -44,7 +44,7 @@ export type FormDiskDevice = Partial<LxdDiskDevice> &
       read?: string;
       write?: string;
     };
-    size_state?: string;
+    bare?: LxdDiskDevice;
   };
 
 export type FormNetworkDevice = Partial<LxdNicDevice> &
@@ -94,9 +94,9 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
         }
         delete item.limits;
       }
-      if ("size_state" in item) {
-        item["size.state"] = item.size_state;
-        delete item.size_state;
+      if (item.type === "disk") {
+        const { bare, ...rest } = item;
+        item = { ...bare, ...rest };
       }
       if ("size" in item && !item.size?.match(/^\d/)) {
         delete item.size;
@@ -148,12 +148,12 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           pool: item.pool,
           source: "source" in item ? item.source : undefined,
           size: "size" in item ? item.size : undefined,
-          size_state: "size.state" in item ? item["size.state"] : undefined,
           limits: {
             read: "limits.read" in item ? item["limits.read"] : undefined,
             write: "limits.write" in item ? item["limits.write"] : undefined,
           },
           type: "disk",
+          bare: item,
         };
       case "gpu":
       case "proxy":

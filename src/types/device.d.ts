@@ -3,6 +3,7 @@ export interface LxdDiskDevice {
   path?: string;
   pool: string;
   size?: string;
+  "boot.priority"?: string;
   "size.state"?: string;
   source?: string;
   "limits.read"?: string;
