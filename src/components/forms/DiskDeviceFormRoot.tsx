@@ -14,6 +14,7 @@ import { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
+import { focusField } from "util/formFields";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -49,9 +50,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
       pool: inheritValue ? inheritValue.pool : (pools[0]?.name ?? undefined),
     });
     void formik.setFieldValue("devices", copy);
-
-    const newDeviceIndex = copy.length - 1;
-    void formik.setFieldValue(`devices.${newDeviceIndex}.size`, "GiB");
   };
 
   return (
@@ -126,9 +124,27 @@ const DiskDeviceFormRoot: FC<Props> = ({
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
-            overrideValue:
-              formRootDevice?.size ?? (hasRootStorage ? "unlimited" : ""),
-            overrideForm: (
+            overrideValue: (
+              <>
+                {formRootDevice?.size ?? (hasRootStorage ? "unlimited" : "")}
+                {hasRootStorage && (
+                  <Button
+                    onClick={() => {
+                      ensureEditMode(formik);
+                      focusField("limits_disk");
+                    }}
+                    type="button"
+                    appearance="base"
+                    title="Edit"
+                    className="u-no-margin--bottom"
+                    hasIcon
+                  >
+                    <Icon name="edit" />
+                  </Button>
+                )}
+              </>
+            ),
+            overrideForm: hasRootStorage && (
               <>
                 <DiskSizeSelector
                   value={formRootDevice?.size ?? "GiB"}

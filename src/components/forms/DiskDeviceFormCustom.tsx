@@ -22,6 +22,7 @@ import {
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
 import { LxdProfile } from "types/profile";
+import { focusField } from "util/formFields";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -34,10 +35,6 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
   const customVolumes = formik.values.devices
     .filter((item) => item.type === "disk" && !isRootDisk(item))
     .map((device) => device as FormDiskDevice);
-
-  const focusField = (name: string) => {
-    setTimeout(() => document.getElementById(name)?.focus(), 100);
-  };
 
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 

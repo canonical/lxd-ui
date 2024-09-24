@@ -10,7 +10,7 @@ interface Props {
   inheritValue: ReactNode;
   inheritSource?: string;
   readOnly: boolean;
-  overrideValue?: string;
+  overrideValue?: string | ReactNode;
   overrideForm?: ReactNode;
   addOverride?: () => void;
   clearOverride?: () => void;
