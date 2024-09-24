@@ -54,6 +54,10 @@ const DiskDeviceFormRoot: FC<Props> = ({
     void formik.setFieldValue(`devices.${newDeviceIndex}.size`, "GiB");
   };
 
+  const focusField = (name: string) => {
+    setTimeout(() => document.getElementById(name)?.focus(), 100);
+  };
+
   return (
     <>
       <h2 className="p-heading--4">Root storage</h2>
@@ -126,9 +130,27 @@ const DiskDeviceFormRoot: FC<Props> = ({
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
-            overrideValue:
-              formRootDevice?.size ?? (hasRootStorage ? "unlimited" : ""),
-            overrideForm: (
+            overrideValue: (
+              <>
+                {formRootDevice?.size ?? (hasRootStorage ? "unlimited" : "")}
+                {hasRootStorage && (
+                  <Button
+                    onClick={() => {
+                      ensureEditMode(formik);
+                      focusField("limits_disk");
+                    }}
+                    type="button"
+                    appearance="base"
+                    title="Edit"
+                    className="u-no-margin--bottom"
+                    hasIcon
+                  >
+                    <Icon name="edit" />
+                  </Button>
+                )}
+              </>
+            ),
+            overrideForm: hasRootStorage && (
               <>
                 <DiskSizeSelector
                   value={formRootDevice?.size ?? "GiB"}
