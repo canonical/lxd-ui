@@ -23,6 +23,7 @@ import NetworkForwardFormPorts, {
   NetworkForwardPortFormValues,
 } from "pages/networks/forms/NetworkForwardFormPorts";
 import ScrollableForm from "components/ScrollableForm";
+import { focusField } from "util/formFields";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -104,7 +105,7 @@ const NetworkForwardForm: FC<Props> = ({
     ]);
 
     const name = `ports.${formik.values.ports.length}.listenPort`;
-    setTimeout(() => document.getElementById(name)?.focus(), 100);
+    focusField(name);
   };
 
   return (

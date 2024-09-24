@@ -34,3 +34,7 @@ export const optionRenderer = (
 
   return "";
 };
+
+export const focusField = (name: string) => {
+  setTimeout(() => document.getElementById(name)?.focus(), 100);
+};

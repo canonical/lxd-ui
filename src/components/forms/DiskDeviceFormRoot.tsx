@@ -14,6 +14,7 @@ import { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
+import { focusField } from "util/formFields";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -49,10 +50,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
       pool: inheritValue ? inheritValue.pool : (pools[0]?.name ?? undefined),
     });
     void formik.setFieldValue("devices", copy);
-  };
-
-  const focusField = (name: string) => {
-    setTimeout(() => document.getElementById(name)?.focus(), 100);
   };
 
   return (

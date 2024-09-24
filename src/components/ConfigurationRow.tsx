@@ -15,6 +15,7 @@ import { ProjectFormValues } from "pages/projects/CreateProject";
 import { getConfigRowMetadata } from "util/configInheritance";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ensureEditMode } from "util/instanceEdit";
+import { focusField } from "util/formFields";
 
 export type ConfigurationRowFormikValues =
   | InstanceAndProfileFormValues
@@ -65,16 +66,12 @@ export const getConfigurationRow = ({
     void formik.setFieldValue(name, defaultValue);
   };
 
-  const focusOverride = () => {
-    setTimeout(() => document.getElementById(name)?.focus(), 100);
-  };
-
   const toggleDefault = () => {
     if (isOverridden) {
       void formik.setFieldValue(name, undefined);
     } else {
       enableOverride();
-      focusOverride();
+      focusField(name);
     }
   };
 
@@ -148,7 +145,7 @@ export const getConfigurationRow = ({
               if (!isOverridden) {
                 enableOverride();
               }
-              focusOverride();
+              focusField(name);
             }}
             className="u-no-margin--bottom"
             type="button"

@@ -22,6 +22,7 @@ import { CustomNetworkDevice, deduplicateName } from "util/formDevices";
 import { isNicDeviceNameMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
+import { focusField } from "util/formFields";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -62,8 +63,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   }
 
   const focusNetwork = (id: number) => {
-    const name = `devices.${id}.name`;
-    setTimeout(() => document.getElementById(name)?.focus(), 100);
+    focusField(`devices.${id}.name`);
   };
 
   const removeNetwork = (index: number) => {
