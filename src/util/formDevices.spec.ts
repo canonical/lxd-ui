@@ -11,6 +11,7 @@ const deviceYaml =
   "    size: 10GiB\n" +
   "    type: disk\n" +
   "    size.state: 3GiB\n" +
+  "    boot.priority: 7\n" +
   "  eth0:\n" +
   "    network: lxcbr\n" +
   "    type: nic\n" +
