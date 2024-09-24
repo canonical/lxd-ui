@@ -5,6 +5,7 @@ import {
 import { FormDevice, FormDeviceValues } from "util/formDevices";
 import { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import { InstanceEditDetailsFormValues } from "pages/instances/EditInstance";
+import { isRootDisk } from "util/instanceValidation";
 
 const getPrimitiveFieldChanges = (
   formik: ConfigurationRowFormikProps,
@@ -93,6 +94,10 @@ const getDevicePairFieldChanges = (a: FormDevice, b: FormDevice): number => {
 
   for (const key in a) {
     const keyType = key as keyof FormDevice;
+    if (isRootDisk(a) && !["size", "pool"].includes(keyType)) {
+      continue;
+    }
+
     if (JSON.stringify(a[keyType]) !== JSON.stringify(b[keyType])) {
       changeCount++;
     }

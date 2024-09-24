@@ -49,9 +49,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
       pool: inheritValue ? inheritValue.pool : (pools[0]?.name ?? undefined),
     });
     void formik.setFieldValue("devices", copy);
-
-    const newDeviceIndex = copy.length - 1;
-    void formik.setFieldValue(`devices.${newDeviceIndex}.size`, "GiB");
   };
 
   const focusField = (name: string) => {
