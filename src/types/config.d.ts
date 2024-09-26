@@ -29,7 +29,10 @@ export interface LxdEntitlement {
 }
 
 export interface LxdEntityEntitlements {
-  [entity: string]: LxdEntitlement[];
+  [entity: string]: {
+    entitlements: LxdEntitlement[];
+    project_specific: boolean;
+  };
 }
 
 export interface LxdMetadata {

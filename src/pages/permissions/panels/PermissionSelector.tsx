@@ -28,7 +28,8 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
   const [entitlement, setEntitlement] = useState("");
-  const { hasMetadataConfiguration } = useSupportedFeatures();
+  const { hasMetadataConfiguration, hasEntityTypeMetadata } =
+    useSupportedFeatures();
 
   const {
     data: permissions,
@@ -140,10 +141,12 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     identityNamesLookup,
   );
 
+  // if we have metadata api extension, but no entity type metadata, we can't show entitlement descriptions
+  const validMetadata = hasEntityTypeMetadata ? metadata : null;
   const entitlementOptions = generateEntitlementOptions(
     resourceType,
     permissions,
-    metadata,
+    validMetadata,
   );
 
   const isServerResourceType = resourceType === "server";
