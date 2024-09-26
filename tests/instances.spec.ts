@@ -351,3 +351,35 @@ test("Export and Upload an instance backup", async ({ page }) => {
   await page.waitForSelector(`text=Created instance ${instance}-1`);
   await deleteInstance(page, `${instance}-1`);
 });
+
+test("Create instance from external instance file", async ({
+  page,
+  lxdVersion,
+}) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "External instance file conversion is only supported in newer versions of LXD",
+  );
+
+  test.skip(
+    Boolean(!process.env.CI),
+    "Skipping test locally for external instance file creation",
+  );
+
+  const INSTANCE_FILE = "ubuntu-minimal.qcow2";
+  await page.goto("/ui/");
+  await page.getByRole("button", { name: "Create instance" }).click();
+  await page.getByRole("button", { name: "Upload instance file" }).click();
+  await page.getByText("External format (.qcow2, .").click();
+  await page
+    .getByRole("textbox", { name: "External format (.qcow2, ." })
+    .setInputFiles(INSTANCE_FILE);
+  const instanceName = randomInstanceName();
+  await page.getByRole("textbox", { name: "Enter name" }).fill(instanceName);
+  await page
+    .getByLabel("Upload instance file")
+    .getByRole("button", { name: "Upload and create" })
+    .click();
+  await page.waitForSelector(`text=Created instance ${instanceName}.`);
+  await deleteInstance(page, instanceName);
+});
