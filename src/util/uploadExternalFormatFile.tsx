@@ -49,7 +49,7 @@ export const uploadExternalFormatFilePayload = (
     },
     type: "virtual-machine",
     name: values.name,
-    sourceDiskSize: fileSize,
+    source_disk_size: fileSize,
     architecture: values.architecture,
   };
 
