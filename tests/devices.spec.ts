@@ -17,6 +17,7 @@ import {
 import { attachVolume, detachVolume } from "./helpers/devices";
 import { deleteVolume, randomVolumeName } from "./helpers/storageVolume";
 import { assertTextVisible } from "./helpers/permissions";
+import { expect } from "./fixtures/lxd-test";
 
 test("instance attach custom volumes and detach inherited volumes", async ({
   page,
@@ -103,6 +104,52 @@ test("profile edit networks", async ({ page }) => {
 
   await page.getByRole("gridcell", { name: "eth0" }).click();
   await page.getByRole("gridcell", { name: "eth1" }).click();
+
+  await deleteProfile(page, profile);
+});
+
+test("add, edit and remove a proxy device", async ({ page }) => {
+  const profile = randomProfileName();
+
+  //Add Proxy Device
+  await startProfileCreation(page, profile);
+  await page.getByText("Proxy", { exact: true }).click();
+  await page.getByRole("button", { name: "New Proxy Device" }).click();
+  await page.getByLabel("Bind").selectOption({ index: 2 });
+  await page.getByLabel("Address").first().fill("127.0.0.1");
+  await page.getByLabel("Port").first().fill("3000");
+  await page.getByLabel("Address").nth(1).fill("127.0.0.2");
+  await page.getByLabel("Port").nth(1).fill("3001");
+  await finishProfileCreation(page, profile);
+
+  //Edit and save Proxy Device
+  await visitProfile(page, profile);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Proxy", { exact: true }).click();
+  await page.getByLabel("Address").first().fill("127.0.0.3");
+  await saveProfile(page, profile, 1);
+
+  //Edit and save Proxy Device (Refresh)
+  await visitProfile(page, profile);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Proxy", { exact: true }).click();
+  await expect(page.getByLabel("Address").first()).toHaveValue("127.0.0.3");
+  await expect(page.getByLabel("Address").nth(1)).toHaveValue("127.0.0.2");
+  await expect(page.getByLabel("Port").first()).toHaveValue("3000");
+  await expect(page.getByLabel("Port").nth(1)).toHaveValue("3001");
+  await expect(page.getByLabel("Type").first()).toBeVisible();
+  await expect(page.getByLabel("Type").first()).toHaveValue("tcp");
+
+  //Delete Proxy Device
+  await visitProfile(page, profile);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Proxy", { exact: true }).click();
+  await page.getByRole("button", { name: "Detach" }).click();
+  await saveProfile(page, profile, 1);
+  await visitProfile(page, profile);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Proxy", { exact: true }).click();
+  await expect(page.getByLabel("Address").first()).not.toBeVisible();
 
   await deleteProfile(page, profile);
 });

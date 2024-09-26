@@ -80,12 +80,15 @@ export const getProxyAddress = (
       className: "no-border-top inherited-with-form",
       configuration:
         deviceType === "unix" ? (
-          <Label forId={`devices.${index}.${connectionType}.unixsocket`}>
-            *Socket path
+          <Label
+            forId={`devices.${index}.${connectionType}.unixsocket`}
+            required
+          >
+            Socket path
           </Label>
         ) : (
-          <Label forId={`devices.${index}.${connectionType}.address`}>
-            *Address
+          <Label forId={`devices.${index}.${connectionType}.address`} required>
+            Address
           </Label>
         ),
       inherited:
@@ -132,8 +135,8 @@ export const getProxyAddress = (
         getConfigurationRowBase({
           className: "no-border-top inherited-with-form",
           configuration: (
-            <Label forId={`devices.${index}.${connectionType}.port`}>
-              *Port
+            <Label forId={`devices.${index}.${connectionType}.port`} required>
+              Port
             </Label>
           ),
 
