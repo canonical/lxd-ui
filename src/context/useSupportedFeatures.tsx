@@ -29,5 +29,8 @@ export const useSupportedFeatures = () => {
     hasInstanceImportConversion: apiExtensions.has(
       "instance_import_conversion",
     ),
+    hasEntityTypeMetadata: apiExtensions.has(
+      "metadata_configuration_entity_types",
+    ),
   };
 };

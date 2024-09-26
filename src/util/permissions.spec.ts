@@ -112,7 +112,7 @@ describe("General util functions for permissions feature", () => {
       },
     ];
 
-    it("should have description titles in entitlement options if metadata is provided", () => {
+    it("should have description titles in entitlement options if entity type metadata is provided", () => {
       const metadata: LxdMetadata = {
         configs: {
           cluster: {},
@@ -134,12 +134,15 @@ describe("General util functions for permissions feature", () => {
           "storage-zfs": {},
         },
         entities: {
-          server: [
-            {
-              name: "admin",
-              description: "admin entitlement description",
-            },
-          ],
+          server: {
+            entitlements: [
+              {
+                name: "admin",
+                description: "admin entitlement description",
+              },
+            ],
+            project_specific: false,
+          },
         },
       };
 
@@ -186,7 +189,7 @@ describe("General util functions for permissions feature", () => {
       ]);
     });
 
-    it("should generate entitlement options without metadata", () => {
+    it("should generate entitlement options without entity type metadata", () => {
       const entitlementOptions = generateEntitlementOptions(
         resourceType,
         permissions,

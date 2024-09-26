@@ -176,7 +176,7 @@ export const getEntitlementDescriptions = (
   resourceType: string,
 ) => {
   const entitlementDescriptions: Record<string, string> = {};
-  const entitlements = metadata.entities[resourceType];
+  const entitlements = metadata.entities[resourceType].entitlements;
   for (const entitlement of entitlements) {
     entitlementDescriptions[entitlement.name] = entitlement.description;
   }
