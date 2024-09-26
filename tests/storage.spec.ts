@@ -10,6 +10,7 @@ import {
   createVolume,
   deleteVolume,
   editVolume,
+  migrateVolume,
   randomVolumeName,
   saveVolume,
   visitVolume,
@@ -55,6 +56,18 @@ test("storage volume create, edit and remove", async ({ page }) => {
 
   await page.getByTestId("tab-link-Overview").click();
   await assertTextVisible(page, "size2GiB");
+});
+
+test("storage volume migrate", async ({ page }) => {
+  const pool2 = randomPoolName();
+  await createPool(page, pool2);
+
+  await migrateVolume(page, volume, pool2);
+  await expect(page.getByRole("link", { name: pool2 })).toBeVisible();
+
+  //Migrate back to default so that the Pool can be deleted
+  await migrateVolume(page, volume, "default");
+  await deletePool(page, pool2);
 });
 
 test("storage volume edit snapshot configuration", async ({

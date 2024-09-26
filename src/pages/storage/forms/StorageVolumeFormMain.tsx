@@ -23,19 +23,24 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
     <ScrollableForm>
       <Row>
         <Col size={12}>
-          {formik.values.isCreating && (
-            <>
-              <Label forId="storage-pool-selector" required>
-                Storage pool
-              </Label>
-              <StoragePoolSelector
-                project={project}
-                value={formik.values.pool}
-                setValue={(val) => void formik.setFieldValue("pool", val)}
-                hidePoolsWithUnsupportedDrivers
-              />
-            </>
-          )}
+          <Label
+            forId="storage-pool-selector"
+            required={formik.values.isCreating ? true : false}
+          >
+            Storage pool
+          </Label>
+          <StoragePoolSelector
+            project={project}
+            value={formik.values.pool}
+            setValue={(val) => void formik.setFieldValue("pool", val)}
+            hidePoolsWithUnsupportedDrivers
+            disabled={!formik.values.isCreating}
+            help={
+              formik.values.isCreating
+                ? undefined
+                : "Use the migrate button in the header to move the volume to a different storage pool."
+            }
+          />
           <Input
             {...getFormProps(formik, "name")}
             type="text"
@@ -45,7 +50,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             help={
               formik.values.isCreating
                 ? undefined
-                : "Click the name in the header to rename the volume"
+                : "Click the name in the header to rename the volume."
             }
           />
           <DiskSizeSelector
