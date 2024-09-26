@@ -40,6 +40,35 @@ ${error?.stack ?? "No stack trace"}
   useEffect(updateHeight, []);
   useEventListener("resize", updateHeight);
 
+  const errorBlocks = [];
+  if (error?.message) {
+    errorBlocks.push({
+      title: "Error",
+      appearance: CodeSnippetBlockAppearance.NUMBERED,
+      wrapLines: true,
+      code: error.message,
+    });
+  }
+
+  if (error?.message.toLowerCase().includes("dynamically imported module")) {
+    errorBlocks.push({
+      title: "Possible causes",
+      appearance: CodeSnippetBlockAppearance.NUMBERED,
+      wrapLines: true,
+      code: `This might be due to a temporary network issue. Please try refreshing the page.
+If the problem continues, ensure your connection to the LXD server is active or try again later.`,
+    });
+  }
+
+  if (error?.stack) {
+    errorBlocks.push({
+      title: "Stack trace",
+      appearance: CodeSnippetBlockAppearance.NUMBERED,
+      wrapLines: true,
+      code: error.stack,
+    });
+  }
+
   return (
     <Strip className="u-no-padding--bottom">
       <Notification severity="negative" title="Error">
@@ -50,28 +79,7 @@ ${error?.stack ?? "No stack trace"}
       </Notification>
       <CodeSnippet
         className="error-info u-no-margin--bottom"
-        blocks={[
-          ...(error?.message
-            ? [
-                {
-                  title: "Error",
-                  appearance: CodeSnippetBlockAppearance.NUMBERED,
-                  wrapLines: true,
-                  code: error.message,
-                },
-              ]
-            : []),
-          ...(error?.stack
-            ? [
-                {
-                  title: "Stack trace",
-                  appearance: CodeSnippetBlockAppearance.NUMBERED,
-                  wrapLines: true,
-                  code: error.stack,
-                },
-              ]
-            : []),
-        ]}
+        blocks={errorBlocks}
       />
     </Strip>
   );
