@@ -1,5 +1,7 @@
 import { createContext, FC, ReactNode, useContext } from "react";
 import { LxdEvent } from "types/event";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 export interface EventQueue {
   get: (operationId: string) => EventCallback | undefined;
@@ -31,14 +33,24 @@ interface EventCallback {
 const eventQueue = new Map<string, EventCallback>();
 
 export const EventQueueProvider: FC<Props> = ({ children }) => {
+  const queryClient = useQueryClient();
+
   return (
     <EventQueueContext.Provider
       value={{
         get: (operationId) => eventQueue.get(operationId),
         set: (operationId, onSuccess, onFailure, onFinish) => {
           eventQueue.set(operationId, { onSuccess, onFailure, onFinish });
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.operations],
+          });
         },
-        remove: (operationId) => eventQueue.delete(operationId),
+        remove: (operationId) => {
+          eventQueue.delete(operationId);
+          void queryClient.invalidateQueries({
+            queryKey: [queryKeys.operations],
+          });
+        },
       }}
     >
       {children}
