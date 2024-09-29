@@ -108,19 +108,15 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
-  let images = isLoading
+  const images = isLoading
     ? []
     : localImages
         .map(localLxdToRemoteImage)
-        .sort((a, b) => Number(b.cached) - Number(a.cached));
-
-  if (!hideRemote) {
-    images = images
-      .concat([...canonicalImages].reverse().sort(byLtsFirst))
-      .concat([...minimalImages].reverse().sort(byLtsFirst))
-      .concat([...imagesLxdImages])
-      .filter((image) => archSupported.includes(image.arch));
-  }
+        .sort((a, b) => Number(b.cached) - Number(a.cached))
+        .concat([...canonicalImages].reverse().sort(byLtsFirst))
+        .concat([...minimalImages].reverse().sort(byLtsFirst))
+        .concat([...imagesLxdImages])
+        .filter((image) => archSupported.includes(image.arch));
 
   const archAll = [...new Set(images.map((item) => item.arch))]
     .filter((arch) => arch !== "")
@@ -183,6 +179,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         item.os.toLowerCase().includes(query) ||
         item.release.toLowerCase().includes(query)
       );
+    })
+    .filter((item) => {
+      if (!hideRemote) {
+        return true;
+      }
+      return item.server === LOCAL_IMAGE;
     })
     .map((item) => {
       const figureType = () => {
