@@ -124,7 +124,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
-            overrideValue: (
+            overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.size ?? (hasRootStorage ? "unlimited" : "")}
                 {hasRootStorage && (
