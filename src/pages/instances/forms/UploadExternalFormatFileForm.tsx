@@ -34,6 +34,7 @@ import classnames from "classnames";
 import InstanceFileTypeSelector, {
   InstanceFileType,
 } from "./InstanceFileTypeSelector";
+import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 
 interface Props {
   close: () => void;
@@ -136,7 +137,11 @@ const UploadExternalFormatFileForm: FC<Props> = ({
 
   const handleSubmit = (values: UploadExternalFormatFileFormValues) => {
     // start create instance operation
-    createInstance(uploadExternalFormatFilePayload(values), project?.name || "")
+    createInstance(
+      uploadExternalFormatFilePayload(values),
+      project?.name || "",
+      values.member,
+    )
       .then((operation) => {
         const operationId = operation.metadata.id;
         const operationSecret = operation.metadata?.metadata?.fs;
@@ -178,6 +183,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     initialValues: {
       name: defaultInstanceName || "",
       pool: "",
+      member: "",
       file: null,
       formatConversion: true,
       virtioConversion: false,
@@ -255,6 +261,12 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           error={formik.touched.name ? formik.errors.name : null}
           disabled={!!noFileSelectedMessage}
           title={noFileSelectedMessage}
+        />
+        <ClusterMemberSelector
+          {...formik.getFieldProps("member")}
+          id="member"
+          label="Target cluster member"
+          setMember={(member) => void formik.setFieldValue("member", member)}
         />
         <StoragePoolSelector
           project={project?.name || ""}
