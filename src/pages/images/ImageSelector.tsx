@@ -184,7 +184,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       if (!hideRemote) {
         return true;
       }
-      return item.server === LOCAL_IMAGE;
+      return item.server === LOCAL_IMAGE || item.cached;
     })
     .map((item) => {
       const figureType = () => {
