@@ -14,7 +14,6 @@ interface Props {
   setValue: (value: string) => void;
   selectProps?: SelectProps;
   hidePoolsWithUnsupportedDrivers?: boolean;
-  disabled?: boolean;
   help?: string;
 }
 
@@ -24,7 +23,6 @@ const StoragePoolSelector: FC<Props> = ({
   setValue,
   selectProps,
   hidePoolsWithUnsupportedDrivers = false,
-  disabled,
   help,
 }) => {
   const notify = useNotify();
@@ -86,7 +84,6 @@ const StoragePoolSelector: FC<Props> = ({
       onChange={(e) => setValue(e.target.value)}
       value={value}
       {...selectProps}
-      disabled={disabled}
       help={help}
     />
   );

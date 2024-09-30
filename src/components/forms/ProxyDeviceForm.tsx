@@ -250,8 +250,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
         device.bind,
         "Whether to bind the listen address to the instance or host",
         (value) => {
-          if (value === "instance" && device.nat === "true") {
-            void formik.setFieldValue(`devices.${index}.nat`, "false");
+          if (value === "instance") {
+            void formik.setFieldValue(`devices.${index}.nat`, undefined);
           }
         },
       ),

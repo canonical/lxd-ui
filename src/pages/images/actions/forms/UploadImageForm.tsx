@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import { humanFileSize } from "util/helpers";
 import ProgressBar from "components/ProgressBar";
 import { UploadState } from "types/storage";
-import Loader from "components/Loader";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { LxdSyncResponse } from "types/apiResponse";
@@ -140,9 +139,6 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
                 {humanFileSize(uploadState.loaded)} loaded of{" "}
                 {humanFileSize(uploadState.total ?? 0)}
               </p>
-              {uploadState.loaded === uploadState.total && (
-                <Loader text="Uploading file" />
-              )}
             </>
           )}
           <Button

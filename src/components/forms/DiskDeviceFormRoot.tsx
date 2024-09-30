@@ -101,7 +101,26 @@ const DiskDeviceFormRoot: FC<Props> = ({
             inheritValue: inheritValue?.pool ?? "",
             inheritSource,
             readOnly: readOnly,
-            overrideValue: formRootDevice?.pool,
+            overrideValue: hasRootStorage && (
+              <>
+                {formRootDevice?.pool}
+                {formik.values.entityType === "profile" && (
+                  <Button
+                    onClick={() => {
+                      ensureEditMode(formik);
+                      focusField("storage-pool-selector");
+                    }}
+                    type="button"
+                    appearance="base"
+                    title="Edit"
+                    className="u-no-margin--bottom"
+                    hasIcon
+                  >
+                    <Icon name="edit" />
+                  </Button>
+                )}
+              </>
+            ),
             overrideForm: (
               <StoragePoolSelector
                 project={project}
@@ -124,7 +143,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
-            overrideValue: (
+            overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.size ?? (hasRootStorage ? "unlimited" : "")}
                 {hasRootStorage && (

@@ -34,7 +34,9 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
             value={formik.values.pool}
             setValue={(val) => void formik.setFieldValue("pool", val)}
             hidePoolsWithUnsupportedDrivers
-            disabled={!formik.values.isCreating}
+            selectProps={{
+              disabled: !formik.values.isCreating,
+            }}
             help={
               formik.values.isCreating
                 ? undefined
