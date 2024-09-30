@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { visitProfile } from "./profile";
 
 export const attachVolume = async (
   page: Page,
@@ -22,4 +23,10 @@ export const detachVolume = async (page: Page, volumeDevice: string) => {
     .getByLabel("Confirm volume detach")
     .getByRole("button", { name: "Detach" })
     .click();
+};
+
+export const visitProfileOtherDevices = async (page: Page, profile: string) => {
+  await visitProfile(page, profile);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Other", { exact: true }).click();
 };

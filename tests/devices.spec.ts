@@ -1,4 +1,4 @@
-import { test } from "./fixtures/lxd-test";
+import { expect, test } from "./fixtures/lxd-test";
 import {
   deleteProfile,
   finishProfileCreation,
@@ -14,10 +14,13 @@ import {
   randomInstanceName,
   saveInstance,
 } from "./helpers/instances";
-import { attachVolume, detachVolume } from "./helpers/devices";
+import {
+  attachVolume,
+  detachVolume,
+  visitProfileOtherDevices,
+} from "./helpers/devices";
 import { deleteVolume, randomVolumeName } from "./helpers/storageVolume";
 import { assertTextVisible } from "./helpers/permissions";
-import { expect } from "./fixtures/lxd-test";
 
 test("instance attach custom volumes and detach inherited volumes", async ({
   page,
@@ -150,6 +153,41 @@ test("add, edit and remove a proxy device", async ({ page }) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Proxy", { exact: true }).click();
   await expect(page.getByLabel("Address").first()).not.toBeVisible();
+});
+
+test("add, edit and remove an other device", async ({ page, lxdVersion }) => {
+  test.skip(
+    lxdVersion === "5.0-edge",
+    "Other device configuration not supported in lxd v5.0/edge",
+  );
+  const profile = randomProfileName();
+
+  // Add Other Device
+  await startProfileCreation(page, profile);
+  await page.getByText("Other", { exact: true }).click();
+  await page.getByRole("button", { name: "Attach custom device" }).click();
+  await page.getByLabel("Type").selectOption("USB");
+  await page.getByLabel("Bus Number").fill("123");
+  await page.getByLabel("Device Number").fill("12345");
+  await finishProfileCreation(page, profile);
+
+  // Edit and save Other Device
+  await visitProfileOtherDevices(page, profile);
+  await page.getByLabel("Device Number").fill("123456");
+  await saveProfile(page, profile, 1);
+
+  // Refresh to check values after edit
+  await visitProfileOtherDevices(page, profile);
+  await expect(page.getByLabel("Type")).toHaveValue("usb");
+  await expect(page.getByLabel("Bus Number")).toHaveValue("123");
+  await expect(page.getByLabel("Device Number")).toHaveValue("123456");
+
+  // Detach Other Device
+  await visitProfileOtherDevices(page, profile);
+  await page.getByRole("button", { name: "Detach" }).click();
+  await saveProfile(page, profile, 1);
+  await visitProfileOtherDevices(page, profile);
+  await expect(page.getByLabel("Type")).not.toBeVisible();
 
   await deleteProfile(page, profile);
 });
