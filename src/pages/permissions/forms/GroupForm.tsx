@@ -3,7 +3,8 @@ import { Form, Input } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
-import PanelFormLink from "components/PanelFormLink";
+import FormLink from "components/FormLink";
+import { pluralize } from "util/instanceBulkActions";
 
 export interface GroupFormValues {
   name: string;
@@ -56,21 +57,27 @@ const GroupForm: FC<Props> = ({
         {...getFormProps("description")}
         label="Description"
       />
-      <PanelFormLink
-        count={identityCount}
-        entity="identity"
+      <FormLink
+        title={(isEditing ? "Edit " : "Add ") + pluralize("identity", 2)}
         icon="user-group"
-        isEditing={isEditing}
-        isModified={identityModifyCount > 0}
         onClick={() => setSubForm("identity")}
+        isModified={identityModifyCount > 0}
+        subText={
+          identityCount === 0
+            ? `No ${pluralize("identity", 2)}`
+            : `${identityCount} ${pluralize("identity", identityCount)}`
+        }
       />
-      <PanelFormLink
-        count={permissionCount}
-        entity="permission"
+      <FormLink
+        title={(isEditing ? "Edit " : "Add ") + pluralize("permission", 2)}
         icon="lock-locked"
-        isEditing={isEditing}
-        isModified={permissionModifyCount > 0}
         onClick={() => setSubForm("permission")}
+        isModified={permissionModifyCount > 0}
+        subText={
+          permissionCount === 0
+            ? `No ${pluralize("permission", 2)}`
+            : `${permissionCount} ${pluralize("permission", permissionCount)}`
+        }
       />
     </Form>
   );

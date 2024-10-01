@@ -1,5 +1,29 @@
 .migrate-instance-modal {
+  .choose-migration-type {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: $spv--large;
+    min-height: 10rem;
+
+    @include large {
+      width: 40rem;
+    }
+  }
+
   .migrate-instance-table {
+    .storage-pools {
+      .size {
+        padding-right: 5%;
+        width: 25%;
+      }
+
+      .p-meter {
+        margin-top: $spv--x-small;
+      }
+    }
+
     @include large {
       min-width: 45rem;
     }
@@ -15,6 +39,7 @@
   }
 
   .migrate-instance-name {
+    display: inline;
     max-width: 20rem;
   }
 }

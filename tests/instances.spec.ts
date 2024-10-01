@@ -4,6 +4,7 @@ import {
   createInstance,
   deleteInstance,
   editInstance,
+  migrateInstanceRootStorage,
   randomInstanceName,
   renameInstance,
   saveInstance,
@@ -28,6 +29,8 @@ import {
 } from "./helpers/profile";
 import { assertTextVisible } from "./helpers/permissions";
 import { deleteImage, getImageNameFromAlias } from "./helpers/images";
+import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
+import { isServerClustered } from "./helpers/cluster";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -382,4 +385,16 @@ test("Create instance from external instance file", async ({
     .click();
   await page.waitForSelector(`text=Created instance ${instanceName}.`);
   await deleteInstance(page, instanceName);
+});
+
+test("Migrate instance root storage volume to a different pool", async ({
+  page,
+}) => {
+  const targetPool = randomPoolName();
+  await createPool(page, targetPool);
+  const serverClustered = await isServerClustered(page);
+  await migrateInstanceRootStorage(page, instance, targetPool, serverClustered);
+  // Migrate back to default so that the Pool can be deleted
+  await migrateInstanceRootStorage(page, instance, "default", serverClustered);
+  await deletePool(page, targetPool);
 });

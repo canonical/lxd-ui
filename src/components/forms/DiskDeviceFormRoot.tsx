@@ -35,6 +35,8 @@ const DiskDeviceFormRoot: FC<Props> = ({
   const formRootDevice = formik.values.devices[
     rootIndex
   ] as LxdDiskDevice | null;
+  const isEditingInstance =
+    formik.values.entityType === "instance" && !formik.values.isCreating;
 
   const [inheritValue, inheritSource] = getInheritedRootStorage(
     formik.values,
@@ -122,16 +124,25 @@ const DiskDeviceFormRoot: FC<Props> = ({
               </>
             ),
             overrideForm: (
-              <StoragePoolSelector
-                project={project}
-                value={formRootDevice?.pool ?? ""}
-                setValue={(value) =>
-                  void formik.setFieldValue(`devices.${rootIndex}.pool`, value)
-                }
-                selectProps={{
-                  className: "u-no-margin--bottom",
-                }}
-              />
+              <>
+                <StoragePoolSelector
+                  project={project}
+                  value={formRootDevice?.pool ?? ""}
+                  setValue={(value) =>
+                    void formik.setFieldValue(
+                      `devices.${rootIndex}.pool`,
+                      value,
+                    )
+                  }
+                  selectProps={{
+                    className: isEditingInstance ? "" : "u-no-margin--bottom",
+                    disabled: isEditingInstance,
+                    help: isEditingInstance
+                      ? "Use the migrate button in the header to change root storage."
+                      : "",
+                  }}
+                />
+              </>
             ),
           }),
 
@@ -171,7 +182,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                     void formik.setFieldValue(`devices.${rootIndex}.size`, val)
                   }
                 />
-                <p className="p-form-help-text u-sv-2">
+                <p className="p-form-help-text">
                   Size of root storage. If empty, root storage will not have a
                   size limit.
                 </p>

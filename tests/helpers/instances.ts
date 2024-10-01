@@ -172,3 +172,30 @@ export const createImageFromInstance = async (page: Page, instance: string) => {
 
   return imageAlias;
 };
+
+export const migrateInstanceRootStorage = async (
+  page: Page,
+  instance: string,
+  pool: string,
+  serverClustered: boolean,
+) => {
+  await visitInstance(page, instance);
+  await page.getByRole("button", { name: "Migrate" }).click();
+  if (serverClustered) {
+    await page
+      .getByRole("button", { name: "Migrate instance root storage" })
+      .click();
+  }
+  await page
+    .getByRole("row")
+    .filter({ hasText: pool })
+    .getByRole("button", { name: "Select" })
+    .click();
+  await page
+    .getByLabel("Confirm migration")
+    .getByRole("button", { name: "Migrate", exact: true })
+    .click();
+  await page.waitForSelector(
+    `text=Instance ${instance} root storage successfully migrated to pool ${pool}`,
+  );
+};
