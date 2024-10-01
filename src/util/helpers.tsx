@@ -298,3 +298,6 @@ export const getFileExtension = (filename: string): string => {
 
   return `.${filename.split(".").pop()}` || "";
 };
+
+export const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));

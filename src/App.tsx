@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense } from "react";
+import { FC, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";
@@ -10,6 +10,7 @@ import CustomLayout from "components/CustomLayout";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
 import NoProject from "components/NoProject";
+import lazy from "util/lazyWithRetry";
 
 const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
