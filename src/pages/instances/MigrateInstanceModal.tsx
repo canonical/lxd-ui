@@ -55,10 +55,9 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
   };
 
   const selectStepTitle = (
-    <span className="select-title u-truncate">
-      Choose {type} for instance{" "}
-      <strong title={instance.name}>{instance.name}</strong>
-    </span>
+    <>
+      Choose {type} for instance <strong>{instance.name}</strong>
+    </>
   );
 
   const modalTitle = !type ? (
