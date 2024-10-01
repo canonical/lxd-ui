@@ -25,6 +25,12 @@ export const detachVolume = async (page: Page, volumeDevice: string) => {
     .click();
 };
 
+export const visitProfileGPUDevices = async (page: Page, profile: string) => {
+  await visitProfile(page, profile);
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("GPU", { exact: true }).click();
+};
+
 export const visitProfileOtherDevices = async (page: Page, profile: string) => {
   await visitProfile(page, profile);
   await page.getByTestId("tab-link-Configuration").click();
