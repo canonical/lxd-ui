@@ -17,6 +17,7 @@ import {
 import {
   attachVolume,
   detachVolume,
+  visitProfileGPUDevices,
   visitProfileOtherDevices,
 } from "./helpers/devices";
 import { deleteVolume, randomVolumeName } from "./helpers/storageVolume";
@@ -107,6 +108,37 @@ test("profile edit networks", async ({ page }) => {
 
   await page.getByRole("gridcell", { name: "eth0" }).click();
   await page.getByRole("gridcell", { name: "eth1" }).click();
+
+  await deleteProfile(page, profile);
+});
+
+test("add, edit and remove a GPU device", async ({ page }) => {
+  const profile = randomProfileName();
+
+  // Add GPU Device
+  await startProfileCreation(page, profile);
+  await page.getByText("GPU", { exact: true }).click();
+  await page.getByRole("button", { name: "Attach GPU" }).click();
+  await page.getByRole("button", { name: "Enter details manually" }).click();
+  await page.getByRole("textbox", { name: "ID" }).fill("23");
+  await finishProfileCreation(page, profile);
+
+  await visitProfileGPUDevices(page, profile);
+  await expect(page.getByRole("textbox", { name: "ID" })).toHaveValue("23");
+
+  // Edit and save GPU Device
+  await page.getByRole("textbox", { name: "ID" }).fill("42");
+  await saveProfile(page, profile, 1);
+
+  // Refresh to check values after edit
+  await visitProfileGPUDevices(page, profile);
+  await expect(page.getByRole("textbox", { name: "ID" })).toHaveValue("42");
+
+  // Detach GPU Device
+  await page.getByRole("button", { name: "Detach" }).click();
+  await saveProfile(page, profile, 1);
+  await visitProfileGPUDevices(page, profile);
+  await expect(page.getByRole("textbox", { name: "ID" })).not.toBeVisible();
 
   await deleteProfile(page, profile);
 });
