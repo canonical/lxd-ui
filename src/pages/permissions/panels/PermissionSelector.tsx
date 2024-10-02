@@ -1,9 +1,10 @@
-import { Button, Select, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
+import CustomSelect from "../../../components/select/CustomSelect";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   generateEntitlementOptions,
   generateResourceOptions,
@@ -79,15 +80,19 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   }, [resourceType, permissions]);
 
   useEffect(() => {
-    document.getElementById("entitlement")?.focus();
+    if (resource) {
+      document.getElementById("entitlement")?.focus();
+    }
   }, [resource]);
 
   useEffect(() => {
-    document.getElementById("add-entitlement")?.focus();
+    if (entitlement) {
+      document.getElementById("add-entitlement")?.focus();
+    }
   }, [entitlement]);
 
-  const handleResourceTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const resourceType = e.target.value;
+  const handleResourceTypeChange = (value: string) => {
+    const resourceType = value;
     setEntitlement("");
     setResourceType(resourceType);
 
@@ -100,12 +105,12 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     }
   };
 
-  const handleResourceChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setResource(e.target.value);
+  const handleResourceChange = (value: string) => {
+    setResource(value);
   };
 
-  const handleEntitlementChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setEntitlement(e.target.value);
+  const handleEntitlementChange = (value: string) => {
+    setEntitlement(value);
   };
 
   const handleAddPermission = () => {
@@ -154,22 +159,22 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
 
   return (
     <div className="permission-selector">
-      <Select
+      <CustomSelect
         id="resourceType"
         name="resourceType"
         label={<strong>Resource Type</strong>}
         options={getResourceTypeOptions(metadata)}
-        className="u-no-margin--bottom"
+        toggleClassName="u-no-margin--bottom"
         aria-label="Resource type"
         onChange={handleResourceTypeChange}
         value={resourceType}
       />
-      <Select
+      <CustomSelect
         id="resource"
         name="resource"
         label={<strong>Resource</strong>}
         options={!hasResourceOptions ? [noneAvailableOption] : resourceOptions}
-        className="u-no-margin--bottom"
+        toggleClassName="u-no-margin--bottom"
         aria-label="Resource"
         onChange={handleResourceChange}
         value={resource}
@@ -180,12 +185,12 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
           !hasResourceOptions
         }
       />
-      <Select
+      <CustomSelect
         id="entitlement"
         name="entitlement"
         label={<strong>Entitlement</strong>}
         options={entitlementOptions}
-        className="u-no-margin--bottom"
+        toggleClassName="u-no-margin--bottom"
         aria-label="Entitlement"
         onChange={handleEntitlementChange}
         value={entitlement}

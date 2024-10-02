@@ -69,7 +69,8 @@
     justify-content: space-evenly;
 
     .p-form__group {
-      width: 30%;
+      flex-shrink: 0; // avoid flex items from dynamic width adjustments
+      width: 26%;
     }
 
     .add-entitlement {
