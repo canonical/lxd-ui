@@ -258,6 +258,8 @@ const InstanceList: FC = () => {
         columns: [
           {
             content: getInstanceName(operation),
+            className: "u-truncate",
+            title: getInstanceName(operation),
             role: "rowheader",
             "aria-label": NAME,
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
@@ -331,11 +333,9 @@ const InstanceList: FC = () => {
         name: instance.name,
         columns: [
           {
-            content: (
-              <div className="u-truncate" title={`Instance ${instance.name}`}>
-                <InstanceLink instance={instance} />
-              </div>
-            ),
+            content: <InstanceLink instance={instance} />,
+            className: "u-truncate",
+            title: `Instance ${instance.name}`,
             role: "rowheader",
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
             "aria-label": NAME,
