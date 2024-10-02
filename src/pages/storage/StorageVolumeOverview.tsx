@@ -51,7 +51,7 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
               <tr>
                 <th className="u-text--muted">Cluster member</th>
                 <td>
-                  {settings?.environment?.server_clustered
+                  {settings?.environment?.server_clustered && volume.location
                     ? volume.location
                     : "-"}
                 </td>

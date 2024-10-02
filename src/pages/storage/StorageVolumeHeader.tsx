@@ -10,6 +10,8 @@ import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import MigrateVolumeBtn from "./MigrateVolumeBtn";
+import DuplicateVolumeBtn from "./actions/DuplicateVolumeBtn";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -21,6 +23,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
+  const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -85,6 +88,9 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
               project={project}
               classname={classname}
             />
+            {hasClusterInternalCustomVolumeCopy && (
+              <DuplicateVolumeBtn volume={volume} className={classname} />
+            )}
             <DeleteStorageVolumeBtn
               label="Delete"
               volume={volume}

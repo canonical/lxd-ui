@@ -301,3 +301,19 @@ export const getFileExtension = (filename: string): string => {
 
 export const delay = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const getUniqueResourceName = (
+  name: string,
+  existingResources: { name: string }[],
+): string => {
+  const resourceNames = existingResources.map((resource) => resource.name);
+  if (resourceNames.includes(name)) {
+    let count = 1;
+    while (resourceNames.includes(`${name}-${count}`)) {
+      count++;
+    }
+    return `${name}-${count}`;
+  }
+
+  return name;
+};
