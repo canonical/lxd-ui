@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { isoTimeToString } from "util/helpers";
+import { getRootPool, isoTimeToString } from "util/helpers";
 import { Col, Row, useNotify } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
@@ -11,6 +11,8 @@ import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
 import InstanceIps from "pages/instances/InstanceIps";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
+import InstanceOverviewDevices from "./InstanceOverviewDevices";
+import { Link } from "react-router-dom";
 
 interface Props {
   instance: LxdInstance;
@@ -32,6 +34,8 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
+
+  const rootPool = getRootPool(instance);
 
   return (
     <div className="instance-overview-tab">
@@ -86,6 +90,16 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 </td>
               </tr>
               <tr>
+                <th className="u-text--muted">Root storage pool</th>
+                <td>
+                  <Link
+                    to={`/ui/project/${instance.project}/storage/pool/${rootPool}`}
+                  >
+                    {rootPool}
+                  </Link>
+                </td>
+              </tr>
+              <tr>
                 <th className="u-text--muted">PID</th>
                 <td>{pid}</td>
               </tr>
@@ -115,6 +129,14 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
         </Col>
         <Col size={7}>
           <InstanceOverviewNetworks instance={instance} onFailure={onFailure} />
+        </Col>
+      </Row>
+      <Row className="networks">
+        <Col size={3}>
+          <h2 className="p-heading--5">Devices</h2>
+        </Col>
+        <Col size={7}>
+          <InstanceOverviewDevices instance={instance} />
         </Col>
       </Row>
       <Row className="profiles">

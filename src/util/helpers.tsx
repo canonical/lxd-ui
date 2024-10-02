@@ -6,6 +6,10 @@ import { LxdNetwork } from "types/network";
 import { LxdStorageVolume } from "types/storage";
 import { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
+import { LxdDeviceValue } from "types/device";
+import { isDiskDevice } from "./devices";
+import { isRootDisk } from "./instanceValidation";
+import { FormDevice } from "./formDevices";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -316,4 +320,19 @@ export const getUniqueResourceName = (
   }
 
   return name;
+};
+
+export const getInstanceDevices = (
+  instance: LxdInstance,
+): [string, LxdDeviceValue][] => {
+  return Object.entries(instance.expanded_devices ?? {});
+};
+
+export const getRootPool = (instance: LxdInstance): string => {
+  const rootStorage = Object.values(instance.expanded_devices ?? {})
+    .filter(isDiskDevice)
+    .find((device) => {
+      return isRootDisk(device as FormDevice);
+    });
+  return rootStorage ? rootStorage.pool : "";
 };
