@@ -9,6 +9,7 @@ import {
 import {
   createVolume,
   deleteVolume,
+  duplicateStorageVolume,
   editVolume,
   migrateVolume,
   randomVolumeName,
@@ -18,6 +19,11 @@ import {
 import { activateOverride, setInput } from "./helpers/configuration";
 import { randomSnapshotName } from "./helpers/snapshots";
 import { assertTextVisible } from "./helpers/permissions";
+import {
+  createProject,
+  deleteProject,
+  randomProjectName,
+} from "./helpers/projects";
 
 let volume = randomVolumeName();
 
@@ -152,4 +158,35 @@ test("storage volume of type block", async ({ page }) => {
   ).toHaveText("Block");
 
   await deleteVolume(page, volume);
+});
+
+test("duplicate custom storage volume", async ({ page }) => {
+  const project = randomProjectName();
+  const pool = randomPoolName();
+  await createPool(page, pool);
+  await createProject(page, project);
+
+  // duplicate volume in the same project and same pool
+  let duplicateVolume = await duplicateStorageVolume(page, volume);
+  await deleteVolume(page, duplicateVolume);
+
+  // duplicate volume in the same project and different pool
+  duplicateVolume = await duplicateStorageVolume(page, volume, pool);
+  await deleteVolume(page, duplicateVolume);
+
+  // duplicate volume in a different project and same pool
+  duplicateVolume = await duplicateStorageVolume(
+    page,
+    volume,
+    undefined,
+    project,
+  );
+  await deleteVolume(page, duplicateVolume, project);
+
+  // duplicate volume in a different project and different pool
+  duplicateVolume = await duplicateStorageVolume(page, volume, pool, project);
+  await deleteVolume(page, duplicateVolume, project);
+
+  await deletePool(page, pool);
+  await deleteProject(page, project);
 });
