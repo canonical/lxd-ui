@@ -28,6 +28,7 @@ interface Props {
   onClose: () => void;
   searchRef: RefObject<HTMLInputElement>;
   dropdownListRef: RefObject<HTMLUListElement>;
+  header?: ReactNode;
 }
 
 export const getOptionText = (option: CustomSelectOption): string => {
@@ -62,6 +63,7 @@ const CustomSelectDropdown: FC<Props> = ({
   onClose,
   searchRef,
   dropdownListRef,
+  header,
 }) => {
   const [search, setSearch] = useState("");
   // track selected option index for keyboard actions
@@ -205,6 +207,7 @@ const CustomSelectDropdown: FC<Props> = ({
           />
         </div>
       )}
+      {header}
       <ul
         className="p-list u-no-margin--bottom"
         role="listbox"
