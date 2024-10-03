@@ -9,7 +9,7 @@ import {
   generateEntitlementOptions,
   generateResourceOptions,
   getIdentityNameLookup,
-  getImageNameLookup,
+  getImageLookup,
   getPermissionId,
   getResourceLabel,
   getResourceTypeOptions,
@@ -19,6 +19,8 @@ import { queryKeys } from "util/queryKeys";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
 import { fetchImageList } from "api/images";
 import { fetchIdentities } from "api/auth-identities";
+import ResourceOptionHeader from "./ResourceOptionHeader";
+import EntitlementOptionHeader from "./EntitlementOptionHeader";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -52,7 +54,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     queryFn: fetchIdentities,
   });
 
-  const imageNamesLookup = getImageNameLookup(images);
+  const imageLookup = getImageLookup(images);
   const identityNamesLookup = getIdentityNameLookup(identities);
 
   const { data: metadata, isLoading: isMetadataLoading } = useQuery({
@@ -125,7 +127,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
       id: getPermissionId(permission),
       resourceLabel: getResourceLabel(
         permission,
-        imageNamesLookup,
+        imageLookup,
         identityNamesLookup,
       ),
     });
@@ -142,7 +144,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const resourceOptions = generateResourceOptions(
     resourceType,
     permissions ?? [],
-    imageNamesLookup,
+    imageLookup,
     identityNamesLookup,
   );
 
@@ -184,6 +186,8 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
           isServerResourceType ||
           !hasResourceOptions
         }
+        dropdownClassName="permissions-select-dropdown"
+        header={<ResourceOptionHeader resourceType={resourceType} />}
       />
       <CustomSelect
         id="entitlement"
@@ -195,6 +199,9 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         onChange={handleEntitlementChange}
         value={entitlement}
         disabled={isLoading || (!resource && !isServerResourceType)}
+        dropdownClassName="permissions-select-dropdown"
+        // only show entitlement descriptions if we have metadata
+        header={validMetadata && <EntitlementOptionHeader />}
       />
       <div className="add-entitlement">
         <Button

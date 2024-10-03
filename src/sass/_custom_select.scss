@@ -38,6 +38,7 @@
 }
 
 .p-custom-select__dropdown {
+  background-color: $colors--theme--background-alt;
   box-shadow: $box-shadow--deep;
   outline: none;
   position: relative;
@@ -72,6 +73,5 @@
 }
 
 .p-custom-select__wrapper {
-  width: 100%;
   z-index: 400;
 }

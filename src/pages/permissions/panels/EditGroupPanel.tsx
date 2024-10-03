@@ -28,7 +28,7 @@ import EditGroupPermissionsForm, {
 } from "pages/permissions/panels/EditGroupPermissionsForm";
 import {
   getIdentityNameLookup,
-  getImageNameLookup,
+  getImageLookup,
   getPermissionId,
   getResourceLabel,
 } from "util/permissions";
@@ -100,7 +100,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       !imageLoading &&
       !imageError
     ) {
-      const imageNameLookup = getImageNameLookup(images);
+      const imageLookup = getImageLookup(images);
       const identityNameLookup = getIdentityNameLookup(lxdIdentities);
       const enrichedPermissions: FormPermission[] = (
         group.permissions ?? []
@@ -108,7 +108,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         const id = getPermissionId(permission);
         const resourceLabel = getResourceLabel(
           permission,
-          imageNameLookup,
+          imageLookup,
           identityNameLookup,
         );
         return { ...permission, resourceLabel, id };
