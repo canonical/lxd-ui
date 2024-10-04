@@ -79,7 +79,7 @@ const MigrateVolumeBtn: FC<Props> = ({
 
   const handleMigrate = (targetPool: string) => {
     setVolumeLoading(true);
-    migrateStorageVolume(storageVolume, targetPool)
+    migrateStorageVolume(storageVolume, targetPool, storageVolume.project)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

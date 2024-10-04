@@ -367,15 +367,19 @@ export const deleteStorageVolume = (
 export const migrateStorageVolume = (
   volume: Partial<LxdStorageVolume>,
   targetPool: string,
+  targetProject: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: volume.name,
-        pool: targetPool,
-      }),
-    })
+    fetch(
+      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}?project=${targetProject}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          name: volume.name,
+          pool: targetPool,
+        }),
+      },
+    )
       .then(handleResponse)
       .then(resolve)
       .catch(reject);
