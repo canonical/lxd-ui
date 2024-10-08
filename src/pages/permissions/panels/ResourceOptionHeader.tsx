@@ -1,13 +1,12 @@
 import { FC } from "react";
-import { resourceOptionColumns } from "util/permissions";
+import { getResourceOptionColumns } from "util/permissions";
 
 interface Props {
   resourceType: string;
 }
 
 const ResourceOptionHeader: FC<Props> = ({ resourceType }) => {
-  const columns =
-    resourceOptionColumns[resourceType] || resourceOptionColumns.default;
+  const columns = getResourceOptionColumns(resourceType);
 
   if (columns.length < 2) {
     return null;

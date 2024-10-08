@@ -243,6 +243,16 @@ export const generateEntitlementOptions = (
           />
         );
       }
+
+      if (option.value === "group") {
+        option.label = (
+          <div className="header u-no-padding">
+            <span className="u-no-margin">
+              <h5 className="u-no-margin u-no-padding">{option.label}</h5>
+            </span>
+          </div>
+        );
+      }
     }
   }
 
@@ -255,7 +265,13 @@ const getResourceName = (resource: ResourceDetail): string => {
     : "";
   const targetName = resource.target ? ` (target: ${resource.target}) ` : "";
   const poolName = resource.pool ? ` (pool: ${resource.pool}) ` : "";
-  return `${resource.name}${targetName}${poolName}${projectName}`;
+  const aliases = resource.aliases
+    ? ` (aliases: ${resource.aliases.join(", ")}) `
+    : "";
+  const fingerprint = resource.fingerprint
+    ? ` (fingerprint: ${resource.fingerprint}) `
+    : "";
+  return `${resource.name}${targetName}${poolName}${projectName}${aliases}${fingerprint}`;
 };
 
 export const getPermissionId = (permission: LxdPermission): string => {
@@ -353,15 +369,45 @@ export const enablePermissionsFeature = (): boolean => {
 };
 
 // each resource type has specific columns to display, which should uniquely identify the resource
-export const resourceOptionColumns: Record<string, (keyof ResourceDetail)[]> = {
-  image: ["aliases", "fingerprint", "description", "imageType"],
-  image_alias: ["name", "project"],
-  instance: ["name", "project"],
-  network: ["name", "project"],
-  network_acl: ["name", "project"],
-  network_zone: ["name", "project"],
-  profile: ["name", "project"],
-  storage_bucket: ["name", "project"],
-  storage_volume: ["name", "project", "pool"],
-  default: ["name"],
+export const getResourceOptionColumns = (type: string) => {
+  const resourceOptionColumns: Record<string, (keyof ResourceDetail)[]> = {
+    image: ["aliases", "fingerprint", "description", "imageType"],
+    image_alias: ["name", "project"],
+    instance: ["name", "project"],
+    network: ["name", "project"],
+    network_acl: ["name", "project"],
+    network_zone: ["name", "project"],
+    profile: ["name", "project"],
+    storage_bucket: ["name", "project"],
+    storage_volume: ["name", "project", "pool"],
+    default: ["name"],
+  };
+
+  return resourceOptionColumns[type] ?? resourceOptionColumns.default;
+};
+
+export const moveToFocusable = (
+  element: HTMLElement | null,
+  position: "prev" | "next",
+) => {
+  const focusableSelectors = [
+    'a:not([tabindex="-1"])',
+    'button:not([tabindex="-1"])',
+    'input:not([tabindex="-1"])',
+    'textarea:not([tabindex="-1"])',
+    'select:not([tabindex="-1"])',
+    '[tabindex]:not([tabindex="-1"])',
+  ].join(", ");
+
+  if (element) {
+    const focusableElements =
+      document.querySelectorAll<HTMLElement>(focusableSelectors);
+
+    // Find the index of the current element in the focusable elements list
+    // Then try to focus the next focusable element, if any
+    const index = Array.prototype.indexOf.call(focusableElements, element);
+    if (index > -1 && index < focusableElements.length - 1) {
+      focusableElements[index + (position === "next" ? 1 : -1)].focus();
+    }
+  }
 };
