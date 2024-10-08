@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Notification, Row, Strip } from "@canonical/react-components";
+import { Icon, Notification, Row, Strip } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useParams } from "react-router-dom";
@@ -14,6 +14,8 @@ import EditInstance from "./EditInstance";
 import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
+import { useSettings } from "context/useSettings";
+import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 
 const tabs: string[] = [
   "Overview",
@@ -25,6 +27,8 @@ const tabs: string[] = [
 ];
 
 const InstanceDetail: FC = () => {
+  const { data: settings } = useSettings();
+
   const { name, project, activeTab } = useParams<{
     name: string;
     project: string;
@@ -47,6 +51,22 @@ const InstanceDetail: FC = () => {
     queryKey: [queryKeys.instances, name, project],
     queryFn: () => fetchInstance(name, project),
   });
+
+  const renderTabs: (string | TabLink)[] = [...tabs];
+
+  const grafanaBaseUrl = settings?.config?.["user.grafana_base_url"] ?? "";
+  if (grafanaBaseUrl) {
+    renderTabs.push({
+      label: (
+        <div>
+          <Icon name="external-link" /> Metrics
+        </div>
+      ) as unknown as string,
+      href: `${grafanaBaseUrl}&var-job=lxd&var-project=${project}&var-name=${instance?.name}&var-top=5`,
+      target: "_blank",
+      rel: "noopener noreferrer",
+    });
+  }
 
   return (
     <CustomLayout
@@ -72,7 +92,7 @@ const InstanceDetail: FC = () => {
       {!isLoading && instance && (
         <Row>
           <TabLinks
-            tabs={tabs}
+            tabs={renderTabs}
             activeTab={activeTab}
             tabUrl={`/ui/project/${project}/instance/${name}`}
           />
