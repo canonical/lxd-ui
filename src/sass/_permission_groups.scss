@@ -68,6 +68,10 @@
     gap: 1rem;
     justify-content: space-evenly;
 
+    &:focus {
+      outline: none;
+    }
+
     .p-form__group {
       flex-shrink: 0; // avoid flex items from dynamic width adjustments
       width: 26%;
@@ -143,14 +147,6 @@
     .resource {
       width: 8rem;
     }
-
-    .entitlement {
-      width: 10rem;
-    }
-
-    .entitlement-description {
-      width: 25rem;
-    }
   }
 
   .label {
@@ -167,6 +163,16 @@
 
     .entitlement-description {
       width: 25rem;
+    }
+
+    @include mobile-and-tablet {
+      .entitlement {
+        width: 8rem;
+      }
+
+      .entitlement-description {
+        width: 15rem;
+      }
     }
   }
 }

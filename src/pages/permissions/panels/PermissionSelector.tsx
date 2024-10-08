@@ -1,10 +1,12 @@
 import { Button, useNotify } from "@canonical/react-components";
-import CustomSelect from "../../../components/select/CustomSelect";
+import CustomSelect, {
+  SelectRef,
+} from "../../../components/select/CustomSelect";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   generateEntitlementOptions,
   generateResourceOptions,
@@ -13,6 +15,7 @@ import {
   getPermissionId,
   getResourceLabel,
   getResourceTypeOptions,
+  moveToFocusable,
   noneAvailableOption,
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
@@ -20,7 +23,7 @@ import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsFor
 import { fetchImageList } from "api/images";
 import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
-import EntitlementOptionHeader from "./EntitlementOptionHeader";
+import useEventListener from "@use-it/event-listener";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -33,6 +36,40 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const [entitlement, setEntitlement] = useState("");
   const { hasMetadataConfiguration, hasEntityTypeMetadata } =
     useSupportedFeatures();
+  const permissionSelectorRef = useRef<HTMLDivElement>(null);
+
+  // Handle tab keyboard events so that when the user presses tab, the focusable permission selector will be focused and openned authomatically
+  // Also close the currently open permission selector
+  const resourceTypeRef = useRef<SelectRef["current"]>();
+  const resourceRef = useRef<SelectRef["current"]>();
+  const entitlementRef = useRef<SelectRef["current"]>();
+  const handleTabbingForSelectors = (event: KeyboardEvent) => {
+    if (event.key === "Tab") {
+      const focusDirection = event.shiftKey ? "prev" : "next";
+      if (resourceTypeRef.current?.isOpen) {
+        event.preventDefault();
+        resourceTypeRef.current.close();
+        moveToFocusable(
+          document.getElementById("resourceType"),
+          focusDirection,
+        );
+      }
+
+      if (resourceRef.current?.isOpen) {
+        event.preventDefault();
+        resourceRef.current.close();
+        moveToFocusable(document.getElementById("resource"), focusDirection);
+      }
+
+      if (entitlementRef.current?.isOpen) {
+        event.preventDefault();
+        entitlementRef.current.close();
+        moveToFocusable(document.getElementById("entitlement"), focusDirection);
+      }
+    }
+  };
+
+  useEventListener("keydown", handleTabbingForSelectors);
 
   const {
     data: permissions,
@@ -64,21 +101,30 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
 
   const isLoading = isPermissionsLoading || isMetadataLoading;
 
+  // focus permission selector container on first render so tabbing will consistently navigate to resource type selector first
   useEffect(() => {
-    document.getElementById("resourceType")?.focus();
+    setTimeout(() => {
+      if (permissionSelectorRef.current) {
+        permissionSelectorRef.current.focus();
+        permissionSelectorRef.current.tabIndex = -1;
+      }
+    }, 100);
   }, []);
 
   useEffect(() => {
-    if (!resourceType) {
-      document.getElementById("resourceType")?.focus();
-      return;
-    }
+    if (resourceType) {
+      if (resourceType === "server") {
+        document.getElementById("entitlement")?.focus();
+        return;
+      }
 
-    if (resourceType === "server") {
-      document.getElementById("entitlement")?.focus();
-      return;
+      if (permissions?.length) {
+        document.getElementById("resource")?.focus();
+        return;
+      }
+
+      moveToFocusable(document.getElementById("resourceType"), "next");
     }
-    document.getElementById("resource")?.focus();
   }, [resourceType, permissions]);
 
   useEffect(() => {
@@ -134,7 +180,6 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
 
     // after adding a permission, only reset the entitlement selector
     setEntitlement("");
-    document.getElementById("entitlement")?.focus();
   };
 
   if (permissionsError) {
@@ -160,7 +205,11 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const hasResourceOptions = resourceOptions.length;
 
   return (
-    <div className="permission-selector">
+    <div
+      className="permission-selector"
+      tabIndex={0}
+      ref={permissionSelectorRef}
+    >
       <CustomSelect
         id="resourceType"
         name="resourceType"
@@ -170,6 +219,9 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         aria-label="Resource type"
         onChange={handleResourceTypeChange}
         value={resourceType}
+        selectRef={resourceTypeRef}
+        onFocus={resourceTypeRef.current?.open}
+        searchable="always"
       />
       <CustomSelect
         id="resource"
@@ -188,6 +240,9 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         }
         dropdownClassName="permissions-select-dropdown"
         header={<ResourceOptionHeader resourceType={resourceType} />}
+        selectRef={resourceRef}
+        onFocus={resourceRef.current?.open}
+        searchable="always"
       />
       <CustomSelect
         id="entitlement"
@@ -200,8 +255,10 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         value={entitlement}
         disabled={isLoading || (!resource && !isServerResourceType)}
         dropdownClassName="permissions-select-dropdown"
-        // only show entitlement descriptions if we have metadata
-        header={validMetadata && <EntitlementOptionHeader />}
+        selectRef={entitlementRef}
+        onFocus={entitlementRef.current?.open}
+        searchable="always"
+        initialPosition="right"
       />
       <div className="add-entitlement">
         <Button
@@ -210,6 +267,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
           onClick={handleAddPermission}
           className="u-no-margin--bottom"
           disabled={!entitlement}
+          tabIndex={!entitlement ? -1 : undefined}
         >
           Add
         </Button>

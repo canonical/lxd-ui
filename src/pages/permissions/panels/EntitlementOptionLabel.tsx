@@ -11,7 +11,10 @@ const EntitlementOptionLabel: FC<Props> = ({ entitlement, description }) => {
       <span title={entitlement} className="entitlement u-truncate">
         {entitlement}
       </span>
-      <span title={description} className="entitlement-description u-truncate">
+      <span
+        title={description}
+        className="entitlement-description u-truncate u-text--muted"
+      >
         {description}
       </span>
     </div>

@@ -73,6 +73,7 @@ const CustomSelectDropdown: FC<Props> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isSearchable =
     searchable !== "never" &&
+    options.length > 1 &&
     (searchable === "always" || (searchable === "auto" && options.length >= 5));
 
   useEffect(() => {
@@ -96,6 +97,12 @@ const CustomSelectDropdown: FC<Props> = ({
     }
   }, [selectedIndex]);
 
+  const filteredOptions = options?.filter((option) => {
+    if (!search) return true;
+    const searchText = getOptionText(option) || option.value;
+    return searchText.toLowerCase().includes(search);
+  });
+
   // handle keyboard actions for navigating the select dropdown
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const upDownKeys = ["ArrowUp", "ArrowDown"];
@@ -113,13 +120,16 @@ const CustomSelectDropdown: FC<Props> = ({
         const increment = goingUp ? -1 : 1;
         let currIndex = prevIndex + increment;
         // skip disabled options for key board action
-        while (options[currIndex] && options[currIndex]?.disabled) {
+        while (
+          filteredOptions[currIndex] &&
+          filteredOptions[currIndex]?.disabled
+        ) {
           currIndex += increment;
         }
 
         // consider upper bound for navigating down the list
         if (increment > 0) {
-          return currIndex < options.length ? currIndex : prevIndex;
+          return currIndex < filteredOptions.length ? currIndex : prevIndex;
         }
 
         // consider lower bound for navigating up the list
@@ -128,7 +138,7 @@ const CustomSelectDropdown: FC<Props> = ({
     }
 
     if (event.key === "Enter" && selectedIndex !== -1) {
-      onSelect(options[selectedIndex].value);
+      onSelect(filteredOptions[selectedIndex].value);
     }
 
     if (event.key === "Escape") {
@@ -143,46 +153,48 @@ const CustomSelectDropdown: FC<Props> = ({
     optionsRef.current = [];
   };
 
-  const optionItems = options
-    // filter options based on search text
-    ?.filter((option) => {
-      if (!search) return true;
-      const searchText = getOptionText(option) || option.value;
-      return searchText.toLowerCase().includes(search);
-    })
-    .map((option, idx) => {
-      return (
-        <li
-          {...option}
-          key={option.value}
-          onClick={() => onSelect(option.value)}
-          className={classnames(
-            "p-list__item",
-            "p-custom-select__option",
-            "u-truncate",
-            {
-              disabled: option.disabled,
-              highlight: idx === selectedIndex,
-            },
-          )}
-          // adding option elements to a ref array makes it easier to scroll the element later
-          // else we'd have to make a DOM call to find the element based on some identifier
-          ref={(el) => {
-            if (!el) return;
-            optionsRef.current[idx] = el;
-          }}
-          role="option"
+  const handleSelect = (option: CustomSelectOption) => {
+    if (option.disabled) {
+      return;
+    }
+
+    onSelect(option.value);
+  };
+
+  const optionItems = filteredOptions.map((option, idx) => {
+    return (
+      <li
+        {...option}
+        key={`${option.value}-${idx}`}
+        onClick={() => handleSelect(option)}
+        className={classnames(
+          "p-list__item",
+          "p-custom-select__option",
+          "u-truncate",
+          {
+            disabled: option.disabled,
+            highlight: idx === selectedIndex && !option.disabled,
+          },
+        )}
+        // adding option elements to a ref array makes it easier to scroll the element later
+        // else we'd have to make a DOM call to find the element based on some identifier
+        ref={(el) => {
+          if (!el) return;
+          optionsRef.current[idx] = el;
+        }}
+        role="option"
+        onMouseEnter={() => setSelectedIndex(idx)}
+      >
+        <span
+          className={classnames({
+            "u-text--muted": option.disabled,
+          })}
         >
-          <span
-            className={classnames({
-              "u-text--muted": option.disabled,
-            })}
-          >
-            {option.label}
-          </span>
-        </li>
-      );
-    });
+          {option.label}
+        </span>
+      </li>
+    );
+  });
 
   return (
     <div

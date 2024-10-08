@@ -48,7 +48,6 @@
     font-weight: $font-weight-regular-text;
     padding: $sph--x-small $sph--small;
 
-    &:not(.disabled):hover,
     &.highlight {
       // browser default styling for options when hovered
       background-color: #06c;

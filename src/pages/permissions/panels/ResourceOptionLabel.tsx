@@ -1,14 +1,13 @@
 import { FC } from "react";
 import { ResourceDetail } from "util/resourceDetails";
-import { resourceOptionColumns } from "util/permissions";
+import { getResourceOptionColumns } from "util/permissions";
 
 interface Props {
   resource: ResourceDetail;
 }
 
 const ResourceOptionLabel: FC<Props> = ({ resource }) => {
-  const columns =
-    resourceOptionColumns[resource.type] || resourceOptionColumns.default;
+  const columns = getResourceOptionColumns(resource.type);
 
   const labelSegments = columns.map((column) => {
     let value = resource[column] || "-";
@@ -17,11 +16,7 @@ const ResourceOptionLabel: FC<Props> = ({ resource }) => {
     }
 
     return (
-      <span
-        key={`${column}-${value}`}
-        title={value}
-        className="resource u-truncate"
-      >
+      <span key={column} title={value} className="resource u-truncate">
         {value}
       </span>
     );
