@@ -398,3 +398,15 @@ test("Migrate instance root storage volume to a different pool", async ({
   await migrateInstanceRootStorage(page, instance, "default", serverClustered);
   await deletePool(page, targetPool);
 });
+
+test("'Other' tab is removed when config/creating Instances, on LXD Version 5.0", async ({
+  page,
+  lxdVersion,
+}) => {
+  test.skip(
+    lxdVersion != "5.0-edge",
+    "Newer LXD versions has the metadata_configuration API extension.",
+  );
+  await editInstance(page, instance);
+  await expect(page.getByText("Other", { exact: true })).not.toBeVisible();
+});

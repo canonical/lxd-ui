@@ -1,4 +1,4 @@
-import { test } from "./fixtures/lxd-test";
+import { expect, test } from "./fixtures/lxd-test";
 import {
   assertCode,
   assertReadMode,
@@ -170,4 +170,16 @@ name: ${profile}`);
 
   await page.locator("#form-footer").getByText("YAML Configuration").click();
   await assertTextVisible(page, "DescriptionA-new-description");
+});
+
+test("'Other' tab is removed when config/creating Profiles, on LXD Version 5.0", async ({
+  page,
+  lxdVersion,
+}) => {
+  test.skip(
+    lxdVersion != "5.0-edge",
+    "Newer LXD versions has the metadata_configuration API extension.",
+  );
+  await editProfile(page, profile);
+  await expect(page.getByText("Other", { exact: true })).not.toBeVisible();
 });
