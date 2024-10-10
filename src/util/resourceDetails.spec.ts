@@ -1,3 +1,4 @@
+import { LxdImage } from "types/image";
 import { extractResourceDetailsFromUrl } from "./resourceDetails";
 
 describe("extractResourceDetailsFromUrl", () => {
@@ -66,8 +67,20 @@ describe("extractResourceDetailsFromUrl", () => {
   it("extracts human readable details for images and identities if name lookup is provided", () => {
     const imagePath = "/1.0/images/image-id?project=default";
     const identityPath = "/1.0/auth/identities/tls/identity-id";
-    const imagesNameLookup = {
-      "image-id": "image-name",
+    const imagesNameLookup: Record<string, Partial<LxdImage>> = {
+      "image-id": {
+        name: "image-name",
+        fingerprint: "image-fingerprint",
+        type: "container",
+        aliases: [
+          { name: "image-alias", description: "image-alias-description" },
+        ],
+        properties: {
+          description: "image-description",
+          os: "image-os",
+          release: "image-release",
+        },
+      },
     };
     const identityNamesLookup = {
       "identity-id": "identity-name",
@@ -84,6 +97,11 @@ describe("extractResourceDetailsFromUrl", () => {
       path: imagePath,
       type: "image",
       project: "default",
+      aliases: ["image-alias"],
+      description: "image-description",
+      fingerprint: "image-",
+      imageType: "container",
+      target: undefined,
     });
 
     const identityDetail = extractResourceDetailsFromUrl(

@@ -1,9 +1,15 @@
+import { LxdImage } from "types/image";
+
 export type ResourceDetail = {
   project?: string;
   target?: string;
   pool?: string;
   instance?: string;
   volume?: string;
+  description?: string;
+  imageType?: string;
+  fingerprint?: string;
+  aliases?: string[];
   path: string;
   name: string;
   type: string;
@@ -21,7 +27,7 @@ export type ResourceType =
 export const extractResourceDetailsFromUrl = (
   resourceType: string,
   path: string,
-  imageNamesLookup?: Record<string, string>,
+  imageLookup?: Record<string, Partial<LxdImage>>,
   identityNamesLookup?: Record<string, string>,
 ): ResourceDetail => {
   const url = new URL(`http://localhost/${path}`);
@@ -30,7 +36,9 @@ export const extractResourceDetailsFromUrl = (
   const urlSegments = url.pathname.split("/");
   const name = decodeURIComponent(urlSegments[urlSegments.length - 1]);
   const resourceName =
-    (identityNamesLookup ?? {})[name] || (imageNamesLookup ?? {})[name] || name;
+    (identityNamesLookup ?? {})[name] ||
+    (imageLookup ?? {})[name]?.name ||
+    name;
 
   const resourceDetail: ResourceDetail = {
     project: project ? project : undefined,
@@ -59,6 +67,18 @@ export const extractResourceDetailsFromUrl = (
       resourceDetail.pool = urlSegments[4];
       resourceDetail.volume = urlSegments[7];
     }
+  }
+
+  // storage volumes could be related to images, so we check if a match can be found based on fingerprint
+  const isImageRelatedResource =
+    path.includes("images") || (imageLookup && name in imageLookup);
+
+  if (isImageRelatedResource) {
+    const image = imageLookup?.[name];
+    resourceDetail.description = image?.properties?.description;
+    resourceDetail.fingerprint = (image?.fingerprint || name).slice(0, 6);
+    resourceDetail.imageType = image?.type;
+    resourceDetail.aliases = image?.aliases?.map((alias) => alias.name);
   }
 
   return resourceDetail;
