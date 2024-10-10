@@ -48,7 +48,7 @@
     "react-router-dom": "6.26.0",
     "react-useportal": "1.0.19",
     "serve": "14.2.3",
-    "vanilla-framework": "4.16.0",
+    "vanilla-framework": "4.17.0",
     "xterm": "5.3.0",
     "xterm-addon-fit": "0.8.0",
     "yup": "1.4.0"
