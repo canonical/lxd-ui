@@ -102,6 +102,6 @@ export interface LxdInstance {
   state?: LxdInstanceState;
   stateful: boolean;
   status: LxdInstanceStatus;
-  type: string;
+  type: "container" | "virtual-machine";
   etag?: string;
 }

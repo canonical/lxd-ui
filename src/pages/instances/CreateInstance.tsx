@@ -17,7 +17,7 @@ import { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { Location } from "history";
 import InstanceCreateDetailsForm, {
@@ -89,6 +89,7 @@ import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
+import ResourceLink, { ResourceType } from "components/ResourceLink";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -211,11 +212,14 @@ const CreateInstance: FC = () => {
     instanceName: string,
     shouldStart: boolean,
     isIsoImage: boolean,
+    instanceType: "container" | "virtual-machine",
   ) => {
     const instanceLink = (
-      <Link to={`/ui/project/${project}/instance/${instanceName}`}>
-        {instanceName}
-      </Link>
+      <ResourceLink
+        type={instanceType as ResourceType}
+        value={instanceName}
+        to={`/ui/project/${project}/instance/${instanceName}`}
+      />
     );
 
     // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
@@ -278,6 +282,7 @@ const CreateInstance: FC = () => {
     // we still need to keep the old way of create and start instances since users may be using an older version of lxd
     const instancePayload = {
       ...instance,
+      type: values.instanceType,
       start: hasInstanceCreateStart ? shouldStart : undefined,
     };
 
@@ -297,7 +302,13 @@ const CreateInstance: FC = () => {
         const isIsoImage = values.image?.server === LOCAL_ISO;
         eventQueue.set(
           operation.metadata.id,
-          () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
+          () =>
+            creationCompletedHandler(
+              instanceName,
+              shouldStart,
+              isIsoImage,
+              instancePayload.type,
+            ),
           (msg) =>
             notifyCreationFailed(
               new Error(msg),

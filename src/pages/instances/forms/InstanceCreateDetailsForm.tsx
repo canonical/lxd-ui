@@ -30,7 +30,7 @@ export interface InstanceDetailsFormValues {
   name?: string;
   description?: string;
   image?: RemoteImage;
-  instanceType: string;
+  instanceType: "container" | "virtual-machine";
   profiles: string[];
   target?: string;
   entityType: "instance";
