@@ -1,7 +1,5 @@
 import { Button, useNotify } from "@canonical/react-components";
-import CustomSelect, {
-  SelectRef,
-} from "../../../components/select/CustomSelect";
+import CustomSelect, { SelectRef } from "components/select/CustomSelect";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
@@ -15,7 +13,6 @@ import {
   getPermissionId,
   getResourceLabel,
   getResourceTypeOptions,
-  moveToFocusable,
   noneAvailableOption,
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
@@ -23,7 +20,7 @@ import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsFor
 import { fetchImageList } from "api/images";
 import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
-import useEventListener from "@use-it/event-listener";
+import { LxdPermission } from "types/permissions";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -38,38 +35,10 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     useSupportedFeatures();
   const permissionSelectorRef = useRef<HTMLDivElement>(null);
 
-  // Handle tab keyboard events so that when the user presses tab, the focusable permission selector will be focused and openned authomatically
-  // Also close the currently open permission selector
+  // Refs for select components, these contain methods to open/close the dropdown programmatically
   const resourceTypeRef = useRef<SelectRef["current"]>();
   const resourceRef = useRef<SelectRef["current"]>();
   const entitlementRef = useRef<SelectRef["current"]>();
-  const handleTabbingForSelectors = (event: KeyboardEvent) => {
-    if (event.key === "Tab") {
-      const focusDirection = event.shiftKey ? "prev" : "next";
-      if (resourceTypeRef.current?.isOpen) {
-        event.preventDefault();
-        resourceTypeRef.current.close();
-        moveToFocusable(
-          document.getElementById("resourceType"),
-          focusDirection,
-        );
-      }
-
-      if (resourceRef.current?.isOpen) {
-        event.preventDefault();
-        resourceRef.current.close();
-        moveToFocusable(document.getElementById("resource"), focusDirection);
-      }
-
-      if (entitlementRef.current?.isOpen) {
-        event.preventDefault();
-        entitlementRef.current.close();
-        moveToFocusable(document.getElementById("entitlement"), focusDirection);
-      }
-    }
-  };
-
-  useEventListener("keydown", handleTabbingForSelectors);
 
   const {
     data: permissions,
@@ -111,38 +80,44 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     }, 100);
   }, []);
 
-  useEffect(() => {
-    if (resourceType) {
-      if (resourceType === "server") {
-        document.getElementById("entitlement")?.focus();
-        return;
-      }
+  const focusAfterResourceTypeChange = (
+    previous: string,
+    current: string,
+    permissions?: LxdPermission[],
+  ) => {
+    // for server, there will be no resources to select
+    // skip to entitlement selector
+    if (current === "server") {
+      entitlementRef.current?.open();
+      return current;
+    }
 
+    const wasChanged = !previous && current;
+    const wasReselected = previous && current === previous;
+    if (wasChanged || wasReselected) {
+      // open the resource dropdown if there are permissions for the resource type
       if (permissions?.length) {
-        document.getElementById("resource")?.focus();
-        return;
+        resourceRef.current?.open();
+        return current;
       }
-
-      moveToFocusable(document.getElementById("resourceType"), "next");
+      // if there are no permissions, we can't select a resource
+      // keep focus on the resource type selector
+      resourceTypeRef.current?.focus();
     }
+
+    return current;
+  };
+
+  useEffect(() => {
+    focusAfterResourceTypeChange("", resourceType, permissions);
   }, [resourceType, permissions]);
-
-  useEffect(() => {
-    if (resource) {
-      document.getElementById("entitlement")?.focus();
-    }
-  }, [resource]);
-
-  useEffect(() => {
-    if (entitlement) {
-      document.getElementById("add-entitlement")?.focus();
-    }
-  }, [entitlement]);
 
   const handleResourceTypeChange = (value: string) => {
     const resourceType = value;
     setEntitlement("");
-    setResourceType(resourceType);
+    setResourceType((prev) => {
+      return focusAfterResourceTypeChange(prev, resourceType, permissions);
+    });
 
     // for server resource type we can select a resource, so automatically set it
     // label for resource will show "server" if resource type is set to server
@@ -155,10 +130,12 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
 
   const handleResourceChange = (value: string) => {
     setResource(value);
+    entitlementRef.current?.open();
   };
 
   const handleEntitlementChange = (value: string) => {
     setEntitlement(value);
+    document.getElementById("add-entitlement")?.focus();
   };
 
   const handleAddPermission = () => {
@@ -220,7 +197,6 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         onChange={handleResourceTypeChange}
         value={resourceType}
         selectRef={resourceTypeRef}
-        onFocus={resourceTypeRef.current?.open}
         searchable="always"
       />
       <CustomSelect
@@ -241,7 +217,6 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         dropdownClassName="permissions-select-dropdown"
         header={<ResourceOptionHeader resourceType={resourceType} />}
         selectRef={resourceRef}
-        onFocus={resourceRef.current?.open}
         searchable="always"
       />
       <CustomSelect
@@ -256,7 +231,6 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         disabled={isLoading || (!resource && !isServerResourceType)}
         dropdownClassName="permissions-select-dropdown"
         selectRef={entitlementRef}
-        onFocus={entitlementRef.current?.open}
         searchable="always"
         initialPosition="right"
       />

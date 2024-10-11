@@ -90,7 +90,7 @@ export const getResourceTypeOptions = (
   metadata?: LxdMetadata | null,
 ): CustomSelectOption[] => {
   if (!metadata || !metadata.entities) {
-    return resourceTypeOptions;
+    return resourceTypeOptions.sort(sortOptions);
   }
 
   const options: CustomSelectOption[] = [];
@@ -306,7 +306,7 @@ export const getImageLookup = (
   for (const image of images) {
     nameLookup[image.fingerprint] = {
       ...image,
-      name: `${image.properties?.description} (${image.type})`,
+      name: `${image.properties?.description || image.fingerprint} (${image.type})`,
     };
   }
 
@@ -371,7 +371,7 @@ export const enablePermissionsFeature = (): boolean => {
 // each resource type has specific columns to display, which should uniquely identify the resource
 export const getResourceOptionColumns = (type: string) => {
   const resourceOptionColumns: Record<string, (keyof ResourceDetail)[]> = {
-    image: ["aliases", "fingerprint", "description", "imageType"],
+    image: ["description", "aliases", "fingerprint", "imageType"],
     image_alias: ["name", "project"],
     instance: ["name", "project"],
     network: ["name", "project"],
@@ -384,30 +384,4 @@ export const getResourceOptionColumns = (type: string) => {
   };
 
   return resourceOptionColumns[type] ?? resourceOptionColumns.default;
-};
-
-export const moveToFocusable = (
-  element: HTMLElement | null,
-  position: "prev" | "next",
-) => {
-  const focusableSelectors = [
-    'a:not([tabindex="-1"])',
-    'button:not([tabindex="-1"])',
-    'input:not([tabindex="-1"])',
-    'textarea:not([tabindex="-1"])',
-    'select:not([tabindex="-1"])',
-    '[tabindex]:not([tabindex="-1"])',
-  ].join(", ");
-
-  if (element) {
-    const focusableElements =
-      document.querySelectorAll<HTMLElement>(focusableSelectors);
-
-    // Find the index of the current element in the focusable elements list
-    // Then try to focus the next focusable element, if any
-    const index = Array.prototype.indexOf.call(focusableElements, element);
-    if (index > -1 && index < focusableElements.length - 1) {
-      focusableElements[index + (position === "next" ? 1 : -1)].focus();
-    }
-  }
 };

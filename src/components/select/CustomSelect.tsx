@@ -1,13 +1,6 @@
 import classNames from "classnames";
-import {
-  useEffect,
-  useId,
-  useImperativeHandle,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import type { FC, FocusEvent, MutableRefObject, ReactNode } from "react";
+import { useEffect, useId, useImperativeHandle, useState } from "react";
+import type { FC, MutableRefObject, ReactNode } from "react";
 import {
   ClassName,
   Field,
@@ -21,13 +14,13 @@ import CustomSelectDropdown, {
   getOptionText,
 } from "./CustomSelectDropdown";
 import useEventListener from "@use-it/event-listener";
-import { adjustDropdownHeight } from "util/customSelect";
 
 export type SelectRef = MutableRefObject<
   | {
       open: () => void;
       close: () => void;
       isOpen: boolean;
+      focus: () => void;
     }
   | undefined
 >;
@@ -61,8 +54,6 @@ export type Props = PropsWithSpread<
     header?: ReactNode;
     // Ref for the select component which exposes internal methods and state for programatic control at the parent level.
     selectRef?: SelectRef;
-    // Function to run when the select is focused.
-    onFocus?: (event: FocusEvent<HTMLButtonElement>) => void;
     // initial position of the dropdown
     initialPosition?: Position;
   }
@@ -85,7 +76,6 @@ const CustomSelect: FC<Props> = ({
   takeFocus,
   header,
   selectRef,
-  onFocus,
   initialPosition = "left",
   ...fieldProps
 }) => {
@@ -95,14 +85,31 @@ const CustomSelect: FC<Props> = ({
   const selectId = id || defaultSelectId;
   const helpId = useId();
   const hasError = !!error;
-  const searchRef = useRef<HTMLInputElement>(null);
-  const dropdownListRef = useRef<HTMLUListElement>(null);
-  const [isMouseDown, setIsMouseDown] = useState(false);
+
+  // Close the dropdown when the browser tab is hidden
+  useEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      setIsOpen(false);
+    }
+  });
+
+  // Close the dropdown when the browser window loses focus
+  useEventListener(
+    "blur",
+    () => {
+      setIsOpen(false);
+    },
+    window,
+  );
 
   useImperativeHandle(
     selectRef,
     () => ({
-      open: setIsOpen.bind(null, true),
+      open: () => {
+        setIsOpen(true);
+        document.getElementById(selectId)?.focus();
+      },
+      focus: () => document.getElementById(selectId)?.focus(),
       close: setIsOpen.bind(null, false),
       isOpen: isOpen,
     }),
@@ -116,16 +123,6 @@ const CustomSelect: FC<Props> = ({
     }
   }, [takeFocus]);
 
-  useLayoutEffect(() => {
-    if (isOpen) {
-      adjustDropdownHeight(dropdownListRef.current, searchRef.current);
-    }
-  }, [isOpen]);
-
-  useEventListener("resize", () =>
-    adjustDropdownHeight(dropdownListRef.current, searchRef.current),
-  );
-
   const selectedOption = options.find((option) => option.value === value);
 
   const toggleLabel = (
@@ -137,13 +134,6 @@ const CustomSelect: FC<Props> = ({
   const handleSelect = (value: string) => {
     setIsOpen(false);
     onChange(value);
-  };
-
-  // Prevent onFocus from being called when the mouse is down on the select toggle
-  const handleFocus = (event: FocusEvent<HTMLButtonElement>) => {
-    if (!isMouseDown) {
-      onFocus?.(event);
-    }
   };
 
   return (
@@ -183,12 +173,9 @@ const CustomSelect: FC<Props> = ({
         }}
         toggleProps={{
           id: selectId,
-          onFocus: handleFocus,
           disabled: disabled,
           // tabIndex is set to -1 when disabled to prevent keyboard navigation to the select toggle
           tabIndex: disabled ? -1 : 0,
-          onMouseDown: () => setIsMouseDown(true),
-          onMouseUp: () => setIsMouseDown(false),
         }}
         className="p-custom-select__wrapper"
         dropdownClassName={dropdownClassName}
@@ -204,9 +191,11 @@ const CustomSelect: FC<Props> = ({
             name={name || ""}
             options={options || []}
             onSelect={handleSelect}
-            onClose={close}
-            searchRef={searchRef}
-            dropdownListRef={dropdownListRef}
+            onClose={() => {
+              // When pressing ESC to close the dropdown, we keep focus on the toggle button
+              close();
+              document.getElementById(selectId)?.focus();
+            }}
             header={header}
           />
         )}

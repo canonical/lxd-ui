@@ -51,8 +51,12 @@
     &.highlight {
       // browser default styling for options when hovered
       background-color: #06c;
-      color: white;
       cursor: pointer;
+
+      // make sure that if an option is highlighted, its text is white for good contrast
+      * {
+        color: white;
+      }
     }
   }
 
