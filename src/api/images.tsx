@@ -98,9 +98,10 @@ export const createImageFromInstanceSnapshot = (
 export const createImageAlias = (
   fingerprint: string,
   alias: string,
+  project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/images/aliases", {
+    fetch(`/1.0/images/aliases?project=${project}`, {
       method: "POST",
       body: JSON.stringify({
         target: fingerprint,

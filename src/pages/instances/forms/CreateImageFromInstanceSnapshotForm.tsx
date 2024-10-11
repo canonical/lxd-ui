@@ -63,7 +63,11 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
             (event) => {
               if (alias) {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
-                void createImageAlias(fingerprint, alias).then(notifySuccess);
+                void createImageAlias(
+                  fingerprint,
+                  alias,
+                  instance.project,
+                ).then(notifySuccess);
               } else {
                 notifySuccess();
               }
