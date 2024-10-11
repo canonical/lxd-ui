@@ -47,7 +47,7 @@ test("Export and Upload an image", async ({ page }) => {
   await page.getByLabel("export image").click();
   const download = await downloadPromise;
   await page.waitForSelector(
-    `text=Image ${imageName} was successfully downloaded. Please check your downloads folder.`,
+    `text=Image ${imageName} download started. Please check your downloads folder.`,
   );
   const IMAGE_FILE = "tests/fixtures/image.tar.gz";
   await download.saveAs(IMAGE_FILE);

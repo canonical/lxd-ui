@@ -113,7 +113,7 @@ const ImageList: FC = () => {
             project={project}
             image={localLxdToRemoteImage(image)}
           />,
-          <DownloadImageBtn key="export-image" image={image} />,
+          <DownloadImageBtn key="download" image={image} project={project} />,
           <DeleteImageBtn key="delete" image={image} project={project} />,
         ]}
       />

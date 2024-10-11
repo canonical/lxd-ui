@@ -13,6 +13,8 @@ import {
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   instance: LxdInstance;
@@ -22,6 +24,7 @@ interface Props {
 const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
+  const queryClient = useQueryClient();
 
   const notifySuccess = () => {
     const created = (
@@ -32,6 +35,12 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
         Image {created} from instance {instance.name}.
       </>,
     );
+  };
+
+  const clearCache = () => {
+    void queryClient.invalidateQueries({
+      predicate: (query) => query.queryKey[0] === queryKeys.images,
+    });
   };
 
   const getInstanceToImageBody = (
@@ -73,8 +82,17 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
             (event) => {
               if (alias) {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
-                void createImageAlias(fingerprint, alias).then(notifySuccess);
+                void createImageAlias(fingerprint, alias, instance.project)
+                  .then(clearCache)
+                  .then(notifySuccess)
+                  .catch((e) => {
+                    toastNotify.failure(
+                      `Image creation from instance "${instance.name}" succeeded. Failed to create an alias.`,
+                      e,
+                    );
+                  });
               } else {
+                clearCache();
                 notifySuccess();
               }
             },

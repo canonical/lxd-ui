@@ -80,9 +80,10 @@ export const deleteImageBulk = (
 export const createImageAlias = (
   fingerprint: string,
   alias: string,
+  project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0/images/aliases", {
+    fetch(`/1.0/images/aliases?project=${project}`, {
       method: "POST",
       body: JSON.stringify({
         target: fingerprint,
@@ -114,10 +115,11 @@ export const uploadImage = (
   body: File | FormData,
   isPublic: boolean,
   setUploadState: (value: UploadState) => void,
+  project: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`/1.0/images`, body, {
+      .post(`/1.0/images?project=${project}`, body, {
         headers: {
           "X-LXD-public": JSON.stringify(isPublic),
         },

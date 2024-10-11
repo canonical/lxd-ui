@@ -175,15 +175,14 @@ export const deleteStorageVolumeSnapshot = async (
 };
 
 export const createImageFromSnapshot = async (page: Page, snapshot: string) => {
-  await page
+  const row = page
     .getByRole("row", { name: "Name" })
-    .filter({ hasText: snapshot })
-    .hover();
-  await page
-    .getByRole("row", { name: "Name" })
-    .filter({ hasText: snapshot })
-    .getByRole("button", { name: "Create image" })
-    .click();
+    .filter({ hasText: snapshot });
+  await row.hover();
+  await row.getByRole("button", { name: "Create image" }).click();
+
+  await page.getByLabel("Alias").fill(`alias-${snapshot}`);
+
   await page
     .getByLabel("Create image from instance")
     .getByRole("button", { name: "Create image" })
