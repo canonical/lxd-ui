@@ -273,7 +273,10 @@ const PermissionIdentities: FC = () => {
         </Row>
       </CustomLayout>
       {panelParams.panel === panels.identityGroups && (
-        <EditIdentityGroupsPanel identities={selectedIdentities} />
+        <EditIdentityGroupsPanel
+          identities={selectedIdentities}
+          onClose={() => setSelectedIdentityIds([])}
+        />
       )}
     </>
   );

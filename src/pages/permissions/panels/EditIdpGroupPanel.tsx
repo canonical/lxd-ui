@@ -195,7 +195,12 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
 
   return (
     <>
-      <SidePanel isOverlay loading={isLoading} hasError={!groups}>
+      <SidePanel
+        isOverlay
+        loading={isLoading}
+        hasError={!groups}
+        onClose={onClose}
+      >
         <SidePanel.Header>
           <SidePanel.HeaderTitle>{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
         </SidePanel.Header>

@@ -85,6 +85,7 @@ interface SidePanelProps {
   className?: string;
   width?: "narrow" | "wide";
   pinned?: boolean;
+  onClose?: () => void;
 }
 
 const SidePanelComponent: FC<SidePanelProps> = ({
@@ -96,12 +97,16 @@ const SidePanelComponent: FC<SidePanelProps> = ({
   className,
   pinned,
   width,
+  onClose,
 }) => {
   const panelParams = usePanelParams();
 
   useEventListener("keydown", (e: KeyboardEvent) => {
     // Close panel if Escape key is pressed
-    if (e.code === "Escape") panelParams.clear();
+    if (e.code === "Escape") {
+      onClose?.();
+      panelParams.clear();
+    }
   });
 
   return createPortal(
