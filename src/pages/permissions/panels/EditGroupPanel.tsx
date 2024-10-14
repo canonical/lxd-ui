@@ -6,7 +6,7 @@ import {
 } from "@canonical/react-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";
@@ -233,6 +233,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         className={classnames({
           "edit-permissions-panel": subForm === "permission",
         })}
+        onClose={closePanel}
       >
         <SidePanel.Header>
           <SidePanel.HeaderTitle>
