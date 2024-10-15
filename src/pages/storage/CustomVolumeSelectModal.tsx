@@ -9,10 +9,12 @@ import { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
 import { renderContentType } from "util/storageVolume";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import classnames from "classnames";
 
 interface Props {
   project: string;
   primaryVolume?: LxdStorageVolume;
+  instanceLocation?: string;
   onFinish: (volume: LxdStorageVolume) => void;
   onCancel: () => void;
   onCreate: () => void;
@@ -21,6 +23,7 @@ interface Props {
 const CustomVolumeSelectModal: FC<Props> = ({
   project,
   primaryVolume,
+  instanceLocation,
   onFinish,
   onCancel,
   onCreate,
@@ -51,6 +54,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
   const headers = [
     { content: "Name" },
     { content: "Pool" },
+    ...(instanceLocation ? [{ content: "Location" }] : []),
     { content: "Content type" },
     { content: "Used by" },
     { "aria-label": "Actions", className: "actions" },
@@ -61,10 +65,28 @@ const CustomVolumeSelectModal: FC<Props> = ({
     : volumes
         .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
         .map((volume) => {
-          const selectVolume = () => handleSelect(volume);
+          const isLocalVolume = !!volume.location; // if location is set, it's a local volume, otherwise a remote volume
+          const isDisabled =
+            instanceLocation !== undefined &&
+            isLocalVolume &&
+            instanceLocation !== volume.location;
+
+          const disableReason = isDisabled
+            ? `Instance location (${instanceLocation}) does not match local volume location (${volume.location}). `
+            : undefined;
+
+          const selectVolume = () => {
+            if (disableReason) {
+              return;
+            }
+            handleSelect(volume);
+          };
 
           return {
-            className: "u-row",
+            className: classnames("u-row", {
+              "u-text--muted": isDisabled,
+              "u-row--disabled": isDisabled,
+            }),
             columns: [
               {
                 content: (
@@ -85,6 +107,16 @@ const CustomVolumeSelectModal: FC<Props> = ({
                 "aria-label": "Storage pool",
                 onClick: selectVolume,
               },
+              ...(instanceLocation
+                ? [
+                    {
+                      content: volume.location,
+                      role: "cell",
+                      "aria-label": "Location",
+                      onClick: selectVolume,
+                    },
+                  ]
+                : []),
               {
                 content: renderContentType(volume),
                 role: "cell",
@@ -109,7 +141,8 @@ const CustomVolumeSelectModal: FC<Props> = ({
                         ? "positive"
                         : ""
                     }
-                    aria-label={`Select ${volume.name}`}
+                    title={isDisabled ? disableReason : `Select ${volume.name}`}
+                    disabled={isDisabled}
                   >
                     Select
                   </Button>

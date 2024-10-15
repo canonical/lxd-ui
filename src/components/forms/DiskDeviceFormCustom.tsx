@@ -130,6 +130,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               </b>
             </div>
             <CustomVolumeSelectBtn
+              formik={formik}
               project={project}
               setValue={(volume) => {
                 ensureEditMode(formik);
@@ -285,6 +286,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
         </>
       )}
       <CustomVolumeSelectBtn
+        formik={formik}
         project={project}
         setValue={(volume) => {
           ensureEditMode(formik);
