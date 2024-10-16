@@ -3,8 +3,10 @@ import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import CustomVolumeModal from "pages/storage/CustomVolumeModal";
 import { LxdStorageVolume } from "types/storage";
+import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 interface Props {
+  formik: InstanceAndProfileFormikProps;
   children: ReactNode;
   buttonProps?: ButtonProps;
   project: string;
@@ -12,6 +14,7 @@ interface Props {
 }
 
 const CustomVolumeSelectBtn: FC<Props> = ({
+  formik,
   children,
   buttonProps,
   project,
@@ -34,6 +37,7 @@ const CustomVolumeSelectBtn: FC<Props> = ({
       {isOpen && (
         <Portal>
           <CustomVolumeModal
+            formik={formik}
             project={project}
             onFinish={handleFinish}
             onCancel={handleCancel}

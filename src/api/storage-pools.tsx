@@ -310,12 +310,18 @@ export const createStorageVolume = (
   pool: string,
   project: string,
   volume: Partial<LxdStorageVolume>,
+  target?: string,
 ): Promise<void> => {
+  const targetParam = target ? `&target=${target}` : "";
+
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
-      method: "POST",
-      body: JSON.stringify(volume),
-    })
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes?project=${project}${targetParam}`,
+      {
+        method: "POST",
+        body: JSON.stringify(volume),
+      },
+    )
       .then(handleResponse)
       .then(resolve)
       .catch(reject);
