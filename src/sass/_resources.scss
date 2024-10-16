@@ -1,0 +1,25 @@
+.resource-link {
+  i {
+    margin-right: $sph--x-small;
+  }
+
+  &.p-chip {
+    // background-color is set to white by vanilla if p-chip is applied to a link and not button
+    background-color: $colors--theme--background-neutral-default;
+    border: none;
+  }
+
+  .p-chip__value {
+    max-width: 8rem;
+  }
+}
+
+.resource-label {
+  // align font size with chip component
+  font-size: #{map-get($font-sizes, small)}rem;
+  line-height: #{map-get($line-heights, small)}rem;
+
+  i {
+    margin-right: $sph--x-small;
+  }
+}
