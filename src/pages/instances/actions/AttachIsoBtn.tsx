@@ -14,6 +14,8 @@ import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { instanceLinkFromOperation } from "util/instances";
+import ResourceLink from "components/ResourceLink";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -41,19 +43,21 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       instance,
       values,
     ) as LxdInstance;
+    const instanceLink = <InstanceLinkChip instance={instance} />;
     void updateInstance(instanceMinusIso, project ?? "")
       .then((operation) => {
-        const instanceLink = instanceLinkFromOperation({
-          operation,
-          project,
-        });
         eventQueue.set(
           operation.metadata.id,
           () =>
             toastNotify.success(
               <>
-                ISO <b>{attachedIso?.source ?? ""}</b> detached from{" "}
-                {instanceLink}
+                ISO{" "}
+                <ResourceLink
+                  to={`/ui/project/${project}/storage/custom-isos`}
+                  type="iso-volume"
+                  value={attachedIso?.source ?? ""}
+                />{" "}
+                detached from {instanceLink}
               </>,
             ),
           (msg) =>
@@ -72,7 +76,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       })
       .catch((e) => {
         setLoading(false);
-        toastNotify.failure("Detaching ISO failed.", e);
+        toastNotify.failure("Detaching ISO failed.", e, instanceLink);
       });
   };
 
@@ -88,13 +92,20 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         const instanceLink = instanceLinkFromOperation({
           operation,
           project,
+          instanceType: instance.type,
         });
         eventQueue.set(
           operation.metadata.id,
           () =>
             toastNotify.success(
               <>
-                ISO <b>{image.aliases}</b> attached to {instanceLink}
+                ISO{" "}
+                <ResourceLink
+                  to={`/ui/project/${project}/storage/custom-isos`}
+                  type="iso-volume"
+                  value={image.aliases}
+                />{" "}
+                attached to {instanceLink}
               </>,
             ),
           (msg) =>

@@ -41,6 +41,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import ResourceLink from "components/ResourceLink";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -111,7 +112,17 @@ const CreateProject: FC = () => {
       )
         .then(() => {
           navigate(`/ui/project/${values.name}/instances`);
-          toastNotify.success(`Project ${values.name} created.`);
+          toastNotify.success(
+            <>
+              Project{" "}
+              <ResourceLink
+                type="project"
+                value={values.name}
+                to={`/ui/project/${values.name}/instances`}
+              />{" "}
+              created.
+            </>,
+          );
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);

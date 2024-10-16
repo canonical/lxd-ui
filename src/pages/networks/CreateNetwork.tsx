@@ -24,6 +24,7 @@ import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
+import ResourceLink from "components/ResourceLink";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -91,7 +92,17 @@ const CreateNetwork: FC = () => {
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
           navigate(`/ui/project/${project}/networks`);
-          toastNotify.success(`Network ${values.name} created.`);
+          toastNotify.success(
+            <>
+              Network{" "}
+              <ResourceLink
+                type="network"
+                value={values.name}
+                to={`/ui/project/${project}/network/${values.name}`}
+              />{" "}
+              created.
+            </>,
+          );
         })
         .catch((e) => {
           formik.setSubmitting(false);

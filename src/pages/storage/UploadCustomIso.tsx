@@ -70,7 +70,8 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         eventQueue.set(
           operation.metadata.id,
           () => onFinish(name, pool),
-          (msg) => toastNotify.failure("Image import failed", new Error(msg)),
+          (msg) =>
+            toastNotify.failure("Custom ISO upload failed", new Error(msg)),
           () => {
             setLoading(false);
             setUploadState(null);
@@ -87,7 +88,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       )
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);
-        toastNotify.failure("Image import failed", error);
+        toastNotify.failure("Custom ISO upload failed", error);
         setLoading(false);
         setUploadState(null);
       });

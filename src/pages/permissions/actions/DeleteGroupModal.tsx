@@ -6,6 +6,7 @@ import {
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteGroup, deleteGroups } from "api/auth-groups";
+import ResourceLabel from "components/ResourceLabel";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { ChangeEvent, FC, useState } from "react";
 import { LxdGroup } from "types/permissions";
@@ -44,9 +45,14 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
       ? deleteGroup(groups[0].name)
       : deleteGroups(groups.map((group) => group.name));
 
-    const successMessage = hasSingleGroup
-      ? `Group ${groups[0].name} deleted.`
-      : `${groups.length} groups deleted.`;
+    const successMessage = hasSingleGroup ? (
+      <>
+        Group <ResourceLabel bold type="auth-group" value={groups[0].name} />{" "}
+        deleted.
+      </>
+    ) : (
+      `${groups.length} groups deleted.`
+    );
 
     mutationPromise
       .then(() => {

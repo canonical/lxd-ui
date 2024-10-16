@@ -116,7 +116,7 @@ const ClusterList: FC = () => {
           filteredMembers.length < 1 && (
             <EmptyState
               className="empty-state"
-              image={<Icon name="machines" className="empty-state-icon" />}
+              image={<Icon name="cluster-host" className="empty-state-icon" />}
               title="Cluster group empty"
             >
               <p>Add cluster members to this group.</p>
@@ -136,7 +136,7 @@ const ClusterList: FC = () => {
         {!isClustered && (
           <EmptyState
             className="empty-state"
-            image={<Icon name="machines" className="empty-state-icon" />}
+            image={<Icon name="cluster-host" className="empty-state-icon" />}
             title="This server is not clustered"
           >
             <p>

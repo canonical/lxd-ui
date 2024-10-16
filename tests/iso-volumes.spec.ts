@@ -26,7 +26,7 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   await page.getByLabel("Alias").fill(isoName);
 
   await page.getByRole("button", { name: "Upload", exact: true }).click();
-  await assertTextVisible(page, `Image ${isoName} uploaded successfully`);
+  await assertTextVisible(page, `Custom ISO ${isoName} uploaded successfully`);
 
   await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
   await page.getByRole("button", { name: "Create instance" }).click();

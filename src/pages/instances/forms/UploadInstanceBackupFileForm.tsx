@@ -25,6 +25,8 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import InstanceFileTypeSelector, {
   InstanceFileType,
 } from "./InstanceFileTypeSelector";
+import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
 
 export interface UploadInstanceBackupFileFormValues {
   instanceFile: File | null;
@@ -60,19 +62,18 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
   const { hasInstanceImportConversion } = useSupportedFeatures();
 
   const handleSuccess = (instanceName: string) => {
+    const instanceUrl = `/ui/project/${project?.name}/instance/${instanceName}`;
     const message = (
       <>
-        Created instance <strong>{instanceName}</strong>.
+        Created instance{" "}
+        <ResourceLink type="instance" value={instanceName} to={instanceUrl} />.
       </>
     );
 
     const actions = [
       {
         label: "Configure",
-        onClick: () =>
-          navigate(
-            `/ui/project/${project?.name}/instance/${instanceName}/configuration`,
-          ),
+        onClick: () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 
@@ -107,7 +108,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
         toastNotify.info(
           <>
             Upload completed. Now creating instance{" "}
-            <strong>{values.name}</strong>.
+            <ResourceLabel bold type="instance" value={values.name} />.
           </>,
         );
 

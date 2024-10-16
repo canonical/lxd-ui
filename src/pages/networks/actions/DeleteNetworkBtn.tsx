@@ -7,6 +7,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { ConfirmationButton, useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   network: LxdNetwork;
@@ -31,7 +32,12 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
             query.queryKey[2] === queryKeys.networks,
         });
         navigate(`/ui/project/${project}/networks`);
-        toastNotify.success(`Network ${network.name} deleted.`);
+        toastNotify.success(
+          <>
+            Network <ResourceLabel bold type="network" value={network.name} />{" "}
+            deleted.
+          </>,
+        );
       })
       .catch((e) => {
         setLoading(false);

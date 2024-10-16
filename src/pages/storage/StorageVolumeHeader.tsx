@@ -12,6 +12,8 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import MigrateVolumeBtn from "./MigrateVolumeBtn";
 import DuplicateVolumeBtn from "./actions/DuplicateVolumeBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -53,11 +55,13 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       }
       renameStorageVolume(project, volume, values.name)
         .then(() => {
-          navigate(
-            `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`,
-          );
+          const url = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`;
+          navigate(url);
           toastNotify.success(
-            `Storage volume ${volume.name} renamed to ${values.name}.`,
+            <>
+              Storage volume <strong>{volume.name}</strong> renamed to{" "}
+              <ResourceLink type="volume" value={values.name} to={url} />.
+            </>,
           );
           void formik.setFieldValue("isRenaming", false);
         })
@@ -99,7 +103,13 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
               hasIcon={true}
               onFinish={() => {
                 navigate(`/ui/project/${project}/storage/volumes`);
-                toastNotify.success(`Storage volume ${volume.name} deleted.`);
+                toastNotify.success(
+                  <>
+                    Storage volume{" "}
+                    <ResourceLabel bold type="volume" value={volume.name} />{" "}
+                    deleted.
+                  </>,
+                );
               }}
               classname={classname}
             />

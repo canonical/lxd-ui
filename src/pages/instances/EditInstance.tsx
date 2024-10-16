@@ -52,7 +52,6 @@ import { useEventQueue } from "context/eventQueue";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
-import InstanceLink from "pages/instances/InstanceLink";
 import { useDocs } from "context/useDocs";
 import MigrationForm, {
   MigrationFormValues,
@@ -63,6 +62,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import InstanceLinkChip from "./InstanceLinkChip";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -123,7 +123,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
       // ensure the etag is set (it is missing on the yaml)
       instancePayload.etag = instance.etag;
-      const instanceLink = <InstanceLink instance={instance} />;
+      const instanceLink = <InstanceLinkChip instance={instance} />;
 
       void updateInstance(instancePayload, project)
         .then((operation) => {

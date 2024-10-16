@@ -30,6 +30,7 @@ import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   pool: LxdStoragePool;
@@ -81,7 +82,17 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       mutation()
         .then(async () => {
-          toastNotify.success(`Storage pool ${savedPool.name} updated.`);
+          toastNotify.success(
+            <>
+              Storage pool{" "}
+              <ResourceLink
+                type="pool"
+                value={savedPool.name}
+                to={`/ui/project/${project}/storage/pool/${savedPool.name}`}
+              />{" "}
+              updated.
+            </>,
+          );
           const member = clusterMembers[0]?.server_name ?? undefined;
           const updatedPool = await fetchStoragePool(values.name, member);
           void formik.setValues(toStoragePoolFormValues(updatedPool));

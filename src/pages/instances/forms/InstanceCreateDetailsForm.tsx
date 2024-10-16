@@ -25,12 +25,13 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
+import { InstanceIconType } from "components/ResourceIcon";
 
 export interface InstanceDetailsFormValues {
   name?: string;
   description?: string;
   image?: RemoteImage;
-  instanceType: string;
+  instanceType: InstanceIconType;
   profiles: string[];
   target?: string;
   entityType: "instance";

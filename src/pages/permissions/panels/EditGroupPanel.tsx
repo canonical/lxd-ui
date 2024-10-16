@@ -39,6 +39,7 @@ import { pluralize } from "util/instanceBulkActions";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import { fetchImageList } from "api/images";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   group: LxdGroup;
@@ -177,7 +178,17 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     mutationPromise
       .then(() => {
         closePanel();
-        toastNotify.success(`Group ${values.name} updated.`);
+        toastNotify.success(
+          <>
+            Group{" "}
+            <ResourceLink
+              type="auth-group"
+              value={values.name}
+              to="/ui/permissions/groups"
+            />{" "}
+            updated.
+          </>,
+        );
       })
       .catch((e) => {
         notify.failure("Group update failed", e);

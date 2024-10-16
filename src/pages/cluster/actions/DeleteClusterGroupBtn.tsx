@@ -6,6 +6,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { ConfirmationButton, useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   group: string;
@@ -23,7 +24,17 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     deleteClusterGroup(group)
       .then(() => {
         navigate(`/ui/cluster`);
-        toastNotify.success(`Cluster group ${group} deleted.`);
+        toastNotify.success(
+          <>
+            Cluster group{" "}
+            <ResourceLink
+              type="cluster-group"
+              value={group}
+              to={`/ui/cluster`}
+            />{" "}
+            deleted.
+          </>,
+        );
       })
       .catch((e) => {
         setLoading(false);
