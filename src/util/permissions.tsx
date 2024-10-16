@@ -12,6 +12,8 @@ import {
   CustomSelectOption,
   sortOptions,
 } from "components/select/CustomSelectDropdown";
+import ResourceOptionLabel from "pages/permissions/panels/ResourceOptionLabel";
+import EntitlementOptionLabel from "pages/permissions/panels/EntitlementOptionLabel";
 
 export const noneAvailableOption = {
   disabled: true,
@@ -88,7 +90,7 @@ export const getResourceTypeOptions = (
   metadata?: LxdMetadata | null,
 ): CustomSelectOption[] => {
   if (!metadata || !metadata.entities) {
-    return resourceTypeOptions;
+    return resourceTypeOptions.sort(sortOptions);
   }
 
   const options: CustomSelectOption[] = [];
@@ -109,7 +111,7 @@ export const getResourceTypeOptions = (
 export const generateResourceOptions = (
   resourceType: string,
   permissions: LxdPermission[],
-  imageNamesLookup: Record<string, string>,
+  imageLookup: Record<string, LxdImage>,
   identityNamesLookup: Record<string, string>,
 ): CustomSelectOption[] => {
   if (!permissions.length || !resourceType) {
@@ -123,25 +125,24 @@ export const generateResourceOptions = (
     const resource = extractResourceDetailsFromUrl(
       resourceType,
       permission.url,
-      imageNamesLookup,
+      imageLookup,
       identityNamesLookup,
     );
-    const resourceLabel = getResourceSelectorLabel(resource);
+    const name = getResourceName(resource);
 
-    if (processedResources.has(resourceLabel)) {
+    if (processedResources.has(name)) {
       continue;
     }
 
-    processedResources.add(resourceLabel);
+    processedResources.add(name);
     resourceOptions.push({
       value: permission.url,
-      label: resourceLabel,
-      title: resourceLabel,
+      label: <ResourceOptionLabel resource={resource} />,
+      text: name,
     });
   }
 
   resourceOptions.sort(sortOptions);
-
   return resourceOptions;
 };
 
@@ -206,13 +207,13 @@ export const generateEntitlementOptions = (
     genericEntitlementOptions.unshift({
       disabled: true,
       label: "Built-in roles",
-      value: "",
+      value: "group",
     });
 
     granularEntitlementOptions.unshift({
       disabled: true,
       label: "Granular entitlements",
-      value: "",
+      value: "group",
     });
   }
 
@@ -234,7 +235,23 @@ export const generateEntitlementOptions = (
         typeof option.value === "string" &&
         entitlementDescriptions[option.value]
       ) {
-        option.title = entitlementDescriptions[option.value];
+        option.text = option.value;
+        option.label = (
+          <EntitlementOptionLabel
+            entitlement={option.value}
+            description={entitlementDescriptions[option.value]}
+          />
+        );
+      }
+
+      if (option.value === "group") {
+        option.label = (
+          <div className="header u-no-padding">
+            <span className="u-no-margin">
+              <h5 className="u-no-margin u-no-padding">{option.label}</h5>
+            </span>
+          </div>
+        );
       }
     }
   }
@@ -242,13 +259,19 @@ export const generateEntitlementOptions = (
   return [...genericEntitlementOptions, ...granularEntitlementOptions];
 };
 
-const getResourceSelectorLabel = (resource: ResourceDetail): string => {
+const getResourceName = (resource: ResourceDetail): string => {
   const projectName = resource.project
     ? ` (project: ${resource.project}) `
     : "";
   const targetName = resource.target ? ` (target: ${resource.target}) ` : "";
   const poolName = resource.pool ? ` (pool: ${resource.pool}) ` : "";
-  return `${resource.name}${targetName}${poolName}${projectName}`;
+  const aliases = resource.aliases
+    ? ` (aliases: ${resource.aliases.join(", ")}) `
+    : "";
+  const fingerprint = resource.fingerprint
+    ? ` (fingerprint: ${resource.fingerprint}) `
+    : "";
+  return `${resource.name}${targetName}${poolName}${projectName}${aliases}${fingerprint}`;
 };
 
 export const getPermissionId = (permission: LxdPermission): string => {
@@ -263,26 +286,28 @@ export const getPermissionIds = (permissions: LxdPermission[]): string[] => {
 
 export const getResourceLabel = (
   permission: LxdPermission,
-  imageNamesLookup?: Record<string, string>,
+  imageLookup?: Record<string, LxdImage>,
   identityNamesLookup?: Record<string, string>,
 ): string => {
   const resource = extractResourceDetailsFromUrl(
     permission.entity_type,
     permission.url,
-    imageNamesLookup,
+    imageLookup,
     identityNamesLookup,
   );
 
-  return getResourceSelectorLabel(resource);
+  return getResourceName(resource);
 };
 
-export const getImageNameLookup = (
+export const getImageLookup = (
   images: LxdImage[],
-): Record<string, string> => {
-  const nameLookup: Record<string, string> = {};
+): Record<string, LxdImage> => {
+  const nameLookup: Record<string, LxdImage> = {};
   for (const image of images) {
-    nameLookup[image.fingerprint] =
-      `${image.properties?.description} (${image.type})` ?? image.fingerprint;
+    nameLookup[image.fingerprint] = {
+      ...image,
+      name: `${image.properties?.description || image.fingerprint} (${image.type})`,
+    };
   }
 
   return nameLookup;
@@ -341,4 +366,22 @@ export const enablePermissionsFeature = (): boolean => {
     !!settings?.config?.["oidc.issuer"];
 
   return hasAccessManagement && (hasOIDCSettings || userShowPermissions);
+};
+
+// each resource type has specific columns to display, which should uniquely identify the resource
+export const getResourceOptionColumns = (type: string) => {
+  const resourceOptionColumns: Record<string, (keyof ResourceDetail)[]> = {
+    image: ["description", "aliases", "fingerprint", "imageType"],
+    image_alias: ["name", "project"],
+    instance: ["name", "project"],
+    network: ["name", "project"],
+    network_acl: ["name", "project"],
+    network_zone: ["name", "project"],
+    profile: ["name", "project"],
+    storage_bucket: ["name", "project"],
+    storage_volume: ["name", "project", "pool"],
+    default: ["name"],
+  };
+
+  return resourceOptionColumns[type] ?? resourceOptionColumns.default;
 };
