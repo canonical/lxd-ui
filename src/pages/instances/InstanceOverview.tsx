@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { getRootPool, isoTimeToString } from "util/helpers";
+import { isoTimeToString } from "util/helpers";
 import { Col, Row, useNotify } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
@@ -13,7 +13,6 @@ import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import InstanceOverviewDevices from "./InstanceOverviewDevices";
 import ResourceLabel from "components/ResourceLabel";
-import ResourceLink from "components/ResourceLink";
 
 interface Props {
   instance: LxdInstance;
@@ -35,8 +34,6 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
-
-  const rootPool = getRootPool(instance);
 
   return (
     <div className="instance-overview-tab">
@@ -94,7 +91,8 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               <tr>
                 <th className="u-text--muted">Cluster member</th>
                 <td>
-                  {settings?.environment?.server_clustered ? (
+                  {settings?.environment?.server_clustered &&
+                  instance.location ? (
                     <ResourceLabel
                       type="cluster-member"
                       value={instance.location}
@@ -102,16 +100,6 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                   ) : (
                     "-"
                   )}
-                </td>
-              </tr>
-              <tr>
-                <th className="u-text--muted">Root storage pool</th>
-                <td>
-                  <ResourceLink
-                    type="pool"
-                    value={rootPool}
-                    to={`/ui/project/${instance.project}/storage/pool/${rootPool}`}
-                  />
                 </td>
               </tr>
               <tr>

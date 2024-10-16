@@ -50,13 +50,13 @@ const ProfileDetailPanelContent: FC<Props> = ({ profile, project }) => {
         <tr className="u-no-border list-wrapper">
           <th className="u-text--muted">Networks</th>
           <td>
-            <ProfileNetworkList profile={profile} />
+            <ProfileNetworkList profile={profile} project={project.name} />
           </td>
         </tr>
         <tr className="u-no-border list-wrapper">
           <th className="u-text--muted last-of-section">Storage</th>
           <td>
-            <ProfileStorageList profile={profile} />
+            <ProfileStorageList profile={profile} project={project.name} />
           </td>
         </tr>
         <tr className="used-by-header">

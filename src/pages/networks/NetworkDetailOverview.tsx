@@ -12,8 +12,7 @@ import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
 import ExpandableList from "components/ExpandableList";
-import ResourceLink from "components/ResourceLink";
-import ResourceLabel from "components/ResourceLabel";
+import UsedByItem from "components/UsedByItem";
 
 interface Props {
   network: LxdNetwork;
@@ -154,19 +153,13 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                   {data.instances.length > 0 ? (
                     <ExpandableList
                       items={data.instances.map((item) => (
-                        <div key={item.name}>
-                          <ResourceLink
-                            type={"virtual-machine"}
-                            value={item.name}
-                            to={`/ui/project/${item.project}/instance/${item.name}`}
-                          />
-                          {item.project !== project && (
-                            <ResourceLabel
-                              type="project"
-                              value={item.project}
-                            />
-                          )}
-                        </div>
+                        <UsedByItem
+                          key={item.name}
+                          item={item}
+                          activeProject={project}
+                          type="instance"
+                          to={`/ui/project/${item.project}/instance/${item.name}`}
+                        />
                       ))}
                     />
                   ) : (
@@ -182,19 +175,13 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                   {data.profiles.length > 0 ? (
                     <ExpandableList
                       items={data.profiles.map((item) => (
-                        <div key={item.name}>
-                          <ResourceLink
-                            type="profile"
-                            value={item.name}
-                            to={`/ui/project/${item.project}/profile/${item.name}`}
-                          />
-                          {item.project !== project && (
-                            <ResourceLabel
-                              type="project"
-                              value={item.project}
-                            />
-                          )}
-                        </div>
+                        <UsedByItem
+                          key={item.name}
+                          item={item}
+                          activeProject={project}
+                          type="profile"
+                          to={`/ui/project/${item.project}/profile/${item.name}`}
+                        />
                       ))}
                     />
                   ) : (
