@@ -7,8 +7,9 @@ import { LxdStorageVolume } from "types/storage";
 import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";
-import { Link } from "react-router-dom";
 import { useSettings } from "context/useSettings";
+import ResourceLabel from "components/ResourceLabel";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   project: string;
@@ -51,19 +52,25 @@ const StorageVolumeOverview: FC<Props> = ({ project, volume }) => {
               <tr>
                 <th className="u-text--muted">Cluster member</th>
                 <td>
-                  {settings?.environment?.server_clustered && volume.location
-                    ? volume.location
-                    : "-"}
+                  {settings?.environment?.server_clustered &&
+                  volume.location ? (
+                    <ResourceLabel
+                      type="cluster-member"
+                      value={volume.location}
+                    />
+                  ) : (
+                    "-"
+                  )}
                 </td>
               </tr>
               <tr>
                 <th className="u-text--muted">Pool</th>
                 <td>
-                  <Link
-                    to={`/ui/project/${project}/storage/pool/${volume.pool}`}
-                  >
-                    {volume.pool}
-                  </Link>
+                  <ResourceLink
+                    type="pool"
+                    value={volume.pool}
+                    to={`/ui/project/${volume.project}/storage/pool/${volume.pool}`}
+                  />
                 </td>
               </tr>
               <tr>

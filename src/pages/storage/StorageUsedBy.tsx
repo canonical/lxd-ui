@@ -1,10 +1,8 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
-import ImageName from "pages/images/ImageName";
 import { LxdStoragePool, LxdStorageVolume } from "types/storage";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
-import InstanceLink from "pages/instances/InstanceLink";
 import ExpandableList from "components/ExpandableList";
+import UsedByItem from "components/UsedByItem";
 
 interface Props {
   storage: LxdStoragePool | LxdStorageVolume;
@@ -36,10 +34,13 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[INSTANCES].map((item) => (
-                <div key={`${item.name}-${item.project}`}>
-                  <InstanceLink instance={item} />
-                  {item.project !== project && ` (project ${item.project})`}
-                </div>
+                <UsedByItem
+                  key={`${item.name}-${item.project}`}
+                  item={item}
+                  activeProject={project}
+                  type="instance"
+                  to={`/ui/project/${item.project}/instance/${item.name}`}
+                />
               ))}
             />
           </td>
@@ -49,12 +50,13 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[PROFILES].map((item) => (
-                <div key={`${item.name}-${item.project}`}>
-                  <Link to={`/ui/project/${item.project}/profile/${item.name}`}>
-                    {item.name}
-                  </Link>
-                  {item.project !== project && ` (project ${item.project})`}
-                </div>
+                <UsedByItem
+                  key={`${item.name}-${item.project}`}
+                  item={item}
+                  activeProject={project}
+                  type="profile"
+                  to={`/ui/project/${item.project}/profile/${item.name}`}
+                />
               ))}
             />
           </td>
@@ -64,12 +66,13 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[IMAGES].map((item) => (
-                <div key={`${item.name}-${item.project}`}>
-                  <Link to={`/ui/project/${item.project}/images`}>
-                    <ImageName id={item.name} project={item.project} />
-                  </Link>
-                  {item.project !== project && ` (project ${item.project})`}
-                </div>
+                <UsedByItem
+                  key={`${item.name}-${item.project}`}
+                  item={item}
+                  activeProject={project}
+                  type="image"
+                  to={`/ui/project/${item.project}/images`}
+                />
               ))}
             />
           </td>
@@ -83,26 +86,22 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
               items={data[SNAPSHOTS].map((item) => (
                 <>
                   {item.instance && (
-                    <div key={`${item.instance}-${item.name}-${item.project}`}>
-                      <Link
-                        to={`/ui/project/${item.project}/instance/${item.instance}/snapshots`}
-                      >
-                        {`${item.instance} ${item.name}`}
-                      </Link>
-                      {item.project !== project && ` (project ${item.project})`}
-                    </div>
+                    <UsedByItem
+                      key={`${item.instance}-${item.name}-${item.project}`}
+                      item={item}
+                      activeProject={project}
+                      type="snapshot"
+                      to={`/ui/project/${item.project}/instance/${item.instance}/snapshots`}
+                    />
                   )}
                   {item.volume && (
-                    <div
+                    <UsedByItem
                       key={`${item.volume}-${item.name}-${item.project}-${item.pool}`}
-                    >
-                      <Link
-                        to={`/ui/project/${item.project}/storage/pool/${item.pool}/volumes/custom/${item.volume}/snapshots`}
-                      >
-                        {`${item.volume} ${item.name}`}
-                      </Link>
-                      {item.project !== project && ` (project ${item.project})`}
-                    </div>
+                      item={item}
+                      activeProject={project}
+                      type="snapshot"
+                      to={`/ui/project/${item.project}/storage/pool/${item.pool}/volumes/custom/${item.volume}/snapshots`}
+                    />
                   )}
                 </>
               ))}
@@ -116,14 +115,13 @@ const StorageUsedBy: FC<Props> = ({ storage, project }) => {
           <td>
             <ExpandableList
               items={data[CUSTOM_VOLUMES].map((item) => (
-                <div key={`${item.name}-${item.project}`}>
-                  <Link
-                    to={`/ui/project/${item.project}/storage/pool/${storage.name}/volumes/custom/${item.name}`}
-                  >
-                    {item.name}
-                  </Link>
-                  {item.project !== project && ` (project ${item.project})`}
-                </div>
+                <UsedByItem
+                  key={`${item.name}-${item.project}`}
+                  item={item}
+                  activeProject={project}
+                  type="volume"
+                  to={`/ui/project/${item.project}/storage/pool/${storage.name}/volumes/custom/${item.name}`}
+                />
               ))}
             />
           </td>

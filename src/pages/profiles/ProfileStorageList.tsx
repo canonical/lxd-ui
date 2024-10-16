@@ -17,13 +17,12 @@ const ProfileStorageList: FC<Props> = ({ profile, project }) => {
           items={Object.values(profile.devices)
             .filter(isDiskDevice)
             .map((device) => (
-              <div key={device.path}>
-                <ResourceLink
-                  type="pool"
-                  value={device.pool}
-                  to={`/ui/project/${project}/storage/pool/${device.pool}`}
-                />
-              </div>
+              <ResourceLink
+                key={device.path}
+                type="pool"
+                value={device.pool}
+                to={`/ui/project/${project}/storage/pool/${device.pool}`}
+              />
             ))}
         />
       ) : (

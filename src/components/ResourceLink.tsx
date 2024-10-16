@@ -11,7 +11,7 @@ interface Props {
 const ResourceLink: FC<Props> = ({ type, value, to }) => {
   return (
     <Link
-      className={"p-chip is-inline is-dense resource-link"}
+      className="p-chip is-inline is-dense resource-link"
       to={to}
       title={value}
     >

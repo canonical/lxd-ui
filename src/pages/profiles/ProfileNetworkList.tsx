@@ -17,13 +17,12 @@ const ProfileNetworkList: FC<Props> = ({ profile, project }) => {
           items={Object.values(profile.devices)
             .filter(isNicDevice)
             .map((device) => (
-              <div key={device.network}>
-                <ResourceLink
-                  type="network"
-                  value={device.network}
-                  to={`/ui/project/${project}/network/${device.network}`}
-                />
-              </div>
+              <ResourceLink
+                key={device.network}
+                type="network"
+                value={device.network}
+                to={`/ui/project/${project}/network/${device.network}`}
+              />
             ))}
         />
       ) : (
