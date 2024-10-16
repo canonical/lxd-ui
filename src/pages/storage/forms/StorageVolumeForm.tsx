@@ -140,7 +140,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
 
   const { data: pools = [], error } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project),
+    queryFn: () => fetchStoragePools(),
   });
 
   if (error) {
@@ -183,7 +183,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
       <Row className="form-contents">
         <Col size={12}>
           {section === slugify(MAIN_CONFIGURATION) && (
-            <StorageVolumeFormMain formik={formik} project={project} />
+            <StorageVolumeFormMain formik={formik} />
           )}
           {section === slugify(SNAPSHOTS) && (
             <StorageVolumeFormSnapshots formik={formik} />

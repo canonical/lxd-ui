@@ -37,8 +37,8 @@ const StoragePoolDetail: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.storage, project, name, member],
-    queryFn: () => fetchStoragePool(name, project, member),
+    queryKey: [queryKeys.storage, name, member],
+    queryFn: () => fetchStoragePool(name, member),
   });
 
   if (error) {

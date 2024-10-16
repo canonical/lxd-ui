@@ -269,7 +269,6 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           setMember={(member) => void formik.setFieldValue("member", member)}
         />
         <StoragePoolSelector
-          project={project?.name || ""}
           value={formik.values.pool}
           setValue={(value) => void formik.setFieldValue("pool", value)}
           selectProps={{

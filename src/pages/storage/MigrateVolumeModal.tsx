@@ -72,7 +72,6 @@ const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
         summary
       ) : (
         <StoragePoolSelectTable
-          project={storageVolume.project}
           onSelect={setSelectedPool}
           disablePool={{
             name: storageVolume.pool,

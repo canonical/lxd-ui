@@ -9,7 +9,6 @@ import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
 
 interface Props {
-  project: string;
   value: string;
   setValue: (value: string) => void;
   selectProps?: SelectProps;
@@ -18,7 +17,6 @@ interface Props {
 }
 
 const StoragePoolSelector: FC<Props> = ({
-  project,
   value,
   setValue,
   selectProps,
@@ -33,7 +31,7 @@ const StoragePoolSelector: FC<Props> = ({
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project),
+    queryFn: () => fetchStoragePools(),
   });
 
   const supportedStorageDrivers = getSupportedStorageDrivers(settings);
