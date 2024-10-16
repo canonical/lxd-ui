@@ -15,9 +15,10 @@ import ScrollableForm from "components/ScrollableForm";
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
   project: string;
+  poolError?: string;
 }
 
-const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
+const StorageVolumeFormMain: FC<Props> = ({ formik, project, poolError }) => {
   return (
     <ScrollableForm>
       <Row>
@@ -32,6 +33,9 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
                 value={formik.values.pool}
                 setValue={(val) => void formik.setFieldValue("pool", val)}
                 hidePoolsWithUnsupportedDrivers
+                selectProps={{
+                  error: poolError,
+                }}
               />
             </>
           )}

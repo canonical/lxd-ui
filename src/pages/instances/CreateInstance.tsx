@@ -286,6 +286,7 @@ const CreateInstance: FC = () => {
       devices: [],
       readOnly: false,
       entityType: "instance",
+      isCreating: true,
     },
     validationSchema: InstanceSchema,
     onSubmit: (values) => {

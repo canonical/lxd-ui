@@ -9,7 +9,7 @@ export const attachVolume = async (
   await page.getByRole("button", { name: "Create volume" }).click();
   await page.getByPlaceholder("Enter name").fill(volume);
   await page.getByRole("button", { name: "Create volume" }).click();
-  await page.getByLabel(`Select ${volume}`, { exact: true }).click();
+  await page.getByTitle(`Select ${volume}`, { exact: true }).click();
   await page.getByPlaceholder("Enter full path (e.g. /data)").last().fill(path);
 };
 

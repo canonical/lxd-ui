@@ -120,6 +120,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
             </div>
             {!readOnly && (
               <CustomVolumeSelectBtn
+                formik={formik}
                 project={project}
                 setValue={(volume) => changeVolume(volume, formVolume, index)}
                 buttonProps={{
@@ -263,7 +264,11 @@ const DiskDeviceFormCustom: FC<Props> = ({
         </>
       )}
       {!readOnly && (
-        <CustomVolumeSelectBtn project={project} setValue={addVolume}>
+        <CustomVolumeSelectBtn
+          formik={formik}
+          project={project}
+          setValue={addVolume}
+        >
           <Icon name="plus" />
           <span>Attach disk device</span>
         </CustomVolumeSelectBtn>

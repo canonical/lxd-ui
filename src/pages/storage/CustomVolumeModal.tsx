@@ -3,8 +3,11 @@ import CustomVolumeSelectModal from "pages/storage/CustomVolumeSelectModal";
 import CustomVolumeCreateModal from "pages/storage/CustomVolumeCreateModal";
 import { Modal } from "@canonical/react-components";
 import { LxdStorageVolume } from "types/storage";
+import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import { getInstanceLocation } from "util/instanceLocation";
 
 interface Props {
+  formik: InstanceAndProfileFormikProps;
   project: string;
   onFinish: (volume: LxdStorageVolume) => void;
   onCancel: () => void;
@@ -13,11 +16,18 @@ interface Props {
 const SELECT_VOLUME = "selectVolume";
 const CREATE_VOLUME = "createVolume";
 
-const CustomVolumeModal: FC<Props> = ({ project, onFinish, onCancel }) => {
+const CustomVolumeModal: FC<Props> = ({
+  formik,
+  project,
+  onFinish,
+  onCancel,
+}) => {
   const [content, setContent] = useState(SELECT_VOLUME);
   const [primaryVolume, setPrimaryVolume] = useState<
     LxdStorageVolume | undefined
   >(undefined);
+
+  const instanceLocation = getInstanceLocation(formik);
 
   const handleCreateVolume = (volume: LxdStorageVolume) => {
     setContent(SELECT_VOLUME);
@@ -36,6 +46,7 @@ const CustomVolumeModal: FC<Props> = ({ project, onFinish, onCancel }) => {
         <CustomVolumeSelectModal
           project={project}
           primaryVolume={primaryVolume}
+          instanceLocation={instanceLocation}
           onFinish={onFinish}
           onCancel={onCancel}
           onCreate={() => setContent(CREATE_VOLUME)}
@@ -44,6 +55,7 @@ const CustomVolumeModal: FC<Props> = ({ project, onFinish, onCancel }) => {
       {content === CREATE_VOLUME && (
         <CustomVolumeCreateModal
           project={project}
+          instanceLocation={instanceLocation}
           onCancel={() => setContent(SELECT_VOLUME)}
           onFinish={handleCreateVolume}
         />

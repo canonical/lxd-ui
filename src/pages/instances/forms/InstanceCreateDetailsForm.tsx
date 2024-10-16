@@ -34,6 +34,7 @@ export interface InstanceDetailsFormValues {
   target?: string;
   entityType: "instance";
   readOnly: boolean;
+  isCreating: boolean;
 }
 
 export const instanceDetailPayload = (values: CreateInstanceFormValues) => {
