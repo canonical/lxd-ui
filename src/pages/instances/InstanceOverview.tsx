@@ -12,7 +12,8 @@ import InstanceIps from "pages/instances/InstanceIps";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import InstanceOverviewDevices from "./InstanceOverviewDevices";
-import { Link } from "react-router-dom";
+import ResourceLabel from "components/ResourceLabel";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   instance: LxdInstance;
@@ -49,7 +50,16 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
             <tbody>
               <tr>
                 <th className="u-text--muted">Base image</th>
-                <td>{instance.config["image.description"] ?? "-"}</td>
+                <td>
+                  {instance.config["image.description"] ? (
+                    <ResourceLabel
+                      type="image"
+                      value={instance.config["image.description"]}
+                    />
+                  ) : (
+                    "-"
+                  )}
+                </td>
               </tr>
               <tr>
                 <th className="u-text--muted">Description</th>
@@ -84,19 +94,24 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               <tr>
                 <th className="u-text--muted">Cluster member</th>
                 <td>
-                  {settings?.environment?.server_clustered
-                    ? instance.location
-                    : "-"}
+                  {settings?.environment?.server_clustered ? (
+                    <ResourceLabel
+                      type="cluster-member"
+                      value={instance.location}
+                    />
+                  ) : (
+                    "-"
+                  )}
                 </td>
               </tr>
               <tr>
                 <th className="u-text--muted">Root storage pool</th>
                 <td>
-                  <Link
+                  <ResourceLink
+                    type="pool"
+                    value={rootPool}
                     to={`/ui/project/${instance.project}/storage/pool/${rootPool}`}
-                  >
-                    {rootPool}
-                  </Link>
+                  />
                 </td>
               </tr>
               <tr>
