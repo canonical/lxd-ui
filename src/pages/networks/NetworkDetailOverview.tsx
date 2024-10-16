@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Col, Notification, Row } from "@canonical/react-components";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -11,8 +11,9 @@ import { fetchNetworkState } from "api/networks";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
-import InstanceLink from "pages/instances/InstanceLink";
 import ExpandableList from "components/ExpandableList";
+import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   network: LxdNetwork;
@@ -154,9 +155,17 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                     <ExpandableList
                       items={data.instances.map((item) => (
                         <div key={item.name}>
-                          <InstanceLink instance={item} />
-                          {item.project !== project &&
-                            ` (project ${item.project})`}
+                          <ResourceLink
+                            type={"virtual-machine"}
+                            value={item.name}
+                            to={`/ui/project/${item.project}/instance/${item.name}`}
+                          />
+                          {item.project !== project && (
+                            <ResourceLabel
+                              type="project"
+                              value={item.project}
+                            />
+                          )}
                         </div>
                       ))}
                     />
@@ -174,13 +183,17 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                     <ExpandableList
                       items={data.profiles.map((item) => (
                         <div key={item.name}>
-                          <Link
+                          <ResourceLink
+                            type="profile"
+                            value={item.name}
                             to={`/ui/project/${item.project}/profile/${item.name}`}
-                          >
-                            {item.name}
-                          </Link>
-                          {item.project !== project &&
-                            ` (project ${item.project})`}
+                          />
+                          {item.project !== project && (
+                            <ResourceLabel
+                              type="project"
+                              value={item.project}
+                            />
+                          )}
                         </div>
                       ))}
                     />
