@@ -17,6 +17,7 @@ import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { updateStorageVolume } from "api/storage-pools";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -38,7 +39,15 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
       })
         .then(() => {
           toastNotify.success(
-            `Snapshot configuration updated for volume ${volume.name}.`,
+            <>
+              Snapshot configuration updated for volume{" "}
+              <ResourceLink
+                type="volume"
+                value={volume.name}
+                to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
+              />
+              .
+            </>,
           );
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],

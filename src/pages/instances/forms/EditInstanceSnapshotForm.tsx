@@ -6,7 +6,6 @@ import {
   renameInstanceSnapshot,
   updateInstanceSnapshot,
 } from "api/instance-snapshots";
-import ItemName from "components/ItemName";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import {
@@ -18,6 +17,8 @@ import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
 import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
+import InstanceLinkChip from "../InstanceLinkChip";
+import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -43,8 +44,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
     });
     onSuccess(
       <>
-        Snapshot <ItemName item={{ name: name }} bold /> saved for instance{" "}
-        {instance.name}.
+        Snapshot <InstanceSnapshotLinkChip name={name} instance={instance} />{" "}
+        saved for instance <InstanceLinkChip instance={instance} />.
       </>,
     );
     close();
@@ -56,6 +57,7 @@ const EditInstanceSnapshotForm: FC<Props> = ({
           name: newName,
         } as LxdInstanceSnapshot)
       : snapshot;
+    const instanceLink = <InstanceLinkChip instance={instance} />;
     void updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
       .then((operation) =>
         eventQueue.set(
@@ -65,18 +67,26 @@ const EditInstanceSnapshotForm: FC<Props> = ({
             toastNotify.failure(
               `Snapshot update failed for instance ${instance.name}`,
               new Error(msg),
+              instanceLink,
             );
             formik.setSubmitting(false);
           },
         ),
       )
       .catch((e) => {
-        toastNotify.failure("Snapshot update failed", e);
+        toastNotify.failure(
+          `Snapshot update failed for instance ${instance.name}`,
+          e,
+          instanceLink,
+        );
         formik.setSubmitting(false);
       });
   };
 
   const rename = (newName: string, expiresAt?: string) => {
+    const snapshotLink = (
+      <InstanceSnapshotLinkChip name={snapshot.name} instance={instance} />
+    );
     void renameInstanceSnapshot(instance, snapshot, newName)
       .then((operation) =>
         eventQueue.set(
@@ -90,15 +100,20 @@ const EditInstanceSnapshotForm: FC<Props> = ({
           },
           (msg) => {
             toastNotify.failure(
-              `Snapshot rename failed for instance ${instance.name}`,
+              `Snapshot rename failed for ${snapshot.name}`,
               new Error(msg),
+              snapshotLink,
             );
             formik.setSubmitting(false);
           },
         ),
       )
       .catch((e) => {
-        toastNotify.failure("Snapshot rename failed", e);
+        toastNotify.failure(
+          `Snapshot rename failed for ${snapshot.name}`,
+          e,
+          snapshotLink,
+        );
         formik.setSubmitting(false);
       });
   };

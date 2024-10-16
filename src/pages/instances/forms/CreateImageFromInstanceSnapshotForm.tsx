@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
+import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -30,6 +31,9 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const snapshotLink = (
+    <InstanceSnapshotLinkChip name={snapshot.name} instance={instance} />
+  );
 
   const notifySuccess = () => {
     const created = (
@@ -37,7 +41,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
     );
     toastNotify.success(
       <>
-        Image {created} from snapshot <b>{snapshot.name}</b>.
+        Image {created} from snapshot {snapshotLink}.
       </>,
     );
   };
@@ -80,11 +84,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
         instance,
       )
         .then((operation) => {
-          toastNotify.info(
-            <>
-              Creation of image from snapshot <b>{snapshot.name}</b> started.
-            </>,
-          );
+          toastNotify.info(<>Creation of image from {snapshotLink} started.</>);
           close();
           eventQueue.set(
             operation.metadata.id,
@@ -109,6 +109,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
               toastNotify.failure(
                 `Image creation from snapshot "${snapshot.name}" failed.`,
                 new Error(msg),
+                snapshotLink,
               );
             },
           );
@@ -117,6 +118,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
           toastNotify.failure(
             `Image creation from snapshot "${snapshot.name}" failed.`,
             e,
+            snapshotLink,
           );
         });
     },

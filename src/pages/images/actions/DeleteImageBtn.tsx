@@ -6,6 +6,7 @@ import { queryKeys } from "util/queryKeys";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   image: LxdImage;
@@ -22,6 +23,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
 
   const handleDelete = () => {
     setLoading(true);
+    const imageLabel = <ResourceLabel bold type="image" value={description} />;
     void deleteImage(image, project)
       .then((operation) =>
         eventQueue.set(
@@ -33,18 +35,23 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
             void queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, project],
             });
-            toastNotify.success(`Image ${description} deleted.`);
+            toastNotify.success(<>Image {imageLabel} deleted.</>);
           },
           (msg) =>
             toastNotify.failure(
               `Image ${description} deletion failed`,
               new Error(msg),
+              imageLabel,
             ),
           () => setLoading(false),
         ),
       )
       .catch((e) => {
-        toastNotify.failure(`Image ${description} deletion failed`, e);
+        toastNotify.failure(
+          `Image ${description} deletion failed`,
+          e,
+          imageLabel,
+        );
         setLoading(false);
       });
   };

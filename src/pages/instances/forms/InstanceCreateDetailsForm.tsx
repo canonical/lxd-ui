@@ -25,12 +25,13 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
+import { LxdInstance } from "types/instance";
 
 export interface InstanceDetailsFormValues {
   name?: string;
   description?: string;
   image?: RemoteImage;
-  instanceType: string;
+  instanceType: LxdInstance["type"];
   profiles: string[];
   target?: string;
   entityType: "instance";

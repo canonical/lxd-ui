@@ -173,7 +173,7 @@ const NetworkList: FC = () => {
           {!isLoading && !hasNetworks && (
             <EmptyState
               className="empty-state"
-              image={<Icon className="empty-state-icon" name="connected" />}
+              image={<Icon className="empty-state-icon" name="exposed" />}
               title="No networks found"
             >
               <p>There are no networks in this project.</p>

@@ -289,7 +289,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       ) : (
         <EmptyState
           className="empty-state"
-          image={<Icon name="containers" className="empty-state-icon" />}
+          image={<Icon name="snapshot" className="empty-state-icon" />}
           title="No snapshots found"
         >
           <p>

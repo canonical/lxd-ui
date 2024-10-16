@@ -4,12 +4,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { stopInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
 import { useInstanceLoading } from "context/instanceLoading";
-import InstanceLink from "pages/instances/InstanceLink";
 import ConfirmationForce from "components/ConfirmationForce";
-import ItemName from "components/ItemName";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ItemName from "components/ItemName";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -32,6 +32,8 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Stopping" ||
     instance.status === "Stopping";
 
+  const instanceLink = <InstanceLinkChip instance={instance} />;
+
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");
     void stopInstance(instance, isForce)
@@ -39,18 +41,14 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            toastNotify.success(
-              <>
-                Instance <InstanceLink instance={instance} /> stopped.
-              </>,
-            );
+            toastNotify.success(<>Instance {instanceLink} stopped.</>);
             clearCache();
           },
           (msg) => {
             toastNotify.failure(
               "Instance stop failed",
               new Error(msg),
-              <InstanceLink instance={instance} />,
+              instanceLink,
             );
             // Delay clearing the cache, because the instance is reported as STOPPED
             // when a stop operation failed, only shortly after it goes back to RUNNING
@@ -63,11 +61,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
         );
       })
       .catch((e) => {
-        toastNotify.failure(
-          "Instance stop failed",
-          e,
-          <InstanceLink instance={instance} />,
-        );
+        toastNotify.failure("Instance stop failed", e, instanceLink);
         instanceLoading.setFinish(instance);
       });
   };

@@ -24,6 +24,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   network: LxdNetwork;
@@ -89,7 +90,17 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
               network.name,
             ],
           });
-          toastNotify.success(`Network ${network.name} updated.`);
+          toastNotify.success(
+            <>
+              Network{""}
+              <ResourceLink
+                type="network"
+                value={network.name}
+                to={`/ui/project/${project}/network/${network.name}`}
+              />{" "}
+              updated.
+            </>,
+          );
         })
         .catch((e) => {
           notify.failure("Network update failed", e);

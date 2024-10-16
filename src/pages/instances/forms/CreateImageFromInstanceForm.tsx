@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -25,6 +26,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const instanceLink = <InstanceLinkChip instance={instance} />;
 
   const notifySuccess = () => {
     const created = (
@@ -32,7 +34,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
     );
     toastNotify.success(
       <>
-        Image {created} from instance {instance.name}.
+        Image {created} from instance {instanceLink}.
       </>,
     );
   };
@@ -71,11 +73,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
 
       createImage(getInstanceToImageBody(instance, values.isPublic), instance)
         .then((operation) => {
-          toastNotify.info(
-            <>
-              Creation of image from instance <b>{instance.name}</b> started.
-            </>,
-          );
+          toastNotify.info(<>Creation of image from {instanceLink} started.</>);
           close();
           eventQueue.set(
             operation.metadata.id,
@@ -100,6 +98,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
               toastNotify.failure(
                 `Image creation from instance "${instance.name}" failed.`,
                 new Error(msg),
+                instanceLink,
               );
             },
           );
@@ -108,6 +107,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           toastNotify.failure(
             `Image creation from instance "${instance.name}" failed.`,
             e,
+            instanceLink,
           );
         });
     },

@@ -4,11 +4,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { freezeInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import InstanceLink from "pages/instances/InstanceLink";
-import ItemName from "components/ItemName";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ItemName from "components/ItemName";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -30,6 +30,8 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Freezing" ||
     instance.status === "Freezing";
 
+  const instanceLink = <InstanceLinkChip instance={instance} />;
+
   const handleFreeze = () => {
     instanceLoading.setLoading(instance, "Freezing");
     void freezeInstance(instance)
@@ -37,18 +39,14 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            toastNotify.success(
-              <>
-                Instance <InstanceLink instance={instance} /> frozen.
-              </>,
-            );
+            toastNotify.success(<>Instance {instanceLink} frozen.</>);
             clearCache();
           },
           (msg) => {
             toastNotify.failure(
               "Instance freeze failed",
               new Error(msg),
-              <InstanceLink instance={instance} />,
+              instanceLink,
             );
             // Delay clearing the cache, because the instance is reported as FROZEN
             // when a freeze operation failed, only shortly after it goes back to RUNNING
@@ -61,11 +59,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
         );
       })
       .catch((e) => {
-        toastNotify.failure(
-          "Instance freeze failed",
-          e,
-          <InstanceLink instance={instance} />,
-        );
+        toastNotify.failure("Instance freeze failed", e, instanceLink);
         instanceLoading.setFinish(instance);
       });
   };

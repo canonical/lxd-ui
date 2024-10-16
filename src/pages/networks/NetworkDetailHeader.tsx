@@ -9,6 +9,7 @@ import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   name: string;
@@ -48,8 +49,14 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       }
       renameNetwork(name, values.name, project)
         .then(() => {
-          navigate(`/ui/project/${project}/network/${values.name}`);
-          toastNotify.success(`Network ${name} renamed to ${values.name}.`);
+          const url = `/ui/project/${project}/network/${values.name}`;
+          navigate(url);
+          toastNotify.success(
+            <>
+              Network <strong>{name}</strong> renamed to{" "}
+              <ResourceLink type="network" value={values.name} to={url} />.
+            </>,
+          );
           void formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {

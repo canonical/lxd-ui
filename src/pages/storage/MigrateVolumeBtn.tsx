@@ -4,12 +4,13 @@ import usePortal from "react-useportal";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
-import ItemName from "components/ItemName";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { LxdStorageVolume } from "types/storage";
 import MigrateVolumeModal from "./MigrateVolumeModal";
 import { migrateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
+import ResourceLabel from "components/ResourceLabel";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   storageVolume: LxdStorageVolume;
@@ -35,16 +36,29 @@ const MigrateVolumeBtn: FC<Props> = ({
     newTarget: string,
     storageVolume: LxdStorageVolume,
   ) => {
+    const oldVolumeUrl = `/ui/project/${storageVolume.project}/storage/pool/${storageVolume.pool}/volumes/${storageVolume.type}/${storageVolume.name}`;
+    const newVolumeUrl = `/ui/project/${storageVolume.project}/storage/pool/${newTarget}/volumes/${storageVolume.type}/${storageVolume.name}`;
+
+    const volume = (
+      <ResourceLink
+        type="volume"
+        value={storageVolume.name}
+        to={newVolumeUrl}
+      />
+    );
+    const pool = (
+      <ResourceLink
+        type="pool"
+        value={newTarget}
+        to={`/ui/project/${storageVolume.project}/storage/pool/${newTarget}`}
+      />
+    );
     toastNotify.success(
       <>
-        Volume <ItemName item={{ name: storageVolume.name }} bold />{" "}
-        successfully migrated to pool{" "}
-        <ItemName item={{ name: newTarget }} bold />
+        Volume {volume} successfully migrated to pool {pool}
       </>,
     );
 
-    const oldVolumeUrl = `/ui/project/${storageVolume.project}/storage/pool/${storageVolume.pool}/volumes/${storageVolume.type}/${storageVolume.name}`;
-    const newVolumeUrl = `/ui/project/${storageVolume.project}/storage/pool/${newTarget}/volumes/${storageVolume.type}/${storageVolume.name}`;
     if (window.location.pathname.startsWith(oldVolumeUrl)) {
       navigate(newVolumeUrl);
     }
@@ -52,13 +66,18 @@ const MigrateVolumeBtn: FC<Props> = ({
 
   const notifyFailure = (
     e: unknown,
-    storageVolume: string,
+    volumeName: string,
     targetPool: string,
   ) => {
     setVolumeLoading(false);
     toastNotify.failure(
-      `Migration failed for volume ${storageVolume} to pool ${targetPool}`,
+      `Migration failed for volume ${volumeName} to pool ${targetPool}`,
       e,
+      <ResourceLink
+        type="volume"
+        value={volumeName}
+        to={`/ui/project/${project}/storage/pool/${storageVolume.pool}/volumes/${storageVolume.type}/${volumeName}`}
+      />,
     );
   };
 
@@ -87,8 +106,20 @@ const MigrateVolumeBtn: FC<Props> = ({
           (err) => handleFailure(err, storageVolume.name, targetPool),
           handleFinish,
         );
+        const volume = (
+          <ResourceLabel bold type="volume" value={storageVolume.name} />
+        );
+        const pool = (
+          <ResourceLink
+            type="pool"
+            value={targetPool}
+            to={`/ui/project/${storageVolume.project}/storage/pool/${targetPool}`}
+          />
+        );
         toastNotify.info(
-          `Migration started for volume ${storageVolume.name} to pool ${targetPool}`,
+          <>
+            Migration started for volume {volume} to pool {pool}
+          </>,
         );
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.storage, storageVolume.name, project],

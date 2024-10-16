@@ -13,6 +13,7 @@ import classnames from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   profile: LxdProfile;
@@ -40,7 +41,12 @@ const DeleteProfileBtn: FC<Props> = ({
           queryKey: [queryKeys.projects, project],
         });
         navigate(`/ui/project/${project}/profiles`);
-        toastNotify.success(`Profile ${profile.name} deleted.`);
+        toastNotify.success(
+          <>
+            Profile <ResourceLabel bold type="profile" value={profile.name} />{" "}
+            deleted.
+          </>,
+        );
       })
       .catch((e) => {
         setLoading(false);

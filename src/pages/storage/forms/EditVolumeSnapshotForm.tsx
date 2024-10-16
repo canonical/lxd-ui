@@ -15,6 +15,7 @@ import { queryKeys } from "util/queryKeys";
 import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
+import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -35,7 +36,11 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
         query.queryKey[0] === queryKeys.volumes ||
         query.queryKey[0] === queryKeys.storage,
     });
-    toastNotify.success(`Snapshot ${name} saved.`);
+    toastNotify.success(
+      <>
+        Snapshot <VolumeSnapshotLinkChip name={name} volume={volume} /> saved.
+      </>,
+    );
     formik.setSubmitting(false);
     close();
   };
@@ -52,6 +57,9 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   };
 
   const rename = (newName: string): Promise<void> => {
+    const snapshotLink = (
+      <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
+    );
     return new Promise((resolve) => {
       void renameVolumeSnapshot({
         volume,
@@ -66,13 +74,14 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
               toastNotify.failure(
                 `Snapshot ${snapshot.name} rename failed`,
                 new Error(msg),
+                snapshotLink,
               );
               formik.setSubmitting(false);
             },
           ),
         )
         .catch((e) => {
-          notify.failure("Snapshot rename failed", e);
+          notify.failure("Snapshot rename failed", e, snapshotLink);
           formik.setSubmitting(false);
         });
     });

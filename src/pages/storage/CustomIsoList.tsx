@@ -26,6 +26,7 @@ import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
+import ResourceLabel from "components/ResourceLabel";
 
 const CustomIsoList: FC = () => {
   const docBaseLink = useDocs();
@@ -79,7 +80,13 @@ const CustomIsoList: FC = () => {
             volume={image.volume}
             project={project}
             onFinish={() =>
-              toastNotify.success(`Custom iso ${image.aliases} deleted.`)
+              toastNotify.success(
+                <>
+                  Custom iso{" "}
+                  <ResourceLabel bold type="iso-volume" value={image.aliases} />{" "}
+                  deleted.
+                </>,
+              )
             }
           />,
         ]}
@@ -153,7 +160,7 @@ const CustomIsoList: FC = () => {
   const content = !hasImages ? (
     <EmptyState
       className="empty-state"
-      image={<Icon name="mount" className="empty-state-icon" />}
+      image={<Icon name="iso" className="empty-state-icon" />}
       title="No custom ISOs found in this project"
     >
       <p>Custom ISOs will appear here</p>
@@ -167,7 +174,7 @@ const CustomIsoList: FC = () => {
           <Icon className="external-link-icon" name="external-link" />
         </a>
       </p>
-      <UploadCustomIsoBtn className="empty-state-button" />
+      <UploadCustomIsoBtn className="empty-state-button" project={project} />
     </EmptyState>
   ) : (
     <div className="custom-iso-list">
@@ -230,7 +237,10 @@ const CustomIsoList: FC = () => {
           </PageHeader.Left>
           {hasImages && (
             <PageHeader.BaseActions>
-              <UploadCustomIsoBtn className="u-float-right u-no-margin--bottom" />
+              <UploadCustomIsoBtn
+                className="u-float-right u-no-margin--bottom"
+                project={project}
+              />
             </PageHeader.BaseActions>
           )}
         </PageHeader>
