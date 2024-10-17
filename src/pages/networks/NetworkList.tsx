@@ -17,12 +17,14 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import NetworkForwardCount from "pages/networks/NetworkForwardCount";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const NetworkList: FC = () => {
   const docBaseLink = useDocs();
   const navigate = useNavigate();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
+  const isSmallScreen = useSmallScreen();
 
   if (!project) {
     return <>Missing project</>;
@@ -143,16 +145,20 @@ const NetworkList: FC = () => {
               <Button
                 className="u-no-margin--bottom"
                 onClick={() => navigate(`/ui/project/${project}/networks/map`)}
+                hasIcon={!isSmallScreen}
               >
-                See map
+                {!isSmallScreen && <Icon name="map" />}
+                <span>See network map</span>
               </Button>
             )}
             <Button
               appearance="positive"
               className="u-no-margin--bottom"
               onClick={() => navigate(`/ui/project/${project}/networks/create`)}
+              hasIcon={!isSmallScreen}
             >
-              Create network
+              {!isSmallScreen && <Icon name="plus" light />}
+              <span>Create network</span>
             </Button>
           </>
         }
