@@ -85,13 +85,13 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
               <tr className="list-wrapper">
                 <th className="u-text--muted">Networks</th>
                 <td>
-                  <ProfileNetworkList profile={profile} />
+                  <ProfileNetworkList profile={profile} project={project} />
                 </td>
               </tr>
               <tr className="list-wrapper">
                 <th className="u-text--muted">Storage</th>
                 <td>
-                  <ProfileStorageList profile={profile} />
+                  <ProfileStorageList profile={profile} project={project} />
                 </td>
               </tr>
             </tbody>

@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Col, Notification, Row } from "@canonical/react-components";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -11,8 +11,8 @@ import { fetchNetworkState } from "api/networks";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { filterUsedByType, LxdUsedBy } from "util/usedBy";
-import InstanceLink from "pages/instances/InstanceLink";
 import ExpandableList from "components/ExpandableList";
+import UsedByItem from "components/UsedByItem";
 
 interface Props {
   network: LxdNetwork;
@@ -153,11 +153,13 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                   {data.instances.length > 0 ? (
                     <ExpandableList
                       items={data.instances.map((item) => (
-                        <div key={item.name}>
-                          <InstanceLink instance={item} />
-                          {item.project !== project &&
-                            ` (project ${item.project})`}
-                        </div>
+                        <UsedByItem
+                          key={item.name}
+                          item={item}
+                          activeProject={project}
+                          type="instance"
+                          to={`/ui/project/${item.project}/instance/${item.name}`}
+                        />
                       ))}
                     />
                   ) : (
@@ -173,15 +175,13 @@ const NetworkDetailOverview: FC<Props> = ({ network }) => {
                   {data.profiles.length > 0 ? (
                     <ExpandableList
                       items={data.profiles.map((item) => (
-                        <div key={item.name}>
-                          <Link
-                            to={`/ui/project/${item.project}/profile/${item.name}`}
-                          >
-                            {item.name}
-                          </Link>
-                          {item.project !== project &&
-                            ` (project ${item.project})`}
-                        </div>
+                        <UsedByItem
+                          key={item.name}
+                          item={item}
+                          activeProject={project}
+                          type="profile"
+                          to={`/ui/project/${item.project}/profile/${item.name}`}
+                        />
                       ))}
                     />
                   ) : (

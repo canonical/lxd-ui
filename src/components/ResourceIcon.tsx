@@ -4,6 +4,7 @@ import { FC } from "react";
 export type ResourceIconType =
   | "container"
   | "virtual-machine"
+  | "instance"
   | "snapshot"
   | "profile"
   | "project"
@@ -21,6 +22,7 @@ export type ResourceIconType =
 const resourceIcons: Record<ResourceIconType, string> = {
   container: "pods",
   "virtual-machine": "pods",
+  instance: "pods",
   snapshot: "snapshot",
   profile: "repository",
   project: "folder",

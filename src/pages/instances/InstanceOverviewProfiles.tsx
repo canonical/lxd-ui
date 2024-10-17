@@ -4,8 +4,8 @@ import { queryKeys } from "util/queryKeys";
 import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { LxdInstance } from "types/instance";
-import { Link } from "react-router-dom";
 import { fetchProfiles } from "api/profiles";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   instance: LxdInstance;
@@ -47,12 +47,11 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
       columns: [
         {
           content: (
-            <Link
+            <ResourceLink
+              type="profile"
+              value={profile}
               to={`/ui/project/${instance.project}/profile/${profile}`}
-              title={`Profile ${profile}`}
-            >
-              {profile}
-            </Link>
+            />
           ),
           role: "rowheader",
           "aria-label": "Name",

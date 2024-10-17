@@ -2,12 +2,14 @@ import { FC } from "react";
 import { LxdProfile } from "types/profile";
 import { isDiskDevice } from "util/devices";
 import ExpandableList from "components/ExpandableList";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   profile: LxdProfile;
+  project: string;
 }
 
-const ProfileStorageList: FC<Props> = ({ profile }) => {
+const ProfileStorageList: FC<Props> = ({ profile, project }) => {
   return (
     <>
       {Object.values(profile.devices).some(isDiskDevice) ? (
@@ -15,13 +17,12 @@ const ProfileStorageList: FC<Props> = ({ profile }) => {
           items={Object.values(profile.devices)
             .filter(isDiskDevice)
             .map((device) => (
-              <div
+              <ResourceLink
                 key={device.path}
-                className="u-truncate list-item"
-                title={`Pool ${device.pool}`}
-              >
-                {device.pool}
-              </div>
+                type="pool"
+                value={device.pool}
+                to={`/ui/project/${project}/storage/pool/${device.pool}`}
+              />
             ))}
         />
       ) : (
