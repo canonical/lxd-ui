@@ -67,6 +67,7 @@ import YamlNotification from "components/forms/YamlNotification";
 import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import ResourceLink from "components/ResourceLink";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -124,7 +125,17 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
       updateProfile(profilePayload, project)
         .then(() => {
-          toastNotify.success(`Profile ${profile.name} updated.`);
+          toastNotify.success(
+            <>
+              Profile{" "}
+              <ResourceLink
+                type="profile"
+                value={profile.name}
+                to={`/ui/project/${project}/profile/${profile.name}`}
+              />{" "}
+              updated.
+            </>,
+          );
           void formik.setValues(getProfileEditValues(profilePayload));
         })
         .catch((e: Error) => {

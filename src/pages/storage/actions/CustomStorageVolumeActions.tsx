@@ -7,6 +7,7 @@ import VolumeAddSnapshotBtn from "./snapshots/VolumeAddSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { isSnapshotsDisabled } from "util/snapshots";
 import { useProject } from "context/project";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -33,7 +34,13 @@ const CustomStorageVolumeActions: FC<Props> = ({ volume, className }) => {
           volume={volume}
           project={project?.name ?? ""}
           onFinish={() => {
-            toastNotify.success(`Storage volume ${volume.name} deleted.`);
+            toastNotify.success(
+              <>
+                Storage volume{" "}
+                <ResourceLabel bold type="volume" value={volume.name} />{" "}
+                deleted.
+              </>,
+            );
           }}
         />,
       ]}

@@ -1,12 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { unfreezeInstance, startInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import InstanceLink from "pages/instances/InstanceLink";
 import { LxdInstance } from "types/instance";
 import { queryKeys } from "./queryKeys";
 import { useEventQueue } from "context/eventQueue";
-import ItemName from "components/ItemName";
 import { useToastNotification } from "context/toastNotificationProvider";
+import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 
 export const useInstanceStart = (instance: LxdInstance) => {
   const eventQueue = useEventQueue();
@@ -34,25 +33,21 @@ export const useInstanceStart = (instance: LxdInstance) => {
     instanceLoading.setLoading(instance, "Starting");
     const mutation =
       instance.status === "Frozen" ? unfreezeInstance : startInstance;
+
+    const instanceLink = <InstanceLinkChip instance={instance} />;
     void mutation(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            toastNotify.success(
-              <>
-                Instance <InstanceLink instance={instance} /> started.
-              </>,
-            );
+            toastNotify.success(<>Instance {instanceLink} started.</>);
             clearCache();
           },
           (msg) => {
             toastNotify.failure(
               "Instance start failed",
               new Error(msg),
-              <>
-                Instance <ItemName item={instance} bold />:
-              </>,
+              instanceLink,
             );
             // Delay clearing the cache, because the instance is reported as RUNNING
             // when a start operation failed, only shortly after it goes back to STOPPED
@@ -65,7 +60,7 @@ export const useInstanceStart = (instance: LxdInstance) => {
         );
       })
       .catch((e) => {
-        toastNotify.failure("Instance start failed", e);
+        toastNotify.failure("Instance start failed", e, instanceLink);
         instanceLoading.setFinish(instance);
       });
   };

@@ -152,7 +152,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
         {!isLoading && !hasNetworkForwards && (
           <EmptyState
             className="empty-state"
-            image={<Icon className="empty-state-icon" name="connected" />}
+            image={<Icon className="empty-state-icon" name="exposed" />}
             title="No network forwards found"
           >
             <p>There are no network forwards in this project.</p>

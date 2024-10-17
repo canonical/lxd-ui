@@ -9,13 +9,12 @@ import * as Yup from "yup";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {
-  instanceLinkFromName,
   instanceLinkFromOperation,
   instanceNameValidation,
 } from "util/instances";
 import { getInstanceName } from "util/operations";
-import InstanceLink from "pages/instances/InstanceLink";
 import InstanceDetailActions from "./InstanceDetailActions";
+import InstanceLinkChip from "./InstanceLinkChip";
 
 interface Props {
   name: string;
@@ -55,10 +54,15 @@ const InstanceDetailHeader: FC<Props> = ({
       }
       void renameInstance(name, values.name, project)
         .then((operation) => {
-          const instanceLink = instanceLinkFromName({
-            instanceName: values.name,
-            project,
-          });
+          const instanceLink = (
+            <InstanceLinkChip
+              instance={{
+                name: values.name,
+                project: project,
+                type: instance?.type || "instance",
+              }}
+            />
+          );
           eventQueue.set(
             operation.metadata.id,
             () => {
@@ -76,7 +80,11 @@ const InstanceDetailHeader: FC<Props> = ({
               toastNotify.failure(
                 "Renaming instance failed.",
                 new Error(msg),
-                instanceLinkFromOperation({ operation, project }),
+                instanceLinkFromOperation({
+                  operation,
+                  project,
+                  instanceType: instance?.type || "instance",
+                }),
               ),
             () => formik.setSubmitting(false),
           );
@@ -86,7 +94,7 @@ const InstanceDetailHeader: FC<Props> = ({
           toastNotify.failure(
             `Renaming instance failed.`,
             e,
-            instance ? <InstanceLink instance={instance} /> : undefined,
+            instance && <InstanceLinkChip instance={instance} />,
           );
         });
     },

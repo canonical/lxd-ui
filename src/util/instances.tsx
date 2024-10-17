@@ -1,6 +1,5 @@
 import { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
-import InstanceLink from "pages/instances/InstanceLink";
 import { ReactNode } from "react";
 import {
   AbortControllerState,
@@ -8,27 +7,24 @@ import {
   getFileExtension,
 } from "./helpers";
 import * as Yup from "yup";
-
-export const instanceLinkFromName = (args: {
-  instanceName: string;
-  project?: string;
-}): ReactNode => {
-  const { project, instanceName } = args;
-  return (
-    <InstanceLink instance={{ name: instanceName, project: project || "" }} />
-  );
-};
+import { LxdInstance } from "types/instance";
+import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 
 export const instanceLinkFromOperation = (args: {
   operation?: LxdOperationResponse;
   project?: string;
+  instanceType: LxdInstance["type"];
 }): ReactNode | undefined => {
-  const { operation, project } = args;
+  const { operation, project, instanceType } = args;
   const linkText = getInstanceName(operation?.metadata);
   if (!linkText) {
     return;
   }
-  return <InstanceLink instance={{ name: linkText, project: project || "" }} />;
+  return (
+    <InstanceLinkChip
+      instance={{ name: linkText, project: project || "", type: instanceType }}
+    />
+  );
 };
 
 export const instanceNameValidation = (

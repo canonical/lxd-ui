@@ -13,6 +13,28 @@ export const getInstanceName = (operation?: LxdOperation): string => {
   );
 };
 
+export const getInstanceSnapshotName = (operation?: LxdOperation): string => {
+  // /1.0/instances/<instance_name>/snapshots/<snapshot_name>
+  const instanceSnapshots = operation?.resources?.instances_snapshots ?? [];
+  if (instanceSnapshots.length) {
+    return instanceSnapshots[0].split("/")[5].split("?")[0];
+  }
+
+  return "";
+};
+
+export const getVolumeSnapshotName = (operation?: LxdOperation): string => {
+  // /1.0/storage-pools/<pool_name>/volumes/custom/<volume_name>/snapshots/<snapshot_name>
+  const storageVolumeSnapshots =
+    operation?.resources?.storage_volume_snapshots ?? [];
+
+  if (storageVolumeSnapshots.length) {
+    return storageVolumeSnapshots[0].split("/")[8].split("?")[0];
+  }
+
+  return "";
+};
+
 export const getProjectName = (operation: LxdOperation): string => {
   // the url can be
   // /1.0/instances/<instance_name>?project=<project_name>

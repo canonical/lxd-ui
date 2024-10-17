@@ -25,6 +25,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
 import { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";
+import ResourceLink from "components/ResourceLink";
 
 const CreateStoragePool: FC = () => {
   const navigate = useNavigate();
@@ -74,7 +75,17 @@ const CreateStoragePool: FC = () => {
             queryKey: [queryKeys.storage],
           });
           navigate(`/ui/project/${project}/storage/pools`);
-          toastNotify.success(`Storage pool ${storagePool.name} created.`);
+          toastNotify.success(
+            <>
+              Storage pool{" "}
+              <ResourceLink
+                type="pool"
+                value={storagePool.name}
+                to={`/ui/project/${project}/storage/pool/${values.name}`}
+              />{" "}
+              created.
+            </>,
+          );
         })
         .catch((e) => {
           formik.setSubmitting(false);

@@ -627,7 +627,7 @@ const InstanceList: FC = () => {
             {!hasInstances && (
               <EmptyState
                 className="empty-state"
-                image={<Icon name="containers" className="empty-state-icon" />}
+                image={<Icon name="pods" className="empty-state-icon" />}
                 title="No instances found"
               >
                 <p>

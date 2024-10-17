@@ -85,12 +85,12 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
       {isClustered && !type && (
         <div className="choose-migration-type">
           <FormLink
-            icon="machines"
+            icon="cluster-host"
             title="Migrate instance to a different cluster member"
             onClick={() => setType("cluster member")}
           />
           <FormLink
-            icon="pods"
+            icon="switcher-dashboard"
             title="Migrate instance root storage to a different pool"
             onClick={() => setType("root storage pool")}
           />

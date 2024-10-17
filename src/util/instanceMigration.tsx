@@ -3,11 +3,12 @@ import { useEventQueue } from "context/eventQueue";
 import { useInstanceLoading } from "context/instanceLoading";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
-import ItemName from "components/ItemName";
 import { migrateInstance } from "api/instances";
 import { LxdInstance } from "types/instance";
 import { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
+import ResourceLink from "components/ResourceLink";
+import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 
 export type MigrationType = "cluster member" | "root storage pool" | "";
 
@@ -34,9 +35,20 @@ export const useInstanceMigration = ({
     if (type === "cluster member") {
       successMessage = (
         <>
-          Instance <ItemName item={{ name: instanceName }} bold /> successfully
-          migrated to cluster member{" "}
-          <ItemName item={{ name: newTarget }} bold />
+          Instance{" "}
+          <InstanceLinkChip
+            instance={{
+              name: instanceName,
+              type: instance.type,
+              project: instance.project,
+            }}
+          />{" "}
+          successfully migrated to cluster member{" "}
+          <ResourceLink
+            type="cluster-member"
+            value={newTarget}
+            to="/ui/cluster"
+          />
         </>
       );
     }
@@ -44,9 +56,20 @@ export const useInstanceMigration = ({
     if (type === "root storage pool") {
       successMessage = (
         <>
-          Instance <ItemName item={{ name: instanceName }} bold /> root storage
-          successfully migrated to pool{" "}
-          <ItemName item={{ name: newTarget }} bold />
+          Instance{" "}
+          <InstanceLinkChip
+            instance={{
+              type: instance.type,
+              name: instanceName,
+              project: instance.project,
+            }}
+          />{" "}
+          root storage successfully migrated to pool{" "}
+          <ResourceLink
+            type="pool"
+            value={newTarget}
+            to={`/ui/project/${instance.project}/storage/pool/${newTarget}`}
+          />
         </>
       );
     }
@@ -65,7 +88,11 @@ export const useInstanceMigration = ({
     }
 
     instanceLoading.setFinish(instance);
-    toastNotify.failure(failureMessage, e);
+    toastNotify.failure(
+      failureMessage,
+      e,
+      <InstanceLinkChip instance={instance} />,
+    );
   };
 
   const handleFailure = (msg: string, instanceName: string) => {
@@ -92,7 +119,10 @@ export const useInstanceMigration = ({
           handleFinish,
         );
         toastNotify.info(
-          `${capitalizeFirstLetter(type)} migration started for instance ${instance.name}`,
+          <>
+            {capitalizeFirstLetter(type)} migration started for{" "}
+            <InstanceLinkChip instance={instance} />.
+          </>,
         );
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],

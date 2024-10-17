@@ -241,7 +241,7 @@ const ImageList: FC = () => {
         {images.length === 0 && (
           <EmptyState
             className="empty-state"
-            image={<Icon name="mount" className="empty-state-icon" />}
+            image={<Icon name="image" className="empty-state-icon" />}
             title="No images found in this project"
           >
             <p>

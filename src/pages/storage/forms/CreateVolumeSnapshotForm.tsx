@@ -12,6 +12,8 @@ import { queryKeys } from "util/queryKeys";
 import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { getVolumeSnapshotName } from "util/operations";
+import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
 
 interface Props {
   close: () => void;
@@ -55,7 +57,16 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
                   query.queryKey[0] === queryKeys.volumes ||
                   query.queryKey[0] === queryKeys.storage,
               });
-              toastNotify.success(`Snapshot ${values.name} created.`);
+              toastNotify.success(
+                <>
+                  Snapshot{" "}
+                  <VolumeSnapshotLinkChip
+                    name={getVolumeSnapshotName(operation.metadata)}
+                    volume={volume}
+                  />{" "}
+                  created.
+                </>,
+              );
               close();
               resetForm();
             },

@@ -12,6 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useToastNotification } from "context/toastNotificationProvider";
 import usePanelParams from "util/usePanelParams";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   onConfirm: () => void;
@@ -71,9 +72,18 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
 
         const modifiedGroupNames = Object.keys(identityGroupsChangeSummary);
         const successMessage =
-          modifiedGroupNames.length > 1
-            ? `Updated groups for ${modifiedGroupNames.length} identities`
-            : `Updated groups for ${modifiedGroupNames[0]}`;
+          modifiedGroupNames.length > 1 ? (
+            `Updated groups for ${modifiedGroupNames.length} identities`
+          ) : (
+            <>
+              Updated groups for{" "}
+              <ResourceLink
+                type="oidc-identity"
+                value={modifiedGroupNames[0]}
+                to="/ui/permissions/identities"
+              />
+            </>
+          );
 
         toastNotify.success(successMessage);
         panelParams.clear();
