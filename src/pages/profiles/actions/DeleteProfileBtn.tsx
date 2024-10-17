@@ -25,7 +25,7 @@ const DeleteProfileBtn: FC<Props> = ({
   project,
   featuresProfiles,
 }) => {
-  const isDeleteIcon = useSmallScreen();
+  const isSmallScreen = useSmallScreen();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -62,9 +62,8 @@ const DeleteProfileBtn: FC<Props> = ({
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      appearance={isDeleteIcon ? "base" : "default"}
       className={classnames("u-no-margin--bottom", {
-        "has-icon": isDeleteIcon,
+        "has-icon": !isSmallScreen,
       })}
       disabled={isDefaultProfile || !featuresProfiles}
       loading={isLoading}
@@ -83,8 +82,8 @@ const DeleteProfileBtn: FC<Props> = ({
       shiftClickEnabled
       showShiftClickHint
     >
-      {isDeleteIcon && <Icon name="delete" />}
-      {!isDeleteIcon && <span>Delete</span>}
+      {!isSmallScreen && <Icon name="delete" />}
+      <span>Delete</span>
     </ConfirmationButton>
   );
 };

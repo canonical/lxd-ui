@@ -1,4 +1,9 @@
-import { Icon, Notification, ValueOf } from "@canonical/react-components";
+import {
+  Button,
+  Icon,
+  Notification,
+  ValueOf,
+} from "@canonical/react-components";
 import {
   DefaultTitles,
   NotificationSeverity,
@@ -224,12 +229,14 @@ const ToastNotificationList: FC<Props> = ({
         {notificationEls}
         <div className="dismiss">
           {getSeverityFilters()}
-          <button
+          <Button
             className="u-no-margin--bottom dismiss-button"
             onClick={handleGroupedDismiss}
+            hasIcon
           >
+            <Icon name="tidy" />
             {getDismissText()}
-          </button>
+          </Button>
         </div>
       </ul>
     </Animate>,
