@@ -76,18 +76,14 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () => updateClusteredPool(savedPool, project, clusterMembers)
-          : () => updatePool(savedPool, project);
+          ? () => updateClusteredPool(savedPool, clusterMembers)
+          : () => updatePool(savedPool);
 
       mutation()
         .then(async () => {
           toastNotify.success(`Storage pool ${savedPool.name} updated.`);
           const member = clusterMembers[0]?.server_name ?? undefined;
-          const updatedPool = await fetchStoragePool(
-            values.name,
-            project,
-            member,
-          );
+          const updatedPool = await fetchStoragePool(values.name, member);
           void formik.setValues(toStoragePoolFormValues(updatedPool));
         })
         .catch((e) => {

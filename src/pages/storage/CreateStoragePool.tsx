@@ -65,8 +65,8 @@ const CreateStoragePool: FC = () => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () => createClusteredPool(storagePool, project, clusterMembers)
-          : () => createPool(storagePool, project);
+          ? () => createClusteredPool(storagePool, clusterMembers)
+          : () => createPool(storagePool);
 
       mutation()
         .then(() => {

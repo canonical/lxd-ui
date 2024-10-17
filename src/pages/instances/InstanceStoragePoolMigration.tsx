@@ -35,7 +35,6 @@ const InstanceStoragePoolMigration: FC<Props> = ({
       {targetPool && summary}
       {!targetPool && (
         <StoragePoolSelectTable
-          project={instance.project}
           onSelect={onSelect}
           disablePool={{
             name: getRootPool(instance),

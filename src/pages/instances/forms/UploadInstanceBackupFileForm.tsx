@@ -208,7 +208,6 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           title={noFileSelectedMessage}
         />
         <StoragePoolSelector
-          project={project?.name || ""}
           value={formik.values.pool}
           setValue={(value) => void formik.setFieldValue("pool", value)}
           selectProps={{

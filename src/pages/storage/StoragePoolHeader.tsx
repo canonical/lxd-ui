@@ -40,7 +40,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
         formik.setSubmitting(false);
         return;
       }
-      renameStoragePool(name, values.name, project)
+      renameStoragePool(name, values.name)
         .then(() => {
           navigate(`/ui/project/${project}/storage/pool/${values.name}`);
           toastNotify.success(

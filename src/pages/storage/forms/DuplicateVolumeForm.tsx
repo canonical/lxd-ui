@@ -204,7 +204,6 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
           error={formik.touched.name ? formik.errors.name : null}
         />
         <StoragePoolSelector
-          project={volume.project}
           value={formik.values.pool}
           setValue={(value) => void formik.setFieldValue("pool", value)}
           selectProps={{

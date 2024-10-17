@@ -34,7 +34,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
 
   const handleDelete = () => {
     setLoading(true);
-    deleteStoragePool(pool.name, project)
+    deleteStoragePool(pool.name)
       .then(() => {
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.storage],

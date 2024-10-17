@@ -37,7 +37,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
 
   const { data: pools = [] } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project),
+    queryFn: () => fetchStoragePools(),
   });
 
   const StorageVolumeSchema = Yup.object().shape({
@@ -106,11 +106,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
   return (
     <>
       <div className="volume-create-form">
-        <StorageVolumeFormMain
-          formik={formik}
-          project={project}
-          poolError={poolError}
-        />
+        <StorageVolumeFormMain formik={formik} poolError={poolError} />
       </div>
       <footer className="p-modal__footer">
         <Button

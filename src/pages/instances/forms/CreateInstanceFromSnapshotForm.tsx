@@ -96,7 +96,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(instance.project),
+    queryFn: () => fetchStoragePools(),
   });
 
   const { data: instances = [] } = useQuery({
