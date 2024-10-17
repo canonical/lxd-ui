@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { ActionButton } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import UploadImageForm from "./forms/UploadImageForm";
+import { useSmallScreen } from "context/useSmallScreen";
 
 interface Props {
   project: string;
@@ -9,6 +10,7 @@ interface Props {
 
 const UploadImageBtn: FC<Props> = ({ project }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const isSmallScreen = useSmallScreen();
 
   return (
     <>
@@ -17,9 +19,14 @@ const UploadImageBtn: FC<Props> = ({ project }) => {
           <UploadImageForm close={closePortal} project={project} />
         </Portal>
       )}
-      <ActionButton className="u-no-margin--bottom" onClick={openPortal}>
+      <Button
+        className="u-no-margin--bottom"
+        onClick={openPortal}
+        hasIcon={!isSmallScreen}
+      >
+        {!isSmallScreen && <Icon name="upload" />}
         <span>Upload image</span>
-      </ActionButton>
+      </Button>
     </>
   );
 };

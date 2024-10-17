@@ -57,6 +57,7 @@ import { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -94,6 +95,7 @@ const InstanceList: FC = () => {
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
+  const isSmallScreen = useSmallScreen();
 
   if (!project) {
     return <>Missing project</>;
@@ -535,8 +537,10 @@ const InstanceList: FC = () => {
                   onClick={() =>
                     navigate(`/ui/project/${project}/instances/create`)
                   }
+                  hasIcon={!isSmallScreen}
                 >
-                  {createButtonLabel}
+                  {!isSmallScreen && <Icon name="plus" light />}
+                  <span>{createButtonLabel}</span>
                 </Button>
               </PageHeader.BaseActions>
             )}

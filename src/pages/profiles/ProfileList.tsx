@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import {
   Button,
   Col,
+  Icon,
   MainTable,
   Notification,
   Row,
@@ -28,6 +29,7 @@ import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import ProfileDetailPanel from "./ProfileDetailPanel";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -36,6 +38,7 @@ const ProfileList: FC = () => {
   const panelParams = usePanelParams();
   const { project: projectName } = useParams<{ project: string }>();
   const [query, setQuery] = useState<string>("");
+  const isSmallScreen = useSmallScreen();
 
   if (!projectName) {
     return <>Missing project</>;
@@ -204,8 +207,10 @@ const ProfileList: FC = () => {
                   onClick={() =>
                     navigate(`/ui/project/${projectName}/profiles/create`)
                   }
+                  hasIcon={!isSmallScreen}
                 >
-                  Create profile
+                  {!isSmallScreen && <Icon name="plus" light />}
+                  <span>Create profile</span>
                 </Button>
               </PageHeader.BaseActions>
             )}
