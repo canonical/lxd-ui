@@ -5,19 +5,20 @@ import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {
   image: LxdImage;
+  project: string;
 }
 
-const DownloadImageBtn: FC<Props> = ({ image }) => {
+const DownloadImageBtn: FC<Props> = ({ image, project }) => {
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const description = image.properties?.description ?? image.fingerprint;
   const isUnifiedTarball = image.update_source == null; //Only Split Tarballs have an update_source.
+  const url = `/1.0/images/${image.fingerprint}/export?project=${project}`;
 
   const handleExport = () => {
     setLoading(true);
 
     try {
-      const url = `/1.0/images/${image.fingerprint}/export`;
       const a = document.createElement("a");
       a.href = url;
       a.download = "download";
@@ -25,7 +26,7 @@ const DownloadImageBtn: FC<Props> = ({ image }) => {
       window.URL.revokeObjectURL(url);
 
       toastNotify.success(
-        `Image ${description} was successfully downloaded. Please check your downloads folder.`,
+        `Image ${description} download started. Please check your downloads folder.`,
       );
     } catch (e) {
       toastNotify.failure(`Image ${description} was unable to download.`, e);

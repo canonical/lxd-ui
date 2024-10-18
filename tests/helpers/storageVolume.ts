@@ -25,8 +25,12 @@ export const createVolume = async (
   await page.getByRole("button", { name: "Close notification" }).click();
 };
 
-export const deleteVolume = async (page: Page, volume: string) => {
-  await visitVolume(page, volume);
+export const deleteVolume = async (
+  page: Page,
+  volume: string,
+  project?: string,
+) => {
+  await visitVolume(page, volume, project);
   await page.getByRole("button", { name: "Delete" }).click();
   await page
     .getByRole("dialog", { name: "Confirm delete" })
@@ -35,8 +39,13 @@ export const deleteVolume = async (page: Page, volume: string) => {
   await page.waitForSelector(`text=Storage volume ${volume} deleted.`);
 };
 
-export const visitVolume = async (page: Page, volume: string) => {
-  await page.goto("/ui/");
+export const visitVolume = async (
+  page: Page,
+  volume: string,
+  project?: string,
+) => {
+  const url = project ? `/ui/project/${project}` : "/ui/";
+  await page.goto(url);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByPlaceholder("Search and filter").fill(volume);
@@ -80,4 +89,27 @@ export const migrateVolume = async (
   await expect(page).toHaveURL(
     `/ui/project/default/storage/pool/${targetPool}/volumes/custom/${volume}`,
   );
+};
+
+export const duplicateStorageVolume = async (
+  page: Page,
+  volume: string,
+  targetPool?: string,
+  targetProject?: string,
+) => {
+  const newVolumeName = randomVolumeName();
+  await visitVolume(page, volume);
+  await page.getByLabel("Duplicate volume").click();
+  await page.getByLabel("New volume name").click();
+  await page.getByLabel("New volume name").fill(newVolumeName);
+  if (targetPool) {
+    await page.getByLabel("Storage pool").selectOption(targetPool);
+  }
+  if (targetProject) {
+    await page.getByLabel("Target project").selectOption(targetProject);
+  }
+  await page.getByRole("button", { name: "Duplicate", exact: true }).click();
+  await page.waitForSelector(`text=Duplication of volume ${volume} started.`);
+  await page.waitForSelector(`text=Created volume ${newVolumeName}.`);
+  return newVolumeName;
 };

@@ -4,7 +4,7 @@ import { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceIps from "./InstanceIps";
-import { isoTimeToString } from "util/helpers";
+import { getRootPool, isoTimeToString } from "util/helpers";
 import { Link } from "react-router-dom";
 import { List } from "@canonical/react-components";
 import ItemName from "components/ItemName";
@@ -22,6 +22,10 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
   const networkDevices = Object.values(instance?.expanded_devices ?? {}).filter(
     isNicDevice,
   );
+
+  const pid =
+    !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
+  const rootPool = getRootPool(instance);
 
   return (
     <table className="u-table-layout--auto u-no-margin--bottom">
@@ -84,6 +88,20 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <td>
             {settings?.environment?.server_clustered ? instance.location : "-"}
           </td>
+        </tr>
+        <tr>
+          <th className="u-text--muted">Root storage pool</th>
+          <td>
+            <Link
+              to={`/ui/project/${instance.project}/storage/pool/${rootPool}`}
+            >
+              {rootPool}
+            </Link>
+          </td>
+        </tr>
+        <tr>
+          <th className="u-text--muted">PID</th>
+          <td>{pid}</td>
         </tr>
         <tr>
           <th className="u-text--muted">Created</th>

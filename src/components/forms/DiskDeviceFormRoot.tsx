@@ -18,17 +18,11 @@ import { focusField } from "util/formFields";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  project: string;
   pools: LxdStoragePool[];
   profiles: LxdProfile[];
 }
 
-const DiskDeviceFormRoot: FC<Props> = ({
-  formik,
-  project,
-  pools,
-  profiles,
-}) => {
+const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(isRootDisk);
   const hasRootStorage = rootIndex !== -1;
@@ -126,7 +120,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
             overrideForm: (
               <>
                 <StoragePoolSelector
-                  project={project}
                   value={formRootDevice?.pool ?? ""}
                   setValue={(value) =>
                     void formik.setFieldValue(

@@ -44,7 +44,7 @@ test("add new permissions to group", async ({ page, lxdVersion }) => {
   await createGroup(page, group, group);
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit permissions" }).click();
-  await addPermission(page, "server", "server", "admin");
+  await addPermission(page, "Server", "server", "admin");
   await page.getByText("Edit group").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
@@ -58,7 +58,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await createGroup(page, group, group);
   await openEditGroupPanel(page, group);
   await page.getByRole("button", { name: "Edit permissions" }).click();
-  await addPermission(page, "server", "server", "admin");
+  await addPermission(page, "Server", "server", "admin");
   await page.getByText("Edit group").click();
   await page.getByRole("button", { name: "Save 1 change" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);
@@ -68,7 +68,7 @@ test("edit existing permission for group", async ({ page, lxdVersion }) => {
   await removePermission(page, "server", "server", "admin");
   await restorePermission(page, "server", "server", "admin");
   await removePermission(page, "server", "server", "admin");
-  await addPermission(page, "project", "default", "can_view");
+  await addPermission(page, "Project", "default", "can_view");
   await page.getByText("Edit group").click();
   await page.getByRole("button", { name: "Save 2 changes" }).click();
   await page.waitForSelector(`text=Group ${group} updated.`);

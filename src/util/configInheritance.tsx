@@ -132,8 +132,8 @@ const getStorageVolumeRowMetadata = (
 ): ConfigRowMetadata => {
   // when creating the defaults will be taken from the storage pool, if set there
   const { data: pool } = useQuery({
-    queryKey: [queryKeys.storage, values.pool, values.project],
-    queryFn: () => fetchStoragePool(values.pool, values.project),
+    queryKey: [queryKeys.storage, values.pool],
+    queryFn: () => fetchStoragePool(values.pool),
     enabled: values.isCreating,
   });
   const poolField = `volume.${getVolumeKey(name)}`;

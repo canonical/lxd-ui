@@ -1,14 +1,15 @@
-import { Button, Select, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
+import CustomSelect, { SelectRef } from "components/select/CustomSelect";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   generateEntitlementOptions,
   generateResourceOptions,
   getIdentityNameLookup,
-  getImageNameLookup,
+  getImageLookup,
   getPermissionId,
   getResourceLabel,
   getResourceTypeOptions,
@@ -18,6 +19,8 @@ import { queryKeys } from "util/queryKeys";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
 import { fetchImageList } from "api/images";
 import { fetchIdentities } from "api/auth-identities";
+import ResourceOptionHeader from "./ResourceOptionHeader";
+import { LxdPermission } from "types/permissions";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -30,6 +33,12 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const [entitlement, setEntitlement] = useState("");
   const { hasMetadataConfiguration, hasEntityTypeMetadata } =
     useSupportedFeatures();
+  const permissionSelectorRef = useRef<HTMLDivElement>(null);
+
+  // Refs for select components, these contain methods to open/close the dropdown programmatically
+  const resourceTypeRef = useRef<SelectRef["current"]>();
+  const resourceRef = useRef<SelectRef["current"]>();
+  const entitlementRef = useRef<SelectRef["current"]>();
 
   const {
     data: permissions,
@@ -51,7 +60,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     queryFn: fetchIdentities,
   });
 
-  const imageNamesLookup = getImageNameLookup(images);
+  const imageLookup = getImageLookup(images);
   const identityNamesLookup = getIdentityNameLookup(identities);
 
   const { data: metadata, isLoading: isMetadataLoading } = useQuery({
@@ -61,35 +70,54 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
 
   const isLoading = isPermissionsLoading || isMetadataLoading;
 
+  // focus permission selector container on first render so tabbing will consistently navigate to resource type selector first
   useEffect(() => {
-    document.getElementById("resourceType")?.focus();
+    setTimeout(() => {
+      if (permissionSelectorRef.current) {
+        permissionSelectorRef.current.focus();
+        permissionSelectorRef.current.tabIndex = -1;
+      }
+    }, 100);
   }, []);
 
-  useEffect(() => {
-    if (!resourceType) {
-      document.getElementById("resourceType")?.focus();
-      return;
+  const focusAfterResourceTypeChange = (
+    previous: string,
+    current: string,
+    permissions?: LxdPermission[],
+  ) => {
+    // for server, there will be no resources to select
+    // skip to entitlement selector
+    if (current === "server") {
+      entitlementRef.current?.open();
+      return current;
     }
 
-    if (resourceType === "server") {
-      document.getElementById("entitlement")?.focus();
-      return;
+    const wasChanged = !previous && current;
+    const wasReselected = previous && current === previous;
+    if (wasChanged || wasReselected) {
+      // open the resource dropdown if there are permissions for the resource type
+      if (permissions?.length) {
+        resourceRef.current?.open();
+        return current;
+      }
+      // if there are no permissions, we can't select a resource
+      // keep focus on the resource type selector
+      resourceTypeRef.current?.focus();
     }
-    document.getElementById("resource")?.focus();
+
+    return current;
+  };
+
+  useEffect(() => {
+    focusAfterResourceTypeChange("", resourceType, permissions);
   }, [resourceType, permissions]);
 
-  useEffect(() => {
-    document.getElementById("entitlement")?.focus();
-  }, [resource]);
-
-  useEffect(() => {
-    document.getElementById("add-entitlement")?.focus();
-  }, [entitlement]);
-
-  const handleResourceTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const resourceType = e.target.value;
+  const handleResourceTypeChange = (value: string) => {
+    const resourceType = value;
     setEntitlement("");
-    setResourceType(resourceType);
+    setResourceType((prev) => {
+      return focusAfterResourceTypeChange(prev, resourceType, permissions);
+    });
 
     // for server resource type we can select a resource, so automatically set it
     // label for resource will show "server" if resource type is set to server
@@ -100,12 +128,14 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     }
   };
 
-  const handleResourceChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setResource(e.target.value);
+  const handleResourceChange = (value: string) => {
+    setResource(value);
+    entitlementRef.current?.open();
   };
 
-  const handleEntitlementChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setEntitlement(e.target.value);
+  const handleEntitlementChange = (value: string) => {
+    setEntitlement(value);
+    document.getElementById("add-entitlement")?.focus();
   };
 
   const handleAddPermission = () => {
@@ -120,14 +150,13 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
       id: getPermissionId(permission),
       resourceLabel: getResourceLabel(
         permission,
-        imageNamesLookup,
+        imageLookup,
         identityNamesLookup,
       ),
     });
 
     // after adding a permission, only reset the entitlement selector
     setEntitlement("");
-    document.getElementById("entitlement")?.focus();
   };
 
   if (permissionsError) {
@@ -137,7 +166,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const resourceOptions = generateResourceOptions(
     resourceType,
     permissions ?? [],
-    imageNamesLookup,
+    imageLookup,
     identityNamesLookup,
   );
 
@@ -153,23 +182,29 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const hasResourceOptions = resourceOptions.length;
 
   return (
-    <div className="permission-selector">
-      <Select
+    <div
+      className="permission-selector"
+      tabIndex={0}
+      ref={permissionSelectorRef}
+    >
+      <CustomSelect
         id="resourceType"
         name="resourceType"
         label={<strong>Resource Type</strong>}
         options={getResourceTypeOptions(metadata)}
-        className="u-no-margin--bottom"
+        toggleClassName="u-no-margin--bottom"
         aria-label="Resource type"
         onChange={handleResourceTypeChange}
         value={resourceType}
+        selectRef={resourceTypeRef}
+        searchable="always"
       />
-      <Select
+      <CustomSelect
         id="resource"
         name="resource"
         label={<strong>Resource</strong>}
         options={!hasResourceOptions ? [noneAvailableOption] : resourceOptions}
-        className="u-no-margin--bottom"
+        toggleClassName="u-no-margin--bottom"
         aria-label="Resource"
         onChange={handleResourceChange}
         value={resource}
@@ -179,17 +214,25 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
           isServerResourceType ||
           !hasResourceOptions
         }
+        dropdownClassName="permissions-select-dropdown"
+        header={<ResourceOptionHeader resourceType={resourceType} />}
+        selectRef={resourceRef}
+        searchable="always"
       />
-      <Select
+      <CustomSelect
         id="entitlement"
         name="entitlement"
         label={<strong>Entitlement</strong>}
         options={entitlementOptions}
-        className="u-no-margin--bottom"
+        toggleClassName="u-no-margin--bottom"
         aria-label="Entitlement"
         onChange={handleEntitlementChange}
         value={entitlement}
         disabled={isLoading || (!resource && !isServerResourceType)}
+        dropdownClassName="permissions-select-dropdown"
+        selectRef={entitlementRef}
+        searchable="always"
+        initialPosition="right"
       />
       <div className="add-entitlement">
         <Button
@@ -198,6 +241,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
           onClick={handleAddPermission}
           className="u-no-margin--bottom"
           disabled={!entitlement}
+          tabIndex={!entitlement ? -1 : undefined}
         >
           Add
         </Button>

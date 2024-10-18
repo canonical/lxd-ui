@@ -1,0 +1,80 @@
+.p-custom-select {
+  // style copied directly from vanilla-framework for the select element
+  .p-custom-select__toggle {
+    @include vf-icon-chevron-themed;
+    @extend %vf-input-elements;
+
+    // stylelint-disable property-no-vendor-prefix
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    // stylelint-enable property-no-vendor-prefix
+    background-position: right calc(map-get($grid-margin-widths, default) / 2)
+      center;
+    background-repeat: no-repeat;
+    background-size: map-get($icon-sizes, default);
+    box-shadow: none;
+    min-height: map-get($line-heights, default-text);
+    padding-right: calc($default-icon-size + 2 * $sph--small);
+    text-indent: 0.01px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    // this emulates the highlight effect when the select is focused
+    // without crowding the content with a border
+    &.active,
+    &:focus {
+      box-shadow: inset 0 0 0 3px $color-focus;
+    }
+
+    .toggle-label {
+      display: flow-root;
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+
+.p-custom-select__dropdown {
+  background-color: $colors--theme--background-alt;
+  box-shadow: $box-shadow--deep;
+  outline: none;
+  position: relative;
+
+  .p-custom-select__option {
+    background-color: $colors--theme--background-alt;
+    font-weight: $font-weight-regular-text;
+    padding: $sph--x-small $sph--small;
+
+    &.highlight {
+      // browser default styling for options when hovered
+      background-color: #06c;
+      cursor: pointer;
+
+      // make sure that if an option is highlighted, its text is white for good contrast
+      * {
+        color: white;
+      }
+    }
+  }
+
+  .p-custom-select__search {
+    background-color: $colors--theme--background-alt;
+    padding: $sph--x-small;
+    padding-bottom: $sph--small;
+    position: sticky;
+    top: 0;
+  }
+
+  .p-list {
+    max-height: 30rem;
+    overflow: auto;
+    width: 20rem;
+  }
+}
+
+.p-custom-select__wrapper {
+  z-index: 400;
+}

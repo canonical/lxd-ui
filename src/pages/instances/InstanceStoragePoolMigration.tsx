@@ -1,10 +1,8 @@
 import { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
-import { LxdDiskDevice } from "types/device";
-import { isRootDisk } from "util/instanceValidation";
-import { FormDevice } from "util/formDevices";
 import StoragePoolSelectTable from "../storage/StoragePoolSelectTable";
+import { getRootPool } from "util/helpers";
 
 interface Props {
   instance: LxdInstance;
@@ -32,19 +30,14 @@ const InstanceStoragePoolMigration: FC<Props> = ({
     </div>
   );
 
-  const rootDiskDevice = Object.values(instance.expanded_devices ?? {}).find(
-    (device) => isRootDisk(device as FormDevice),
-  ) as LxdDiskDevice;
-
   return (
     <>
       {targetPool && summary}
       {!targetPool && (
         <StoragePoolSelectTable
-          project={instance.project}
           onSelect={onSelect}
           disablePool={{
-            name: rootDiskDevice?.pool ?? "",
+            name: getRootPool(instance),
             reason: "Instance root storage already in this pool",
           }}
         />

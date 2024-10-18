@@ -5,6 +5,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const DISK_DEVICES = "Disk";
@@ -34,6 +35,7 @@ const ProfileFormMenu: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const [isDeviceExpanded, setDeviceExpanded] = useState(true);
+  const { hasMetadataConfiguration } = useSupportedFeatures();
 
   const disableReason = isDisabled
     ? "Please enter a name before adding custom configuration"
@@ -87,7 +89,9 @@ const ProfileFormMenu: FC<Props> = ({
               />
               <MenuItem label={GPU_DEVICES} {...menuItemProps} />
               <MenuItem label={PROXY_DEVICES} {...menuItemProps} />
-              <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
+              {hasMetadataConfiguration && (
+                <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
+              )}
             </ul>
           </li>
           <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />

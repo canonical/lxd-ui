@@ -17,25 +17,20 @@ import { LxdClusterMember } from "types/cluster";
 
 export const fetchStoragePool = (
   pool: string,
-  project: string,
   target?: string,
 ): Promise<LxdStoragePool> => {
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
-    fetch(
-      `/1.0/storage-pools/${pool}?project=${project}&recursion=1${targetParam}`,
-    )
+    fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const fetchStoragePools = (
-  project: string,
-): Promise<LxdStoragePool[]> => {
+export const fetchStoragePools = (): Promise<LxdStoragePool[]> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools?project=${project}&recursion=1`)
+    fetch(`/1.0/storage-pools?recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool[]>) => resolve(data.metadata))
       .catch(reject);
@@ -57,12 +52,11 @@ export const fetchStoragePoolResources = (
 
 export const createPool = (
   pool: Partial<LxdStoragePool>,
-  project: string,
   target?: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const targetParam = target ? `&target=${target}` : "";
-    fetch(`/1.0/storage-pools?project=${project}${targetParam}`, {
+    const targetParam = target ? `?target=${target}` : "";
+    fetch(`/1.0/storage-pools${targetParam}`, {
       method: "POST",
       body: JSON.stringify(pool),
     })
@@ -102,19 +96,16 @@ const getClusterAndMemberPools = (pool: Partial<LxdStoragePool>) => {
 
 export const createClusteredPool = (
   pool: LxdStoragePool,
-  project: string,
   clusterMembers: LxdClusterMember[],
 ): Promise<void> => {
   const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
-      clusterMembers.map((item) =>
-        createPool(memberPool, project, item.server_name),
-      ),
+      clusterMembers.map((item) => createPool(memberPool, item.server_name)),
     )
       .then(handleSettledResult)
       .then(() => {
-        return createPool(clusterPool, project);
+        return createPool(clusterPool);
       })
       .then(resolve)
       .catch(reject);
@@ -123,12 +114,11 @@ export const createClusteredPool = (
 
 export const updatePool = (
   pool: Partial<LxdStoragePool>,
-  project: string,
   target?: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const targetParam = target ? `&target=${target}` : "";
-    fetch(`/1.0/storage-pools/${pool.name}?project=${project}${targetParam}`, {
+    const targetParam = target ? `?target=${target}` : "";
+    fetch(`/1.0/storage-pools/${pool.name}${targetParam}`, {
       method: "PATCH",
       body: JSON.stringify(pool),
     })
@@ -140,18 +130,17 @@ export const updatePool = (
 
 export const updateClusteredPool = (
   pool: Partial<LxdStoragePool>,
-  project: string,
   clusterMembers: LxdClusterMember[],
 ): Promise<void> => {
   const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
   return new Promise((resolve, reject) => {
     void Promise.allSettled(
       clusterMembers.map(async (item) =>
-        updatePool(memberPool, project, item.server_name),
+        updatePool(memberPool, item.server_name),
       ),
     )
       .then(handleSettledResult)
-      .then(() => updatePool(clusterPool, project))
+      .then(() => updatePool(clusterPool))
       .then(resolve)
       .catch(reject);
   });
@@ -160,10 +149,9 @@ export const updateClusteredPool = (
 export const renameStoragePool = (
   oldName: string,
   newName: string,
-  project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${oldName}?project=${project}`, {
+    fetch(`/1.0/storage-pools/${oldName}`, {
       method: "POST",
       body: JSON.stringify({
         name: newName,
@@ -175,12 +163,9 @@ export const renameStoragePool = (
   });
 };
 
-export const deleteStoragePool = (
-  pool: string,
-  project: string,
-): Promise<void> => {
+export const deleteStoragePool = (pool: string): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}?project=${project}`, {
+    fetch(`/1.0/storage-pools/${pool}`, {
       method: "DELETE",
     })
       .then(handleResponse)
@@ -310,12 +295,18 @@ export const createStorageVolume = (
   pool: string,
   project: string,
   volume: Partial<LxdStorageVolume>,
+  target?: string,
 ): Promise<void> => {
+  const targetParam = target ? `&target=${target}` : "";
+
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}`, {
-      method: "POST",
-      body: JSON.stringify(volume),
-    })
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes?project=${project}${targetParam}`,
+      {
+        method: "POST",
+        body: JSON.stringify(volume),
+      },
+    )
       .then(handleResponse)
       .then(resolve)
       .catch(reject);
@@ -367,14 +358,53 @@ export const deleteStorageVolume = (
 export const migrateStorageVolume = (
   volume: Partial<LxdStorageVolume>,
   targetPool: string,
+  targetProject: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}`, {
+    fetch(
+      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}?project=${targetProject}`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          name: volume.name,
+          pool: targetPool,
+        }),
+      },
+    )
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+// Including project and target params if they did not change from source configs breaks the API call.
+// Therefore, we only include them if they are different from the source configs, that's why both project and target are optional inputs
+export const duplicateStorageVolume = (
+  volume: Partial<LxdStorageVolume>,
+  pool: string,
+  project?: string,
+  target?: string,
+): Promise<LxdOperationResponse> => {
+  return new Promise((resolve, reject) => {
+    const url = new URL(
+      `/1.0/storage-pools/${pool}/volumes/custom`,
+      window.location.origin,
+    );
+    const params = new URLSearchParams();
+
+    if (project) {
+      params.append("project", project);
+    }
+
+    if (target) {
+      params.append("target", target);
+    }
+
+    url.search = params.toString();
+
+    fetch(url.toString(), {
       method: "POST",
-      body: JSON.stringify({
-        name: volume.name,
-        pool: targetPool,
-      }),
+      body: JSON.stringify(volume),
     })
       .then(handleResponse)
       .then(resolve)

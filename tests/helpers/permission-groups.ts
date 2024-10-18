@@ -37,17 +37,26 @@ export const openEditGroupPanel = async (page: Page, groupName: string) => {
     .click();
 };
 
+export const selectOption = async (
+  page: Page,
+  label: string,
+  value: string,
+) => {
+  await page.getByRole("button", { name: label, exact: true }).click();
+  await page.getByLabel("submenu").getByText(value, { exact: true }).click();
+};
+
 export const addPermission = async (
   page: Page,
   resourceType: string,
   resource: string,
   entitlement: string,
 ) => {
-  await page.locator("#resourceType").selectOption(resourceType);
+  await selectOption(page, "Resource Type", resourceType);
   if (resource !== "server") {
-    await page.locator("#resource").selectOption(resource);
+    await selectOption(page, "Resource", resource);
   }
-  await page.locator("#entitlement").selectOption(entitlement);
+  await selectOption(page, "Entitlement", entitlement);
   await page.getByRole("button", { name: "Add" }).click();
   const permissionRow = page
     .locator("tr")

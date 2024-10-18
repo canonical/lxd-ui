@@ -90,6 +90,7 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
           getImageUploadBody(values.fileList),
           values.isPublic,
           setUploadState,
+          project,
         )
           .then((operation) => {
             toastNotify.info(<>Creation of image from file started.</>);
@@ -99,9 +100,14 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
               (event) => {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 if (values.alias) {
-                  void createImageAlias(fingerprint, values.alias).then(
-                    clearCache,
-                  );
+                  void createImageAlias(fingerprint, values.alias, project)
+                    .then(clearCache)
+                    .catch((e) => {
+                      toastNotify.failure(
+                        `Image upload succeeded. Failed to create an alias.`,
+                        e,
+                      );
+                    });
                 }
                 clearCache();
                 notifySuccess();

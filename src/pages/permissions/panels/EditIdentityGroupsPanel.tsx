@@ -20,9 +20,10 @@ type GroupEditHistory = {
 
 interface Props {
   identities: LxdIdentity[];
+  onClose: () => void;
 }
 
-const EditIdentityGroupsPanel: FC<Props> = ({ identities }) => {
+const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
   const panelParams = usePanelParams();
   const notify = useNotify();
   const [confirming, setConfirming] = useState(false);
@@ -149,6 +150,7 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities }) => {
     panelParams.clear();
     notify.clear();
     setConfirming(false);
+    onClose();
   };
 
   const closeModal = () => {
@@ -165,7 +167,12 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities }) => {
 
   return (
     <>
-      <SidePanel isOverlay loading={isLoading} hasError={!groups}>
+      <SidePanel
+        isOverlay
+        loading={isLoading}
+        hasError={!groups}
+        onClose={closePanel}
+      >
         <SidePanel.Header>
           <SidePanel.HeaderTitle>{panelTitle}</SidePanel.HeaderTitle>
         </SidePanel.Header>

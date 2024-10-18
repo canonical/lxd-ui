@@ -24,6 +24,7 @@ import { LxdDiskDevice } from "types/device";
 import InstanceLink from "pages/instances/InstanceLink";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import { getUniqueResourceName } from "util/helpers";
 
 interface Props {
   instance: LxdInstance;
@@ -55,7 +56,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(instance.project),
+    queryFn: () => fetchStoragePools(),
   });
 
   const { data: instances = [] } = useQuery({
@@ -84,18 +85,8 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   };
 
   const getDuplicatedInstanceName = (instance: LxdInstance): string => {
-    const instanceNames = instances.map((instance) => instance.name);
     const newInstanceName = truncateInstanceName(instance.name, "-duplicate");
-
-    if (instanceNames.includes(newInstanceName)) {
-      let count = 1;
-      while (instanceNames.includes(`${newInstanceName}-${count}`)) {
-        count++;
-      }
-      return `${newInstanceName}-${count}`;
-    }
-
-    return newInstanceName;
+    return getUniqueResourceName(newInstanceName, instances);
   };
 
   const formik = useFormik<LxdInstanceDuplicate>({

@@ -68,8 +68,13 @@
     gap: 1rem;
     justify-content: space-evenly;
 
+    &:focus {
+      outline: none;
+    }
+
     .p-form__group {
-      width: 30%;
+      flex-shrink: 0; // avoid flex items from dynamic width adjustments
+      width: 26%;
     }
 
     .add-entitlement {
@@ -113,6 +118,60 @@
         position: absolute;
         top: 1.2rem;
         width: 100%;
+      }
+    }
+  }
+}
+
+.permissions-select-dropdown {
+  max-width: 50rem;
+
+  .p-list {
+    width: auto;
+  }
+
+  .header {
+    background-color: $colors--theme--background-alt;
+    display: flex;
+    gap: $sph--small;
+    padding: $sph--x-small $sph--small;
+    position: sticky;
+    top: 0;
+
+    span {
+      @extend %table-header-label;
+
+      color: $colors--theme--text-default;
+    }
+
+    .resource {
+      width: 8rem;
+    }
+  }
+
+  .label {
+    display: flex;
+    gap: $sph--small;
+
+    .resource {
+      width: 8rem;
+    }
+
+    .entitlement {
+      width: 10rem;
+    }
+
+    .entitlement-description {
+      width: 25rem;
+    }
+
+    @include mobile-and-tablet {
+      .entitlement {
+        width: 8rem;
+      }
+
+      .entitlement-description {
+        width: 15rem;
       }
     }
   }

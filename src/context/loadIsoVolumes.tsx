@@ -36,7 +36,7 @@ export const collectAllStorageVolumes = async (
   project: string,
 ): Promise<LxdStorageVolume[]> => {
   const allVolumes: LxdStorageVolume[] = [];
-  const pools = await fetchStoragePools(project);
+  const pools = await fetchStoragePools();
 
   const poolVolumes = await Promise.allSettled(
     pools.map(async (pool) => fetchStorageVolumes(pool.name, project)),

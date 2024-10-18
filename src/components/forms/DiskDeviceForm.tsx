@@ -40,7 +40,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
     error: storageError,
   } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project),
+    queryFn: () => fetchStoragePools(),
   });
 
   if (storageError) {
@@ -62,12 +62,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
       <ScrollableForm>
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
-        <DiskDeviceFormRoot
-          formik={formik}
-          project={project}
-          pools={pools}
-          profiles={profiles}
-        />
+        <DiskDeviceFormRoot formik={formik} pools={pools} profiles={profiles} />
         <DiskDeviceFormInherited
           formik={formik}
           inheritedVolumes={inheritedVolumes}

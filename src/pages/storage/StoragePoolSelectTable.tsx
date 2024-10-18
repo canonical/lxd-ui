@@ -8,7 +8,6 @@ import { fetchStoragePools } from "api/storage-pools";
 import classnames from "classnames";
 
 interface Props {
-  project: string;
   onSelect: (pool: string) => void;
   disablePool?: {
     name: string;
@@ -16,14 +15,10 @@ interface Props {
   };
 }
 
-const StoragePoolSelectTable: FC<Props> = ({
-  project,
-  onSelect,
-  disablePool,
-}) => {
+const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
   const { data: pools = [], isLoading } = useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(project),
+    queryFn: () => fetchStoragePools(),
   });
 
   const headers = [

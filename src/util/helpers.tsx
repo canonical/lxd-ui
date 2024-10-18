@@ -6,6 +6,10 @@ import { LxdNetwork } from "types/network";
 import { LxdStorageVolume } from "types/storage";
 import { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
+import { LxdDeviceValue } from "types/device";
+import { isDiskDevice } from "./devices";
+import { isRootDisk } from "./instanceValidation";
+import { FormDevice } from "./formDevices";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -301,3 +305,34 @@ export const getFileExtension = (filename: string): string => {
 
 export const delay = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const getUniqueResourceName = (
+  name: string,
+  existingResources: { name: string }[],
+): string => {
+  const resourceNames = existingResources.map((resource) => resource.name);
+  if (resourceNames.includes(name)) {
+    let count = 1;
+    while (resourceNames.includes(`${name}-${count}`)) {
+      count++;
+    }
+    return `${name}-${count}`;
+  }
+
+  return name;
+};
+
+export const getInstanceDevices = (
+  instance: LxdInstance,
+): [string, LxdDeviceValue][] => {
+  return Object.entries(instance.expanded_devices ?? {});
+};
+
+export const getRootPool = (instance: LxdInstance): string => {
+  const rootStorage = Object.values(instance.expanded_devices ?? {})
+    .filter(isDiskDevice)
+    .find((device) => {
+      return isRootDisk(device as FormDevice);
+    });
+  return rootStorage ? rootStorage.pool : "";
+};

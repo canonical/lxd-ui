@@ -65,26 +65,28 @@ describe("General util functions for permissions feature", () => {
       imagesNamesLookup,
       identityNamesLookup,
     );
-    expect(resourceOptions).toEqual([
-      {
-        disabled: true,
-        label: "Select an option",
-        value: "",
-        title: "",
-      },
+
+    const expectedResourceOptions = [
       {
         value: "/1.0/instances/instance-1?project=default",
-        label: "instance-1 (project: default) ",
+        text: "instance-1 (project: default) ",
       },
       {
         value: "/1.0/instances/instance-2?project=default",
-        label: "instance-2 (project: default) ",
+        text: "instance-2 (project: default) ",
       },
       {
         value: "/1.0/instances/instance-3?project=default",
-        label: "instance-3 (project: default) ",
+        text: "instance-3 (project: default) ",
       },
-    ]);
+    ];
+
+    for (let i = 0; i < resourceOptions.length; i++) {
+      expect(resourceOptions[i].value).toEqual(
+        expectedResourceOptions[i].value,
+      );
+      expect(resourceOptions[i].text).toEqual(expectedResourceOptions[i].text);
+    }
   });
 
   describe("generateEntitlementOptions", () => {
@@ -152,17 +154,11 @@ describe("General util functions for permissions feature", () => {
         metadata,
       );
 
-      expect(entitlementOptions).toEqual([
-        {
-          disabled: true,
-          label: "Select an option",
-          value: "",
-          title: "",
-        },
+      const expected = [
         {
           disabled: true,
           label: "Built-in roles",
-          value: "",
+          value: "group",
         },
         {
           label: "admin",
@@ -176,7 +172,7 @@ describe("General util functions for permissions feature", () => {
         {
           disabled: true,
           label: "Granular entitlements",
-          value: "",
+          value: "group",
         },
         {
           label: "can_edit",
@@ -186,7 +182,12 @@ describe("General util functions for permissions feature", () => {
           label: "can_view",
           value: "can_view",
         },
-      ]);
+      ];
+
+      for (let i = 0; i < entitlementOptions.length; i++) {
+        expect(entitlementOptions[i].disabled).toEqual(expected[i].disabled);
+        expect(entitlementOptions[i].value).toEqual(expected[i].value);
+      }
     });
 
     it("should generate entitlement options without entity type metadata", () => {
@@ -198,14 +199,8 @@ describe("General util functions for permissions feature", () => {
       expect(entitlementOptions).toEqual([
         {
           disabled: true,
-          label: "Select an option",
-          value: "",
-          title: "",
-        },
-        {
-          disabled: true,
           label: "Built-in roles",
-          value: "",
+          value: "group",
         },
         {
           label: "admin",
@@ -218,7 +213,7 @@ describe("General util functions for permissions feature", () => {
         {
           disabled: true,
           label: "Granular entitlements",
-          value: "",
+          value: "group",
         },
         {
           label: "can_edit",

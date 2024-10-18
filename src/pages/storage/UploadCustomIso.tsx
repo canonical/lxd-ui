@@ -124,7 +124,6 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           stacked
         />
         <StoragePoolSelector
-          project={projectName}
           value={pool}
           setValue={setPool}
           selectProps={{

@@ -15,27 +15,27 @@ import { ensureEditMode } from "util/instanceEdit";
 
 interface Props {
   formik: FormikProps<StorageVolumeFormValues>;
-  project: string;
+  poolError?: string;
 }
 
-const StorageVolumeFormMain: FC<Props> = ({ formik, project }) => {
+const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
   return (
     <ScrollableForm>
       <Row>
         <Col size={12}>
           <Label
             forId="storage-pool-selector"
-            required={formik.values.isCreating ? true : false}
+            required={formik.values.isCreating}
           >
             Storage pool
           </Label>
           <StoragePoolSelector
-            project={project}
             value={formik.values.pool}
             setValue={(val) => void formik.setFieldValue("pool", val)}
             hidePoolsWithUnsupportedDrivers
             selectProps={{
               disabled: !formik.values.isCreating,
+              error: poolError,
             }}
             help={
               formik.values.isCreating
