@@ -21,7 +21,8 @@ export type ResourceIconType =
   | "certificate"
   | "auth-group"
   | "idp-group"
-  | "device";
+  | "device"
+  | "setting";
 
 const resourceIcons: Record<ResourceIconType, string> = {
   container: "pods",
@@ -42,6 +43,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   "auth-group": "user-group",
   "idp-group": "user-group",
   device: "units",
+  setting: "settings",
 };
 
 interface Props {

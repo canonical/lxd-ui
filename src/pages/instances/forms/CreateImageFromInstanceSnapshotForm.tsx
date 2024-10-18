@@ -84,7 +84,9 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
         instance,
       )
         .then((operation) => {
-          toastNotify.info(<>Creation of image from {snapshotLink} started.</>);
+          toastNotify.info(
+            <>Creation of image from snapshot {snapshotLink} started.</>,
+          );
           close();
           eventQueue.set(
             operation.metadata.id,
