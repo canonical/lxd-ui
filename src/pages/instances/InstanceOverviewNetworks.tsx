@@ -4,9 +4,9 @@ import { queryKeys } from "util/queryKeys";
 import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { LxdInstance } from "types/instance";
-import { Link } from "react-router-dom";
 import { fetchNetworks } from "api/networks";
 import { isNicDevice } from "util/devices";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   instance: LxdInstance;
@@ -62,12 +62,11 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
         columns: [
           {
             content: (
-              <Link
+              <ResourceLink
+                type="network"
+                value={network.name}
                 to={`/ui/project/${instance.project}/network/${network.name}`}
-                title={`Network ${network.name}`}
-              >
-                {network.name}
-              </Link>
+              />
             ),
             role: "rowheader",
             "aria-label": "Name",
