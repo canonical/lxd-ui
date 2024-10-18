@@ -33,7 +33,11 @@ export const createInstanceSnapshot = async (
   );
 };
 
-export const restoreInstanceSnapshot = async (page: Page, snapshot: string) => {
+export const restoreInstanceSnapshot = async (
+  page: Page,
+  instance: string,
+  snapshot: string,
+) => {
   await page
     .getByRole("row", { name: "Name" })
     .filter({ hasText: snapshot })
@@ -48,7 +52,9 @@ export const restoreInstanceSnapshot = async (page: Page, snapshot: string) => {
     .getByRole("button", { name: "Restore" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} restored.`);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} restored for instance ${instance}.`,
+  );
 };
 
 export const editInstanceSnapshot = async (
@@ -79,7 +85,11 @@ export const editInstanceSnapshot = async (
   await page.getByText("Apr 28, 2093, 12:23 PM").click();
 };
 
-export const deleteInstanceSnapshot = async (page: Page, snapshot: string) => {
+export const deleteInstanceSnapshot = async (
+  page: Page,
+  instance: string,
+  snapshot: string,
+) => {
   await page
     .getByRole("row", { name: "Name" })
     .filter({ hasText: snapshot })
@@ -94,7 +104,9 @@ export const deleteInstanceSnapshot = async (page: Page, snapshot: string) => {
     .getByRole("button", { name: "Delete snapshot" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} deleted.`);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} deleted for instance ${instance}.`,
+  );
 };
 
 export const createStorageVolumeSnapshot = async (
@@ -109,11 +121,14 @@ export const createStorageVolumeSnapshot = async (
   await page.getByLabel("Snapshot name").click();
   await page.getByLabel("Snapshot name").fill(snapshot);
   await page.getByRole("button", { name: "Create snapshot" }).last().click();
-  await page.waitForSelector(`text=Snapshot ${snapshot} created.`);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} created for volume ${volume}.`,
+  );
 };
 
 export const restoreStorageVolumeSnapshot = async (
   page: Page,
+  volume: string,
   snapshot: string,
 ) => {
   await page
@@ -125,7 +140,9 @@ export const restoreStorageVolumeSnapshot = async (
     .getByRole("dialog", { name: "Confirm restore" })
     .getByRole("button", { name: "Restore" })
     .click();
-  await page.waitForSelector(`text=Snapshot ${snapshot} restored`);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} restored for volume ${volume}.`,
+  );
 };
 
 export const editStorageVolumeSnapshot = async (
@@ -156,6 +173,7 @@ export const editStorageVolumeSnapshot = async (
 
 export const deleteStorageVolumeSnapshot = async (
   page: Page,
+  volume: string,
   snapshot: string,
 ) => {
   await page
@@ -172,7 +190,9 @@ export const deleteStorageVolumeSnapshot = async (
     .getByRole("button", { name: "Delete snapshot" })
     .click();
 
-  await page.waitForSelector(`text=Snapshot ${snapshot} deleted`);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} deleted for volume ${volume}.`,
+  );
 };
 
 export const createImageFromSnapshot = async (page: Page, snapshot: string) => {

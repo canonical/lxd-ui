@@ -19,6 +19,7 @@ import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -32,6 +33,14 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
+
+  const volumeLink = (
+    <ResourceLink
+      type="volume"
+      value={volume.name}
+      to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
+    />
+  );
 
   const handleDelete = () => {
     setDeleting(true);
@@ -47,7 +56,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
-                deleted.
+                deleted for volume {volumeLink}.
               </>,
             ),
           (msg) =>
@@ -80,7 +89,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
           <>
             Snapshot{" "}
             <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />{" "}
-            restored.
+            restored for volume {volumeLink}.
           </>,
         );
       })

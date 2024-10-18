@@ -73,7 +73,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
 
       createImage(getInstanceToImageBody(instance, values.isPublic), instance)
         .then((operation) => {
-          toastNotify.info(<>Creation of image from {instanceLink} started.</>);
+          toastNotify.info(
+            <>Creation of image from instance {instanceLink} started.</>,
+          );
           close();
           eventQueue.set(
             operation.metadata.id,

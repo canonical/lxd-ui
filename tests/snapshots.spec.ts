@@ -34,12 +34,12 @@ test("instance snapshot create, restore, edit and remove", async ({ page }) => {
 
   const snapshot = randomSnapshotName();
   await createInstanceSnapshot(page, instance, snapshot);
-  await restoreInstanceSnapshot(page, snapshot);
+  await restoreInstanceSnapshot(page, instance, snapshot);
 
   const newName = `${snapshot}-rename`;
   await editInstanceSnapshot(page, snapshot, newName, instance);
 
-  await deleteInstanceSnapshot(page, newName);
+  await deleteInstanceSnapshot(page, instance, newName);
 
   await deleteInstance(page, instance);
 });
@@ -52,12 +52,12 @@ test("custom storage volume snapshot create, restore, edit and remove", async ({
 
   const snapshot = randomSnapshotName();
   await createStorageVolumeSnapshot(page, volume, snapshot);
-  await restoreStorageVolumeSnapshot(page, snapshot);
+  await restoreStorageVolumeSnapshot(page, volume, snapshot);
 
   const newName = `${snapshot}-rename`;
   await editStorageVolumeSnapshot(page, snapshot, newName);
 
-  await deleteStorageVolumeSnapshot(page, newName);
+  await deleteStorageVolumeSnapshot(page, volume, newName);
 
   await deleteVolume(page, volume);
 });

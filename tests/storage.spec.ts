@@ -123,7 +123,9 @@ test("custom storage volume add snapshot from CTA", async ({ page }) => {
   await page
     .getByRole("button", { name: "Create snapshot", exact: true })
     .click();
-  await page.waitForSelector(`text=Snapshot ${snapshot} created.`);
+  await page.waitForSelector(
+    `text=Snapshot ${snapshot} created for volume ${volume}.`,
+  );
 
   await deleteVolume(page, volume);
 });
