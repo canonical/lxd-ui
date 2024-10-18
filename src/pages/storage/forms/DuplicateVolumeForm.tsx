@@ -13,15 +13,15 @@ import * as Yup from "yup";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { duplicateStorageVolume } from "api/storage-pools";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchProjects } from "api/projects";
 import { useEventQueue } from "context/eventQueue";
 import { LxdStorageVolume } from "types/storage";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { loadCustomVolumes } from "context/loadCustomVolumes";
-import ItemName from "components/ItemName";
 import StoragePoolSelector from "../StoragePoolSelector";
 import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -53,17 +53,18 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   });
 
   const notifySuccess = (volumeName: string, project: string, pool: string) => {
+    const volumeUrl = `/ui/project/${project}/storage/pool/${pool}/volumes/custom/${volumeName}`;
     const message = (
       <>
-        Created volume <strong>{volumeName}</strong>.
+        Created volume{" "}
+        <ResourceLink type="volume" value={volumeName} to={volumeUrl} />.
       </>
     );
 
-    const redirectUrl = `/ui/project/${project}/storage/pool/${pool}/volumes/custom/${volumeName}/configuration`;
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(redirectUrl),
+        onClick: () => navigate(`${volumeUrl}/configuration`),
       },
     ];
 
@@ -87,7 +88,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
       const { name, project, pool } = values;
       const notFound = await checkDuplicateName(
         name,
-        project || "",
+        project || "default",
         controllerState,
         `storage-pools/${pool}/volumes/custom`,
       );
@@ -133,12 +134,11 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
       };
 
       const existingVolumeLink = (
-        <Link
+        <ResourceLink
+          type="volume"
+          value={volume.name}
           to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <ItemName item={volume} />
-        </Link>
+        />
       );
 
       const targetProject =
@@ -146,7 +146,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
 
       duplicateStorageVolume(payload, values.pool, targetProject)
         .then((operation) => {
-          toastNotify.info(`Duplication of volume ${volume.name} started.`);
+          toastNotify.info(
+            <>Duplication of volume {existingVolumeLink} started.</>,
+          );
           eventQueue.set(
             operation.metadata.id,
             () => notifySuccess(values.name, values.project, values.pool),

@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { createInstanceBackup } from "api/instances";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { Link } from "react-router-dom";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -17,11 +17,7 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
 
-  const instanceLink = (
-    <Link to={`/ui/project/${instance.project}/instance/${instance.name}`}>
-      {instance.name}
-    </Link>
-  );
+  const instanceLink = <InstanceLinkChip instance={instance} />;
 
   const startDownload = (backupName: string) => {
     const url = `/1.0/instances/${instance.name}/backups/${backupName}/export?project=${instance.project}`;
@@ -72,11 +68,16 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
             toastNotify.failure(
               `Could not download instance ${instance.name}`,
               new Error(msg),
+              instanceLink,
             ),
         );
       })
       .catch((e) =>
-        toastNotify.failure(`Could not download instance ${instance.name}`, e),
+        toastNotify.failure(
+          `Could not download instance ${instance.name}`,
+          e,
+          instanceLink,
+        ),
       )
       .finally(() => {
         onClose?.();

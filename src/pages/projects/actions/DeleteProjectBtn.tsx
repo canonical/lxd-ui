@@ -17,6 +17,7 @@ import classnames from "classnames";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { filterUsedByType } from "util/usedBy";
 import { ResourceType } from "util/resourceDetails";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   project: LxdProject;
@@ -99,7 +100,12 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     deleteProject(project)
       .then(() => {
         navigate(`/ui/project/default/instances`);
-        toastNotify.success(`Project ${project.name} deleted.`);
+        toastNotify.success(
+          <>
+            Project <ResourceLabel bold type="project" value={project.name} />{" "}
+            deleted.
+          </>,
+        );
       })
       .catch((e) => {
         setLoading(false);

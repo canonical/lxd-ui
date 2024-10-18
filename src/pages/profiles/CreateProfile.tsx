@@ -71,6 +71,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
+import ResourceLink from "components/ResourceLink";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -125,7 +126,17 @@ const CreateProfile: FC = () => {
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
           navigate(`/ui/project/${project}/profiles`);
-          toastNotify.success(`Profile ${values.name} created.`);
+          toastNotify.success(
+            <>
+              Profile{" "}
+              <ResourceLink
+                type="profile"
+                value={values.name}
+                to={`/ui/project/${project}/profile/${values.name}`}
+              />{" "}
+              created.
+            </>,
+          );
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);

@@ -3,11 +3,12 @@ import { useEventQueue } from "context/eventQueue";
 import { useInstanceLoading } from "context/instanceLoading";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
-import ItemName from "components/ItemName";
 import { migrateInstance } from "api/instances";
 import { LxdInstance } from "types/instance";
 import { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
+import ResourceLink from "components/ResourceLink";
+import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 
 export type MigrationType = "cluster member" | "root storage pool" | "";
 
@@ -29,14 +30,18 @@ export const useInstanceMigration = ({
   const eventQueue = useEventQueue();
   const queryClient = useQueryClient();
 
-  const handleSuccess = (newTarget: string, instanceName: string) => {
+  const handleSuccess = (newTarget: string) => {
     let successMessage: ReactNode = "";
     if (type === "cluster member") {
       successMessage = (
         <>
-          Instance <ItemName item={{ name: instanceName }} bold /> successfully
+          Instance <InstanceLinkChip instance={instance} /> successfully
           migrated to cluster member{" "}
-          <ItemName item={{ name: newTarget }} bold />
+          <ResourceLink
+            type="cluster-member"
+            value={newTarget}
+            to="/ui/cluster"
+          />
         </>
       );
     }
@@ -44,9 +49,13 @@ export const useInstanceMigration = ({
     if (type === "root storage pool") {
       successMessage = (
         <>
-          Instance <ItemName item={{ name: instanceName }} bold /> root storage
+          Instance <InstanceLinkChip instance={instance} /> root storage
           successfully migrated to pool{" "}
-          <ItemName item={{ name: newTarget }} bold />
+          <ResourceLink
+            type="pool"
+            value={newTarget}
+            to={`/ui/project/${instance.project}/storage/pool/${newTarget}`}
+          />
         </>
       );
     }
@@ -54,22 +63,26 @@ export const useInstanceMigration = ({
     toastNotify.success(successMessage);
   };
 
-  const notifyFailure = (e: unknown, instanceName: string) => {
+  const notifyFailure = (e: unknown) => {
     let failureMessage = "";
     if (type === "cluster member") {
-      failureMessage = `Cluster member migration failed for instance ${instanceName}`;
+      failureMessage = `Cluster member migration failed for instance ${instance.name}`;
     }
 
     if (type === "root storage pool") {
-      failureMessage = `Root storage migration failed for instance ${instanceName}`;
+      failureMessage = `Root storage migration failed for instance ${instance.name}`;
     }
 
     instanceLoading.setFinish(instance);
-    toastNotify.failure(failureMessage, e);
+    toastNotify.failure(
+      failureMessage,
+      e,
+      <InstanceLinkChip instance={instance} />,
+    );
   };
 
-  const handleFailure = (msg: string, instanceName: string) => {
-    notifyFailure(new Error(msg), instanceName);
+  const handleFailure = (msg: string) => {
+    notifyFailure(new Error(msg));
   };
 
   const handleFinish = () => {
@@ -87,12 +100,15 @@ export const useInstanceMigration = ({
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => handleSuccess(target, instance.name),
-          (err) => handleFailure(err, instance.name),
+          () => handleSuccess(target),
+          (err) => handleFailure(err),
           handleFinish,
         );
         toastNotify.info(
-          `${capitalizeFirstLetter(type)} migration started for instance ${instance.name}`,
+          <>
+            {capitalizeFirstLetter(type)} migration started for{" "}
+            <InstanceLinkChip instance={instance} />.
+          </>,
         );
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],
@@ -100,7 +116,7 @@ export const useInstanceMigration = ({
         onSuccess();
       })
       .catch((e) => {
-        notifyFailure(e, instance.name);
+        notifyFailure(e);
       });
   };
 

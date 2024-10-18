@@ -22,6 +22,7 @@ import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   project: LxdProject;
@@ -68,7 +69,17 @@ const EditProject: FC<Props> = ({ project }) => {
 
       updateProject(projectPayload)
         .then(() => {
-          toastNotify.success(`Project ${project.name} updated.`);
+          toastNotify.success(
+            <>
+              Project{" "}
+              <ResourceLink
+                type="project"
+                value={project.name}
+                to={`/ui/project/${project.name}/instances`}
+              />{" "}
+              updated.
+            </>,
+          );
           void formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {

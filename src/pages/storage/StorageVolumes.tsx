@@ -368,7 +368,7 @@ const StorageVolumes: FC = () => {
   const content = !hasVolumes ? (
     <EmptyState
       className="empty-state"
-      image={<Icon name="mount" className="empty-state-icon" />}
+      image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
       title="No volumes found in this project"
     >
       <p>Storage volumes will appear here</p>

@@ -17,6 +17,8 @@ import ItemName from "components/ItemName";
 import { useEventQueue } from "context/eventQueue";
 import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLabel from "components/ResourceLabel";
+import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -33,15 +35,26 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
 
   const handleDelete = () => {
     setDeleting(true);
+    const snapshotLink = (
+      <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
+    );
     void deleteVolumeSnapshot(volume, snapshot)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,
-          () => toastNotify.success(`Snapshot ${snapshot.name} deleted`),
+          () =>
+            toastNotify.success(
+              <>
+                Snapshot{" "}
+                <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
+                deleted.
+              </>,
+            ),
           (msg) =>
             toastNotify.failure(
               `Snapshot ${snapshot.name} deletion failed`,
               new Error(msg),
+              snapshotLink,
             ),
           () => {
             setDeleting(false);
@@ -54,7 +67,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
         ),
       )
       .catch((e) => {
-        notify.failure("Snapshot deletion failed", e);
+        notify.failure("Snapshot deletion failed", e, snapshotLink);
         setDeleting(false);
       });
   };
@@ -63,7 +76,13 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
     setRestoring(true);
     void restoreVolumeSnapshot(volume, snapshot)
       .then(() => {
-        toastNotify.success(`Snapshot ${snapshot.name} restored`);
+        toastNotify.success(
+          <>
+            Snapshot{" "}
+            <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />{" "}
+            restored.
+          </>,
+        );
       })
       .catch((error: Error) => {
         notify.failure("Snapshot restore failed", error);

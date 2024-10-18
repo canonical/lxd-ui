@@ -21,7 +21,6 @@ import { createInstance } from "api/instances";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSettings } from "context/useSettings";
-import InstanceLink from "../InstanceLink";
 import {
   UploadExternalFormatFileFormValues,
   uploadExternalFormatFilePayload,
@@ -35,6 +34,8 @@ import InstanceFileTypeSelector, {
   InstanceFileType,
 } from "./InstanceFileTypeSelector";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   close: () => void;
@@ -80,7 +81,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
       toastNotify.info(
         <>
           Upload completed. Now creating instance{" "}
-          <strong>{instanceName}</strong>.
+          <ResourceLabel bold type="instance" value={instanceName} />.
         </>,
       );
       navigate(`/ui/project/${project?.name}/instances`);
@@ -100,23 +101,18 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   };
 
   const handleSuccess = (instanceName: string) => {
+    const instanceUrl = `/ui/project/${project?.name}/instance/${instanceName}`;
     const message = (
       <>
         Created instance{" "}
-        <InstanceLink
-          instance={{ project: project?.name || "", name: instanceName }}
-        />
-        .
+        <ResourceLink type="instance" value={instanceName} to={instanceUrl} />.
       </>
     );
 
     const actions = [
       {
         label: "Configure",
-        onClick: () =>
-          navigate(
-            `/ui/project/${project?.name}/instance/${instanceName}/configuration`,
-          ),
+        onClick: () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 

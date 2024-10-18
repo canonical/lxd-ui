@@ -21,6 +21,7 @@ import EditGroupPermissionsForm, {
   FormPermission,
 } from "pages/permissions/panels/EditGroupPermissionsForm";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
+import ResourceLink from "components/ResourceLink";
 
 export type GroupSubForm = "identity" | "permission" | null;
 
@@ -46,7 +47,17 @@ const CreateGroupPanel: FC = () => {
   });
 
   const handleSuccess = (groupName: string) => {
-    toastNotify.success(`Group ${groupName} created.`);
+    toastNotify.success(
+      <>
+        Group{" "}
+        <ResourceLink
+          type="auth-group"
+          value={groupName}
+          to="/ui/permissions/groups"
+        />{" "}
+        created.
+      </>,
+    );
     closePanel();
   };
 

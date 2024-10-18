@@ -69,7 +69,7 @@ test("storage volume migrate", async ({ page }) => {
   await createPool(page, pool2);
 
   await migrateVolume(page, volume, pool2);
-  await expect(page.getByRole("link", { name: pool2 })).toBeVisible();
+  await expect(page.getByRole("cell", { name: pool2 })).toBeVisible();
 
   //Migrate back to default so that the Pool can be deleted
   await migrateVolume(page, volume, "default");
@@ -139,7 +139,8 @@ test("storage pool with driver zfs", async ({ page }) => {
   const pool = randomPoolName();
   await createPool(page, pool, "ZFS");
 
-  await expect(page.getByRole("link", { name: pool })).toBeVisible();
+  const poolRow = page.getByRole("row").filter({ hasText: pool });
+  await expect(poolRow.getByRole("link", { name: pool })).toBeVisible();
 
   await deletePool(page, pool);
 

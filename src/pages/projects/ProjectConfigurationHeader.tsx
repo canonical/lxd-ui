@@ -11,6 +11,7 @@ import HelpLink from "components/HelpLink";
 import { useEventQueue } from "context/eventQueue";
 import { useDocs } from "context/useDocs";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   project: LxdProject;
@@ -47,14 +48,25 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         formik.setSubmitting(false);
         return;
       }
+      const oldProjectLink = (
+        <ResourceLink
+          type="project"
+          value={values.name}
+          to={`/ui/project/${project.name}/configuration`}
+        />
+      );
       void renameProject(project.name, values.name)
         .then((operation) =>
           eventQueue.set(
             operation.metadata.id,
             () => {
-              navigate(`/ui/project/${values.name}/configuration`);
+              const url = `/ui/project/${values.name}/configuration`;
+              navigate(url);
               toastNotify.success(
-                `Project ${project.name} renamed to ${values.name}.`,
+                <>
+                  Project <strong>{project.name}</strong> renamed to{" "}
+                  <ResourceLink type="project" value={values.name} to={url} />.
+                </>,
               );
               void formik.setFieldValue("isRenaming", false);
             },
@@ -62,13 +74,18 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
               toastNotify.failure(
                 `Renaming project ${project.name} failed`,
                 new Error(msg),
+                oldProjectLink,
               ),
             () => formik.setSubmitting(false),
           ),
         )
         .catch((e) => {
           formik.setSubmitting(false);
-          toastNotify.failure(`Renaming project ${project.name} failed`, e);
+          toastNotify.failure(
+            `Renaming project ${project.name} failed`,
+            e,
+            oldProjectLink,
+          );
         });
     },
   });

@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { LxdImage } from "types/image";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   image: LxdImage;
@@ -17,6 +18,13 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
 
   const handleExport = () => {
     setLoading(true);
+    const imageLink = (
+      <ResourceLink
+        to={`/ui/project/${project}/images`}
+        type="image"
+        value={description}
+      />
+    );
 
     try {
       const a = document.createElement("a");
@@ -26,10 +34,17 @@ const DownloadImageBtn: FC<Props> = ({ image, project }) => {
       window.URL.revokeObjectURL(url);
 
       toastNotify.success(
-        `Image ${description} download started. Please check your downloads folder.`,
+        <>
+          Image {imageLink} download started. Please check your downloads
+          folder.
+        </>,
       );
     } catch (e) {
-      toastNotify.failure(`Image ${description} was unable to download.`, e);
+      toastNotify.failure(
+        `Image ${description} was unable to download.`,
+        e,
+        imageLink,
+      );
     } finally {
       setLoading(false);
     }

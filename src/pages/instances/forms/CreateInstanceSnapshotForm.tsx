@@ -19,9 +19,11 @@ import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { createInstanceSnapshot } from "api/instance-snapshots";
 import { queryKeys } from "util/queryKeys";
-import ItemName from "components/ItemName";
 import { TOOLTIP_OVER_MODAL_ZINDEX } from "util/zIndex";
 import { useToastNotification } from "context/toastNotificationProvider";
+import InstanceLinkChip from "../InstanceLinkChip";
+import { getInstanceSnapshotName } from "util/operations";
+import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 
 interface Props {
   close: () => void;
@@ -57,6 +59,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
+      const instanceLink = <InstanceLinkChip instance={instance} />;
       void createInstanceSnapshot(
         instance,
         values.name,
@@ -72,8 +75,12 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               });
               onSuccess(
                 <>
-                  Snapshot <ItemName item={values} bold /> created for instance{" "}
-                  {instance.name}.
+                  Snapshot{" "}
+                  <InstanceSnapshotLinkChip
+                    name={getInstanceSnapshotName(operation.metadata)}
+                    instance={instance}
+                  />{" "}
+                  created for instance {instanceLink}.
                 </>,
               );
               resetForm();
@@ -83,6 +90,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               toastNotify.failure(
                 `Snapshot creation failed for instance ${instance.name}`,
                 new Error(msg),
+                instanceLink,
               );
               formik.setSubmitting(false);
               close();
@@ -90,7 +98,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
           ),
         )
         .catch((error: Error) => {
-          notify.failure("Snapshot creation failed", error);
+          notify.failure("Snapshot creation failed", error, instanceLink);
           formik.setSubmitting(false);
           close();
         });

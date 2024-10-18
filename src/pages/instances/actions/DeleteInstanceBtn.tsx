@@ -10,8 +10,9 @@ import { useEventQueue } from "context/eventQueue";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
-import InstanceLink from "pages/instances/InstanceLink";
 import { useInstanceLoading } from "context/instanceLoading";
+import ResourceLabel from "components/ResourceLabel";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -29,6 +30,8 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
 
   const handleDelete = () => {
     setLoading(true);
+    const instanceLink = <InstanceLinkChip instance={instance} />;
+
     void deleteInstance(instance)
       .then((operation) => {
         eventQueue.set(
@@ -38,23 +41,29 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
               queryKey: [queryKeys.projects, instance.project],
             });
             navigate(`/ui/project/${instance.project}/instances`);
-            toastNotify.success(`Instance ${instance.name} deleted.`);
+            toastNotify.success(
+              <>
+                Instance{" "}
+                <ResourceLabel
+                  bold
+                  type={instance.type}
+                  value={instance.name}
+                />{" "}
+                deleted.
+              </>,
+            );
           },
           (msg) =>
             toastNotify.failure(
               "Instance deletion failed",
               new Error(msg),
-              <InstanceLink instance={instance} />,
+              instanceLink,
             ),
           () => setLoading(false),
         );
       })
       .catch((e) => {
-        toastNotify.failure(
-          "Instance deletion failed",
-          e,
-          <InstanceLink instance={instance} />,
-        );
+        toastNotify.failure("Instance deletion failed", e, instanceLink);
         setLoading(false);
       });
   };

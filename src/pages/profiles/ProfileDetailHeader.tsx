@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   name: string;
@@ -55,7 +56,17 @@ const ProfileDetailHeader: FC<Props> = ({
       renameProfile(name, values.name, project)
         .then(() => {
           navigate(`/ui/project/${project}/profile/${values.name}`);
-          toastNotify.success(`Profile ${name} renamed to ${values.name}.`);
+          toastNotify.success(
+            <>
+              Profile <strong>{name}</strong> renamed to{" "}
+              <ResourceLink
+                type="profile"
+                value={values.name}
+                to={`/ui/project/${project}/profile/${values.name}`}
+              />
+              .
+            </>,
+          );
           void formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {

@@ -21,10 +21,12 @@ import { useNavigate } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import { fetchProjects } from "api/projects";
 import { LxdDiskDevice } from "types/device";
-import InstanceLink from "pages/instances/InstanceLink";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { getUniqueResourceName } from "util/helpers";
+import ResourceLink from "components/ResourceLink";
+import InstanceLinkChip from "../InstanceLinkChip";
+import { InstanceIconType } from "components/ResourceIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -64,20 +66,23 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
     queryFn: () => fetchInstances(instance.project),
   });
 
-  const notifySuccess = (instanceName: string, instanceProject: string) => {
+  const notifySuccess = (
+    name: string,
+    project: string,
+    type: InstanceIconType,
+  ) => {
+    const instanceUrl = `/ui/project/${project}/instance/${name}`;
     const message = (
       <>
-        Created instance <strong>{instanceName}</strong>.
+        Created instance{" "}
+        <ResourceLink type={type} value={name} to={instanceUrl} />.
       </>
     );
 
     const actions = [
       {
         label: "Configure",
-        onClick: () =>
-          navigate(
-            `/ui/project/${instanceProject}/instance/${instanceName}/configuration`,
-          ),
+        onClick: () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 
@@ -109,6 +114,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
       ).required(),
     }),
     onSubmit: (values) => {
+      const instanceLink = <InstanceLinkChip instance={instance} />;
       createInstance(
         JSON.stringify({
           description: instance.description,
@@ -135,24 +141,27 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
         values.targetClusterMember,
       )
         .then((operation) => {
-          toastNotify.info(`Duplication of instance ${instance.name} started.`);
+          toastNotify.info(
+            <>Duplication of instance {instanceLink} started.</>,
+          );
           eventQueue.set(
             operation.metadata.id,
-            () => notifySuccess(values.instanceName, values.targetProject),
+            () =>
+              notifySuccess(
+                values.instanceName,
+                values.targetProject,
+                instance.type,
+              ),
             (msg) =>
               toastNotify.failure(
                 "Instance duplication failed.",
                 new Error(msg),
-                <InstanceLink instance={instance} />,
+                instanceLink,
               ),
           );
         })
         .catch((e) => {
-          toastNotify.failure(
-            "Instance duplication failed.",
-            e,
-            <InstanceLink instance={instance} />,
-          );
+          toastNotify.failure("Instance duplication failed.", e, instanceLink);
         })
         .finally(() => {
           close();

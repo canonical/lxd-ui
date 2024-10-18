@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
   pool: LxdStoragePool;
@@ -40,7 +41,12 @@ const DeleteStoragePoolBtn: FC<Props> = ({
           queryKey: [queryKeys.storage],
         });
         navigate(`/ui/project/${project}/storage/pools`);
-        toastNotify.success(`Storage pool ${pool.name} deleted.`);
+        toastNotify.success(
+          <>
+            Storage pool <ResourceLabel bold type="pool" value={pool.name} />{" "}
+            deleted.
+          </>,
+        );
       })
       .catch((e) => {
         setLoading(false);

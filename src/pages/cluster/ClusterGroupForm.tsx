@@ -28,6 +28,7 @@ import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 export interface ClusterGroupFormValues {
   description: string;
@@ -85,7 +86,17 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
         .then(() => {
           const verb = group ? "saved" : "created";
           navigate(`/ui/cluster/group/${values.name}`);
-          toastNotify.success(`Cluster group ${values.name} ${verb}.`);
+          toastNotify.success(
+            <>
+              Cluster group{" "}
+              <ResourceLink
+                type="cluster-group"
+                value={values.name}
+                to={`/ui/cluster/group/${values.name}`}
+              />{" "}
+              {verb}.
+            </>,
+          );
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);

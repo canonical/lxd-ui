@@ -1,6 +1,7 @@
 import { ConfirmationModal, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteIdpGroup, deleteIdpGroups } from "api/auth-idp-groups";
+import ResourceLabel from "components/ResourceLabel";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { FC, useState } from "react";
 import { IdpGroup } from "types/permissions";
@@ -25,9 +26,15 @@ const DeleteIdpGroupsModal: FC<Props> = ({ idpGroups, close }) => {
       ? deleteIdpGroup(idpGroups[0].name)
       : deleteIdpGroups(idpGroups.map((group) => group.name));
 
-    const successMessage = hasOneGroup
-      ? `IDP group ${idpGroups[0].name} deleted.`
-      : `${idpGroups.length} IDP groups deleted.`;
+    const successMessage = hasOneGroup ? (
+      <>
+        IDP group{" "}
+        <ResourceLabel bold type="idp-group" value={idpGroups[0].name} />{" "}
+        deleted.
+      </>
+    ) : (
+      `${idpGroups.length} IDP groups deleted.`
+    );
 
     mutationPromise
       .then(() => {

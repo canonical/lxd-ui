@@ -9,6 +9,7 @@ import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";
 import { useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   name: string;
@@ -42,9 +43,13 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       }
       renameStoragePool(name, values.name)
         .then(() => {
-          navigate(`/ui/project/${project}/storage/pool/${values.name}`);
+          const url = `/ui/project/${project}/storage/pool/${values.name}`;
+          navigate(url);
           toastNotify.success(
-            `Storage pool ${name} renamed to ${values.name}.`,
+            <>
+              Storage pool <strong>{name}</strong> renamed to{" "}
+              <ResourceLink type="pool" value={values.name} to={url} />.
+            </>,
           );
           void formik.setFieldValue("isRenaming", false);
         })

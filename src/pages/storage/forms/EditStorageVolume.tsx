@@ -17,6 +17,7 @@ import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -62,7 +63,17 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
               saveVolume.name,
             ],
           });
-          toastNotify.success(`Storage volume ${saveVolume.name} updated.`);
+          toastNotify.success(
+            <>
+              Storage volume{" "}
+              <ResourceLink
+                type="volume"
+                value={saveVolume.name}
+                to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${saveVolume.name}`}
+              />{" "}
+              updated.
+            </>,
+          );
         })
         .catch((e) => {
           notify.failure("Storage volume update failed", e);

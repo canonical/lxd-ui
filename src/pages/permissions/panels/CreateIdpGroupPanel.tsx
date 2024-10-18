@@ -15,6 +15,7 @@ import IdpGroupForm, { IdpGroupFormValues } from "../forms/IdpGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
+import ResourceLink from "components/ResourceLink";
 
 type GroupEditHistory = {
   groupsAdded: Set<string>;
@@ -76,7 +77,17 @@ const CreateIdpGroupPanel: FC = () => {
     formik.setSubmitting(true);
     createIdpGroup(newGroup)
       .then(() => {
-        toastNotify.success(`IDP group ${values.name} created.`);
+        toastNotify.success(
+          <>
+            IDP group{" "}
+            <ResourceLink
+              type="idp-group"
+              value={values.name}
+              to="/ui/permissions/idp-groups"
+            />{" "}
+            created.
+          </>,
+        );
         void queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });

@@ -195,7 +195,7 @@ const Navigation: FC = () => {
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="containers"
+                            name="pods"
                           />{" "}
                           Instances
                         </NavLink>
@@ -208,7 +208,7 @@ const Navigation: FC = () => {
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="units"
+                            name="repository"
                           />{" "}
                           Profiles
                         </NavLink>
@@ -222,7 +222,7 @@ const Navigation: FC = () => {
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="connected"
+                            name="exposed"
                           />{" "}
                           Networks
                         </NavLink>
@@ -231,7 +231,7 @@ const Navigation: FC = () => {
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/storage`}
                           title={`Storage (${projectName})`}
-                          iconName="pods"
+                          iconName="switcher-dashboard"
                           label="Storage"
                           onOpen={() => toggleAccordionNav("storage")}
                           open={openNavMenus.includes("storage")}
@@ -290,7 +290,7 @@ const Navigation: FC = () => {
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="applications"
+                            name="image"
                           />{" "}
                           Images
                         </NavLink>
@@ -317,7 +317,7 @@ const Navigation: FC = () => {
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
-                            name="machines"
+                            name="cluster-host"
                           />{" "}
                           Cluster
                         </NavLink>
@@ -471,10 +471,7 @@ const Navigation: FC = () => {
                       rel="noopener noreferrer"
                       title="Documentation"
                     >
-                      <Icon
-                        className="p-side-navigation__icon"
-                        name="information"
-                      />
+                      <Icon className="p-side-navigation__icon" name="book" />
                       Documentation
                     </a>
                   </SideNavigationItem>
@@ -503,7 +500,7 @@ const Navigation: FC = () => {
                     >
                       <Icon
                         className="is-light p-side-navigation__icon"
-                        name="code"
+                        name="submit-bug"
                       />
                       Report a bug
                     </a>

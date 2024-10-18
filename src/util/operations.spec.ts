@@ -1,11 +1,27 @@
-import { getInstanceName, getProjectName } from "./operations";
+import {
+  getInstanceName,
+  getInstanceSnapshotName,
+  getProjectName,
+  getVolumeSnapshotName,
+} from "./operations";
 import { LxdOperation } from "types/operation";
 
 const craftOperation = (...url: string[]) => {
   const instances: string[] = [];
   const instances_snapshots: string[] = [];
+  const storage_volume_snapshots: string[] = [];
   for (const u of url) {
     const segments = u.split("/");
+    if (u.includes("snapshots") && u.includes("storage-pools")) {
+      storage_volume_snapshots.push(u);
+      continue;
+    }
+
+    if (u.includes("snapshots") && u.includes("instances")) {
+      instances_snapshots.push(u);
+      continue;
+    }
+
     if (segments.length > 4) {
       instances_snapshots.push(u);
     } else {
@@ -17,6 +33,7 @@ const craftOperation = (...url: string[]) => {
     resources: {
       instances,
       instances_snapshots,
+      storage_volume_snapshots,
     },
   } as LxdOperation;
 };
@@ -72,5 +89,45 @@ describe("getProjectName", () => {
     const name = getProjectName(operation);
 
     expect(name).toBe("barProject");
+  });
+});
+
+describe("getInstanceSnapshotName", () => {
+  it("identifies snapshot name from an instance snapshot operation", () => {
+    const operation = craftOperation(
+      "/1.0/instances/test-instance/snapshots/test-snapshot",
+    );
+    const name = getInstanceSnapshotName(operation);
+
+    expect(name).toBe("test-snapshot");
+  });
+
+  it("identifies snapshot name from an instance snapshot operation in a custom project", () => {
+    const operation = craftOperation(
+      "/1.0/instances/test-instance/snapshots/test-snapshot?project=project",
+    );
+    const name = getInstanceSnapshotName(operation);
+
+    expect(name).toBe("test-snapshot");
+  });
+});
+
+describe("getVolumeSnapshotName", () => {
+  it("identifies snapshot name from a volume snapshot operation", () => {
+    const operation = craftOperation(
+      "/1.0/storage-pools/test-pool/volumes/custom/test-volume/snapshots/test-snapshot",
+    );
+    const name = getVolumeSnapshotName(operation);
+
+    expect(name).toBe("test-snapshot");
+  });
+
+  it("identifies snapshot name from a volume snapshot operation in a custom project", () => {
+    const operation = craftOperation(
+      "/1.0/storage-pools/test-pool/volumes/custom/test-volume/snapshots/test-snapshot?project=project",
+    );
+    const name = getVolumeSnapshotName(operation);
+
+    expect(name).toBe("test-snapshot");
   });
 });

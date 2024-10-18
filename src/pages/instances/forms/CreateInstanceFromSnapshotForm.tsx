@@ -17,13 +17,14 @@ import { useSettings } from "context/useSettings";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
-import { Link } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import { fetchProjects } from "api/projects";
 import { LxdDiskDevice } from "types/device";
-import InstanceLink from "pages/instances/InstanceLink";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import ResourceLabel from "components/ResourceLabel";
+import InstanceLinkChip from "../InstanceLinkChip";
+import { InstanceIconType } from "components/ResourceIcon";
 
 interface Props {
   instance: LxdInstance;
@@ -104,9 +105,13 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
     queryFn: () => fetchInstances(instance.project),
   });
 
-  const notifySuccess = (name: string, project: string) => {
+  const notifySuccess = (
+    name: string,
+    project: string,
+    type: InstanceIconType,
+  ) => {
     const instanceLink = (
-      <Link to={`/ui/project/${project}/instance/${name}`}>{name}</Link>
+      <InstanceLinkChip instance={{ name, project, type }} />
     );
 
     const message = <>Created instance {instanceLink}.</>;
@@ -167,7 +172,9 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
         instance.name,
       ).required(),
     }),
+
     onSubmit: (values) => {
+      const instanceLink = <InstanceLinkChip instance={instance} />;
       createInstance(
         JSON.stringify(instanceFromSnapshotPayload(values, instance, snapshot)),
         values.targetProject,
@@ -175,25 +182,34 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
       )
         .then((operation) => {
           toastNotify.info(
-            `Instance creation started for ${values.instanceName}.`,
+            <>
+              Instance creation started for{" "}
+              <ResourceLabel
+                bold
+                type={instance.type}
+                value={values.instanceName}
+              />
+              .
+            </>,
           );
           eventQueue.set(
             operation.metadata.id,
-            () => notifySuccess(values.instanceName, values.targetProject),
+            () =>
+              notifySuccess(
+                values.instanceName,
+                values.targetProject,
+                instance.type,
+              ),
             (msg) =>
               toastNotify.failure(
                 "Instance creation failed.",
                 new Error(msg),
-                <InstanceLink instance={instance} />,
+                instanceLink,
               ),
           );
         })
         .catch((e) => {
-          toastNotify.failure(
-            "Instance creation failed.",
-            e,
-            <InstanceLink instance={instance} />,
-          );
+          toastNotify.failure("Instance creation failed.", e, instanceLink);
         })
         .finally(() => {
           close();

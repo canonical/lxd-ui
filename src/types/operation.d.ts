@@ -16,6 +16,7 @@ export interface LxdOperation {
   resources?: {
     instances?: string[];
     instances_snapshots?: string[];
+    storage_volume_snapshots?: string[];
   };
   status: LxdOperationStatus;
   status_code: string;

@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LxdClusterMember } from "types/cluster";
 import { ConfirmationButton, useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   member: LxdClusterMember;
@@ -22,7 +23,15 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
     postClusterMemberState(member, "evacuate")
       .then(() => {
         toastNotify.success(
-          `Cluster member ${member.server_name} evacuation started.`,
+          <>
+            Cluster member{" "}
+            <ResourceLink
+              type="cluster-member"
+              value={member.server_name}
+              to="/ui/cluster"
+            />{" "}
+            evacuation started.
+          </>,
         );
       })
       .catch((e) => notify.failure("Cluster member evacuation failed", e))

@@ -17,7 +17,7 @@ import { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { LxdInstance } from "types/instance";
 import { Location } from "history";
 import InstanceCreateDetailsForm, {
@@ -89,6 +89,9 @@ import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
+import ResourceLabel from "components/ResourceLabel";
+import InstanceLinkChip from "./InstanceLinkChip";
+import { InstanceIconType } from "components/ResourceIcon";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -146,8 +149,16 @@ const CreateInstance: FC = () => {
     });
   };
 
-  const notifyCreationStarted = (instanceName: string) => {
-    toastNotify.info(<>Creation for instance {instanceName} started.</>);
+  const notifyCreationStarted = (
+    instanceName: string,
+    instanceType: InstanceIconType,
+  ) => {
+    toastNotify.info(
+      <>
+        Creation for instance{" "}
+        <ResourceLabel bold type={instanceType} value={instanceName} /> started.
+      </>,
+    );
   };
 
   const notifyCreatedNowStarting = (instanceLink: ReactNode) => {
@@ -198,11 +209,15 @@ const CreateInstance: FC = () => {
     clearCache();
   };
 
-  const notifyCreationAndStarting = (instanceName: string) => {
+  const notifyCreationAndStarting = (
+    instanceName: string,
+    instanceType: InstanceIconType,
+  ) => {
     toastNotify.info(
       <>
-        Instance {instanceName} creation has begun. The instance will
-        automatically start upon completion.
+        Instance <ResourceLabel bold type={instanceType} value={instanceName} />{" "}
+        creation has begun. The instance will automatically start upon
+        completion.
       </>,
     );
   };
@@ -211,11 +226,12 @@ const CreateInstance: FC = () => {
     instanceName: string,
     shouldStart: boolean,
     isIsoImage: boolean,
+    instanceType: InstanceIconType,
   ) => {
     const instanceLink = (
-      <Link to={`/ui/project/${project}/instance/${instanceName}`}>
-        {instanceName}
-      </Link>
+      <InstanceLinkChip
+        instance={{ name: instanceName, type: instanceType, project }}
+      />
     );
 
     // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
@@ -289,15 +305,21 @@ const CreateInstance: FC = () => {
         }
 
         if (shouldStart && hasInstanceCreateStart) {
-          notifyCreationAndStarting(instanceName);
+          notifyCreationAndStarting(instanceName, values.instanceType);
         } else {
-          notifyCreationStarted(instanceName);
+          notifyCreationStarted(instanceName, values.instanceType);
         }
 
         const isIsoImage = values.image?.server === LOCAL_ISO;
         eventQueue.set(
           operation.metadata.id,
-          () => creationCompletedHandler(instanceName, shouldStart, isIsoImage),
+          () =>
+            creationCompletedHandler(
+              instanceName,
+              shouldStart,
+              isIsoImage,
+              values.instanceType,
+            ),
           (msg) =>
             notifyCreationFailed(
               new Error(msg),

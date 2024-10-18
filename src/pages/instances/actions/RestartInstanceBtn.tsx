@@ -4,12 +4,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { restartInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import InstanceLink from "pages/instances/InstanceLink";
 import ConfirmationForce from "components/ConfirmationForce";
-import ItemName from "components/ItemName";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ItemName from "components/ItemName";
+import InstanceLinkChip from "../InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -25,23 +25,20 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
     instanceLoading.getType(instance) === "Restarting" ||
     instance.status === "Restarting";
 
+  const instanceLink = <InstanceLinkChip instance={instance} />;
+
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
     void restartInstance(instance, isForce)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
-            toastNotify.success(
-              <>
-                Instance <InstanceLink instance={instance} /> restarted.
-              </>,
-            ),
+          () => toastNotify.success(<>Instance {instanceLink} restarted.</>),
           (msg) =>
             toastNotify.failure(
               "Instance restart failed",
               new Error(msg),
-              <InstanceLink instance={instance} />,
+              instanceLink,
             ),
           () => {
             instanceLoading.setFinish(instance);
@@ -52,11 +49,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
         );
       })
       .catch((e) => {
-        toastNotify.failure(
-          "Instance restart failed",
-          e,
-          <InstanceLink instance={instance} />,
-        );
+        toastNotify.failure("Instance restart failed", e, instanceLink);
         instanceLoading.setFinish(instance);
       });
   };
