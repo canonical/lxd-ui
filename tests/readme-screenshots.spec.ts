@@ -6,6 +6,7 @@ import {
 } from "./helpers/instances";
 import { createProject, deleteProject } from "./helpers/projects";
 import { createProfile, deleteProfile, visitProfile } from "./helpers/profile";
+import { gotoURL } from "./helpers/navigate";
 
 test.beforeEach(() => {
   test.skip(
@@ -15,7 +16,7 @@ test.beforeEach(() => {
 });
 
 test("instance creation screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByText("Instances", { exact: true }).click();
   await page.getByText("Create instance").click();
   await page.getByPlaceholder("Enter name").fill("comic-glider");
@@ -31,7 +32,7 @@ test("instance creation screen", async ({ page }) => {
 });
 
 test("instance list screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   const project = "my-cluster";
   await createProject(page, project);
   await visitProfile(page, "default", project);
@@ -50,7 +51,7 @@ test("instance list screen", async ({ page }) => {
   for (const instance of instances) {
     await createInstance(page, instance, "container", project, "24.04");
   }
-  await page.goto(`/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page
     .getByRole("row", {
       name: "Select comic-glider Name Type Description Status Actions",
@@ -70,7 +71,7 @@ test("instance list screen", async ({ page }) => {
 });
 
 test("instance terminal screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   const instance = "comic-glider";
   await createInstance(page, instance, "container", "default", "24.04");
   await visitAndStartInstance(page, instance);
@@ -91,7 +92,7 @@ test("instance terminal screen", async ({ page }) => {
 });
 
 test("instance graphical console screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   const instance = "upright-pangolin";
   await page.getByText("Instances", { exact: true }).click();
   await page.getByText("Create instance").click();
@@ -117,13 +118,13 @@ test("instance graphical console screen", async ({ page }) => {
 });
 
 test("profile list screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   const project = "my-cluster";
   await createProject(page, project);
   await createProfile(page, "small", project);
   await createProfile(page, "medium", project);
   await createProfile(page, "large", project);
-  await page.goto(`/ui/project/${project}/profiles`);
+  await gotoURL(page, `/ui/project/${project}/profiles`);
 
   await page.screenshot({ path: "tests/screenshots/profile-list.png" });
 
@@ -134,7 +135,7 @@ test("profile list screen", async ({ page }) => {
 });
 
 test("storage pool screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByText("Storage").click();
   await page.getByText("Pools").click();
   await page.getByText("Created").first().click();
@@ -143,7 +144,7 @@ test("storage pool screen", async ({ page }) => {
 });
 
 test("operations screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await createInstance(page, "comic-glider");
   await page.getByRole("button", { name: "Close notification" }).click();
   await page.getByText("Operations").click();
@@ -155,7 +156,7 @@ test("operations screen", async ({ page }) => {
 });
 
 test("warnings screen", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByText("Warnings").click();
 
   await page.screenshot({ path: "tests/screenshots/warnings-list.png" });

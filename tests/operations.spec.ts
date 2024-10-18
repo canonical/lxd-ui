@@ -12,6 +12,7 @@ import {
   dismissNotification,
 } from "./helpers/notification";
 import { validateOperation } from "./helpers/operations";
+import { gotoURL } from "./helpers/navigate";
 
 test("instance operations are recognised on the Operations page", async ({
   page,
@@ -20,7 +21,7 @@ test("instance operations are recognised on the Operations page", async ({
   await createInstance(page, instance);
 
   // validate create operation is in operation list
-  await page.goto("/ui/operations");
+  await gotoURL(page, "/ui/operations");
   await validateOperation(page, "Creating Instance", instance);
 
   // start instance and wait for the notification instance was started
@@ -32,16 +33,16 @@ test("instance operations are recognised on the Operations page", async ({
   await dismissNotification(page);
 
   // validate the operation to start the instance is in the operation list
-  await page.goto("/ui/operations");
+  await gotoURL(page, "/ui/operations");
   await validateOperation(page, "Starting Instance", instance);
 
   // stop instance and validate stop operation is in operation list
   await visitAndStopInstance(page, instance);
-  await page.goto("/ui/operations");
+  await gotoURL(page, "/ui/operations");
   await validateOperation(page, "Stopping Instance", instance);
 
   // delete instance and validate delete operation is in operation list
   await deleteInstance(page, instance);
-  await page.goto("/ui/operations");
+  await gotoURL(page, "/ui/operations");
   await validateOperation(page, "Deleting Instance", instance);
 });

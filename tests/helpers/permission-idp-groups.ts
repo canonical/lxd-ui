@@ -2,13 +2,14 @@ import { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 import { pluralize } from "util/instanceBulkActions";
 import { randomNameSuffix } from "./name";
+import { gotoURL } from "./navigate";
 
 export const randomIdpGroupName = (): string => {
   return `playwright-idp-group-${randomNameSuffix()}`;
 };
 
 export const visitIdpGroups = async (page: Page) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "IDP groups" }).click();
   await expect(

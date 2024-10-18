@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { expect } from "../fixtures/lxd-test";
+import { gotoURL } from "./navigate";
 
 export const randomVolumeName = (): string => {
   return `playwright-volume-${randomNameSuffix()}`;
@@ -11,7 +12,7 @@ export const createVolume = async (
   volume: string,
   volumeType = "filesystem",
 ) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByRole("button", { name: "Create volume" }).click();
@@ -45,7 +46,7 @@ export const visitVolume = async (
   project?: string,
 ) => {
   const url = project ? `/ui/project/${project}` : "/ui/";
-  await page.goto(url);
+  await gotoURL(page, url);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
   await page.getByPlaceholder("Search and filter").fill(volume);

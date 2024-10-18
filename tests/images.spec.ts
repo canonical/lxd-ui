@@ -6,6 +6,7 @@ import {
   deleteInstance,
   randomInstanceName,
 } from "./helpers/instances";
+import { gotoURL } from "./helpers/navigate";
 
 test("search for custom image and create an instance from it", async ({
   page,
@@ -17,7 +18,7 @@ test("search for custom image and create an instance from it", async ({
   const customInstance = randomInstanceName();
   const image = "my-custom-image"; // this is created in pr.yaml and coverage.yaml
 
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Images", exact: true }).click();
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(image);
@@ -54,7 +55,7 @@ test("Export and Upload an image", async ({ page }) => {
   await deleteImage(page, imageName);
 
   //Upload an image
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Images", exact: true }).click();
 
   await page.getByRole("button", { name: "Upload image" }).click();

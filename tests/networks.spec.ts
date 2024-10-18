@@ -4,6 +4,7 @@ import {
   checkAllOptions,
   setTextarea,
 } from "./helpers/configuration";
+import { gotoURL } from "./helpers/navigate";
 import {
   createNetwork,
   createNetworkForward,
@@ -235,7 +236,7 @@ test.describe("OVN type", () => {
       "OVN can not be configured in lxd v5.0/edge",
     );
 
-    await page.goto("/ui/");
+    await gotoURL(page, "/ui/");
     await page.getByRole("link", { name: "Networks", exact: true }).click();
     await page.getByRole("button", { name: "Create network" }).click();
     await page.getByRole("heading", { name: "Create a network" }).click();

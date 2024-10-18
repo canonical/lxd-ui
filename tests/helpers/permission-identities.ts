@@ -1,12 +1,13 @@
 import { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
+import { gotoURL } from "./navigate";
 
 // These identities are created by the setup_test script in tests/scripts
 export const identityBar = "bar@bar.com";
 export const identityFoo = "foo@foo.com";
 
 export const visitIdentities = async (page: Page) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Permissions" }).click();
   await page.getByRole("link", { name: "Identities" }).click();
   await expect(
