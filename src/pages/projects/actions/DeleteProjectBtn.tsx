@@ -76,7 +76,7 @@ const generateProjectUsedByTooltip = (project: LxdProject) => {
 };
 
 const DeleteProjectBtn: FC<Props> = ({ project }) => {
-  const isDeleteIcon = useSmallScreen();
+  const isSmallScreen = useSmallScreen();
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
@@ -121,9 +121,8 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   return (
     <ConfirmationButton
       onHoverText={getHoverText()}
-      appearance={isDeleteIcon ? "base" : "default"}
       className={classnames("u-no-margin--bottom", {
-        "has-icon": isDeleteIcon,
+        "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
       disabled={isDefaultProject || !isEmpty}
@@ -149,8 +148,8 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
             : ""
         }
       >
-        {isDeleteIcon && <Icon name="delete" />}
-        {!isDeleteIcon && <span>Delete project</span>}
+        {!isSmallScreen && <Icon name="delete" />}
+        <span>Delete project</span>
       </Tooltip>
     </ConfirmationButton>
   );

@@ -73,10 +73,10 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
           key="delete"
           pool={pool}
           project={project}
-          shouldExpand={true}
+          shouldExpand
         />,
       ]}
-      isLoaded={true}
+      isLoaded
       formik={formik}
       renameDisabledReason="Cannot rename storage pools"
     />

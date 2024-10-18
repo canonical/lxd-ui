@@ -5,9 +5,15 @@ import { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { ConfirmationButton, useNotify } from "@canonical/react-components";
+import {
+  ConfirmationButton,
+  Icon,
+  useNotify,
+} from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
+import { useSmallScreen } from "context/useSmallScreen";
+import classnames from "classnames";
 
 interface Props {
   network: LxdNetwork;
@@ -20,6 +26,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const isSmallScreen = useSmallScreen();
 
   const handleDelete = () => {
     setLoading(true);
@@ -70,13 +77,16 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         ),
         onConfirm: handleDelete,
       }}
-      className="u-no-margin--bottom"
+      className={classnames("u-no-margin--bottom", {
+        "has-icon": !isSmallScreen,
+      })}
       loading={isLoading}
       disabled={isUsed || !isManaged}
       shiftClickEnabled
       showShiftClickHint
     >
-      Delete network
+      {!isSmallScreen && <Icon name="delete" />}
+      <span>Delete network</span>
     </ConfirmationButton>
   );
 };

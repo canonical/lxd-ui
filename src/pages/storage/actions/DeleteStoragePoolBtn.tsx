@@ -72,10 +72,10 @@ const DeleteStoragePoolBtn: FC<Props> = ({
         onConfirm: handleDelete,
         message: "Delete storage",
       }}
-      appearance={!isSmallScreen && shouldExpand ? "default" : "base"}
+      appearance={shouldExpand ? "default" : "base"}
       className={classnames("u-no-margin--bottom", {
         "is-dense": !shouldExpand,
-        "has-icon": !isSmallScreen && shouldExpand,
+        "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
       shiftClickEnabled
@@ -83,8 +83,8 @@ const DeleteStoragePoolBtn: FC<Props> = ({
       disabled={Boolean(disabledReason)}
       onHoverText={disabledReason}
     >
-      {!isSmallScreen && shouldExpand ? undefined : <Icon name="delete" />}
-      {!isSmallScreen && shouldExpand && "Delete pool"}
+      {(!isSmallScreen || !shouldExpand) && <Icon name="delete" />}
+      {shouldExpand && <span>Delete pool</span>}
     </ConfirmationButton>
   );
 };
