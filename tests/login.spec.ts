@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { test, expect } from "./fixtures/lxd-test";
 import { execSync } from "child_process";
+import { gotoURL } from "./helpers/navigate";
 
 const loginUser = async (page: Page) => {
   await page.getByRole("link", { name: "Login with SSO" }).click();
@@ -20,7 +21,7 @@ test("login", async ({ page }, testInfo) => {
   ).toString();
   execSync(`lxc config trust remove ${fingerprint}`);
 
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await loginUser(page);
   await page.getByText("Log out").click();
 

@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
+import { gotoURL } from "./navigate";
 
 export const randomInstanceName = (): string => {
   return `playwright-instance-${randomNameSuffix()}`;
@@ -16,7 +17,7 @@ export const createInstance = async (
   project: string = "default",
   image: string = "alpine/3.19/cloud",
 ) => {
-  await page.goto(`/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page
     .getByRole("link", { name: "Instances", exact: true })
     .first()
@@ -52,7 +53,7 @@ export const visitInstance = async (
   instance: string,
   project: string = "default",
 ) => {
-  await page.goto(`/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();
@@ -97,7 +98,7 @@ export const deleteInstance = async (
 };
 
 export const hasInstance = async (page: Page, instance: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   return await page.getByRole("link", { name: instance }).first().isVisible();
@@ -121,7 +122,7 @@ export const createAndStartInstance = async (
   instance: string,
   type = "container",
 ) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page
     .getByRole("link", { name: "Instances", exact: true })
     .first()

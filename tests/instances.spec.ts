@@ -31,6 +31,7 @@ import { assertTextVisible } from "./helpers/permissions";
 import { deleteImage, getImageNameFromAlias } from "./helpers/images";
 import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
 import { isServerClustered } from "./helpers/cluster";
+import { gotoURL } from "./helpers/navigate";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -83,7 +84,7 @@ test("instance terminal operations", async ({ page }) => {
 test("instance rename", async ({ page }) => {
   const newName = instance + "-rename";
   await renameInstance(page, instance, newName);
-  instance = newName;
+  await renameInstance(page, newName, instance);
 });
 
 test("instance edit basic details", async ({ page }) => {
@@ -261,14 +262,14 @@ test("Duplicate an instance", async ({ page }) => {
 });
 
 test("Create an image from an instance", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   const imageAlias = await createImageFromInstance(page, instance);
   const imageName = await getImageNameFromAlias(page, imageAlias);
   await deleteImage(page, imageName);
 });
 
 test("Bulk start, pause, unpause and stop instances", async ({ page }) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search and filter").fill(instance);
   await page.getByPlaceholder("Search and filter").press("Enter");
@@ -340,7 +341,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
   await download.saveAs(INSTANCE_FILE);
 
   //Upload an instance
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page
@@ -370,7 +371,7 @@ test("Create instance from external instance file", async ({
   );
 
   const INSTANCE_FILE = "ubuntu-minimal.qcow2";
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.getByText("External format (.qcow2, .").click();

@@ -3,6 +3,7 @@ import { randomNameSuffix } from "./helpers/name";
 import { deleteInstance, randomInstanceName } from "./helpers/instances";
 import { assertTextVisible } from "./helpers/permissions";
 import { activateOverride } from "./helpers/configuration";
+import { gotoURL } from "./helpers/navigate";
 
 const ISO_FILE = "./tests/fixtures/foo.iso";
 
@@ -17,7 +18,7 @@ test("upload and delete custom iso", async ({ page, lxdVersion }) => {
   );
   const isoName = randomIso();
 
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage", exact: true }).click();
   await page.getByRole("link", { name: "Custom ISOs" }).click();
   await page.getByRole("button", { name: "Upload custom ISO" }).click();
@@ -58,7 +59,7 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   const instance = randomInstanceName();
   const isoName = randomIso();
 
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByLabel("Instance name").fill(instance);
@@ -83,7 +84,7 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   await page.waitForSelector(`text=Created instance ${instance}.`);
 
   await deleteInstance(page, instance);
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage", exact: true }).click();
   await page.getByRole("link", { name: "Custom ISOs" }).click();
   await page.getByPlaceholder("Search for custom ISOs").fill(isoName);
@@ -100,7 +101,7 @@ test("not allowed to upload custom iso for lxd v5.0/edge", async ({
     lxdVersion !== "5.0-edge",
     `this test is specific to lxd v5.0/edge, current lxd snap channel is ${lxdVersion}`,
   );
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage", exact: true }).click();
   await expect(page.getByRole("link", { name: "Custom ISOs" })).toBeHidden();
 });
@@ -120,7 +121,7 @@ test("not allowed to launch instance with custom iso for lxd v5.0/edge", async (
   );
 
   const instance = randomInstanceName();
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Instances", exact: true }).click();
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByLabel("Instance name").fill(instance);

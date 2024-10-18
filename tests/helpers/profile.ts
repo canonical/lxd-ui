@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
+import { gotoURL } from "./navigate";
 
 export const randomProfileName = (): string => {
   return `playwright-profile-${randomNameSuffix()}`;
@@ -19,7 +20,7 @@ export const startProfileCreation = async (
   profile: string,
   project: string = "default",
 ) => {
-  await page.goto(`/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
   await page.getByRole("button", { name: "Create profile" }).click();
   await page.getByLabel("Profile name").fill(profile);
@@ -49,7 +50,7 @@ export const visitProfile = async (
   profile: string,
   project: string = "default",
 ) => {
-  await page.goto(`/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(profile);

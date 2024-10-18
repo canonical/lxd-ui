@@ -1,12 +1,13 @@
 import { randomNameSuffix } from "./name";
 import { Page } from "@playwright/test";
+import { gotoURL } from "./navigate";
 
 export const randomProjectName = (): string => {
   return `playwright-project-${randomNameSuffix()}`;
 };
 
 const openProjectCreationForm = async (page: Page) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("button", { name: "Create project" }).click();
 };
@@ -43,7 +44,7 @@ export const renameProject = async (
 };
 
 export const deleteProject = async (page: Page, project: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("link", { name: project }).click();
   await page.getByRole("link", { name: "Configuration" }).click();

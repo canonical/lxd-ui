@@ -1,5 +1,6 @@
 import { randomNameSuffix } from "./name";
 import { Page } from "@playwright/test";
+import { gotoURL } from "./navigate";
 
 export const randomSnapshotName = (): string => {
   return `playwright-snapshot-${randomNameSuffix()}`;
@@ -12,7 +13,7 @@ export const createInstanceSnapshot = async (
   project?: string,
 ) => {
   const route = project ? `/ui/project/${project}/instances` : "/ui";
-  await page.goto(route);
+  await gotoURL(page, route);
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();

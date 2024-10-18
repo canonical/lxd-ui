@@ -1,12 +1,13 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
+import { gotoURL } from "./navigate";
 
 export const randomPoolName = (): string => {
   return `playwright-pool-${randomNameSuffix()}`;
 };
 
 export const createPool = async (page: Page, pool: string, driver = "dir") => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools" }).click();
   await page.getByRole("button", { name: "Create pool" }).click();
@@ -27,7 +28,7 @@ export const deletePool = async (page: Page, pool: string) => {
 };
 
 export const visitPool = async (page: Page, pool: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools" }).click();
   await page.getByRole("link", { name: pool }).first().click();

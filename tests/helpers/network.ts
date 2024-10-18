@@ -2,6 +2,7 @@ import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { LxdNetworkType } from "types/network";
 import { activateAllTableOverrides } from "./configuration";
+import { gotoURL } from "./navigate";
 
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
@@ -12,7 +13,7 @@ export const createNetwork = async (
   network: string,
   type: LxdNetworkType = "bridge",
 ) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   await page.getByRole("button", { name: "Create network" }).click();
   await page.getByRole("heading", { name: "Create a network" }).click();
@@ -38,7 +39,7 @@ export const deleteNetwork = async (page: Page, network: string) => {
 };
 
 export const visitNetwork = async (page: Page, network: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByTitle("Networks (default)").click();
   await page.getByRole("link", { name: network }).first().click();
   await page.getByTestId("tab-link-Configuration").click();

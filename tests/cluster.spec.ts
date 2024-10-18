@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
 import { randomNameSuffix } from "./helpers/name";
+import { gotoURL } from "./helpers/navigate";
 
 test("cluster group create and delete", async ({ page }) => {
   const group = randomGroupName();
@@ -14,7 +15,7 @@ test("cluster group add and remove members", async ({ page }) => {
   await createClusterGroup(page, group);
   await toggleClusterGroupMember(page, group, member);
 
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
@@ -29,7 +30,7 @@ export const randomGroupName = (): string => {
 };
 
 export const createClusterGroup = async (page: Page, group: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("button", { name: "Create group" }).click();
@@ -41,7 +42,7 @@ export const createClusterGroup = async (page: Page, group: string) => {
 };
 
 export const deleteClusterGroup = async (page: Page, group: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
@@ -56,7 +57,7 @@ export const toggleClusterGroupMember = async (
   group: string,
   member: string,
 ) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
   await page.getByRole("button", { name: "All cluster groups" }).click();
   await page.getByRole("link", { name: group }).click();
@@ -71,7 +72,7 @@ export const toggleClusterGroupMember = async (
 };
 
 export const getFirstClusterMember = async (page: Page): Promise<string> => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Cluster" }).click();
   const firstCellContent = await page.getByRole("cell").first().textContent();
   return firstCellContent?.split("http")[0] ?? "";

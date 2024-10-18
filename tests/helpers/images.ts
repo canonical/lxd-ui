@@ -1,11 +1,12 @@
 import { expect } from "../fixtures/lxd-test";
 import { Page } from "@playwright/test";
+import { gotoURL } from "./navigate";
 
 export const deleteAllImages = async (
   page: Page,
   project: string = "default",
 ) => {
-  await page.goto(`/ui/project/${project}`);
+  await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Images", exact: true }).first().click();
   await page
     .getByRole("columnheader", { name: "select" })
@@ -22,7 +23,7 @@ export const deleteAllImages = async (
 };
 
 export const deleteImage = async (page: Page, imageName: string) => {
-  await page.goto(`/ui`);
+  await gotoURL(page, `/ui`);
   await page.getByRole("link", { name: "Images", exact: true }).first().click();
 
   await page.getByPlaceholder("Search").click();
@@ -37,7 +38,7 @@ export const deleteImage = async (page: Page, imageName: string) => {
 };
 
 export const getImageNameFromAlias = async (page: Page, imageAlias: string) => {
-  await page.goto(`/ui`);
+  await gotoURL(page, `/ui`);
   await page.getByRole("link", { name: "Images", exact: true }).first().click();
 
   await page.getByPlaceholder("Search").click();

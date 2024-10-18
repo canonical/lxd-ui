@@ -1,7 +1,8 @@
 import { Page, expect } from "@playwright/test";
+import { gotoURL } from "./navigate";
 
 export const openInstancePanel = async (page: Page, instance: string) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   const instanceRow = page.getByRole("row", { name: instance }).first();
   await instanceRow.waitFor({ state: "visible" });
   const cells = instanceRow.locator(":has-text('Container')");

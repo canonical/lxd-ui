@@ -1,9 +1,10 @@
 import { Locator, Page, expect } from "@playwright/test";
+import { gotoURL } from "./navigate";
 
 export type ServerSettingType = "checkbox" | "text" | "number" | "password";
 
 export const visitServerSettings = async (page: Page) => {
-  await page.goto("/ui/");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Settings", exact: true }).click();
 };
 
