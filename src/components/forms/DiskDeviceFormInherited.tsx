@@ -92,28 +92,6 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
         isDeactivated: isNoneDevice,
       }),
     );
-
-    rows.push(
-      getInheritedDeviceRow({
-        label: "Read limit",
-        inheritValue: item.disk["limits.read"]
-          ? `${item.disk["limits.read"]} IOPS`
-          : "none",
-        readOnly: readOnly,
-        isDeactivated: isNoneDevice,
-      }),
-    );
-
-    rows.push(
-      getInheritedDeviceRow({
-        label: "Write limit",
-        inheritValue: item.disk["limits.write"]
-          ? `${item.disk["limits.write"]} IOPS`
-          : "none",
-        readOnly: readOnly,
-        isDeactivated: isNoneDevice,
-      }),
-    );
   });
 
   return inheritedVolumes.length > 0 ? (
