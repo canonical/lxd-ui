@@ -14,6 +14,7 @@ import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { getVolumeSnapshotName } from "util/operations";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   close: () => void;
@@ -64,7 +65,13 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
                     name={getVolumeSnapshotName(operation.metadata)}
                     volume={volume}
                   />{" "}
-                  created.
+                  created for volume{" "}
+                  <ResourceLink
+                    type="volume"
+                    value={volume.name}
+                    to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
+                  />
+                  .
                 </>,
               );
               close();

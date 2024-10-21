@@ -16,6 +16,7 @@ import CreateImageFromInstanceSnapshotBtn from "pages/instances/actions/snapshot
 import CreateInstanceFromSnapshotBtn from "./CreateInstanceFromSnapshotBtn";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
+import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 
 interface Props {
   instance: LxdInstance;
@@ -47,7 +48,7 @@ const InstanceSnapshotActions: FC<Props> = ({
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
-                deleted.
+                deleted for instance <InstanceLinkChip instance={instance} />.
               </>,
             ),
           (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
@@ -79,7 +80,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   name={snapshot.name}
                   instance={instance}
                 />{" "}
-                restored.
+                restored for instance <InstanceLinkChip instance={instance} />.
               </>,
             ),
           (msg) => onFailure("Snapshot restore failed", new Error(msg)),

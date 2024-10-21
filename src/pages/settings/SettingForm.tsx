@@ -9,6 +9,7 @@ import SettingFormCheckbox from "./SettingFormCheckbox";
 import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
 import { useToastNotification } from "context/toastNotificationProvider";
+import ResourceLabel from "components/ResourceLabel";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -34,17 +35,21 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   const isLokiAuthPassword = configField.key === "loki.auth.password";
   const isSecret = isTrustPassword || isLokiAuthPassword;
 
+  const settingLabel = (
+    <ResourceLabel bold type="setting" value={configField.key} />
+  );
+
   const onSubmit = (newValue: string | boolean) => {
     const config = {
       [configField.key]: String(newValue),
     };
     updateSettings(config)
       .then(() => {
-        toastNotify.success(`Setting ${configField.key} updated.`);
+        toastNotify.success(<>Setting {settingLabel} updated.</>);
         setEditMode(false);
       })
       .catch((e) => {
-        notify.failure("Setting update failed", e);
+        notify.failure("Setting update failed", e, settingLabel);
       })
       .finally(() => {
         void queryClient.invalidateQueries({
