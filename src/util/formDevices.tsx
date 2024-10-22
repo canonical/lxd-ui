@@ -85,15 +85,6 @@ export const formDeviceToPayload = (devices: FormDevice[]) => {
           [name]: item.bare,
         };
       }
-      if ("limits" in item) {
-        if (item.limits?.read) {
-          item["limits.read"] = item.limits.read;
-        }
-        if (item.limits?.write) {
-          item["limits.write"] = item.limits.write;
-        }
-        delete item.limits;
-      }
       if (item.type === "disk") {
         const { bare, ...rest } = item;
         item = { ...bare, ...rest };
@@ -148,10 +139,6 @@ export const parseDevices = (devices: LxdDevices): FormDevice[] => {
           pool: item.pool,
           source: "source" in item ? item.source : undefined,
           size: "size" in item ? item.size : undefined,
-          limits: {
-            read: "limits.read" in item ? item["limits.read"] : undefined,
-            write: "limits.write" in item ? item["limits.write"] : undefined,
-          },
           type: "disk",
           bare: item,
         };
