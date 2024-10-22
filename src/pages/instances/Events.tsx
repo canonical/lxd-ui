@@ -30,6 +30,40 @@ const Events: FC = () => {
     }
   };
 
+  const getLifecycleRootQueryKey = (event: LxdEvent) => {
+    if (event.metadata.action.startsWith("auth-group-")) {
+      return queryKeys.authGroups;
+    }
+    if (event.metadata.action.startsWith("config-")) {
+      return queryKeys.settings;
+    }
+    if (event.metadata.action.startsWith("identity-provider-group-")) {
+      return queryKeys.idpGroups;
+    }
+    if (event.metadata.action.startsWith("instance-")) {
+      return queryKeys.instances;
+    }
+    if (event.metadata.action.startsWith("project-")) {
+      return queryKeys.projects;
+    }
+    if (event.metadata.action.startsWith("profile-")) {
+      return queryKeys.profiles;
+    }
+    if (event.metadata.action.startsWith("network-")) {
+      return queryKeys.networks;
+    }
+    if (event.metadata.action.startsWith("storage-pool-")) {
+      return queryKeys.storage;
+    }
+    if (event.metadata.action.startsWith("storage-volume-")) {
+      return queryKeys.storage;
+    }
+    if (event.metadata.action.startsWith("image-")) {
+      return queryKeys.images;
+    }
+    return "undefined";
+  };
+
   const connectEventWs = () => {
     const wsUrl = `wss://${location.host}/1.0/events?type=operation,lifecycle&all-projects=true`;
     const ws = new WebSocket(wsUrl);
@@ -50,6 +84,12 @@ const Events: FC = () => {
           queryKey: [queryKeys.operations, event.project],
         });
         void refetchOperations();
+      }
+      if (event.type === "lifecycle") {
+        const rootQueryKey = getLifecycleRootQueryKey(event);
+        void queryClient.invalidateQueries({
+          predicate: (query) => query.queryKey[0] === rootQueryKey,
+        });
       }
       // ensure open requests that reply with an operation and register
       // new handlers in the eventQueue are closed before handling the event
