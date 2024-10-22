@@ -6,6 +6,7 @@ import { isRootDisk } from "util/instanceValidation";
 import { FormDevice } from "util/formDevices";
 import ResourceLink from "components/ResourceLink";
 import { isOtherDevice } from "util/devices";
+import InstanceOverviewDeviceDetail from "./InstanceOverviewDeviceDetail";
 
 interface Props {
   instance: LxdInstance;
@@ -34,6 +35,7 @@ const InstanceOverviewDevices: FC<Props> = ({ instance }) => {
   const deviceHeaders = [
     { content: "Name", sortKey: "name", className: "u-text--muted" },
     { content: "Type", sortKey: "type", className: "u-text--muted" },
+    { content: "Details", className: "u-text--muted" },
   ];
 
   const deviceRows = instanceDevices.map(([devicename, device]) => {
@@ -51,6 +53,16 @@ const InstanceOverviewDevices: FC<Props> = ({ instance }) => {
           content: `${device.type} ${isRootDisk(device as FormDevice) ? "(root)" : ""}`,
           role: "rowheader",
           "aria-label": "Type",
+        },
+        {
+          content: (
+            <InstanceOverviewDeviceDetail
+              device={device}
+              project={instance.project}
+            />
+          ),
+          role: "rowheader",
+          "aria-label": "Details",
         },
       ],
       sortData: {
