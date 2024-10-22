@@ -17,7 +17,7 @@ const BaseLayout: FC<Props> = ({
   contentClassName,
 }: Props) => {
   return (
-    <AppMain className={mainClassName}>
+    <AppMain className={mainClassName} id="main-content">
       <Panel
         title={title}
         controls={controls}

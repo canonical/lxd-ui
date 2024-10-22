@@ -15,7 +15,7 @@ const CustomLayout: FC<Props> = ({
   contentClassName,
 }: Props) => {
   return (
-    <AppMain className={mainClassName}>
+    <AppMain className={mainClassName} id="main-content">
       <Panel contentClassName={contentClassName} header={header}>
         {children}
       </Panel>

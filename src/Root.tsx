@@ -1,6 +1,10 @@
 import { FC } from "react";
 import Navigation from "components/Navigation";
-import { Application, QueuedNotification } from "@canonical/react-components";
+import {
+  Application,
+  QueuedNotification,
+  SkipLink,
+} from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
 import { EventQueueProvider } from "context/eventQueue";
@@ -33,6 +37,7 @@ const Root: FC = () => {
                 <OperationsProvider>
                   <EventQueueProvider>
                     <Application id="l-application">
+                      <SkipLink mainId="main-content" />
                       <Navigation />
                       <ErrorBoundary fallback={ErrorPage}>
                         <App />
