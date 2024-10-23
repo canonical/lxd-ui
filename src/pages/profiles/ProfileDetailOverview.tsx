@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Notification, Row } from "@canonical/react-components";
+import { Col, Notification, Row, useNotify } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -10,8 +10,8 @@ import classnames from "classnames";
 import { CLOUD_INIT } from "./forms/ProfileFormMenu";
 import { slugify } from "util/slugify";
 import { getProfileInstances } from "util/usedBy";
-import ProfileNetworkList from "./ProfileNetworkList";
-import ProfileStorageList from "./ProfileStorageList";
+import NetworkListTable from "../../components/NetworkListTable";
+import DeviceListTable from "components/DeviceListTable";
 
 interface Props {
   profile: LxdProfile;
@@ -19,11 +19,16 @@ interface Props {
 }
 
 const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
+  const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
   }
+
+  const onFailure = (title: string, e: unknown) => {
+    notify.failure(title, e);
+  };
 
   const updateContentHeight = () => {
     updateMaxHeight("profile-overview-tab");
@@ -75,27 +80,21 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           </table>
         </Col>
       </Row>
+
+      <Row className="section">
+        <Col size={3}>
+          <h2 className="p-heading--5">Networks</h2>
+        </Col>
+        <Col size={7}>
+          <NetworkListTable profile={profile} onFailure={onFailure} />
+        </Col>
+      </Row>
       <Row className="section">
         <Col size={3}>
           <h2 className="p-heading--5">Devices</h2>
         </Col>
         <Col size={7}>
-          <table>
-            <tbody>
-              <tr className="list-wrapper">
-                <th className="u-text--muted">Networks</th>
-                <td>
-                  <ProfileNetworkList profile={profile} project={project} />
-                </td>
-              </tr>
-              <tr className="list-wrapper">
-                <th className="u-text--muted">Storage</th>
-                <td>
-                  <ProfileStorageList profile={profile} project={project} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <DeviceListTable profile={profile} />
         </Col>
       </Row>
       <Row className="section">
