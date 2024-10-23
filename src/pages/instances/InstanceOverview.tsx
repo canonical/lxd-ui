@@ -5,14 +5,14 @@ import { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import InstanceOverviewNetworks from "./InstanceOverviewNetworks";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";
 import InstanceIps from "pages/instances/InstanceIps";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
-import InstanceOverviewDevices from "./InstanceOverviewDevices";
+import DeviceListTable from "../../components/DeviceListTable";
 import ResourceLabel from "components/ResourceLabel";
+import NetworkListTable from "components/NetworkListTable";
 
 interface Props {
   instance: LxdInstance;
@@ -131,7 +131,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
           <h2 className="p-heading--5">Networks</h2>
         </Col>
         <Col size={7}>
-          <InstanceOverviewNetworks instance={instance} onFailure={onFailure} />
+          <NetworkListTable instance={instance} onFailure={onFailure} />
         </Col>
       </Row>
       <Row className="networks">
@@ -139,7 +139,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
           <h2 className="p-heading--5">Devices</h2>
         </Col>
         <Col size={7}>
-          <InstanceOverviewDevices instance={instance} />
+          <DeviceListTable instance={instance} />
         </Col>
       </Row>
       <Row className="profiles">

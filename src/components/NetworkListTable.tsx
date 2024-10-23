@@ -7,31 +7,41 @@ import { LxdInstance } from "types/instance";
 import { fetchNetworks } from "api/networks";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
+import { LxdProfile } from "types/profile";
+import { useParams } from "react-router-dom";
 
 interface Props {
-  instance: LxdInstance;
   onFailure: (title: string, e: unknown) => void;
+  instance?: LxdInstance;
+  profile?: LxdProfile;
 }
 
-const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
+const NetworkListTable: FC<Props> = ({ instance, profile, onFailure }) => {
+  const { project } = useParams<{ project: string }>();
+
+  const overviewType = {
+    project: project,
+    devices: instance ? instance.expanded_devices : profile?.devices,
+  };
+
   const {
     data: networks = [],
     error,
     isLoading,
   } = useQuery({
-    queryKey: [queryKeys.projects, instance.project, queryKeys.networks],
-    queryFn: () => fetchNetworks(instance.project),
+    queryKey: [queryKeys.projects, overviewType.project, queryKeys.networks],
+    queryFn: () => fetchNetworks(overviewType.project as string),
   });
 
   if (error) {
     onFailure("Loading networks failed", error);
   }
 
-  const instanceNetworks = Object.values(instance.expanded_devices ?? {})
+  const overviewNetworks = Object.values(overviewType.devices ?? {})
     .filter(isNicDevice)
     .map((network) => network.network);
 
-  const hasNetworks = instanceNetworks.length > 0;
+  const hasNetworks = overviewNetworks.length > 0;
 
   const networksHeaders = [
     { content: "Name", sortKey: "name", className: "u-text--muted" },
@@ -49,9 +59,9 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
   ];
 
   const networksRows = networks
-    .filter((network) => instanceNetworks.includes(network.name))
+    .filter((network) => overviewNetworks.includes(network.name))
     .map((network) => {
-      const interfaceNames = Object.entries(instance.expanded_devices ?? {})
+      const interfaceNames = Object.entries(overviewType.devices ?? {})
         .filter(
           ([_key, value]) =>
             value.type === "nic" && value.network === network.name,
@@ -65,7 +75,7 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
               <ResourceLink
                 type="network"
                 value={network.name}
-                to={`/ui/project/${instance.project}/network/${network.name}`}
+                to={`/ui/project/${overviewType.project}/network/${network.name}`}
               />
             ),
             role: "rowheader",
@@ -107,4 +117,4 @@ const InstanceOverviewNetworks: FC<Props> = ({ instance, onFailure }) => {
   );
 };
 
-export default InstanceOverviewNetworks;
+export default NetworkListTable;
