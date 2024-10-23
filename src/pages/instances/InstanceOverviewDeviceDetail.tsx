@@ -14,7 +14,7 @@ const InstanceOverviewDeviceDetail: FC<Props> = ({ device, project }) => {
     if (isRootDisk(device as FormDevice)) {
       return (
         <>
-          <span>pool </span>
+          Pool{" "}
           <ResourceLink
             type={"pool"}
             value={device.pool}
@@ -26,15 +26,13 @@ const InstanceOverviewDeviceDetail: FC<Props> = ({ device, project }) => {
 
     return (
       <>
-        <span>
-          volume&nbsp;
-          <ResourceLink
-            type={"volume"}
-            value={device.source as string}
-            to={`/ui/project/${project}/storage/pool/${device.pool}/volumes/custom/${device.source}`}
-          />{" "}
-        </span>
-        <span> on pool </span>
+        Volume{" "}
+        <ResourceLink
+          type={"volume"}
+          value={device.source as string}
+          to={`/ui/project/${project}/storage/pool/${device.pool}/volumes/custom/${device.source}`}
+        />{" "}
+        on pool{" "}
         <ResourceLink
           type={"pool"}
           value={device.pool}
@@ -47,7 +45,7 @@ const InstanceOverviewDeviceDetail: FC<Props> = ({ device, project }) => {
   if (device.type === "gpu") {
     return (
       <span title={device.pci} className="u-truncate">
-        {device.pci ? `pci: ${device.pci}` : `id: ${device.id}`}
+        {device.pci ? `PCI  ${device.pci}` : `ID ${device.id}`}
       </span>
     );
   }
@@ -55,15 +53,12 @@ const InstanceOverviewDeviceDetail: FC<Props> = ({ device, project }) => {
   if (device.type === "proxy") {
     return (
       <>
-        <span
-          title={device.listen}
-          className="u-truncate"
-        >{`listen: ${device.listen}`}</span>{" "}
-        <br />
-        <span
-          title={device.connect}
-          className="u-truncate"
-        >{`connect: ${device.connect}`}</span>
+        <div title={device.listen} className="u-truncate">
+          Listen: {device.listen}
+        </div>
+        <div title={device.connect} className="u-truncate">
+          Connect: {device.connect}
+        </div>
       </>
     );
   }
