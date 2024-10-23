@@ -328,6 +328,12 @@ export const getInstanceDevices = (
   return Object.entries(instance.expanded_devices ?? {});
 };
 
+export const getProfileDevices = (
+  profile: LxdProfile,
+): [string, LxdDeviceValue][] => {
+  return Object.entries(profile.devices ?? {});
+};
+
 export const getRootPool = (instance: LxdInstance): string => {
   const rootStorage = Object.values(instance.expanded_devices ?? {})
     .filter(isDiskDevice)

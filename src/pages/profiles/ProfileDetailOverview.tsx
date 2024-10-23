@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Notification, Row } from "@canonical/react-components";
+import { Col, Notification, Row, useNotify } from "@canonical/react-components";
 import { LxdProfile } from "types/profile";
 import useEventListener from "@use-it/event-listener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -10,8 +10,8 @@ import classnames from "classnames";
 import { CLOUD_INIT } from "./forms/ProfileFormMenu";
 import { slugify } from "util/slugify";
 import { getProfileInstances } from "util/usedBy";
-import ProfileNetworkList from "./ProfileNetworkList";
-import ProfileStorageList from "./ProfileStorageList";
+import NetworkListTable from "components/NetworkListTable";
+import DeviceListTable from "components/DeviceListTable";
 
 interface Props {
   profile: LxdProfile;
@@ -19,11 +19,16 @@ interface Props {
 }
 
 const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
+  const notify = useNotify();
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
     return <>Missing project</>;
   }
+
+  const onFailure = (title: string, e: unknown) => {
+    notify.failure(title, e);
+  };
 
   const updateContentHeight = () => {
     updateMaxHeight("profile-overview-tab");
@@ -47,7 +52,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
     <div className="profile-overview-tab">
       {!featuresProfiles && (
         <Notification severity="caution" title="Inherited profile">
-          Modifications are only available in the{" "}
+          Modifications are only available in the
           <Link to={`/ui/project/default/profile/${profile.name}`}>
             default project
           </Link>
@@ -75,27 +80,24 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
           </table>
         </Col>
       </Row>
-      <Row className="section">
+
+      <Row className="networks">
+        <Col size={3}>
+          <h2 className="p-heading--5">Networks</h2>
+        </Col>
+        <Col size={7}>
+          <NetworkListTable devices={profile.devices} onFailure={onFailure} />
+        </Col>
+      </Row>
+      <Row className="devices">
         <Col size={3}>
           <h2 className="p-heading--5">Devices</h2>
         </Col>
         <Col size={7}>
-          <table>
-            <tbody>
-              <tr className="list-wrapper">
-                <th className="u-text--muted">Networks</th>
-                <td>
-                  <ProfileNetworkList profile={profile} project={project} />
-                </td>
-              </tr>
-              <tr className="list-wrapper">
-                <th className="u-text--muted">Storage</th>
-                <td>
-                  <ProfileStorageList profile={profile} project={project} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <DeviceListTable
+            configBaseURL={`/ui/project/${project}/profile/${profile.name}/configuration`}
+            devices={profile.devices}
+          />
         </Col>
       </Row>
       <Row className="section">
