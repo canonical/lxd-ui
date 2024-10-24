@@ -46,12 +46,12 @@ const InstanceOverviewDevices: FC<Props> = ({ instance }) => {
           content: (
             <ResourceLink type="device" value={devicename} to={configUrl} />
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Name",
         },
         {
-          content: `${device.type} ${isRootDisk(device as FormDevice) ? "(root)" : ""}`,
-          role: "rowheader",
+          content: `${device.type}${isRootDisk(device as FormDevice) ? " (root)" : ""}`,
+          role: "cell",
           "aria-label": "Type",
         },
         {
@@ -61,7 +61,7 @@ const InstanceOverviewDevices: FC<Props> = ({ instance }) => {
               project={instance.project}
             />
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Details",
         },
       ],
@@ -75,7 +75,12 @@ const InstanceOverviewDevices: FC<Props> = ({ instance }) => {
   return (
     <>
       {hasDevices && (
-        <MainTable headers={deviceHeaders} rows={deviceRows} sortable />
+        <MainTable
+          headers={deviceHeaders}
+          rows={deviceRows}
+          sortable
+          className="devices"
+        />
       )}
       {!hasDevices && <>-</>}
     </>

@@ -54,6 +54,13 @@
     }
   }
 
+  .devices {
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 12rem;
+    }
+  }
+
   .profiles {
     th:nth-child(1) {
       width: 30%;

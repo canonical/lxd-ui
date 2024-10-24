@@ -16,10 +16,6 @@
 }
 
 .resource-label {
-  // align font size with chip component
-  font-size: #{map-get($font-sizes, small)}rem;
-  line-height: #{map-get($line-heights, small)}rem;
-
   i {
     margin-right: $sph--x-small;
   }
