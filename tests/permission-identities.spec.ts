@@ -92,6 +92,7 @@ test("manage groups for many identities", async ({ page, lxdVersion }) => {
   );
   await page.getByRole("button", { name: "Confirm changes" }).click();
   await page.waitForSelector(`text=Updated groups for 2 identities`);
+  await selectIdentitiesToModify(page, [identityFoo, identityBar]);
   await page.getByLabel("Modify groups").click();
   await toggleGroupsForIdentities(page, [groupOne, groupTwo]);
   await assertTextVisible(page, "2 groups will be modified");

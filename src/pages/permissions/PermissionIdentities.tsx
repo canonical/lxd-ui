@@ -11,7 +11,7 @@ import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
@@ -30,6 +30,9 @@ import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import EditIdentityGroupsPanel from "./panels/EditIdentityGroupsPanel";
 import Tag from "components/Tag";
+import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
+import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
+import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -46,6 +49,21 @@ const PermissionIdentities: FC = () => {
   const panelParams = usePanelParams();
   const [searchParams] = useSearchParams();
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
+  const { hasAccessManagementTLS } = useSupportedFeatures();
+
+  useEffect(() => {
+    const validIdentities = new Set(
+      identities.map((identity) => identity.name),
+    );
+
+    const validSelections = selectedIdentityIds.filter((identity) =>
+      validIdentities.has(identity),
+    );
+
+    if (validSelections.length !== selectedIdentityIds.length) {
+      setSelectedIdentityIds(validSelections);
+    }
+  }, [identities]);
 
   if (error) {
     notify.failure("Loading identities failed", error);
@@ -140,20 +158,25 @@ const PermissionIdentities: FC = () => {
         },
         {
           content: !isTlsIdentity && (
-            <Button
-              appearance="base"
-              hasIcon
-              dense
-              onClick={() => {
-                panelParams.openIdentityGroups(identity.id);
-                setSelectedIdentityIds([identity.id]);
-              }}
-              type="button"
-              aria-label="Manage groups"
-              title="Manage groups"
-            >
-              <Icon name="user-group" />
-            </Button>
+            <>
+              <Button
+                appearance="base"
+                hasIcon
+                dense
+                onClick={() => {
+                  panelParams.openIdentityGroups(identity.id);
+                  setSelectedIdentityIds([identity.id]);
+                }}
+                type="button"
+                aria-label="Manage groups"
+                title="Manage groups"
+              >
+                <Icon name="user-group" />
+              </Button>
+              {hasAccessManagementTLS && (
+                <DeleteIdentityBtn identity={identity} />
+              )}
+            </>
           ),
           className: "actions u-align--right",
           role: "cell",
@@ -230,6 +253,12 @@ const PermissionIdentities: FC = () => {
               )}
               {!!selectedIdentityIds.length && (
                 <EditIdentityGroupsBtn
+                  identities={selectedIdentities}
+                  className="u-no-margin--bottom"
+                />
+              )}
+              {!!selectedIdentityIds.length && hasAccessManagementTLS && (
+                <BulkDeleteIdentitiesBtn
                   identities={selectedIdentities}
                   className="u-no-margin--bottom"
                 />
