@@ -11,13 +11,16 @@ import {
   paramsFromSearchData,
   searchParamsToChips,
 } from "util/searchAndFilter";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
 
 export const QUERY = "query";
 export const STATUS = "status";
 export const TYPE = "type";
 export const PROFILE = "profile";
+export const CLUSTER_MEMBER = "member";
 
-const QUERY_PARAMS = [QUERY, STATUS, TYPE, PROFILE];
+const QUERY_PARAMS = [QUERY, STATUS, TYPE, PROFILE, CLUSTER_MEMBER];
 
 interface Props {
   instances: LxdInstance[];
@@ -25,9 +28,15 @@ interface Props {
 
 const InstanceSearchFilter: FC<Props> = ({ instances }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const profileSet = [
     ...new Set(instances.flatMap((instance) => instance.profiles)),
+  ];
+
+  const locationSet = [
+    ...new Set(instances.flatMap((instance) => instance.location)),
   ];
 
   const searchAndFilterData: SearchAndFilterData[] = [
@@ -52,6 +61,17 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
         return { lead: PROFILE, value: profile };
       }),
     },
+    ...(isClustered
+      ? [
+          {
+            id: 4,
+            heading: "Cluster member",
+            chips: locationSet.map((location) => {
+              return { lead: CLUSTER_MEMBER, value: location };
+            }),
+          },
+        ]
+      : []),
   ];
 
   const onSearchDataChange = (searchData: SearchAndFilterChip[]) => {

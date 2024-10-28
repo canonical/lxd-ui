@@ -40,6 +40,7 @@ import {
   DESCRIPTION,
   IPV4,
   IPV6,
+  CLUSTER_MEMBER,
   NAME,
   SIZE_HIDEABLE_COLUMNS,
   SNAPSHOTS,
@@ -58,6 +59,8 @@ import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -80,6 +83,8 @@ const InstanceList: FC = () => {
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
   const [searchParams] = useSearchParams();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const filters: InstanceFilters = {
     queries: searchParams.getAll("query"),
@@ -89,7 +94,8 @@ const InstanceList: FC = () => {
     types: searchParams
       .getAll("type")
       .map((value) => (value === "VM" ? "virtual-machine" : "container")),
-    profileQueries: searchParams.getAll("profile"),
+    profiles: searchParams.getAll("profile"),
+    clusterMembers: searchParams.getAll("member"),
   };
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
@@ -178,10 +184,14 @@ const InstanceList: FC = () => {
       return false;
     }
     if (
-      filters.profileQueries.length > 0 &&
-      !filters.profileQueries.every((profile) =>
-        item.profiles.includes(profile),
-      )
+      filters.profiles.length > 0 &&
+      !filters.profiles.every((profile) => item.profiles.includes(profile))
+    ) {
+      return false;
+    }
+    if (
+      filters.clusterMembers.length > 0 &&
+      !filters.clusterMembers.includes(item.location)
     ) {
       return false;
     }
@@ -212,6 +222,15 @@ const InstanceList: FC = () => {
         sortKey: "type",
         style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
       },
+      ...(isClustered
+        ? [
+            {
+              content: CLUSTER_MEMBER,
+              sortKey: "member",
+              style: { width: `${COLUMN_WIDTHS[CLUSTER_MEMBER]}px` },
+            },
+          ]
+        : []),
       {
         content: DESCRIPTION,
         sortKey: "description",
@@ -262,7 +281,7 @@ const InstanceList: FC = () => {
             content: getInstanceName(operation),
             className: "u-truncate",
             title: getInstanceName(operation),
-            role: "rowheader",
+            role: "cell",
             "aria-label": NAME,
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
           },
@@ -280,7 +299,7 @@ const InstanceList: FC = () => {
                         ))}
                     </i>
                   ),
-                  role: "rowheader",
+                  role: "cell",
                   colSpan: 5 - hiddenCols.length,
                   style: { width: `${spannedWidth}px` },
                 },
@@ -295,7 +314,7 @@ const InstanceList: FC = () => {
                       <Spinner className="status-icon" /> Setting up
                     </>
                   ),
-                  role: "rowheader",
+                  role: "cell",
                   "aria-label": STATUS,
                   style: { width: `${COLUMN_WIDTHS[STATUS]}px` },
                 },
@@ -304,7 +323,7 @@ const InstanceList: FC = () => {
             content: (
               <CancelOperationBtn operation={operation} project={project} />
             ),
-            role: "rowheader",
+            role: "cell",
             className: classnames("u-align--right", {
               "u-hide": panelParams.instance,
             }),
@@ -338,7 +357,7 @@ const InstanceList: FC = () => {
             content: <InstanceLink instance={instance} />,
             className: "u-truncate",
             title: `Instance ${instance.name}`,
-            role: "rowheader",
+            role: "cell",
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
             "aria-label": NAME,
             onClick: openSummary,
@@ -353,19 +372,32 @@ const InstanceList: FC = () => {
                 }
               </>
             ),
-            role: "rowheader",
+            role: "cell",
             "aria-label": TYPE,
             onClick: openSummary,
             className: "clickable-cell",
             style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
           },
+          ...(isClustered
+            ? [
+                {
+                  content: instance.location,
+                  role: "cell",
+                  "aria-label": CLUSTER_MEMBER,
+                  onClick: openSummary,
+                  className: "clickable-cell u-truncate",
+                  title: instance.location,
+                  style: { width: `${COLUMN_WIDTHS[CLUSTER_MEMBER]}px` },
+                },
+              ]
+            : []),
           {
             content: (
               <div className="u-truncate" title={instance.description}>
                 {instance.description}
               </div>
             ),
-            role: "rowheader",
+            role: "cell",
             "aria-label": DESCRIPTION,
             onClick: openSummary,
             className: "clickable-cell",
@@ -373,7 +405,7 @@ const InstanceList: FC = () => {
           },
           {
             content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
-            role: "rowheader",
+            role: "cell",
             className: "u-align--right clickable-cell",
             "aria-label": IPV4,
             onClick: openSummary,
@@ -381,7 +413,7 @@ const InstanceList: FC = () => {
           },
           {
             content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
-            role: "rowheader",
+            role: "cell",
             "aria-label": IPV6,
             onClick: openSummary,
             className: "clickable-cell",
@@ -389,7 +421,7 @@ const InstanceList: FC = () => {
           },
           {
             content: instance.snapshots?.length ?? "0",
-            role: "rowheader",
+            role: "cell",
             className: "u-align--right clickable-cell",
             "aria-label": SNAPSHOTS,
             onClick: openSummary,
@@ -397,7 +429,7 @@ const InstanceList: FC = () => {
           },
           {
             content: <InstanceStatusIcon instance={instance} />,
-            role: "rowheader",
+            role: "cell",
             className: "clickable-cell",
             "aria-label": STATUS,
             onClick: openSummary,
@@ -416,7 +448,7 @@ const InstanceList: FC = () => {
                 instance={instance}
               />
             ),
-            role: "rowheader",
+            role: "cell",
             className: classnames("u-align--right", {
               "u-hide": panelParams.instance,
             }),
@@ -426,6 +458,7 @@ const InstanceList: FC = () => {
         ].filter((item) => !hiddenCols.includes(item["aria-label"])),
         sortData: {
           name: instance.name.toLowerCase(),
+          member: instance.location,
           description: instance.description.toLowerCase(),
           status: instance.status,
           type: instance.type,
@@ -579,7 +612,14 @@ const InstanceList: FC = () => {
                     }
                   >
                     <TableColumnsSelect
-                      columns={[TYPE, DESCRIPTION, IPV4, IPV6, SNAPSHOTS]}
+                      columns={[
+                        TYPE,
+                        CLUSTER_MEMBER,
+                        DESCRIPTION,
+                        IPV4,
+                        IPV6,
+                        SNAPSHOTS,
+                      ]}
                       hidden={userHidden}
                       sizeHidden={sizeHidden}
                       setHidden={setHidden}
