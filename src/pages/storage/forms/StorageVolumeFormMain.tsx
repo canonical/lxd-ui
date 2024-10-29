@@ -36,12 +36,10 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
             selectProps={{
               disabled: !formik.values.isCreating,
               error: poolError,
-            }}
-            help={
-              formik.values.isCreating
+              help: formik.values.isCreating
                 ? undefined
-                : "Use the migrate button in the header to move the volume to a different storage pool."
-            }
+                : "Use the migrate button in the header to move the volume to a different storage pool.",
+            }}
           />
           <Input
             {...getFormProps(formik, "name")}
