@@ -243,7 +243,7 @@ test.describe("OVN type", () => {
     await page.getByLabel("Type").selectOption("OVN");
     await page.getByLabel("Name").click();
     await page.getByLabel("Name").fill(network);
-    await page.getByLabel("Uplink").selectOption({ index: 2 });
+    await page.getByLabel("Uplink").selectOption({ index: 1 });
   });
 
   test("configure main OVN network settings", async ({ page }) => {

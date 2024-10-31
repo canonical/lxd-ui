@@ -27,7 +27,10 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props }) => {
   const availableUplinks =
     project?.config?.["restricted.networks.uplinks"]?.split(",") ||
     networks
-      .filter((network) => UPLINK_NETWORK_TYPES.includes(network.type))
+      .filter(
+        (network) =>
+          UPLINK_NETWORK_TYPES.includes(network.type) && network.managed,
+      )
       .map((network) => network.name);
 
   const options = availableUplinks.map((name) => {
