@@ -4,7 +4,8 @@ export interface InstanceFilters {
   queries: string[];
   statuses: LxdInstanceStatus[];
   types: string[];
-  profileQueries: string[];
+  profiles: string[];
+  clusterMembers: string[];
 }
 
 export const instanceStatuses: LxdInstanceStatus[] = [
