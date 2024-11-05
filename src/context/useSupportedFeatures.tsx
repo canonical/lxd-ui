@@ -24,6 +24,7 @@ export const useSupportedFeatures = () => {
       (!!serverVersion && serverMajor >= 5 && serverMinor >= 20) ||
       serverMajor > 5,
     hasAccessManagement: apiExtensions.has("access_management"),
+    hasAccessManagementTLS: apiExtensions.has("access_management_tls"),
     hasExplicitTrustToken: apiExtensions.has("explicit_trust_token"),
     hasInstanceCreateStart: apiExtensions.has("instance_create_start"),
     hasInstanceImportConversion: apiExtensions.has(

@@ -50,3 +50,27 @@ export const updateIdentities = (
       .catch(reject);
   });
 };
+
+export const deleteOIDCIdentity = (identity: LxdIdentity) => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/auth/identities/oidc/${identity.id}`, {
+      method: "DELETE",
+    })
+      .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const deleteOIDCIdentities = (
+  identities: LxdIdentity[],
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    void Promise.allSettled(
+      identities.map((identity) => deleteOIDCIdentity(identity)),
+    )
+      .then(handleSettledResult)
+      .then(resolve)
+      .catch(reject);
+  });
+};
