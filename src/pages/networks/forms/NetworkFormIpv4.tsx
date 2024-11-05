@@ -77,19 +77,24 @@ const NetworkFormIpv4: FC<Props> = ({ formik }) => {
             ]
           : []),
 
+        ...(["bridge", "physical"].includes(formik.values.networkType)
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "ipv4_routes",
+                label: "IPv4 routes",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+            ]
+          : []),
+
         ...(formik.values.networkType === "physical"
           ? [
               getConfigurationRow({
                 formik,
                 name: "ipv4_gateway",
                 label: "IPv4 gateway",
-                defaultValue: "",
-                children: <Textarea />,
-              }),
-              getConfigurationRow({
-                formik,
-                name: "ipv4_routes",
-                label: "IPv4 routes",
                 defaultValue: "",
                 children: <Textarea />,
               }),
