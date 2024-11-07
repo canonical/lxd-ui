@@ -1,3 +1,15 @@
+# Roadmap for 25.05 from October 2024 until April 2025
+
+- Network: improve OVN representation
+- Network: improve configuration in a clustered backend
+- Fix lack of default storage pool in new project
+- Add SSH Key on instance creation
+- Graceful handling of restricted permissions
+- TLS user management
+- Permissions for TLS users
+- Additional storage driver support
+- Link to grafana, access to metrics
+
 # Roadmap for 24.10 from April 2024 until October 2024
 
 - Create instances from a snapshot or instance
