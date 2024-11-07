@@ -71,11 +71,12 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             getConfigurationRow({
               formik,
               name: "ipv4_address",
-              label: "IPv4 address",
+              label: "IPv4 address range",
               defaultValue: "auto",
               children: (
                 <IpAddressSelector
                   id="ipv4_address"
+                  family="IPv4"
                   address={formik.values.ipv4_address}
                   setAddress={(value) => {
                     void formik.setFieldValue("ipv4_address", value);
@@ -109,11 +110,12 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             getConfigurationRow({
               formik,
               name: "ipv6_address",
-              label: "IPv6 address",
+              label: "IPv6 address range",
               defaultValue: "auto",
               children: (
                 <IpAddressSelector
                   id="ipv6_address"
+                  family="IPv6"
                   address={formik.values.ipv6_address}
                   setAddress={(value) => {
                     void formik.setFieldValue("ipv6_address", value);
