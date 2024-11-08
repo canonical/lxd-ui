@@ -17,10 +17,13 @@ import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { LxdConfigPair } from "types/config";
 import { ensureEditMode } from "util/instanceEdit";
+import StoragePoolSelector from "pages/storage/StoragePoolSelector";
+import ResourceLink from "components/ResourceLink";
 
 export interface ProjectDetailsFormValues {
   name: string;
   description?: string;
+  default_instance_storage_pool: string;
   restricted: boolean;
   features_images?: boolean;
   features_profiles?: boolean;
@@ -146,144 +149,181 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             }}
             value={formik.values.description}
           />
-          <Select
-            id="features"
-            name="features"
-            label="Features"
-            onChange={(e) => {
-              ensureEditMode(formik);
-              setFeatures(e.target.value);
-              void formik.setFieldValue("features_images", true);
-              void formik.setFieldValue("features_profiles", true);
-              void formik.setFieldValue("features_networks", false);
-              void formik.setFieldValue("features_networks_zones", false);
-              void formik.setFieldValue("features_storage_buckets", true);
-              void formik.setFieldValue("features_storage_volumes", true);
-            }}
-            value={features}
-            options={[
-              {
-                label: "Default LXD",
-                value: "default",
-              },
-              {
-                label: "Customised",
-                value: "customised",
-              },
-            ]}
-            disabled={
-              isDefaultProject ||
-              (isNonEmpty && hadFeaturesNetwork) ||
-              (isNonEmpty && hadFeaturesNetworkZones)
+          <div
+            title={
+              isDefaultProject
+                ? "Custom features are immutable on the default project"
+                : ""
             }
-          />
-          {features === "customised" && (
-            <>
-              Isolate the following features:
-              <CheckboxInput
-                id="features_images"
-                name="features_images"
-                label="Images"
-                onChange={() => {
-                  ensureEditMode(formik);
-                  void formik.setFieldValue(
-                    "features_images",
-                    !formik.values.features_images,
-                  );
-                }}
-                checked={formik.values.features_images}
-                disabled={isDefaultProject || isNonEmpty}
-              />
-              <CheckboxInput
-                id="features_profiles"
-                name="features_profiles"
-                label={
-                  <>
-                    Profiles
-                    <Tooltip
-                      className="checkbox-label-tooltip"
-                      message={`Allow profiles to enable custom${"\n"}restrictions on a project level`}
-                    >
-                      <Icon name="information" />
-                    </Tooltip>
-                  </>
-                }
-                onChange={() => {
-                  ensureEditMode(formik);
-                  const newValue = !formik.values.features_profiles;
-                  void formik.setFieldValue("features_profiles", newValue);
-                  if (!newValue) {
-                    void formik.setFieldValue("restricted", false);
-                  }
-                }}
-                checked={formik.values.features_profiles}
-                disabled={isDefaultProject || isNonEmpty}
-              />
-              <CheckboxInput
-                id="features_networks"
-                name="features_networks"
-                label="Networks"
-                onChange={() => {
-                  ensureEditMode(formik);
-                  void formik.setFieldValue(
-                    "features_networks",
-                    !formik.values.features_networks,
-                  );
-                }}
-                checked={formik.values.features_networks}
-                disabled={isDefaultProject || isNonEmpty}
-              />
-              {hasProjectsNetworksZones && (
+          >
+            <Select
+              id="features"
+              name="features"
+              label="Features"
+              onChange={(e) => {
+                ensureEditMode(formik);
+                setFeatures(e.target.value);
+                void formik.setFieldValue("features_images", true);
+                void formik.setFieldValue("features_profiles", true);
+                void formik.setFieldValue("features_networks", false);
+                void formik.setFieldValue("features_networks_zones", false);
+                void formik.setFieldValue("features_storage_buckets", true);
+                void formik.setFieldValue("features_storage_volumes", true);
+              }}
+              value={features}
+              options={[
+                {
+                  label: "Default LXD",
+                  value: "default",
+                },
+                {
+                  label: "Customised",
+                  value: "customised",
+                },
+              ]}
+              disabled={
+                isDefaultProject ||
+                (isNonEmpty && hadFeaturesNetwork) ||
+                (isNonEmpty && hadFeaturesNetworkZones)
+              }
+            />
+
+            {features === "customised" && (
+              <>
+                Isolate the following features:
                 <CheckboxInput
-                  id="features_networks_zones"
-                  name="features_networks_zones"
-                  label="Network zones"
+                  id="features_images"
+                  name="features_images"
+                  label="Images"
                   onChange={() => {
                     ensureEditMode(formik);
                     void formik.setFieldValue(
-                      "features_networks_zones",
-                      !formik.values.features_networks_zones,
+                      "features_images",
+                      !formik.values.features_images,
                     );
                   }}
-                  checked={formik.values.features_networks_zones}
-                  disabled={
-                    isDefaultProject || (isNonEmpty && hadFeaturesNetworkZones)
-                  }
-                />
-              )}
-              {hasStorageBuckets && (
-                <CheckboxInput
-                  id="features_storage_buckets"
-                  name="features_storage_buckets"
-                  label="Storage buckets"
-                  onChange={() => {
-                    ensureEditMode(formik);
-                    void formik.setFieldValue(
-                      "features_storage_buckets",
-                      !formik.values.features_storage_buckets,
-                    );
-                  }}
-                  checked={formik.values.features_storage_buckets}
+                  checked={formik.values.features_images}
                   disabled={isDefaultProject || isNonEmpty}
                 />
-              )}
-              <CheckboxInput
-                id="features_storage_volumes"
-                name="features_storage_volumes"
-                label="Storage volumes"
-                onChange={() => {
-                  ensureEditMode(formik);
-                  void formik.setFieldValue(
-                    "features_storage_volumes",
-                    !formik.values.features_storage_volumes,
-                  );
-                }}
-                checked={formik.values.features_storage_volumes}
-                disabled={isDefaultProject || isNonEmpty}
-              />
-            </>
-          )}
+                <CheckboxInput
+                  id="features_profiles"
+                  name="features_profiles"
+                  label={
+                    <>
+                      Profiles
+                      <Tooltip
+                        className="checkbox-label-tooltip"
+                        message={`Allow profiles to enable custom${"\n"}restrictions on a project level`}
+                      >
+                        <Icon name="information" />
+                      </Tooltip>
+                    </>
+                  }
+                  onChange={() => {
+                    ensureEditMode(formik);
+                    const newValue = !formik.values.features_profiles;
+                    void formik.setFieldValue("features_profiles", newValue);
+                    if (!newValue) {
+                      void formik.setFieldValue("restricted", false);
+                    }
+                  }}
+                  checked={formik.values.features_profiles}
+                  disabled={isDefaultProject || isNonEmpty}
+                />
+                <CheckboxInput
+                  id="features_networks"
+                  name="features_networks"
+                  label="Networks"
+                  onChange={() => {
+                    ensureEditMode(formik);
+                    void formik.setFieldValue(
+                      "features_networks",
+                      !formik.values.features_networks,
+                    );
+                  }}
+                  checked={formik.values.features_networks}
+                  disabled={isDefaultProject || isNonEmpty}
+                />
+                {hasProjectsNetworksZones && (
+                  <CheckboxInput
+                    id="features_networks_zones"
+                    name="features_networks_zones"
+                    label="Network zones"
+                    onChange={() => {
+                      ensureEditMode(formik);
+                      void formik.setFieldValue(
+                        "features_networks_zones",
+                        !formik.values.features_networks_zones,
+                      );
+                    }}
+                    checked={formik.values.features_networks_zones}
+                    disabled={
+                      isDefaultProject ||
+                      (isNonEmpty && hadFeaturesNetworkZones)
+                    }
+                  />
+                )}
+                {hasStorageBuckets && (
+                  <CheckboxInput
+                    id="features_storage_buckets"
+                    name="features_storage_buckets"
+                    label="Storage buckets"
+                    onChange={() => {
+                      ensureEditMode(formik);
+                      void formik.setFieldValue(
+                        "features_storage_buckets",
+                        !formik.values.features_storage_buckets,
+                      );
+                    }}
+                    checked={formik.values.features_storage_buckets}
+                    disabled={isDefaultProject || isNonEmpty}
+                  />
+                )}
+                <CheckboxInput
+                  id="features_storage_volumes"
+                  name="features_storage_volumes"
+                  label="Storage volumes"
+                  onChange={() => {
+                    ensureEditMode(formik);
+                    void formik.setFieldValue(
+                      "features_storage_volumes",
+                      !formik.values.features_storage_volumes,
+                    );
+                  }}
+                  checked={formik.values.features_storage_volumes}
+                  disabled={isDefaultProject || isNonEmpty}
+                />
+              </>
+            )}
+          </div>
+
           <hr />
+          <StoragePoolSelector
+            value={formik.values.default_instance_storage_pool}
+            setValue={(value) =>
+              void formik.setFieldValue("default_instance_storage_pool", value)
+            }
+            selectProps={{
+              label: "Default instance storage pool",
+              disabled:
+                (formik.values.features_profiles === false &&
+                  features === "customised") ||
+                isEdit,
+              help: isEdit ? (
+                <>
+                  Edit the storage pool in the{" "}
+                  <ResourceLink
+                    type="profile"
+                    value="default"
+                    to={`/ui/project/${project?.name}/profile/default`}
+                  />{" "}
+                  {" profile"}
+                </>
+              ) : (
+                ""
+              ),
+            }}
+          />
           <CheckboxInput
             id="custom_restrictions"
             name="custom_restrictions"

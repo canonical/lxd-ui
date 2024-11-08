@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import { useFormik } from "formik";
@@ -23,6 +23,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
+import { fetchProfile } from "api/profiles";
 
 interface Props {
   project: LxdProject;
@@ -38,6 +39,10 @@ const EditProject: FC<Props> = ({ project }) => {
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
 
+  const { data: profile } = useQuery({
+    queryKey: [queryKeys.profiles, "default", project.name],
+    queryFn: () => fetchProfile("default", project.name),
+  });
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
@@ -48,7 +53,7 @@ const EditProject: FC<Props> = ({ project }) => {
     name: Yup.string().required(),
   });
 
-  const initialValues = getProjectEditValues(project);
+  const initialValues = getProjectEditValues(project, profile);
 
   const formik: FormikProps<ProjectFormValues> = useFormik({
     initialValues: initialValues,

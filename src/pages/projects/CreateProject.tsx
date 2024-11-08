@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { checkDuplicateName } from "util/helpers";
+import { checkDuplicateName, getDefaultStoragePool } from "util/helpers";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
@@ -42,6 +42,7 @@ import { slugify } from "util/slugify";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
+import { fetchProfile, updateProfile } from "api/profiles";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -60,6 +61,11 @@ const CreateProject: FC = () => {
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
 
+  const { data: profile } = useQuery({
+    queryKey: [queryKeys.profiles, "default", "default"],
+    queryFn: () => fetchProfile("default", "default"),
+  });
+
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
       .test("deduplicate", "A project with this name already exists", (value) =>
@@ -74,12 +80,30 @@ const CreateProject: FC = () => {
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useEventListener("resize", updateFormHeight);
 
+  const notifySuccess = (values: ProjectFormValues) => {
+    navigate(`/ui/project/${values.name}/instances`);
+    toastNotify.success(
+      <>
+        Project{" "}
+        <ResourceLink
+          type="project"
+          value={values.name}
+          to={`/ui/project/${values.name}/instances`}
+        />{" "}
+        created.
+      </>,
+    );
+  };
+
   const formik = useFormik<ProjectFormValues>({
     initialValues: {
       name: "",
       restricted: false,
       readOnly: false,
       entityType: "project",
+      default_instance_storage_pool: profile
+        ? getDefaultStoragePool(profile)
+        : "",
     },
     validationSchema: ProjectSchema,
     onSubmit: (values) => {
@@ -110,19 +134,34 @@ const CreateProject: FC = () => {
           },
         }),
       )
-        .then(() => {
-          navigate(`/ui/project/${values.name}/instances`);
-          toastNotify.success(
-            <>
-              Project{" "}
-              <ResourceLink
-                type="project"
-                value={values.name}
-                to={`/ui/project/${values.name}/instances`}
-              />{" "}
-              created.
-            </>,
-          );
+        .then(async () => {
+          if (
+            !values.default_instance_storage_pool ||
+            values.features_profiles === false
+          ) {
+            notifySuccess(values);
+            return;
+          }
+          const profile = await fetchProfile("default", values.name);
+          profile.devices = {
+            root: {
+              path: "/",
+              pool: values.default_instance_storage_pool,
+              type: "disk",
+            },
+          };
+
+          updateProfile(profile, values.name)
+            .then(() => {
+              notifySuccess(values);
+            })
+            .catch((e: Error) => {
+              navigate(`/ui/project/${values.name}/instances`);
+              toastNotify.failure(
+                `Successfully created ${profile.name}, Failed to attach storage pool`,
+                e,
+              );
+            });
         })
         .catch((e: Error) => {
           formik.setSubmitting(false);
