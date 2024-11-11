@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/instances/InstanceOverviewNetworks.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/NetworkListTable.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.png" />
+    <link rel="stylesheet" href="../../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../../../../../sort-arrow-sprite.png);
+            background-image: url(../../../../../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/instances</a> InstanceOverviewNetworks.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> NetworkListTable.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.09% </span>
+                <span class="strong">88.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>111/126</span>
+                <span class='fraction'>119/135</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.5% </span>
+                <span class="strong">45% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/40</span>
+                <span class='fraction'>18/40</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.18% </span>
+                <span class="strong">98.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>108/110</span>
+                <span class='fraction'>116/118</span>
             </div>
         
             
@@ -173,150 +173,169 @@
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
 <a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">135x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">110x</span>
-<span class="cline-any cline-yes">41x</span>
-<span class="cline-any cline-yes">41x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">130x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">164x</span>
+<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-yes">69x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { LxdInstance } from "types/instance";
 import { fetchNetworks } from "api/networks";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
+import { useParams } from "react-router-dom";
+import { LxdDevices } from "types/device";
 &nbsp;
 interface Props {
-  instance: LxdInstance;
   onFailure: (title: string, e: unknown) =&gt; void;
+  devices: LxdDevices;
 }
 &nbsp;
-const InstanceOverviewNetworks: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance, onFailure }) =&gt; {</span>
+const NetworkListTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> onFailure, devices }) =&gt; {</span>
+  const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ project: string }&gt;();</span>
+&nbsp;
   const {
     data: networks = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
     error,
     isLoading,
   } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.projects, instance.project, queryKeys.networks],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchNetworks(instance.project),</span>
+    queryKey: [queryKeys.projects, project, queryKeys.networks],
+    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchNetworks(project as string),</span>
   });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    onFailure("Loading networks failed", error);</span></span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const instanceNetworks = <span class="cstat-no" title="statement not covered" >Object.values(instance.<span class="branch-0 cbranch-no" title="branch not covered" >expanded_devices ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span></span></span>
+  const networkDevices = <span class="cstat-no" title="statement not covered" >Object.values(<span class="branch-0 cbranch-no" title="branch not covered" >devices ?? {})</span></span>
     .filter(isNicDevice)
     .map((network) =&gt; network.network);
 &nbsp;
-  const hasNetworks = <span class="cstat-no" title="statement not covered" >instanceNetworks.length &gt; 0;</span>
+  const hasNetworks = <span class="cstat-no" title="statement not covered" >networkDevices.length &gt; 0;</span>
 &nbsp;
   const networksHeaders = <span class="cstat-no" title="statement not covered" >[</span>
     { content: "Name", sortKey: "name", className: "u-text--muted" },
@@ -334,9 +353,9 @@ const InstanceOverviewNetworks: FC&lt;Props&gt; = <span class="cstat-no" title="
   ];
 &nbsp;
   const networksRows = <span class="cstat-no" title="statement not covered" >networks</span>
-    .filter((network) =&gt; instanceNetworks.includes(network.name))
+    .filter((network) =&gt; networkDevices.includes(network.name))
     .map((network) =&gt; {
-      const interfaceNames = <span class="cstat-no" title="statement not covered" >Object.entries(instance.expanded_devices ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span></span>
+      const interfaceNames = <span class="cstat-no" title="statement not covered" >Object.entries(devices ?? <span class="branch-1 cbranch-no" title="branch not covered" >{})</span></span>
         .filter(
 <span class="fstat-no" title="function not covered" >          ([</span>_key, value]) =&gt;
 <span class="cstat-no" title="statement not covered" >            value.type === "nic" &amp;&amp; value.network === network.name,</span>
@@ -350,25 +369,25 @@ const InstanceOverviewNetworks: FC&lt;Props&gt; = <span class="cstat-no" title="
               &lt;ResourceLink
                 type="network"
                 value={network.name}
-                to={`/ui/project/${instance.project}/network/${network.name}`}
+                to={`/ui/project/${project}/network/${network.name}`}
               /&gt;
             ),
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Name",
           },
           {
             content: interfaceNames.length &gt; 0 ? interfaceNames.join(" ") : "-",
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Interface",
           },
           {
             content: network.type,
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Type",
           },
           {
             content: network.managed ? "Yes" : "No",
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Managed",
           },
         ],
@@ -385,14 +404,19 @@ const InstanceOverviewNetworks: FC&lt;Props&gt; = <span class="cstat-no" title="
     &lt;&gt;
       {isLoading &amp;&amp; &lt;Loader text="Loading networks..." /&gt;}
       {!isLoading &amp;&amp; hasNetworks &amp;&amp; (
-        &lt;MainTable headers={networksHeaders} rows={networksRows} sortable /&gt;
+        &lt;MainTable
+          headers={networksHeaders}
+          rows={networksRows}
+          sortable
+          className={"network-table"}
+        /&gt;
       )}
       {!isLoading &amp;&amp; !hasNetworks &amp;&amp; &lt;&gt;-&lt;/&gt;}
     &lt;/&gt;
   );
 };
 &nbsp;
-export default InstanceOverviewNetworks;
+export default NetworkListTable;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -400,16 +424,16 @@ export default InstanceOverviewNetworks;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-08T15:09:44.648Z
+                at 2024-11-11T15:37:57.690Z
             </div>
-        <script src="../../../../../../../../prettify.js"></script>
+        <script src="../../../../../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../../../../../sorter.js"></script>
-        <script src="../../../../../../../../block-navigation.js"></script>
+        <script src="../../../../../../../sorter.js"></script>
+        <script src="../../../../../../../block-navigation.js"></script>
     </body>
 </html>
     
