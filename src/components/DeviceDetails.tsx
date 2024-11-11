@@ -9,7 +9,7 @@ interface Props {
   project: string;
 }
 
-const InstanceOverviewDeviceDetail: FC<Props> = ({ device, project }) => {
+const DeviceDetails: FC<Props> = ({ device, project }) => {
   if (device.type === "disk") {
     if (isRootDisk(device as FormDevice)) {
       return (
@@ -65,4 +65,4 @@ const InstanceOverviewDeviceDetail: FC<Props> = ({ device, project }) => {
   return "-";
 };
 
-export default InstanceOverviewDeviceDetail;
+export default DeviceDetails;

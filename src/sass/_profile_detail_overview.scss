@@ -51,6 +51,14 @@
     }
   }
 
+  .devices {
+    border-bottom: 1px solid $color-mid-light;
+  }
+
+  .networks {
+    border-bottom: 1px solid $color-mid-light;
+  }
+
   .view-config {
     margin-top: $spv--x-small;
   }

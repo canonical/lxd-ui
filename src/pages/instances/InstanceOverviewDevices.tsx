@@ -6,7 +6,7 @@ import { isRootDisk } from "util/instanceValidation";
 import { FormDevice } from "util/formDevices";
 import ResourceLink from "components/ResourceLink";
 import { isOtherDevice } from "util/devices";
-import InstanceOverviewDeviceDetail from "./InstanceOverviewDeviceDetail";
+import InstanceOverviewDeviceDetail from "components/DeviceDetails";
 
 interface Props {
   instance: LxdInstance;
