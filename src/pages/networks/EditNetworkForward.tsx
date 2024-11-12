@@ -18,6 +18,7 @@ import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { fetchNetwork } from "api/networks";
 
 const EditNetworkForward: FC = () => {
   const docBaseLink = useDocs();
@@ -25,23 +26,36 @@ const EditNetworkForward: FC = () => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const { network, project, forwardAddress } = useParams<{
+  const {
+    network: networkName,
+    project,
+    forwardAddress,
+  } = useParams<{
     network: string;
     project: string;
     forwardAddress: string;
   }>();
+
+  const { data: network } = useQuery({
+    queryKey: [queryKeys.projects, project, queryKeys.networks, networkName],
+    queryFn: () => fetchNetwork(networkName ?? "", project ?? ""),
+  });
 
   const { data: forward } = useQuery({
     queryKey: [
       queryKeys.projects,
       project,
       queryKeys.networks,
-      network,
+      networkName,
       queryKeys.forwards,
       forwardAddress,
     ],
     queryFn: () =>
-      fetchNetworkForward(network ?? "", forwardAddress ?? "", project ?? ""),
+      fetchNetworkForward(
+        networkName ?? "",
+        forwardAddress ?? "",
+        project ?? "",
+      ),
   });
 
   const formik = useFormik<NetworkForwardFormValues>({
@@ -62,18 +76,18 @@ const EditNetworkForward: FC = () => {
     onSubmit: (values) => {
       const forward = toNetworkForward(values);
 
-      updateNetworkForward(network ?? "", forward, project ?? "")
+      updateNetworkForward(networkName ?? "", forward, project ?? "")
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
               queryKeys.networks,
-              network,
+              networkName,
               queryKeys.forwards,
             ],
           });
-          navigate(`/ui/project/${project}/network/${network}/forwards`);
+          navigate(`/ui/project/${project}/network/${networkName}/forwards`);
           toastNotify.success(
             `Network forward ${forward.listen_address} updated.`,
           );
@@ -97,16 +111,11 @@ const EditNetworkForward: FC = () => {
       }
       contentClassName="edit-network"
     >
-      <NetworkForwardForm
-        formik={formik}
-        isEdit
-        networkName={network ?? ""}
-        project={project ?? ""}
-      />
+      <NetworkForwardForm formik={formik} isEdit network={network} />
       <FormFooterLayout>
         <Link
           className="p-button--base"
-          to={`/ui/project/${project}/network/${network}/forwards`}
+          to={`/ui/project/${project}/network/${networkName}/forwards`}
         >
           Cancel
         </Link>

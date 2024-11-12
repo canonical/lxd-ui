@@ -5,18 +5,17 @@ import {
   Form,
   Icon,
   Input,
+  Label,
   Notification,
+  RadioInput,
   Row,
   useNotify,
 } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import * as Yup from "yup";
-import { LxdNetworkForward } from "types/network";
+import { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchNetwork } from "api/networks";
 import { testValidIp, testValidPort } from "util/networks";
 import NotificationRow from "components/NotificationRow";
 import NetworkForwardFormPorts, {
@@ -73,22 +72,11 @@ export interface NetworkForwardFormValues {
 interface Props {
   formik: FormikProps<NetworkForwardFormValues>;
   isEdit?: boolean;
-  networkName: string;
-  project: string;
+  network?: LxdNetwork;
 }
 
-const NetworkForwardForm: FC<Props> = ({
-  formik,
-  isEdit,
-  networkName,
-  project,
-}) => {
+const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
   const notify = useNotify();
-
-  const { data: network } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks, networkName],
-    queryFn: () => fetchNetwork(networkName ?? "", project ?? ""),
-  });
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -107,6 +95,10 @@ const NetworkForwardForm: FC<Props> = ({
     const name = `ports.${formik.values.ports.length}.listenPort`;
     focusField(name);
   };
+
+  const isOvnNetwork = network?.type === "ovn";
+  const isManualListenAddress =
+    !isOvnNetwork || !["0.0.0.0", "::"].includes(formik.values.listenAddress);
 
   return (
     <Form className="form network-forwards-form" onSubmit={formik.handleSubmit}>
@@ -135,23 +127,57 @@ const NetworkForwardForm: FC<Props> = ({
                 )}
               </Notification>
             </Row>
-            <Input
-              {...formik.getFieldProps("listenAddress")}
-              id="listenAddress"
-              type="text"
-              label="Listen address"
-              placeholder="Enter IP address"
-              autoFocus
-              required
-              stacked
-              disabled={isEdit}
-              help="Any address routed to LXD."
-              error={
-                formik.touched.listenAddress
-                  ? formik.errors.listenAddress
-                  : undefined
-              }
-            />
+            <Row>
+              <Col size={4}>
+                <Label forId="listenAddress">Listen address</Label>
+              </Col>
+              <Col size={8}>
+                {isOvnNetwork && !isEdit && (
+                  <>
+                    {network?.config["ipv4.address"] !== "none" && (
+                      <RadioInput
+                        label="Auto-assign IPv4 address"
+                        checked={formik.values.listenAddress === "0.0.0.0"}
+                        onChange={() => {
+                          void formik.setFieldValue("listenAddress", "0.0.0.0");
+                        }}
+                      />
+                    )}
+                    {network?.config["ipv6.address"] !== "none" && (
+                      <RadioInput
+                        label="Auto-assign IPv6 address"
+                        checked={formik.values.listenAddress === "::"}
+                        onChange={() => {
+                          void formik.setFieldValue("listenAddress", "::");
+                        }}
+                      />
+                    )}
+                    <RadioInput
+                      label="Manually enter address"
+                      checked={isManualListenAddress}
+                      onChange={() => {
+                        void formik.setFieldValue("listenAddress", "");
+                      }}
+                    />
+                  </>
+                )}
+                <Input
+                  {...formik.getFieldProps("listenAddress")}
+                  id="listenAddress"
+                  type="text"
+                  placeholder="Enter IP address"
+                  autoFocus
+                  required
+                  disabled={isEdit || !isManualListenAddress}
+                  help="Any address routed to LXD."
+                  error={
+                    formik.touched.listenAddress
+                      ? formik.errors.listenAddress
+                      : undefined
+                  }
+                />
+              </Col>
+            </Row>
             <Input
               {...formik.getFieldProps("defaultTargetAddress")}
               id="defaultTargetAddress"

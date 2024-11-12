@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -15,6 +15,7 @@ import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { fetchNetwork } from "api/networks";
 
 const CreateNetworkForward: FC = () => {
   const docBaseLink = useDocs();
@@ -22,20 +23,38 @@ const CreateNetworkForward: FC = () => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const { network, project } = useParams<{
+  const { network: networkName, project } = useParams<{
     network: string;
     project: string;
   }>();
 
+  const { data: network } = useQuery({
+    queryKey: [queryKeys.projects, project, queryKeys.networks, networkName],
+    queryFn: () => fetchNetwork(networkName ?? "", project ?? ""),
+  });
+
+  const getDefaultListenAddress = () => {
+    if (network?.type !== "ovn") {
+      return "";
+    }
+    if (network?.config["ipv4.address"] !== "none") {
+      return "0.0.0.0";
+    }
+    if (network?.config["ipv6.address"] !== "none") {
+      return "::";
+    }
+    return "";
+  };
+
   const formik = useFormik<NetworkForwardFormValues>({
     initialValues: {
-      listenAddress: "",
+      listenAddress: getDefaultListenAddress(),
       ports: [],
     },
     validationSchema: NetworkForwardSchema,
     onSubmit: (values) => {
       const forward = toNetworkForward(values);
-      createNetworkForward(network ?? "", forward, project ?? "")
+      createNetworkForward(networkName ?? "", forward, project ?? "")
         .then(() => {
           void queryClient.invalidateQueries({
             queryKey: [
@@ -46,7 +65,7 @@ const CreateNetworkForward: FC = () => {
               queryKeys.forwards,
             ],
           });
-          navigate(`/ui/project/${project}/network/${network}/forwards`);
+          navigate(`/ui/project/${project}/network/${networkName}/forwards`);
           toastNotify.success(
             `Network forward ${forward.listen_address} created.`,
           );
@@ -70,15 +89,11 @@ const CreateNetworkForward: FC = () => {
       }
       contentClassName="create-network"
     >
-      <NetworkForwardForm
-        formik={formik}
-        networkName={network ?? ""}
-        project={project ?? ""}
-      />
+      <NetworkForwardForm formik={formik} network={network} />
       <FormFooterLayout>
         <Link
           className="p-button--base"
-          to={`/ui/project/${project}/network/${network}/forwards`}
+          to={`/ui/project/${project}/network/${networkName}/forwards`}
         >
           Cancel
         </Link>

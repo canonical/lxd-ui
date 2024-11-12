@@ -91,19 +91,24 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
             ]
           : []),
 
+        ...(["bridge", "physical"].includes(formik.values.networkType)
+          ? [
+              getConfigurationRow({
+                formik,
+                name: "ipv6_routes",
+                label: "IPv6 routes",
+                defaultValue: "",
+                children: <Textarea />,
+              }),
+            ]
+          : []),
+
         ...(formik.values.networkType === "physical"
           ? [
               getConfigurationRow({
                 formik,
                 name: "ipv6_gateway",
                 label: "IPv6 gateway",
-                defaultValue: "",
-                children: <Textarea />,
-              }),
-              getConfigurationRow({
-                formik,
-                name: "ipv6_routes",
-                label: "IPv6 routes",
                 defaultValue: "",
                 children: <Textarea />,
               }),
