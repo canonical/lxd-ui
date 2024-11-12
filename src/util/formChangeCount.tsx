@@ -72,13 +72,14 @@ const getLimitChanges = (formik: ConfigurationRowFormikProps): number => {
   let changeCount = 0;
 
   ["limits_cpu", "limits_memory"].forEach((key) => {
+    const keyType = key as "limits_memory" | "limits_cpu";
+    const init = (formik.initialValues as ResourceLimitsFormValues)[keyType];
+
     if (!Object.hasOwn(formik.values, key)) {
+      changeCount += init ? 1 : 0;
       return;
     }
 
-    const keyType = key as "limits_memory" | "limits_cpu";
-
-    const init = (formik.initialValues as ResourceLimitsFormValues)[keyType];
     const value = (formik.values as ResourceLimitsFormValues)[keyType];
 
     if (stringifyWithOrder(init) !== stringifyWithOrder(value)) {

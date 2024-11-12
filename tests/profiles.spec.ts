@@ -2,6 +2,7 @@ import { expect, test } from "./fixtures/lxd-test";
 import {
   assertCode,
   assertReadMode,
+  clearCpuLimit,
   setCodeInput,
   setCpuLimit,
   setInput,
@@ -65,6 +66,9 @@ test("profile cpu and memory", async ({ page }) => {
   await setCpuLimit(page, "fixed", "1-23");
   await saveProfile(page, profile, 1);
   await assertReadMode(page, "Exposed CPU limit", "1-23");
+
+  await clearCpuLimit(page);
+  await saveProfile(page, profile, 1);
 
   await setMemLimit(page, "percentage", "2");
   await saveProfile(page, profile, 1);

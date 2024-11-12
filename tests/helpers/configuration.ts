@@ -65,6 +65,13 @@ export const setCpuLimit = async (
   await page.getByPlaceholder(placeholder).fill(limit);
 };
 
+export const clearCpuLimit = async (page: Page) => {
+  await page.getByTestId("tab-link-Configuration").click();
+  await page.getByText("Resource limits").click();
+  await activateOverride(page, "Exposed CPU limit");
+  await clearOverride(page, "Exposed CPU limit");
+};
+
 export const setMemLimit = async (
   page: Page,
   type: "absolute" | "percentage",
@@ -124,6 +131,34 @@ export const activateOverride = async (page: Page, field: string) => {
     await page
       .getByRole("row", { name: field })
       .getByRole("button", { name: "Create override" })
+      .click();
+  }
+};
+
+export const clearOverride = async (page: Page, field: string) => {
+  if (
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Edit" })
+      .isVisible()
+  ) {
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Edit" })
+      .click();
+
+    return;
+  }
+
+  if (
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Clear override" })
+      .isVisible()
+  ) {
+    await page
+      .getByRole("row", { name: field })
+      .getByRole("button", { name: "Clear override" })
       .click();
   }
 };
