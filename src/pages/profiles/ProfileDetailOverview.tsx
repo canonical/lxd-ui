@@ -52,7 +52,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile, featuresProfiles }) => {
     <div className="profile-overview-tab">
       {!featuresProfiles && (
         <Notification severity="caution" title="Inherited profile">
-          Modifications are only available in the
+          Modifications are only available in the{" "}
           <Link to={`/ui/project/default/profile/${profile.name}`}>
             default project
           </Link>
