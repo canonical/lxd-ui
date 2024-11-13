@@ -372,6 +372,11 @@ test("Create instance from external instance file", async ({
     "Skipping test locally for external instance file creation",
   );
 
+  test.skip(
+    Boolean(process.env.DISABLE_VM_TESTS),
+    "deactivated due to DISABLE_VM_TESTS environment variable",
+  );
+
   const INSTANCE_FILE = "ubuntu-minimal.qcow2";
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Create instance" }).click();
