@@ -5,6 +5,7 @@ import {
   deleteInstance,
   editInstance,
   migrateInstanceRootStorage,
+  randomImageName,
   randomInstanceName,
   renameInstance,
   saveInstance,
@@ -32,6 +33,7 @@ import { deleteImage, getImageNameFromAlias } from "./helpers/images";
 import { createPool, deletePool, randomPoolName } from "./helpers/storagePool";
 import { isServerClustered } from "./helpers/cluster";
 import { gotoURL } from "./helpers/navigate";
+import { execSync } from "child_process";
 
 let instance = randomInstanceName();
 let vmInstance = randomInstanceName();
@@ -363,13 +365,8 @@ test("Create instance from external instance file", async ({
   lxdVersion,
 }) => {
   test.skip(
-    lxdVersion === "5.0-edge",
+    lxdVersion !== "latest-edge",
     "External instance file conversion is only supported in newer versions of LXD",
-  );
-
-  test.skip(
-    Boolean(!process.env.CI),
-    "Skipping test locally for external instance file creation",
   );
 
   test.skip(
@@ -377,14 +374,17 @@ test("Create instance from external instance file", async ({
     "deactivated due to DISABLE_VM_TESTS environment variable",
   );
 
-  const INSTANCE_FILE = "ubuntu-minimal.qcow2";
+  const instanceFile = `${randomImageName()}.qcow2`;
+  execSync(
+    `curl -L -o ${instanceFile} https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img`,
+  );
   await gotoURL(page, "/ui/");
   await page.getByRole("button", { name: "Create instance" }).click();
   await page.getByRole("button", { name: "Upload instance file" }).click();
   await page.getByText("External format (.qcow2, .").click();
   await page
     .getByRole("textbox", { name: "External format (.qcow2, ." })
-    .setInputFiles(INSTANCE_FILE);
+    .setInputFiles(instanceFile);
   const instanceName = randomInstanceName();
   await page.getByRole("textbox", { name: "Enter name" }).fill(instanceName);
   await page

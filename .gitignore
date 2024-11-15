@@ -83,5 +83,6 @@ dist/
 tests/screenshots
 tests/fixtures/image.tar.gz
 tests/fixtures/instance.tar.gz
+playwright-image-*.qcow2
 
 haproxy-local.cfg
