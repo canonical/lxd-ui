@@ -95,7 +95,7 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
       sortData: {
         name: member.server_name.toLowerCase(),
         roles: member.roles.join(", ").toLowerCase(),
-        archietecture: member.architecture.toLowerCase(),
+        architecture: member.architecture.toLowerCase(),
         status: member.status.toLowerCase(),
       },
     };
