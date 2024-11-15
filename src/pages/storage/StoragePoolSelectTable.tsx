@@ -30,7 +30,8 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
   ];
 
   const rows = pools.map((pool) => {
-    const disableReason = disablePool?.name === pool.name && disablePool.reason;
+    const disableReason =
+      disablePool?.name === pool.name && disablePool?.reason;
     const selectPool = () => {
       if (disableReason) {
         return;

@@ -30,7 +30,7 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
 
   const rows = members.map((member) => {
     const disableReason =
-      disableMember?.name === member.server_name && disableMember.reason;
+      disableMember?.name === member.server_name && disableMember?.reason;
     const selectMember = () => {
       if (disableReason) {
         return;
