@@ -1,9 +1,17 @@
 import { FC } from "react";
 import { useProject } from "context/project";
 import { NavLink } from "react-router-dom";
+import { useSettings } from "context/useSettings";
 
 const Logo: FC = () => {
   const { project, isLoading } = useProject();
+  const { data: settings } = useSettings();
+
+  const isMicroCloud = settings?.config?.["user.microcloud"] === "true";
+  const src = isMicroCloud
+    ? "/ui/assets/img/microCloud-logo.svg"
+    : "/ui/assets/img/lxd-logo.svg";
+  const heading = isMicroCloud ? "MicroCloud" : "Canonical LXD";
 
   const getLogoLink = () => {
     if (isLoading || !project) {
@@ -14,12 +22,8 @@ const Logo: FC = () => {
 
   return (
     <NavLink className="p-panel__logo" to={getLogoLink()}>
-      <img
-        src="/ui/assets/img/lxd-logo.svg"
-        alt="LXD-UI logo"
-        className="p-panel__logo-image"
-      />
-      <div className="logo-text p-heading--4">Canonical LXD</div>
+      <img src={src} alt="LXD-UI logo" className="p-panel__logo-image" />
+      <div className="logo-text p-heading--4">{heading}</div>
     </NavLink>
   );
 };
