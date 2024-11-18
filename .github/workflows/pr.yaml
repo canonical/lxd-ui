@@ -28,7 +28,7 @@ jobs:
       with:
         commits: ${{ steps.get-pr-commits.outputs.commits }}
         
-  lint-scss:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,14 +38,6 @@ jobs:
 
       - name: Lint scss
         run: yarn lint-scss
-
-  lint-js:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install node dependencies
-        run: yarn install --immutable
 
       - name: Lint JS
         run: yarn lint-js
