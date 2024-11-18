@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.41% </span>
+                <span class="strong">73.8% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/34</span>
+                <span class='fraction'>31/42</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.72% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/11</span>
+                <span class='fraction'>9/18</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/27</span>
+                <span class='fraction'>31/31</span>
             </div>
         
             
@@ -90,39 +90,55 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">240x</span>
-<span class="cline-any cline-yes">240x</span>
-<span class="cline-any cline-yes">240x</span>
-<span class="cline-any cline-yes">240x</span>
-<span class="cline-any cline-yes">240x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">4296x</span>
-<span class="cline-any cline-yes">4296x</span>
-<span class="cline-any cline-yes">4448x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">8566x</span>
-<span class="cline-any cline-yes">240x</span>
-<span class="cline-any cline-yes">240x</span>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">4340x</span>
+<span class="cline-any cline-yes">4340x</span>
+<span class="cline-any cline-yes">4418x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">8688x</span>
+<span class="cline-any cline-yes">241x</span>
+<span class="cline-any cline-yes">241x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { useProject } from "context/project";
 import { NavLink } from "react-router-dom";
+import { useSettings } from "context/useSettings";
 &nbsp;
 const Logo: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const { project, isLoading } = <span class="cstat-no" title="statement not covered" >useProject();</span>
+  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
+&nbsp;
+  const isMicroCloud = <span class="cstat-no" title="statement not covered" >settings?.config?.["user.microcloud"] === "true";</span>
+  const src = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isMicroCloud</span></span>
+    ? "/ui/assets/img/microCloud-logo.svg"
+    : "/ui/assets/img/lxd-logo.svg";
+  const heading = <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >isMicroCloud ? "MicroCloud" : "</span>Canonical LXD";</span>
 &nbsp;
   const getLogoLink = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (isLoading || <span class="branch-1 cbranch-no" title="branch not covered" >!project) {</span></span>
@@ -133,12 +149,8 @@ const Logo: FC = <span class="cstat-no" title="statement not covered" ><span cla
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;NavLink className="p-panel__logo" to={getLogoLink()}&gt;
-      &lt;img
-        src="/ui/assets/img/lxd-logo.svg"
-        alt="LXD-UI logo"
-        className="p-panel__logo-image"
-      /&gt;
-      &lt;div className="logo-text p-heading--4"&gt;Canonical LXD&lt;/div&gt;
+      &lt;img src={src} alt="LXD-UI logo" className="p-panel__logo-image" /&gt;
+      &lt;div className="logo-text p-heading--4"&gt;{heading}&lt;/div&gt;
     &lt;/NavLink&gt;
   );
 };
@@ -151,7 +163,7 @@ export default Logo;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-18T17:36:48.872Z
+                at 2024-11-18T21:25:05.061Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
