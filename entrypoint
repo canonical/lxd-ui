@@ -24,8 +24,7 @@ else
   # generate certificates for dev environment
   if [ ! -d "keys" ]; then
     mkdir -p keys
-    openssl req -nodes -x509 -newkey rsa:2048 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -subj "/C=GB/ST=London/L=London/O=LXD UI/OU=dev/CN=localhost" -days 3000
-    openssl dhparam -out keys/dhparams.pem 2048
+    openssl req -nodes -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -sha384 -keyout keys/lxd-ui.key -out keys/lxd-ui.crt -subj "/C=GB/ST=London/L=London/O=LXD UI/OU=dev/CN=localhost" -days 3000
     cat keys/lxd-ui.key keys/lxd-ui.crt > keys/lxd-ui.pem
     cp keys/lxd-ui.key keys/lxd-ui.crt.key
     echo 'finished generating certificates'
