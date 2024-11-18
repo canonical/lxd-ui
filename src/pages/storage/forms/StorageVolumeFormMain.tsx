@@ -24,7 +24,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
       <Row>
         <Col size={12}>
           <Label
-            forId="storage-pool-selector"
+            forId="storage-pool-selector-volume"
             required={formik.values.isCreating}
           >
             Storage pool
@@ -34,6 +34,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
             setValue={(val) => void formik.setFieldValue("pool", val)}
             hidePoolsWithUnsupportedDrivers
             selectProps={{
+              id: "storage-pool-selector-volume",
               disabled: !formik.values.isCreating,
               error: poolError,
               help: formik.values.isCreating

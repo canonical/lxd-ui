@@ -1,0 +1,42 @@
+.storage-pool-select-dropdown {
+  max-width: 50rem;
+
+  .p-list {
+    width: auto;
+  }
+
+  .header {
+    background-color: $colors--theme--background-alt;
+    display: flex;
+    gap: $sph--small;
+    padding: $sph--x-small $sph--small;
+    position: sticky;
+    top: 0;
+
+    span {
+      @extend %table-header-label;
+    }
+  }
+
+  .label {
+    display: flex;
+    gap: $sph--small;
+  }
+
+  .header,
+  .label {
+    .resource:nth-child(1) {
+      width: 8rem;
+    }
+
+    .resource-driver,
+    .resource:nth-child(2) {
+      width: 6rem;
+    }
+
+    .resource-usage,
+    .resource-usage:nth-child(3) {
+      min-width: 10rem;
+    }
+  }
+}

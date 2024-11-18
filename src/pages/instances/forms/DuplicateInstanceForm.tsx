@@ -27,6 +27,7 @@ import { getUniqueResourceName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
+import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 
 interface Props {
   instance: LxdInstance;
@@ -210,16 +211,15 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
           id="targetClusterMember"
           label="Target cluster member"
         />
-        <Select
+        <StoragePoolSelector
           {...formik.getFieldProps("targetStoragePool")}
-          id="storagePool"
-          label="Storage pool"
-          options={storagePools.map((storagePool) => {
-            return {
-              label: storagePool.name,
-              value: storagePool.name,
-            };
-          })}
+          setValue={(value) =>
+            void formik.setFieldValue("targetStoragePool", value)
+          }
+          selectProps={{
+            id: "storagePool",
+            label: "Storage pool",
+          }}
         />
         <Select
           {...formik.getFieldProps("targetProject")}

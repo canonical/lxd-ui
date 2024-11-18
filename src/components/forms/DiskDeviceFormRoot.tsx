@@ -92,7 +92,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
 
           getInheritedDeviceRow({
             label: "Pool",
-            id: "storage-pool-selector",
+            id: "storage-pool-selector-disk",
             className: "override-with-form",
             inheritValue: inheritValue?.pool ?? "",
             inheritSource,
@@ -128,6 +128,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                     )
                   }
                   selectProps={{
+                    id: "storage-pool-selector-disk",
                     className: isEditingInstance ? "" : "u-no-margin--bottom",
                     disabled: isEditingInstance,
                     help: isEditingInstance
