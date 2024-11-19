@@ -144,7 +144,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
         </Col>
         <Col size={7}>
           <DeviceListTable
-            configBaseURL={`/ui/project/${instance.project}/instance/${instance?.name}/configuration`}
+            configBaseURL={`/ui/project/${instance.project}/instance/${instance.name}/configuration`}
             devices={instance.expanded_devices as LxdDevices}
           />
         </Col>

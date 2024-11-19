@@ -140,7 +140,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     )
       .then((operation) => {
         const operationId = operation.metadata.id;
-        const operationSecret = operation.metadata?.metadata?.fs;
+        const operationSecret = operation.metadata.metadata?.fs;
         const instanceName = getInstanceName(operation.metadata);
 
         // establish websocket connection based on the instance creation operation

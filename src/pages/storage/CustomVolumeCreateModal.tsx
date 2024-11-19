@@ -53,7 +53,10 @@ const CustomVolumeCreateModal: FC<Props> = ({
     const driverDetails = settings?.environment?.storage_supported_drivers.find(
       (driver) => driver.Name === pool?.driver,
     );
-    return !driverDetails?.Remote ?? false;
+    if (!driverDetails) {
+      return false;
+    }
+    return !driverDetails.Remote;
   };
 
   const formik = useFormik<StorageVolumeFormValues>({

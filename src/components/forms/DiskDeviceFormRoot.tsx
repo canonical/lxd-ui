@@ -149,22 +149,20 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
             readOnly: readOnly,
             overrideValue: hasRootStorage && (
               <>
-                {formRootDevice?.size ?? (hasRootStorage ? "unlimited" : "")}
-                {hasRootStorage && (
-                  <Button
-                    onClick={() => {
-                      ensureEditMode(formik);
-                      focusField("limits_disk");
-                    }}
-                    type="button"
-                    appearance="base"
-                    title="Edit"
-                    className="u-no-margin--bottom"
-                    hasIcon
-                  >
-                    <Icon name="edit" />
-                  </Button>
-                )}
+                {formRootDevice?.size ?? "unlimited"}
+                <Button
+                  onClick={() => {
+                    ensureEditMode(formik);
+                    focusField("limits_disk");
+                  }}
+                  type="button"
+                  appearance="base"
+                  title="Edit"
+                  className="u-no-margin--bottom"
+                  hasIcon
+                >
+                  <Icon name="edit" />
+                </Button>
               </>
             ),
             overrideForm: hasRootStorage && (
