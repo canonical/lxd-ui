@@ -191,23 +191,23 @@
 <a name='L126'></a><a href='#L126'>126</a>
 <a name='L127'></a><a href='#L127'>127</a>
 <a name='L128'></a><a href='#L128'>128</a>
-<a name='L129'></a><a href='#L129'>129</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
+<a name='L129'></a><a href='#L129'>129</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -317,8 +317,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-yes">42x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
@@ -351,7 +351,7 @@ const ClusterMemberSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const rows = <span class="cstat-no" title="statement not covered" >members.map(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    const disableReason =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      disableMember?.name === member.server_name &amp;&amp; disableMember.reason;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      disableMember?.name === member.server_name &amp;&amp; disableMember?.reason;</span></span>
 <span class="cstat-no" title="statement not covered" >    const selectMember = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (disableReason) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
@@ -416,7 +416,7 @@ const ClusterMemberSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >      sortData: {</span>
 <span class="cstat-no" title="statement not covered" >        name: member.server_name.toLowerCase(),</span>
 <span class="cstat-no" title="statement not covered" >        roles: member.roles.join(", ").toLowerCase(),</span>
-<span class="cstat-no" title="statement not covered" >        archietecture: member.architecture.toLowerCase(),</span>
+<span class="cstat-no" title="statement not covered" >        architecture: member.architecture.toLowerCase(),</span>
 <span class="cstat-no" title="statement not covered" >        status: member.status.toLowerCase(),</span>
 <span class="cstat-no" title="statement not covered" >      },</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
@@ -454,7 +454,7 @@ export default ClusterMemberSelectTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-19T09:10:51.087Z
+                at 2024-11-19T09:11:27.046Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
