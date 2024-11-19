@@ -22,12 +22,6 @@ jobs:
         run: |
           sudo pip3 install dotrun
 
-      - name: Restore cached keys
-        uses: actions/cache/restore@v3
-        with:
-          path: keys
-          key: keys-folder
-
       - name: Install LXD-UI dependencies
         run: |
           set -x
@@ -42,18 +36,6 @@ jobs:
         run: |
           dotrun &
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407
-
-      - name: Set keys permissions
-        run: |
-          set -x
-          sudo chmod -R 0666 keys
-          sudo chmod 0777 keys
-          
-      - name: Save keys
-        uses: actions/cache/save@v3
-        with:
-          path: keys
-          key: keys-folder
 
       - name: Install LXD
         uses: canonical/setup-lxd@v0.1.1
