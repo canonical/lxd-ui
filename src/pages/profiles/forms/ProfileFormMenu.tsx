@@ -17,6 +17,7 @@ export const RESOURCE_LIMITS = "Resource limits";
 export const SECURITY_POLICIES = "Security policies";
 export const SNAPSHOTS = "Snapshots";
 export const MIGRATION = "Migration";
+export const BOOT = "Boot";
 export const CLOUD_INIT = "Cloud init";
 export const YAML_CONFIGURATION = "YAML configuration";
 
@@ -98,6 +99,7 @@ const ProfileFormMenu: FC<Props> = ({
           <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
           <MenuItem label={SNAPSHOTS} {...menuItemProps} />
           <MenuItem label={MIGRATION} {...menuItemProps} />
+          <MenuItem label={BOOT} {...menuItemProps} />
           <MenuItem label={CLOUD_INIT} {...menuItemProps} />
         </ul>
       </nav>

@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import { bootPayload } from "components/forms/BootForm";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,
@@ -53,6 +54,12 @@ const getEditValues = (
     snapshots_schedule_stopped: item.config["snapshots.schedule.stopped"],
 
     migration_stateful: item.config["migration.stateful"],
+
+    boot_autostart: item.config["boot.autostart"],
+    boot_autostart_delay: item.config["boot.autostart.delay"],
+    boot_autostart_priority: item.config["boot.autostart.priority"],
+    boot_host_shutdown_timeout: item.config["boot.host_shutdown_timeout"],
+    boot_stop_priority: item.config["boot.stop.priority"],
 
     cloud_init_network_config: item.config["cloud-init.network-config"],
     cloud_init_user_data: item.config["cloud-init.user-data"],
@@ -106,6 +113,7 @@ export const getInstancePayload = (
       ...securityPoliciesPayload(values),
       ...snapshotsPayload(values),
       ...migrationPayload(values),
+      ...bootPayload(values),
       ...cloudInitPayload(values),
       ...getUnhandledKeyValues(instance.config, handledConfigKeys),
     },

@@ -48,6 +48,7 @@ import ResourceLimitsForm, {
 } from "components/forms/ResourceLimitsForm";
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import InstanceFormMenu, {
+  BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
@@ -92,6 +93,10 @@ import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "./InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
+import BootForm, {
+  BootFormValues,
+  bootPayload,
+} from "components/forms/BootForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -99,6 +104,7 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
   MigrationFormValues &
+  BootFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -398,6 +404,7 @@ const CreateInstance: FC = () => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...migrationPayload(values),
+        ...bootPayload(values),
         ...cloudInitPayload(values),
       },
     };
@@ -480,6 +487,8 @@ const CreateInstance: FC = () => {
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
 
             {section === MIGRATION && <MigrationForm formik={formik} />}
+
+            {section === BOOT && <BootForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

@@ -24,6 +24,7 @@ import ResourceLimitsForm, {
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import EditInstanceDetails from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
+  BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
@@ -63,6 +64,7 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
+import BootForm, { BootFormValues } from "components/forms/BootForm";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -81,6 +83,7 @@ export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
   MigrationFormValues &
+  BootFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -235,6 +238,8 @@ const EditInstance: FC<Props> = ({ instance }) => {
             {section === slugify(MIGRATION) && (
               <MigrationForm formik={formik} />
             )}
+
+            {section === slugify(BOOT) && <BootForm formik={formik} />}
 
             {section === slugify(CLOUD_INIT) && (
               <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
