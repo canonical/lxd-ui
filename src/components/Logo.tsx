@@ -7,7 +7,7 @@ const Logo: FC = () => {
   const { project, isLoading } = useProject();
   const { data: settings } = useSettings();
 
-  const isMicroCloud = settings?.config?.["user.microcloud"] === "true";
+  const isMicroCloud = Boolean(settings?.config?.["user.microcloud"]);
   const src = isMicroCloud
     ? "/ui/assets/img/microCloud-logo.svg"
     : "/ui/assets/img/lxd-logo.svg";
