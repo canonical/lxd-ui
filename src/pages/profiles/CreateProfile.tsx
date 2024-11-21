@@ -35,6 +35,7 @@ import ResourceLimitsForm, {
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
+  BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
@@ -72,6 +73,10 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ResourceLink from "components/ResourceLink";
+import BootForm, {
+  BootFormValues,
+  bootPayload,
+} from "components/forms/BootForm";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -79,6 +84,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
   MigrationFormValues &
+  BootFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -162,6 +168,7 @@ const CreateProfile: FC = () => {
         ...securityPoliciesPayload(values),
         ...snapshotsPayload(values),
         ...migrationPayload(values),
+        ...bootPayload(values),
         ...cloudInitPayload(values),
       },
     };
@@ -228,6 +235,8 @@ const CreateProfile: FC = () => {
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
 
             {section === MIGRATION && <MigrationForm formik={formik} />}
+
+            {section === BOOT && <BootForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
 

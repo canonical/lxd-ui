@@ -9,6 +9,7 @@ import { getUnhandledKeyValues } from "util/formFields";
 import { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { LxdProfile } from "types/profile";
 import { migrationPayload } from "components/forms/MigrationForm";
+import { bootPayload } from "components/forms/BootForm";
 
 export const getProfilePayload = (
   profile: LxdProfile,
@@ -25,6 +26,7 @@ export const getProfilePayload = (
       ...securityPoliciesPayload(values),
       ...snapshotsPayload(values),
       ...migrationPayload(values),
+      ...bootPayload(values),
       ...cloudInitPayload(values),
       ...getUnhandledKeyValues(profile.config, handledConfigKeys),
     },

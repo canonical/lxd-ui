@@ -30,6 +30,7 @@ import ResourceLimitsForm, {
 import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
 import { updateProfile } from "api/profiles";
 import ProfileFormMenu, {
+  BOOT,
   CLOUD_INIT,
   DISK_DEVICES,
   MAIN_CONFIGURATION,
@@ -68,6 +69,7 @@ import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
+import BootForm, { BootFormValues } from "components/forms/BootForm";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -75,6 +77,7 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
   MigrationFormValues &
+  BootFormValues &
   CloudInitFormValues &
   YamlFormValues;
 
@@ -231,6 +234,8 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             {section === slugify(MIGRATION) && (
               <MigrationForm formik={formik} />
             )}
+
+            {section === slugify(BOOT) && <BootForm formik={formik} />}
 
             {section === slugify(CLOUD_INIT) && (
               <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
