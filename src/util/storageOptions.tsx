@@ -6,6 +6,7 @@ export const btrfsDriver = "btrfs";
 export const lvmDriver = "lvm";
 export const zfsDriver = "zfs";
 export const cephDriver = "ceph";
+export const cephFSDriver = "cephfs";
 export const powerFlex = "powerflex";
 
 const storageDriverLabels: { [key: string]: string } = {
@@ -14,6 +15,7 @@ const storageDriverLabels: { [key: string]: string } = {
   [lvmDriver]: "LVM",
   [zfsDriver]: "ZFS",
   [cephDriver]: "Ceph",
+  [cephFSDriver]: "CephFS",
   [powerFlex]: "Dell PowerFlex",
 };
 
@@ -48,6 +50,7 @@ const storageDriverToSourceHelp: Record<string, string> = {
   lvm: "Optional, path to an existing block device, loop file or LVM volume group",
   zfs: "Optional, path to an existing block device, loop file or ZFS dataset/pool",
   ceph: "Optional, OSD pool name",
+  cephfs: "Optional, Existing CephFS file system or file system path to use",
 };
 
 export const getSourceHelpForDriver = (driver: string) => {

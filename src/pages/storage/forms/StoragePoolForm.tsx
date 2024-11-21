@@ -11,6 +11,7 @@ import { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
   CEPH_CONFIGURATION,
+  CEPHFS_CONFIGURATION,
   MAIN_CONFIGURATION,
   POWERFLEX,
   YAML_CONFIGURATION,
@@ -22,6 +23,7 @@ import { LxdStoragePool } from "types/storage";
 import {
   btrfsDriver,
   cephDriver,
+  cephFSDriver,
   getSupportedStorageDrivers,
   powerFlex,
   zfsDriver,
@@ -37,6 +39,7 @@ import StoragePoolFormPowerflex from "./StoragePoolFormPowerflex";
 import StoragePoolFormZFS from "./StoragePoolFormZFS";
 import { useSettings } from "context/useSettings";
 import { ensureEditMode } from "util/instanceEdit";
+import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
 
 export interface StoragePoolFormValues {
   isCreating: boolean;
@@ -52,6 +55,12 @@ export interface StoragePoolFormValues {
   ceph_rbd_clone_copy?: string;
   ceph_user_name?: string;
   ceph_rbd_features?: string;
+  cephfs_cluster_name?: string;
+  cephfs_create_missing?: string;
+  cephfs_fscache?: string;
+  cephfs_osd_pg_num?: string;
+  cephfs_path?: string;
+  cephfs_user_name?: string;
   powerflex_clone_copy?: string;
   powerflex_domain?: string;
   powerflex_gateway?: string;
@@ -79,6 +88,7 @@ export const toStoragePool = (
   values: StoragePoolFormValues,
 ): LxdStoragePool => {
   const isCephDriver = values.driver === cephDriver;
+  const isCephFSDriver = values.driver === cephFSDriver;
   const isPowerFlexDriver = values.driver === powerFlex;
   const isZFSDriver = values.driver === zfsDriver;
   const hasValidSize = values.size?.match(/^\d/);
@@ -91,6 +101,17 @@ export const toStoragePool = (
         [getPoolKey("ceph_rbd_clone_copy")]: values.ceph_rbd_clone_copy,
         [getPoolKey("ceph_user_name")]: values.ceph_user_name,
         [getPoolKey("ceph_rbd_features")]: values.ceph_rbd_features,
+        source: values.source,
+      };
+    }
+    if (isCephFSDriver) {
+      return {
+        [getPoolKey("cephfs_cluster_name")]: values.cephfs_cluster_name,
+        [getPoolKey("cephfs_create_missing")]: values.cephfs_create_missing,
+        [getPoolKey("cephfs_fscache")]: values.cephfs_fscache,
+        [getPoolKey("cephfs_osd_pg_num")]: values.cephfs_osd_pg_num?.toString(),
+        [getPoolKey("cephfs_path")]: values.cephfs_path,
+        [getPoolKey("cephfs_user_name")]: values.cephfs_user_name,
         source: values.source,
       };
     }
@@ -200,6 +221,9 @@ const StoragePoolForm: FC<Props> = ({
           )}
           {section === slugify(CEPH_CONFIGURATION) && (
             <StoragePoolFormCeph formik={formik} />
+          )}
+          {section === slugify(CEPHFS_CONFIGURATION) && (
+            <StoragePoolFormCephFS formik={formik} />
           )}
           {section === slugify(POWERFLEX) && (
             <StoragePoolFormPowerflex formik={formik} />
