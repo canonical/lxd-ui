@@ -101,7 +101,7 @@ const RenameHeader: FC<Props> = ({
               <li
                 className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb u-truncate"
                 onClick={toggleRename}
-                title={`Rename ${name}`}
+                title={canRename ? `Rename ${name}` : ""}
               >
                 <Tooltip
                   message={!canRename && renameDisabledReason}
