@@ -9,6 +9,7 @@ import {
   cephDriver,
   getStorageDriverOptions,
   powerFlex,
+  cephFSDriver,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -37,6 +38,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   };
 
   const isCephDriver = formik.values.driver === cephDriver;
+  const isCephFSDriver = formik.values.driver === cephFSDriver;
   const isDirDriver = formik.values.driver === dirDriver;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const storageDriverOptions = getStorageDriverOptions(settings);
@@ -96,23 +98,26 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             required
             disabled={!formik.values.isCreating || formik.values.readOnly}
           />
-          {!isCephDriver && !isDirDriver && !isPowerFlexDriver && (
-            <DiskSizeSelector
-              label="Size"
-              value={formik.values.size}
-              help={
-                formik.values.driver === dirDriver
-                  ? "Not available"
-                  : "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
-              }
-              setMemoryLimit={(val?: string) =>
-                void formik.setFieldValue("size", val)
-              }
-              disabled={
-                formik.values.driver === dirDriver || formik.values.readOnly
-              }
-            />
-          )}
+          {!isCephDriver &&
+            !isCephFSDriver &&
+            !isDirDriver &&
+            !isPowerFlexDriver && (
+              <DiskSizeSelector
+                label="Size"
+                value={formik.values.size}
+                help={
+                  formik.values.driver === dirDriver
+                    ? "Not available"
+                    : "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
+                }
+                setMemoryLimit={(val?: string) =>
+                  void formik.setFieldValue("size", val)
+                }
+                disabled={
+                  formik.values.driver === dirDriver || formik.values.readOnly
+                }
+              />
+            )}
           {!isPowerFlexDriver && (
             <Input
               {...getFormProps("source")}

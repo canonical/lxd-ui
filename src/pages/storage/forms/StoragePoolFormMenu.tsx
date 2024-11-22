@@ -5,11 +5,17 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "@use-it/event-listener";
 import { FormikProps } from "formik";
 import { StoragePoolFormValues } from "./StoragePoolForm";
-import { cephDriver, powerFlex, zfsDriver } from "util/storageOptions";
+import {
+  cephDriver,
+  cephFSDriver,
+  powerFlex,
+  zfsDriver,
+} from "util/storageOptions";
 import { isPowerflexIncomplete } from "util/storagePool";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const CEPH_CONFIGURATION = "Ceph";
+export const CEPHFS_CONFIGURATION = "CephFS";
 export const POWERFLEX = "Powerflex";
 export const ZFS_CONFIGURATION = "ZFS";
 export const YAML_CONFIGURATION = "YAML configuration";
@@ -34,6 +40,7 @@ const StoragePoolFormMenu: FC<Props> = ({
   };
 
   const isCephDriver = formik.values.driver === cephDriver;
+  const isCephFSDriver = formik.values.driver === cephFSDriver;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isZfsDriver = formik.values.driver === zfsDriver;
   const hasName = formik.values.name.length > 0;
@@ -59,6 +66,13 @@ const StoragePoolFormMenu: FC<Props> = ({
           {isCephDriver && (
             <MenuItem
               label={CEPH_CONFIGURATION}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isCephFSDriver && (
+            <MenuItem
+              label={CEPHFS_CONFIGURATION}
               {...menuItemProps}
               disableReason={disableReason}
             />
