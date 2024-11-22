@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms/StoragePoolFormZFS.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms/StoragePoolFormCephFS.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms</a> StoragePoolFormZFS.tsx</h1>
+        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms</a> StoragePoolFormCephFS.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.04% </span>
+                <span class="strong">24.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/47</span>
+                <span class='fraction'>16/66</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">23.43% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/45</span>
+                <span class='fraction'>15/64</span>
             </div>
         
             
@@ -108,7 +108,26 @@
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -121,6 +140,25 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -165,39 +203,58 @@ interface Props {
   formik: FormikProps&lt;StoragePoolFormValues&gt;;
 }
 &nbsp;
-const StoragePoolFormZFS: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
+const StoragePoolFormCephFS: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;ScrollableConfigurationTable</span>
 <span class="cstat-no" title="statement not covered" >      rows={[</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "ZFS pool name",</span>
-<span class="cstat-no" title="statement not covered" >          name: "zfs_pool_name",</span>
+<span class="cstat-no" title="statement not covered" >          label: "Cluster name",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephfs_cluster_name",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter ZFS pool name" /&gt;,</span>
-<span class="cstat-no" title="statement not covered" >          disabled: !formik.values.isCreating || formik.values.readOnly,</span>
-<span class="cstat-no" title="statement not covered" >          disabledReason: "ZFS pool name cannot be modified",</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter cluster name" /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "Clone copy",</span>
-<span class="cstat-no" title="statement not covered" >          name: "zfs_clone_copy",</span>
+<span class="cstat-no" title="statement not covered" >          label: "Create missing",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephfs_create_missing",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
 <span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionTrueFalse} /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "Export",</span>
-<span class="cstat-no" title="statement not covered" >          name: "zfs_export",</span>
+<span class="cstat-no" title="statement not covered" >          label: "FS cache",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephfs_fscache",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
 <span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionTrueFalse} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >        }),</span>
+<span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
+<span class="cstat-no" title="statement not covered" >          formik,</span>
+<span class="cstat-no" title="statement not covered" >          label: "Number of placement groups",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephfs_osd_pg_num",</span>
+<span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter number" /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >        }),</span>
+<span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
+<span class="cstat-no" title="statement not covered" >          formik,</span>
+<span class="cstat-no" title="statement not covered" >          label: "Path",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephfs_path",</span>
+<span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter path" /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >        }),</span>
+<span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
+<span class="cstat-no" title="statement not covered" >          formik,</span>
+<span class="cstat-no" title="statement not covered" >          label: "Ceph user name",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephfs_user_name",</span>
+<span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter pool name" /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >      ]}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default StoragePoolFormZFS;
+export default StoragePoolFormCephFS;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
