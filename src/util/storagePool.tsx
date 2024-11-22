@@ -11,6 +11,12 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_rbd_clone_copy: "ceph.rbd.clone_copy",
   ceph_user_name: "ceph.user.name",
   ceph_rbd_features: "ceph.rbd.features",
+  cephfs_cluster_name: "cephfs.cluster_name",
+  cephfs_create_missing: "cephfs.create_missing",
+  cephfs_fscache: "cephfs.fscache",
+  cephfs_osd_pg_num: "cephfs.osd_pg_num",
+  cephfs_path: "cephfs.path",
+  cephfs_user_name: "cephfs.user.name",
   powerflex_clone_copy: "powerflex.clone_copy",
   powerflex_domain: "powerflex.domain",
   powerflex_gateway: "powerflex.gateway",
@@ -46,6 +52,7 @@ const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   lvm: "storage-lvm",
   zfs: "storage-zfs",
   ceph: "storage-ceph",
+  cephfs: "storage-cephfs",
   powerflex: "storage-powerflex",
 };
 
