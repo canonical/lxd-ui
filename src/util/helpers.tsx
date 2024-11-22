@@ -6,7 +6,6 @@ import { LxdNetwork } from "types/network";
 import { LxdStorageVolume } from "types/storage";
 import { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
-import { LxdDeviceValue } from "types/device";
 import { isDiskDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import { FormDevice } from "./formDevices";
@@ -320,18 +319,6 @@ export const getUniqueResourceName = (
   }
 
   return name;
-};
-
-export const getInstanceDevices = (
-  instance: LxdInstance,
-): [string, LxdDeviceValue][] => {
-  return Object.entries(instance.expanded_devices ?? {});
-};
-
-export const getProfileDevices = (
-  profile: LxdProfile,
-): [string, LxdDeviceValue][] => {
-  return Object.entries(profile.devices ?? {});
 };
 
 export const getRootPool = (instance: LxdInstance): string => {
