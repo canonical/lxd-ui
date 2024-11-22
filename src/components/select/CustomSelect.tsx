@@ -13,7 +13,7 @@ import CustomSelectDropdown, {
   CustomSelectOption,
   getOptionText,
 } from "./CustomSelectDropdown";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 
 export type SelectRef = MutableRefObject<
   | {

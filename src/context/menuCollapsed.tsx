@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { isWidthBelow } from "util/helpers";
 
 const isSmallScreen = () => isWidthBelow(620);

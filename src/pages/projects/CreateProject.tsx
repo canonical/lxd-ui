@@ -7,7 +7,7 @@ import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName, getDefaultStoragePool } from "util/helpers";
 import { useNavigate } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { createProject } from "api/projects";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import {

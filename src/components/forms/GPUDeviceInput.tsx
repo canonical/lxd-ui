@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { Input, RadioInput } from "@canonical/react-components";
 import { LxdGPUDevice } from "types/device";
 

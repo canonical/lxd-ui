@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
@@ -38,7 +38,7 @@ import InstanceFormMenu, {
   OTHER_DEVICES,
   PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
@@ -163,9 +163,11 @@ const EditInstance: FC<Props> = ({ instance }) => {
     }
 
     const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
-      ? navigate(baseUrl)
-      : navigate(`${baseUrl}/${slugify(newSection)}`);
+    if (newSection === MAIN_CONFIGURATION) {
+      navigate(baseUrl);
+    } else {
+      navigate(`${baseUrl}/${slugify(newSection)}`);
+    }
   };
 
   const getYaml = () => {

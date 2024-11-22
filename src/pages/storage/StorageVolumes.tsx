@@ -46,7 +46,7 @@ import {
 } from "util/storageVolumeTable";
 import StorageVolumeNameLink from "./StorageVolumeNameLink";
 import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import useSortTableData from "util/useSortTableData";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import CustomLayout from "components/CustomLayout";

@@ -20,7 +20,7 @@ import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
 import { useFormik } from "formik";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { useNavigate, useParams } from "react-router-dom";
 import { getClusterHeaders, getClusterRows } from "util/clusterGroups";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -167,7 +167,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
               itemName="member"
               parentName="cluster"
               selectedNames={formik.values.members}
-              setSelectedNames={(newMembers) =>
+              setSelectedNames={(newMembers: string[]) =>
                 void formik.setFieldValue("members", newMembers)
               }
               processingNames={[]}

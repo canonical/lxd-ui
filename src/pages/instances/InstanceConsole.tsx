@@ -12,11 +12,7 @@ import InstanceGraphicConsole from "./InstanceGraphicConsole";
 import { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
 import { useInstanceStart } from "util/instanceStart";
-import {
-  sendAltF4,
-  sendAltTab,
-  sendCtrlAltDel,
-} from "../../lib/spice/src/inputs";
+import { sendAltF4, sendAltTab, sendCtrlAltDel } from "lib/spice/src/inputs.js";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";

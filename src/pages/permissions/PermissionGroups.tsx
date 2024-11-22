@@ -11,7 +11,7 @@ import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";

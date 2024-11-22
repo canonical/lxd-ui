@@ -11,7 +11,7 @@ import {
 } from "react";
 import classnames from "classnames";
 import { adjustDropdownHeight } from "util/customSelect";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { getNearestParentsZIndex } from "util/zIndex";
 
 export type CustomSelectOption = LiHTMLAttributes<HTMLLIElement> & {

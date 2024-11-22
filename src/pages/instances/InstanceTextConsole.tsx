@@ -7,7 +7,7 @@ import {
 } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
 import Loader from "components/Loader";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { LxdInstance } from "types/instance";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { unstable_usePrompt as usePrompt } from "react-router-dom";

@@ -53,7 +53,7 @@ import ProfileDetailsForm, {
   ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
 import NotificationRow from "components/NotificationRow";

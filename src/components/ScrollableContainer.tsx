@@ -1,5 +1,5 @@
 import { DependencyList, FC, ReactNode, useEffect, useRef } from "react";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import {
   getAbsoluteHeightBelowById,
   getParentsBottomSpacing,

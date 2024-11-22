@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export const MAIN_CONFIGURATION = "Main configuration";

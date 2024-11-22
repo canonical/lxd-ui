@@ -11,7 +11,7 @@ import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import NavAccordion, { AccordionNavMenu } from "./NavAccordion";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { enablePermissionsFeature } from "util/permissions";
 import { Location, useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
@@ -51,7 +51,9 @@ const Navigation: FC = () => {
   );
 
   useEffect(() => {
-    project && project.name !== projectName && setProjectName(project.name);
+    if (project && project.name !== projectName) {
+      setProjectName(project.name);
+    }
   }, [project?.name]);
 
   useEffect(() => {

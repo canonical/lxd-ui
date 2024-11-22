@@ -3,7 +3,7 @@ import { Col, Row } from "@canonical/react-components";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { LxdStoragePool } from "types/storage";
 
 interface Props {

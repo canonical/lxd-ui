@@ -3,7 +3,7 @@ import { isoTimeToString } from "util/helpers";
 import { Col, Row, useNotify } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import InstanceOverviewProfiles from "./InstanceOverviewProfiles";
 import InstanceOverviewMetrics from "./InstanceOverviewMetrics";

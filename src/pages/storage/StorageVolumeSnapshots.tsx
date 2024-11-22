@@ -8,7 +8,7 @@ import {
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
 import VolumeSnapshotActions from "./actions/snapshots/VolumeSnapshotActions";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import Loader from "components/Loader";

@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import * as SpiceHtml5 from "../../lib/spice/src/main";
+import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdInstance } from "types/instance";
@@ -119,7 +119,7 @@ const InstanceGraphicConsole: FC<Props> = ({
     if (!spiceRef.current?.parentElement || !("detail" in e)) {
       return;
     }
-    const wheelEvent = (e as SpiceWheelEvent).detail.wheelEvent;
+    const wheelEvent = (e as unknown as SpiceWheelEvent).detail.wheelEvent;
     spiceRef.current.parentElement.scrollBy(
       wheelEvent.deltaX,
       wheelEvent.deltaY,

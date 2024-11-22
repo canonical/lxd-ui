@@ -115,9 +115,11 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
 
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/network/${network.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
-      ? navigate(baseUrl)
-      : navigate(`${baseUrl}/${slugify(newSection)}`);
+    if (newSection === MAIN_CONFIGURATION) {
+      navigate(baseUrl);
+    } else {
+      navigate(`${baseUrl}/${slugify(newSection)}`);
+    }
   };
 
   const readOnly = formik.values.readOnly;

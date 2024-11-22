@@ -15,7 +15,7 @@ import { FormikProps } from "formik/dist/types";
 import * as Yup from "yup";
 import { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { testValidIp, testValidPort } from "util/networks";
 import NotificationRow from "components/NotificationRow";
 import NetworkForwardFormPorts, {

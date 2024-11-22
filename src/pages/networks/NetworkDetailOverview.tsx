@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Col, Notification, Row } from "@canonical/react-components";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ItemName from "components/ItemName";
 import { LxdNetwork } from "types/network";

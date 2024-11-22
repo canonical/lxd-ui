@@ -111,9 +111,11 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
-      ? navigate(baseUrl)
-      : navigate(`${baseUrl}/${slugify(newSection)}`);
+    if (newSection === MAIN_CONFIGURATION) {
+      navigate(baseUrl);
+    } else {
+      navigate(`${baseUrl}/${slugify(newSection)}`);
+    }
   };
 
   const supportedStorageDrivers = getSupportedStorageDrivers(settings);
