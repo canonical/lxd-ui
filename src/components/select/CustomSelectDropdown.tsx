@@ -12,6 +12,7 @@ import {
 import classnames from "classnames";
 import { adjustDropdownHeight } from "util/customSelect";
 import useEventListener from "@use-it/event-listener";
+import { getNearestParentsZIndex } from "util/zIndex";
 
 export type CustomSelectOption = LiHTMLAttributes<HTMLLIElement> & {
   value: string;
@@ -86,23 +87,9 @@ const CustomSelectDropdown: FC<Props> = ({
       const toggleWidth = toggle?.getBoundingClientRect()?.width ?? 0;
       dropdownRef.current.style.setProperty("min-width", `${toggleWidth}px`);
 
-      // align z-index: if in a modal context, take the next z-index we find above + 1
-      const getRecursiveZIndex = (element: HTMLElement | null): string => {
-        if (!document.defaultView || !element) {
-          return "0";
-        }
-        const zIndex = document.defaultView
-          .getComputedStyle(element, null)
-          .getPropertyValue("z-index");
-        if (!element.parentElement) {
-          return zIndex;
-        }
-        if (zIndex === "auto" || zIndex === "0" || zIndex === "") {
-          return getRecursiveZIndex(element.parentElement);
-        }
-        return zIndex;
-      };
-      const zIndex = getRecursiveZIndex(toggle);
+      // align z-index: when we are in a modal context, we want the dropdown to be above the modal
+      // apply the nearest parents z-index + 1
+      const zIndex = getNearestParentsZIndex(toggle);
       if (parseInt(zIndex) > 0) {
         dropdownRef.current.parentElement?.style.setProperty(
           "z-index",
@@ -244,6 +231,11 @@ const CustomSelectDropdown: FC<Props> = ({
       // allow focus on the dropdown so that keyboard actions can be captured
       tabIndex={-1}
       ref={dropdownRef}
+      onMouseDown={(e) => {
+        // when custom select is used in a modal, which is a portal, a dropdown click
+        // should not close the modal itself, so we stop the event right here.
+        e.stopPropagation();
+      }}
     >
       {isSearchable && (
         <div className="p-custom-select__search u-no-padding--bottom">

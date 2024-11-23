@@ -13,6 +13,7 @@
       center;
     background-repeat: no-repeat;
     background-size: map-get($icon-sizes, default);
+    border-top: none;
     box-shadow: none;
     min-height: map-get($line-heights, default-text);
     padding-right: calc($default-icon-size + 2 * $sph--small);
