@@ -132,6 +132,7 @@ const CustomSelect: FC<Props> = ({
   );
 
   const handleSelect = (value: string) => {
+    document.getElementById(selectId)?.focus();
     setIsOpen(false);
     onChange(value);
   };
@@ -197,6 +198,7 @@ const CustomSelect: FC<Props> = ({
               document.getElementById(selectId)?.focus();
             }}
             header={header}
+            toggleId={selectId}
           />
         )}
       </ContextualMenu>

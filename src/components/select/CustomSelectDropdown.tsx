@@ -29,6 +29,7 @@ interface Props {
   onSelect: (value: string) => void;
   onClose: () => void;
   header?: ReactNode;
+  toggleId: string;
 }
 
 export const getOptionText = (option: CustomSelectOption): string => {
@@ -62,6 +63,7 @@ const CustomSelectDropdown: FC<Props> = ({
   onSelect,
   onClose,
   header,
+  toggleId,
 }) => {
   const [search, setSearch] = useState("");
   // track selected option index for keyboard actions
@@ -77,6 +79,38 @@ const CustomSelectDropdown: FC<Props> = ({
     (searchable === "always" || (searchable === "auto" && options.length >= 5));
 
   useEffect(() => {
+    if (dropdownRef.current) {
+      const toggle = document.getElementById(toggleId);
+
+      // align width with wrapper toggle width
+      const toggleWidth = toggle?.getBoundingClientRect()?.width ?? 0;
+      dropdownRef.current.style.setProperty("min-width", `${toggleWidth}px`);
+
+      // align z-index: if in a modal context, take the next z-index we find above + 1
+      const getRecursiveZIndex = (element: HTMLElement | null): string => {
+        if (!document.defaultView || !element) {
+          return "0";
+        }
+        const zIndex = document.defaultView
+          .getComputedStyle(element, null)
+          .getPropertyValue("z-index");
+        if (!element.parentElement) {
+          return zIndex;
+        }
+        if (zIndex === "auto" || zIndex === "0" || zIndex === "") {
+          return getRecursiveZIndex(element.parentElement);
+        }
+        return zIndex;
+      };
+      const zIndex = getRecursiveZIndex(toggle);
+      if (parseInt(zIndex) > 0) {
+        dropdownRef.current.parentElement?.style.setProperty(
+          "z-index",
+          zIndex + 1,
+        );
+      }
+    }
+
     setTimeout(() => {
       if (isSearchable) {
         searchRef.current?.focus();
