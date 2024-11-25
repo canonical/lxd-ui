@@ -1,10 +1,10 @@
 import { Input, Label, Select } from "@canonical/react-components";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { LxdProxyDevice } from "types/device";
 import { ensureEditMode } from "./instanceEdit";
 import { proxyAddressTypeOptions } from "./instanceOptions";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 type ConnectionType = "listen" | "connect";
 
@@ -129,35 +129,35 @@ export const getProxyAddress = (
     }),
   );
 
-  deviceType === "unix"
-    ? null
-    : customRows.push(
-        getConfigurationRowBase({
-          className: "no-border-top inherited-with-form",
-          configuration: (
-            <Label forId={`devices.${index}.${connectionType}.port`} required>
-              Port
-            </Label>
-          ),
+  if (deviceType !== "unix") {
+    customRows.push(
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: (
+          <Label forId={`devices.${index}.${connectionType}.port`} required>
+            Port
+          </Label>
+        ),
 
-          inherited: (
-            <Input
-              id={`devices.${index}.${connectionType}.port`}
-              onChange={(e) => {
-                ensureEditMode(formik);
-                const newPort = e.target.value;
-                void formik.setFieldValue(
-                  `devices.${index}.${connectionType}`,
-                  `${deviceType}:${deviceAddress}:${newPort}`,
-                );
-              }}
-              value={devicePort}
-              placeholder="00[-00]"
-              type="text"
-              className="u-no-margin--bottom"
-            />
-          ),
-          override: "",
-        }),
-      );
+        inherited: (
+          <Input
+            id={`devices.${index}.${connectionType}.port`}
+            onChange={(e) => {
+              ensureEditMode(formik);
+              const newPort = e.target.value;
+              void formik.setFieldValue(
+                `devices.${index}.${connectionType}`,
+                `${deviceType}:${deviceAddress}:${newPort}`,
+              );
+            }}
+            value={devicePort}
+            placeholder="00[-00]"
+            type="text"
+            className="u-no-margin--bottom"
+          />
+        ),
+        override: "",
+      }),
+    );
+  }
 };
