@@ -12,6 +12,7 @@ import {
 import classnames from "classnames";
 import { adjustDropdownHeight } from "util/customSelect";
 import useEventListener from "@use-it/event-listener";
+import { getNearestParentsZIndex } from "util/zIndex";
 
 export type CustomSelectOption = LiHTMLAttributes<HTMLLIElement> & {
   value: string;
@@ -29,6 +30,7 @@ interface Props {
   onSelect: (value: string) => void;
   onClose: () => void;
   header?: ReactNode;
+  toggleId: string;
 }
 
 export const getOptionText = (option: CustomSelectOption): string => {
@@ -62,6 +64,7 @@ const CustomSelectDropdown: FC<Props> = ({
   onSelect,
   onClose,
   header,
+  toggleId,
 }) => {
   const [search, setSearch] = useState("");
   // track selected option index for keyboard actions
@@ -77,6 +80,24 @@ const CustomSelectDropdown: FC<Props> = ({
     (searchable === "always" || (searchable === "auto" && options.length >= 5));
 
   useEffect(() => {
+    if (dropdownRef.current) {
+      const toggle = document.getElementById(toggleId);
+
+      // align width with wrapper toggle width
+      const toggleWidth = toggle?.getBoundingClientRect()?.width ?? 0;
+      dropdownRef.current.style.setProperty("min-width", `${toggleWidth}px`);
+
+      // align z-index: when we are in a modal context, we want the dropdown to be above the modal
+      // apply the nearest parents z-index + 1
+      const zIndex = getNearestParentsZIndex(toggle);
+      if (parseInt(zIndex) > 0) {
+        dropdownRef.current.parentElement?.style.setProperty(
+          "z-index",
+          zIndex + 1,
+        );
+      }
+    }
+
     setTimeout(() => {
       if (isSearchable) {
         searchRef.current?.focus();
@@ -210,6 +231,11 @@ const CustomSelectDropdown: FC<Props> = ({
       // allow focus on the dropdown so that keyboard actions can be captured
       tabIndex={-1}
       ref={dropdownRef}
+      onMouseDown={(e) => {
+        // when custom select is used in a modal, which is a portal, a dropdown click
+        // should not close the modal itself, so we stop the event right here.
+        e.stopPropagation();
+      }}
     >
       {isSearchable && (
         <div className="p-custom-select__search u-no-padding--bottom">
