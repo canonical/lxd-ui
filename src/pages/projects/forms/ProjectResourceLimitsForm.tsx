@@ -15,7 +15,7 @@ export interface ProjectResourceLimitsFormValues {
   limits_disk?: string;
   limits_networks?: number;
   limits_cpu?: number;
-  limits_memory?: number;
+  limits_memory?: string;
   limits_processes?: number;
 }
 
@@ -102,7 +102,13 @@ const ProjectResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_memory",
           label: "Max sum of memory limits",
           defaultValue: "",
-          children: <Input placeholder="Enter number" min={0} type="number" />,
+          children: (
+            <DiskSizeSelector
+              setMemoryLimit={(val?: string) =>
+                void formik.setFieldValue("limits_memory", val)
+              }
+            />
+          ),
         }),
 
         getConfigurationRow({
