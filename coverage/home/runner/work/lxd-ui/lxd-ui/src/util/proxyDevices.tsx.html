@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.02% </span>
+                <span class="strong">64.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>121/189</span>
+                <span class='fraction'>122/190</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">39.53% </span>
+                <span class="strong">38.09% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/43</span>
+                <span class='fraction'>16/42</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.23% </span>
+                <span class="strong">74.84% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>121/163</span>
+                <span class='fraction'>122/163</span>
             </div>
         
             
@@ -358,7 +358,6 @@
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
@@ -379,6 +378,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
@@ -390,12 +390,12 @@
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-yes">74x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Input, Label, Select } from "@canonical/react-components";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { LxdProxyDevice } from "types/device";
 import { ensureEditMode } from "./instanceEdit";
 import { proxyAddressTypeOptions } from "./instanceOptions";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 &nbsp;
 type ConnectionType = "listen" | "connect";
 &nbsp;
@@ -520,37 +520,37 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
     }),
   );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  deviceType === "unix"</span>
-<span class="cstat-no" title="statement not covered" >    ? null</span>
-    : customRows.push(
-        getConfigurationRowBase({
-          className: "no-border-top inherited-with-form",
-          configuration: (
-            &lt;Label forId={`devices.${index}.${connectionType}.port`} required&gt;
-              Port
-            &lt;/Label&gt;
-          ),
+<span class="cstat-no" title="statement not covered" >  if (deviceType !== "unix") {</span>
+<span class="cstat-no" title="statement not covered" >    customRows.push(</span>
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: (
+          &lt;Label forId={`devices.${index}.${connectionType}.port`} required&gt;
+            Port
+          &lt;/Label&gt;
+        ),
 &nbsp;
-          inherited: (
-            &lt;Input
-              id={`devices.${index}.${connectionType}.port`}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
-<span class="cstat-no" title="statement not covered" >                ensureEditMode(formik);</span>
-                const newPort = <span class="cstat-no" title="statement not covered" >e.target.value;</span>
-<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue(</span>
-                  `devices.${index}.${connectionType}`,
-                  `${deviceType}:${deviceAddress}:${newPort}`,
-                );
-              }}
-              value={devicePort}
-              placeholder="00[-00]"
-              type="text"
-              className="u-no-margin--bottom"
-            /&gt;
-          ),
-          override: "",
-        }),
-      );
+        inherited: (
+          &lt;Input
+            id={`devices.${index}.${connectionType}.port`}
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+<span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span>
+              const newPort = <span class="cstat-no" title="statement not covered" >e.target.value;</span>
+<span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(</span>
+                `devices.${index}.${connectionType}`,
+                `${deviceType}:${deviceAddress}:${newPort}`,
+              );
+            }}
+            value={devicePort}
+            placeholder="00[-00]"
+            type="text"
+            className="u-no-margin--bottom"
+          /&gt;
+        ),
+        override: "",
+      }),
+    );
+  }
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -559,7 +559,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-25T07:44:32.684Z
+                at 2024-11-25T10:06:05.837Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
