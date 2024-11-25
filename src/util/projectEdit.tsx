@@ -55,7 +55,7 @@ export const getProjectEditValues = (
       ? parseInt(project.config["limits.cpu"])
       : undefined,
     limits_memory: project.config["limits.memory"]
-      ? parseInt(project.config["limits.memory"])
+      ? project.config["limits.memory"]
       : undefined,
     limits_processes: project.config["limits.processes"]
       ? parseInt(project.config["limits.processes"])
