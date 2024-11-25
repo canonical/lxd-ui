@@ -62,6 +62,8 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     return <Loader />;
   }
 
+  const managedNetworks = networks.filter((network) => network.managed);
+
   const focusNetwork = (id: number) => {
     focusField(`devices.${id}.name`);
   };
@@ -79,7 +81,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     copy.push({
       type: "nic",
       name: deduplicateName("eth", 1, existingDeviceNames),
-      network: networks[0]?.name ?? "",
+      network: managedNetworks[0]?.name ?? "",
     });
     void formik.setFieldValue("devices", copy);
 
@@ -87,17 +89,15 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   };
 
   const getNetworkOptions = () => {
-    const options = networks
-      .filter((network) => network.managed)
-      .map((network) => {
-        return {
-          label: network.name,
-          value: network.name,
-          disabled: false,
-        };
-      });
+    const options = managedNetworks.map((network) => {
+      return {
+        label: network.name,
+        value: network.name,
+        disabled: false,
+      };
+    });
     options.unshift({
-      label: networks.length === 0 ? "No networks available" : "Select option",
+      label: options.length === 0 ? "No networks available" : "Select option",
       value: "",
       disabled: true,
     });

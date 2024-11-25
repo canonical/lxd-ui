@@ -40,7 +40,7 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props }) => {
     };
   });
   options.unshift({
-    label: networks.length === 0 ? "No networks available" : "Select option",
+    label: options.length === 0 ? "No networks available" : "Select option",
     value: "",
   });
 
