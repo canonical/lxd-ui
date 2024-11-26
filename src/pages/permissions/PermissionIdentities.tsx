@@ -33,6 +33,8 @@ import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { isUnrestricted } from "util/helpers";
+import IdentityResource from "components/IdentityResource";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -52,12 +54,10 @@ const PermissionIdentities: FC = () => {
   const { hasAccessManagementTLS } = useSupportedFeatures();
 
   useEffect(() => {
-    const validIdentities = new Set(
-      identities.map((identity) => identity.name),
-    );
+    const validIdentityIds = new Set(identities.map((identity) => identity.id));
 
     const validSelections = selectedIdentityIds.filter((identity) =>
-      validIdentities.has(identity),
+      validIdentityIds.has(identity),
     );
 
     if (validSelections.length !== selectedIdentityIds.length) {
@@ -114,9 +114,9 @@ const PermissionIdentities: FC = () => {
 
   const rows = filteredIdentities.map((identity) => {
     const isLoggedInIdentity = settings?.auth_user_name === identity.id;
-    const isTlsIdentity = identity.authentication_method === "tls";
+
     return {
-      name: isTlsIdentity ? "" : identity.id,
+      name: isUnrestricted(identity) ? "" : identity.id,
       key: identity.id,
       className: "u-row",
       columns: [
@@ -144,7 +144,7 @@ const PermissionIdentities: FC = () => {
           "aria-label": "Auth method",
         },
         {
-          content: identity.type,
+          content: <IdentityResource identity={identity} truncate={false} />,
           role: "cell",
           "aria-label": "Type",
           className: "u-truncate",
@@ -157,10 +157,11 @@ const PermissionIdentities: FC = () => {
           "aria-label": "Groups for this identity",
         },
         {
-          content: !isTlsIdentity && (
+          content: !isUnrestricted(identity) && (
             <>
               <Button
                 appearance="base"
+                className="u-no-margin--bottom"
                 hasIcon
                 dense
                 onClick={() => {
@@ -198,10 +199,8 @@ const PermissionIdentities: FC = () => {
     defaultSort: "name",
   });
 
-  // NOTE: tls user group membership cannot be modified, this will be supported in the future
-  const nonTlsUsers = identities.filter((identity) => {
-    const isTlsIdentity = identity.authentication_method === "tls";
-    return !isTlsIdentity;
+  const fineGrainedIdentities = identities.filter((identity) => {
+    return !isUnrestricted(identity);
   });
 
   if (isLoading) {
@@ -218,11 +217,11 @@ const PermissionIdentities: FC = () => {
     if (selectedIdentityIds.length > 0) {
       return (
         <SelectedTableNotification
-          totalCount={nonTlsUsers.length ?? 0}
-          itemName="OIDC identity"
+          totalCount={fineGrainedIdentities.length ?? 0}
+          itemName="identity"
           selectedNames={selectedIdentityIds}
           setSelectedNames={setSelectedIdentityIds}
-          filteredNames={nonTlsUsers.map((item) => item.id)}
+          filteredNames={fineGrainedIdentities.map((item) => item.id)}
           hideActions={!!panelParams.panel}
         />
       );
@@ -294,7 +293,9 @@ const PermissionIdentities: FC = () => {
                 selectedNames={selectedIdentityIds}
                 setSelectedNames={setSelectedIdentityIds}
                 processingNames={[]}
-                filteredNames={nonTlsUsers.map((identity) => identity.id)}
+                filteredNames={fineGrainedIdentities.map(
+                  (identity) => identity.id,
+                )}
                 disableSelect={!!panelParams.panel}
               />
             </TablePagination>

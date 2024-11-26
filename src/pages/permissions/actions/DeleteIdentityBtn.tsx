@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -9,8 +9,8 @@ import {
 import { useToastNotification } from "context/toastNotificationProvider";
 import { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
-import { deleteOIDCIdentity } from "api/auth-identities";
-import ResourceLabel from "components/ResourceLabel";
+import { deleteIdentity } from "api/auth-identities";
+import IdentityResource from "components/IdentityResource";
 
 interface Props {
   identity: LxdIdentity;
@@ -20,9 +20,11 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
   const queryClient = useQueryClient();
   const notify = useNotify();
   const toastNotify = useToastNotification();
+  const [isDeleting, setDeleting] = useState(false);
 
   const handleDelete = () => {
-    deleteOIDCIdentity(identity)
+    setDeleting(true);
+    deleteIdentity(identity)
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {
@@ -33,27 +35,28 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         });
         toastNotify.success(
           <>
-            Identity <ResourceLabel type={"idp-group"} value={identity.name} />{" "}
-            deleted.
+            Identity <IdentityResource identity={identity} /> deleted.
           </>,
         );
+        setDeleting(false);
         close();
       })
       .catch((e) => {
+        setDeleting(false);
         notify.failure(
           `Identity deletion failed`,
           e,
-          <ResourceLabel type={"idp-group"} value={identity.name} />,
+          <IdentityResource identity={identity} />,
         );
       });
   };
 
   return (
     <ConfirmationButton
-      onHoverText={"Delete identity"}
+      onHoverText="Delete identity"
       appearance="base"
       aria-label="Delete identity"
-      className={"has-icon"}
+      className="has-icon u-no-margin--bottom"
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
@@ -68,6 +71,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
       }}
       shiftClickEnabled
       showShiftClickHint
+      loading={isDeleting}
     >
       <Icon name="delete" />
     </ConfirmationButton>

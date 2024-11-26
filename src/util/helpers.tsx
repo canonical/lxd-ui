@@ -9,6 +9,7 @@ import crypto from "crypto";
 import { isDiskDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import { FormDevice } from "./formDevices";
+import { LxdIdentity } from "types/permissions";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -334,4 +335,8 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
       return isRootDisk(device as FormDevice);
     });
   return rootStorage ? rootStorage.pool : "";
+};
+
+export const isUnrestricted = (identity: LxdIdentity) => {
+  return identity.type === "Client certificate (unrestricted)";
 };
