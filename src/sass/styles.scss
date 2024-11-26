@@ -234,7 +234,9 @@ body {
 
   .p-breadcrumbs__item {
     font-size: #{map.get($font-sizes, h4-mobile)}rem;
+    font-variant-caps: normal;
     font-weight: 275;
+    letter-spacing: normal;
     line-height: 1.45rem;
     margin-bottom: 0;
     margin-top: 0;
