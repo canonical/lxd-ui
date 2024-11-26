@@ -5,7 +5,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { LxdIdentity } from "types/permissions";
-import { deleteOIDCIdentities } from "api/auth-identities";
+import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "util/queryKeys";
@@ -27,7 +27,7 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
   const successMessage = `${identities.length} ${pluralize("identity", identities.length)} successfully deleted`;
 
   const handleDelete = () => {
-    deleteOIDCIdentities(identities)
+    deleteIdentities(identities)
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {

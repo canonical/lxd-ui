@@ -75,8 +75,8 @@ export const pluralize = (item: string, count: number): string => {
     return item;
   }
 
-  if (item.includes("identity")) {
-    return item.replace("identity", "identities");
+  if (item.toLowerCase().includes("identity")) {
+    return item.toLowerCase().replace("identity", "identities");
   }
 
   return `${item}s`;

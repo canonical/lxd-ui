@@ -9,7 +9,7 @@ import {
 import { useToastNotification } from "context/toastNotificationProvider";
 import { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
-import { deleteOIDCIdentity } from "api/auth-identities";
+import { deleteIdentity } from "api/auth-identities";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
@@ -20,9 +20,11 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
   const queryClient = useQueryClient();
   const notify = useNotify();
   const toastNotify = useToastNotification();
+  const identityIconType =
+    identity.authentication_method == "tls" ? "certificate" : "oidc-identity";
 
   const handleDelete = () => {
-    deleteOIDCIdentity(identity)
+    deleteIdentity(identity)
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {
@@ -33,7 +35,8 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         });
         toastNotify.success(
           <>
-            Identity <ResourceLabel type={"idp-group"} value={identity.name} />{" "}
+            Identity{" "}
+            <ResourceLabel type={identityIconType} value={identity.name} />{" "}
             deleted.
           </>,
         );
@@ -43,7 +46,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         notify.failure(
           `Identity deletion failed`,
           e,
-          <ResourceLabel type={"idp-group"} value={identity.name} />,
+          <ResourceLabel type={identityIconType} value={identity.name} />,
         );
       });
   };

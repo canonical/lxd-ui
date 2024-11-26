@@ -36,8 +36,8 @@ const EditIdentitiesForm: FC<Props> = ({
     notify.failure("Loading details failed", error);
   }
 
-  const nonTlsIdentities = identities.filter(
-    (identity) => identity.authentication_method !== "tls",
+  const fineGrainedIdentities = identities.filter(
+    (identity) => identity.type !== "Client certificate (unrestricted)",
   );
 
   const toggleRow = (id: string) => {
@@ -104,7 +104,7 @@ const EditIdentitiesForm: FC<Props> = ({
     },
   ];
 
-  const filteredIdentities = nonTlsIdentities.filter((identity) => {
+  const filteredIdentities = fineGrainedIdentities.filter((identity) => {
     if (filter) {
       return identity.name.toLowerCase().includes(filter.toLowerCase());
     }
@@ -168,7 +168,7 @@ const EditIdentitiesForm: FC<Props> = ({
             .map((identity) => identity.id)}
           setSelectedNames={bulkSelect}
           processingNames={[]}
-          filteredNames={nonTlsIdentities.map((identity) => identity.id)}
+          filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
           indeterminateNames={[]}
           onToggleRow={toggleRow}
           hideContextualMenu
