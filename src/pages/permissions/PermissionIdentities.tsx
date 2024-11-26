@@ -33,6 +33,7 @@ import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import ResourceLink from "components/ResourceLink";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -114,9 +115,10 @@ const PermissionIdentities: FC = () => {
 
   const rows = filteredIdentities.map((identity) => {
     const isLoggedInIdentity = settings?.auth_user_name === identity.id;
-    const isTlsIdentity = identity.authentication_method === "tls";
+    const isLegacyIdentity =
+      identity.type === "Client certificate (unrestricted)";
     return {
-      name: isTlsIdentity ? "" : identity.id,
+      name: isLegacyIdentity ? "" : identity.id,
       key: identity.id,
       className: "u-row",
       columns: [
@@ -144,7 +146,17 @@ const PermissionIdentities: FC = () => {
           "aria-label": "Auth method",
         },
         {
-          content: identity.type,
+          content: (
+            <ResourceLink
+              type={
+                identity.authentication_method == "tls"
+                  ? "certificate"
+                  : "oidc-identity"
+              }
+              value={identity.type}
+              to={``}
+            />
+          ),
           role: "cell",
           "aria-label": "Type",
           className: "u-truncate",
@@ -157,7 +169,7 @@ const PermissionIdentities: FC = () => {
           "aria-label": "Groups for this identity",
         },
         {
-          content: !isTlsIdentity && (
+          content: !isLegacyIdentity && (
             <>
               <Button
                 appearance="base"
@@ -198,12 +210,6 @@ const PermissionIdentities: FC = () => {
     defaultSort: "name",
   });
 
-  // NOTE: tls user group membership cannot be modified, this will be supported in the future
-  const nonTlsUsers = identities.filter((identity) => {
-    const isTlsIdentity = identity.authentication_method === "tls";
-    return !isTlsIdentity;
-  });
-
   if (isLoading) {
     return <Loader text="Loading identities" />;
   }
@@ -218,11 +224,11 @@ const PermissionIdentities: FC = () => {
     if (selectedIdentityIds.length > 0) {
       return (
         <SelectedTableNotification
-          totalCount={nonTlsUsers.length ?? 0}
-          itemName="OIDC identity"
+          totalCount={identities.length ?? 0}
+          itemName="identity"
           selectedNames={selectedIdentityIds}
           setSelectedNames={setSelectedIdentityIds}
-          filteredNames={nonTlsUsers.map((item) => item.id)}
+          filteredNames={identities.map((item) => item.id)}
           hideActions={!!panelParams.panel}
         />
       );
@@ -294,7 +300,7 @@ const PermissionIdentities: FC = () => {
                 selectedNames={selectedIdentityIds}
                 setSelectedNames={setSelectedIdentityIds}
                 processingNames={[]}
-                filteredNames={nonTlsUsers.map((identity) => identity.id)}
+                filteredNames={identities.map((identity) => identity.id)}
                 disableSelect={!!panelParams.panel}
               />
             </TablePagination>
