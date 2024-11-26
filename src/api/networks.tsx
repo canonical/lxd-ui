@@ -8,7 +8,14 @@ export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks?project=${project}&recursion=1`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetwork[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdNetwork[]>) => {
+        const filteredNetworks = data.metadata.filter(
+          // Filter out loopback and unknown networks, both are not useful for the user.
+          // this is in line with the filtering done in the LXD CLI
+          (network) => !["loopback", "unknown"].includes(network.type),
+        );
+        resolve(filteredNetworks);
+      })
       .catch(reject);
   });
 };

@@ -42,7 +42,7 @@ const UplinkSelector: FC<Props> = ({
     };
   });
   options.unshift({
-    label: networks.length === 0 ? "No networks available" : "Select option",
+    label: options.length === 0 ? "No networks available" : "Select option",
     value: "",
   });
 

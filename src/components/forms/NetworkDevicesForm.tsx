@@ -59,6 +59,8 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     return <Loader />;
   }
 
+  const managedNetworks = networks.filter((network) => network.managed);
+
   const removeNetwork = (index: number) => {
     const copy = [...formik.values.devices];
     copy.splice(index, 1);
@@ -67,7 +69,11 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
 
   const addNetwork = () => {
     const copy = [...formik.values.devices];
-    copy.push({ type: "nic", name: "", network: networks[0]?.name ?? "" });
+    copy.push({
+      type: "nic",
+      name: "",
+      network: managedNetworks[0]?.name ?? "",
+    });
     void formik.setFieldValue("devices", copy);
 
     const name = `devices.${copy.length - 1}.name`;
@@ -75,17 +81,15 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   };
 
   const getNetworkOptions = () => {
-    const options = networks
-      .filter((network) => network.managed)
-      .map((network) => {
-        return {
-          label: network.name,
-          value: network.name,
-          disabled: false,
-        };
-      });
+    const options = managedNetworks.map((network) => {
+      return {
+        label: network.name,
+        value: network.name,
+        disabled: false,
+      };
+    });
     options.unshift({
-      label: networks.length === 0 ? "No networks available" : "Select option",
+      label: options.length === 0 ? "No networks available" : "Select option",
       value: "",
       disabled: true,
     });
