@@ -13,7 +13,7 @@ import { FormDevice } from "./formDevices";
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
 export const isoTimeToString = (isoTime: string): string => {
-  if (isoTime === UNDEFINED_DATE) {
+  if (isoTime === UNDEFINED_DATE || !isoTime) {
     return "";
   }
 
