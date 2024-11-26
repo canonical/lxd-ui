@@ -191,7 +191,6 @@ const CustomSelectDropdown: FC<Props> = ({
   const optionItems = filteredOptions.map((option, idx) => {
     return (
       <li
-        {...option}
         key={`${option.value}-${idx}`}
         onClick={() => handleSelect(option)}
         className={classnames(
