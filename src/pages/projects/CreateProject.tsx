@@ -105,6 +105,7 @@ const CreateProject: FC = () => {
         ? getDefaultStoragePool(profile)
         : "",
     },
+    enableReinitialize: true,
     validationSchema: ProjectSchema,
     onSubmit: (values) => {
       const restrictions = values.restricted
