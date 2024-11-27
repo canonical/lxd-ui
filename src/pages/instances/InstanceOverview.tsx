@@ -11,9 +11,9 @@ import InstanceIps from "pages/instances/InstanceIps";
 import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import DeviceListTable from "components/DeviceListTable";
-import ResourceLabel from "components/ResourceLabel";
 import NetworkListTable from "components/NetworkListTable";
 import { LxdDevices } from "types/device";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   instance: LxdInstance;
@@ -50,9 +50,10 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <th className="u-text--muted">Base image</th>
                 <td>
                   {instance.config["image.description"] ? (
-                    <ResourceLabel
+                    <ResourceLink
                       type="image"
                       value={instance.config["image.description"]}
+                      to={`/ui/project/${instance.project}/images`}
                     />
                   ) : (
                     "-"
@@ -94,9 +95,10 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <td>
                   {settings?.environment?.server_clustered &&
                   instance.location ? (
-                    <ResourceLabel
+                    <ResourceLink
                       type="cluster-member"
                       value={instance.location}
+                      to="/ui/cluster"
                     />
                   ) : (
                     "-"
