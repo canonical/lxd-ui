@@ -149,6 +149,32 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             }}
             value={formik.values.description}
           />
+          <StoragePoolSelector
+            value={formik.values.default_instance_storage_pool}
+            setValue={(value) =>
+              void formik.setFieldValue("default_instance_storage_pool", value)
+            }
+            selectProps={{
+              label: "Default instance storage pool",
+              disabled:
+                (formik.values.features_profiles === false &&
+                  features === "customised") ||
+                isEdit,
+              help: isEdit ? (
+                <>
+                  Edit the storage pool in the{" "}
+                  <ResourceLink
+                    type="profile"
+                    value="default"
+                    to={`/ui/project/${project?.name}/profile/default`}
+                  />{" "}
+                  {" profile"}
+                </>
+              ) : (
+                ""
+              ),
+            }}
+          />
           <div
             title={
               isDefaultProject
@@ -298,32 +324,6 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
           </div>
 
           <hr />
-          <StoragePoolSelector
-            value={formik.values.default_instance_storage_pool}
-            setValue={(value) =>
-              void formik.setFieldValue("default_instance_storage_pool", value)
-            }
-            selectProps={{
-              label: "Default instance storage pool",
-              disabled:
-                (formik.values.features_profiles === false &&
-                  features === "customised") ||
-                isEdit,
-              help: isEdit ? (
-                <>
-                  Edit the storage pool in the{" "}
-                  <ResourceLink
-                    type="profile"
-                    value="default"
-                    to={`/ui/project/${project?.name}/profile/default`}
-                  />{" "}
-                  {" profile"}
-                </>
-              ) : (
-                ""
-              ),
-            }}
-          />
           <CheckboxInput
             id="custom_restrictions"
             name="custom_restrictions"
