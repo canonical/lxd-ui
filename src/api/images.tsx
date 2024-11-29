@@ -26,7 +26,8 @@ export const fetchImage = (
 
 export const fetchImageList = (project?: string): Promise<LxdImage[]> => {
   const url =
-    "/1.0/images?recursion=1" + (project ? `&project=${project}` : "");
+    "/1.0/images?recursion=1" +
+    (project ? `&project=${project}` : "&all-projects=1");
   return new Promise((resolve, reject) => {
     fetch(url)
       .then(handleResponse)
