@@ -81,17 +81,20 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
     queryKey: [queryKeys.images, canonicalServer],
     queryFn: () => loadImages(canonicalJson, canonicalServer),
+    retry: false, // avoid retry to ease experience in airgapped deployments
   });
 
   const { data: minimalImages = [], isLoading: isMinimalLoading } = useQuery({
     queryKey: [queryKeys.images, minimalServer],
     queryFn: () => loadImages(minimalJson, minimalServer),
+    retry: false, // avoid retry to ease experience in airgapped deployments
   });
 
   const { data: imagesLxdImages = [], isLoading: isImagesLxdLoading } =
     useQuery({
       queryKey: [queryKeys.images, imagesLxdServer],
       queryFn: () => loadImages(imagesLxdJson, imagesLxdServer),
+      retry: false, // avoid retry to ease experience in airgapped deployments
     });
 
   const { data: localImages = [], isLoading: isLocalImageLoading } = useQuery({
