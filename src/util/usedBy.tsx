@@ -1,4 +1,5 @@
 import { extractResourceDetailsFromUrl, ResourceType } from "./resourceDetails";
+
 export interface LxdUsedBy {
   name: string;
   project: string;

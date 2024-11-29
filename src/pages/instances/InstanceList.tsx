@@ -18,7 +18,7 @@ import Loader from "components/Loader";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import TableColumnsSelect from "components/TableColumnsSelect";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import classnames from "classnames";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useInstanceLoading } from "context/instanceLoading";

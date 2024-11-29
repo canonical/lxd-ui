@@ -1,4 +1,5 @@
 {
+  "extends": "@canonical/typescript-config-react",
   "compilerOptions": {
     "outDir": "./public/js/dist",
     "baseUrl": ".",
@@ -6,37 +7,31 @@
       "api/*": ["src/api/*"],
       "context/*": ["src/context/*"],
       "components/*": ["src/components/*"],
+      "lib/*": ["src/lib/*"],
       "pages/*": ["src/pages/*"],
       "types/*": ["src/types/*"],
       "util/*": ["src/util/*"],
       "*": ["types/*.d.ts"]
     },
-    "target": "ES2020",
     "module": "esnext",
-    "jsx": "react-jsx",
-    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "skipLibCheck": true, // ignore types of the node_modules
+    "forceConsistentCasingInFileNames": true, // ensure support for file systems with and without case sensitivity
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": false,
+    "noFallthroughCasesInSwitch": true, // extra check because we like to use switch
+    "moduleResolution": "node", // imports to be without the .js extension
+    "isolatedModules": true, // recommended for vite projects, see https://v2.vitejs.dev/guide/features.html#typescript-compiler-options
     "sourceMap": true,
     "types": ["vitest/globals"]
   },
   "include": [
-    "./src",
+    "src",
     ".eslintrc.cjs",
     "babel.config.js",
     "merge.playwright.config.ts",
     "playwright.config.ts",
     "webpack.config.js",
-    "./tests/**/*.ts",
+    "tests/**/*.ts",
     "vite.config.ts",
     "vitest.config.ts"
   ],

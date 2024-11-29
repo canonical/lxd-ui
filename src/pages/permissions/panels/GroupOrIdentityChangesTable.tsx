@@ -10,7 +10,7 @@ import {
   getAbsoluteHeightBelowBySelector,
   getElementAbsoluteHeight,
 } from "util/helpers";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 
 interface Props {
   identityGroupsChangeSummary: ChangeSummary;

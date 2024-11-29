@@ -9,7 +9,7 @@ import {
 import { isoTimeToString } from "util/helpers";
 import { LxdInstance } from "types/instance";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";

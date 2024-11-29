@@ -10,7 +10,7 @@ import {
   MainTable,
 } from "@canonical/react-components";
 import classnames from "classnames";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { pluralize } from "util/instanceBulkActions";
 
 interface SelectableMainTableProps {

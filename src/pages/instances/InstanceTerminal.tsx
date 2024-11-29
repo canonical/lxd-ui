@@ -3,7 +3,7 @@ import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { FitAddon } from "xterm-addon-fit";
 import { connectInstanceExec } from "api/instances";
 import { getWsErrorMsg } from "util/helpers";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import ReconnectTerminalBtn from "./actions/ReconnectTerminalBtn";
 import { TerminalConnectPayload } from "types/terminal";
 import Loader from "components/Loader";

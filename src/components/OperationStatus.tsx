@@ -2,7 +2,7 @@ import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
 import { useState } from "react";
 import { isWidthBelow } from "util/helpers";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { Link } from "react-router-dom";
 import { pluralize } from "util/instanceBulkActions";
 

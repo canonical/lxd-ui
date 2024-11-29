@@ -6,7 +6,7 @@ import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
 import DuplicateInstanceBtn from "./actions/DuplicateInstanceBtn";
 import { ContextualMenu } from "@canonical/react-components";
 import { isWidthBelow } from "util/helpers";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import ExportInstanceBtn from "pages/instances/actions/ExportInstanceBtn";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 
 type EditHistoryState<T = unknown> = {
   currentState: T;

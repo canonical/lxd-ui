@@ -17,7 +17,7 @@ import StoragePoolFormMenu, {
   YAML_CONFIGURATION,
   ZFS_CONFIGURATION,
 } from "./StoragePoolFormMenu";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import { LxdStoragePool } from "types/storage";
 import {

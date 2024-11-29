@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { AppAside, Panel, Spinner } from "@canonical/react-components";
 import { createPortal } from "react-dom";
 import usePanelParams from "util/usePanelParams";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 
 interface CommonProps {
   className?: string;

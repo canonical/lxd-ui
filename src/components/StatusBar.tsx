@@ -5,7 +5,7 @@ import OperationStatus from "./OperationStatus";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { AppStatus, ICONS, Icon } from "@canonical/react-components";
 import { iconLookup, severityOrder } from "util/notifications";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { useAuth } from "context/auth";
 
 interface Props {

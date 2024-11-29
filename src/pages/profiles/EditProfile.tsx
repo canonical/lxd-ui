@@ -44,7 +44,7 @@ import ProfileFormMenu, {
   OTHER_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
 import { LxdProfile } from "types/profile";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
@@ -155,9 +155,11 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
-      ? navigate(baseUrl)
-      : navigate(`${baseUrl}/${slugify(newSection)}`);
+    if (newSection === MAIN_CONFIGURATION) {
+      navigate(baseUrl);
+    } else {
+      navigate(`${baseUrl}/${slugify(newSection)}`);
+    }
   };
 
   const getYaml = () => {

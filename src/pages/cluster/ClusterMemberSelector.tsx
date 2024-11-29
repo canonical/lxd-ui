@@ -2,7 +2,7 @@ import { Select, SelectProps } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchClusterMembers } from "api/cluster";
 import { useSettings } from "context/useSettings";
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { queryKeys } from "util/queryKeys";
 import { isClusteredServer } from "util/settings";
 

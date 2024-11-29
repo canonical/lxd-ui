@@ -61,21 +61,19 @@ interface ErrorResponse {
 
 export const handleResponse = async (response: Response) => {
   if (!response.ok) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result: ErrorResponse = await response.json();
+    const result = (await response.json()) as ErrorResponse;
     throw Error(result.error);
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return response.json();
 };
 
 export const handleSettledResult = (
   results: PromiseSettledResult<unknown>[],
 ): void => {
-  const error = (
-    results.find((res) => res.status === "rejected") as
-      | PromiseRejectedResult
-      | undefined
-  )?.reason as Error | undefined;
+  const error = results.find((res) => res.status === "rejected")?.reason as
+    | Error
+    | undefined;
 
   if (error) {
     throw error;
@@ -95,8 +93,7 @@ export const handleTextResponse = async (
   response: Response,
 ): Promise<string> => {
   if (!response.ok) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result: ErrorResponse = await response.json();
+    const result = (await response.json()) as ErrorResponse;
     throw Error(result.error);
   }
   return response.text();

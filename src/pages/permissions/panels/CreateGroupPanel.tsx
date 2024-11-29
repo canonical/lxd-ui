@@ -1,7 +1,7 @@
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";

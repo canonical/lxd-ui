@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import ResourceLink from "./ResourceLink";
 import { LxdUsedBy } from "util/usedBy";
 import { ResourceIconType } from "./ResourceIcon";

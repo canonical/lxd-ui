@@ -139,7 +139,7 @@ const NetworkMap: FC = () => {
               nodeDimensionsIncludeLabels: true,
               animate: false,
             }}
-            cy={(cy) => {
+            cy={(cy: cytoscape.Core) => {
               cy.nodes().on("mouseover", (event: CyEvent) => {
                 cyPopperRef.current = event.target.popper({
                   content: mountElement(

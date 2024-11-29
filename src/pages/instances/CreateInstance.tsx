@@ -62,7 +62,7 @@ import InstanceFormMenu, {
   OTHER_DEVICES,
   PROXY_DEVICES,
 } from "pages/instances/forms/InstanceFormMenu";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";
 import NetworkDevicesForm from "components/forms/NetworkDevicesForm";
@@ -272,9 +272,11 @@ const CreateInstance: FC = () => {
       </>
     );
 
-    shouldStart
-      ? notifyCreatedAndStarted(instanceLink)
-      : notifyCreated(instanceLink, message);
+    if (shouldStart) {
+      notifyCreatedAndStarted(instanceLink);
+    } else {
+      notifyCreated(instanceLink, message);
+    }
   };
 
   const { data: profiles = [] } = useQuery({

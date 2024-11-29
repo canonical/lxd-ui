@@ -23,7 +23,7 @@ module.exports = {
     },
   },
   parserOptions: {
-    project: "./tsconfig.json",
+    project: "tsconfig.json",
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,

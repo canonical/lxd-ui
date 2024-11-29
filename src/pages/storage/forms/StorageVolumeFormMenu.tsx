@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { LxdStorageVolumeContentType } from "types/storage";

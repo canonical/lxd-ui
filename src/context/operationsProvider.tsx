@@ -60,7 +60,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     };
   }, []);
 
-  const debouncedRefetch = (options?: RefetchOptions | undefined) => {
+  const debouncedRefetch = (options?: RefetchOptions) => {
     const delay = 2_000;
     if (refetchTimerRef.current) {
       clearTimeout(refetchTimerRef.current);

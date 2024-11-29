@@ -5,7 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { useParams } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import StorageVolumeFormMenu, {
   FILESYSTEM,
   MAIN_CONFIGURATION,

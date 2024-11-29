@@ -84,9 +84,11 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
 
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
-    newSection === MAIN_CONFIGURATION
-      ? navigate(baseUrl)
-      : navigate(`${baseUrl}/${slugify(newSection)}`);
+    if (newSection === MAIN_CONFIGURATION) {
+      navigate(baseUrl);
+    } else {
+      navigate(`${baseUrl}/${slugify(newSection)}`);
+    }
   };
 
   return (

@@ -6,7 +6,7 @@ import {
   Strip,
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { UI_VERSION } from "util/version";
 
 type Props = {

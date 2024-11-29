@@ -9,7 +9,7 @@ import { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
 import { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { getProjectEditValues, getProjectPayload } from "util/projectEdit";
 import { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
@@ -101,9 +101,11 @@ const EditProject: FC<Props> = ({ project }) => {
 
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project.name}/configuration`;
-    newSection === PROJECT_DETAILS
-      ? navigate(baseUrl)
-      : navigate(`${baseUrl}/${slugify(newSection)}`);
+    if (newSection === PROJECT_DETAILS) {
+      navigate(baseUrl);
+    } else {
+      navigate(`${baseUrl}/${slugify(newSection)}`);
+    }
   };
 
   return (

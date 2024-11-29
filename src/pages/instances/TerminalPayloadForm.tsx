@@ -8,7 +8,7 @@ import {
   Modal,
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "@use-it/event-listener";
+import useEventListener from "util/useEventListener";
 import { TerminalConnectPayload } from "types/terminal";
 import * as Yup from "yup";
 import { useFormik } from "formik";

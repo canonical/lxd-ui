@@ -65,11 +65,8 @@ export const createClusterNetwork = (
       }),
     )
       .then((results) => {
-        const error = (
-          results.find((res) => res.status === "rejected") as
-            | PromiseRejectedResult
-            | undefined
-        )?.reason as Error | undefined;
+        const error = results.find((res) => res.status === "rejected")
+          ?.reason as Error | undefined;
 
         if (error) {
           reject(error);
