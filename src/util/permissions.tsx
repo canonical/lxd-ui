@@ -371,7 +371,7 @@ export const enablePermissionsFeature = (): boolean => {
 // each resource type has specific columns to display, which should uniquely identify the resource
 export const getResourceOptionColumns = (type: string) => {
   const resourceOptionColumns: Record<string, (keyof ResourceDetail)[]> = {
-    image: ["description", "aliases", "fingerprint", "imageType"],
+    image: ["description", "aliases", "fingerprint", "imageType", "project"],
     image_alias: ["name", "project"],
     instance: ["name", "project"],
     network: ["name", "project"],
@@ -379,7 +379,7 @@ export const getResourceOptionColumns = (type: string) => {
     network_zone: ["name", "project"],
     profile: ["name", "project"],
     storage_bucket: ["name", "project"],
-    storage_volume: ["name", "project", "pool"],
+    storage_volume: ["name", "pool", "project"],
     default: ["name"],
   };
 
