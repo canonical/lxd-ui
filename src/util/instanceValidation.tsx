@@ -22,6 +22,10 @@ export const isRootDisk = (device: FormDevice): device is FormDiskDevice => {
   return device.type === "disk" && device.path === "/" && !device.source;
 };
 
+export const isHostPath = (device: FormDevice): boolean => {
+  return device.type === "disk" && !!device.source && device.pool === undefined;
+};
+
 const missingRoot = (devices: FormDevice[]): boolean => {
   return !devices.some(isRootDisk);
 };

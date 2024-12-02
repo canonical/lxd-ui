@@ -14,7 +14,7 @@ const ResourceLabel: FC<Props> = ({ type, value, bold, truncate = true }) => {
   return (
     <span className={classNames("resource-label", { "u-truncate": truncate })}>
       <ResourceIcon type={type} />
-      <ValueWrapper>{value}</ValueWrapper>
+      <ValueWrapper title={value}>{value}</ValueWrapper>
     </span>
   );
 };
