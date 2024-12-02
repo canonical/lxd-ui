@@ -9,7 +9,7 @@ import {
 import { useToastNotification } from "context/toastNotificationProvider";
 import { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
-import { deleteOIDCIdentity } from "api/auth-identities";
+import { deleteIdentity } from "api/auth-identities";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
@@ -22,7 +22,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
   const toastNotify = useToastNotification();
 
   const handleDelete = () => {
-    deleteOIDCIdentity(identity)
+    deleteIdentity(identity)
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {
@@ -33,8 +33,8 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
         });
         toastNotify.success(
           <>
-            Identity <ResourceLabel type={"idp-group"} value={identity.name} />{" "}
-            deleted.
+            {identity.authentication_method.toUpperCase()} Identity{" "}
+            <ResourceLabel type={"idp-group"} value={identity.name} /> deleted.
           </>,
         );
         close();
