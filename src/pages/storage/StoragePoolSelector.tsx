@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { Select, useNotify } from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
@@ -7,6 +7,10 @@ import Loader from "components/Loader";
 import { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
 import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
+import CustomSelect from "components/select/CustomSelect";
+import { CustomSelectOption } from "components/select/CustomSelectDropdown";
+import StoragePoolOptionLabel from "./StoragePoolOptionLabel";
+import StoragePoolOptionHeader from "./StoragePoolOptionHeader";
 
 interface Props {
   value: string;
@@ -56,30 +60,43 @@ const StoragePoolSelector: FC<Props> = ({
   }
 
   const getStoragePoolOptions = () => {
-    const options = poolsToUse.map((pool) => {
-      return {
-        label: pool.name,
-        value: pool.name,
-        disabled: false,
-      };
-    });
-    options.unshift({
-      label:
-        poolsToUse.length === 0 ? "No storage pool available" : "Select option",
-      value: "",
-      disabled: true,
-    });
+    const options: CustomSelectOption[] = [];
+    if (poolsToUse) {
+      poolsToUse.forEach((pool) => {
+        options.push({
+          label: <StoragePoolOptionLabel pool={pool} hasMeterBar={false} />,
+          value: pool.name,
+          disabled: false,
+          text: `${pool.name} (${pool.driver})`,
+        });
+      });
+      if (poolsToUse.length === 0) {
+        options.unshift({
+          label: "No storage pool available",
+          value: "",
+          disabled: true,
+        });
+      }
+    }
+
     return options;
   };
 
+  const handleStoragePoolChange = (value: string) => {
+    setValue(value);
+  };
+
   return (
-    <Select
-      id="storage-pool-selector"
+    <CustomSelect
       name="pool"
-      options={getStoragePoolOptions()}
-      onChange={(e) => setValue(e.target.value)}
-      value={value}
+      aria-label="Storage Pool"
+      searchable="auto"
       {...selectProps}
+      options={getStoragePoolOptions()}
+      onChange={handleStoragePoolChange}
+      value={value}
+      dropdownClassName={"storage-pool-select-dropdown"}
+      header={<StoragePoolOptionHeader />}
     />
   );
 };

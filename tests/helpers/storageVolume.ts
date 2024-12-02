@@ -104,7 +104,8 @@ export const duplicateStorageVolume = async (
   await page.getByLabel("New volume name").click();
   await page.getByLabel("New volume name").fill(newVolumeName);
   if (targetPool) {
-    await page.getByLabel("Storage pool").selectOption(targetPool);
+    await page.getByLabel("Storage pool", { exact: true }).click();
+    await page.getByText(targetPool).click();
   }
   if (targetProject) {
     await page.getByLabel("Target project").selectOption(targetProject);

@@ -8,9 +8,10 @@ import Meter from "components/Meter";
 
 interface Props {
   pool: LxdStoragePool;
+  hasMeterBar?: boolean;
 }
 
-const StoragePoolSize: FC<Props> = ({ pool }) => {
+const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
   const { data: resources } = useQuery({
     queryKey: [queryKeys.storage, pool.name, queryKeys.resources],
     queryFn: () => fetchStoragePoolResources(pool.name),
@@ -22,6 +23,10 @@ const StoragePoolSize: FC<Props> = ({ pool }) => {
 
   const total = resources.space.total;
   const used = resources.space.used || 0;
+
+  if (!hasMeterBar) {
+    return `${humanFileSize(used)} of ${humanFileSize(total)} used`;
+  }
 
   return (
     <Meter
