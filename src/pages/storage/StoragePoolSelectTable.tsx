@@ -68,7 +68,7 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
           onClick: selectPool,
         },
         {
-          content: <StoragePoolSize pool={pool} />,
+          content: <StoragePoolSize pool={pool} hasMeterBar />,
           role: "cell",
           "aria-label": "Size",
           onClick: selectPool,
