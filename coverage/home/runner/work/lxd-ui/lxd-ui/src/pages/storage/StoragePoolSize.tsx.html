@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.46% </span>
+                <span class="strong">81.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/49</span>
+                <span class='fraction'>40/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.17% </span>
+                <span class="strong">47.36% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/17</span>
+                <span class='fraction'>9/19</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.74% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>35/39</span>
+                <span class='fraction'>39/39</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,20 +102,20 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
 <a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
@@ -129,18 +129,18 @@
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
-<span class="cline-any cline-yes">95x</span>
-<span class="cline-any cline-yes">95x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-yes">118x</span>
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
 <span class="cline-any cline-yes">134x</span>
-<span class="cline-any cline-yes">137x</span>
-<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">138x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { fetchStoragePoolResources } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
@@ -169,11 +169,11 @@ const StoragePoolSize: FC&lt;Props&gt; = <span class="fstat-no" title="function 
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!hasMeterBar) {</span>
 <span class="cstat-no" title="statement not covered" >    return `${humanFileSize(used)} of ${humanFileSize(total)} used`;</span>
-<span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
-<span class="cstat-no" title="statement not covered" >    &lt;Meter</span>
-<span class="cstat-no" title="statement not covered" >      percentage={(100 / total) * used || 0}</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;Meter
+      percentage={(100 / total) * <span class="branch-0 cbranch-no" title="branch not covered" >used || 0}</span>
       text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
     /&gt;
   );
@@ -187,7 +187,7 @@ export default StoragePoolSize;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-09T14:19:08.026Z
+                at 2024-12-09T16:04:19.327Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
