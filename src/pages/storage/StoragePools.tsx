@@ -103,7 +103,7 @@ const StoragePools: FC = () => {
           "aria-label": "Driver",
         },
         {
-          content: <StoragePoolSize pool={pool} />,
+          content: <StoragePoolSize pool={pool} hasMeterBar />,
           role: "rowheader",
           "aria-label": "Size",
           className: "size",

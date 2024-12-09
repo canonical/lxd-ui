@@ -38,7 +38,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
               <tr>
                 <th className="u-text--muted">Size</th>
                 <td>
-                  <StoragePoolSize pool={pool} />
+                  <StoragePoolSize pool={pool} hasMeterBar />
                 </td>
               </tr>
               <tr>

@@ -4,10 +4,9 @@ import StoragePoolSize from "./StoragePoolSize";
 
 interface Props {
   pool: LxdStoragePool;
-  hasMeterBar?: boolean;
 }
 
-const StoragePoolOptionLabel: FC<Props> = ({ pool, hasMeterBar }) => {
+const StoragePoolOptionLabel: FC<Props> = ({ pool }) => {
   return (
     <div className="label">
       <span key="name" title={pool.name || "-"} className="resource u-truncate">
@@ -21,11 +20,7 @@ const StoragePoolOptionLabel: FC<Props> = ({ pool, hasMeterBar }) => {
         {pool.driver || "-"}
       </span>
       <span key="usage" title="Usage" className="resource-usage u-truncate">
-        <StoragePoolSize
-          key={pool.name}
-          pool={pool}
-          hasMeterBar={hasMeterBar}
-        />
+        <StoragePoolSize key={pool.name} pool={pool} />
       </span>
     </div>
   );

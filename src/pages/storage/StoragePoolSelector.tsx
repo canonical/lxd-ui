@@ -64,7 +64,7 @@ const StoragePoolSelector: FC<Props> = ({
     if (poolsToUse) {
       poolsToUse.forEach((pool) => {
         options.push({
-          label: <StoragePoolOptionLabel pool={pool} hasMeterBar={false} />,
+          label: <StoragePoolOptionLabel pool={pool} />,
           value: pool.name,
           disabled: false,
           text: `${pool.name} (${pool.driver})`,
@@ -95,7 +95,7 @@ const StoragePoolSelector: FC<Props> = ({
       options={getStoragePoolOptions()}
       onChange={handleStoragePoolChange}
       value={value}
-      dropdownClassName={"storage-pool-select-dropdown"}
+      dropdownClassName="storage-pool-select-dropdown"
       header={<StoragePoolOptionHeader />}
     />
   );
