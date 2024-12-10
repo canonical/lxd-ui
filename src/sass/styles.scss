@@ -351,3 +351,14 @@ body {
 .clickable-cell {
   cursor: pointer;
 }
+
+.create-instance-from-snapshot-modal,
+.duplicate-instances-modal,
+.create-image-from-instance-modal,
+.create-tls-identity {
+  .p-modal__dialog {
+    @include large {
+      width: 35rem;
+    }
+  }
+}

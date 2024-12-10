@@ -30,3 +30,12 @@ export interface IdpGroup {
   name: string;
   groups: string[]; // these should be names of lxd groups
 }
+
+export interface LxdFineGrainedTlsIdentity {
+  client_name: string;
+  addresses: string[];
+  expires_at: string;
+  fingerprint: string;
+  type: "Client certificate (pending)" | "Client certificate";
+  secret: string;
+}

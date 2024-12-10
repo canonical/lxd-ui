@@ -1,6 +1,6 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import { LxdApiResponse } from "types/apiResponse";
-import { LxdIdentity } from "types/permissions";
+import { LxdIdentity, LxdFineGrainedTlsIdentity } from "types/permissions";
 
 export const fetchIdentities = (): Promise<LxdIdentity[]> => {
   return new Promise((resolve, reject) => {
@@ -71,6 +71,25 @@ export const deleteOIDCIdentities = (
     )
       .then(handleSettledResult)
       .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const createFineGrainedTlsIdentity = (
+  clientName: string,
+): Promise<LxdFineGrainedTlsIdentity> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/auth/identities/tls`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: clientName,
+        token: true,
+      }),
+    })
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdFineGrainedTlsIdentity>) =>
+        resolve(data.metadata),
+      )
       .catch(reject);
   });
 };

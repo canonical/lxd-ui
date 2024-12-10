@@ -9,6 +9,7 @@ import crypto from "crypto";
 import { isDiskDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import { FormDevice } from "./formDevices";
+import { LxdFineGrainedTlsIdentity } from "types/permissions";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 
@@ -334,4 +335,9 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
       return isRootDisk(device as FormDevice);
     });
   return rootStorage ? rootStorage.pool : "";
+};
+
+export const base64EncodeTokenDetails = (data: LxdFineGrainedTlsIdentity) => {
+  const jsonString = JSON.stringify(data);
+  return btoa(jsonString);
 };

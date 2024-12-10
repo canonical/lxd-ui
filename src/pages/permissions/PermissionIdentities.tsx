@@ -33,6 +33,9 @@ import Tag from "components/Tag";
 import BulkDeleteIdentitiesBtn from "./actions/BulkDeleteIdentitiesBtn";
 import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useSmallScreen } from "context/useSmallScreen";
+import usePortal from "react-useportal";
+import CreateIdentityModal from "./CreateIdentityModal";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -50,6 +53,8 @@ const PermissionIdentities: FC = () => {
   const [searchParams] = useSearchParams();
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
   const { hasAccessManagementTLS } = useSupportedFeatures();
+  const isSmallScreen = useSmallScreen();
+  const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
   useEffect(() => {
     const validIdentities = new Set(
@@ -233,6 +238,11 @@ const PermissionIdentities: FC = () => {
 
   return (
     <>
+      {isOpen && (
+        <Portal>
+          <CreateIdentityModal onClose={closePortal} />
+        </Portal>
+      )}
       <CustomLayout
         contentClassName="u-no-padding--bottom"
         header={
@@ -264,6 +274,17 @@ const PermissionIdentities: FC = () => {
                 />
               )}
             </PageHeader.Left>
+            <PageHeader.BaseActions>
+              <Button
+                appearance="positive"
+                className="u-float-right u-no-margin--bottom"
+                onClick={openPortal}
+                hasIcon={!isSmallScreen}
+              >
+                {!isSmallScreen && <Icon name="plus" light />}
+                <span>Create TLS Identity</span>
+              </Button>
+            </PageHeader.BaseActions>
           </PageHeader>
         }
       >
