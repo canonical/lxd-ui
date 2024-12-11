@@ -39,7 +39,7 @@ export interface CustomNetworkDevice {
 }
 
 export type FormDiskDevice = Partial<LxdDiskDevice> &
-  Required<Pick<LxdDiskDevice, "name" | "pool">> & {
+  Required<Pick<LxdDiskDevice, "name">> & {
     limits?: {
       read?: string;
       write?: string;
@@ -65,6 +65,12 @@ export type FormDevice =
 export interface FormDeviceValues {
   devices: FormDevice[];
 }
+
+export const isFormDiskDevice = (
+  device: FormDevice,
+): device is FormDiskDevice => {
+  return device.type === "disk";
+};
 
 export const isEmptyDevice = (device: FormDevice): boolean =>
   device.type === "nic" &&

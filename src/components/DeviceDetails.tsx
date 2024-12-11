@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { isHostPath, isRootDisk } from "util/instanceValidation";
+import { isRootDisk } from "util/instanceValidation";
 import { FormDevice } from "util/formDevices";
 import { LxdDeviceValue } from "types/device";
 import ResourceLink from "components/ResourceLink";
-import ResourceLabel from "./ResourceLabel";
+import { isHostDiskDevice } from "util/devices";
 
 interface Props {
   device: LxdDeviceValue;
@@ -18,20 +18,15 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
           Pool{" "}
           <ResourceLink
             type={"pool"}
-            value={device.pool}
+            value={device.pool || ""}
             to={`/ui/project/${project}/storage/pool/${device.pool}`}
           />
         </>
       );
     }
 
-    if (isHostPath(device as FormDevice)) {
-      return (
-        <>
-          Host path{" "}
-          <ResourceLabel type={"volume"} value={device.source as string} />
-        </>
-      );
+    if (isHostDiskDevice(device)) {
+      return device.source;
     }
 
     return (
@@ -45,7 +40,7 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
         on pool{" "}
         <ResourceLink
           type={"pool"}
-          value={device.pool}
+          value={device.pool || ""}
           to={`/ui/project/${project}/storage/pool/${device.pool}`}
         />
       </>

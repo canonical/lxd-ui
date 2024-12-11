@@ -6,6 +6,7 @@
 @import "pattern_icon";
 @include lxdui-p-icon;
 @include vf-p-icon-add-canvas;
+@include vf-p-icon-add-logical-volume;
 @include vf-p-icon-applications;
 @include vf-p-icon-begin-downloading;
 @include vf-p-icon-book;
@@ -350,4 +351,12 @@ body {
 
 .clickable-cell {
   cursor: pointer;
+}
+
+.host-path-device-modal {
+  .p-modal__dialog {
+    @include large {
+      width: 40rem;
+    }
+  }
 }
