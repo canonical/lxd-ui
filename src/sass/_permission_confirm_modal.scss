@@ -48,3 +48,11 @@
     margin-top: $spv--large;
   }
 }
+
+.token-code-block {
+  background-color: rgba(0, 0, 0, 0.05);
+
+  code {
+    background-color: transparent;
+  }
+}
