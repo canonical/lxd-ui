@@ -3,7 +3,12 @@ import { MainTable } from "@canonical/react-components";
 import { isRootDisk } from "util/instanceValidation";
 import { FormDevice } from "util/formDevices";
 import ResourceLink from "components/ResourceLink";
-import { isOtherDevice } from "util/devices";
+import {
+  isDiskDevice,
+  isHostDiskDevice,
+  isOtherDevice,
+  isVolumeDevice,
+} from "util/devices";
 import DeviceDetails from "./DeviceDetails";
 import { useParams } from "react-router-dom";
 import { LxdDeviceValue, LxdDevices } from "types/device";
@@ -47,6 +52,21 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
   ];
 
   const deviceRows = overviewDevices.map(([devicename, device]) => {
+    let deviceType = device.type;
+    if (isDiskDevice(device)) {
+      if (isRootDisk(device as FormDevice)) {
+        deviceType += " (root)";
+      }
+
+      if (isVolumeDevice(device)) {
+        deviceType += " (volume)";
+      }
+
+      if (isHostDiskDevice(device)) {
+        deviceType += " (host)";
+      }
+    }
+
     return {
       columns: [
         {
@@ -61,8 +81,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
           "aria-label": "Name",
         },
         {
-          content: `${device.type} ${isRootDisk(device as FormDevice) ? "(root)" : ""}`,
-
+          content: deviceType,
           role: "cell",
           "aria-label": "Type",
         },

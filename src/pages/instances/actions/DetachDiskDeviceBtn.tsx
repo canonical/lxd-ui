@@ -10,15 +10,15 @@ const DetachDiskDeviceBtn: FC<Props> = ({ onDetach }) => {
     <ConfirmationButton
       appearance="base"
       type="button"
-      title="Detach volume"
+      title="Detach disk devicve"
       className="has-icon u-no-margin--bottom is-dense"
       confirmationModalProps={{
-        title: "Confirm volume detach",
+        title: "Confirm disk device detach",
         children: (
           <p>
-            Are you sure you want to clear this volume attachment?
+            Are you sure you want to clear this disk attachment?
             <br />
-            This action may result in data loss if the volume is still mounted.
+            This action may result in data loss if the disk is still mounted.
           </p>
         ),
         confirmButtonLabel: "Detach",

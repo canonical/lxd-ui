@@ -1,7 +1,7 @@
 export interface LxdDiskDevice {
   name?: string;
   path?: string;
-  pool: string;
+  pool?: string;
   size?: string;
   "boot.priority"?: string;
   "size.state"?: string;

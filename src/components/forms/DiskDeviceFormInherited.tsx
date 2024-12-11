@@ -4,7 +4,7 @@ import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import { InheritedVolume } from "util/configInheritance";
+import { InheritedDiskDevice } from "util/configInheritance";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
 import {
@@ -15,17 +15,21 @@ import {
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
 import { ensureEditMode } from "util/instanceEdit";
+import { isHostDiskDevice } from "util/devices";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  inheritedVolumes: InheritedVolume[];
+  inheritedDiskDevices: InheritedDiskDevice[];
 }
 
-const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
+const DiskDeviceFormInherited: FC<Props> = ({
+  formik,
+  inheritedDiskDevices,
+}) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
 
   const rows: MainTableRow[] = [];
-  inheritedVolumes.map((item) => {
+  inheritedDiskDevices.forEach((item) => {
     const noneDeviceId = findNoneDeviceIndex(item.key, formik);
     const isNoneDevice = noneDeviceId !== -1;
 
@@ -50,7 +54,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
           <Button
             appearance="base"
             type="button"
-            title="Reattach volume"
+            title="Reattach device"
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
@@ -71,18 +75,29 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
       }),
     );
 
-    rows.push(
-      getInheritedDeviceRow({
-        label: "Pool / volume",
-        inheritValue: (
-          <>
-            {item.disk.pool} / {item.disk.source}
-          </>
-        ),
-        readOnly: readOnly,
-        isDeactivated: isNoneDevice,
-      }),
-    );
+    if (isHostDiskDevice(item.disk)) {
+      rows.push(
+        getInheritedDeviceRow({
+          label: "Host path",
+          inheritValue: item.disk.source,
+          readOnly: readOnly,
+          isDeactivated: isNoneDevice,
+        }),
+      );
+    } else {
+      rows.push(
+        getInheritedDeviceRow({
+          label: "Pool / volume",
+          inheritValue: (
+            <>
+              {item.disk.pool} / {item.disk.source}
+            </>
+          ),
+          readOnly: readOnly,
+          isDeactivated: isNoneDevice,
+        }),
+      );
+    }
 
     rows.push(
       getInheritedDeviceRow({
@@ -94,7 +109,7 @@ const DiskDeviceFormInherited: FC<Props> = ({ formik, inheritedVolumes }) => {
     );
   });
 
-  return inheritedVolumes.length > 0 ? (
+  return inheritedDiskDevices.length > 0 ? (
     <div className="inherited-devices">
       <h2 className="p-heading--4">Inherited disk devices</h2>
       <ConfigurationTable rows={rows} />

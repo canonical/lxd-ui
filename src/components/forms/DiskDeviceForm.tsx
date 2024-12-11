@@ -6,7 +6,7 @@ import { fetchStoragePools } from "api/storage-pools";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
-import { getInheritedVolumes } from "util/configInheritance";
+import { getInheritedDiskDevices } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
 import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
 import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
@@ -51,7 +51,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
     return <Loader />;
   }
 
-  const inheritedVolumes = getInheritedVolumes(formik.values, profiles);
+  const inheritedDiskDevices = getInheritedDiskDevices(formik.values, profiles);
 
   return (
     <div
@@ -65,7 +65,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
         <DiskDeviceFormRoot formik={formik} pools={pools} profiles={profiles} />
         <DiskDeviceFormInherited
           formik={formik}
-          inheritedVolumes={inheritedVolumes}
+          inheritedDiskDevices={inheritedDiskDevices}
         />
         <DiskDeviceFormCustom
           formik={formik}
