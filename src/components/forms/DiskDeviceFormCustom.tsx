@@ -16,7 +16,6 @@ import { MainTableRow } from "@canonical/react-components/dist/components/MainTa
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
-import { LxdStorageVolume } from "types/storage";
 import {
   isDiskDeviceMountPointMissing,
   isRootDisk,
@@ -27,6 +26,7 @@ import { LxdProfile } from "types/profile";
 import { focusField } from "util/formFields";
 import AttachDiskDeviceBtn from "pages/storage/AttachDiskDeviceBtn";
 import { LxdDiskDevice } from "types/device";
+import { LxdStorageVolume } from "types/storage";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -38,22 +38,12 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
-  const addDiskDevice = (device: LxdStorageVolume | LxdDiskDevice) => {
+  const addDiskDevice = (device: LxdDiskDevice) => {
     const copy = [...formik.values.devices];
-    const isVolume = "content_type" in device;
     const newDevice: FormDevice = {
-      type: "disk",
+      ...device,
       name: deduplicateName("disk-device", 1, existingDeviceNames),
     };
-
-    if (isVolume) {
-      newDevice.pool = device.pool;
-      newDevice.source = device.name;
-      newDevice.path = device.content_type === "filesystem" ? "" : undefined;
-    } else {
-      newDevice.source = device.source;
-      newDevice.path = device.path;
-    }
 
     copy.push(newDevice);
     void formik.setFieldValue("devices", copy);
@@ -62,31 +52,25 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
     focusField(name);
   };
 
-  const changeDiskDevice = (
-    diskDevice: LxdStorageVolume | LxdDiskDevice,
-    formDiskDevice: FormDiskDevice,
+  const changeVolume = (
+    volume: LxdStorageVolume,
+    existingVolume: FormDiskDevice,
     index: number,
   ) => {
-    const isVolume = "content_type" in diskDevice;
-    if (isVolume) {
-      void formik.setFieldValue(`devices.${index}.pool`, diskDevice.pool);
-      void formik.setFieldValue(`devices.${index}.source`, diskDevice.name);
+    void formik.setFieldValue(`devices.${index}.pool`, volume.pool);
+    void formik.setFieldValue(`devices.${index}.source`, volume.name);
 
-      if (
-        diskDevice.content_type === "filesystem" &&
-        formDiskDevice.path === undefined
-      ) {
-        void formik.setFieldValue(`devices.${index}.path`, "");
-      }
-      if (diskDevice.content_type === "block") {
-        void formik.setFieldValue(`devices.${index}.path`, undefined);
-      }
-
-      return;
+    if (
+      volume.content_type === "filesystem" &&
+      existingVolume.path === undefined
+    ) {
+      void formik.setFieldValue(`devices.${index}.path`, "");
     }
 
-    void formik.setFieldValue(`devices.${index}.source`, diskDevice.source);
-    void formik.setFieldValue(`devices.${index}.path`, diskDevice.path);
+    // If path must not exist for the device, remote it even if it's set for the existing device
+    if (volume.content_type === "block") {
+      void formik.setFieldValue(`devices.${index}.path`, undefined);
+    }
   };
 
   const editButton = (fieldName: string) => (
@@ -138,75 +122,79 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       }),
     );
 
-    const volumeDeviceSource = getConfigurationRowBase({
-      className: "no-border-top inherited-with-form",
-      configuration: (
-        <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
-      ),
-      inherited: (
-        <div className="custom-disk-volume-source">
-          <div
-            className={classnames("mono-font", "u-truncate")}
-            title={`${item.pool} / ${item.source ?? ""}`}
-          >
-            <b>
-              {item.pool} / {item.source}
-            </b>
+    const volumeDeviceSource = () =>
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: (
+          <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
+        ),
+        inherited: (
+          <div className="custom-disk-volume-source">
+            <div
+              className={classnames("mono-font", "u-truncate")}
+              title={`${item.pool} / ${item.source ?? ""}`}
+            >
+              <b>
+                {item.pool} / {item.source}
+              </b>
+            </div>
+            <CustomVolumeSelectBtn
+              formik={formik}
+              project={project}
+              setValue={(volume) => {
+                ensureEditMode(formik);
+                changeVolume(volume, item, index);
+              }}
+              buttonProps={{
+                id: `devices.${index}.pool`,
+                appearance: "base",
+                className: "u-no-margin--bottom",
+                title: "Select storage volume",
+                dense: true,
+              }}
+            >
+              <Icon name="edit" />
+            </CustomVolumeSelectBtn>
           </div>
-          <CustomVolumeSelectBtn
-            formik={formik}
-            project={project}
-            setValue={(volume) => {
-              ensureEditMode(formik);
-              changeDiskDevice(volume, item, index);
-            }}
-            buttonProps={{
-              id: `devices.${index}.pool`,
-              appearance: "base",
-              className: "u-no-margin--bottom",
-              title: "Select storage volume",
-              dense: true,
-            }}
-          >
-            <Icon name="edit" />
-          </CustomVolumeSelectBtn>
-        </div>
-      ),
-      override: "",
-    });
+        ),
+        override: "",
+      });
 
-    const hostDeviceSource = getConfigurationRowBase({
-      className: "no-border-top inherited-with-form",
-      configuration: <Label forId={`devices.${index}.source`}>Host path</Label>,
-      inherited: readOnly ? (
-        <div className="custom-disk-read-mode">
-          <div className="mono-font custom-disk-value u-truncate">
-            <b>{item.source}</b>
+    const hostDeviceSource = () =>
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: (
+          <Label forId={`devices.${index}.source`}>Host path</Label>
+        ),
+        inherited: readOnly ? (
+          <div className="custom-disk-read-mode">
+            <div className="mono-font custom-disk-value u-truncate">
+              <b>{item.source}</b>
+            </div>
+            {editButton(`devices.${index}.source`)}
           </div>
-          {editButton(`devices.${index}.source`)}
-        </div>
-      ) : (
-        <Input
-          id={`devices.${index}.source`}
-          name={`devices.${index}.source`}
-          onBlur={formik.handleBlur}
-          onChange={(e) => {
-            void formik.setFieldValue(
-              `devices.${index}.source`,
-              e.target.value,
-            );
-          }}
-          value={item.source}
-          type="text"
-          placeholder="Enter full host path (e.g. /data)"
-          className={!item.source ? undefined : "u-no-margin--bottom"}
-          error={!item.source ? "Host path is required" : undefined}
-        />
-      ),
-      override: "",
-    });
+        ) : (
+          <Input
+            id={`devices.${index}.source`}
+            name={`devices.${index}.source`}
+            onBlur={formik.handleBlur}
+            onChange={(e) => {
+              void formik.setFieldValue(
+                `devices.${index}.source`,
+                e.target.value,
+              );
+            }}
+            value={item.source}
+            type="text"
+            placeholder="Enter full host path (e.g. /data)"
+            className={!item.source ? undefined : "u-no-margin--bottom"}
+            error={!item.source ? "Host path is required" : undefined}
+          />
+        ),
+        override: "",
+      });
 
-    rows.push(isVolumeDevice(item) ? volumeDeviceSource : hostDeviceSource);
+    rows.push(isVolumeDevice(item) ? volumeDeviceSource() : hostDeviceSource());
 
     if (!isVolumeDevice(item) || item.path !== undefined) {
       const hasError = isDiskDeviceMountPointMissing(formik, index);

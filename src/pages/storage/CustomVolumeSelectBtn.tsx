@@ -2,15 +2,15 @@ import { FC, ReactNode } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import CustomVolumeModal from "pages/storage/CustomVolumeModal";
-import { LxdStorageVolume } from "types/storage";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import { LxdStorageVolume } from "types/storage";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   children: ReactNode;
   buttonProps?: ButtonProps;
   project: string;
-  setValue: (volume: LxdStorageVolume) => void;
+  setValue: (device: LxdStorageVolume) => void;
 }
 
 const CustomVolumeSelectBtn: FC<Props> = ({
@@ -21,8 +21,6 @@ const CustomVolumeSelectBtn: FC<Props> = ({
   setValue,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-
-  const handleCancel = () => closePortal();
 
   const handleFinish = (volume: LxdStorageVolume) => {
     setValue(volume);
@@ -40,7 +38,8 @@ const CustomVolumeSelectBtn: FC<Props> = ({
             formik={formik}
             project={project}
             onFinish={handleFinish}
-            onCancel={handleCancel}
+            onCancel={closePortal}
+            onClose={closePortal}
           />
         </Portal>
       )}

@@ -1,7 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
-import { LxdStorageVolume } from "types/storage";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import AttachDiskDeviceModal from "./AttachDiskDeviceModal";
 import { LxdDiskDevice } from "types/device";
@@ -11,7 +10,7 @@ interface Props {
   children: ReactNode;
   buttonProps?: ButtonProps;
   project: string;
-  setValue: (device: LxdStorageVolume | LxdDiskDevice) => void;
+  setValue: (device: LxdDiskDevice) => void;
 }
 
 const AttachDiskDeviceBtn: FC<Props> = ({
@@ -22,7 +21,7 @@ const AttachDiskDeviceBtn: FC<Props> = ({
   setValue,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const handleFinish = (device: LxdStorageVolume | LxdDiskDevice) => {
+  const handleFinish = (device: LxdDiskDevice) => {
     setValue(device);
     closePortal();
   };

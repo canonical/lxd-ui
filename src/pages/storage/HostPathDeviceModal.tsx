@@ -1,12 +1,14 @@
-import { FC, ReactNode, useRef, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import { Button, Input, Modal } from "@canonical/react-components";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { LxdDiskDevice } from "types/device";
+import { focusField } from "util/formFields";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   onFinish: (device: LxdDiskDevice) => void;
   onCancel: () => void;
+  onClose: () => void;
   title?: ReactNode;
 }
 
@@ -14,14 +16,19 @@ const HostPathDeviceModal: FC<Props> = ({
   formik,
   onFinish,
   onCancel,
+  onClose,
   title,
 }) => {
   const [source, setSource] = useState("");
-  const [path, setPath] = useState<string>();
+  const [path, setPath] = useState("");
   const touchedRef = useRef({
     source: false,
     path: false,
   });
+
+  useEffect(() => {
+    focusField("host-path");
+  }, []);
 
   const handleFinish = () => {
     const device: LxdDiskDevice = {
@@ -36,7 +43,7 @@ const HostPathDeviceModal: FC<Props> = ({
   return (
     <Modal
       className="host-path-device-modal"
-      close={onCancel}
+      close={onClose}
       title={title}
       buttonRow={
         <>
@@ -46,7 +53,7 @@ const HostPathDeviceModal: FC<Props> = ({
             type="button"
             onClick={onCancel}
           >
-            Cancel
+            Back
           </Button>
           <Button
             appearance=""
@@ -62,6 +69,7 @@ const HostPathDeviceModal: FC<Props> = ({
       }
     >
       <Input
+        id="host-path"
         value={source}
         onChange={(e) => {
           touchedRef.current.source = true;
@@ -75,6 +83,7 @@ const HostPathDeviceModal: FC<Props> = ({
             ? "Host path is required"
             : undefined
         }
+        placeholder="Enter full path (e.g. /home)"
       />
       <Input
         value={path}
@@ -90,6 +99,7 @@ const HostPathDeviceModal: FC<Props> = ({
             ? "Mount point is required"
             : undefined
         }
+        placeholder="Enter full path (e.g. /data)"
       />
     </Modal>
   );
