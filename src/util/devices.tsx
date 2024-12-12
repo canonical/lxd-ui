@@ -10,6 +10,7 @@ import {
 import { LxdProfile } from "types/profile";
 import { FormDevice, FormDiskDevice } from "util/formDevices";
 import { getAppliedProfiles } from "./configInheritance";
+import { LxdStorageVolume } from "types/storage";
 
 export const isNicDevice = (device: LxdDeviceValue): device is LxdNicDevice =>
   device.type === "nic";
@@ -109,4 +110,10 @@ export const getExistingDeviceNames = (
   }
 
   return existingDeviceNames;
+};
+
+export const isVolume = (
+  device: LxdStorageVolume | LxdDiskDevice,
+): device is LxdStorageVolume => {
+  return "content_type" in device;
 };

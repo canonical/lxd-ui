@@ -22,8 +22,6 @@ const CustomVolumeSelectBtn: FC<Props> = ({
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
-  const handleCancel = () => closePortal();
-
   const handleFinish = (volume: LxdStorageVolume) => {
     setValue(volume);
     closePortal();
@@ -40,7 +38,8 @@ const CustomVolumeSelectBtn: FC<Props> = ({
             formik={formik}
             project={project}
             onFinish={handleFinish}
-            onCancel={handleCancel}
+            onCancel={closePortal}
+            onClose={closePortal}
           />
         </Portal>
       )}

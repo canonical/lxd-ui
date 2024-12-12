@@ -63,7 +63,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
       }
 
       if (isHostDiskDevice(device)) {
-        deviceType += " (host)";
+        deviceType += " (host path)";
       }
     }
 

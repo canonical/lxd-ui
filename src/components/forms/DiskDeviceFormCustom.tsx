@@ -22,7 +22,7 @@ import {
   isRootDisk,
 } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
-import { getExistingDeviceNames, isVolumeDevice } from "util/devices";
+import { getExistingDeviceNames, isVolume, isVolumeDevice } from "util/devices";
 import { LxdProfile } from "types/profile";
 import { focusField } from "util/formFields";
 import AttachDiskDeviceBtn from "pages/storage/AttachDiskDeviceBtn";
@@ -40,13 +40,12 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
 
   const addDiskDevice = (device: LxdStorageVolume | LxdDiskDevice) => {
     const copy = [...formik.values.devices];
-    const isVolume = "content_type" in device;
     const newDevice: FormDevice = {
       type: "disk",
       name: deduplicateName("disk-device", 1, existingDeviceNames),
     };
 
-    if (isVolume) {
+    if (isVolume(device)) {
       newDevice.pool = device.pool;
       newDevice.source = device.name;
       newDevice.path = device.content_type === "filesystem" ? "" : undefined;
@@ -67,8 +66,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
     formDiskDevice: FormDiskDevice,
     index: number,
   ) => {
-    const isVolume = "content_type" in diskDevice;
-    if (isVolume) {
+    if (isVolume(diskDevice)) {
       void formik.setFieldValue(`devices.${index}.pool`, diskDevice.pool);
       void formik.setFieldValue(`devices.${index}.source`, diskDevice.name);
 
@@ -81,12 +79,10 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       if (diskDevice.content_type === "block") {
         void formik.setFieldValue(`devices.${index}.path`, undefined);
       }
-
-      return;
+    } else {
+      void formik.setFieldValue(`devices.${index}.source`, diskDevice.source);
+      void formik.setFieldValue(`devices.${index}.path`, diskDevice.path);
     }
-
-    void formik.setFieldValue(`devices.${index}.source`, diskDevice.source);
-    void formik.setFieldValue(`devices.${index}.path`, diskDevice.path);
   };
 
   const editButton = (fieldName: string) => (
@@ -138,75 +134,79 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       }),
     );
 
-    const volumeDeviceSource = getConfigurationRowBase({
-      className: "no-border-top inherited-with-form",
-      configuration: (
-        <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
-      ),
-      inherited: (
-        <div className="custom-disk-volume-source">
-          <div
-            className={classnames("mono-font", "u-truncate")}
-            title={`${item.pool} / ${item.source ?? ""}`}
-          >
-            <b>
-              {item.pool} / {item.source}
-            </b>
+    const volumeDeviceSource = () =>
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: (
+          <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
+        ),
+        inherited: (
+          <div className="custom-disk-volume-source">
+            <div
+              className={classnames("mono-font", "u-truncate")}
+              title={`${item.pool} / ${item.source ?? ""}`}
+            >
+              <b>
+                {item.pool} / {item.source}
+              </b>
+            </div>
+            <CustomVolumeSelectBtn
+              formik={formik}
+              project={project}
+              setValue={(volume) => {
+                ensureEditMode(formik);
+                changeDiskDevice(volume, item, index);
+              }}
+              buttonProps={{
+                id: `devices.${index}.pool`,
+                appearance: "base",
+                className: "u-no-margin--bottom",
+                title: "Select storage volume",
+                dense: true,
+              }}
+            >
+              <Icon name="edit" />
+            </CustomVolumeSelectBtn>
           </div>
-          <CustomVolumeSelectBtn
-            formik={formik}
-            project={project}
-            setValue={(volume) => {
-              ensureEditMode(formik);
-              changeDiskDevice(volume, item, index);
-            }}
-            buttonProps={{
-              id: `devices.${index}.pool`,
-              appearance: "base",
-              className: "u-no-margin--bottom",
-              title: "Select storage volume",
-              dense: true,
-            }}
-          >
-            <Icon name="edit" />
-          </CustomVolumeSelectBtn>
-        </div>
-      ),
-      override: "",
-    });
+        ),
+        override: "",
+      });
 
-    const hostDeviceSource = getConfigurationRowBase({
-      className: "no-border-top inherited-with-form",
-      configuration: <Label forId={`devices.${index}.source`}>Host path</Label>,
-      inherited: readOnly ? (
-        <div className="custom-disk-read-mode">
-          <div className="mono-font custom-disk-value u-truncate">
-            <b>{item.source}</b>
+    const hostDeviceSource = () =>
+      getConfigurationRowBase({
+        className: "no-border-top inherited-with-form",
+        configuration: (
+          <Label forId={`devices.${index}.source`}>Host path</Label>
+        ),
+        inherited: readOnly ? (
+          <div className="custom-disk-read-mode">
+            <div className="mono-font custom-disk-value u-truncate">
+              <b>{item.source}</b>
+            </div>
+            {editButton(`devices.${index}.source`)}
           </div>
-          {editButton(`devices.${index}.source`)}
-        </div>
-      ) : (
-        <Input
-          id={`devices.${index}.source`}
-          name={`devices.${index}.source`}
-          onBlur={formik.handleBlur}
-          onChange={(e) => {
-            void formik.setFieldValue(
-              `devices.${index}.source`,
-              e.target.value,
-            );
-          }}
-          value={item.source}
-          type="text"
-          placeholder="Enter full host path (e.g. /data)"
-          className={!item.source ? undefined : "u-no-margin--bottom"}
-          error={!item.source ? "Host path is required" : undefined}
-        />
-      ),
-      override: "",
-    });
+        ) : (
+          <Input
+            id={`devices.${index}.source`}
+            name={`devices.${index}.source`}
+            onBlur={formik.handleBlur}
+            onChange={(e) => {
+              void formik.setFieldValue(
+                `devices.${index}.source`,
+                e.target.value,
+              );
+            }}
+            value={item.source}
+            type="text"
+            placeholder="Enter full host path (e.g. /data)"
+            className={!item.source ? undefined : "u-no-margin--bottom"}
+            error={!item.source ? "Host path is required" : undefined}
+          />
+        ),
+        override: "",
+      });
 
-    rows.push(isVolumeDevice(item) ? volumeDeviceSource : hostDeviceSource);
+    rows.push(isVolumeDevice(item) ? volumeDeviceSource() : hostDeviceSource());
 
     if (!isVolumeDevice(item) || item.path !== undefined) {
       const hasError = isDiskDeviceMountPointMissing(formik, index);

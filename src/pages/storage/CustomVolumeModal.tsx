@@ -12,6 +12,7 @@ interface Props {
   project: string;
   onFinish: (volume: LxdStorageVolume) => void;
   onCancel: () => void;
+  onClose: () => void;
   title?: ReactNode;
 }
 
@@ -23,6 +24,7 @@ const CustomVolumeModal: FC<Props> = ({
   project,
   onFinish,
   onCancel,
+  onClose,
   title,
 }) => {
   const [content, setContent] = useState(SELECT_VOLUME);
@@ -45,9 +47,9 @@ const CustomVolumeModal: FC<Props> = ({
   if (content === CREATE_VOLUME) {
     modalTitle = title ? (
       <BackLink
-        title={"Create volume"}
+        title="Create volume"
         onClick={handleGoBack}
-        linkText={"Attach custom volume device"}
+        linkText="Attach custom volume"
       />
     ) : (
       "Create volume"
@@ -55,7 +57,7 @@ const CustomVolumeModal: FC<Props> = ({
   }
 
   return (
-    <Modal className="custom-volume-modal" close={onCancel} title={modalTitle}>
+    <Modal className="custom-volume-modal" close={onClose} title={modalTitle}>
       {content === SELECT_VOLUME && (
         <CustomVolumeSelectModal
           project={project}
@@ -64,6 +66,7 @@ const CustomVolumeModal: FC<Props> = ({
           onFinish={onFinish}
           onCancel={onCancel}
           onCreate={() => setContent(CREATE_VOLUME)}
+          hasPrevStep={!!title}
         />
       )}
       {content === CREATE_VOLUME && (

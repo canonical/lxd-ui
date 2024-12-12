@@ -8,7 +8,7 @@ import { LxdStorageVolume } from "types/storage";
 import { LxdDiskDevice } from "types/device";
 import HostPathDeviceModal from "./HostPathDeviceModal";
 
-type DiskDeviceType = "custom volume" | "host path" | "";
+type DiskDeviceType = "custom volume" | "host path" | "choose type";
 
 interface Props {
   close: () => void;
@@ -23,7 +23,7 @@ const AttachDiskDeviceModal: FC<Props> = ({
   project,
   onFinish,
 }) => {
-  const [type, setType] = useState<DiskDeviceType>("");
+  const [type, setType] = useState<DiskDeviceType>("choose type");
 
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Escape") {
@@ -32,45 +32,42 @@ const AttachDiskDeviceModal: FC<Props> = ({
   };
 
   const handleGoBack = () => {
-    if (type) {
-      setType("");
-      return;
-    }
+    setType("choose type");
+    return;
   };
 
-  const modalTitle = !type ? (
-    "Choose disk device type"
-  ) : (
-    <BackLink
-      title={`Attach ${type} device`}
-      onClick={handleGoBack}
-      linkText={"Choose disk device type"}
-    />
-  );
+  const modalTitle =
+    type === "choose type" ? (
+      "Choose disk type"
+    ) : (
+      <BackLink
+        title={`Attach ${type}`}
+        onClick={handleGoBack}
+        linkText="Choose disk type"
+      />
+    );
 
   return (
     <>
-      {!type && (
+      {type === "choose type" && (
         <Modal
           close={close}
           className="migrate-instance-modal"
           title={modalTitle}
           onKeyDown={handleEscKey}
         >
-          {!type && (
-            <div className="choose-migration-type">
-              <FormLink
-                icon="add-logical-volume"
-                title="Attach custom volume device"
-                onClick={() => setType("custom volume")}
-              />
-              <FormLink
-                icon="mount"
-                title="Attach host path device"
-                onClick={() => setType("host path")}
-              />
-            </div>
-          )}
+          <div className="choose-migration-type">
+            <FormLink
+              icon="add-logical-volume"
+              title="Attach custom volume"
+              onClick={() => setType("custom volume")}
+            />
+            <FormLink
+              icon="mount"
+              title="Mount host path"
+              onClick={() => setType("host path")}
+            />
+          </div>
         </Modal>
       )}
 
@@ -80,6 +77,7 @@ const AttachDiskDeviceModal: FC<Props> = ({
           project={project}
           onFinish={onFinish}
           onCancel={handleGoBack}
+          onClose={close}
           title={modalTitle}
         />
       )}
@@ -89,6 +87,7 @@ const AttachDiskDeviceModal: FC<Props> = ({
           formik={formik}
           onFinish={onFinish}
           onCancel={handleGoBack}
+          onClose={close}
           title={modalTitle}
         />
       )}

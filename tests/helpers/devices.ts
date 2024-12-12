@@ -7,9 +7,7 @@ export const attachVolume = async (
   path: string,
 ) => {
   await page.getByRole("button", { name: "Attach disk device" }).click();
-  await page
-    .getByRole("button", { name: "Attach custom volume device" })
-    .click();
+  await page.getByRole("button", { name: "Attach custom volume" }).click();
   await page.getByRole("button", { name: "Create volume" }).click();
   await page.getByPlaceholder("Enter name").fill(volume);
   await page.getByRole("button", { name: "Create volume" }).click();
@@ -23,10 +21,10 @@ export const attachHostPath = async (
   path: string,
 ) => {
   await page.getByRole("button", { name: "Attach disk device" }).click();
-  await page.getByRole("button", { name: "Attach host path device" }).click();
+  await page.getByRole("button", { name: "Mount host path" }).click();
   await page.getByLabel("Host path", { exact: true }).click();
   await page.getByLabel("Host path", { exact: true }).fill(source);
-  const hostPathModal = page.getByLabel("Choose disk device type /");
+  const hostPathModal = page.getByLabel("Choose disk type /");
   await hostPathModal.getByLabel("Mount point").click();
   await hostPathModal.getByLabel("Mount point").fill(path);
   await page.getByRole("button", { name: "Attach", exact: true }).click();
@@ -38,7 +36,7 @@ export const detachDiskDevice = async (page: Page, volumeDevice: string) => {
     .getByTitle("Detach")
     .click();
   await page
-    .getByLabel("Confirm disk device detach")
+    .getByLabel("Confirm disk detachment")
     .getByRole("button", { name: "Detach" })
     .click();
 };
