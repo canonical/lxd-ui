@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.42% </span>
+                <span class="strong">55.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>52/89</span>
+                <span class='fraction'>54/97</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.53% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>52/77</span>
+                <span class='fraction'>54/81</span>
             </div>
         
             
@@ -140,7 +140,11 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -164,6 +168,7 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -189,6 +194,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -217,7 +225,7 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -228,8 +236,8 @@ import {
 import { useToastNotification } from "context/toastNotificationProvider";
 import { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
-import { deleteOIDCIdentity } from "api/auth-identities";
-import ResourceLabel from "components/ResourceLabel";
+import { deleteIdentity } from "api/auth-identities";
+import IdentityResource from "components/IdentityResource";
 &nbsp;
 interface Props {
   identity: LxdIdentity;
@@ -239,9 +247,11 @@ const DeleteIdentityBtn: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
+  const [isDeleting, setDeleting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
 &nbsp;
   const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    deleteOIDCIdentity(identity)</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setDeleting(true);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    deleteIdentity(identity)</span></span>
 <span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        void queryClient.invalidateQueries({</span></span>
 <span class="cstat-no" title="statement not covered" >          predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {</span>
@@ -252,27 +262,28 @@ const DeleteIdentityBtn: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
 <span class="cstat-no" title="statement not covered" >        });</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.success(</span></span>
 <span class="cstat-no" title="statement not covered" >          &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >            Identity &lt;ResourceLabel type={"idp-group"} value={identity.name} /&gt;{" "}</span>
-<span class="cstat-no" title="statement not covered" >            deleted.</span>
+<span class="cstat-no" title="statement not covered" >            Identity &lt;IdentityResource identity={identity} /&gt; deleted.</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setDeleting(false);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        close();</span></span>
 <span class="cstat-no" title="statement not covered" >      })</span>
 <span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setDeleting(false);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure(</span></span>
 <span class="cstat-no" title="statement not covered" >          `Identity deletion failed`,</span>
 <span class="cstat-no" title="statement not covered" >          e,</span>
-<span class="cstat-no" title="statement not covered" >          &lt;ResourceLabel type={"idp-group"} value={identity.name} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          &lt;IdentityResource identity={identity} /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ConfirmationButton
-      onHoverText={"Delete identity"}
+      onHoverText="Delete identity"
       appearance="base"
       aria-label="Delete identity"
-      className={"has-icon"}
+      className="has-icon u-no-margin--bottom"
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
@@ -287,6 +298,7 @@ const DeleteIdentityBtn: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
       }}
       shiftClickEnabled
       showShiftClickHint
+      loading={isDeleting}
     &gt;
       &lt;Icon name="delete" /&gt;
     &lt;/ConfirmationButton&gt;
@@ -301,7 +313,7 @@ export default DeleteIdentityBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-10T11:52:53.695Z
+                at 2024-12-12T18:31:27.890Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
