@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   ButtonProps,
   ConfirmationButton,
   useNotify,
 } from "@canonical/react-components";
 import { LxdIdentity } from "types/permissions";
-import { deleteOIDCIdentities } from "api/auth-identities";
+import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "util/queryKeys";
@@ -24,10 +24,12 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const buttonText = `Delete ${pluralize("identity", identities.length)}`;
+  const [isLoading, setLoading] = useState(false);
   const successMessage = `${identities.length} ${pluralize("identity", identities.length)} successfully deleted`;
 
   const handleDelete = () => {
-    deleteOIDCIdentities(identities)
+    setLoading(true);
+    deleteIdentities(identities)
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {
@@ -37,10 +39,12 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
           },
         });
         toastNotify.success(successMessage);
+        setLoading(false);
         close();
       })
       .catch((e) => {
         notify.failure(`Identity deletion failed`, e);
+        setLoading(false);
       });
   };
 
@@ -50,6 +54,7 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
       appearance=""
       aria-label="Delete identities"
       className={className}
+      loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
         children: (

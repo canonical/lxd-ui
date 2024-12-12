@@ -7,6 +7,7 @@ import SelectableMainTable from "components/SelectableMainTable";
 import { fetchIdentities } from "api/auth-identities";
 import useSortTableData from "util/useSortTableData";
 import { LxdIdentity } from "types/permissions";
+import { isUnrestricted } from "util/helpers";
 
 export type FormIdentity = LxdIdentity & {
   isRemoved?: boolean;
@@ -36,8 +37,8 @@ const EditIdentitiesForm: FC<Props> = ({
     notify.failure("Loading details failed", error);
   }
 
-  const nonTlsIdentities = identities.filter(
-    (identity) => identity.authentication_method !== "tls",
+  const fineGrainedIdentities = identities.filter(
+    (identity) => !isUnrestricted(identity),
   );
 
   const toggleRow = (id: string) => {
@@ -104,7 +105,7 @@ const EditIdentitiesForm: FC<Props> = ({
     },
   ];
 
-  const filteredIdentities = nonTlsIdentities.filter((identity) => {
+  const filteredIdentities = fineGrainedIdentities.filter((identity) => {
     if (filter) {
       return identity.name.toLowerCase().includes(filter.toLowerCase());
     }
@@ -168,7 +169,7 @@ const EditIdentitiesForm: FC<Props> = ({
             .map((identity) => identity.id)}
           setSelectedNames={bulkSelect}
           processingNames={[]}
-          filteredNames={nonTlsIdentities.map((identity) => identity.id)}
+          filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
           indeterminateNames={[]}
           onToggleRow={toggleRow}
           hideContextualMenu

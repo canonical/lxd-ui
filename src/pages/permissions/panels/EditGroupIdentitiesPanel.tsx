@@ -27,6 +27,7 @@ import PermissionIdentitiesFilter, {
 import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
 import useSortTableData from "util/useSortTableData";
+import { isUnrestricted } from "util/helpers";
 
 type IdentityEditHistory = {
   identitiesAdded: Set<string>;
@@ -75,15 +76,15 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     }
   }, [groups]);
 
-  const nonTlsIdentities = identities.filter(
-    (identity) => identity.authentication_method !== "tls",
+  const fineGrainedIdentities = identities.filter(
+    (identity) => !isUnrestricted(identity),
   );
 
   const {
     identityIdsInAllGroups,
     identityIdsInNoGroups,
     identityIdsInSomeGroups,
-  } = getCurrentIdentitiesForGroups(groups, nonTlsIdentities);
+  } = getCurrentIdentitiesForGroups(groups, fineGrainedIdentities);
 
   const selectedIdentities = new Set<string>(desiredState.identitiesAdded);
   for (const identity of identityIdsInAllGroups) {
@@ -131,7 +132,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
       saveToPanelHistory({
         identitiesAdded: new Set(),
         identitiesRemoved: new Set(
-          nonTlsIdentities.map((identity) => identity.id),
+          fineGrainedIdentities.map((identity) => identity.id),
         ),
       });
     } else {
@@ -191,7 +192,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     authMethod: searchParams.getAll(AUTH_METHOD),
   };
 
-  const filteredIdentities = nonTlsIdentities.filter((identity) => {
+  const filteredIdentities = fineGrainedIdentities.filter((identity) => {
     if (
       !filters.queries.every(
         (q) =>
@@ -269,7 +270,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         selectedNames={Array.from(selectedIdentities)}
         setSelectedNames={modifyIdentities}
         processingNames={[]}
-        filteredNames={nonTlsIdentities.map((identity) => identity.id)}
+        filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
         indeterminateNames={Array.from(indeterminateIdentities)}
         onToggleRow={toggleRow}
         hideContextualMenu
@@ -334,7 +335,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
           selectedGroups={groups}
           addedIdentities={desiredState.identitiesAdded}
           removedIdentities={desiredState.identitiesRemoved}
-          allIdentities={nonTlsIdentities}
+          allIdentities={fineGrainedIdentities}
         />
       )}
     </>
