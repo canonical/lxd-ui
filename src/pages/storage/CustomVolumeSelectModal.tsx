@@ -18,6 +18,7 @@ interface Props {
   onFinish: (volume: LxdStorageVolume) => void;
   onCancel: () => void;
   onCreate: () => void;
+  hasPrevStep?: boolean;
 }
 
 const CustomVolumeSelectModal: FC<Props> = ({
@@ -27,6 +28,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
   onFinish,
   onCancel,
   onCreate,
+  hasPrevStep,
 }) => {
   const notify = useNotify();
   const { hasStorageVolumesAll } = useSupportedFeatures();
@@ -186,7 +188,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
             onClick={onCancel}
             appearance="base"
           >
-            Cancel
+            {hasPrevStep ? "Back" : "Cancel"}
           </Button>
           <Button
             className="u-no-margin--bottom"

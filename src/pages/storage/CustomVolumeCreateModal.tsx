@@ -117,7 +117,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
           className="u-no-margin--bottom"
           onClick={onCancel}
         >
-          Cancel
+          Back
         </Button>
         <ActionButton
           appearance="positive"

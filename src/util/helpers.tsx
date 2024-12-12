@@ -324,7 +324,7 @@ export const getRootPool = (instance: LxdInstance): string => {
     .find((device) => {
       return isRootDisk(device as FormDevice);
     });
-  return rootStorage ? rootStorage.pool : "";
+  return rootStorage?.pool ?? "";
 };
 
 export const getDefaultStoragePool = (profile: LxdProfile) => {
@@ -333,5 +333,5 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
     .find((device) => {
       return isRootDisk(device as FormDevice);
     });
-  return rootStorage ? rootStorage.pool : "";
+  return rootStorage?.pool ?? "";
 };

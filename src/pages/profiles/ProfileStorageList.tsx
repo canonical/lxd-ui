@@ -20,7 +20,7 @@ const ProfileStorageList: FC<Props> = ({ profile, project }) => {
               <ResourceLink
                 key={device.path}
                 type="pool"
-                value={device.pool}
+                value={device.pool || ""}
                 to={`/ui/project/${project}/storage/pool/${device.pool}`}
               />
             ))}
