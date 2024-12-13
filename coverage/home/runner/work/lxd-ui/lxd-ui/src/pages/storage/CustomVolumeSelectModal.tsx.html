@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.71% </span>
+                <span class="strong">87.82% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>200/228</span>
+                <span class='fraction'>202/230</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.77% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>30/67</span>
+                <span class='fraction'>30/70</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.54% </span>
+                <span class="strong">97.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>199/204</span>
+                <span class='fraction'>201/206</span>
             </div>
         
             
@@ -267,29 +267,33 @@
 <a name='L202'></a><a href='#L202'>202</a>
 <a name='L203'></a><a href='#L203'>203</a>
 <a name='L204'></a><a href='#L204'>204</a>
-<a name='L205'></a><a href='#L205'>205</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -469,8 +473,8 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">91x</span>
-<span class="cline-any cline-yes">91x</span>
+<span class="cline-any cline-yes">96x</span>
+<span class="cline-any cline-yes">96x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { Button, MainTable, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
@@ -491,6 +495,7 @@ interface Props {
   onFinish: (volume: LxdStorageVolume) =&gt; void;
   onCancel: () =&gt; void;
   onCreate: () =&gt; void;
+  hasPrevStep?: boolean;
 }
 &nbsp;
 const CustomVolumeSelectModal: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
@@ -500,6 +505,7 @@ const CustomVolumeSelectModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
   onFinish,
   onCancel,
   onCreate,
+  hasPrevStep,
 }) =&gt; {
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const { hasStorageVolumesAll } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
@@ -659,7 +665,7 @@ const CustomVolumeSelectModal: FC&lt;Props&gt; = <span class="cstat-no" title="s
             onClick={onCancel}
             appearance="base"
           &gt;
-            Cancel
+            {hasPrevStep ? <span class="branch-0 cbranch-no" title="branch not covered" >"Back" : "Cancel"}</span>
           &lt;/Button&gt;
           &lt;Button
             className="u-no-margin--bottom"
@@ -682,7 +688,7 @@ export default CustomVolumeSelectModal;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-13T11:35:59.178Z
+                at 2024-12-13T14:48:58.394Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
