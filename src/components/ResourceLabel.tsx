@@ -12,7 +12,10 @@ interface Props {
 const ResourceLabel: FC<Props> = ({ type, value, bold, truncate = true }) => {
   const ValueWrapper = bold ? "strong" : "span";
   return (
-    <span className={classNames("resource-label", { "u-truncate": truncate })}>
+    <span
+      className={classNames("resource-label", { "u-truncate": truncate })}
+      title={value}
+    >
       <ResourceIcon type={type} />
       <ValueWrapper>{value}</ValueWrapper>
     </span>

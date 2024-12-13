@@ -3,6 +3,7 @@ import { isRootDisk } from "util/instanceValidation";
 import { FormDevice } from "util/formDevices";
 import { LxdDeviceValue } from "types/device";
 import ResourceLink from "components/ResourceLink";
+import { isHostDiskDevice } from "util/devices";
 
 interface Props {
   device: LxdDeviceValue;
@@ -17,11 +18,15 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
           Pool{" "}
           <ResourceLink
             type={"pool"}
-            value={device.pool}
+            value={device.pool || ""}
             to={`/ui/project/${project}/storage/pool/${device.pool}`}
           />
         </>
       );
+    }
+
+    if (isHostDiskDevice(device)) {
+      return device.source;
     }
 
     return (
@@ -35,7 +40,7 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
         on pool{" "}
         <ResourceLink
           type={"pool"}
-          value={device.pool}
+          value={device.pool || ""}
           to={`/ui/project/${project}/storage/pool/${device.pool}`}
         />
       </>

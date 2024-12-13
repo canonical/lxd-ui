@@ -15,8 +15,9 @@ import {
   saveInstance,
 } from "./helpers/instances";
 import {
+  attachHostPath,
   attachVolume,
-  detachVolume,
+  detachDiskDevice,
   visitProfileGPUDevices,
   visitProfileOtherDevices,
 } from "./helpers/devices";
@@ -41,7 +42,7 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   await page.getByRole("button", { name: "Add profile" }).click();
   await page.locator("#profile-1").selectOption(profile);
   await page.getByText("Disk", { exact: true }).click();
-  await detachVolume(page, "volume-1");
+  await detachDiskDevice(page, "disk-device-1");
   await attachVolume(page, instanceVolume, "/baz");
   await saveInstance(page, instance, 3);
 
@@ -54,6 +55,35 @@ test("instance attach custom volumes and detach inherited volumes", async ({
   await deleteVolume(page, profileVolume);
 });
 
+test("instance attach host path device and detach inherited host path device", async ({
+  page,
+}) => {
+  const profile = randomProfileName();
+  const source = "/home";
+  const path = "/data";
+
+  await startProfileCreation(page, profile);
+  await page.getByText("Disk", { exact: true }).click();
+  await attachHostPath(page, source, path);
+  await finishProfileCreation(page, profile);
+
+  const instance = randomInstanceName();
+  await createInstance(page, instance);
+  await editInstance(page, instance);
+  await page.getByRole("button", { name: "Add profile" }).click();
+  await page.locator("#profile-1").selectOption(profile);
+  await page.getByText("Disk", { exact: true }).click();
+  await detachDiskDevice(page, "disk-device-1");
+  await attachHostPath(page, source, "/test");
+  await saveInstance(page, instance, 3);
+
+  await assertTextVisible(page, "Reattach");
+  await assertTextVisible(page, "/test");
+
+  await deleteInstance(page, instance);
+  await deleteProfile(page, profile);
+});
+
 test("profile edit custom volumes", async ({ page }) => {
   const profile = randomProfileName();
   const volume = randomVolumeName();
@@ -63,6 +93,7 @@ test("profile edit custom volumes", async ({ page }) => {
   await page.getByRole("button", { name: "Create override" }).click();
   await page.getByPlaceholder("Enter value").fill("3");
   await attachVolume(page, volume, "/foo");
+  await attachHostPath(page, "/home", "/data");
   await finishProfileCreation(page, profile);
 
   await visitProfile(page, profile);
@@ -72,8 +103,9 @@ test("profile edit custom volumes", async ({ page }) => {
   await page.getByRole("gridcell", { name: volume }).click();
   await page.getByRole("gridcell", { name: "/foo" }).click();
 
-  await detachVolume(page, "volume-1");
-  await saveProfile(page, profile, 1);
+  await detachDiskDevice(page, "disk-device-1");
+  await detachDiskDevice(page, "disk-device-2");
+  await saveProfile(page, profile, 2);
 
   await page.getByRole("row", { name: "Size 3GiB" }).click();
 
@@ -81,6 +113,11 @@ test("profile edit custom volumes", async ({ page }) => {
     .getByRole("gridcell", { name: volume })
     .isVisible();
   test.fail(volumeVisible, "Volume is still present");
+
+  const hostPathVisible = await page
+    .getByRole("gridcell", { name: "/home" })
+    .isVisible();
+  test.fail(hostPathVisible, "Host path is still present");
 
   await deleteProfile(page, profile);
   await deleteVolume(page, volume);

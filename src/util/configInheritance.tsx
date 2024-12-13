@@ -5,9 +5,11 @@ import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import {
   isDiskDevice,
   isGPUDevice,
+  isHostDiskDevice,
   isNicDevice,
   isOtherDevice,
   isProxyDevice,
+  isVolumeDevice,
 } from "util/devices";
 import {
   LxdDeviceValue,
@@ -267,18 +269,23 @@ export const getInheritedRootStorage = (
   return [null, "LXD"];
 };
 
-export interface InheritedVolume {
+export interface InheritedDiskDevice {
   key: string;
   disk: LxdDiskDevice;
   source: string;
 }
 
-export const getInheritedVolumes = (
+export const getInheritedDiskDevices = (
   values: InstanceAndProfileFormValues,
   profiles: LxdProfile[],
-): InheritedVolume[] => {
+): InheritedDiskDevice[] => {
   return getInheritedDevices(values, profiles)
-    .filter((item) => isDiskDevice(item.device) && item.device.path !== "/")
+    .filter((item) => {
+      return (
+        isVolumeDevice(item.device as LxdDiskDevice) ||
+        isHostDiskDevice(item.device as LxdDiskDevice)
+      );
+    })
     .map((item) => ({
       ...item,
       disk: item.device as LxdDiskDevice,

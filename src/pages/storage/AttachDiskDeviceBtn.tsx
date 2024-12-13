@@ -1,19 +1,19 @@
 import { FC, ReactNode } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
-import CustomVolumeModal from "pages/storage/CustomVolumeModal";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { LxdStorageVolume } from "types/storage";
+import AttachDiskDeviceModal from "./AttachDiskDeviceModal";
+import { LxdDiskDevice } from "types/device";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
   children: ReactNode;
   buttonProps?: ButtonProps;
   project: string;
-  setValue: (device: LxdStorageVolume) => void;
+  setValue: (device: LxdDiskDevice) => void;
 }
 
-const CustomVolumeSelectBtn: FC<Props> = ({
+const AttachDiskDeviceBtn: FC<Props> = ({
   formik,
   children,
   buttonProps,
@@ -21,9 +21,8 @@ const CustomVolumeSelectBtn: FC<Props> = ({
   setValue,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-
-  const handleFinish = (volume: LxdStorageVolume) => {
-    setValue(volume);
+  const handleFinish = (device: LxdDiskDevice) => {
+    setValue(device);
     closePortal();
   };
 
@@ -34,12 +33,11 @@ const CustomVolumeSelectBtn: FC<Props> = ({
       </Button>
       {isOpen && (
         <Portal>
-          <CustomVolumeModal
+          <AttachDiskDeviceModal
             formik={formik}
             project={project}
             onFinish={handleFinish}
-            onCancel={closePortal}
-            onClose={closePortal}
+            close={closePortal}
           />
         </Portal>
       )}
@@ -47,4 +45,4 @@ const CustomVolumeSelectBtn: FC<Props> = ({
   );
 };
 
-export default CustomVolumeSelectBtn;
+export default AttachDiskDeviceBtn;
