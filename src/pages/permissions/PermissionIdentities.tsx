@@ -114,6 +114,10 @@ const PermissionIdentities: FC = () => {
 
   const rows = filteredIdentities.map((identity) => {
     const isLoggedInIdentity = settings?.auth_user_name === identity.id;
+    const openGroupPanelForIdentity = () => {
+      panelParams.openIdentityGroups(identity.id);
+      setSelectedIdentityIds([identity.id]);
+    };
 
     return {
       name: isUnrestricted(identity) ? "" : identity.id,
@@ -151,7 +155,11 @@ const PermissionIdentities: FC = () => {
           title: identity.type,
         },
         {
-          content: identity.groups?.length || 0,
+          content: (
+            <Button appearance="link" dense onClick={openGroupPanelForIdentity}>
+              {identity.groups?.length || 0}
+            </Button>
+          ),
           role: "cell",
           className: "u-align--right",
           "aria-label": "Groups for this identity",
@@ -164,10 +172,7 @@ const PermissionIdentities: FC = () => {
                 className="u-no-margin--bottom"
                 hasIcon
                 dense
-                onClick={() => {
-                  panelParams.openIdentityGroups(identity.id);
-                  setSelectedIdentityIds([identity.id]);
-                }}
+                onClick={openGroupPanelForIdentity}
                 type="button"
                 aria-label="Manage groups"
                 title="Manage groups"
