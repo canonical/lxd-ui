@@ -340,3 +340,14 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
 export const isUnrestricted = (identity: LxdIdentity) => {
   return identity.type === "Client certificate (unrestricted)";
 };
+
+export const isFineGrainedTls = (identity: LxdIdentity) => {
+  return ["Client certificate (pending)", "Client certificate"].includes(
+    identity.type,
+  );
+};
+
+export const base64EncodeObject = (data: object) => {
+  const jsonString = JSON.stringify(data);
+  return btoa(jsonString);
+};

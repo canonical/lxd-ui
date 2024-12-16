@@ -35,6 +35,7 @@ import DeleteIdentityBtn from "./actions/DeleteIdentityBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted } from "util/helpers";
 import IdentityResource from "components/IdentityResource";
+import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -269,6 +270,9 @@ const PermissionIdentities: FC = () => {
                 />
               )}
             </PageHeader.Left>
+            <PageHeader.BaseActions>
+              <CreateTlsIdentityBtn />
+            </PageHeader.BaseActions>
           </PageHeader>
         }
       >
