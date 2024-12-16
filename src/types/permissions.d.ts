@@ -1,8 +1,13 @@
 export interface LxdIdentity {
   id: string; // fingerprint for tls and email for oidc
-  type: string;
+  type:
+    | "Client certificate"
+    | "Client certificate (pending)"
+    | "Client certificate (unrestricted)"
+    | "OIDC client";
   name: string;
   authentication_method: "tls" | "oidc";
+  tls_certificate: string;
   groups?: string[] | null;
   effective_groups?: string[];
   effective_permissions?: LxdPermission[];
@@ -29,4 +34,13 @@ export interface LxdPermission {
 export interface IdpGroup {
   name: string;
   groups: string[]; // these should be names of lxd groups
+}
+
+export interface TlsIdentityTokenDetail {
+  client_name: string;
+  addresses: string[];
+  expires_at: string;
+  fingerprint: string;
+  type: "Client certificate (pending)" | "Client certificate";
+  secret: string;
 }
