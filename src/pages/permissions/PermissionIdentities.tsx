@@ -72,12 +72,12 @@ const PermissionIdentities: FC = () => {
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
     { content: "ID", sortKey: "id" },
-    { content: "Auth method", sortKey: "authmethod" },
+    { content: "Auth method", sortKey: "authmethod", className: "auth-method" },
     { content: "Type", sortKey: "type" },
     {
       content: "Groups",
       sortKey: "groups",
-      className: "u-align--right",
+      className: "u-align--right group-count",
     },
     { "aria-label": "Actions", className: "u-align--right actions" },
   ];
@@ -142,6 +142,7 @@ const PermissionIdentities: FC = () => {
           content: identity.authentication_method.toUpperCase(),
           role: "cell",
           "aria-label": "Auth method",
+          className: "auth-method",
         },
         {
           content: <IdentityResource identity={identity} truncate={false} />,
@@ -153,7 +154,7 @@ const PermissionIdentities: FC = () => {
         {
           content: identity.groups?.length || 0,
           role: "cell",
-          className: "u-align--right",
+          className: "u-align--right group-count",
           "aria-label": "Groups for this identity",
         },
         {
@@ -283,6 +284,7 @@ const PermissionIdentities: FC = () => {
             >
               <SelectableMainTable
                 id="identities-table"
+                className="permission-identities"
                 headers={headers}
                 rows={sortedRows}
                 sortable
