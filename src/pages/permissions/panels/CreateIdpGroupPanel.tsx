@@ -131,6 +131,15 @@ const CreateIdpGroupPanel: FC = () => {
             parentItemName=""
             selectedGroups={desiredState.groupsAdded}
             setSelectedGroups={modifyGroups}
+            toggleGroup={(group: string) => {
+              const newGroups = new Set([...desiredState.groupsAdded]);
+              if (newGroups.has(group)) {
+                newGroups.delete(group);
+              } else {
+                newGroups.add(group);
+              }
+              modifyGroups([...newGroups], newGroups.size === 0);
+            }}
             scrollDependencies={[
               groups,
               desiredState.groupsAdded.size,
