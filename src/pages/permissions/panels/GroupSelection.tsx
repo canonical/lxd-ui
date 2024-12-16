@@ -17,7 +17,7 @@ interface Props {
   selectedGroups: Set<string>;
   setSelectedGroups: (val: string[], isUnselectAll?: boolean) => void;
   indeterminateGroups?: Set<string>;
-  toggleGroup?: (rowName: string) => void;
+  toggleGroup: (rowName: string) => void;
   scrollDependencies: DependencyList;
 }
 
@@ -75,20 +75,26 @@ const GroupSelection: FC<Props> = ({
         ? `Group will be removed from ${selectedParentsText}`
         : "";
 
+    const toggleRow = () => {
+      toggleGroup(group.name);
+    };
+
     return {
       name: group.name,
       className: "u-row",
       columns: [
         {
           content: group.name,
+          onClick: toggleRow,
           role: "cell",
-          className: "name u-truncate",
+          className: "name u-truncate clickable-cell",
           "aria-label": "Name",
         },
         {
           content: <span>{group.description || ""}</span>,
+          onClick: toggleRow,
           role: "cell",
-          className: "description",
+          className: "description clickable-cell",
           "aria-label": "Description",
           title: group.description,
         },
