@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Form, Input, SearchBox, useNotify } from "@canonical/react-components";
 import {
   LxdNetwork,
@@ -34,6 +34,7 @@ import { isClusteredServer } from "util/settings";
 import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -169,6 +170,17 @@ const NetworkForm: FC<Props> = ({
   const notify = useNotify();
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
+  const [query, setQuery] = useState("");
+
+  const filterRows = (rows: MainTableRow[]) => {
+    if (!query) {
+      return rows;
+    }
+
+    return rows.filter((row) => {
+      return row.name?.toString()?.toLowerCase().includes(query);
+    });
+  };
 
   const availableSections = [GENERAL];
   if (formik.values.networkType !== "physical") {
@@ -218,23 +230,25 @@ const NetworkForm: FC<Props> = ({
             <>
               {/* hidden submit to enable enter key in inputs */}
               <Input type="submit" hidden value="Hidden input" />
-              <NetworkFormMain
-                formik={formik}
-                project={project}
-                isClustered={isClustered}
-              />
+              {query.length < 1 && (
+                <NetworkFormMain
+                  formik={formik}
+                  project={project}
+                  isClustered={isClustered}
+                />
+              )}
               {availableSections.includes(BRIDGE) && (
-                <NetworkFormBridge formik={formik} />
+                <NetworkFormBridge formik={formik} filterRows={filterRows} />
               )}
               {availableSections.includes(IPV4) && (
-                <NetworkFormIpv4 formik={formik} />
+                <NetworkFormIpv4 formik={formik} filterRows={filterRows} />
               )}
               {availableSections.includes(IPV6) && (
-                <NetworkFormIpv6 formik={formik} />
+                <NetworkFormIpv6 formik={formik} filterRows={filterRows} />
               )}
-              <NetworkFormDns formik={formik} />
+              <NetworkFormDns formik={formik} filterRows={filterRows} />
               {availableSections.includes(OVN) && (
-                <NetworkFormOvn formik={formik} />
+                <NetworkFormOvn formik={formik} filterRows={filterRows} />
               )}
             </>
           )}
@@ -257,7 +271,12 @@ const NetworkForm: FC<Props> = ({
       </ScrollableContainer>
       {section !== slugify(YAML_CONFIGURATION) && (
         <div className="aside">
-          <SearchBox />
+          <SearchBox
+            onChange={setQuery}
+            value={query}
+            name="search-setting"
+            type="text"
+          />
           <NetworkFormMenu
             active={section}
             setActive={(section) => setSection(section, "click")}

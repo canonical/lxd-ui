@@ -8,12 +8,14 @@ import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
 import { IPV6 } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
+  filterRows: (rows: MainTableRow[]) => MainTableRow[];
 }
 
-const NetworkFormIpv6: FC<Props> = ({ formik }) => {
+const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
   const hasDhcp = formik.values.ipv6_dhcp !== "false";
 
   return (
@@ -22,7 +24,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
         IPv6
       </h2>
       <ConfigurationTable
-        rows={[
+        rows={filterRows([
           ...(formik.values.networkType !== "physical"
             ? [
                 getConfigurationRow({
@@ -174,7 +176,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik }) => {
                 }),
               ]
             : []),
-        ]}
+        ])}
       />
     </>
   );

@@ -6,19 +6,21 @@ import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { OVN } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
+  filterRows: (rows: MainTableRow[]) => MainTableRow[];
 }
 
-const NetworkFormOvn: FC<Props> = ({ formik }) => {
+const NetworkFormOvn: FC<Props> = ({ formik, filterRows }) => {
   return (
     <>
       <h2 className="p-heading--4" id={slugify(OVN)}>
         OVN
       </h2>
       <ConfigurationTable
-        rows={[
+        rows={filterRows([
           getConfigurationRow({
             formik,
             name: "ovn_ingress_mode",
@@ -44,7 +46,7 @@ const NetworkFormOvn: FC<Props> = ({ formik }) => {
               />
             ),
           }),
-        ]}
+        ])}
       />
     </>
   );
