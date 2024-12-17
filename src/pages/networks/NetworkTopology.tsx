@@ -6,6 +6,7 @@ import { TOPOLOGY } from "pages/networks/forms/NetworkFormMenu";
 import ResourceLink from "components/ResourceLink";
 import { filterUsedByType } from "util/usedBy";
 import { Icon } from "@canonical/react-components";
+import classNames from "classnames";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -28,35 +29,41 @@ const NetworkTopology: FC<Props> = ({ formik }) => {
       </h2>
       <div className="u-sv3 network-topology">
         {uplink && (
-          <>
+          <div className="uplink">
             <ResourceLink
               type="network"
               value={uplink}
               to={`/ui/project/default/network/${uplink}`}
             />
-            <div className="uplink-connection" />
-          </>
+          </div>
         )}
         <div
-          className="p-chip is-inline is-dense resource-link active"
-          title={network.name}
+          className={classNames("current-network", {
+            "has-descendents": instances.length > 0,
+            "has-parent": !!uplink,
+          })}
         >
-          <span className="p-chip__value">
-            <Icon name="exposed" light />
-            {network.name}
-          </span>
+          <div
+            className="p-chip is-inline is-dense resource-link"
+            title={network.name}
+          >
+            <span className="p-chip__value">
+              <Icon name="exposed" light />
+              {network.name}
+            </span>
+          </div>
         </div>
-        {instances.length > 0 && <div className="uplink-connection" />}
         <div className="instances">
           {instances.map((item) => {
             const instanceUrl = `/ui/project/${item.project}/instance/${item.name}`;
             return (
-              <ResourceLink
-                key={instanceUrl}
-                type="instance"
-                value={item.name}
-                to={instanceUrl}
-              />
+              <div key={instanceUrl} className="instance">
+                <ResourceLink
+                  type="instance"
+                  value={item.name}
+                  to={instanceUrl}
+                />
+              </div>
             );
           })}
         </div>

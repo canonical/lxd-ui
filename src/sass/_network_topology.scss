@@ -1,0 +1,68 @@
+.network-topology {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+
+  .current-network {
+    .p-chip {
+      background-color: $colors--dark-theme--background-active !important;
+
+      * {
+        color: white !important;
+      }
+    }
+  }
+
+  .uplink::after,
+  .has-parent::before,
+  .has-descendents::after,
+  .instance::before {
+    background-color: #6e7681;
+    content: "";
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    transform: translate(0, 0);
+    width: 30px;
+  }
+
+  .uplink::after,
+  .has-parent::before,
+  .has-descendents::after {
+    clip-path: polygon(100% 80%, 0 80%, 0 85%, 100% 85%);
+  }
+
+  .instance::before {
+    clip-path: polygon(
+      100% 80%,
+      5% 80%,
+      5% 0,
+      0 0,
+      0 100%,
+      5% 100%,
+      5% 85%,
+      100% 85%
+    );
+  }
+
+  .instance:first-child::before {
+    clip-path: polygon(100% 80%, 0 80%, 0 100%, 5% 100%, 5% 85%, 100% 85%);
+  }
+
+  .instance:last-child::before {
+    clip-path: polygon(100% 80%, 5% 80%, 5% 0, 0 0, 0 85%, 100% 85%);
+  }
+
+  .instance:only-child::before {
+    clip-path: polygon(100% 80%, 0 80%, 0 85%, 100% 85%);
+  }
+
+  .instances {
+    display: flex;
+    flex-direction: column;
+
+    .instance {
+      height: 30px;
+    }
+  }
+}
