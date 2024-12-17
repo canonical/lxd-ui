@@ -1,21 +1,47 @@
+.edit-network {
+  padding-top: 1rem;
+}
+
+.create-network > .row,
+.edit-network > .row {
+  padding-right: 0;
+}
+
+.create-network .aside {
+  top: 84px;
+}
+
+.edit-network .aside {
+  top: 154px;
+}
+
 .network-form {
-  display: flex;
-
   .contents {
-    flex-grow: 1;
-
+    .network-topology,
     .sections {
       max-width: 54rem;
+    }
+
+    .sections {
       padding-bottom: 25vh;
     }
   }
 
   .aside {
     min-width: 12rem;
+    position: absolute;
+    right: 3rem;
+
+    ul {
+      margin-left: 0;
+      padding-left: 0;
+    }
 
     .p-side-navigation__link {
       background: white;
       margin-bottom: 0;
+      padding-bottom: 0;
+      padding-left: 0.5rem;
 
       &[aria-current="page"] {
         font-weight: bold;
