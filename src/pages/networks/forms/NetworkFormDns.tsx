@@ -6,19 +6,21 @@ import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { DNS } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
+  filterRows: (rows: MainTableRow[]) => MainTableRow[];
 }
 
-const NetworkFormDns: FC<Props> = ({ formik }) => {
+const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
   return (
     <>
       <h2 className="p-heading--4" id={slugify(DNS)}>
         DNS
       </h2>
       <ConfigurationTable
-        rows={[
+        rows={filterRows([
           ...(formik.values.networkType !== "physical"
             ? [
                 getConfigurationRow({
@@ -84,7 +86,7 @@ const NetworkFormDns: FC<Props> = ({ formik }) => {
                   children: <Textarea />,
                 }),
               ]),
-        ]}
+        ])}
       />
     </>
   );

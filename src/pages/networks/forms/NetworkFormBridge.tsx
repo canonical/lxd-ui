@@ -6,19 +6,21 @@ import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { BRIDGE } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
+  filterRows: (rows: MainTableRow[]) => MainTableRow[];
 }
 
-const NetworkFormBridge: FC<Props> = ({ formik }) => {
+const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
   return (
     <>
       <h2 className="p-heading--4" id={slugify(BRIDGE)}>
         Bridge
       </h2>
       <ConfigurationTable
-        rows={[
+        rows={filterRows([
           getConfigurationRow({
             formik,
             name: "bridge_mtu",
@@ -64,7 +66,7 @@ const NetworkFormBridge: FC<Props> = ({ formik }) => {
                 }),
               ]
             : []),
-        ]}
+        ])}
       />
     </>
   );
