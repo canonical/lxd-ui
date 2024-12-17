@@ -1,5 +1,10 @@
 import { FC, useState } from "react";
-import { ActionButton, Button, useNotify } from "@canonical/react-components";
+import {
+  ActionButton,
+  Button,
+  Row,
+  useNotify,
+} from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,12 +24,16 @@ import { dump as dumpYaml } from "js-yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
 import { fetchClusterMembers } from "api/cluster";
 import BaseLayout from "components/BaseLayout";
-import { MAIN_CONFIGURATION } from "pages/networks/forms/NetworkFormMenu";
+import {
+  GENERAL,
+  YAML_CONFIGURATION,
+} from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
+import { scrollToElement } from "util/scroll";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -32,7 +41,7 @@ const CreateNetwork: FC = () => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project } = useParams<{ project: string }>();
-  const [section, setSection] = useState(slugify(MAIN_CONFIGURATION));
+  const [section, setSection] = useState(slugify(GENERAL));
   const controllerState = useState<AbortController | null>(null);
   const { data: settings, isLoading } = useSettings();
   const isClustered = isClusteredServer(settings);
@@ -116,26 +125,39 @@ const CreateNetwork: FC = () => {
     return dumpYaml(payload);
   };
 
-  const updateSection = (newSection: string) => {
+  const updateSection = (newSection: string, source: "scroll" | "click") => {
     setSection(slugify(newSection));
+    if (source === "click") {
+      scrollToElement(slugify(newSection));
+    }
   };
 
   return (
     <BaseLayout title="Create a network" contentClassName="create-network">
-      <NotificationRow />
-      <NetworkForm
-        formik={formik}
-        getYaml={getYaml}
-        project={project}
-        section={section}
-        setSection={updateSection}
-      />
+      <Row>
+        <NotificationRow />
+        <NetworkForm
+          key={formik.values.networkType}
+          formik={formik}
+          getYaml={getYaml}
+          project={project}
+          section={section}
+          setSection={updateSection}
+        />
+      </Row>
       <FormFooterLayout>
         <div className="yaml-switch">
           <YamlSwitch
             formik={formik}
             section={section}
-            setSection={updateSection}
+            setSection={() =>
+              updateSection(
+                section === slugify(YAML_CONFIGURATION)
+                  ? GENERAL
+                  : YAML_CONFIGURATION,
+                "click",
+              )
+            }
             disableReason={
               formik.values.name
                 ? undefined

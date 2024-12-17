@@ -1,12 +1,9 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
-import { useNotify } from "@canonical/react-components";
-import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
-export const MAIN_CONFIGURATION = "Main configuration";
+export const GENERAL = "General";
 export const BRIDGE = "Bridge";
 export const DNS = "DNS";
 export const IPV4 = "IPv4";
@@ -18,10 +15,15 @@ interface Props {
   active: string;
   setActive: (val: string) => void;
   formik: FormikProps<NetworkFormValues>;
+  availableSections: string[];
 }
 
-const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
-  const notify = useNotify();
+const NetworkFormMenu: FC<Props> = ({
+  active,
+  setActive,
+  formik,
+  availableSections,
+}) => {
   const menuItemProps = {
     active,
     setActive,
@@ -39,52 +41,45 @@ const NetworkFormMenu: FC<Props> = ({ active, setActive, formik }) => {
       : ""
     : "Please enter a network name to enable this section";
 
-  const resize = () => {
-    updateMaxHeight("form-navigation", "p-bottom-controls");
-  };
-  useEffect(resize, [notify.notification?.message]);
-  useEventListener("resize", resize);
   return (
-    <div className="p-side-navigation--accordion form-navigation">
-      <nav aria-label="Network form navigation">
-        <ul className="p-side-navigation__list">
-          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
-          {formik.values.networkType !== "physical" && (
-            <MenuItem
-              label={BRIDGE}
-              {...menuItemProps}
-              disableReason={disableReason}
-            />
-          )}
+    <nav aria-label="Network form navigation" className="toc-tree">
+      <ul>
+        <MenuItem label={GENERAL} {...menuItemProps} />
+        {availableSections.includes(BRIDGE) && (
           <MenuItem
-            label={DNS}
+            label={BRIDGE}
             {...menuItemProps}
             disableReason={disableReason}
           />
-          {formik.values.ipv4_address !== "none" && (
-            <MenuItem
-              label={IPV4}
-              {...menuItemProps}
-              disableReason={disableReason}
-            />
-          )}
-          {formik.values.ipv6_address !== "none" && (
-            <MenuItem
-              label={IPV6}
-              {...menuItemProps}
-              disableReason={disableReason}
-            />
-          )}
-          {formik.values.networkType === "physical" && (
-            <MenuItem
-              label={OVN}
-              {...menuItemProps}
-              disableReason={disableReason}
-            />
-          )}
-        </ul>
-      </nav>
-    </div>
+        )}
+        {availableSections.includes(IPV4) && (
+          <MenuItem
+            label={IPV4}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
+        )}
+        {availableSections.includes(IPV6) && (
+          <MenuItem
+            label={IPV6}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
+        )}
+        <MenuItem
+          label={DNS}
+          {...menuItemProps}
+          disableReason={disableReason}
+        />
+        {availableSections.includes(OVN) && (
+          <MenuItem
+            label={OVN}
+            {...menuItemProps}
+            disableReason={disableReason}
+          />
+        )}
+      </ul>
+    </nav>
   );
 };
 

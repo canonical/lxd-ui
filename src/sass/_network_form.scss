@@ -1,25 +1,28 @@
 .network-form {
-  .form-contents > div {
-    margin-left: 0;
-    max-width: 54rem !important;
+  display: flex;
+
+  .contents {
+    flex-grow: 1;
+
+    .sections {
+      max-width: 54rem;
+      padding-bottom: 25vh;
+    }
   }
 
-  .form-contents:has(.code-editor-wrapper) > div {
-    max-width: initial !important;
-  }
+  .aside {
+    min-width: 12rem;
 
-  @media screen and (width <= 1420px) {
-    .configuration-table {
-      .configuration {
-        width: 7rem;
+    .p-side-navigation__link {
+      background: white;
+      margin-bottom: 0;
+
+      &[aria-current="page"] {
+        font-weight: bold;
       }
 
-      .inherited {
-        width: 7rem;
-      }
-
-      .override {
-        width: 18rem;
+      &::before {
+        width: 0;
       }
     }
   }
