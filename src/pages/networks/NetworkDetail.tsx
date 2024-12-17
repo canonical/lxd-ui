@@ -37,17 +37,19 @@ const NetworkDetail: FC = () => {
     return <Loader />;
   }
 
+  const isManagedNetwork = network?.managed;
+
   const getTabs = () => {
-    if (!network?.managed) {
+    if (!isManagedNetwork) {
       return ["Overview"];
     }
 
     const type = network?.type ?? "";
     if (type === "physical") {
-      return ["Overview", "Configuration"];
+      return ["Configuration"];
     }
 
-    return ["Overview", "Configuration", "Forwards"];
+    return ["Configuration", "Forwards"];
   };
 
   return (
@@ -64,12 +66,12 @@ const NetworkDetail: FC = () => {
           tabUrl={`/ui/project/${project}/network/${name}`}
         />
         <NotificationRow />
-        {!activeTab && (
+        {!activeTab && !isManagedNetwork && (
           <div role="tabpanel" aria-labelledby="overview">
             {network && <NetworkDetailOverview network={network} />}
           </div>
         )}
-        {activeTab === "configuration" && (
+        {!activeTab && isManagedNetwork && (
           <div role="tabpanel" aria-labelledby="configuration">
             {network && <EditNetwork network={network} project={project} />}
           </div>
