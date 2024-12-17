@@ -3,6 +3,7 @@ import MenuItem from "components/forms/FormMenuItem";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 
+export const TOPOLOGY = "Topology";
 export const GENERAL = "General";
 export const BRIDGE = "Bridge";
 export const DNS = "DNS";

@@ -197,8 +197,7 @@ const NetworkForm: FC<Props> = ({
         const element = document.getElementById(candidateSlug);
         const elementOffset = element?.offsetTop ?? 0;
         if (elementOffset > scrollTop) {
-          setSection(candidateSlug, "scroll");
-          return;
+          return setSection(candidateSlug, "scroll");
         }
       }
     };
