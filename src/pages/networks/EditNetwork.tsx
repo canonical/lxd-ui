@@ -18,6 +18,7 @@ import { slugify } from "util/slugify";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   GENERAL,
+  TOPOLOGY,
   YAML_CONFIGURATION,
 } from "pages/networks/forms/NetworkFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
@@ -37,7 +38,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const { hash } = useLocation();
-  const initialSection = hash ? hash.substring(1) : slugify(GENERAL);
+  const initialSection = hash ? hash.substring(1) : slugify(TOPOLOGY);
   const [section, updateSection] = useState(initialSection);
 
   const queryClient = useQueryClient();
