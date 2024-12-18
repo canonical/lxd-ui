@@ -70,7 +70,7 @@ export const visitNetworkConfiguration = async (page: Page, tab: string) => {
 export const createNetworkForward = async (page: Page, network: string) => {
   await createNetwork(page, network);
   await visitNetwork(page, network);
-  await page.getByRole("gridcell", { name: "/24" }).getByRole("button").click();
+  await page.getByText("/24").getByRole("button").click();
 
   const networkSubnet = await page.inputValue("input#ipv4_address");
 

@@ -4,7 +4,6 @@ import { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { optionTrueFalse } from "util/instanceOptions";
-import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
 import { IPV6 } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
@@ -27,38 +26,6 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
         rows={filterRows([
           ...(formik.values.networkType !== "physical"
             ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_address",
-                  label: "IPv6 address range",
-                  defaultValue: "auto",
-                  children: (
-                    <IpAddressSelector
-                      id="ipv6_address"
-                      family="IPv6"
-                      address={formik.values.ipv6_address}
-                      setAddress={(value) => {
-                        void formik.setFieldValue("ipv6_address", value);
-
-                        if (value === "none") {
-                          const nullFields = [
-                            "ipv6_nat",
-                            "ipv6_dhcp",
-                            "ipv6_dhcp_expiry",
-                            "ipv6_dhcp_ranges",
-                            "ipv6_dhcp_stateful",
-                            "ipv6_ovn_ranges",
-                          ];
-                          nullFields.forEach(
-                            (field) =>
-                              void formik.setFieldValue(field, undefined),
-                          );
-                        }
-                      }}
-                    />
-                  ),
-                }),
-
                 getConfigurationRow({
                   formik,
                   name: "ipv6_nat",
