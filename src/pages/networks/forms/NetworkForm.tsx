@@ -224,7 +224,9 @@ const NetworkForm: FC<Props> = ({
         dependencies={[notify.notification]}
         belowIds={["form-footer", "status-bar"]}
       >
-        {!formik.values.isCreating && <NetworkTopology formik={formik} />}
+        {!formik.values.isCreating && (
+          <NetworkTopology formik={formik} project={project} />
+        )}
         <Form className="sections" onSubmit={formik.handleSubmit}>
           {section !== slugify(YAML_CONFIGURATION) && (
             <>
@@ -235,20 +237,41 @@ const NetworkForm: FC<Props> = ({
                   formik={formik}
                   project={project}
                   isClustered={isClustered}
+                  key={`main-${formik.values.bareNetwork?.name}`}
                 />
               )}
               {availableSections.includes(BRIDGE) && (
-                <NetworkFormBridge formik={formik} filterRows={filterRows} />
+                <NetworkFormBridge
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`bridge-${formik.values.bareNetwork?.name}`}
+                />
               )}
               {availableSections.includes(IPV4) && (
-                <NetworkFormIpv4 formik={formik} filterRows={filterRows} />
+                <NetworkFormIpv4
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`ipv4-${formik.values.bareNetwork?.name}`}
+                />
               )}
               {availableSections.includes(IPV6) && (
-                <NetworkFormIpv6 formik={formik} filterRows={filterRows} />
+                <NetworkFormIpv6
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`ipv6-${formik.values.bareNetwork?.name}`}
+                />
               )}
-              <NetworkFormDns formik={formik} filterRows={filterRows} />
+              <NetworkFormDns
+                formik={formik}
+                filterRows={filterRows}
+                key={`dns-${formik.values.bareNetwork?.name}`}
+              />
               {availableSections.includes(OVN) && (
-                <NetworkFormOvn formik={formik} filterRows={filterRows} />
+                <NetworkFormOvn
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`ovn-${formik.values.bareNetwork?.name}`}
+                />
               )}
             </>
           )}

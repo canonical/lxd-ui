@@ -42,6 +42,12 @@ const NetworkStatistics: FC<Props> = ({ formik, project }) => {
           {networkState?.counters.packets_sent ?? 0} packets)
         </div>
       </div>
+      <div className="general-field">
+        <div className="general-field-label">Status</div>
+        <div className="general-field-content">
+          {formik.values.bareNetwork?.status ?? "-"}
+        </div>
+      </div>
     </>
   );
 };
