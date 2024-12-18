@@ -4,11 +4,12 @@ import { FormikProps } from "formik/dist/types";
 import UplinkSelector from "pages/networks/forms/UplinkSelector";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
-import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 import { ensureEditMode } from "util/instanceEdit";
 import { GENERAL } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
+import NetworkDescriptionField from "./NetworkDescriptionField";
+import NetworkProfiles from "./NetworkProfiles";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -39,22 +40,19 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
       </h2>
       <div className="u-sv3">
         <NetworkTypeSelector formik={formik} />
-        <Input
-          {...getFormProps("name")}
-          type="text"
-          label="Name"
-          required
-          disabled={formik.values.readOnly || !formik.values.isCreating}
-          help={
-            !formik.values.isCreating
-              ? "Click the name in the header to rename the network"
-              : undefined
-          }
-        />
-        <AutoExpandingTextArea
-          {...getFormProps("description")}
-          label="Description"
-        />
+        {formik.values.isCreating && (
+          <Input
+            {...getFormProps("name")}
+            type="text"
+            label="Name"
+            required
+            disabled={formik.values.readOnly || !formik.values.isCreating}
+          />
+        )}
+        <NetworkDescriptionField props={getFormProps("network")} />
+        {!formik.values.isCreating && (
+          <NetworkProfiles props={getFormProps("name")} project={project} />
+        )}
         {formik.values.networkType === "ovn" && (
           <UplinkSelector props={getFormProps("network")} project={project} />
         )}
