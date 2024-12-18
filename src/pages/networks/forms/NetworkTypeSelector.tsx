@@ -15,7 +15,6 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
     <Select
       id="networkType"
       name="networkType"
-      label="Type"
       help={
         formik.values.networkType === "ovn" ? (
           <a

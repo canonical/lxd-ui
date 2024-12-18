@@ -27,6 +27,20 @@
     }
   }
 
+  .general-field {
+    display: flex;
+
+    .general-field-label {
+      font-weight: $font-weight-bold;
+      margin-bottom: $spv--small;
+      width: 12rem;
+    }
+
+    .general-field-content {
+      flex-grow: 1;
+    }
+  }
+
   .aside {
     min-width: 12rem;
     position: absolute;

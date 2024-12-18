@@ -41,6 +41,7 @@ test.describe("bridge type", () => {
   test("configure main bridge network settings", async ({ page }) => {
     await visitNetwork(page, network);
 
+    await page.getByRole("button", { name: "Edit" }).first().click();
     const DESCRIPTION = "A-new-description";
     await page.getByPlaceholder("Enter description").fill(DESCRIPTION);
 

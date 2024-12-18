@@ -1,47 +1,42 @@
 import { FC } from "react";
-import { fetchNetwork } from "api/networks";
-import { queryKeys } from "util/queryKeys";
-import { useQuery } from "@tanstack/react-query";
-import ResourceLink from "components/ResourceLink";
-import { Label } from "@canonical/react-components";
-import { ResourceIconType } from "components/ResourceIcon";
 import ExpandableList from "components/ExpandableList";
+import { FormikProps } from "formik/dist/types";
+import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { filterUsedByType } from "util/usedBy";
+import UsedByItem from "components/UsedByItem";
 
 interface Props {
-  props: Record<string, unknown>;
   project: string;
+  formik: FormikProps<NetworkFormValues>;
 }
 
-const NetworkProfiles: FC<Props> = ({ props, project }) => {
-  const { value } = props;
-  const { data: network } = useQuery({
-    queryKey: [queryKeys.networks],
-    queryFn: () => fetchNetwork(value as string, project),
-  });
-  const profileList =
-    network?.used_by?.map((item) => {
-      const parts = item.split("/");
-      const type = parts[2].slice(0, -1);
-      const name = parts[3];
-
-      return { type, name };
-    }) || [];
-  console.log(props);
+const NetworkProfiles: FC<Props> = ({ formik, project }) => {
+  const profileList = filterUsedByType(
+    "profile",
+    formik.values.bareNetwork?.used_by,
+  );
 
   return (
-    <>
-      <Label>Used by</Label>
-      <ExpandableList
-        items={profileList.map((item) => (
-          <ResourceLink
-            key={item.name}
-            type={item.type as ResourceIconType}
-            value={item.name}
-            to={`/ui/project/${project}/${item.type}/${item.name}`}
+    <div className="general-field">
+      <div className="general-field-label">Used by profiles</div>
+      <div className="general-field-content">
+        {profileList.length === 0 ? (
+          "-"
+        ) : (
+          <ExpandableList
+            items={profileList.map((item) => (
+              <UsedByItem
+                key={item.name}
+                item={item}
+                activeProject={project}
+                type="profile"
+                to={`/ui/project/${item.project}/profile/${item.name}`}
+              />
+            ))}
           />
-        ))}
-      />
-    </>
+        )}
+      </div>
+    </div>
   );
 };
 

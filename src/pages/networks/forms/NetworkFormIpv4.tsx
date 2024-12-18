@@ -4,7 +4,6 @@ import { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { optionTrueFalse } from "util/instanceOptions";
-import IpAddressSelector from "pages/networks/forms/IpAddressSelector";
 import ConfigurationTable from "components/ConfigurationTable";
 import { IPV4 } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
@@ -27,36 +26,6 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
         rows={filterRows([
           ...(formik.values.networkType !== "physical"
             ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv4_address",
-                  label: "IPv4 address range",
-                  defaultValue: "auto",
-                  children: (
-                    <IpAddressSelector
-                      id="ipv4_address"
-                      family="IPv4"
-                      address={formik.values.ipv4_address}
-                      setAddress={(value) => {
-                        void formik.setFieldValue("ipv4_address", value);
-
-                        if (value === "none") {
-                          const nullFields = [
-                            "ipv4_nat",
-                            "ipv4_dhcp",
-                            "ipv4_dhcp_expiry",
-                            "ipv4_dhcp_ranges",
-                          ];
-                          nullFields.forEach(
-                            (field) =>
-                              void formik.setFieldValue(field, undefined),
-                          );
-                        }
-                      }}
-                    />
-                  ),
-                }),
-
                 getConfigurationRow({
                   formik,
                   name: "ipv4_nat",

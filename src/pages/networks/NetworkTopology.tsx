@@ -71,8 +71,12 @@ const NetworkTopology: FC<Props> = ({ formik }) => {
             })}
           {instances.length > 5 && isCollapsed && (
             <div className="instance">
-              <Button appearance="link" onClick={() => setCollapsed(false)}>
-                Show more
+              <Button
+                appearance="link"
+                onClick={() => setCollapsed(false)}
+                small
+              >
+                Show all
               </Button>
             </div>
           )}
