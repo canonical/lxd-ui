@@ -57,6 +57,7 @@ export interface LxdNetworkConfig {
   network?: string;
   parent?: string;
   [key: `user.${string}`]: string;
+  [key: `volatile.${string}`]: string;
 }
 
 export interface LxdNetwork {

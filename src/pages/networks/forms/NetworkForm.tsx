@@ -99,9 +99,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
   const excludeConfigKeys = getHandledNetworkConfigKeys();
   const missingConfigFields = Object.fromEntries(
     Object.entries(values.bareNetwork?.config ?? {}).filter(
-      (e) =>
-        !excludeConfigKeys.has(e[0] as keyof LxdNetworkConfig) &&
-        !e[0].startsWith("volatile"),
+      (e) => !excludeConfigKeys.has(e[0] as keyof LxdNetworkConfig),
     ),
   );
 
