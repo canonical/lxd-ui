@@ -29,4 +29,19 @@ describe("conversion to form values and back with toNetworkFormValues and toNetw
 
     expect(payload.config?.["user.key"]).toBe("custom-config-value");
   });
+
+  it("preserves volatile keys in network config", () => {
+    const network = {
+      devices: {},
+      config: {
+        "user.key": "custom-config-value",
+        "volatile.network.ipv4.address": "1.2.3.4",
+      },
+    } as unknown as LxdNetwork;
+
+    const formValues = toNetworkFormValues(network);
+    const payload = toNetwork(formValues);
+
+    expect(payload.config?.["volatile.network.ipv4.address"]).toBe("1.2.3.4");
+  });
 });
