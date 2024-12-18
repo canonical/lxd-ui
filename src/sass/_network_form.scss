@@ -1,25 +1,74 @@
+.edit-network {
+  padding-top: 1rem;
+}
+
+.create-network > .row,
+.edit-network > .row {
+  padding-right: 0;
+}
+
+.create-network .aside {
+  top: 84px;
+}
+
+.edit-network .aside {
+  top: 154px;
+}
+
 .network-form {
-  .form-contents > div {
-    margin-left: 0;
-    max-width: 54rem !important;
+  .contents {
+    .network-topology,
+    .sections {
+      max-width: 54rem;
+    }
+
+    .sections {
+      padding-bottom: 25vh;
+    }
   }
 
-  .form-contents:has(.code-editor-wrapper) > div {
-    max-width: initial !important;
+  .general-field {
+    display: flex;
+
+    .general-field-label {
+      font-weight: $font-weight-bold;
+      margin-bottom: $spv--small;
+      width: 12rem;
+
+      .p-form__label {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .general-field-content {
+      flex-grow: 1;
+    }
   }
 
-  @media screen and (width <= 1420px) {
-    .configuration-table {
-      .configuration {
-        width: 7rem;
+  .aside {
+    min-width: 12rem;
+    position: absolute;
+    right: 3rem;
+
+    ul {
+      border-left: $border-thin;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .p-side-navigation__link {
+      background: white;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      padding-left: 0.5rem;
+
+      &[aria-current="page"] {
+        font-weight: bold;
       }
 
-      .inherited {
-        width: 7rem;
-      }
-
-      .override {
-        width: 18rem;
+      &::before {
+        width: 0;
       }
     }
   }

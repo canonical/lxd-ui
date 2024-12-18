@@ -41,6 +41,7 @@ test.describe("bridge type", () => {
   test("configure main bridge network settings", async ({ page }) => {
     await visitNetwork(page, network);
 
+    await page.getByRole("button", { name: "Edit" }).first().click();
     const DESCRIPTION = "A-new-description";
     await page.getByPlaceholder("Enter description").fill(DESCRIPTION);
 
@@ -256,9 +257,14 @@ test.describe("OVN type", () => {
     for (const button of radioButtons) {
       await button.click({ force: true });
     }
+
+    await page.getByRole("button", { name: "Create override" }).first().click();
+    await page.getByLabel("Custom").first().check({ force: true });
     const IPV4_ADDRESS = "10.141.1.1/24";
     await page.getByLabel("IPv4 address").fill(IPV4_ADDRESS);
 
+    await page.getByRole("button", { name: "Create override" }).first().click();
+    await page.getByLabel("Custom").last().check({ force: true });
     const IPV6_ADDRESS = "2001:db8::1/64";
     await page.getByLabel("IPv6 address").fill(IPV6_ADDRESS);
 

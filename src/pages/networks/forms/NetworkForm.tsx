@@ -1,5 +1,5 @@
-import { FC, useEffect } from "react";
-import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
+import { FC, useEffect, useState } from "react";
+import { Form, Input, SearchBox, useNotify } from "@canonical/react-components";
 import {
   LxdNetwork,
   LxdNetworkBridgeDriver,
@@ -9,16 +9,14 @@ import {
 } from "types/network";
 import NetworkFormMenu, {
   BRIDGE,
-  DNS,
   IPV4,
   IPV6,
-  MAIN_CONFIGURATION,
+  GENERAL,
   OVN,
   YAML_CONFIGURATION,
+  DNS,
 } from "pages/networks/forms/NetworkFormMenu";
 import { FormikProps } from "formik/dist/types";
-import { updateMaxHeight } from "util/updateMaxHeight";
-import useEventListener from "util/useEventListener";
 import YamlForm from "components/forms/YamlForm";
 import NetworkFormMain from "pages/networks/forms/NetworkFormMain";
 import NetworkFormBridge from "pages/networks/forms/NetworkFormBridge";
@@ -33,6 +31,10 @@ import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/instanceEdit";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
+import ScrollableContainer from "components/ScrollableContainer";
+import NetworkTopology from "pages/networks/NetworkTopology";
+import { debounce } from "util/debounce";
+import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -152,7 +154,7 @@ interface Props {
   getYaml: () => string;
   project: string;
   section: string;
-  setSection: (section: string) => void;
+  setSection: (section: string, source: "click" | "scroll") => void;
   version?: number;
 }
 
@@ -168,38 +170,115 @@ const NetworkForm: FC<Props> = ({
   const notify = useNotify();
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
+  const [query, setQuery] = useState("");
+  const [hasEmptySearchResult, setEmptySearchResult] = useState(false);
 
-  const updateFormHeight = () => {
-    updateMaxHeight("form-contents", "p-bottom-controls");
+  const filterRows = (rows: MainTableRow[]) => {
+    if (!query) {
+      return rows;
+    }
+    const filteredRows = rows.filter((row) => {
+      return row.name?.toString()?.toLowerCase().includes(query);
+    });
+    if (filteredRows.length > 0) {
+      setEmptySearchResult(false);
+    }
+    return filteredRows;
   };
-  useEffect(updateFormHeight, [notify.notification?.message, section]);
-  useEventListener("resize", updateFormHeight);
+
+  const availableSections = [GENERAL];
+  if (formik.values.networkType !== "physical") {
+    availableSections.push(BRIDGE);
+  }
+  if (formik.values.ipv4_address !== "none") {
+    availableSections.push(IPV4);
+  }
+  if (formik.values.ipv6_address !== "none") {
+    availableSections.push(IPV6);
+  }
+  availableSections.push(DNS);
+  if (formik.values.networkType === "physical") {
+    availableSections.push(OVN);
+  }
+
+  useEffect(() => {
+    const wrapper = document.getElementById("content-details");
+
+    const activateSectionOnScroll = () => {
+      const scrollTop = wrapper ? wrapper.scrollTop : 0;
+      for (const candidate of availableSections) {
+        const candidateSlug = slugify(candidate);
+        const element = document.getElementById(candidateSlug);
+        const elementOffset = element?.offsetTop ?? 0;
+        if (elementOffset > scrollTop) {
+          return setSection(candidateSlug, "scroll");
+        }
+      }
+    };
+    const scrollListener = () => debounce(activateSectionOnScroll, 20);
+    wrapper?.addEventListener("scroll", scrollListener);
+
+    return () => wrapper?.removeEventListener("scroll", scrollListener);
+  }, [availableSections]);
 
   return (
-    <Form className="form network-form" onSubmit={formik.handleSubmit}>
-      {/* hidden submit to enable enter key in inputs */}
-      <Input type="submit" hidden value="Hidden input" />
-      {section !== slugify(YAML_CONFIGURATION) && (
-        <NetworkFormMenu
-          active={section}
-          setActive={setSection}
-          formik={formik}
-        />
-      )}
-      <Row className="form-contents" key={section}>
-        <Col size={12}>
-          {section === slugify(MAIN_CONFIGURATION) && (
-            <NetworkFormMain
-              formik={formik}
-              project={project}
-              isClustered={isClustered}
-            />
+    <div className="network-form">
+      <ScrollableContainer
+        className="contents"
+        dependencies={[notify.notification]}
+        belowIds={["form-footer", "status-bar"]}
+      >
+        {!formik.values.isCreating && query.length < 1 && (
+          <NetworkTopology formik={formik} project={project} />
+        )}
+        <Form className="sections" onSubmit={formik.handleSubmit}>
+          {section !== slugify(YAML_CONFIGURATION) && (
+            <>
+              {/* hidden submit to enable enter key in inputs */}
+              <Input type="submit" hidden value="Hidden input" />
+              {query.length < 1 && (
+                <NetworkFormMain
+                  formik={formik}
+                  project={project}
+                  isClustered={isClustered}
+                  key={`main-${formik.values.bareNetwork?.name}`}
+                />
+              )}
+              {availableSections.includes(BRIDGE) && (
+                <NetworkFormBridge
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`bridge-${formik.values.bareNetwork?.name}`}
+                />
+              )}
+              {availableSections.includes(IPV4) && (
+                <NetworkFormIpv4
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`ipv4-${formik.values.bareNetwork?.name}`}
+                />
+              )}
+              {availableSections.includes(IPV6) && (
+                <NetworkFormIpv6
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`ipv6-${formik.values.bareNetwork?.name}`}
+                />
+              )}
+              <NetworkFormDns
+                formik={formik}
+                filterRows={filterRows}
+                key={`dns-${formik.values.bareNetwork?.name}`}
+              />
+              {availableSections.includes(OVN) && (
+                <NetworkFormOvn
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`ovn-${formik.values.bareNetwork?.name}`}
+                />
+              )}
+            </>
           )}
-          {section === slugify(BRIDGE) && <NetworkFormBridge formik={formik} />}
-          {section === slugify(DNS) && <NetworkFormDns formik={formik} />}
-          {section === slugify(IPV4) && <NetworkFormIpv4 formik={formik} />}
-          {section === slugify(IPV6) && <NetworkFormIpv6 formik={formik} />}
-          {section === slugify(OVN) && <NetworkFormOvn formik={formik} />}
           {section === slugify(YAML_CONFIGURATION) && (
             <YamlForm
               key={`yaml-form-${version}`}
@@ -215,9 +294,31 @@ const NetworkForm: FC<Props> = ({
               />
             </YamlForm>
           )}
-        </Col>
-      </Row>
-    </Form>
+          {hasEmptySearchResult && (
+            <div>No configuration found matching this search.</div>
+          )}
+        </Form>
+      </ScrollableContainer>
+      {section !== slugify(YAML_CONFIGURATION) && (
+        <div className="aside">
+          <SearchBox
+            onChange={(inputValue) => {
+              setQuery(inputValue);
+              setEmptySearchResult(true);
+            }}
+            value={query}
+            name="search-setting"
+            type="text"
+          />
+          <NetworkFormMenu
+            active={section}
+            setActive={(section) => setSection(section, "click")}
+            formik={formik}
+            availableSections={availableSections}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
