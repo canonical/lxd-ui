@@ -250,6 +250,7 @@ test.describe("OVN type", () => {
   test("configure main OVN network settings", async ({ page }) => {
     await activateAllTableOverrides(page);
 
+    await page.getByRole("button", { name: "Edit" }).first().click();
     const DESCRIPTION = "A-new-description";
     await page.getByPlaceholder("Enter description").fill(DESCRIPTION);
 

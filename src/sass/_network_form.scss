@@ -34,6 +34,11 @@
       font-weight: $font-weight-bold;
       margin-bottom: $spv--small;
       width: 12rem;
+
+      .p-form__label {
+        margin: 0;
+        padding: 0;
+      }
     }
 
     .general-field-content {

@@ -171,15 +171,19 @@ const NetworkForm: FC<Props> = ({
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
   const [query, setQuery] = useState("");
+  const [hasEmptySearchResult, setEmptySearchResult] = useState(false);
 
   const filterRows = (rows: MainTableRow[]) => {
     if (!query) {
       return rows;
     }
-
-    return rows.filter((row) => {
+    const filteredRows = rows.filter((row) => {
       return row.name?.toString()?.toLowerCase().includes(query);
     });
+    if (filteredRows.length > 0) {
+      setEmptySearchResult(false);
+    }
+    return filteredRows;
   };
 
   const availableSections = [GENERAL];
@@ -224,7 +228,7 @@ const NetworkForm: FC<Props> = ({
         dependencies={[notify.notification]}
         belowIds={["form-footer", "status-bar"]}
       >
-        {!formik.values.isCreating && (
+        {!formik.values.isCreating && query.length < 1 && (
           <NetworkTopology formik={formik} project={project} />
         )}
         <Form className="sections" onSubmit={formik.handleSubmit}>
@@ -290,12 +294,18 @@ const NetworkForm: FC<Props> = ({
               />
             </YamlForm>
           )}
+          {hasEmptySearchResult && (
+            <div>No configuration found matching this search.</div>
+          )}
         </Form>
       </ScrollableContainer>
       {section !== slugify(YAML_CONFIGURATION) && (
         <div className="aside">
           <SearchBox
-            onChange={setQuery}
+            onChange={(inputValue) => {
+              setQuery(inputValue);
+              setEmptySearchResult(true);
+            }}
             value={query}
             name="search-setting"
             type="text"
