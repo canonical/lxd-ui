@@ -17,134 +17,138 @@ interface Props {
 const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
   const hasDhcp = formik.values.ipv6_dhcp !== "false";
 
+  const rows = filterRows([
+    ...(formik.values.networkType !== "physical"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_nat",
+            label: "IPv6 NAT",
+            defaultValue: "",
+            children: <Select options={optionTrueFalse} />,
+            disabled: formik.values.ipv6_address === "none",
+            disabledReason: "IPv6 address is set to none",
+          }),
+        ]
+      : []),
+
+    ...(formik.values.networkType !== "physical"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_dhcp",
+            label: "IPv6 DHCP",
+            defaultValue: "",
+            children: <Select options={optionTrueFalse} />,
+          }),
+        ]
+      : []),
+
+    ...(formik.values.networkType !== "ovn" &&
+    formik.values.networkType !== "physical"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_dhcp_expiry",
+            label: "IPv6 DHCP expiry",
+            defaultValue: "",
+            disabled: !hasDhcp,
+            disabledReason: "IPv6 DHCP is disabled",
+            children: <Input type="text" />,
+          }),
+
+          getConfigurationRow({
+            formik,
+            name: "ipv6_dhcp_ranges",
+            label: "IPv6 DHCP ranges",
+            defaultValue: "",
+            disabled: !hasDhcp,
+            disabledReason: "IPv6 DHCP is disabled",
+            children: <Textarea />,
+          }),
+        ]
+      : []),
+
+    ...(formik.values.networkType !== "physical"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_dhcp_stateful",
+            label: "IPv6 DHCP stateful",
+            defaultValue: "",
+            disabled: !hasDhcp,
+            disabledReason: "IPv6 DHCP is disabled",
+            children: <Select options={optionTrueFalse} />,
+          }),
+        ]
+      : []),
+
+    ...(formik.values.networkType === "ovn"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_l3only",
+            label: "IPv6 L3 only",
+            defaultValue: "",
+            children: <Select options={optionTrueFalse} />,
+          }),
+        ]
+      : []),
+
+    ...(formik.values.networkType !== "ovn"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_ovn_ranges",
+            label: "IPv6 OVN ranges",
+            defaultValue: "",
+            children: <Textarea />,
+          }),
+        ]
+      : []),
+
+    ...(["bridge", "physical"].includes(formik.values.networkType)
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_routes",
+            label: "IPv6 routes",
+            defaultValue: "",
+            children: <Textarea />,
+          }),
+        ]
+      : []),
+
+    ...(formik.values.networkType === "physical"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "ipv6_gateway",
+            label: "IPv6 gateway",
+            defaultValue: "",
+            children: <Textarea />,
+          }),
+          getConfigurationRow({
+            formik,
+            name: "ipv6_routes_anycast",
+            label: "IPv6 routes anycast",
+            defaultValue: "",
+            children: <Select options={optionTrueFalse} />,
+          }),
+        ]
+      : []),
+  ]);
+
+  if (rows.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <h2 className="p-heading--4" id={slugify(IPV6)}>
         IPv6
       </h2>
-      <ConfigurationTable
-        rows={filterRows([
-          ...(formik.values.networkType !== "physical"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_nat",
-                  label: "IPv6 NAT",
-                  defaultValue: "",
-                  children: <Select options={optionTrueFalse} />,
-                  disabled: formik.values.ipv6_address === "none",
-                  disabledReason: "IPv6 address is set to none",
-                }),
-              ]
-            : []),
-
-          ...(formik.values.networkType !== "physical"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_dhcp",
-                  label: "IPv6 DHCP",
-                  defaultValue: "",
-                  children: <Select options={optionTrueFalse} />,
-                }),
-              ]
-            : []),
-
-          ...(formik.values.networkType !== "ovn" &&
-          formik.values.networkType !== "physical"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_dhcp_expiry",
-                  label: "IPv6 DHCP expiry",
-                  defaultValue: "",
-                  disabled: !hasDhcp,
-                  disabledReason: "IPv6 DHCP is disabled",
-                  children: <Input type="text" />,
-                }),
-
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_dhcp_ranges",
-                  label: "IPv6 DHCP ranges",
-                  defaultValue: "",
-                  disabled: !hasDhcp,
-                  disabledReason: "IPv6 DHCP is disabled",
-                  children: <Textarea />,
-                }),
-              ]
-            : []),
-
-          ...(formik.values.networkType !== "physical"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_dhcp_stateful",
-                  label: "IPv6 DHCP stateful",
-                  defaultValue: "",
-                  disabled: !hasDhcp,
-                  disabledReason: "IPv6 DHCP is disabled",
-                  children: <Select options={optionTrueFalse} />,
-                }),
-              ]
-            : []),
-
-          ...(formik.values.networkType === "ovn"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_l3only",
-                  label: "IPv6 L3 only",
-                  defaultValue: "",
-                  children: <Select options={optionTrueFalse} />,
-                }),
-              ]
-            : []),
-
-          ...(formik.values.networkType !== "ovn"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_ovn_ranges",
-                  label: "IPv6 OVN ranges",
-                  defaultValue: "",
-                  children: <Textarea />,
-                }),
-              ]
-            : []),
-
-          ...(["bridge", "physical"].includes(formik.values.networkType)
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_routes",
-                  label: "IPv6 routes",
-                  defaultValue: "",
-                  children: <Textarea />,
-                }),
-              ]
-            : []),
-
-          ...(formik.values.networkType === "physical"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_gateway",
-                  label: "IPv6 gateway",
-                  defaultValue: "",
-                  children: <Textarea />,
-                }),
-                getConfigurationRow({
-                  formik,
-                  name: "ipv6_routes_anycast",
-                  label: "IPv6 routes anycast",
-                  defaultValue: "",
-                  children: <Select options={optionTrueFalse} />,
-                }),
-              ]
-            : []),
-        ])}
-      />
+      <ConfigurationTable rows={rows} />
     </>
   );
 };

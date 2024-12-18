@@ -14,60 +14,64 @@ interface Props {
 }
 
 const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
+  const rows = filterRows([
+    getConfigurationRow({
+      formik,
+      name: "bridge_mtu",
+      label: "MTU",
+      defaultValue: "",
+      children: <Input type="text" />,
+    }),
+
+    getConfigurationRow({
+      formik,
+      name: "bridge_hwaddr",
+      label: "Hardware address",
+      defaultValue: "",
+      children: <Input type="text" />,
+    }),
+
+    ...(formik.values.networkType === "bridge"
+      ? [
+          getConfigurationRow({
+            formik,
+            name: "bridge_driver",
+            label: "Bridge driver",
+            defaultValue: "",
+            children: (
+              <Select
+                options={[
+                  {
+                    label: "Select option",
+                    value: "",
+                    disabled: true,
+                  },
+                  {
+                    label: "Native",
+                    value: "native",
+                  },
+                  {
+                    label: "Openvswitch",
+                    value: "openvswitch",
+                  },
+                ]}
+              />
+            ),
+          }),
+        ]
+      : []),
+  ]);
+
+  if (rows.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <h2 className="p-heading--4" id={slugify(BRIDGE)}>
         Bridge
       </h2>
-      <ConfigurationTable
-        rows={filterRows([
-          getConfigurationRow({
-            formik,
-            name: "bridge_mtu",
-            label: "MTU",
-            defaultValue: "",
-            children: <Input type="text" />,
-          }),
-
-          getConfigurationRow({
-            formik,
-            name: "bridge_hwaddr",
-            label: "Hardware address",
-            defaultValue: "",
-            children: <Input type="text" />,
-          }),
-
-          ...(formik.values.networkType === "bridge"
-            ? [
-                getConfigurationRow({
-                  formik,
-                  name: "bridge_driver",
-                  label: "Bridge driver",
-                  defaultValue: "",
-                  children: (
-                    <Select
-                      options={[
-                        {
-                          label: "Select option",
-                          value: "",
-                          disabled: true,
-                        },
-                        {
-                          label: "Native",
-                          value: "native",
-                        },
-                        {
-                          label: "Openvswitch",
-                          value: "openvswitch",
-                        },
-                      ]}
-                    />
-                  ),
-                }),
-              ]
-            : []),
-        ])}
-      />
+      <ConfigurationTable rows={rows} />
     </>
   );
 };
