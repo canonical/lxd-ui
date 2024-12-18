@@ -143,6 +143,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   return (
     <>
       <NetworkForm
+        key={network.name}
         formik={formik}
         getYaml={getYaml}
         project={project}

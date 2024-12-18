@@ -16,7 +16,8 @@
   .uplink::after,
   .has-parent::before,
   .has-descendents::after,
-  .instance::before {
+  .downstream-item::before,
+  .downstream-network::after {
     background-color: #6e7681;
     content: "";
     display: inline-block;
@@ -28,11 +29,12 @@
 
   .uplink::after,
   .has-parent::before,
-  .has-descendents::after {
+  .has-descendents::after,
+  .downstream-network::after {
     clip-path: polygon(100% 80%, 0 80%, 0 85%, 100% 85%);
   }
 
-  .instance::before {
+  .downstream-item::before {
     clip-path: polygon(
       100% 80%,
       5% 80%,
@@ -45,23 +47,23 @@
     );
   }
 
-  .instance:first-child::before {
+  .downstream-item:first-child::before {
     clip-path: polygon(100% 80%, 0 80%, 0 100%, 5% 100%, 5% 85%, 100% 85%);
   }
 
-  .instance:last-child::before {
+  .downstream-item:last-child::before {
     clip-path: polygon(100% 80%, 5% 80%, 5% 0, 0 0, 0 85%, 100% 85%);
   }
 
-  .instance:only-child::before {
+  .downstream-item:only-child::before {
     clip-path: polygon(100% 80%, 0 80%, 0 85%, 100% 85%);
   }
 
-  .instances {
+  .downstream {
     display: flex;
     flex-direction: column;
 
-    .instance {
+    .downstream-item {
       height: 30px;
     }
   }
