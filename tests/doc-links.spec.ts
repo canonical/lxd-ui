@@ -66,7 +66,7 @@ test("Ensure the documentation link text and link targets are present: Server Se
   await validateLink(
     page,
     "Instance placement scriptlet",
-    "/documentation/explanation/clustering/#clustering-instance-placement-scriptlet",
+    "/documentation/explanation/clusters/#clustering-instance-placement-scriptlet",
   );
 });
 

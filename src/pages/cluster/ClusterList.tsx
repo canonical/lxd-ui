@@ -64,8 +64,8 @@ const ClusterList: FC = () => {
       contentClassName="cluster-content"
       title={
         <HelpLink
-          href={`${docBaseLink}/explanation/clustering/`}
-          title="Learn more about clustering"
+          href={`${docBaseLink}/explanation/clusters/`}
+          title="Learn more about clusters"
         >
           {isClustered ? (
             <ClusterGroupSelector
@@ -122,11 +122,11 @@ const ClusterList: FC = () => {
               <p>Add cluster members to this group.</p>
               <p>
                 <a
-                  href={`${docBaseLink}/explanation/clustering/`}
+                  href={`${docBaseLink}/explanation/clusters/`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Learn more about clustering
+                  Learn more about clusters
                   <Icon className="external-link-icon" name="external-link" />
                 </a>
               </p>
@@ -145,11 +145,11 @@ const ClusterList: FC = () => {
             </p>
             <p>
               <a
-                href={`${docBaseLink}/explanation/clustering/`}
+                href={`${docBaseLink}/explanation/clusters/`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Learn more about clustering
+                Learn more about clusters
                 <Icon className="external-link-icon" name="external-link" />
               </a>
             </p>
