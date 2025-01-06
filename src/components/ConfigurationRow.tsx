@@ -41,7 +41,7 @@ interface Props {
   disabledReason?: string;
   help?: string;
   inputHelp?: string;
-  readOnlyRenderer?: (value: unknown) => string | ReactNode;
+  readOnlyRenderer?: (value: ReactNode) => string | ReactNode;
 }
 
 export const getConfigurationRow = ({
@@ -54,7 +54,7 @@ export const getConfigurationRow = ({
   disabledReason,
   help,
   inputHelp,
-  readOnlyRenderer = (value) => <>{value}</>,
+  readOnlyRenderer = (value: ReactNode) => <>{value}</>,
 }: Props): MainTableRow => {
   const values = formik.values as unknown as Record<string, string | undefined>;
   const value = values[name];
