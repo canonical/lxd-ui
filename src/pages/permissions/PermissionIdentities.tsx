@@ -154,7 +154,6 @@ const PermissionIdentities: FC = () => {
           role: "cell",
           "aria-label": "Type",
           className: "u-truncate",
-          title: identity.type,
         },
         {
           content: (
