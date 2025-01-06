@@ -63,11 +63,11 @@ test("Ensure the documentation link text and link targets are present: Server Se
   );
 
   await openServerSetting(page, "instances.placement.scriptlet");
-  await validateLink(
-    page,
-    "Instance placement scriptlet",
-    "/documentation/explanation/clustering/#clustering-instance-placement-scriptlet",
-  );
+  const scriptletLink =
+    lxdVersion === "latest-edge"
+      ? "/documentation/explanation/clusters/#clustering-instance-placement-scriptlet"
+      : "/documentation/explanation/clustering/#clustering-instance-placement-scriptlet";
+  await validateLink(page, "Instance placement scriptlet", scriptletLink);
 });
 
 test("Ensure the documentation link text and link targets are present: Instance Detail > Configuration", async ({
