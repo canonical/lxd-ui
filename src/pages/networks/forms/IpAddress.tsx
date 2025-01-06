@@ -8,7 +8,9 @@ interface Props {
 const IpAddress: FC<Props> = ({ row }) => {
   return (
     <div className="general-field ip-address">
-      <div className="general-field-label">{row.columns?.[0].content}</div>
+      <div className="general-field-label can-edit">
+        {row.columns?.[0].content}
+      </div>
       <div className="general-field-content">{row.columns?.[2].content}</div>
     </div>
   );

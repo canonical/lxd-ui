@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Button, Notification, useNotify } from "@canonical/react-components";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -44,15 +44,6 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [version, setVersion] = useState(0);
-
-  if (!network?.managed) {
-    return (
-      <Notification severity="negative">
-        Configuration is only available for managed networks. This network is
-        not managed.
-      </Notification>
-    );
-  }
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()

@@ -14,6 +14,8 @@ import IpAddress from "pages/networks/forms/IpAddress";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import NetworkStatistics from "pages/networks/forms/NetworkStatistics";
 import NetworkDescriptionField from "pages/networks/forms/NetworkDescriptionField";
+import { renderNetworkType } from "util/networks";
+import NetworkAddresses from "pages/networks/forms/NetworkAddresses";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -37,6 +39,8 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
     };
   };
 
+  const isManagedNetwork = formik.values.bareNetwork?.managed ?? true;
+
   return (
     <>
       <h2 className="p-heading--4" id={slugify(GENERAL)}>
@@ -51,25 +55,39 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             {formik.values.isCreating ? (
               <NetworkTypeSelector formik={formik} />
             ) : (
-              formik.values.networkType
+              renderNetworkType(formik.values.networkType)
             )}
           </div>
         </div>
+        {!isManagedNetwork && (
+          <>
+            <div className="general-field">
+              <div className="general-field-label">
+                <Label forId="networkType">Managed</Label>
+              </div>
+              <div className="general-field-content">No</div>
+            </div>
+          </>
+        )}
         {formik.values.isCreating && (
           <div className="general-field">
             <div className="general-field-label">
-              <Label forId="name">Name</Label>
+              <Label forId="name" required={formik.values.isCreating}>
+                Name
+              </Label>
             </div>
             <div className="general-field-content">
               <Input {...getFormProps("name")} type="text" required />
             </div>
           </div>
         )}
-        <NetworkDescriptionField
-          formik={formik}
-          props={getFormProps("description")}
-        />
-        {formik.values.networkType === "ovn" && (
+        {isManagedNetwork && (
+          <NetworkDescriptionField
+            formik={formik}
+            props={getFormProps("description")}
+          />
+        )}
+        {formik.values.networkType === "ovn" && isManagedNetwork && (
           <UplinkSelector
             props={getFormProps("network")}
             project={project}
@@ -77,13 +95,14 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
           />
         )}
         {formik.values.networkType === "physical" &&
+          isManagedNetwork &&
           (formik.values.isCreating || !isClustered) && (
             <NetworkParentSelector
               props={getFormProps("parent")}
               formik={formik}
             />
           )}
-        {formik.values.networkType !== "physical" && (
+        {formik.values.networkType !== "physical" && isManagedNetwork && (
           <>
             <IpAddress
               row={getConfigurationRow({
@@ -155,7 +174,10 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
         {!formik.values.isCreating && (
           <NetworkStatistics formik={formik} project={project} />
         )}
-        {!formik.values.isCreating && (
+        {!isManagedNetwork && (
+          <NetworkAddresses formik={formik} project={project} />
+        )}
+        {!formik.values.isCreating && isManagedNetwork && (
           <NetworkProfiles project={project} formik={formik} />
         )}
       </div>

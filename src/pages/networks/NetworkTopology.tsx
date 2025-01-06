@@ -10,6 +10,7 @@ import classNames from "classnames";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
+import classnames from "classnames";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -78,7 +79,10 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
               return (
                 <div
                   key={networkUrl}
-                  className="downstream-item downstream-network"
+                  className={classnames("downstream-item", {
+                    "has-descendents":
+                      downstreamNetworks.length > 0 || instances.length > 0,
+                  })}
                 >
                   <ResourceLink
                     type="network"

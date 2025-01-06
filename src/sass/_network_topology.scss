@@ -1,7 +1,6 @@
 .network-topology {
-  align-items: flex-start;
   display: flex;
-  justify-content: center;
+  margin-bottom: $spv--x-large;
 
   .current-network {
     .p-chip {
@@ -16,8 +15,7 @@
   .uplink::after,
   .has-parent::before,
   .has-descendents::after,
-  .downstream-item::before,
-  .downstream-network::after {
+  .downstream-item::before {
     background-color: #6e7681;
     content: "";
     display: inline-block;
@@ -29,8 +27,7 @@
 
   .uplink::after,
   .has-parent::before,
-  .has-descendents::after,
-  .downstream-network::after {
+  .has-descendents::after {
     clip-path: polygon(100% 80%, 0 80%, 0 85%, 100% 85%);
   }
 
@@ -45,6 +42,12 @@
       5% 85%,
       100% 85%
     );
+  }
+
+  .downstream-item.has-descendents::after {
+    color: #6e7681;
+    content: "—— ...";
+    display: contents;
   }
 
   .downstream-item:first-child::before {

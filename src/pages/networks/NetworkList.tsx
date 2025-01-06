@@ -18,6 +18,7 @@ import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import NetworkForwardCount from "pages/networks/NetworkForwardCount";
 import { useSmallScreen } from "context/useSmallScreen";
+import { renderNetworkType } from "util/networks";
 
 const NetworkList: FC = () => {
   const docBaseLink = useDocs();
@@ -70,7 +71,7 @@ const NetworkList: FC = () => {
           "aria-label": "Name",
         },
         {
-          content: network.type,
+          content: renderNetworkType(network.type),
           role: "rowheader",
           "aria-label": "Type",
         },

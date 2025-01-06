@@ -7,6 +7,11 @@
   padding-right: 0;
 }
 
+.edit-network .p-notification--negative {
+  max-width: 100%;
+  width: 54rem;
+}
+
 .create-network .aside {
   top: 84px;
 }
@@ -23,7 +28,7 @@
     }
 
     .sections {
-      padding-bottom: 25vh;
+      padding-bottom: 50vh;
     }
   }
 
@@ -32,13 +37,17 @@
 
     .general-field-label {
       font-weight: $font-weight-bold;
-      margin-bottom: $spv--small;
+      margin-bottom: $spv--large;
       width: 12rem;
 
       .p-form__label {
         margin: 0;
         padding: 0;
       }
+    }
+
+    .general-field-label.can-edit {
+      margin-top: 0.25rem;
     }
 
     .general-field-content {
@@ -70,6 +79,12 @@
       &::before {
         width: 0;
       }
+    }
+  }
+
+  @media screen and (width <= 1400px) {
+    .aside {
+      display: none;
     }
   }
 }

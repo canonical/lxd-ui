@@ -46,8 +46,10 @@ const NetworkParentSelector: FC<Props> = ({ props, formik }) => {
 
   return (
     <div className="general-field">
-      <div className="general-field-label">
-        <Label forId="parent">Parent</Label>
+      <div className="general-field-label can-edit">
+        <Label forId="parent" required={formik.values.isCreating}>
+          Parent
+        </Label>
       </div>
       <div className="general-field-content">
         {formik.values.readOnly ? (

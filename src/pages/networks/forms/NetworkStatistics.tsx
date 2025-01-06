@@ -26,6 +26,8 @@ const NetworkStatistics: FC<Props> = ({ formik, project }) => {
     enabled: !formik.values.isCreating,
   });
 
+  const isManagedNetwork = formik.values.bareNetwork?.managed ?? true;
+
   return (
     <>
       <div className="general-field">
@@ -42,12 +44,14 @@ const NetworkStatistics: FC<Props> = ({ formik, project }) => {
           {networkState?.counters.packets_sent ?? 0} packets)
         </div>
       </div>
-      <div className="general-field">
-        <div className="general-field-label">Status</div>
-        <div className="general-field-content">
-          {formik.values.bareNetwork?.status ?? "-"}
+      {isManagedNetwork && (
+        <div className="general-field">
+          <div className="general-field-label">Status</div>
+          <div className="general-field-content">
+            {formik.values.bareNetwork?.status ?? "-"}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

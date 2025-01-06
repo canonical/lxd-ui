@@ -213,7 +213,7 @@ export const getConfigurationRow = ({
       </div>
     ),
     override: renderOverride(),
-    name: label as string,
+    name: `${label as string}-${name ?? ""}-${metadata.value}-${metadata.configField?.shortdesc}`,
   });
 };
 

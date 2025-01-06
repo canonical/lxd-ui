@@ -177,7 +177,8 @@ const CreateNetwork: FC = () => {
           disabled={
             !formik.isValid ||
             !formik.values.name ||
-            (formik.values.networkType === "ovn" && !formik.values.network)
+            (formik.values.networkType === "ovn" && !formik.values.network) ||
+            (formik.values.networkType === "physical" && !formik.values.parent)
           }
           onClick={() => void formik.submitForm()}
         >

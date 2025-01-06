@@ -1,6 +1,7 @@
 import { LxdInstance } from "types/instance";
 import { LxdNetwork, LxdNetworkConfig } from "types/network";
 import { LxdConfigOptionsKeys } from "types/config";
+import { capitalizeFirstLetter } from "util/helpers";
 
 export const getIpAddresses = (
   instance: LxdInstance,
@@ -132,4 +133,13 @@ export const testValidPort = (port: string | null | undefined): boolean => {
     return true;
   }
   return expression.test(port);
+};
+
+export const renderNetworkType = (type: LxdNetwork["type"]) => {
+  switch (type) {
+    case "ovn":
+      return "OVN";
+    default:
+      return capitalizeFirstLetter(type);
+  }
 };

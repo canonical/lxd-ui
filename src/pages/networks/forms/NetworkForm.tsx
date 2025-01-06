@@ -186,18 +186,24 @@ const NetworkForm: FC<Props> = ({
     return filteredRows;
   };
 
+  const isManagedNetwork = formik.values.bareNetwork?.managed ?? true;
+
+  // see https://documentation.ubuntu.com/lxd/en/latest/reference/networks/
+  // for details on available sections per type
   const availableSections = [GENERAL];
-  if (formik.values.networkType !== "physical") {
+  if (formik.values.networkType !== "physical" && isManagedNetwork) {
     availableSections.push(BRIDGE);
   }
-  if (formik.values.ipv4_address !== "none") {
+  if (formik.values.ipv4_address !== "none" && isManagedNetwork) {
     availableSections.push(IPV4);
   }
-  if (formik.values.ipv6_address !== "none") {
+  if (formik.values.ipv6_address !== "none" && isManagedNetwork) {
     availableSections.push(IPV6);
   }
-  availableSections.push(DNS);
-  if (formik.values.networkType === "physical") {
+  if (isManagedNetwork) {
+    availableSections.push(DNS);
+  }
+  if (formik.values.networkType === "physical" && isManagedNetwork) {
     availableSections.push(OVN);
   }
 
@@ -228,9 +234,11 @@ const NetworkForm: FC<Props> = ({
         dependencies={[notify.notification]}
         belowIds={["form-footer", "status-bar"]}
       >
-        {!formik.values.isCreating && query.length < 1 && (
-          <NetworkTopology formik={formik} project={project} />
-        )}
+        {!formik.values.isCreating &&
+          query.length < 1 &&
+          section !== slugify(YAML_CONFIGURATION) && (
+            <NetworkTopology formik={formik} project={project} />
+          )}
         <Form className="sections" onSubmit={formik.handleSubmit}>
           {section !== slugify(YAML_CONFIGURATION) && (
             <>
@@ -265,11 +273,13 @@ const NetworkForm: FC<Props> = ({
                   key={`ipv6-${formik.values.bareNetwork?.name}`}
                 />
               )}
-              <NetworkFormDns
-                formik={formik}
-                filterRows={filterRows}
-                key={`dns-${formik.values.bareNetwork?.name}`}
-              />
+              {availableSections.includes(DNS) && (
+                <NetworkFormDns
+                  formik={formik}
+                  filterRows={filterRows}
+                  key={`dns-${formik.values.bareNetwork?.name}`}
+                />
+              )}
               {availableSections.includes(OVN) && (
                 <NetworkFormOvn
                   formik={formik}
@@ -299,7 +309,7 @@ const NetworkForm: FC<Props> = ({
           )}
         </Form>
       </ScrollableContainer>
-      {section !== slugify(YAML_CONFIGURATION) && (
+      {section !== slugify(YAML_CONFIGURATION) && isManagedNetwork && (
         <div className="aside">
           <SearchBox
             onChange={(inputValue) => {
@@ -309,6 +319,7 @@ const NetworkForm: FC<Props> = ({
             value={query}
             name="search-setting"
             type="text"
+            placeholder="Search for key"
           />
           <NetworkFormMenu
             active={section}

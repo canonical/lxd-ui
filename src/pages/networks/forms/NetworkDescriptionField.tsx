@@ -14,7 +14,7 @@ interface Props {
 const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
   return (
     <div className="general-field">
-      <div className="general-field-label">
+      <div className="general-field-label can-edit">
         <Label forId="description">Description</Label>
       </div>
       <div className="general-field-content">

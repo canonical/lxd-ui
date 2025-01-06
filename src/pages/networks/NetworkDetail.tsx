@@ -8,7 +8,6 @@ import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
 import Loader from "components/Loader";
 import { Row } from "@canonical/react-components";
-import NetworkDetailOverview from "pages/networks/NetworkDetailOverview";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
@@ -40,12 +39,8 @@ const NetworkDetail: FC = () => {
   const isManagedNetwork = network?.managed;
 
   const getTabs = () => {
-    if (!isManagedNetwork) {
-      return ["Overview"];
-    }
-
     const type = network?.type ?? "";
-    if (type === "physical") {
+    if (type === "physical" || !isManagedNetwork) {
       return ["Configuration"];
     }
 
@@ -66,12 +61,7 @@ const NetworkDetail: FC = () => {
           tabUrl={`/ui/project/${project}/network/${name}`}
         />
         <NotificationRow />
-        {!activeTab && !isManagedNetwork && (
-          <div role="tabpanel" aria-labelledby="overview">
-            {network && <NetworkDetailOverview network={network} />}
-          </div>
-        )}
-        {!activeTab && isManagedNetwork && (
+        {!activeTab && (
           <div role="tabpanel" aria-labelledby="configuration">
             {network && <EditNetwork network={network} project={project} />}
           </div>

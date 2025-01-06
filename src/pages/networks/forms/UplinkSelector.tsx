@@ -55,8 +55,10 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
 
   return (
     <div className="general-field">
-      <div className="general-field-label">
-        <Label forId="network">Uplink</Label>
+      <div className="general-field-label can-edit">
+        <Label forId="network" required={formik.values.isCreating}>
+          Uplink
+        </Label>
       </div>
       <div className="general-field-content">
         {formik.values.readOnly ? (
