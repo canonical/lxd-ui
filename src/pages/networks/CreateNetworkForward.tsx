@@ -65,7 +65,9 @@ const CreateNetworkForward: FC = () => {
               queryKeys.forwards,
             ],
           });
-          navigate(`/ui/project/${project}/network/${networkName}/forwards`);
+          void navigate(
+            `/ui/project/${project}/network/${networkName}/forwards`,
+          );
           toastNotify.success(
             `Network forward ${forward.listen_address} created.`,
           );

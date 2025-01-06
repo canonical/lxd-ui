@@ -207,7 +207,7 @@ const CreateInstance: FC = () => {
       {
         label: "Check configuration",
         onClick: () =>
-          navigate(formUrl, {
+          void navigate(formUrl, {
             state: { retryFormValues: values, retryFormSection },
           }),
       },
@@ -295,7 +295,7 @@ const CreateInstance: FC = () => {
     }
 
     const formUrl = location.pathname + location.search;
-    navigate(`/ui/project/${project}/instances`);
+    void navigate(`/ui/project/${project}/instances`);
 
     // NOTE: for lxd version that has the instance_create_start api extension
     // we can create and start the instance in one go by setting the 'start' property to true
@@ -524,7 +524,7 @@ const CreateInstance: FC = () => {
         <Button
           appearance="base"
           onClick={() =>
-            navigate(
+            void navigate(
               location.state?.cancelLocation ??
                 `/ui/project/${project}/instances`,
             )

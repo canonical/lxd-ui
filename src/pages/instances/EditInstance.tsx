@@ -164,9 +164,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
     const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      navigate(baseUrl);
+      void navigate(baseUrl);
     } else {
-      navigate(`${baseUrl}/${slugify(newSection)}`);
+      void navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

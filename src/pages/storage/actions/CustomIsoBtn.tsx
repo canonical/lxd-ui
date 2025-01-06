@@ -14,7 +14,7 @@ const CustomIsoBtn: FC<Props> = ({ project }) => {
 
   const handleClick = () => (e: MouseEvent) => {
     e.preventDefault();
-    navigate(href);
+    void navigate(href);
   };
 
   return (

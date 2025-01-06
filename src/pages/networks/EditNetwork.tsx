@@ -116,9 +116,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/network/${network.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      navigate(baseUrl);
+      void navigate(baseUrl);
     } else {
-      navigate(`${baseUrl}/${slugify(newSection)}`);
+      void navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

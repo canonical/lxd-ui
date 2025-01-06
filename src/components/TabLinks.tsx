@@ -32,7 +32,7 @@ const TabLinks: FC<Props> = ({ tabs, activeTab, tabUrl }) => {
           onClick: (e) => {
             e.preventDefault();
             notify.clear();
-            navigate(href);
+            void navigate(href);
           },
           href,
         };

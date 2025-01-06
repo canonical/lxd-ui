@@ -568,7 +568,7 @@ const InstanceList: FC = () => {
                   appearance="positive"
                   className="u-float-right u-no-margin--bottom"
                   onClick={() =>
-                    navigate(`/ui/project/${project}/instances/create`)
+                    void navigate(`/ui/project/${project}/instances/create`)
                   }
                   hasIcon={!isSmallScreen}
                 >
@@ -692,7 +692,7 @@ const InstanceList: FC = () => {
                   className="empty-state-button"
                   appearance="positive"
                   onClick={() =>
-                    navigate(`/ui/project/${project}/instances/create`)
+                    void navigate(`/ui/project/${project}/instances/create`)
                   }
                 >
                   Create instance

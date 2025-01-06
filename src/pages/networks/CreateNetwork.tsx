@@ -91,7 +91,7 @@ const CreateNetwork: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
-          navigate(`/ui/project/${project}/networks`);
+          void navigate(`/ui/project/${project}/networks`);
           toastNotify.success(
             <>
               Network{" "}

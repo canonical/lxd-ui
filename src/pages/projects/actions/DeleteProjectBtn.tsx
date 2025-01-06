@@ -99,7 +99,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     setLoading(true);
     deleteProject(project)
       .then(() => {
-        navigate(`/ui/project/default/instances`);
+        void navigate(`/ui/project/default/instances`);
         toastNotify.success(
           <>
             Project <ResourceLabel bold type="project" value={project.name} />{" "}

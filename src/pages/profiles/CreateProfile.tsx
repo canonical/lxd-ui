@@ -131,7 +131,7 @@ const CreateProfile: FC = () => {
 
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          navigate(`/ui/project/${project}/profiles`);
+          void navigate(`/ui/project/${project}/profiles`);
           toastNotify.success(
             <>
               Profile{" "}

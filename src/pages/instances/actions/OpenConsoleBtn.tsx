@@ -11,7 +11,7 @@ const OpenConsoleBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    navigate(
+    void navigate(
       `/ui/project/${instance.project}/instance/${instance.name}/console`,
     );
   };

@@ -14,7 +14,7 @@ const CreateVolumeBtn: FC<Props> = ({ project, className, defaultPool }) => {
   const isSmallScreen = useSmallScreen();
 
   const handleAdd = () => {
-    navigate(
+    void navigate(
       `/ui/project/${project}/storage/volumes/create${
         defaultPool ? `?pool=${defaultPool}` : ""
       }`,

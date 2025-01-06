@@ -61,7 +61,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
             operation.metadata.id,
             () => {
               const url = `/ui/project/${values.name}/configuration`;
-              navigate(url);
+              void navigate(url);
               toastNotify.success(
                 <>
                   Project <strong>{project.name}</strong> renamed to{" "}

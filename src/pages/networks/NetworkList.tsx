@@ -144,7 +144,9 @@ const NetworkList: FC = () => {
             {hasNetworks && (
               <Button
                 className="u-no-margin--bottom"
-                onClick={() => navigate(`/ui/project/${project}/networks/map`)}
+                onClick={() =>
+                  void navigate(`/ui/project/${project}/networks/map`)
+                }
                 hasIcon={!isSmallScreen}
               >
                 {!isSmallScreen && <Icon name="map" />}
@@ -154,7 +156,9 @@ const NetworkList: FC = () => {
             <Button
               appearance="positive"
               className="u-no-margin--bottom"
-              onClick={() => navigate(`/ui/project/${project}/networks/create`)}
+              onClick={() =>
+                void navigate(`/ui/project/${project}/networks/create`)
+              }
               hasIcon={!isSmallScreen}
             >
               {!isSmallScreen && <Icon name="plus" light />}
