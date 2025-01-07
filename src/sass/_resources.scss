@@ -15,6 +15,10 @@
   }
 }
 
+.l-main .resource-link .p-chip__value {
+  max-width: inherit;
+}
+
 .resource-label {
   i {
     margin-right: $sph--x-small;
