@@ -2,12 +2,17 @@ import { expect } from "../fixtures/lxd-test";
 import { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 
+export const visitImages = async (page: Page, project: string) => {
+  await gotoURL(page, `/ui/project/${project}`);
+  await page.getByRole("link", { name: "Images", exact: true }).first().click();
+  await expect(page.getByText("Upload image")).toBeVisible();
+};
+
 export const deleteAllImages = async (
   page: Page,
   project: string = "default",
 ) => {
-  await gotoURL(page, `/ui/project/${project}`);
-  await page.getByRole("link", { name: "Images", exact: true }).first().click();
+  await visitImages(page, project);
   await page
     .getByRole("columnheader", { name: "select" })
     .locator("label:has-text('Select all')")
@@ -23,8 +28,7 @@ export const deleteAllImages = async (
 };
 
 export const deleteImage = async (page: Page, imageName: string) => {
-  await gotoURL(page, `/ui`);
-  await page.getByRole("link", { name: "Images", exact: true }).first().click();
+  await visitImages(page, "default");
 
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(imageName);
@@ -38,8 +42,7 @@ export const deleteImage = async (page: Page, imageName: string) => {
 };
 
 export const getImageNameFromAlias = async (page: Page, imageAlias: string) => {
-  await gotoURL(page, `/ui`);
-  await page.getByRole("link", { name: "Images", exact: true }).first().click();
+  await visitImages(page, "default");
 
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(imageAlias);

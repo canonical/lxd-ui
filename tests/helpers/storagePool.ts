@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomPoolName = (): string => {
   return `playwright-pool-${randomNameSuffix()}`;
@@ -32,6 +33,7 @@ export const visitPool = async (page: Page, pool: string) => {
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Pools" }).click();
   await page.getByRole("link", { name: pool }).first().click();
+  await expect(page.getByText(`Storage pools${pool}`)).toBeVisible();
 };
 
 export const editPool = async (page: Page, pool: string) => {

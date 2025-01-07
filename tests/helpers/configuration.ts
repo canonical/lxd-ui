@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { LxdVersions } from "../fixtures/lxd-test";
+import { expect, LxdVersions } from "../fixtures/lxd-test";
 
 export const setOption = async (page: Page, field: string, value: string) => {
   await activateOverride(page, field);
@@ -54,7 +54,9 @@ export const setCpuLimit = async (
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await activateOverride(page, "Exposed CPU limit");
+  const row = page.getByRole("row", { name: "Exposed CPU limit" });
+  await expect(row).toBeVisible();
+  await row.getByRole("button").click();
   await page.getByText(type).first().click();
   const placeholder =
     type === "fixed"
@@ -68,7 +70,9 @@ export const setCpuLimit = async (
 export const clearCpuLimit = async (page: Page) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await activateOverride(page, "Exposed CPU limit");
+  const row = page.getByRole("row", { name: "Exposed CPU limit" });
+  await expect(row).toBeVisible();
+  await row.getByRole("button").click();
   await clearOverride(page, "Exposed CPU limit");
 };
 
@@ -79,8 +83,10 @@ export const setMemLimit = async (
 ) => {
   await page.getByTestId("tab-link-Configuration").click();
   await page.getByText("Resource limits").click();
-  await activateOverride(page, "Memory limit");
-  await page.getByRole("row", { name: "Memory limit" }).getByText(type).click();
+  const row = page.getByRole("row", { name: "Memory limit" });
+  await expect(row).toBeVisible();
+  await row.getByRole("button").click();
+  await row.getByText(type).click();
   const text = type === "percentage" ? "Enter percentage" : "Enter value";
   await page.getByPlaceholder(text).click();
   await page.getByPlaceholder(text).press("Control+a");
@@ -108,58 +114,22 @@ export const setSchedule = async (
 };
 
 export const activateOverride = async (page: Page, field: string) => {
-  if (
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Edit" })
-      .isVisible()
-  ) {
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Edit" })
-      .click();
+  const row = page.getByRole("row", { name: field }).first();
+  await expect(row).toBeVisible();
 
-    return;
-  }
-
-  if (
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Create override" })
-      .isVisible()
-  ) {
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Create override" })
-      .click();
+  const overrideBtn = row.getByRole("button", { name: "Create override" });
+  if (await overrideBtn.isVisible()) {
+    await overrideBtn.click();
   }
 };
 
 export const clearOverride = async (page: Page, field: string) => {
-  if (
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Edit" })
-      .isVisible()
-  ) {
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Edit" })
-      .click();
+  const clearBtn = page
+    .getByRole("row", { name: field })
+    .getByRole("button", { name: "Clear override" });
 
-    return;
-  }
-
-  if (
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Clear override" })
-      .isVisible()
-  ) {
-    await page
-      .getByRole("row", { name: field })
-      .getByRole("button", { name: "Clear override" })
-      .click();
+  if (await clearBtn.isVisible()) {
+    await clearBtn.click();
   }
 };
 

@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomProfileName = (): string => {
   return `playwright-profile-${randomNameSuffix()}`;
@@ -52,9 +53,11 @@ export const visitProfile = async (
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
+  await expect(page.getByText("Create profile")).toBeVisible();
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(profile);
   await page.getByRole("link", { name: profile }).first().click();
+  await expect(page.getByText(`Profiles${profile}`)).toBeVisible();
 };
 
 export const renameProfile = async (

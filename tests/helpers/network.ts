@@ -55,6 +55,7 @@ export const prepareNetworkTabEdit = async (
     .getByLabel("Network form navigation")
     .getByText(tabLocation)
     .click();
+  await page.waitForTimeout(500); // ensure tab was changed
   await activateAllTableOverrides(page);
 };
 
