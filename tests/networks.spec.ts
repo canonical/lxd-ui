@@ -12,7 +12,6 @@ import {
   prepareNetworkTabEdit,
   randomNetworkName,
   visitNetwork,
-  visitNetworkConfiguration,
 } from "./helpers/network";
 import {
   getServerSettingValue,
@@ -62,7 +61,7 @@ test.describe("bridge type", () => {
   });
 
   test("set bridge network driver and hardware details", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "Bridge", network);
+    await prepareNetworkTabEdit(page, network);
 
     const MTU = "1300";
     await setTextarea(page, "MTU", MTU);
@@ -75,7 +74,7 @@ test.describe("bridge type", () => {
   });
 
   test("configure bridge DNS settings", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "DNS", network);
+    await prepareNetworkTabEdit(page, network);
 
     const DNS_DOMAIN = "example.com";
     await setTextarea(page, "DNS domain", DNS_DOMAIN);
@@ -88,7 +87,7 @@ test.describe("bridge type", () => {
   });
 
   test("set bridge IPv4 DHCP and range configuration", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "IPv4", network);
+    await prepareNetworkTabEdit(page, network);
 
     const options = ["false", "true"];
     for (const option of options) {
@@ -108,7 +107,7 @@ test.describe("bridge type", () => {
   });
 
   test("configure bridge IPv6 DHCP and range settings", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "IPv6", network);
+    await prepareNetworkTabEdit(page, network);
 
     const options = ["false", "true"];
     for (const option of options) {
@@ -143,14 +142,14 @@ test.describe("physical type", () => {
   });
 
   test("configure physical network DNS nameservers", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "DNS", network);
+    await prepareNetworkTabEdit(page, network);
 
     const DNS_NAMESERVERS = "32.152.61.210";
     await setTextarea(page, "DNS nameservers", DNS_NAMESERVERS);
   });
 
   test("set physical network IPv4 routes and gateway", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "IPv4", network);
+    await prepareNetworkTabEdit(page, network);
 
     const IPV4_ADDRESS = "10.141.1.1/24";
     await setTextarea(page, "IPv4 gateway", IPV4_ADDRESS);
@@ -168,7 +167,7 @@ test.describe("physical type", () => {
   test("configure physical network IPv6 routes and gateway", async ({
     page,
   }) => {
-    await prepareNetworkTabEdit(page, "IPv6", network);
+    await prepareNetworkTabEdit(page, network);
 
     const OVN_RANGES = "2001:db8::100-2001:db8::150";
     await setTextarea(page, "IPv6 OVN ranges", OVN_RANGES);
@@ -182,7 +181,7 @@ test.describe("physical type", () => {
   });
 
   test("set physical network OVN ingress mode", async ({ page }) => {
-    await prepareNetworkTabEdit(page, "OVN", network);
+    await prepareNetworkTabEdit(page, network);
 
     const options = ["l2proxy", "routed"];
     await checkAllOptions(page, "OVN ingress mode", options);
@@ -274,7 +273,7 @@ test.describe("OVN type", () => {
   });
 
   test("set OVN bridge MTU and hardware address", async ({ page }) => {
-    await visitNetworkConfiguration(page, "Bridge");
+    await activateAllTableOverrides(page);
 
     const MTU = "1300";
     await setTextarea(page, "MTU", MTU);
@@ -284,7 +283,7 @@ test.describe("OVN type", () => {
   });
 
   test("configure OVN network DNS settings", async ({ page }) => {
-    await visitNetworkConfiguration(page, "DNS");
+    await activateAllTableOverrides(page);
 
     const DNS_DOMAIN = "example.com";
     await setTextarea(page, "DNS domain", DNS_DOMAIN);
@@ -294,7 +293,7 @@ test.describe("OVN type", () => {
   });
 
   test("set OVN network IPv4 DHCP and L3 options", async ({ page }) => {
-    await visitNetworkConfiguration(page, "IPv4");
+    await activateAllTableOverrides(page);
 
     const options = ["false", "true"];
     await checkAllOptions(page, "IPv4 DHCP", options);
@@ -302,7 +301,7 @@ test.describe("OVN type", () => {
   });
 
   test("configure OVN network IPv6 DHCP and L3 settings", async ({ page }) => {
-    await visitNetworkConfiguration(page, "IPv6");
+    await activateAllTableOverrides(page);
 
     const options = ["false", "true"];
     for (const option of options) {

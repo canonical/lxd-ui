@@ -47,15 +47,9 @@ export const visitNetwork = async (page: Page, network: string) => {
 
 export const prepareNetworkTabEdit = async (
   page: Page,
-  tabLocation: string,
   networkName: string,
 ) => {
   await visitNetwork(page, networkName);
-  await page
-    .getByLabel("Network form navigation")
-    .getByText(tabLocation)
-    .click();
-  await page.waitForTimeout(500); // ensure tab was changed
   await activateAllTableOverrides(page);
 };
 
