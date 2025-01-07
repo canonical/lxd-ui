@@ -98,7 +98,15 @@ const PermissionIdpGroups: FC = () => {
           title: idpGroup.name,
         },
         {
-          content: idpGroup.groups.length,
+          content: (
+            <Button
+              appearance="link"
+              dense
+              onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+            >
+              {idpGroup.groups.length}
+            </Button>
+          ),
           role: "cell",
           className: "u-align--right",
           "aria-label": "Number of mapped groups",
