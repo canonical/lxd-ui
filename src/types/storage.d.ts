@@ -1,7 +1,7 @@
 import { LxdConfigPair } from "./config";
 
 export interface LxdStoragePool {
-  config: {
+  config?: {
     size?: string;
     source?: string;
   } & Record<string, string | undefined>;

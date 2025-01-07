@@ -39,7 +39,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
     if (volume.type === "image") {
       return images.find((image) => image.fingerprint === volume.name)?.size;
     }
-    return volumeState?.usage?.used;
+    return volumeState?.usage?.used ?? 0;
   };
 
   const used = getUsed();
