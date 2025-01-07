@@ -80,8 +80,7 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
                 <div
                   key={networkUrl}
                   className={classnames("downstream-item", {
-                    "has-descendents":
-                      downstreamNetworks.length > 0 || instances.length > 0,
+                    "has-descendents": (item.used_by ?? []).length > 0,
                   })}
                 >
                   <ResourceLink
