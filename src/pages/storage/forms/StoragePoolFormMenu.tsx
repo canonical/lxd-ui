@@ -19,6 +19,7 @@ export const CEPHFS_CONFIGURATION = "CephFS";
 export const POWERFLEX = "Powerflex";
 export const ZFS_CONFIGURATION = "ZFS";
 export const YAML_CONFIGURATION = "YAML configuration";
+export const PURE_STORAGE = "Pure Storage";
 
 interface Props {
   active: string;
