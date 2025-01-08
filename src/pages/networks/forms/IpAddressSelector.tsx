@@ -15,12 +15,12 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
     <>
       <div className="ip-address-selector">
         <RadioInput
-          label="auto"
+          label="Auto"
           checked={address === "auto"}
           onChange={() => setAddress("auto")}
         />
         <RadioInput
-          label="none"
+          label="None"
           checked={address === "none"}
           onChange={() => setAddress("none")}
         />

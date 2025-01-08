@@ -36,7 +36,7 @@ const NetworkFormBridge: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "bridge_driver",
-            label: "Bridge driver",
+            label: "Driver",
             defaultValue: "",
             children: (
               <Select

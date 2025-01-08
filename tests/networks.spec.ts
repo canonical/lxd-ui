@@ -70,7 +70,7 @@ test.describe("bridge type", () => {
     await setTextarea(page, "Hardware address", HARDWARE_ADDRESS);
 
     const options = ["openvswitch", "native"];
-    await checkAllOptions(page, "Bridge driver", options);
+    await checkAllOptions(page, "Driver", options);
   });
 
   test("configure bridge DNS settings", async ({ page }) => {

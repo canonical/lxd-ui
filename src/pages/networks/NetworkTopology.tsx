@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { slugify } from "util/slugify";
-import { TOPOLOGY } from "pages/networks/forms/NetworkFormMenu";
+import { CONNECTIONS } from "pages/networks/forms/NetworkFormMenu";
 import ResourceLink from "components/ResourceLink";
 import { filterUsedByType } from "util/usedBy";
 import { Button, Icon } from "@canonical/react-components";
@@ -18,7 +18,8 @@ interface Props {
 }
 
 const NetworkTopology: FC<Props> = ({ formik, project }) => {
-  const [isCollapsed, setCollapsed] = useState(true);
+  const [isNetworksCollapsed, setNetworksCollapsed] = useState(true);
+  const [isInstancesCollapsed, setInstancesCollapsed] = useState(true);
   const network = formik.values.bareNetwork;
 
   if (!network) {
@@ -41,8 +42,8 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
 
   return (
     <>
-      <h2 className="p-heading--4" id={slugify(TOPOLOGY)}>
-        Topology
+      <h2 className="p-heading--4" id={slugify(CONNECTIONS)}>
+        Connections
       </h2>
       <div className="u-sv3 network-topology">
         {uplink && (
@@ -73,7 +74,7 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
         </div>
         <div className="downstream">
           {downstreamNetworks
-            .slice(0, isCollapsed ? 5 : downstreamNetworks.length)
+            .slice(0, isNetworksCollapsed ? 5 : downstreamNetworks.length)
             .map((item) => {
               const networkUrl = `/ui/project/default/network/${item.name}`;
               return (
@@ -91,11 +92,11 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
                 </div>
               );
             })}
-          {downstreamNetworks.length > 5 && isCollapsed && (
+          {downstreamNetworks.length > 5 && isNetworksCollapsed && (
             <div className="downstream-item">
               <Button
                 appearance="link"
-                onClick={() => setCollapsed(false)}
+                onClick={() => setNetworksCollapsed(false)}
                 small
               >
                 Show all
@@ -103,7 +104,7 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
             </div>
           )}
           {instances
-            .slice(0, isCollapsed ? 5 : instances.length)
+            .slice(0, isInstancesCollapsed ? 5 : instances.length)
             .map((item) => {
               const instanceUrl = `/ui/project/${item.project}/instance/${item.name}`;
               return (
@@ -116,11 +117,11 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
                 </div>
               );
             })}
-          {instances.length > 5 && isCollapsed && (
+          {instances.length > 5 && isInstancesCollapsed && (
             <div className="downstream-item">
               <Button
                 appearance="link"
-                onClick={() => setCollapsed(false)}
+                onClick={() => setInstancesCollapsed(false)}
                 small
               >
                 Show all

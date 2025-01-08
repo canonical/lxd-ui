@@ -31,6 +31,7 @@ const NetworkProfiles: FC<Props> = ({ formik, project }) => {
                 activeProject={project}
                 type="profile"
                 to={`/ui/project/${item.project}/profile/${item.name}`}
+                projectLinkDetailPage="profiles"
               />
             ))}
           />

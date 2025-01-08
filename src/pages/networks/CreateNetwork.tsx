@@ -83,6 +83,8 @@ const CreateNetwork: FC = () => {
       name: "",
       networkType: hasOvn ? "ovn" : "bridge",
       entityType: "network",
+      ipv4_address: "auto",
+      ipv6_address: "auto",
     },
     validationSchema: NetworkSchema,
     onSubmit: (values) => {

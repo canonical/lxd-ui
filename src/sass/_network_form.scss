@@ -5,6 +5,18 @@
 .create-network > .row,
 .edit-network > .row {
   padding-right: 0;
+
+  .content-details,
+  .p-bottom-controls {
+    display: block;
+    overflow: auto;
+    padding-right: $sph--x-large;
+    scrollbar-gutter: stable;
+
+    .bottom-btns {
+      max-width: 54rem;
+    }
+  }
 }
 
 .edit-network .p-notification--negative {
@@ -38,7 +50,7 @@
     .general-field-label {
       font-weight: $font-weight-bold;
       margin-bottom: $spv--large;
-      width: 12rem;
+      min-width: 12rem;
 
       .p-form__label {
         margin: 0;

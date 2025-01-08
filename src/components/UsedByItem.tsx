@@ -11,9 +11,16 @@ interface Props {
   activeProject: string;
   type: ResourceIconType;
   to: string;
+  projectLinkDetailPage?: string;
 }
 
-const UsedByItem: FC<Props> = ({ item, activeProject, type, to }) => {
+const UsedByItem: FC<Props> = ({
+  item,
+  activeProject,
+  type,
+  to,
+  projectLinkDetailPage = "instances",
+}) => {
   const { data: images = [] } = useQuery({
     queryKey: [queryKeys.images],
     queryFn: () => fetchImageList(activeProject),
@@ -30,7 +37,7 @@ const UsedByItem: FC<Props> = ({ item, activeProject, type, to }) => {
           <ResourceLink
             type="project"
             value={item.project}
-            to={`/ui/project/${item.project}/instances`}
+            to={`/ui/project/${item.project}/${projectLinkDetailPage}`}
           />{" "}
           /{" "}
         </>
