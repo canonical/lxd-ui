@@ -133,6 +133,7 @@ describe("General util functions for permissions feature", () => {
           "storage-dir": {},
           "storage-lvm": {},
           "storage-powerflex": {},
+          "storage-pure": {},
           "storage-zfs": {},
         },
         entities: {
