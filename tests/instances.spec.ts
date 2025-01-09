@@ -79,6 +79,7 @@ test("instance terminal operations", async ({ page }) => {
     void dialog.accept();
   });
   await page.getByTestId("tab-link-Overview").click();
+  await page.waitForTimeout(500); // ensure dialog is mounted
   expect(dialogPresent).toEqual(true);
   await visitAndStopInstance(page, instance);
 });
@@ -226,7 +227,7 @@ test("instance create vm", async ({ page }) => {
   await assertReadMode(page, "Enable secureboot (VMs only)", "true");
 });
 
-test("instance yaml edit", async ({ page }) => {
+test("instance yaml edit", async ({ page, lxdVersion }) => {
   test.skip(
     Boolean(process.env.DISABLE_VM_TESTS),
     "deactivated due to DISABLE_VM_TESTS environment variable",
@@ -237,7 +238,9 @@ test("instance yaml edit", async ({ page }) => {
   await page.getByRole("button", { name: "Close notification" }).click();
 
   await page.locator(".view-lines").click();
-  await page.getByLabel("Editor content;Press Alt+F1").press("ControlOrMeta+f");
+  const editorLine = lxdVersion === "5.0-edge" ? "architecture" : "description";
+  await page.getByText(editorLine, { exact: true }).click();
+  await page.keyboard.press("ControlOrMeta+f");
   await page.getByPlaceholder("Find").fill("description: ''");
   await page.getByPlaceholder("Find").press("Escape");
   await page.getByText("description: ''").first().click();

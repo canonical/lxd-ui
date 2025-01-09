@@ -10,7 +10,6 @@ import { LxdInstance } from "types/instance";
 import { useNotify } from "@canonical/react-components";
 
 declare global {
-  // eslint-disable-next-line no-unused-vars
   interface Window {
     spice_connection?: SpiceHtml5.SpiceMainConn;
   }

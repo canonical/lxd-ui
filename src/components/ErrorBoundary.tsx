@@ -26,7 +26,6 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   render() {
     const { error, hasError } = this.state;
-    // eslint-disable-next-line react/prop-types
     const { children, fallback: ErrorComponent } = this.props;
 
     return hasError ? <ErrorComponent error={error} /> : <>{children}</>;

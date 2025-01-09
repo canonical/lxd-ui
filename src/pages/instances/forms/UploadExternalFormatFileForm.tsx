@@ -84,7 +84,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           <ResourceLabel bold type="instance" value={instanceName} />.
         </>,
       );
-      navigate(`/ui/project/${project?.name}/instances`);
+      void navigate(`/ui/project/${project?.name}/instances`);
     }
   };
 

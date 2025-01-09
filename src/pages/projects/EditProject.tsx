@@ -102,9 +102,9 @@ const EditProject: FC<Props> = ({ project }) => {
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project.name}/configuration`;
     if (newSection === PROJECT_DETAILS) {
-      navigate(baseUrl);
+      void navigate(baseUrl);
     } else {
-      navigate(`${baseUrl}/${slugify(newSection)}`);
+      void navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

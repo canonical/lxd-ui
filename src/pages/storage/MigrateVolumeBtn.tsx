@@ -60,7 +60,7 @@ const MigrateVolumeBtn: FC<Props> = ({
     );
 
     if (window.location.pathname.startsWith(oldVolumeUrl)) {
-      navigate(newVolumeUrl);
+      void navigate(newVolumeUrl);
     }
   };
 

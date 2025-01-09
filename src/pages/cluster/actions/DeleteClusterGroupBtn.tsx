@@ -23,7 +23,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     setLoading(true);
     deleteClusterGroup(group)
       .then(() => {
-        navigate(`/ui/cluster`);
+        void navigate(`/ui/cluster`);
         toastNotify.success(
           <>
             Cluster group{" "}

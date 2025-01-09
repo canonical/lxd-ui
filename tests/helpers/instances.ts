@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomInstanceName = (): string => {
   return `playwright-instance-${randomNameSuffix()}`;
@@ -57,6 +58,7 @@ export const visitInstance = async (
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(instance);
   await page.getByRole("link", { name: instance }).first().click();
+  await expect(page.getByText(`Instances${instance}`)).toBeVisible();
 };
 
 export const editInstance = async (page: Page, instance: string) => {

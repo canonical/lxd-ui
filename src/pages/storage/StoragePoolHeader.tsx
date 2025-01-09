@@ -44,7 +44,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
       renameStoragePool(name, values.name)
         .then(() => {
           const url = `/ui/project/${project}/storage/pool/${values.name}`;
-          navigate(url);
+          void navigate(url);
           toastNotify.success(
             <>
               Storage pool <strong>{name}</strong> renamed to{" "}

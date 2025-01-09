@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import CytoscapeComponent from "react-cytoscapejs";
 import { fetchInstances } from "api/instances";
 import { isNicDevice } from "util/devices";
-import Cytoscape, { EdgeDefinition } from "cytoscape";
+import Cytoscape, { EdgeDefinition, Ext } from "cytoscape";
 import { fetchNetworks } from "api/networks";
 import { LxdInstance } from "types/instance";
 import Loader from "components/Loader";
@@ -18,8 +18,7 @@ import MapTooltip, {
 } from "pages/networks/MapTooltip";
 import MapLegend from "pages/networks/MapLegend";
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-Cytoscape.use(popper);
+Cytoscape.use(popper as Ext);
 
 interface PopperRef {
   destroy: () => void;

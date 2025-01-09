@@ -49,10 +49,12 @@ export const visitVolume = async (
   await gotoURL(page, url);
   await page.getByRole("button", { name: "Storage" }).click();
   await page.getByRole("link", { name: "Volumes" }).click();
+  await expect(page.getByText("Create volume")).toBeVisible();
   await page.getByPlaceholder("Search and filter").fill(volume);
   await page.getByPlaceholder("Search and filter").press("Enter");
   await page.getByPlaceholder("Add filter").press("Escape");
   await page.getByRole("link", { name: volume }).first().click();
+  await expect(page.getByText(`Storage volumes${volume}`)).toBeVisible();
 };
 
 export const editVolume = async (page: Page, volume: string) => {

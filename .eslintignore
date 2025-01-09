@@ -1,3 +1,0 @@
-# Ignore external libraries (spice, ...)
-
-src/lib/*

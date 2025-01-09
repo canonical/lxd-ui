@@ -156,9 +156,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      navigate(baseUrl);
+      void navigate(baseUrl);
     } else {
-      navigate(`${baseUrl}/${slugify(newSection)}`);
+      void navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

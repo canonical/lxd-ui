@@ -81,7 +81,7 @@ const CreateProject: FC = () => {
   useEventListener("resize", updateFormHeight);
 
   const notifySuccess = (values: ProjectFormValues) => {
-    navigate(`/ui/project/${values.name}/instances`);
+    void navigate(`/ui/project/${values.name}/instances`);
     toastNotify.success(
       <>
         Project{" "}
@@ -157,7 +157,7 @@ const CreateProject: FC = () => {
               notifySuccess(values);
             })
             .catch((e: Error) => {
-              navigate(`/ui/project/${values.name}/instances`);
+              void navigate(`/ui/project/${values.name}/instances`);
               toastNotify.failure(
                 `Successfully created ${profile.name}, Failed to attach storage pool`,
                 e,

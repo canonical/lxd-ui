@@ -72,7 +72,7 @@ const CreateStorageVolume: FC = () => {
           void queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
-          navigate(`/ui/project/${project}/storage/volumes`);
+          void navigate(`/ui/project/${project}/storage/volumes`);
           toastNotify.success(
             <>
               Storage volume{" "}

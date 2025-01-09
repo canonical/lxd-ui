@@ -38,7 +38,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
             query.queryKey[1] === project &&
             query.queryKey[2] === queryKeys.networks,
         });
-        navigate(`/ui/project/${project}/networks`);
+        void navigate(`/ui/project/${project}/networks`);
         toastNotify.success(
           <>
             Network <ResourceLabel bold type="network" value={network.name} />{" "}

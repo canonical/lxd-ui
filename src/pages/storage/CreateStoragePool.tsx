@@ -74,7 +74,7 @@ const CreateStoragePool: FC = () => {
           void queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          navigate(`/ui/project/${project}/storage/pools`);
+          void navigate(`/ui/project/${project}/storage/pools`);
           toastNotify.success(
             <>
               Storage pool{" "}

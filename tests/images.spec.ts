@@ -1,5 +1,9 @@
 import { expect, test } from "./fixtures/lxd-test";
-import { deleteImage, getImageNameFromAlias } from "./helpers/images";
+import {
+  deleteImage,
+  getImageNameFromAlias,
+  visitImages,
+} from "./helpers/images";
 import {
   createImageFromInstance,
   createInstance,
@@ -18,8 +22,7 @@ test("search for custom image and create an instance from it", async ({
   const imageName = await getImageNameFromAlias(page, imageAlias);
   await deleteInstance(page, instance);
 
-  await gotoURL(page, "/ui/");
-  await page.getByRole("link", { name: "Images", exact: true }).click();
+  await visitImages(page, "default");
   await page.getByPlaceholder("Search").click();
   await page.getByPlaceholder("Search").fill(imageAlias);
   await page.getByRole("button", { name: "Create instance" }).first().click();

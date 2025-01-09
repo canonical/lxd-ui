@@ -112,9 +112,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      navigate(baseUrl);
+      void navigate(baseUrl);
     } else {
-      navigate(`${baseUrl}/${slugify(newSection)}`);
+      void navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

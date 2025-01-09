@@ -120,7 +120,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
         );
 
         handleCloseModal();
-        navigate(`/ui/project/${project?.name}/instances`);
+        void navigate(`/ui/project/${project?.name}/instances`);
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);
