@@ -1,5 +1,5 @@
 # Build js / css
-FROM node:22 AS yarn-dependencies
+FROM node:23 AS yarn-dependencies
 WORKDIR /srv
 COPY . .
 RUN yarn --network-concurrency 2
