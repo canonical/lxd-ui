@@ -8,6 +8,7 @@ import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
 import BackLink from "components/BackLink";
 import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
 import { MigrationType, useInstanceMigration } from "util/instanceMigration";
+import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
 
 interface Props {
   close: () => void;
@@ -17,9 +18,7 @@ interface Props {
 const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
-  const [type, setType] = useState<MigrationType>(
-    isClustered ? "" : "root storage pool",
-  );
+  const [type, setType] = useState<MigrationType>("");
   const [target, setTarget] = useState("");
   const { handleMigrate } = useInstanceMigration({
     onSuccess: close,
@@ -35,12 +34,6 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
   };
 
   const handleGoBack = () => {
-    // if lxd is not clustered, we close the modal
-    if (!isClustered) {
-      close();
-      return;
-    }
-
     // if target is set, we are on the confirmation stage
     if (target) {
       setTarget("");
@@ -63,16 +56,11 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
   const modalTitle = !type ? (
     "Choose migration method"
   ) : (
-    <>
-      {isClustered && (
-        <BackLink
-          title={target ? "Confirm migration" : selectStepTitle}
-          onClick={handleGoBack}
-          linkText={target ? `Choose ${type}` : "Choose migration method"}
-        />
-      )}
-      {!isClustered && (target ? "Confirm migration" : selectStepTitle)}
-    </>
+    <BackLink
+      title={target ? "Confirm migration" : selectStepTitle}
+      onClick={handleGoBack}
+      linkText={target ? `Choose ${type}` : "Choose migration method"}
+    />
   );
 
   return (
@@ -82,17 +70,24 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
       title={modalTitle}
       onKeyDown={handleEscKey}
     >
-      {isClustered && !type && (
+      {!type && (
         <div className="choose-migration-type">
-          <FormLink
-            icon="cluster-host"
-            title="Migrate instance to a different cluster member"
-            onClick={() => setType("cluster member")}
-          />
+          {isClustered && (
+            <FormLink
+              icon="cluster-host"
+              title="Migrate instance to a different cluster member"
+              onClick={() => setType("cluster member")}
+            />
+          )}
           <FormLink
             icon="switcher-dashboard"
             title="Migrate instance root storage to a different pool"
             onClick={() => setType("root storage pool")}
+          />
+          <FormLink
+            icon="folder"
+            title="Migrate instance to a different project"
+            onClick={() => setType("project")}
           />
         </div>
       )}
@@ -107,15 +102,23 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
         />
       )}
 
-      {/* If lxd is not clustered, we always show storage pool migration table */}
-      {(type === "root storage pool" || !isClustered) && (
+      {type === "root storage pool" && (
         <InstanceStoragePoolMigration
           instance={instance}
           onSelect={setTarget}
           targetPool={target}
           onCancel={handleGoBack}
           migrate={handleMigrate}
-          isClustered={isClustered}
+        />
+      )}
+
+      {type === "project" && (
+        <InstanceProjectMigration
+          instance={instance}
+          onSelect={setTarget}
+          targetProject={target}
+          onCancel={handleGoBack}
+          migrate={handleMigrate}
         />
       )}
     </Modal>

@@ -93,6 +93,7 @@ export const migrateInstance = (
   project: string,
   target?: string,
   pool?: string,
+  targetProject?: string,
 ): Promise<LxdOperationResponse> => {
   let url = `/1.0/instances/${name}?project=${project}`;
   if (target) {
@@ -105,6 +106,7 @@ export const migrateInstance = (
       body: JSON.stringify({
         migration: true,
         pool,
+        project: targetProject,
       }),
     })
       .then(handleResponse)
