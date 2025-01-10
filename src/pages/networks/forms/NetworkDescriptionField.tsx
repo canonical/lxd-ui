@@ -5,6 +5,7 @@ import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import classnames from "classnames";
 
 interface Props {
   props?: Record<string, unknown>;
@@ -17,7 +18,11 @@ const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
       <div className="general-field-label can-edit">
         <Label forId="description">Description</Label>
       </div>
-      <div className="general-field-content">
+      <div
+        className={classnames("general-field-content", {
+          "description-readonly": formik.values.readOnly,
+        })}
+      >
         {formik.values.readOnly ? (
           <>
             {(formik.values.description?.length ?? 0 > 0)

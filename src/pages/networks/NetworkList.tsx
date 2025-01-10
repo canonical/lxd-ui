@@ -92,7 +92,11 @@ const NetworkList: FC = () => {
           "aria-label": "IPV6",
         },
         {
-          content: network.description,
+          content: (
+            <div className="table-description" title={network.description}>
+              {network.description}
+            </div>
+          ),
           role: "rowheader",
           "aria-label": "Description",
         },

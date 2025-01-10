@@ -19,6 +19,7 @@
   }
 }
 
+.create-network .p-notification--negative,
 .edit-network .p-notification--negative {
   max-width: 100%;
   width: 54rem;
@@ -65,6 +66,11 @@
     .general-field-content {
       flex-grow: 1;
     }
+  }
+
+  .description-readonly {
+    align-items: flex-start;
+    display: flex;
   }
 
   .aside {
