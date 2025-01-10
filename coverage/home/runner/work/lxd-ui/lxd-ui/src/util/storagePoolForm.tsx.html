@@ -121,43 +121,43 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -183,32 +183,32 @@ export const toStoragePoolFormValues = (
     name: pool.name,
     description: pool.description,
     driver: pool.driver,
-    source: pool.config.source || "",
-    size: pool.config.size || "GiB",
+    source: pool.config?.source || "",
+    size: pool.config?.size || "GiB",
     entityType: "storagePool",
-    ceph_cluster_name: pool.config["ceph.cluster_name"],
-    ceph_osd_pg_num: pool.config["ceph.osd.pg_num"],
-    ceph_rbd_clone_copy: pool.config["ceph.rbd.clone_copy"],
-    ceph_user_name: pool.config["ceph.user.name"],
-    ceph_rbd_features: pool.config["ceph.rbd.features"],
-    cephfs_cluster_name: pool.config["cephfs.cluster_name"],
-    cephfs_create_missing: pool.config["cephfs.create_missing"],
-    cephfs_fscache: pool.config["cephfs.fscache"],
-    cephfs_osd_pg_num: pool.config["cephfs.osd_pg_num"],
-    cephfs_path: pool.config["cephfs.path"],
-    cephfs_user_name: pool.config["cephfs.user.name"],
-    powerflex_clone_copy: pool.config["powerflex.clone_copy"],
-    powerflex_domain: pool.config["powerflex.domain"],
-    powerflex_gateway: pool.config["powerflex.gateway"],
-    powerflex_gateway_verify: pool.config["powerflex.gateway.verify"],
-    powerflex_mode: pool.config["powerflex.mode"],
-    powerflex_pool: pool.config["powerflex.pool"],
-    powerflex_sdt: pool.config["powerflex.sdt"],
-    powerflex_user_name: pool.config["powerflex.user.name"],
-    powerflex_user_password: pool.config["powerflex.user.password"],
-    zfs_clone_copy: pool.config["zfs.clone_copy"],
-    zfs_export: pool.config["zfs.export"],
-    zfs_pool_name: pool.config["zfs.pool_name"],
+    ceph_cluster_name: pool.config?.["ceph.cluster_name"],
+    ceph_osd_pg_num: pool.config?.["ceph.osd.pg_num"],
+    ceph_rbd_clone_copy: pool.config?.["ceph.rbd.clone_copy"],
+    ceph_user_name: pool.config?.["ceph.user.name"],
+    ceph_rbd_features: pool.config?.["ceph.rbd.features"],
+    cephfs_cluster_name: pool.config?.["cephfs.cluster_name"],
+    cephfs_create_missing: pool.config?.["cephfs.create_missing"],
+    cephfs_fscache: pool.config?.["cephfs.fscache"],
+    cephfs_osd_pg_num: pool.config?.["cephfs.osd_pg_num"],
+    cephfs_path: pool.config?.["cephfs.path"],
+    cephfs_user_name: pool.config?.["cephfs.user.name"],
+    powerflex_clone_copy: pool.config?.["powerflex.clone_copy"],
+    powerflex_domain: pool.config?.["powerflex.domain"],
+    powerflex_gateway: pool.config?.["powerflex.gateway"],
+    powerflex_gateway_verify: pool.config?.["powerflex.gateway.verify"],
+    powerflex_mode: pool.config?.["powerflex.mode"],
+    powerflex_pool: pool.config?.["powerflex.pool"],
+    powerflex_sdt: pool.config?.["powerflex.sdt"],
+    powerflex_user_name: pool.config?.["powerflex.user.name"],
+    powerflex_user_password: pool.config?.["powerflex.user.password"],
+    zfs_clone_copy: pool.config?.["zfs.clone_copy"],
+    zfs_export: pool.config?.["zfs.export"],
+    zfs_pool_name: pool.config?.["zfs.pool_name"],
     barePool: pool,
   };
 };
@@ -232,7 +232,7 @@ export const handleConfigKeys = [
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-12-16T17:11:29.994Z
+                at 2025-01-10T09:46:33.849Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
