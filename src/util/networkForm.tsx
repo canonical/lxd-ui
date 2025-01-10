@@ -1,12 +1,23 @@
-import {
+import type {
   LxdNetwork,
   LxdNetworkBridgeDriver,
   LxdNetworkDnsMode,
+  LXDNetworkOnClusterMember,
 } from "types/network";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { getNetworkKey } from "util/networks";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
-export const toNetworkFormValues = (network: LxdNetwork): NetworkFormValues => {
+export const toNetworkFormValues = (
+  network: LxdNetwork,
+  networkOnMembers?: LXDNetworkOnClusterMember[],
+): NetworkFormValues => {
+  const parentPerClusterMember: ClusterSpecificValues = {};
+  networkOnMembers?.forEach(
+    (item) =>
+      (parentPerClusterMember[item.memberName] = item.config.parent ?? ""),
+  );
+
   return {
     readOnly: true,
     isCreating: false,
@@ -48,6 +59,7 @@ export const toNetworkFormValues = (network: LxdNetwork): NetworkFormValues => {
     ovn_ingress_mode: network.config[getNetworkKey("ovn_ingress_mode")],
     network: network.config.network,
     parent: network.config.parent,
+    parentPerClusterMember,
     entityType: "network",
     bareNetwork: network,
   };

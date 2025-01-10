@@ -1,12 +1,21 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
-import type { LxdNetwork, LxdNetworkState } from "types/network";
+import type {
+  LxdNetwork,
+  LXDNetworkOnClusterMember,
+  LxdNetworkState,
+} from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
-import type { LxdClusterMember } from "types/cluster";
 import { areNetworksEqual } from "util/networks";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { LxdClusterMember } from "types/cluster";
 
-export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
+export const fetchNetworks = (
+  project: string,
+  target?: string,
+): Promise<LxdNetwork[]> => {
+  const targetParam = target ? `&target=${target}` : "";
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks?project=${project}&recursion=1`)
+    fetch(`/1.0/networks?project=${project}&recursion=1${targetParam}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdNetwork[]>) => {
         const filteredNetworks = data.metadata.filter(
@@ -20,14 +29,85 @@ export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {
   });
 };
 
+const constructMemberError = (
+  result: PromiseRejectedResult,
+  member: string,
+) => {
+  const reason = result.reason as Error;
+  const message = `Error from cluster member ${member}: ${reason.message}`;
+  return new Error(message);
+};
+
+export const fetchNetworksFromClusterMembers = (
+  project: string,
+  clusterMembers: LxdClusterMember[],
+): Promise<LXDNetworkOnClusterMember[]> => {
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      clusterMembers.map((member) => {
+        return fetchNetworks(project, member.server_name);
+      }),
+    )
+      .then((results) => {
+        const networksOnMembers: LXDNetworkOnClusterMember[] = [];
+        for (let i = 0; i < clusterMembers.length; i++) {
+          const memberName = clusterMembers[i].server_name;
+          const result = results[i];
+          if (result.status === "rejected") {
+            reject(constructMemberError(result, memberName));
+          }
+          if (result.status === "fulfilled") {
+            result.value.forEach((network) =>
+              networksOnMembers.push({ ...network, memberName }),
+            );
+          }
+        }
+        resolve(networksOnMembers);
+      })
+      .catch(reject);
+  });
+};
+
 export const fetchNetwork = (
   name: string,
   project: string,
+  target?: string,
 ): Promise<LxdNetwork> => {
+  const targetParam = target ? `&target=${target}` : "";
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${name}?project=${project}`)
+    fetch(`/1.0/networks/${name}?project=${project}${targetParam}`)
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdNetwork))
+      .catch(reject);
+  });
+};
+
+export const fetchNetworkFromClusterMembers = (
+  name: string,
+  project: string,
+  clusterMembers: LxdClusterMember[],
+): Promise<LXDNetworkOnClusterMember[]> => {
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      clusterMembers.map((member) => {
+        return fetchNetwork(name, project, member.server_name);
+      }),
+    )
+      .then((results) => {
+        const networkOnMembers: LXDNetworkOnClusterMember[] = [];
+        for (let i = 0; i < clusterMembers.length; i++) {
+          const memberName = clusterMembers[i].server_name;
+          const result = results[i];
+          if (result.status === "rejected") {
+            reject(constructMemberError(result, memberName));
+          }
+          if (result.status === "fulfilled") {
+            const promise = results[i] as PromiseFulfilledResult<LxdNetwork>;
+            networkOnMembers.push({ ...promise.value, memberName: memberName });
+          }
+        }
+        resolve(networkOnMembers);
+      })
       .catch(reject);
   });
 };
@@ -35,9 +115,11 @@ export const fetchNetwork = (
 export const fetchNetworkState = (
   name: string,
   project: string,
+  target?: string,
 ): Promise<LxdNetworkState> => {
+  const targetParam = target ? `&target=${target}` : "";
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${name}/state?project=${project}`)
+    fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdNetworkState>) => resolve(data.metadata))
       .catch(reject);
@@ -48,20 +130,19 @@ export const createClusterNetwork = (
   network: Partial<LxdNetwork>,
   project: string,
   clusterMembers: LxdClusterMember[],
+  parentsPerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const memberNetwork = {
-      name: network.name,
-      description: network.description,
-      type: network.type,
-      config: {
-        parent: network.config?.parent,
-      },
-    };
-
     Promise.allSettled(
-      clusterMembers.map(async (member) => {
-        await createNetwork(memberNetwork, project, member.server_name);
+      clusterMembers.map((member) => {
+        const memberNetwork = {
+          name: network.name,
+          type: network.type,
+          config: {
+            parent: parentsPerClusterMember?.[member.server_name],
+          },
+        };
+        return createNetwork(memberNetwork, project, member.server_name);
       }),
     )
       .then((results) => {
@@ -72,6 +153,7 @@ export const createClusterNetwork = (
           reject(error);
           return;
         }
+
         // The network parent is cluster member specific, so we omit it on the cluster wide network configuration.
         delete network.config?.parent;
         createNetwork(network, project).then(resolve).catch(reject);
@@ -110,15 +192,20 @@ export const createNetwork = (
 export const updateNetwork = (
   network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   project: string,
+  target?: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${network.name ?? ""}?project=${project}`, {
-      method: "PUT",
-      body: JSON.stringify(network),
-      headers: {
-        "If-Match": network.etag ?? "invalid-etag",
+    const targetParam = target ? `&target=${target}` : "";
+    fetch(
+      `/1.0/networks/${network.name ?? ""}?project=${project}${targetParam}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(network),
+        headers: {
+          "If-Match": network.etag ?? "",
+        },
       },
-    })
+    )
       .then(handleResponse)
       .then(resolve)
       .catch(async (e: Error) => {
@@ -132,6 +219,40 @@ export const updateNetwork = (
         }
         reject(e);
       });
+  });
+};
+
+export const updateClusterNetwork = (
+  network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
+  project: string,
+  parentsPerClusterMember: ClusterSpecificValues,
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      Object.keys(parentsPerClusterMember).map((memberName) => {
+        const memberNetwork = {
+          name: network.name,
+          type: network.type,
+          config: {
+            parent: parentsPerClusterMember[memberName],
+          },
+        };
+        return updateNetwork(memberNetwork, project, memberName);
+      }),
+    )
+      .then((results) => {
+        const error = results.find((res) => res.status === "rejected")
+          ?.reason as Error | undefined;
+
+        if (error) {
+          reject(error);
+          return;
+        }
+        updateNetwork({ ...network, etag: "" }, project)
+          .then(resolve)
+          .catch(reject);
+      })
+      .catch(reject);
   });
 };
 

@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworkState } from "api/networks";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, useNotify } from "@canonical/react-components";
+import { useParams } from "react-router-dom";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -12,19 +13,30 @@ interface Props {
 }
 
 const NetworkAddresses: FC<Props> = ({ formik, project }) => {
-  const { data: networkState } = useQuery({
+  const { member } = useParams<{ member: string }>();
+  const notify = useNotify();
+
+  const networkName = formik.values.bareNetwork?.name ?? "";
+
+  const { data: networkState, error } = useQuery({
     queryKey: [
       queryKeys.projects,
       project,
       queryKeys.networks,
-      formik.values.bareNetwork?.name,
+      networkName,
+      queryKeys.members,
+      member,
       queryKeys.state,
     ],
     retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
-    queryFn: () =>
-      fetchNetworkState(formik.values.bareNetwork?.name ?? "", project),
-    enabled: !formik.values.isCreating,
+    queryFn: () => fetchNetworkState(networkName, project, member),
   });
+
+  useEffect(() => {
+    if (error) {
+      notify.failure("Loading network state failed", error);
+    }
+  }, [error]);
 
   return (
     <>

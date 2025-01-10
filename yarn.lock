@@ -951,11 +951,6 @@
   dependencies:
     playwright "1.49.1"
 
-"@popperjs/core@^2.0.0":
-  version "2.11.8"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
-  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
-
 "@rollup/rollup-android-arm-eabi@4.30.0":
   version "4.30.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.30.0.tgz#f2552f6984cfae52784b2fbf0e47633f38955d66"
@@ -1134,19 +1129,6 @@
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.6.0.tgz#eac397f28bf1d6ae0ae081363eca2f425bedf0d5"
   integrity sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==
-
-"@types/cytoscape-popper@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@types/cytoscape-popper/-/cytoscape-popper-2.0.4.tgz#cd1e81d28b202e2bfc5608e0e60ae53c908bf0e3"
-  integrity sha512-vGRiAMXeEIoY5ziPO0NrS8xmJyVkT8j8ARzvyD/x6CXciAO1+80Q2/Triyd9/+5I4PeatGo1Pch5YBwDMB1D6A==
-  dependencies:
-    "@popperjs/core" "^2.0.0"
-    "@types/cytoscape" "*"
-
-"@types/cytoscape@*":
-  version "3.21.8"
-  resolved "https://registry.yarnpkg.com/@types/cytoscape/-/cytoscape-3.21.8.tgz#6166a2eabd66d3ae3259024875e037492adb8db6"
-  integrity sha512-6Bo9ZDrv0vfwe8Sg/ERc5VL0yU0gYvP4dgZi0fAXYkKHfyHaNqWRMcwYm3mu4sLsXbB8ZuXE75sR7qnaOL5JgQ==
 
 "@types/dotenv@8.2.3":
   version "8.2.3"
@@ -2259,16 +2241,6 @@ csstype@^3.0.2:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
-
-cytoscape-popper@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/cytoscape-popper/-/cytoscape-popper-4.0.1.tgz#259a582878621b7f68258e881e05d22c93f02c01"
-  integrity sha512-u2gYDMMvGSlAJbNfKvMljOM/p+BrHu0A4VcpELa+xJf54HoMn+nV0iuhALZx+O89b74SKJRy7jYo2WfkD5uvsw==
-
-cytoscape@3.30.4:
-  version "3.30.4"
-  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.30.4.tgz#3404da0a159c00a1a3df2c85b2b43fdc66a0e28e"
-  integrity sha512-OxtlZwQl1WbwMmLiyPSEBuzeTIQnwZhJYYWFzZ2PhEHVFwpeaqNIkUzSiso00D98qk60l8Gwon2RP304d3BJ1A==
 
 data-urls@^3.0.2:
   version "3.0.2"
@@ -5188,13 +5160,6 @@ rc@^1.0.1, rc@^1.1.6:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
-
-react-cytoscapejs@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-cytoscapejs/-/react-cytoscapejs-2.0.0.tgz#fdc2547626df0678acfbb48e73a437ddc1687b01"
-  integrity sha512-t3SSl1DQy7+JQjN+8QHi1anEJlM3i3aAeydHTsJwmjo/isyKK7Rs7oCvU6kZsB9NwZidzZQR21Vm2PcBLG/Tjg==
-  dependencies:
-    prop-types "^15.8.1"
 
 react-dom@18.3.1:
   version "18.3.1"

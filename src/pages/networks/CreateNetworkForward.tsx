@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
@@ -28,10 +28,16 @@ const CreateNetworkForward: FC = () => {
     project: string;
   }>();
 
-  const { data: network } = useQuery({
+  const { data: network, error: networkError } = useQuery({
     queryKey: [queryKeys.projects, project, queryKeys.networks, networkName],
     queryFn: () => fetchNetwork(networkName ?? "", project ?? ""),
   });
+
+  useEffect(() => {
+    if (networkError) {
+      notify.failure("Loading networks failed", networkError);
+    }
+  }, [networkError]);
 
   const getDefaultListenAddress = () => {
     if (network?.type !== "ovn") {

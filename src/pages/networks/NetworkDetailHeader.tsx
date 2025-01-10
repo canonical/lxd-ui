@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -18,6 +18,7 @@ interface Props {
 }
 
 const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
+  const { member } = useParams<{ member: string }>();
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -72,6 +73,15 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   return (
     <RenameHeader
       name={name}
+      relatedChip={
+        member && (
+          <ResourceLink
+            type="cluster-member"
+            value={member}
+            to={`/ui/project/${project}/networks?member=${member}`}
+          />
+        )
+      }
       parentItems={[
         <Link to={`/ui/project/${project}/networks`} key={1}>
           Networks

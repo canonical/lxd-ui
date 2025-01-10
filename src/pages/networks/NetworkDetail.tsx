@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useParams } from "react-router-dom";
@@ -7,15 +7,18 @@ import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
 import Loader from "components/Loader";
-import { Row } from "@canonical/react-components";
+import { Row, useNotify } from "@canonical/react-components";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 
 const NetworkDetail: FC = () => {
-  const { name, project, activeTab } = useParams<{
+  const notify = useNotify();
+
+  const { name, project, member, activeTab } = useParams<{
     name: string;
     project: string;
+    member: string;
     activeTab?: string;
   }>();
 
@@ -27,10 +30,27 @@ const NetworkDetail: FC = () => {
     return <>Missing project</>;
   }
 
-  const { data: network, isLoading } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks, name],
-    queryFn: () => fetchNetwork(name, project),
+  const {
+    data: network,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [
+      queryKeys.projects,
+      project,
+      queryKeys.networks,
+      name,
+      queryKeys.members,
+      member,
+    ],
+    queryFn: () => fetchNetwork(name, project, member),
   });
+
+  useEffect(() => {
+    if (error) {
+      notify.failure("Loading network failed", error);
+    }
+  }, [error]);
 
   if (isLoading) {
     return <Loader />;

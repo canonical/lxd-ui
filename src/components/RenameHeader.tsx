@@ -15,6 +15,7 @@ export interface RenameHeaderValues {
 
 interface Props {
   name: string;
+  relatedChip?: ReactNode;
   titleClassName?: string;
   parentItems: ReactNode[];
   centerControls?: ReactNode;
@@ -26,6 +27,7 @@ interface Props {
 
 const RenameHeader: FC<Props> = ({
   name,
+  relatedChip,
   titleClassName,
   parentItems,
   centerControls,
@@ -56,7 +58,10 @@ const RenameHeader: FC<Props> = ({
           className="p-breadcrumbs p-breadcrumbs--large"
           aria-label="Breadcrumbs"
         >
-          <ol className="p-breadcrumbs__items">
+          <ol
+            className="p-breadcrumbs__items"
+            style={{ display: "inline-block" }}
+          >
             {parentItems.map((item, key) => (
               <li
                 className="p-heading--4 u-no-margin--bottom continuous-breadcrumb"
@@ -112,6 +117,9 @@ const RenameHeader: FC<Props> = ({
               </li>
             )}
           </ol>
+          {relatedChip && (
+            <span style={{ marginLeft: "-1rem" }}>{relatedChip}</span>
+          )}
         </nav>
         {!formik?.values.isRenaming && centerControls}
       </div>

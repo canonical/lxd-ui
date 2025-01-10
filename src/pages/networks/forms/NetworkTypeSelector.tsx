@@ -46,6 +46,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           void formik.setFieldValue("networkType", "bridge");
           void formik.setFieldValue("network", undefined);
           void formik.setFieldValue("parent", undefined);
+          void formik.setFieldValue("parentPerClusterMember", undefined);
           void formik.setFieldValue("dns_nameservers", undefined);
           void formik.setFieldValue("ipv4_l3only", undefined);
           void formik.setFieldValue("ipv4_gateway", undefined);
@@ -62,6 +63,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
           void formik.setFieldValue("bridge_driver", undefined);
           void formik.setFieldValue("dns_mode", undefined);
           void formik.setFieldValue("parent", undefined);
+          void formik.setFieldValue("parentPerClusterMember", undefined);
           void formik.setFieldValue("dns_nameservers", undefined);
           void formik.setFieldValue("ipv4_dhcp_expiry", undefined);
           void formik.setFieldValue("ipv4_dhcp_ranges", undefined);

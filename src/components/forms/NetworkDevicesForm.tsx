@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import {
   Button,
   Icon,
@@ -54,9 +54,11 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     queryFn: () => fetchNetworks(project),
   });
 
-  if (networkError) {
-    notify.failure("Loading networks failed", networkError);
-  }
+  useEffect(() => {
+    if (networkError) {
+      notify.failure("Loading networks failed", networkError);
+    }
+  }, [networkError]);
 
   if (isProfileLoading || isNetworkLoading) {
     return <Loader />;

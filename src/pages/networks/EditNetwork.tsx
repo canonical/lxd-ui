@@ -2,11 +2,16 @@ import { FC, useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
-import { updateNetwork } from "api/networks";
+import {
+  fetchNetworkFromClusterMembers,
+  updateNetwork,
+  updateClusterNetwork,
+} from "api/networks";
 import NetworkForm, {
+  isNetworkFormInvalid,
   NetworkFormValues,
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
@@ -27,6 +32,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
+import { useClusterMembers } from "context/useClusterMembers";
 
 interface Props {
   network: LxdNetwork;
@@ -44,6 +50,27 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [version, setVersion] = useState(0);
+  const { data: clusterMembers = [] } = useClusterMembers();
+  const isClustered = clusterMembers.length > 0;
+
+  const { data: networkOnMembers = [], error } = useQuery({
+    queryKey: [
+      queryKeys.projects,
+      project,
+      queryKeys.networks,
+      network.name,
+      queryKeys.cluster,
+    ],
+    queryFn: () =>
+      fetchNetworkFromClusterMembers(network.name, project, clusterMembers),
+    enabled: isClustered && network.managed && network.type === "physical",
+  });
+
+  useEffect(() => {
+    if (error) {
+      notify.failure("Loading network from cluster members failed", error);
+    }
+  }, [error]);
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
@@ -65,16 +92,30 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   });
 
   const formik = useFormik<NetworkFormValues>({
-    initialValues: toNetworkFormValues(network),
+    initialValues: toNetworkFormValues(network, networkOnMembers),
     validationSchema: NetworkSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       const yaml = values.yaml ? values.yaml : getYaml();
-      const saveNetwork = yamlToObject(yaml) as LxdNetwork;
-      updateNetwork({ ...saveNetwork, etag: network.etag }, project)
+      const yamlNetwork = yamlToObject(yaml) as LxdNetwork;
+      const saveNetwork = { ...yamlNetwork, etag: network.etag };
+
+      const mutation = (values: NetworkFormValues) => {
+        if (values.parentPerClusterMember) {
+          return updateClusterNetwork(
+            saveNetwork,
+            project,
+            values.parentPerClusterMember,
+          );
+        } else {
+          return updateNetwork(saveNetwork, project);
+        }
+      };
+
+      mutation(values)
         .then(() => {
           formik.resetForm({
-            values: toNetworkFormValues(saveNetwork),
+            values: toNetworkFormValues(yamlNetwork, networkOnMembers),
           });
 
           void queryClient.invalidateQueries({
@@ -85,6 +126,17 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
               network.name,
             ],
           });
+
+          void queryClient.invalidateQueries({
+            queryKey: [
+              queryKeys.projects,
+              project,
+              queryKeys.networks,
+              network.name,
+              queryKeys.cluster,
+            ],
+          });
+
           toastNotify.success(
             <>
               Network{""}
@@ -166,7 +218,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
               appearance="base"
               onClick={() => {
                 setVersion((old) => old + 1);
-                void formik.setValues(toNetworkFormValues(network));
+                void formik.setValues(
+                  toNetworkFormValues(network, networkOnMembers),
+                );
               }}
             >
               Cancel
@@ -174,7 +228,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             <FormSubmitBtn
               formik={formik}
               isYaml={section === slugify(YAML_CONFIGURATION)}
-              disabled={!formik.values.name}
+              disabled={isNetworkFormInvalid(formik, clusterMembers)}
             />
           </>
         )}
