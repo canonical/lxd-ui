@@ -35,6 +35,7 @@ import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { ClusterSpecificSelectField } from "components/ClusterSpecificSelect";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -75,6 +76,7 @@ export interface NetworkFormValues {
   network?: string;
   ovn_ingress_mode?: string;
   parent?: string;
+  parentPerClusterMember?: ClusterSpecificSelectField;
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
@@ -237,7 +239,11 @@ const NetworkForm: FC<Props> = ({
         {!formik.values.isCreating &&
           query.length < 1 &&
           section !== slugify(YAML_CONFIGURATION) && (
-            <NetworkTopology formik={formik} project={project} />
+            <NetworkTopology
+              formik={formik}
+              project={project}
+              isServerClustered={isClustered}
+            />
           )}
         <Form className="sections" onSubmit={formik.handleSubmit}>
           {section !== slugify(YAML_CONFIGURATION) && (

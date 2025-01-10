@@ -7,7 +7,7 @@ import {
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
@@ -22,7 +22,6 @@ import Loader from "components/Loader";
 import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
 import { isClusteredServer, supportsOvnNetwork } from "util/settings";
-import { fetchClusterMembers } from "api/cluster";
 import BaseLayout from "components/BaseLayout";
 import {
   GENERAL,
@@ -34,6 +33,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
+import { useClusterMembers } from "context/useClusterMembers";
 
 const CreateNetwork: FC = () => {
   const navigate = useNavigate();
@@ -46,12 +46,7 @@ const CreateNetwork: FC = () => {
   const { data: settings, isLoading } = useSettings();
   const isClustered = isClusteredServer(settings);
   const hasOvn = supportsOvnNetwork(settings);
-
-  const { data: clusterMembers = [] } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.members],
-    queryFn: fetchClusterMembers,
-    enabled: isClustered,
-  });
+  const { data: clusterMembers = [] } = useClusterMembers();
 
   if (!project) {
     return <>Missing project</>;
@@ -94,7 +89,13 @@ const CreateNetwork: FC = () => {
 
       const mutation =
         isClustered && values.networkType !== "ovn"
-          ? () => createClusterNetwork(network, project, clusterMembers)
+          ? () =>
+              createClusterNetwork(
+                network,
+                project,
+                clusterMembers,
+                values.parentPerClusterMember,
+              )
           : () => createNetwork(network, project);
 
       mutation()
@@ -180,7 +181,9 @@ const CreateNetwork: FC = () => {
             !formik.isValid ||
             !formik.values.name ||
             (formik.values.networkType === "ovn" && !formik.values.network) ||
-            (formik.values.networkType === "physical" && !formik.values.parent)
+            (formik.values.networkType === "physical" &&
+              !formik.values.parent &&
+              !formik.values.parentPerClusterMember)
           }
           onClick={() => void formik.submitForm()}
         >

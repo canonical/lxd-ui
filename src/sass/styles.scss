@@ -70,6 +70,7 @@
 $border-thin: 1px solid $color-mid-light !default;
 
 @import "certificates";
+@import "cluster-specific-input";
 @import "cluster_group_form";
 @import "cluster_list";
 @import "configuration_table";

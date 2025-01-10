@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -18,6 +18,10 @@ interface Props {
 }
 
 const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
+  const { member } = useParams<{
+    member: string;
+  }>();
+
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -69,14 +73,26 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const isUsed = (network?.used_by?.length ?? 0) > 0;
   const isManaged = network?.managed;
 
+  const parentItems = [];
+  parentItems.push(
+    <Link to={`/ui/project/${project}/networks`} key={1}>
+      Networks
+    </Link>,
+  );
+
   return (
     <RenameHeader
       name={name}
-      parentItems={[
-        <Link to={`/ui/project/${project}/networks`} key={1}>
-          Networks
-        </Link>,
-      ]}
+      relatedChip={
+        member && (
+          <ResourceLink
+            type="cluster-member"
+            value={member}
+            to={`/ui/project/${project}/networks?scope=${member}`}
+          />
+        )
+      }
+      parentItems={parentItems}
       renameDisabledReason={
         !isManaged
           ? "Can not rename, network is not managed"

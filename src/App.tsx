@@ -219,6 +219,14 @@ const App: FC = () => {
           }
         />
         <Route
+          path="/ui/project/:project/member/:member/network/:name"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkDetail />} />}
+            />
+          }
+        />
+        <Route
           path="/ui/project/:project/network/:name/:activeTab"
           element={
             <ProtectedRoute

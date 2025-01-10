@@ -13,9 +13,10 @@ import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
 
 const NetworkDetail: FC = () => {
-  const { name, project, activeTab } = useParams<{
+  const { name, project, member, activeTab } = useParams<{
     name: string;
     project: string;
+    member: string;
     activeTab?: string;
   }>();
 
@@ -28,8 +29,15 @@ const NetworkDetail: FC = () => {
   }
 
   const { data: network, isLoading } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks, name],
-    queryFn: () => fetchNetwork(name, project),
+    queryKey: [
+      queryKeys.projects,
+      project,
+      queryKeys.networks,
+      name,
+      queryKeys.members,
+      member,
+    ],
+    queryFn: () => fetchNetwork(name, project, member),
   });
 
   if (isLoading) {

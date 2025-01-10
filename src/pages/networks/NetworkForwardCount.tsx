@@ -10,7 +10,7 @@ interface Props {
 }
 
 const NetworkForwardCount: FC<Props> = ({ network, project }) => {
-  if (network.managed === false) {
+  if (network.managed === false || network.type === "physical") {
     return <>-</>;
   }
 
