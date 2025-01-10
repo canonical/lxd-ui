@@ -20,7 +20,7 @@ const OperationStatus = () => {
   return runningOperations.length ? (
     <div className="operation-status" role="alert">
       <Icon name="status-in-progress-small" className="status-icon" />
-      <Link to="ui/operations">{operationsStatus}</Link>
+      <Link to="/ui/operations">{operationsStatus}</Link>
     </div>
   ) : null;
 };
