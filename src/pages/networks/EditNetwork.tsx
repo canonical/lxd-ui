@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import { Button, Notification, useNotify } from "@canonical/react-components";
+import { FC, useEffect, useState } from "react";
+import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,9 +15,10 @@ import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
 import { toNetworkFormValues } from "util/networkForm";
 import { slugify } from "util/slugify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-  MAIN_CONFIGURATION,
+  GENERAL,
+  CONNECTIONS,
   YAML_CONFIGURATION,
 } from "pages/networks/forms/NetworkFormMenu";
 import FormFooterLayout from "components/forms/FormFooterLayout";
@@ -25,6 +26,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
+import { scrollToElement } from "util/scroll";
 
 interface Props {
   network: LxdNetwork;
@@ -35,20 +37,13 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const navigate = useNavigate();
   const notify = useNotify();
   const toastNotify = useToastNotification();
+  const { hash } = useLocation();
+  const initialSection = hash ? hash.substring(1) : slugify(CONNECTIONS);
+  const [section, updateSection] = useState(initialSection);
 
-  const { section } = useParams<{ section?: string }>();
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [version, setVersion] = useState(0);
-
-  if (!network?.managed) {
-    return (
-      <Notification severity="negative">
-        Configuration is only available for managed networks. This network is
-        not managed.
-      </Notification>
-    );
-  }
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
@@ -113,13 +108,25 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     return dumpYaml(toNetwork(formik.values));
   };
 
-  const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/network/${network.name}/configuration`;
-    if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
-    } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+  useEffect(() => {
+    scrollToElement(initialSection);
+    updateSection(initialSection);
+  }, [initialSection]);
+
+  const setSection = (newSection: string, source: "click" | "scroll") => {
+    if (source === "scroll" && section === slugify(YAML_CONFIGURATION)) {
+      return;
     }
+
+    if (source === "click") {
+      const baseUrl = `/ui/project/${project}/network/${network.name}`;
+      if (newSection === GENERAL) {
+        void navigate(baseUrl);
+      } else {
+        void navigate(`${baseUrl}/#${slugify(newSection)}`);
+      }
+    }
+    updateSection(slugify(newSection));
   };
 
   const readOnly = formik.values.readOnly;
@@ -127,10 +134,11 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   return (
     <>
       <NetworkForm
+        key={network.name}
         formik={formik}
         getYaml={getYaml}
         project={project}
-        section={section ?? slugify(MAIN_CONFIGURATION)}
+        section={section ?? slugify(GENERAL)}
         setSection={setSection}
         version={version}
       />
@@ -138,7 +146,14 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         <YamlSwitch
           formik={formik}
           section={section}
-          setSection={setSection}
+          setSection={() =>
+            setSection(
+              section === slugify(YAML_CONFIGURATION)
+                ? GENERAL
+                : YAML_CONFIGURATION,
+              "click",
+            )
+          }
           disableReason={
             formik.values.name
               ? undefined

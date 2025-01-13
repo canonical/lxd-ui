@@ -1,0 +1,77 @@
+.network-topology {
+  display: flex;
+  margin-bottom: $spv--x-large;
+
+  .current-network {
+    .p-chip {
+      background-color: $colors--dark-theme--background-active !important;
+
+      * {
+        color: white !important;
+      }
+    }
+  }
+
+  .resource-link .p-chip__value {
+    max-width: 13vw !important;
+  }
+
+  .uplink::after,
+  .has-parent::before,
+  .has-descendents::after,
+  .downstream-item::before {
+    background-color: #6e7681;
+    content: "";
+    display: inline-block;
+    height: 2rem;
+    position: relative;
+    transform: translate(0, 0);
+    width: 2rem;
+  }
+
+  .uplink::after,
+  .has-parent::before,
+  .has-descendents::after {
+    clip-path: polygon(100% 80%, 0 80%, 0 83%, 100% 83%);
+  }
+
+  .downstream-item::before {
+    clip-path: polygon(
+      100% 80%,
+      4% 80%,
+      4% 0,
+      0 0,
+      0 100%,
+      4% 100%,
+      4% 83%,
+      100% 83%
+    );
+  }
+
+  .downstream-item.has-descendents::after {
+    color: #6e7681;
+    content: "—— ...";
+    display: contents;
+  }
+
+  .downstream-item:first-child::before {
+    clip-path: polygon(100% 80%, 0 80%, 0 100%, 4% 100%, 4% 83%, 100% 83%);
+  }
+
+  .downstream-item:last-child::before {
+    clip-path: polygon(100% 80%, 4% 80%, 4% 0, 0 0, 0 83%, 100% 83%);
+  }
+
+  .downstream-item:only-child::before {
+    clip-path: polygon(100% 80%, 0 80%, 0 83%, 100% 83%);
+  }
+
+  .downstream {
+    display: flex;
+    flex-direction: column;
+
+    .downstream-item {
+      height: 2rem;
+    }
+  }
+}

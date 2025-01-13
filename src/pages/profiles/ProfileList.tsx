@@ -131,7 +131,7 @@ const ProfileList: FC = () => {
         {
           content: (
             <div
-              className="profile-description"
+              className="table-description"
               title={`Description ${profile.description}`}
             >
               {profile.description}

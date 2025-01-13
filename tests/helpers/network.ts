@@ -47,15 +47,9 @@ export const visitNetwork = async (page: Page, network: string) => {
 
 export const prepareNetworkTabEdit = async (
   page: Page,
-  tabLocation: string,
   networkName: string,
 ) => {
   await visitNetwork(page, networkName);
-  await page
-    .getByLabel("Network form navigation")
-    .getByText(tabLocation)
-    .click();
-  await page.waitForTimeout(500); // ensure tab was changed
   await activateAllTableOverrides(page);
 };
 
@@ -70,7 +64,7 @@ export const visitNetworkConfiguration = async (page: Page, tab: string) => {
 export const createNetworkForward = async (page: Page, network: string) => {
   await createNetwork(page, network);
   await visitNetwork(page, network);
-  await page.getByRole("gridcell", { name: "/24" }).getByRole("button").click();
+  await page.getByText("/24").getByRole("button").click();
 
   const networkSubnet = await page.inputValue("input#ipv4_address");
 

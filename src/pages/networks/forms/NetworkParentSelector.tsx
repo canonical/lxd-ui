@@ -1,16 +1,21 @@
 import { FC } from "react";
-import { Select } from "@canonical/react-components";
+import { Button, Icon, Label, Select } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import { useParams } from "react-router-dom";
+import { FormikProps } from "formik/dist/types";
+import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import { ensureEditMode } from "util/instanceEdit";
+import { focusField } from "util/formFields";
 
 interface Props {
   props?: Record<string, unknown>;
+  formik: FormikProps<NetworkFormValues>;
 }
 
-const NetworkParentSelector: FC<Props> = ({ props }) => {
+const NetworkParentSelector: FC<Props> = ({ props, formik }) => {
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
@@ -40,13 +45,39 @@ const NetworkParentSelector: FC<Props> = ({ props }) => {
   }
 
   return (
-    <Select
-      label="Parent"
-      help="Existing interface to use for network"
-      options={options}
-      required
-      {...props}
-    />
+    <div className="general-field">
+      <div className="general-field-label can-edit">
+        <Label forId="parent" required={formik.values.isCreating}>
+          Parent
+        </Label>
+      </div>
+      <div className="general-field-content">
+        {formik.values.readOnly ? (
+          <>
+            {formik.values.parent}
+            <Button
+              onClick={() => {
+                ensureEditMode(formik);
+                focusField("parent");
+              }}
+              className="u-no-margin--bottom"
+              type="button"
+              appearance="base"
+              title="Edit"
+              hasIcon
+            >
+              <Icon name="edit" />
+            </Button>
+          </>
+        ) : (
+          <Select
+            help="Existing interface to use for network"
+            options={options}
+            {...props}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

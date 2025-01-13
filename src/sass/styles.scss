@@ -92,15 +92,16 @@ $border-thin: 1px solid $color-mid-light !default;
 @import "instance_detail_panel";
 @import "instance_detail_terminal";
 @import "instance_list";
+@import "ip_address";
 @import "login";
 @import "meter";
 @import "migrate_instance";
 @import "modified_actions";
 @import "network_detail_list";
-@import "network_detail_overview";
 @import "network_form";
 @import "network_forwards_form";
 @import "network_map";
+@import "network_topology";
 @import "no_match";
 @import "operation_list";
 @import "page_header";
@@ -371,4 +372,11 @@ body {
       width: 40rem;
     }
   }
+}
+
+.table-description {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }

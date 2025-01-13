@@ -213,6 +213,7 @@ export const getConfigurationRow = ({
       </div>
     ),
     override: renderOverride(),
+    name: `${label as string}-${name ?? ""}-${metadata.value}-${metadata.configField?.shortdesc}`,
   });
 };
 
@@ -221,6 +222,7 @@ interface BaseProps {
   inherited: ReactNode;
   override: ReactNode;
   className?: string;
+  name?: string;
 }
 
 export const getConfigurationRowBase = ({
@@ -228,8 +230,10 @@ export const getConfigurationRowBase = ({
   inherited,
   override,
   className,
+  name,
 }: BaseProps): MainTableRow => {
   return {
+    name,
     className,
     columns: [
       {

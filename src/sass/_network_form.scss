@@ -1,26 +1,108 @@
+.edit-network {
+  padding-top: 1rem;
+}
+
+.create-network > .row,
+.edit-network > .row {
+  padding-right: 0;
+
+  .content-details,
+  .p-bottom-controls {
+    display: block;
+    overflow: auto;
+    padding-right: $sph--x-large;
+    scrollbar-gutter: stable;
+
+    .bottom-btns {
+      max-width: 54rem;
+    }
+  }
+}
+
+.create-network .p-notification--negative,
+.edit-network .p-notification--negative {
+  max-width: 100%;
+  width: 54rem;
+}
+
+.create-network .aside {
+  top: 84px;
+}
+
+.edit-network .aside {
+  top: 154px;
+}
+
 .network-form {
-  .form-contents > div {
-    margin-left: 0;
-    max-width: 54rem !important;
+  .contents {
+    .network-topology,
+    .sections {
+      max-width: 54rem;
+    }
+
+    .sections {
+      padding-bottom: 50vh;
+    }
   }
 
-  .form-contents:has(.code-editor-wrapper) > div {
-    max-width: initial !important;
+  .general-field {
+    display: flex;
+
+    .general-field-label {
+      font-weight: $font-weight-bold;
+      margin-bottom: $spv--large;
+      min-width: 12rem;
+
+      .p-form__label {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .general-field-label.can-edit {
+      margin-top: 0.25rem;
+    }
+
+    .general-field-content {
+      flex-grow: 1;
+    }
   }
 
-  @media screen and (width <= 1420px) {
-    .configuration-table {
-      .configuration {
-        width: 7rem;
+  .description-readonly {
+    align-items: flex-start;
+    display: flex;
+  }
+
+  .aside {
+    min-width: 12rem;
+    position: absolute;
+    right: 3rem;
+
+    ul {
+      border-left: $border-thin;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .p-side-navigation__link {
+      background: white;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      padding-left: 0.5rem;
+
+      &[aria-current="page"] {
+        font-weight: bold;
       }
 
-      .inherited {
-        width: 7rem;
+      &::before {
+        width: 0;
       }
+    }
+  }
 
-      .override {
-        width: 18rem;
-      }
+  @media screen and (width <= 1400px) {
+    .aside {
+      display: none;
     }
   }
 }
