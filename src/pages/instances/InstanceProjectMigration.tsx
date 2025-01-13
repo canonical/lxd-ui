@@ -1,42 +1,41 @@
 import { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import { LxdInstance } from "types/instance";
-import StoragePoolSelectTable from "../storage/StoragePoolSelectTable";
-import { getRootPool } from "util/helpers";
+import ProjectSelectTable from "pages/projects/ProjectSelectTable";
 
 interface Props {
   instance: LxdInstance;
   onSelect: (pool: string) => void;
-  targetPool: string;
+  targetProject: string;
   onCancel: () => void;
   migrate: (pool: string) => void;
 }
 
-const InstanceStoragePoolMigration: FC<Props> = ({
+const InstanceProjectMigration: FC<Props> = ({
   instance,
   onSelect,
-  targetPool,
+  targetProject,
   onCancel,
   migrate,
 }) => {
   const summary = (
     <div className="migrate-instance-summary">
       <p>
-        This will migrate the instance <strong>{instance.name}</strong> root
-        storage to pool <b>{targetPool}</b>.
+        This will migrate the instance <strong>{instance.name}</strong> to the
+        project <b>{targetProject}</b>.
       </p>
     </div>
   );
 
   return (
     <>
-      {targetPool && summary}
-      {!targetPool && (
-        <StoragePoolSelectTable
+      {targetProject && summary}
+      {!targetProject && (
+        <ProjectSelectTable
           onSelect={onSelect}
-          disablePool={{
-            name: getRootPool(instance),
-            reason: "Instance root storage already in this pool",
+          disableProject={{
+            name: instance.project,
+            reason: "Instance already in this project",
           }}
         />
       )}
@@ -53,8 +52,8 @@ const InstanceStoragePoolMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetPool)}
-          disabled={!targetPool}
+          onClick={() => migrate(targetProject)}
+          disabled={!targetProject}
         >
           Migrate
         </ActionButton>
@@ -63,4 +62,4 @@ const InstanceStoragePoolMigration: FC<Props> = ({
   );
 };
 
-export default InstanceStoragePoolMigration;
+export default InstanceProjectMigration;

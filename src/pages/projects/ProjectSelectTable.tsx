@@ -3,39 +3,36 @@ import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { fetchClusterMembers } from "api/cluster";
 import classnames from "classnames";
+import { fetchProjects } from "api/projects";
 
 interface Props {
-  onSelect: (member: string) => void;
-  disableMember?: {
+  onSelect: (project: string) => void;
+  disableProject?: {
     name: string;
     reason: string;
   };
 }
 
-const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
-  const { data: members = [], isLoading } = useQuery({
-    queryKey: [queryKeys.cluster, queryKeys.members],
-    queryFn: fetchClusterMembers,
+const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
+  const { data: projects = [] } = useQuery({
+    queryKey: [queryKeys.projects],
+    queryFn: fetchProjects,
   });
 
   const headers = [
     { content: "Name", sortKey: "name" },
-    { content: "Roles", sortKey: "roles" },
-    { content: "Architecture", sortKey: "architecture" },
-    { content: "Status", sortKey: "status" },
     { "aria-label": "Actions", className: "actions" },
   ];
 
-  const rows = members.map((member) => {
+  const rows = projects.map((project) => {
     const disableReason =
-      disableMember?.name === member.server_name ? disableMember?.reason : null;
-    const selectMember = () => {
+      disableProject?.name === project.name ? disableProject?.reason : null;
+    const selectProject = () => {
       if (disableReason) {
         return;
       }
-      onSelect(member.server_name);
+      onSelect(project.name);
     };
 
     return {
@@ -48,37 +45,19 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
           content: (
             <div
               className="u-truncate migrate-instance-name"
-              title={member.server_name}
+              title={project.name}
             >
-              {member.server_name}
+              {project.name}
             </div>
           ),
           role: "cell",
           "aria-label": "Name",
-          onClick: selectMember,
-        },
-        {
-          content: member.roles.join(", "),
-          role: "cell",
-          "aria-label": "Roles",
-          onClick: selectMember,
-        },
-        {
-          content: member.architecture,
-          role: "cell",
-          "aria-label": "Architecture",
-          onClick: selectMember,
-        },
-        {
-          content: member.status,
-          role: "cell",
-          "aria-label": "Status",
-          onClick: selectMember,
+          onClick: selectProject,
         },
         {
           content: (
             <Button
-              onClick={selectMember}
+              onClick={selectProject}
               dense
               title={disableReason}
               disabled={Boolean(disableReason)}
@@ -89,14 +68,11 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
           role: "cell",
           "aria-label": "Actions",
           className: "u-align--right",
-          onClick: selectMember,
+          onClick: selectProject,
         },
       ],
       sortData: {
-        name: member.server_name.toLowerCase(),
-        roles: member.roles.join(", ").toLowerCase(),
-        architecture: member.architecture.toLowerCase(),
-        status: member.status.toLowerCase(),
+        name: project.name.toLowerCase(),
       },
     };
   });
@@ -104,7 +80,7 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
   return (
     <div className="migrate-instance-table u-selectable-table-rows">
       <ScrollableTable
-        dependencies={[members]}
+        dependencies={[projects]}
         tableId="migrate-instance-table"
         belowIds={["status-bar", "migrate-instance-actions"]}
       >
@@ -114,15 +90,10 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
           rows={rows}
           sortable
           className="u-table-layout--auto"
-          emptyStateMsg={
-            isLoading
-              ? "Loading cluster members..."
-              : "No cluster members available"
-          }
         />
       </ScrollableTable>
     </div>
   );
 };
 
-export default ClusterMemberSelectTable;
+export default ProjectSelectTable;
