@@ -1,5 +1,9 @@
 import { FC, useEffect } from "react";
-import { useNotify } from "@canonical/react-components";
+import {
+  CustomSelect,
+  CustomSelectOption,
+  useNotify,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
@@ -7,8 +11,6 @@ import Loader from "components/Loader";
 import { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
 import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
-import CustomSelect from "components/select/CustomSelect";
-import { CustomSelectOption } from "components/select/CustomSelectDropdown";
 import StoragePoolOptionLabel from "./StoragePoolOptionLabel";
 import StoragePoolOptionHeader from "./StoragePoolOptionHeader";
 

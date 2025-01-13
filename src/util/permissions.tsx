@@ -8,12 +8,10 @@ import {
 import { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
-import {
-  CustomSelectOption,
-  sortOptions,
-} from "components/select/CustomSelectDropdown";
 import ResourceOptionLabel from "pages/permissions/panels/ResourceOptionLabel";
 import EntitlementOptionLabel from "pages/permissions/panels/EntitlementOptionLabel";
+import { CustomSelectOption } from "@canonical/react-components";
+import { getOptionText } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown";
 
 export const noneAvailableOption = {
   disabled: true,
@@ -85,6 +83,16 @@ export const resourceTypeOptions = [
     label: "Network zone",
   },
 ];
+
+export const sortOptions = (
+  a: CustomSelectOption,
+  b: CustomSelectOption,
+): number => {
+  // sort options alphabetically
+  const textA = getOptionText(a) || a.value;
+  const textB = getOptionText(b) || b.value;
+  return textA.localeCompare(textB);
+};
 
 export const getResourceTypeOptions = (
   metadata?: LxdMetadata | null,
