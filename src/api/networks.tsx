@@ -59,7 +59,7 @@ export const createClusterNetwork = (
       },
     };
 
-    void Promise.allSettled(
+    Promise.allSettled(
       clusterMembers.map(async (member) => {
         await createNetwork(memberNetwork, project, member.server_name);
       }),

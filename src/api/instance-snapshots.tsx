@@ -55,8 +55,8 @@ export const deleteInstanceSnapshotBulk = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       snapshotNames.map(async (name) => {
         return await deleteInstanceSnapshot(instance, { name })
           .then((operation) => {
@@ -72,7 +72,7 @@ export const deleteInstanceSnapshotBulk = (
             continueOrFinish(results, snapshotNames.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 

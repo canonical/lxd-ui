@@ -12,18 +12,6 @@ import { LxdInstance } from "types/instance";
 import { UploadState } from "types/storage";
 import axios, { AxiosResponse } from "axios";
 
-export const fetchImage = (
-  image: string,
-  project: string,
-): Promise<LxdImage> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/images/${image}?project=${project}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdImage>) => resolve(data.metadata))
-      .catch(reject);
-  });
-};
-
 export const fetchImageList = (project?: string): Promise<LxdImage[]> => {
   const url =
     "/1.0/images?recursion=1" +
@@ -56,8 +44,8 @@ export const deleteImageBulk = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       fingerprints.map((name) => {
         const image = { fingerprint: name } as LxdImage;
         return deleteImage(image, project)
@@ -74,7 +62,7 @@ export const deleteImageBulk = (
             continueOrFinish(results, fingerprints.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 

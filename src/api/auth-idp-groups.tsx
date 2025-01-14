@@ -11,15 +11,6 @@ export const fetchIdpGroups = (): Promise<IdpGroup[]> => {
   });
 };
 
-export const fetchIdpGroup = (name: string): Promise<IdpGroup> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups/${name}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<IdpGroup>) => resolve(data.metadata))
-      .catch(reject);
-  });
-};
-
 export const createIdpGroup = (group: Partial<IdpGroup>): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups`, {
@@ -80,7 +71,7 @@ export const deleteIdpGroup = (group: string): Promise<void> => {
 
 export const deleteIdpGroups = (groups: string[]): Promise<void> => {
   return new Promise((resolve, reject) => {
-    void Promise.allSettled(groups.map((group) => deleteIdpGroup(group)))
+    Promise.allSettled(groups.map((group) => deleteIdpGroup(group)))
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);

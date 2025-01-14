@@ -179,8 +179,8 @@ export const updateInstanceBulkAction = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
         return await putInstanceAction(name, project, action, isForce)
           .then((operation) => {
@@ -196,7 +196,7 @@ export const updateInstanceBulkAction = (
             continueOrFinish(results, actions.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 
@@ -218,8 +218,8 @@ export const deleteInstanceBulk = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       instances.map(async (instance) => {
         return await deleteInstance(instance)
           .then((operation) => {
@@ -235,7 +235,7 @@ export const deleteInstanceBulk = (
             continueOrFinish(results, instances.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 

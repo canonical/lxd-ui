@@ -56,8 +56,8 @@ export const deleteVolumeSnapshotBulk = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       snapshotNames.map(async (name) => {
         return await deleteVolumeSnapshot(volume, { name })
           .then((operation) => {
@@ -73,7 +73,7 @@ export const deleteVolumeSnapshotBulk = (
             continueOrFinish(results, snapshotNames.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 

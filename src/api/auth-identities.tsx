@@ -42,9 +42,7 @@ export const updateIdentities = (
   identities: Partial<LxdIdentity>[],
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    void Promise.allSettled(
-      identities.map((identity) => updateIdentity(identity)),
-    )
+    Promise.allSettled(identities.map((identity) => updateIdentity(identity)))
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);
@@ -67,9 +65,7 @@ export const deleteIdentity = (identity: LxdIdentity) => {
 
 export const deleteIdentities = (identities: LxdIdentity[]): Promise<void> => {
   return new Promise((resolve, reject) => {
-    void Promise.allSettled(
-      identities.map((identity) => deleteIdentity(identity)),
-    )
+    Promise.allSettled(identities.map((identity) => deleteIdentity(identity)))
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);
