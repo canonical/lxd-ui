@@ -1,5 +1,4 @@
-import { Button, useNotify } from "@canonical/react-components";
-import CustomSelect, { SelectRef } from "components/select/CustomSelect";
+import { Button, CustomSelect, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
@@ -21,6 +20,7 @@ import { fetchImageList } from "api/images";
 import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
 import { LxdPermission } from "types/permissions";
+import { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
