@@ -3,7 +3,7 @@ import ItemName from "components/ItemName";
 import { postClusterMemberState } from "api/cluster";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMember } from "types/cluster";
 import { ConfirmationButton, useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";

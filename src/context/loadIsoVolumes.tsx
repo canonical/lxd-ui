@@ -4,8 +4,8 @@ import {
   fetchStorageVolumes,
 } from "api/storage-pools";
 import { isoToRemoteImage } from "util/images";
-import { RemoteImage } from "types/image";
-import { LxdStorageVolume } from "types/storage";
+import type { RemoteImage } from "types/image";
+import type { LxdStorageVolume } from "types/storage";
 
 export const loadIsoVolumes = async (
   project: string,

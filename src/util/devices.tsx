@@ -7,7 +7,7 @@ import {
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import { FormDevice, FormDiskDevice } from "util/formDevices";
 import { getAppliedProfiles } from "./configInheritance";
 

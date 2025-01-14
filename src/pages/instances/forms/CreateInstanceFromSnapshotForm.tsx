@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
+import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {
@@ -19,7 +19,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import { fetchProjects } from "api/projects";
-import { LxdDiskDevice } from "types/device";
+import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";

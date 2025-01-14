@@ -2,7 +2,7 @@ import { FC, ReactNode } from "react";
 import usePortal from "react-useportal";
 import InstanceConfigureSnapshotModal from "./InstanceConfigureSnapshotModal";
 import { Button } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 
 interface Props {
   instance: LxdInstance;

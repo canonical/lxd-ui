@@ -1,4 +1,4 @@
-import { LxcConfigOptionCategories, ConfigField } from "types/config";
+import type { LxcConfigOptionCategories, ConfigField } from "types/config";
 
 export const toConfigFields = (
   categories: LxcConfigOptionCategories,

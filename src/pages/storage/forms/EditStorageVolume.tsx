@@ -10,7 +10,7 @@ import StorageVolumeForm, {
   StorageVolumeFormValues,
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";

@@ -1,5 +1,5 @@
-import { LxdImage, RemoteImage } from "types/image";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdImage, RemoteImage } from "types/image";
+import type { LxdStorageVolume } from "types/storage";
 import { capitalizeFirstLetter } from "./helpers";
 
 export const isVmOnlyImage = (image: RemoteImage): boolean | undefined => {

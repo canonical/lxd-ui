@@ -1,6 +1,6 @@
 import { handleResponse } from "util/helpers";
-import { LxdNetwork, LxdNetworkForward } from "types/network";
-import { LxdApiResponse } from "types/apiResponse";
+import type { LxdNetwork, LxdNetworkForward } from "types/network";
+import type { LxdApiResponse } from "types/apiResponse";
 
 export const fetchNetworkForwards = (
   network: string,

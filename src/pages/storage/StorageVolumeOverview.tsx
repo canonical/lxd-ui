@@ -3,7 +3,7 @@ import { Col, Row } from "@canonical/react-components";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { isoTimeToString } from "util/helpers";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { renderContentType, renderVolumeType } from "util/storageVolume";

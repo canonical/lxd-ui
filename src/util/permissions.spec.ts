@@ -1,4 +1,4 @@
-import { LxdMetadata } from "types/config";
+import type { LxdMetadata } from "types/config";
 import {
   generateEntitlementOptions,
   permissionSort,

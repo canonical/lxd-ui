@@ -1,7 +1,7 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
-import { LxdNetwork, LxdNetworkState } from "types/network";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdClusterMember } from "types/cluster";
+import type { LxdNetwork, LxdNetworkState } from "types/network";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdClusterMember } from "types/cluster";
 import { areNetworksEqual } from "util/networks";
 
 export const fetchNetworks = (project: string): Promise<LxdNetwork[]> => {

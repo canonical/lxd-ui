@@ -43,7 +43,7 @@ import ProfileFormMenu, {
   GPU_DEVICES,
   OTHER_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import DiskDeviceForm from "components/forms/DiskDeviceForm";

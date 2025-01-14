@@ -1,4 +1,4 @@
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { slugify } from "./slugify";
 
 export const storageTabs: string[] = ["Pools", "Volumes", "Custom ISOs"];

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {
@@ -20,7 +20,7 @@ import { fetchStoragePools } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import { fetchProjects } from "api/projects";
-import { LxdDiskDevice } from "types/device";
+import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { getUniqueResourceName } from "util/helpers";

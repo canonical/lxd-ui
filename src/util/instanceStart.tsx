@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { unfreezeInstance, startInstance } from "api/instances";
 import { useInstanceLoading } from "context/instanceLoading";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { queryKeys } from "./queryKeys";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";

@@ -1,6 +1,6 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
 
 export const fetchIdentities = (): Promise<LxdIdentity[]> => {
   return new Promise((resolve, reject) => {

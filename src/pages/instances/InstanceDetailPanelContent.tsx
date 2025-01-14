@@ -1,6 +1,6 @@
 import { FC } from "react";
 import InstanceLink from "./InstanceLink";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceIps from "./InstanceIps";

@@ -1,6 +1,6 @@
 import { AbortControllerState, checkDuplicateName } from "util/helpers";
 import { AnyObject, TestFunction } from "yup";
-import { LxdConfigOptionsKeys } from "types/config";
+import type { LxdConfigOptionsKeys } from "types/config";
 import { FormikProps } from "formik";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { powerFlex } from "util/storageOptions";

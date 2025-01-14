@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import ResourceLabel from "./ResourceLabel";
 
 interface Props {

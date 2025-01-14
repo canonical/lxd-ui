@@ -9,7 +9,7 @@ import { deleteGroup, deleteGroups } from "api/auth-groups";
 import ResourceLabel from "components/ResourceLabel";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { ChangeEvent, FC, useState } from "react";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 

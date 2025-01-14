@@ -6,7 +6,7 @@ import { humanFileSize } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import Loader from "components/Loader";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useAuth } from "context/auth";
 
 interface Props {

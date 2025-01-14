@@ -5,7 +5,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { FormikProps } from "formik/dist/types";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import { LxdStorageVolumeContentType } from "types/storage";
+import type { LxdStorageVolumeContentType } from "types/storage";
 import { driversWithFilesystemSupport, zfsDriver } from "util/storageOptions";
 
 export const MAIN_CONFIGURATION = "Main configuration";

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import ProjectSelectTable from "pages/projects/ProjectSelectTable";
 
 interface Props {

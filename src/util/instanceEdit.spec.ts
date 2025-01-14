@@ -1,5 +1,5 @@
 import { getInstanceEditValues, getInstancePayload } from "./instanceEdit";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 
 describe("conversion to form values and back with getInstanceEditValues and getInstancePayload", () => {
   it("preserves custom top level instance setting field", () => {

@@ -7,7 +7,7 @@ import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock } from "util/projectOptions";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
-import { LxdConfigPair } from "types/config";
+import type { LxdConfigPair } from "types/config";
 
 export interface ClusterRestrictionFormValues {
   restricted_cluster_groups?: string;

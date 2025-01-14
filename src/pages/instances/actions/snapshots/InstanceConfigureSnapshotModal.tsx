@@ -1,6 +1,6 @@
 import { FC, KeyboardEvent, ReactNode } from "react";
 import { ActionButton, Button, Modal } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";

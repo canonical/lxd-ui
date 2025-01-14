@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";

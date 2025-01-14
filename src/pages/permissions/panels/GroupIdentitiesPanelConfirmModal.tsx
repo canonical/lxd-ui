@@ -1,6 +1,6 @@
 import { ConfirmationModal, useNotify } from "@canonical/react-components";
 import { FC, useState } from "react";
-import { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdGroup, LxdIdentity } from "types/permissions";
 import { pivotIdentityGroupsChangeSummary } from "util/permissionIdentities";
 import GroupsOrIdentityChangesTable from "./GroupOrIdentityChangesTable";
 import {

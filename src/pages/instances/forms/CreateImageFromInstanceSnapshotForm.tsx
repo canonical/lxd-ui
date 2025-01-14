@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
+import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";

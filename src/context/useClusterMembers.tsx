@@ -4,7 +4,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import { fetchClusterMembers } from "api/cluster";
-import { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMember } from "types/cluster";
 
 export const useClusterMembers = (): UseQueryResult<LxdClusterMember[]> => {
   const { data: settings } = useSettings();

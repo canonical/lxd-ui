@@ -1,6 +1,6 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
-import { LxdApiResponse } from "types/apiResponse";
-import { IdpGroup } from "types/permissions";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { IdpGroup } from "types/permissions";
 
 export const fetchIdpGroups = (): Promise<IdpGroup[]> => {
   return new Promise((resolve, reject) => {

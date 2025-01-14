@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import { isNicDevice } from "util/devices";
 import ExpandableList from "components/ExpandableList";
 import ResourceLink from "components/ResourceLink";

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 import { fetchNetworkForwards } from "api/network-forwards";
 
 interface Props {

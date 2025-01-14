@@ -1,6 +1,6 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
-import { LxdProfile } from "types/profile";
-import { LxdApiResponse } from "types/apiResponse";
+import type { LxdProfile } from "types/profile";
+import type { LxdApiResponse } from "types/apiResponse";
 
 export const fetchProfile = (
   name: string,

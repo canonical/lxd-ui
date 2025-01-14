@@ -16,7 +16,7 @@ import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
 import { pluralize } from "util/instanceBulkActions";
 import { fetchIdentities } from "api/auth-identities";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
 import PermissionIdentitiesFilter, {

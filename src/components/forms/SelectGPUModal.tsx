@@ -5,7 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
-import { GpuCard } from "types/resources";
+import type { GpuCard } from "types/resources";
 
 interface Props {
   onSelect: (image: GpuCard) => void;

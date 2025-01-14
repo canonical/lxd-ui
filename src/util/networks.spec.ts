@@ -1,5 +1,5 @@
 import { areNetworksEqual, testValidIp, testValidPort } from "./networks";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 
 describe("areNetworksEqual", () => {
   it("accepts matches", () => {

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { fetchStoragePoolResources } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
 

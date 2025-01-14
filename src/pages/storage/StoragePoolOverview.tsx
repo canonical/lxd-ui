@@ -4,7 +4,7 @@ import StoragePoolSize from "pages/storage/StoragePoolSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 
 interface Props {
   pool: LxdStoragePool;

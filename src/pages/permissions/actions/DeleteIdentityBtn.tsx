@@ -7,7 +7,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
 import { deleteIdentity } from "api/auth-identities";
 import IdentityResource from "components/IdentityResource";

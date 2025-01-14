@@ -7,7 +7,7 @@ import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { useToastNotification } from "context/toastNotificationProvider";
 
 interface Props {

@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 import { renameIdpGroup, updateIdpGroup } from "api/auth-idp-groups";
 import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
 import { fetchGroups } from "api/auth-groups";

@@ -1,5 +1,5 @@
 import { FC, ReactNode, useState } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { deleteInstanceSnapshotBulk } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";

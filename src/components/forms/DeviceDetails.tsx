@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Col, Row } from "@canonical/react-components";
-import { LxdGPUDevice, LxdOtherDevice } from "types/device";
+import type { LxdGPUDevice, LxdOtherDevice } from "types/device";
 import { deviceKeyToLabel } from "util/devices";
 
 interface Props {

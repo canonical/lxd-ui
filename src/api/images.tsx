@@ -4,12 +4,12 @@ import {
   pushFailure,
   pushSuccess,
 } from "util/helpers";
-import { LxdImage } from "types/image";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdImage } from "types/image";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
-import { LxdInstance } from "types/instance";
-import { UploadState } from "types/storage";
+import type { LxdInstance } from "types/instance";
+import type { UploadState } from "types/storage";
 import axios, { AxiosResponse } from "axios";
 
 export const fetchImageList = (project?: string): Promise<LxdImage[]> => {

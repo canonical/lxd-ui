@@ -1,6 +1,6 @@
 import { FC, cloneElement, useState } from "react";
 import DeleteInstanceBtn from "./actions/DeleteInstanceBtn";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import MigrateInstanceBtn from "./actions/MigrateInstanceBtn";
 import CreateImageFromInstanceBtn from "./actions/CreateImageFromInstanceBtn";
 import DuplicateInstanceBtn from "./actions/DuplicateInstanceBtn";

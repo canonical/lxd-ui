@@ -8,7 +8,7 @@ import usePanelParams from "util/usePanelParams";
 import { getGroupsForIdentities } from "util/permissionIdentities";
 import useEditHistory from "util/useEditHistory";
 import IdentityGroupsPanelConfirmModal from "./IdentityGroupsPanelConfirmModal";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import NotificationRow from "components/NotificationRow";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";

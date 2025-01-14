@@ -54,7 +54,7 @@ import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
-import { LxdInstanceStatus } from "types/instance";
+import type { LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";

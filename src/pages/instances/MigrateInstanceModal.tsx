@@ -1,6 +1,6 @@
 import { FC, KeyboardEvent, useState } from "react";
 import { Modal } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import FormLink from "components/FormLink";

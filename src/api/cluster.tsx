@@ -4,7 +4,7 @@ import {
   LxdClusterMember,
   LxdClusterMemberAction,
 } from "types/cluster";
-import { LxdApiResponse } from "types/apiResponse";
+import type { LxdApiResponse } from "types/apiResponse";
 
 export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
   return new Promise((resolve, reject) => {

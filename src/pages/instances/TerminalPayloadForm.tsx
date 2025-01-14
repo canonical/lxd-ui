@@ -9,7 +9,7 @@ import {
 } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { TerminalConnectPayload } from "types/terminal";
+import type { TerminalConnectPayload } from "types/terminal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 

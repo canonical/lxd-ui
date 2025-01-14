@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 import { pluralize } from "util/instanceBulkActions";
 import DeleteIdpGroupsModal from "./DeleteIdpGroupsModal";
 

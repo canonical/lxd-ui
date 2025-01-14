@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { AbortControllerState, checkDuplicateName } from "./helpers";
-import { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdGroup, LxdIdentity } from "types/permissions";
 import { ChangeSummary } from "./permissionIdentities";
 
 export const testDuplicateGroupName = (

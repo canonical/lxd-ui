@@ -9,7 +9,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import InstanceGraphicConsole from "./InstanceGraphicConsole";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import InstanceTextConsole from "./InstanceTextConsole";
 import { useInstanceStart } from "util/instanceStart";
 import { sendAltF4, sendAltTab, sendCtrlAltDel } from "lib/spice/src/inputs.js";

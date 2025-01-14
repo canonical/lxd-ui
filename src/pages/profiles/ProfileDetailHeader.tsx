@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteProfileBtn from "./actions/DeleteProfileBtn";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";

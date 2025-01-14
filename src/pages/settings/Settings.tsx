@@ -15,7 +15,7 @@ import { useDocs } from "context/useDocs";
 import { queryKeys } from "util/queryKeys";
 import { fetchConfigOptions } from "api/server";
 import { useQuery } from "@tanstack/react-query";
-import { ConfigField } from "types/config";
+import type { ConfigField } from "types/config";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { toConfigFields } from "util/config";
 import CustomLayout from "components/CustomLayout";

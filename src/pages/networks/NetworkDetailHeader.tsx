@@ -4,7 +4,7 @@ import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 import { renameNetwork } from "api/networks";
 import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify } from "@canonical/react-components";

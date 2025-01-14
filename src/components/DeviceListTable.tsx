@@ -11,7 +11,7 @@ import {
 } from "util/devices";
 import DeviceDetails from "./DeviceDetails";
 import { useParams } from "react-router-dom";
-import { LxdDeviceValue, LxdDevices } from "types/device";
+import type { LxdDeviceValue, LxdDevices } from "types/device";
 
 interface Props {
   configBaseURL: string;

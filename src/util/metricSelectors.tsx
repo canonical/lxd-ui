@@ -1,5 +1,5 @@
-import { LxdMetricGroup } from "types/metrics";
-import { LxdInstance } from "types/instance";
+import type { LxdMetricGroup } from "types/metrics";
+import type { LxdInstance } from "types/instance";
 
 interface MemoryReport {
   memory:

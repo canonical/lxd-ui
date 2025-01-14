@@ -1,6 +1,6 @@
 import { handleResponse } from "util/helpers";
-import { LxdOperation, LxdOperationList } from "types/operation";
-import { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperation, LxdOperationList } from "types/operation";
+import type { LxdApiResponse } from "types/apiResponse";
 
 const sortOperationList = (operations: LxdOperationList) => {
   const newestFirst = (a: LxdOperation, b: LxdOperation) => {

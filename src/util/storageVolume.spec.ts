@@ -1,4 +1,4 @@
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { getSnapshotsPerVolume } from "./storageVolume";
 
 describe("getSnapshotsPerVolume", () => {

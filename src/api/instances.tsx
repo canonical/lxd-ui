@@ -6,13 +6,13 @@ import {
   pushFailure,
   pushSuccess,
 } from "util/helpers";
-import { LxdInstance, LxdInstanceAction } from "types/instance";
-import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdInstance, LxdInstanceAction } from "types/instance";
+import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
 import axios, { AxiosResponse } from "axios";
-import { UploadState } from "types/storage";
+import type { UploadState } from "types/storage";
 
 export const fetchInstance = (
   name: string,

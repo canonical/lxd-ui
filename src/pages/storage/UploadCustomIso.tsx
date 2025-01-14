@@ -12,14 +12,14 @@ import { useProject } from "context/project";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import ProgressBar from "components/ProgressBar";
-import { UploadState } from "types/storage";
+import type { UploadState } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import StoragePoolSelector from "./StoragePoolSelector";
 import { AxiosError } from "axios";
-import { LxdSyncResponse } from "types/apiResponse";
+import type { LxdSyncResponse } from "types/apiResponse";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;

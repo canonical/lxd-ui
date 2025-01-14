@@ -5,7 +5,7 @@ import {
   SearchAndFilterChip,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";
 import { useSearchParams } from "react-router-dom";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import {
   paramsFromSearchData,
   searchParamsToChips,

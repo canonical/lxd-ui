@@ -4,7 +4,7 @@ import {
   checkDuplicateName,
 } from "./helpers";
 import { AnyObject, TestContext, TestFunction } from "yup";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const testDuplicateStorageVolumeName = (

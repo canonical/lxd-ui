@@ -4,7 +4,7 @@ import {
   getProjectName,
   getVolumeSnapshotName,
 } from "./operations";
-import { LxdOperation } from "types/operation";
+import type { LxdOperation } from "types/operation";
 
 const craftOperation = (...url: string[]) => {
   const instances: string[] = [];

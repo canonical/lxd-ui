@@ -1,14 +1,14 @@
 import { FC, useState } from "react";
 import { updateInstance } from "api/instances";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useParams } from "react-router-dom";
 import { ActionButton } from "@canonical/react-components";
 import { getInstanceEditValues, getInstancePayload } from "util/instanceEdit";
-import { LxdIsoDevice } from "types/device";
+import type { LxdIsoDevice } from "types/device";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePortal from "react-useportal";
-import { RemoteImage } from "types/image";
+import type { RemoteImage } from "types/image";
 import CustomIsoModal from "pages/images/CustomIsoModal";
 import { remoteImageToIsoDevice } from "util/formDevices";
 import { useEventQueue } from "context/eventQueue";

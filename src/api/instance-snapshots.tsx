@@ -4,8 +4,8 @@ import {
   pushFailure,
   pushSuccess,
 } from "util/helpers";
-import { LxdInstance, LxdInstanceSnapshot } from "types/instance";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
+import type { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
 
 export const createInstanceSnapshot = (

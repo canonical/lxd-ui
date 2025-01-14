@@ -1,4 +1,4 @@
-import { LxdConfigPair } from "types/config";
+import type { LxdConfigPair } from "types/config";
 
 export interface LxdProject {
   name: string;

@@ -16,7 +16,7 @@ import { duplicateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { fetchProjects } from "api/projects";
 import { useEventQueue } from "context/eventQueue";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { loadCustomVolumes } from "context/loadCustomVolumes";
 import StoragePoolSelector from "../StoragePoolSelector";

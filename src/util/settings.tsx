@@ -1,4 +1,4 @@
-import { LxdSettings } from "types/server";
+import type { LxdSettings } from "types/server";
 
 export const supportsOvnNetwork = (
   settings: LxdSettings | undefined,

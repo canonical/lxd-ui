@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
-import { LxdNicDevice } from "types/device";
+import type { LxdNicDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { fetchProfiles } from "api/profiles";

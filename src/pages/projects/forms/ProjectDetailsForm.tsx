@@ -11,11 +11,11 @@ import {
 import { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
 import { isProjectEmpty } from "util/projects";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { LxdConfigPair } from "types/config";
+import type { LxdConfigPair } from "types/config";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ResourceLink from "components/ResourceLink";

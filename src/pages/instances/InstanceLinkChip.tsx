@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import ResourceLink from "components/ResourceLink";
 import { InstanceIconType } from "components/ResourceIcon";
 

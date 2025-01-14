@@ -22,11 +22,11 @@ import {
 } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames, isVolumeDevice } from "util/devices";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import { focusField } from "util/formFields";
 import AttachDiskDeviceBtn from "pages/storage/AttachDiskDeviceBtn";
-import { LxdDiskDevice } from "types/device";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdDiskDevice } from "types/device";
+import type { LxdStorageVolume } from "types/storage";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

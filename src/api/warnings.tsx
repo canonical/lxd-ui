@@ -1,6 +1,6 @@
 import { handleResponse } from "util/helpers";
-import { LxdWarning } from "types/warning";
-import { LxdApiResponse } from "types/apiResponse";
+import type { LxdWarning } from "types/warning";
+import type { LxdApiResponse } from "types/apiResponse";
 
 export const fetchWarnings = (): Promise<LxdWarning[]> => {
   return new Promise((resolve, reject) => {

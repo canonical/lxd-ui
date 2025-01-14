@@ -7,7 +7,7 @@ import { FormikProps } from "formik/dist/types";
 import { optionAllowBlock, optionAllowBlockManaged } from "util/projectOptions";
 import { optionRenderer } from "util/formFields";
 import { getProjectKey } from "util/projectConfigFields";
-import { LxdConfigPair } from "types/config";
+import type { LxdConfigPair } from "types/config";
 
 export interface DeviceUsageRestrictionFormValues {
   restricted_devices_disk?: string;

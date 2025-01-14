@@ -1,4 +1,4 @@
-import { LxdOperationResponse } from "types/operation";
+import type { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
 import { ReactNode } from "react";
 import {

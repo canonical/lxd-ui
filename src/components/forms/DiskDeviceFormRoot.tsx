@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { LxdDiskDevice } from "types/device";
+import type { LxdDiskDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
@@ -9,8 +9,8 @@ import { getInheritedRootStorage } from "util/configInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { getInheritedDeviceRow } from "./InheritedDeviceRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
-import { LxdStoragePool } from "types/storage";
-import { LxdProfile } from "types/profile";
+import type { LxdStoragePool } from "types/storage";
+import type { LxdProfile } from "types/profile";
 import { removeDevice } from "util/formDevices";
 import { hasNoRootDisk, isRootDisk } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";

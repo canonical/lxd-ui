@@ -1,6 +1,6 @@
-import { LxdInstance } from "types/instance";
-import { LxdNetwork, LxdNetworkConfig } from "types/network";
-import { LxdConfigOptionsKeys } from "types/config";
+import type { LxdInstance } from "types/instance";
+import type { LxdNetwork, LxdNetworkConfig } from "types/network";
+import type { LxdConfigOptionsKeys } from "types/config";
 import { capitalizeFirstLetter } from "util/helpers";
 
 export const getIpAddresses = (

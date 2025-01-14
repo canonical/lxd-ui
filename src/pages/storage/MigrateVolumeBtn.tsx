@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import MigrateVolumeModal from "./MigrateVolumeModal";
 import { migrateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";

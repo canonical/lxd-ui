@@ -18,7 +18,7 @@ import {
 import { instanceCreationTypes } from "util/instanceOptions";
 import { FormikProps } from "formik/dist/types";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import { LxdImageType, RemoteImage } from "types/image";
+import type { LxdImageType, RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";

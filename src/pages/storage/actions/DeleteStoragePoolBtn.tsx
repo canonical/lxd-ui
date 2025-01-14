@@ -10,7 +10,7 @@ import classnames from "classnames";
 import ItemName from "components/ItemName";
 import { useSmallScreen } from "context/useSmallScreen";
 import { useNavigate } from "react-router-dom";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";

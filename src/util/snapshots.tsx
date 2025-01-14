@@ -1,6 +1,6 @@
 import { AnyObject, TestFunction } from "yup";
 import { getTomorrow } from "./helpers";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 
 /*** General snapshot utils ***/
 export type SnapshotFormValues<AdditionalProps = unknown> = {

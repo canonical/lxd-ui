@@ -1,7 +1,7 @@
 import { FC } from "react";
 import ResourceLink from "components/ResourceLink";
-import { PartialWithRequired } from "types/partial";
-import { LxdInstance } from "types/instance";
+import type { PartialWithRequired } from "types/partial";
+import type { LxdInstance } from "types/instance";
 
 interface Props {
   name: string;

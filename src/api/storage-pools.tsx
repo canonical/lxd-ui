@@ -10,10 +10,10 @@ import {
   LxdStorageVolumeState,
   UploadState,
 } from "types/storage";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
-import { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMember } from "types/cluster";
 
 export const fetchStoragePool = (
   pool: string,

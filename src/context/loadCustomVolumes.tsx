@@ -1,4 +1,4 @@
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { isSnapshot } from "util/storageVolume";
 import { loadVolumes } from "context/loadIsoVolumes";
 

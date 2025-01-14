@@ -1,6 +1,6 @@
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 
 describe("conversion to form values and back with getStorageVolumeEditValues and volumeFormToPayload", () => {
   it("preserves custom top level storage volume setting field", () => {

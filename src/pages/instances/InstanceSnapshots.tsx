@@ -7,7 +7,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { isoTimeToString } from "util/helpers";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import InstanceSnapshotActions from "./actions/snapshots/InstanceSnapshotActions";
 import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";

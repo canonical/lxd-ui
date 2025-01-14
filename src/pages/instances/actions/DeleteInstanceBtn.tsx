@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { deleteInstance } from "api/instances";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deletableStatuses } from "util/instanceDelete";

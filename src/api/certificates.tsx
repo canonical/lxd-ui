@@ -1,6 +1,6 @@
 import { handleResponse } from "util/helpers";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdCertificate } from "types/certificate";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdCertificate } from "types/certificate";
 
 export const fetchCertificates = (): Promise<LxdCertificate[]> => {
   return new Promise((resolve, reject) => {

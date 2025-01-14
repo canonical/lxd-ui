@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import usePortal from "react-useportal";
 import { Button, Tooltip } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import CreateInstanceSnapshotForm from "pages/instances/forms/CreateInstanceSnapshotForm";
 
 interface Props {

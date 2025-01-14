@@ -4,7 +4,7 @@ import { deleteIdpGroup, deleteIdpGroups } from "api/auth-idp-groups";
 import ResourceLabel from "components/ResourceLabel";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { FC, useState } from "react";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 

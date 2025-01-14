@@ -1,6 +1,6 @@
 import { cloneElement, ReactElement, ReactNode } from "react";
 import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
-import { CpuLimit, MemoryLimit } from "types/limits";
+import type { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
 import { FormikProps } from "formik/dist/types";

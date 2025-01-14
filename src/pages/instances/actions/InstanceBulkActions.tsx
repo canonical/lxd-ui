@@ -3,7 +3,7 @@ import { updateInstanceBulkAction } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationForce from "components/ConfirmationForce";
-import { LxdInstance, LxdInstanceAction } from "types/instance";
+import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import {
   instanceActionLabel,
   instanceActions,

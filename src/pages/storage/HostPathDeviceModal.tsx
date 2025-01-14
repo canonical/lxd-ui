@@ -1,7 +1,7 @@
 import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import { Button, Input, Modal } from "@canonical/react-components";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { LxdDiskDevice } from "types/device";
+import type { LxdDiskDevice } from "types/device";
 import { focusField } from "util/formFields";
 
 interface Props {

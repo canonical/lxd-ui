@@ -9,7 +9,7 @@ import { fetchInstances } from "api/instances";
 import { isNicDevice } from "util/devices";
 import Cytoscape, { EdgeDefinition, Ext } from "cytoscape";
 import { fetchNetworks } from "api/networks";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import Loader from "components/Loader";
 import popper from "cytoscape-popper";
 import MapTooltip, {

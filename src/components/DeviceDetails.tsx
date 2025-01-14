@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { isRootDisk } from "util/instanceValidation";
 import { FormDevice } from "util/formDevices";
-import { LxdDeviceValue } from "types/device";
+import type { LxdDeviceValue } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import { isHostDiskDevice } from "util/devices";
 

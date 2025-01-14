@@ -6,7 +6,7 @@ import { getWsErrorMsg } from "util/helpers";
 import useEventListener from "util/useEventListener";
 import Loader from "components/Loader";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { useNotify } from "@canonical/react-components";
 
 declare global {

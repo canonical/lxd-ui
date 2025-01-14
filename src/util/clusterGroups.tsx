@@ -1,4 +1,4 @@
-import { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMember } from "types/cluster";
 import EvacuateClusterMemberBtn from "pages/cluster/actions/EvacuateClusterMemberBtn";
 import RestoreClusterMemberBtn from "pages/cluster/actions/RestoreClusterMemberBtn";
 import {

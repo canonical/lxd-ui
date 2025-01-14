@@ -16,7 +16,7 @@ import InstanceRestrictionForm from "pages/projects/forms/InstanceRestrictionFor
 import DeviceUsageRestrictionForm from "pages/projects/forms/DeviceUsageRestrictionForm";
 import NetworkRestrictionForm from "pages/projects/forms/NetworkRestrictionForm";
 import { FormikProps } from "formik/dist/types";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";
 

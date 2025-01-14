@@ -1,4 +1,4 @@
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { getProjectEditValues, getProjectPayload } from "util/projectEdit";
 
 describe("conversion to form values and back with getProjectEditValues and getProjectPayload", () => {

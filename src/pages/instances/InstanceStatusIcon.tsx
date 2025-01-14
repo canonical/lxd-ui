@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import classnames from "classnames";
 import { useInstanceLoading } from "context/instanceLoading";
 import { Icon } from "@canonical/react-components";

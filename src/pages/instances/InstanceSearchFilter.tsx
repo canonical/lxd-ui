@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { instanceStatuses, instanceTypes } from "util/instanceFilter";
 import { SearchAndFilter } from "@canonical/react-components";
 import {

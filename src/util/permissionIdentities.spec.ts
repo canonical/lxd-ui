@@ -1,4 +1,4 @@
-import { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdGroup, LxdIdentity } from "types/permissions";
 import {
   getGroupsForIdentities,
   generateGroupAllocationsForIdentities,

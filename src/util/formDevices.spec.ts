@@ -1,6 +1,6 @@
 import { formDeviceToPayload, parseDevices } from "./formDevices";
 import { yamlToObject } from "./yaml";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { dump as dumpYaml } from "js-yaml";
 
 const deviceYaml =

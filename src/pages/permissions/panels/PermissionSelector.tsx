@@ -19,7 +19,7 @@ import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsFor
 import { fetchImageList } from "api/images";
 import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
-import { LxdPermission } from "types/permissions";
+import type { LxdPermission } from "types/permissions";
 import { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 
 interface Props {

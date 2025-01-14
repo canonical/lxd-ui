@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 import { deleteNetwork } from "api/networks";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";

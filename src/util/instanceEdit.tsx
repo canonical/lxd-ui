@@ -1,5 +1,5 @@
-import { LxdProfile } from "types/profile";
-import { LxdInstance } from "types/instance";
+import type { LxdProfile } from "types/profile";
+import type { LxdInstance } from "types/instance";
 import { formDeviceToPayload, parseDevices } from "util/formDevices";
 import { parseCpuLimit, parseMemoryLimit } from "util/limits";
 import { getInstanceConfigKeys } from "util/instanceConfigFields";

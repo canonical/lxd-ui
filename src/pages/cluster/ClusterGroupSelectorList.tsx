@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { LxdClusterGroup } from "types/cluster";
+import type { LxdClusterGroup } from "types/cluster";
 import { allClusterGroups } from "util/clusterGroups";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { getProfileInstances } from "util/usedBy";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProjects } from "api/projects";
 import { queryKeys } from "util/queryKeys";

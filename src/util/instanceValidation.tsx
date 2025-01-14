@@ -4,8 +4,8 @@ import {
   InstanceAndProfileFormValues,
 } from "components/forms/instanceAndProfileFormValues";
 import { getInheritedRootStorage } from "util/configInheritance";
-import { LxdProfile } from "types/profile";
-import { LxdNicDevice } from "types/device";
+import type { LxdProfile } from "types/profile";
+import type { LxdNicDevice } from "types/device";
 import { FormikTouched } from "formik";
 
 export const hasNoRootDisk = (

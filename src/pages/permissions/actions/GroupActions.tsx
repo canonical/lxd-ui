@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Icon, List } from "@canonical/react-components";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import DeleteGroupModal from "./DeleteGroupModal";
 import usePortal from "react-useportal";

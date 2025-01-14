@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Input, RadioInput } from "@canonical/react-components";
-import { LxdGPUDevice } from "types/device";
+import type { LxdGPUDevice } from "types/device";
 
 interface Props {
   device: LxdGPUDevice;
