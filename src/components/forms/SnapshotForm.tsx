@@ -54,7 +54,7 @@ const SnapshotForm: FC<Props> = (props) => {
       }
       onKeyDown={handleEscKey}
     >
-      <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit} className="snapshot-creation-form">
         <Input
           id="name"
           name="name"
@@ -63,7 +63,11 @@ const SnapshotForm: FC<Props> = (props) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
-          error={formik.touched.name || isEdit ? formik.errors.name : null}
+          error={
+            formik.touched.name || isEdit ? (
+              <div className="name-error">{formik.errors.name}</div>
+            ) : null
+          }
           takeFocus
         />
         <Row className="expiration-wrapper">

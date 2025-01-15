@@ -80,3 +80,11 @@
     padding-right: 0;
   }
 }
+
+.snapshot-creation-form {
+  @include large {
+    .name-error {
+      max-width: 25rem;
+    }
+  }
+}

@@ -20,6 +20,8 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import StoragePoolSelector from "./StoragePoolSelector";
 import { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
+import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
+import classnames from "classnames";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -98,14 +100,18 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setFile(file);
-      setName(file.name);
+      setName(sanitizeISOAlias(file.name));
     }
   };
 
   return (
     <>
       {notify.notification ? <NotificationRow /> : <UploadCustomImageHint />}
-      <div className={uploadState === null ? "" : "u-hide"}>
+      <div
+        className={classnames("custom-iso-form", {
+          "u-hide": !!uploadState,
+        })}
+      >
         <Input
           name="iso"
           type="file"
@@ -122,6 +128,14 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           disabled={file === null}
+          error={
+            name && !isValidISOAlias(name) ? (
+              <div className="alias-error">
+                Only alphanumeric characters, periods or hyphens are allowed in
+                this field
+              </div>
+            ) : undefined
+          }
           stacked
         />
         <StoragePoolSelector
@@ -158,7 +172,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <ActionButton
           appearance="positive"
           loading={isLoading}
-          disabled={!file}
+          disabled={!file || !isValidISOAlias(name)}
           className="u-no-margin--bottom"
           onClick={importFile}
         >

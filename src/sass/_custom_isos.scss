@@ -14,3 +14,11 @@
     max-width: 20rem;
   }
 }
+
+.custom-iso-form {
+  @include large {
+    .alias-error {
+      max-width: 20rem;
+    }
+  }
+}
