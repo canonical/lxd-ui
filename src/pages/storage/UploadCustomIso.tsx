@@ -20,6 +20,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import StoragePoolSelector from "./StoragePoolSelector";
 import { AxiosError } from "axios";
 import { LxdSyncResponse } from "types/apiResponse";
+import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;
@@ -98,7 +99,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setFile(file);
-      setName(file.name);
+      setName(sanitizeISOAlias(file.name));
     }
   };
 
@@ -122,6 +123,11 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           disabled={file === null}
+          error={
+            !isValidISOAlias(name)
+              ? "Please enter only alphanumeric characters, periods (.) and hyphens (-) in this field"
+              : undefined
+          }
           stacked
         />
         <StoragePoolSelector
@@ -158,7 +164,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <ActionButton
           appearance="positive"
           loading={isLoading}
-          disabled={!file}
+          disabled={!file || !isValidISOAlias(name)}
           className="u-no-margin--bottom"
           onClick={importFile}
         >
