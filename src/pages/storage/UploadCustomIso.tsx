@@ -98,9 +98,11 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setFile(file);
-      setName(file.name);
+      setName(file.name.replaceAll(" ", "-"));
     }
   };
+
+  const isInvalidName = name.includes(" ");
 
   return (
     <>
@@ -122,6 +124,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           disabled={file === null}
+          error={isInvalidName ? "Alias cannot contain spaces" : undefined}
           stacked
         />
         <StoragePoolSelector
@@ -158,7 +161,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <ActionButton
           appearance="positive"
           loading={isLoading}
-          disabled={!file}
+          disabled={!file || isInvalidName}
           className="u-no-margin--bottom"
           onClick={importFile}
         >
