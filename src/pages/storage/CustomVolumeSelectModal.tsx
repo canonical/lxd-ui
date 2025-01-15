@@ -5,7 +5,7 @@ import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { loadCustomVolumes } from "context/loadCustomVolumes";
 import ScrollableTable from "components/ScrollableTable";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
 import { renderContentType } from "util/storageVolume";
 import { useSupportedFeatures } from "context/useSupportedFeatures";

@@ -1,11 +1,11 @@
-import { LxdIdentity, LxdPermission } from "types/permissions";
-import { LxdImage } from "types/image";
+import type { LxdIdentity, LxdPermission } from "types/permissions";
+import type { LxdImage } from "types/image";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import {
   extractResourceDetailsFromUrl,
   ResourceDetail,
 } from "./resourceDetails";
-import { LxdMetadata } from "types/config";
+import type { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
 import ResourceOptionLabel from "pages/permissions/panels/ResourceOptionLabel";

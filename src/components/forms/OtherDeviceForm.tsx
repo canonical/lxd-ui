@@ -9,7 +9,7 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdDeviceValue } from "types/device";
+import type { LxdDeviceValue } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
 import { fetchConfigOptions } from "api/server";

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { LxdOperation } from "types/operation";
+import type { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

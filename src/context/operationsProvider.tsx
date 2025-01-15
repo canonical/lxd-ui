@@ -8,7 +8,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { LxdOperation } from "types/operation";
+import type { LxdOperation } from "types/operation";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "context/auth";
 

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Modal } from "@canonical/react-components";
-import { UploadState } from "types/storage";
+import type { UploadState } from "types/storage";
 import ProgressBar from "components/ProgressBar";
 import { humanFileSize } from "util/helpers";
 import UploadInstanceBackupFileForm from "./UploadInstanceBackupFileForm";

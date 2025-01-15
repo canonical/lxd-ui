@@ -7,7 +7,7 @@ import { fetchNetworks } from "api/networks";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
 import { useParams } from "react-router-dom";
-import { LxdDevices } from "types/device";
+import type { LxdDevices } from "types/device";
 
 interface Props {
   onFailure: (title: string, e: unknown) => void;

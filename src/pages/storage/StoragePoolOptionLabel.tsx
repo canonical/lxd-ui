@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import StoragePoolSize from "./StoragePoolSize";
 
 interface Props {

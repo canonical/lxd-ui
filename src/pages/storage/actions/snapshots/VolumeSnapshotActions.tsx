@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
+import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import {
   deleteVolumeSnapshot,
   restoreVolumeSnapshot,

@@ -1,4 +1,4 @@
-import { LxdInstanceStatus } from "types/instance";
+import type { LxdInstanceStatus } from "types/instance";
 
 export interface InstanceFilters {
   queries: string[];

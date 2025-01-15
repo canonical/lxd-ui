@@ -1,4 +1,4 @@
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 
 export const toStoragePoolFormValues = (

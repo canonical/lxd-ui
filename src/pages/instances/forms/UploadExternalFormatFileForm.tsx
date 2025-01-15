@@ -11,7 +11,7 @@ import { useProject } from "context/project";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { ChangeEvent, FC, useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
-import { UploadState } from "types/storage";
+import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useQueryClient } from "@tanstack/react-query";

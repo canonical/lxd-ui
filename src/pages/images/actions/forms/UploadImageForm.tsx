@@ -14,10 +14,10 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { humanFileSize } from "util/helpers";
 import ProgressBar from "components/ProgressBar";
-import { UploadState } from "types/storage";
+import type { UploadState } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdSyncResponse } from "types/apiResponse";
+import type { LxdSyncResponse } from "types/apiResponse";
 import { AxiosError } from "axios";
 
 interface Props {

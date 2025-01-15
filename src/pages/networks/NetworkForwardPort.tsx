@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdNetworkForwardPort } from "types/network";
+import type { LxdNetworkForwardPort } from "types/network";
 
 interface Props {
   port: LxdNetworkForwardPort;

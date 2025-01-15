@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { fetchProfiles } from "api/profiles";
 import ResourceLink from "components/ResourceLink";
 

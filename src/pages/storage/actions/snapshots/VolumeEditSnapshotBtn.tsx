@@ -1,7 +1,7 @@
 import { FC } from "react";
 import usePortal from "react-useportal";
 import { Button, Icon } from "@canonical/react-components";
-import { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
+import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import EditVolumeSnapshotForm from "pages/storage/forms/EditVolumeSnapshotForm";
 
 interface Props {

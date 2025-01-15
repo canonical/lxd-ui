@@ -1,5 +1,5 @@
 import { toNetwork } from "pages/networks/forms/NetworkForm";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 import { toNetworkFormValues } from "util/networkForm";
 
 describe("conversion to form values and back with toNetworkFormValues and toNetwork", () => {

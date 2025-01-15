@@ -4,9 +4,9 @@ import FormLink from "components/FormLink";
 import BackLink from "components/BackLink";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import CustomVolumeModal from "./CustomVolumeModal";
-import { LxdDiskDevice } from "types/device";
+import type { LxdDiskDevice } from "types/device";
 import HostPathDeviceModal from "./HostPathDeviceModal";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 
 type DiskDeviceType = "custom volume" | "host path" | "choose type";
 

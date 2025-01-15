@@ -6,8 +6,8 @@ import { loadIsoVolumes } from "context/loadIsoVolumes";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useProject } from "context/project";
-import { LxdImageType, RemoteImage } from "types/image";
-import { IsoImage } from "types/iso";
+import type { LxdImageType, RemoteImage } from "types/image";
+import type { IsoImage } from "types/iso";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 interface Props {

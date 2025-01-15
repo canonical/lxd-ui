@@ -1,5 +1,5 @@
 import { OptionHTMLAttributes } from "react";
-import { LxdSettings } from "types/server";
+import type { LxdSettings } from "types/server";
 
 export const dirDriver = "dir";
 export const btrfsDriver = "btrfs";

@@ -1,5 +1,5 @@
 import { configDescriptionToHtml, toConfigFields } from "./config";
-import { LxcConfigOptionCategories } from "types/config";
+import type { LxcConfigOptionCategories } from "types/config";
 
 const exampleConfig: LxcConfigOptionCategories = {
   acme: {

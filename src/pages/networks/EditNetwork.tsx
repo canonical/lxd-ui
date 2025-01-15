@@ -10,7 +10,7 @@ import NetworkForm, {
   NetworkFormValues,
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 import { yamlToObject } from "util/yaml";
 import { dump as dumpYaml } from "js-yaml";
 import { toNetworkFormValues } from "util/networkForm";

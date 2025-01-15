@@ -8,13 +8,13 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdGPUDevice } from "types/device";
+import type { LxdGPUDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
 import { getInheritedGPUs } from "util/configInheritance";
 import Loader from "components/Loader";
 import AttachGPUBtn from "components/forms/SelectGPUBtn";
-import { GpuCard } from "types/resources";
+import type { GpuCard } from "types/resources";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";

@@ -3,7 +3,7 @@ import { Input, Select } from "@canonical/react-components";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
-import { CpuLimit, MemoryLimit } from "types/limits";
+import type { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
 import {

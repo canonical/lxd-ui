@@ -1,6 +1,6 @@
 import { handleResponse } from "util/helpers";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdPermission } from "types/permissions";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdPermission } from "types/permissions";
 
 export const fetchPermissions = (args: {
   resourceType: string;

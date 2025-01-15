@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import { pluralize } from "util/instanceBulkActions";
 import BackLink from "components/BackLink";

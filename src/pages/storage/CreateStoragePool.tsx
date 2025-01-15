@@ -23,7 +23,7 @@ import { slugify } from "util/slugify";
 import { MAIN_CONFIGURATION } from "./forms/StoragePoolFormMenu";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { yamlToObject } from "util/yaml";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import YamlSwitch from "components/forms/YamlSwitch";
 import ResourceLink from "components/ResourceLink";
 

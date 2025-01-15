@@ -10,10 +10,10 @@ import {
   LxdStorageVolumeState,
   UploadState,
 } from "types/storage";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
-import { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMember } from "types/cluster";
 
 export const fetchStoragePool = (
   pool: string,
@@ -100,7 +100,7 @@ export const createClusteredPool = (
 ): Promise<void> => {
   const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
   return new Promise((resolve, reject) => {
-    void Promise.allSettled(
+    Promise.allSettled(
       clusterMembers.map((item) => createPool(memberPool, item.server_name)),
     )
       .then(handleSettledResult)
@@ -134,7 +134,7 @@ export const updateClusteredPool = (
 ): Promise<void> => {
   const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
   return new Promise((resolve, reject) => {
-    void Promise.allSettled(
+    Promise.allSettled(
       clusterMembers.map(async (item) =>
         updatePool(memberPool, item.server_name),
       ),

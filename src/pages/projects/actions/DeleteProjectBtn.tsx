@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";

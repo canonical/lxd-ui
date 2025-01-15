@@ -1,4 +1,4 @@
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { AbortControllerState, checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";

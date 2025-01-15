@@ -19,7 +19,7 @@ import StoragePoolFormMenu, {
 } from "./StoragePoolFormMenu";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import {
   btrfsDriver,
   cephDriver,

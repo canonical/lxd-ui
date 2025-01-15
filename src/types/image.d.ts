@@ -1,4 +1,4 @@
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 
 export type LxdImageType = "container" | "virtual-machine";
 

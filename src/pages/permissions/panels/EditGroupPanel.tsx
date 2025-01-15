@@ -16,7 +16,7 @@ import { renameGroup, updateGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
-import { LxdGroup, LxdIdentity } from "types/permissions";
+import type { LxdGroup, LxdIdentity } from "types/permissions";
 import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
 import EditIdentitiesForm, {

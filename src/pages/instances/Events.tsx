@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { LxdEvent } from "types/event";
+import type { LxdEvent } from "types/event";
 import { useEventQueue } from "context/eventQueue";
 import { useAuth } from "context/auth";
 import { useQueryClient } from "@tanstack/react-query";

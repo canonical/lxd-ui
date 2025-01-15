@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import StartInstanceBtn from "pages/instances/actions/StartInstanceBtn";
 import StopInstanceBtn from "pages/instances/actions/StopInstanceBtn";
 import FreezeInstanceBtn from "pages/instances/actions/FreezeInstanceBtn";

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 
 interface Props {

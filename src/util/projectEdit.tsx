@@ -1,4 +1,4 @@
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { isProjectWithProfiles } from "./projects";
 import { getProjectConfigKeys } from "util/projectConfigFields";
@@ -13,7 +13,7 @@ import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageR
 import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import { getDefaultStoragePool } from "./helpers";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 
 export const getProjectEditValues = (
   project: LxdProject,

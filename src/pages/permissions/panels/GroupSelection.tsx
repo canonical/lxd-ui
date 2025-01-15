@@ -1,7 +1,7 @@
 import { DependencyList, FC, useState } from "react";
 import PermissionGroupsFilter from "../PermissionGroupsFilter";
 import ScrollableContainer from "components/ScrollableContainer";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 import { EmptyState, Icon } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";

@@ -13,7 +13,7 @@ import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { useSettings } from "context/useSettings";
 
 interface Props {

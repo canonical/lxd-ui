@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { Modal } from "@canonical/react-components";
-import { LxdImageType, RemoteImage } from "types/image";
+import type { LxdImageType, RemoteImage } from "types/image";
 import UploadCustomIso from "pages/storage/UploadCustomIso";
 import CustomIsoSelector from "pages/images/CustomIsoSelector";
-import { IsoImage } from "types/iso";
+import type { IsoImage } from "types/iso";
 
 interface Props {
   onClose: () => void;

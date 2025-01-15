@@ -1,4 +1,4 @@
-import { LxdOperation } from "types/operation";
+import type { LxdOperation } from "types/operation";
 
 export const getInstanceName = (operation?: LxdOperation): string => {
   // the url can be one of below formats

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { deleteImage } from "api/images";
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ConfirmationButton, Icon } from "@canonical/react-components";

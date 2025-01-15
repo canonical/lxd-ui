@@ -1,7 +1,7 @@
 import { AnyObject, TestFunction } from "yup";
 import { AbortControllerState, checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
 
 /*** Volume snapshot utils ***/

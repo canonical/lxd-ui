@@ -1,5 +1,5 @@
 import { createContext, FC, ReactNode, useContext, useState } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 
 type LoadingTypes =
   | "Starting"

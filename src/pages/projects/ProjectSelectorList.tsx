@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { getSubpageFromUrl } from "util/projects";
 import { filterUsedByType } from "util/usedBy";
 

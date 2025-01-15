@@ -5,7 +5,7 @@ import ScrollableConfigurationTable from "components/forms/ScrollableConfigurati
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
-import { LxdConfigPair } from "types/config";
+import type { LxdConfigPair } from "types/config";
 
 export interface NetworkRestrictionFormValues {
   restricted_network_access?: string;

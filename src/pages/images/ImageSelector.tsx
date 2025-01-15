@@ -9,7 +9,7 @@ import {
   SearchBox,
   Select,
 } from "@canonical/react-components";
-import { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
+import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
 import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

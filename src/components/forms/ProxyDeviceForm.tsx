@@ -9,7 +9,7 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdProxyDevice } from "types/device";
+import type { LxdProxyDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
 import { getInheritedProxies } from "util/configInheritance";

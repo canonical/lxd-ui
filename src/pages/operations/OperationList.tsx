@@ -10,7 +10,7 @@ import BaseLayout from "components/BaseLayout";
 import Loader from "components/Loader";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
 import { isoTimeToString } from "util/helpers";
-import { LxdOperationStatus } from "types/operation";
+import type { LxdOperationStatus } from "types/operation";
 import OperationInstanceName from "pages/operations/OperationInstanceName";
 import NotificationRow from "components/NotificationRow";
 import { getProjectName } from "util/operations";

@@ -1,4 +1,4 @@
-import { LxdDiskDevice, LxdNicDevice } from "types/device";
+import type { LxdDiskDevice, LxdNicDevice } from "types/device";
 import {
   CpuLimit,
   CPU_LIMIT_TYPE,

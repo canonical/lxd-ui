@@ -4,7 +4,7 @@ import { useInstanceLoading } from "context/instanceLoading";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
 import ResourceLink from "components/ResourceLink";

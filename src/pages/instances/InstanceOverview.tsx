@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { isoTimeToString } from "util/helpers";
 import { Col, Row, useNotify } from "@canonical/react-components";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { instanceCreationTypes } from "util/instanceOptions";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -12,7 +12,7 @@ import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
 import DeviceListTable from "components/DeviceListTable";
 import NetworkListTable from "components/NetworkListTable";
-import { LxdDevices } from "types/device";
+import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
 
 interface Props {

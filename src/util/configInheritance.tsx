@@ -1,5 +1,5 @@
 import { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import {
@@ -21,7 +21,7 @@ import {
 } from "types/device";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import { ConfigurationRowFormikValues } from "components/ConfigurationRow";
-import { ConfigField } from "types/config";
+import type { ConfigField } from "types/config";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchConfigOptions } from "api/server";

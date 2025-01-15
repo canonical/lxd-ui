@@ -6,13 +6,13 @@ import {
   pushFailure,
   pushSuccess,
 } from "util/helpers";
-import { LxdInstance, LxdInstanceAction } from "types/instance";
-import { LxdTerminal, TerminalConnectPayload } from "types/terminal";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdInstance, LxdInstanceAction } from "types/instance";
+import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
 import axios, { AxiosResponse } from "axios";
-import { UploadState } from "types/storage";
+import type { UploadState } from "types/storage";
 
 export const fetchInstance = (
   name: string,
@@ -179,8 +179,8 @@ export const updateInstanceBulkAction = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
         return await putInstanceAction(name, project, action, isForce)
           .then((operation) => {
@@ -196,7 +196,7 @@ export const updateInstanceBulkAction = (
             continueOrFinish(results, actions.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 
@@ -218,8 +218,8 @@ export const deleteInstanceBulk = (
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
   const results: PromiseSettledResult<void>[] = [];
-  return new Promise((resolve) => {
-    void Promise.allSettled(
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
       instances.map(async (instance) => {
         return await deleteInstance(instance)
           .then((operation) => {
@@ -235,7 +235,7 @@ export const deleteInstanceBulk = (
             continueOrFinish(results, instances.length, resolve);
           });
       }),
-    );
+    ).catch(reject);
   });
 };
 

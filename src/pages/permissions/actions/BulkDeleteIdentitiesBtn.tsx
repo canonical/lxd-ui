@@ -4,7 +4,7 @@ import {
   ConfirmationButton,
   useNotify,
 } from "@canonical/react-components";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";

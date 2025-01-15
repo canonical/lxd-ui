@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import SelectGPUModal from "components/forms/SelectGPUModal";
-import { GpuCard } from "types/resources";
+import type { GpuCard } from "types/resources";
 
 interface Props {
   onSelect: (image: GpuCard) => void;

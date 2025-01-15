@@ -1,4 +1,4 @@
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import { toStoragePoolFormValues } from "util/storagePoolForm";
 import { toStoragePool } from "pages/storage/forms/StoragePoolForm";
 

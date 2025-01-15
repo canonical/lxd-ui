@@ -1,4 +1,4 @@
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 import { extractResourceDetailsFromUrl } from "./resourceDetails";
 
 describe("extractResourceDetailsFromUrl", () => {

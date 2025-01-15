@@ -8,7 +8,7 @@ import {
 import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import {
   StorageVolumeFormValues,
   volumeFormToPayload,

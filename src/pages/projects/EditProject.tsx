@@ -7,7 +7,7 @@ import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import { useFormik } from "formik";
 import { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { getProjectEditValues, getProjectPayload } from "util/projectEdit";

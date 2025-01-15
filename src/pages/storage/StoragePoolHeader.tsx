@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 import { renameStoragePool } from "api/storage-pools";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
 import { testDuplicateStoragePoolName } from "util/storagePool";

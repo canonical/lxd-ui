@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 import DeleteIdpGroupsModal from "./DeleteIdpGroupsModal";
 import usePortal from "react-useportal";
 

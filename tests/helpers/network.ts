@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
-import { LxdNetworkType } from "types/network";
+import type { LxdNetworkType } from "types/network";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
 

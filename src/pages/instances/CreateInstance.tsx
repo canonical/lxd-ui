@@ -13,12 +13,12 @@ import * as Yup from "yup";
 import { createInstance, startInstance } from "api/instances";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { LxdImageType, RemoteImage } from "types/image";
+import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { Location } from "history";
 import InstanceCreateDetailsForm, {
   instanceDetailPayload,

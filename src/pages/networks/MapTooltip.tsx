@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import { LxdInstance } from "types/instance";
-import { LxdNetwork } from "types/network";
+import type { LxdInstance } from "types/instance";
+import type { LxdNetwork } from "types/network";
 import { createRoot } from "react-dom/client";
 import ItemName from "components/ItemName";
 import { getIpAddresses } from "util/networks";

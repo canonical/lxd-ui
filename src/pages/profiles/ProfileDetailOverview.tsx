@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Col, Notification, Row, useNotify } from "@canonical/react-components";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import ProfileInstances from "./ProfileInstances";

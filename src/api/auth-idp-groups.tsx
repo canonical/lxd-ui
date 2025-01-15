@@ -1,21 +1,12 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
-import { LxdApiResponse } from "types/apiResponse";
-import { IdpGroup } from "types/permissions";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { IdpGroup } from "types/permissions";
 
 export const fetchIdpGroups = (): Promise<IdpGroup[]> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups?recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<IdpGroup[]>) => resolve(data.metadata))
-      .catch(reject);
-  });
-};
-
-export const fetchIdpGroup = (name: string): Promise<IdpGroup> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups/${name}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<IdpGroup>) => resolve(data.metadata))
       .catch(reject);
   });
 };
@@ -80,7 +71,7 @@ export const deleteIdpGroup = (group: string): Promise<void> => {
 
 export const deleteIdpGroups = (groups: string[]): Promise<void> => {
   return new Promise((resolve, reject) => {
-    void Promise.allSettled(groups.map((group) => deleteIdpGroup(group)))
+    Promise.allSettled(groups.map((group) => deleteIdpGroup(group)))
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);

@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import { updateSettings } from "api/server";
-import { ConfigField } from "types/config";
+import type { ConfigField } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "context/auth";

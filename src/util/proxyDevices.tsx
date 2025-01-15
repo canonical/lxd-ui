@@ -1,6 +1,6 @@
 import { Input, Label, Select } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import { LxdProxyDevice } from "types/device";
+import type { LxdProxyDevice } from "types/device";
 import { ensureEditMode } from "./instanceEdit";
 import { proxyAddressTypeOptions } from "./instanceOptions";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";

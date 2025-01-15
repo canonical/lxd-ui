@@ -1,8 +1,8 @@
 import { handleResponse, handleTextResponse } from "util/helpers";
-import { LxdSettings } from "types/server";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdMetadata, LxdConfigPair } from "types/config";
-import { LxdResources } from "types/resources";
+import type { LxdSettings } from "types/server";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdMetadata, LxdConfigPair } from "types/config";
+import type { LxdResources } from "types/resources";
 
 export const fetchSettings = (): Promise<LxdSettings> => {
   return new Promise((resolve, reject) => {

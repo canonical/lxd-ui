@@ -1,7 +1,7 @@
 import { FC } from "react";
 import ResourceLink from "components/ResourceLink";
-import { PartialWithRequired } from "types/partial";
-import { LxdStorageVolume } from "types/storage";
+import type { PartialWithRequired } from "types/partial";
+import type { LxdStorageVolume } from "types/storage";
 
 interface Props {
   name: string;

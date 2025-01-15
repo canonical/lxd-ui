@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import DuplicateInstanceForm from "../forms/DuplicateInstanceForm";

@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 import ItemName from "components/ItemName";
 import { useSmallScreen } from "context/useSmallScreen";
 import {

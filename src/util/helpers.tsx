@@ -1,15 +1,15 @@
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdInstance } from "types/instance";
-import { LxdProject } from "types/project";
-import { LxdProfile } from "types/profile";
-import { LxdNetwork } from "types/network";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdInstance } from "types/instance";
+import type { LxdProject } from "types/project";
+import type { LxdProfile } from "types/profile";
+import type { LxdNetwork } from "types/network";
+import type { LxdStorageVolume } from "types/storage";
 import { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
 import { isDiskDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import { FormDevice } from "./formDevices";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
 

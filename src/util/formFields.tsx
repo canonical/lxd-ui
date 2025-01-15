@@ -1,9 +1,9 @@
-import { LxdProfile } from "types/profile";
-import { LxdInstance } from "types/instance";
+import type { LxdProfile } from "types/profile";
+import type { LxdInstance } from "types/instance";
 import { OptionHTMLAttributes } from "react";
-import { LxdConfigPair } from "types/config";
-import { LxdProject } from "types/project";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdConfigPair } from "types/config";
+import type { LxdProject } from "types/project";
+import type { LxdStorageVolume } from "types/storage";
 
 export const getUnhandledKeyValues = (
   item:

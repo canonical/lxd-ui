@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { renameProject } from "api/projects";
 import * as Yup from "yup";
 import { useFormik } from "formik";

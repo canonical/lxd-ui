@@ -6,7 +6,7 @@ import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import { fetchIdentities } from "api/auth-identities";
 import useSortTableData from "util/useSortTableData";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
 
 export type FormIdentity = LxdIdentity & {

@@ -3,7 +3,7 @@ import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import AttachDiskDeviceModal from "./AttachDiskDeviceModal";
-import { LxdDiskDevice } from "types/device";
+import type { LxdDiskDevice } from "types/device";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

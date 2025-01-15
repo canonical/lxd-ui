@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { TerminalConnectPayload } from "types/terminal";
+import type { TerminalConnectPayload } from "types/terminal";
 import TerminalPayloadForm from "../TerminalPayloadForm";
 
 interface Props {

@@ -3,7 +3,7 @@ import { Button, ButtonProps } from "@canonical/react-components";
 import usePortal from "react-useportal";
 import CustomVolumeModal from "pages/storage/CustomVolumeModal";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;

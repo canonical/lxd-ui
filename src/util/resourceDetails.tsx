@@ -1,4 +1,4 @@
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 
 export type ResourceDetail = {
   project?: string;

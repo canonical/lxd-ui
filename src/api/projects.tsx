@@ -1,7 +1,7 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
-import { LxdProject } from "types/project";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdProject } from "types/project";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 
 export const fetchProjects = (): Promise<LxdProject[]> => {
   return new Promise((resolve, reject) => {

@@ -16,7 +16,7 @@ import {
 } from "util/permissions";
 import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
-import { LxdGroup, LxdPermission } from "types/permissions";
+import type { LxdGroup, LxdPermission } from "types/permissions";
 
 export type FormPermission = LxdPermission & {
   id?: string;
