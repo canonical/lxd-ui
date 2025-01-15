@@ -89,6 +89,15 @@ const Settings: FC = () => {
     });
   }
 
+  configFields.push({
+    key: "user.grafana_base_url",
+    category: "user",
+    default: "",
+    shortdesc:
+      "Url to grafana, if properly set, links to grafana will appear in the UI",
+    type: "string",
+  });
+
   let lastCategory = "";
   const rows = configFields
     .filter((configField) => {
