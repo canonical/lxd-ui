@@ -5,6 +5,7 @@ import { humanFileSize } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworkState } from "api/networks";
+import { useParams } from "react-router-dom";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -12,17 +13,23 @@ interface Props {
 }
 
 const NetworkStatistics: FC<Props> = ({ formik, project }) => {
+  const { member } = useParams<{
+    member: string;
+  }>();
+
   const { data: networkState } = useQuery({
     queryKey: [
       queryKeys.projects,
       project,
       queryKeys.networks,
       formik.values.bareNetwork?.name,
+      queryKeys.members,
+      member,
       queryKeys.state,
     ],
     retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
     queryFn: () =>
-      fetchNetworkState(formik.values.bareNetwork?.name ?? "", project),
+      fetchNetworkState(formik.values.bareNetwork?.name ?? "", project, member),
     enabled: !formik.values.isCreating,
   });
 

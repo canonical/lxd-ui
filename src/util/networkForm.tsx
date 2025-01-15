@@ -5,8 +5,20 @@ import {
 } from "types/network";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { getNetworkKey } from "util/networks";
+import { LXDClusterMemberNetwork } from "api/networks";
+import { ClusterSpecificSelectField } from "components/ClusterSpecificSelect";
 
-export const toNetworkFormValues = (network: LxdNetwork): NetworkFormValues => {
+export const toNetworkFormValues = (
+  network: LxdNetwork,
+  networkByMembers?: LXDClusterMemberNetwork,
+): NetworkFormValues => {
+  const parentPerClusterMember: ClusterSpecificSelectField = {};
+  networkByMembers?.map(
+    (item) =>
+      (parentPerClusterMember[item.memberName] =
+        item.network.config.parent ?? ""),
+  );
+
   return {
     readOnly: true,
     isCreating: false,
@@ -48,6 +60,7 @@ export const toNetworkFormValues = (network: LxdNetwork): NetworkFormValues => {
     ovn_ingress_mode: network.config[getNetworkKey("ovn_ingress_mode")],
     network: network.config.network,
     parent: network.config.parent,
+    parentPerClusterMember,
     entityType: "network",
     bareNetwork: network,
   };

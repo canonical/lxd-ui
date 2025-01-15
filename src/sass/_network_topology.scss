@@ -3,7 +3,7 @@
   margin-bottom: $spv--x-large;
 
   .current-network {
-    .p-chip {
+    .active-chip {
       background-color: $colors--dark-theme--background-active !important;
 
       * {
@@ -16,7 +16,11 @@
     max-width: 13vw !important;
   }
 
-  .uplink::after,
+  .uplink {
+    text-align: right;
+  }
+
+  .uplink-item::after,
   .has-parent::before,
   .has-descendents::after,
   .downstream-item::before {
@@ -29,12 +33,12 @@
     width: 2rem;
   }
 
-  .uplink::after,
   .has-parent::before,
   .has-descendents::after {
     clip-path: polygon(100% 80%, 0 80%, 0 83%, 100% 83%);
   }
 
+  .uplink-item::after,
   .downstream-item::before {
     clip-path: polygon(
       100% 80%,
@@ -54,14 +58,21 @@
     display: contents;
   }
 
+  .uplink-item::after {
+    transform: scale(-1, 1);
+  }
+
+  .uplink-item:first-child::after,
   .downstream-item:first-child::before {
     clip-path: polygon(100% 80%, 0 80%, 0 100%, 4% 100%, 4% 83%, 100% 83%);
   }
 
+  .uplink-item:last-child::after,
   .downstream-item:last-child::before {
     clip-path: polygon(100% 80%, 4% 80%, 4% 0, 0 0, 0 83%, 100% 83%);
   }
 
+  .uplink-item:only-child::after,
   .downstream-item:only-child::before {
     clip-path: polygon(100% 80%, 0 80%, 0 83%, 100% 83%);
   }
@@ -69,9 +80,10 @@
   .downstream {
     display: flex;
     flex-direction: column;
+  }
 
-    .downstream-item {
-      height: 2rem;
-    }
+  .uplink-item,
+  .downstream-item {
+    height: 2rem;
   }
 }

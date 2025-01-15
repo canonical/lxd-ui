@@ -11,13 +11,19 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworks } from "api/networks";
 import classnames from "classnames";
+import { useParams } from "react-router-dom";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
   project: string;
+  isServerClustered: boolean;
 }
 
-const NetworkTopology: FC<Props> = ({ formik, project }) => {
+const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
+  const { member } = useParams<{
+    member: string;
+  }>();
+
   const [isNetworksCollapsed, setNetworksCollapsed] = useState(true);
   const [isInstancesCollapsed, setInstancesCollapsed] = useState(true);
   const network = formik.values.bareNetwork;
@@ -26,19 +32,53 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
     return;
   }
 
+  const hasClusteredUplinks =
+    isServerClustered && ["physical", "bridge"].includes(network.type);
+
   const { data: networks = [] } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks],
+    queryKey: [queryKeys.networks, project],
     queryFn: () => fetchNetworks(project),
   });
 
-  const downstreamNetworks = networks.filter(
-    (network) =>
-      network.config.network === formik.values.name ||
-      network.config.parent === formik.values.name,
-  );
+  const downstreamNetworks = networks.filter((downStreamCandidate) => {
+    return (
+      downStreamCandidate.config.network === formik.values.name ||
+      downStreamCandidate.config.parent === formik.values.name ||
+      network.used_by?.includes(`/1.0/networks/${downStreamCandidate.name}`)
+    );
+  });
 
   const instances = filterUsedByType("instance", network.used_by);
   const uplink = formik.values.parent ?? formik.values.network;
+
+  const clusterUplinks = Object.keys(
+    formik.values.parentPerClusterMember ?? {},
+  ).map((clusterMember) => {
+    const memberUplink = formik.values.parentPerClusterMember?.[clusterMember];
+
+    if (!memberUplink) {
+      return null;
+    }
+
+    return (
+      <div className="uplink-item" key={clusterMember}>
+        <ResourceLink
+          type="cluster-member"
+          value={clusterMember}
+          to={`/ui/project/${project}/networks?scope=${clusterMember}`}
+        />
+        ——
+        <ResourceLink
+          type="network"
+          value={memberUplink}
+          to={`/ui/project/${project}/member/${clusterMember}/network/${memberUplink}`}
+        />
+      </div>
+    );
+  });
+
+  const hasUplink =
+    uplink ?? clusterUplinks.filter((item) => item !== null).length > 0;
 
   return (
     <>
@@ -46,24 +86,40 @@ const NetworkTopology: FC<Props> = ({ formik, project }) => {
         Connections
       </h2>
       <div className="u-sv3 network-topology">
-        {uplink && (
+        {hasUplink && (
           <div className="uplink">
-            <ResourceLink
-              type="network"
-              value={uplink}
-              to={`/ui/project/default/network/${uplink}`}
-            />
+            {hasClusteredUplinks
+              ? clusterUplinks
+              : uplink && (
+                  <div className="uplink-item">
+                    <ResourceLink
+                      type="network"
+                      value={uplink}
+                      to={`/ui/project/default/network/${uplink}`}
+                    />
+                  </div>
+                )}
           </div>
         )}
         <div
           className={classNames("current-network", {
             "has-descendents":
               instances.length > 0 || downstreamNetworks.length > 0,
-            "has-parent": !!uplink,
+            "has-parent": hasUplink,
           })}
         >
+          {member && (
+            <>
+              <ResourceLink
+                type="cluster-member"
+                value={member}
+                to={`/ui/project/${project}/networks?scope=${member}`}
+              />
+              ——
+            </>
+          )}
           <div
-            className="p-chip is-inline is-dense resource-link"
+            className="p-chip is-inline is-dense resource-link active-chip"
             title={network.name}
           >
             <span className="p-chip__value">

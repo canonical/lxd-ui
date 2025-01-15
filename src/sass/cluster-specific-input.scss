@@ -1,0 +1,11 @@
+.cluster-specific-input {
+  align-items: center;
+  display: grid;
+  gap: $sp-medium;
+  grid-template-columns: fit-content(20%) 1fr;
+  padding-bottom: $spv--large;
+
+  .cluster-specific-member {
+    overflow: hidden;
+  }
+}

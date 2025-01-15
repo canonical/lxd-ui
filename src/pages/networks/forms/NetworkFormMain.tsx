@@ -94,14 +94,13 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             formik={formik}
           />
         )}
-        {formik.values.networkType === "physical" &&
-          isManagedNetwork &&
-          (formik.values.isCreating || !isClustered) && (
-            <NetworkParentSelector
-              props={getFormProps("parent")}
-              formik={formik}
-            />
-          )}
+        {formik.values.networkType === "physical" && isManagedNetwork && (
+          <NetworkParentSelector
+            props={getFormProps("parent")}
+            formik={formik}
+            isClustered={isClustered}
+          />
+        )}
         {formik.values.networkType !== "physical" && isManagedNetwork && (
           <>
             <IpAddress
