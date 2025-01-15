@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.41% </span>
+                <span class="strong">69.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>32/43</span>
+                <span class='fraction'>30/43</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.17% </span>
+                <span class="strong">47.61% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/23</span>
+                <span class='fraction'>10/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">93.54% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/31</span>
+                <span class='fraction'>29/31</span>
             </div>
         
             
@@ -99,32 +99,32 @@
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">256x</span>
 <span class="cline-any cline-yes">116x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">374x</span>
-<span class="cline-any cline-yes">374x</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">115x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
-<span class="cline-any cline-yes">375x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">256x</span>
+<span class="cline-any cline-yes">116x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
+<span class="cline-any cline-yes">372x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { getAbsoluteHeightBelowById } from "./helpers";
 &nbsp;
 type HeightProperty = "height" | "max-height" | "min-height";
@@ -141,8 +141,8 @@ export const updateMaxHeight = <span class="fstat-no" title="function not covere
     ? document.getElementsByClassName(bottomClass)
     : null;
 <span class="cstat-no" title="statement not covered" >  if (elements.length !== 1 || (<span class="branch-1 cbranch-no" title="branch not covered" >belowElements &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >b</span>elowElements.length !== 1)) {</span></span>
-<span class="cstat-no" title="statement not covered" >    return;</span>
-  }
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return;</span></span>
+<span class="cstat-no" title="statement not covered" >  }</span>
   const above = <span class="cstat-no" title="statement not covered" >elements[0].getBoundingClientRect().top + 1;</span>
   let below = <span class="cstat-no" title="statement not covered" >belowElements</span>
     ? belowElements[0].getBoundingClientRect().height + 1
@@ -163,7 +163,7 @@ export const updateMaxHeight = <span class="fstat-no" title="function not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-14T13:12:44.351Z
+                at 2025-01-15T16:16:37.665Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

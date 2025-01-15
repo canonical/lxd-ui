@@ -507,13 +507,13 @@
 <span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
-<span class="cline-any cline-yes">94x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-yes">93x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">67x</span>
@@ -667,17 +667,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">47x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
+<span class="cline-any cline-yes">51x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">82x</span>
@@ -696,22 +696,22 @@
 <span class="cline-any cline-yes">82x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
 <span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">107x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-yes">106x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -901,10 +901,10 @@ import {
   LxdStorageVolumeState,
   UploadState,
 } from "types/storage";
-import { LxdApiResponse } from "types/apiResponse";
-import { LxdOperationResponse } from "types/operation";
+import type { LxdApiResponse } from "types/apiResponse";
+import type { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
-import { LxdClusterMember } from "types/cluster";
+import type { LxdClusterMember } from "types/cluster";
 &nbsp;
 export const fetchStoragePool = <span class="fstat-no" title="function not covered" >(</span>
   pool: string,
@@ -991,7 +991,7 @@ export const createClusteredPool = <span class="fstat-no" title="function not co
 ): Promise&lt;void&gt; =&gt; {
   const { memberPool, clusterPool } = <span class="cstat-no" title="statement not covered" >getClusterAndMemberPools(pool);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    void Promise.allSettled(</span>
+<span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span>
       clusterMembers.map((item) =&gt; createPool(memberPool, item.server_name)),
     )
       .then(handleSettledResult)
@@ -1025,7 +1025,7 @@ export const updateClusteredPool = <span class="fstat-no" title="function not co
 ): Promise&lt;void&gt; =&gt; {
   const { memberPool, clusterPool } = <span class="cstat-no" title="statement not covered" >getClusterAndMemberPools(pool);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    void Promise.allSettled(</span>
+<span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span>
       clusterMembers.map(<span class="fstat-no" title="function not covered" >async (i</span>tem) =&gt;
 <span class="cstat-no" title="statement not covered" >        updatePool(memberPool, item.server_name),</span>
       ),
@@ -1309,7 +1309,7 @@ export const duplicateStorageVolume = <span class="fstat-no" title="function not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-14T13:12:44.351Z
+                at 2025-01-15T16:16:37.665Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
