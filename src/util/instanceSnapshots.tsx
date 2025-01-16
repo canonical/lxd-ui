@@ -46,7 +46,7 @@ export const getInstanceSnapshotSchema = (
       )
       .matches(/^[A-Za-z0-9-_.:]+$/, {
         message:
-          "Please enter only alphanumeric characters, underscores (_), periods (.), hyphens (-), and colons (:) in this field",
+          "Only alphanumeric characters, underscores, periods, hyphens, and colons are allowed in this field",
       }),
     expirationDate: Yup.string()
       .nullable()
