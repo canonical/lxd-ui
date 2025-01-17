@@ -26,6 +26,7 @@ import {
   cephFSDriver,
   getSupportedStorageDrivers,
   powerFlex,
+  pureStorage,
   zfsDriver,
 } from "util/storageOptions";
 import { getPoolKey } from "util/storagePool";
@@ -70,6 +71,10 @@ export interface StoragePoolFormValues {
   powerflex_sdt?: string;
   powerflex_user_name?: string;
   powerflex_user_password?: string;
+  pure_api_token?: string;
+  pure_gateway?: string;
+  pure_gateway_verify?: string;
+  pure_mode?: string;
   zfs_clone_copy?: string;
   zfs_export?: string;
   zfs_pool_name?: string;
@@ -90,6 +95,7 @@ export const toStoragePool = (
   const isCephDriver = values.driver === cephDriver;
   const isCephFSDriver = values.driver === cephFSDriver;
   const isPowerFlexDriver = values.driver === powerFlex;
+  const isPureDriver = values.driver === pureStorage;
   const isZFSDriver = values.driver === zfsDriver;
   const hasValidSize = values.size?.match(/^\d/);
 
@@ -127,6 +133,14 @@ export const toStoragePool = (
         [getPoolKey("powerflex_sdt")]: values.powerflex_sdt,
         [getPoolKey("powerflex_user_name")]: values.powerflex_user_name,
         [getPoolKey("powerflex_user_password")]: values.powerflex_user_password,
+      };
+    }
+    if (isPureDriver) {
+      return {
+        [getPoolKey("pure_api_token")]: values.pure_api_token,
+        [getPoolKey("pure_gateway")]: values.pure_gateway,
+        [getPoolKey("pure_gateway_verify")]: values.pure_gateway_verify,
+        [getPoolKey("pure_mode")]: values.pure_mode,
       };
     }
     if (isZFSDriver) {

@@ -8,6 +8,7 @@ export const zfsDriver = "zfs";
 export const cephDriver = "ceph";
 export const cephFSDriver = "cephfs";
 export const powerFlex = "powerflex";
+export const pureStorage = "pure";
 
 const storageDriverLabels: { [key: string]: string } = {
   [dirDriver]: "Directory",
@@ -17,6 +18,7 @@ const storageDriverLabels: { [key: string]: string } = {
   [cephDriver]: "Ceph",
   [cephFSDriver]: "CephFS",
   [powerFlex]: "Dell PowerFlex",
+  [pureStorage]: "Pure Storage",
 };
 
 export const getStorageDriverOptions = (
@@ -60,4 +62,9 @@ export const getSourceHelpForDriver = (driver: string) => {
   return "Not available";
 };
 
-export const driversWithFilesystemSupport = [zfsDriver, lvmDriver, cephDriver];
+export const driversWithFilesystemSupport = [
+  zfsDriver,
+  lvmDriver,
+  cephDriver,
+  pureStorage,
+];

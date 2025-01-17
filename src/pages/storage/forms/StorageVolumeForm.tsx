@@ -156,16 +156,18 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
   const poolDriver =
     pools.find((item) => item.name === formik.values.pool)?.driver ?? "";
 
-  const invalidFields: (keyof StorageVolumeFormValues)[] = [];
-  if (!driversWithFilesystemSupport.includes(poolDriver)) {
-    invalidFields.push(...getFilesystemVolumeFormFields());
-  }
-  if (poolDriver !== "zfs") {
-    invalidFields.push(...getZfsVolumeFormFields());
-  }
-  for (const field of invalidFields) {
-    if (formik.values[field] !== undefined) {
-      void formik.setFieldValue(field, undefined);
+  if (pools.length > 0) {
+    const invalidFields: (keyof StorageVolumeFormValues)[] = [];
+    if (!driversWithFilesystemSupport.includes(poolDriver)) {
+      invalidFields.push(...getFilesystemVolumeFormFields());
+    }
+    if (poolDriver !== "zfs") {
+      invalidFields.push(...getZfsVolumeFormFields());
+    }
+    for (const field of invalidFields) {
+      if (formik.values[field] !== undefined) {
+        void formik.setFieldValue(field, undefined);
+      }
     }
   }
 

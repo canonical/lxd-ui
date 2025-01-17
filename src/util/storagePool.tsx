@@ -26,6 +26,10 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   powerflex_sdt: "powerflex.sdt",
   powerflex_user_name: "powerflex.user.name",
   powerflex_user_password: "powerflex.user.password",
+  pure_api_token: "pure.api.token",
+  pure_gateway: "pure.gateway",
+  pure_gateway_verify: "pure.gateway.verify",
+  pure_mode: "pure.mode",
   zfs_clone_copy: "zfs.clone_copy",
   zfs_export: "zfs.export",
   zfs_pool_name: "zfs.pool_name",
@@ -54,6 +58,7 @@ const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   ceph: "storage-ceph",
   cephfs: "storage-cephfs",
   powerflex: "storage-powerflex",
+  pure: "storage-pure",
 };
 
 export const storagePoolFormDriverToOptionKey = (

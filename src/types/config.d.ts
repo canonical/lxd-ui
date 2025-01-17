@@ -53,6 +53,7 @@ export interface LxdMetadata {
     "storage-dir": LxcConfigOptionCategories;
     "storage-lvm": LxcConfigOptionCategories;
     "storage-powerflex": LxcConfigOptionCategories;
+    "storage-pure": LxcConfigOptionCategories;
     "storage-zfs": LxcConfigOptionCategories;
   };
   entities: LxdEntityEntitlements;

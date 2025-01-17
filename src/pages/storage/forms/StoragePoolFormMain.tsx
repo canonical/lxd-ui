@@ -9,6 +9,7 @@ import {
   cephDriver,
   getStorageDriverOptions,
   powerFlex,
+  pureStorage,
   cephFSDriver,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
@@ -18,6 +19,7 @@ import { getCephPoolFormFields } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
+import { optionTrueFalse } from "util/instanceOptions";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -42,6 +44,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const isCephFSDriver = formik.values.driver === cephFSDriver;
   const isDirDriver = formik.values.driver === dirDriver;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
+  const isPureDriver = formik.values.driver === pureStorage;
   const storageDriverOptions = getStorageDriverOptions(settings);
 
   return (
@@ -104,6 +107,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           {!isCephDriver &&
             !isCephFSDriver &&
             !isDirDriver &&
+            !isPureDriver &&
             !isPowerFlexDriver && (
               <DiskSizeSelector
                 label="Size"
@@ -120,7 +124,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 disabled={formik.values.driver === dirDriver}
               />
             )}
-          {!isPowerFlexDriver && (
+          {!isPureDriver && !isPowerFlexDriver && (
             <Input
               {...getFormProps("source")}
               type="text"
@@ -200,6 +204,68 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   formik.handleChange(e);
                 }}
                 required
+              />
+            </>
+          )}
+          {isPureDriver && (
+            <>
+              <Input
+                {...formik.getFieldProps("pure_api_token")}
+                type="text"
+                label="API token"
+                placeholder="Enter Pure Storage API token"
+                help="API token with admin access to the Pure Storage array."
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Input
+                {...formik.getFieldProps("pure_gateway")}
+                type="text"
+                label="API gateway"
+                placeholder="Enter Pure Storage API gateway"
+                help="URL for the Pure Storage API."
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+              <Select
+                {...formik.getFieldProps("pure_gateway_verify")}
+                label="Verify gateway"
+                help="Whether to verify the PureStorage certificate. Set this option to false for self-signed certs, or add the cert to the OS trust store."
+                options={optionTrueFalse}
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+              />
+              <Select
+                {...formik.getFieldProps("pure_mode")}
+                label="Mode"
+                help="Whether to use nvme or iscsi to connect to Pure Storage array."
+                options={[
+                  {
+                    label: "Select option",
+                    value: "",
+                    disabled: true,
+                  },
+                  {
+                    label: "NVME",
+                    value: "nvme",
+                  },
+                  {
+                    label: "ISCSI",
+                    value: "iscsi",
+                  },
+                ]}
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
               />
             </>
           )}
