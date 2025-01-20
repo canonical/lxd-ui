@@ -90,6 +90,7 @@ jobs:
           ENVIRONMENT: devel
           PORT: 8407
           LXD_UI_BACKEND_IP: 172.17.0.1
+          VITE_PORT: 3000
         run: |
           dotrun &
           curl --head --fail --retry-delay 2 --retry 100 --retry-connrefused --insecure https://localhost:8407

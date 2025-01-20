@@ -1,26 +1,37 @@
 #! /usr/bin/env bash
 set -e
 
+load_env_file() {
+  if [ -f "$1" ]; then
+    set -o allexport
+    source "$1"
+    set +o allexport
+  fi
+}
+
+load_env_file .env
+load_env_file .env.local
+# default to 3000 if VITE_PORT is not set, in demo environment
+VITE_PORT="${VITE_PORT:-3000}"
+
 # demo config
 if [[ ! -z "$LXD_UI_BACKEND_KEY_PEM" ]]; then
   printf %s "$LXD_UI_BACKEND_KEY_PEM" > key.pem
   cp haproxy-demo.cfg /tmp/haproxy-local.cfg
   sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" /tmp/haproxy-local.cfg
   sed -i "s#LXD_UI_BACKEND_SECRET#$LXD_UI_BACKEND_SECRET#" /tmp/haproxy-local.cfg
+  sed -i "s#VITE_PORT#$VITE_PORT#" /tmp/haproxy-local.cfg
   . /usr/local/nvm/nvm.sh
 
   haproxy -f /tmp/haproxy-local.cfg
-  npx serve --single --no-clipboard -l 3000 build
+  npx serve --single --no-clipboard -l $VITE_PORT build
 
 # dev config
 else
   cp haproxy-dev.cfg /tmp/haproxy-local.cfg
-  set -o allexport; source .env; set +o allexport
-  if [ -f .env.local ]
-  then
-    set -o allexport; source .env.local; set +o allexport
-  fi
   sed -i "s#LXD_UI_BACKEND_IP#$LXD_UI_BACKEND_IP#" /tmp/haproxy-local.cfg
+  sed -i "s#VITE_PORT#$VITE_PORT#" /tmp/haproxy-local.cfg
+
   # generate certificates for dev environment
   if [ ! -d "keys" ]; then
     mkdir -p keys

@@ -18,7 +18,7 @@
     "lint-js": "tsc --noEmit && yarn lint-js-eslint && yarn lint-js-prettier",
     "hooks-add": "husky install",
     "hooks-remove": "husky uninstall",
-    "start": "concurrently --kill-others --raw 'vite --host | grep -v 3000' 'yarn serve'",
+    "start": "concurrently --kill-others --raw 'vite --host | grep -v http:' 'yarn serve'",
     "serve": "./entrypoint",
     "test-js": "vitest --run",
     "test-e2e-edge": "tests/scripts/setup_test && npx playwright test --project chromium:lxd-latest-edge firefox:lxd-latest-edge && tests/scripts/teardown_test",
