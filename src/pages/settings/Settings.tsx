@@ -93,8 +93,9 @@ const Settings: FC = () => {
     key: "user.grafana_base_url",
     category: "user",
     default: "",
+    longdesc: "e.g. https://192.0.2.1:3000/d/bGY-LSB7k/lxd?orgId=1",
     shortdesc:
-      "Url to grafana, if properly set, links to grafana will appear in the UI",
+      " See {ref}`grafana` for more information. Pages link to metrics, when set.",
     type: "string",
   });
 
