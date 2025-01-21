@@ -41,6 +41,7 @@ const InstanceDetail: FC = () => {
   const {
     data: instance,
     error,
+    refetch: refreshInstance,
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.instances, name, project],
@@ -96,7 +97,10 @@ const InstanceDetail: FC = () => {
 
           {activeTab === "terminal" && (
             <div role="tabpanel" aria-labelledby="terminal">
-              <InstanceTerminal instance={instance} />
+              <InstanceTerminal
+                instance={instance}
+                refreshInstance={refreshInstance}
+              />
             </div>
           )}
 

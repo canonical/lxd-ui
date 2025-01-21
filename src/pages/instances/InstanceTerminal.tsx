@@ -44,9 +44,10 @@ export const defaultPayload: TerminalConnectPayload = {
 
 interface Props {
   instance: LxdInstance;
+  refreshInstance: () => Promise<unknown>;
 }
 
-const InstanceTerminal: FC<Props> = ({ instance }) => {
+const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const { name, project } = useParams<{
     name: string;
     project: string;
@@ -60,6 +61,8 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
   const [fitAddon] = useState<FitAddon>(new FitAddon());
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef<Terminal>(null);
+  const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [version, setVersion] = useState(0);
 
   usePrompt({
     when: userInteracted,
@@ -72,8 +75,6 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     }
   };
   useEventListener("beforeunload", handleCloseTab);
-
-  const isRunning = instance.status === "Running";
 
   const openWebsockets = async (payload: TerminalConnectPayload) => {
     if (!name) {
@@ -143,16 +144,37 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
     return [data, control];
   };
 
+  const isRunning = instance.status === "Running";
+  const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
+  const canConnect = isRunning && !isBooting;
+
+  useEffect(() => {
+    if (isBooting && refreshTimerRef.current === null) {
+      const delay = 1000;
+      const triggerRefresh = () => {
+        void refreshInstance();
+        refreshTimerRef.current = null;
+        setVersion((old) => old + 1);
+      };
+      const timeout = setTimeout(triggerRefresh, delay);
+      refreshTimerRef.current = timeout;
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isBooting, version]);
+
   useEffect(() => {
     xtermRef.current?.clear();
     notify.clear();
-    const websocketPromise = openWebsockets(payload);
-    return () => {
-      void websocketPromise.then((websockets) => {
-        websockets?.map((websocket) => websocket.close());
-      });
-    };
-  }, [payload, instance.status]);
+    if (canConnect) {
+      const websocketPromise = openWebsockets(payload);
+      return () => {
+        void websocketPromise.then((websockets) => {
+          websockets?.map((websocket) => websocket.close());
+        });
+      };
+    }
+  }, [payload, instance.status, canConnect]);
 
   const handleResize = () => {
     if (controlWs?.readyState === WebSocket.CLOSED) {
@@ -194,7 +216,7 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
 
   return (
     <div className="instance-terminal-tab">
-      {isRunning && (
+      {canConnect && (
         <>
           <div className="p-panel__controls">
             <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
@@ -216,16 +238,20 @@ const InstanceTerminal: FC<Props> = ({ instance }) => {
           )}
         </>
       )}
-      {!isRunning && (
+      {!canConnect && (
         <EmptyState
           className="empty-state"
           image={<Icon name="pods" className="empty-state-icon" />}
-          title="Instance stopped"
+          title={isBooting ? "Instance starting" : "Instance stopped"}
         >
-          <p>Start the instance to access the terminal.</p>
+          <p>
+            {isBooting
+              ? "Terminal will be ready once the instance is finished booting."
+              : "Start the instance to access the terminal."}
+          </p>
           <ActionButton
             appearance="positive"
-            loading={isStartLoading}
+            loading={isStartLoading || isBooting}
             onClick={handleStart}
           >
             Start instance
