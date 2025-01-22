@@ -36,6 +36,7 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
     };
 
     return {
+      key: project.name,
       className: classnames("u-row", {
         "u-text--muted": disableReason,
         "u-row--disabled": disableReason,

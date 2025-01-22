@@ -85,6 +85,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
           };
 
           return {
+            key: volume.name,
             className: classnames("u-row", {
               "u-text--muted": isDisabled,
               "u-row--disabled": isDisabled,

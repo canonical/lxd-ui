@@ -68,6 +68,7 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
     }
 
     return {
+      key: devicename,
       columns: [
         {
           content: (

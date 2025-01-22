@@ -87,6 +87,7 @@ const StoragePools: FC = () => {
     const totalVolumeCount = volumes.length;
 
     return {
+      key: pool.name,
       columns: [
         {
           content: (

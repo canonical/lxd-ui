@@ -51,6 +51,7 @@ export const getClusterRows = (
 ): MainTableRow[] =>
   members.map((member) => {
     return {
+      key: member.server_name,
       className: "u-row",
       name: member.server_name,
       columns: [

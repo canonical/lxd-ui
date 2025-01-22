@@ -223,6 +223,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         : "";
 
     return {
+      key: identity.id,
       name: identity.id,
       className: "u-row",
       columns: [

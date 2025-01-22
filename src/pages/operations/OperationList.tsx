@@ -45,6 +45,7 @@ const OperationList: FC = () => {
   const rows = operations.map((operation) => {
     const projectName = getProjectName(operation);
     return {
+      key: operation.id,
       columns: [
         {
           content: (

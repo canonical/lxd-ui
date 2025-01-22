@@ -122,6 +122,7 @@ const InstanceSnapshots = (props: Props) => {
     );
 
     return {
+      key: snapshot.name,
       className: "u-row",
       name: snapshot.name,
       columns: [

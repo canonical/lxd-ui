@@ -123,6 +123,7 @@ const ImageList: FC = () => {
     const description = image.properties?.description ?? image.fingerprint;
 
     return {
+      key: image.fingerprint,
       name: image.fingerprint,
       columns: [
         {

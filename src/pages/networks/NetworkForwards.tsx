@@ -58,6 +58,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
 
   const rows = forwards.map((forward) => {
     return {
+      key: forward.listen_address,
       columns: [
         {
           content: forward.listen_address,

@@ -234,6 +234,7 @@ export const getConfigurationRowBase = ({
 }: BaseProps): MainTableRow => {
   return {
     name,
+    key: name,
     className,
     columns: [
       {

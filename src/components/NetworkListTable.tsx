@@ -62,6 +62,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
         .map(([key]) => key);
 
       return {
+        key: network.name,
         columns: [
           {
             content: (

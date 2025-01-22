@@ -119,6 +119,7 @@ const EditIdentitiesForm: FC<Props> = ({
     const isModified = formIdentity?.isAdded || formIdentity?.isRemoved;
 
     return {
+      key: identity.id,
       name: identity.id,
       className: "u-row",
       columns: [

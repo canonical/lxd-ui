@@ -94,6 +94,7 @@ const CustomIsoList: FC = () => {
     );
 
     return {
+      key: image.fingerprint,
       columns: [
         {
           content: image.aliases,

@@ -44,6 +44,7 @@ const CustomIsoSelector: FC<Props> = ({
     const selectIso = () => onSelect(image, "virtual-machine");
 
     return {
+      key: image.fingerprint,
       className: "u-row",
       columns: [
         {

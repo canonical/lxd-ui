@@ -275,6 +275,7 @@ const InstanceList: FC = () => {
 
     const creationRows: MainTableRow[] = creationOperations.map((operation) => {
       return {
+        key: operation.id,
         className: "u-row",
         columns: [
           {
@@ -349,6 +350,7 @@ const InstanceList: FC = () => {
         .map((val) => val.address);
 
       return {
+        key: instance.name,
         className:
           panelParams.instance === instance.name ? "u-row-selected" : "u-row",
         name: instance.name,

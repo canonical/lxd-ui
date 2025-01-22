@@ -125,6 +125,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
     );
 
     return {
+      key: snapshot.name,
       className: "u-row",
       name: snapshot.name,
       columns: [
