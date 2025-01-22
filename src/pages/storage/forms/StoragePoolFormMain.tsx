@@ -20,6 +20,8 @@ import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { optionTrueFalse } from "util/instanceOptions";
+import StoragePoolClusteredSourceSelector from "./StoragePoolClusteredSourceSelector";
+import { isClusteredServer } from "util/settings";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -46,6 +48,12 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const storageDriverOptions = getStorageDriverOptions(settings);
+  const hasClusterWideSource = isCephDriver || isCephFSDriver;
+  const hasSource = !isPureDriver && !isPowerFlexDriver;
+
+  const sourceHelpText = formik.values.isCreating
+    ? getSourceHelpForDriver(formik.values.driver)
+    : "Source can't be changed";
 
   return (
     <ScrollableForm>
@@ -124,22 +132,21 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 disabled={formik.values.driver === dirDriver}
               />
             )}
-          {!isPureDriver && !isPowerFlexDriver && (
-            <Input
-              {...getFormProps("source")}
-              type="text"
-              disabled={
-                formik.values.driver === btrfsDriver ||
-                !formik.values.isCreating
-              }
-              help={
-                formik.values.isCreating
-                  ? getSourceHelpForDriver(formik.values.driver)
-                  : "Source can't be changed"
-              }
-              label="Source"
-            />
-          )}
+          {hasSource &&
+            (hasClusterWideSource || !isClusteredServer(settings) ? (
+              <Input
+                {...getFormProps("source")}
+                type="text"
+                disabled={!formik.values.isCreating}
+                help={sourceHelpText}
+                label="Source"
+              />
+            ) : (
+              <StoragePoolClusteredSourceSelector
+                formik={formik}
+                helpText={sourceHelpText}
+              />
+            ))}
           {isPowerFlexDriver && (
             <>
               <Input

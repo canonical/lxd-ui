@@ -1,10 +1,12 @@
 import {
+  constructMemberError,
   handleEtagResponse,
   handleResponse,
   handleSettledResult,
 } from "util/helpers";
 import {
   LxdStoragePool,
+  LXDStoragePoolOnClusterMember,
   LxdStoragePoolResources,
   LxdStorageVolume,
   LxdStorageVolumeState,
@@ -14,6 +16,7 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
 import type { LxdClusterMember } from "types/cluster";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const fetchStoragePool = (
   pool: string,
@@ -66,7 +69,7 @@ export const createPool = (
   });
 };
 
-const getClusterAndMemberPools = (pool: Partial<LxdStoragePool>) => {
+const getClusterAndMemberPoolPayload = (pool: Partial<LxdStoragePool>) => {
   const memberSpecificConfigKeys = new Set([
     "source",
     "size",
@@ -85,27 +88,38 @@ const getClusterAndMemberPools = (pool: Partial<LxdStoragePool>) => {
     }
   }
 
-  const clusterPool = { ...pool, config: clusterConfig };
-  const memberPool = { ...pool, config: memberConfig };
+  const clusterPoolPayload = { ...pool, config: clusterConfig };
+  const memberPoolPayload = { ...pool, config: memberConfig };
 
   return {
-    clusterPool,
-    memberPool,
+    clusterPoolPayload,
+    memberPoolPayload,
   };
 };
 
 export const createClusteredPool = (
   pool: LxdStoragePool,
   clusterMembers: LxdClusterMember[],
+  sourcePerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
-  const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
+  const { memberPoolPayload, clusterPoolPayload } =
+    getClusterAndMemberPoolPayload(pool);
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map((item) => createPool(memberPool, item.server_name)),
+      clusterMembers.map((item) => {
+        const clusteredMemberPool = {
+          ...memberPoolPayload,
+          config: {
+            ...memberPoolPayload.config,
+            source: sourcePerClusterMember?.[item.server_name],
+          },
+        };
+        return createPool(clusteredMemberPool, item.server_name);
+      }),
     )
       .then(handleSettledResult)
       .then(() => {
-        return createPool(clusterPool);
+        return createPool(clusterPoolPayload);
       })
       .then(resolve)
       .catch(reject);
@@ -132,15 +146,16 @@ export const updateClusteredPool = (
   pool: Partial<LxdStoragePool>,
   clusterMembers: LxdClusterMember[],
 ): Promise<void> => {
-  const { memberPool, clusterPool } = getClusterAndMemberPools(pool);
+  const { memberPoolPayload, clusterPoolPayload } =
+    getClusterAndMemberPoolPayload(pool);
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map(async (item) =>
-        updatePool(memberPool, item.server_name),
+        updatePool(memberPoolPayload, item.server_name),
       ),
     )
       .then(handleSettledResult)
-      .then(() => updatePool(clusterPool))
+      .then(() => updatePool(clusterPoolPayload))
       .then(resolve)
       .catch(reject);
   });
@@ -170,6 +185,37 @@ export const deleteStoragePool = (pool: string): Promise<void> => {
     })
       .then(handleResponse)
       .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const fetchPoolFromClusterMembers = (
+  poolName: string,
+  clusterMembers: LxdClusterMember[],
+): Promise<LXDStoragePoolOnClusterMember[]> => {
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      clusterMembers.map((member) => {
+        return fetchStoragePool(poolName, member.server_name);
+      }),
+    )
+      .then((results) => {
+        const poolOnMembers: LXDStoragePoolOnClusterMember[] = [];
+        for (let i = 0; i < clusterMembers.length; i++) {
+          const memberName = clusterMembers[i].server_name;
+          const result = results[i];
+          if (result.status === "rejected") {
+            reject(constructMemberError(result, memberName));
+          }
+          if (result.status === "fulfilled") {
+            const promise = results[
+              i
+            ] as PromiseFulfilledResult<LxdStoragePool>;
+            poolOnMembers.push({ ...promise.value, memberName: memberName });
+          }
+        }
+        resolve(poolOnMembers);
+      })
       .catch(reject);
   });
 };

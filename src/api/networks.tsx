@@ -1,4 +1,8 @@
-import { handleEtagResponse, handleResponse } from "util/helpers";
+import {
+  constructMemberError,
+  handleEtagResponse,
+  handleResponse,
+} from "util/helpers";
 import type {
   LxdNetwork,
   LXDNetworkOnClusterMember,
@@ -27,15 +31,6 @@ export const fetchNetworks = (
       })
       .catch(reject);
   });
-};
-
-const constructMemberError = (
-  result: PromiseRejectedResult,
-  member: string,
-) => {
-  const reason = result.reason as Error;
-  const message = `Error from cluster member ${member}: ${reason.message}`;
-  return new Error(message);
 };
 
 export const fetchNetworksFromClusterMembers = (

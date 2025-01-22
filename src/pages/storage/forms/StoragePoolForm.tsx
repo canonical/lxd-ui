@@ -41,16 +41,10 @@ import StoragePoolFormZFS from "./StoragePoolFormZFS";
 import { useSettings } from "context/useSettings";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export interface StoragePoolFormValues {
-  isCreating: boolean;
-  readOnly: boolean;
-  name: string;
-  description: string;
-  driver: string;
-  source: string;
-  entityType: "storagePool";
-  size?: string;
+  barePool?: LxdStoragePool;
   ceph_cluster_name?: string;
   ceph_osd_pg_num?: string;
   ceph_rbd_clone_copy?: string;
@@ -62,6 +56,11 @@ export interface StoragePoolFormValues {
   cephfs_osd_pg_num?: string;
   cephfs_path?: string;
   cephfs_user_name?: string;
+  description: string;
+  driver: string;
+  entityType: "storagePool";
+  isCreating: boolean;
+  name: string;
   powerflex_clone_copy?: string;
   powerflex_domain?: string;
   powerflex_gateway?: string;
@@ -75,11 +74,14 @@ export interface StoragePoolFormValues {
   pure_gateway?: string;
   pure_gateway_verify?: string;
   pure_mode?: string;
+  readOnly: boolean;
+  size?: string;
+  source: string;
+  sourcePerClusterMember?: ClusterSpecificValues;
+  yaml?: string;
   zfs_clone_copy?: string;
   zfs_export?: string;
   zfs_pool_name?: string;
-  yaml?: string;
-  barePool?: LxdStoragePool;
 }
 
 interface Props {

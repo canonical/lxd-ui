@@ -48,6 +48,8 @@ export const getSupportedStorageDrivers = (
 };
 
 const storageDriverToSourceHelp: Record<string, string> = {
+  btrfs:
+    "Optional, path to an existing block device, loop file or Btrfs subvolume",
   dir: "Optional, path to an existing directory",
   lvm: "Optional, path to an existing block device, loop file or LVM volume group",
   zfs: "Optional, path to an existing block device, loop file or ZFS dataset/pool",
