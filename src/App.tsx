@@ -38,7 +38,6 @@ const InstanceList = lazy(() => import("pages/instances/InstanceList"));
 const Login = lazy(() => import("pages/login/Login"));
 const NetworkDetail = lazy(() => import("pages/networks/NetworkDetail"));
 const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
-const NetworkMap = lazy(() => import("pages/networks/NetworkMap"));
 const OperationList = lazy(() => import("pages/operations/OperationList"));
 const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
 const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
@@ -219,6 +218,14 @@ const App: FC = () => {
           }
         />
         <Route
+          path="/ui/project/:project/member/:member/network/:name"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkDetail />} />}
+            />
+          }
+        />
+        <Route
           path="/ui/project/:project/network/:name/:activeTab"
           element={
             <ProtectedRoute
@@ -247,14 +254,6 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
-            />
-          }
-        />
-        <Route
-          path="/ui/project/:project/networks/map"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<NetworkMap />} />}
             />
           }
         />

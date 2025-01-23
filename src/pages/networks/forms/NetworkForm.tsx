@@ -35,6 +35,8 @@ import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { LxdClusterMember } from "types/cluster";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -75,6 +77,7 @@ export interface NetworkFormValues {
   network?: string;
   ovn_ingress_mode?: string;
   parent?: string;
+  parentPerClusterMember?: ClusterSpecificValues;
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
@@ -147,6 +150,22 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("parent")]: values.parent,
     },
   };
+};
+
+export const isNetworkFormInvalid = (
+  formik: FormikProps<NetworkFormValues>,
+  clusterMembers: LxdClusterMember[],
+) => {
+  return (
+    !formik.isValid ||
+    !formik.values.name ||
+    (formik.values.networkType === "ovn" && !formik.values.network) ||
+    (formik.values.networkType === "physical" &&
+      !formik.values.parent &&
+      Object.values(formik.values.parentPerClusterMember ?? {}).filter(
+        (item) => item.length > 0,
+      ).length !== clusterMembers.length)
+  );
 };
 
 interface Props {
@@ -237,7 +256,11 @@ const NetworkForm: FC<Props> = ({
         {!formik.values.isCreating &&
           query.length < 1 &&
           section !== slugify(YAML_CONFIGURATION) && (
-            <NetworkTopology formik={formik} project={project} />
+            <NetworkTopology
+              formik={formik}
+              project={project}
+              isServerClustered={isClustered}
+            />
           )}
         <Form className="sections" onSubmit={formik.handleSubmit}>
           {section !== slugify(YAML_CONFIGURATION) && (

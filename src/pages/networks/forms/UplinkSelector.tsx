@@ -1,5 +1,11 @@
-import { FC } from "react";
-import { Button, Icon, Label, Select } from "@canonical/react-components";
+import { FC, useEffect } from "react";
+import {
+  Button,
+  Icon,
+  Label,
+  Select,
+  useNotify,
+} from "@canonical/react-components";
 import Loader from "components/Loader";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -19,15 +25,37 @@ interface Props {
 }
 
 const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
-  const { data: networks = [], isLoading: isNetworkLoading } = useQuery({
+  const notify = useNotify();
+
+  const {
+    data: networks = [],
+    error: networkError,
+    isLoading: isNetworkLoading,
+  } = useQuery({
     queryKey: [queryKeys.networks, "default"],
     queryFn: () => fetchNetworks("default"),
   });
 
-  const { data: project, isLoading: isProjectLoading } = useQuery({
+  useEffect(() => {
+    if (networkError) {
+      notify.failure("Loading networks failed", networkError);
+    }
+  }, [networkError]);
+
+  const {
+    data: project,
+    error: projectError,
+    isLoading: isProjectLoading,
+  } = useQuery({
     queryKey: [queryKeys.projects, projectName],
     queryFn: () => fetchProject(projectName),
   });
+
+  useEffect(() => {
+    if (projectError) {
+      notify.failure("Loading projects failed", projectError);
+    }
+  }, [projectError]);
 
   const availableUplinks =
     project?.config?.["restricted.networks.uplinks"]?.split(",") ||

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
@@ -36,10 +36,16 @@ const EditNetworkForward: FC = () => {
     forwardAddress: string;
   }>();
 
-  const { data: network } = useQuery({
+  const { data: network, error } = useQuery({
     queryKey: [queryKeys.projects, project, queryKeys.networks, networkName],
     queryFn: () => fetchNetwork(networkName ?? "", project ?? ""),
   });
+
+  useEffect(() => {
+    if (error) {
+      notify.failure("Loading network failed", error);
+    }
+  }, [error]);
 
   const { data: forward } = useQuery({
     queryKey: [

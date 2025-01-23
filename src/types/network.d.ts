@@ -72,6 +72,10 @@ export interface LxdNetwork {
   etag?: string;
 }
 
+export type LXDNetworkOnClusterMember = LxdNetwork & {
+  memberName: string;
+};
+
 export interface LxdNetworkStateAddress {
   family: string;
   address: string;
