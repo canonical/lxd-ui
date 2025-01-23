@@ -100,6 +100,7 @@ const PermissionGroups: FC = () => {
   const rows = filteredGroups.map((group) => {
     const allIdentityIds = getIdentityIdsForGroup(group);
     return {
+      key: group.name,
       name: group.name,
       className: "u-row",
       columns: [

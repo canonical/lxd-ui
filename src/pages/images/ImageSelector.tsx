@@ -239,6 +239,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
 
       return {
+        key: itemType + item.os + displayRelease + displayVariant,
         className: "u-row",
         columns: [
           {

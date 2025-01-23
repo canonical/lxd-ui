@@ -60,6 +60,7 @@ const NetworkList: FC = () => {
 
   const rows = networks.map((network) => {
     return {
+      key: network.name,
       columns: [
         {
           content: (

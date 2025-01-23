@@ -40,6 +40,7 @@ const NetworkAddresses: FC<Props> = ({ formik, project }) => {
           ]}
           rows={networkState?.addresses.map((item) => {
             return {
+              key: item.address,
               columns: [
                 {
                   content: item.address,

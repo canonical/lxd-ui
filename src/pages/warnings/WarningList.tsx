@@ -40,6 +40,7 @@ const WarningList: FC = () => {
 
   const rows = warnings.map((warning) => {
     return {
+      key: warning.uuid,
       columns: [
         {
           content: warning.type,

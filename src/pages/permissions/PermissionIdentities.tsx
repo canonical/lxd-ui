@@ -121,8 +121,8 @@ const PermissionIdentities: FC = () => {
     };
 
     return {
-      name: isUnrestricted(identity) ? "" : identity.id,
       key: identity.id,
+      name: isUnrestricted(identity) ? "" : identity.id,
       className: "u-row",
       columns: [
         {

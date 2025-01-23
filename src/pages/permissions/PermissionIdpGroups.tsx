@@ -87,6 +87,7 @@ const PermissionIdpGroups: FC = () => {
 
   const rows = filteredGroups.map((idpGroup) => {
     return {
+      key: idpGroup.name,
       name: idpGroup.name,
       className: "u-row",
       columns: [

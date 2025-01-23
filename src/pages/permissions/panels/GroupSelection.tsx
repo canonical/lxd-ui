@@ -80,6 +80,7 @@ const GroupSelection: FC<Props> = ({
     };
 
     return {
+      key: group.name,
       name: group.name,
       className: "u-row",
       columns: [

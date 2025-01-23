@@ -117,6 +117,7 @@ const Settings: FC = () => {
       lastCategory = configField.category;
 
       return {
+        key: configField.key,
         columns: [
           {
             content: isNewCategory && (

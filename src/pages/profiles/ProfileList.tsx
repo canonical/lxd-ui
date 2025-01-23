@@ -113,6 +113,7 @@ const ProfileList: FC = () => {
       instanceCountMap.find((item) => profile.name === item.name)?.total ?? 0;
 
     return {
+      key: profile.name,
       className:
         panelParams.profile === profile.name ? "u-row-selected" : "u-row",
       columns: [

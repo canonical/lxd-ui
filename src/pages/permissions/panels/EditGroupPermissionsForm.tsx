@@ -119,6 +119,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
     const isModified = permission.isAdded || permission.isRemoved;
 
     return {
+      key: permission.id,
       name: permission.id,
       className: classnames("u-row", {
         strikeout: permission.isRemoved,

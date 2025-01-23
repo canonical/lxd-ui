@@ -39,6 +39,7 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
     };
 
     return {
+      key: member.server_name,
       className: classnames("u-row", {
         "u-text--muted": disableReason,
         "u-row--disabled": disableReason,

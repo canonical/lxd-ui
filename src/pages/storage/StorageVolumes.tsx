@@ -217,6 +217,7 @@ const StorageVolumes: FC = () => {
     const contentType = renderContentType(volume);
 
     return {
+      key: volume.name,
       className: "u-row",
       columns: [
         {

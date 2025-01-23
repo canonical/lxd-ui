@@ -40,6 +40,7 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
     };
 
     return {
+      key: pool.name,
       className: classnames("u-row", {
         "u-text--muted": disableReason,
         "u-row--disabled": disableReason,

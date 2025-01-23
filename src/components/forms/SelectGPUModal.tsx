@@ -32,6 +32,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
         const selectCard = () => onSelect(card);
 
         return {
+          key: card.pci_address,
           className: "u-row",
           columns: [
             {
