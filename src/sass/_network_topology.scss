@@ -52,6 +52,12 @@
     );
   }
 
+  .uplink-item.has-parent::before {
+    color: #6e7681;
+    content: "... ——";
+    display: contents;
+  }
+
   .downstream-item.has-descendents::after {
     color: #6e7681;
     content: "—— ...";
