@@ -167,7 +167,7 @@ const NetworkList: FC = () => {
           : `/ui/project/${project}/member/${network.memberName}/network/${network.name}`;
 
       return {
-        key: network.name,
+        key: network.name + network.memberName,
         columns: [
           {
             content: <Link to={href}>{network.name}</Link>,
