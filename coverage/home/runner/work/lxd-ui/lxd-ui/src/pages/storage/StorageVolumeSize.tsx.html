@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.33% </span>
+                <span class="strong">46.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/15</span>
+                <span class='fraction'>7/15</span>
             </div>
         
             
@@ -126,41 +126,41 @@
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">128x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">102x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
-<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-yes">168x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
@@ -204,7 +204,7 @@ const StorageVolumeSize: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
 <span class="cstat-no" title="statement not covered" >    if (volume.type === "image") <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return images.find((image) =&gt; <span class="cstat-no" title="statement not covered" >image.fingerprint === volume.name)</span>?.size;</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    return volumeState?.usage?.used ?? 0;</span>
+<span class="cstat-no" title="statement not covered" >    return volumeState?.<span class="branch-0 cbranch-no" title="branch not covered" >usage?.used ?? 0</span>;</span>
   };
 &nbsp;
   const used = <span class="cstat-no" title="statement not covered" >getUsed();</span>
@@ -220,7 +220,7 @@ export default StorageVolumeSize;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-27T16:11:06.296Z
+                at 2025-01-27T16:57:29.015Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
