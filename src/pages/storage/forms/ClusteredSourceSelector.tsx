@@ -10,10 +10,7 @@ interface Props {
   helpText?: string;
 }
 
-const StoragePoolClusteredSourceSelector: FC<Props> = ({
-  formik,
-  helpText,
-}) => {
+const ClusteredSourceSelector: FC<Props> = ({ formik, helpText }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const memberNames = clusterMembers.map((member) => member.server_name);
 
@@ -37,4 +34,4 @@ const StoragePoolClusteredSourceSelector: FC<Props> = ({
   );
 };
 
-export default StoragePoolClusteredSourceSelector;
+export default ClusteredSourceSelector;

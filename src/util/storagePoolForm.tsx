@@ -4,26 +4,25 @@ import type {
 } from "types/storage";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { zfsDriver, btrfsDriver, lvmDriver } from "util/storageOptions";
 
 export const toStoragePoolFormValues = (
   pool: LxdStoragePool,
   poolOnMembers?: LXDStoragePoolOnClusterMember[],
 ): StoragePoolFormValues => {
   const sourcePerClusterMember: ClusterSpecificValues = {};
-  poolOnMembers?.forEach(
-    (item) =>
-      (sourcePerClusterMember[item.memberName] = item.config?.source ?? ""),
-  );
+  const sizePerClusterMember: ClusterSpecificValues = {};
+  const hasSize = zfsDriver || lvmDriver || btrfsDriver;
+
+  poolOnMembers?.forEach((item) => {
+    if (item.driver === hasSize) {
+      sizePerClusterMember[item.memberName] = item.config?.size ?? "";
+    }
+    sourcePerClusterMember[item.memberName] = item.config?.source ?? "";
+  });
 
   return {
-    readOnly: true,
-    isCreating: false,
-    name: pool.name,
-    description: pool.description,
-    driver: pool.driver,
-    source: pool.config?.source || "",
-    size: pool.config?.size || "GiB",
-    entityType: "storagePool",
+    barePool: pool,
     ceph_cluster_name: pool.config?.["ceph.cluster_name"],
     ceph_osd_pg_num: pool.config?.["ceph.osd.pg_num"],
     ceph_rbd_clone_copy: pool.config?.["ceph.rbd.clone_copy"],
@@ -35,6 +34,12 @@ export const toStoragePoolFormValues = (
     cephfs_osd_pg_num: pool.config?.["cephfs.osd_pg_num"],
     cephfs_path: pool.config?.["cephfs.path"],
     cephfs_user_name: pool.config?.["cephfs.user.name"],
+    description: pool.description,
+    driver: pool.driver,
+    entityType: "storagePool",
+    isCreating: false,
+    name: pool.name,
+    sizePerClusterMember,
     powerflex_clone_copy: pool.config?.["powerflex.clone_copy"],
     powerflex_domain: pool.config?.["powerflex.domain"],
     powerflex_gateway: pool.config?.["powerflex.gateway"],
@@ -48,11 +53,13 @@ export const toStoragePoolFormValues = (
     pure_gateway: pool.config?.["pure.gateway"],
     pure_gateway_verify: pool.config?.["pure.gateway.verify"],
     pure_mode: pool.config?.["pure.mode"],
+    readOnly: true,
+    size: pool.config?.size || "GiB",
+    source: pool.config?.source || "",
+    sourcePerClusterMember,
     zfs_clone_copy: pool.config?.["zfs.clone_copy"],
     zfs_export: pool.config?.["zfs.export"],
     zfs_pool_name: pool.config?.["zfs.pool_name"],
-    sourcePerClusterMember,
-    barePool: pool,
   };
 };
 

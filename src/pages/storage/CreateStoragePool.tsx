@@ -71,6 +71,7 @@ const CreateStoragePool: FC = () => {
                 storagePool,
                 clusterMembers,
                 values.sourcePerClusterMember,
+                values.sizePerClusterMember,
               )
           : () => createPool(storagePool);
 

@@ -11,6 +11,7 @@ import {
   powerFlex,
   pureStorage,
   cephFSDriver,
+  lvmDriver,
 } from "util/storageOptions";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -20,8 +21,9 @@ import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { optionTrueFalse } from "util/instanceOptions";
-import StoragePoolClusteredSourceSelector from "./StoragePoolClusteredSourceSelector";
+import ClusteredSourceSelector from "./ClusteredSourceSelector";
 import { isClusteredServer } from "util/settings";
+import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -42,11 +44,13 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
     };
   };
 
+  const isBtrfsDriver = formik.values.driver == btrfsDriver;
   const isCephDriver = formik.values.driver === cephDriver;
   const isCephFSDriver = formik.values.driver === cephFSDriver;
-  const isDirDriver = formik.values.driver === dirDriver;
+  const isLvmDriver = formik.values.driver === lvmDriver;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
+  const isZfsDriver = formik.values.driver === zfsDriver;
   const storageDriverOptions = getStorageDriverOptions(settings);
   const hasClusterWideSource = isCephDriver || isCephFSDriver;
   const hasSource = !isPureDriver && !isPowerFlexDriver;
@@ -54,6 +58,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const sourceHelpText = formik.values.isCreating
     ? getSourceHelpForDriver(formik.values.driver)
     : "Source can't be changed";
+
+  const hasSize = isZfsDriver || isLvmDriver || isBtrfsDriver;
 
   return (
     <ScrollableForm>
@@ -112,11 +118,21 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             required
             disabled={!formik.values.isCreating}
           />
-          {!isCephDriver &&
-            !isCephFSDriver &&
-            !isDirDriver &&
-            !isPureDriver &&
-            !isPowerFlexDriver && (
+          {hasSize &&
+            (isClusteredServer(settings) ? (
+              <ClusteredDiskSizeSelector
+                id="sizePerClusterMember"
+                sizeValues={formik.values.sizePerClusterMember}
+                toggleReadOnly={() => {}}
+                setMemoryLimit={(value) => {
+                  ensureEditMode(formik);
+                  void formik.setFieldValue("sizePerClusterMember", value);
+                }}
+                helpText={
+                  "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
+                }
+              />
+            ) : (
               <DiskSizeSelector
                 label="Size"
                 value={formik.values.size}
@@ -131,7 +147,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 }}
                 disabled={formik.values.driver === dirDriver}
               />
-            )}
+            ))}
           {hasSource &&
             (hasClusterWideSource || !isClusteredServer(settings) ? (
               <Input
@@ -142,7 +158,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Source"
               />
             ) : (
-              <StoragePoolClusteredSourceSelector
+              <ClusteredSourceSelector
                 formik={formik}
                 helpText={sourceHelpText}
               />

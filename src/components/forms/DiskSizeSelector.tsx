@@ -4,19 +4,23 @@ import { BYTES_UNITS } from "types/limits";
 import { parseMemoryLimit } from "util/limits";
 
 interface Props {
+  id?: string;
   label?: string;
   value?: string;
   help?: string;
-  setMemoryLimit: (val?: string) => void;
+  setMemoryLimit: (val: string) => void;
   disabled?: boolean;
+  classname?: string;
 }
 
 const DiskSizeSelector: FC<Props> = ({
+  id = "limits_disk",
   label,
   value,
   help,
   setMemoryLimit,
   disabled,
+  classname,
 }) => {
   const limit = parseMemoryLimit(value) ?? {
     value: 1,
@@ -39,7 +43,7 @@ const DiskSizeSelector: FC<Props> = ({
       )}
       <div className="memory-limit-with-unit">
         <Input
-          id="limits_disk"
+          id={id}
           name="limits_disk"
           type="number"
           min="0"
@@ -48,9 +52,10 @@ const DiskSizeSelector: FC<Props> = ({
           onChange={(e) => setMemoryLimit(e.target.value + limit.unit)}
           value={value?.match(/^\d/) ? limit.value : ""}
           disabled={disabled}
+          className={classname}
         />
         <Select
-          id="memUnitSelect"
+          id={`memUnitSelect-${id}`}
           name="memUnitSelect"
           label="Select disk size unit"
           labelClassName="u-off-screen"
@@ -60,6 +65,7 @@ const DiskSizeSelector: FC<Props> = ({
           }
           value={limit.unit}
           disabled={disabled}
+          className={classname}
         />
       </div>
       {help && <p className="p-form-help-text">{help}</p>}
