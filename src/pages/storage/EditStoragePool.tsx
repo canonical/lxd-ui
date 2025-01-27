@@ -91,7 +91,12 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () => updateClusteredPool(savedPool, clusterMembers)
+          ? () =>
+              updateClusteredPool(
+                savedPool,
+                clusterMembers,
+                values.sizePerClusterMember,
+              )
           : () => updatePool(savedPool);
 
       mutation()
@@ -109,8 +114,12 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           );
           const member = clusterMembers[0]?.server_name ?? undefined;
           const updatedPool = await fetchStoragePool(values.name, member);
+          const updatedPoolOnMembers = await fetchPoolFromClusterMembers(
+            pool.name,
+            clusterMembers,
+          );
           void formik.setValues(
-            toStoragePoolFormValues(updatedPool, poolOnMembers),
+            toStoragePoolFormValues(updatedPool, updatedPoolOnMembers),
           );
         })
         .catch((e) => {

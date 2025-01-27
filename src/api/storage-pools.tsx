@@ -102,6 +102,7 @@ export const createClusteredPool = (
   clusterMembers: LxdClusterMember[],
   sourcePerClusterMember?: ClusterSpecificValues,
   zfsPoolNamePerClusterMember?: ClusterSpecificValues,
+  sizePerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   const { memberPoolPayload, clusterPoolPayload } =
     getClusterAndMemberPoolPayload(pool);
@@ -114,6 +115,7 @@ export const createClusteredPool = (
             ...memberPoolPayload.config,
             source: sourcePerClusterMember?.[item.server_name],
 
+            size: sizePerClusterMember?.[item.server_name],
             ...(zfsPoolNamePerClusterMember?.[item.server_name] && {
               "zfs.pool_name": zfsPoolNamePerClusterMember[item.server_name],
             }),
@@ -150,14 +152,22 @@ export const updatePool = (
 export const updateClusteredPool = (
   pool: Partial<LxdStoragePool>,
   clusterMembers: LxdClusterMember[],
+  sizePerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   const { memberPoolPayload, clusterPoolPayload } =
     getClusterAndMemberPoolPayload(pool);
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map(async (item) =>
-        updatePool(memberPoolPayload, item.server_name),
-      ),
+      clusterMembers.map(async (item) => {
+        const clusteredMemberPool = {
+          ...memberPoolPayload,
+          config: {
+            ...memberPoolPayload.config,
+            size: sizePerClusterMember?.[item.server_name],
+          },
+        };
+        return updatePool(clusteredMemberPool, item.server_name);
+      }),
     )
       .then(handleSettledResult)
       .then(() => updatePool(clusterPoolPayload))

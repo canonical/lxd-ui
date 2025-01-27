@@ -45,6 +45,7 @@ test("storage pool create, edit and remove", async ({ page }) => {
   await createPool(page, pool);
 
   await editPool(page, pool);
+  await page.getByPlaceholder("Enter description").click();
   await page.getByPlaceholder("Enter description").fill("A-new-description");
   await savePool(page, pool);
 
