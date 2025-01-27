@@ -96,7 +96,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             {hasClusteredUplinks
               ? clusterUplinks
               : uplink && (
-                  <div className="uplink-item">
+                  <div className="uplink-item has-parent">
                     <ResourceLink
                       type="network"
                       value={uplink}
