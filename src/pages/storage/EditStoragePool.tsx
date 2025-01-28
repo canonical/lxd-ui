@@ -1,7 +1,8 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  fetchPoolFromClusterMembers,
   fetchStoragePool,
   updateClusteredPool,
   updatePool,
@@ -49,10 +50,23 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
   const [version, setVersion] = useState(0);
+  const isClustered = clusterMembers.length > 0;
 
   if (!project) {
     return <>Missing project</>;
   }
+
+  const { data: poolOnMembers = [], error } = useQuery({
+    queryKey: [queryKeys.storage, pool.name, queryKeys.cluster],
+    queryFn: () => fetchPoolFromClusterMembers(pool.name, clusterMembers),
+    enabled: isClustered,
+  });
+
+  useEffect(() => {
+    if (error) {
+      notify.failure("Loading storage pool from cluster members failed", error);
+    }
+  }, [error]);
 
   const StoragePoolSchema = Yup.object().shape({
     name: Yup.string()
@@ -67,7 +81,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   });
 
   const formik = useFormik<StoragePoolFormValues>({
-    initialValues: toStoragePoolFormValues(pool),
+    initialValues: toStoragePoolFormValues(pool, poolOnMembers),
     validationSchema: StoragePoolSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -95,7 +109,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           );
           const member = clusterMembers[0]?.server_name ?? undefined;
           const updatedPool = await fetchStoragePool(values.name, member);
-          void formik.setValues(toStoragePoolFormValues(updatedPool));
+          void formik.setValues(
+            toStoragePoolFormValues(updatedPool, poolOnMembers),
+          );
         })
         .catch((e) => {
           notify.failure("Storage pool update failed", e);
@@ -143,7 +159,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
               appearance="base"
               onClick={() => {
                 setVersion((old) => old + 1);
-                void formik.setValues(toStoragePoolFormValues(pool));
+                void formik.setValues(
+                  toStoragePoolFormValues(pool, poolOnMembers),
+                );
               }}
             >
               Cancel

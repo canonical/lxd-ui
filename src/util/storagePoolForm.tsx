@@ -1,9 +1,20 @@
-import type { LxdStoragePool } from "types/storage";
+import type {
+  LxdStoragePool,
+  LXDStoragePoolOnClusterMember,
+} from "types/storage";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const toStoragePoolFormValues = (
   pool: LxdStoragePool,
+  poolOnMembers?: LXDStoragePoolOnClusterMember[],
 ): StoragePoolFormValues => {
+  const sourcePerClusterMember: ClusterSpecificValues = {};
+  poolOnMembers?.forEach(
+    (item) =>
+      (sourcePerClusterMember[item.memberName] = item.config?.source ?? ""),
+  );
+
   return {
     readOnly: true,
     isCreating: false,
@@ -40,6 +51,7 @@ export const toStoragePoolFormValues = (
     zfs_clone_copy: pool.config?.["zfs.clone_copy"],
     zfs_export: pool.config?.["zfs.export"],
     zfs_pool_name: pool.config?.["zfs.pool_name"],
+    sourcePerClusterMember,
     barePool: pool,
   };
 };

@@ -351,3 +351,12 @@ export const base64EncodeObject = (data: object) => {
   const jsonString = JSON.stringify(data);
   return btoa(jsonString);
 };
+
+export const constructMemberError = (
+  result: PromiseRejectedResult,
+  member: string,
+) => {
+  const reason = result.reason as Error;
+  const message = `Error from cluster member ${member}: ${reason.message}`;
+  return new Error(message);
+};

@@ -8,4 +8,8 @@
   .cluster-specific-member {
     overflow: hidden;
   }
+
+  .cluster-specific-helptext {
+    grid-column-start: 2;
+  }
 }

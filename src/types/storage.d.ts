@@ -93,3 +93,7 @@ export interface LxdVolumeSnapshot {
   expires_at?: string;
   description?: string;
 }
+
+export type LXDStoragePoolOnClusterMember = LxdStoragePool & {
+  memberName: string;
+};
