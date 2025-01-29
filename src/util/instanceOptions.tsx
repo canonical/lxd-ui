@@ -96,3 +96,27 @@ export const proxyAddressTypeOptions = [
     value: "unix",
   },
 ];
+
+export const clusterEvacuationOptions = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
+    label: "auto",
+    value: "auto",
+  },
+  {
+    label: "live-migrate",
+    value: "live-migrate",
+  },
+  {
+    label: "migrate",
+    value: "migrate",
+  },
+  {
+    label: "stop",
+    value: "stop",
+  },
+];

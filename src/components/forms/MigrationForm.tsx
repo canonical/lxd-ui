@@ -8,16 +8,21 @@ import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
-import { optionAllowDeny } from "util/instanceOptions";
+import {
+  clusterEvacuationOptions,
+  optionAllowDeny,
+} from "util/instanceOptions";
 import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 
 export interface MigrationFormValues {
   migration_stateful?: string;
+  cluster_evacuate?: string;
 }
 
 export const migrationPayload = (values: InstanceAndProfileFormValues) => {
   return {
     [getInstanceKey("migration_stateful")]: values.migration_stateful,
+    [getInstanceKey("cluster_evacuate")]: values.cluster_evacuate,
   };
 };
 
@@ -48,6 +53,15 @@ const MigrationForm: FC<Props> = ({ formik }) => {
           children: (
             <Select options={optionAllowDeny} disabled={isVmOnlyDisabled} />
           ),
+        }),
+        getConfigurationRow({
+          formik,
+          label: "Cluster evacuation",
+          name: "cluster_evacuate",
+          defaultValue: "auto",
+          readOnlyRenderer: (val) =>
+            optionRenderer(val, clusterEvacuationOptions),
+          children: <Select options={clusterEvacuationOptions} />,
         }),
       ]}
     />

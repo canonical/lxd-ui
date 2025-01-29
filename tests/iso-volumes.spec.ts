@@ -79,7 +79,7 @@ test("use custom iso for instance launch", async ({ page, lxdVersion }) => {
   await page
     .getByRole("combobox", { name: "Stateful migration" })
     .selectOption("Deny");
-  await page.getByRole("button", { name: "Create" }).click();
+  await page.getByRole("button", { name: "Create", exact: true }).click();
 
   await page.waitForSelector(`text=Created instance ${instance}.`);
 
