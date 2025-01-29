@@ -214,6 +214,16 @@ const InstanceList: FC = () => {
     }
   }, [filteredInstances]);
 
+  useEffect(() => {
+    if (panelParams.instance) {
+      if (
+        !instances.some((instance) => instance.name === panelParams.instance)
+      ) {
+        panelParams.clear();
+      }
+    }
+  }, [instances]);
+
   const getHeaders = (hiddenCols: string[]) =>
     [
       {
