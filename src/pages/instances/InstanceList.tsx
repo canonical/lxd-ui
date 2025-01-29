@@ -46,6 +46,8 @@ import {
   SNAPSHOTS,
   STATUS,
   TYPE,
+  MEMORY,
+  DISK,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
@@ -61,10 +63,12 @@ import InstanceDetailPanel from "./InstanceDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
+import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
+import InstanceUsageDisk from "pages/instances/InstanceDisk";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
-  return saved ? (JSON.parse(saved) as string[]) : [];
+  return saved ? (JSON.parse(saved) as string[]) : [MEMORY, DISK];
 };
 
 const saveHidden = (columns: string[]) => {
@@ -232,6 +236,14 @@ const InstanceList: FC = () => {
           ]
         : []),
       {
+        content: MEMORY,
+        style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
+      },
+      {
+        content: DISK,
+        style: { width: `${COLUMN_WIDTHS[DISK]}px` },
+      },
+      {
         content: DESCRIPTION,
         sortKey: "description",
         style: { width: `${COLUMN_WIDTHS[DESCRIPTION]}px` },
@@ -393,6 +405,22 @@ const InstanceList: FC = () => {
                 },
               ]
             : []),
+          {
+            content: <InstanceUsageMemory instance={instance} />,
+            role: "cell",
+            "aria-label": MEMORY,
+            onClick: openSummary,
+            className: "clickable-cell",
+            style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
+          },
+          {
+            content: <InstanceUsageDisk instance={instance} />,
+            role: "cell",
+            "aria-label": DISK,
+            onClick: openSummary,
+            className: "clickable-cell",
+            style: { width: `${COLUMN_WIDTHS[DISK]}px` },
+          },
           {
             content: (
               <div className="u-truncate" title={instance.description}>
@@ -616,6 +644,8 @@ const InstanceList: FC = () => {
                     <TableColumnsSelect
                       columns={[
                         TYPE,
+                        MEMORY,
+                        DISK,
                         CLUSTER_MEMBER,
                         DESCRIPTION,
                         IPV4,

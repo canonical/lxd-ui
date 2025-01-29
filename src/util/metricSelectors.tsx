@@ -6,6 +6,7 @@ interface MemoryReport {
     | {
         free: number;
         total: number;
+        cached: number;
       }
     | undefined;
   disk:
@@ -26,12 +27,14 @@ export const getInstanceMetrics = (
       ?.metrics.find((item) => item.labels.name === instance.name)?.value;
 
   const memFree = memValue("lxd_memory_MemFree_bytes");
+  const memCached = memValue("lxd_memory_Cached_bytes");
   const memTotal = memValue("lxd_memory_MemTotal_bytes");
   const memory =
-    memFree && memTotal
+    memFree && memTotal && memCached
       ? {
           free: memFree,
           total: memTotal,
+          cached: memCached,
         }
       : undefined;
 

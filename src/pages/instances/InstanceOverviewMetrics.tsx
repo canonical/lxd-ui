@@ -2,12 +2,12 @@ import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchMetrics } from "api/metrics";
-import { humanFileSize } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
-import Meter from "components/Meter";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { useAuth } from "context/auth";
+import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
+import InstanceUsageDisk from "pages/instances/InstanceDisk";
 
 interface Props {
   instance: LxdInstance;
@@ -53,24 +53,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
               <th className="u-text--muted">Memory</th>
               <td>
                 {instanceMetrics.memory ? (
-                  <div>
-                    <Meter
-                      percentage={
-                        (100 / instanceMetrics.memory.total) *
-                        (instanceMetrics.memory.total -
-                          instanceMetrics.memory.free)
-                      }
-                      text={
-                        humanFileSize(
-                          instanceMetrics.memory.total -
-                            instanceMetrics.memory.free,
-                        ) +
-                        " of " +
-                        humanFileSize(instanceMetrics.memory.total) +
-                        " memory used"
-                      }
-                    />
-                  </div>
+                  <InstanceUsageMemory instance={instance} />
                 ) : (
                   "-"
                 )}
@@ -80,23 +63,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
               <th className="u-text--muted">Disk</th>
               <td>
                 {instanceMetrics.disk ? (
-                  <div>
-                    <Meter
-                      percentage={
-                        (100 / instanceMetrics.disk.total) *
-                        (instanceMetrics.disk.total - instanceMetrics.disk.free)
-                      }
-                      text={
-                        humanFileSize(
-                          instanceMetrics.disk.total -
-                            instanceMetrics.disk.free,
-                        ) +
-                        " of " +
-                        humanFileSize(instanceMetrics.disk.total) +
-                        " disk used"
-                      }
-                    />
-                  </div>
+                  <InstanceUsageDisk instance={instance} />
                 ) : (
                   "-"
                 )}
