@@ -54,6 +54,9 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const sourceHelpText = formik.values.isCreating
     ? getSourceHelpForDriver(formik.values.driver)
     : "Source can't be changed";
+  const nameHelpText = !formik.values.isCreating
+    ? "Cannot rename storage pools"
+    : undefined;
 
   return (
     <ScrollableForm>
@@ -65,11 +68,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             label="Name"
             required
             disabled={!formik.values.isCreating}
-            help={
-              !formik.values.isCreating
-                ? "Cannot rename storage pools"
-                : undefined
-            }
+            help={nameHelpText}
           />
           <AutoExpandingTextArea
             {...getFormProps("description")}
