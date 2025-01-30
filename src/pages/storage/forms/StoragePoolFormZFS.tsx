@@ -2,9 +2,10 @@ import { FormikProps } from "formik";
 import { FC } from "react";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import { Input, Select } from "@canonical/react-components";
+import { Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
+import ClusteredZfsNameSelector from "./ClusteredZfsNameSelector";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -19,7 +20,12 @@ const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
           label: "ZFS pool name",
           name: "zfs_pool_name",
           defaultValue: "",
-          children: <Input type="text" placeholder="Enter ZFS pool name" />,
+          children: (
+            <ClusteredZfsNameSelector
+              formik={formik}
+              placeholder="Enter ZFS pool name"
+            />
+          ),
           disabled: !formik.values.isCreating || formik.values.readOnly,
           disabledReason: "ZFS pool name cannot be modified",
         }),

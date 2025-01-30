@@ -16,6 +16,7 @@ interface Props {
   clusterMemberLinkTarget?: (member: string) => string;
   disabled?: boolean;
   helpText?: string;
+  placeholder?: string;
 }
 
 const ClusterSpecificInput: FC<Props> = ({
@@ -30,6 +31,7 @@ const ClusterSpecificInput: FC<Props> = ({
   clusterMemberLinkTarget = () => "/ui/cluster",
   disabled = false,
   helpText,
+  placeholder,
 }) => {
   const [isSpecific, setIsSpecific] = useState<boolean | null>(
     isDefaultSpecific,
@@ -102,6 +104,7 @@ const ClusterSpecificInput: FC<Props> = ({
                       value={activeValue}
                       onChange={(e) => setValueForMember(e.target.value, item)}
                       disabled={disabled}
+                      placeholder={placeholder}
                     />
                   )}
                 </div>
@@ -130,6 +133,7 @@ const ClusterSpecificInput: FC<Props> = ({
               onChange={(e) => setValueForAllMembers(e.target.value)}
               disabled={disabled}
               help={helpText}
+              placeholder={placeholder}
             />
           )}
         </div>
