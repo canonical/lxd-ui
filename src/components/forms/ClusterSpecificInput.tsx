@@ -8,7 +8,7 @@ interface Props {
   id: string;
   isReadOnly: boolean;
   onChange: (value: ClusterSpecificValues) => void;
-  toggleReadOnly: () => void;
+  toggleReadOnly?: () => void;
   memberNames: string[];
   values?: ClusterSpecificValues;
   canToggleSpecific?: boolean;
@@ -16,6 +16,8 @@ interface Props {
   clusterMemberLinkTarget?: (member: string) => string;
   disabled?: boolean;
   helpText?: string;
+  placeholder?: string;
+  classname?: string;
 }
 
 const ClusterSpecificInput: FC<Props> = ({
@@ -24,12 +26,14 @@ const ClusterSpecificInput: FC<Props> = ({
   isReadOnly,
   memberNames,
   onChange,
-  toggleReadOnly,
+  toggleReadOnly = () => {},
   canToggleSpecific = true,
   isDefaultSpecific = null,
   clusterMemberLinkTarget = () => "/ui/cluster",
   disabled = false,
   helpText,
+  placeholder,
+  classname = "u-sv3",
 }) => {
   const [isSpecific, setIsSpecific] = useState<boolean | null>(
     isDefaultSpecific,
@@ -61,13 +65,17 @@ const ClusterSpecificInput: FC<Props> = ({
   };
 
   return (
-    <div className="u-sv3">
+    <div className={classname}>
       {canToggleSpecific && !isReadOnly && (
         <CheckboxInput
           id={`${id}-same-for-all-toggle`}
           label="Same for all cluster members"
           checked={!isSpecific}
+          labelClassName="cluster-specific-toggle-label"
           onChange={() => {
+            if (isSpecific) {
+              setValueForAllMembers(firstValue ?? "");
+            }
             setIsSpecific((val) => !val);
           }}
         />
@@ -90,7 +98,9 @@ const ClusterSpecificInput: FC<Props> = ({
                   {isReadOnly ? (
                     <>
                       {activeValue}
-                      <FormEditButton toggleReadOnly={toggleReadOnly} />
+                      {!disabled && (
+                        <FormEditButton toggleReadOnly={toggleReadOnly} />
+                      )}
                     </>
                   ) : (
                     <Input
@@ -102,6 +112,7 @@ const ClusterSpecificInput: FC<Props> = ({
                       value={activeValue}
                       onChange={(e) => setValueForMember(e.target.value, item)}
                       disabled={disabled}
+                      placeholder={placeholder}
                     />
                   )}
                 </div>
@@ -120,7 +131,7 @@ const ClusterSpecificInput: FC<Props> = ({
           {isReadOnly ? (
             <>
               {firstValue}
-              <FormEditButton toggleReadOnly={toggleReadOnly} />
+              {!disabled && <FormEditButton toggleReadOnly={toggleReadOnly} />}
             </>
           ) : (
             <Input
@@ -130,6 +141,7 @@ const ClusterSpecificInput: FC<Props> = ({
               onChange={(e) => setValueForAllMembers(e.target.value)}
               disabled={disabled}
               help={helpText}
+              placeholder={placeholder}
             />
           )}
         </div>

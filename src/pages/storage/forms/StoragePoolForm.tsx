@@ -82,6 +82,7 @@ export interface StoragePoolFormValues {
   zfs_clone_copy?: string;
   zfs_export?: string;
   zfs_pool_name?: string;
+  zfsPoolNamePerClusterMember?: ClusterSpecificValues;
 }
 
 interface Props {
