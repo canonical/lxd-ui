@@ -4,6 +4,8 @@ import { queryKeys } from "util/queryKeys";
 import { fetchCertificates } from "api/certificates";
 import { useSettings } from "context/useSettings";
 import { fetchProjects } from "api/projects";
+import { fetchCurrentIdentity } from "api/auth-identities";
+import { useSupportedFeatures } from "./useSupportedFeatures";
 
 interface ContextProps {
   isAuthenticated: boolean;
@@ -12,6 +14,7 @@ interface ContextProps {
   isRestricted: boolean;
   defaultProject: string;
   hasNoProjects: boolean;
+  isFineGrained: boolean | null;
 }
 
 const initialState: ContextProps = {
@@ -21,6 +24,7 @@ const initialState: ContextProps = {
   isRestricted: false,
   defaultProject: "default",
   hasNoProjects: false,
+  isFineGrained: null,
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -31,6 +35,9 @@ interface ProviderProps {
 
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const { data: settings, isLoading } = useSettings();
+
+  const { hasEntitiesWithEntitlements, isSettingsLoading } =
+    useSupportedFeatures();
 
   const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
@@ -51,11 +58,26 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     enabled: isTls,
   });
 
+  const { data: currentIdentity } = useQuery({
+    queryKey: [queryKeys.currentIdentity],
+    queryFn: fetchCurrentIdentity,
+    retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
+  });
+
   const fingerprint = isTls ? settings.auth_user_name : undefined;
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
   );
   const isRestricted = certificate?.restricted ?? defaultProject !== "default";
+  const isFineGrained = () => {
+    if (isSettingsLoading) {
+      return null;
+    }
+    if (hasEntitiesWithEntitlements) {
+      return currentIdentity?.fine_grained ?? null;
+    }
+    return false;
+  };
 
   return (
     <AuthContext.Provider
@@ -66,6 +88,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         isRestricted,
         defaultProject,
         hasNoProjects: projects.length === 0 && !isProjectsLoading,
+        isFineGrained: isFineGrained(),
       }}
     >
       {children}

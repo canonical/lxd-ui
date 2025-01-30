@@ -4,9 +4,6 @@ import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
 import { useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
-import { useQuery } from "@tanstack/react-query";
-import { fetchInstance } from "api/instances";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
@@ -16,6 +13,7 @@ import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import { useSettings } from "context/useSettings";
 import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
+import { useInstance } from "context/useInstances";
 
 const tabs: string[] = [
   "Overview",
@@ -47,10 +45,7 @@ const InstanceDetail: FC = () => {
     error,
     refetch: refreshInstance,
     isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances, name, project],
-    queryFn: () => fetchInstance(name, project),
-  });
+  } = useInstance(name, project);
 
   const renderTabs: (string | TabLink)[] = [...tabs];
 

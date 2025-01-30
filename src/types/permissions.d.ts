@@ -11,6 +11,7 @@ export interface LxdIdentity {
   groups?: string[] | null;
   effective_groups?: string[];
   effective_permissions?: LxdPermission[];
+  fine_grained: boolean;
 }
 
 export interface LxdGroup {

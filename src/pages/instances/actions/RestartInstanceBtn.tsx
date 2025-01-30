@@ -10,6 +10,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -24,6 +25,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
   const isLoading =
     instanceLoading.getType(instance) === "Restarting" ||
     instance.status === "Restarting";
+  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
 
   const instanceLink = <InstanceLinkChip instance={instance} />;
 
@@ -74,7 +76,9 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
         ),
         onConfirm: handleRestart,
         close: () => setForce(false),
-        confirmButtonLabel: "Restart",
+        confirmButtonLabel: canUpdateInstanceState()
+          ? "Restart"
+          : "You do not have permission to restart this instance",
         confirmExtra: (
           <ConfirmationForce
             label="Force restart"
@@ -82,7 +86,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           />
         ),
       }}
-      disabled={isDisabled}
+      disabled={isDisabled || !canUpdateInstanceState()}
       shiftClickEnabled
       showShiftClickHint
     >

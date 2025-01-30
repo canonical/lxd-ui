@@ -2,28 +2,22 @@ import { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
 import { Button, Icon, List, useNotify } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchInstance } from "api/instances";
-import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import SidePanel from "components/SidePanel";
 import InstanceDetailPanelContent from "./InstanceDetailPanelContent";
+import { useInstance } from "context/useInstances";
 
 const InstanceDetailPanel: FC = () => {
   const notify = useNotify();
   const panelParams = usePanelParams();
 
+  const enable = panelParams.instance !== null;
   const {
     data: instance,
     error,
     isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances, panelParams.instance, panelParams.project],
-    queryFn: () =>
-      fetchInstance(panelParams.instance ?? "", panelParams.project),
-    enabled: panelParams.instance !== null,
-  });
+  } = useInstance(panelParams.instance ?? "", panelParams.project, enable);
 
   if (error) {
     notify.failure("Loading instance failed", error);

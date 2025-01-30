@@ -11,7 +11,7 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { createInstance, fetchInstances } from "api/instances";
+import { createInstance } from "api/instances";
 import { isClusteredServer } from "util/settings";
 import { useSettings } from "context/useSettings";
 import { useQuery } from "@tanstack/react-query";
@@ -28,6 +28,7 @@ import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
+import { useInstances } from "context/useInstances";
 
 interface Props {
   instance: LxdInstance;
@@ -62,10 +63,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
     queryFn: () => fetchStoragePools(),
   });
 
-  const { data: instances = [] } = useQuery({
-    queryKey: [queryKeys.instances],
-    queryFn: () => fetchInstances(instance.project),
-  });
+  const { data: instances = [] } = useInstances(instance.project);
 
   const notifySuccess = (
     name: string,
