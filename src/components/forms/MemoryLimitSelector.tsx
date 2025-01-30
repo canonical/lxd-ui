@@ -11,6 +11,8 @@ import { queryKeys } from "util/queryKeys";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
+import { useProject } from "context/project";
+import { formatBytes, limitToBytes } from "util/limits";
 
 interface Props {
   memoryLimit?: MemoryLimit;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
+  const { project } = useProject();
   const notify = useNotify();
   if (!memoryLimit) {
     return null;
@@ -40,7 +43,19 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
     notify.failure("Loading resources failed", error);
   }
 
-  const maxMemory = resources?.memory.total;
+  const getAvailableBytes = (): number => {
+    const projectLimit = limitToBytes(project?.config["limits.memory"]);
+
+    if (projectLimit === 0) {
+      return resources?.memory.total ?? 0;
+    }
+    if (!resources?.memory.total) {
+      return projectLimit;
+    }
+    return Math.min(resources.memory.total, projectLimit);
+  };
+
+  const availableBytes = getAvailableBytes();
 
   const getMemUnitOptions = () => {
     return Object.values(BYTES_UNITS).map((unit) => ({
@@ -49,55 +64,23 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
     }));
   };
 
-  const getFormattedMaxValue = (unit: BYTES_UNITS): number | undefined => {
-    if (!maxMemory) return undefined;
-    switch (unit) {
-      case BYTES_UNITS.B:
-        return maxMemory;
-      case BYTES_UNITS.KB:
-        return maxMemory / 10 ** 3;
-      case BYTES_UNITS.MB:
-        return maxMemory / 10 ** 6;
-      case BYTES_UNITS.GB:
-        return maxMemory / 10 ** 9;
-      case BYTES_UNITS.TB:
-        return maxMemory / 10 ** 12;
-      case BYTES_UNITS.PB:
-        return maxMemory / 10 ** 15;
-      case BYTES_UNITS.EB:
-        return maxMemory / 10 ** 18;
-      case BYTES_UNITS.KIB:
-        return maxMemory / 2 ** 10;
-      case BYTES_UNITS.MIB:
-        return maxMemory / (2 ** 10) ** 2;
-      case BYTES_UNITS.GIB:
-        return maxMemory / (2 ** 10) ** 3;
-      case BYTES_UNITS.TIB:
-        return maxMemory / (2 ** 10) ** 4;
-      case BYTES_UNITS.PIB:
-        return maxMemory / (2 ** 10) ** 5;
-      case BYTES_UNITS.EIB:
-        return maxMemory / (2 ** 10) ** 6;
-    }
-  };
-
-  const getTotalMemory = () => {
-    if (!maxMemory) {
+  const getAvailableMemory = () => {
+    if (!availableBytes) {
       return "";
     }
     if (memoryLimit.unit === "%") {
-      return humanFileSize(maxMemory);
+      return humanFileSize(availableBytes);
     }
-    const formattedValue = getFormattedMaxValue(memoryLimit.unit) ?? 0;
+    const formattedValue = formatBytes(availableBytes, memoryLimit.unit);
     if (formattedValue < 1) {
       return `${formattedValue} ${memoryLimit.unit}`;
     }
     return `${+formattedValue.toFixed(1)} ${memoryLimit.unit}`;
   };
 
-  const helpText = maxMemory && (
+  const helpText = availableBytes && (
     <>
-      Total memory: <b>{getTotalMemory()}</b>
+      Total memory: <b>{getAvailableMemory()}</b>
     </>
   );
 
@@ -145,7 +128,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             name="limits_memory"
             type="number"
             min="0"
-            max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
+            max={formatBytes(availableBytes, memoryLimit.unit as BYTES_UNITS)}
             step="Any"
             placeholder="Enter value"
             onChange={(e) =>
