@@ -54,6 +54,7 @@ const getEditValues = (
     snapshots_schedule_stopped: item.config["snapshots.schedule.stopped"],
 
     migration_stateful: item.config["migration.stateful"],
+    cluster_evacuate: item.config["cluster.evacuate"],
 
     boot_autostart: item.config["boot.autostart"],
     boot_autostart_delay: item.config["boot.autostart.delay"],
