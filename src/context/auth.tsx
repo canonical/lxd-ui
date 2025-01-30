@@ -4,6 +4,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchCertificates } from "api/certificates";
 import { useSettings } from "context/useSettings";
 import { fetchProjects } from "api/projects";
+import { fetchCurrentIdentity } from "api/auth-identities";
 
 interface ContextProps {
   isAuthenticated: boolean;
@@ -12,6 +13,7 @@ interface ContextProps {
   isRestricted: boolean;
   defaultProject: string;
   hasNoProjects: boolean;
+  isFineGrained: boolean;
 }
 
 const initialState: ContextProps = {
@@ -21,6 +23,7 @@ const initialState: ContextProps = {
   isRestricted: false,
   defaultProject: "default",
   hasNoProjects: false,
+  isFineGrained: false,
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -51,6 +54,11 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     enabled: isTls,
   });
 
+  const { data: currentIdentity } = useQuery({
+    queryKey: [queryKeys.currentIdentity],
+    queryFn: fetchCurrentIdentity,
+  });
+
   const fingerprint = isTls ? settings.auth_user_name : undefined;
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
@@ -66,6 +74,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         isRestricted,
         defaultProject,
         hasNoProjects: projects.length === 0 && !isProjectsLoading,
+        isFineGrained: currentIdentity?.fine_grained ?? false,
       }}
     >
       {children}

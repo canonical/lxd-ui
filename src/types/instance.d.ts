@@ -104,4 +104,5 @@ export interface LxdInstance {
   status: LxdInstanceStatus;
   type: "container" | "virtual-machine";
   etag?: string;
+  access_entitlements?: string[];
 }

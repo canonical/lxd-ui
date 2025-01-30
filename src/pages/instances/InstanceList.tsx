@@ -65,6 +65,7 @@ import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageDisk from "pages/instances/InstanceDisk";
+import { useAuth } from "context/auth";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -89,6 +90,7 @@ const InstanceList: FC = () => {
   const [searchParams] = useSearchParams();
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
+  const { isFineGrained } = useAuth();
 
   const filters: InstanceFilters = {
     queries: searchParams.getAll("query"),
@@ -117,7 +119,7 @@ const InstanceList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.instances, project],
-    queryFn: () => fetchInstances(project),
+    queryFn: () => fetchInstances(project, isFineGrained),
   });
 
   if (error) {
