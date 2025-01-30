@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
 import Loader from "components/Loader";
+import { useProject } from "context/project";
 
 interface Props {
   cpuLimit?: CpuLimit;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
+  const { project } = useProject();
   const notify = useNotify();
   if (!cpuLimit) {
     return null;
@@ -34,7 +36,17 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
     notify.failure("Loading resources failed", error);
   }
 
-  const numberOfCores = resources?.cpu.total;
+  const getNumberOfCores = () => {
+    if (!project?.config["limits.cpu"]) {
+      return resources?.cpu.total;
+    }
+    if (!resources?.cpu.total) {
+      return project.config["limits.cpu"];
+    }
+    return Math.min(resources.cpu.total, Number(project.config["limits.cpu"]));
+  };
+
+  const numberOfCores = getNumberOfCores();
   const helpText = numberOfCores && (
     <>
       Total number of CPU cores: <b>{numberOfCores}</b>
