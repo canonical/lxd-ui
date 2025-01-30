@@ -1,45 +1,21 @@
 import { FC } from "react";
-import { Input, RadioInput, useNotify } from "@canonical/react-components";
-import { fetchResources } from "api/server";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
+import { RadioInput } from "@canonical/react-components";
 import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
-import Loader from "components/Loader";
+import CpuLimitInput from "components/forms/CpuLimitInput";
+import { useProject } from "context/project";
 
 interface Props {
   cpuLimit?: CpuLimit;
   setCpuLimit: (cpuLimit: CpuLimit) => void;
+  help?: string;
 }
 
-const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
-  const notify = useNotify();
+const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
+  const { project } = useProject();
+
   if (!cpuLimit) {
     return null;
   }
-
-  const {
-    data: resources,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.resources],
-    queryFn: fetchResources,
-  });
-
-  if (isLoading) {
-    return <Loader text="Loading resources..." />;
-  }
-
-  if (error) {
-    notify.failure("Loading resources failed", error);
-  }
-
-  const numberOfCores = resources?.cpu.total;
-  const helpText = numberOfCores && (
-    <>
-      Total number of CPU cores: <b>{numberOfCores}</b>
-    </>
-  );
 
   return (
     <div>
@@ -56,23 +32,23 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
         />
       </div>
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC && (
-        <Input
+        <CpuLimitInput
           id="limits_cpu"
           name="limits_cpu"
           type="number"
           min="1"
-          max={numberOfCores}
           step="1"
           placeholder="Number of exposed cores"
           onChange={(e) =>
             setCpuLimit({ ...cpuLimit, dynamicValue: +e.target.value })
           }
           value={cpuLimit.dynamicValue ?? ""}
-          help={helpText}
+          project={project}
+          help={help}
         />
       )}
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED && (
-        <Input
+        <CpuLimitInput
           id="limits_cpu"
           name="limits_cpu"
           type="text"
@@ -81,7 +57,8 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit }) => {
             setCpuLimit({ ...cpuLimit, fixedValue: e.target.value })
           }
           value={cpuLimit.fixedValue ?? ""}
-          help={helpText}
+          project={project}
+          help={help}
         />
       )}
     </div>
