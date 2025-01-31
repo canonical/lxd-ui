@@ -91,7 +91,12 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () => updateClusteredPool(savedPool, clusterMembers)
+          ? () =>
+              updateClusteredPool(
+                savedPool,
+                clusterMembers,
+                values.sizePerClusterMember,
+              )
           : () => updatePool(savedPool);
 
       mutation()
