@@ -26,4 +26,5 @@ export const queryKeys = {
   authGroups: "authGroups",
   idpGroups: "idpGroups",
   permissions: "permissions",
+  currentIdentity: "currentIdentity",
 };
