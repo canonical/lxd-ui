@@ -117,7 +117,10 @@ export const sendFileByWebSocket = (
         onProgress(sentFileSize, file.size);
       }
 
-      readNextFileChunk();
+      // setTimeout is used to prevent the stack from increasing and
+      // causing a memory leak on larger files,
+      // because readNextFileChunk is called recursively
+      setTimeout(readNextFileChunk, 0);
     };
 
     reader.onerror = (e) => {
