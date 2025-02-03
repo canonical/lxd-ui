@@ -36,9 +36,9 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   const permissionSelectorRef = useRef<HTMLDivElement>(null);
 
   // Refs for select components, these contain methods to open/close the dropdown programmatically
-  const resourceTypeRef = useRef<SelectRef["current"]>();
-  const resourceRef = useRef<SelectRef["current"]>();
-  const entitlementRef = useRef<SelectRef["current"]>();
+  const resourceTypeRef = useRef<SelectRef["current"]>(null);
+  const resourceRef = useRef<SelectRef["current"]>(null);
+  const entitlementRef = useRef<SelectRef["current"]>(null);
 
   const {
     data: permissions,
@@ -196,7 +196,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         aria-label="Resource type"
         onChange={handleResourceTypeChange}
         value={resourceType}
-        selectRef={resourceTypeRef}
+        selectRef={resourceTypeRef as SelectRef}
         searchable="always"
       />
       <CustomSelect
@@ -216,7 +216,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         }
         dropdownClassName="permissions-select-dropdown"
         header={<ResourceOptionHeader resourceType={resourceType} />}
-        selectRef={resourceRef}
+        selectRef={resourceRef as SelectRef}
         searchable="always"
       />
       <CustomSelect
@@ -230,7 +230,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         value={entitlement}
         disabled={isLoading || (!resource && !isServerResourceType)}
         dropdownClassName="permissions-select-dropdown"
-        selectRef={entitlementRef}
+        selectRef={entitlementRef as SelectRef}
         searchable="always"
         initialPosition="right"
       />
