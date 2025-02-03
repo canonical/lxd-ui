@@ -21,6 +21,7 @@ const UploadInstanceFileModal: FC<Props> = ({ close, name }) => {
       close={close}
       className="upload-instance-modal"
       title="Upload instance file"
+      closeOnOutsideClick={false}
     >
       <NotificationRow className="u-no-padding u-no-margin" />
       {uploadState && (
