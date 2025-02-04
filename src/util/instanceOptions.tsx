@@ -120,3 +120,35 @@ export const clusterEvacuationOptions = [
     value: "stop",
   },
 ];
+
+export const optionIscsiNvme = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
+    label: "iSCSI",
+    value: "iscsi",
+  },
+  {
+    label: "NVMe over TCP",
+    value: "nvme",
+  },
+];
+
+export const optionNvmeSdc = [
+  {
+    label: "Select option",
+    value: "",
+    disabled: true,
+  },
+  {
+    label: "NVMe over TCP",
+    value: "nvme",
+  },
+  {
+    label: "Dell Storage Data Client",
+    value: "sdc",
+  },
+];

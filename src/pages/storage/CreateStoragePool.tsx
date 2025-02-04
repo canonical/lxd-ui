@@ -11,6 +11,7 @@ import { queryKeys } from "util/queryKeys";
 import { zfsDriver } from "util/storageOptions";
 import {
   isPowerflexIncomplete,
+  isPureStorageIncomplete,
   testDuplicateStoragePoolName,
 } from "util/storagePool";
 import StoragePoolForm, {
@@ -139,7 +140,8 @@ const CreateStoragePool: FC = () => {
           disabled={
             !formik.isValid ||
             !formik.values.name ||
-            isPowerflexIncomplete(formik)
+            isPowerflexIncomplete(formik) ||
+            isPureStorageIncomplete(formik)
           }
           onClick={() => void formik.submitForm()}
         >

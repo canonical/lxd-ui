@@ -15,11 +15,14 @@ import {
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import { getCephPoolFormFields } from "util/storagePool";
+import {
+  getCephPoolFormFields,
+  getPowerflexPoolFormFields,
+  getPureStoragePoolFormFields,
+} from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
-import { optionTrueFalse } from "util/instanceOptions";
 import StoragePoolClusteredSourceSelector from "./StoragePoolClusteredSourceSelector";
 import { isClusteredServer } from "util/settings";
 
@@ -102,6 +105,18 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               if (val !== cephDriver) {
                 const cephFields = getCephPoolFormFields();
                 for (const field of cephFields) {
+                  void formik.setFieldValue(field, undefined);
+                }
+              }
+              if (val !== powerFlex) {
+                const powerflexFields = getPowerflexPoolFormFields();
+                for (const field of powerflexFields) {
+                  void formik.setFieldValue(field, undefined);
+                }
+              }
+              if (val !== pureStorage) {
+                const pureFields = getPureStoragePoolFormFields();
+                for (const field of pureFields) {
                   void formik.setFieldValue(field, undefined);
                 }
               }
@@ -239,40 +254,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   formik.handleChange(e);
                 }}
                 required
-              />
-              <Select
-                {...formik.getFieldProps("pure_gateway_verify")}
-                label="Verify gateway"
-                help="Whether to verify the PureStorage certificate. Set this option to false for self-signed certs, or add the cert to the OS trust store."
-                options={optionTrueFalse}
-                onChange={(e) => {
-                  ensureEditMode(formik);
-                  formik.handleChange(e);
-                }}
-              />
-              <Select
-                {...formik.getFieldProps("pure_mode")}
-                label="Mode"
-                help="Whether to use nvme or iscsi to connect to Pure Storage array."
-                options={[
-                  {
-                    label: "Select option",
-                    value: "",
-                    disabled: true,
-                  },
-                  {
-                    label: "NVME",
-                    value: "nvme",
-                  },
-                  {
-                    label: "ISCSI",
-                    value: "iscsi",
-                  },
-                ]}
-                onChange={(e) => {
-                  ensureEditMode(formik);
-                  formik.handleChange(e);
-                }}
               />
             </>
           )}
