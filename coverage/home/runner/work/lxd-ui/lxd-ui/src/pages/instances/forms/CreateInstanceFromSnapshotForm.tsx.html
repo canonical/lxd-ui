@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.23% </span>
+                <span class="strong">13.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/355</span>
+                <span class='fraction'>48/352</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5% </span>
+                <span class="strong">5.26% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/20</span>
+                <span class='fraction'>1/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.56% </span>
+                <span class="strong">16% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>47/302</span>
+                <span class='fraction'>48/300</span>
             </div>
         
             
@@ -363,9 +363,7 @@
 <a name='L298'></a><a href='#L298'>298</a>
 <a name='L299'></a><a href='#L299'>299</a>
 <a name='L300'></a><a href='#L300'>300</a>
-<a name='L301'></a><a href='#L301'>301</a>
-<a name='L302'></a><a href='#L302'>302</a>
-<a name='L303'></a><a href='#L303'>303</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<a name='L301'></a><a href='#L301'>301</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -408,6 +406,10 @@
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -442,14 +444,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -680,7 +676,7 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { createInstance, fetchInstances } from "api/instances";
+import { createInstance } from "api/instances";
 import { isClusteredServer } from "util/settings";
 import { useSettings } from "context/useSettings";
 import { useQuery } from "@tanstack/react-query";
@@ -694,6 +690,7 @@ import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
+import { useInstances } from "context/useInstances";
 &nbsp;
 interface Props {
   instance: LxdInstance;
@@ -769,10 +766,7 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchStoragePools(),</span></span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const { data: instances = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useQuery({</span></span>
-<span class="cstat-no" title="statement not covered" >    queryKey: [queryKeys.instances],</span>
-<span class="cstat-no" title="statement not covered" >    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchInstances(instance.project),</span></span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  const { data: instances = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useInstances(instance.project);</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
 <span class="cstat-no" title="statement not covered" >    name: string,</span>
@@ -976,7 +970,7 @@ export default CreateInstanceFromSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-03T17:48:49.981Z
+                at 2025-02-04T18:27:59.024Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
