@@ -9,7 +9,6 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { fetchInstances } from "api/instances";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -65,6 +64,7 @@ import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageDisk from "pages/instances/InstanceDisk";
+import { useInstances } from "context/useInstances";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -111,14 +111,7 @@ const InstanceList: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: instances = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.instances, project],
-    queryFn: () => fetchInstances(project),
-  });
+  const { data: instances = [], error, isLoading } = useInstances(project);
 
   if (error) {
     notify.failure("Loading instances failed", error);

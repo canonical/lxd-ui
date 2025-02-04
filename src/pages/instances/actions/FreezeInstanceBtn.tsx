@@ -9,6 +9,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -19,6 +20,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
 
   const clearCache = () => {
     void queryClient.invalidateQueries({
@@ -81,10 +83,12 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
           </p>
         ),
         onConfirm: handleFreeze,
-        confirmButtonLabel: "Freeze",
+        confirmButtonLabel: canUpdateInstanceState()
+          ? "Freeze"
+          : "You do not have permission to freeze this instance",
       }}
       className="has-icon is-dense"
-      disabled={isDisabled}
+      disabled={isDisabled || !canUpdateInstanceState()}
       shiftClickEnabled
       showShiftClickHint
     >

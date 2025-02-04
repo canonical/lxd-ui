@@ -10,6 +10,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ItemName from "components/ItemName";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -21,6 +22,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const toastNotify = useToastNotification();
   const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
+  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
 
   const clearCache = () => {
     void queryClient.invalidateQueries({
@@ -76,7 +78,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
     <ConfirmationButton
       appearance="base"
       loading={isLoading}
-      disabled={isDisabled}
+      disabled={isDisabled || !canUpdateInstanceState()}
       confirmationModalProps={{
         title: "Confirm stop",
         children: (
@@ -89,7 +91,9 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
         ),
         onConfirm: handleStop,
         close: () => setForce(false),
-        confirmButtonLabel: "Stop",
+        confirmButtonLabel: canUpdateInstanceState()
+          ? "Stop"
+          : "You do not have permission to stop this instance",
       }}
       className="has-icon is-dense"
       shiftClickEnabled

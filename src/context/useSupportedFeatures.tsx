@@ -36,5 +36,8 @@ export const useSupportedFeatures = () => {
     hasClusterInternalCustomVolumeCopy: apiExtensions.has(
       "cluster_internal_custom_volume_copy",
     ),
+    hasEntitiesWithEntitlements: apiExtensions.has(
+      "entities_with_entitlements",
+    ),
   };
 };

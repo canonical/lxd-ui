@@ -13,23 +13,33 @@ import type { LxdOperationResponse } from "types/operation";
 import { EventQueue } from "context/eventQueue";
 import axios, { AxiosResponse } from "axios";
 import type { UploadState } from "types/storage";
+import { withEntitlementsQuery } from "util/entitlements/api";
+
+export const instanceEntitlements = ["can_update_state"];
 
 export const fetchInstance = (
   name: string,
   project: string,
-  recursion = 2,
+  isFineGrained: boolean | null,
 ): Promise<LxdInstance> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, instanceEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances/${name}?project=${project}&recursion=${recursion}`)
+    fetch(
+      `/1.0/instances/${name}?project=${project}&recursion=2${entitlements}`,
+    )
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdInstance))
       .catch(reject);
   });
 };
 
-export const fetchInstances = (project: string): Promise<LxdInstance[]> => {
+export const fetchInstances = (
+  project: string,
+  isFineGrained: boolean | null,
+): Promise<LxdInstance[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, instanceEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances?project=${project}&recursion=2`)
+    fetch(`/1.0/instances?project=${project}&recursion=2${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdInstance[]>) => resolve(data.metadata))
       .catch(reject);

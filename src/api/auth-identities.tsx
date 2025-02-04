@@ -11,6 +11,15 @@ export const fetchIdentities = (): Promise<LxdIdentity[]> => {
   });
 };
 
+export const fetchCurrentIdentity = (): Promise<LxdIdentity> => {
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/auth/identities/current?recursion=1`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdIdentity>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
 export const fetchIdentity = (
   id: string,
   authMethod: string,
