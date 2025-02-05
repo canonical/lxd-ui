@@ -9,9 +9,13 @@ import {
   cephDriver,
   cephFSDriver,
   powerFlex,
+  pureStorage,
   zfsDriver,
 } from "util/storageOptions";
-import { isPowerflexIncomplete } from "util/storagePool";
+import {
+  isPowerflexIncomplete,
+  isPureStorageIncomplete,
+} from "util/storagePool";
 
 export const MAIN_CONFIGURATION = "Main configuration";
 export const CEPH_CONFIGURATION = "Ceph";
@@ -43,13 +47,22 @@ const StoragePoolFormMenu: FC<Props> = ({
   const isCephDriver = formik.values.driver === cephDriver;
   const isCephFSDriver = formik.values.driver === cephFSDriver;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
+  const isPureDriver = formik.values.driver === pureStorage;
   const isZfsDriver = formik.values.driver === zfsDriver;
   const hasName = formik.values.name.length > 0;
-  const disableReason = hasName
-    ? isPowerflexIncomplete(formik)
-      ? "Please enter a domain, gateway, pool, and user name to enable this section"
-      : undefined
-    : "Please enter a storage pool name to enable this section";
+  const getDisableReason = () => {
+    if (!hasName) {
+      return "Please enter a storage pool name to enable this section";
+    }
+    if (isPowerflexIncomplete(formik)) {
+      return "Please enter a domain, gateway, pool, and user name to enable this section";
+    }
+    if (isPureStorageIncomplete(formik)) {
+      return "Please enter an API token and gateway to enable this section";
+    }
+    return undefined;
+  };
+  const disableReason = getDisableReason();
 
   const resize = () => {
     updateMaxHeight("form-navigation", "p-bottom-controls");
@@ -81,6 +94,13 @@ const StoragePoolFormMenu: FC<Props> = ({
           {isPowerFlexDriver && (
             <MenuItem
               label={POWERFLEX}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isPureDriver && (
+            <MenuItem
+              label={PURE_STORAGE}
               {...menuItemProps}
               disableReason={disableReason}
             />

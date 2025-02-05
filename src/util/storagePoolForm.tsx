@@ -48,6 +48,7 @@ export const toStoragePoolFormValues = (
     pure_gateway: pool.config?.["pure.gateway"],
     pure_gateway_verify: pool.config?.["pure.gateway.verify"],
     pure_mode: pool.config?.["pure.mode"],
+    pure_target: pool.config?.["pure.target"],
     zfs_clone_copy: pool.config?.["zfs.clone_copy"],
     zfs_export: pool.config?.["zfs.export"],
     zfs_pool_name: pool.config?.["zfs.pool_name"],

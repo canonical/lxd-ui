@@ -3,7 +3,7 @@ import { AnyObject, TestFunction } from "yup";
 import type { LxdConfigOptionsKeys } from "types/config";
 import { FormikProps } from "formik";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
-import { powerFlex } from "util/storageOptions";
+import { powerFlex, pureStorage } from "util/storageOptions";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
@@ -30,6 +30,7 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   pure_gateway: "pure.gateway",
   pure_gateway_verify: "pure.gateway.verify",
   pure_mode: "pure.mode",
+  pure_target: "pure.target",
   zfs_clone_copy: "zfs.clone_copy",
   zfs_export: "zfs.export",
   zfs_pool_name: "zfs.pool_name",
@@ -47,6 +48,18 @@ export const getPoolKey = (formField: string): string => {
 export const getCephPoolFormFields = () => {
   return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
     item.startsWith("ceph_"),
+  );
+};
+
+export const getPowerflexPoolFormFields = () => {
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
+    item.startsWith("powerflex_"),
+  );
+};
+
+export const getPureStoragePoolFormFields = () => {
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
+    item.startsWith("pure_"),
   );
 };
 
@@ -96,5 +109,14 @@ export const isPowerflexIncomplete = (
     (!formik.values.powerflex_pool ||
       !formik.values.powerflex_gateway ||
       !formik.values.powerflex_user_password)
+  );
+};
+
+export const isPureStorageIncomplete = (
+  formik: FormikProps<StoragePoolFormValues>,
+): boolean => {
+  return (
+    formik.values.driver === pureStorage &&
+    (!formik.values.pure_gateway || !formik.values.pure_api_token)
   );
 };

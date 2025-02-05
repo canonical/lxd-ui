@@ -14,6 +14,7 @@ import StoragePoolFormMenu, {
   CEPHFS_CONFIGURATION,
   MAIN_CONFIGURATION,
   POWERFLEX,
+  PURE_STORAGE,
   YAML_CONFIGURATION,
   ZFS_CONFIGURATION,
 } from "./StoragePoolFormMenu";
@@ -42,6 +43,7 @@ import { useSettings } from "context/useSettings";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import StoragePoolFormPure from "pages/storage/forms/StoragePoolFormPure";
 
 export interface StoragePoolFormValues {
   barePool?: LxdStoragePool;
@@ -74,6 +76,7 @@ export interface StoragePoolFormValues {
   pure_gateway?: string;
   pure_gateway_verify?: string;
   pure_mode?: string;
+  pure_target?: string;
   readOnly: boolean;
   size?: string;
   source: string;
@@ -143,6 +146,7 @@ export const toStoragePool = (
         [getPoolKey("pure_gateway")]: values.pure_gateway,
         [getPoolKey("pure_gateway_verify")]: values.pure_gateway_verify,
         [getPoolKey("pure_mode")]: values.pure_mode,
+        [getPoolKey("pure_target")]: values.pure_target,
       };
     }
     if (isZFSDriver) {
@@ -243,6 +247,9 @@ const StoragePoolForm: FC<Props> = ({
           )}
           {section === slugify(POWERFLEX) && (
             <StoragePoolFormPowerflex formik={formik} />
+          )}
+          {section === slugify(PURE_STORAGE) && (
+            <StoragePoolFormPure formik={formik} />
           )}
           {section === slugify(ZFS_CONFIGURATION) && (
             <StoragePoolFormZFS formik={formik} />
