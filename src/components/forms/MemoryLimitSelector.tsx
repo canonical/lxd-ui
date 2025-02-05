@@ -1,16 +1,8 @@
 import { FC } from "react";
-import {
-  Input,
-  RadioInput,
-  Select,
-  useNotify,
-} from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchResources } from "api/server";
-import { queryKeys } from "util/queryKeys";
+import { Input, RadioInput, Select } from "@canonical/react-components";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
-import { humanFileSize } from "util/helpers";
-import Loader from "components/Loader";
+import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
+import { useProject } from "context/project";
 
 interface Props {
   memoryLimit?: MemoryLimit;
@@ -18,29 +10,11 @@ interface Props {
 }
 
 const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
-  const notify = useNotify();
+  const { project } = useProject();
+
   if (!memoryLimit) {
     return null;
   }
-
-  const {
-    data: resources,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.resources],
-    queryFn: fetchResources,
-  });
-
-  if (isLoading) {
-    return <Loader text="Loading resources..." />;
-  }
-
-  if (error) {
-    notify.failure("Loading resources failed", error);
-  }
-
-  const maxMemory = resources?.memory.total;
 
   const getMemUnitOptions = () => {
     return Object.values(BYTES_UNITS).map((unit) => ({
@@ -48,58 +22,6 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
       value: unit,
     }));
   };
-
-  const getFormattedMaxValue = (unit: BYTES_UNITS): number | undefined => {
-    if (!maxMemory) return undefined;
-    switch (unit) {
-      case BYTES_UNITS.B:
-        return maxMemory;
-      case BYTES_UNITS.KB:
-        return maxMemory / 10 ** 3;
-      case BYTES_UNITS.MB:
-        return maxMemory / 10 ** 6;
-      case BYTES_UNITS.GB:
-        return maxMemory / 10 ** 9;
-      case BYTES_UNITS.TB:
-        return maxMemory / 10 ** 12;
-      case BYTES_UNITS.PB:
-        return maxMemory / 10 ** 15;
-      case BYTES_UNITS.EB:
-        return maxMemory / 10 ** 18;
-      case BYTES_UNITS.KIB:
-        return maxMemory / 2 ** 10;
-      case BYTES_UNITS.MIB:
-        return maxMemory / (2 ** 10) ** 2;
-      case BYTES_UNITS.GIB:
-        return maxMemory / (2 ** 10) ** 3;
-      case BYTES_UNITS.TIB:
-        return maxMemory / (2 ** 10) ** 4;
-      case BYTES_UNITS.PIB:
-        return maxMemory / (2 ** 10) ** 5;
-      case BYTES_UNITS.EIB:
-        return maxMemory / (2 ** 10) ** 6;
-    }
-  };
-
-  const getTotalMemory = () => {
-    if (!maxMemory) {
-      return "";
-    }
-    if (memoryLimit.unit === "%") {
-      return humanFileSize(maxMemory);
-    }
-    const formattedValue = getFormattedMaxValue(memoryLimit.unit) ?? 0;
-    if (formattedValue < 1) {
-      return `${formattedValue} ${memoryLimit.unit}`;
-    }
-    return `${+formattedValue.toFixed(1)} ${memoryLimit.unit}`;
-  };
-
-  const helpText = maxMemory && (
-    <>
-      Total memory: <b>{getTotalMemory()}</b>
-    </>
-  );
 
   return (
     <div>
@@ -135,7 +57,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             setMemoryLimit({ ...memoryLimit, value: +e.target.value })
           }
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-          help={helpText}
+          help={<MemoryLimitAvailable project={project} />}
         />
       )}
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED && (
@@ -145,14 +67,13 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             name="limits_memory"
             type="number"
             min="0"
-            max={getFormattedMaxValue(memoryLimit.unit as BYTES_UNITS)}
             step="Any"
             placeholder="Enter value"
             onChange={(e) =>
               setMemoryLimit({ ...memoryLimit, value: +e.target.value })
             }
             value={`${memoryLimit.value ? memoryLimit.value : ""}`}
-            help={helpText}
+            help={<MemoryLimitAvailable project={project} />}
           />
           <Select
             id="memUnitSelect"

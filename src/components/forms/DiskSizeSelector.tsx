@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { BYTES_UNITS } from "types/limits";
 import { parseMemoryLimit } from "util/limits";
@@ -7,6 +7,7 @@ interface Props {
   label?: string;
   value?: string;
   help?: string;
+  helpTotal?: ReactNode;
   setMemoryLimit: (val?: string) => void;
   disabled?: boolean;
 }
@@ -15,6 +16,7 @@ const DiskSizeSelector: FC<Props> = ({
   label,
   value,
   help,
+  helpTotal,
   setMemoryLimit,
   disabled,
 }) => {
@@ -62,7 +64,12 @@ const DiskSizeSelector: FC<Props> = ({
           disabled={disabled}
         />
       </div>
-      {help && <p className="p-form-help-text">{help}</p>}
+      {(help || helpTotal) && (
+        <p className="p-form-help-text">
+          {help}
+          {helpTotal}
+        </p>
+      )}
     </div>
   );
 };
