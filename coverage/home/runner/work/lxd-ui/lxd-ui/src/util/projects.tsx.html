@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.85% </span>
+                <span class="strong">77.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/70</span>
+                <span class='fraction'>54/70</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.11% </span>
+                <span class="strong">63.15% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/18</span>
+                <span class='fraction'>12/19</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.41% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>41/48</span>
+                <span class='fraction'>44/48</span>
             </div>
         
             
@@ -111,7 +111,7 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">245x</span>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">246x</span>
 <span class="cline-any cline-yes">247x</span>
 <span class="cline-any cline-yes">247x</span>
 <span class="cline-any cline-yes">247x</span>
@@ -132,33 +132,33 @@
 <span class="cline-any cline-yes">247x</span>
 <span class="cline-any cline-yes">247x</span>
 <span class="cline-any cline-yes">247x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">247x</span>
 <span class="cline-any cline-yes">247x</span>
-<span class="cline-any cline-yes">439x</span>
+<span class="cline-any cline-yes">432x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">439x</span>
-<span class="cline-any cline-yes">439x</span>
-<span class="cline-any cline-yes">439x</span>
-<span class="cline-any cline-yes">439x</span>
+<span class="cline-any cline-yes">432x</span>
+<span class="cline-any cline-yes">432x</span>
+<span class="cline-any cline-yes">432x</span>
+<span class="cline-any cline-yes">432x</span>
 <span class="cline-any cline-yes">247x</span>
 <span class="cline-any cline-yes">247x</span>
-<span class="cline-any cline-yes">826x</span>
+<span class="cline-any cline-yes">824x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdProject } from "types/project";
 import { slugify } from "./slugify";
 &nbsp;
@@ -192,9 +192,9 @@ export const getSubpageFromUrl = <span class="fstat-no" title="function not cove
 <span class="cstat-no" title="statement not covered" >  if (projectSubpages.includes(mainSubpage)) {</span>
 <span class="cstat-no" title="statement not covered" >    return mainSubpage;</span>
   }
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return undefined;</span></span>
-<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return undefined;</span>
+};
 &nbsp;
 export const isProjectEmpty = <span class="fstat-no" title="function not covered" >(p</span>roject: LxdProject): boolean =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!project.used_by) {</span>
@@ -214,7 +214,7 @@ export const isProjectWithProfiles = (project?: LxdProject): boolean =&gt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-05T13:07:31.502Z
+                at 2025-02-05T15:02:40.665Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

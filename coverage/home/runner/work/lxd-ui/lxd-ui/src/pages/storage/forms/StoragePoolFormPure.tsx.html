@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms/StoragePoolFormPowerflex.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms/StoragePoolFormPure.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms</a> StoragePoolFormPowerflex.tsx</h1>
+        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms</a> StoragePoolFormPure.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.76% </span>
+                <span class="strong">34.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/52</span>
+                <span class='fraction'>16/46</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">34.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/50</span>
+                <span class='fraction'>15/44</span>
             </div>
         
             
@@ -107,13 +107,7 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -126,12 +120,6 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -168,51 +156,45 @@ import { FC } from "react";
 import { StoragePoolFormValues } from "./StoragePoolForm";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { Input, Select } from "@canonical/react-components";
-import { optionNvmeSdc, optionTrueFalse } from "util/instanceOptions";
+import { optionIscsiNvme, optionTrueFalse } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;StoragePoolFormValues&gt;;
 }
 &nbsp;
-const StoragePoolFormPowerflex: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
+const StoragePoolFormPure: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;ScrollableConfigurationTable</span>
 <span class="cstat-no" title="statement not covered" >      rows={[</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "Clone copy",</span>
-<span class="cstat-no" title="statement not covered" >          name: "powerflex_clone_copy",</span>
-<span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionTrueFalse} /&gt;,</span>
-<span class="cstat-no" title="statement not covered" >        }),</span>
-<span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
-<span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "SDT",</span>
-<span class="cstat-no" title="statement not covered" >          name: "powerflex_sdt",</span>
-<span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" /&gt;,</span>
-<span class="cstat-no" title="statement not covered" >        }),</span>
-<span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
-<span class="cstat-no" title="statement not covered" >          formik,</span>
 <span class="cstat-no" title="statement not covered" >          label: "Gateway verify",</span>
-<span class="cstat-no" title="statement not covered" >          name: "powerflex_gateway_verify",</span>
+<span class="cstat-no" title="statement not covered" >          name: "pure_gateway_verify",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
 <span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionTrueFalse} /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
 <span class="cstat-no" title="statement not covered" >          label: "Mode",</span>
-<span class="cstat-no" title="statement not covered" >          name: "powerflex_mode",</span>
+<span class="cstat-no" title="statement not covered" >          name: "pure_mode",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionNvmeSdc} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          disabled: !formik.values.isCreating,</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionIscsiNvme} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >        }),</span>
+<span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
+<span class="cstat-no" title="statement not covered" >          formik,</span>
+<span class="cstat-no" title="statement not covered" >          label: "Target",</span>
+<span class="cstat-no" title="statement not covered" >          name: "pure_target",</span>
+<span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >      ]}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default StoragePoolFormPowerflex;
+export default StoragePoolFormPure;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
