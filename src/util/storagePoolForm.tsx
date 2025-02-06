@@ -10,10 +10,13 @@ export const toStoragePoolFormValues = (
   poolOnMembers?: LXDStoragePoolOnClusterMember[],
 ): StoragePoolFormValues => {
   const sourcePerClusterMember: ClusterSpecificValues = {};
-  poolOnMembers?.forEach(
-    (item) =>
-      (sourcePerClusterMember[item.memberName] = item.config?.source ?? ""),
-  );
+  const zfsPoolNamePerClusterMember: ClusterSpecificValues = {};
+
+  poolOnMembers?.forEach((item) => {
+    sourcePerClusterMember[item.memberName] = item.config?.source ?? "";
+    zfsPoolNamePerClusterMember[item.memberName] =
+      item.config?.["zfs.pool_name"] ?? "";
+  });
 
   return {
     readOnly: true,
@@ -54,6 +57,7 @@ export const toStoragePoolFormValues = (
     zfs_pool_name: pool.config?.["zfs.pool_name"],
     sourcePerClusterMember,
     barePool: pool,
+    zfsPoolNamePerClusterMember,
   };
 };
 

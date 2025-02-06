@@ -72,6 +72,7 @@ const CreateStoragePool: FC = () => {
                 storagePool,
                 clusterMembers,
                 values.sourcePerClusterMember,
+                values.zfsPoolNamePerClusterMember,
               )
           : () => createPool(storagePool);
 

@@ -101,6 +101,7 @@ export const createClusteredPool = (
   pool: LxdStoragePool,
   clusterMembers: LxdClusterMember[],
   sourcePerClusterMember?: ClusterSpecificValues,
+  zfsPoolNamePerClusterMember?: ClusterSpecificValues,
 ): Promise<void> => {
   const { memberPoolPayload, clusterPoolPayload } =
     getClusterAndMemberPoolPayload(pool);
@@ -112,6 +113,10 @@ export const createClusteredPool = (
           config: {
             ...memberPoolPayload.config,
             source: sourcePerClusterMember?.[item.server_name],
+
+            ...(zfsPoolNamePerClusterMember?.[item.server_name] && {
+              "zfs.pool_name": zfsPoolNamePerClusterMember[item.server_name],
+            }),
           },
         };
         return createPool(clusteredMemberPool, item.server_name);
