@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { pluralize } from "util/instanceBulkActions";
@@ -9,6 +9,7 @@ import { getPromiseSettledCounts } from "util/helpers";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useBulkInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instances: LxdInstance[];
@@ -21,13 +22,17 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
+  const { canDeleteInstanceStateSet } = useBulkInstanceEntitlements(instances);
 
-  const deletableInstances = instances.filter((instance) =>
-    deletableStatuses.includes(instance.status),
+  const deletableInstances = instances.filter(
+    (instance) =>
+      deletableStatuses.includes(instance.status) &&
+      canDeleteInstanceStateSet.has(instance.name),
   );
   const totalCount = instances.length;
   const deleteCount = deletableInstances.length;
-  const ignoredCount = totalCount - deleteCount;
+  const restrictedCount = totalCount - canDeleteInstanceStateSet.size;
+  const ignoredCount = totalCount - deleteCount - restrictedCount;
 
   const handleDelete = () => {
     setLoading(true);
@@ -72,6 +77,48 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
     });
   };
 
+  const getStoppedInstances = () => {
+    if (!deleteCount) {
+      return null;
+    }
+
+    return (
+      <Fragment key="stopped-instances">
+        - {deleteCount} stopped {pluralize("instance", deleteCount)} will be
+        deleted
+        <br />
+      </Fragment>
+    );
+  };
+
+  const getRestrictedInstances = () => {
+    if (!restrictedCount) {
+      return null;
+    }
+
+    return (
+      <Fragment key="restricted-instances">
+        - {restrictedCount} restricted {pluralize("instance", deleteCount)} will
+        be ignored
+        <br />
+      </Fragment>
+    );
+  };
+
+  const getIgnoredInstances = () => {
+    if (!ignoredCount) {
+      return null;
+    }
+
+    return (
+      <Fragment key="ignored-instances">
+        - {ignoredCount} other {pluralize("instance", ignoredCount)} will be
+        ignored
+        <br />
+      </Fragment>
+    );
+  };
+
   return (
     <div className="p-segmented-control bulk-actions">
       <div className="p-segmented-control__list bulk-action-frame">
@@ -84,21 +131,14 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
             title: "Confirm delete",
             children: (
               <p>
-                {ignoredCount > 0 && (
+                {ignoredCount + restrictedCount > 0 && (
                   <>
                     <b>{totalCount}</b> instances selected:
                     <br />
                     <br />
-                    {`- ${deleteCount} stopped ${pluralize(
-                      "instance",
-                      deleteCount,
-                    )} will be deleted`}
-                    <br />
-                    {`- ${ignoredCount} other ${pluralize(
-                      "instance",
-                      ignoredCount,
-                    )} will be ignored`}
-                    <br />
+                    {getStoppedInstances()}
+                    {getRestrictedInstances()}
+                    {getIgnoredInstances()}
                     <br />
                   </>
                 )}
