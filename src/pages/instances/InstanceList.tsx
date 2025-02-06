@@ -12,7 +12,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams, { panels } from "util/usePanelParams";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loader from "components/Loader";
 import { instanceCreationTypes } from "util/instanceOptions";
 import InstanceStatusIcon from "./InstanceStatusIcon";
@@ -65,6 +65,8 @@ import { isClusteredServer } from "util/settings";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageDisk from "pages/instances/InstanceDisk";
 import { useInstances } from "context/useInstances";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/project";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -83,12 +85,13 @@ const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { project } = useParams<{ project: string }>();
+  const { project } = useProject();
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
   const [searchParams] = useSearchParams();
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
+  const { canCreateInstances } = useProjectEntitlements(project);
 
   const filters: InstanceFilters = {
     queries: searchParams.getAll("query"),
@@ -111,7 +114,7 @@ const InstanceList: FC = () => {
     return <>Missing project</>;
   }
 
-  const { data: instances = [], error, isLoading } = useInstances(project);
+  const { data: instances = [], error, isLoading } = useInstances(project.name);
 
   if (error) {
     notify.failure("Loading instances failed", error);
@@ -129,7 +132,7 @@ const InstanceList: FC = () => {
 
   const { data: operationList } = useQuery({
     queryKey: [queryKeys.operations, project],
-    queryFn: () => fetchOperations(project),
+    queryFn: () => fetchOperations(project.name),
   });
 
   if (error) {
@@ -337,7 +340,10 @@ const InstanceList: FC = () => {
               ]),
           {
             content: (
-              <CancelOperationBtn operation={operation} project={project} />
+              <CancelOperationBtn
+                operation={operation}
+                project={project.name}
+              />
             ),
             role: "cell",
             className: classnames("u-align--right", {
@@ -355,7 +361,7 @@ const InstanceList: FC = () => {
 
     const instanceRows: MainTableRow[] = filteredInstances.map((instance) => {
       const openSummary = () =>
-        panelParams.openInstanceSummary(instance.name, project);
+        panelParams.openInstanceSummary(instance.name, project.name);
 
       const ipv4 = getIpAddresses(instance, "inet")
         .filter((val) => !val.address.startsWith("127"))
@@ -557,6 +563,10 @@ const InstanceList: FC = () => {
     instances.filter((item) => !creationNames.includes(item.name)).length +
     creationOperations.length;
 
+  const createInstanceRestriction = canCreateInstances()
+    ? ""
+    : `You do not have permission to create instances in project ${project.name}`;
+
   return (
     <>
       <CustomLayout
@@ -577,7 +587,10 @@ const InstanceList: FC = () => {
               </PageHeader.Title>
               {hasInstances && selectedNames.length === 0 && (
                 <PageHeader.Search>
-                  <InstanceSearchFilter key={project} instances={instances} />
+                  <InstanceSearchFilter
+                    key={project.name}
+                    instances={instances}
+                  />
                 </PageHeader.Search>
               )}
               {selectedNames.length > 0 && (
@@ -601,9 +614,13 @@ const InstanceList: FC = () => {
                   appearance="positive"
                   className="u-float-right u-no-margin--bottom"
                   onClick={() =>
-                    void navigate(`/ui/project/${project}/instances/create`)
+                    void navigate(
+                      `/ui/project/${project.name}/instances/create`,
+                    )
                   }
                   hasIcon={!isSmallScreen}
+                  disabled={!canCreateInstances()}
+                  title={createInstanceRestriction}
                 >
                   {!isSmallScreen && <Icon name="plus" light />}
                   <span>{createButtonLabel}</span>
@@ -634,7 +651,7 @@ const InstanceList: FC = () => {
                         <SelectedTableNotification
                           totalCount={totalInstanceCount}
                           itemName="instance"
-                          parentName={`project: ${project}`}
+                          parentName={`project: ${project.name}`}
                           selectedNames={selectedNames}
                           setSelectedNames={setSelectedNames}
                           filteredNames={filteredInstances.map(
@@ -727,8 +744,12 @@ const InstanceList: FC = () => {
                   className="empty-state-button"
                   appearance="positive"
                   onClick={() =>
-                    void navigate(`/ui/project/${project}/instances/create`)
+                    void navigate(
+                      `/ui/project/${project.name}/instances/create`,
+                    )
                   }
+                  disabled={!canCreateInstances()}
+                  title={createInstanceRestriction}
                 >
                   Create instance
                 </Button>
