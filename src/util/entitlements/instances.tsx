@@ -22,10 +22,14 @@ export const useInstanceEntitlements = (instance: LxdInstance) => {
       instance?.access_entitlements,
     );
 
+  const canDeleteInstance = () =>
+    hasEntitlement(isFineGrained, "can_delete", instance?.access_entitlements);
+
   return {
     canUpdateInstanceState,
     canEditInstance,
     canManageBackups,
+    canDeleteInstance,
   };
 };
 
