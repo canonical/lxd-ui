@@ -17,6 +17,7 @@ import CreateInstanceFromSnapshotBtn from "./CreateInstanceFromSnapshotBtn";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceSnapshotLinkChip from "pages/instances/InstanceSnapshotLinkChip";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -36,6 +37,10 @@ const InstanceSnapshotActions: FC<Props> = ({
   const [isRestoring, setRestoring] = useState(false);
   const [restoreState, setRestoreState] = useState(true);
   const queryClient = useQueryClient();
+  const { canManageInstanceSnapshots } = useInstanceEntitlements();
+  const disabledReason = canManageInstanceSnapshots(instance)
+    ? undefined
+    : "You do not have permission to manage snapshots for this instance";
 
   const handleDelete = () => {
     setDeleting(true);
@@ -113,6 +118,7 @@ const InstanceSnapshotActions: FC<Props> = ({
             onSuccess={onSuccess}
             isDeleting={isDeleting}
             isRestoring={isRestoring}
+            disabledReason={disabledReason}
           />,
           <ConfirmationButton
             key="restore"
@@ -135,12 +141,12 @@ const InstanceSnapshotActions: FC<Props> = ({
                   force={[restoreState, setRestoreState]}
                 />
               ) : undefined,
-              confirmButtonLabel: "Restore snapshot",
+              confirmButtonLabel: disabledReason ?? "Restore snapshot",
               confirmButtonAppearance: "positive",
               close: () => setRestoreState(true),
               onConfirm: handleRestore,
             }}
-            disabled={isDeleting || isRestoring}
+            disabled={isDeleting || isRestoring || !!disabledReason}
             shiftClickEnabled
             showShiftClickHint
           >
@@ -174,10 +180,10 @@ const InstanceSnapshotActions: FC<Props> = ({
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Delete snapshot",
+              confirmButtonLabel: disabledReason ?? "Delete snapshot",
               onConfirm: handleDelete,
             }}
-            disabled={isDeleting || isRestoring}
+            disabled={isDeleting || isRestoring || !!disabledReason}
             shiftClickEnabled
             showShiftClickHint
           >

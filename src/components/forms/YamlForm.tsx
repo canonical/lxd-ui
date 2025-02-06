@@ -2,7 +2,10 @@ import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import { Editor, loader } from "@monaco-editor/react";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { editor } from "monaco-editor/esm/vs/editor/editor.api";
+import {
+  editor,
+  IMarkdownString,
+} from "monaco-editor/esm/vs/editor/editor.api";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import classnames from "classnames";
 
@@ -16,6 +19,7 @@ interface Props {
   children?: ReactNode;
   autoResize?: boolean;
   readOnly?: boolean;
+  readOnlyMessage?: IMarkdownString;
 }
 
 const YamlForm: FC<Props> = ({
@@ -24,6 +28,7 @@ const YamlForm: FC<Props> = ({
   children,
   autoResize = false,
   readOnly = false,
+  readOnlyMessage,
 }) => {
   const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,6 +75,7 @@ const YamlForm: FC<Props> = ({
             },
             overviewRulerLanes: 0,
             readOnly: readOnly,
+            readOnlyMessage: readOnlyMessage,
           }}
           onMount={(editor: IStandaloneCodeEditor) => {
             setEditor(editor);

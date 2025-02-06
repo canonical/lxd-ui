@@ -283,7 +283,7 @@ const CreateInstance: FC = () => {
     }
   };
 
-  const { data: profiles = [] } = useQuery({
+  const { data: profiles = [], isLoading: isProfileLoading } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
   });
@@ -364,6 +364,18 @@ const CreateInstance: FC = () => {
       submit(values);
     },
   });
+
+  useEffect(() => {
+    if (!isProfileLoading) {
+      const hasDefaultProfileAccess = profiles.find(
+        (profile) => profile.name === "default",
+      );
+
+      if (!hasDefaultProfileAccess) {
+        void formik.setFieldValue("profiles", []);
+      }
+    }
+  }, [isProfileLoading, profiles]);
 
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 

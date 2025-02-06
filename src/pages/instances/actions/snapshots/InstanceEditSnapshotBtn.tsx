@@ -10,6 +10,7 @@ interface Props {
   onSuccess: (message: ReactNode) => void;
   isDeleting: boolean;
   isRestoring: boolean;
+  disabledReason?: string;
 }
 
 const InstanceEditSnapshotBtn: FC<Props> = ({
@@ -18,6 +19,7 @@ const InstanceEditSnapshotBtn: FC<Props> = ({
   onSuccess,
   isDeleting,
   isRestoring,
+  disabledReason,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
 
@@ -37,11 +39,11 @@ const InstanceEditSnapshotBtn: FC<Props> = ({
         appearance="base"
         hasIcon
         dense={true}
-        disabled={isDeleting || isRestoring}
+        disabled={isDeleting || isRestoring || !!disabledReason}
         onClick={openPortal}
         type="button"
         aria-label="Edit snapshot"
-        title="Edit"
+        title={disabledReason ?? "Edit"}
       >
         <Icon name="edit" />
       </Button>

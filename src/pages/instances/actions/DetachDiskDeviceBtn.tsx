@@ -3,14 +3,15 @@ import { ConfirmationButton, Icon } from "@canonical/react-components";
 
 interface Props {
   onDetach: () => void;
+  disabledReason?: string;
 }
 
-const DetachDiskDeviceBtn: FC<Props> = ({ onDetach }) => {
+const DetachDiskDeviceBtn: FC<Props> = ({ onDetach, disabledReason }) => {
   return (
     <ConfirmationButton
       appearance="base"
       type="button"
-      title="Detach disk"
+      title={disabledReason ?? "Detach disk"}
       className="has-icon u-no-margin--bottom is-dense"
       confirmationModalProps={{
         title: "Confirm disk detachment",
@@ -26,6 +27,7 @@ const DetachDiskDeviceBtn: FC<Props> = ({ onDetach }) => {
       }}
       shiftClickEnabled
       showShiftClickHint
+      disabled={!!disabledReason}
     >
       <Icon name="disconnect" />
       <span>Detach</span>

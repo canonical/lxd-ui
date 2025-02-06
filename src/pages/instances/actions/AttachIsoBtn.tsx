@@ -16,6 +16,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { instanceLinkFromOperation } from "util/instances";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -28,6 +29,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const [isLoading, setLoading] = useState(false);
+  const { canEditInstance } = useInstanceEntitlements();
 
   const attachedIso = instance.devices["iso-volume"] as
     | LxdIsoDevice
@@ -128,6 +130,10 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       });
   };
 
+  const disabledReason = canEditInstance(instance)
+    ? undefined
+    : "You do not have permission to edit this instance.";
+
   return attachedIso ? (
     <>
       <span className="u-text--muted margin-right">{attachedIso.source}</span>
@@ -135,6 +141,8 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         loading={isLoading}
         onClick={detachIso}
         className="u-no-margin--bottom"
+        disabled={!!disabledReason}
+        title={disabledReason}
       >
         Detach ISO
       </ActionButton>
@@ -145,6 +153,8 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
         loading={isLoading}
         onClick={openPortal}
         className="u-no-margin--bottom"
+        disabled={!!disabledReason}
+        title={disabledReason}
       >
         Attach ISO
       </ActionButton>

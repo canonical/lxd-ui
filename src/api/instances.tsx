@@ -15,7 +15,15 @@ import axios, { AxiosResponse } from "axios";
 import type { UploadState } from "types/storage";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const instanceEntitlements = ["can_update_state"];
+export const instanceEntitlements = [
+  "can_update_state",
+  "can_delete",
+  "can_edit",
+  "can_manage_backups",
+  "can_manage_snapshots",
+  "can_exec",
+  "can_access_console",
+];
 
 export const fetchInstance = (
   name: string,

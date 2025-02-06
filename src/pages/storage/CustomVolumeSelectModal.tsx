@@ -10,6 +10,8 @@ import NotificationRow from "components/NotificationRow";
 import { renderContentType } from "util/storageVolume";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import classnames from "classnames";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   project: string;
@@ -32,6 +34,8 @@ const CustomVolumeSelectModal: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const { hasStorageVolumesAll } = useSupportedFeatures();
+  const { canCreateStorageVolumes } = useProjectEntitlements();
+  const { data: currentProject } = useProject(project);
 
   const {
     data: volumes = [],
@@ -195,6 +199,12 @@ const CustomVolumeSelectModal: FC<Props> = ({
             className="u-no-margin--bottom"
             appearance={volumes.length === 0 ? "positive" : ""}
             onClick={onCreate}
+            disabled={!canCreateStorageVolumes(currentProject)}
+            title={
+              canCreateStorageVolumes(currentProject)
+                ? ""
+                : "You do not have permission to create storage volumes in this project"
+            }
           >
             Create volume
           </Button>
