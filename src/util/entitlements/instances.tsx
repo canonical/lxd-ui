@@ -26,5 +26,10 @@ export const useBulkInstanceEntitlements = (instances: LxdInstance[]) => {
       "can_update_state",
       instances,
     ),
+    canDeleteInstanceStateSet: hasEntitlementSet(
+      isFineGrained,
+      "can_delete",
+      instances,
+    ),
   };
 };
