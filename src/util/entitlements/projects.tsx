@@ -2,7 +2,7 @@ import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
 import { LxdProject } from "types/project";
 
-export const useProjectEntitlements = (project: LxdProject) => {
+export const useProjectEntitlements = (project?: LxdProject) => {
   const { isFineGrained } = useAuth();
 
   const canCreateInstances = () =>
