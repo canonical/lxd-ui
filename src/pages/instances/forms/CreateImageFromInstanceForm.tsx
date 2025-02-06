@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -27,6 +28,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const instanceLink = <InstanceLinkChip instance={instance} />;
+  const { canCreateImageAliases } = useProjectEntitlements();
 
   const notifySuccess = () => {
     const created = (
@@ -62,7 +64,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
 
   const formik = useFormik<{ alias: string; isPublic: boolean }>({
     initialValues: {
-      alias: `from-instance-${instance.name}`,
+      alias: canCreateImageAliases() ? `from-instance-${instance.name}` : "",
       isPublic: false,
     },
     validationSchema: Yup.object().shape({
@@ -80,7 +82,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           eventQueue.set(
             operation.metadata.id,
             (event) => {
-              if (alias) {
+              if (alias && canCreateImageAliases()) {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 void createImageAlias(fingerprint, alias, instance.project)
                   .then(clearCache)
@@ -149,6 +151,12 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           type="text"
           label="Alias"
           error={formik.touched.alias ? formik.errors.alias : null}
+          disabled={!canCreateImageAliases()}
+          title={
+            canCreateImageAliases()
+              ? ""
+              : `You do not have permission to create image aliases in project ${instance.project}`
+          }
         />
         <Input
           {...formik.getFieldProps("isPublic")}
