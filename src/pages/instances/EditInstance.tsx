@@ -65,6 +65,7 @@ import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
 import BootForm, { BootFormValues } from "components/forms/BootForm";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -102,6 +103,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
+  const { canEditInstance } = useInstanceEntitlements(instance);
 
   if (!project) {
     return <>Missing project</>;
@@ -186,6 +188,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
   };
 
   const readOnly = formik.values.readOnly;
+  const disableEditReason = !canEditInstance()
+    ? "You do not have permission to edit this instance"
+    : "";
 
   return (
     <div className="edit-instance">
@@ -202,49 +207,91 @@ const EditInstance: FC<Props> = ({ instance }) => {
         <Row className="form-contents" key={section}>
           <Col size={12}>
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
-              <EditInstanceDetails formik={formik} project={project} />
+              <EditInstanceDetails
+                formik={formik}
+                project={project}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(DISK_DEVICES) && (
-              <DiskDeviceForm formik={formik} project={project} />
+              <DiskDeviceForm
+                formik={formik}
+                project={project}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(NETWORK_DEVICES) && (
-              <NetworkDevicesForm formik={formik} project={project} />
+              <NetworkDevicesForm
+                formik={formik}
+                project={project}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(GPU_DEVICES) && (
-              <GPUDeviceForm formik={formik} project={project} />
+              <GPUDeviceForm
+                formik={formik}
+                project={project}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(PROXY_DEVICES) && (
-              <ProxyDeviceForm formik={formik} project={project} />
+              <ProxyDeviceForm
+                formik={formik}
+                project={project}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(OTHER_DEVICES) && (
-              <OtherDeviceForm formik={formik} project={project} />
+              <OtherDeviceForm
+                formik={formik}
+                project={project}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(RESOURCE_LIMITS) && (
-              <ResourceLimitsForm formik={formik} />
+              <ResourceLimitsForm
+                formik={formik}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(SECURITY_POLICIES) && (
-              <SecurityPoliciesForm formik={formik} />
+              <SecurityPoliciesForm
+                formik={formik}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(SNAPSHOTS) && (
-              <InstanceSnapshotsForm formik={formik} />
+              <InstanceSnapshotsForm
+                formik={formik}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(MIGRATION) && (
-              <MigrationForm formik={formik} />
+              <MigrationForm
+                formik={formik}
+                disableEditReason={disableEditReason}
+              />
             )}
 
-            {section === slugify(BOOT) && <BootForm formik={formik} />}
+            {section === slugify(BOOT) && (
+              <BootForm formik={formik} disableEditReason={disableEditReason} />
+            )}
 
             {section === slugify(CLOUD_INIT) && (
-              <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
+              <CloudInitForm
+                key={`yaml-form-${version}`}
+                formik={formik}
+                disableEditReason={disableEditReason}
+              />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (
@@ -285,7 +332,12 @@ const EditInstance: FC<Props> = ({ instance }) => {
             <FormSubmitBtn
               formik={formik}
               isYaml={section === slugify(YAML_CONFIGURATION)}
-              disabled={hasDiskError(formik) || hasNetworkError(formik)}
+              disabled={
+                hasDiskError(formik) ||
+                hasNetworkError(formik) ||
+                !!disableEditReason
+              }
+              disabledReason={disableEditReason}
             />
           </>
         )}

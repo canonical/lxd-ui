@@ -51,9 +51,10 @@ export const securityPoliciesPayload = (
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
+  disableEditReason: string;
 }
 
-const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
+const SecurityPoliciesForm: FC<Props> = ({ formik, disableEditReason }) => {
   const isInstance = formik.values.entityType === "instance";
   const isContainerOnlyDisabled =
     isInstance &&
@@ -73,6 +74,8 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           defaultValue: "",
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: <Select options={optionYesNo} />,
+          disabled: !!disableEditReason,
+          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -80,10 +83,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Privileged (Containers only)",
           name: "security_privileged",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -98,10 +103,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Nesting (Containers only)",
           name: "security_nesting",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -116,10 +123,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Protect UID/GID shift (Containers only)",
           name: "security_protection_shift",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -131,10 +140,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Base host id (Containers only)",
           name: "security_idmap_base",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           children: (
             <Input
               placeholder="Enter ID"
@@ -152,10 +163,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Idmap size (Containers only)",
           name: "security_idmap_size",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           children: (
             <Input
               placeholder="Enter number"
@@ -174,10 +187,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Unique idmap (Containers only)",
           name: "security_idmap_isolated",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -189,10 +204,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Allow /dev/lxd in the instance (Containers only)",
           name: "security_devlxd",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -205,10 +222,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
             "Make /1.0/images API available over /dev/lxd (Containers only)",
           name: "security_devlxd_images",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
           children: (
             <Select options={optionYesNo} disabled={isContainerOnlyDisabled} />
@@ -220,10 +239,12 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",
           defaultValue: "",
-          disabled: isVmOnlyDisabled,
-          disabledReason: isVmOnlyDisabled
-            ? "Only available for virtual machines"
-            : undefined,
+          disabled: !!disableEditReason || isVmOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isVmOnlyDisabled
+              ? "Only available for virtual machines"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
           children: (
             <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />

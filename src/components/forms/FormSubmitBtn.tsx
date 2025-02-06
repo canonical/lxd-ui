@@ -8,9 +8,15 @@ interface Props {
   formik: ConfigurationRowFormikProps;
   disabled: boolean;
   isYaml?: boolean;
+  disabledReason?: string;
 }
 
-const FormSubmitBtn: FC<Props> = ({ formik, disabled, isYaml = false }) => {
+const FormSubmitBtn: FC<Props> = ({
+  formik,
+  disabled,
+  isYaml = false,
+  disabledReason,
+}) => {
   const changeCount = getFormChangeCount(formik);
 
   return (
@@ -19,6 +25,7 @@ const FormSubmitBtn: FC<Props> = ({ formik, disabled, isYaml = false }) => {
       loading={formik.isSubmitting}
       disabled={!formik.isValid || disabled || changeCount === 0}
       onClick={() => void formik.submitForm()}
+      title={disabledReason}
     >
       {changeCount === 0 || isYaml
         ? "Save changes"

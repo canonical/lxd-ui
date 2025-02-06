@@ -42,9 +42,10 @@ import {
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
+  disableEditReason: string;
 }
 
-const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
+const OtherDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
   const notify = useNotify();
   const isInstance = formik.values.entityType === "instance";
   const isContainer =
@@ -142,7 +143,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach device"
+            title={disableEditReason || "Detach device"}
+            disabled={!!disableEditReason}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -191,6 +193,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
+            disableReason={disableEditReason}
           />
         ),
         inherited: "",
@@ -205,7 +208,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach GPU"
+            title={disableEditReason || "Detach GPU"}
+            disabled={!!disableEditReason}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -261,6 +265,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               },
               { label: "USB", value: "usb" },
             ]}
+            disabled={!!disableEditReason}
+            title={disableEditReason}
           />
         ),
         override: "",
@@ -296,6 +302,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               placeholder={field.default}
               help={<ConfigFieldDescription description={field.shortdesc} />}
               className="u-no-margin--bottom"
+              disabled={!!disableEditReason}
+              title={disableEditReason}
             />
           ),
           override: "",
@@ -325,17 +333,19 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
         </div>
       )}
 
-      <Button
-        onClick={() => {
-          ensureEditMode(formik);
-          addDevice();
-        }}
-        type="button"
-        hasIcon
-      >
-        <Icon name="plus" />
-        <span>Attach custom device</span>
-      </Button>
+      {!disableEditReason && (
+        <Button
+          onClick={() => {
+            ensureEditMode(formik);
+            addDevice();
+          }}
+          type="button"
+          hasIcon
+        >
+          <Icon name="plus" />
+          <span>Attach custom device</span>
+        </Button>
+      )}
     </ScrollableForm>
   );
 };

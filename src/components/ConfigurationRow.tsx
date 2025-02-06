@@ -223,6 +223,7 @@ interface BaseProps {
   override: ReactNode;
   className?: string;
   name?: string;
+  disabledReason?: string;
 }
 
 export const getConfigurationRowBase = ({
@@ -231,6 +232,7 @@ export const getConfigurationRowBase = ({
   override,
   className,
   name,
+  disabledReason,
 }: BaseProps): MainTableRow => {
   return {
     name,
@@ -246,7 +248,8 @@ export const getConfigurationRowBase = ({
         className: "inherited",
       },
       {
-        content: override,
+        content: disabledReason ? null : override,
+        title: disabledReason,
         className: "override",
       },
     ],

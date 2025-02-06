@@ -20,9 +20,15 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
   pools: LxdStoragePool[];
   profiles: LxdProfile[];
+  disableEditReason: string;
 }
 
-const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
+const DiskDeviceFormRoot: FC<Props> = ({
+  formik,
+  pools,
+  profiles,
+  disableEditReason,
+}) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(isRootDisk);
   const hasRootStorage = rootIndex !== -1;
@@ -57,6 +63,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
             className: "override-with-form",
             configuration: <b className="device-name">Root storage</b>,
             inherited: "",
+            disabledReason: disableEditReason,
             override: hasRootStorage ? (
               <div>
                 <Button
@@ -97,6 +104,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
             inheritValue: inheritValue?.pool ?? "",
             inheritSource,
             readOnly: readOnly,
+            disabledReason: disableEditReason,
             overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.pool}
@@ -148,6 +156,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
+            disabledReason: disableEditReason,
             overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.size ?? "unlimited"}
@@ -161,6 +170,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                   title="Edit"
                   className="u-no-margin--bottom"
                   hasIcon
+                  disabled={!!disableEditReason}
                 >
                   <Icon name="edit" />
                 </Button>

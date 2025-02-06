@@ -36,9 +36,10 @@ import GPUDeviceInput from "components/forms/GPUDeviceInput";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
+  disableEditReason: string;
 }
 
-const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
+const GPUDevicesForm: FC<Props> = ({ formik, project, disableEditReason }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
 
@@ -103,7 +104,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
           <Button
             appearance="base"
             type="button"
-            title="Reattach volume"
+            title="Reattach GPU"
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
@@ -123,6 +124,8 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             }}
             className="has-icon u-no-margin--bottom"
             dense
+            title={disableEditReason || "Detach GPU"}
+            disabled={!!disableEditReason}
           >
             <Icon name="disconnect"></Icon>
             <span>Detach</span>
@@ -165,6 +168,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
+            disableReason={disableEditReason}
           />
         ),
         inherited: "",
@@ -179,7 +183,8 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach GPU"
+            title={disableEditReason || "Detach GPU"}
+            disabled={!!disableEditReason}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -213,6 +218,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
               void formik.setFieldValue(`devices.${index}.pci`, pci);
               void formik.setFieldValue(`devices.${index}.id`, id);
             }}
+            disableReason={disableEditReason}
           />
         ),
         readOnly: false,
@@ -264,12 +270,14 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
         </div>
       )}
 
-      <AttachGPUBtn
-        onSelect={(card) => {
-          ensureEditMode(formik);
-          addGPUCard(card);
-        }}
-      />
+      {!disableEditReason && (
+        <AttachGPUBtn
+          onSelect={(card) => {
+            ensureEditMode(formik);
+            addGPUCard(card);
+          }}
+        />
+      )}
     </ScrollableForm>
   );
 };

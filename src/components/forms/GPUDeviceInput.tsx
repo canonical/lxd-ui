@@ -5,9 +5,10 @@ import type { LxdGPUDevice } from "types/device";
 interface Props {
   device: LxdGPUDevice;
   onChange?: (pci?: string, id?: string) => void;
+  disableReason?: string;
 }
 
-const GpuDeviceInput: FC<Props> = ({ device, onChange }) => {
+const GpuDeviceInput: FC<Props> = ({ device, onChange, disableReason }) => {
   const [type, setType] = useState(device.pci ? "pci" : "id");
   const isPci = type === "pci";
   const key = `device.${device.name}.${isPci ? "pci" : "id"}`;
@@ -21,12 +22,14 @@ const GpuDeviceInput: FC<Props> = ({ device, onChange }) => {
           label="ID"
           checked={!isPci}
           onClick={() => setType("id")}
+          disabled={!!disableReason}
         />
         <RadioInput
           inline
           label="PCI"
           checked={isPci}
           onClick={() => setType("pci")}
+          disabled={!!disableReason}
         />
       </div>
       <Input
@@ -40,6 +43,7 @@ const GpuDeviceInput: FC<Props> = ({ device, onChange }) => {
             isPci ? undefined : e.target.value,
           )
         }
+        disabled={!!disableReason}
       />
     </>
   );

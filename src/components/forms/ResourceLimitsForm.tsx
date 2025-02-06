@@ -39,9 +39,10 @@ export const resourceLimitsPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
+  disableEditReason: string;
 }
 
-const ResourceLimitsForm: FC<Props> = ({ formik }) => {
+const ResourceLimitsForm: FC<Props> = ({ formik, disableEditReason }) => {
   const isInstance = formik.values.entityType === "instance";
   const isContainerOnlyDisabled =
     isInstance &&
@@ -65,6 +66,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               }}
             />
           ),
+          disabled: !!disableEditReason,
+          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -82,6 +85,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
               }
             />
           ),
+          disabled: !!disableEditReason,
+          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -89,10 +94,12 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_memory_swap",
           label: "Memory swap (Containers only)",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -108,6 +115,8 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           label: "Disk priority",
           defaultValue: "",
           children: <Select options={diskPriorities} />,
+          disabled: !!disableEditReason,
+          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -115,10 +124,12 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
           name: "limits_processes",
           label: "Max number of processes (Containers only)",
           defaultValue: "",
-          disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabled: !!disableEditReason || isContainerOnlyDisabled,
+          disabledReason:
+            disableEditReason ||
+            (isContainerOnlyDisabled
+              ? "Only available for containers"
+              : undefined),
           children: (
             <Input
               placeholder="Enter number"

@@ -18,6 +18,7 @@ interface Props {
   setSelected: (profiles: string[]) => void;
   title?: string;
   readOnly?: boolean;
+  disabledReason?: string;
 }
 
 const ProfileSelector: FC<Props> = ({
@@ -26,6 +27,7 @@ const ProfileSelector: FC<Props> = ({
   setSelected,
   title,
   readOnly = false,
+  disabledReason,
 }) => {
   const notify = useNotify();
 
@@ -99,50 +101,52 @@ const ProfileSelector: FC<Props> = ({
                   };
                 })}
               value={value}
-              disabled={readOnly}
-              title={title}
-            ></Select>
+              disabled={readOnly || !!disabledReason}
+              title={disabledReason || title}
+            />
           </div>
 
           <div className="profile-actions">
-            {!readOnly && (index > 0 || selected.length > 1) && (
-              <div>
-                <Button
-                  appearance="link"
-                  className="profile-action-btn"
-                  onClick={() => {
-                    const newSelection = [...selected];
-                    newSelection.splice(index, 1);
-                    newSelection.splice(index - 1, 0, value);
-                    setSelected(newSelection);
-                  }}
-                  type="button"
-                  aria-label="move profile up"
-                  title="move profile up"
-                  disabled={index === 0}
-                >
-                  <Icon name="chevron-up" />
-                </Button>
-                <Button
-                  appearance="link"
-                  className="profile-action-btn"
-                  onClick={() => {
-                    const newSelection = [...selected];
-                    newSelection.splice(index, 1);
-                    newSelection.splice(index + 1, 0, value);
-                    setSelected(newSelection);
-                  }}
-                  type="button"
-                  aria-label="move profile down"
-                  title="move profile down"
-                  disabled={index === selected.length - 1}
-                >
-                  <Icon name="chevron-down" />
-                </Button>
-              </div>
-            )}
+            {!readOnly &&
+              (index > 0 || selected.length > 1) &&
+              !disabledReason && (
+                <div>
+                  <Button
+                    appearance="link"
+                    className="profile-action-btn"
+                    onClick={() => {
+                      const newSelection = [...selected];
+                      newSelection.splice(index, 1);
+                      newSelection.splice(index - 1, 0, value);
+                      setSelected(newSelection);
+                    }}
+                    type="button"
+                    aria-label="move profile up"
+                    title="move profile up"
+                    disabled={index === 0}
+                  >
+                    <Icon name="chevron-up" />
+                  </Button>
+                  <Button
+                    appearance="link"
+                    className="profile-action-btn"
+                    onClick={() => {
+                      const newSelection = [...selected];
+                      newSelection.splice(index, 1);
+                      newSelection.splice(index + 1, 0, value);
+                      setSelected(newSelection);
+                    }}
+                    type="button"
+                    aria-label="move profile down"
+                    title="move profile down"
+                    disabled={index === selected.length - 1}
+                  >
+                    <Icon name="chevron-down" />
+                  </Button>
+                </div>
+              )}
 
-            {!readOnly && (
+            {!readOnly && !disabledReason && (
               <Button
                 appearance="link"
                 className="profile-remove-btn"
@@ -157,7 +161,7 @@ const ProfileSelector: FC<Props> = ({
           </div>
         </div>
       ))}
-      {!readOnly && (
+      {!readOnly && !disabledReason && (
         <Button
           id="addProfileButton"
           disabled={unselected.length === 0}
