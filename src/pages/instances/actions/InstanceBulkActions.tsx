@@ -13,6 +13,7 @@ import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useBulkInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instances: LxdInstance[];
@@ -28,6 +29,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     null,
   );
   const [isForce, setForce] = useState(false);
+  const { canUpdateInstanceStateSet } = useBulkInstanceEntitlements(instances);
 
   const clearCache = () => {
     void queryClient.invalidateQueries({
@@ -45,7 +47,11 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   const handleAction = (desiredAction: LxdInstanceAction) => {
     setActiveAction(desiredAction);
     onStart();
-    const actions = instanceActions(instances, desiredAction);
+    const actions = instanceActions(
+      instances,
+      desiredAction,
+      canUpdateInstanceStateSet,
+    );
 
     void updateInstanceBulkAction(actions, isForce, eventQueue).then(
       (results) => {
@@ -103,6 +109,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           action="start"
           instances={instances}
           confirmLabel="Start"
+          nonRestrictedInstances={canUpdateInstanceStateSet}
         />
         <InstanceBulkAction
           icon="restart"
@@ -118,6 +125,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               force={[isForce, setForce]}
             />
           }
+          nonRestrictedInstances={canUpdateInstanceStateSet}
         />
         <InstanceBulkAction
           icon="pause"
@@ -127,6 +135,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           action="freeze"
           instances={instances}
           confirmLabel="Freeze"
+          nonRestrictedInstances={canUpdateInstanceStateSet}
         />
         <InstanceBulkAction
           icon="stop"
@@ -139,6 +148,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           confirmExtra={
             <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
           }
+          nonRestrictedInstances={canUpdateInstanceStateSet}
         />
       </div>
     </div>
