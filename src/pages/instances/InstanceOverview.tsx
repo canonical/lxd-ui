@@ -14,6 +14,10 @@ import DeviceListTable from "components/DeviceListTable";
 import NetworkListTable from "components/NetworkListTable";
 import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
+import ResourceLabel from "components/ResourceLabel";
+import { useQuery } from "@tanstack/react-query";
+import { fetchImageList } from "api/images";
+import { queryKeys } from "util/queryKeys";
 
 interface Props {
   instance: LxdInstance;
@@ -22,6 +26,10 @@ interface Props {
 const InstanceOverview: FC<Props> = ({ instance }) => {
   const notify = useNotify();
   const { data: settings } = useSettings();
+  const { data: images = [] } = useQuery({
+    queryKey: [queryKeys.images, instance.project],
+    queryFn: () => fetchImageList(instance.project),
+  });
 
   const onFailure = (title: string, e: unknown) => {
     notify.failure(title, e);
@@ -36,6 +44,28 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
 
+  const getImageLink = () => {
+    const imageDescription = instance.config["image.description"];
+    const imageFound = images?.some(
+      (image) => image.properties?.description === imageDescription,
+    );
+    if (imageDescription) {
+      if (imageFound) {
+        return (
+          <ResourceLink
+            type="image"
+            value={imageDescription}
+            to={`/ui/project/${instance.project}/images`}
+          />
+        );
+      }
+
+      return <ResourceLabel type="image" value={imageDescription} />;
+    }
+
+    return "-";
+  };
+
   return (
     <div className="instance-overview-tab">
       <NotificationRow />
@@ -48,17 +78,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
             <tbody>
               <tr>
                 <th className="u-text--muted">Base image</th>
-                <td>
-                  {instance.config["image.description"] ? (
-                    <ResourceLink
-                      type="image"
-                      value={instance.config["image.description"]}
-                      to={`/ui/project/${instance.project}/images`}
-                    />
-                  ) : (
-                    "-"
-                  )}
-                </td>
+                <td>{getImageLink()}</td>
               </tr>
               <tr>
                 <th className="u-text--muted">Description</th>
