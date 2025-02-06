@@ -2,7 +2,7 @@ import { useAuth } from "context/auth";
 import { LxdInstance } from "types/instance";
 import { hasEntitlement, hasEntitlementSet } from "./helpers";
 
-export const useInstanceEntitlements = (instance: LxdInstance) => {
+export const useInstanceEntitlements = (instance?: LxdInstance) => {
   const { isFineGrained } = useAuth();
 
   const canUpdateInstanceState = () =>
