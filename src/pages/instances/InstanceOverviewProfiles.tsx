@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, Notification } from "@canonical/react-components";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { fetchProfiles } from "api/profiles";
@@ -71,15 +71,24 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     };
   });
 
-  return (
-    <>
-      {isLoading ? (
-        <Loader text="Loading profiles..." />
-      ) : (
-        <MainTable headers={profileHeaders} rows={profileRows} sortable />
-      )}
-    </>
-  );
+  const getContent = () => {
+    if (isLoading) {
+      return <Loader text="Loading profiles..." />;
+    }
+
+    if (!profiles.length) {
+      return (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to view the profiles applied to this
+          instance.
+        </Notification>
+      );
+    }
+
+    return <MainTable headers={profileHeaders} rows={profileRows} sortable />;
+  };
+
+  return getContent();
 };
 
 export default InstanceOverviewProfiles;
