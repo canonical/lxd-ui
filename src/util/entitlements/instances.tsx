@@ -15,9 +15,17 @@ export const useInstanceEntitlements = (instance: LxdInstance) => {
   const canEditInstance = () =>
     hasEntitlement(isFineGrained, "can_edit", instance?.access_entitlements);
 
+  const canManageBackups = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_manage_backups",
+      instance?.access_entitlements,
+    );
+
   return {
     canUpdateInstanceState,
     canEditInstance,
+    canManageBackups,
   };
 };
 
