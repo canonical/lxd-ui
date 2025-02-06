@@ -16,6 +16,7 @@ interface Props {
   clearOverride?: () => void;
   isDeactivated?: boolean;
   className?: string;
+  disabledReason?: string;
 }
 
 export const getInheritedDeviceRow = ({
@@ -30,6 +31,7 @@ export const getInheritedDeviceRow = ({
   clearOverride,
   isDeactivated,
   className,
+  disabledReason,
 }: Props): MainTableRow => {
   return getConfigurationRowBase({
     className: classnames("no-border-top", className),
@@ -81,45 +83,46 @@ export const getInheritedDeviceRow = ({
         )}
       </div>
     ),
-    override: readOnly ? (
-      overrideValue ? (
-        <div className="mono-font">
-          <b>{overrideValue}</b>
+    override:
+      readOnly || disabledReason ? (
+        overrideValue ? (
+          <div className="mono-font">
+            <b>{overrideValue}</b>
+          </div>
+        ) : (
+          ""
+        )
+      ) : overrideValue ? (
+        <div className="override-form">
+          <div>{overrideForm}</div>
+          {clearOverride && (
+            <div>
+              <Button
+                onClick={clearOverride}
+                type="button"
+                appearance="base"
+                title="Clear override"
+                hasIcon
+                className="u-no-margin--bottom"
+              >
+                <Icon name="close" className="clear-configuration-icon" />
+              </Button>
+            </div>
+          )}
         </div>
       ) : (
-        ""
-      )
-    ) : overrideValue ? (
-      <div className="override-form">
-        <div>{overrideForm}</div>
-        {clearOverride && (
-          <div>
-            <Button
-              onClick={clearOverride}
-              type="button"
-              appearance="base"
-              title="Clear override"
-              hasIcon
-              className="u-no-margin--bottom"
-            >
-              <Icon name="close" className="clear-configuration-icon" />
-            </Button>
-          </div>
-        )}
-      </div>
-    ) : (
-      addOverride && (
-        <Button
-          onClick={addOverride}
-          type="button"
-          appearance="base"
-          title="Create override"
-          className="u-no-margin--bottom"
-          hasIcon
-        >
-          <Icon name="edit" />
-        </Button>
-      )
-    ),
+        addOverride && (
+          <Button
+            onClick={addOverride}
+            type="button"
+            appearance="base"
+            title="Create override"
+            className="u-no-margin--bottom"
+            hasIcon
+          >
+            <Icon name="edit" />
+          </Button>
+        )
+      ),
   });
 };

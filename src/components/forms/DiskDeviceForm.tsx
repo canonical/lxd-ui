@@ -16,9 +16,10 @@ import ScrollableForm from "components/ScrollableForm";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
+  disableEditReason: string;
 }
 
-const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
+const DiskDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
   const notify = useNotify();
 
   const {
@@ -62,15 +63,22 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
       <ScrollableForm>
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
-        <DiskDeviceFormRoot formik={formik} pools={pools} profiles={profiles} />
+        <DiskDeviceFormRoot
+          formik={formik}
+          pools={pools}
+          profiles={profiles}
+          disableEditReason={disableEditReason}
+        />
         <DiskDeviceFormInherited
           formik={formik}
           inheritedDiskDevices={inheritedDiskDevices}
+          disableEditReason={disableEditReason}
         />
         <DiskDeviceFormCustom
           formik={formik}
           project={project}
           profiles={profiles}
+          disableEditReason={disableEditReason}
         />
       </ScrollableForm>
     </div>
