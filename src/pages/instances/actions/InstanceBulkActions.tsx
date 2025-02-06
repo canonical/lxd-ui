@@ -13,7 +13,7 @@ import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { useBulkInstanceEntitlements } from "util/entitlements/instances";
+import { useInstanceEntitlementSet } from "util/entitlements/instances";
 
 interface Props {
   instances: LxdInstance[];
@@ -29,7 +29,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     null,
   );
   const [isForce, setForce] = useState(false);
-  const { canUpdateInstanceStateSet } = useBulkInstanceEntitlements(instances);
+  const { canUpdateInstanceStateSet } = useInstanceEntitlementSet(instances);
 
   const clearCache = () => {
     void queryClient.invalidateQueries({

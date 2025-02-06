@@ -1,5 +1,5 @@
 import { useAuth } from "context/auth";
-import { hasEntitlement } from "./helpers";
+import { hasEntitlement, hasEntitlementSet } from "./helpers";
 import { LxdProject } from "types/project";
 
 export const useProjectEntitlements = (project?: LxdProject) => {
@@ -14,5 +14,17 @@ export const useProjectEntitlements = (project?: LxdProject) => {
 
   return {
     canCreateInstances,
+  };
+};
+
+export const useProjectEntitlementSet = (projects: LxdProject[]) => {
+  const { isFineGrained } = useAuth();
+
+  return {
+    canCreateInstancesSet: hasEntitlementSet(
+      isFineGrained,
+      "can_create_instances",
+      projects,
+    ),
   };
 };
