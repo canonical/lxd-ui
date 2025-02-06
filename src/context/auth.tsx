@@ -41,7 +41,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
 
   const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
+    queryFn: () => fetchProjects(false),
     enabled: settings?.auth === "trusted",
   });
 
