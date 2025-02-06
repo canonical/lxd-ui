@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { LxdInstance } from "types/instance";
-import { hasEntitlement } from "./helpers";
+import { hasEntitlement, hasEntitlementSet } from "./helpers";
 
 export const useInstanceEntitlements = (instance: LxdInstance) => {
   const { isFineGrained } = useAuth();
@@ -14,5 +14,17 @@ export const useInstanceEntitlements = (instance: LxdInstance) => {
 
   return {
     canUpdateInstanceState,
+  };
+};
+
+export const useBulkInstanceEntitlements = (instances: LxdInstance[]) => {
+  const { isFineGrained } = useAuth();
+
+  return {
+    canUpdateInstanceStateSet: hasEntitlementSet(
+      isFineGrained,
+      "can_update_state",
+      instances,
+    ),
   };
 };

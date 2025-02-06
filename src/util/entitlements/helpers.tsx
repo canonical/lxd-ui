@@ -11,3 +11,19 @@ export const hasEntitlement = (
 
   return !isFineGrained || (grantedEntitlements || []).includes(entitlement);
 };
+
+export const hasEntitlementSet = (
+  isFineGrained: boolean | null,
+  entitlement: string,
+  resources: { name: string; access_entitlements?: string[] }[],
+) => {
+  const result = new Set<string>();
+  for (const resource of resources) {
+    if (
+      hasEntitlement(isFineGrained, entitlement, resource?.access_entitlements)
+    ) {
+      result.add(resource.name);
+    }
+  }
+  return result;
+};
