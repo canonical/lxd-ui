@@ -21,7 +21,7 @@ export const useInstanceEntitlements = (instance: LxdInstance) => {
   };
 };
 
-export const useBulkInstanceEntitlements = (instances: LxdInstance[]) => {
+export const useInstanceEntitlementSet = (instances: LxdInstance[]) => {
   const { isFineGrained } = useAuth();
 
   return {
