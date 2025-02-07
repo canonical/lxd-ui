@@ -30,10 +30,18 @@ export const useProjectEntitlements = (project?: LxdProject) => {
       validProject?.access_entitlements,
     );
 
+  const canCreateStorageVolumes = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_storage_volumes",
+      validProject?.access_entitlements,
+    );
+
   return {
     canCreateInstances,
     canCreateImages,
     canCreateImageAliases,
+    canCreateStorageVolumes,
   };
 };
 
