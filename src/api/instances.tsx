@@ -20,6 +20,7 @@ export const instanceEntitlements = [
   "can_delete",
   "can_edit",
   "can_manage_backups",
+  "can_manage_snapshots",
 ];
 
 export const fetchInstance = (
