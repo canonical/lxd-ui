@@ -140,13 +140,17 @@ export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
 export const instanceProfilesWarning = (
   instanceProfiles: string[],
   profiles?: LxdProfile[],
+  isCreating?: boolean,
 ) => {
+  const editContext = !isCreating
+    ? "This may cause inherited configuration values to be displayed incorrectly."
+    : "";
+
   if (!profiles?.length) {
     return (
       <Notification severity="caution" title="Restricted permissions">
-        You do not have permission to view the profiles applied to this
-        instance. This may cause inherited configuration values to be displayed
-        incorrectly.
+        You do not have permission to view profiles in the current project.{" "}
+        {editContext}
       </Notification>
     );
   }
@@ -157,8 +161,7 @@ export const instanceProfilesWarning = (
       return (
         <Notification severity="caution" title="Restricted permissions">
           You do not have permission to view some profiles applied to this
-          instance. This may cause inherited configuration values to be
-          displayed incorrectly.
+          instance. {editContext}
         </Notification>
       );
     }
