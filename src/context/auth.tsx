@@ -83,6 +83,10 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     .filter((permission) => permission.entity_type === "server")
     .map((permission) => permission.entitlement);
 
+  const serverEntitlements = (currentIdentity?.effective_permissions || [])
+    .filter((permission) => permission.entity_type === "server")
+    .map((permission) => permission.entitlement);
+
   return (
     <AuthContext.Provider
       value={{
