@@ -20,7 +20,7 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
   pools: LxdStoragePool[];
   profiles: LxdProfile[];
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const DiskDeviceFormRoot: FC<Props> = ({

@@ -51,7 +51,7 @@ export const securityPoliciesPayload = (
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const SecurityPoliciesForm: FC<Props> = ({ formik, disableEditReason }) => {

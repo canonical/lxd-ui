@@ -3,6 +3,7 @@ import {
   Button,
   Icon,
   Label,
+  Notification,
   Select,
   useNotify,
 } from "@canonical/react-components";
@@ -39,6 +40,7 @@ const ProfileSelector: FC<Props> = ({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project),
   });
+  const hasProfiles = profiles.length > 0;
 
   useEffect(() => {
     const contentdetails = document.getElementById("content-details");
@@ -72,95 +74,102 @@ const ProfileSelector: FC<Props> = ({
   return (
     <>
       <Label forId="profile-0">Profiles</Label>
-      {selected.map((value, index) => (
-        <div className="profile-select" key={value}>
-          <div>
-            <Select
-              id={`profile-${index}`}
-              aria-label="Select a profile"
-              help={
-                index > 0 &&
-                index === selected.length - 1 &&
-                "Each profile overrides the settings specified in previous profiles"
-              }
-              onChange={(e) => {
-                const newValues = [...selected];
-                newValues[index] = e.target.value;
-                setSelected(newValues);
-              }}
-              options={profiles
-                .filter(
-                  (profile) =>
-                    !selected.includes(profile.name) ||
-                    selected.indexOf(profile.name) === index,
-                )
-                .map((profile) => {
-                  return {
-                    label: profile.name,
-                    value: profile.name,
-                  };
-                })}
-              value={value}
-              disabled={readOnly || !!disabledReason}
-              title={disabledReason || title}
-            />
-          </div>
-
-          <div className="profile-actions">
-            {!readOnly &&
-              (index > 0 || selected.length > 1) &&
-              !disabledReason && (
-                <div>
-                  <Button
-                    appearance="link"
-                    className="profile-action-btn"
-                    onClick={() => {
-                      const newSelection = [...selected];
-                      newSelection.splice(index, 1);
-                      newSelection.splice(index - 1, 0, value);
-                      setSelected(newSelection);
-                    }}
-                    type="button"
-                    aria-label="move profile up"
-                    title="move profile up"
-                    disabled={index === 0}
-                  >
-                    <Icon name="chevron-up" />
-                  </Button>
-                  <Button
-                    appearance="link"
-                    className="profile-action-btn"
-                    onClick={() => {
-                      const newSelection = [...selected];
-                      newSelection.splice(index, 1);
-                      newSelection.splice(index + 1, 0, value);
-                      setSelected(newSelection);
-                    }}
-                    type="button"
-                    aria-label="move profile down"
-                    title="move profile down"
-                    disabled={index === selected.length - 1}
-                  >
-                    <Icon name="chevron-down" />
-                  </Button>
-                </div>
-              )}
-
-            {!readOnly && !disabledReason && (
-              <Button
-                appearance="link"
-                className="profile-remove-btn"
-                onClick={() =>
-                  setSelected(selected.filter((item) => item !== value))
+      {hasProfiles &&
+        selected.map((value, index) => (
+          <div className="profile-select" key={value}>
+            <div>
+              <Select
+                id={`profile-${index}`}
+                aria-label="Select a profile"
+                help={
+                  index > 0 &&
+                  index === selected.length - 1 &&
+                  "Each profile overrides the settings specified in previous profiles"
                 }
-                type="button"
-              >
-                Remove
-              </Button>
-            )}
+                onChange={(e) => {
+                  const newValues = [...selected];
+                  newValues[index] = e.target.value;
+                  setSelected(newValues);
+                }}
+                options={profiles
+                  .filter(
+                    (profile) =>
+                      !selected.includes(profile.name) ||
+                      selected.indexOf(profile.name) === index,
+                  )
+                  .map((profile) => {
+                    return {
+                      label: profile.name,
+                      value: profile.name,
+                    };
+                  })}
+                value={value}
+                disabled={readOnly || !!disabledReason}
+                title={disabledReason || title}
+              />
+            </div>
+
+            <div className="profile-actions">
+              {!readOnly &&
+                (index > 0 || selected.length > 1) &&
+                !disabledReason && (
+                  <div>
+                    <Button
+                      appearance="link"
+                      className="profile-action-btn"
+                      onClick={() => {
+                        const newSelection = [...selected];
+                        newSelection.splice(index, 1);
+                        newSelection.splice(index - 1, 0, value);
+                        setSelected(newSelection);
+                      }}
+                      type="button"
+                      aria-label="move profile up"
+                      title="move profile up"
+                      disabled={index === 0}
+                    >
+                      <Icon name="chevron-up" />
+                    </Button>
+                    <Button
+                      appearance="link"
+                      className="profile-action-btn"
+                      onClick={() => {
+                        const newSelection = [...selected];
+                        newSelection.splice(index, 1);
+                        newSelection.splice(index + 1, 0, value);
+                        setSelected(newSelection);
+                      }}
+                      type="button"
+                      aria-label="move profile down"
+                      title="move profile down"
+                      disabled={index === selected.length - 1}
+                    >
+                      <Icon name="chevron-down" />
+                    </Button>
+                  </div>
+                )}
+
+              {!readOnly && !disabledReason && (
+                <Button
+                  appearance="link"
+                  className="profile-remove-btn"
+                  onClick={() =>
+                    setSelected(selected.filter((item) => item !== value))
+                  }
+                  type="button"
+                >
+                  Remove
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      {!hasProfiles && (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to view the profiles applied to this
+          instance.
+        </Notification>
+      )}
       {!readOnly && !disabledReason && (
         <Button
           id="addProfileButton"

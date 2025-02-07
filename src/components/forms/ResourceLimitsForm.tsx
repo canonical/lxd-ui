@@ -39,7 +39,7 @@ export const resourceLimitsPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const ResourceLimitsForm: FC<Props> = ({ formik, disableEditReason }) => {

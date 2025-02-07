@@ -20,7 +20,7 @@ import { isHostDiskDevice } from "util/devices";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   inheritedDiskDevices: InheritedDiskDevice[];
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const DiskDeviceFormInherited: FC<Props> = ({

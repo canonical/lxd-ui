@@ -16,7 +16,7 @@ import ScrollableForm from "components/ScrollableForm";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const DiskDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {

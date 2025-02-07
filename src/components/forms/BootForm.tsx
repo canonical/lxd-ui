@@ -34,7 +34,7 @@ export const bootPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
