@@ -26,6 +26,7 @@ import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
+import { useProjectEntitlementSet } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -92,6 +93,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
   const eventQueue = useEventQueue();
 
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
+  const { canCreateInstancesSet } = useProjectEntitlementSet(projects);
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],
@@ -272,12 +274,14 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
           {...formik.getFieldProps("targetProject")}
           id="project"
           label="Target project"
-          options={projects.map((project) => {
-            return {
-              label: project.name,
-              value: project.name,
-            };
-          })}
+          options={projects
+            .filter((project) => canCreateInstancesSet.has(project.name))
+            .map((project) => {
+              return {
+                label: project.name,
+                value: project.name,
+              };
+            })}
           error={formik.errors.targetProject}
         />
         {snapshot.stateful && (
