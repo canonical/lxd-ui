@@ -34,7 +34,7 @@ export const snapshotsPayload = (values: InstanceAndProfileFormValues) => {
 interface Props {
   formik: InstanceAndProfileFormikProps;
   children?: ReactNode;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const InstanceSnapshotsForm: FC<Props> = ({ formik, disableEditReason }) => {

@@ -36,7 +36,7 @@ import GPUDeviceInput from "components/forms/GPUDeviceInput";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const GPUDevicesForm: FC<Props> = ({ formik, project, disableEditReason }) => {

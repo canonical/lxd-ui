@@ -28,7 +28,7 @@ export const migrationPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const MigrationForm: FC<Props> = ({ formik, disableEditReason }) => {

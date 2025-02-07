@@ -42,7 +42,7 @@ import {
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const OtherDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {

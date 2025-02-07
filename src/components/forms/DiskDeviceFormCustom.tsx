@@ -32,7 +32,7 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
   profiles: LxdProfile[];
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const DiskDeviceFormCustom: FC<Props> = ({

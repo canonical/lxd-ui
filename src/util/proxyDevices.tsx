@@ -15,7 +15,7 @@ export const getProxyAddress = (
   connectionType: ConnectionType,
   formik: InstanceAndProfileFormikProps,
   headingTitle: string,
-  disableReason: string,
+  disableReason?: string,
 ) => {
   const deviceParts = device[connectionType]?.split(":") || [];
   const deviceType = deviceParts.length > 0 ? deviceParts[0] : "tcp";

@@ -27,7 +27,7 @@ import { focusField } from "util/formFields";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const NetworkDevicesForm: FC<Props> = ({

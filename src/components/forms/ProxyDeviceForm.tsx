@@ -37,7 +37,7 @@ import { getProxyAddress } from "util/proxyDevices";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason: string;
+  disableEditReason?: string;
 }
 
 const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
