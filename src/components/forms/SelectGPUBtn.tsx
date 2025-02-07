@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import SelectGPUModal from "components/forms/SelectGPUModal";
 import type { GpuCard } from "types/resources";
 

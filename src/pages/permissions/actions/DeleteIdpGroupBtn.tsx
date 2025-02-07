@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import type { IdpGroup } from "types/permissions";
 import DeleteIdpGroupsModal from "./DeleteIdpGroupsModal";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 
 interface Props {
   idpGroup: IdpGroup;

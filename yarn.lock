@@ -313,10 +313,10 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
-"@canonical/react-components@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-2.0.0.tgz#33f6f5e425e5966525ea4ac2120567cf329f6f6b"
-  integrity sha512-scmMyOcJ3Le2EPLu/rQE1j7WHLxXUH7X84zrmkTjaWu0qAKbdgOdGQfvr0ASswjaLKNpUVoinrn/LA2nPF/t+A==
+"@canonical/react-components@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-2.1.0.tgz#439d5ca03b009b0c0ad72c8bb5170857bbecce86"
+  integrity sha512-OaZcQmwoXj25kCvOxYhaJQhUc4CX8t5pVbuqb+t2ELfREVRvlTnKAxMHeuAyihK81FQ712M8ziiKfybp2mNZYg==
   dependencies:
     "@types/jest" "29.5.14"
     "@types/node" "20.17.13"
@@ -328,7 +328,6 @@
     lodash.isequal "4.5.0"
     prop-types "15.8.1"
     react-table "7.8.0"
-    react-useportal "1.0.19"
 
 "@canonical/typescript-config-base@^0.4.0-experimental.0":
   version "0.4.0-experimental.0"
@@ -5194,13 +5193,6 @@ react-table@7.8.0:
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
   integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
 
-react-useportal@1.0.19:
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/react-useportal/-/react-useportal-1.0.19.tgz#473168f1a1c4009833d49a46b05d974a5850a166"
-  integrity sha512-gXXxBu/j+gQrghUh5l0/GJxy3MoRxQRX0P3jpNI8c+4v/ey1ZGW3Tqh/wTYgBs8NdumvaYe+IiKGMYntEv07CA==
-  dependencies:
-    use-ssr "^1.0.25"
-
 react@19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-19.0.0.tgz#6e1969251b9f108870aa4bff37a0ce9ddfaaabdd"
@@ -6345,11 +6337,6 @@ url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
-
-use-ssr@^1.0.25:
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/use-ssr/-/use-ssr-1.0.25.tgz#c7f54b59d6e52db26749b1d4115a650101a190bd"
-  integrity sha512-VYF8kJKI+X7+U4XgGoUER2BUl0vIr+8OhlIhyldgSGE0KHMoDRXPvWeHUUeUktq7ACEOVLzXGq1+QRxcvtwvyQ==
 
 util-deprecate@^1.0.2:
   version "1.0.2"
