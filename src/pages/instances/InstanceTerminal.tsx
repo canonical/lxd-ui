@@ -16,9 +16,11 @@ import {
   ActionButton,
   EmptyState,
   Icon,
+  Notification,
   useNotify,
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -63,6 +65,8 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const xtermRef = useRef<Terminal>(null);
   const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [version, setVersion] = useState(0);
+  const { canUpdateInstanceState, canExecInstance } =
+    useInstanceEntitlements(instance);
 
   usePrompt({
     when: userInteracted,
@@ -147,6 +151,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const isRunning = instance.status === "Running";
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
   const canConnect = isRunning && !isBooting;
+  const canExec = canExecInstance();
 
   useEffect(() => {
     if (isBooting && refreshTimerRef.current === null) {
@@ -166,7 +171,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   useEffect(() => {
     xtermRef.current?.clear();
     notify.clear();
-    if (canConnect) {
+    if (canConnect && canExec) {
       const websocketPromise = openWebsockets(payload);
       return () => {
         void websocketPromise.then((websockets) => {
@@ -174,7 +179,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
         });
       };
     }
-  }, [payload, instance.status, canConnect]);
+  }, [payload, instance.status, canConnect, canExec]);
 
   const handleResize = () => {
     if (controlWs?.readyState === WebSocket.CLOSED) {
@@ -218,9 +223,11 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     <div className="instance-terminal-tab">
       {canConnect && (
         <>
-          <div className="p-panel__controls">
-            <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
-          </div>
+          {canExec && (
+            <div className="p-panel__controls">
+              <ReconnectTerminalBtn reconnect={setPayload} payload={payload} />
+            </div>
+          )}
           <NotificationRow />
           {isLoading && <Loader text="Loading terminal session..." />}
           {controlWs && (
@@ -238,7 +245,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           )}
         </>
       )}
-      {!canConnect && (
+      {!canConnect && canExec && (
         <EmptyState
           className="empty-state"
           image={<Icon name="pods" className="empty-state-icon" />}
@@ -253,10 +260,21 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
             appearance="positive"
             loading={isStartLoading || isBooting}
             onClick={handleStart}
+            disabled={!canUpdateInstanceState()}
+            title={
+              canUpdateInstanceState()
+                ? ""
+                : "You do not have permission to start this instance."
+            }
           >
             Start instance
           </ActionButton>
         </EmptyState>
+      )}
+      {!canExec && (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to use the terminal for this instance.
+        </Notification>
       )}
     </div>
   );
