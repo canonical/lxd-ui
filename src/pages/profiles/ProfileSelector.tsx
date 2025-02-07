@@ -3,7 +3,6 @@ import {
   Button,
   Icon,
   Label,
-  Notification,
   Select,
   useNotify,
 } from "@canonical/react-components";
@@ -164,12 +163,6 @@ const ProfileSelector: FC<Props> = ({
             </div>
           </div>
         ))}
-      {!hasProfiles && (
-        <Notification severity="caution" title="Restricted permissions">
-          You do not have permission to view the profiles applied to this
-          instance.
-        </Notification>
-      )}
       {!readOnly && !disabledReason && (
         <Button
           id="addProfileButton"

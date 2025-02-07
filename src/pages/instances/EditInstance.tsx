@@ -47,6 +47,7 @@ import {
   getInstanceEditValues,
   getInstancePayload,
   InstanceEditSchema,
+  instanceProfilesWarning,
 } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
@@ -66,6 +67,7 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
 import BootForm, { BootFormValues } from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { useProfiles } from "context/useProfiles";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -104,6 +106,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
   const { canEditInstance } = useInstanceEntitlements(instance);
+  const { data: profiles } = useProfiles(project || "");
 
   if (!project) {
     return <>Missing project</>;
@@ -194,6 +197,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   return (
     <div className="edit-instance">
+      {instanceProfilesWarning(instance.profiles, profiles)}
       <Form onSubmit={formik.handleSubmit} className="form">
         {section !== slugify(YAML_CONFIGURATION) && (
           <InstanceFormMenu

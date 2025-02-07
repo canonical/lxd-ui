@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTable, Notification } from "@canonical/react-components";
+import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { fetchProfiles } from "api/profiles";
 import ResourceLink from "components/ResourceLink";
+import { instanceProfilesWarning } from "util/instanceEdit";
 
 interface Props {
   instance: LxdInstance;
@@ -77,12 +78,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     }
 
     if (!profiles.length) {
-      return (
-        <Notification severity="caution" title="Restricted permissions">
-          You do not have permission to view the profiles applied to this
-          instance.
-        </Notification>
-      );
+      return instanceProfilesWarning(instance.profiles, profiles);
     }
 
     return <MainTable headers={profileHeaders} rows={profileRows} sortable />;
