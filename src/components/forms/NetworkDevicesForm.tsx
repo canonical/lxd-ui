@@ -264,6 +264,8 @@ or remove the originating item"
               }}
               type="button"
               hasIcon
+              disabled={!managedNetworks.length}
+              title={!managedNetworks.length ? "No networks available" : ""}
             >
               <Icon name="plus" />
               <span>Attach network</span>
