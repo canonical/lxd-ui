@@ -197,7 +197,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   return (
     <div className="edit-instance">
-      {instanceProfilesWarning(instance.profiles, profiles)}
       <Form onSubmit={formik.handleSubmit} className="form">
         {section !== slugify(YAML_CONFIGURATION) && (
           <InstanceFormMenu
@@ -210,6 +209,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
         )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
+            {instanceProfilesWarning(instance.profiles, profiles)}
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
               <EditInstanceDetails
                 formik={formik}
