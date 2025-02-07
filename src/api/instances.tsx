@@ -22,6 +22,7 @@ export const instanceEntitlements = [
   "can_manage_backups",
   "can_manage_snapshots",
   "can_exec",
+  "can_access_console",
 ];
 
 export const fetchInstance = (

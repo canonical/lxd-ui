@@ -35,6 +35,13 @@ export const useInstanceEntitlements = (instance?: LxdInstance) => {
   const canExecInstance = () =>
     hasEntitlement(isFineGrained, "can_exec", instance?.access_entitlements);
 
+  const canAccessConsole = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_access_console",
+      instance?.access_entitlements,
+    );
+
   return {
     canUpdateInstanceState,
     canEditInstance,
@@ -42,6 +49,7 @@ export const useInstanceEntitlements = (instance?: LxdInstance) => {
     canDeleteInstance,
     canManageSnapshots,
     canExecInstance,
+    canAccessConsole,
   };
 };
 
