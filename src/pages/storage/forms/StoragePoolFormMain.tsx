@@ -23,8 +23,10 @@ import {
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
-import StoragePoolClusteredSourceSelector from "./StoragePoolClusteredSourceSelector";
+import ClusteredSourceSelector from "./ClusteredSourceSelector";
 import { isClusteredServer } from "util/settings";
+import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
+import { isStoragePoolWithSize } from "util/storagePoolForm";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -47,7 +49,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
 
   const isCephDriver = formik.values.driver === cephDriver;
   const isCephFSDriver = formik.values.driver === cephFSDriver;
-  const isDirDriver = formik.values.driver === dirDriver;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const storageDriverOptions = getStorageDriverOptions(settings);
@@ -126,11 +127,20 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             required
             disabled={!formik.values.isCreating}
           />
-          {!isCephDriver &&
-            !isCephFSDriver &&
-            !isDirDriver &&
-            !isPureDriver &&
-            !isPowerFlexDriver && (
+          {isStoragePoolWithSize(formik.values.driver) &&
+            (isClusteredServer(settings) ? (
+              <ClusteredDiskSizeSelector
+                id="sizePerClusterMember"
+                values={formik.values.sizePerClusterMember}
+                setValue={(value) => {
+                  ensureEditMode(formik);
+                  void formik.setFieldValue("sizePerClusterMember", value);
+                }}
+                helpText={
+                  "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
+                }
+              />
+            ) : (
               <DiskSizeSelector
                 label="Size"
                 value={formik.values.size}
@@ -145,7 +155,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 }}
                 disabled={formik.values.driver === dirDriver}
               />
-            )}
+            ))}
           {hasSource &&
             (hasClusterWideSource || !isClusteredServer(settings) ? (
               <Input
@@ -156,7 +166,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 label="Source"
               />
             ) : (
-              <StoragePoolClusteredSourceSelector
+              <ClusteredSourceSelector
                 formik={formik}
                 helpText={sourceHelpText}
               />
