@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { Button, ButtonProps } from "@canonical/react-components";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import CustomVolumeModal from "pages/storage/CustomVolumeModal";
 import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import type { LxdStorageVolume } from "types/storage";

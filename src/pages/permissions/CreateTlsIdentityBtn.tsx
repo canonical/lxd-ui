@@ -1,7 +1,7 @@
 import { Button, Icon } from "@canonical/react-components";
 import { useSmallScreen } from "context/useSmallScreen";
 import { FC } from "react";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import CreateIdentityModal from "./CreateIdentityModal";
 
 const CreateTlsIdentityBtn: FC = () => {

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import DuplicateVolumeForm from "../forms/DuplicateVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 
 interface Props {
   volume: LxdStorageVolume;

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import UploadImageForm from "./forms/UploadImageForm";
 import { useSmallScreen } from "context/useSmallScreen";
 

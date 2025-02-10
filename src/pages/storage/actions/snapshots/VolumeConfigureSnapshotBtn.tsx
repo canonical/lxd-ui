@@ -1,5 +1,5 @@
 import { FC } from "react";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import { Button } from "@canonical/react-components";
 import VolumeConfigureSnapshotModal from "./VolumeConfigureSnapshotModal";
 import type { LxdStorageVolume } from "types/storage";

@@ -6,7 +6,7 @@ import {
   MAIN_CONFIGURATION,
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import { FormikProps } from "formik/dist/types";
 import classnames from "classnames";
 
@@ -28,7 +28,7 @@ const YamlSwitch: FC<Props> = ({
 
   const isChecked = slugify(section ?? "") === slugify(YAML_CONFIGURATION);
 
-  const handleSwitch = (e: FormEvent) => {
+  const handleSwitch = (e: FormEvent<HTMLInputElement>) => {
     if (yamlFormik.values.yaml) {
       return openPortal(e);
     }

@@ -1,4 +1,4 @@
-import { cloneElement, ReactElement, ReactNode } from "react";
+import { cloneElement, ReactNode } from "react";
 import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -35,7 +35,7 @@ interface Props {
   formik: ConfigurationRowFormikProps;
   name: string;
   label: string | ReactNode;
-  children: ReactElement;
+  children: React.JSX.Element;
   defaultValue?: string | CpuLimit | MemoryLimit | boolean;
   disabled?: boolean;
   disabledReason?: string;

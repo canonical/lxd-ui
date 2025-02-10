@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { ActionButton, Icon } from "@canonical/react-components";
-import usePortal from "react-useportal";
+import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
