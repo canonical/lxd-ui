@@ -27,14 +27,9 @@ import { focusField } from "util/formFields";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason?: string;
 }
 
-const NetworkDevicesForm: FC<Props> = ({
-  formik,
-  project,
-  disableEditReason,
-}) => {
+const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   const notify = useNotify();
 
   const {
@@ -221,11 +216,11 @@ or remove the originating item"
                         }}
                         type="button"
                         appearance="base"
-                        title={disableEditReason || "Edit network"}
+                        title={formik.values.editRestriction || "Edit network"}
                         className="u-no-margin--top"
                         hasIcon
                         dense
-                        disabled={!!disableEditReason}
+                        disabled={!!formik.values.editRestriction}
                       >
                         <Icon name="edit" />
                       </Button>
@@ -240,8 +235,8 @@ or remove the originating item"
                       appearance="base"
                       hasIcon
                       dense
-                      title={disableEditReason || "Detach network"}
-                      disabled={!!disableEditReason}
+                      title={formik.values.editRestriction || "Detach network"}
+                      disabled={!!formik.values.editRestriction}
                     >
                       <Icon name="disconnect" />
                       <span>Detach</span>
@@ -255,7 +250,6 @@ or remove the originating item"
         getConfigurationRowBase({
           configuration: "",
           inherited: "",
-          disabledReason: disableEditReason,
           override: (
             <Button
               onClick={() => {
@@ -264,8 +258,13 @@ or remove the originating item"
               }}
               type="button"
               hasIcon
-              disabled={!managedNetworks.length}
-              title={!managedNetworks.length ? "No networks available" : ""}
+              disabled={
+                !!formik.values.editRestriction || !managedNetworks.length
+              }
+              title={
+                formik.values.editRestriction ??
+                (!managedNetworks.length ? "No networks available" : "")
+              }
             >
               <Icon name="plus" />
               <span>Attach network</span>

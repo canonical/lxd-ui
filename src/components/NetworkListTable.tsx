@@ -12,10 +12,9 @@ import type { LxdDevices } from "types/device";
 interface Props {
   onFailure: (title: string, e: unknown) => void;
   devices: LxdDevices;
-  type: "instance" | "profile";
 }
 
-const NetworkListTable: FC<Props> = ({ onFailure, devices, type }) => {
+const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
   const { project } = useParams<{ project: string }>();
 
   const {
@@ -110,7 +109,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, type }) => {
     if (instanceHasNetworks && !userHasNetworks) {
       return (
         <Notification severity="caution" title="Restricted permissions">
-          You do not have permission to view the networks used by this {type}.
+          You do not have permission to view network details.
         </Notification>
       );
     }

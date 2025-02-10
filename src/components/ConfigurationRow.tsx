@@ -86,7 +86,7 @@ export const getConfigurationRow = ({
               onBlur: formik.handleBlur,
               onChange: formik.handleChange,
               value,
-              disabled,
+              disabled: disabled || !!formik.values.editRestriction,
               help: (
                 <ConfigFieldDescription
                   description={
@@ -104,8 +104,10 @@ export const getConfigurationRow = ({
           onClick={toggleDefault}
           type="button"
           appearance="base"
-          title={disabled ? disabledReason : "Clear override"}
-          disabled={disabled}
+          title={
+            formik.values.editRestriction ?? disabledReason ?? "Clear override"
+          }
+          disabled={disabled || !!formik.values.editRestriction}
           hasIcon
           className="u-no-margin--bottom"
         >
@@ -124,9 +126,12 @@ export const getConfigurationRow = ({
   );
 
   const wrapDisabledTooltip = (children: ReactNode): ReactNode => {
-    if (disabled && disabledReason) {
+    if ((disabled && disabledReason) || formik.values.editRestriction) {
       return (
-        <Tooltip message={disabledReason} position="right">
+        <Tooltip
+          message={formik.values.editRestriction ?? disabledReason}
+          position="right"
+        >
           {children}
         </Tooltip>
       );
@@ -136,6 +141,16 @@ export const getConfigurationRow = ({
 
   const renderOverride = (): ReactNode => {
     if (formik.values.readOnly) {
+      const getTitle = () => {
+        if (formik.values.editRestriction) {
+          return formik.values.editRestriction;
+        }
+        if (disabled) {
+          return disabledReason;
+        }
+
+        return isOverridden ? "Edit" : "Create override";
+      };
       return (
         <>
           {overrideValue}
@@ -150,14 +165,8 @@ export const getConfigurationRow = ({
             className="u-no-margin--bottom"
             type="button"
             appearance="base"
-            title={
-              disabled
-                ? disabledReason
-                : isOverridden
-                  ? "Edit"
-                  : "Create override"
-            }
-            disabled={disabled}
+            title={getTitle()}
+            disabled={disabled || !!formik.values.editRestriction}
             hasIcon
           >
             <Icon name="edit" />
@@ -173,9 +182,9 @@ export const getConfigurationRow = ({
         onClick={toggleDefault}
         className="u-no-margin--bottom"
         type="button"
-        disabled={disabled}
+        disabled={disabled || !!formik.values.editRestriction}
         appearance="base"
-        title="Create override"
+        title={formik.values.editRestriction ?? "Create override"}
         hasIcon
       >
         <Icon name="edit" />
@@ -223,7 +232,6 @@ interface BaseProps {
   override: ReactNode;
   className?: string;
   name?: string;
-  disabledReason?: string;
 }
 
 export const getConfigurationRowBase = ({
@@ -232,7 +240,6 @@ export const getConfigurationRowBase = ({
   override,
   className,
   name,
-  disabledReason,
 }: BaseProps): MainTableRow => {
   return {
     name,
@@ -248,8 +255,7 @@ export const getConfigurationRowBase = ({
         className: "inherited",
       },
       {
-        content: disabledReason ? null : override,
-        title: disabledReason,
+        content: override,
         className: "override",
       },
     ],

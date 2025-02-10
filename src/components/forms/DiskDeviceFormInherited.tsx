@@ -20,13 +20,11 @@ import { isHostDiskDevice } from "util/devices";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   inheritedDiskDevices: InheritedDiskDevice[];
-  disableEditReason?: string;
 }
 
 const DiskDeviceFormInherited: FC<Props> = ({
   formik,
   inheritedDiskDevices,
-  disableEditReason,
 }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
 
@@ -38,7 +36,6 @@ const DiskDeviceFormInherited: FC<Props> = ({
     rows.push(
       getConfigurationRowBase({
         className: "no-border-top override-with-form",
-        disabledReason: disableEditReason,
         configuration: (
           <div
             className={classnames("device-name", {
@@ -57,12 +54,13 @@ const DiskDeviceFormInherited: FC<Props> = ({
           <Button
             appearance="base"
             type="button"
-            title="Reattach device"
+            title={formik.values.editRestriction ?? "Reattach device"}
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
             }}
             className="has-icon u-no-margin--bottom"
+            disabled={!!formik.values.editRestriction}
           >
             <Icon name="connected"></Icon>
             <span>Reattach</span>
@@ -73,6 +71,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
               ensureEditMode(formik);
               addNoneDevice(item.key, formik);
             }}
+            disabledReason={formik.values.editRestriction}
           />
         ),
       }),
@@ -85,7 +84,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
           inheritValue: item.disk.source,
           readOnly: readOnly,
           isDeactivated: isNoneDevice,
-          disabledReason: disableEditReason,
+          disabledReason: formik.values.editRestriction,
         }),
       );
     } else {
@@ -99,7 +98,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
           ),
           readOnly: readOnly,
           isDeactivated: isNoneDevice,
-          disabledReason: disableEditReason,
+          disabledReason: formik.values.editRestriction,
         }),
       );
     }
@@ -110,7 +109,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
         inheritValue: item.disk.path,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
-        disabledReason: disableEditReason,
+        disabledReason: formik.values.editRestriction,
       }),
     );
   });

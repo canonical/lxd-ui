@@ -21,14 +21,9 @@ export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
 interface Props {
   formik: FormikProps<EditInstanceFormValues>;
   project: string;
-  disableEditReason: string;
 }
 
-const EditInstanceDetails: FC<Props> = ({
-  formik,
-  project,
-  disableEditReason,
-}) => {
+const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
 
@@ -60,8 +55,8 @@ const EditInstanceDetails: FC<Props> = ({
               formik.handleChange(e);
             }}
             value={formik.values.description}
-            disabled={!!disableEditReason}
-            title={disableEditReason}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         </Col>
       </Row>
@@ -92,7 +87,7 @@ const EditInstanceDetails: FC<Props> = ({
           ensureEditMode(formik);
           void formik.setFieldValue("profiles", value);
         }}
-        disabledReason={disableEditReason}
+        disabledReason={formik.values.editRestriction}
       />
     </ScrollableForm>
   );

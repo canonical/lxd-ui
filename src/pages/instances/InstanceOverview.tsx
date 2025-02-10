@@ -157,7 +157,6 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
           <NetworkListTable
             devices={instance.expanded_devices as LxdDevices}
             onFailure={onFailure}
-            type="instance"
           />
         </Col>
       </Row>

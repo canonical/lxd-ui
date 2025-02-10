@@ -28,10 +28,9 @@ export const migrationPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason?: string;
 }
 
-const MigrationForm: FC<Props> = ({ formik, disableEditReason }) => {
+const MigrationForm: FC<Props> = ({ formik }) => {
   const isInstance = formik.values.entityType === "instance";
   const isVmOnlyDisabled =
     isInstance &&
@@ -46,12 +45,10 @@ const MigrationForm: FC<Props> = ({ formik, disableEditReason }) => {
           label: "Stateful migration (VMs only)",
           name: "migration_stateful",
           defaultValue: "",
-          disabled: !!disableEditReason || isVmOnlyDisabled,
-          disabledReason:
-            disableEditReason ||
-            (isVmOnlyDisabled
-              ? "Only available for virtual machines"
-              : undefined),
+          disabled: isVmOnlyDisabled,
+          disabledReason: isVmOnlyDisabled
+            ? "Only available for virtual machines"
+            : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select options={optionAllowDeny} disabled={isVmOnlyDisabled} />
@@ -65,8 +62,6 @@ const MigrationForm: FC<Props> = ({ formik, disableEditReason }) => {
           readOnlyRenderer: (val) =>
             optionRenderer(val, clusterEvacuationOptions),
           children: <Select options={clusterEvacuationOptions} />,
-          disabled: !!disableEditReason,
-          disabledReason: disableEditReason,
         }),
       ]}
     />

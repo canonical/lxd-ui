@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
@@ -67,7 +67,7 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
 import BootForm, { BootFormValues } from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
-import { useProfiles } from "context/useProfiles";
+import { fetchProfiles } from "api/profiles";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -78,6 +78,7 @@ export interface InstanceEditDetailsFormValues {
   entityType: "instance";
   isCreating: boolean;
   readOnly: boolean;
+  editRestriction?: string;
 }
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
@@ -106,7 +107,10 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
   const { canEditInstance } = useInstanceEntitlements(instance);
-  const { data: profiles } = useProfiles(project || "");
+  const { data: profiles = [] } = useQuery({
+    queryKey: [queryKeys.profiles],
+    queryFn: () => fetchProfiles(project || ""),
+  });
 
   if (!project) {
     return <>Missing project</>;
@@ -118,8 +122,12 @@ const EditInstance: FC<Props> = ({ instance }) => {
   useEffect(updateFormHeight, [section]);
   useEventListener("resize", updateFormHeight);
 
+  const editRestriction = !canEditInstance()
+    ? "You do not have permission to edit this instance"
+    : undefined;
+
   const formik = useFormik<EditInstanceFormValues>({
-    initialValues: getInstanceEditValues(instance),
+    initialValues: getInstanceEditValues(instance, editRestriction),
     validationSchema: InstanceEditSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -191,9 +199,6 @@ const EditInstance: FC<Props> = ({ instance }) => {
   };
 
   const readOnly = formik.values.readOnly;
-  const disableEditReason = !canEditInstance()
-    ? "You do not have permission to edit this instance"
-    : "";
 
   return (
     <div className="edit-instance">
@@ -211,91 +216,49 @@ const EditInstance: FC<Props> = ({ instance }) => {
           <Col size={12}>
             {instanceProfilesWarning(instance.profiles, profiles)}
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
-              <EditInstanceDetails
-                formik={formik}
-                project={project}
-                disableEditReason={disableEditReason}
-              />
+              <EditInstanceDetails formik={formik} project={project} />
             )}
 
             {section === slugify(DISK_DEVICES) && (
-              <DiskDeviceForm
-                formik={formik}
-                project={project}
-                disableEditReason={disableEditReason}
-              />
+              <DiskDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(NETWORK_DEVICES) && (
-              <NetworkDevicesForm
-                formik={formik}
-                project={project}
-                disableEditReason={disableEditReason}
-              />
+              <NetworkDevicesForm formik={formik} project={project} />
             )}
 
             {section === slugify(GPU_DEVICES) && (
-              <GPUDeviceForm
-                formik={formik}
-                project={project}
-                disableEditReason={disableEditReason}
-              />
+              <GPUDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(PROXY_DEVICES) && (
-              <ProxyDeviceForm
-                formik={formik}
-                project={project}
-                disableEditReason={disableEditReason}
-              />
+              <ProxyDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(OTHER_DEVICES) && (
-              <OtherDeviceForm
-                formik={formik}
-                project={project}
-                disableEditReason={disableEditReason}
-              />
+              <OtherDeviceForm formik={formik} project={project} />
             )}
 
             {section === slugify(RESOURCE_LIMITS) && (
-              <ResourceLimitsForm
-                formik={formik}
-                disableEditReason={disableEditReason}
-              />
+              <ResourceLimitsForm formik={formik} />
             )}
 
             {section === slugify(SECURITY_POLICIES) && (
-              <SecurityPoliciesForm
-                formik={formik}
-                disableEditReason={disableEditReason}
-              />
+              <SecurityPoliciesForm formik={formik} />
             )}
 
             {section === slugify(SNAPSHOTS) && (
-              <InstanceSnapshotsForm
-                formik={formik}
-                disableEditReason={disableEditReason}
-              />
+              <InstanceSnapshotsForm formik={formik} />
             )}
 
             {section === slugify(MIGRATION) && (
-              <MigrationForm
-                formik={formik}
-                disableEditReason={disableEditReason}
-              />
+              <MigrationForm formik={formik} />
             )}
 
-            {section === slugify(BOOT) && (
-              <BootForm formik={formik} disableEditReason={disableEditReason} />
-            )}
+            {section === slugify(BOOT) && <BootForm formik={formik} />}
 
             {section === slugify(CLOUD_INIT) && (
-              <CloudInitForm
-                key={`yaml-form-${version}`}
-                formik={formik}
-                disableEditReason={disableEditReason}
-              />
+              <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (
@@ -336,12 +299,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
             <FormSubmitBtn
               formik={formik}
               isYaml={section === slugify(YAML_CONFIGURATION)}
-              disabled={
-                hasDiskError(formik) ||
-                hasNetworkError(formik) ||
-                !!disableEditReason
-              }
-              disabledReason={disableEditReason}
+              disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />
           </>
         )}

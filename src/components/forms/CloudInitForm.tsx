@@ -29,10 +29,9 @@ export const cloudInitPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason?: string;
 }
 
-const CloudInitForm: FC<Props> = ({ formik, disableEditReason }) => {
+const CloudInitForm: FC<Props> = ({ formik }) => {
   const getCloudInitRow = (label: string, name: string, value?: string) => {
     const metadata = getConfigRowMetadata(formik.values, name);
     const isOverridden = value !== undefined;
@@ -77,7 +76,8 @@ const CloudInitForm: FC<Props> = ({ formik, disableEditReason }) => {
             }}
             type="button"
             appearance="base"
-            title={"Clear override"}
+            title={formik.values.editRestriction ?? "Clear override"}
+            disabled={!!formik.values.editRestriction}
             hasIcon
             className="u-no-margin--bottom"
           >
@@ -93,9 +93,9 @@ const CloudInitForm: FC<Props> = ({ formik, disableEditReason }) => {
           className="u-no-margin--bottom"
           type="button"
           appearance="base"
-          title={disableEditReason || "Create override"}
+          title={formik.values.editRestriction ?? "Create override"}
           hasIcon
-          disabled={!!disableEditReason}
+          disabled={!!formik.values.editRestriction}
         >
           <Icon name="edit" />
         </Button>

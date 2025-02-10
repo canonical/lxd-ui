@@ -37,10 +37,9 @@ import { getProxyAddress } from "util/proxyDevices";
 interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
-  disableEditReason?: string;
 }
 
-const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
+const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
   const notify = useNotify();
 
   const {
@@ -109,8 +108,10 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
           options={options}
           help={<ConfigFieldDescription description={help} />}
           className="u-no-margin--bottom"
-          disabled={disabledText != undefined || !!disableEditReason}
-          title={disableEditReason || disabledText}
+          disabled={
+            disabledText != undefined || !!formik.values.editRestriction
+          }
+          title={formik.values.editRestriction ?? disabledText}
         />
       ),
       override: "",
@@ -155,8 +156,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
           </Button>
         ) : (
           <Button
-            disabled={!!disableEditReason}
-            title={disableEditReason}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
             appearance="base"
             type="button"
             onClick={() => {
@@ -217,7 +218,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
-            disableReason={disableEditReason}
+            disableReason={formik.values.editRestriction}
           />
         ),
         inherited: "",
@@ -232,8 +233,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
             appearance="base"
             hasIcon
             dense
-            disabled={!!disableEditReason}
-            title={disableEditReason || "Detach Proxy"}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction ?? "Detach Proxy"}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -284,25 +285,9 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
       ),
     );
 
-    getProxyAddress(
-      customRows,
-      device,
-      index,
-      "listen",
-      formik,
-      "Listen",
-      disableEditReason,
-    );
+    getProxyAddress(customRows, device, index, "listen", formik, "Listen");
 
-    getProxyAddress(
-      customRows,
-      device,
-      index,
-      "connect",
-      formik,
-      "Connect",
-      disableEditReason,
-    );
+    getProxyAddress(customRows, device, index, "connect", formik, "Connect");
   });
 
   if (isProfileLoading) {
@@ -330,14 +315,13 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project, disableEditReason }) => {
         </div>
       )}
 
-      {!disableEditReason && (
-        <NewProxyBtn
-          onSelect={() => {
-            ensureEditMode(formik);
-            addProxy();
-          }}
-        />
-      )}
+      <NewProxyBtn
+        onSelect={() => {
+          ensureEditMode(formik);
+          addProxy();
+        }}
+        disabledReason={formik.values.editRestriction}
+      />
     </ScrollableForm>
   );
 };
