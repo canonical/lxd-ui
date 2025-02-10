@@ -99,6 +99,7 @@ jobs:
         uses: canonical/setup-lxd@v0.1.2
         with:
           channel: ${{ matrix.lxd_channel }}
+          group: lxd
 
       - name: Setup LXD
         shell: bash
@@ -127,7 +128,7 @@ jobs:
       - name: Setup for tests
         if: ${{ matrix.lxd_channel != '5.0/edge' }}
         shell: bash
-        run: ./tests/scripts/setup_test
+        run: sudo -E ./tests/scripts/setup_test
 
       - name: Run Playwright tests
         run: npx playwright test --project ${{ matrix.browser }}:lxd-${{ steps.lxd-env.outputs.LXD_CHANNEL }}
