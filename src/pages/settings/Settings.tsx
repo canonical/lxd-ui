@@ -22,6 +22,9 @@ import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { useClusteredSettings } from "context/useSettings";
+import { LXDSettingOnClusterMember } from "types/server";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
@@ -40,6 +43,7 @@ const Settings: FC = () => {
     queryKey: [queryKeys.configOptions],
     queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
   });
+  const { data: clusteredSettings = [] } = useClusteredSettings();
 
   if (isConfigOptionsLoading || isSettingsLoading) {
     return <Loader />;
@@ -62,6 +66,19 @@ const Settings: FC = () => {
       return undefined;
     }
     return configField.default;
+  };
+
+  const getClusteredValue = (
+    clusteredSettings: LXDSettingOnClusterMember[],
+    configKey: string,
+  ): ClusterSpecificValues => {
+    const settingPerClusterMember: ClusterSpecificValues = {};
+
+    clusteredSettings?.forEach((item) => {
+      settingPerClusterMember[item.memberName] = item.config?.[configKey] ?? "";
+    });
+
+    return settingPerClusterMember;
   };
 
   const headers = [
@@ -115,6 +132,11 @@ const Settings: FC = () => {
       );
       const value = getValue(configField);
 
+      const clusteredValue = getClusteredValue(
+        clusteredSettings,
+        configField.key,
+      );
+
       const isNewCategory = lastCategory !== configField.category;
       lastCategory = configField.category;
 
@@ -152,6 +174,7 @@ const Settings: FC = () => {
               <SettingForm
                 configField={configField}
                 value={value}
+                clusteredValue={clusteredValue}
                 isLast={index === length - 1}
               />
             ),

@@ -24,3 +24,7 @@ export interface LxdSettings {
   auth_user_name?: string;
   api_extensions?: string[];
 }
+
+export type LXDSettingOnClusterMember = LxdSettings & {
+  memberName: string;
+};

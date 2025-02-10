@@ -25,7 +25,6 @@ const ClusteredSourceSelector: FC<Props> = ({ formik, helpText }) => {
           void formik.setFieldValue("sourcePerClusterMember", value);
         }}
         canToggleSpecific={formik.values.isCreating}
-        toggleReadOnly={() => {}}
         memberNames={memberNames}
         disabled={!formik.values.isCreating}
         helpText={helpText}
