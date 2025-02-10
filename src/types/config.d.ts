@@ -1,4 +1,9 @@
-export type LxdConfigPair = Record<string, string | undefined>;
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+
+export type LxdConfigPair = Record<
+  string,
+  string | undefined
+>;
 
 export type ConfigField = LxdConfigOption & {
   category: string;

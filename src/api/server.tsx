@@ -1,14 +1,51 @@
-import { handleResponse, handleTextResponse } from "util/helpers";
-import type { LxdSettings } from "types/server";
+import {
+  constructMemberError,
+  handleResponse,
+  handleSettledResult,
+  handleTextResponse,
+} from "util/helpers";
+import type { LXDSettingOnClusterMember, LxdSettings } from "types/server";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdMetadata, LxdConfigPair } from "types/config";
 import type { LxdResources } from "types/resources";
+import { LxdClusterMember } from "types/cluster";
 
-export const fetchSettings = (): Promise<LxdSettings> => {
+export const fetchSettings = (target?: string): Promise<LxdSettings> => {
   return new Promise((resolve, reject) => {
-    fetch("/1.0")
+    const targetQueryParam = target ? `?target=${target}` : "";
+    fetch(`/1.0${targetQueryParam}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdSettings>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchSettingsFromClusterMembers = (
+  clusterMembers: LxdClusterMember[],
+): Promise<LXDSettingOnClusterMember[]> => {
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      clusterMembers.map((member) => {
+        return fetchSettings(member.server_name);
+      }),
+    )
+      .then((results) => {
+        const settingOnMembers: LXDSettingOnClusterMember[] = [];
+        for (let i = 0; i < clusterMembers.length; i++) {
+          const memberName = clusterMembers[i].server_name;
+          const result = results[i];
+          if (result.status === "rejected") {
+            reject(constructMemberError(result, memberName));
+          }
+          if (result.status === "fulfilled") {
+            const promise = results[
+              i
+            ] as PromiseFulfilledResult<LXDSettingOnClusterMember>;
+            settingOnMembers.push({ ...promise.value, memberName: memberName });
+          }
+        }
+        resolve(settingOnMembers);
+      })
       .catch(reject);
   });
 };
@@ -22,6 +59,33 @@ export const updateSettings = (config: LxdConfigPair): Promise<void> => {
       }),
     })
       .then(handleResponse)
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const updateClusteredSettings = (
+  config: LxdConfigPair,
+  clusterMembers: LxdClusterMember[],
+): Promise<void> => {
+  const { memberPoolPayload, clusterPoolPayload } =
+    getClusterAndMemberPoolPayload(pool);
+
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      clusterMembers.map(async (item) => {
+        const clusteredMemberPool = {
+          ...memberPoolPayload,
+          config: {
+            ...memberPoolPayload.config,
+            size: sizePerClusterMember?.[item.server_name],
+          },
+        };
+        return updatePool(clusteredMemberPool, item.server_name);
+      }),
+    )
+      .then(handleSettledResult)
+      .then(() => updatePool(clusterPoolPayload))
       .then(resolve)
       .catch(reject);
   });

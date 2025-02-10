@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Button, Icon, useNotify } from "@canonical/react-components";
-import { updateSettings } from "api/server";
+import { updateClusteredSettings, updateSettings } from "api/server";
 import type { ConfigField } from "types/config";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,11 @@ import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
+import MaasMachineSettingFormInput from "./MaasMachineSettingFormInput";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { useClusterMembers } from "context/useClusterMembers";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -18,32 +23,49 @@ export const getConfigId = (key: string) => {
 interface Props {
   configField: ConfigField;
   value?: string;
+  clusteredValue?: ClusterSpecificValues;
   isLast?: boolean;
 }
 
-const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
+const SettingForm: FC<Props> = ({
+  configField,
+  value,
+  clusteredValue,
+  isLast,
+}) => {
   const { isRestricted } = useAuth();
   const [isEditMode, setEditMode] = useState(false);
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
+  const { data: clusterMembers = [] } = useClusterMembers();
 
   const editRef = useRef<HTMLDivElement | null>(null);
 
   // Special cases
   const isTrustPassword = configField.key === "core.trust_password";
   const isLokiAuthPassword = configField.key === "loki.auth.password";
+  const isMaasMachine = configField.key === "maas.machine";
   const isSecret = isTrustPassword || isLokiAuthPassword;
 
   const settingLabel = (
     <ResourceLabel bold type="setting" value={configField.key} />
   );
 
-  const onSubmit = (newValue: string | boolean) => {
-    const config = {
-      [configField.key]: String(newValue),
-    };
-    updateSettings(config)
+  const onSubmit = (newValue: string | boolean | ClusterSpecificValues) => {
+    const isNotClustered =
+      typeof newValue === "string" || typeof newValue === "boolean";
+
+    const mutationPromise = isNotClustered
+      ? updateSettings({ [configField.key]: String(newValue) })
+      : updateClusteredSettings(
+          { [configField.key]: newValue },
+          clusterMembers,
+        );
+
+    mutationPromise
       .then(() => {
         toastNotify.success(<>Setting {settingLabel} updated.</>);
         setEditMode(false);
@@ -100,6 +122,13 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
                   onSubmit={onSubmit}
                   onCancel={onCancel}
                 />
+              ) : isClustered && isMaasMachine ? (
+                <MaasMachineSettingFormInput
+                  initialValue={clusteredValue ?? {}}
+                  configField={configField}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                />
               ) : (
                 <SettingFormInput
                   initialValue={value ?? ""}
@@ -125,9 +154,19 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
               }}
               hasIcon
             >
-              <div className="readmode-value u-truncate">
-                {getReadModeValue()}
-              </div>
+              {isClustered && isMaasMachine ? (
+                <MaasMachineSettingFormInput
+                  initialValue={clusteredValue ?? {}}
+                  configField={configField}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                  readonly={true}
+                />
+              ) : (
+                <div className="readmode-value u-truncate">
+                  {getReadModeValue()}
+                </div>
+              )}
               <Icon name="edit" className="edit-icon" />
             </Button>
           )}

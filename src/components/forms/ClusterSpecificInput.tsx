@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
@@ -8,14 +8,14 @@ interface Props {
   id: string;
   isReadOnly: boolean;
   onChange: (value: ClusterSpecificValues) => void;
-  toggleReadOnly?: () => void;
   memberNames: string[];
+  toggleReadOnly?: () => void;
   values?: ClusterSpecificValues;
   canToggleSpecific?: boolean;
   isDefaultSpecific?: boolean;
   clusterMemberLinkTarget?: (member: string) => string;
   disabled?: boolean;
-  helpText?: string;
+  helpText?: string | ReactNode;
   placeholder?: string;
   classname?: string;
 }

@@ -21,6 +21,11 @@ import { toConfigFields } from "util/config";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { useClusteredSettings } from "context/useSettings";
+import { useClusterMembers } from "context/useClusterMembers";
+import { LxdClusterMember } from "types/cluster";
+import { LXDSettingOnClusterMember } from "types/server";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
@@ -38,6 +43,8 @@ const Settings: FC = () => {
     queryKey: [queryKeys.configOptions],
     queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
   });
+  const { data: clusterMembers = [] } = useClusterMembers();
+  const { data: clusteredSettings = [] } = useClusteredSettings(clusterMembers);
 
   if (isConfigOptionsLoading || isSettingsLoading) {
     return <Loader />;
@@ -50,7 +57,7 @@ const Settings: FC = () => {
   const getValue = (configField: ConfigField): string | undefined => {
     for (const [key, value] of Object.entries(settings?.config ?? {})) {
       if (key === configField.key) {
-        return value;
+        return value as string;
       }
     }
     if (configField.type === "bool") {
@@ -60,6 +67,19 @@ const Settings: FC = () => {
       return undefined;
     }
     return configField.default;
+  };
+
+  const getClusteredValue = (
+    clusteredSettings: LXDSettingOnClusterMember[],
+    configKey: string,
+  ): ClusterSpecificValues => {
+    const settingPerClusterMember: ClusterSpecificValues = {};
+
+    clusteredSettings?.forEach((item) => {
+      settingPerClusterMember[item.memberName] = item.config?.[configKey] ?? "";
+    });
+
+    return settingPerClusterMember;
   };
 
   const headers = [
@@ -113,6 +133,11 @@ const Settings: FC = () => {
       );
       const value = getValue(configField);
 
+      const clusteredValue =
+        configField.key === "maas.machine"
+          ? getClusteredValue(clusteredSettings, configField.key)
+          : {};
+
       const isNewCategory = lastCategory !== configField.category;
       lastCategory = configField.category;
 
@@ -150,6 +175,7 @@ const Settings: FC = () => {
               <SettingForm
                 configField={configField}
                 value={value}
+                clusteredValue={clusteredValue}
                 isLast={index === length - 1}
               />
             ),
