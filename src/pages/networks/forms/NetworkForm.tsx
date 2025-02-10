@@ -81,6 +81,7 @@ export interface NetworkFormValues {
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
+  editRestriction?: string;
 }
 
 export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {

@@ -20,15 +20,9 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
   pools: LxdStoragePool[];
   profiles: LxdProfile[];
-  disableEditReason?: string;
 }
 
-const DiskDeviceFormRoot: FC<Props> = ({
-  formik,
-  pools,
-  profiles,
-  disableEditReason,
-}) => {
+const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const rootIndex = formik.values.devices.findIndex(isRootDisk);
   const hasRootStorage = rootIndex !== -1;
@@ -63,7 +57,6 @@ const DiskDeviceFormRoot: FC<Props> = ({
             className: "override-with-form",
             configuration: <b className="device-name">Root storage</b>,
             inherited: "",
-            disabledReason: disableEditReason,
             override: hasRootStorage ? (
               <div>
                 <Button
@@ -73,9 +66,10 @@ const DiskDeviceFormRoot: FC<Props> = ({
                   }}
                   type="button"
                   appearance="base"
-                  title="Clear override"
+                  title={formik.values.editRestriction ?? "Clear override"}
                   hasIcon
                   className="u-no-margin--bottom"
+                  disabled={!!formik.values.editRestriction}
                 >
                   <Icon name="close" className="clear-configuration-icon" />
                 </Button>
@@ -88,9 +82,10 @@ const DiskDeviceFormRoot: FC<Props> = ({
                 }}
                 type="button"
                 appearance="base"
-                title="Create override"
+                title={formik.values.editRestriction ?? "Create override"}
                 className="u-no-margin--bottom"
                 hasIcon
+                disabled={!!formik.values.editRestriction}
               >
                 <Icon name="edit" />
               </Button>
@@ -104,7 +99,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
             inheritValue: inheritValue?.pool ?? "",
             inheritSource,
             readOnly: readOnly,
-            disabledReason: disableEditReason,
+            disabledReason: formik.values.editRestriction,
             overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.pool}
@@ -156,7 +151,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
-            disabledReason: disableEditReason,
+            disabledReason: formik.values.editRestriction,
             overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.size ?? "unlimited"}
@@ -170,7 +165,7 @@ const DiskDeviceFormRoot: FC<Props> = ({
                   title="Edit"
                   className="u-no-margin--bottom"
                   hasIcon
-                  disabled={!!disableEditReason}
+                  disabled={!!formik.values.editRestriction}
                 >
                   <Icon name="edit" />
                 </Button>

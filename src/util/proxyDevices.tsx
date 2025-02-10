@@ -15,7 +15,6 @@ export const getProxyAddress = (
   connectionType: ConnectionType,
   formik: InstanceAndProfileFormikProps,
   headingTitle: string,
-  disableReason?: string,
 ) => {
   const deviceParts = device[connectionType]?.split(":") || [];
   const deviceType = deviceParts.length > 0 ? deviceParts[0] : "tcp";
@@ -65,11 +64,11 @@ export const getProxyAddress = (
           options={proxyAddressTypeOptions}
           className="u-no-margin--bottom"
           disabled={
-            !!disableReason ||
+            !!formik.values.editRestriction ||
             (connectionType === "connect" && device.nat === "true")
           }
           title={
-            disableReason ||
+            formik.values.editRestriction ||
             (device.nat
               ? "This is determined by the listen type when nat mode is enabled"
               : undefined)
@@ -112,8 +111,8 @@ export const getProxyAddress = (
             placeholder="/<socket_path>"
             type="text"
             className="u-no-margin--bottom"
-            disabled={!!disableReason}
-            title={disableReason}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ) : (
           <Input
@@ -130,8 +129,8 @@ export const getProxyAddress = (
             placeholder="127.0.0.1"
             type="text"
             className="u-no-margin--bottom"
-            disabled={!!disableReason}
-            title={disableReason}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ),
       override: "",
@@ -163,8 +162,8 @@ export const getProxyAddress = (
             placeholder="00[-00]"
             type="text"
             className="u-no-margin--bottom"
-            disabled={!!disableReason}
-            title={disableReason}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ),
         override: "",

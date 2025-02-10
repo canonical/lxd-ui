@@ -34,10 +34,9 @@ export const bootPayload = (values: InstanceAndProfileFormValues) => {
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  disableEditReason?: string;
 }
 
-const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
+const BootForm: FC<Props> = ({ formik }) => {
   return (
     <ScrollableConfigurationTable
       rows={[
@@ -49,8 +48,6 @@ const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
           readOnlyRenderer: (val) =>
             val === "-" ? "-" : optionRenderer(val, optionYesNo),
           children: <Select options={optionYesNo} />,
-          disabled: !!disableEditReason,
-          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -59,8 +56,6 @@ const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
           name: "boot_autostart_delay",
           defaultValue: "",
           children: <Input placeholder="Enter number" type="number" />,
-          disabled: !!disableEditReason,
-          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -69,8 +64,6 @@ const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
           name: "boot_autostart_priority",
           defaultValue: "",
           children: <Input placeholder="Enter number" type="number" />,
-          disabled: !!disableEditReason,
-          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -79,8 +72,6 @@ const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
           name: "boot_host_shutdown_timeout",
           defaultValue: "",
           children: <Input placeholder="Enter number" type="number" />,
-          disabled: !!disableEditReason,
-          disabledReason: disableEditReason,
         }),
 
         getConfigurationRow({
@@ -89,8 +80,6 @@ const BootForm: FC<Props> = ({ formik, disableEditReason }) => {
           name: "boot_stop_priority",
           defaultValue: "",
           children: <Input placeholder="Enter number" type="number" />,
-          disabled: !!disableEditReason,
-          disabledReason: disableEditReason,
         }),
       ]}
     />

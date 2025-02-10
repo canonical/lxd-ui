@@ -71,6 +71,7 @@ const getEditValues = (
 
 export const getInstanceEditValues = (
   instance: LxdInstance,
+  editRestriction?: string,
 ): EditInstanceFormValues => {
   return {
     instanceType: instance.type,
@@ -79,6 +80,7 @@ export const getInstanceEditValues = (
     isCreating: false,
     readOnly: true,
     entityType: "instance",
+    editRestriction,
     ...getEditValues(instance),
   };
 };

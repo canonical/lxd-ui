@@ -32,15 +32,9 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
   project: string;
   profiles: LxdProfile[];
-  disableEditReason?: string;
 }
 
-const DiskDeviceFormCustom: FC<Props> = ({
-  formik,
-  project,
-  profiles,
-  disableEditReason,
-}) => {
+const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
   const readOnly = (formik.values as EditInstanceFormValues).readOnly;
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
 
@@ -85,12 +79,12 @@ const DiskDeviceFormCustom: FC<Props> = ({
       className="u-no-margin--bottom"
       hasIcon
       dense
-      title={disableEditReason || "Edit"}
+      title={formik.values.editRestriction ?? "Edit"}
       onClick={() => {
         ensureEditMode(formik);
         focusField(fieldName);
       }}
-      disabled={!!disableEditReason}
+      disabled={!!formik.values.editRestriction}
     >
       <Icon name="edit" />
     </Button>
@@ -107,7 +101,6 @@ const DiskDeviceFormCustom: FC<Props> = ({
     rows.push(
       getConfigurationRowBase({
         className: "no-border-top custom-device-name",
-        disabledReason: disableEditReason,
         configuration: (
           <RenameDeviceInput
             name={item.name}
@@ -116,7 +109,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
-            disableReason={disableEditReason}
+            disableReason={formik.values.editRestriction}
           />
         ),
         inherited: "",
@@ -126,6 +119,7 @@ const DiskDeviceFormCustom: FC<Props> = ({
               ensureEditMode(formik);
               removeDevice(index, formik);
             }}
+            disabledReason={formik.values.editRestriction}
           />
         ),
       }),
@@ -158,9 +152,9 @@ const DiskDeviceFormCustom: FC<Props> = ({
                 id: `devices.${index}.pool`,
                 appearance: "base",
                 className: "u-no-margin--bottom",
-                title: disableEditReason || "Select storage volume",
+                title: formik.values.editRestriction ?? "Select storage volume",
                 dense: true,
-                disabled: !!disableEditReason,
+                disabled: !!formik.values.editRestriction,
               }}
             >
               <Icon name="edit" />
@@ -259,19 +253,17 @@ const DiskDeviceFormCustom: FC<Props> = ({
           <ConfigurationTable rows={rows} />
         </>
       )}
-      {!disableEditReason && (
-        <AttachDiskDeviceBtn
-          formik={formik}
-          project={project}
-          setValue={(device) => {
-            ensureEditMode(formik);
-            addDiskDevice(device);
-          }}
-        >
-          <Icon name="plus" />
-          <span>Attach disk device</span>
-        </AttachDiskDeviceBtn>
-      )}
+      <AttachDiskDeviceBtn
+        formik={formik}
+        project={project}
+        setValue={(device) => {
+          ensureEditMode(formik);
+          addDiskDevice(device);
+        }}
+      >
+        <Icon name="plus" />
+        <span>Attach disk device</span>
+      </AttachDiskDeviceBtn>
     </div>
   );
 };

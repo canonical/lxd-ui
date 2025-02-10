@@ -56,6 +56,7 @@ export interface StorageVolumeFormValues {
   readOnly: boolean;
   isCreating: boolean;
   entityType: "storageVolume";
+  editRestriction?: string;
 }
 
 export const volumeFormToPayload = (

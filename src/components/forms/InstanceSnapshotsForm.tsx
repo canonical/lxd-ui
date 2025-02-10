@@ -34,10 +34,9 @@ export const snapshotsPayload = (values: InstanceAndProfileFormValues) => {
 interface Props {
   formik: InstanceAndProfileFormikProps;
   children?: ReactNode;
-  disableEditReason?: string;
 }
 
-const InstanceSnapshotsForm: FC<Props> = ({ formik, disableEditReason }) => {
+const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
   const { project } = useProject();
   const snapshotDisabled = isSnapshotsDisabled(project);
 
@@ -59,8 +58,6 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik, disableEditReason }) => {
             name: "snapshots_pattern",
             defaultValue: "",
             children: <Input placeholder="Enter name pattern" type="text" />,
-            disabled: !!disableEditReason,
-            disabledReason: disableEditReason,
           }),
 
           getConfigurationRow({
@@ -71,8 +68,6 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik, disableEditReason }) => {
             children: (
               <Input placeholder="Enter expiry expression" type="text" />
             ),
-            disabled: !!disableEditReason,
-            disabledReason: disableEditReason,
           }),
 
           getConfigurationRow({
@@ -82,8 +77,6 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik, disableEditReason }) => {
             defaultValue: "",
             readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
             children: <Select options={optionYesNo} />,
-            disabled: !!disableEditReason,
-            disabledReason: disableEditReason,
           }),
 
           getConfigurationRow({
@@ -91,8 +84,6 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik, disableEditReason }) => {
             label: "Schedule",
             name: "snapshots_schedule",
             defaultValue: "",
-            disabled: !!disableEditReason,
-            disabledReason: disableEditReason,
             children: (
               <SnapshotScheduleInput
                 value={formik.values.snapshots_schedule}

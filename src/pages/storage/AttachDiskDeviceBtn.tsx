@@ -28,7 +28,14 @@ const AttachDiskDeviceBtn: FC<Props> = ({
 
   return (
     <>
-      <Button onClick={openPortal} type="button" hasIcon {...buttonProps}>
+      <Button
+        onClick={openPortal}
+        type="button"
+        hasIcon
+        {...buttonProps}
+        disabled={!!formik.values.editRestriction}
+        title={formik.values.editRestriction}
+      >
         {children}
       </Button>
       {isOpen && (
