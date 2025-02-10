@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.59% </span>
+                <span class="strong">92% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>81/83</span>
+                <span class='fraction'>92/100</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.23% </span>
+                <span class="strong">57.89% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/13</span>
+                <span class='fraction'>11/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">97.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>75/75</span>
+                <span class='fraction'>84/86</span>
             </div>
         
             
@@ -138,7 +138,18 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -146,6 +157,13 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -154,8 +172,12 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -219,6 +241,12 @@
 } from "types/storage";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { zfsDriver, btrfsDriver, lvmDriver } from "util/storageOptions";
+&nbsp;
+export const isStoragePoolWithSize = <span class="fstat-no" title="function not covered" >(d</span>river: string) =&gt; {
+  const driversWithSize = <span class="cstat-no" title="statement not covered" >[zfsDriver, lvmDriver, btrfsDriver];</span>
+<span class="cstat-no" title="statement not covered" >  return driversWithSize.includes(driver);</span>
+};
 &nbsp;
 export const toStoragePoolFormValues = (
   pool: LxdStoragePool,
@@ -226,22 +254,19 @@ export const toStoragePoolFormValues = (
 ): StoragePoolFormValues =&gt; {
   const sourcePerClusterMember: ClusterSpecificValues = {};
   const zfsPoolNamePerClusterMember: ClusterSpecificValues = {};
+  const sizePerClusterMember: ClusterSpecificValues = {};
 &nbsp;
   poolOnMembers?.forEach((item) =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (isStoragePoolWithSize(item.driver)) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      sizePerClusterMember[item.memberName] = item.config?.size ?? "";</span></span>
+<span class="cstat-no" title="statement not covered" >    }</span>
 <span class="cstat-no" title="statement not covered" >    sourcePerClusterMember[item.memberName] = item.config?.source ?? "";</span>
 <span class="cstat-no" title="statement not covered" >    zfsPoolNamePerClusterMember[item.memberName] =</span>
       item.config?.["zfs.pool_name"] ?? "";
   });
 &nbsp;
   return {
-    readOnly: true,
-    isCreating: false,
-    name: pool.name,
-    description: pool.description,
-    driver: pool.driver,
-    source: pool.config?.source || "",
-    size: pool.config?.size || "GiB",
-    entityType: "storagePool",
+    barePool: pool,
     ceph_cluster_name: pool.config?.["ceph.cluster_name"],
     ceph_osd_pg_num: pool.config?.["ceph.osd.pg_num"],
     ceph_rbd_clone_copy: pool.config?.["ceph.rbd.clone_copy"],
@@ -253,6 +278,11 @@ export const toStoragePoolFormValues = (
     cephfs_osd_pg_num: pool.config?.["cephfs.osd_pg_num"],
     cephfs_path: pool.config?.["cephfs.path"],
     cephfs_user_name: pool.config?.["cephfs.user.name"],
+    description: pool.description,
+    driver: pool.driver,
+    entityType: "storagePool",
+    isCreating: false,
+    name: pool.name,
     powerflex_clone_copy: pool.config?.["powerflex.clone_copy"],
     powerflex_domain: pool.config?.["powerflex.domain"],
     powerflex_gateway: pool.config?.["powerflex.gateway"],
@@ -267,11 +297,14 @@ export const toStoragePoolFormValues = (
     pure_gateway_verify: pool.config?.["pure.gateway.verify"],
     pure_mode: pool.config?.["pure.mode"],
     pure_target: pool.config?.["pure.target"],
+    readOnly: true,
+    size: pool.config?.size || "GiB",
+    sizePerClusterMember,
+    source: pool.config?.source || "",
+    sourcePerClusterMember,
     zfs_clone_copy: pool.config?.["zfs.clone_copy"],
     zfs_export: pool.config?.["zfs.export"],
     zfs_pool_name: pool.config?.["zfs.pool_name"],
-    sourcePerClusterMember,
-    barePool: pool,
     zfsPoolNamePerClusterMember,
   };
 };
@@ -295,7 +328,7 @@ export const handleConfigKeys = [
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-10T16:17:04.095Z
+                at 2025-02-10T16:22:33.794Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
