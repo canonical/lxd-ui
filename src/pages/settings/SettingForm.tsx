@@ -10,6 +10,10 @@ import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
+import MaasMachineSettingFormInput from "./MaasMachineSettingFormInput";
+import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -27,12 +31,15 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const editRef = useRef<HTMLDivElement | null>(null);
 
   // Special cases
   const isTrustPassword = configField.key === "core.trust_password";
   const isLokiAuthPassword = configField.key === "loki.auth.password";
+  const isMaasMachine = configField.key === "maas.machine";
   const isSecret = isTrustPassword || isLokiAuthPassword;
 
   const settingLabel = (
@@ -40,9 +47,8 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   );
 
   const onSubmit = (newValue: string | boolean) => {
-    const config = {
-      [configField.key]: String(newValue),
-    };
+    const config = { [configField.key]: String(newValue) };
+
     updateSettings(config)
       .then(() => {
         toastNotify.success(<>Setting {settingLabel} updated.</>);
@@ -100,6 +106,13 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
                   onSubmit={onSubmit}
                   onCancel={onCancel}
                 />
+              ) : isClustered && isMaasMachine ? (
+                <MaasMachineSettingFormInput
+                  initialValue={value ?? ""}
+                  configField={configField}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                />
               ) : (
                 <SettingFormInput
                   initialValue={value ?? ""}
@@ -125,9 +138,19 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
               }}
               hasIcon
             >
-              <div className="readmode-value u-truncate">
-                {getReadModeValue()}
-              </div>
+              {isClustered && isMaasMachine ? (
+                <MaasMachineSettingFormInput
+                  initialValue={value ?? ""}
+                  configField={configField}
+                  onSubmit={onSubmit}
+                  onCancel={onCancel}
+                  readonly={true}
+                />
+              ) : (
+                <div className="readmode-value u-truncate">
+                  {getReadModeValue()}
+                </div>
+              )}
               <Icon name="edit" className="edit-icon" />
             </Button>
           )}
