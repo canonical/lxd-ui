@@ -3,7 +3,7 @@ import { useProject } from "context/project";
 import NoProject from "components/NoProject";
 
 interface Props {
-  outlet: JSX.Element;
+  outlet: React.JSX.Element;
 }
 
 const ProjectLoader = ({ outlet }: Props) => {

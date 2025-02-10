@@ -105,7 +105,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
     },
   });
 
-  let statefulInfoMessage: JSX.Element | string = (
+  let statefulInfoMessage: React.JSX.Element | string = (
     <>
       {`To create a stateful snapshot, the instance needs\n`}
       the <code>migration.stateful</code> config set to true

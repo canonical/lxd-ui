@@ -25,12 +25,12 @@ const generateRowsFromIdentityGroupChanges = (
 ) => {
   const identityIDs = Object.keys(identityGroupsChangeSummary);
 
-  const rows: JSX.Element[] = [];
+  const rows: React.JSX.Element[] = [];
   for (const id of identityIDs) {
     const groupChangesForIdentity = identityGroupsChangeSummary[id];
     const identityLoggedIn = id === loggedInIdentityID;
-    const addedGroups: JSX.Element[] = [];
-    const removedGroups: JSX.Element[] = [];
+    const addedGroups: React.JSX.Element[] = [];
+    const removedGroups: React.JSX.Element[] = [];
 
     for (const group of groupChangesForIdentity.added) {
       addedGroups.push(
@@ -75,11 +75,11 @@ const generateRowsFromGroupIdentityChanges = (
     (identity) => (identityNameLookup[identity.id] = identity.name),
   );
 
-  const rows: JSX.Element[] = [];
+  const rows: React.JSX.Element[] = [];
   for (const group of groups) {
     const identityChangesForGroup = groupIdentitiesChangeSummary[group];
-    const addedIdentities: JSX.Element[] = [];
-    const removedIdentities: JSX.Element[] = [];
+    const addedIdentities: React.JSX.Element[] = [];
+    const removedIdentities: React.JSX.Element[] = [];
 
     for (const identity of identityChangesForGroup.added) {
       const identityLoggedIn = identity === loggedInIdentityID;
@@ -169,7 +169,7 @@ const GroupsOrIdentityChangesTable: FC<Props> = ({
     });
   };
 
-  let rows: JSX.Element[] = [];
+  let rows: React.JSX.Element[] = [];
   if (groupBy === "identity") {
     rows = generateRowsFromIdentityGroupChanges(
       identityGroupsChangeSummary,

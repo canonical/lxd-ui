@@ -4,7 +4,7 @@ import Loader from "./Loader";
 import { FC } from "react";
 
 interface Props {
-  outlet: JSX.Element;
+  outlet: React.JSX.Element;
 }
 
 const ProtectedRoute: FC<Props> = ({ outlet }) => {

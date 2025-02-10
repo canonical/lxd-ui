@@ -17,9 +17,13 @@ import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  Location,
+} from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import { Location } from "history";
 import InstanceCreateDetailsForm, {
   instanceDetailPayload,
   InstanceDetailsFormValues,
@@ -118,7 +122,7 @@ interface PresetFormState {
 const CreateInstance: FC = () => {
   const docBaseLink = useDocs();
   const eventQueue = useEventQueue();
-  const location = useLocation() as Location<PresetFormState | null>;
+  const location = useLocation() as Location<PresetFormState>;
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
   const notify = useNotify();

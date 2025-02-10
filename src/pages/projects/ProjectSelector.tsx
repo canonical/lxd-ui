@@ -16,7 +16,7 @@ interface Props {
   activeProject: string;
 }
 
-const ProjectSelector: FC<Props> = ({ activeProject }): JSX.Element => {
+const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
   const navigate = useNavigate();
   const searchRef = useRef<HTMLInputElement>(null);
 

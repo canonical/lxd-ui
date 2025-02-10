@@ -6,7 +6,7 @@ import { queryKeys } from "util/queryKeys";
 import { fetchClusterGroups } from "api/cluster";
 
 interface Props {
-  outlet: JSX.Element;
+  outlet: React.JSX.Element;
 }
 
 const ClusterGroupLoader = ({ outlet }: Props) => {

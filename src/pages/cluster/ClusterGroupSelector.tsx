@@ -16,7 +16,9 @@ interface Props {
   activeGroup?: string;
 }
 
-const ClusterGroupSelector: FC<Props> = ({ activeGroup }): JSX.Element => {
+const ClusterGroupSelector: FC<Props> = ({
+  activeGroup,
+}): React.JSX.Element => {
   const navigate = useNavigate();
   const notify = useNotify();
 
