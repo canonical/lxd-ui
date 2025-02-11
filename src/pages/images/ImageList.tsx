@@ -28,6 +28,7 @@ import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
 import UploadImageBtn from "pages/images/actions/UploadImageBtn";
 import { useImages } from "context/useImages";
+import { useImageEntitlements } from "util/entitlements/images";
 
 const ImageList: FC = () => {
   const docBaseLink = useDocs();
@@ -36,6 +37,7 @@ const ImageList: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const { canDeleteImage } = useImageEntitlements();
 
   if (!project) {
     return <>Missing project</>;
@@ -93,6 +95,8 @@ const ImageList: FC = () => {
         .includes(query.toLowerCase()),
   );
 
+  const deletableImages = filteredImages.filter(canDeleteImage);
+
   const rows = filteredImages.map((image) => {
     const actions = (
       <List
@@ -115,7 +119,8 @@ const ImageList: FC = () => {
 
     return {
       key: image.fingerprint,
-      name: image.fingerprint,
+      // disable image selection if user does not have entitlement to delete
+      name: canDeleteImage(image) ? image.fingerprint : "",
       columns: [
         {
           content: description,
@@ -256,12 +261,12 @@ const ImageList: FC = () => {
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification
-                    totalCount={images.length ?? 0}
+                    totalCount={deletableImages.length ?? 0}
                     itemName="image"
                     parentName="project"
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
-                    filteredNames={filteredImages.map(
+                    filteredNames={deletableImages.map(
                       (item) => item.fingerprint,
                     )}
                   />
@@ -283,6 +288,7 @@ const ImageList: FC = () => {
                 filteredNames={filteredImages.map((item) => item.fingerprint)}
                 processingNames={processingNames}
                 rows={[]}
+                disableSelect={!deletableImages.length}
               />
             </TablePagination>
           </ScrollableTable>
