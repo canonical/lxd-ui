@@ -9,6 +9,13 @@ export const useProjectEntitlements = (project?: LxdProject) => {
 
   const validProject = project || currentProject;
 
+  const canCreateInstances = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_instances",
+      validProject?.access_entitlements,
+    );
+
   const canCreateImages = () =>
     hasEntitlement(
       isFineGrained,
@@ -24,6 +31,7 @@ export const useProjectEntitlements = (project?: LxdProject) => {
     );
 
   return {
+    canCreateInstances,
     canCreateImages,
     canCreateImageAliases,
   };
