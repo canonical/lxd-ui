@@ -1,11 +1,9 @@
 import { FC } from "react";
 import { getProfileInstances } from "util/usedBy";
 import type { LxdProfile } from "types/profile";
-import { useQuery } from "@tanstack/react-query";
-import { fetchProjects } from "api/projects";
-import { queryKeys } from "util/queryKeys";
 import ProfileUsedByDefaultProject from "./ProfileUsedByDefaultProject";
 import ProfileUsedByRegularProject from "./ProfileUsedByRegularProject";
+import { useProjects } from "context/useProjects";
 
 interface Props {
   profile: LxdProfile;
@@ -38,10 +36,7 @@ const ProfileInstances: FC<Props> = ({
     : undefined;
 
   if (isDefaultProject) {
-    const { data: projects = [] } = useQuery({
-      queryKey: [queryKeys.projects],
-      queryFn: fetchProjects,
-    });
+    const { data: projects = [] } = useProjects();
     projects
       .filter((project) => project.config["features.profiles"] === "false")
       .map((project) => project.name)
