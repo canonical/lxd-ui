@@ -4,10 +4,11 @@ import { hasEntitlement } from "./helpers";
 export const useServerEntitlements = () => {
   const { isFineGrained, serverEntitlements } = useAuth();
 
-  const canEditServer = () =>
-    hasEntitlement(isFineGrained, "can_edit", serverEntitlements);
+  const canEditServerConfiguration = () =>
+    hasEntitlement(isFineGrained, "can_edit", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements);
 
   return {
-    canEditServer,
+    canEditServerConfiguration,
   };
 };

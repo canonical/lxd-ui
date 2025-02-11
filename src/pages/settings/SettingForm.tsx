@@ -28,7 +28,7 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const { canEditServer } = useServerEntitlements();
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   const editRef = useRef<HTMLDivElement | null>(null);
 
@@ -126,11 +126,11 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
                 setEditMode(true);
               }}
               hasIcon
-              disabled={!canEditServer()}
+              disabled={!canEditServerConfiguration()}
               title={
-                canEditServer()
+                canEditServerConfiguration()
                   ? ""
-                  : "You do not have permission to edit the server"
+                  : "You do not have permission to edit server configuration"
               }
             >
               <div className="readmode-value u-truncate">
