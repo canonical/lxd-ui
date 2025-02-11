@@ -27,8 +27,8 @@ import { getArchitectureAliases } from "util/architectures";
 import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
-import { fetchImageList } from "api/images";
 import { useParams } from "react-router-dom";
+import { useImages } from "context/useImages";
 
 interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) => void;
@@ -97,10 +97,8 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       retry: false, // avoid retry to ease experience in airgapped deployments
     });
 
-  const { data: localImages = [], isLoading: isLocalImageLoading } = useQuery({
-    queryKey: [queryKeys.images, project],
-    queryFn: () => fetchImageList(project ?? ""),
-  });
+  const { data: localImages = [], isLoading: isLocalImageLoading } =
+    useImages(project);
 
   const isLoading =
     isCiLoading ||

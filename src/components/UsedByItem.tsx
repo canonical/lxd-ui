@@ -2,9 +2,7 @@ import { FC } from "react";
 import ResourceLink from "./ResourceLink";
 import { LxdUsedBy } from "util/usedBy";
 import { ResourceIconType } from "./ResourceIcon";
-import { useQuery } from "@tanstack/react-query";
-import { fetchImageList } from "api/images";
-import { queryKeys } from "util/queryKeys";
+import { useImages } from "context/useImages";
 
 interface Props {
   item: LxdUsedBy;
@@ -21,11 +19,8 @@ const UsedByItem: FC<Props> = ({
   to,
   projectLinkDetailPage = "instances",
 }) => {
-  const { data: images = [] } = useQuery({
-    queryKey: [queryKeys.images],
-    queryFn: () => fetchImageList(activeProject),
-    enabled: type === "image",
-  });
+  const enabled = type === "image";
+  const { data: images = [] } = useImages(activeProject, enabled);
 
   const image = images.find((image) => image.fingerprint === item.name);
   const label = image?.properties?.description || item.name;

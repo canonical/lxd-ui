@@ -9,10 +9,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import { queryKeys } from "util/queryKeys";
-import { fetchImageList } from "api/images";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
@@ -30,6 +27,7 @@ import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
 import UploadImageBtn from "pages/images/actions/UploadImageBtn";
+import { useImages } from "context/useImages";
 
 const ImageList: FC = () => {
   const docBaseLink = useDocs();
@@ -43,14 +41,7 @@ const ImageList: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: images = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.images, project],
-    queryFn: () => fetchImageList(project),
-  });
+  const { data: images = [], error, isLoading } = useImages(project);
 
   if (error) {
     notify.failure("Loading images failed", error);

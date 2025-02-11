@@ -11,13 +11,20 @@ import { EventQueue } from "context/eventQueue";
 import type { LxdInstance } from "types/instance";
 import type { UploadState } from "types/storage";
 import axios, { AxiosResponse } from "axios";
+import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const fetchImageList = (project?: string): Promise<LxdImage[]> => {
+const imageEntitlements = ["can_delete"];
+
+export const fetchImageList = (
+  isFineGrained: boolean | null,
+  project?: string,
+): Promise<LxdImage[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
   const url =
     "/1.0/images?recursion=1" +
     (project ? `&project=${project}` : "&all-projects=1");
   return new Promise((resolve, reject) => {
-    fetch(url)
+    fetch(url + entitlements)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
       .catch(reject);
