@@ -4,7 +4,7 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-const projectEntitlements = ["can_create_images"];
+const projectEntitlements = ["can_create_images", "can_create_image_aliases"];
 
 export const fetchProjects = (
   isFineGrained: boolean | null,

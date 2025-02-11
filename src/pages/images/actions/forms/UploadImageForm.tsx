@@ -19,6 +19,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdSyncResponse } from "types/apiResponse";
 import { AxiosError } from "axios";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   close: () => void;
@@ -30,6 +31,7 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
   const toastNotify = useToastNotification();
   const [uploadState, setUploadState] = useState<UploadState | null>(null);
   const queryClient = useQueryClient();
+  const { canCreateImageAliases } = useProjectEntitlements();
 
   const notifySuccess = () => {
     const uploaded = <Link to={`/ui/project/${project}/images`}>uploaded</Link>;
@@ -184,6 +186,12 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
           label="Alias"
           placeholder="Enter alias"
           error={formik.touched.alias ? formik.errors.alias : null}
+          disabled={!canCreateImageAliases()}
+          title={
+            canCreateImageAliases()
+              ? ""
+              : "You do not have permission to create image aliases"
+          }
         />
         <Input
           {...formik.getFieldProps("isPublic")}

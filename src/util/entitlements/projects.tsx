@@ -16,7 +16,15 @@ export const useProjectEntitlements = (project?: LxdProject) => {
       validProject?.access_entitlements,
     );
 
+  const canCreateImageAliases = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_image_aliases",
+      validProject?.access_entitlements,
+    );
+
   return {
     canCreateImages,
+    canCreateImageAliases,
   };
 };
