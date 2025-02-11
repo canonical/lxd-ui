@@ -2,15 +2,11 @@ import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
 import { LxdImage } from "types/image";
 
-export const useImageEntitlements = (image?: LxdImage) => {
+export const useImageEntitlements = () => {
   const { isFineGrained } = useAuth();
 
-  const canDeleteImage = (imageOverride?: LxdImage) =>
-    hasEntitlement(
-      isFineGrained,
-      "can_delete",
-      (imageOverride ?? image)?.access_entitlements,
-    );
+  const canDeleteImage = (image?: LxdImage) =>
+    hasEntitlement(isFineGrained, "can_delete", image?.access_entitlements);
 
   return {
     canDeleteImage,

@@ -28,7 +28,7 @@ import { instanceCreationTypes } from "util/instanceOptions";
 import { useSettings } from "context/useSettings";
 import ScrollableTable from "components/ScrollableTable";
 import { useParams } from "react-router-dom";
-import { useImages } from "context/useImages";
+import { useImagesInProject } from "context/useImages";
 
 interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) => void;
@@ -98,7 +98,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     });
 
   const { data: localImages = [], isLoading: isLocalImageLoading } =
-    useImages(project);
+    useImagesInProject(project ?? "default");
 
   const isLoading =
     isCiLoading ||

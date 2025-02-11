@@ -15,16 +15,25 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 const imageEntitlements = ["can_delete"];
 
-export const fetchImageList = (
+export const fetchImagesInProject = (
+  project: string,
   isFineGrained: boolean | null,
-  project?: string,
 ): Promise<LxdImage[]> => {
   const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
-  const url =
-    "/1.0/images?recursion=1" +
-    (project ? `&project=${project}` : "&all-projects=1");
   return new Promise((resolve, reject) => {
-    fetch(url + entitlements)
+    fetch(`/1.0/images?recursion=1&project=${project}${entitlements}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchImagesInAllProjects = (
+  isFineGrained: boolean | null,
+): Promise<LxdImage[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images?recursion=1&all-projects=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
       .catch(reject);

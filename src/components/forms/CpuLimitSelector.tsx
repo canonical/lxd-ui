@@ -2,7 +2,7 @@ import { FC } from "react";
 import { RadioInput } from "@canonical/react-components";
 import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
 import CpuLimitInput from "components/forms/CpuLimitInput";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   cpuLimit?: CpuLimit;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
-  const { project } = useProject();
+  const { project } = useCurrentProject();
 
   if (!cpuLimit) {
     return null;

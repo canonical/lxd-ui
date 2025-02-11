@@ -27,7 +27,7 @@ import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
 import UploadImageBtn from "pages/images/actions/UploadImageBtn";
-import { useImages } from "context/useImages";
+import { useImagesInProject } from "context/useImages";
 import { useImageEntitlements } from "util/entitlements/images";
 
 const ImageList: FC = () => {
@@ -43,7 +43,7 @@ const ImageList: FC = () => {
     return <>Missing project</>;
   }
 
-  const { data: images = [], error, isLoading } = useImages(project);
+  const { data: images = [], error, isLoading } = useImagesInProject(project);
 
   if (error) {
     notify.failure("Loading images failed", error);
@@ -95,7 +95,9 @@ const ImageList: FC = () => {
         .includes(query.toLowerCase()),
   );
 
-  const deletableImages = filteredImages.filter(canDeleteImage);
+  const deletableImages = filteredImages
+    .filter(canDeleteImage)
+    .map((image) => image.fingerprint);
 
   const rows = filteredImages.map((image) => {
     const actions = (
@@ -105,7 +107,7 @@ const ImageList: FC = () => {
         items={[
           <CreateInstanceFromImageBtn
             key="launch"
-            project={project}
+            projectName={project}
             image={localLxdToRemoteImage(image)}
           />,
           <DownloadImageBtn key="download" image={image} project={project} />,
@@ -120,7 +122,9 @@ const ImageList: FC = () => {
     return {
       key: image.fingerprint,
       // disable image selection if user does not have entitlement to delete
-      name: canDeleteImage(image) ? image.fingerprint : "",
+      name: deletableImages.includes(image.fingerprint)
+        ? image.fingerprint
+        : "",
       columns: [
         {
           content: description,
@@ -227,7 +231,7 @@ const ImageList: FC = () => {
             )}
           </PageHeader.Left>
           <PageHeader.BaseActions>
-            <UploadImageBtn project={project} />
+            <UploadImageBtn projectName={project} />
             <CustomIsoBtn project={project} />
           </PageHeader.BaseActions>
         </PageHeader>
@@ -266,9 +270,7 @@ const ImageList: FC = () => {
                     parentName="project"
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
-                    filteredNames={deletableImages.map(
-                      (item) => item.fingerprint,
-                    )}
+                    filteredNames={deletableImages}
                   />
                 )
               }

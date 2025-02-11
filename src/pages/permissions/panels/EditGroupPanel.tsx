@@ -39,7 +39,7 @@ import { pluralize } from "util/instanceBulkActions";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import ResourceLink from "components/ResourceLink";
-import { useImages } from "context/useImages";
+import { useImagesInAllProjects } from "context/useImages";
 
 interface Props {
   group: LxdGroup;
@@ -90,7 +90,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     data: images = [],
     isLoading: imageLoading,
     isError: imageError,
-  } = useImages();
+  } = useImagesInAllProjects();
   useEffect(() => {
     if (
       !lxdIdentityLoading &&

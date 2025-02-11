@@ -10,7 +10,7 @@ import ScrollableConfigurationTable from "components/forms/ScrollableConfigurati
 import { getInstanceKey } from "util/instanceConfigFields";
 import { optionRenderer } from "util/formFields";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import { isSnapshotsDisabled } from "util/snapshots";
 import SnapshotDiabledWarningLink from "components/SnapshotDiabledWarningLink";
 
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
-  const { project } = useProject();
+  const { project } = useCurrentProject();
   const snapshotDisabled = isSnapshotsDisabled(project);
 
   return (

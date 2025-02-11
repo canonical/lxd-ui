@@ -19,7 +19,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const { canDeleteImage } = useImageEntitlements(image);
+  const { canDeleteImage } = useImageEntitlements();
 
   const description = image.properties?.description ?? image.fingerprint;
 
@@ -69,14 +69,14 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
             This action cannot be undone, and can result in data loss.
           </p>
         ),
-        confirmButtonLabel: canDeleteImage()
+        confirmButtonLabel: canDeleteImage(image)
           ? "Delete"
           : "You do not have permission to delete this image",
         onConfirm: handleDelete,
       }}
       className="has-icon"
       appearance="base"
-      disabled={isLoading || !canDeleteImage()}
+      disabled={isLoading || !canDeleteImage(image)}
       shiftClickEnabled
       showShiftClickHint
     >

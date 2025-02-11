@@ -1,33 +1,29 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
 import { LxdProject } from "types/project";
-import { useProject } from "context/project";
 
-export const useProjectEntitlements = (project?: LxdProject) => {
+export const useProjectEntitlements = () => {
   const { isFineGrained } = useAuth();
-  const { project: currentProject } = useProject();
 
-  const validProject = project || currentProject;
-
-  const canCreateInstances = () =>
+  const canCreateInstances = (project?: LxdProject) =>
     hasEntitlement(
       isFineGrained,
       "can_create_instances",
-      validProject?.access_entitlements,
+      project?.access_entitlements,
     );
 
-  const canCreateImages = () =>
+  const canCreateImages = (project?: LxdProject) =>
     hasEntitlement(
       isFineGrained,
       "can_create_images",
-      validProject?.access_entitlements,
+      project?.access_entitlements,
     );
 
-  const canCreateImageAliases = () =>
+  const canCreateImageAliases = (project?: LxdProject) =>
     hasEntitlement(
       isFineGrained,
       "can_create_image_aliases",
-      validProject?.access_entitlements,
+      project?.access_entitlements,
     );
 
   return {

@@ -2,7 +2,7 @@ import { FC } from "react";
 import ResourceLink from "./ResourceLink";
 import { LxdUsedBy } from "util/usedBy";
 import { ResourceIconType } from "./ResourceIcon";
-import { useImages } from "context/useImages";
+import { useImagesInProject } from "context/useImages";
 
 interface Props {
   item: LxdUsedBy;
@@ -19,8 +19,11 @@ const UsedByItem: FC<Props> = ({
   to,
   projectLinkDetailPage = "instances",
 }) => {
-  const enabled = type === "image";
-  const { data: images = [] } = useImages(activeProject, enabled);
+  const isImageQueryEnabled = type === "image";
+  const { data: images = [] } = useImagesInProject(
+    activeProject,
+    isImageQueryEnabled,
+  );
 
   const image = images.find((image) => image.fingerprint === item.name);
   const label = image?.properties?.description || item.name;

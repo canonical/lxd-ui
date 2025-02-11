@@ -14,7 +14,7 @@ import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import { useProjectFetch } from "context/useProjects";
+import { useProject } from "context/useProjects";
 
 const UPLINK_NETWORK_TYPES = ["bridge", "physical"];
 
@@ -46,7 +46,7 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
     data: project,
     error: projectError,
     isLoading: isProjectLoading,
-  } = useProjectFetch(projectName);
+  } = useProject(projectName);
 
   useEffect(() => {
     if (projectError) {

@@ -41,10 +41,26 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const { hasEntitiesWithEntitlements, isSettingsLoading } =
     useSupportedFeatures();
 
+  const { data: currentIdentity } = useQuery({
+    queryKey: [queryKeys.currentIdentity],
+    queryFn: fetchCurrentIdentity,
+    retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
+  });
+
+  const isFineGrained = () => {
+    if (isSettingsLoading) {
+      return null;
+    }
+    if (hasEntitiesWithEntitlements) {
+      return currentIdentity?.fine_grained ?? null;
+    }
+    return false;
+  };
+
   const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: () => fetchProjects(false),
-    enabled: settings?.auth === "trusted",
+    queryFn: () => fetchProjects(isFineGrained()),
+    enabled: settings?.auth === "trusted" && isFineGrained() !== null,
   });
 
   const defaultProject =
@@ -60,26 +76,11 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     enabled: isTls,
   });
 
-  const { data: currentIdentity } = useQuery({
-    queryKey: [queryKeys.currentIdentity],
-    queryFn: fetchCurrentIdentity,
-    retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
-  });
-
   const fingerprint = isTls ? settings.auth_user_name : undefined;
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
   );
   const isRestricted = certificate?.restricted ?? defaultProject !== "default";
-  const isFineGrained = () => {
-    if (isSettingsLoading) {
-      return null;
-    }
-    if (hasEntitiesWithEntitlements) {
-      return currentIdentity?.fine_grained ?? null;
-    }
-    return false;
-  };
 
   const serverEntitlements = (currentIdentity?.effective_permissions || [])
     .filter((permission) => permission.entity_type === "server")

@@ -13,7 +13,7 @@ export const useProjects = (): UseQueryResult<LxdProject[]> => {
   });
 };
 
-export const useProjectFetch = (
+export const useProject = (
   project: string,
   enabled?: boolean,
   retry?: boolean,

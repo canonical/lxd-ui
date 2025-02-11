@@ -20,7 +20,7 @@ import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
 import type { LxdPermission } from "types/permissions";
 import { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
-import { useImages } from "context/useImages";
+import { useImagesInAllProjects } from "context/useImages";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -50,7 +50,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
     enabled: !!resourceType,
   });
 
-  const { data: images = [] } = useImages();
+  const { data: images = [] } = useImagesInAllProjects();
 
   const { data: identities = [] } = useQuery({
     queryKey: [queryKeys.identities],

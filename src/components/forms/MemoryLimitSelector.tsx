@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
 import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   memoryLimit?: MemoryLimit;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
-  const { project } = useProject();
+  const { project } = useCurrentProject();
 
   if (!memoryLimit) {
     return null;

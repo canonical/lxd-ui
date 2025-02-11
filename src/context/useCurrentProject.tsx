@@ -1,7 +1,7 @@
 import { createContext, FC, ReactNode, useContext } from "react";
 import type { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
-import { useProjectFetch } from "./useProjects";
+import { useProject } from "./useProjects";
 
 interface ContextProps {
   project?: LxdProject;
@@ -26,7 +26,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
 
   const enabled = project.length > 0;
   const retry = false;
-  const { data, isLoading } = useProjectFetch(project, enabled, retry);
+  const { data, isLoading } = useProject(project, enabled, retry);
 
   return (
     <ProjectContext.Provider
@@ -40,6 +40,6 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   );
 };
 
-export function useProject() {
+export function useCurrentProject() {
   return useContext(ProjectContext);
 }
