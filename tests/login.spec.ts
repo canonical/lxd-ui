@@ -17,14 +17,14 @@ test("login", async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes("login"));
   // remove tls certificate from trust store so we can test oidc login
   const fingerprint = execSync(
-    "sudo lxc config trust list | grep lxd-ui.crt | awk '{print $8}'",
+    "sudo -E lxc config trust list | grep lxd-ui.crt | awk '{print $8}'",
   ).toString();
-  execSync(`sudo lxc config trust remove ${fingerprint}`);
+  execSync(`sudo -E lxc config trust remove ${fingerprint}`);
 
   await gotoURL(page, "/ui/");
   await loginUser(page);
   await page.getByText("Log out").click();
 
   // add tls certificate to trust store so rest of tests can run correctly
-  execSync("sudo lxc config trust add keys/lxd-ui.crt");
+  execSync("sudo -E lxc config trust add keys/lxd-ui.crt");
 });
