@@ -21,7 +21,7 @@ const TableColumnsSelect = ({
   hidden,
   sizeHidden,
   setHidden,
-}: Props): JSX.Element => {
+}: Props): React.JSX.Element => {
   const selectedCount = columns.length - hidden.length;
 
   const toggleHiddenColumn = (column: string): void => {

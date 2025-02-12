@@ -16,7 +16,7 @@ interface Props {
   isEdit: boolean;
   formik: FormikProps<SnapshotFormValues<{ stateful?: boolean }>>;
   close: () => void;
-  additionalFormInput?: JSX.Element;
+  additionalFormInput?: React.JSX.Element;
 }
 
 const SnapshotForm: FC<Props> = (props) => {

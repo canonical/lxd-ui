@@ -9,7 +9,10 @@ interface Props {
   onMount: (val: Dispatch<SetStateAction<string>>) => void;
 }
 
-const ProjectSelectorList: FC<Props> = ({ projects, onMount }): JSX.Element => {
+const ProjectSelectorList: FC<Props> = ({
+  projects,
+  onMount,
+}): React.JSX.Element => {
   const location = useLocation();
   const [query, setQuery] = useState("");
 
