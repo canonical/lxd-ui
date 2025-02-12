@@ -3,6 +3,7 @@ import { randomNameSuffix } from "./name";
 import type { LxdNetworkType } from "types/network";
 import { activateAllTableOverrides } from "./configuration";
 import { gotoURL } from "./navigate";
+import { expect } from "../fixtures/lxd-test";
 
 export const randomNetworkName = (): string => {
   return `test-${randomNameSuffix()}`;
@@ -24,8 +25,8 @@ export const createNetwork = async (
     await page.getByLabel("Parent").selectOption({ index: 1 });
   }
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Network ${network} created.`);
-  await page.getByRole("button", { name: "Close notification" }).click();
+  const networkLink = await getNetworkLink(page, network);
+  await expect(networkLink).toBeVisible();
 };
 
 export const deleteNetwork = async (page: Page, network: string) => {
@@ -35,7 +36,8 @@ export const deleteNetwork = async (page: Page, network: string) => {
     .getByRole("dialog", { name: "Confirm delete" })
     .getByRole("button", { name: "Delete" })
     .click();
-  await page.waitForSelector(`text=Network ${network} deleted.`);
+  const networkLink = await getNetworkLink(page, network);
+  await expect(networkLink).not.toBeVisible();
 };
 
 export const visitNetwork = async (page: Page, network: string) => {
@@ -94,4 +96,13 @@ export const createNetworkForward = async (page: Page, network: string) => {
     .click();
 
   await deleteNetwork(page, network);
+};
+
+export const getNetworkLink = async (page: Page, network: string) => {
+  // network actions may result in ERR_NETWORK_CHANGED, we should wait for network to settle before checking visibility
+  await page.waitForLoadState("networkidle");
+  await gotoURL(page, "/ui/");
+  await page.getByRole("link", { name: "Networks", exact: true }).click();
+  const networkLink = page.getByRole("link", { name: network });
+  return networkLink;
 };
