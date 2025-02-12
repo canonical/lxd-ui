@@ -7,7 +7,7 @@ import {
   generateLinkForVolumeDetail,
   hasVolumeDetailPage,
 } from "util/storageVolume";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -21,7 +21,7 @@ const StorageVolumeNameLink: FC<Props> = ({
   overrideName,
   className,
 }) => {
-  const { project } = useProject();
+  const { project } = useCurrentProject();
   const isExternalLink = !hasVolumeDetailPage(volume);
   const caption = overrideName ? overrideName : volume.name;
 

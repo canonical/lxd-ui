@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
 import { fetchProfile } from "api/profiles";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
 import ProfileDetailPanelContent from "./ProfileDetailPanelContent";
@@ -15,7 +15,7 @@ const ProfileDetailPanel: FC = () => {
   const profileName = panelParams.profile;
   const projectName = panelParams.project;
 
-  const { project, isLoading: isProjectLoading } = useProject();
+  const { project, isLoading: isProjectLoading } = useCurrentProject();
 
   const {
     data: profile,

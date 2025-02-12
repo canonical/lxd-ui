@@ -9,10 +9,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import { queryKeys } from "util/queryKeys";
-import { fetchImageList } from "api/images";
 import DeleteImageBtn from "./actions/DeleteImageBtn";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
@@ -30,6 +27,8 @@ import PageHeader from "components/PageHeader";
 import CustomIsoBtn from "pages/storage/actions/CustomIsoBtn";
 import DownloadImageBtn from "./actions/DownloadImageBtn";
 import UploadImageBtn from "pages/images/actions/UploadImageBtn";
+import { useImagesInProject } from "context/useImages";
+import { useImageEntitlements } from "util/entitlements/images";
 
 const ImageList: FC = () => {
   const docBaseLink = useDocs();
@@ -38,19 +37,13 @@ const ImageList: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const { canDeleteImage } = useImageEntitlements();
 
   if (!project) {
     return <>Missing project</>;
   }
 
-  const {
-    data: images = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.images, project],
-    queryFn: () => fetchImageList(project),
-  });
+  const { data: images = [], error, isLoading } = useImagesInProject(project);
 
   if (error) {
     notify.failure("Loading images failed", error);
@@ -102,6 +95,10 @@ const ImageList: FC = () => {
         .includes(query.toLowerCase()),
   );
 
+  const deletableImages = filteredImages
+    .filter(canDeleteImage)
+    .map((image) => image.fingerprint);
+
   const rows = filteredImages.map((image) => {
     const actions = (
       <List
@@ -110,7 +107,7 @@ const ImageList: FC = () => {
         items={[
           <CreateInstanceFromImageBtn
             key="launch"
-            project={project}
+            projectName={project}
             image={localLxdToRemoteImage(image)}
           />,
           <DownloadImageBtn key="download" image={image} project={project} />,
@@ -124,7 +121,10 @@ const ImageList: FC = () => {
 
     return {
       key: image.fingerprint,
-      name: image.fingerprint,
+      // disable image selection if user does not have entitlement to delete
+      name: deletableImages.includes(image.fingerprint)
+        ? image.fingerprint
+        : "",
       columns: [
         {
           content: description,
@@ -231,7 +231,7 @@ const ImageList: FC = () => {
             )}
           </PageHeader.Left>
           <PageHeader.BaseActions>
-            <UploadImageBtn project={project} />
+            <UploadImageBtn projectName={project} />
             <CustomIsoBtn project={project} />
           </PageHeader.BaseActions>
         </PageHeader>
@@ -265,14 +265,12 @@ const ImageList: FC = () => {
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification
-                    totalCount={images.length ?? 0}
+                    totalCount={deletableImages.length ?? 0}
                     itemName="image"
                     parentName="project"
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
-                    filteredNames={filteredImages.map(
-                      (item) => item.fingerprint,
-                    )}
+                    filteredNames={deletableImages}
                   />
                 )
               }
@@ -292,6 +290,7 @@ const ImageList: FC = () => {
                 filteredNames={filteredImages.map((item) => item.fingerprint)}
                 processingNames={processingNames}
                 rows={[]}
+                disableSelect={!deletableImages.length}
               />
             </TablePagination>
           </ScrollableTable>

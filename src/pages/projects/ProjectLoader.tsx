@@ -1,5 +1,5 @@
 import Loader from "components/Loader";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import NoProject from "components/NoProject";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ProjectLoader = ({ outlet }: Props) => {
-  const { project, isLoading } = useProject();
+  const { project, isLoading } = useCurrentProject();
 
   if (isLoading) {
     return <Loader />;

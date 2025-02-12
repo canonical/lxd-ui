@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
 import { EventQueueProvider } from "context/eventQueue";
 import { InstanceLoadingProvider } from "context/instanceLoading";
-import { ProjectProvider } from "context/project";
+import { ProjectProvider } from "context/useCurrentProject";
 import Events from "pages/instances/Events";
 import App from "./App";
 import ErrorBoundary from "components/ErrorBoundary";

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { useParams } from "react-router-dom";
 import EditProject from "pages/projects/EditProject";
 import Loader from "components/Loader";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 
 const ProjectConfiguration: FC = () => {
   const { project: projectName } = useParams<{ project: string }>();
@@ -11,7 +11,7 @@ const ProjectConfiguration: FC = () => {
     return <>Missing project</>;
   }
 
-  const { project, isLoading } = useProject();
+  const { project, isLoading } = useCurrentProject();
 
   if (isLoading) {
     return <Loader />;

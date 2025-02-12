@@ -29,6 +29,7 @@ export interface LxdImage {
   aliases: LxdImageAlias[];
   cached: boolean;
   name?: string;
+  access_entitlements?: string[];
 }
 
 export interface ImportImage {

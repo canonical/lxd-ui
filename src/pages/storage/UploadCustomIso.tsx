@@ -8,7 +8,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import { createIsoStorageVolume } from "api/storage-pools";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import ProgressBar from "components/ProgressBar";
@@ -33,7 +33,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const { project } = useProject();
+  const { project } = useCurrentProject();
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState<string>("");
   const [isLoading, setLoading] = useState(false);

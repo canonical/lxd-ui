@@ -5,7 +5,7 @@ import { getConfigurationRow } from "components/ConfigurationRow";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import { useDocs } from "context/useDocs";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import { isSnapshotsDisabled } from "util/snapshots";
 import SnapshotDiabledWarningLink from "components/SnapshotDiabledWarningLink";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
@@ -16,7 +16,7 @@ interface Props {
 
 const StorageVolumeFormSnapshots: FC<Props> = ({ formik }) => {
   const docBaseLink = useDocs();
-  const { project } = useProject();
+  const { project } = useCurrentProject();
   const snapshotDisabled = isSnapshotsDisabled(project);
 
   return (

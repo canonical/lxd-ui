@@ -1,9 +1,7 @@
 import { createContext, FC, ReactNode, useContext } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchProject } from "api/projects";
 import type { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
+import { useProject } from "./useProjects";
 
 interface ContextProps {
   project?: LxdProject;
@@ -26,12 +24,9 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const url = location.pathname;
   const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
 
-  const { data, isLoading } = useQuery({
-    queryKey: [queryKeys.projects, project],
-    queryFn: () => fetchProject(project),
-    retry: false,
-    enabled: project.length > 0,
-  });
+  const enabled = project.length > 0;
+  const retry = false;
+  const { data, isLoading } = useProject(project, enabled, retry);
 
   return (
     <ProjectContext.Provider
@@ -45,6 +40,6 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   );
 };
 
-export function useProject() {
+export function useCurrentProject() {
   return useContext(ProjectContext);
 }

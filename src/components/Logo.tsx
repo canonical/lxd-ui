@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import { NavLink } from "react-router-dom";
 import { useSettings } from "context/useSettings";
 
 const Logo: FC = () => {
-  const { project, isLoading } = useProject();
+  const { project, isLoading } = useCurrentProject();
   const { data: settings } = useSettings();
 
   const isMicroCloud = Boolean(settings?.config?.["user.microcloud"]);

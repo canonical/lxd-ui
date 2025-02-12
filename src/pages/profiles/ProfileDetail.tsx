@@ -9,7 +9,7 @@ import EditProfile from "pages/profiles/EditProfile";
 import ProfileDetailOverview from "pages/profiles/ProfileDetailOverview";
 import ProfileDetailHeader from "./ProfileDetailHeader";
 import { isProjectWithProfiles } from "util/projects";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
@@ -35,7 +35,7 @@ const ProfileDetail: FC = () => {
     return <>Missing project</>;
   }
 
-  const { project, isLoading: isProjectLoading } = useProject();
+  const { project, isLoading: isProjectLoading } = useCurrentProject();
 
   const {
     data: profile,

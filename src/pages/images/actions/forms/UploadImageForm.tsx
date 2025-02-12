@@ -19,20 +19,26 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdSyncResponse } from "types/apiResponse";
 import { AxiosError } from "axios";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   close: () => void;
-  project: string;
+  projectName: string;
 }
 
-const UploadImageForm: FC<Props> = ({ close, project }) => {
+const UploadImageForm: FC<Props> = ({ close, projectName }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
   const [uploadState, setUploadState] = useState<UploadState | null>(null);
   const queryClient = useQueryClient();
+  const { canCreateImageAliases } = useProjectEntitlements();
+  const { data: project } = useProject(projectName);
 
   const notifySuccess = () => {
-    const uploaded = <Link to={`/ui/project/${project}/images`}>uploaded</Link>;
+    const uploaded = (
+      <Link to={`/ui/project/${projectName}/images`}>uploaded</Link>
+    );
     toastNotify.success(<>Image {uploaded}.</>);
   };
 
@@ -90,7 +96,7 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
           getImageUploadBody(values.fileList),
           values.isPublic,
           setUploadState,
-          project,
+          projectName,
         )
           .then((operation) => {
             toastNotify.info(<>Creation of image from file started.</>);
@@ -100,7 +106,7 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
               (event) => {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 if (values.alias) {
-                  void createImageAlias(fingerprint, values.alias, project)
+                  void createImageAlias(fingerprint, values.alias, projectName)
                     .then(clearCache)
                     .catch((e) => {
                       toastNotify.failure(
@@ -184,6 +190,12 @@ const UploadImageForm: FC<Props> = ({ close, project }) => {
           label="Alias"
           placeholder="Enter alias"
           error={formik.touched.alias ? formik.errors.alias : null}
+          disabled={!canCreateImageAliases(project)}
+          title={
+            canCreateImageAliases(project)
+              ? ""
+              : "You do not have permission to create image aliases"
+          }
         />
         <Input
           {...formik.getFieldProps("isPublic")}

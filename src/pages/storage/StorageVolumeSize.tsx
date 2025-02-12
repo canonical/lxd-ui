@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdStorageVolume } from "types/storage";
 import { humanFileSize } from "util/helpers";
-import { fetchImageList } from "api/images";
+import { useImagesInProject } from "context/useImages";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -29,11 +29,11 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
     enabled: volume.type !== "image",
   });
 
-  const { data: images = [] } = useQuery({
-    queryKey: [queryKeys.images, volume.project],
-    queryFn: () => fetchImageList(volume.project),
-    enabled: volume.type === "image",
-  });
+  const imageQueryEnabled = volume.type === "image";
+  const { data: images = [] } = useImagesInProject(
+    volume.project,
+    imageQueryEnabled,
+  );
 
   const getUsed = () => {
     if (volume.type === "image") {

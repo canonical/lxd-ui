@@ -5,7 +5,7 @@ import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
 import { getElementAbsoluteHeight, isWidthBelow, logout } from "util/helpers";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
@@ -37,7 +37,7 @@ const Navigation: FC = () => {
   const { isRestricted, isOidc } = useAuth();
   const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
-  const { project, isLoading } = useProject();
+  const { project, isLoading } = useCurrentProject();
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default",
   );

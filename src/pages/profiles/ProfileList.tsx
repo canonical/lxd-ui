@@ -20,7 +20,7 @@ import usePanelParams, { panels } from "util/usePanelParams";
 import { defaultFirst } from "util/helpers";
 import ProfileLink from "./ProfileLink";
 import { isProjectWithProfiles } from "util/projects";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import ScrollableTable from "components/ScrollableTable";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
@@ -45,7 +45,7 @@ const ProfileList: FC = () => {
   }
   const isDefaultProject = projectName === "default";
 
-  const { project, isLoading: isProjectLoading } = useProject();
+  const { project, isLoading: isProjectLoading } = useCurrentProject();
 
   const {
     data: profiles = [],

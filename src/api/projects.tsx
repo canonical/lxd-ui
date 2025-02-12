@@ -2,19 +2,33 @@ import { handleEtagResponse, handleResponse } from "util/helpers";
 import type { LxdProject } from "types/project";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
+import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const fetchProjects = (): Promise<LxdProject[]> => {
+const projectEntitlements = [
+  "can_create_images",
+  "can_create_image_aliases",
+  "can_create_instances",
+];
+
+export const fetchProjects = (
+  isFineGrained: boolean | null,
+): Promise<LxdProject[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, projectEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects?recursion=1`)
+    fetch(`/1.0/projects?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdProject[]>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const fetchProject = (name: string): Promise<LxdProject> => {
+export const fetchProject = (
+  name: string,
+  isFineGrained: boolean | null,
+): Promise<LxdProject> => {
+  const entitlements = `?${withEntitlementsQuery(isFineGrained, projectEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects/${name}`)
+    fetch(`/1.0/projects/${name}${entitlements}`)
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdProject))
       .catch(reject);

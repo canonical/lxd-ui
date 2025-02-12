@@ -1,10 +1,8 @@
 import { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import classnames from "classnames";
-import { fetchProjects } from "api/projects";
+import { useProjects } from "context/useProjects";
 
 interface Props {
   onSelect: (project: string) => void;
@@ -15,10 +13,7 @@ interface Props {
 }
 
 const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
-  const { data: projects = [] } = useQuery({
-    queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-  });
+  const { data: projects = [] } = useProjects();
 
   const headers = [
     { content: "Name", sortKey: "name" },

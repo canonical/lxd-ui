@@ -6,7 +6,7 @@ import DeleteStorageVolumeBtn from "./DeleteStorageVolumeBtn";
 import VolumeAddSnapshotBtn from "./snapshots/VolumeAddSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { isSnapshotsDisabled } from "util/snapshots";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import ResourceLabel from "components/ResourceLabel";
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 
 const CustomStorageVolumeActions: FC<Props> = ({ volume, className }) => {
   const toastNotify = useToastNotification();
-  const { project } = useProject();
+  const { project } = useCurrentProject();
 
   return (
     <List
