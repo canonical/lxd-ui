@@ -21,6 +21,7 @@ interface Props {
   isLoading: boolean;
   isDisabled: boolean;
   onClick: () => void;
+  nonRestrictedInstances: Set<string>;
 }
 
 const InstanceBulkAction: FC<Props> = ({
@@ -33,6 +34,7 @@ const InstanceBulkAction: FC<Props> = ({
   isLoading,
   isDisabled,
   onClick,
+  nonRestrictedInstances,
 }) => {
   const selectedStates = new Set(instances.map((item) => item.status));
   const hasDifferentStates = selectedStates.size > 1;
@@ -54,7 +56,9 @@ const InstanceBulkAction: FC<Props> = ({
     desiredAction: LxdInstanceAction,
   ) => {
     const count = instances.filter(
-      (instance) => instance.status === currentState,
+      (instance) =>
+        instance.status === currentState &&
+        nonRestrictedInstances.has(instance.name),
     ).length;
 
     if (count === 0) {
@@ -104,6 +108,20 @@ const InstanceBulkAction: FC<Props> = ({
     }
   };
 
+  const getNonRestrictedInstances = () => {
+    const count = instances.length - nonRestrictedInstances.size;
+    if (count === 0) {
+      return null;
+    }
+
+    return (
+      <Fragment key="restricted">
+        - No action for <b>{count}</b> restricted instances.
+        <br />
+      </Fragment>
+    );
+  };
+
   return (
     <ConfirmationButton
       appearance="base"
@@ -116,6 +134,7 @@ const InstanceBulkAction: FC<Props> = ({
           <p>
             {selectedSummary}
             {getLineOrder().map((state) => statusLine(state, action))}
+            {getNonRestrictedInstances()}
           </p>
         ),
         confirmExtra: confirmExtra,

@@ -5,6 +5,7 @@ import { usePortal } from "@canonical/react-components";
 import CreateImageFromInstanceForm from "../forms/CreateImageFromInstanceForm";
 import { useInstanceLoading } from "context/instanceLoading";
 import classNames from "classnames";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -18,16 +19,29 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
   onClose,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canCreateImages } = useProjectEntitlements();
   const instanceLoading = useInstanceLoading();
   const prohibitedStatuses = ["Error", "Frozen", "Running"];
-
-  const isDisabled =
-    prohibitedStatuses.includes(instance?.status) ||
-    Boolean(instanceLoading.getType(instance));
 
   const handleClose = () => {
     closePortal();
     onClose?.();
+  };
+
+  const getDisabledReason = () => {
+    if (!canCreateImages()) {
+      return `You do not have permission to create images in project ${instance.project}`;
+    }
+
+    const isDisabled =
+      prohibitedStatuses.includes(instance?.status) ||
+      Boolean(instanceLoading.getType(instance));
+
+    if (isDisabled) {
+      return "Stop the instance to create an image";
+    }
+
+    return "";
   };
 
   return (
@@ -45,10 +59,8 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
         className={classNames("u-no-margin--bottom has-icon", classname)}
         onClick={openPortal}
         aria-label="Create image"
-        title={
-          isDisabled ? "Stop the instance to create an image" : "Create image"
-        }
-        disabled={isDisabled}
+        title={getDisabledReason() || "Create image"}
+        disabled={Boolean(getDisabledReason())}
       >
         <Icon name="plus" />
         <span>Create Image</span>

@@ -4,6 +4,8 @@ import { Button, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import DuplicateInstanceForm from "../forms/DuplicateInstanceForm";
 import classNames from "classnames";
+import { useProjects } from "context/useProjects";
+import { useProjectEntitlementSet } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -19,10 +21,29 @@ const DuplicateInstanceBtn: FC<Props> = ({
   onClose,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { data: projects = [] } = useProjects();
+  const { canCreateInstancesSet } = useProjectEntitlementSet(projects);
 
   const handleClose = () => {
     closePortal();
     onClose?.();
+  };
+
+  const getDisableReason = () => {
+    // when duplicating an instance, the user must always have permission to create instances in the source project
+    // LXD internally creates a new instance in the source project and then copies it to the target project
+    if (
+      !canCreateInstancesSet.size ||
+      !canCreateInstancesSet.has(instance.project)
+    ) {
+      return "You do not have permission to duplicate instances";
+    }
+
+    if (isLoading) {
+      return "Loading...";
+    }
+
+    return "";
   };
 
   return (
@@ -36,9 +57,9 @@ const DuplicateInstanceBtn: FC<Props> = ({
         appearance="default"
         aria-label="Duplicate instance"
         className={classNames("u-no-margin--bottom has-icon", classname)}
-        disabled={isLoading}
+        disabled={Boolean(getDisableReason())}
         onClick={openPortal}
-        title="Duplicate instance"
+        title={getDisableReason() || "Duplicate instance"}
       >
         <Icon name="canvas" />
         <span>Duplicate</span>

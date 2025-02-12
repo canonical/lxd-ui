@@ -5,6 +5,7 @@ import {
   ContextualMenu,
   EmptyState,
   Icon,
+  Notification,
   RadioInput,
   useNotify,
 } from "@canonical/react-components";
@@ -16,6 +17,7 @@ import { sendAltF4, sendAltTab, sendCtrlAltDel } from "lib/spice/src/inputs.js";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -26,6 +28,8 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
   const { hasCustomVolumeIso } = useSupportedFeatures();
+  const { canUpdateInstanceState, canAccessConsole } =
+    useInstanceEntitlements(instance);
 
   const isRunning = instance.status === "Running";
 
@@ -57,7 +61,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
 
   return (
     <div className="instance-console-tab">
-      {isVm && (
+      {isVm && canAccessConsole() && (
         <div className="p-panel__controls">
           <div className="console-radio-wrapper">
             <RadioInput
@@ -116,12 +120,18 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
             appearance="positive"
             loading={isLoading}
             onClick={handleStart}
+            disabled={!canUpdateInstanceState()}
+            title={
+              canUpdateInstanceState()
+                ? ""
+                : "You do not have permission to start this instance."
+            }
           >
             Start instance
           </ActionButton>
         </EmptyState>
       )}
-      {isGraphic && isRunning && (
+      {isGraphic && isRunning && canAccessConsole() && (
         <div className="spice-wrapper">
           <InstanceGraphicConsole
             instance={instance}
@@ -130,12 +140,17 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           />
         </div>
       )}
-      {!isGraphic && (
+      {!isGraphic && canAccessConsole() && (
         <InstanceTextConsole
           instance={instance}
           onFailure={onFailure}
           showNotRunningInfo={showNotRunningInfo}
         />
+      )}
+      {!canAccessConsole() && (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to access the console for this instance.
+        </Notification>
       )}
     </div>
   );

@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
@@ -47,6 +47,7 @@ import {
   getInstanceEditValues,
   getInstancePayload,
   InstanceEditSchema,
+  instanceProfilesWarning,
 } from "util/instanceEdit";
 import { slugify } from "util/slugify";
 import { useEventQueue } from "context/eventQueue";
@@ -65,6 +66,8 @@ import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
 import BootForm, { BootFormValues } from "components/forms/BootForm";
+import { useInstanceEntitlements } from "util/entitlements/instances";
+import { fetchProfiles } from "api/profiles";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -75,6 +78,7 @@ export interface InstanceEditDetailsFormValues {
   entityType: "instance";
   isCreating: boolean;
   readOnly: boolean;
+  editRestriction?: string;
 }
 
 export type EditInstanceFormValues = InstanceEditDetailsFormValues &
@@ -102,6 +106,11 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
+  const { canEditInstance } = useInstanceEntitlements(instance);
+  const { data: profiles = [] } = useQuery({
+    queryKey: [queryKeys.profiles],
+    queryFn: () => fetchProfiles(project || ""),
+  });
 
   if (!project) {
     return <>Missing project</>;
@@ -113,8 +122,12 @@ const EditInstance: FC<Props> = ({ instance }) => {
   useEffect(updateFormHeight, [section]);
   useEventListener("resize", updateFormHeight);
 
+  const editRestriction = !canEditInstance()
+    ? "You do not have permission to edit this instance"
+    : undefined;
+
   const formik = useFormik<EditInstanceFormValues>({
-    initialValues: getInstanceEditValues(instance),
+    initialValues: getInstanceEditValues(instance, editRestriction),
     validationSchema: InstanceEditSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -201,6 +214,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
         )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
+            {instanceProfilesWarning(instance.profiles, profiles)}
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
               <EditInstanceDetails formik={formik} project={project} />
             )}

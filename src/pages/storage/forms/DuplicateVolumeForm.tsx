@@ -14,7 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { duplicateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
-import { fetchProjects } from "api/projects";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -22,6 +21,7 @@ import { loadCustomVolumes } from "context/loadCustomVolumes";
 import StoragePoolSelector from "../StoragePoolSelector";
 import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
+import { useProjects } from "context/useProjects";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -42,10 +42,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   const eventQueue = useEventQueue();
   const { hasStorageVolumesAll } = useSupportedFeatures();
 
-  const { data: projects = [], isLoading: projectsLoading } = useQuery({
-    queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-  });
+  const { data: projects = [], isLoading: projectsLoading } = useProjects();
 
   const { data: volumes = [], isLoading: volumesLoading } = useQuery({
     queryKey: [queryKeys.customVolumes, volume.project],

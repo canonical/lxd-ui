@@ -3,6 +3,7 @@ import { usePortal } from "@canonical/react-components";
 import { Button, Icon } from "@canonical/react-components";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import CreateImageFromInstanceSnapshotForm from "pages/instances/forms/CreateImageFromInstanceSnapshotForm";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -18,6 +19,7 @@ const CreateImageFromInstanceSnapshotBtn: FC<Props> = ({
   isRestoring,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canCreateImages } = useProjectEntitlements();
 
   return (
     <>
@@ -34,11 +36,15 @@ const CreateImageFromInstanceSnapshotBtn: FC<Props> = ({
         appearance="base"
         hasIcon
         dense={true}
-        disabled={isDeleting || isRestoring}
+        disabled={isDeleting || isRestoring || !canCreateImages()}
         onClick={openPortal}
         type="button"
         aria-label="Create image"
-        title="Create image"
+        title={
+          canCreateImages()
+            ? "Create image"
+            : "You do not have permission to create images in this project"
+        }
       >
         <Icon name="export" />
       </Button>

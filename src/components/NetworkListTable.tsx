@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTable } from "@canonical/react-components";
+import { MainTable, Notification } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { fetchNetworks } from "api/networks";
 import { isNicDevice } from "util/devices";
@@ -34,7 +34,8 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
     .filter(isNicDevice)
     .map((network) => network.network);
 
-  const hasNetworks = networkDevices.length > 0;
+  const instanceHasNetworks = networkDevices.length > 0;
+  const userHasNetworks = networks.length > 0;
 
   const networksHeaders = [
     { content: "Name", sortKey: "name", className: "u-text--muted" },
@@ -100,20 +101,34 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
       };
     });
 
-  return (
-    <>
-      {isLoading && <Loader text="Loading networks..." />}
-      {!isLoading && hasNetworks && (
-        <MainTable
-          headers={networksHeaders}
-          rows={networksRows}
-          sortable
-          className={"network-table"}
-        />
-      )}
-      {!isLoading && !hasNetworks && <>-</>}
-    </>
-  );
+  const getContent = () => {
+    if (isLoading) {
+      return <Loader text="Loading networks..." />;
+    }
+
+    if (instanceHasNetworks && !userHasNetworks) {
+      return (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to view network details.
+        </Notification>
+      );
+    }
+
+    if (!instanceHasNetworks) {
+      return <>-</>;
+    }
+
+    return (
+      <MainTable
+        headers={networksHeaders}
+        rows={networksRows}
+        sortable
+        className={"network-table"}
+      />
+    );
+  };
+
+  return getContent();
 };
 
 export default NetworkListTable;

@@ -19,7 +19,6 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
-import { fetchProjects } from "api/projects";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
@@ -29,6 +28,8 @@ import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
+import { useProjects } from "context/useProjects";
+import { useProjectEntitlementSet } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -53,10 +54,8 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   const navigate = useNavigate();
   const eventQueue = useEventQueue();
 
-  const { data: projects = [], isLoading: projectsLoading } = useQuery({
-    queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-  });
+  const { data: projects = [], isLoading: projectsLoading } = useProjects();
+  const { canCreateInstancesSet } = useProjectEntitlementSet(projects);
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],
@@ -223,12 +222,14 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
           {...formik.getFieldProps("targetProject")}
           id="project"
           label="Target project"
-          options={projects.map((project) => {
-            return {
-              label: project.name,
-              value: project.name,
-            };
-          })}
+          options={projects
+            .filter((project) => canCreateInstancesSet.has(project.name))
+            .map((project) => {
+              return {
+                label: project.name,
+                value: project.name,
+              };
+            })}
         />
         <Input
           {...formik.getFieldProps("allowInconsistent")}

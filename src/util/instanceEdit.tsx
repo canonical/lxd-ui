@@ -15,6 +15,7 @@ import { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import { ConfigurationRowFormikProps } from "components/ConfigurationRow";
 import { bootPayload } from "components/forms/BootForm";
+import { Notification } from "@canonical/react-components";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,
@@ -70,6 +71,7 @@ const getEditValues = (
 
 export const getInstanceEditValues = (
   instance: LxdInstance,
+  editRestriction?: string,
 ): EditInstanceFormValues => {
   return {
     instanceType: instance.type,
@@ -78,6 +80,7 @@ export const getInstanceEditValues = (
     isCreating: false,
     readOnly: true,
     entityType: "instance",
+    editRestriction,
     ...getEditValues(instance),
   };
 };
@@ -134,4 +137,37 @@ export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
   if (formik.values.readOnly) {
     void formik.setFieldValue("readOnly", false);
   }
+};
+
+export const instanceProfilesWarning = (
+  instanceProfiles: string[],
+  profiles?: LxdProfile[],
+  isCreating?: boolean,
+) => {
+  const editContext = !isCreating
+    ? "This may cause inherited configuration values to be displayed incorrectly."
+    : "";
+
+  if (!profiles?.length) {
+    return (
+      <Notification severity="caution" title="Restricted permissions">
+        You do not have permission to view profiles in the current project.{" "}
+        {editContext}
+      </Notification>
+    );
+  }
+
+  const profilesSet = new Set(profiles.map((profile) => profile.name));
+  for (const instanceProfile of instanceProfiles) {
+    if (!profilesSet.has(instanceProfile)) {
+      return (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to view some profiles applied to this
+          instance. {editContext}
+        </Notification>
+      );
+    }
+  }
+
+  return null;
 };

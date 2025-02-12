@@ -5,9 +5,15 @@ interface Props {
   name: string;
   index: number;
   setName: (val: string) => void;
+  disableReason?: string;
 }
 
-const RenameDeviceInput: FC<Props> = ({ name, index, setName }) => {
+const RenameDeviceInput: FC<Props> = ({
+  name,
+  index,
+  setName,
+  disableReason,
+}) => {
   const [isEditing, setEditing] = useState(false);
 
   return (
@@ -34,6 +40,8 @@ const RenameDeviceInput: FC<Props> = ({ name, index, setName }) => {
             appearance="base"
             className="u-no-margin--bottom"
             aria-label={`Rename device`}
+            disabled={!!disableReason}
+            title={disableReason}
           >
             <Icon name="edit" />
           </Button>

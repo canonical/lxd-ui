@@ -1,8 +1,8 @@
 import { useAuth } from "context/auth";
 import { LxdInstance } from "types/instance";
-import { hasEntitlement } from "./helpers";
+import { hasEntitlement, hasEntitlementSet } from "./helpers";
 
-export const useInstanceEntitlements = (instance: LxdInstance) => {
+export const useInstanceEntitlements = (instance?: LxdInstance) => {
   const { isFineGrained } = useAuth();
 
   const canUpdateInstanceState = () =>
@@ -12,7 +12,60 @@ export const useInstanceEntitlements = (instance: LxdInstance) => {
       instance?.access_entitlements,
     );
 
+  const canEditInstance = () =>
+    hasEntitlement(isFineGrained, "can_edit", instance?.access_entitlements);
+
+  const canManageBackups = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_manage_backups",
+      instance?.access_entitlements,
+    );
+
+  const canDeleteInstance = () =>
+    hasEntitlement(isFineGrained, "can_delete", instance?.access_entitlements);
+
+  const canManageSnapshots = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_manage_snapshots",
+      instance?.access_entitlements,
+    );
+
+  const canExecInstance = () =>
+    hasEntitlement(isFineGrained, "can_exec", instance?.access_entitlements);
+
+  const canAccessConsole = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_access_console",
+      instance?.access_entitlements,
+    );
+
   return {
     canUpdateInstanceState,
+    canEditInstance,
+    canManageBackups,
+    canDeleteInstance,
+    canManageSnapshots,
+    canExecInstance,
+    canAccessConsole,
+  };
+};
+
+export const useInstanceEntitlementSet = (instances: LxdInstance[]) => {
+  const { isFineGrained } = useAuth();
+
+  return {
+    canUpdateInstanceStateSet: hasEntitlementSet(
+      isFineGrained,
+      "can_update_state",
+      instances,
+    ),
+    canDeleteInstanceStateSet: hasEntitlementSet(
+      isFineGrained,
+      "can_delete",
+      instances,
+    ),
   };
 };

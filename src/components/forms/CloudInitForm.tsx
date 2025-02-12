@@ -76,7 +76,8 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             }}
             type="button"
             appearance="base"
-            title={"Clear override"}
+            title={formik.values.editRestriction ?? "Clear override"}
+            disabled={!!formik.values.editRestriction}
             hasIcon
             className="u-no-margin--bottom"
           >
@@ -92,8 +93,9 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           className="u-no-margin--bottom"
           type="button"
           appearance="base"
-          title="Create override"
+          title={formik.values.editRestriction ?? "Create override"}
           hasIcon
+          disabled={!!formik.values.editRestriction}
         >
           <Icon name="edit" />
         </Button>

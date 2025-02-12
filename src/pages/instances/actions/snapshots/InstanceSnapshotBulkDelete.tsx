@@ -8,6 +8,7 @@ import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -29,6 +30,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
   const eventQueue = useEventQueue();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { canManageSnapshots } = useInstanceEntitlements(instance);
 
   const count = snapshotNames.length;
 
@@ -93,9 +95,13 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      disabled={isLoading}
+      disabled={isLoading || !canManageSnapshots()}
       className={classnames({ "has-icon": isLoading })}
-      onHoverText="Delete snapshots"
+      onHoverText={
+        canManageSnapshots()
+          ? "Delete snapshots"
+          : "You do not have permission to manage snapshots for this instance"
+      }
       shiftClickEnabled
       showShiftClickHint
     >
