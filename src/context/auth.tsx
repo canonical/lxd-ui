@@ -15,6 +15,7 @@ interface ContextProps {
   defaultProject: string;
   hasNoProjects: boolean;
   isFineGrained: boolean | null;
+  serverEntitlements: string[];
 }
 
 const initialState: ContextProps = {
@@ -25,6 +26,7 @@ const initialState: ContextProps = {
   defaultProject: "default",
   hasNoProjects: false,
   isFineGrained: null,
+  serverEntitlements: [],
 };
 
 export const AuthContext = createContext<ContextProps>(initialState);
@@ -79,6 +81,10 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     return false;
   };
 
+  const serverEntitlements = (currentIdentity?.effective_permissions || [])
+    .filter((permission) => permission.entity_type === "server")
+    .map((permission) => permission.entitlement);
+
   return (
     <AuthContext.Provider
       value={{
@@ -89,6 +95,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
         defaultProject,
         hasNoProjects: projects.length === 0 && !isProjectsLoading,
         isFineGrained: isFineGrained(),
+        serverEntitlements,
       }}
     >
       {children}

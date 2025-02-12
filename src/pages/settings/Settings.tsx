@@ -21,6 +21,7 @@ import { toConfigFields } from "util/config";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
@@ -33,6 +34,7 @@ const Settings: FC = () => {
     settingsError,
     hasAccessManagement,
   } = useSupportedFeatures();
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
@@ -194,7 +196,16 @@ const Settings: FC = () => {
       >
         <NotificationRow />
         <Row>
-          {!hasMetadataConfiguration && (
+          {!canEditServerConfiguration() && (
+            <Notification
+              severity="caution"
+              title="Restricted permissions"
+              titleElement="h2"
+            >
+              You do not have permission to view or edit server settings
+            </Notification>
+          )}
+          {!hasMetadataConfiguration && canEditServerConfiguration() && (
             <Notification
               severity="information"
               title="Get more server settings"
@@ -203,18 +214,20 @@ const Settings: FC = () => {
               Update to LXD v5.19.0 or later to access more server settings
             </Notification>
           )}
-          <ScrollableTable
-            dependencies={[notify.notification, rows]}
-            tableId="settings-table"
-            belowIds={["status-bar"]}
-          >
-            <MainTable
-              id="settings-table"
-              headers={headers}
-              rows={rows}
-              emptyStateMsg="No data to display"
-            />
-          </ScrollableTable>
+          {canEditServerConfiguration() && (
+            <ScrollableTable
+              dependencies={[notify.notification, rows]}
+              tableId="settings-table"
+              belowIds={["status-bar"]}
+            >
+              <MainTable
+                id="settings-table"
+                headers={headers}
+                rows={rows}
+                emptyStateMsg="No data to display"
+              />
+            </ScrollableTable>
+          )}
         </Row>
       </CustomLayout>
     </>

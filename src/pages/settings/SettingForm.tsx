@@ -10,6 +10,7 @@ import SettingFormInput from "./SettingFormInput";
 import SettingFormPassword from "./SettingFormPassword";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
+import { useServerEntitlements } from "util/entitlements/server";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -27,6 +28,7 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
+  const { canEditServerConfiguration } = useServerEntitlements();
 
   const editRef = useRef<HTMLDivElement | null>(null);
 
@@ -124,6 +126,12 @@ const SettingForm: FC<Props> = ({ configField, value, isLast }) => {
                 setEditMode(true);
               }}
               hasIcon
+              disabled={!canEditServerConfiguration()}
+              title={
+                canEditServerConfiguration()
+                  ? ""
+                  : "You do not have permission to edit server configuration"
+              }
             >
               <div className="readmode-value u-truncate">
                 {getReadModeValue()}
