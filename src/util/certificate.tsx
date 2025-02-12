@@ -21,14 +21,6 @@ export const sanitizeOrgName = (orgName: string) => {
 
 const details = [
   {
-    name: "countryName",
-    value: "AU",
-  },
-  {
-    shortName: "ST",
-    value: "Some-State",
-  },
-  {
     name: "organizationName",
     value: sanitizeOrgName(`LXD UI ${location.hostname} (Browser Generated)`),
   },
