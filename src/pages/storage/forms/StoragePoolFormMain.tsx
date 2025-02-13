@@ -4,7 +4,6 @@ import { FormikProps } from "formik";
 import {
   zfsDriver,
   dirDriver,
-  btrfsDriver,
   getSourceHelpForDriver,
   cephDriver,
   getStorageDriverOptions,
@@ -19,6 +18,7 @@ import {
   getCephPoolFormFields,
   getPowerflexPoolFormFields,
   getPureStoragePoolFormFields,
+  getZfsStoragePoolFormFields,
 } from "util/storagePool";
 import { useSettings } from "context/useSettings";
 import ScrollableForm from "components/ScrollableForm";
@@ -26,7 +26,10 @@ import { ensureEditMode } from "util/instanceEdit";
 import ClusteredSourceSelector from "./ClusteredSourceSelector";
 import { isClusteredServer } from "util/settings";
 import ClusteredDiskSizeSelector from "components/forms/ClusteredDiskSizeSelector";
-import { isStoragePoolWithSize } from "util/storagePoolForm";
+import {
+  isStoragePoolWithSize,
+  isStoragePoolWithSource,
+} from "util/storagePoolForm";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
@@ -96,12 +99,6 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             options={storageDriverOptions}
             onChange={(target) => {
               const val = target.target.value;
-              if (val === dirDriver) {
-                void formik.setFieldValue("size", "");
-              }
-              if (val === btrfsDriver) {
-                void formik.setFieldValue("source", "");
-              }
               if (val !== cephDriver) {
                 const cephFields = getCephPoolFormFields();
                 for (const field of cephFields) {
@@ -120,7 +117,21 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   void formik.setFieldValue(field, undefined);
                 }
               }
-
+              if (val !== zfsDriver) {
+                const zfsFields = getZfsStoragePoolFormFields();
+                for (const field of zfsFields) {
+                  void formik.setFieldValue(field, undefined);
+                }
+                void formik.setFieldValue("zfsPoolNamePerClusterMember", "");
+              }
+              if (!isStoragePoolWithSize(val)) {
+                void formik.setFieldValue("size", undefined);
+                void formik.setFieldValue("sizePerClusterMember", undefined);
+              }
+              if (!isStoragePoolWithSource(val)) {
+                void formik.setFieldValue("source", undefined);
+                void formik.setFieldValue("sourcePerClusterMember", undefined);
+              }
               void formik.setFieldValue("driver", val);
             }}
             value={formik.values.driver}

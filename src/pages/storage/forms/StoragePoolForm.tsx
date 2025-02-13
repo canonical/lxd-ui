@@ -72,7 +72,6 @@ export interface StoragePoolFormValues {
   powerflex_sdt?: string;
   powerflex_user_name?: string;
   powerflex_user_password?: string;
-  sizePerClusterMember?: ClusterSpecificValues;
   pure_api_token?: string;
   pure_gateway?: string;
   pure_gateway_verify?: string;
@@ -80,6 +79,7 @@ export interface StoragePoolFormValues {
   pure_target?: string;
   readOnly: boolean;
   size?: string;
+  sizePerClusterMember?: ClusterSpecificValues;
   source: string;
   sourcePerClusterMember?: ClusterSpecificValues;
   yaml?: string;

@@ -63,6 +63,12 @@ export const getPureStoragePoolFormFields = () => {
   );
 };
 
+export const getZfsStoragePoolFormFields = () => {
+  return Object.keys(storagePoolFormFieldToPayloadName).filter((item) =>
+    item.startsWith("zfs_"),
+  );
+};
+
 const storagePoolDriverToOptionKey: Record<string, LxdConfigOptionsKeys> = {
   dir: "storage-dir",
   btrfs: "storage-btrfs",

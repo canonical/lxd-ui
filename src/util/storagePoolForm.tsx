@@ -4,11 +4,30 @@ import type {
 } from "types/storage";
 import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
-import { zfsDriver, btrfsDriver, lvmDriver } from "util/storageOptions";
+import {
+  zfsDriver,
+  btrfsDriver,
+  lvmDriver,
+  dirDriver,
+  cephDriver,
+  cephFSDriver,
+} from "util/storageOptions";
 
 export const isStoragePoolWithSize = (driver: string) => {
   const driversWithSize = [zfsDriver, lvmDriver, btrfsDriver];
   return driversWithSize.includes(driver);
+};
+
+export const isStoragePoolWithSource = (driver: string) => {
+  const driversWithSource = [
+    dirDriver,
+    btrfsDriver,
+    lvmDriver,
+    zfsDriver,
+    cephDriver,
+    cephFSDriver,
+  ];
+  return driversWithSource.includes(driver);
 };
 
 export const toStoragePoolFormValues = (
