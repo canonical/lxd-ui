@@ -1,26 +1,16 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchMetrics } from "api/metrics";
 import { humanFileSize } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import type { LxdInstance } from "types/instance";
-import { useAuth } from "context/auth";
+import { useMetrics } from "context/useMetrics";
 
 interface Props {
   instance: LxdInstance;
 }
 
 const InstanceUsageDisk: FC<Props> = ({ instance }) => {
-  const { isRestricted } = useAuth();
-
-  const { data: metrics = [] } = useQuery({
-    queryKey: [queryKeys.metrics],
-    queryFn: fetchMetrics,
-    refetchInterval: 15 * 1000, // 15 seconds
-    enabled: !isRestricted,
-  });
+  const { data: metrics = [] } = useMetrics(instance.location);
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);
 

@@ -1,13 +1,11 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchMetrics } from "api/metrics";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { useAuth } from "context/auth";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageDisk from "pages/instances/InstanceDisk";
+import { useMetrics } from "context/useMetrics";
 
 interface Props {
   instance: LxdInstance;
@@ -21,12 +19,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
     data: metrics = [],
     error,
     isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.metrics],
-    queryFn: fetchMetrics,
-    refetchInterval: 15 * 1000, // 15 seconds
-    enabled: !isRestricted,
-  });
+  } = useMetrics(instance.location);
 
   if (error) {
     onFailure("Loading metrics failed", error);
