@@ -18,7 +18,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
-import { fetchProjects } from "api/projects";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
@@ -26,6 +25,7 @@ import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
 import { useInstances } from "context/useInstances";
+import { useProjects } from "context/useProjects";
 
 interface Props {
   instance: LxdInstance;
@@ -91,10 +91,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
   const controllerState = useState<AbortController | null>(null);
   const eventQueue = useEventQueue();
 
-  const { data: projects = [], isLoading: projectsLoading } = useQuery({
-    queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-  });
+  const { data: projects = [], isLoading: projectsLoading } = useProjects();
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],

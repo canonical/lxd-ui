@@ -72,7 +72,7 @@ const CustomIsoList: FC = () => {
         items={[
           <CreateInstanceFromImageBtn
             key="launch"
-            project={project}
+            projectName={project}
             image={image}
           />,
           <DeleteStorageVolumeBtn

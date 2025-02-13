@@ -2,7 +2,6 @@ import { createContext, FC, ReactNode, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchCertificates } from "api/certificates";
-import { useSettings } from "context/useSettings";
 import { fetchProjects } from "api/projects";
 import { fetchCurrentIdentity } from "api/auth-identities";
 import { useSupportedFeatures } from "./useSupportedFeatures";
@@ -36,15 +35,29 @@ interface ProviderProps {
 }
 
 export const AuthProvider: FC<ProviderProps> = ({ children }) => {
-  const { data: settings, isLoading } = useSettings();
-
-  const { hasEntitiesWithEntitlements, isSettingsLoading } =
+  const { hasEntitiesWithEntitlements, isSettingsLoading, settings } =
     useSupportedFeatures();
+
+  const { data: currentIdentity, isLoading: isIdentityLoading } = useQuery({
+    queryKey: [queryKeys.currentIdentity],
+    queryFn: fetchCurrentIdentity,
+    retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
+  });
+
+  const isFineGrained = () => {
+    if (isSettingsLoading) {
+      return null;
+    }
+    if (hasEntitiesWithEntitlements) {
+      return currentIdentity?.fine_grained ?? null;
+    }
+    return false;
+  };
 
   const { data: projects = [], isLoading: isProjectsLoading } = useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-    enabled: settings?.auth === "trusted",
+    queryFn: () => fetchProjects(isFineGrained()),
+    enabled: settings?.auth === "trusted" && isFineGrained() !== null,
   });
 
   const defaultProject =
@@ -60,26 +73,11 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     enabled: isTls,
   });
 
-  const { data: currentIdentity } = useQuery({
-    queryKey: [queryKeys.currentIdentity],
-    queryFn: fetchCurrentIdentity,
-    retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
-  });
-
   const fingerprint = isTls ? settings.auth_user_name : undefined;
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
   );
   const isRestricted = certificate?.restricted ?? defaultProject !== "default";
-  const isFineGrained = () => {
-    if (isSettingsLoading) {
-      return null;
-    }
-    if (hasEntitiesWithEntitlements) {
-      return currentIdentity?.fine_grained ?? null;
-    }
-    return false;
-  };
 
   const serverEntitlements = (currentIdentity?.effective_permissions || [])
     .filter((permission) => permission.entity_type === "server")
@@ -90,7 +88,8 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
       value={{
         isAuthenticated: (settings && settings.auth !== "untrusted") ?? false,
         isOidc: settings?.auth_user_method === "oidc",
-        isAuthLoading: isLoading,
+        isAuthLoading:
+          isSettingsLoading || isIdentityLoading || isProjectsLoading,
         isRestricted,
         defaultProject,
         hasNoProjects: projects.length === 0 && !isProjectsLoading,

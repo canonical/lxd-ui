@@ -5,12 +5,10 @@ import {
   Icon,
   SearchBox,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchProjects } from "api/projects";
 import { useNavigate } from "react-router-dom";
 import ProjectSelectorList from "pages/projects/ProjectSelectorList";
 import { defaultFirst } from "util/helpers";
+import { useProjects } from "context/useProjects";
 
 interface Props {
   activeProject: string;
@@ -20,10 +18,7 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
   const navigate = useNavigate();
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const { data: projects = [] } = useQuery({
-    queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-  });
+  const { data: projects = [] } = useProjects();
 
   projects.sort(defaultFirst);
 

@@ -2,17 +2,21 @@ import { FC } from "react";
 import type { RemoteImage } from "types/image";
 import { Button, Icon } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   image: RemoteImage;
-  project: string;
+  projectName: string;
 }
 
-const CreateInstanceFromImageBtn: FC<Props> = ({ image, project }) => {
+const CreateInstanceFromImageBtn: FC<Props> = ({ image, projectName }) => {
   const navigate = useNavigate();
+  const { canCreateInstances } = useProjectEntitlements();
+  const { data: project } = useProject(projectName);
 
   const openLaunchFlow = () => {
-    void navigate(`/ui/project/${project}/instances/create`, {
+    void navigate(`/ui/project/${projectName}/instances/create`, {
       state: {
         selectedImage: image,
         cancelLocation: window.location.pathname,
@@ -25,8 +29,13 @@ const CreateInstanceFromImageBtn: FC<Props> = ({ image, project }) => {
       appearance="base"
       onClick={openLaunchFlow}
       type="button"
-      title="Create instance"
+      title={
+        canCreateInstances(project)
+          ? "Create instance"
+          : "You do not have permission to create instances"
+      }
       hasIcon
+      disabled={!canCreateInstances(project)}
     >
       <Icon name="play" />
     </Button>

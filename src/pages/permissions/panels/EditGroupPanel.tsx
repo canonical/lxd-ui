@@ -38,8 +38,8 @@ import { useSettings } from "context/useSettings";
 import { pluralize } from "util/instanceBulkActions";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
-import { fetchImageList } from "api/images";
 import ResourceLink from "components/ResourceLink";
+import { useImagesInAllProjects } from "context/useImages";
 
 interface Props {
   group: LxdGroup;
@@ -90,10 +90,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     data: images = [],
     isLoading: imageLoading,
     isError: imageError,
-  } = useQuery({
-    queryKey: [queryKeys.images],
-    queryFn: () => fetchImageList(),
-  });
+  } = useImagesInAllProjects();
   useEffect(() => {
     if (
       !lxdIdentityLoading &&

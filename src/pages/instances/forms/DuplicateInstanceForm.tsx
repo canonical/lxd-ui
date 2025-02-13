@@ -19,7 +19,6 @@ import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
-import { fetchProjects } from "api/projects";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
@@ -29,6 +28,7 @@ import InstanceLinkChip from "../InstanceLinkChip";
 import { InstanceIconType } from "components/ResourceIcon";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
+import { useProjects } from "context/useProjects";
 
 interface Props {
   instance: LxdInstance;
@@ -53,10 +53,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   const navigate = useNavigate();
   const eventQueue = useEventQueue();
 
-  const { data: projects = [], isLoading: projectsLoading } = useQuery({
-    queryKey: [queryKeys.projects],
-    queryFn: fetchProjects,
-  });
+  const { data: projects = [], isLoading: projectsLoading } = useProjects();
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],

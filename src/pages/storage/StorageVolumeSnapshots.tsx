@@ -12,7 +12,7 @@ import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import Loader from "components/Loader";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { useDocs } from "context/useDocs";
@@ -38,7 +38,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
   const notify = useNotify();
-  const { project, isLoading: isProjectLoading } = useProject();
+  const { project, isLoading: isProjectLoading } = useCurrentProject();
 
   const {
     data: volumeSnapshots,

@@ -14,7 +14,7 @@ import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
 import Loader from "components/Loader";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { useDocs } from "context/useDocs";
@@ -51,7 +51,7 @@ const InstanceSnapshots = (props: Props) => {
     notify.failure(title, e, message);
   };
 
-  const { project, isLoading } = useProject();
+  const { project, isLoading } = useCurrentProject();
 
   const snapshotsDisabled = isSnapshotsDisabled(project);
 

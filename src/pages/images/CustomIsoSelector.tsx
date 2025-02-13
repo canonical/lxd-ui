@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { loadIsoVolumes } from "context/loadIsoVolumes";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdImageType, RemoteImage } from "types/image";
 import type { IsoImage } from "types/iso";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -23,7 +23,7 @@ const CustomIsoSelector: FC<Props> = ({
   onUpload,
   onCancel,
 }) => {
-  const { project } = useProject();
+  const { project } = useCurrentProject();
   const projectName = project?.name ?? "";
   const { hasStorageVolumesAll } = useSupportedFeatures();
 

@@ -11,13 +11,29 @@ import { EventQueue } from "context/eventQueue";
 import type { LxdInstance } from "types/instance";
 import type { UploadState } from "types/storage";
 import axios, { AxiosResponse } from "axios";
+import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const fetchImageList = (project?: string): Promise<LxdImage[]> => {
-  const url =
-    "/1.0/images?recursion=1" +
-    (project ? `&project=${project}` : "&all-projects=1");
+const imageEntitlements = ["can_delete"];
+
+export const fetchImagesInProject = (
+  project: string,
+  isFineGrained: boolean | null,
+): Promise<LxdImage[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(url)
+    fetch(`/1.0/images?recursion=1&project=${project}${entitlements}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchImagesInAllProjects = (
+  isFineGrained: boolean | null,
+): Promise<LxdImage[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/images?recursion=1&all-projects=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
       .catch(reject);

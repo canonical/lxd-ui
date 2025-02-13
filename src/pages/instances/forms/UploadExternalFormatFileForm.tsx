@@ -7,7 +7,7 @@ import {
   Select,
   useNotify,
 } from "@canonical/react-components";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { ChangeEvent, FC, useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
@@ -54,7 +54,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   setFileType,
   defaultInstanceName,
 }) => {
-  const { project, isLoading } = useProject();
+  const { project, isLoading } = useCurrentProject();
   const instanceNameAbort = useState<AbortController | null>(null);
   const [socket, setSocket] = useState<WebSocket>();
   const [operationId, setOperationId] = useState("");
