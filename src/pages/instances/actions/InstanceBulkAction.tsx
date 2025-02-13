@@ -108,15 +108,27 @@ const InstanceBulkAction: FC<Props> = ({
     }
   };
 
+  const allRestricted = restrictedInstances.length === instances.length;
   const getRestrictedInstances = () => {
     if (restrictedInstances.length === 0) {
       return null;
     }
 
+    if (allRestricted) {
+      return (
+        <Fragment key="restricted">
+          - You do not have permission to {confirmLabel.toLowerCase()} the
+          selected {pluralize("instance", instances.length)}.
+          <br />
+        </Fragment>
+      );
+    }
+
     return (
       <Fragment key="restricted">
-        - No action for <b>{restrictedInstances.length}</b> restricted
-        instances.
+        - No action for <b>{restrictedInstances.length}</b>{" "}
+        {pluralize("instance", restrictedInstances.length)} that you do not have
+        permission to {confirmLabel.toLowerCase()}.
         <br />
       </Fragment>
     );
@@ -141,6 +153,7 @@ const InstanceBulkAction: FC<Props> = ({
         onConfirm: onClick,
         confirmButtonLabel: confirmLabel,
         confirmButtonAppearance: confirmAppearance,
+        confirmButtonDisabled: allRestricted,
       }}
       shiftClickEnabled
       showShiftClickHint

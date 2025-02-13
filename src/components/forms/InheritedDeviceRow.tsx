@@ -83,46 +83,47 @@ export const getInheritedDeviceRow = ({
         )}
       </div>
     ),
-    override:
-      readOnly || disabledReason ? (
-        overrideValue ? (
-          <div className="mono-font">
-            <b>{overrideValue}</b>
-          </div>
-        ) : (
-          ""
-        )
-      ) : overrideValue ? (
-        <div className="override-form">
-          <div>{overrideForm}</div>
-          {clearOverride && (
-            <div>
-              <Button
-                onClick={clearOverride}
-                type="button"
-                appearance="base"
-                title="Clear override"
-                hasIcon
-                className="u-no-margin--bottom"
-              >
-                <Icon name="close" className="clear-configuration-icon" />
-              </Button>
-            </div>
-          )}
+    override: readOnly ? (
+      overrideValue ? (
+        <div className="mono-font">
+          <b>{overrideValue}</b>
         </div>
       ) : (
-        addOverride && (
-          <Button
-            onClick={addOverride}
-            type="button"
-            appearance="base"
-            title="Create override"
-            className="u-no-margin--bottom"
-            hasIcon
-          >
-            <Icon name="edit" />
-          </Button>
-        )
-      ),
+        ""
+      )
+    ) : overrideValue ? (
+      <div className="override-form">
+        <div>{overrideForm}</div>
+        {clearOverride && (
+          <div>
+            <Button
+              onClick={clearOverride}
+              type="button"
+              appearance="base"
+              title={disabledReason ?? "Clear override"}
+              hasIcon
+              className="u-no-margin--bottom"
+              disabled={!!disabledReason}
+            >
+              <Icon name="close" className="clear-configuration-icon" />
+            </Button>
+          </div>
+        )}
+      </div>
+    ) : (
+      addOverride && (
+        <Button
+          onClick={addOverride}
+          type="button"
+          appearance="base"
+          title={disabledReason ?? "Create override"}
+          className="u-no-margin--bottom"
+          hasIcon
+          disabled={!!disabledReason}
+        >
+          <Icon name="edit" />
+        </Button>
+      )
+    ),
   });
 };

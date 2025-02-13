@@ -107,7 +107,7 @@ const ProfileSelector: FC<Props> = ({
                 })}
               value={value}
               disabled={readOnly || !!disabledReason}
-              title={disabledReason || title}
+              title={disabledReason ?? title}
             />
           </div>
 

@@ -43,12 +43,12 @@ export const useInstanceEntitlements = () => {
     );
 
   return {
-    canUpdateInstanceState,
-    canEditInstance,
-    canManageInstanceBackups,
-    canDeleteInstance,
-    canManageInstanceSnapshots,
-    canExecInstance,
     canAccessInstanceConsole,
+    canDeleteInstance,
+    canEditInstance,
+    canExecInstance,
+    canManageInstanceBackups,
+    canManageInstanceSnapshots,
+    canUpdateInstanceState,
   };
 };

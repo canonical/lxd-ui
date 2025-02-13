@@ -216,7 +216,7 @@ or remove the originating item"
                         }}
                         type="button"
                         appearance="base"
-                        title={formik.values.editRestriction || "Edit network"}
+                        title={formik.values.editRestriction ?? "Edit network"}
                         className="u-no-margin--top"
                         hasIcon
                         dense
@@ -235,7 +235,7 @@ or remove the originating item"
                       appearance="base"
                       hasIcon
                       dense
-                      title={formik.values.editRestriction || "Detach network"}
+                      title={formik.values.editRestriction ?? "Detach network"}
                       disabled={!!formik.values.editRestriction}
                     >
                       <Icon name="disconnect" />
@@ -258,13 +258,8 @@ or remove the originating item"
               }}
               type="button"
               hasIcon
-              disabled={
-                !!formik.values.editRestriction || !managedNetworks.length
-              }
-              title={
-                formik.values.editRestriction ??
-                (!managedNetworks.length ? "No networks available" : "")
-              }
+              disabled={!!formik.values.editRestriction}
+              title={formik.values.editRestriction}
             >
               <Icon name="plus" />
               <span>Attach network</span>

@@ -6,7 +6,7 @@ import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { fetchProfiles } from "api/profiles";
 import ResourceLink from "components/ResourceLink";
-import { instanceProfilesWarning } from "util/instanceEdit";
+import InstanceProfilesWarning from "./InstanceProfilesWarning";
 
 interface Props {
   instance: LxdInstance;
@@ -78,7 +78,12 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     }
 
     if (!profiles.length) {
-      return instanceProfilesWarning(instance.profiles, profiles);
+      return (
+        <InstanceProfilesWarning
+          instanceProfiles={instance.profiles}
+          profiles={profiles}
+        />
+      );
     }
 
     return <MainTable headers={profileHeaders} rows={profileRows} sortable />;

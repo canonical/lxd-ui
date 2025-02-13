@@ -11,6 +11,7 @@ export interface ProfileDetailsFormValues {
   description?: string;
   entityType: "profile";
   readOnly: boolean;
+  editRestriction?: string;
 }
 
 export const profileDetailPayload = (values: CreateProfileFormValues) => {

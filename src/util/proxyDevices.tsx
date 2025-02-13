@@ -68,7 +68,7 @@ export const getProxyAddress = (
             (connectionType === "connect" && device.nat === "true")
           }
           title={
-            formik.values.editRestriction ||
+            formik.values.editRestriction ??
             (device.nat
               ? "This is determined by the listen type when nat mode is enabled"
               : undefined)

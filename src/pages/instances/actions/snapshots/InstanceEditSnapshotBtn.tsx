@@ -43,7 +43,7 @@ const InstanceEditSnapshotBtn: FC<Props> = ({
         onClick={openPortal}
         type="button"
         aria-label="Edit snapshot"
-        title={disabledReason || "Edit"}
+        title={disabledReason ?? "Edit"}
       >
         <Icon name="edit" />
       </Button>

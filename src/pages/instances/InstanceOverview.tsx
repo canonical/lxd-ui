@@ -44,21 +44,22 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
     const imageFound = images?.some(
       (image) => image.properties?.description === imageDescription,
     );
-    if (imageDescription) {
-      if (imageFound) {
-        return (
-          <ResourceLink
-            type="image"
-            value={imageDescription}
-            to={`/ui/project/${instance.project}/images`}
-          />
-        );
-      }
 
+    if (!imageDescription) {
+      return "-";
+    }
+
+    if (!imageFound) {
       return <ResourceLabel type="image" value={imageDescription} />;
     }
 
-    return "-";
+    return (
+      <ResourceLink
+        type="image"
+        value={imageDescription}
+        to={`/ui/project/${instance.project}/images`}
+      />
+    );
   };
 
   return (

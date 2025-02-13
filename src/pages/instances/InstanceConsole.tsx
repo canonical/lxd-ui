@@ -59,9 +59,17 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
 
   const { handleStart, isLoading } = useInstanceStart(instance);
 
+  if (!canAccessInstanceConsole(instance)) {
+    return (
+      <Notification severity="caution" title="Restricted permissions">
+        You do not have permission to access the console for this instance.
+      </Notification>
+    );
+  }
+
   return (
     <div className="instance-console-tab">
-      {isVm && canAccessInstanceConsole(instance) && (
+      {isVm && (
         <div className="p-panel__controls">
           <div className="console-radio-wrapper">
             <RadioInput
@@ -131,7 +139,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           </ActionButton>
         </EmptyState>
       )}
-      {isGraphic && isRunning && canAccessInstanceConsole(instance) && (
+      {isGraphic && isRunning && (
         <div className="spice-wrapper">
           <InstanceGraphicConsole
             instance={instance}
@@ -140,17 +148,12 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           />
         </div>
       )}
-      {!isGraphic && canAccessInstanceConsole(instance) && (
+      {!isGraphic && (
         <InstanceTextConsole
           instance={instance}
           onFailure={onFailure}
           showNotRunningInfo={showNotRunningInfo}
         />
-      )}
-      {!canAccessInstanceConsole(instance) && (
-        <Notification severity="caution" title="Restricted permissions">
-          You do not have permission to access the console for this instance.
-        </Notification>
       )}
     </div>
   );

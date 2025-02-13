@@ -142,7 +142,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction || "Detach device"}
+            title={formik.values.editRestriction ?? "Detach device"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
@@ -207,7 +207,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction || "Detach GPU"}
+            title={formik.values.editRestriction ?? "Detach GPU"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />

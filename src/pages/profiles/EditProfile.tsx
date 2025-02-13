@@ -79,9 +79,7 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
-  YamlFormValues & {
-    editRestriction?: string;
-  };
+  YamlFormValues;
 
 interface Props {
   profile: LxdProfile;

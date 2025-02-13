@@ -203,7 +203,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
             title={
               canCreateStorageVolumes(currentProject)
                 ? ""
-                : "You do not have permission to create storage volumes for this project"
+                : "You do not have permission to create storage volumes in this project"
             }
           >
             Create volume

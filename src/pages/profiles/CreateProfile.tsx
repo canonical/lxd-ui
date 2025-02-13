@@ -86,9 +86,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
-  YamlFormValues & {
-    editRestriction?: string;
-  };
+  YamlFormValues;
 
 const CreateProfile: FC = () => {
   const docBaseLink = useDocs();

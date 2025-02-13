@@ -141,7 +141,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   force={[restoreState, setRestoreState]}
                 />
               ) : undefined,
-              confirmButtonLabel: disabledReason || "Restore snapshot",
+              confirmButtonLabel: disabledReason ?? "Restore snapshot",
               confirmButtonAppearance: "positive",
               close: () => setRestoreState(true),
               onConfirm: handleRestore,
@@ -180,7 +180,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: disabledReason || "Delete snapshot",
+              confirmButtonLabel: disabledReason ?? "Delete snapshot",
               onConfirm: handleDelete,
             }}
             disabled={isDeleting || isRestoring || !!disabledReason}
