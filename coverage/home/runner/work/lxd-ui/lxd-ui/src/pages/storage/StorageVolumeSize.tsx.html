@@ -37,9 +37,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/10</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
@@ -126,41 +126,41 @@
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
 <span class="cline-any cline-yes">104x</span>
 <span class="cline-any cline-yes">104x</span>
 <span class="cline-any cline-yes">104x</span>
 <span class="cline-any cline-yes">104x</span>
 <span class="cline-any cline-yes">104x</span>
 <span class="cline-any cline-yes">104x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
-<span class="cline-any cline-yes">183x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
+<span class="cline-any cline-yes">180x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
@@ -169,7 +169,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdStorageVolume } from "types/storage";
 import { humanFileSize } from "util/helpers";
-import { fetchImageList } from "api/images";
+import { useImagesInProject } from "context/useImages";
 &nbsp;
 interface Props {
   volume: LxdStorageVolume;
@@ -194,11 +194,11 @@ const StorageVolumeSize: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
     enabled: volume.type !== "image",
   });
 &nbsp;
-  const { data: images = [] } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.images, volume.project],
-    queryFn: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchImageList(volume.project),</span></span>
-    enabled: volume.type === "image",
-  });
+  const imageQueryEnabled = <span class="cstat-no" title="statement not covered" >volume.type === "image";</span>
+  const { data: images = [] } = <span class="cstat-no" title="statement not covered" >useImagesInProject(</span>
+    volume.project,
+    imageQueryEnabled,
+  );
 &nbsp;
   const getUsed = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (volume.type === "image") <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
@@ -220,7 +220,7 @@ export default StorageVolumeSize;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-12T22:08:30.075Z
+                at 2025-02-13T09:50:56.630Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
