@@ -15,9 +15,7 @@ import NetworkListTable from "components/NetworkListTable";
 import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
-import { useQuery } from "@tanstack/react-query";
-import { fetchImageList } from "api/images";
-import { queryKeys } from "util/queryKeys";
+import { useImagesInProject } from "context/useImages";
 
 interface Props {
   instance: LxdInstance;
@@ -26,10 +24,7 @@ interface Props {
 const InstanceOverview: FC<Props> = ({ instance }) => {
   const notify = useNotify();
   const { data: settings } = useSettings();
-  const { data: images = [] } = useQuery({
-    queryKey: [queryKeys.images, instance.project],
-    queryFn: () => fetchImageList(instance.project),
-  });
+  const { data: images = [] } = useImagesInProject(instance.project);
 
   const onFailure = (title: string, e: unknown) => {
     notify.failure(title, e);

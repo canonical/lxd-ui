@@ -17,6 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import InstanceLinkChip from "../InstanceLinkChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   instance: LxdInstance;
@@ -28,6 +29,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const instanceLink = <InstanceLinkChip instance={instance} />;
+  const { data: project } = useProject(instance.project);
   const { canCreateImageAliases } = useProjectEntitlements();
 
   const notifySuccess = () => {
@@ -64,7 +66,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
 
   const formik = useFormik<{ alias: string; isPublic: boolean }>({
     initialValues: {
-      alias: canCreateImageAliases() ? `from-instance-${instance.name}` : "",
+      alias: canCreateImageAliases(project)
+        ? `from-instance-${instance.name}`
+        : "",
       isPublic: false,
     },
     validationSchema: Yup.object().shape({
@@ -82,7 +86,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           eventQueue.set(
             operation.metadata.id,
             (event) => {
-              if (alias && canCreateImageAliases()) {
+              if (alias && canCreateImageAliases(project)) {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 void createImageAlias(fingerprint, alias, instance.project)
                   .then(clearCache)
@@ -151,9 +155,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           type="text"
           label="Alias"
           error={formik.touched.alias ? formik.errors.alias : null}
-          disabled={!canCreateImageAliases()}
+          disabled={!canCreateImageAliases(project)}
           title={
-            canCreateImageAliases()
+            canCreateImageAliases(project)
               ? ""
               : `You do not have permission to create image aliases in project ${instance.project}`
           }

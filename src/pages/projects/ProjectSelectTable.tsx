@@ -3,7 +3,7 @@ import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import classnames from "classnames";
 import { useProjects } from "context/useProjects";
-import { useProjectEntitlementSet } from "util/entitlements/projects";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   onSelect: (project: string) => void;
@@ -15,7 +15,7 @@ interface Props {
 
 const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
   const { data: projects = [] } = useProjects();
-  const { canCreateInstancesSet } = useProjectEntitlementSet(projects);
+  const { canCreateInstances } = useProjectEntitlements();
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -24,7 +24,7 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
 
   const rows = projects.map((project) => {
     const getDisableReason = () => {
-      if (!canCreateInstancesSet.has(project.name)) {
+      if (!canCreateInstances(project)) {
         return "You do not have permission to create instances in this project";
       }
 

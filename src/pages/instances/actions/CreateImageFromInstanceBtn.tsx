@@ -6,6 +6,7 @@ import CreateImageFromInstanceForm from "../forms/CreateImageFromInstanceForm";
 import { useInstanceLoading } from "context/instanceLoading";
 import classNames from "classnames";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   instance: LxdInstance;
@@ -19,6 +20,7 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
   onClose,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { data: project } = useProject(instance.project);
   const { canCreateImages } = useProjectEntitlements();
   const instanceLoading = useInstanceLoading();
   const prohibitedStatuses = ["Error", "Frozen", "Running"];
@@ -29,7 +31,7 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
   };
 
   const getDisabledReason = () => {
-    if (!canCreateImages()) {
+    if (!canCreateImages(project)) {
       return `You do not have permission to create images in project ${instance.project}`;
     }
 

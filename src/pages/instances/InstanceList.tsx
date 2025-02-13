@@ -66,7 +66,7 @@ import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageDisk from "pages/instances/InstanceDisk";
 import { useInstances } from "context/useInstances";
 import { useProjectEntitlements } from "util/entitlements/projects";
-import { useProject } from "context/project";
+import { useCurrentProject } from "context/useCurrentProject";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -85,13 +85,13 @@ const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { project } = useProject();
+  const { project } = useCurrentProject();
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
   const [searchParams] = useSearchParams();
   const { data: settings } = useSettings();
   const isClustered = isClusteredServer(settings);
-  const { canCreateInstances } = useProjectEntitlements(project);
+  const { canCreateInstances } = useProjectEntitlements();
 
   const filters: InstanceFilters = {
     queries: searchParams.getAll("query"),
@@ -563,7 +563,7 @@ const InstanceList: FC = () => {
     instances.filter((item) => !creationNames.includes(item.name)).length +
     creationOperations.length;
 
-  const createInstanceRestriction = canCreateInstances()
+  const createInstanceRestriction = canCreateInstances(project)
     ? ""
     : `You do not have permission to create instances in project ${project.name}`;
 
@@ -619,7 +619,7 @@ const InstanceList: FC = () => {
                     )
                   }
                   hasIcon={!isSmallScreen}
-                  disabled={!canCreateInstances()}
+                  disabled={!canCreateInstances(project)}
                   title={createInstanceRestriction}
                 >
                   {!isSmallScreen && <Icon name="plus" light />}
@@ -748,7 +748,7 @@ const InstanceList: FC = () => {
                       `/ui/project/${project.name}/instances/create`,
                     )
                   }
-                  disabled={!canCreateInstances()}
+                  disabled={!canCreateInstances(project)}
                   title={createInstanceRestriction}
                 >
                   Create instance

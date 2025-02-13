@@ -17,6 +17,7 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   instance: LxdInstance;
@@ -35,6 +36,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
   const snapshotLink = (
     <InstanceSnapshotLinkChip name={snapshot.name} instance={instance} />
   );
+  const { data: project } = useProject(instance.project);
   const { canCreateImageAliases } = useProjectEntitlements();
 
   const notifySuccess = () => {
@@ -162,9 +164,9 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
           type="text"
           label="Alias"
           error={formik.touched.alias ? formik.errors.alias : null}
-          disabled={!canCreateImageAliases()}
+          disabled={!canCreateImageAliases(project)}
           title={
-            canCreateImageAliases()
+            canCreateImageAliases(project)
               ? ""
               : "You do not have permission to create image aliases in this project"
           }
