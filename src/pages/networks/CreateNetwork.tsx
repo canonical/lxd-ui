@@ -63,13 +63,6 @@ const CreateNetwork: FC = () => {
         checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
-    network: Yup.string().test(
-      "required",
-      "Uplink network is required",
-      (value, context) =>
-        (context.parent as NetworkFormValues).networkType !== "ovn" ||
-        Boolean(value),
-    ),
   });
 
   const formik = useFormik<NetworkFormValues>({
