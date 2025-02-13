@@ -114,11 +114,8 @@ export const createClusteredPool = (
           config: {
             ...memberPoolPayload.config,
             source: sourcePerClusterMember?.[item.server_name],
-
             size: sizePerClusterMember?.[item.server_name],
-            ...(zfsPoolNamePerClusterMember?.[item.server_name] && {
-              "zfs.pool_name": zfsPoolNamePerClusterMember[item.server_name],
-            }),
+            "zfs.pool_name": zfsPoolNamePerClusterMember?.[item.server_name],
           },
         };
         return createPool(clusteredMemberPool, item.server_name);
