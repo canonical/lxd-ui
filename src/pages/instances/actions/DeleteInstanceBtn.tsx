@@ -28,7 +28,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const instanceLoading = useInstanceLoading();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { canDeleteInstance } = useInstanceEntitlements(instance);
+  const { canDeleteInstance } = useInstanceEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -75,9 +75,9 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
     isLoading ||
     !isDeletableStatus ||
     instanceLoading.getType(instance) === "Migrating" ||
-    !canDeleteInstance();
+    !canDeleteInstance(instance);
   const getHoverText = () => {
-    if (!canDeleteInstance()) {
+    if (!canDeleteInstance(instance)) {
       return "You do not have permission to delete this instance";
     }
     if (!isDeletableStatus) {

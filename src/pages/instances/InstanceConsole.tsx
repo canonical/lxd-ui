@@ -28,8 +28,8 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
   const { hasCustomVolumeIso } = useSupportedFeatures();
-  const { canUpdateInstanceState, canAccessConsole } =
-    useInstanceEntitlements(instance);
+  const { canUpdateInstanceState, canAccessInstanceConsole } =
+    useInstanceEntitlements();
 
   const isRunning = instance.status === "Running";
 
@@ -61,7 +61,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
 
   return (
     <div className="instance-console-tab">
-      {isVm && canAccessConsole() && (
+      {isVm && canAccessInstanceConsole(instance) && (
         <div className="p-panel__controls">
           <div className="console-radio-wrapper">
             <RadioInput
@@ -120,9 +120,9 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
             appearance="positive"
             loading={isLoading}
             onClick={handleStart}
-            disabled={!canUpdateInstanceState()}
+            disabled={!canUpdateInstanceState(instance)}
             title={
-              canUpdateInstanceState()
+              canUpdateInstanceState(instance)
                 ? ""
                 : "You do not have permission to start this instance."
             }
@@ -131,7 +131,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           </ActionButton>
         </EmptyState>
       )}
-      {isGraphic && isRunning && canAccessConsole() && (
+      {isGraphic && isRunning && canAccessInstanceConsole(instance) && (
         <div className="spice-wrapper">
           <InstanceGraphicConsole
             instance={instance}
@@ -140,14 +140,14 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
           />
         </div>
       )}
-      {!isGraphic && canAccessConsole() && (
+      {!isGraphic && canAccessInstanceConsole(instance) && (
         <InstanceTextConsole
           instance={instance}
           onFailure={onFailure}
           showNotRunningInfo={showNotRunningInfo}
         />
       )}
-      {!canAccessConsole() && (
+      {!canAccessInstanceConsole(instance) && (
         <Notification severity="caution" title="Restricted permissions">
           You do not have permission to access the console for this instance.
         </Notification>

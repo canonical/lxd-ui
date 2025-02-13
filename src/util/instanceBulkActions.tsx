@@ -43,21 +43,18 @@ export const instanceAction = (
 export const instanceActions = (
   instances: LxdInstance[],
   desiredAction: LxdInstanceAction,
-  nonRestrictedInstances: Set<string>,
 ): InstanceBulkAction[] => {
   const actions: InstanceBulkAction[] = [];
-  instances
-    .filter((instance) => nonRestrictedInstances.has(instance.name))
-    .forEach((instance) => {
-      const action = instanceAction(desiredAction, instance.status);
-      if (action) {
-        actions.push({
-          name: instance.name,
-          project: instance.project,
-          action: action,
-        });
-      }
-    });
+  instances.forEach((instance) => {
+    const action = instanceAction(desiredAction, instance.status);
+    if (action) {
+      actions.push({
+        name: instance.name,
+        project: instance.project,
+        action: action,
+      });
+    }
+  });
   return actions;
 };
 

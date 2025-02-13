@@ -20,7 +20,7 @@ const InstanceAddSnapshotBtn: FC<Props> = ({
   className,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { canManageSnapshots } = useInstanceEntitlements(instance);
+  const { canManageInstanceSnapshots } = useInstanceEntitlements();
 
   return (
     <>
@@ -37,9 +37,9 @@ const InstanceAddSnapshotBtn: FC<Props> = ({
         appearance="positive"
         className={className}
         onClick={openPortal}
-        disabled={isDisabled || !canManageSnapshots()}
+        disabled={isDisabled || !canManageInstanceSnapshots(instance)}
         title={
-          canManageSnapshots()
+          canManageInstanceSnapshots(instance)
             ? ""
             : "You do not have permission to create snapshots for this instance"
         }

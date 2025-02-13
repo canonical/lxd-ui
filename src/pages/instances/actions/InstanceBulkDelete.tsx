@@ -9,7 +9,7 @@ import { getPromiseSettledCounts } from "util/helpers";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { useInstanceEntitlementSet } from "util/entitlements/instances";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instances: LxdInstance[];
@@ -22,16 +22,18 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
-  const { canDeleteInstanceStateSet } = useInstanceEntitlementSet(instances);
-
+  const { canDeleteInstance } = useInstanceEntitlements();
+  const restrictedInstances = instances.filter(
+    (instance) => !canDeleteInstance(instance),
+  );
   const deletableInstances = instances.filter(
     (instance) =>
       deletableStatuses.includes(instance.status) &&
-      canDeleteInstanceStateSet.has(instance.name),
+      canDeleteInstance(instance),
   );
   const totalCount = instances.length;
   const deleteCount = deletableInstances.length;
-  const restrictedCount = totalCount - canDeleteInstanceStateSet.size;
+  const restrictedCount = restrictedInstances.length;
   const ignoredCount = totalCount - deleteCount - restrictedCount;
 
   const handleDelete = () => {

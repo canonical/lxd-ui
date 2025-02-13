@@ -11,19 +11,19 @@ interface Props {
 
 const StartInstanceBtn: FC<Props> = ({ instance }) => {
   const { handleStart, isLoading, isDisabled } = useInstanceStart(instance);
-  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
+  const { canUpdateInstanceState } = useInstanceEntitlements();
 
   return (
     <Button
       appearance="base"
       hasIcon
       dense={true}
-      disabled={isDisabled || !canUpdateInstanceState()}
+      disabled={isDisabled || !canUpdateInstanceState(instance)}
       onClick={handleStart}
       type="button"
       aria-label={isLoading ? "Starting" : "Start"}
       title={
-        canUpdateInstanceState()
+        canUpdateInstanceState(instance)
           ? "Start"
           : "You do not have permission to start this instance"
       }

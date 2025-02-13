@@ -30,7 +30,7 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
   const eventQueue = useEventQueue();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
-  const { canManageSnapshots } = useInstanceEntitlements(instance);
+  const { canManageInstanceSnapshots } = useInstanceEntitlements();
 
   const count = snapshotNames.length;
 
@@ -95,10 +95,10 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      disabled={isLoading || !canManageSnapshots()}
+      disabled={isLoading || !canManageInstanceSnapshots(instance)}
       className={classnames({ "has-icon": isLoading })}
       onHoverText={
-        canManageSnapshots()
+        canManageInstanceSnapshots(instance)
           ? "Delete snapshots"
           : "You do not have permission to manage snapshots for this instance"
       }

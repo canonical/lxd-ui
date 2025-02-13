@@ -37,8 +37,8 @@ const InstanceSnapshotActions: FC<Props> = ({
   const [isRestoring, setRestoring] = useState(false);
   const [restoreState, setRestoreState] = useState(true);
   const queryClient = useQueryClient();
-  const { canManageSnapshots } = useInstanceEntitlements(instance);
-  const disabledReason = !canManageSnapshots()
+  const { canManageInstanceSnapshots } = useInstanceEntitlements();
+  const disabledReason = !canManageInstanceSnapshots(instance)
     ? "You do not have permission to manage snapshots"
     : undefined;
 

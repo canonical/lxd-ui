@@ -17,7 +17,7 @@ interface Props {
 const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
-  const { canManageBackups } = useInstanceEntitlements(instance);
+  const { canManageInstanceBackups } = useInstanceEntitlements();
 
   const instanceLink = <InstanceLinkChip instance={instance} />;
 
@@ -92,11 +92,11 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
       className={classNames("u-no-margin--bottom has-icon", classname)}
       onClick={exportInstance}
       title={
-        canManageBackups()
+        canManageInstanceBackups(instance)
           ? "Export instance"
           : "You do not have permission to export this instance."
       }
-      disabled={!canManageBackups()}
+      disabled={!canManageInstanceBackups(instance)}
     >
       <Icon name="export" />
       <span>Export</span>

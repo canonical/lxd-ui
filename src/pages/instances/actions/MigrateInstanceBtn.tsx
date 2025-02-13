@@ -16,7 +16,7 @@ interface Props {
 
 const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { canEditInstance } = useInstanceEntitlements(instance);
+  const { canEditInstance } = useInstanceEntitlements();
   const instanceLoading = useInstanceLoading();
   const isLoading =
     instanceLoading.getType(instance) === "Migrating" ||
@@ -36,7 +36,7 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
         type="button"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         loading={isLoading}
-        disabled={isDisabled || !canEditInstance()}
+        disabled={isDisabled || !canEditInstance(instance)}
         title={
           canEditInstance()
             ? "Migrate instance"

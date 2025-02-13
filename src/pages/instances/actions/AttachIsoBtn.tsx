@@ -29,7 +29,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const [isLoading, setLoading] = useState(false);
-  const { canEditInstance } = useInstanceEntitlements(instance);
+  const { canEditInstance } = useInstanceEntitlements();
 
   const attachedIso = instance.devices["iso-volume"] as
     | LxdIsoDevice
@@ -130,7 +130,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       });
   };
 
-  const disabledReason = canEditInstance()
+  const disabledReason = canEditInstance(instance)
     ? undefined
     : "You do not have permission to edit this instance.";
 

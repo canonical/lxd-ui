@@ -21,7 +21,7 @@ const InstanceConfigureSnapshotsBtn: FC<Props> = ({
   className,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { canEditInstance } = useInstanceEntitlements(instance);
+  const { canEditInstance } = useInstanceEntitlements();
 
   return (
     <>
@@ -40,7 +40,7 @@ const InstanceConfigureSnapshotsBtn: FC<Props> = ({
       <Button
         onClick={openPortal}
         className={className}
-        disabled={isDisabled || !canEditInstance()}
+        disabled={isDisabled || !canEditInstance(instance)}
         title={
           canEditInstance()
             ? ""

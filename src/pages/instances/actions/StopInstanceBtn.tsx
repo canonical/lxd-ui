@@ -22,7 +22,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const toastNotify = useToastNotification();
   const [isForce, setForce] = useState(false);
   const queryClient = useQueryClient();
-  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
+  const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
     void queryClient.invalidateQueries({
@@ -78,7 +78,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
     <ConfirmationButton
       appearance="base"
       loading={isLoading}
-      disabled={isDisabled || !canUpdateInstanceState()}
+      disabled={isDisabled || !canUpdateInstanceState(instance)}
       confirmationModalProps={{
         title: "Confirm stop",
         children: (
@@ -91,7 +91,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
         ),
         onConfirm: handleStop,
         close: () => setForce(false),
-        confirmButtonLabel: canUpdateInstanceState()
+        confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Stop"
           : "You do not have permission to stop this instance",
       }}

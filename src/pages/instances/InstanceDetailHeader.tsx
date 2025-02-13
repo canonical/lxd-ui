@@ -33,7 +33,7 @@ const InstanceDetailHeader: FC<Props> = ({
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
-  const { canEditInstance } = useInstanceEntitlements(instance);
+  const { canEditInstance } = useInstanceEntitlements();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -103,7 +103,7 @@ const InstanceDetailHeader: FC<Props> = ({
   });
 
   const getDisabledReason = () => {
-    if (!canEditInstance()) {
+    if (!canEditInstance(instance)) {
       return "You do not have permission to rename this instance";
     }
 

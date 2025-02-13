@@ -106,7 +106,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
-  const { canEditInstance } = useInstanceEntitlements(instance);
+  const { canEditInstance } = useInstanceEntitlements();
   const { data: profiles = [] } = useQuery({
     queryKey: [queryKeys.profiles],
     queryFn: () => fetchProfiles(project || ""),
@@ -122,7 +122,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   useEffect(updateFormHeight, [section]);
   useEventListener("resize", updateFormHeight);
 
-  const editRestriction = !canEditInstance()
+  const editRestriction = !canEditInstance(instance)
     ? "You do not have permission to edit this instance"
     : undefined;
 

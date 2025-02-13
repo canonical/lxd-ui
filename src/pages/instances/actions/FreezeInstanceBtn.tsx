@@ -20,7 +20,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const instanceLoading = useInstanceLoading();
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
+  const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
     void queryClient.invalidateQueries({
@@ -83,12 +83,12 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
           </p>
         ),
         onConfirm: handleFreeze,
-        confirmButtonLabel: canUpdateInstanceState()
+        confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Freeze"
           : "You do not have permission to freeze this instance",
       }}
       className="has-icon is-dense"
-      disabled={isDisabled || !canUpdateInstanceState()}
+      disabled={isDisabled || !canUpdateInstanceState(instance)}
       shiftClickEnabled
       showShiftClickHint
     >

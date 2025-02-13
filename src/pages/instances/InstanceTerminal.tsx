@@ -65,8 +65,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const xtermRef = useRef<Terminal>(null);
   const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [version, setVersion] = useState(0);
-  const { canUpdateInstanceState, canExecInstance } =
-    useInstanceEntitlements(instance);
+  const { canUpdateInstanceState, canExecInstance } = useInstanceEntitlements();
 
   usePrompt({
     when: userInteracted,
@@ -151,7 +150,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const isRunning = instance.status === "Running";
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
   const canConnect = isRunning && !isBooting;
-  const canExec = canExecInstance();
+  const canExec = canExecInstance(instance);
 
   useEffect(() => {
     if (isBooting && refreshTimerRef.current === null) {
@@ -260,9 +259,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
             appearance="positive"
             loading={isStartLoading || isBooting}
             onClick={handleStart}
-            disabled={!canUpdateInstanceState()}
+            disabled={!canUpdateInstanceState(instance)}
             title={
-              canUpdateInstanceState()
+              canUpdateInstanceState(instance)
                 ? ""
                 : "You do not have permission to start this instance."
             }
