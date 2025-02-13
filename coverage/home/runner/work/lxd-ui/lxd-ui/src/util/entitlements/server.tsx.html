@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.42% </span>
+                <span class="strong">62.96% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/19</span>
+                <span class='fraction'>17/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>3/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">85% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/14</span>
+                <span class='fraction'>17/20</span>
             </div>
         
             
@@ -77,20 +77,32 @@
 <a name='L12'></a><a href='#L12'>12</a>
 <a name='L13'></a><a href='#L13'>13</a>
 <a name='L14'></a><a href='#L14'>14</a>
-<a name='L15'></a><a href='#L15'>15</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">2484x</span>
-<span class="cline-any cline-yes">2484x</span>
-<span class="cline-any cline-yes">2484x</span>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
 <span class="cline-any cline-yes">4922x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2484x</span>
-<span class="cline-any cline-yes">2484x</span>
-<span class="cline-any cline-yes">2484x</span>
-<span class="cline-any cline-yes">2484x</span>
-<span class="cline-any cline-yes">2484x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
+<span class="cline-any cline-yes">2655x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useAuth } from "context/auth"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
 import { hasEntitlement } from "./helpers";
 &nbsp;
@@ -98,11 +110,17 @@ export const useServerEntitlements = <span class="cstat-no" title="statement not
   const { isFineGrained, serverEntitlements } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 &nbsp;
   const canEditServerConfiguration = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_edit", serverEntitlements<span class="branch-0 cbranch-no" title="branch not covered" >) ||</span></span>
+<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_edit", serverEntitlements) ||</span>
 <span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "admin", serverEntitlements);</span>
+&nbsp;
+  const canViewMetrics = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt;</span></span>
+<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_view_metrics", serverEntitlements) ||</span>
+<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "admin", serverEntitlements) ||</span>
+<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "viewer", serverEntitlements);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     canEditServerConfiguration,
+    canViewMetrics,
   };
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -112,7 +130,7 @@ export const useServerEntitlements = <span class="cstat-no" title="statement not
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-13T10:10:45.232Z
+                at 2025-02-13T18:34:28.296Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

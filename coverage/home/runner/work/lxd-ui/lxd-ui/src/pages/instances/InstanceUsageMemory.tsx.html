@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.93% </span>
+                <span class="strong">87.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/58</span>
+                <span class='fraction'>41/47</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.22% </span>
+                <span class="strong">95.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>51/53</span>
+                <span class='fraction'>41/43</span>
             </div>
         
             
@@ -106,38 +106,18 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -167,31 +147,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchMetrics } from "api/metrics";
 import { humanFileSize } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
 import type { LxdInstance } from "types/instance";
-import { useAuth } from "context/auth";
+import { useMetrics } from "context/useMetrics";
 &nbsp;
 interface Props {
   instance: LxdInstance;
 }
 &nbsp;
 const InstanceUsageMemory: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {</span>
-  const { isRestricted } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-&nbsp;
-  const { data: metrics = [] } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.metrics],
-    queryFn: fetchMetrics,
-    refetchInterval: 15 * 1000, // 15 seconds
-    enabled: !isRestricted,
-  });
+  const { data: metrics = [] } = <span class="cstat-no" title="statement not covered" >useMetrics(instance.location);</span>
 &nbsp;
   const instanceMetrics = <span class="cstat-no" title="statement not covered" >getInstanceMetrics(metrics, instance);</span>
 &nbsp;
@@ -229,7 +199,7 @@ export default InstanceUsageMemory;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-13T10:10:45.232Z
+                at 2025-02-13T18:34:28.296Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

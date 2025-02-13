@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/CustomLayout.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/context/useMetrics.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> CustomLayout.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/context</a> useMetrics.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/28</span>
+                <span class='fraction'>20/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -83,64 +83,46 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">3678x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-yes">251x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, ReactNode } from "react";
-import { AppMain, Panel } from "@canonical/react-components";
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">196x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery, UseQueryResult } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+import { useAuth } from "./auth";
+import { queryKeys } from "util/queryKeys";
+import { fetchMetrics } from "api/metrics";
+import { LxdMetricGroup } from "types/metrics";
+import { useServerEntitlements } from "util/entitlements/server";
 &nbsp;
-interface Props {
-  header?: ReactNode;
-  children: ReactNode;
-  mainClassName?: string;
-  contentClassName?: string;
-}
+export const useMetrics = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+  location: string,
+): UseQueryResult&lt;LxdMetricGroup[]&gt; =&gt; {
+  const { isRestricted, isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+  const { canViewMetrics } = <span class="cstat-no" title="statement not covered" >useServerEntitlements();</span>
 &nbsp;
-const CustomLayout: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
-  header,
-  children,
-  mainClassName,
-  contentClassName,
-}: Props) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;AppMain className={mainClassName} id="main-content"&gt;
-      &lt;Panel contentClassName={contentClassName} header={header}&gt;
-        {children}
-      &lt;/Panel&gt;
-    &lt;/AppMain&gt;
-  );
+<span class="cstat-no" title="statement not covered" >  return useQuery({</span>
+    queryKey: [queryKeys.metrics, location],
+    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchMetrics(location),</span>
+    refetchInterval: 15 * 1000, // 15 seconds
+    enabled: !isRestricted &amp;&amp; isFineGrained !== null &amp;&amp; canViewMetrics(),
+  });
 };
-&nbsp;
-export default CustomLayout;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
