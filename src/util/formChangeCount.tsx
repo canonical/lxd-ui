@@ -6,6 +6,7 @@ import { FormDevice, FormDeviceValues } from "util/formDevices";
 import { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import { InstanceEditDetailsFormValues } from "pages/instances/EditInstance";
 import { isRootDisk } from "util/instanceValidation";
+import isEqual from "lodash.isequal";
 
 const getPrimitiveFieldChanges = (
   formik: ConfigurationRowFormikProps,
@@ -19,6 +20,7 @@ const getPrimitiveFieldChanges = (
     "limits_memory",
     "devices",
     "barePool",
+    "editRestriction",
   ]);
 
   for (const key in formik.values) {
@@ -26,7 +28,7 @@ const getPrimitiveFieldChanges = (
       continue;
     }
     const keyType = key as keyof ConfigurationRowFormikValues;
-    if (formik.values[keyType] !== formik.initialValues[keyType]) {
+    if (!isEqual(formik.values[keyType], formik.initialValues[keyType])) {
       changeCount++;
     }
   }
