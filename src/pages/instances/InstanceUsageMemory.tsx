@@ -14,29 +14,30 @@ const InstanceUsageMemory: FC<Props> = ({ instance }) => {
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);
 
-  return instanceMetrics.memory ? (
+  const memory = instanceMetrics.memory;
+  if (!memory) {
+    return "";
+  }
+
+  const used = memory.total - memory.free - memory.cached;
+
+  return (
     <div>
       <Meter
-        percentage={
-          (100 / instanceMetrics.memory.total) *
-          (instanceMetrics.memory.total -
-            instanceMetrics.memory.free -
-            instanceMetrics.memory.cached)
-        }
-        secondaryPercentage={
-          (100 / instanceMetrics.memory.total) * instanceMetrics.memory.cached
-        }
+        percentage={(100 / memory.total) * used}
+        secondaryPercentage={(100 / memory.total) * memory.cached}
         text={
-          humanFileSize(
-            instanceMetrics.memory.total - instanceMetrics.memory.free,
-          ) +
+          humanFileSize(memory.total - memory.free) +
           " of " +
-          humanFileSize(instanceMetrics.memory.total)
+          humanFileSize(memory.total)
+        }
+        hoverText={
+          `free: ${humanFileSize(memory.free)}\n` +
+          `used: ${humanFileSize(used)}\n` +
+          `cached: ${humanFileSize(memory.cached)}\n`
         }
       />
     </div>
-  ) : (
-    ""
   );
 };
 
