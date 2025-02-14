@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   fetchPoolFromClusterMembers,
   fetchStoragePool,
+  fetchStoragePoolOnMember,
   updateClusteredPool,
   updatePool,
 } from "api/storage-pools";
@@ -33,6 +34,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
+import { useAuth } from "context/auth";
 
 interface Props {
   pool: LxdStoragePool;
@@ -53,6 +55,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const [version, setVersion] = useState(0);
   const isClustered = clusterMembers.length > 0;
   const { canEditPool } = useStoragePoolEntitlements();
+  const { isFineGrained } = useAuth();
 
   if (!project) {
     return <>Missing project</>;
@@ -60,7 +63,8 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
   const { data: poolOnMembers = [], error } = useQuery({
     queryKey: [queryKeys.storage, pool.name, queryKeys.cluster],
-    queryFn: () => fetchPoolFromClusterMembers(pool.name, clusterMembers),
+    queryFn: () =>
+      fetchPoolFromClusterMembers(pool.name, clusterMembers, isFineGrained),
     enabled: isClustered,
   });
 
@@ -122,10 +126,13 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
             </>,
           );
           const member = clusterMembers[0]?.server_name ?? undefined;
-          const updatedPool = await fetchStoragePool(values.name, member);
+          const updatedPool = member
+            ? await fetchStoragePoolOnMember(values.name, member, isFineGrained)
+            : await fetchStoragePool(values.name, isFineGrained);
           const updatedPoolOnMembers = await fetchPoolFromClusterMembers(
             pool.name,
             clusterMembers,
+            isFineGrained,
           );
           void formik.setValues(
             toStoragePoolFormValues(updatedPool, updatedPoolOnMembers),
