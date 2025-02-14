@@ -5,16 +5,18 @@ interface Props {
   percentage: number;
   secondaryPercentage?: number;
   text: string;
+  hoverText?: string;
 }
 
 const Meter: FC<Props> = ({
   percentage,
   secondaryPercentage = 0,
   text,
+  hoverText,
 }: Props) => {
   return (
     <>
-      <div className="p-meter u-no-margin--bottom">
+      <div className="p-meter u-no-margin--bottom" title={hoverText}>
         <div
           style={{ width: `max(${percentage}%, 5px)` }}
           className={classnames({

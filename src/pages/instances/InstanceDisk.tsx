@@ -13,25 +13,26 @@ const InstanceUsageDisk: FC<Props> = ({ instance }) => {
   const { data: metrics = [] } = useMetrics(instance.location);
 
   const instanceMetrics = getInstanceMetrics(metrics, instance);
+  const disk = instanceMetrics.disk;
 
-  return instanceMetrics.disk ? (
+  if (!disk) {
+    return "";
+  }
+
+  const used = disk.total - disk.free;
+
+  return (
     <div>
       <Meter
-        percentage={
-          (100 / instanceMetrics.disk.total) *
-          (instanceMetrics.disk.total - instanceMetrics.disk.free)
-        }
+        percentage={(100 / disk.total) * used}
         text={
-          humanFileSize(
-            instanceMetrics.disk.total - instanceMetrics.disk.free,
-          ) +
+          humanFileSize(disk.total - disk.free) +
           " of " +
-          humanFileSize(instanceMetrics.disk.total)
+          humanFileSize(disk.total)
         }
+        hoverText={`free: ${humanFileSize(disk.free)}\nused: ${humanFileSize(used)}`}
       />
     </div>
-  ) : (
-    ""
   );
 };
 
