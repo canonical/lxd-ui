@@ -2,7 +2,7 @@ import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
 import { LxdStoragePool } from "types/storage";
 
-export const useInstanceEntitlements = () => {
+export const useStoragePoolEntitlements = () => {
   const { isFineGrained } = useAuth();
 
   const canDeletePool = (pool: LxdStoragePool) =>
