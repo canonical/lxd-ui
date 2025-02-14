@@ -10,9 +10,14 @@ import type { LxdStorageVolume } from "types/storage";
 export const loadIsoVolumes = async (
   project: string,
   hasStorageVolumesAll: boolean,
+  isFineGrained: boolean | null,
 ): Promise<RemoteImage[]> => {
   const remoteImages: RemoteImage[] = [];
-  const allVolumes = await loadVolumes(project, hasStorageVolumesAll);
+  const allVolumes = await loadVolumes(
+    project,
+    hasStorageVolumesAll,
+    isFineGrained,
+  );
   allVolumes.forEach((volume) => {
     if (volume.content_type === "iso") {
       const image = isoToRemoteImage(volume);
@@ -26,20 +31,24 @@ export const loadIsoVolumes = async (
 export const loadVolumes = async (
   project: string,
   hasStorageVolumesAll: boolean,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
   return hasStorageVolumesAll
-    ? fetchAllStorageVolumes(project)
-    : collectAllStorageVolumes(project);
+    ? fetchAllStorageVolumes(project, isFineGrained)
+    : collectAllStorageVolumes(project, isFineGrained);
 };
 
 export const collectAllStorageVolumes = async (
   project: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
   const allVolumes: LxdStorageVolume[] = [];
-  const pools = await fetchStoragePools();
+  const pools = await fetchStoragePools(isFineGrained);
 
   const poolVolumes = await Promise.allSettled(
-    pools.map(async (pool) => fetchStorageVolumes(pool.name, project)),
+    pools.map(async (pool) =>
+      fetchStorageVolumes(pool.name, project, isFineGrained),
+    ),
   );
 
   poolVolumes.forEach((result, index) => {

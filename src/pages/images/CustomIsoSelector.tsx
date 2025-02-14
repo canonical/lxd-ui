@@ -1,14 +1,11 @@
 import { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { loadIsoVolumes } from "context/loadIsoVolumes";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdImageType, RemoteImage } from "types/image";
 import type { IsoImage } from "types/iso";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useLoadIsoVolumes } from "context/useVolumes";
 
 interface Props {
   primaryImage: IsoImage | null;
@@ -25,12 +22,8 @@ const CustomIsoSelector: FC<Props> = ({
 }) => {
   const { project } = useCurrentProject();
   const projectName = project?.name ?? "";
-  const { hasStorageVolumesAll } = useSupportedFeatures();
 
-  const { data: images = [], isLoading } = useQuery({
-    queryKey: [queryKeys.isoVolumes, project],
-    queryFn: () => loadIsoVolumes(projectName, hasStorageVolumesAll),
-  });
+  const { data: images = [], isLoading } = useLoadIsoVolumes(projectName);
 
   const headers = [
     { content: "Name", sortKey: "name" },
