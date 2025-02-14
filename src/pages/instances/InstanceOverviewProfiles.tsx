@@ -42,8 +42,8 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
         columns: undefined,
       };
     }
-    const description = profiles.filter((item) => item.name === profile)[0]
-      .description;
+    const description =
+      profiles.filter((item) => item.name === profile)[0]?.description ?? "";
     return {
       key: profile,
       columns: [

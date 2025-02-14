@@ -366,6 +366,24 @@ const CreateInstance: FC = () => {
     },
   });
 
+  const getInitialProfiles = () => {
+    const defaultProfileExist = profiles.find(
+      (profile) => profile.name === "default",
+    );
+
+    if (defaultProfileExist) {
+      return ["default"];
+    }
+
+    return [profiles[0].name];
+  };
+
+  useEffect(() => {
+    if (profiles.length) {
+      void formik.setFieldValue("profiles", getInitialProfiles());
+    }
+  }, [profiles]);
+
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 
   const handleSelectImage = (image: RemoteImage, type?: LxdImageType) => {
