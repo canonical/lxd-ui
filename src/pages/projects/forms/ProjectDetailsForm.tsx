@@ -33,6 +33,7 @@ export interface ProjectDetailsFormValues {
   features_storage_volumes?: boolean;
   readOnly: boolean;
   entityType: "project";
+  editRestriction?: string;
 }
 
 export const projectDetailPayload = (

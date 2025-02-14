@@ -13,6 +13,7 @@ import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/helpers";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instances: LxdInstance[];
@@ -28,6 +29,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     null,
   );
   const [isForce, setForce] = useState(false);
+  const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
     void queryClient.invalidateQueries({
@@ -45,7 +47,8 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   const handleAction = (desiredAction: LxdInstanceAction) => {
     setActiveAction(desiredAction);
     onStart();
-    const actions = instanceActions(instances, desiredAction);
+    const validInstances = instances.filter(canUpdateInstanceState);
+    const actions = instanceActions(validInstances, desiredAction);
 
     void updateInstanceBulkAction(actions, isForce, eventQueue).then(
       (results) => {
@@ -91,6 +94,10 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     );
   };
 
+  const restrictedInstances = instances
+    .filter((instance) => !canUpdateInstanceState(instance))
+    .map((instance) => instance.name);
+
   return (
     <div className="p-segmented-control bulk-actions">
       <div className="p-segmented-control__list bulk-action-frame">
@@ -103,6 +110,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           action="start"
           instances={instances}
           confirmLabel="Start"
+          restrictedInstances={restrictedInstances}
         />
         <InstanceBulkAction
           icon="restart"
@@ -118,6 +126,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
               force={[isForce, setForce]}
             />
           }
+          restrictedInstances={restrictedInstances}
         />
         <InstanceBulkAction
           icon="pause"
@@ -127,6 +136,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           action="freeze"
           instances={instances}
           confirmLabel="Freeze"
+          restrictedInstances={restrictedInstances}
         />
         <InstanceBulkAction
           icon="stop"
@@ -139,6 +149,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           confirmExtra={
             <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
           }
+          restrictedInstances={restrictedInstances}
         />
       </div>
     </div>

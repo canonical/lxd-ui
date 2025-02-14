@@ -142,7 +142,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach device"
+            title={formik.values.editRestriction ?? "Detach device"}
+            disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -191,6 +192,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
+            disableReason={formik.values.editRestriction}
           />
         ),
         inherited: "",
@@ -205,7 +207,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach GPU"
+            title={formik.values.editRestriction ?? "Detach GPU"}
+            disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -261,6 +264,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               },
               { label: "USB", value: "usb" },
             ]}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ),
         override: "",
@@ -296,6 +301,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
               placeholder={field.default}
               help={<ConfigFieldDescription description={field.shortdesc} />}
               className="u-no-margin--bottom"
+              disabled={!!formik.values.editRestriction}
+              title={formik.values.editRestriction}
             />
           ),
           override: "",
@@ -332,6 +339,8 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
         }}
         type="button"
         hasIcon
+        disabled={!!formik.values.editRestriction}
+        title={formik.values.editRestriction}
       >
         <Icon name="plus" />
         <span>Attach custom device</span>

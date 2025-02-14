@@ -3,6 +3,7 @@ import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import classnames from "classnames";
 import { useProjects } from "context/useProjects";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   onSelect: (project: string) => void;
@@ -14,6 +15,7 @@ interface Props {
 
 const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
   const { data: projects = [] } = useProjects();
+  const { canCreateInstances } = useProjectEntitlements();
 
   const headers = [
     { content: "Name", sortKey: "name" },
@@ -21,10 +23,18 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
   ];
 
   const rows = projects.map((project) => {
-    const disableReason =
-      disableProject?.name === project.name ? disableProject?.reason : null;
+    const getDisableReason = () => {
+      if (!canCreateInstances(project)) {
+        return "You do not have permission to create instances in this project";
+      }
+
+      return disableProject?.name === project.name
+        ? disableProject?.reason
+        : null;
+    };
+
     const selectProject = () => {
-      if (disableReason) {
+      if (getDisableReason()) {
         return;
       }
       onSelect(project.name);
@@ -33,8 +43,8 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
     return {
       key: project.name,
       className: classnames("u-row", {
-        "u-text--muted": disableReason,
-        "u-row--disabled": disableReason,
+        "u-text--muted": !!getDisableReason(),
+        "u-row--disabled": !!getDisableReason(),
       }),
       columns: [
         {
@@ -55,8 +65,8 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
             <Button
               onClick={selectProject}
               dense
-              title={disableReason}
-              disabled={Boolean(disableReason)}
+              title={getDisableReason()}
+              disabled={Boolean(getDisableReason())}
             >
               Select
             </Button>

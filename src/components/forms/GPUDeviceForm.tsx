@@ -103,7 +103,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
           <Button
             appearance="base"
             type="button"
-            title="Reattach volume"
+            title="Reattach GPU"
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
@@ -123,6 +123,8 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             }}
             className="has-icon u-no-margin--bottom"
             dense
+            title={formik.values.editRestriction ?? "Detach GPU"}
+            disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect"></Icon>
             <span>Detach</span>
@@ -165,6 +167,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
+            disableReason={formik.values.editRestriction}
           />
         ),
         inherited: "",
@@ -179,7 +182,8 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach GPU"
+            title={formik.values.editRestriction ?? "Detach GPU"}
+            disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -213,6 +217,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
               void formik.setFieldValue(`devices.${index}.pci`, pci);
               void formik.setFieldValue(`devices.${index}.id`, id);
             }}
+            disableReason={formik.values.editRestriction}
           />
         ),
         readOnly: false,
@@ -269,6 +274,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
           ensureEditMode(formik);
           addGPUCard(card);
         }}
+        disabledReason={formik.values.editRestriction}
       />
     </ScrollableForm>
   );

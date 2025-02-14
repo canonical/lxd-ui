@@ -108,8 +108,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           options={options}
           help={<ConfigFieldDescription description={help} />}
           className="u-no-margin--bottom"
-          disabled={disabledText != undefined}
-          title={disabledText}
+          disabled={!!disabledText || !!formik.values.editRestriction}
+          title={formik.values.editRestriction ?? disabledText}
         />
       ),
       override: "",
@@ -154,6 +154,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           </Button>
         ) : (
           <Button
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
             appearance="base"
             type="button"
             onClick={() => {
@@ -214,6 +216,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
+            disableReason={formik.values.editRestriction}
           />
         ),
         inherited: "",
@@ -228,7 +231,8 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Detach Proxy"
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction ?? "Detach Proxy"}
           >
             <Icon name="disconnect" />
             <span>Detach</span>
@@ -314,6 +318,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           ensureEditMode(formik);
           addProxy();
         }}
+        disabledReason={formik.values.editRestriction}
       />
     </ScrollableForm>
   );

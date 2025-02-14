@@ -25,7 +25,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
   const isLoading =
     instanceLoading.getType(instance) === "Restarting" ||
     instance.status === "Restarting";
-  const { canUpdateInstanceState } = useInstanceEntitlements(instance);
+  const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const instanceLink = <InstanceLinkChip instance={instance} />;
 
@@ -76,7 +76,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
         ),
         onConfirm: handleRestart,
         close: () => setForce(false),
-        confirmButtonLabel: canUpdateInstanceState()
+        confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Restart"
           : "You do not have permission to restart this instance",
         confirmExtra: (
@@ -86,7 +86,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           />
         ),
       }}
-      disabled={isDisabled || !canUpdateInstanceState()}
+      disabled={isDisabled || !canUpdateInstanceState(instance)}
       shiftClickEnabled
       showShiftClickHint
     >

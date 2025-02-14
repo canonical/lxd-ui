@@ -29,6 +29,7 @@ import { InstanceIconType } from "components/ResourceIcon";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -54,6 +55,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   const eventQueue = useEventQueue();
 
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
+  const { canCreateInstances } = useProjectEntitlements();
 
   const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
     queryKey: [queryKeys.storage],
@@ -220,7 +222,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
           {...formik.getFieldProps("targetProject")}
           id="project"
           label="Target project"
-          options={projects.map((project) => {
+          options={projects.filter(canCreateInstances).map((project) => {
             return {
               label: project.name,
               value: project.name,

@@ -37,6 +37,7 @@ export interface InstanceDetailsFormValues {
   entityType: "instance";
   isCreating: boolean;
   readOnly: boolean;
+  editRestriction?: string;
 }
 
 export const instanceDetailPayload = (values: CreateInstanceFormValues) => {

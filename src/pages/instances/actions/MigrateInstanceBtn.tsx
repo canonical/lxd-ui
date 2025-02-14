@@ -5,6 +5,7 @@ import type { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
 import MigrateInstanceModal from "../MigrateInstanceModal";
 import classNames from "classnames";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -15,6 +16,7 @@ interface Props {
 
 const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canEditInstance } = useInstanceEntitlements();
   const instanceLoading = useInstanceLoading();
   const isLoading =
     instanceLoading.getType(instance) === "Migrating" ||
@@ -34,8 +36,12 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
         type="button"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         loading={isLoading}
-        disabled={isDisabled}
-        title="Migrate instance"
+        disabled={isDisabled || !canEditInstance(instance)}
+        title={
+          canEditInstance()
+            ? "Migrate instance"
+            : "You do not have permission to migrate this instance"
+        }
       >
         <Icon name="machines" />
         <span>Migrate</span>

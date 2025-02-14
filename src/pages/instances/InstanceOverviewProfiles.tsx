@@ -6,6 +6,7 @@ import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { fetchProfiles } from "api/profiles";
 import ResourceLink from "components/ResourceLink";
+import InstanceProfilesWarning from "./InstanceProfilesWarning";
 
 interface Props {
   instance: LxdInstance;
@@ -41,8 +42,8 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
         columns: undefined,
       };
     }
-    const description = profiles.filter((item) => item.name === profile)[0]
-      .description;
+    const description =
+      profiles.filter((item) => item.name === profile)[0]?.description ?? "";
     return {
       key: profile,
       columns: [
@@ -71,15 +72,24 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     };
   });
 
-  return (
-    <>
-      {isLoading ? (
-        <Loader text="Loading profiles..." />
-      ) : (
-        <MainTable headers={profileHeaders} rows={profileRows} sortable />
-      )}
-    </>
-  );
+  const getContent = () => {
+    if (isLoading) {
+      return <Loader text="Loading profiles..." />;
+    }
+
+    if (!profiles.length) {
+      return (
+        <InstanceProfilesWarning
+          instanceProfiles={instance.profiles}
+          profiles={profiles}
+        />
+      );
+    }
+
+    return <MainTable headers={profileHeaders} rows={profileRows} sortable />;
+  };
+
+  return getContent();
 };
 
 export default InstanceOverviewProfiles;

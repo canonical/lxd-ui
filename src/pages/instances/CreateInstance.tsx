@@ -101,6 +101,7 @@ import BootForm, {
   BootFormValues,
   bootPayload,
 } from "components/forms/BootForm";
+import InstanceProfilesWarning from "./InstanceProfilesWarning";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -365,6 +366,24 @@ const CreateInstance: FC = () => {
     },
   });
 
+  const getInitialProfiles = () => {
+    const defaultProfileExist = profiles.find(
+      (profile) => profile.name === "default",
+    );
+
+    if (defaultProfileExist) {
+      return ["default"];
+    }
+
+    return [profiles[0].name];
+  };
+
+  useEffect(() => {
+    if (profiles.length) {
+      void formik.setFieldValue("profiles", getInitialProfiles());
+    }
+  }, [profiles]);
+
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 
   const handleSelectImage = (image: RemoteImage, type?: LxdImageType) => {
@@ -453,6 +472,12 @@ const CreateInstance: FC = () => {
         )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
+            {section !== YAML_CONFIGURATION && (
+              <InstanceProfilesWarning
+                instanceProfiles={[]}
+                profiles={profiles}
+              />
+            )}
             <NotificationRow />
             {section === MAIN_CONFIGURATION && (
               <InstanceCreateDetailsForm

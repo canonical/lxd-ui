@@ -216,10 +216,11 @@ or remove the originating item"
                         }}
                         type="button"
                         appearance="base"
-                        title="Edit network"
+                        title={formik.values.editRestriction ?? "Edit network"}
                         className="u-no-margin--top"
                         hasIcon
                         dense
+                        disabled={!!formik.values.editRestriction}
                       >
                         <Icon name="edit" />
                       </Button>
@@ -234,7 +235,8 @@ or remove the originating item"
                       appearance="base"
                       hasIcon
                       dense
-                      title="Detach network"
+                      title={formik.values.editRestriction ?? "Detach network"}
+                      disabled={!!formik.values.editRestriction}
                     >
                       <Icon name="disconnect" />
                       <span>Detach</span>
@@ -256,6 +258,8 @@ or remove the originating item"
               }}
               type="button"
               hasIcon
+              disabled={!!formik.values.editRestriction}
+              title={formik.values.editRestriction}
             >
               <Icon name="plus" />
               <span>Attach network</span>

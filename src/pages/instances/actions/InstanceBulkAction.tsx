@@ -21,6 +21,7 @@ interface Props {
   isLoading: boolean;
   isDisabled: boolean;
   onClick: () => void;
+  restrictedInstances: string[];
 }
 
 const InstanceBulkAction: FC<Props> = ({
@@ -33,6 +34,7 @@ const InstanceBulkAction: FC<Props> = ({
   isLoading,
   isDisabled,
   onClick,
+  restrictedInstances,
 }) => {
   const selectedStates = new Set(instances.map((item) => item.status));
   const hasDifferentStates = selectedStates.size > 1;
@@ -54,7 +56,9 @@ const InstanceBulkAction: FC<Props> = ({
     desiredAction: LxdInstanceAction,
   ) => {
     const count = instances.filter(
-      (instance) => instance.status === currentState,
+      (instance) =>
+        instance.status === currentState &&
+        !restrictedInstances.includes(instance.name),
     ).length;
 
     if (count === 0) {
@@ -104,6 +108,32 @@ const InstanceBulkAction: FC<Props> = ({
     }
   };
 
+  const allRestricted = restrictedInstances.length === instances.length;
+  const getRestrictedInstances = () => {
+    if (restrictedInstances.length === 0) {
+      return null;
+    }
+
+    if (allRestricted) {
+      return (
+        <Fragment key="restricted">
+          - You do not have permission to {confirmLabel.toLowerCase()} the
+          selected {pluralize("instance", instances.length)}.
+          <br />
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment key="restricted">
+        - No action for <b>{restrictedInstances.length}</b>{" "}
+        {pluralize("instance", restrictedInstances.length)} that you do not have
+        permission to {confirmLabel.toLowerCase()}.
+        <br />
+      </Fragment>
+    );
+  };
+
   return (
     <ConfirmationButton
       appearance="base"
@@ -116,12 +146,14 @@ const InstanceBulkAction: FC<Props> = ({
           <p>
             {selectedSummary}
             {getLineOrder().map((state) => statusLine(state, action))}
+            {getRestrictedInstances()}
           </p>
         ),
         confirmExtra: confirmExtra,
         onConfirm: onClick,
         confirmButtonLabel: confirmLabel,
         confirmButtonAppearance: confirmAppearance,
+        confirmButtonDisabled: allRestricted,
       }}
       shiftClickEnabled
       showShiftClickHint

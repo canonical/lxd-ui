@@ -79,11 +79,12 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       className="u-no-margin--bottom"
       hasIcon
       dense
-      title="Edit"
+      title={formik.values.editRestriction ?? "Edit"}
       onClick={() => {
         ensureEditMode(formik);
         focusField(fieldName);
       }}
+      disabled={!!formik.values.editRestriction}
     >
       <Icon name="edit" />
     </Button>
@@ -108,6 +109,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               ensureEditMode(formik);
               void formik.setFieldValue(`devices.${index}.name`, name);
             }}
+            disableReason={formik.values.editRestriction}
           />
         ),
         inherited: "",
@@ -117,6 +119,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               ensureEditMode(formik);
               removeDevice(index, formik);
             }}
+            disabledReason={formik.values.editRestriction}
           />
         ),
       }),
@@ -149,8 +152,9 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
                 id: `devices.${index}.pool`,
                 appearance: "base",
                 className: "u-no-margin--bottom",
-                title: "Select storage volume",
+                title: formik.values.editRestriction ?? "Select storage volume",
                 dense: true,
+                disabled: !!formik.values.editRestriction,
               }}
             >
               <Icon name="edit" />

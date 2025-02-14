@@ -13,6 +13,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceLoading } from "context/instanceLoading";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -27,6 +28,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const instanceLoading = useInstanceLoading();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { canDeleteInstance } = useInstanceEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -72,8 +74,12 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const isDisabled =
     isLoading ||
     !isDeletableStatus ||
-    instanceLoading.getType(instance) === "Migrating";
+    instanceLoading.getType(instance) === "Migrating" ||
+    !canDeleteInstance(instance);
   const getHoverText = () => {
+    if (!canDeleteInstance(instance)) {
+      return "You do not have permission to delete this instance";
+    }
     if (!isDeletableStatus) {
       return "Stop the instance to delete it";
     }
