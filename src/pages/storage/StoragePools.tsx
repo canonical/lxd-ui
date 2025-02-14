@@ -6,9 +6,6 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { fetchStoragePools } from "api/storage-pools";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { Link, useParams } from "react-router-dom";
 import DeleteStoragePoolBtn from "pages/storage/actions/DeleteStoragePoolBtn";
@@ -21,6 +18,7 @@ import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
+import { useStoragePools } from "context/useStoragePools";
 
 const StoragePools: FC = () => {
   const docBaseLink = useDocs();
@@ -31,14 +29,7 @@ const StoragePools: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: pools = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: pools = [], error, isLoading } = useStoragePools();
 
   if (error) {
     notify.failure("Loading storage pools failed", error);

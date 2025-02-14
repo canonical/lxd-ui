@@ -14,9 +14,6 @@ import * as Yup from "yup";
 import { createInstance } from "api/instances";
 import { isClusteredServer } from "util/settings";
 import { useSettings } from "context/useSettings";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchStoragePools } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import type { LxdDiskDevice } from "types/device";
@@ -30,6 +27,7 @@ import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useStoragePools } from "context/useStoragePools";
 
 interface Props {
   instance: LxdInstance;
@@ -57,10 +55,8 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
   const { canCreateInstances } = useProjectEntitlements();
 
-  const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: storagePools = [], isLoading: storagePoolsLoading } =
+    useStoragePools();
 
   const { data: instances = [] } = useInstances(instance.project);
 
