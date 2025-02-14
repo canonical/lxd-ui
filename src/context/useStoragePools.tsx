@@ -3,7 +3,11 @@ import { queryKeys } from "util/queryKeys";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
 import { LxdStoragePool } from "types/storage";
-import { fetchStoragePool, fetchStoragePools } from "api/storage-pools";
+import {
+  fetchStoragePool,
+  fetchStoragePoolOnMember,
+  fetchStoragePools,
+} from "api/storage-pools";
 
 export const useStoragePool = (
   pool: string,
@@ -11,9 +15,12 @@ export const useStoragePool = (
   enabled?: boolean,
 ): UseQueryResult<LxdStoragePool> => {
   const { isFineGrained } = useAuth();
+  const queryFn = target
+    ? () => fetchStoragePoolOnMember(pool, target, isFineGrained)
+    : () => fetchStoragePool(pool, isFineGrained);
   return useQuery({
     queryKey: [queryKeys.storage, pool, target],
-    queryFn: () => fetchStoragePool(pool, target, isFineGrained),
+    queryFn: queryFn,
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

@@ -22,15 +22,28 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 export const storagePoolEntitlements = ["can_delete", "can_edit"];
 export const storageVolumeEntitlements = ["can_delete"];
 
-export const fetchStoragePool = (
+export const fetchStoragePoolOnMember = (
   pool: string,
-  target?: string,
-  isFineGrained: boolean | null = null,
+  target: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStoragePool> => {
   const entitlements = `&${withEntitlementsQuery(isFineGrained, storagePoolEntitlements)}`;
   return new Promise((resolve, reject) => {
-    const targetParam = target ? `&target=${target}` : "";
+    const targetParam = `&target=${target}`;
     fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`)
+      .then(handleResponse)
+      .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
+      .catch(reject);
+  });
+};
+
+export const fetchStoragePool = (
+  pool: string,
+  isFineGrained: boolean | null,
+): Promise<LxdStoragePool> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, storagePoolEntitlements)}`;
+  return new Promise((resolve, reject) => {
+    fetch(`/1.0/storage-pools/${pool}?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
@@ -213,11 +226,16 @@ export const deleteStoragePool = (pool: string): Promise<void> => {
 export const fetchPoolFromClusterMembers = (
   poolName: string,
   clusterMembers: LxdClusterMember[],
+  isFineGrained: boolean | null,
 ): Promise<LXDStoragePoolOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map((member) => {
-        return fetchStoragePool(poolName, member.server_name);
+        return fetchStoragePoolOnMember(
+          poolName,
+          member.server_name,
+          isFineGrained,
+        );
       }),
     )
       .then((results) => {
