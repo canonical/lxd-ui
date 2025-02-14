@@ -41,12 +41,8 @@ const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
             ) : (
               <>{value}</>
             ),
-          disabled:
-            !!formik.values.editRestriction ||
-            !formik.values.isCreating ||
-            formik.values.readOnly,
-          disabledReason:
-            formik.values.editRestriction ?? "ZFS pool name cannot be modified",
+          disabled: !formik.values.isCreating || formik.values.readOnly,
+          disabledReason: "ZFS pool name cannot be modified",
         }),
         getConfigurationRow({
           formik,
@@ -54,8 +50,6 @@ const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_clone_copy",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -63,8 +57,6 @@ const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
           name: "zfs_export",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
       ]}
     />

@@ -20,8 +20,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           name: "ceph_cluster_name",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter cluster name" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -34,8 +32,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
               placeholder="Enter number of placement groups"
             />
           ),
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -43,8 +39,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           name: "ceph_rbd_clone_copy",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -52,8 +46,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           name: "ceph_user_name",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter Ceph user name" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -61,8 +53,6 @@ const StoragePoolFormCeph: FC<Props> = ({ formik }) => {
           name: "ceph_rbd_features",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter RBD features" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
       ]}
     />
