@@ -19,7 +19,7 @@ import type { LxdClusterMember } from "types/cluster";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const storagePoolEntitlements = ["can_delete"];
+export const storagePoolEntitlements = ["can_delete", "can_edit"];
 export const storageVolumeEntitlements = ["can_delete"];
 
 export const fetchStoragePool = (
