@@ -4,7 +4,7 @@ import { Button, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import DuplicateInstanceForm from "../forms/DuplicateInstanceForm";
 import classNames from "classnames";
-import { useProject } from "context/useProjects";
+import { useProject, useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
@@ -21,7 +21,8 @@ const DuplicateInstanceBtn: FC<Props> = ({
   onClose,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { data: project } = useProject(instance.project);
+  const { data: currentProject } = useProject(instance.project);
+  const { data: allProjects } = useProjects();
   const { canCreateInstances } = useProjectEntitlements();
 
   const handleClose = () => {
@@ -30,9 +31,10 @@ const DuplicateInstanceBtn: FC<Props> = ({
   };
 
   const getDisableReason = () => {
+    const validTargetProjects = allProjects?.filter(canCreateInstances);
     // when duplicating an instance, the user must always have permission to create instances in the source project
     // LXD internally creates a new instance in the source project and then copies it to the target project
-    if (!canCreateInstances(project)) {
+    if (!canCreateInstances(currentProject) || !validTargetProjects?.length) {
       return "You do not have permission to duplicate instances";
     }
 
