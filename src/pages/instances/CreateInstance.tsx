@@ -472,11 +472,12 @@ const CreateInstance: FC = () => {
         )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
-            <InstanceProfilesWarning
-              instanceProfiles={[]}
-              profiles={profiles}
-              isCreating={true}
-            />
+            {section !== YAML_CONFIGURATION && (
+              <InstanceProfilesWarning
+                instanceProfiles={[]}
+                profiles={profiles}
+              />
+            )}
             <NotificationRow />
             {section === MAIN_CONFIGURATION && (
               <InstanceCreateDetailsForm

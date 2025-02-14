@@ -39,7 +39,7 @@ const InstanceSnapshotActions: FC<Props> = ({
   const queryClient = useQueryClient();
   const { canManageInstanceSnapshots } = useInstanceEntitlements();
   const disabledReason = !canManageInstanceSnapshots(instance)
-    ? "You do not have permission to manage snapshots"
+    ? "You do not have permission to manage snapshots for this instance"
     : undefined;
 
   const handleDelete = () => {

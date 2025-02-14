@@ -23,7 +23,7 @@ const CreateInstanceFromSnapshotBtn: FC<Props> = ({
   const { data: projects = [] } = useProjects();
   const { canCreateInstances } = useProjectEntitlements();
 
-  const projectsWithPermission = projects.filter(canCreateInstances);
+  const validTargetProjects = projects.filter(canCreateInstances);
 
   return (
     <>
@@ -41,12 +41,12 @@ const CreateInstanceFromSnapshotBtn: FC<Props> = ({
         hasIcon
         dense
         aria-label="Create instance"
-        disabled={isDeleting || isRestoring || !projectsWithPermission.length}
+        disabled={isDeleting || isRestoring || !validTargetProjects.length}
         onClick={openPortal}
         title={
-          projectsWithPermission.length
+          validTargetProjects.length
             ? "Create instance"
-            : "You do not have permission to create instances in any project"
+            : "You do not have permission to create instances"
         }
       >
         <Icon name="plus" />

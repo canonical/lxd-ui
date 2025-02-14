@@ -86,7 +86,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           eventQueue.set(
             operation.metadata.id,
             (event) => {
-              if (alias && canCreateImageAliases(project)) {
+              if (alias) {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 void createImageAlias(fingerprint, alias, instance.project)
                   .then(clearCache)
@@ -159,7 +159,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           title={
             canCreateImageAliases(project)
               ? ""
-              : `You do not have permission to create image aliases in project ${instance.project}`
+              : `You do not have permission to create image aliases in this project`
           }
         />
         <Input

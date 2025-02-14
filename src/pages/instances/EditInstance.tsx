@@ -215,10 +215,13 @@ const EditInstance: FC<Props> = ({ instance }) => {
         )}
         <Row className="form-contents" key={section}>
           <Col size={12}>
-            <InstanceProfilesWarning
-              instanceProfiles={instance.profiles}
-              profiles={profiles}
-            />
+            {section !== slugify(YAML_CONFIGURATION) && (
+              <InstanceProfilesWarning
+                instanceProfiles={[]}
+                profiles={profiles}
+                isEditing
+              />
+            )}
             {(section === slugify(MAIN_CONFIGURATION) || !section) && (
               <EditInstanceDetails formik={formik} project={project} />
             )}

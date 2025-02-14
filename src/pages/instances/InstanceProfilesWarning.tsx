@@ -5,15 +5,15 @@ import { LxdProfile } from "types/profile";
 interface Props {
   instanceProfiles: string[];
   profiles?: LxdProfile[];
-  isCreating?: boolean;
+  isEditing?: boolean;
 }
 
 const InstanceProfilesWarning: FC<Props> = ({
   instanceProfiles,
   profiles,
-  isCreating,
+  isEditing,
 }) => {
-  const editContext = !isCreating
+  const editContext = isEditing
     ? "This may cause inherited configuration values to be displayed incorrectly."
     : "";
 

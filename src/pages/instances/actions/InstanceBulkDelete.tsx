@@ -125,7 +125,11 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
     <div className="p-segmented-control bulk-actions">
       <div className="p-segmented-control__list bulk-action-frame">
         <ConfirmationButton
-          onHoverText="Delete instances"
+          onHoverText={
+            restrictedCount === totalCount
+              ? "You do not have permission to delete any of the selected instances"
+              : "Delete instances"
+          }
           appearance="base"
           className="u-no-margin--bottom has-icon"
           loading={isLoading}
