@@ -32,6 +32,7 @@ import { getSupportedStorageDrivers } from "util/storageOptions";
 import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
+import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 
 interface Props {
   pool: LxdStoragePool;
@@ -51,6 +52,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const [version, setVersion] = useState(0);
   const isClustered = clusterMembers.length > 0;
+  const { canEditPool } = useStoragePoolEntitlements();
 
   if (!project) {
     return <>Missing project</>;
@@ -80,8 +82,15 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       .required("This field is required"),
   });
 
+  const editRestriction = !canEditPool(pool)
+    ? "You do not have permission to edit this pool"
+    : undefined;
+
   const formik = useFormik<StoragePoolFormValues>({
-    initialValues: toStoragePoolFormValues(pool, poolOnMembers),
+    initialValues: {
+      ...toStoragePoolFormValues(pool, poolOnMembers),
+      editRestriction,
+    },
     validationSchema: StoragePoolSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
