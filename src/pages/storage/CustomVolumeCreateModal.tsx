@@ -5,16 +5,17 @@ import {
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
-import { createStorageVolume, fetchStoragePools } from "api/storage-pools";
+import { createStorageVolume } from "api/storage-pools";
 import { queryKeys } from "util/queryKeys";
 import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { useSettings } from "context/useSettings";
+import { useStoragePools } from "context/useStoragePools";
 
 interface Props {
   project: string;
@@ -35,10 +36,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
 
   const { data: settings } = useSettings();
 
-  const { data: pools = [] } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: pools = [] } = useStoragePools();
 
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()

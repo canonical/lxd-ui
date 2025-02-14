@@ -43,6 +43,15 @@ beforeEach(() => {
       },
     }),
   }));
+  vi.mock(import("react"), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useContext: vi.fn().mockReturnValue({
+        isFineGrained: true,
+      }),
+    };
+  });
 });
 
 describe("getConfigRowMetadata", () => {

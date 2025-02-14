@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Input, useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { fetchStoragePools } from "api/storage-pools";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
@@ -12,6 +11,7 @@ import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
 import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
 import classnames from "classnames";
 import ScrollableForm from "components/ScrollableForm";
+import { useStoragePools } from "context/useStoragePools";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -38,10 +38,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
     data: pools = [],
     isLoading: isStorageLoading,
     error: storageError,
-  } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  } = useStoragePools();
 
   if (storageError) {
     notify.failure("Loading storage pools failed", storageError);

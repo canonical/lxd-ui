@@ -1,7 +1,5 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
@@ -11,7 +9,7 @@ import EditStorageVolume from "pages/storage/forms/EditStorageVolume";
 import TabLinks from "components/TabLinks";
 import CustomLayout from "components/CustomLayout";
 import StorageVolumeSnapshots from "./StorageVolumeSnapshots";
-import { fetchStorageVolume } from "api/storage-pools";
+import { useStorageVolume } from "context/useVolumes";
 
 const tabs: string[] = ["Overview", "Configuration", "Snapshots"];
 
@@ -48,10 +46,7 @@ const StorageVolumeDetail: FC = () => {
     data: volume,
     error,
     isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.storage, pool, project, type, volumeName],
-    queryFn: () => fetchStorageVolume(pool, project, type, volumeName),
-  });
+  } = useStorageVolume(pool, project, type, volumeName);
 
   if (error) {
     notify.failure("Loading storage volume failed", error);

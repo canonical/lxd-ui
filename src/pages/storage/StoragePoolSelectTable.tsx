@@ -2,10 +2,8 @@ import { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchStoragePools } from "api/storage-pools";
 import classnames from "classnames";
+import { useStoragePools } from "context/useStoragePools";
 
 interface Props {
   onSelect: (pool: string) => void;
@@ -16,10 +14,7 @@ interface Props {
 }
 
 const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
-  const { data: pools = [], isLoading } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: pools = [], isLoading } = useStoragePools();
 
   const headers = [
     { content: "Name", sortKey: "name" },
