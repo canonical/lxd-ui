@@ -17,23 +17,31 @@ import type { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
 import type { LxdClusterMember } from "types/cluster";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { withEntitlementsQuery } from "util/entitlements/api";
+
+export const storagePoolEntitlements = ["can_delete"];
 
 export const fetchStoragePool = (
   pool: string,
   target?: string,
+  isFineGrained: boolean | null = null,
 ): Promise<LxdStoragePool> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, storagePoolEntitlements)}`;
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
-    fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}`)
+    fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const fetchStoragePools = (): Promise<LxdStoragePool[]> => {
+export const fetchStoragePools = (
+  isFineGrained: boolean | null,
+): Promise<LxdStoragePool[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, storagePoolEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools?recursion=1`)
+    fetch(`/1.0/storage-pools?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool[]>) => resolve(data.metadata))
       .catch(reject);

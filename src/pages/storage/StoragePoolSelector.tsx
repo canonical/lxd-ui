@@ -4,15 +4,13 @@ import {
   CustomSelectOption,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchStoragePools } from "api/storage-pools";
 import Loader from "components/Loader";
 import { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
 import { useSettings } from "context/useSettings";
 import { getSupportedStorageDrivers } from "util/storageOptions";
 import StoragePoolOptionLabel from "./StoragePoolOptionLabel";
 import StoragePoolOptionHeader from "./StoragePoolOptionHeader";
+import { useStoragePools } from "context/useStoragePools";
 
 interface Props {
   value: string;
@@ -29,14 +27,7 @@ const StoragePoolSelector: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const { data: settings } = useSettings();
-  const {
-    data: pools = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: pools = [], error, isLoading } = useStoragePools();
 
   const supportedStorageDrivers = getSupportedStorageDrivers(settings);
   const poolsWithSupportedDriver = pools.filter((pool) =>
