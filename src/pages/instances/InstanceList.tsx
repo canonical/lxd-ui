@@ -286,7 +286,11 @@ const InstanceList: FC = () => {
   const getRows = (hiddenCols: string[]): MainTableRow[] => {
     const spannedWidth = CREATION_SPAN_COLUMNS.filter(
       (col) => !hiddenCols.includes(col),
-    ).reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
+    )
+      .concat(...(isClustered ? [CLUSTER_MEMBER] : []))
+      .reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
+
+    const totalColumnCount = getHeaders(userHidden.concat(sizeHidden)).length;
 
     const creationRows: MainTableRow[] = creationOperations.map((operation) => {
       return {
@@ -301,7 +305,7 @@ const InstanceList: FC = () => {
             "aria-label": NAME,
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
           },
-          ...(hiddenCols.length < 5
+          ...(totalColumnCount > 3
             ? [
                 {
                   content: (
@@ -316,7 +320,7 @@ const InstanceList: FC = () => {
                     </i>
                   ),
                   role: "cell",
-                  colSpan: 5 - hiddenCols.length,
+                  colSpan: totalColumnCount - 3,
                   style: { width: `${spannedWidth}px` },
                 },
               ]
