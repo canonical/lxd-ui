@@ -20,8 +20,6 @@ const StoragePoolFormPowerflex: FC<Props> = ({ formik }) => {
           name: "powerflex_clone_copy",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -29,8 +27,6 @@ const StoragePoolFormPowerflex: FC<Props> = ({ formik }) => {
           name: "powerflex_sdt",
           defaultValue: "",
           children: <Input type="text" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -38,8 +34,6 @@ const StoragePoolFormPowerflex: FC<Props> = ({ formik }) => {
           name: "powerflex_gateway_verify",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -47,8 +41,6 @@ const StoragePoolFormPowerflex: FC<Props> = ({ formik }) => {
           name: "powerflex_mode",
           defaultValue: "",
           children: <Select options={optionNvmeSdc} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
       ]}
     />

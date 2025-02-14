@@ -12,7 +12,7 @@ interface Props {
 const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
-  const { cancreateStoragePools } = useServerEntitlements();
+  const { canCreateStoragePools } = useServerEntitlements();
 
   return (
     <Button
@@ -20,12 +20,12 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
       className={className}
       hasIcon={!isSmallScreen}
       title={
-        !cancreateStoragePools()
+        !canCreateStoragePools()
           ? "You do not have permission to create storage pools"
           : ""
       }
       onClick={() => navigate(`/ui/project/${project}/storage/pools/create`)}
-      disabled={!cancreateStoragePools()}
+      disabled={!canCreateStoragePools()}
     >
       {!isSmallScreen && <Icon name="plus" light />}
       <span>Create pool</span>

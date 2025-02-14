@@ -18,7 +18,7 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
-  const cancreateStoragePools = () =>
+  const canCreateStoragePools = () =>
     hasEntitlement(
       isFineGrained,
       "can_create_storage_pools",
@@ -28,7 +28,7 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "storage_pool_manager", serverEntitlements);
 
   return {
-    cancreateStoragePools,
+    canCreateStoragePools,
     canEditServerConfiguration,
     canViewMetrics,
     canViewResources,

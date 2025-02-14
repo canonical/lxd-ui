@@ -20,8 +20,6 @@ const StoragePoolFormCephFS: FC<Props> = ({ formik }) => {
           name: "cephfs_cluster_name",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter cluster name" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -29,8 +27,6 @@ const StoragePoolFormCephFS: FC<Props> = ({ formik }) => {
           name: "cephfs_create_missing",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -38,8 +34,6 @@ const StoragePoolFormCephFS: FC<Props> = ({ formik }) => {
           name: "cephfs_fscache",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -47,8 +41,6 @@ const StoragePoolFormCephFS: FC<Props> = ({ formik }) => {
           name: "cephfs_osd_pg_num",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter number" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -56,8 +48,6 @@ const StoragePoolFormCephFS: FC<Props> = ({ formik }) => {
           name: "cephfs_path",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter path" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -65,8 +55,6 @@ const StoragePoolFormCephFS: FC<Props> = ({ formik }) => {
           name: "cephfs_user_name",
           defaultValue: "",
           children: <Input type="text" placeholder="Enter pool name" />,
-          disabled: !!formik.values.editRestriction,
-          disabledReason: formik.values.editRestriction,
         }),
       ]}
     />
