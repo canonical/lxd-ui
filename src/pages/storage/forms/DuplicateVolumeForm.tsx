@@ -10,18 +10,15 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { duplicateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { loadCustomVolumes } from "context/loadCustomVolumes";
 import StoragePoolSelector from "../StoragePoolSelector";
 import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
+import { useLoadCustomVolumes } from "context/useVolumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -40,14 +37,11 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   const controllerState = useState<AbortController | null>(null);
   const navigate = useNavigate();
   const eventQueue = useEventQueue();
-  const { hasStorageVolumesAll } = useSupportedFeatures();
 
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
 
-  const { data: volumes = [], isLoading: volumesLoading } = useQuery({
-    queryKey: [queryKeys.customVolumes, volume.project],
-    queryFn: () => loadCustomVolumes(volume.project, hasStorageVolumesAll),
-  });
+  const { data: volumes = [], isLoading: volumesLoading } =
+    useLoadCustomVolumes(volume.project);
 
   const notifySuccess = (volumeName: string, project: string, pool: string) => {
     const volumeUrl = `/ui/project/${project}/storage/pool/${pool}/volumes/custom/${volumeName}`;

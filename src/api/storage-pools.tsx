@@ -20,6 +20,7 @@ import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 export const storagePoolEntitlements = ["can_delete"];
+export const storageVolumeEntitlements = ["can_delete"];
 
 export const fetchStoragePool = (
   pool: string,
@@ -243,9 +244,13 @@ export const fetchPoolFromClusterMembers = (
 export const fetchStorageVolumes = (
   pool: string,
   project: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, storageVolumeEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1`)
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
+    )
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
         resolve(data.metadata.map((volume) => ({ ...volume, pool }))),
@@ -256,9 +261,11 @@ export const fetchStorageVolumes = (
 
 export const fetchAllStorageVolumes = (
   project: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, storageVolumeEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-volumes?recursion=1&project=${project}`)
+    fetch(`/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
         resolve(data.metadata),
@@ -272,10 +279,12 @@ export const fetchStorageVolume = (
   project: string,
   type: string,
   volume: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, storageVolumeEntitlements)}`;
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1`,
+      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1${entitlements}`,
     )
       .then(handleEtagResponse)
       .then((data) => resolve({ ...data, pool } as LxdStorageVolume))

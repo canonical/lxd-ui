@@ -1,7 +1,5 @@
 import { FC, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import {
   EmptyState,
   Icon,
@@ -12,7 +10,6 @@ import {
 } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { isoTimeToString } from "util/helpers";
-import { loadVolumes } from "context/loadIsoVolumes";
 import ScrollableTable from "components/ScrollableTable";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import StorageVolumesFilter, {
@@ -48,11 +45,11 @@ import StorageVolumeNameLink from "./StorageVolumeNameLink";
 import CustomStorageVolumeActions from "./actions/CustomStorageVolumeActions";
 import useEventListener from "util/useEventListener";
 import useSortTableData from "util/useSortTableData";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
+import { useLoadVolumes } from "context/useVolumes";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -60,7 +57,6 @@ const StorageVolumes: FC = () => {
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
-  const { hasStorageVolumesAll } = useSupportedFeatures();
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
   };
@@ -81,14 +77,7 @@ const StorageVolumes: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: volumes = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.volumes, project],
-    queryFn: () => loadVolumes(project, hasStorageVolumesAll),
-  });
+  const { data: volumes = [], error, isLoading } = useLoadVolumes(project);
 
   if (error) {
     notify.failure("Loading storage volumes failed", error);
