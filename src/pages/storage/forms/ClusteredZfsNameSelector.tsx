@@ -34,6 +34,7 @@ const ClusteredZfsNameSelector: FC<Props> = ({
       helpText={helpText}
       placeholder={placeholder}
       classname=""
+      disabledReason={formik.values.editRestriction}
     />
   );
 };

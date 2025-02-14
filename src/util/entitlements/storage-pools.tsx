@@ -8,7 +8,11 @@ export const useStoragePoolEntitlements = () => {
   const canDeletePool = (pool: LxdStoragePool) =>
     hasEntitlement(isFineGrained, "can_delete", pool?.access_entitlements);
 
+  const canEditPool = (pool: LxdStoragePool) =>
+    hasEntitlement(isFineGrained, "can_edit", pool?.access_entitlements);
+
   return {
     canDeletePool,
+    canEditPool,
   };
 };

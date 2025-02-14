@@ -20,14 +20,18 @@ const StoragePoolFormPure: FC<Props> = ({ formik }) => {
           name: "pure_gateway_verify",
           defaultValue: "",
           children: <Select options={optionTrueFalse} />,
+          disabled: !!formik.values.editRestriction,
+          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
           label: "Mode",
           name: "pure_mode",
           defaultValue: "",
-          disabled: !formik.values.isCreating,
+          disabled:
+            !!formik.values.editRestriction || !formik.values.isCreating,
           children: <Select options={optionIscsiNvme} />,
+          disabledReason: formik.values.editRestriction,
         }),
         getConfigurationRow({
           formik,
@@ -35,6 +39,8 @@ const StoragePoolFormPure: FC<Props> = ({ formik }) => {
           name: "pure_target",
           defaultValue: "",
           children: <Input type="text" />,
+          disabled: !!formik.values.editRestriction,
+          disabledReason: formik.values.editRestriction,
         }),
       ]}
     />
