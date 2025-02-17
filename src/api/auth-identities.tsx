@@ -3,7 +3,7 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const identitiesEntitlements = ["can_edit"];
+export const identitiesEntitlements = ["can_edit", "can_delete"];
 
 export const fetchIdentities = (
   isFineGrained: boolean | null,
