@@ -1,13 +1,11 @@
 import { Icon, SearchBox, useNotify } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
-import { fetchIdentities } from "api/auth-identities";
 import useSortTableData from "util/useSortTableData";
 import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
+import { useIdentities } from "context/useIdentities";
 
 export type FormIdentity = LxdIdentity & {
   isRemoved?: boolean;
@@ -28,10 +26,7 @@ const EditIdentitiesForm: FC<Props> = ({
   const notify = useNotify();
   const [filter, setFilter] = useState<string | null>(null);
 
-  const { data: identities = [], error } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error } = useIdentities();
 
   if (error) {
     notify.failure("Loading details failed", error);

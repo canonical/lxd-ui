@@ -4,7 +4,7 @@ import {
   ConfirmationModal,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import { FC, useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -32,7 +32,7 @@ import {
   getPermissionId,
   getResourceLabel,
 } from "util/permissions";
-import { fetchIdentities, updateIdentities } from "api/auth-identities";
+import { updateIdentities } from "api/auth-identities";
 import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
 import { useSettings } from "context/useSettings";
 import { pluralize } from "util/instanceBulkActions";
@@ -40,6 +40,7 @@ import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import ResourceLink from "components/ResourceLink";
 import { useImagesInAllProjects } from "context/useImages";
+import { useIdentities } from "context/useIdentities";
 
 interface Props {
   group: LxdGroup;
@@ -70,10 +71,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
     data: lxdIdentities = [],
     isLoading: lxdIdentityLoading,
     isError: lxdIdentitiesError,
-  } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  } = useIdentities();
   useEffect(() => {
     if (!lxdIdentityLoading && !lxdIdentitiesError) {
       const groupIds = new Set(getIdentityIdsForGroup(group));

@@ -5,15 +5,12 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchIdentities } from "api/auth-identities";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
@@ -36,17 +33,11 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted } from "util/helpers";
 import IdentityResource from "components/IdentityResource";
 import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
+import { useIdentities } from "context/useIdentities";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
-  const {
-    data: identities = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error, isLoading } = useIdentities();
   const { data: settings } = useSettings();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
