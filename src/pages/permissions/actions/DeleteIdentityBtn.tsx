@@ -11,6 +11,7 @@ import type { LxdIdentity } from "types/permissions";
 import ItemName from "components/ItemName";
 import { deleteIdentity } from "api/auth-identities";
 import IdentityResource from "components/IdentityResource";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 
 interface Props {
   identity: LxdIdentity;
@@ -21,6 +22,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [isDeleting, setDeleting] = useState(false);
+  const { canDeleteIdentity } = useIdentityEntitlements();
 
   const handleDelete = () => {
     setDeleting(true);
@@ -53,7 +55,11 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
 
   return (
     <ConfirmationButton
-      onHoverText="Delete identity"
+      onHoverText={
+        canDeleteIdentity(identity)
+          ? "Delete identity"
+          : "You do not have permission to delete this identity"
+      }
       appearance="base"
       aria-label="Delete identity"
       className="has-icon u-no-margin--bottom"
@@ -72,6 +78,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
       shiftClickEnabled
       showShiftClickHint
       loading={isDeleting}
+      disabled={!canDeleteIdentity(identity)}
     >
       <Icon name="delete" />
     </ConfirmationButton>
