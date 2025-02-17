@@ -1,9 +1,6 @@
 import { useNotify } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchGroups } from "api/auth-groups";
 import SidePanel from "components/SidePanel";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
 import { getGroupsForIdentities } from "util/permissionIdentities";
 import useEditHistory from "util/useEditHistory";
@@ -12,6 +9,7 @@ import type { LxdIdentity } from "types/permissions";
 import NotificationRow from "components/NotificationRow";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
+import { useGroups } from "context/useGroups";
 
 type GroupEditHistory = {
   groupsAdded: Set<string>;
@@ -28,14 +26,7 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
   const notify = useNotify();
   const [confirming, setConfirming] = useState(false);
 
-  const {
-    data: groups = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.authGroups],
-    queryFn: fetchGroups,
-  });
+  const { data: groups = [], error, isLoading } = useGroups();
 
   const {
     desiredState,

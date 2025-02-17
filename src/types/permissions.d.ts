@@ -24,6 +24,7 @@ export interface LxdGroup {
     tls?: string[];
   };
   identity_provider_groups?: string[];
+  access_entitlements?: string[];
 }
 
 export interface LxdPermission {
