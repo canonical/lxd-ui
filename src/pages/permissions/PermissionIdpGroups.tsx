@@ -94,7 +94,7 @@ const PermissionIdpGroups: FC = () => {
           title: idpGroup.name,
         },
         {
-          content: (
+          content: canEditGroup(idpGroup) ? (
             <Button
               appearance="link"
               dense
@@ -102,6 +102,8 @@ const PermissionIdpGroups: FC = () => {
             >
               {idpGroup.groups.length}
             </Button>
+          ) : (
+            idpGroup.groups.length
           ),
           role: "cell",
           className: "u-align--right",
