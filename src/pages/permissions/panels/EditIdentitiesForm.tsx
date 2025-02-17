@@ -6,6 +6,7 @@ import useSortTableData from "util/useSortTableData";
 import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 
 export type FormIdentity = LxdIdentity & {
   isRemoved?: boolean;
@@ -27,6 +28,10 @@ const EditIdentitiesForm: FC<Props> = ({
   const [filter, setFilter] = useState<string | null>(null);
 
   const { data: identities = [], error } = useIdentities();
+  const { canEditIdentity } = useIdentityEntitlements();
+  const restrictedIdentities = identities.filter(
+    (identity) => !canEditIdentity(identity),
+  );
 
   if (error) {
     notify.failure("Loading details failed", error);
@@ -122,7 +127,9 @@ const EditIdentitiesForm: FC<Props> = ({
           content: identity.name,
           role: "cell",
           "aria-label": "Identity",
-          title: identity.name,
+          title: canEditIdentity(identity)
+            ? identity.name
+            : "You do not have permission to allocate this identity to the group",
           onClick: clickRow,
           className: "clickable-cell",
         },
@@ -164,11 +171,14 @@ const EditIdentitiesForm: FC<Props> = ({
             .filter((id) => !id.isRemoved)
             .map((identity) => identity.id)}
           setSelectedNames={bulkSelect}
-          processingNames={[]}
+          processingNames={restrictedIdentities.map(
+            (identity) => identity.name,
+          )}
           filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
           indeterminateNames={[]}
           onToggleRow={toggleRow}
           hideContextualMenu
+          disableHeaderCheckbox={!!restrictedIdentities.length}
         />
       </ScrollableTable>
     </>

@@ -282,7 +282,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         indeterminateNames={Array.from(indeterminateIdentities)}
         onToggleRow={toggleRow}
         hideContextualMenu
-        hideHeaderCheckbox={!!restrictedIdentities.length}
+        disableHeaderCheckbox={!!restrictedIdentities.length}
       />
     </ScrollableTable>
   );

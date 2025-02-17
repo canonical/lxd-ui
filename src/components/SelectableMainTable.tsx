@@ -26,7 +26,7 @@ interface SelectableMainTableProps {
   onToggleRow?: (rowName: string) => void;
   hideContextualMenu?: boolean;
   defaultSortKey?: string;
-  hideHeaderCheckbox?: boolean;
+  disableHeaderCheckbox?: boolean;
 }
 
 type Props = SelectableMainTableProps & MainTableProps;
@@ -45,7 +45,7 @@ const SelectableMainTable: FC<Props> = ({
   onToggleRow,
   hideContextualMenu,
   defaultSortKey,
-  hideHeaderCheckbox,
+  disableHeaderCheckbox,
   ...props
 }: Props) => {
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
@@ -87,16 +87,14 @@ const SelectableMainTable: FC<Props> = ({
     {
       content: (
         <>
-          {!hideHeaderCheckbox && (
-            <CheckboxInput
-              label={<div className="u-off-screen">Select all</div>}
-              labelClassName="multiselect-checkbox"
-              checked={isAllSelected}
-              indeterminate={isSomeSelected && !isAllSelected}
-              onChange={isSomeSelected ? selectNone : selectPage}
-              disabled={disableSelect}
-            />
-          )}
+          <CheckboxInput
+            label={<div className="u-off-screen">Select all</div>}
+            labelClassName="multiselect-checkbox"
+            checked={isAllSelected}
+            indeterminate={isSomeSelected && !isAllSelected}
+            onChange={isSomeSelected ? selectNone : selectPage}
+            disabled={disableSelect || disableHeaderCheckbox}
+          />
           {!hideContextualMenu && (
             <ContextualMenu
               className="select-context-menu"
