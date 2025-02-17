@@ -3,6 +3,7 @@ import { Button, Icon } from "@canonical/react-components";
 import type { IdpGroup } from "types/permissions";
 import DeleteIdpGroupsModal from "./DeleteIdpGroupsModal";
 import { usePortal } from "@canonical/react-components";
+import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 
 interface Props {
   idpGroup: IdpGroup;
@@ -10,6 +11,7 @@ interface Props {
 
 const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canDeleteGroup } = useIdpGroupEntitlements();
 
   return (
     <>
@@ -20,7 +22,12 @@ const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
         onClick={openPortal}
         type="button"
         aria-label="Delete IDP group"
-        title="Delete IDP group"
+        title={
+          canDeleteGroup()
+            ? "Delete IDP group"
+            : "You do not have permission to delete this IDP group"
+        }
+        disabled={!canDeleteGroup(idpGroup)}
       >
         <Icon name="delete" />
       </Button>

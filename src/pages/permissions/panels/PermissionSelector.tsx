@@ -48,7 +48,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
   } = useQuery({
     queryKey: [queryKeys.permissions, resourceType],
     queryFn: () => fetchPermissions({ resourceType }),
-    enabled: !!resourceType && !!disableReason,
+    enabled: !!resourceType && !disableReason,
   });
 
   const { data: images = [] } = useImagesInAllProjects();
