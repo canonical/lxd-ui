@@ -8,7 +8,11 @@ export const useIdentityEntitlements = () => {
   const canEditIdentity = (identity?: LxdIdentity) =>
     hasEntitlement(isFineGrained, "can_edit", identity?.access_entitlements);
 
+  const canDeleteIdentity = (identity?: LxdIdentity) =>
+    hasEntitlement(isFineGrained, "can_delete", identity?.access_entitlements);
+
   return {
+    canDeleteIdentity,
     canEditIdentity,
   };
 };
