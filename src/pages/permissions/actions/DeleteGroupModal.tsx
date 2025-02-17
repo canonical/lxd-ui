@@ -92,18 +92,6 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   };
 
   const getModalContent = () => {
-    if (!deletableGroups.length) {
-      return (
-        <Notification
-          severity="caution"
-          title="Restricted permissions"
-          titleElement="h2"
-        >
-          You do not have permission to delete the selected groups
-        </Notification>
-      );
-    }
-
     return (
       <>
         <p>
