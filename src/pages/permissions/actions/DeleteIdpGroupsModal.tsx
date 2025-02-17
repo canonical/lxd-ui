@@ -1,10 +1,15 @@
-import { ConfirmationModal, useNotify } from "@canonical/react-components";
+import {
+  ConfirmationModal,
+  Notification,
+  useNotify,
+} from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteIdpGroup, deleteIdpGroups } from "api/auth-idp-groups";
 import ResourceLabel from "components/ResourceLabel";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { FC, useState } from "react";
 import type { IdpGroup } from "types/permissions";
+import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
 
@@ -18,22 +23,34 @@ const DeleteIdpGroupsModal: FC<Props> = ({ idpGroups, close }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [submitting, setSubmitting] = useState(false);
-  const hasOneGroup = idpGroups.length === 1;
+  const { canDeleteGroup } = useIdpGroupEntitlements();
+
+  const restrictedGroups: IdpGroup[] = [];
+  const deletableGroups: IdpGroup[] = [];
+  idpGroups.forEach((group) => {
+    if (canDeleteGroup(group)) {
+      deletableGroups.push(group);
+    } else {
+      restrictedGroups.push(group);
+    }
+  });
+
+  const hasOneGroup = deletableGroups.length === 1;
 
   const handleDeleteIdpGroups = () => {
     setSubmitting(true);
     const mutationPromise = hasOneGroup
-      ? deleteIdpGroup(idpGroups[0].name)
-      : deleteIdpGroups(idpGroups.map((group) => group.name));
+      ? deleteIdpGroup(deletableGroups[0].name)
+      : deleteIdpGroups(deletableGroups.map((group) => group.name));
 
     const successMessage = hasOneGroup ? (
       <>
         IDP group{" "}
-        <ResourceLabel bold type="idp-group" value={idpGroups[0].name} />{" "}
+        <ResourceLabel bold type="idp-group" value={deletableGroups[0].name} />{" "}
         deleted.
       </>
     ) : (
-      `${idpGroups.length} IDP groups deleted.`
+      `${deletableGroups.length} IDP groups deleted.`
     );
 
     mutationPromise
@@ -46,7 +63,7 @@ const DeleteIdpGroupsModal: FC<Props> = ({ idpGroups, close }) => {
       })
       .catch((e) => {
         notify.failure(
-          `${pluralize("IDP group", idpGroups.length)} deletion failed`,
+          `${pluralize("IDP group", deletableGroups.length)} deletion failed`,
           e,
         );
       })
@@ -68,11 +85,27 @@ const DeleteIdpGroupsModal: FC<Props> = ({ idpGroups, close }) => {
         Are you sure you want to delete{" "}
         <strong>
           {hasOneGroup
-            ? `"${idpGroups[0].name}"`
-            : `${idpGroups.length} IDP groups`}
+            ? `"${deletableGroups[0].name}"`
+            : `${deletableGroups.length} IDP groups`}
         </strong>
         ? This action is permanent and can not be undone.
       </p>
+      {restrictedGroups.length && (
+        <Notification
+          severity="caution"
+          title="Restricted permissions"
+          titleElement="h2"
+        >
+          <p className="u-no-margin--bottom">
+            You do not have permission to delete the following IDP groups:
+          </p>
+          <ul className="u-no-margin--bottom">
+            {restrictedGroups.map((group) => (
+              <li key={group.name}>{group.name}</li>
+            ))}
+          </ul>
+        </Notification>
+      )}
     </ConfirmationModal>
   );
 };
