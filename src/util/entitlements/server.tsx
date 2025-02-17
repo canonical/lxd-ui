@@ -41,6 +41,11 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
+  const canViewPermissions = () =>
+    hasEntitlement(isFineGrained, "can_view_permissions", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "permission_manager", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   const canViewResources = () =>
     hasEntitlement(isFineGrained, "can_view_resources", serverEntitlements) ||
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
@@ -53,6 +58,7 @@ export const useServerEntitlements = () => {
     canCreateStoragePools,
     canEditServerConfiguration,
     canViewMetrics,
+    canViewPermissions,
     canViewResources,
   };
 };

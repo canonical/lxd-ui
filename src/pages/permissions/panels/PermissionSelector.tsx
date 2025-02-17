@@ -24,9 +24,10 @@ import { useIdentities } from "context/useIdentities";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
+  disableReason?: string;
 }
 
-const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
+const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
   const notify = useNotify();
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
@@ -47,7 +48,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   } = useQuery({
     queryKey: [queryKeys.permissions, resourceType],
     queryFn: () => fetchPermissions({ resourceType }),
-    enabled: !!resourceType,
+    enabled: !!resourceType && !!disableReason,
   });
 
   const { data: images = [] } = useImagesInAllProjects();
@@ -180,6 +181,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
       className="permission-selector"
       tabIndex={0}
       ref={permissionSelectorRef}
+      title={disableReason}
     >
       <CustomSelect
         id="resourceType"
@@ -192,6 +194,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         value={resourceType}
         selectRef={resourceTypeRef as SelectRef}
         searchable="always"
+        disabled={!!disableReason}
       />
       <CustomSelect
         id="resource"
