@@ -6,13 +6,11 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -21,7 +19,6 @@ import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
-import { fetchGroups } from "api/auth-groups";
 import GroupActions from "./actions/GroupActions";
 import CreateGroupPanel from "./panels/CreateGroupPanel";
 import EditGroupPanel from "./panels/EditGroupPanel";
@@ -29,17 +26,11 @@ import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import EditGroupIdentitiesBtn from "./actions/EditGroupIdentitiesBtn";
 import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
+import { useGroups } from "context/useGroups";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
-  const {
-    data: groups = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.authGroups],
-    queryFn: fetchGroups,
-  });
+  const { data: groups = [], error, isLoading } = useGroups();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
