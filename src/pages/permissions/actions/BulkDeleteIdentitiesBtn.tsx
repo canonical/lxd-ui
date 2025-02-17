@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import {
   ButtonProps,
   ConfirmationButton,
-  Notification,
   useNotify,
 } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
@@ -61,57 +60,44 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
       });
   };
 
-  const getDeleteConfirmationMessage = () => {
-    if (!deletableIdentities.length) {
-      return (
-        <Notification
-          severity="caution"
-          title="Restricted permissions"
-          titleElement="h2"
-        >
-          You do not have permission to delete the selected identities
-        </Notification>
-      );
-    }
-
-    return (
-      <p>
-        This will permanently delete the following{" "}
-        {pluralize("identity", deletableIdentities.length)}:
-        <ul>
-          {deletableIdentities.map((identity) => (
-            <li key={identity.name}>{identity.name}</li>
-          ))}
-        </ul>
-        You do not have permission to delete the following{" "}
-        {pluralize("identity", deletableIdentities.length)}:
-        <ul>
-          {restrictedIdentities.map((identity) => (
-            <li key={identity.name}>{identity.name}</li>
-          ))}
-        </ul>
-        This action cannot be undone, and can result in data loss.
-      </p>
-    );
-  };
-
   return (
     <ConfirmationButton
-      onHoverText={buttonText}
+      onHoverText={
+        deletableIdentities.length
+          ? buttonText
+          : `You do not have permission to delete the selected ${pluralize("identity", identities.length)}`
+      }
       appearance=""
       aria-label="Delete identities"
       className={className}
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
-        children: getDeleteConfirmationMessage(),
+        children: (
+          <p>
+            This will permanently delete the following{" "}
+            {pluralize("identity", deletableIdentities.length)}:
+            <ul>
+              {deletableIdentities.map((identity) => (
+                <li key={identity.name}>{identity.name}</li>
+              ))}
+            </ul>
+            You do not have permission to delete the following{" "}
+            {pluralize("identity", deletableIdentities.length)}:
+            <ul>
+              {restrictedIdentities.map((identity) => (
+                <li key={identity.name}>{identity.name}</li>
+              ))}
+            </ul>
+            This action cannot be undone, and can result in data loss.
+          </p>
+        ),
         confirmButtonLabel: "Delete",
-        confirmButtonDisabled: !deletableIdentities.length,
         onConfirm: handleDelete,
       }}
-      disabled={!identities.length}
+      disabled={!deletableIdentities.length}
       shiftClickEnabled
-      showShiftClickHint={!!deletableIdentities.length}
+      showShiftClickHint
     >
       {buttonText}
     </ConfirmationButton>
