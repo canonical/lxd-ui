@@ -27,7 +27,6 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   const [confirmInput, setConfirmInput] = useState("");
   const [disableConfirm, setDisableConfirm] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const hasOneGroup = groups.length === 1;
   const confirmText = "confirm-delete-group";
   const { canDeleteGroup } = useGroupEntitlements();
 
@@ -40,6 +39,8 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
       restrictedGroups.push(group);
     }
   });
+
+  const hasOneGroup = deletableGroups.length === 1;
 
   const handleConfirmInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === confirmText) {
