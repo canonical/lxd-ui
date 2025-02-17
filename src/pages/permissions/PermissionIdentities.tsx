@@ -34,6 +34,7 @@ import { isUnrestricted } from "util/helpers";
 import IdentityResource from "components/IdentityResource";
 import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
 import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -44,6 +45,7 @@ const PermissionIdentities: FC = () => {
   const [searchParams] = useSearchParams();
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
   const { hasAccessManagementTLS } = useSupportedFeatures();
+  const { canEditIdentity } = useIdentityEntitlements();
 
   useEffect(() => {
     const validIdentityIds = new Set(identities.map((identity) => identity.id));
@@ -147,10 +149,12 @@ const PermissionIdentities: FC = () => {
           className: "u-truncate",
         },
         {
-          content: (
+          content: canEditIdentity(identity) ? (
             <Button appearance="link" dense onClick={openGroupPanelForIdentity}>
               {identity.groups?.length || 0}
             </Button>
+          ) : (
+            identity.groups?.length || 0
           ),
           role: "cell",
           className: "u-align--right group-count",
@@ -167,7 +171,12 @@ const PermissionIdentities: FC = () => {
                 onClick={openGroupPanelForIdentity}
                 type="button"
                 aria-label="Manage groups"
-                title="Manage groups"
+                title={
+                  canEditIdentity()
+                    ? "Manage groups"
+                    : "You do not have permission to modify this identity"
+                }
+                disabled={!canEditIdentity(identity)}
               >
                 <Icon name="user-group" />
               </Button>
