@@ -1,10 +1,16 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { IdpGroup } from "types/permissions";
+import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const fetchIdpGroups = (): Promise<IdpGroup[]> => {
+const idpGroupEntitlements = ["can_edit", "can_delete"];
+
+export const fetchIdpGroups = (
+  isFineGrained: boolean | null,
+): Promise<IdpGroup[]> => {
+  const entitlements = `&${withEntitlementsQuery(isFineGrained, idpGroupEntitlements)}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups?recursion=1`)
+    fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<IdpGroup[]>) => resolve(data.metadata))
       .catch(reject);

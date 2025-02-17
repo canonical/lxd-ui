@@ -37,6 +37,7 @@ export interface LxdPermission {
 export interface IdpGroup {
   name: string;
   groups: string[]; // these should be names of lxd groups
+  access_entitlements?: string[];
 }
 
 export interface TlsIdentityTokenDetail {

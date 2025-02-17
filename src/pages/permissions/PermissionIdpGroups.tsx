@@ -8,13 +8,11 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import usePanelParams, { panels } from "util/usePanelParams";
 import CustomLayout from "components/CustomLayout";
@@ -23,24 +21,17 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import PermissionGroupsFilter from "./PermissionGroupsFilter";
-import { fetchIdpGroups } from "api/auth-idp-groups";
 import CreateIdpGroupPanel from "./panels/CreateIdpGroupPanel";
 import BulkDeleteIdpGroupsBtn from "./actions/BulkDeleteIdpGroupsBtn";
 import EditIdpGroupPanel from "./panels/EditIdpGroupPanel";
 import DeleteIdpGroupBtn from "./actions/DeleteIdpGroupBtn";
 import { useSettings } from "context/useSettings";
 import { Link } from "react-router-dom";
+import { useIdpGroups } from "context/useIdpGroups";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
-  const {
-    data: groups = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.idpGroups],
-    queryFn: fetchIdpGroups,
-  });
+  const { data: groups = [], error, isLoading } = useIdpGroups();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
