@@ -2,7 +2,6 @@ import {
   ActionButton,
   Button,
   Icon,
-  Notification,
   useNotify,
 } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
@@ -46,8 +45,8 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
 
   const { data: identities = [], error, isLoading } = useIdentities();
   const { canEditIdentity } = useIdentityEntitlements();
-  const editableIdentities = identities.filter((identity) =>
-    canEditIdentity(identity),
+  const restrictedIdentities = identities.filter(
+    (identity) => !canEditIdentity(identity),
   );
 
   const {
@@ -74,7 +73,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
   }, [groups]);
 
   const fineGrainedIdentities = identities.filter(
-    (identity) => !isUnrestricted(identity) && canEditIdentity(identity),
+    (identity) => !isUnrestricted(identity),
   );
 
   const {
@@ -228,7 +227,9 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
           content: identity.name,
           role: "cell",
           "aria-label": "Identity",
-          title: identity.name,
+          title: canEditIdentity(identity)
+            ? identity.name
+            : "You do not have permission to allocate this identity to groups",
         },
         {
           content: modifiedIdentities.has(identity.id) && (
@@ -255,73 +256,51 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
     : "Modify identities";
 
-  const getPanelTitle = () => {
-    if (!editableIdentities.length) {
-      return;
-    }
-
-    return groups.length > 1
+  const panelTitle =
+    groups.length > 1
       ? `Change identities for ${groups.length} groups`
       : `Change identities for ${groups[0]?.name}`;
-  };
 
-  const getPanelContent = () => {
-    if (!editableIdentities.length) {
-      return (
-        <Notification
-          severity="caution"
-          title="Restricted permissions"
-          titleElement="h2"
-        >
-          You do not have permission to change identities in groups.
-        </Notification>
-      );
-    }
-
-    return (
-      <ScrollableTable
-        dependencies={[
-          identities,
-          modifiedIdentities.size,
-          notify.notification,
-        ]}
-        tableId="group-identities-table"
-        belowIds={["panel-footer"]}
-      >
-        <SelectableMainTable
-          id="group-identities-table"
-          headers={headers}
-          rows={sortedRows}
-          sortable
-          emptyStateMsg="No identities found"
-          itemName="identity"
-          parentName="server"
-          selectedNames={Array.from(selectedIdentities)}
-          setSelectedNames={modifyIdentities}
-          processingNames={[]}
-          filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
-          indeterminateNames={Array.from(indeterminateIdentities)}
-          onToggleRow={toggleRow}
-          hideContextualMenu
-        />
-      </ScrollableTable>
-    );
-  };
+  const content = (
+    <ScrollableTable
+      dependencies={[identities, modifiedIdentities.size, notify.notification]}
+      tableId="group-identities-table"
+      belowIds={["panel-footer"]}
+    >
+      <SelectableMainTable
+        id="group-identities-table"
+        headers={headers}
+        rows={sortedRows}
+        sortable
+        emptyStateMsg="No identities found"
+        itemName="identity"
+        parentName="server"
+        selectedNames={Array.from(selectedIdentities)}
+        setSelectedNames={modifyIdentities}
+        processingNames={restrictedIdentities.map((identity) => identity.id)}
+        filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
+        indeterminateNames={Array.from(indeterminateIdentities)}
+        onToggleRow={toggleRow}
+        hideContextualMenu
+        hideHeaderCheckbox={!!restrictedIdentities.length}
+      />
+    </ScrollableTable>
+  );
 
   return (
     <>
       <SidePanel isOverlay loading={isLoading} hasError={!identities}>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>{getPanelTitle()}</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>{panelTitle}</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
-        {editableIdentities.length ? <PermissionIdentitiesFilter /> : null}
+        <PermissionIdentitiesFilter />
         <SidePanel.Content className="u-no-padding">
           <ScrollableContainer
             dependencies={[modifiedIdentities.size, notify.notification]}
             belowIds={["panel-footer"]}
           >
-            {getPanelContent()}
+            {content}
           </ScrollableContainer>
         </SidePanel.Content>
         <SidePanel.Footer className="u-align--right">
