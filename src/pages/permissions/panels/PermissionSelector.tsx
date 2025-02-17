@@ -16,11 +16,11 @@ import {
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
-import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
 import type { LxdPermission } from "types/permissions";
 import { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import { useImagesInAllProjects } from "context/useImages";
+import { useIdentities } from "context/useIdentities";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
@@ -52,10 +52,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
 
   const { data: images = [] } = useImagesInAllProjects();
 
-  const { data: identities = [] } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [] } = useIdentities();
 
   const imageLookup = getImageLookup(images);
   const identityNamesLookup = getIdentityNameLookup(identities);
