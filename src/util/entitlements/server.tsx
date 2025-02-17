@@ -18,6 +18,15 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "permission_manager", serverEntitlements) ||
     hasEntitlement(isFineGrained, "admin", serverEntitlements);
 
+  const canCreateIdpGroups = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_identity_provider_groups",
+      serverEntitlements,
+    ) ||
+    hasEntitlement(isFineGrained, "permission_manager", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   const canCreateProjects = () =>
     hasEntitlement(isFineGrained, "can_create_projects", serverEntitlements) ||
     hasEntitlement(isFineGrained, "project_manager", serverEntitlements) ||
@@ -54,6 +63,7 @@ export const useServerEntitlements = () => {
   return {
     canCreateGroups,
     canCreateIdentities,
+    canCreateIdpGroups,
     canCreateProjects,
     canCreateStoragePools,
     canEditServerConfiguration,
