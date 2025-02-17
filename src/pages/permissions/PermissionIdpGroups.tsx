@@ -28,6 +28,7 @@ import DeleteIdpGroupBtn from "./actions/DeleteIdpGroupBtn";
 import { useSettings } from "context/useSettings";
 import { Link } from "react-router-dom";
 import { useIdpGroups } from "context/useIdpGroups";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -38,6 +39,7 @@ const PermissionIdpGroups: FC = () => {
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
   const { data: settings } = useSettings();
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
+  const { canCreateIdpGroups } = useServerEntitlements();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -239,6 +241,12 @@ const PermissionIdpGroups: FC = () => {
         className="empty-state-button"
         appearance="positive"
         onClick={panelParams.openCreateIdpGroup}
+        disabled={!canCreateIdpGroups()}
+        title={
+          canCreateIdpGroups()
+            ? ""
+            : "You do not have permission to create IDP groups"
+        }
       >
         Create IDP group
       </Button>
@@ -285,6 +293,12 @@ const PermissionIdpGroups: FC = () => {
                     appearance="positive"
                     className="u-no-margin--bottom u-float-right"
                     onClick={panelParams.openCreateIdpGroup}
+                    disabled={!canCreateIdpGroups()}
+                    title={
+                      canCreateIdpGroups()
+                        ? ""
+                        : "You do not have permission to create IDP groups"
+                    }
                   >
                     Create IDP group
                   </Button>

@@ -21,7 +21,7 @@ interface Props {
   permissionCount: number;
   permissionModifyCount: number;
   isEditing?: boolean;
-  group: LxdGroup;
+  group?: LxdGroup;
 }
 
 const GroupForm: FC<Props> = ({
