@@ -27,6 +27,7 @@ import EditGroupIdentitiesBtn from "./actions/EditGroupIdentitiesBtn";
 import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
 import { useGroups } from "context/useGroups";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -35,6 +36,7 @@ const PermissionGroups: FC = () => {
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
+  const { canCreateGroups } = useServerEntitlements();
 
   if (error) {
     notify.failure("Loading groups failed", error);
@@ -237,6 +239,10 @@ const PermissionGroups: FC = () => {
         className="empty-state-button"
         appearance="positive"
         onClick={panelParams.openCreateGroup}
+        disabled={!canCreateGroups()}
+        title={
+          canCreateGroups() ? "" : "You do not have permission to create groups"
+        }
       >
         Create group
       </Button>
@@ -288,6 +294,12 @@ const PermissionGroups: FC = () => {
                     appearance="positive"
                     className="u-no-margin--bottom u-float-right"
                     onClick={panelParams.openCreateGroup}
+                    disabled={!canCreateGroups()}
+                    title={
+                      canCreateGroups()
+                        ? ""
+                        : "You do not have permission to create groups"
+                    }
                   >
                     Create group
                   </Button>

@@ -4,6 +4,11 @@ import { hasEntitlement } from "./helpers";
 export const useServerEntitlements = () => {
   const { isFineGrained, serverEntitlements } = useAuth();
 
+  const canCreateGroups = () =>
+    hasEntitlement(isFineGrained, "can_create_groups", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "permission_manager", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
   const canCreateIdentities = () =>
     hasEntitlement(
       isFineGrained,
@@ -42,6 +47,7 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
   return {
+    canCreateGroups,
     canCreateIdentities,
     canCreateProjects,
     canCreateStoragePools,
