@@ -41,6 +41,7 @@ import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import ResourceLink from "components/ResourceLink";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";
+import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {
   group: LxdGroup;
@@ -63,6 +64,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
   );
   const { data: settings } = useSettings();
   const loggedInIdentityID = settings?.auth_user_name ?? "";
+  const { canEditGroup } = useGroupEntitlements();
 
   // We initialize the identities state with id only,
   // to get the correct counts on initial render.
@@ -164,13 +166,20 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       description: values.description,
       permissions: permissions.filter((p) => !p.isRemoved),
     };
-    const mutationPromise = isNameChanged
-      ? renameGroup(group?.name ?? "", values.name)
-          .then(() => updateGroup(groupPayload))
-          .then(saveIdentities)
-      : updateGroup(groupPayload).then(saveIdentities);
 
-    mutationPromise
+    const getMutationPromise = () => {
+      if (!canEditGroup(group)) {
+        return saveIdentities();
+      }
+
+      return isNameChanged
+        ? renameGroup(group?.name ?? "", values.name)
+            .then(() => updateGroup(groupPayload))
+            .then(saveIdentities)
+        : updateGroup(groupPayload).then(saveIdentities);
+    };
+
+    getMutationPromise()
       .then(() => {
         closePanel();
         toastNotify.success(
@@ -268,6 +277,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
                 permissionModifyCount={
                   permissions.filter((p) => p.isAdded || p.isRemoved).length
                 }
+                group={group}
               />
             </ScrollableContainer>
           )}
