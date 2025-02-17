@@ -29,6 +29,7 @@ import { useSettings } from "context/useSettings";
 import { Link } from "react-router-dom";
 import { useIdpGroups } from "context/useIdpGroups";
 import { useServerEntitlements } from "util/entitlements/server";
+import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -40,6 +41,7 @@ const PermissionIdpGroups: FC = () => {
   const { data: settings } = useSettings();
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
   const { canCreateIdpGroups } = useServerEntitlements();
+  const { canEditGroup } = useIdpGroupEntitlements();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -120,7 +122,12 @@ const PermissionIdpGroups: FC = () => {
                   onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
                   type="button"
                   aria-label="Edit IDP group details"
-                  title="Edit details"
+                  title={
+                    canEditGroup(idpGroup)
+                      ? "Edit details"
+                      : "You do not have permission to edit this IDP group"
+                  }
+                  disabled={!canEditGroup(idpGroup)}
                 >
                   <Icon name="edit" />
                 </Button>,
