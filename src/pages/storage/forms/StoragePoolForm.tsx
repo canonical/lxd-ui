@@ -265,6 +265,8 @@ const StoragePoolForm: FC<Props> = ({
                 ensureEditMode(formik);
                 void formik.setFieldValue("yaml", yaml);
               }}
+              readOnly={!!formik.values.editRestriction}
+              readOnlyMessage={{ value: formik.values.editRestriction ?? "" }}
             >
               <Notification severity="information" title="YAML Configuration">
                 {`${isSupportedStorageDriver ? "" : `The ${formik.values.driver} driver is not fully supported in the web interface. `}This is the YAML representation of the storage pool.`}
