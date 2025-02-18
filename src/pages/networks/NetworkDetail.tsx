@@ -1,8 +1,5 @@
 import { FC, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { useParams } from "react-router-dom";
-import { fetchNetwork } from "api/networks";
 import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";
 import NetworkDetailHeader from "pages/networks/NetworkDetailHeader";
@@ -11,6 +8,7 @@ import { Row, useNotify } from "@canonical/react-components";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import NetworkForwards from "pages/networks/NetworkForwards";
+import { useNetwork } from "context/useNetworks";
 
 const NetworkDetail: FC = () => {
   const notify = useNotify();
@@ -30,21 +28,7 @@ const NetworkDetail: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: network,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [
-      queryKeys.projects,
-      project,
-      queryKeys.networks,
-      name,
-      queryKeys.members,
-      member,
-    ],
-    queryFn: () => fetchNetwork(name, project, member),
-  });
+  const { data: network, error, isLoading } = useNetwork(name, project, member);
 
   useEffect(() => {
     if (error) {

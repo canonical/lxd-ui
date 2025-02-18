@@ -1,13 +1,11 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { MainTable, Notification } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { fetchNetworks } from "api/networks";
 import { isNicDevice } from "util/devices";
 import ResourceLink from "components/ResourceLink";
 import { useParams } from "react-router-dom";
 import type { LxdDevices } from "types/device";
+import { useNetworks } from "context/useNetworks";
 
 interface Props {
   onFailure: (title: string, e: unknown) => void;
@@ -21,10 +19,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
     data: networks = [],
     error,
     isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks],
-    queryFn: () => fetchNetworks(project as string),
-  });
+  } = useNetworks(project as string);
 
   if (error) {
     onFailure("Loading networks failed", error);

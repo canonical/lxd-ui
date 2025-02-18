@@ -7,7 +7,7 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { fetchNetworksFromClusterMembers, fetchNetworks } from "api/networks";
+import { fetchNetworksFromClusterMembers } from "api/networks";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
@@ -36,6 +36,8 @@ import NetworkSearchFilter, {
 } from "pages/networks/NetworkSearchFilter";
 import { LXDNetworkOnClusterMember } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";
+import { useNetworks } from "context/useNetworks";
+import { useAuth } from "context/auth";
 
 const NetworkList: FC = () => {
   const docBaseLink = useDocs();
@@ -46,6 +48,7 @@ const NetworkList: FC = () => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const isClustered = clusterMembers.length > 0;
   const [searchParams] = useSearchParams();
+  const { isFineGrained } = useAuth();
 
   const filters: NetworkFilters = {
     queries: searchParams.getAll(QUERY),
@@ -59,14 +62,7 @@ const NetworkList: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: networks = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks],
-    queryFn: () => fetchNetworks(project),
-  });
+  const { data: networks = [], error, isLoading } = useNetworks(project);
 
   useEffect(() => {
     if (error) {
@@ -80,8 +76,9 @@ const NetworkList: FC = () => {
     isLoading: isClusterNetworksLoading,
   } = useQuery({
     queryKey: [queryKeys.networks, project, queryKeys.cluster],
-    queryFn: () => fetchNetworksFromClusterMembers(project, clusterMembers),
-    enabled: clusterMembers.length > 0,
+    queryFn: () =>
+      fetchNetworksFromClusterMembers(project, clusterMembers, isFineGrained),
+    enabled: clusterMembers.length > 0 && isFineGrained !== null,
   });
 
   useEffect(() => {

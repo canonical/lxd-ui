@@ -7,11 +7,9 @@ import ResourceLink from "components/ResourceLink";
 import { filterUsedByType } from "util/usedBy";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import classNames from "classnames";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchNetworks } from "api/networks";
 import classnames from "classnames";
 import { useParams } from "react-router-dom";
+import { useNetworks } from "context/useNetworks";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -33,10 +31,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
   const hasClusteredUplinks =
     isServerClustered && ["physical", "bridge"].includes(network.type);
 
-  const { data: networks = [], error } = useQuery({
-    queryKey: [queryKeys.networks, project],
-    queryFn: () => fetchNetworks(project),
-  });
+  const { data: networks = [], error } = useNetworks(project);
 
   useEffect(() => {
     if (error) {

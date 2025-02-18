@@ -9,7 +9,6 @@ import {
 } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { fetchNetworks } from "api/networks";
 import type { LxdNicDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
@@ -23,6 +22,7 @@ import { isNicDeviceNameMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
 import { focusField } from "util/formFields";
+import { useNetworks } from "context/useNetworks";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -49,10 +49,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     data: networks = [],
     isLoading: isNetworkLoading,
     error: networkError,
-  } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks],
-    queryFn: () => fetchNetworks(project),
-  });
+  } = useNetworks(project);
 
   useEffect(() => {
     if (networkError) {

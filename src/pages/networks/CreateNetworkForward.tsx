@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
@@ -15,7 +15,7 @@ import { useDocs } from "context/useDocs";
 import HelpLink from "components/HelpLink";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { fetchNetwork } from "api/networks";
+import { useNetwork } from "context/useNetworks";
 
 const CreateNetworkForward: FC = () => {
   const docBaseLink = useDocs();
@@ -28,10 +28,10 @@ const CreateNetworkForward: FC = () => {
     project: string;
   }>();
 
-  const { data: network, error: networkError } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks, networkName],
-    queryFn: () => fetchNetwork(networkName ?? "", project ?? ""),
-  });
+  const { data: network, error: networkError } = useNetwork(
+    networkName ?? "",
+    project ?? "",
+  );
 
   useEffect(() => {
     if (networkError) {

@@ -33,6 +33,7 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
+import { useAuth } from "context/auth";
 
 interface Props {
   network: LxdNetwork;
@@ -46,6 +47,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const { hash } = useLocation();
   const initialSection = hash ? hash.substring(1) : slugify(CONNECTIONS);
   const [section, updateSection] = useState(initialSection);
+  const { isFineGrained } = useAuth();
 
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
@@ -62,8 +64,17 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       queryKeys.cluster,
     ],
     queryFn: () =>
-      fetchNetworkFromClusterMembers(network.name, project, clusterMembers),
-    enabled: isClustered && network.managed && network.type === "physical",
+      fetchNetworkFromClusterMembers(
+        network.name,
+        project,
+        clusterMembers,
+        isFineGrained,
+      ),
+    enabled:
+      isClustered &&
+      network.managed &&
+      network.type === "physical" &&
+      isFineGrained !== null,
   });
 
   useEffect(() => {

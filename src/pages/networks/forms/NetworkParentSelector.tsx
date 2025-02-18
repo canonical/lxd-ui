@@ -9,7 +9,7 @@ import {
 import Loader from "components/Loader";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { fetchNetworksFromClusterMembers, fetchNetworks } from "api/networks";
+import { fetchNetworksFromClusterMembers } from "api/networks";
 import { useParams } from "react-router-dom";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
@@ -19,6 +19,8 @@ import ClusterSpecificSelect, {
   ClusterSpecificSelectOption,
 } from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
+import { useNetworks } from "context/useNetworks";
+import { useAuth } from "context/auth";
 
 interface Props {
   props?: Record<string, unknown>;
@@ -30,20 +32,18 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
   const { project } = useParams<{ project: string }>();
   const { data: clusterMembers = [] } = useClusterMembers();
   const notify = useNotify();
+  const { isFineGrained } = useAuth();
 
   if (!project) {
     return <>Missing project</>;
   }
 
+  const networksQueryEnabled = !isClustered;
   const {
     data: networks = [],
     error: networkError,
     isLoading: isNetworkLoading,
-  } = useQuery({
-    queryKey: [queryKeys.networks, project],
-    queryFn: () => fetchNetworks(project),
-    enabled: !isClustered,
-  });
+  } = useNetworks(project, undefined, networksQueryEnabled);
 
   useEffect(() => {
     if (networkError) {
@@ -57,8 +57,9 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
     isLoading: isClusterNetworksLoading,
   } = useQuery({
     queryKey: [queryKeys.networks, "default", queryKeys.cluster],
-    queryFn: () => fetchNetworksFromClusterMembers("default", clusterMembers),
-    enabled: clusterMembers.length > 0,
+    queryFn: () =>
+      fetchNetworksFromClusterMembers("default", clusterMembers, isFineGrained),
+    enabled: clusterMembers.length > 0 && isFineGrained !== null,
   });
 
   useEffect(() => {

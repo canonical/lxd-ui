@@ -7,14 +7,12 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchNetworks } from "api/networks";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useProject } from "context/useProjects";
+import { useNetworks } from "context/useNetworks";
 
 const UPLINK_NETWORK_TYPES = ["bridge", "physical"];
 
@@ -31,10 +29,7 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
     data: networks = [],
     error: networkError,
     isLoading: isNetworkLoading,
-  } = useQuery({
-    queryKey: [queryKeys.networks, "default"],
-    queryFn: () => fetchNetworks("default"),
-  });
+  } = useNetworks("default");
 
   useEffect(() => {
     if (networkError) {
