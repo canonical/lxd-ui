@@ -23,12 +23,12 @@ const DeleteIdpGroupsModal: FC<Props> = ({ idpGroups, close }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const [submitting, setSubmitting] = useState(false);
-  const { canDeleteGroup } = useIdpGroupEntitlements();
+  const { canDeleteIdpGroup } = useIdpGroupEntitlements();
 
   const restrictedGroups: IdpGroup[] = [];
   const deletableGroups: IdpGroup[] = [];
   idpGroups.forEach((group) => {
-    if (canDeleteGroup(group)) {
+    if (canDeleteIdpGroup(group)) {
       deletableGroups.push(group);
     } else {
       restrictedGroups.push(group);

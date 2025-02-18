@@ -229,7 +229,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
           "aria-label": "Identity",
           title: canEditIdentity(identity)
             ? identity.name
-            : "You do not have permission to allocate this identity to groups",
+            : "You do not have permission to manage this identity",
         },
         {
           content: modifiedIdentities.has(identity.id) && (
@@ -252,15 +252,6 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     defaultSort: "name",
   });
 
-  const confirmButtonText = modifiedIdentities.size
-    ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
-    : "Modify identities";
-
-  const panelTitle =
-    groups.length > 1
-      ? `Change identities for ${groups.length} groups`
-      : `Change identities for ${groups[0]?.name}`;
-
   const content = (
     <ScrollableTable
       dependencies={[identities, modifiedIdentities.size, notify.notification]}
@@ -277,15 +268,24 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         parentName="server"
         selectedNames={Array.from(selectedIdentities)}
         setSelectedNames={modifyIdentities}
-        processingNames={restrictedIdentities.map((identity) => identity.id)}
+        disabledNames={restrictedIdentities.map((identity) => identity.id)}
         filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
         indeterminateNames={Array.from(indeterminateIdentities)}
         onToggleRow={toggleRow}
         hideContextualMenu
-        disableHeaderCheckbox={!!restrictedIdentities.length}
+        disableSelectAll={!!restrictedIdentities.length}
       />
     </ScrollableTable>
   );
+
+  const confirmButtonText = modifiedIdentities.size
+    ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
+    : "Modify identities";
+
+  const panelTitle =
+    groups.length > 1
+      ? `Change identities for ${groups.length} groups`
+      : `Change identities for ${groups[0]?.name}`;
 
   return (
     <>

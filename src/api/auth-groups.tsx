@@ -3,12 +3,12 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdGroup } from "types/permissions";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const groupEntitlements = ["can_edit", "can_delete"];
+export const groupEntitlements = ["can_delete", "can_edit"];
 
 export const fetchGroups = (
   isFineGrained: boolean | null,
 ): Promise<LxdGroup[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, groupEntitlements)}`;
+  const entitlements = withEntitlementsQuery(isFineGrained, groupEntitlements);
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/groups?recursion=1${entitlements}`)
       .then(handleResponse)

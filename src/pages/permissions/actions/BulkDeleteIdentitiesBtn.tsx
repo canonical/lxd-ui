@@ -82,13 +82,17 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
                 <li key={identity.name}>{identity.name}</li>
               ))}
             </ul>
-            You do not have permission to delete the following{" "}
-            {pluralize("identity", deletableIdentities.length)}:
-            <ul>
-              {restrictedIdentities.map((identity) => (
-                <li key={identity.name}>{identity.name}</li>
-              ))}
-            </ul>
+            {restrictedIdentities.length ? (
+              <>
+                You do not have permission to delete the following{" "}
+                {pluralize("identity", restrictedIdentities.length)}:
+                <ul>
+                  {restrictedIdentities.map((identity) => (
+                    <li key={identity.name}>{identity.name}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
             This action cannot be undone, and can result in data loss.
           </p>
         ),

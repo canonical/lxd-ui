@@ -5,14 +5,14 @@ import { IdpGroup } from "types/permissions";
 export const useIdpGroupEntitlements = () => {
   const { isFineGrained } = useAuth();
 
-  const canEditGroup = (group?: IdpGroup) =>
-    hasEntitlement(isFineGrained, "can_edit", group?.access_entitlements);
-
-  const canDeleteGroup = (group?: IdpGroup) =>
+  const canDeleteIdpGroup = (group?: IdpGroup) =>
     hasEntitlement(isFineGrained, "can_delete", group?.access_entitlements);
 
+  const canEditIdpGroup = (group?: IdpGroup) =>
+    hasEntitlement(isFineGrained, "can_edit", group?.access_entitlements);
+
   return {
-    canDeleteGroup,
-    canEditGroup,
+    canDeleteIdpGroup,
+    canEditIdpGroup,
   };
 };

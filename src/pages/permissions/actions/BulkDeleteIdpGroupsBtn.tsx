@@ -12,8 +12,8 @@ interface Props {
 
 const BulkDeleteIdpGroupsBtn: FC<Props> = ({ idpGroups, className }) => {
   const [confirming, setConfirming] = useState(false);
-  const { canDeleteGroup } = useIdpGroupEntitlements();
-  const deletableGroups = idpGroups.filter(canDeleteGroup);
+  const { canEditIdpGroup } = useIdpGroupEntitlements();
+  const deletableGroups = idpGroups.filter(canEditIdpGroup);
 
   const handleConfirmDelete = () => {
     setConfirming(true);

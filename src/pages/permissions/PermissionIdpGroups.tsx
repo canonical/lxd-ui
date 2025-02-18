@@ -41,7 +41,7 @@ const PermissionIdpGroups: FC = () => {
   const { data: settings } = useSettings();
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
   const { canCreateIdpGroups } = useServerEntitlements();
-  const { canEditGroup } = useIdpGroupEntitlements();
+  const { canEditIdpGroup } = useIdpGroupEntitlements();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -94,7 +94,7 @@ const PermissionIdpGroups: FC = () => {
           title: idpGroup.name,
         },
         {
-          content: canEditGroup(idpGroup) ? (
+          content: canEditIdpGroup(idpGroup) ? (
             <Button
               appearance="link"
               dense
@@ -125,11 +125,11 @@ const PermissionIdpGroups: FC = () => {
                   type="button"
                   aria-label="Edit IDP group details"
                   title={
-                    canEditGroup(idpGroup)
+                    canEditIdpGroup(idpGroup)
                       ? "Edit details"
-                      : "You do not have permission to edit this IDP group"
+                      : "You do not have permission to modify this IDP group"
                   }
-                  disabled={!canEditGroup(idpGroup)}
+                  disabled={!canEditIdpGroup(idpGroup)}
                 >
                   <Icon name="edit" />
                 </Button>,
@@ -232,7 +232,7 @@ const PermissionIdpGroups: FC = () => {
             parentName=""
             selectedNames={selectedGroupNames}
             setSelectedNames={setSelectedGroupNames}
-            processingNames={[]}
+            disabledNames={[]}
             filteredNames={filteredGroups.map((item) => item.name)}
             disableSelect={!!panelParams.panel}
           />

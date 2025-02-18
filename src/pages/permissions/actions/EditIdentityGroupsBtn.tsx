@@ -27,10 +27,10 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
   );
 
   const getRestrictedWarning = () => {
-    const test = restrictedIdentities
+    const restrictedList = restrictedIdentities
       .map((identity) => `\n- ${identity.name}`)
       .join("");
-    return `You do not have permission to modify ${restrictedIdentities.length > 1 ? "some of the selected" : "the selected"} ${pluralize("identity", restrictedIdentities.length)}:${test}`;
+    return `You do not have permission to modify ${restrictedIdentities.length > 1 ? "some of the selected" : "the selected"} ${pluralize("identity", restrictedIdentities.length)}:${restrictedList}`;
   };
 
   return (

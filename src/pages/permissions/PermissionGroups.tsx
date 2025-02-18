@@ -209,7 +209,7 @@ const PermissionGroups: FC = () => {
           parentName=""
           selectedNames={selectedGroupNames}
           setSelectedNames={setSelectedGroupNames}
-          processingNames={[]}
+          disabledNames={[]}
           filteredNames={filteredGroups.map((item) => item.name)}
           disableSelect={!!panelParams.panel}
         />

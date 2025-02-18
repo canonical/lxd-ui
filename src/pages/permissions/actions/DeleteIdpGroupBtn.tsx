@@ -11,7 +11,7 @@ interface Props {
 
 const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { canDeleteGroup } = useIdpGroupEntitlements();
+  const { canDeleteIdpGroup } = useIdpGroupEntitlements();
 
   return (
     <>
@@ -23,11 +23,11 @@ const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
         type="button"
         aria-label="Delete IDP group"
         title={
-          canDeleteGroup()
+          canDeleteIdpGroup()
             ? "Delete IDP group"
             : "You do not have permission to delete this IDP group"
         }
-        disabled={!canDeleteGroup(idpGroup)}
+        disabled={!canDeleteIdpGroup(idpGroup)}
       >
         <Icon name="delete" />
       </Button>

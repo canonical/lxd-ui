@@ -21,7 +21,7 @@ export const useIdentity = (
 ): UseQueryResult<LxdIdentity> => {
   const { isFineGrained } = useAuth();
   return useQuery({
-    queryKey: [queryKeys.identities, id],
+    queryKey: [queryKeys.identities, authMethod, id],
     queryFn: () => fetchIdentity(id, authMethod, isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
