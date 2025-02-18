@@ -38,6 +38,8 @@ import { LXDNetworkOnClusterMember } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";
 import { useNetworks } from "context/useNetworks";
 import { useAuth } from "context/auth";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useCurrentProject } from "context/useCurrentProject";
 
 const NetworkList: FC = () => {
   const docBaseLink = useDocs();
@@ -49,6 +51,8 @@ const NetworkList: FC = () => {
   const isClustered = clusterMembers.length > 0;
   const [searchParams] = useSearchParams();
   const { isFineGrained } = useAuth();
+  const { canCreateNetworks } = useProjectEntitlements();
+  const { project: currentProject } = useCurrentProject();
 
   const filters: NetworkFilters = {
     queries: searchParams.getAll(QUERY),
@@ -274,6 +278,12 @@ const NetworkList: FC = () => {
                 void navigate(`/ui/project/${project}/networks/create`)
               }
               hasIcon={!isSmallScreen}
+              disabled={!canCreateNetworks(currentProject)}
+              title={
+                canCreateNetworks(currentProject)
+                  ? ""
+                  : "You do not have permission to create networks in this project"
+              }
             >
               {!isSmallScreen && <Icon name="plus" light />}
               <span>Create network</span>
