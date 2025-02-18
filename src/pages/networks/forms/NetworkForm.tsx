@@ -321,6 +321,8 @@ const NetworkForm: FC<Props> = ({
                 ensureEditMode(formik);
                 void formik.setFieldValue("yaml", yaml);
               }}
+              readOnly={!!formik.values.editRestriction}
+              readOnlyMessage={{ value: formik.values.editRestriction ?? "" }}
             >
               <YamlNotification
                 entity="network"
