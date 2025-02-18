@@ -30,6 +30,7 @@ import { Link } from "react-router-dom";
 import { useIdpGroups } from "context/useIdpGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
+import { pluralize } from "util/instanceBulkActions";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -41,7 +42,7 @@ const PermissionIdpGroups: FC = () => {
   const { data: settings } = useSettings();
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
   const { canCreateIdpGroups } = useServerEntitlements();
-  const { canEditGroup } = useIdpGroupEntitlements();
+  const { canEditIdpGroup } = useIdpGroupEntitlements();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -81,6 +82,29 @@ const PermissionIdpGroups: FC = () => {
   );
 
   const rows = filteredGroups.map((idpGroup) => {
+    const getGroupLink = () => {
+      if (canEditIdpGroup(idpGroup)) {
+        return (
+          <Button
+            appearance="link"
+            dense
+            onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+          >
+            {idpGroup.groups.length}
+          </Button>
+        );
+      }
+
+      const groupsText = pluralize("group", idpGroup.groups?.length ?? 0);
+      const groupsList = idpGroup.groups?.join("\n- ");
+      const groupsTitle = `Assigned ${groupsText}:\n- ${groupsList}`;
+      return (
+        <div title={idpGroup.groups?.length ? groupsTitle : ""}>
+          {idpGroup.groups?.length || 0}
+        </div>
+      );
+    };
+
     return {
       key: idpGroup.name,
       name: idpGroup.name,
@@ -94,17 +118,7 @@ const PermissionIdpGroups: FC = () => {
           title: idpGroup.name,
         },
         {
-          content: canEditGroup(idpGroup) ? (
-            <Button
-              appearance="link"
-              dense
-              onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
-            >
-              {idpGroup.groups.length}
-            </Button>
-          ) : (
-            idpGroup.groups.length
-          ),
+          content: getGroupLink(),
           role: "cell",
           className: "u-align--right",
           "aria-label": "Number of mapped groups",
@@ -125,11 +139,11 @@ const PermissionIdpGroups: FC = () => {
                   type="button"
                   aria-label="Edit IDP group details"
                   title={
-                    canEditGroup(idpGroup)
+                    canEditIdpGroup(idpGroup)
                       ? "Edit details"
-                      : "You do not have permission to edit this IDP group"
+                      : "You do not have permission to modify this IDP group"
                   }
-                  disabled={!canEditGroup(idpGroup)}
+                  disabled={!canEditIdpGroup(idpGroup)}
                 >
                   <Icon name="edit" />
                 </Button>,
@@ -232,7 +246,7 @@ const PermissionIdpGroups: FC = () => {
             parentName=""
             selectedNames={selectedGroupNames}
             setSelectedNames={setSelectedGroupNames}
-            processingNames={[]}
+            disabledNames={[]}
             filteredNames={filteredGroups.map((item) => item.name)}
             disableSelect={!!panelParams.panel}
           />
@@ -277,7 +291,7 @@ const PermissionIdpGroups: FC = () => {
                   Identity&nbsp;provider&nbsp;groups
                 </HelpLink>
               </PageHeader.Title>
-              {!selectedGroupNames.length && hasGroups && (
+              {!selectedGroupNames.length && hasGroups ? (
                 <PageHeader.Search>
                   <PermissionGroupsFilter
                     onChange={setSearch}
@@ -285,13 +299,10 @@ const PermissionIdpGroups: FC = () => {
                     disabled={!!panelParams.idpGroup}
                   />
                 </PageHeader.Search>
-              )}
+              ) : null}
               {selectedGroupNames.length > 0 && !panelParams.panel && (
                 <>
-                  <BulkDeleteIdpGroupsBtn
-                    idpGroups={selectedGroups}
-                    className="u-no-margin--bottom"
-                  />
+                  <BulkDeleteIdpGroupsBtn idpGroups={selectedGroups} />
                 </>
               )}
             </PageHeader.Left>

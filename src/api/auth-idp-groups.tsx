@@ -3,12 +3,15 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { IdpGroup } from "types/permissions";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-const idpGroupEntitlements = ["can_edit", "can_delete"];
+const idpGroupEntitlements = ["can_delete", "can_edit"];
 
 export const fetchIdpGroups = (
   isFineGrained: boolean | null,
 ): Promise<IdpGroup[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, idpGroupEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    idpGroupEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)
       .then(handleResponse)
@@ -21,14 +24,8 @@ export const createIdpGroup = (group: Partial<IdpGroup>): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups`, {
       method: "POST",
-      body: JSON.stringify({ name: group.name }),
+      body: JSON.stringify({ name: group.name, groups: group.groups }),
     })
-      .then(() =>
-        fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {
-          method: "PUT",
-          body: JSON.stringify(group),
-        }),
-      )
       .then(handleResponse)
       .then(resolve)
       .catch(reject);

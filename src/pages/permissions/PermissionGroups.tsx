@@ -209,7 +209,7 @@ const PermissionGroups: FC = () => {
           parentName=""
           selectedNames={selectedGroupNames}
           setSelectedNames={setSelectedGroupNames}
-          processingNames={[]}
+          disabledNames={[]}
           filteredNames={filteredGroups.map((item) => item.name)}
           disableSelect={!!panelParams.panel}
         />
@@ -275,14 +275,14 @@ const PermissionGroups: FC = () => {
               )}
               {selectedGroupNames.length > 0 && !panelParams.panel && (
                 <>
+                  <EditGroupIdentitiesBtn
+                    groups={selectedGroups}
+                    className="u-no-margin--bottom"
+                  />
                   <BulkDeleteGroupsBtn
                     groups={selectedGroups}
                     className="u-no-margin--bottom"
                     onDelete={() => setSelectedGroupNames([])}
-                  />
-                  <EditGroupIdentitiesBtn
-                    groups={selectedGroups}
-                    className="u-no-margin--bottom"
                   />
                 </>
               )}

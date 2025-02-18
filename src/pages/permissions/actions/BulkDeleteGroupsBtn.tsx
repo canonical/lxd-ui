@@ -36,11 +36,10 @@ const BulkDeleteGroupsBtn: FC<Props> = ({ groups, className, onDelete }) => {
             : `You do not have permission to delete the selected ${pluralize("group", groups.length)}`
         }
         className={className}
-        appearance="negative"
         hasIcon
         disabled={!deletableGroups.length}
       >
-        <Icon name="delete" light />
+        <Icon name="delete" />
         <span>{`Delete ${groups.length} ${pluralize("group", groups.length)}`}</span>
       </Button>
       {confirming && (

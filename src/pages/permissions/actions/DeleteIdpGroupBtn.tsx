@@ -1,42 +1,49 @@
 import { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import type { IdpGroup } from "types/permissions";
-import DeleteIdpGroupsModal from "./DeleteIdpGroupsModal";
-import { usePortal } from "@canonical/react-components";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
+import { useDeleteIdpGroups } from "util/permissionIdpGroups";
 
 interface Props {
   idpGroup: IdpGroup;
 }
 
 const DeleteIdpGroupBtn: FC<Props> = ({ idpGroup }) => {
-  const { openPortal, closePortal, isOpen, Portal } = usePortal();
-  const { canDeleteGroup } = useIdpGroupEntitlements();
+  const { canDeleteIdpGroup } = useIdpGroupEntitlements();
+  const { isDeleting, deletableIdpGroups, deleteIdpGroups } =
+    useDeleteIdpGroups([idpGroup]);
 
   return (
-    <>
-      <Button
-        appearance="base"
-        hasIcon
-        dense
-        onClick={openPortal}
-        type="button"
-        aria-label="Delete IDP group"
-        title={
-          canDeleteGroup()
-            ? "Delete IDP group"
-            : "You do not have permission to delete this IDP group"
-        }
-        disabled={!canDeleteGroup(idpGroup)}
-      >
-        <Icon name="delete" />
-      </Button>
-      {isOpen && (
-        <Portal>
-          <DeleteIdpGroupsModal idpGroups={[idpGroup]} close={closePortal} />
-        </Portal>
-      )}
-    </>
+    <ConfirmationButton
+      onHoverText={
+        canDeleteIdpGroup(idpGroup)
+          ? "Delete IDP group"
+          : "You do not have permission to delete this IDP group"
+      }
+      appearance="base"
+      className="has-icon is-dense"
+      aria-label="Delete IDP group"
+      type="button"
+      disabled={!canDeleteIdpGroup(idpGroup)}
+      shiftClickEnabled
+      showShiftClickHint
+      confirmationModalProps={{
+        title: "Confirm IDP group deletion",
+        confirmButtonLabel: "Delete",
+        confirmButtonLoading: isDeleting,
+        onConfirm: deleteIdpGroups,
+        className: "permission-confirm-modal",
+        children: (
+          <p>
+            Are you sure you want to delete{" "}
+            <strong>{deletableIdpGroups[0]?.name}</strong>? This action is
+            permanent and can not be undone.
+          </p>
+        ),
+      }}
+    >
+      <Icon name="delete" />
+    </ConfirmationButton>
   );
 };
 

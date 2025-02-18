@@ -29,9 +29,9 @@ const EditIdentitiesForm: FC<Props> = ({
 
   const { data: identities = [], error } = useIdentities();
   const { canEditIdentity } = useIdentityEntitlements();
-  const restrictedIdentities = identities.filter(
-    (identity) => !canEditIdentity(identity),
-  );
+  const restrictedIdentityNames = identities
+    .filter((identity) => !canEditIdentity(identity))
+    .map((identity) => identity.id);
 
   if (error) {
     notify.failure("Loading details failed", error);
@@ -42,6 +42,10 @@ const EditIdentitiesForm: FC<Props> = ({
   );
 
   const toggleRow = (id: string) => {
+    if (restrictedIdentityNames.includes(id)) {
+      return;
+    }
+
     const existing = selected.find((identity) => identity.id === id);
     if (existing) {
       const filtered = selected.filter((identity) => identity.id !== id);
@@ -171,14 +175,12 @@ const EditIdentitiesForm: FC<Props> = ({
             .filter((id) => !id.isRemoved)
             .map((identity) => identity.id)}
           setSelectedNames={bulkSelect}
-          processingNames={restrictedIdentities.map(
-            (identity) => identity.name,
-          )}
+          disabledNames={restrictedIdentityNames}
           filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
           indeterminateNames={[]}
           onToggleRow={toggleRow}
           hideContextualMenu
-          disableHeaderCheckbox={!!restrictedIdentities.length}
+          disableSelectAll={!!restrictedIdentityNames.length}
         />
       </ScrollableTable>
     </>

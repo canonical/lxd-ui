@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, ButtonProps } from "@canonical/react-components";
+import { Button, ButtonProps, Icon } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import { useIdentityEntitlements } from "util/entitlements/identities";
@@ -27,10 +27,10 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
   );
 
   const getRestrictedWarning = () => {
-    const test = restrictedIdentities
+    const restrictedList = restrictedIdentities
       .map((identity) => `\n- ${identity.name}`)
       .join("");
-    return `You do not have permission to modify ${restrictedIdentities.length > 1 ? "some of the selected" : "the selected"} ${pluralize("identity", restrictedIdentities.length)}:${test}`;
+    return `You do not have permission to modify ${restrictedIdentities.length > 1 ? "some of the selected" : "the selected"} ${pluralize("identity", restrictedIdentities.length)}:${restrictedList}`;
   };
 
   return (
@@ -47,9 +47,11 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
           !identities.length ||
           !!panelParams.panel
         }
+        hasIcon
         {...buttonProps}
       >
-        {buttonText}
+        <Icon name="user-group" />
+        <span>{buttonText}</span>
       </Button>
     </>
   );

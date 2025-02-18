@@ -145,7 +145,7 @@ const GroupSelection: FC<Props> = ({
             parentName=""
             selectedNames={Array.from(selectedGroups)}
             setSelectedNames={setSelectedGroups}
-            processingNames={[]}
+            disabledNames={[]}
             filteredNames={groups.map((group) => group.name)}
             indeterminateNames={Array.from(indeterminateGroups ?? new Set())}
             onToggleRow={toggleGroup}

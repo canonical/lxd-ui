@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import {
   ButtonProps,
   ConfirmationButton,
+  Icon,
   useNotify,
 } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
@@ -67,7 +68,6 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
           ? buttonText
           : `You do not have permission to delete the selected ${pluralize("identity", identities.length)}`
       }
-      appearance=""
       aria-label="Delete identities"
       className={className}
       loading={isLoading}
@@ -82,13 +82,17 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
                 <li key={identity.name}>{identity.name}</li>
               ))}
             </ul>
-            You do not have permission to delete the following{" "}
-            {pluralize("identity", deletableIdentities.length)}:
-            <ul>
-              {restrictedIdentities.map((identity) => (
-                <li key={identity.name}>{identity.name}</li>
-              ))}
-            </ul>
+            {restrictedIdentities.length ? (
+              <>
+                You do not have permission to delete the following{" "}
+                {pluralize("identity", restrictedIdentities.length)}:
+                <ul>
+                  {restrictedIdentities.map((identity) => (
+                    <li key={identity.name}>{identity.name}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
             This action cannot be undone, and can result in data loss.
           </p>
         ),
@@ -99,7 +103,8 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
       shiftClickEnabled
       showShiftClickHint
     >
-      {buttonText}
+      <Icon name="delete" />
+      <span>{buttonText}</span>
     </ConfirmationButton>
   );
 };

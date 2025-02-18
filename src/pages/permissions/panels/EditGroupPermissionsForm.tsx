@@ -42,10 +42,17 @@ const EditGroupPermissionsForm: FC<Props> = ({
   const [search, setSearch] = useState("");
   const { canViewPermissions } = useServerEntitlements();
   const { canEditGroup } = useGroupEntitlements();
-  const permissionEditRestriction =
-    !canViewPermissions() || !canEditGroup(group)
-      ? "You do not have permission to edit entitlements for this group"
-      : "";
+  const getEditRestriction = () => {
+    if (!canEditGroup(group)) {
+      return "You do not have permission to edit this group";
+    }
+
+    if (!canViewPermissions()) {
+      return "You are not allowed to view permissions";
+    }
+
+    return "";
+  };
 
   const addPermission = (newPermission: FormPermission) => {
     const permissionExists = permissions.find(
@@ -178,9 +185,9 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   onClick={() => deletePermission(permission.id ?? "")}
                   type="button"
                   aria-label="Delete permission"
-                  title={permissionEditRestriction ?? "Delete permission"}
+                  title={getEditRestriction() ?? "Delete permission"}
                   className="u-no-margin--right"
-                  disabled={!!permissionEditRestriction}
+                  disabled={!!getEditRestriction()}
                 >
                   <Icon name="delete" className="u-no-margin--right" />
                 </Button>
@@ -223,7 +230,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
         </span>
         <PermissionSelector
           onAddPermission={addPermission}
-          disableReason={permissionEditRestriction}
+          disableReason={getEditRestriction()}
         />
       </Card>
       <SearchBox externallyControlled value={search} onChange={setSearch} />

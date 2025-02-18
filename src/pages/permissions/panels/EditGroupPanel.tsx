@@ -167,7 +167,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       permissions: permissions.filter((p) => !p.isRemoved),
     };
 
-    const getMutationPromise = () => {
+    const mutation = () => {
       if (!canEditGroup(group)) {
         return saveIdentities();
       }
@@ -179,7 +179,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         : updateGroup(groupPayload).then(saveIdentities);
     };
 
-    getMutationPromise()
+    mutation()
       .then(() => {
         closePanel();
         toastNotify.success(

@@ -288,7 +288,7 @@ const ImageList: FC = () => {
                 itemName="image"
                 parentName="project"
                 filteredNames={filteredImages.map((item) => item.fingerprint)}
-                processingNames={processingNames}
+                disabledNames={processingNames}
                 rows={[]}
                 disableSelect={!deletableImages.length}
               />
