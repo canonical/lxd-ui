@@ -10,6 +10,7 @@ import DeleteNetworkBtn from "pages/networks/actions/DeleteNetworkBtn";
 import { useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
+import { useNetworkEntitlements } from "util/entitlements/networks";
 
 interface Props {
   name: string;
@@ -23,6 +24,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
+  const { canEditNetwork } = useNetworkEntitlements();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -70,6 +72,22 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
   const isUsed = (network?.used_by?.length ?? 0) > 0;
   const isManaged = network?.managed;
 
+  const getRenameDisableReason = () => {
+    if (!canEditNetwork(network)) {
+      return "You do not have permission to rename this network";
+    }
+
+    if (!isManaged) {
+      return "Can not rename, network is not managed";
+    }
+
+    if (isUsed) {
+      return "Can not rename, network is currently in use.";
+    }
+
+    return undefined;
+  };
+
   return (
     <RenameHeader
       name={name}
@@ -87,13 +105,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
           Networks
         </Link>,
       ]}
-      renameDisabledReason={
-        !isManaged
-          ? "Can not rename, network is not managed"
-          : isUsed
-            ? "Can not rename, network is currently in use."
-            : undefined
-      }
+      renameDisabledReason={getRenameDisableReason()}
       controls={
         network && <DeleteNetworkBtn network={network} project={project} />
       }
