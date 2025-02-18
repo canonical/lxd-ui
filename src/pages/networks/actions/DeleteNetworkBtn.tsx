@@ -14,6 +14,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useSmallScreen } from "context/useSmallScreen";
 import classnames from "classnames";
+import { useNetworkEntitlements } from "util/entitlements/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -27,6 +28,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const isSmallScreen = useSmallScreen();
+  const { canDeleteNetwork } = useNetworkEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -55,15 +57,25 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
   const isUsed = (network.used_by?.length ?? 0) > 0;
   const isManaged = network.managed;
 
+  const getOnHoverText = () => {
+    if (!canDeleteNetwork(network)) {
+      return "You do not have permission to delete this network";
+    }
+
+    if (!isManaged) {
+      return "Can not delete, network is not managed";
+    }
+
+    if (isUsed) {
+      return "Can not delete, network is currently in use";
+    }
+
+    return "";
+  };
+
   return (
     <ConfirmationButton
-      onHoverText={
-        !isManaged
-          ? "Can not delete, network is not managed"
-          : isUsed
-            ? "Can not delete, network is currently in use"
-            : ""
-      }
+      onHoverText={getOnHoverText()}
       confirmationModalProps={{
         title: "Confirm delete",
         confirmButtonAppearance: "negative",
@@ -81,7 +93,7 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
         "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
-      disabled={isUsed || !isManaged}
+      disabled={!canDeleteNetwork(network) || isUsed || !isManaged}
       shiftClickEnabled
       showShiftClickHint
     >
