@@ -129,6 +129,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
             clusterMemberLinkTarget={(member) =>
               `/ui/project/${project}/networks?member=${member}`
             }
+            disableReason={formik.values.editRestriction}
           />
         </div>
       </div>
@@ -154,8 +155,9 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
               className="u-no-margin--bottom"
               type="button"
               appearance="base"
-              title="Edit"
+              title={formik.values.editRestriction ?? "Edit"}
               hasIcon
+              disabled={!!formik.values.editRestriction}
             >
               <Icon name="edit" />
             </Button>

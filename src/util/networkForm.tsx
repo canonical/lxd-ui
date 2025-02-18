@@ -11,6 +11,7 @@ import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 export const toNetworkFormValues = (
   network: LxdNetwork,
   networkOnMembers?: LXDNetworkOnClusterMember[],
+  editRestriction?: string,
 ): NetworkFormValues => {
   const parentPerClusterMember: ClusterSpecificValues = {};
   networkOnMembers?.forEach(
@@ -62,5 +63,6 @@ export const toNetworkFormValues = (
     parentPerClusterMember,
     entityType: "network",
     bareNetwork: network,
+    editRestriction,
   };
 };

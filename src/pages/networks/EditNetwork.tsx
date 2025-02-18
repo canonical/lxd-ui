@@ -34,6 +34,7 @@ import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
 import { useAuth } from "context/auth";
+import { useNetworkEntitlements } from "util/entitlements/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -54,6 +55,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const [version, setVersion] = useState(0);
   const { data: clusterMembers = [] } = useClusterMembers();
   const isClustered = clusterMembers.length > 0;
+  const { canEditNetwork } = useNetworkEntitlements();
 
   const { data: networkOnMembers = [], error } = useQuery({
     queryKey: [
@@ -102,8 +104,16 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     ),
   });
 
+  const editRestriction = canEditNetwork(network)
+    ? undefined
+    : "You do not have permission to edit this network";
+
   const formik = useFormik<NetworkFormValues>({
-    initialValues: toNetworkFormValues(network, networkOnMembers),
+    initialValues: toNetworkFormValues(
+      network,
+      networkOnMembers,
+      editRestriction,
+    ),
     validationSchema: NetworkSchema,
     enableReinitialize: true,
     onSubmit: (values) => {

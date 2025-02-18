@@ -74,7 +74,7 @@ export const createNetworkForward = async (page: Page, network: string) => {
   const targetAddress = networkSubnet.replace("1/24", "3");
 
   await page.getByTestId("tab-link-Forwards").click();
-  await page.getByRole("link", { name: "Create forward" }).click();
+  await page.getByRole("button", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
 
   await page.getByRole("button", { name: "Add port" }).click();

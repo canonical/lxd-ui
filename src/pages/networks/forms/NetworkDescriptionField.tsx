@@ -36,8 +36,9 @@ const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
               className="u-no-margin--bottom"
               type="button"
               appearance="base"
-              title="Edit"
+              title={formik.values.editRestriction ?? "Edit"}
               hasIcon
+              disabled={!!formik.values.editRestriction}
             >
               <Icon name="edit" />
             </Button>
