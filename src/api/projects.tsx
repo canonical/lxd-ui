@@ -16,7 +16,10 @@ const projectEntitlements = [
 export const fetchProjects = (
   isFineGrained: boolean | null,
 ): Promise<LxdProject[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, projectEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    projectEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects?recursion=1${entitlements}`)
       .then(handleResponse)
@@ -29,7 +32,11 @@ export const fetchProject = (
   name: string,
   isFineGrained: boolean | null,
 ): Promise<LxdProject> => {
-  const entitlements = `?${withEntitlementsQuery(isFineGrained, projectEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    projectEntitlements,
+    "?",
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${name}${entitlements}`)
       .then(handleEtagResponse)

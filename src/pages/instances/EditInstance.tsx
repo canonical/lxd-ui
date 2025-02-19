@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
@@ -66,8 +66,8 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
 import BootForm, { BootFormValues } from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
-import { fetchProfiles } from "api/profiles";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
+import { useProfiles } from "context/useProfiles";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -112,10 +112,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
     return <>Missing project</>;
   }
 
-  const { data: profiles = [] } = useQuery({
-    queryKey: [queryKeys.profiles, project],
-    queryFn: () => fetchProfiles(project),
-  });
+  const { data: profiles = [] } = useProfiles(project);
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");

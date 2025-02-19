@@ -49,8 +49,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             value={formik.values.name}
             error={formik.touched.name ? formik.errors.name : null}
             required
-            disabled={!!formik.values.editRestriction || isEdit}
-            title={formik.values.editRestriction}
+            disabled={isEdit}
           />
           <AutoExpandingTextArea
             id="description"

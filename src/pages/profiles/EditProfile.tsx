@@ -258,7 +258,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
                   void formik.setFieldValue("yaml", yaml);
                 }}
                 readOnly={!!formik.values.editRestriction}
-                readOnlyMessage={{ value: formik.values.editRestriction ?? "" }}
+                readOnlyMessage={formik.values.editRestriction}
               >
                 <YamlNotification
                   entity="profile"

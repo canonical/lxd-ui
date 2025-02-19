@@ -16,13 +16,13 @@ import type { UploadState } from "types/storage";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 export const instanceEntitlements = [
-  "can_update_state",
+  "can_access_console",
   "can_delete",
   "can_edit",
+  "can_exec",
   "can_manage_backups",
   "can_manage_snapshots",
-  "can_exec",
-  "can_access_console",
+  "can_update_state",
 ];
 
 export const fetchInstance = (
@@ -30,7 +30,10 @@ export const fetchInstance = (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdInstance> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, instanceEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    instanceEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/instances/${name}?project=${project}&recursion=2${entitlements}`,
@@ -45,7 +48,10 @@ export const fetchInstances = (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdInstance[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, instanceEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    instanceEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances?project=${project}&recursion=2${entitlements}`)
       .then(handleResponse)

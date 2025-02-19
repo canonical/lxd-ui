@@ -1,6 +1,7 @@
 export const withEntitlementsQuery = (
   isFineGrained: boolean | null,
   entitlements: string[],
+  queryPrefix: string = "&",
 ): string => {
   if (isFineGrained === null) {
     throw new Error("Resource API fetch disabled if isFineGrained is null");
@@ -10,5 +11,5 @@ export const withEntitlementsQuery = (
     return "";
   }
 
-  return `with-access-entitlements=${entitlements.join(",")}`;
+  return `${queryPrefix}with-access-entitlements=${entitlements.join(",")}`;
 };

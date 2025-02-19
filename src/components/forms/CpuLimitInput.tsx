@@ -46,15 +46,11 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   };
 
   const numberOfCores = getNumberOfCores();
-  if (!numberOfCores && canViewResources()) {
-    return null;
-  }
-
-  const totalAvailable = (
+  const totalAvailable = numberOfCores ? (
     <>
       Total number of CPU cores: <b>{numberOfCores}</b>
     </>
-  );
+  ) : null;
 
   return (
     <Input
@@ -62,7 +58,7 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
       help={
         <>
           {help}
-          {canViewResources() ? totalAvailable : undefined}
+          {totalAvailable}
         </>
       }
     />

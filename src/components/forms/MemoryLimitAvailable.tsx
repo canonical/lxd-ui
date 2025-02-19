@@ -50,7 +50,7 @@ const MemoryLimitAvailable: FC<Props> = ({ project }) => {
 
   const maxMemory = getAvailableMemory();
 
-  return maxMemory && canViewResources() ? (
+  return maxMemory ? (
     <>
       Total memory: <b>{humanFileSize(maxMemory)}</b>
     </>

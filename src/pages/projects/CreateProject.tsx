@@ -64,7 +64,10 @@ const CreateProject: FC = () => {
     useSupportedFeatures();
   const { isFineGrained } = useAuth();
 
-  const { data: profile } = useProfile("default", "default");
+  const { data: defaultProjectDefaultProfile } = useProfile(
+    "default",
+    "default",
+  );
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
@@ -101,8 +104,8 @@ const CreateProject: FC = () => {
       restricted: false,
       readOnly: false,
       entityType: "project",
-      default_instance_storage_pool: profile
-        ? getDefaultStoragePool(profile)
+      default_instance_storage_pool: defaultProjectDefaultProfile
+        ? getDefaultStoragePool(defaultProjectDefaultProfile)
         : "",
     },
     enableReinitialize: true,

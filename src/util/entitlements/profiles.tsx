@@ -5,11 +5,11 @@ import { LxdProfile } from "types/profile";
 export const useProfileEntitlements = () => {
   const { isFineGrained } = useAuth();
 
-  const canEditProfile = (profile?: LxdProfile) =>
-    hasEntitlement(isFineGrained, "can_edit", profile?.access_entitlements);
-
   const canDeleteProfile = (profile?: LxdProfile) =>
     hasEntitlement(isFineGrained, "can_delete", profile?.access_entitlements);
+
+  const canEditProfile = (profile?: LxdProfile) =>
+    hasEntitlement(isFineGrained, "can_edit", profile?.access_entitlements);
 
   return {
     canDeleteProfile,
