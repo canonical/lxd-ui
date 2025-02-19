@@ -7,12 +7,9 @@ import {
   Tooltip,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import type { LxdNicDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { fetchProfiles } from "api/profiles";
 import { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
@@ -23,6 +20,7 @@ import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
 import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -36,10 +34,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
     data: profiles = [],
     isLoading: isProfileLoading,
     error: profileError,
-  } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  } = useProfiles(project);
 
   if (profileError) {
     notify.failure("Loading profiles failed", profileError);

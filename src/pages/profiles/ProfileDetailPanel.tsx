@@ -1,12 +1,10 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
-import { fetchProfile } from "api/profiles";
 import { useCurrentProject } from "context/useCurrentProject";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
 import ProfileDetailPanelContent from "./ProfileDetailPanelContent";
+import { useProfile } from "context/useProfiles";
 
 const ProfileDetailPanel: FC = () => {
   const notify = useNotify();
@@ -21,10 +19,7 @@ const ProfileDetailPanel: FC = () => {
     data: profile,
     error,
     isLoading: isProfileLoading,
-  } = useQuery({
-    queryKey: [queryKeys.profiles, profileName, projectName],
-    queryFn: () => fetchProfile(profileName ?? "", projectName),
-  });
+  } = useProfile(profileName ?? "", projectName);
 
   if (error) {
     notify.failure("Loading profile failed", error);

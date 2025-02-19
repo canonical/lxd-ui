@@ -7,11 +7,8 @@ import {
   Select,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import type { LxdProxyDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import { fetchProfiles } from "api/profiles";
 import { getInheritedProxies } from "util/configInheritance";
 import Loader from "components/Loader";
 import ScrollableForm from "components/ScrollableForm";
@@ -33,6 +30,7 @@ import NewProxyBtn from "components/forms/NewProxyBtn";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import { optionEnabledDisabled } from "util/instanceOptions";
 import { getProxyAddress } from "util/proxyDevices";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -46,10 +44,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
     data: profiles = [],
     isLoading: isProfileLoading,
     error: profileError,
-  } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  } = useProfiles(project);
 
   if (profileError) {
     notify.failure("Loading profiles failed", profileError);

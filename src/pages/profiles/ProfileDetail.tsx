@@ -1,8 +1,5 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchProfile } from "api/profiles";
-import { queryKeys } from "util/queryKeys";
 import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import EditProfile from "pages/profiles/EditProfile";
@@ -13,6 +10,7 @@ import { useCurrentProject } from "context/useCurrentProject";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
+import { useProfile } from "context/useProfiles";
 
 const tabs: string[] = ["Overview", "Configuration"];
 
@@ -41,10 +39,7 @@ const ProfileDetail: FC = () => {
     data: profile,
     error,
     isLoading: isProfileLoading,
-  } = useQuery({
-    queryKey: [queryKeys.profiles, "detail", name],
-    queryFn: () => fetchProfile(name, projectName),
-  });
+  } = useProfile(name, projectName);
 
   if (error) {
     notify.failure("Loading profile failed", error);

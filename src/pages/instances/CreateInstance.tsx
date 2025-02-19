@@ -11,7 +11,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createInstance, startInstance } from "api/instances";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
@@ -74,7 +74,6 @@ import { useEventQueue } from "context/eventQueue";
 import { getInstanceName } from "util/operations";
 import NotificationRow from "components/NotificationRow";
 import BaseLayout from "components/BaseLayout";
-import { fetchProfiles } from "api/profiles";
 import {
   hasDiskError,
   hasNetworkError,
@@ -101,6 +100,7 @@ import BootForm, {
   BootFormValues,
   bootPayload,
 } from "components/forms/BootForm";
+import { useProfiles } from "context/useProfiles";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -283,10 +283,8 @@ const CreateInstance: FC = () => {
     }
   };
 
-  const { data: profiles = [], isLoading: isProfileLoading } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  const { data: profiles = [], isLoading: isProfileLoading } =
+    useProfiles(project);
 
   const submit = (values: CreateInstanceFormValues, shouldStart = true) => {
     const instance: Partial<LxdInstance> = values.yaml

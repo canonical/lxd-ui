@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePools } from "api/storage-pools";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
 import { getInheritedDiskDevices } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";
@@ -12,6 +11,7 @@ import DiskDeviceFormInherited from "./DiskDeviceFormInherited";
 import DiskDeviceFormCustom from "./DiskDeviceFormCustom";
 import classnames from "classnames";
 import ScrollableForm from "components/ScrollableForm";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -25,10 +25,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
     data: profiles = [],
     isLoading: isProfileLoading,
     error: profileError,
-  } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  } = useProfiles(project);
 
   if (profileError) {
     notify.failure("Loading profiles failed", profileError);

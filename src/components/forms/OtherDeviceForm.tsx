@@ -11,7 +11,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdDeviceValue } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import { fetchProfiles } from "api/profiles";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { toConfigFields } from "util/config";
@@ -38,6 +37,7 @@ import {
   findNoneDeviceIndex,
   removeDevice,
 } from "util/formDevices";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -66,10 +66,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
     data: profiles = [],
     isLoading: isProfileLoading,
     error: profileError,
-  } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  } = useProfiles(project);
 
   if (profileError) {
     notify.failure("Loading profiles failed", profileError);

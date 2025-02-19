@@ -28,7 +28,6 @@ import { fetchConfigOptions } from "api/server";
 import { toConfigFields } from "util/config";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { useParams } from "react-router-dom";
-import { fetchProfiles } from "api/profiles";
 import { getProjectKey } from "util/projectConfigFields";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { fetchStoragePool } from "api/storage-pools";
@@ -39,6 +38,7 @@ import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useSettings } from "context/useSettings";
+import { useProfiles } from "context/useProfiles";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -86,11 +86,7 @@ const getInstanceRowMetadata = (
   const configField = configFields.find((item) => item.key === configKey);
 
   const { project } = useParams<{ project: string }>();
-  const { data: profiles = [] } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project ?? ""),
-    enabled: Boolean(project),
-  });
+  const { data: profiles = [] } = useProfiles(project as string);
 
   // inherited values from applied profiles
   if (values.entityType === "instance") {
