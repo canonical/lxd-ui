@@ -3,6 +3,8 @@ import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import CreateInstanceFromSnapshotForm from "../../forms/CreateInstanceFromSnapshotForm";
+import { useProjects } from "context/useProjects";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   instance: LxdInstance;
@@ -18,6 +20,10 @@ const CreateInstanceFromSnapshotBtn: FC<Props> = ({
   isRestoring,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { data: projects = [] } = useProjects();
+  const { canCreateInstances } = useProjectEntitlements();
+
+  const validTargetProjects = projects.filter(canCreateInstances);
 
   return (
     <>
@@ -35,9 +41,13 @@ const CreateInstanceFromSnapshotBtn: FC<Props> = ({
         hasIcon
         dense
         aria-label="Create instance"
-        disabled={isDeleting || isRestoring}
+        disabled={isDeleting || isRestoring || !validTargetProjects.length}
         onClick={openPortal}
-        title="Create instance"
+        title={
+          validTargetProjects.length > 0
+            ? "Create instance"
+            : "You do not have permission to create instances"
+        }
       >
         <Icon name="plus" />
       </Button>

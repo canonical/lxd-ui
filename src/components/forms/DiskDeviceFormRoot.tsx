@@ -66,9 +66,10 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                   }}
                   type="button"
                   appearance="base"
-                  title="Clear override"
+                  title={formik.values.editRestriction ?? "Clear override"}
                   hasIcon
                   className="u-no-margin--bottom"
+                  disabled={!!formik.values.editRestriction}
                 >
                   <Icon name="close" className="clear-configuration-icon" />
                 </Button>
@@ -81,9 +82,10 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                 }}
                 type="button"
                 appearance="base"
-                title="Create override"
+                title={formik.values.editRestriction ?? "Create override"}
                 className="u-no-margin--bottom"
                 hasIcon
+                disabled={!!formik.values.editRestriction}
               >
                 <Icon name="edit" />
               </Button>
@@ -97,6 +99,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
             inheritValue: inheritValue?.pool ?? "",
             inheritSource,
             readOnly: readOnly,
+            disabledReason: formik.values.editRestriction,
             overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.pool}
@@ -148,6 +151,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
               inheritValue?.size ?? (inheritValue ? "unlimited" : ""),
             inheritSource,
             readOnly: readOnly,
+            disabledReason: formik.values.editRestriction,
             overrideValue: hasRootStorage && (
               <>
                 {formRootDevice?.size ?? "unlimited"}
@@ -158,9 +162,10 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                   }}
                   type="button"
                   appearance="base"
-                  title="Edit"
+                  title={formik.values.editRestriction ?? "Edit"}
                   className="u-no-margin--bottom"
                   hasIcon
+                  disabled={!!formik.values.editRestriction}
                 >
                   <Icon name="edit" />
                 </Button>

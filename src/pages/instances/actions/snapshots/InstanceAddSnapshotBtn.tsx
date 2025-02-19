@@ -3,6 +3,7 @@ import { usePortal } from "@canonical/react-components";
 import { Button, Tooltip } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import CreateInstanceSnapshotForm from "pages/instances/forms/CreateInstanceSnapshotForm";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -19,6 +20,7 @@ const InstanceAddSnapshotBtn: FC<Props> = ({
   className,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canManageInstanceSnapshots } = useInstanceEntitlements();
 
   return (
     <>
@@ -35,7 +37,12 @@ const InstanceAddSnapshotBtn: FC<Props> = ({
         appearance="positive"
         className={className}
         onClick={openPortal}
-        disabled={isDisabled}
+        disabled={isDisabled || !canManageInstanceSnapshots(instance)}
+        title={
+          canManageInstanceSnapshots(instance)
+            ? ""
+            : "You do not have permission to create snapshots for this instance"
+        }
       >
         {isDisabled ? (
           <Tooltip

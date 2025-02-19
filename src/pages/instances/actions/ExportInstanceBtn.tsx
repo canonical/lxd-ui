@@ -6,6 +6,7 @@ import { createInstanceBackup } from "api/instances";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLinkChip from "../InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -16,6 +17,7 @@ interface Props {
 const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
+  const { canManageInstanceBackups } = useInstanceEntitlements();
 
   const instanceLink = <InstanceLinkChip instance={instance} />;
 
@@ -89,7 +91,12 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
       appearance="default"
       className={classNames("u-no-margin--bottom has-icon", classname)}
       onClick={exportInstance}
-      title="Export instance"
+      title={
+        canManageInstanceBackups(instance)
+          ? "Export instance"
+          : "You do not have permission to export this instance."
+      }
+      disabled={!canManageInstanceBackups(instance)}
     >
       <Icon name="export" />
       <span>Export</span>

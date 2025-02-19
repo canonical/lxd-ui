@@ -1,11 +1,17 @@
 import { FC } from "react";
-import { Button, MainTable, Modal } from "@canonical/react-components";
+import {
+  Button,
+  MainTable,
+  Modal,
+  Notification,
+} from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import type { GpuCard } from "types/resources";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   onSelect: (image: GpuCard) => void;
@@ -13,9 +19,12 @@ interface Props {
 }
 
 const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
+  const { canViewResources } = useServerEntitlements();
+
   const { data: resources, isLoading } = useQuery({
     queryKey: [queryKeys.resources],
     queryFn: () => fetchResources(),
+    enabled: canViewResources(),
   });
 
   const headers = [
@@ -83,8 +92,16 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
         };
       });
 
-  return (
-    <Modal close={onClose} title="Select GPU">
+  const getContent = () => {
+    if (!canViewResources()) {
+      return (
+        <Notification severity="caution" title="Restricted permissions">
+          You do not have permission to view available GPUs on the server.
+        </Notification>
+      );
+    }
+
+    return (
       <ScrollableTable
         dependencies={[resources, rows]}
         belowIds={["modal-footer"]}
@@ -101,6 +118,12 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
           }
         />
       </ScrollableTable>
+    );
+  };
+
+  return (
+    <Modal close={onClose} title="Select GPU">
+      {getContent()}
       <footer className="p-modal__footer" id="modal-footer">
         <Button
           className="u-no-margin--bottom"

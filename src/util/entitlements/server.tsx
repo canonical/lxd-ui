@@ -13,8 +13,14 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
+  const canViewResources = () =>
+    hasEntitlement(isFineGrained, "can_view_resources", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "viewer", serverEntitlements);
+
   return {
     canEditServerConfiguration,
     canViewMetrics,
+    canViewResources,
   };
 };

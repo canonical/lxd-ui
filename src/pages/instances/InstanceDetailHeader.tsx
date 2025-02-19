@@ -15,6 +15,7 @@ import {
 import { getInstanceName } from "util/operations";
 import InstanceDetailActions from "./InstanceDetailActions";
 import InstanceLinkChip from "./InstanceLinkChip";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   name: string;
@@ -32,6 +33,7 @@ const InstanceDetailHeader: FC<Props> = ({
   const eventQueue = useEventQueue();
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
+  const { canEditInstance } = useInstanceEntitlements();
   const controllerState = useState<AbortController | null>(null);
 
   const RenameSchema = Yup.object().shape({
@@ -100,6 +102,22 @@ const InstanceDetailHeader: FC<Props> = ({
     },
   });
 
+  const getDisabledReason = () => {
+    if (!canEditInstance(instance)) {
+      return "You do not have permission to rename this instance";
+    }
+
+    if (!instance) {
+      return "Invalid Instance: Cannot be renamed";
+    }
+
+    if (instance.status !== "Stopped") {
+      return "Stop the instance to rename";
+    }
+
+    return undefined;
+  };
+
   return (
     !isLoading && (
       <RenameHeader
@@ -110,13 +128,7 @@ const InstanceDetailHeader: FC<Props> = ({
             Instances
           </Link>,
         ]}
-        renameDisabledReason={
-          !instance
-            ? "Invalid Instance: Cannot be renamed"
-            : instance?.status !== "Stopped"
-              ? "Stop the instance to rename"
-              : undefined
-        }
+        renameDisabledReason={getDisabledReason()}
         centerControls={
           instance ? (
             <div>

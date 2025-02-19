@@ -18,6 +18,8 @@ interface Props {
   setSelected: (profiles: string[]) => void;
   title?: string;
   readOnly?: boolean;
+  disabledReason?: string;
+  initialProfiles?: string[];
 }
 
 const ProfileSelector: FC<Props> = ({
@@ -26,6 +28,8 @@ const ProfileSelector: FC<Props> = ({
   setSelected,
   title,
   readOnly = false,
+  disabledReason,
+  initialProfiles,
 }) => {
   const notify = useNotify();
 
@@ -56,12 +60,18 @@ const ProfileSelector: FC<Props> = ({
 
   profiles.sort(defaultFirst);
 
-  const unselected = profiles.filter(
-    (profile) => !selected.includes(profile.name),
-  );
+  // we combine the initial instance profiles and the profiles from the API list endpoint into a deduplicated list
+  // this way, we take into account profiles that the user does not have permission to view
+  const profileNames = [
+    ...new Set(
+      profiles.map((profile) => profile.name).concat(initialProfiles ?? []),
+    ),
+  ];
+
+  const unselected = profileNames.filter((name) => !selected.includes(name));
 
   const addProfile = () => {
-    const nextProfile = unselected[0]?.name;
+    const nextProfile = unselected[0];
     if (nextProfile) {
       setSelected([...selected, nextProfile]);
     }
@@ -86,22 +96,22 @@ const ProfileSelector: FC<Props> = ({
                 newValues[index] = e.target.value;
                 setSelected(newValues);
               }}
-              options={profiles
+              options={profileNames
                 .filter(
-                  (profile) =>
-                    !selected.includes(profile.name) ||
-                    selected.indexOf(profile.name) === index,
+                  (profile: string) =>
+                    !selected.includes(profile) ||
+                    selected.indexOf(profile) === index,
                 )
                 .map((profile) => {
                   return {
-                    label: profile.name,
-                    value: profile.name,
+                    label: profile,
+                    value: profile,
                   };
                 })}
               value={value}
-              disabled={readOnly}
-              title={title}
-            ></Select>
+              disabled={readOnly || !!disabledReason}
+              title={disabledReason ?? title}
+            />
           </div>
 
           <div className="profile-actions">
@@ -118,8 +128,8 @@ const ProfileSelector: FC<Props> = ({
                   }}
                   type="button"
                   aria-label="move profile up"
-                  title="move profile up"
-                  disabled={index === 0}
+                  title={disabledReason ?? "move profile up"}
+                  disabled={!!disabledReason || index === 0}
                 >
                   <Icon name="chevron-up" />
                 </Button>
@@ -134,8 +144,8 @@ const ProfileSelector: FC<Props> = ({
                   }}
                   type="button"
                   aria-label="move profile down"
-                  title="move profile down"
-                  disabled={index === selected.length - 1}
+                  title={disabledReason ?? "move profile down"}
+                  disabled={!!disabledReason || index === selected.length - 1}
                 >
                   <Icon name="chevron-down" />
                 </Button>
@@ -150,6 +160,8 @@ const ProfileSelector: FC<Props> = ({
                   setSelected(selected.filter((item) => item !== value))
                 }
                 type="button"
+                disabled={!!disabledReason}
+                title={disabledReason}
               >
                 Remove
               </Button>
@@ -160,10 +172,11 @@ const ProfileSelector: FC<Props> = ({
       {!readOnly && (
         <Button
           id="addProfileButton"
-          disabled={unselected.length === 0}
+          disabled={!!disabledReason || unselected.length === 0}
           className="profile-add-btn"
           onClick={addProfile}
           type="button"
+          title={disabledReason}
         >
           Add profile
         </Button>

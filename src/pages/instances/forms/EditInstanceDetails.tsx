@@ -55,6 +55,8 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               formik.handleChange(e);
             }}
             value={formik.values.description}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         </Col>
       </Row>
@@ -85,6 +87,8 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
           ensureEditMode(formik);
           void formik.setFieldValue("profiles", value);
         }}
+        disabledReason={formik.values.editRestriction}
+        initialProfiles={formik.initialValues.profiles}
       />
     </ScrollableForm>
   );

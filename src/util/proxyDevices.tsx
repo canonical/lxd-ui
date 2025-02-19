@@ -63,11 +63,15 @@ export const getProxyAddress = (
           value={deviceType}
           options={proxyAddressTypeOptions}
           className="u-no-margin--bottom"
-          disabled={connectionType === "connect" && device.nat === "true"}
+          disabled={
+            !!formik.values.editRestriction ||
+            (connectionType === "connect" && device.nat === "true")
+          }
           title={
-            device.nat
+            formik.values.editRestriction ??
+            (device.nat
               ? "This is determined by the listen type when nat mode is enabled"
-              : undefined
+              : undefined)
           }
         />
       ),
@@ -107,6 +111,8 @@ export const getProxyAddress = (
             placeholder="/<socket_path>"
             type="text"
             className="u-no-margin--bottom"
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ) : (
           <Input
@@ -123,6 +129,8 @@ export const getProxyAddress = (
             placeholder="127.0.0.1"
             type="text"
             className="u-no-margin--bottom"
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ),
       override: "",
@@ -154,6 +162,8 @@ export const getProxyAddress = (
             placeholder="00[-00]"
             type="text"
             className="u-no-margin--bottom"
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         ),
         override: "",

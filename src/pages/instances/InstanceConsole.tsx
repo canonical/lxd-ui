@@ -5,6 +5,7 @@ import {
   ContextualMenu,
   EmptyState,
   Icon,
+  Notification,
   RadioInput,
   useNotify,
 } from "@canonical/react-components";
@@ -16,6 +17,7 @@ import { sendAltF4, sendAltTab, sendCtrlAltDel } from "lib/spice/src/inputs.js";
 import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -26,6 +28,8 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const isVm = instance.type === "virtual-machine";
   const [isGraphic, setGraphic] = useState(isVm);
   const { hasCustomVolumeIso } = useSupportedFeatures();
+  const { canUpdateInstanceState, canAccessInstanceConsole } =
+    useInstanceEntitlements();
 
   const isRunning = instance.status === "Running";
 
@@ -54,6 +58,14 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   };
 
   const { handleStart, isLoading } = useInstanceStart(instance);
+
+  if (!canAccessInstanceConsole(instance)) {
+    return (
+      <Notification severity="caution" title="Restricted permissions">
+        You do not have permission to access the console for this instance.
+      </Notification>
+    );
+  }
 
   return (
     <div className="instance-console-tab">
@@ -116,6 +128,12 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
             appearance="positive"
             loading={isLoading}
             onClick={handleStart}
+            disabled={!canUpdateInstanceState(instance)}
+            title={
+              canUpdateInstanceState(instance)
+                ? ""
+                : "You do not have permission to start this instance."
+            }
           >
             Start instance
           </ActionButton>

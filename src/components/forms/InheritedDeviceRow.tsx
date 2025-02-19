@@ -16,6 +16,7 @@ interface Props {
   clearOverride?: () => void;
   isDeactivated?: boolean;
   className?: string;
+  disabledReason?: string;
 }
 
 export const getInheritedDeviceRow = ({
@@ -30,6 +31,7 @@ export const getInheritedDeviceRow = ({
   clearOverride,
   isDeactivated,
   className,
+  disabledReason,
 }: Props): MainTableRow => {
   return getConfigurationRowBase({
     className: classnames("no-border-top", className),
@@ -98,9 +100,10 @@ export const getInheritedDeviceRow = ({
               onClick={clearOverride}
               type="button"
               appearance="base"
-              title="Clear override"
+              title={disabledReason ?? "Clear override"}
               hasIcon
               className="u-no-margin--bottom"
+              disabled={!!disabledReason}
             >
               <Icon name="close" className="clear-configuration-icon" />
             </Button>
@@ -113,9 +116,10 @@ export const getInheritedDeviceRow = ({
           onClick={addOverride}
           type="button"
           appearance="base"
-          title="Create override"
+          title={disabledReason ?? "Create override"}
           className="u-no-margin--bottom"
           hasIcon
+          disabled={!!disabledReason}
         >
           <Icon name="edit" />
         </Button>

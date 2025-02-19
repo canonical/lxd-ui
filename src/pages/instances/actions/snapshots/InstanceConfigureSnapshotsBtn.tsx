@@ -3,6 +3,7 @@ import { usePortal } from "@canonical/react-components";
 import InstanceConfigureSnapshotModal from "./InstanceConfigureSnapshotModal";
 import { Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
+import { useInstanceEntitlements } from "util/entitlements/instances";
 
 interface Props {
   instance: LxdInstance;
@@ -20,6 +21,7 @@ const InstanceConfigureSnapshotsBtn: FC<Props> = ({
   className,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canEditInstance } = useInstanceEntitlements();
 
   return (
     <>
@@ -35,7 +37,16 @@ const InstanceConfigureSnapshotsBtn: FC<Props> = ({
           </div>
         </Portal>
       )}
-      <Button onClick={openPortal} className={className} disabled={isDisabled}>
+      <Button
+        onClick={openPortal}
+        className={className}
+        disabled={isDisabled || !canEditInstance(instance)}
+        title={
+          canEditInstance()
+            ? ""
+            : "You do not have permission to configure this instance"
+        }
+      >
         See configuration
       </Button>
     </>
