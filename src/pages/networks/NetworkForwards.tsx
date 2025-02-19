@@ -14,7 +14,7 @@ import Loader from "components/Loader";
 import { fetchNetworkForwards } from "api/network-forwards";
 import { useDocs } from "context/useDocs";
 import DeleteNetworkForwardBtn from "pages/networks/actions/DeleteNetworkForwardBtn";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ExpandableList from "components/ExpandableList";
 import NetworkForwardPort from "pages/networks/NetworkForwardPort";
 import ScrollableTable from "components/ScrollableTable";
@@ -29,7 +29,6 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { canEditNetwork } = useNetworkEntitlements();
-  const navigate = useNavigate();
 
   const {
     data: forwards = [],
@@ -93,27 +92,29 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
         {
           content: (
             <>
-              <Button
-                key="edit"
-                appearance="base"
-                className="u-no-margin--bottom"
-                dense
-                hasIcon
-                onClick={() =>
-                  void navigate(
-                    `/ui/project/${project}/network/${network.name}/forwards/${forward.listen_address}/edit`,
-                  )
-                }
-                type="button"
-                title={
-                  canEditNetwork(network)
-                    ? "Edit network forward"
-                    : "You do not have permission to edit forwards for this network"
-                }
-                disabled={!canEditNetwork(network)}
-              >
-                <Icon name="edit" />
-              </Button>
+              {canEditNetwork(network) && (
+                <Link
+                  className="p-button--base u-no-margin--bottom has-icon"
+                  to={`/ui/project/${project}/network/${network.name}/forwards/${forward.listen_address}/edit`}
+                  title="Edit network forward"
+                >
+                  <Icon name="edit" />
+                </Link>
+              )}
+              {!canEditNetwork(network) && (
+                <Button
+                  key="edit"
+                  appearance="base"
+                  className="u-no-margin--bottom"
+                  dense
+                  hasIcon
+                  type="button"
+                  title="You do not have permission to edit forwards for this network"
+                  disabled
+                >
+                  <Icon name="edit" />
+                </Button>
+              )}
               <DeleteNetworkForwardBtn
                 key={forward.listen_address}
                 network={network}
@@ -141,23 +142,24 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
 
   return (
     <>
-      <Button
-        appearance="positive"
-        className="u-float-right u-no-margin--bottom"
-        onClick={() =>
-          void navigate(
-            `/ui/project/${project}/network/${network.name}/forwards/create`,
-          )
-        }
-        disabled={!canEditNetwork(network)}
-        title={
-          canEditNetwork(network)
-            ? ""
-            : "You do not have permission to create network forwards for this network"
-        }
-      >
-        <span>Create forward</span>
-      </Button>
+      {canEditNetwork(network) && (
+        <Link
+          className="p-button--positive u-no-margin--bottom u-float-right"
+          to={`/ui/project/${project}/network/${network.name}/forwards/create`}
+        >
+          Create forward
+        </Link>
+      )}
+      {!canEditNetwork(network) && (
+        <Button
+          appearance="positive"
+          className="u-float-right u-no-margin--bottom"
+          disabled
+          title="You do not have permission to create network forwards for this network"
+        >
+          <span>Create forward</span>
+        </Button>
+      )}
       <Row>
         {hasNetworkForwards && (
           <ScrollableTable

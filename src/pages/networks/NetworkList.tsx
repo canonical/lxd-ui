@@ -7,9 +7,6 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { fetchNetworksFromClusterMembers } from "api/networks";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import {
   Link,
@@ -36,8 +33,10 @@ import NetworkSearchFilter, {
 } from "pages/networks/NetworkSearchFilter";
 import { LXDNetworkOnClusterMember } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";
-import { useNetworks } from "context/useNetworks";
-import { useAuth } from "context/auth";
+import {
+  useNetworks,
+  useNetworksFromClusterMembers,
+} from "context/useNetworks";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 
@@ -50,7 +49,6 @@ const NetworkList: FC = () => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const isClustered = clusterMembers.length > 0;
   const [searchParams] = useSearchParams();
-  const { isFineGrained } = useAuth();
   const { canCreateNetworks } = useProjectEntitlements();
   const { project: currentProject } = useCurrentProject();
 
@@ -78,12 +76,7 @@ const NetworkList: FC = () => {
     data: networksOnClusterMembers = [],
     error: clusterNetworkError,
     isLoading: isClusterNetworksLoading,
-  } = useQuery({
-    queryKey: [queryKeys.networks, project, queryKeys.cluster],
-    queryFn: () =>
-      fetchNetworksFromClusterMembers(project, clusterMembers, isFineGrained),
-    enabled: clusterMembers.length > 0 && isFineGrained !== null,
-  });
+  } = useNetworksFromClusterMembers(project);
 
   useEffect(() => {
     if (clusterNetworkError) {

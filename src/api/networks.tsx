@@ -16,42 +16,20 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 const networkEntitlements = ["can_edit", "can_delete"];
 
-export const fetchNetworksOnMember = (
+export const fetchNetworks = (
   project: string,
-  target: string,
   isFineGrained: boolean | null,
+  target?: string,
 ): Promise<LxdNetwork[]> => {
+  const targetParam = target ? `&target=${target}` : "";
   const entitlements = `&${withEntitlementsQuery(
     isFineGrained,
     networkEntitlements,
   )}`;
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/networks?project=${project}&recursion=1&target=${target}${entitlements}`,
+      `/1.0/networks?project=${project}&recursion=1${targetParam}${entitlements}`,
     )
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetwork[]>) => {
-        const filteredNetworks = data.metadata.filter(
-          // Filter out loopback and unknown networks, both are not useful for the user.
-          // this is in line with the filtering done in the LXD CLI
-          (network) => !["loopback", "unknown"].includes(network.type),
-        );
-        resolve(filteredNetworks);
-      })
-      .catch(reject);
-  });
-};
-
-export const fetchNetworks = (
-  project: string,
-  isFineGrained: boolean | null,
-): Promise<LxdNetwork[]> => {
-  const entitlements = `&${withEntitlementsQuery(
-    isFineGrained,
-    networkEntitlements,
-  )}`;
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks?project=${project}&recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdNetwork[]>) => {
         const filteredNetworks = data.metadata.filter(
@@ -73,11 +51,7 @@ export const fetchNetworksFromClusterMembers = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map((member) => {
-        return fetchNetworksOnMember(
-          project,
-          member.server_name,
-          isFineGrained,
-        );
+        return fetchNetworks(project, isFineGrained, member.server_name);
       }),
     )
       .then((results) => {
@@ -100,37 +74,21 @@ export const fetchNetworksFromClusterMembers = (
   });
 };
 
-export const fetchNetworkOnMember = (
+export const fetchNetwork = (
   name: string,
   project: string,
-  target: string,
   isFineGrained: boolean | null,
+  target?: string,
 ): Promise<LxdNetwork> => {
+  const targetParam = target ? `&target=${target}` : "";
   const entitlements = `&${withEntitlementsQuery(
     isFineGrained,
     networkEntitlements,
   )}`;
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/networks/${name}?project=${project}&target=${target}${entitlements}`,
+      `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
     )
-      .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdNetwork))
-      .catch(reject);
-  });
-};
-
-export const fetchNetwork = (
-  name: string,
-  project: string,
-  isFineGrained: boolean | null,
-): Promise<LxdNetwork> => {
-  const entitlements = `&${withEntitlementsQuery(
-    isFineGrained,
-    networkEntitlements,
-  )}`;
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${name}?project=${project}${entitlements}`)
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdNetwork))
       .catch(reject);
@@ -146,12 +104,7 @@ export const fetchNetworkFromClusterMembers = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map((member) => {
-        return fetchNetworkOnMember(
-          name,
-          project,
-          member.server_name,
-          isFineGrained,
-        );
+        return fetchNetwork(name, project, isFineGrained, member.server_name);
       }),
     )
       .then((results) => {
@@ -244,6 +197,7 @@ export const createNetwork = (
             network.name ?? "",
             project,
             false,
+            target,
           );
           if (newNetwork) {
             resolve();
@@ -281,6 +235,7 @@ export const updateNetwork = (
             network.name ?? "",
             project,
             false,
+            target,
           );
           if (areNetworksEqual(network, newNetwork)) {
             resolve();

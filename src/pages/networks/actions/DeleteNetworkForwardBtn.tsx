@@ -22,7 +22,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
-  const { canDeleteNetwork } = useNetworkEntitlements();
+  const { canEditNetwork } = useNetworkEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -49,9 +49,9 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
     <ConfirmationButton
       appearance="base"
       onHoverText={
-        canDeleteNetwork(network)
+        canEditNetwork(network)
           ? "Delete network forward"
-          : "You do not have permission to delete this forwards for this network"
+          : "You do not have permission to delete this network forward"
       }
       confirmationModalProps={{
         title: "Confirm delete",
@@ -69,7 +69,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
-      disabled={!canDeleteNetwork(network)}
+      disabled={!canEditNetwork(network)}
     >
       <Icon name="delete" />
     </ConfirmationButton>

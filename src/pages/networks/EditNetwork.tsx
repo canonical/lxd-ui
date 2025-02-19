@@ -2,14 +2,10 @@ import { FC, useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
-import {
-  fetchNetworkFromClusterMembers,
-  updateNetwork,
-  updateClusterNetwork,
-} from "api/networks";
+import { updateNetwork, updateClusterNetwork } from "api/networks";
 import NetworkForm, {
   isNetworkFormInvalid,
   NetworkFormValues,
@@ -33,8 +29,8 @@ import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { scrollToElement } from "util/scroll";
 import { useClusterMembers } from "context/useClusterMembers";
-import { useAuth } from "context/auth";
 import { useNetworkEntitlements } from "util/entitlements/networks";
+import { useNetworkFromClusterMembers } from "context/useNetworks";
 
 interface Props {
   network: LxdNetwork;
@@ -48,36 +44,19 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
   const { hash } = useLocation();
   const initialSection = hash ? hash.substring(1) : slugify(CONNECTIONS);
   const [section, updateSection] = useState(initialSection);
-  const { isFineGrained } = useAuth();
 
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
   const [version, setVersion] = useState(0);
   const { data: clusterMembers = [] } = useClusterMembers();
-  const isClustered = clusterMembers.length > 0;
   const { canEditNetwork } = useNetworkEntitlements();
 
-  const { data: networkOnMembers = [], error } = useQuery({
-    queryKey: [
-      queryKeys.projects,
-      project,
-      queryKeys.networks,
-      network.name,
-      queryKeys.cluster,
-    ],
-    queryFn: () =>
-      fetchNetworkFromClusterMembers(
-        network.name,
-        project,
-        clusterMembers,
-        isFineGrained,
-      ),
-    enabled:
-      isClustered &&
-      network.managed &&
-      network.type === "physical" &&
-      isFineGrained !== null,
-  });
+  const queryEnabled = network.managed && network.type === "physical";
+  const { data: networkOnMembers = [], error } = useNetworkFromClusterMembers(
+    network.name,
+    project,
+    queryEnabled,
+  );
 
   useEffect(() => {
     if (error) {
