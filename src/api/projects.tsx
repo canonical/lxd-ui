@@ -5,11 +5,12 @@ import type { LxdOperationResponse } from "types/operation";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 const projectEntitlements = [
-  "can_create_images",
   "can_create_image_aliases",
+  "can_create_images",
   "can_create_instances",
-  "can_create_storage_volumes",
   "can_create_networks",
+  "can_create_profiles",
+  "can_create_storage_volumes",
 ];
 
 export const fetchProjects = (

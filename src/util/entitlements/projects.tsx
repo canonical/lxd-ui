@@ -40,11 +40,19 @@ export const useProjectEntitlements = () => {
       project?.access_entitlements,
     );
 
+  const canCreateProfiles = (project?: LxdProject) =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_profiles",
+      project?.access_entitlements,
+    );
+
   return {
-    canCreateInstances,
-    canCreateImages,
     canCreateImageAliases,
-    canCreateStorageVolumes,
+    canCreateImages,
+    canCreateInstances,
     canCreateNetworks,
+    canCreateProfiles,
+    canCreateStorageVolumes,
   };
 };

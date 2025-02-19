@@ -30,6 +30,7 @@ import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import ProfileDetailPanel from "./ProfileDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -46,6 +47,7 @@ const ProfileList: FC = () => {
   const isDefaultProject = projectName === "default";
 
   const { project, isLoading: isProjectLoading } = useCurrentProject();
+  const { canCreateProfiles } = useProjectEntitlements();
 
   const {
     data: profiles = [],
@@ -209,6 +211,12 @@ const ProfileList: FC = () => {
                     void navigate(`/ui/project/${projectName}/profiles/create`)
                   }
                   hasIcon={!isSmallScreen}
+                  disabled={!canCreateProfiles(project)}
+                  title={
+                    canCreateProfiles(project)
+                      ? ""
+                      : "You do not have permission to create profiles in this project"
+                  }
                 >
                   {!isSmallScreen && <Icon name="plus" light />}
                   <span>Create profile</span>
