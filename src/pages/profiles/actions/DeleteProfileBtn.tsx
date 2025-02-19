@@ -14,6 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
+import { useProfileEntitlements } from "util/entitlements/profiles";
 
 interface Props {
   profile: LxdProfile;
@@ -32,6 +33,7 @@ const DeleteProfileBtn: FC<Props> = ({
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { canDeleteProfile } = useProfileEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -56,6 +58,10 @@ const DeleteProfileBtn: FC<Props> = ({
 
   const isDefaultProfile = profile.name === "default";
   const getHoverText = () => {
+    if (!canDeleteProfile(profile)) {
+      return "You do not have permission to delete this profile";
+    }
+
     if (!featuresProfiles) {
       return "Modifications are only available in the default project";
     }
@@ -71,7 +77,9 @@ const DeleteProfileBtn: FC<Props> = ({
       className={classnames("u-no-margin--bottom", {
         "has-icon": !isSmallScreen,
       })}
-      disabled={isDefaultProfile || !featuresProfiles}
+      disabled={
+        !canDeleteProfile(profile) || isDefaultProfile || !featuresProfiles
+      }
       loading={isLoading}
       confirmationModalProps={{
         title: "Confirm delete",
