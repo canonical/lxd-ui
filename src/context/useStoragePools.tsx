@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
-import { LxdStoragePool } from "types/storage";
+import { LxdStoragePool, LXDStoragePoolOnClusterMember } from "types/storage";
 import {
+  fetchPoolFromClusterMembers,
   fetchStoragePool,
-  fetchStoragePoolOnMember,
   fetchStoragePools,
 } from "api/storage-pools";
+import { useClusterMembers } from "./useClusterMembers";
 
 export const useStoragePool = (
   pool: string,
@@ -15,12 +16,9 @@ export const useStoragePool = (
   enabled?: boolean,
 ): UseQueryResult<LxdStoragePool> => {
   const { isFineGrained } = useAuth();
-  const queryFn = target
-    ? () => fetchStoragePoolOnMember(pool, target, isFineGrained)
-    : () => fetchStoragePool(pool, isFineGrained);
   return useQuery({
     queryKey: [queryKeys.storage, pool, target],
-    queryFn: queryFn,
+    queryFn: () => fetchStoragePool(pool, isFineGrained, target),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };
@@ -33,5 +31,18 @@ export const useStoragePools = (
     queryKey: [queryKeys.storage],
     queryFn: () => fetchStoragePools(isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
+  });
+};
+
+export const usePoolFromClusterMembers = (
+  pool: string,
+): UseQueryResult<LXDStoragePoolOnClusterMember[]> => {
+  const { isFineGrained } = useAuth();
+  const { data: clusterMembers = [] } = useClusterMembers();
+  return useQuery({
+    queryKey: [queryKeys.storage, pool, queryKeys.cluster],
+    queryFn: () =>
+      fetchPoolFromClusterMembers(pool, clusterMembers, isFineGrained),
+    enabled: isFineGrained !== null && clusterMembers.length > 0,
   });
 };

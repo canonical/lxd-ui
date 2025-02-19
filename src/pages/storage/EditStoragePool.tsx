@@ -1,13 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  fetchPoolFromClusterMembers,
-  fetchStoragePool,
-  fetchStoragePoolOnMember,
-  updateClusteredPool,
-  updatePool,
-} from "api/storage-pools";
+import { useQueryClient } from "@tanstack/react-query";
+import { updateClusteredPool, updatePool } from "api/storage-pools";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -34,7 +28,7 @@ import YamlSwitch from "components/forms/YamlSwitch";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
-import { useAuth } from "context/auth";
+import { usePoolFromClusterMembers } from "context/useStoragePools";
 
 interface Props {
   pool: LxdStoragePool;
@@ -53,20 +47,15 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const controllerState = useState<AbortController | null>(null);
   const { data: clusterMembers = [] } = useClusterMembers();
   const [version, setVersion] = useState(0);
-  const isClustered = clusterMembers.length > 0;
   const { canEditPool } = useStoragePoolEntitlements();
-  const { isFineGrained } = useAuth();
 
   if (!project) {
     return <>Missing project</>;
   }
 
-  const { data: poolOnMembers = [], error } = useQuery({
-    queryKey: [queryKeys.storage, pool.name, queryKeys.cluster],
-    queryFn: () =>
-      fetchPoolFromClusterMembers(pool.name, clusterMembers, isFineGrained),
-    enabled: isClustered,
-  });
+  const { data: poolOnMembers = [], error } = usePoolFromClusterMembers(
+    pool.name,
+  );
 
   useEffect(() => {
     if (error) {
@@ -113,7 +102,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
           : () => updatePool(savedPool);
 
       mutation()
-        .then(async () => {
+        .then(() => {
           toastNotify.success(
             <>
               Storage pool{" "}
@@ -124,18 +113,6 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
               />{" "}
               updated.
             </>,
-          );
-          const member = clusterMembers[0]?.server_name ?? undefined;
-          const updatedPool = member
-            ? await fetchStoragePoolOnMember(values.name, member, isFineGrained)
-            : await fetchStoragePool(values.name, isFineGrained);
-          const updatedPoolOnMembers = await fetchPoolFromClusterMembers(
-            pool.name,
-            clusterMembers,
-            isFineGrained,
-          );
-          void formik.setValues(
-            toStoragePoolFormValues(updatedPool, updatedPoolOnMembers),
           );
         })
         .catch((e) => {
