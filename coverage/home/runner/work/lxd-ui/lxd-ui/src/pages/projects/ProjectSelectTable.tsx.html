@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.03% </span>
+                <span class="strong">15% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/106</span>
+                <span class='fraction'>18/120</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>1/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.89% </span>
+                <span class="strong">17.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/95</span>
+                <span class='fraction'>18/105</span>
             </div>
         
             
@@ -158,21 +158,32 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -251,13 +262,23 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import { useProjects } from "context/useProjects";
+import { useProjectEntitlements } from "util/entitlements/projects";
 &nbsp;
 interface Props {
   onSelect: (project: string) =&gt; void;
@@ -269,6 +290,7 @@ interface Props {
 &nbsp;
 const ProjectSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> onSelect, disableProject }) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >  const { data: projects = <span class="branch-0 cbranch-no" title="branch not covered" >[] }</span> = <span class="cstat-no" title="statement not covered" >useProjects();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { canCreateInstances } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const headers = <span class="cstat-no" title="statement not covered" >[</span></span>
 <span class="cstat-no" title="statement not covered" >    { content: "Name", sortKey: "name" },</span>
@@ -276,10 +298,18 @@ const ProjectSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >  ];</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const rows = <span class="cstat-no" title="statement not covered" >projects.map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    const disableReason =</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      disableProject?.name === project.name ? disableProject?.reason : null;</span></span>
+<span class="cstat-no" title="statement not covered" >    const getDisableReason = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (!canCreateInstances(project)) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return "You do not have permission to create instances in this project";</span></span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return disableProject?.name === project.name</span></span>
+<span class="cstat-no" title="statement not covered" >        ? disableProject?.reason</span>
+<span class="cstat-no" title="statement not covered" >        : null;</span>
+<span class="cstat-no" title="statement not covered" >    };</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    const selectProject = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (disableReason) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (getDisableReason()) {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return;</span></span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      onSelect(project.name);</span></span>
@@ -288,8 +318,8 @@ const ProjectSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return {</span></span>
 <span class="cstat-no" title="statement not covered" >      key: project.name,</span>
 <span class="cstat-no" title="statement not covered" >      className: classnames("u-row", {</span>
-<span class="cstat-no" title="statement not covered" >        "u-text--muted": disableReason,</span>
-<span class="cstat-no" title="statement not covered" >        "u-row--disabled": disableReason,</span>
+<span class="cstat-no" title="statement not covered" >        "u-text--muted": !!getDisableReason(),</span>
+<span class="cstat-no" title="statement not covered" >        "u-row--disabled": !!getDisableReason(),</span>
 <span class="cstat-no" title="statement not covered" >      }),</span>
 <span class="cstat-no" title="statement not covered" >      columns: [</span>
 <span class="cstat-no" title="statement not covered" >        {</span>
@@ -310,8 +340,8 @@ const ProjectSelectTable: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >            &lt;Button</span>
 <span class="cstat-no" title="statement not covered" >              onClick={selectProject}</span>
 <span class="cstat-no" title="statement not covered" >              dense</span>
-<span class="cstat-no" title="statement not covered" >              title={disableReason}</span>
-<span class="cstat-no" title="statement not covered" >              disabled={Boolean(disableReason)}</span>
+<span class="cstat-no" title="statement not covered" >              title={getDisableReason()}</span>
+<span class="cstat-no" title="statement not covered" >              disabled={Boolean(getDisableReason())}</span>
 <span class="cstat-no" title="statement not covered" >            &gt;</span>
 <span class="cstat-no" title="statement not covered" >              Select</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
@@ -355,7 +385,7 @@ export default ProjectSelectTable;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-14T15:42:16.488Z
+                at 2025-02-19T08:55:59.739Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

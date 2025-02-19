@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/forms/DeviceDetails.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/instances/InstanceProfilesWarning.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components/forms</a> DeviceDetails.tsx</h1>
+        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/instances</a> InstanceProfilesWarning.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>21/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>20/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,68 +91,62 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">443x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
-import { Col, Row } from "@canonical/react-components";
-import type { LxdGPUDevice, LxdOtherDevice } from "types/device";
-import { deviceKeyToLabel } from "util/devices";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Notification } from "@canonical/react-components";
+import { FC } from "react";
+import { LxdProfile } from "types/profile";
 &nbsp;
 interface Props {
-  device: LxdGPUDevice | LxdOtherDevice;
+  instanceProfiles: string[];
+  profiles?: LxdProfile[];
 }
 &nbsp;
-const DeviceDetails: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> device }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;&gt;
-      {Object.keys(device).map(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; {
-<span class="cstat-no" title="statement not covered" >        if (key === "name" || key === "type") {</span>
-<span class="cstat-no" title="statement not covered" >          return null;</span>
-        }
-<span class="cstat-no" title="statement not covered" >        return (</span>
-          &lt;Row key={key}&gt;
-            &lt;Col size={4}&gt;{deviceKeyToLabel(key)}&lt;/Col&gt;
-            &lt;Col size={8} className="mono-font"&gt;
-              &lt;b&gt;{device[key as keyof typeof device]}&lt;/b&gt;
-            &lt;/Col&gt;
-          &lt;/Row&gt;
-        );
-      })}
-    &lt;/&gt;
+const InstanceProfilesWarning: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instanceProfiles, profiles }) =&gt; {</span>
+  const isMissingSomeProfiles = <span class="cstat-no" title="statement not covered" >instanceProfiles.some(</span>
+<span class="fstat-no" title="function not covered" >    (p</span>rofile) =&gt; <span class="cstat-no" title="statement not covered" >!profiles?.find((p) =&gt; p.name === profile),</span>
   );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (isMissingSomeProfiles) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return (</span></span>
+<span class="cstat-no" title="statement not covered" >      &lt;Notification severity="caution" title="Restricted permissions"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        You do not have permission to view all profiles applied to this</span>
+<span class="cstat-no" title="statement not covered" >        instance. This may cause inherited configuration values to be displayed</span>
+<span class="cstat-no" title="statement not covered" >        incorrectly.</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/Notification&gt;</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return null;</span>
 };
 &nbsp;
-export default DeviceDetails;
+export default InstanceProfilesWarning;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

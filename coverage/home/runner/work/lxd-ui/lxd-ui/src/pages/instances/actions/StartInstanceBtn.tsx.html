@@ -102,45 +102,45 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
 <a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">1648x</span>
-<span class="cline-any cline-yes">197x</span>
-<span class="cline-any cline-yes">197x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">963x</span>
+<span class="cline-any cline-yes">199x</span>
+<span class="cline-any cline-yes">199x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
@@ -154,19 +154,19 @@ interface Props {
 &nbsp;
 const StartInstanceBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance }) =&gt; {</span>
   const { handleStart, isLoading, isDisabled } = <span class="cstat-no" title="statement not covered" >useInstanceStart(instance);</span>
-  const { canUpdateInstanceState } = <span class="cstat-no" title="statement not covered" >useInstanceEntitlements(instance);</span>
+  const { canUpdateInstanceState } = <span class="cstat-no" title="statement not covered" >useInstanceEntitlements();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Button
       appearance="base"
       hasIcon
       dense={true}
-      disabled={isDisabled || !canUpdateInstanceState()}
+      disabled={isDisabled || !canUpdateInstanceState(instance)}
       onClick={handleStart}
       type="button"
       aria-label={isLoading ? "Starting" : "Start"}
       title={
-        canUpdateInstanceState()
+        canUpdateInstanceState(instance)
           ? <span class="branch-0 cbranch-no" title="branch not covered" >"Start"</span>
 <span class="cstat-no" title="statement not covered" >          : "You do not have permission to start this instance"</span>
       }
@@ -187,7 +187,7 @@ export default StartInstanceBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-14T15:42:16.488Z
+                at 2025-02-19T08:55:59.739Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
