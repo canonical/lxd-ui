@@ -86,10 +86,12 @@ export const getInstanceEditValues = (
 
 export const getProfileEditValues = (
   profile: LxdProfile,
+  editRestriction?: string,
 ): EditProfileFormValues => {
   return {
     readOnly: true,
     entityType: "profile",
+    editRestriction,
     ...getEditValues(profile),
   };
 };

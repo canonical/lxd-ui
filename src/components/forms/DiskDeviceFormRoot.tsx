@@ -111,9 +111,10 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                     }}
                     type="button"
                     appearance="base"
-                    title="Edit"
+                    title={formik.values.editRestriction ?? "Edit"}
                     className="u-no-margin--bottom"
                     hasIcon
+                    disabled={!!formik.values.editRestriction}
                   >
                     <Icon name="edit" />
                   </Button>

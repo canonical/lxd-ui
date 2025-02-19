@@ -70,6 +70,7 @@ import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import BootForm, { BootFormValues } from "components/forms/BootForm";
+import { useProfileEntitlements } from "util/entitlements/profiles";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -97,6 +98,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [version, setVersion] = useState(0);
+  const { canEditProfile } = useProfileEntitlements();
 
   if (!project) {
     return <>Missing project</>;
@@ -112,8 +114,12 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     name: Yup.string().required("Name is required"),
   });
 
+  const editRestriction = canEditProfile(profile)
+    ? undefined
+    : "You do not have permission to edit this profile";
+
   const formik = useFormik<EditProfileFormValues>({
-    initialValues: getProfileEditValues(profile),
+    initialValues: getProfileEditValues(profile, editRestriction),
     validationSchema: ProfileSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
