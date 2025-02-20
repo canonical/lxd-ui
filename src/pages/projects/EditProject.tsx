@@ -24,6 +24,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { useProfile } from "context/useProfiles";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   project: LxdProject;
@@ -38,6 +39,7 @@ const EditProject: FC<Props> = ({ project }) => {
   const { section } = useParams<{ section?: string }>();
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
+  const { canEditProject } = useProjectEntitlements();
 
   const { data: profile } = useProfile("default", project.name);
   const updateFormHeight = () => {
@@ -50,7 +52,10 @@ const EditProject: FC<Props> = ({ project }) => {
     name: Yup.string().required(),
   });
 
-  const initialValues = getProjectEditValues(project, profile);
+  const editRestriction = canEditProject(project)
+    ? undefined
+    : "You do not have permission to edit this project";
+  const initialValues = getProjectEditValues(project, profile, editRestriction);
 
   const formik: FormikProps<ProjectFormValues> = useFormik({
     initialValues: initialValues,

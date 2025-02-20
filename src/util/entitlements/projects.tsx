@@ -47,6 +47,9 @@ export const useProjectEntitlements = () => {
       project?.access_entitlements,
     );
 
+  const canEditProject = (project?: LxdProject) =>
+    hasEntitlement(isFineGrained, "can_edit", project?.access_entitlements);
+
   return {
     canCreateImageAliases,
     canCreateImages,
@@ -54,5 +57,6 @@ export const useProjectEntitlements = () => {
     canCreateNetworks,
     canCreateProfiles,
     canCreateStorageVolumes,
+    canEditProject,
   };
 };
