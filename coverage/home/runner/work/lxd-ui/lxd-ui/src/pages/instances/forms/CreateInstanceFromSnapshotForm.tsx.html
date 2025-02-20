@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.92% </span>
+                <span class="strong">13.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>49/352</span>
+                <span class='fraction'>49/362</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.7% </span>
+                <span class="strong">3.44% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/27</span>
+                <span class='fraction'>1/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.26% </span>
+                <span class="strong">5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/19</span>
+                <span class='fraction'>1/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.38% </span>
+                <span class="strong">16.01% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>49/299</span>
+                <span class='fraction'>49/306</span>
             </div>
         
             
@@ -362,7 +362,14 @@
 <a name='L297'></a><a href='#L297'>297</a>
 <a name='L298'></a><a href='#L298'>298</a>
 <a name='L299'></a><a href='#L299'>299</a>
-<a name='L300'></a><a href='#L300'>300</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -446,6 +453,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -813,10 +827,17 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return errors;</span></span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  const validTargetProjects = <span class="cstat-no" title="statement not covered" >projects.filter(canCreateInstances);</span></span>
+<span class="cstat-no" title="statement not covered" >  const hasInstanceProjectPermission = <span class="cstat-no" title="statement not covered" >validTargetProjects.some(</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    (p</span>roject) =&gt; <span class="cstat-no" title="statement not covered" >project.name === instance.project,</span></span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;CreateInstanceFromSnapshotValues&gt;({</span></span>
 <span class="cstat-no" title="statement not covered" >    initialValues: {</span>
 <span class="cstat-no" title="statement not covered" >      instanceName: getNewInstanceName(instance),</span>
-<span class="cstat-no" title="statement not covered" >      targetProject: instance.project,</span>
+<span class="cstat-no" title="statement not covered" >      targetProject: hasInstanceProjectPermission</span>
+<span class="cstat-no" title="statement not covered" >        ? instance.project</span>
+<span class="cstat-no" title="statement not covered" >        : validTargetProjects[0]?.name,</span>
 <span class="cstat-no" title="statement not covered" >      stateful: false,</span>
 <span class="cstat-no" title="statement not covered" >      targetClusterMember: isClustered ? instance.location : "",</span>
 <span class="cstat-no" title="statement not covered" >      targetStoragePool:</span>
@@ -937,7 +958,7 @@ const CreateInstanceFromSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >          {...formik.getFieldProps("targetProject")}</span>
 <span class="cstat-no" title="statement not covered" >          id="project"</span>
 <span class="cstat-no" title="statement not covered" >          label="Target project"</span>
-<span class="cstat-no" title="statement not covered" >          options={projects.filter(canCreateInstances).map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          options={validTargetProjects.map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return {</span></span>
 <span class="cstat-no" title="statement not covered" >              label: project.name,</span>
 <span class="cstat-no" title="statement not covered" >              value: project.name,</span>
@@ -967,7 +988,7 @@ export default CreateInstanceFromSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-19T08:55:59.739Z
+                at 2025-02-20T08:15:38.822Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
