@@ -42,6 +42,7 @@ export const deleteNetwork = async (page: Page, network: string) => {
 
 export const visitNetwork = async (page: Page, network: string) => {
   await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByTitle("Networks (default)").click();
   await page.getByRole("link", { name: network }).first().click();
   await page.getByTestId("tab-link-Configuration").click();
