@@ -5,17 +5,21 @@ import type { LxdOperationResponse } from "types/operation";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 const projectEntitlements = [
-  "can_create_images",
   "can_create_image_aliases",
+  "can_create_images",
   "can_create_instances",
-  "can_create_storage_volumes",
   "can_create_networks",
+  "can_create_profiles",
+  "can_create_storage_volumes",
 ];
 
 export const fetchProjects = (
   isFineGrained: boolean | null,
 ): Promise<LxdProject[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, projectEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    projectEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects?recursion=1${entitlements}`)
       .then(handleResponse)
@@ -28,7 +32,11 @@ export const fetchProject = (
   name: string,
   isFineGrained: boolean | null,
 ): Promise<LxdProject> => {
-  const entitlements = `?${withEntitlementsQuery(isFineGrained, projectEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    projectEntitlements,
+    "?",
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${name}${entitlements}`)
       .then(handleEtagResponse)

@@ -6,11 +6,9 @@ import {
   Select,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchProfiles } from "api/profiles";
 import Loader from "components/Loader";
 import { defaultFirst } from "util/helpers";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   project: string;
@@ -33,14 +31,7 @@ const ProfileSelector: FC<Props> = ({
 }) => {
   const notify = useNotify();
 
-  const {
-    data: profiles = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  const { data: profiles = [], error, isLoading } = useProfiles(project);
 
   useEffect(() => {
     const contentdetails = document.getElementById("content-details");

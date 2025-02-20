@@ -7,6 +7,7 @@ import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { limitToBytes } from "util/limits";
 import { LxdProject } from "types/project";
+import { useServerEntitlements } from "util/entitlements/server";
 
 type Props = {
   project?: LxdProject;
@@ -14,6 +15,7 @@ type Props = {
 
 const MemoryLimitAvailable: FC<Props> = ({ project }) => {
   const notify = useNotify();
+  const { canViewResources } = useServerEntitlements();
 
   const {
     data: resources,
@@ -22,6 +24,7 @@ const MemoryLimitAvailable: FC<Props> = ({ project }) => {
   } = useQuery({
     queryKey: [queryKeys.resources],
     queryFn: fetchResources,
+    enabled: canViewResources(),
   });
 
   if (isLoading) {

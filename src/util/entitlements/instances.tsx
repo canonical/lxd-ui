@@ -5,15 +5,21 @@ import { hasEntitlement } from "./helpers";
 export const useInstanceEntitlements = () => {
   const { isFineGrained } = useAuth();
 
-  const canUpdateInstanceState = (instance?: LxdInstance) =>
+  const canAccessInstanceConsole = (instance?: LxdInstance) =>
     hasEntitlement(
       isFineGrained,
-      "can_update_state",
+      "can_access_console",
       instance?.access_entitlements,
     );
 
+  const canDeleteInstance = (instance?: LxdInstance) =>
+    hasEntitlement(isFineGrained, "can_delete", instance?.access_entitlements);
+
   const canEditInstance = (instance?: LxdInstance) =>
     hasEntitlement(isFineGrained, "can_edit", instance?.access_entitlements);
+
+  const canExecInstance = (instance?: LxdInstance) =>
+    hasEntitlement(isFineGrained, "can_exec", instance?.access_entitlements);
 
   const canManageInstanceBackups = (instance?: LxdInstance) =>
     hasEntitlement(
@@ -22,9 +28,6 @@ export const useInstanceEntitlements = () => {
       instance?.access_entitlements,
     );
 
-  const canDeleteInstance = (instance?: LxdInstance) =>
-    hasEntitlement(isFineGrained, "can_delete", instance?.access_entitlements);
-
   const canManageInstanceSnapshots = (instance?: LxdInstance) =>
     hasEntitlement(
       isFineGrained,
@@ -32,13 +35,10 @@ export const useInstanceEntitlements = () => {
       instance?.access_entitlements,
     );
 
-  const canExecInstance = (instance?: LxdInstance) =>
-    hasEntitlement(isFineGrained, "can_exec", instance?.access_entitlements);
-
-  const canAccessInstanceConsole = (instance?: LxdInstance) =>
+  const canUpdateInstanceState = (instance?: LxdInstance) =>
     hasEntitlement(
       isFineGrained,
-      "can_access_console",
+      "can_update_state",
       instance?.access_entitlements,
     );
 

@@ -1,22 +1,37 @@
 import { handleEtagResponse, handleResponse } from "util/helpers";
 import type { LxdProfile } from "types/profile";
 import type { LxdApiResponse } from "types/apiResponse";
+import { withEntitlementsQuery } from "util/entitlements/api";
+
+const profileEntitlements = ["can_delete", "can_edit"];
 
 export const fetchProfile = (
   name: string,
   project: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdProfile> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    profileEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${name}?project=${project}&recursion=1`)
+    fetch(`/1.0/profiles/${name}?project=${project}&recursion=1${entitlements}`)
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdProfile))
       .catch(reject);
   });
 };
 
-export const fetchProfiles = (project: string): Promise<LxdProfile[]> => {
+export const fetchProfiles = (
+  project: string,
+  isFineGrained: boolean | null,
+): Promise<LxdProfile[]> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    profileEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles?project=${project}&recursion=1`)
+    fetch(`/1.0/profiles?project=${project}&recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdProfile[]>) => resolve(data.metadata))
       .catch(reject);

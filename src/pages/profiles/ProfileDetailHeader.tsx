@@ -10,6 +10,7 @@ import { checkDuplicateName } from "util/helpers";
 import { useNotify } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
+import { useProfileEntitlements } from "util/entitlements/profiles";
 
 interface Props {
   name: string;
@@ -28,6 +29,7 @@ const ProfileDetailHeader: FC<Props> = ({
   const notify = useNotify();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
+  const { canEditProfile } = useProfileEntitlements();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -76,6 +78,18 @@ const ProfileDetailHeader: FC<Props> = ({
     },
   });
 
+  const getRenameDisabledReason = () => {
+    if (!canEditProfile(profile)) {
+      return "You do not have permission to rename this profile";
+    }
+
+    if (profile && profile.name === "default") {
+      return "Cannot rename the default profile";
+    }
+
+    return undefined;
+  };
+
   return (
     <RenameHeader
       name={name}
@@ -84,11 +98,7 @@ const ProfileDetailHeader: FC<Props> = ({
           Profiles
         </Link>,
       ]}
-      renameDisabledReason={
-        profile && profile.name === "default"
-          ? "Cannot rename the default profile"
-          : undefined
-      }
+      renameDisabledReason={getRenameDisabledReason()}
       controls={
         profile && (
           <DeleteProfileBtn

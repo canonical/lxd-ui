@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName, getDefaultStoragePool } from "util/helpers";
 import { useNavigate } from "react-router-dom";
@@ -43,6 +43,8 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import { fetchProfile, updateProfile } from "api/profiles";
+import { useProfile } from "context/useProfiles";
+import { useAuth } from "context/auth";
 
 export type ProjectFormValues = ProjectDetailsFormValues &
   ProjectResourceLimitsFormValues &
@@ -60,11 +62,12 @@ const CreateProject: FC = () => {
   const [section, setSection] = useState(slugify(PROJECT_DETAILS));
   const { hasProjectsNetworksZones, hasStorageBuckets } =
     useSupportedFeatures();
+  const { isFineGrained } = useAuth();
 
-  const { data: profile } = useQuery({
-    queryKey: [queryKeys.profiles, "default", "default"],
-    queryFn: () => fetchProfile("default", "default"),
-  });
+  const { data: defaultProjectDefaultProfile } = useProfile(
+    "default",
+    "default",
+  );
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
@@ -101,8 +104,8 @@ const CreateProject: FC = () => {
       restricted: false,
       readOnly: false,
       entityType: "project",
-      default_instance_storage_pool: profile
-        ? getDefaultStoragePool(profile)
+      default_instance_storage_pool: defaultProjectDefaultProfile
+        ? getDefaultStoragePool(defaultProjectDefaultProfile)
         : "",
     },
     enableReinitialize: true,
@@ -143,7 +146,11 @@ const CreateProject: FC = () => {
             notifySuccess(values);
             return;
           }
-          const profile = await fetchProfile("default", values.name);
+          const profile = await fetchProfile(
+            "default",
+            values.name,
+            isFineGrained,
+          );
           profile.devices = {
             root: {
               path: "/",

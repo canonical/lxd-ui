@@ -10,9 +10,6 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { fetchProfiles } from "api/profiles";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProfileInstances } from "util/usedBy";
@@ -30,6 +27,8 @@ import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import ProfileDetailPanel from "./ProfileDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProfiles } from "context/useProfiles";
 
 const ProfileList: FC = () => {
   const docBaseLink = useDocs();
@@ -46,15 +45,13 @@ const ProfileList: FC = () => {
   const isDefaultProject = projectName === "default";
 
   const { project, isLoading: isProjectLoading } = useCurrentProject();
+  const { canCreateProfiles } = useProjectEntitlements();
 
   const {
     data: profiles = [],
     error,
     isLoading: isProfilesLoading,
-  } = useQuery({
-    queryKey: [queryKeys.profiles, projectName],
-    queryFn: () => fetchProfiles(projectName),
-  });
+  } = useProfiles(projectName);
 
   if (error) {
     notify.failure("Loading profiles failed", error);
@@ -209,6 +206,12 @@ const ProfileList: FC = () => {
                     void navigate(`/ui/project/${projectName}/profiles/create`)
                   }
                   hasIcon={!isSmallScreen}
+                  disabled={!canCreateProfiles(project)}
+                  title={
+                    canCreateProfiles(project)
+                      ? ""
+                      : "You do not have permission to create profiles in this project"
+                  }
                 >
                   {!isSmallScreen && <Icon name="plus" light />}
                   <span>Create profile</span>

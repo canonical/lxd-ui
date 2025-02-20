@@ -64,6 +64,8 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
               formik.handleChange(e);
             }}
             value={formik.values.description}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
         </Col>
       </Row>

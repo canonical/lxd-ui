@@ -1,11 +1,9 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
-import { fetchProfiles } from "api/profiles";
 import ResourceLink from "components/ResourceLink";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   instance: LxdInstance;
@@ -17,10 +15,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
     data: profiles = [],
     error,
     isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.profiles, instance.project],
-    queryFn: () => fetchProfiles(instance.project),
-  });
+  } = useProfiles(instance.project);
 
   if (error) {
     onFailure("Loading profiles failed", error);

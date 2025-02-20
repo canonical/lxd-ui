@@ -6,11 +6,8 @@ import {
   Notification,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import type { LxdGPUDevice } from "types/device";
 import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import { fetchProfiles } from "api/profiles";
 import { getInheritedGPUs } from "util/configInheritance";
 import Loader from "components/Loader";
 import AttachGPUBtn from "components/forms/SelectGPUBtn";
@@ -32,6 +29,7 @@ import { deviceKeyToLabel, getExistingDeviceNames } from "util/devices";
 import { ensureEditMode } from "util/instanceEdit";
 import { useDocs } from "context/useDocs";
 import GPUDeviceInput from "components/forms/GPUDeviceInput";
+import { useProfiles } from "context/useProfiles";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -46,10 +44,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
     data: profiles = [],
     isLoading: isProfileLoading,
     error: profileError,
-  } = useQuery({
-    queryKey: [queryKeys.profiles],
-    queryFn: () => fetchProfiles(project),
-  });
+  } = useProfiles(project);
 
   if (profileError) {
     notify.failure("Loading profiles failed", profileError);

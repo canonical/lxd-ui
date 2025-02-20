@@ -19,7 +19,7 @@ export const fetchImagesInProject = (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
+  const entitlements = withEntitlementsQuery(isFineGrained, imageEntitlements);
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
@@ -31,7 +31,7 @@ export const fetchImagesInProject = (
 export const fetchImagesInAllProjects = (
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, imageEntitlements)}`;
+  const entitlements = withEntitlementsQuery(isFineGrained, imageEntitlements);
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?recursion=1&all-projects=1${entitlements}`)
       .then(handleResponse)

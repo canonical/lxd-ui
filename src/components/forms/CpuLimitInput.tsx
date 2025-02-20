@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";
 import Loader from "components/Loader";
+import { useServerEntitlements } from "util/entitlements/server";
 
 type Props = {
   help?: string;
@@ -14,6 +15,7 @@ type Props = {
 
 const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   const notify = useNotify();
+  const { canViewResources } = useServerEntitlements();
 
   const {
     data: resources,
@@ -22,6 +24,7 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   } = useQuery({
     queryKey: [queryKeys.resources],
     queryFn: fetchResources,
+    enabled: canViewResources(),
   });
 
   if (isLoading) {
@@ -43,15 +46,11 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   };
 
   const numberOfCores = getNumberOfCores();
-  if (!numberOfCores) {
-    return null;
-  }
-
-  const totalAvailable = (
+  const totalAvailable = numberOfCores ? (
     <>
       Total number of CPU cores: <b>{numberOfCores}</b>
     </>
-  );
+  ) : null;
 
   return (
     <Input
