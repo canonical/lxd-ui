@@ -39,6 +39,7 @@ export const stopInstanceFromPanel = async (page: Page, instance: string) => {
   await stopButton.click();
   const confirmModal = page.locator("css=.p-modal");
   await confirmModal.waitFor({ state: "visible" });
+  await page.getByText("Force stop").click();
   const confirmStopButton = confirmModal.locator("css=button", {
     hasText: "Stop",
   });
