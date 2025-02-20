@@ -4,6 +4,20 @@ import { hasEntitlement } from "./helpers";
 export const useServerEntitlements = () => {
   const { isFineGrained, serverEntitlements } = useAuth();
 
+  const canCreateProjects = () =>
+    hasEntitlement(isFineGrained, "can_create_projects", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "project_manager", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements);
+
+  const canCreateStoragePools = () =>
+    hasEntitlement(
+      isFineGrained,
+      "can_create_storage_pools",
+      serverEntitlements,
+    ) ||
+    hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
+    hasEntitlement(isFineGrained, "storage_pool_manager", serverEntitlements);
+
   const canEditServerConfiguration = () =>
     hasEntitlement(isFineGrained, "can_edit", serverEntitlements) ||
     hasEntitlement(isFineGrained, "admin", serverEntitlements);
@@ -18,16 +32,8 @@ export const useServerEntitlements = () => {
     hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
     hasEntitlement(isFineGrained, "viewer", serverEntitlements);
 
-  const canCreateStoragePools = () =>
-    hasEntitlement(
-      isFineGrained,
-      "can_create_storage_pools",
-      serverEntitlements,
-    ) ||
-    hasEntitlement(isFineGrained, "admin", serverEntitlements) ||
-    hasEntitlement(isFineGrained, "storage_pool_manager", serverEntitlements);
-
   return {
+    canCreateProjects,
     canCreateStoragePools,
     canEditServerConfiguration,
     canViewMetrics,

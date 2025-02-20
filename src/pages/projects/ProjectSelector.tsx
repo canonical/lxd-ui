@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ProjectSelectorList from "pages/projects/ProjectSelectorList";
 import { defaultFirst } from "util/helpers";
 import { useProjects } from "context/useProjects";
+import { useServerEntitlements } from "util/entitlements/server";
 
 interface Props {
   activeProject: string;
@@ -17,6 +18,7 @@ interface Props {
 const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
   const navigate = useNavigate();
   const searchRef = useRef<HTMLInputElement>(null);
+  const { canCreateProjects } = useServerEntitlements();
 
   const { data: projects = [] } = useProjects();
 
@@ -62,6 +64,12 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
             onClick={() => navigate("/ui/projects/create")}
             className="p-contextual-menu__link"
             hasIcon
+            disabled={!canCreateProjects()}
+            title={
+              canCreateProjects()
+                ? ""
+                : "You do not have permission to create projects"
+            }
           >
             <Icon name="plus" light />
             <span>Create project</span>
