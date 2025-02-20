@@ -42,7 +42,6 @@ export const deleteNetwork = async (page: Page, network: string) => {
 
 export const visitNetwork = async (page: Page, network: string) => {
   await gotoURL(page, "/ui/");
-  await page.waitForLoadState("networkidle");
   await page.getByTitle("Networks (default)").click();
   await page.getByRole("link", { name: network }).first().click();
   await page.getByTestId("tab-link-Configuration").click();
@@ -82,20 +81,16 @@ export const createNetworkForward = async (page: Page, network: string) => {
   let addressInput = page.getByLabel("0 target address");
   await page.getByRole("button", { name: "Add port" }).click();
   await portInput.click();
-  await expect(portInput).toBeFocused();
-  await page.keyboard.type("80");
+  await portInput.fill("80");
   await addressInput.click();
-  await expect(addressInput).toBeFocused();
-  await page.keyboard.type(targetAddress);
+  await addressInput.fill(targetAddress);
   await page.getByRole("button", { name: "Add port" }).click();
   portInput = page.getByLabel("1 listen port");
   addressInput = page.getByLabel("1 target address");
   await portInput.click();
-  await expect(portInput).toBeFocused();
-  await page.keyboard.type("23,443-455");
+  await portInput.fill("23,443-455");
   await addressInput.click();
-  await expect(addressInput).toBeFocused();
-  await page.keyboard.type(targetAddress);
+  await addressInput.fill(targetAddress);
   await page.getByRole("button", { name: "Create" }).click();
 
   await page.getByText(`Network forward ${listenAddress} created.`).click();
@@ -109,8 +104,8 @@ export const createNetworkForward = async (page: Page, network: string) => {
 
 export const getNetworkLink = async (page: Page, network: string) => {
   // network actions may result in ERR_NETWORK_CHANGED, we should wait for network to settle before checking visibility
-  await gotoURL(page, "/ui/");
   await page.waitForLoadState("networkidle");
+  await gotoURL(page, "/ui/");
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   const networkLink = page.getByRole("link", { name: network });
   return networkLink;
