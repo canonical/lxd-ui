@@ -16,22 +16,25 @@ test("search for custom image and create an instance from it", async ({
   page,
 }) => {
   const customInstance = randomInstanceName();
-  const instance = randomInstanceName();
-  await createInstance(page, instance);
-  const imageAlias = await createImageFromInstance(page, instance);
-  const imageName = await getImageNameFromAlias(page, imageAlias);
-  await deleteInstance(page, instance);
+  let imageName: string = "";
+  try {
+    const instance = randomInstanceName();
+    await createInstance(page, instance);
+    const imageAlias = await createImageFromInstance(page, instance);
+    imageName = await getImageNameFromAlias(page, imageAlias);
+    await deleteInstance(page, instance);
 
-  await visitImages(page, "default");
-  await page.getByPlaceholder("Search").click();
-  await page.getByPlaceholder("Search").fill(imageAlias);
-  await page.getByRole("button", { name: "Create instance" }).first().click();
-  await page.getByLabel("Instance name").fill(customInstance);
-  await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForSelector(`text=Created instance ${customInstance}.`);
-
-  await deleteInstance(page, customInstance);
-  await deleteImage(page, imageName);
+    await visitImages(page, "default");
+    await page.getByPlaceholder("Search").click();
+    await page.getByPlaceholder("Search").fill(imageAlias);
+    await page.getByRole("button", { name: "Create instance" }).first().click();
+    await page.getByLabel("Instance name").fill(customInstance);
+    await page.getByRole("button", { name: "Create", exact: true }).click();
+    await page.waitForSelector(`text=Created instance ${customInstance}.`);
+  } finally {
+    await deleteInstance(page, customInstance);
+    await deleteImage(page, imageName);
+  }
 });
 
 test("Export and Upload an image", async ({ page }) => {
