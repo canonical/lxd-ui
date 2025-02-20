@@ -28,6 +28,7 @@ interface Props {
   canToggleSpecific?: boolean;
   isDefaultSpecific?: boolean;
   clusterMemberLinkTarget?: (member: string) => string;
+  disableReason?: string;
 }
 
 const ClusterSpecificSelect: FC<Props> = ({
@@ -40,6 +41,7 @@ const ClusterSpecificSelect: FC<Props> = ({
   canToggleSpecific = true,
   isDefaultSpecific = false,
   clusterMemberLinkTarget = () => "/ui/cluster",
+  disableReason,
 }) => {
   const [isSpecific, setIsSpecific] = useState(isDefaultSpecific);
 
@@ -131,7 +133,10 @@ const ClusterSpecificSelect: FC<Props> = ({
                   {isReadOnly ? (
                     <>
                       {activeValue}
-                      <FormEditButton toggleReadOnly={toggleReadOnly} />
+                      <FormEditButton
+                        toggleReadOnly={toggleReadOnly}
+                        disableReason={disableReason}
+                      />
                     </>
                   ) : (
                     <Select
@@ -159,7 +164,10 @@ const ClusterSpecificSelect: FC<Props> = ({
           {isReadOnly ? (
             <>
               {firstValue}
-              <FormEditButton toggleReadOnly={toggleReadOnly} />
+              <FormEditButton
+                toggleReadOnly={toggleReadOnly}
+                disableReason={disableReason}
+              />
             </>
           ) : (
             <Select

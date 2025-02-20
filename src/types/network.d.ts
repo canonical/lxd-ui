@@ -70,6 +70,7 @@ export interface LxdNetwork {
   type: LxdNetworkType;
   used_by?: string[];
   etag?: string;
+  access_entitlements?: string[];
 }
 
 export type LXDNetworkOnClusterMember = LxdNetwork & {

@@ -12,14 +12,24 @@ import type { LxdApiResponse } from "types/apiResponse";
 import { areNetworksEqual } from "util/networks";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import type { LxdClusterMember } from "types/cluster";
+import { withEntitlementsQuery } from "util/entitlements/api";
+
+const networkEntitlements = ["can_edit", "can_delete"];
 
 export const fetchNetworks = (
   project: string,
+  isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdNetwork[]> => {
   const targetParam = target ? `&target=${target}` : "";
+  const entitlements = `&${withEntitlementsQuery(
+    isFineGrained,
+    networkEntitlements,
+  )}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks?project=${project}&recursion=1${targetParam}`)
+    fetch(
+      `/1.0/networks?project=${project}&recursion=1${targetParam}${entitlements}`,
+    )
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdNetwork[]>) => {
         const filteredNetworks = data.metadata.filter(
@@ -36,11 +46,12 @@ export const fetchNetworks = (
 export const fetchNetworksFromClusterMembers = (
   project: string,
   clusterMembers: LxdClusterMember[],
+  isFineGrained: boolean | null,
 ): Promise<LXDNetworkOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map((member) => {
-        return fetchNetworks(project, member.server_name);
+        return fetchNetworks(project, isFineGrained, member.server_name);
       }),
     )
       .then((results) => {
@@ -66,11 +77,18 @@ export const fetchNetworksFromClusterMembers = (
 export const fetchNetwork = (
   name: string,
   project: string,
+  isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdNetwork> => {
   const targetParam = target ? `&target=${target}` : "";
+  const entitlements = `&${withEntitlementsQuery(
+    isFineGrained,
+    networkEntitlements,
+  )}`;
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${name}?project=${project}${targetParam}`)
+    fetch(
+      `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
+    )
       .then(handleEtagResponse)
       .then((data) => resolve(data as LxdNetwork))
       .catch(reject);
@@ -81,11 +99,12 @@ export const fetchNetworkFromClusterMembers = (
   name: string,
   project: string,
   clusterMembers: LxdClusterMember[],
+  isFineGrained: boolean | null,
 ): Promise<LXDNetworkOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map((member) => {
-        return fetchNetwork(name, project, member.server_name);
+        return fetchNetwork(name, project, isFineGrained, member.server_name);
       }),
     )
       .then((results) => {
@@ -174,7 +193,12 @@ export const createNetwork = (
         // when creating a network on localhost the request will get cancelled
         // check manually if creation was successful
         if (e.message === "Failed to fetch") {
-          const newNetwork = await fetchNetwork(network.name ?? "", project);
+          const newNetwork = await fetchNetwork(
+            network.name ?? "",
+            project,
+            false,
+            target,
+          );
           if (newNetwork) {
             resolve();
           }
@@ -207,7 +231,12 @@ export const updateNetwork = (
         // when updating a network on localhost the request will get cancelled
         // check manually if the edit was successful
         if (e.message === "Failed to fetch") {
-          const newNetwork = await fetchNetwork(network.name ?? "", project);
+          const newNetwork = await fetchNetwork(
+            network.name ?? "",
+            project,
+            false,
+            target,
+          );
           if (areNetworksEqual(network, newNetwork)) {
             resolve();
           }
@@ -269,7 +298,7 @@ export const renameNetwork = (
         // when renaming a network on localhost the request will get cancelled
         // check manually if renaming was successful
         if (e.message === "Failed to fetch") {
-          const renamedNetwork = await fetchNetwork(newName, project);
+          const renamedNetwork = await fetchNetwork(newName, project, false);
           if (renamedNetwork) {
             resolve();
           }

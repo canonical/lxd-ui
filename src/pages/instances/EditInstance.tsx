@@ -276,7 +276,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
                   void formik.setFieldValue("yaml", yaml);
                 }}
                 readOnly={!!formik.values.editRestriction}
-                readOnlyMessage={{ value: formik.values.editRestriction ?? "" }}
+                readOnlyMessage={formik.values.editRestriction}
               >
                 <YamlNotification
                   entity="instance"

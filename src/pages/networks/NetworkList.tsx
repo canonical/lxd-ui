@@ -7,9 +7,6 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { fetchNetworksFromClusterMembers, fetchNetworks } from "api/networks";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import {
   Link,
@@ -36,6 +33,12 @@ import NetworkSearchFilter, {
 } from "pages/networks/NetworkSearchFilter";
 import { LXDNetworkOnClusterMember } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";
+import {
+  useNetworks,
+  useNetworksFromClusterMembers,
+} from "context/useNetworks";
+import { useProjectEntitlements } from "util/entitlements/projects";
+import { useCurrentProject } from "context/useCurrentProject";
 
 const NetworkList: FC = () => {
   const docBaseLink = useDocs();
@@ -46,6 +49,8 @@ const NetworkList: FC = () => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const isClustered = clusterMembers.length > 0;
   const [searchParams] = useSearchParams();
+  const { canCreateNetworks } = useProjectEntitlements();
+  const { project: currentProject } = useCurrentProject();
 
   const filters: NetworkFilters = {
     queries: searchParams.getAll(QUERY),
@@ -59,14 +64,7 @@ const NetworkList: FC = () => {
     return <>Missing project</>;
   }
 
-  const {
-    data: networks = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.projects, project, queryKeys.networks],
-    queryFn: () => fetchNetworks(project),
-  });
+  const { data: networks = [], error, isLoading } = useNetworks(project);
 
   useEffect(() => {
     if (error) {
@@ -78,11 +76,7 @@ const NetworkList: FC = () => {
     data: networksOnClusterMembers = [],
     error: clusterNetworkError,
     isLoading: isClusterNetworksLoading,
-  } = useQuery({
-    queryKey: [queryKeys.networks, project, queryKeys.cluster],
-    queryFn: () => fetchNetworksFromClusterMembers(project, clusterMembers),
-    enabled: clusterMembers.length > 0,
-  });
+  } = useNetworksFromClusterMembers(project);
 
   useEffect(() => {
     if (clusterNetworkError) {
@@ -277,6 +271,12 @@ const NetworkList: FC = () => {
                 void navigate(`/ui/project/${project}/networks/create`)
               }
               hasIcon={!isSmallScreen}
+              disabled={!canCreateNetworks(currentProject)}
+              title={
+                canCreateNetworks(currentProject)
+                  ? ""
+                  : "You do not have permission to create networks in this project"
+              }
             >
               {!isSmallScreen && <Icon name="plus" light />}
               <span>Create network</span>

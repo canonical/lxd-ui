@@ -7,9 +7,6 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchNetworksFromClusterMembers, fetchNetworks } from "api/networks";
 import { useParams } from "react-router-dom";
 import { FormikProps } from "formik/dist/types";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
@@ -19,6 +16,10 @@ import ClusterSpecificSelect, {
   ClusterSpecificSelectOption,
 } from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
+import {
+  useNetworks,
+  useNetworksFromClusterMembers,
+} from "context/useNetworks";
 
 interface Props {
   props?: Record<string, unknown>;
@@ -35,15 +36,12 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
     return <>Missing project</>;
   }
 
+  const networksQueryEnabled = !isClustered;
   const {
     data: networks = [],
     error: networkError,
     isLoading: isNetworkLoading,
-  } = useQuery({
-    queryKey: [queryKeys.networks, project],
-    queryFn: () => fetchNetworks(project),
-    enabled: !isClustered,
-  });
+  } = useNetworks(project, undefined, networksQueryEnabled);
 
   useEffect(() => {
     if (networkError) {
@@ -55,11 +53,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
     data: networksOnClusterMembers = [],
     error: clusterNetworkError,
     isLoading: isClusterNetworksLoading,
-  } = useQuery({
-    queryKey: [queryKeys.networks, "default", queryKeys.cluster],
-    queryFn: () => fetchNetworksFromClusterMembers("default", clusterMembers),
-    enabled: clusterMembers.length > 0,
-  });
+  } = useNetworksFromClusterMembers("default");
 
   useEffect(() => {
     if (clusterNetworkError) {
@@ -128,6 +122,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
             clusterMemberLinkTarget={(member) =>
               `/ui/project/${project}/networks?member=${member}`
             }
+            disableReason={formik.values.editRestriction}
           />
         </div>
       </div>
@@ -153,8 +148,9 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
               className="u-no-margin--bottom"
               type="button"
               appearance="base"
-              title="Edit"
+              title={formik.values.editRestriction ?? "Edit"}
               hasIcon
+              disabled={!!formik.values.editRestriction}
             >
               <Icon name="edit" />
             </Button>

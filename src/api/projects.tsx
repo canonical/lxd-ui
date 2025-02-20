@@ -9,6 +9,7 @@ const projectEntitlements = [
   "can_create_image_aliases",
   "can_create_instances",
   "can_create_storage_volumes",
+  "can_create_networks",
 ];
 
 export const fetchProjects = (

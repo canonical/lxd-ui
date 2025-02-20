@@ -9,6 +9,7 @@ import {
 } from "@canonical/react-components";
 import { deleteNetworkForward } from "api/network-forwards";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useNetworkEntitlements } from "util/entitlements/networks";
 
 interface Props {
   network: LxdNetwork;
@@ -21,6 +22,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
+  const { canEditNetwork } = useNetworkEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -46,7 +48,11 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
   return (
     <ConfirmationButton
       appearance="base"
-      onHoverText="Delete network forward"
+      onHoverText={
+        canEditNetwork(network)
+          ? "Delete network forward"
+          : "You do not have permission to delete this network forward"
+      }
       confirmationModalProps={{
         title: "Confirm delete",
         confirmButtonAppearance: "negative",
@@ -63,6 +69,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
+      disabled={!canEditNetwork(network)}
     >
       <Icon name="delete" />
     </ConfirmationButton>
