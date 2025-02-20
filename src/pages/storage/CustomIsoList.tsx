@@ -168,7 +168,10 @@ const CustomIsoList: FC = () => {
           <Icon className="external-link-icon" name="external-link" />
         </a>
       </p>
-      <UploadCustomIsoBtn className="empty-state-button" project={project} />
+      <UploadCustomIsoBtn
+        className="empty-state-button"
+        projectName={project}
+      />
     </EmptyState>
   ) : (
     <div className="custom-iso-list">
@@ -233,7 +236,7 @@ const CustomIsoList: FC = () => {
             <PageHeader.BaseActions>
               <UploadCustomIsoBtn
                 className="u-float-right u-no-margin--bottom"
-                project={project}
+                projectName={project}
               />
             </PageHeader.BaseActions>
           )}
