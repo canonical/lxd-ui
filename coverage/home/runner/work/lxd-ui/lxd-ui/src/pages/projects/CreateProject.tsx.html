@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75.2% </span>
+                <span class="strong">75.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>185/246</span>
+                <span class='fraction'>192/253</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.42% </span>
+                <span class="strong">40.62% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/33</span>
+                <span class='fraction'>13/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.52% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/23</span>
+                <span class='fraction'>12/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.19% </span>
+                <span class="strong">90.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>184/204</span>
+                <span class='fraction'>191/211</span>
             </div>
         
             
@@ -267,7 +267,14 @@
 <a name='L202'></a><a href='#L202'>202</a>
 <a name='L203'></a><a href='#L203'>203</a>
 <a name='L204'></a><a href='#L204'>204</a>
-<a name='L205'></a><a href='#L205'>205</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -321,6 +328,9 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">75x</span>
@@ -426,6 +436,10 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -475,7 +489,7 @@
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName, getDefaultStoragePool } from "util/helpers";
 import { useNavigate } from "react-router-dom";
@@ -516,6 +530,8 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import { fetchProfile, updateProfile } from "api/profiles";
+import { useProfile } from "context/useProfiles";
+import { useAuth } from "context/auth";
 &nbsp;
 export type ProjectFormValues = ProjectDetailsFormValues &amp;
   ProjectResourceLimitsFormValues &amp;
@@ -533,11 +549,12 @@ const CreateProject: FC = <span class="cstat-no" title="statement not covered" >
   const [section, setSection] = <span class="cstat-no" title="statement not covered" >useState(slugify(PROJECT_DETAILS));</span>
   const { hasProjectsNetworksZones, hasStorageBuckets } =
 <span class="cstat-no" title="statement not covered" >    useSupportedFeatures();</span>
+  const { isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
 &nbsp;
-  const { data: profile } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.profiles, "default", "default"],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchProfile("default", "default"),</span>
-  });
+  const { data: defaultProjectDefaultProfile } = <span class="cstat-no" title="statement not covered" >useProfile(</span>
+    "default",
+    "default",
+  );
 &nbsp;
   const ProjectSchema = <span class="cstat-no" title="statement not covered" >Yup.object().shape({</span>
     name: Yup.string()
@@ -574,8 +591,8 @@ const CreateProject: FC = <span class="cstat-no" title="statement not covered" >
       restricted: false,
       readOnly: false,
       entityType: "project",
-      default_instance_storage_pool: profile
-        ? getDefaultStoragePool(profile)
+      default_instance_storage_pool: defaultProjectDefaultProfile
+        ? getDefaultStoragePool(defaultProjectDefaultProfile)
         : "",
     },
     enableReinitialize: true,
@@ -616,7 +633,11 @@ const CreateProject: FC = <span class="cstat-no" title="statement not covered" >
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            notifySuccess(values);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            return;</span></span>
 <span class="cstat-no" title="statement not covered" >          }</span>
-          const profile = <span class="cstat-no" title="statement not covered" >await fetchProfile("default", values.name);</span>
+          const profile = <span class="cstat-no" title="statement not covered" >await fetchProfile(</span>
+            "default",
+            values.name,
+            isFineGrained,
+          );
 <span class="cstat-no" title="statement not covered" >          profile.devices = {</span>
             root: {
               path: "/",
@@ -682,7 +703,7 @@ export default CreateProject;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-20T08:19:08.762Z
+                at 2025-02-20T15:39:00.073Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
