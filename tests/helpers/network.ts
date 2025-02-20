@@ -77,15 +77,23 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page.getByRole("link", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
 
+  let portInput = page.getByLabel("0 listen port");
+  let addressInput = page.getByLabel("0 target address");
   await page.getByRole("button", { name: "Add port" }).click();
-  await page.getByLabel("0 listen port").click();
+  await portInput.click();
+  await expect(portInput).toBeFocused();
   await page.keyboard.type("80");
-  await page.getByLabel("0 target address").click();
+  await addressInput.click();
+  await expect(addressInput).toBeFocused();
   await page.keyboard.type(targetAddress);
   await page.getByRole("button", { name: "Add port" }).click();
-  await page.getByLabel("1 listen port").click();
+  portInput = page.getByLabel("1 listen port");
+  addressInput = page.getByLabel("1 target address");
+  await portInput.click();
+  await expect(portInput).toBeFocused();
   await page.keyboard.type("23,443-455");
-  await page.getByLabel("1 target address").click();
+  await addressInput.click();
+  await expect(addressInput).toBeFocused();
   await page.keyboard.type(targetAddress);
   await page.getByRole("button", { name: "Create" }).click();
 
@@ -100,8 +108,8 @@ export const createNetworkForward = async (page: Page, network: string) => {
 
 export const getNetworkLink = async (page: Page, network: string) => {
   // network actions may result in ERR_NETWORK_CHANGED, we should wait for network to settle before checking visibility
-  await page.waitForLoadState("networkidle");
   await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("link", { name: "Networks", exact: true }).click();
   const networkLink = page.getByRole("link", { name: network });
   return networkLink;
