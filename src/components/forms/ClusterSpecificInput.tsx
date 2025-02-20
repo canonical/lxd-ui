@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
@@ -8,19 +8,21 @@ interface Props {
   id: string;
   isReadOnly: boolean;
   onChange: (value: ClusterSpecificValues) => void;
-  toggleReadOnly?: () => void;
   memberNames: string[];
+  toggleReadOnly?: () => void;
   values?: ClusterSpecificValues;
+  disableReason?: string;
   canToggleSpecific?: boolean;
   isDefaultSpecific?: boolean;
   clusterMemberLinkTarget?: (member: string) => string;
   disabled?: boolean;
-  helpText?: string;
+  helpText?: string | ReactNode;
   placeholder?: string;
   classname?: string;
 }
 
 const ClusterSpecificInput: FC<Props> = ({
+  disableReason,
   values,
   id,
   isReadOnly,
@@ -94,12 +96,17 @@ const ClusterSpecificInput: FC<Props> = ({
                     to={clusterMemberLinkTarget(item)}
                   />
                 </div>
-                <div className="cluster-specific-value">
+                <div className="cluster-specific-value-wrapper">
                   {isReadOnly ? (
                     <>
-                      {activeValue}
+                      <span className="cluster-specific-value">
+                        {activeValue}
+                      </span>
                       {!disabled && (
-                        <FormEditButton toggleReadOnly={toggleReadOnly} />
+                        <FormEditButton
+                          disableReason={disableReason}
+                          toggleReadOnly={toggleReadOnly}
+                        />
                       )}
                     </>
                   ) : (
@@ -127,11 +134,16 @@ const ClusterSpecificInput: FC<Props> = ({
         </div>
       )}
       {!isSpecific && (
-        <div>
+        <div className="cluster-specific-value-wrapper">
           {isReadOnly ? (
             <>
-              {firstValue}
-              {!disabled && <FormEditButton toggleReadOnly={toggleReadOnly} />}
+              <span className="cluster-specific-value">{firstValue}</span>
+              {!disabled && (
+                <FormEditButton
+                  disableReason={disableReason}
+                  toggleReadOnly={toggleReadOnly}
+                />
+              )}
             </>
           ) : (
             <Input

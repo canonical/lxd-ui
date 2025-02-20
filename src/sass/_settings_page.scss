@@ -42,4 +42,13 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
+
+  .cluster-specific-value-wrapper {
+    align-items: center;
+    display: flex;
+
+    .cluster-specific-value {
+      flex-grow: 1;
+    }
+  }
 }
