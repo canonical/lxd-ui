@@ -18,6 +18,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { filterUsedByType } from "util/usedBy";
 import { ResourceType } from "util/resourceDetails";
 import ResourceLabel from "components/ResourceLabel";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   project: LxdProject;
@@ -82,10 +83,14 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { canDeleteProject } = useProjectEntitlements();
 
   const isDefaultProject = project.name === "default";
   const isEmpty = isProjectEmpty(project);
   const getHoverText = () => {
+    if (!canDeleteProject(project)) {
+      return "You do not have permission to delete this project";
+    }
     if (isDefaultProject) {
       return "The default project cannot be deleted";
     }
@@ -125,7 +130,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         "has-icon": !isSmallScreen,
       })}
       loading={isLoading}
-      disabled={isDefaultProject || !isEmpty}
+      disabled={!canDeleteProject(project) || isDefaultProject || !isEmpty}
       confirmationModalProps={{
         title: "Confirm delete",
         confirmButtonLabel: "Delete",
