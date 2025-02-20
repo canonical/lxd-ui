@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.62% </span>
+                <span class="strong">62.76% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>53/86</span>
+                <span class='fraction'>59/94</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">22.22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>2/9</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.61% </span>
+                <span class="strong">74.68% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>53/72</span>
+                <span class='fraction'>59/79</span>
             </div>
         
             
@@ -135,7 +135,15 @@
 <a name='L70'></a><a href='#L70'>70</a>
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -160,6 +168,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -182,6 +191,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -218,6 +232,7 @@ import {
 } from "@canonical/react-components";
 import { deleteNetworkForward } from "api/network-forwards";
 import { useToastNotification } from "context/toastNotificationProvider";
+import { useNetworkEntitlements } from "util/entitlements/networks";
 &nbsp;
 interface Props {
   network: LxdNetwork;
@@ -230,6 +245,7 @@ const DeleteNetworkForwardBtn: FC&lt;Props&gt; = <span class="cstat-no" title="s
   const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
   const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const { canEditNetwork } = <span class="cstat-no" title="statement not covered" >useNetworkEntitlements();</span>
 &nbsp;
   const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
@@ -255,7 +271,11 @@ const DeleteNetworkForwardBtn: FC&lt;Props&gt; = <span class="cstat-no" title="s
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ConfirmationButton
       appearance="base"
-      onHoverText="Delete network forward"
+      onHoverText={
+        canEditNetwork(network)
+          ? <span class="branch-0 cbranch-no" title="branch not covered" >"Delete network forward"</span>
+<span class="cstat-no" title="statement not covered" >          : "You do not have permission to delete this network forward"</span>
+      }
       confirmationModalProps={{
         title: "Confirm delete",
         confirmButtonAppearance: "negative",
@@ -272,6 +292,7 @@ const DeleteNetworkForwardBtn: FC&lt;Props&gt; = <span class="cstat-no" title="s
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
+      disabled={!canEditNetwork(network)}
     &gt;
       &lt;Icon name="delete" /&gt;
     &lt;/ConfirmationButton&gt;
@@ -286,7 +307,7 @@ export default DeleteNetworkForwardBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-20T08:15:38.822Z
+                at 2025-02-20T08:19:08.762Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
