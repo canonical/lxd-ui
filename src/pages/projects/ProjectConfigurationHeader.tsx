@@ -12,6 +12,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useDocs } from "context/useDocs";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
+import { useProjectEntitlements } from "util/entitlements/projects";
 
 interface Props {
   project: LxdProject;
@@ -23,6 +24,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
   const navigate = useNavigate();
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
+  const { canEditProject } = useProjectEntitlements();
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -90,6 +92,18 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     },
   });
 
+  const getRenameDisabledReason = () => {
+    if (!canEditProject(project)) {
+      return "You do not have permission to rename this project";
+    }
+
+    if (project.name === "default") {
+      return "Cannot rename the default project";
+    }
+
+    return undefined;
+  };
+
   return (
     <RenameHeader
       name={project.name}
@@ -102,11 +116,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           Project configuration
         </HelpLink>,
       ]}
-      renameDisabledReason={
-        project.name === "default"
-          ? "Cannot rename the default project"
-          : undefined
-      }
+      renameDisabledReason={getRenameDisabledReason()}
       controls={<DeleteProjectBtn project={project} />}
       isLoaded={Boolean(project)}
       formik={formik}
