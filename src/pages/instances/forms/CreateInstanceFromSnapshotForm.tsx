@@ -150,10 +150,17 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
     return errors;
   };
 
+  const validTargetProjects = projects.filter(canCreateInstances);
+  const hasInstanceProjectPermission = validTargetProjects.some(
+    (project) => project.name === instance.project,
+  );
+
   const formik = useFormik<CreateInstanceFromSnapshotValues>({
     initialValues: {
       instanceName: getNewInstanceName(instance),
-      targetProject: instance.project,
+      targetProject: hasInstanceProjectPermission
+        ? instance.project
+        : validTargetProjects[0]?.name,
       stateful: false,
       targetClusterMember: isClustered ? instance.location : "",
       targetStoragePool:
@@ -274,7 +281,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
           {...formik.getFieldProps("targetProject")}
           id="project"
           label="Target project"
-          options={projects.filter(canCreateInstances).map((project) => {
+          options={validTargetProjects.map((project) => {
             return {
               label: project.name,
               value: project.name,
