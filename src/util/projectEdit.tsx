@@ -18,6 +18,7 @@ import type { LxdProfile } from "types/profile";
 export const getProjectEditValues = (
   project: LxdProject,
   defaultProfile?: LxdProfile,
+  editRestriction?: string,
 ): ProjectFormValues => {
   return {
     name: project.name,
@@ -98,6 +99,7 @@ export const getProjectEditValues = (
     restricted_network_subnets: project.config["restricted.networks.subnets"],
     restricted_network_uplinks: project.config["restricted.networks.uplinks"],
     restricted_network_zones: project.config["restricted.networks.zones"],
+    editRestriction,
   };
 };
 

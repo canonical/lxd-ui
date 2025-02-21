@@ -149,6 +149,8 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               formik.handleChange(e);
             }}
             value={formik.values.description}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
           <StoragePoolSelector
             value={formik.values.default_instance_storage_pool}
@@ -178,9 +180,10 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
           />
           <div
             title={
-              isDefaultProject
+              formik.values.editRestriction ??
+              (isDefaultProject
                 ? "Custom features are immutable on the default project"
-                : ""
+                : "")
             }
           >
             <Select
@@ -209,6 +212,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 },
               ]}
               disabled={
+                !!formik.values.editRestriction ||
                 isDefaultProject ||
                 (isNonEmpty && hadFeaturesNetwork) ||
                 (isNonEmpty && hadFeaturesNetworkZones)
@@ -230,7 +234,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     );
                   }}
                   checked={formik.values.features_images}
-                  disabled={isDefaultProject || isNonEmpty}
+                  disabled={
+                    !!formik.values.editRestriction ||
+                    isDefaultProject ||
+                    isNonEmpty
+                  }
                 />
                 <CheckboxInput
                   id="features_profiles"
@@ -255,7 +263,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     }
                   }}
                   checked={formik.values.features_profiles}
-                  disabled={isDefaultProject || isNonEmpty}
+                  disabled={
+                    !!formik.values.editRestriction ||
+                    isDefaultProject ||
+                    isNonEmpty
+                  }
                 />
                 <CheckboxInput
                   id="features_networks"
@@ -269,7 +281,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     );
                   }}
                   checked={formik.values.features_networks}
-                  disabled={isDefaultProject || isNonEmpty}
+                  disabled={
+                    !!formik.values.editRestriction ||
+                    isDefaultProject ||
+                    isNonEmpty
+                  }
                 />
                 {hasProjectsNetworksZones && (
                   <CheckboxInput
@@ -285,6 +301,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     }}
                     checked={formik.values.features_networks_zones}
                     disabled={
+                      !!formik.values.editRestriction ||
                       isDefaultProject ||
                       (isNonEmpty && hadFeaturesNetworkZones)
                     }
@@ -303,7 +320,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                       );
                     }}
                     checked={formik.values.features_storage_buckets}
-                    disabled={isDefaultProject || isNonEmpty}
+                    disabled={
+                      !!formik.values.editRestriction ||
+                      isDefaultProject ||
+                      isNonEmpty
+                    }
                   />
                 )}
                 <CheckboxInput
@@ -318,40 +339,47 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     );
                   }}
                   checked={formik.values.features_storage_volumes}
-                  disabled={isDefaultProject || isNonEmpty}
+                  disabled={
+                    !!formik.values.editRestriction ||
+                    isDefaultProject ||
+                    isNonEmpty
+                  }
                 />
               </>
             )}
           </div>
 
           <hr />
-          <CheckboxInput
-            id="custom_restrictions"
-            name="custom_restrictions"
-            label={
-              <>
-                Allow custom restrictions on a project level
-                <Tooltip
-                  className="checkbox-label-tooltip"
-                  message={`Custom restrictions are only available${"\n"}to projects with enabled profiles`}
-                >
-                  <Icon name="information" />
-                </Tooltip>
-              </>
-            }
-            onChange={() => {
-              ensureEditMode(formik);
-              void formik.setFieldValue(
-                "restricted",
-                !formik.values.restricted,
-              );
-            }}
-            checked={formik.values.restricted}
-            disabled={
-              formik.values.features_profiles === false &&
-              features === "customised"
-            }
-          />
+          <div title={formik.values.editRestriction}>
+            <CheckboxInput
+              id="custom_restrictions"
+              name="custom_restrictions"
+              label={
+                <>
+                  Allow custom restrictions on a project level
+                  <Tooltip
+                    className="checkbox-label-tooltip"
+                    message={`Custom restrictions are only available${"\n"}to projects with enabled profiles`}
+                  >
+                    <Icon name="information" />
+                  </Tooltip>
+                </>
+              }
+              onChange={() => {
+                ensureEditMode(formik);
+                void formik.setFieldValue(
+                  "restricted",
+                  !formik.values.restricted,
+                );
+              }}
+              checked={formik.values.restricted}
+              disabled={
+                !!formik.values.editRestriction ||
+                (formik.values.features_profiles === false &&
+                  features === "customised")
+              }
+            />
+          </div>
         </Col>
       </Row>
     </ScrollableForm>

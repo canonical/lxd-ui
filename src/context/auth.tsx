@@ -77,7 +77,9 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
   const certificate = certificates.find(
     (certificate) => certificate.fingerprint === fingerprint,
   );
-  const isRestricted = certificate?.restricted ?? defaultProject !== "default";
+  const isRestricted =
+    isFineGrained() !== true &&
+    (certificate?.restricted ?? defaultProject !== "default");
 
   const serverEntitlements = (currentIdentity?.effective_permissions || [])
     .filter((permission) => permission.entity_type === "server")

@@ -11,6 +11,8 @@ const projectEntitlements = [
   "can_create_networks",
   "can_create_profiles",
   "can_create_storage_volumes",
+  "can_delete",
+  "can_edit",
 ];
 
 export const fetchProjects = (
