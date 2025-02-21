@@ -11,6 +11,10 @@
     width: 14rem;
   }
 
+  .size.clustered {
+    width: 20rem;
+  }
+
   .actions {
     width: 5rem;
   }
@@ -21,6 +25,12 @@
 
   .p-meter {
     margin-top: 4px;
+  }
+
+  @media screen and (width < 1200px) {
+    .size.clustered {
+      width: 14rem;
+    }
   }
 }
 
@@ -81,5 +91,18 @@
 
   .actions-list {
     margin-top: -7px;
+  }
+}
+
+.storage-pool-meter-container {
+  align-items: center;
+  display: flex;
+}
+
+.resource-link {
+  &.storage-pool-table {
+    justify-content: center;
+    min-width: 6rem;
+    width: 6rem;
   }
 }
