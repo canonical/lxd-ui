@@ -8,6 +8,7 @@ export const randomProjectName = (): string => {
 
 const openProjectCreationForm = async (page: Page) => {
   await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("button", { name: "Create project" }).click();
 };

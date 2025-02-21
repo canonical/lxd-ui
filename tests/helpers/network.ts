@@ -77,16 +77,20 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await page.getByRole("link", { name: "Create forward" }).click();
   await page.getByLabel("Listen address").fill(listenAddress);
 
+  let portInput = page.getByLabel("0 listen port");
+  let addressInput = page.getByLabel("0 target address");
   await page.getByRole("button", { name: "Add port" }).click();
-  await page.getByLabel("0 listen port").click();
-  await page.keyboard.type("80");
-  await page.getByLabel("0 target address").click();
-  await page.keyboard.type(targetAddress);
+  await portInput.click();
+  await portInput.fill("80");
+  await addressInput.click();
+  await addressInput.fill(targetAddress);
   await page.getByRole("button", { name: "Add port" }).click();
-  await page.getByLabel("1 listen port").click();
-  await page.keyboard.type("23,443-455");
-  await page.getByLabel("1 target address").click();
-  await page.keyboard.type(targetAddress);
+  portInput = page.getByLabel("1 listen port");
+  addressInput = page.getByLabel("1 target address");
+  await portInput.click();
+  await portInput.fill("23,443-455");
+  await addressInput.click();
+  await addressInput.fill(targetAddress);
   await page.getByRole("button", { name: "Create" }).click();
 
   await page.getByText(`Network forward ${listenAddress} created.`).click();
