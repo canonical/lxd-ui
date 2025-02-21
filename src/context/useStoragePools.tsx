@@ -5,8 +5,10 @@ import { useAuth } from "./auth";
 import type {
   LxdStoragePool,
   LXDStoragePoolOnClusterMember,
+  LxdStoragePoolResources,
 } from "types/storage";
 import {
+  fetchClusteredStoragePoolResources,
   fetchPoolFromClusterMembers,
   fetchStoragePool,
   fetchStoragePools,
@@ -47,5 +49,17 @@ export const usePoolFromClusterMembers = (
     queryFn: async () =>
       fetchPoolFromClusterMembers(pool, clusterMembers, isFineGrained),
     enabled: isFineGrained !== null && clusterMembers.length > 0,
+  });
+};
+
+export const useClusteredStoragePoolResources = (
+  pool: string,
+): UseQueryResult<LxdStoragePoolResources[]> => {
+  const { data: clusterMembers = [] } = useClusterMembers();
+  return useQuery({
+    queryKey: [queryKeys.storage, pool, queryKeys.cluster, queryKeys.resources],
+    queryFn: async () =>
+      fetchClusteredStoragePoolResources(pool, clusterMembers),
+    enabled: clusterMembers.length > 0,
   });
 };

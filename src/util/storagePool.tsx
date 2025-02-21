@@ -4,7 +4,14 @@ import type { AnyObject, TestFunction } from "yup";
 import type { LxdConfigOptionsKeys } from "types/config";
 import type { FormikProps } from "formik";
 import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
-import { powerFlex, pureStorage } from "util/storageOptions";
+import {
+  btrfsDriver,
+  dirDriver,
+  lvmDriver,
+  powerFlex,
+  pureStorage,
+  zfsDriver,
+} from "util/storageOptions";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   ceph_cluster_name: "ceph.cluster_name",
@@ -35,6 +42,11 @@ export const storagePoolFormFieldToPayloadName: Record<string, string> = {
   zfs_clone_copy: "zfs.clone_copy",
   zfs_export: "zfs.export",
   zfs_pool_name: "zfs.pool_name",
+};
+
+export const hasPoolMemberSpecificSize = (poolDriver: string) => {
+  const sizeSpecificDrivers = [btrfsDriver, dirDriver, lvmDriver, zfsDriver];
+  return sizeSpecificDrivers.includes(poolDriver);
 };
 
 export const getPoolKey = (formField: string): string => {
