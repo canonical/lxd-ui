@@ -4,10 +4,8 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -15,7 +13,6 @@ import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
 import { pluralize } from "util/instanceBulkActions";
-import { fetchIdentities } from "api/auth-identities";
 import type { LxdGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
@@ -28,6 +25,8 @@ import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
 import useSortTableData from "util/useSortTableData";
 import { isUnrestricted } from "util/helpers";
+import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 
 type IdentityEditHistory = {
   identitiesAdded: Set<string>;
@@ -44,14 +43,11 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
   const notify = useNotify();
   const [confirming, setConfirming] = useState(false);
 
-  const {
-    data: identities = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error, isLoading } = useIdentities();
+  const { canEditIdentity } = useIdentityEntitlements();
+  const restrictedIdentities = identities.filter(
+    (identity) => !canEditIdentity(identity),
+  );
 
   const {
     desiredState,
@@ -231,7 +227,9 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
           content: identity.name,
           role: "cell",
           "aria-label": "Identity",
-          title: identity.name,
+          title: canEditIdentity(identity)
+            ? identity.name
+            : "You do not have permission to manage this identity",
         },
         {
           content: modifiedIdentities.has(identity.id) && (
@@ -270,23 +268,24 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         parentName="server"
         selectedNames={Array.from(selectedIdentities)}
         setSelectedNames={modifyIdentities}
-        processingNames={[]}
+        disabledNames={restrictedIdentities.map((identity) => identity.id)}
         filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
         indeterminateNames={Array.from(indeterminateIdentities)}
         onToggleRow={toggleRow}
         hideContextualMenu
+        disableSelectAll={!!restrictedIdentities.length}
       />
     </ScrollableTable>
   );
+
+  const confirmButtonText = modifiedIdentities.size
+    ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
+    : "Modify identities";
 
   const panelTitle =
     groups.length > 1
       ? `Change identities for ${groups.length} groups`
       : `Change identities for ${groups[0]?.name}`;
-
-  const confirmButtonText = modifiedIdentities.size
-    ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
-    : "Modify identities";
 
   return (
     <>

@@ -1,13 +1,12 @@
 import { Icon, SearchBox, useNotify } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
-import { fetchIdentities } from "api/auth-identities";
 import useSortTableData from "util/useSortTableData";
 import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
+import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 
 export type FormIdentity = LxdIdentity & {
   isRemoved?: boolean;
@@ -28,10 +27,11 @@ const EditIdentitiesForm: FC<Props> = ({
   const notify = useNotify();
   const [filter, setFilter] = useState<string | null>(null);
 
-  const { data: identities = [], error } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error } = useIdentities();
+  const { canEditIdentity } = useIdentityEntitlements();
+  const restrictedIdentityNames = identities
+    .filter((identity) => !canEditIdentity(identity))
+    .map((identity) => identity.id);
 
   if (error) {
     notify.failure("Loading details failed", error);
@@ -42,6 +42,10 @@ const EditIdentitiesForm: FC<Props> = ({
   );
 
   const toggleRow = (id: string) => {
+    if (restrictedIdentityNames.includes(id)) {
+      return;
+    }
+
     const existing = selected.find((identity) => identity.id === id);
     if (existing) {
       const filtered = selected.filter((identity) => identity.id !== id);
@@ -127,7 +131,9 @@ const EditIdentitiesForm: FC<Props> = ({
           content: identity.name,
           role: "cell",
           "aria-label": "Identity",
-          title: identity.name,
+          title: canEditIdentity(identity)
+            ? identity.name
+            : "You do not have permission to allocate this identity to the group",
           onClick: clickRow,
           className: "clickable-cell",
         },
@@ -169,11 +175,12 @@ const EditIdentitiesForm: FC<Props> = ({
             .filter((id) => !id.isRemoved)
             .map((identity) => identity.id)}
           setSelectedNames={bulkSelect}
-          processingNames={[]}
+          disabledNames={restrictedIdentityNames}
           filteredNames={fineGrainedIdentities.map((identity) => identity.id)}
           indeterminateNames={[]}
           onToggleRow={toggleRow}
           hideContextualMenu
+          disableSelectAll={!!restrictedIdentityNames.length}
         />
       </ScrollableTable>
     </>

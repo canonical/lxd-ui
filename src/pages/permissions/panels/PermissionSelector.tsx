@@ -16,17 +16,18 @@ import {
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
 import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
-import { fetchIdentities } from "api/auth-identities";
 import ResourceOptionHeader from "./ResourceOptionHeader";
 import type { LxdPermission } from "types/permissions";
 import { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import { useImagesInAllProjects } from "context/useImages";
+import { useIdentities } from "context/useIdentities";
 
 interface Props {
   onAddPermission: (permission: FormPermission) => void;
+  disableReason?: string;
 }
 
-const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
+const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
   const notify = useNotify();
   const [resourceType, setResourceType] = useState("");
   const [resource, setResource] = useState("");
@@ -47,15 +48,12 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
   } = useQuery({
     queryKey: [queryKeys.permissions, resourceType],
     queryFn: () => fetchPermissions({ resourceType }),
-    enabled: !!resourceType,
+    enabled: !!resourceType && !disableReason,
   });
 
   const { data: images = [] } = useImagesInAllProjects();
 
-  const { data: identities = [] } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [] } = useIdentities();
 
   const imageLookup = getImageLookup(images);
   const identityNamesLookup = getIdentityNameLookup(identities);
@@ -183,6 +181,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
       className="permission-selector"
       tabIndex={0}
       ref={permissionSelectorRef}
+      title={disableReason}
     >
       <CustomSelect
         id="resourceType"
@@ -195,6 +194,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission }) => {
         value={resourceType}
         selectRef={resourceTypeRef as SelectRef}
         searchable="always"
+        disabled={!!disableReason}
       />
       <CustomSelect
         id="resource"

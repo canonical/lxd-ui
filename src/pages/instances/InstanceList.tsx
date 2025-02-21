@@ -699,7 +699,7 @@ const InstanceList: FC = () => {
                       parentName="project"
                       selectedNames={selectedNames}
                       setSelectedNames={setSelectedNames}
-                      processingNames={processingNames}
+                      disabledNames={processingNames}
                       filteredNames={filteredInstances.map(
                         (instance) => instance.name,
                       )}
@@ -716,7 +716,7 @@ const InstanceList: FC = () => {
                     parentName="project"
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
-                    processingNames={processingNames}
+                    disabledNames={processingNames}
                     filteredNames={filteredInstances.map(
                       (instance) => instance.name,
                     )}

@@ -19,13 +19,14 @@ interface SelectableMainTableProps {
   parentName: string;
   selectedNames: string[];
   setSelectedNames: (val: string[], isUnselectAll?: boolean) => void;
-  processingNames: string[];
+  disabledNames: string[];
   rows: MainTableRow[];
   indeterminateNames?: string[];
   disableSelect?: boolean;
   onToggleRow?: (rowName: string) => void;
   hideContextualMenu?: boolean;
   defaultSortKey?: string;
+  disableSelectAll?: boolean;
 }
 
 type Props = SelectableMainTableProps & MainTableProps;
@@ -36,7 +37,7 @@ const SelectableMainTable: FC<Props> = ({
   parentName,
   selectedNames,
   setSelectedNames,
-  processingNames,
+  disabledNames,
   rows,
   headers,
   indeterminateNames = [],
@@ -44,6 +45,7 @@ const SelectableMainTable: FC<Props> = ({
   onToggleRow,
   hideContextualMenu,
   defaultSortKey,
+  disableSelectAll,
   ...props
 }: Props) => {
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
@@ -91,7 +93,7 @@ const SelectableMainTable: FC<Props> = ({
             checked={isAllSelected}
             indeterminate={isSomeSelected && !isAllSelected}
             onChange={isSomeSelected ? selectNone : selectPage}
-            disabled={disableSelect}
+            disabled={disableSelect || disableSelectAll}
           />
           {!hideContextualMenu && (
             <ContextualMenu
@@ -128,11 +130,11 @@ const SelectableMainTable: FC<Props> = ({
   ];
 
   const selectedNamesLookup = new Set(selectedNames);
-  const processingNamesLookup = new Set(processingNames);
+  const disabledNamesLookup = new Set(disabledNames);
   const indeterminateNamesLookup = new Set(indeterminateNames);
   const rowsWithCheckbox = rows.map((row, rowIndex) => {
     const isRowSelected = selectedNamesLookup.has(row.name ?? "");
-    const isRowProcessing = processingNamesLookup.has(row.name ?? "");
+    const isRowDisabled = disabledNamesLookup.has(row.name ?? "");
     const isRowIndeterminate = indeterminateNamesLookup.has(row.name ?? "");
 
     const toggleRow = (event: PointerEvent<HTMLInputElement>) => {
@@ -183,7 +185,7 @@ const SelectableMainTable: FC<Props> = ({
             labelClassName="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}
-            disabled={isRowProcessing || !row.name || disableSelect}
+            disabled={isRowDisabled || !row.name || disableSelect}
             indeterminate={isRowIndeterminate && !isRowSelected}
           />
         ),
@@ -195,7 +197,7 @@ const SelectableMainTable: FC<Props> = ({
 
     const className = classnames(row.className, {
       "selected-row": isRowSelected,
-      "processing-row": isRowProcessing,
+      "disabled-row": isRowDisabled,
     });
 
     const key = row.key ?? row.name;

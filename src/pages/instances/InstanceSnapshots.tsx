@@ -278,7 +278,7 @@ const InstanceSnapshots = (props: Props) => {
                 parentName="instance"
                 selectedNames={selectedNames}
                 setSelectedNames={setSelectedNames}
-                processingNames={processingNames}
+                disabledNames={processingNames}
                 filteredNames={filteredSnapshots.map(
                   (snapshot) => snapshot.name,
                 )}

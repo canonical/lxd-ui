@@ -3,10 +3,12 @@ import { useSmallScreen } from "context/useSmallScreen";
 import { FC } from "react";
 import { usePortal } from "@canonical/react-components";
 import CreateIdentityModal from "./CreateIdentityModal";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const CreateTlsIdentityBtn: FC = () => {
   const isSmallScreen = useSmallScreen();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canCreateIdentities } = useServerEntitlements();
 
   return (
     <>
@@ -20,6 +22,12 @@ const CreateTlsIdentityBtn: FC = () => {
         className="u-float-right u-no-margin--bottom"
         onClick={openPortal}
         hasIcon={!isSmallScreen}
+        title={
+          canCreateIdentities()
+            ? ""
+            : "You do not have permission to create identities"
+        }
+        disabled={!canCreateIdentities()}
       >
         {!isSmallScreen && <Icon name="plus" light />}
         <span>Create TLS Identity</span>

@@ -1,10 +1,19 @@
 import { handleResponse, handleSettledResult } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdIdentity, TlsIdentityTokenDetail } from "types/permissions";
+import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const fetchIdentities = (): Promise<LxdIdentity[]> => {
+export const identitiesEntitlements = ["can_delete", "can_edit"];
+
+export const fetchIdentities = (
+  isFineGrained: boolean | null,
+): Promise<LxdIdentity[]> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    identitiesEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identities?recursion=1`)
+    fetch(`/1.0/auth/identities?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdIdentity[]>) => resolve(data.metadata))
       .catch(reject);
@@ -23,9 +32,14 @@ export const fetchCurrentIdentity = (): Promise<LxdIdentity> => {
 export const fetchIdentity = (
   id: string,
   authMethod: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdIdentity> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    identitiesEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identities/${authMethod}/${id}`)
+    fetch(`/1.0/auth/identities/${authMethod}/${id}?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdIdentity>) => resolve(data.metadata))
       .catch(reject);

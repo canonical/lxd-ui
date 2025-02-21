@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { useSettings } from "./useSettings";
-import { fetchIdentity } from "api/auth-identities";
-import { queryKeys } from "util/queryKeys";
+import { useIdentity } from "./useIdentities";
 
 export const useLoggedInUser = () => {
   const { data: settings } = useSettings();
@@ -9,11 +7,8 @@ export const useLoggedInUser = () => {
   const id = settings?.auth_user_name || "";
   const authMethod = settings?.auth_user_method || "";
 
-  const { data: identity } = useQuery({
-    queryKey: [queryKeys.identities, id],
-    queryFn: () => fetchIdentity(id, authMethod),
-    enabled: !!id && !!authMethod,
-  });
+  const identityQueryEnabled = !!id && !!authMethod;
+  const { data: identity } = useIdentity(id, authMethod, identityQueryEnabled);
 
   return {
     loggedInUserName: identity?.name,

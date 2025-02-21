@@ -276,7 +276,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
                 parentName="instance"
                 selectedNames={selectedNames}
                 setSelectedNames={setSelectedNames}
-                processingNames={processingNames}
+                disabledNames={processingNames}
                 filteredNames={filteredSnapshots.map(
                   (snapshot) => snapshot.name,
                 )}

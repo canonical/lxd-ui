@@ -5,6 +5,8 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import FormLink from "components/FormLink";
 import { pluralize } from "util/instanceBulkActions";
+import { LxdGroup } from "types/permissions";
+import { useGroupEntitlements } from "util/entitlements/groups";
 
 export interface GroupFormValues {
   name: string;
@@ -19,6 +21,7 @@ interface Props {
   permissionCount: number;
   permissionModifyCount: number;
   isEditing?: boolean;
+  group?: LxdGroup;
 }
 
 const GroupForm: FC<Props> = ({
@@ -29,7 +32,9 @@ const GroupForm: FC<Props> = ({
   permissionCount,
   permissionModifyCount,
   isEditing = true,
+  group,
 }) => {
+  const { canEditGroup } = useGroupEntitlements();
   const getFormProps = (id: "name" | "description") => {
     return {
       id: id,
@@ -42,6 +47,11 @@ const GroupForm: FC<Props> = ({
     };
   };
 
+  const groupEditRestriction =
+    !isEditing || canEditGroup(group)
+      ? ""
+      : "You do not have permission to modify this group";
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       {/* hidden submit to enable enter key in inputs */}
@@ -52,10 +62,14 @@ const GroupForm: FC<Props> = ({
         label="Name"
         required
         autoFocus
+        disabled={!!groupEditRestriction}
+        title={groupEditRestriction}
       />
       <AutoExpandingTextArea
         {...getFormProps("description")}
         label="Description"
+        disabled={!!groupEditRestriction}
+        title={groupEditRestriction}
       />
       <FormLink
         title={(isEditing ? "Edit " : "Add ") + pluralize("identity", 2)}
