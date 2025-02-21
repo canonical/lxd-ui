@@ -11,6 +11,10 @@
     width: 14rem;
   }
 
+  .size.clustered {
+    width: 20rem;
+  }
+
   .actions {
     width: 5rem;
   }
@@ -21,6 +25,20 @@
 
   .p-meter {
     margin-top: 4px;
+  }
+
+  @media screen and (width < 1200px) {
+    .size.clustered {
+      display: none;
+    }
+
+    .cluster-member {
+      display: none;
+    }
+  }
+
+  .clustered-resource-link {
+    height: 2.25rem;
   }
 }
 

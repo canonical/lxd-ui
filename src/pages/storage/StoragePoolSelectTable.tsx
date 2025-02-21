@@ -4,6 +4,9 @@ import ScrollableTable from "components/ScrollableTable";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import classnames from "classnames";
 import { useStoragePools } from "context/useStoragePools";
+import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
+import { isClusteredServer } from "util/settings";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   onSelect: (pool: string) => void;
@@ -15,11 +18,14 @@ interface Props {
 
 const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
   const { data: pools = [], isLoading } = useStoragePools();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Driver", sortKey: "driver" },
     { content: "Status", sortKey: "status" },
+    ...(isClustered ? [{ content: "Cluster member" }] : []),
     { content: "Size", className: "size" },
     { "aria-label": "Actions", className: "actions" },
   ];
@@ -63,6 +69,15 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
           "aria-label": "Status",
           onClick: selectPool,
         },
+        ...(isClustered
+          ? [
+              {
+                content: <StoragePoolClusterMember pool={pool} />,
+                role: "cell",
+                "aria-label": "Cluster member",
+              },
+            ]
+          : []),
         {
           content: <StoragePoolSize pool={pool} hasMeterBar />,
           role: "cell",
