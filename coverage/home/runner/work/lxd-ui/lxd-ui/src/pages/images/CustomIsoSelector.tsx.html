@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.87% </span>
+                <span class="strong">92.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>147/160</span>
+                <span class='fraction'>140/151</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.03% </span>
+                <span class="strong">34.61% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/27</span>
+                <span class='fraction'>9/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.32% </span>
+                <span class="strong">99.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>147/148</span>
+                <span class='fraction'>140/141</span>
             </div>
         
             
@@ -204,37 +204,23 @@
 <a name='L139'></a><a href='#L139'>139</a>
 <a name='L140'></a><a href='#L140'>140</a>
 <a name='L141'></a><a href='#L141'>141</a>
-<a name='L142'></a><a href='#L142'>142</a>
-<a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a>
-<a name='L145'></a><a href='#L145'>145</a>
-<a name='L146'></a><a href='#L146'>146</a>
-<a name='L147'></a><a href='#L147'>147</a>
-<a name='L148'></a><a href='#L148'>148</a>
-<a name='L149'></a><a href='#L149'>149</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<a name='L142'></a><a href='#L142'>142</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -357,19 +343,16 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">60x</span>
-<span class="cline-any cline-yes">60x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { loadIsoVolumes } from "context/loadIsoVolumes";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useCurrentProject } from "context/useCurrentProject";
 import type { LxdImageType, RemoteImage } from "types/image";
 import type { IsoImage } from "types/iso";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
+import { useLoadIsoVolumes } from "context/useVolumes";
 &nbsp;
 interface Props {
   primaryImage: IsoImage | null;
@@ -386,12 +369,8 @@ const CustomIsoSelector: FC&lt;Props&gt; = <span class="cstat-no" title="stateme
 }) =&gt; {
   const { project } = <span class="cstat-no" title="statement not covered" >useCurrentProject();</span>
   const projectName = <span class="cstat-no" title="statement not covered" >project?.<span class="branch-0 cbranch-no" title="branch not covered" >name ?? "";</span></span>
-  const { hasStorageVolumesAll } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
 &nbsp;
-  const { data: images = [], isLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.isoVolumes, project],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadIsoVolumes(projectName, hasStorageVolumesAll),</span>
-  });
+  const { data: images = [], isLoading } = <span class="cstat-no" title="statement not covered" >useLoadIsoVolumes(projectName);</span>
 &nbsp;
   const headers = <span class="cstat-no" title="statement not covered" >[</span>
     { content: "Name", sortKey: "name" },
@@ -514,7 +493,7 @@ export default CustomIsoSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-21T07:59:58.632Z
+                at 2025-02-21T14:55:45.598Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

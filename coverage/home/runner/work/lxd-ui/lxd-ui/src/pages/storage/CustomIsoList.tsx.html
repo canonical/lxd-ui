@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.71% </span>
+                <span class="strong">91.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>254/280</span>
+                <span class='fraction'>247/271</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.58% </span>
+                <span class="strong">35% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>15/41</span>
+                <span class='fraction'>14/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/11</span>
+                <span class='fraction'>5/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.21% </span>
+                <span class="strong">99.19% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>254/256</span>
+                <span class='fraction'>247/249</span>
             </div>
         
             
@@ -312,14 +312,7 @@
 <a name='L247'></a><a href='#L247'>247</a>
 <a name='L248'></a><a href='#L248'>248</a>
 <a name='L249'></a><a href='#L249'>249</a>
-<a name='L250'></a><a href='#L250'>250</a>
-<a name='L251'></a><a href='#L251'>251</a>
-<a name='L252'></a><a href='#L252'>252</a>
-<a name='L253'></a><a href='#L253'>253</a>
-<a name='L254'></a><a href='#L254'>254</a>
-<a name='L255'></a><a href='#L255'>255</a>
-<a name='L256'></a><a href='#L256'>256</a>
-<a name='L257'></a><a href='#L257'>257</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L250'></a><a href='#L250'>250</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -347,10 +340,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -361,9 +350,6 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -586,10 +572,7 @@ import {
   TablePagination,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { loadIsoVolumes } from "context/loadIsoVolumes";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
@@ -598,16 +581,15 @@ import { Link, useParams } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import ResourceLabel from "components/ResourceLabel";
+import { useLoadIsoVolumes } from "context/useVolumes";
 &nbsp;
 const CustomIsoList: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
-  const { hasStorageVolumesAll } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
   const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
   const [query, setQuery] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;("");</span>
   const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{</span>
@@ -618,10 +600,7 @@ const CustomIsoList: FC = <span class="cstat-no" title="statement not covered" >
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    return &lt;&gt;Missing project&lt;/&gt;;</span></span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  const { data: images = [], isLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.isoVolumes, project],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadIsoVolumes(project, hasStorageVolumesAll),</span>
-  });
+  const { data: images = [], isLoading } = <span class="cstat-no" title="statement not covered" >useLoadIsoVolumes(project);</span>
 &nbsp;
   const headers = <span class="cstat-no" title="statement not covered" >[</span>
     { content: "Name", sortKey: "name" },
@@ -838,7 +817,7 @@ export default CustomIsoList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-21T07:59:58.632Z
+                at 2025-02-21T14:55:45.598Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

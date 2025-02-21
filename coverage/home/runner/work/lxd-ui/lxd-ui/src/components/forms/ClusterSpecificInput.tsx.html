@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.12% </span>
+                <span class="strong">54.04% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>102/192</span>
+                <span class='fraction'>107/198</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32% </span>
+                <span class="strong">29.62% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>16/50</span>
+                <span class='fraction'>16/54</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.21% </span>
+                <span class="strong">61.98% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>101/165</span>
+                <span class='fraction'>106/171</span>
             </div>
         
             
@@ -228,7 +228,14 @@
 <a name='L163'></a><a href='#L163'>163</a>
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
-<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">17x</span>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
@@ -273,8 +280,9 @@
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">160x</span>
+<span class="cline-any cline-yes">587x</span>
+<span class="cline-any cline-yes">159x</span>
+<span class="cline-any cline-yes">159x</span>
 <span class="cline-any cline-yes">51x</span>
 <span class="cline-any cline-yes">51x</span>
 <span class="cline-any cline-yes">51x</span>
@@ -299,17 +307,19 @@
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
-<span class="cline-any cline-yes">100x</span>
-<span class="cline-any cline-yes">100x</span>
-<span class="cline-any cline-yes">100x</span>
-<span class="cline-any cline-yes">100x</span>
-<span class="cline-any cline-yes">100x</span>
-<span class="cline-any cline-yes">100x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-yes">101x</span>
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
@@ -362,6 +372,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
 <span class="cline-any cline-yes">587x</span>
@@ -375,6 +386,7 @@
 <span class="cline-any cline-yes">470x</span>
 <span class="cline-any cline-yes">470x</span>
 <span class="cline-any cline-yes">470x</span>
+<span class="cline-any cline-yes">117x</span>
 <span class="cline-any cline-yes">117x</span>
 <span class="cline-any cline-yes">117x</span>
 <span class="cline-any cline-yes">117x</span>
@@ -414,6 +426,7 @@ interface Props {
   helpText?: string | ReactNode;
   placeholder?: string;
   classname?: string;
+  disabledReason?: string;
 }
 &nbsp;
 const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" >({</span>
@@ -431,6 +444,7 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
   helpText,
   placeholder,
   classname = <span class="branch-0 cbranch-no" title="branch not covered" >"u-sv3",</span>
+  disabledReason,
 }) =&gt; {
   const [isSpecific, setIsSpecific] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean | null&gt;(</span>
     isDefaultSpecific,
@@ -475,6 +489,8 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setIsSpecific(<span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >!val)</span>;</span></span>
 <span class="cstat-no" title="statement not covered" >          }}</span>
+          disabled={!!disabledReason}
+          title={disabledReason}
         /&gt;
       )}
       {<span class="branch-0 cbranch-no" title="branch not covered" >isSpecific &amp;&amp; (</span>
@@ -513,8 +529,9 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >                      className="u-no-margin--bottom"</span>
 <span class="cstat-no" title="statement not covered" >                      value={activeValue}</span>
 <span class="cstat-no" title="statement not covered" >                      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setValueForMember(e.target.value, item)}</span></span>
-<span class="cstat-no" title="statement not covered" >                      disabled={disabled}</span>
+<span class="cstat-no" title="statement not covered" >                      disabled={!!disabledReason || disabled}</span>
 <span class="cstat-no" title="statement not covered" >                      placeholder={placeholder}</span>
+<span class="cstat-no" title="statement not covered" >                      title={disabledReason}</span>
 <span class="cstat-no" title="statement not covered" >                    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >                  )}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
@@ -546,9 +563,10 @@ const ClusterSpecificInput: FC&lt;Props&gt; = <span class="fstat-no" title="func
               type="text"
               value={firstValue}
               onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setValueForAllMembers(e.target.value)}</span></span>
-              disabled={disabled}
+              disabled={!!disabledReason || disabled}
               help={helpText}
               placeholder={placeholder}
+              title={disabledReason}
             /&gt;
           )}
         &lt;/div&gt;
@@ -565,7 +583,7 @@ export default ClusterSpecificInput;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-21T07:59:58.632Z
+                at 2025-02-21T14:55:45.598Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
