@@ -19,6 +19,7 @@ interface Props {
   helpText?: string | ReactNode;
   placeholder?: string;
   classname?: string;
+  disabledReason?: string;
 }
 
 const ClusterSpecificInput: FC<Props> = ({
@@ -36,6 +37,7 @@ const ClusterSpecificInput: FC<Props> = ({
   helpText,
   placeholder,
   classname = "u-sv3",
+  disabledReason,
 }) => {
   const [isSpecific, setIsSpecific] = useState<boolean | null>(
     isDefaultSpecific,
@@ -80,6 +82,8 @@ const ClusterSpecificInput: FC<Props> = ({
             }
             setIsSpecific((val) => !val);
           }}
+          disabled={!!disabledReason}
+          title={disabledReason}
         />
       )}
       {isSpecific && (
@@ -118,8 +122,9 @@ const ClusterSpecificInput: FC<Props> = ({
                       className="u-no-margin--bottom"
                       value={activeValue}
                       onChange={(e) => setValueForMember(e.target.value, item)}
-                      disabled={disabled}
+                      disabled={!!disabledReason || disabled}
                       placeholder={placeholder}
+                      title={disabledReason}
                     />
                   )}
                 </div>
@@ -151,9 +156,10 @@ const ClusterSpecificInput: FC<Props> = ({
               type="text"
               value={firstValue}
               onChange={(e) => setValueForAllMembers(e.target.value)}
-              disabled={disabled}
+              disabled={!!disabledReason || disabled}
               help={helpText}
               placeholder={placeholder}
+              title={disabledReason}
             />
           )}
         </div>

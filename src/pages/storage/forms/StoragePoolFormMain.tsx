@@ -84,6 +84,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               ensureEditMode(formik);
               formik.handleChange(e);
             }}
+            disabled={!!formik.values.editRestriction}
+            title={formik.values.editRestriction}
           />
           <Select
             id="driver"
@@ -150,6 +152,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 helpText={
                   "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
                 }
+                disabledReason={formik.values.editRestriction}
               />
             ) : (
               <DiskSizeSelector
@@ -164,7 +167,11 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   ensureEditMode(formik);
                   void formik.setFieldValue("size", val);
                 }}
-                disabled={formik.values.driver === dirDriver}
+                disabled={
+                  !!formik.values.editRestriction ||
+                  formik.values.driver === dirDriver
+                }
+                disabledReason={formik.values.editRestriction}
               />
             ))}
           {hasSource &&
@@ -172,14 +179,18 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               <Input
                 {...getFormProps("source")}
                 type="text"
-                disabled={!formik.values.isCreating}
+                disabled={
+                  !!formik.values.editRestriction || !formik.values.isCreating
+                }
                 help={sourceHelpText}
                 label="Source"
+                title={formik.values.editRestriction}
               />
             ) : (
               <ClusteredSourceSelector
                 formik={formik}
                 helpText={sourceHelpText}
+                disabledReason={formik.values.editRestriction}
               />
             ))}
           {isPowerFlexDriver && (

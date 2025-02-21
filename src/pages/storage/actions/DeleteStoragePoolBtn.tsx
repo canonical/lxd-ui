@@ -14,6 +14,7 @@ import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
+import { useStoragePoolEntitlements } from "util/entitlements/storage-pools";
 
 interface Props {
   pool: LxdStoragePool;
@@ -32,6 +33,7 @@ const DeleteStoragePoolBtn: FC<Props> = ({
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { canDeletePool } = useStoragePoolEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
@@ -54,8 +56,17 @@ const DeleteStoragePoolBtn: FC<Props> = ({
       });
   };
 
-  const disabledReason =
-    (pool.used_by?.length ?? 0) > 0 ? "Storage pool is in use" : undefined;
+  const disabledReason = () => {
+    if (!canDeletePool(pool)) {
+      return "You do not have permission to delete this storage pool";
+    }
+
+    if (pool.used_by?.length ?? 0 > 0) {
+      return "Storage pool is in use";
+    }
+
+    return undefined;
+  };
 
   return (
     <ConfirmationButton
@@ -80,8 +91,8 @@ const DeleteStoragePoolBtn: FC<Props> = ({
       loading={isLoading}
       shiftClickEnabled
       showShiftClickHint
-      disabled={Boolean(disabledReason)}
-      onHoverText={disabledReason}
+      disabled={Boolean(disabledReason())}
+      onHoverText={disabledReason()}
     >
       {(!isSmallScreen || !shouldExpand) && <Icon name="delete" />}
       {shouldExpand && <span>Delete pool</span>}

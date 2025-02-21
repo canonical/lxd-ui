@@ -1,17 +1,14 @@
 import { FC } from "react";
 import { Button, MainTable, useNotify } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { loadCustomVolumes } from "context/loadCustomVolumes";
 import ScrollableTable from "components/ScrollableTable";
 import type { LxdStorageVolume } from "types/storage";
 import NotificationRow from "components/NotificationRow";
 import { renderContentType } from "util/storageVolume";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import classnames from "classnames";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
+import { useLoadCustomVolumes } from "context/useVolumes";
 
 interface Props {
   project: string;
@@ -33,7 +30,6 @@ const CustomVolumeSelectModal: FC<Props> = ({
   hasPrevStep,
 }) => {
   const notify = useNotify();
-  const { hasStorageVolumesAll } = useSupportedFeatures();
   const { canCreateStorageVolumes } = useProjectEntitlements();
   const { data: currentProject } = useProject(project);
 
@@ -42,10 +38,8 @@ const CustomVolumeSelectModal: FC<Props> = ({
     error,
     isLoading,
     isFetching,
-  } = useQuery({
-    queryKey: [queryKeys.customVolumes, project],
+  } = useLoadCustomVolumes(project, {
     refetchOnMount: (query) => query.state.isInvalidated,
-    queryFn: () => loadCustomVolumes(project, hasStorageVolumesAll),
   });
 
   if (error) {

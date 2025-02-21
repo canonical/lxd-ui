@@ -33,6 +33,7 @@ export const isStoragePoolWithSource = (driver: string) => {
 export const toStoragePoolFormValues = (
   pool: LxdStoragePool,
   poolOnMembers?: LXDStoragePoolOnClusterMember[],
+  editRestriction?: string,
 ): StoragePoolFormValues => {
   const sourcePerClusterMember: ClusterSpecificValues = {};
   const zfsPoolNamePerClusterMember: ClusterSpecificValues = {};
@@ -88,6 +89,7 @@ export const toStoragePoolFormValues = (
     zfs_export: pool.config?.["zfs.export"],
     zfs_pool_name: pool.config?.["zfs.pool_name"],
     zfsPoolNamePerClusterMember,
+    editRestriction,
   };
 };
 

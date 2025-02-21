@@ -43,6 +43,16 @@ beforeEach(() => {
       },
     }),
   }));
+  // this mock is required for getStorageVolumeRowMetadata since we call useStoragePool that invokes useContext from react
+  vi.mock(import("react"), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useContext: vi.fn().mockReturnValue({
+        isFineGrained: true,
+      }),
+    };
+  });
 });
 
 describe("getConfigRowMetadata", () => {

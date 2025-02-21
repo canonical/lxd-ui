@@ -30,7 +30,6 @@ import { getInstanceKey } from "util/instanceConfigFields";
 import { useParams } from "react-router-dom";
 import { getProjectKey } from "util/projectConfigFields";
 import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import { fetchStoragePool } from "api/storage-pools";
 import { getVolumeKey } from "util/storageVolume";
 import { getNetworkKey, networkFormTypeToOptionKey } from "util/networks";
 import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
@@ -39,6 +38,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useSettings } from "context/useSettings";
 import { useProfiles } from "context/useProfiles";
+import { useStoragePool } from "context/useStoragePools";
 
 export interface ConfigRowMetadata {
   value?: string;
@@ -128,12 +128,13 @@ const getStorageVolumeRowMetadata = (
   values: StorageVolumeFormValues,
   name: string,
 ): ConfigRowMetadata => {
+  const storagePoolQueryEnabled = values.isCreating;
   // when creating the defaults will be taken from the storage pool, if set there
-  const { data: pool } = useQuery({
-    queryKey: [queryKeys.storage, values.pool],
-    queryFn: () => fetchStoragePool(values.pool),
-    enabled: values.isCreating,
-  });
+  const { data: pool } = useStoragePool(
+    values.pool,
+    undefined,
+    storagePoolQueryEnabled,
+  );
   const poolField = `volume.${getVolumeKey(name)}`;
   if (pool?.config && poolField in pool.config) {
     return { value: pool.config[poolField], source: `${pool.name} pool` };

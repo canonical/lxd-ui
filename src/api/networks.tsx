@@ -22,10 +22,10 @@ export const fetchNetworks = (
   target?: string,
 ): Promise<LxdNetwork[]> => {
   const targetParam = target ? `&target=${target}` : "";
-  const entitlements = `&${withEntitlementsQuery(
+  const entitlements = withEntitlementsQuery(
     isFineGrained,
     networkEntitlements,
-  )}`;
+  );
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/networks?project=${project}&recursion=1${targetParam}${entitlements}`,
@@ -81,10 +81,10 @@ export const fetchNetwork = (
   target?: string,
 ): Promise<LxdNetwork> => {
   const targetParam = target ? `&target=${target}` : "";
-  const entitlements = `&${withEntitlementsQuery(
+  const entitlements = withEntitlementsQuery(
     isFineGrained,
     networkEntitlements,
-  )}`;
+  );
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,

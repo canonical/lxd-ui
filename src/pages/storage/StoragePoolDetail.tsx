@@ -1,10 +1,7 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
 import { Icon, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { fetchStoragePool } from "api/storage-pools";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
 import NotificationRow from "components/NotificationRow";
 import StoragePoolOverview from "pages/storage/StoragePoolOverview";
@@ -13,6 +10,7 @@ import EditStoragePool from "pages/storage/EditStoragePool";
 import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
 import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
+import { useStoragePool } from "context/useStoragePools";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -32,14 +30,7 @@ const StoragePoolDetail: FC = () => {
 
   const member = clusterMembers[0]?.server_name ?? undefined;
 
-  const {
-    data: pool,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.storage, name, member],
-    queryFn: () => fetchStoragePool(name, member),
-  });
+  const { data: pool, error, isLoading } = useStoragePool(name, member);
 
   if (error) {
     notify.failure("Loading storage details failed", error);

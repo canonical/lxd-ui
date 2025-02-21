@@ -8,9 +8,14 @@ import { useClusterMembers } from "context/useClusterMembers";
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
   helpText?: string;
+  disabledReason?: string;
 }
 
-const ClusteredSourceSelector: FC<Props> = ({ formik, helpText }) => {
+const ClusteredSourceSelector: FC<Props> = ({
+  formik,
+  helpText,
+  disabledReason,
+}) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const memberNames = clusterMembers.map((member) => member.server_name);
 
@@ -28,6 +33,7 @@ const ClusteredSourceSelector: FC<Props> = ({ formik, helpText }) => {
         memberNames={memberNames}
         disabled={!formik.values.isCreating}
         helpText={helpText}
+        disabledReason={disabledReason}
       />
     </>
   );

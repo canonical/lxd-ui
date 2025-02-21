@@ -1,8 +1,5 @@
 import { FC, ReactNode, useEffect } from "react";
 import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchStoragePools } from "api/storage-pools";
 import { useParams } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
@@ -31,6 +28,7 @@ import {
 import { slugify } from "util/slugify";
 import { driversWithFilesystemSupport } from "util/storageOptions";
 import { getUnhandledKeyValues } from "util/formFields";
+import { useStoragePools } from "context/useStoragePools";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -139,10 +137,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
     return <>Missing project</>;
   }
 
-  const { data: pools = [], error } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: pools = [], error } = useStoragePools();
 
   if (error) {
     notify.failure("Loading storage pools failed", error);

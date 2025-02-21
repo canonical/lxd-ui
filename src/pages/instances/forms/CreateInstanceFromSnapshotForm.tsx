@@ -14,9 +14,6 @@ import * as Yup from "yup";
 import { createInstance } from "api/instances";
 import { isClusteredServer } from "util/settings";
 import { useSettings } from "context/useSettings";
-import { useQuery } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
-import { fetchStoragePools } from "api/storage-pools";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
@@ -27,6 +24,7 @@ import { InstanceIconType } from "components/ResourceIcon";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useStoragePools } from "context/useStoragePools";
 
 interface Props {
   instance: LxdInstance;
@@ -95,10 +93,8 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
   const { canCreateInstances } = useProjectEntitlements();
 
-  const { data: storagePools = [], isLoading: storagePoolsLoading } = useQuery({
-    queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(),
-  });
+  const { data: storagePools = [], isLoading: storagePoolsLoading } =
+    useStoragePools();
 
   const { data: instances = [] } = useInstances(instance.project);
 

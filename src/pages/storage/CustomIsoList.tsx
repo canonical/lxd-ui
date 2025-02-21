@@ -9,10 +9,7 @@ import {
   TablePagination,
 } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { loadIsoVolumes } from "context/loadIsoVolumes";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
-import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import CreateInstanceFromImageBtn from "pages/images/actions/CreateInstanceFromImageBtn";
 import UploadCustomIsoBtn from "pages/images/actions/UploadCustomIsoBtn";
@@ -21,16 +18,15 @@ import { Link, useParams } from "react-router-dom";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import ResourceLabel from "components/ResourceLabel";
+import { useLoadIsoVolumes } from "context/useVolumes";
 
 const CustomIsoList: FC = () => {
   const docBaseLink = useDocs();
-  const { hasStorageVolumesAll } = useSupportedFeatures();
   const toastNotify = useToastNotification();
   const [query, setQuery] = useState<string>("");
   const { project } = useParams<{
@@ -41,10 +37,7 @@ const CustomIsoList: FC = () => {
     return <>Missing project</>;
   }
 
-  const { data: images = [], isLoading } = useQuery({
-    queryKey: [queryKeys.isoVolumes, project],
-    queryFn: () => loadIsoVolumes(project, hasStorageVolumesAll),
-  });
+  const { data: images = [], isLoading } = useLoadIsoVolumes(project);
 
   const headers = [
     { content: "Name", sortKey: "name" },

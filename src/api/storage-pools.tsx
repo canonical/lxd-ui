@@ -17,23 +17,38 @@ import type { LxdOperationResponse } from "types/operation";
 import axios, { AxiosResponse } from "axios";
 import type { LxdClusterMember } from "types/cluster";
 import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { withEntitlementsQuery } from "util/entitlements/api";
+
+export const storagePoolEntitlements = ["can_edit", "can_delete"];
+export const storageVolumeEntitlements = ["can_delete"];
 
 export const fetchStoragePool = (
   pool: string,
+  isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdStoragePool> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storagePoolEntitlements,
+  );
   return new Promise((resolve, reject) => {
     const targetParam = target ? `&target=${target}` : "";
-    fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}`)
+    fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
       .catch(reject);
   });
 };
 
-export const fetchStoragePools = (): Promise<LxdStoragePool[]> => {
+export const fetchStoragePools = (
+  isFineGrained: boolean | null,
+): Promise<LxdStoragePool[]> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storagePoolEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools?recursion=1`)
+    fetch(`/1.0/storage-pools?recursion=1${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool[]>) => resolve(data.metadata))
       .catch(reject);
@@ -204,11 +219,12 @@ export const deleteStoragePool = (pool: string): Promise<void> => {
 export const fetchPoolFromClusterMembers = (
   poolName: string,
   clusterMembers: LxdClusterMember[],
+  isFineGrained: boolean | null,
 ): Promise<LXDStoragePoolOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       clusterMembers.map((member) => {
-        return fetchStoragePool(poolName, member.server_name);
+        return fetchStoragePool(poolName, isFineGrained, member.server_name);
       }),
     )
       .then((results) => {
@@ -235,9 +251,16 @@ export const fetchPoolFromClusterMembers = (
 export const fetchStorageVolumes = (
   pool: string,
   project: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageVolumeEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1`)
+    fetch(
+      `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
+    )
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
         resolve(data.metadata.map((volume) => ({ ...volume, pool }))),
@@ -248,9 +271,14 @@ export const fetchStorageVolumes = (
 
 export const fetchAllStorageVolumes = (
   project: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageVolumeEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-volumes?recursion=1&project=${project}`)
+    fetch(`/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
         resolve(data.metadata),
@@ -264,10 +292,15 @@ export const fetchStorageVolume = (
   project: string,
   type: string,
   volume: string,
+  isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume> => {
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageVolumeEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1`,
+      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1${entitlements}`,
     )
       .then(handleEtagResponse)
       .then((data) => resolve({ ...data, pool } as LxdStorageVolume))

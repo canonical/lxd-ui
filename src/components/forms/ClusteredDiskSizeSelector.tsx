@@ -10,6 +10,7 @@ interface Props {
   setValue: (value: ClusterSpecificValues) => void;
   values?: ClusterSpecificValues;
   helpText?: string;
+  disabledReason?: string;
 }
 
 const ClusteredDiskSizeSelector: FC<Props> = ({
@@ -17,6 +18,7 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
   setValue,
   values,
   helpText,
+  disabledReason,
 }) => {
   const { data: clusterMembers = [] } = useClusterMembers();
   const memberNames = clusterMembers.map((member) => member.server_name);
@@ -59,6 +61,8 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
             setValueForAllMembers(firstValue);
             setIsSpecific((val) => !val);
           }}
+          disabled={!!disabledReason}
+          title={disabledReason}
         />
       }
       {isSpecific && (
@@ -81,7 +85,7 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
                     id={memberNames.indexOf(item) === 0 ? id : `${id}-${item}`}
                     value={activeValue}
                     setMemoryLimit={(value) => setValueForMember(value, item)}
-                    disabled={false}
+                    disabled={!!disabledReason}
                     classname="u-no-margin--bottom"
                   />
                 </div>
@@ -103,7 +107,7 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
               id={id}
               value={firstValue}
               setMemoryLimit={(value) => setValueForAllMembers(value)}
-              disabled={false}
+              disabled={!!disabledReason}
               help={helpText}
             />
           }
