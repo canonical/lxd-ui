@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import { delay } from "./helpers";
 
-const RETRIES = 3;
-const DELAY_TIME = 250;
+const RETRIES = 5;
+const DELAY_TIME = 300;
 
 // This function is a wrapper around React.lazy that will retry the import
 // keeping the function type signature the same as React.lazy
