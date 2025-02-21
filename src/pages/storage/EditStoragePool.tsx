@@ -75,15 +75,16 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       .required("This field is required"),
   });
 
-  const editRestriction = !canEditPool(pool)
-    ? "You do not have permission to edit this pool"
-    : undefined;
+  const editRestriction = canEditPool(pool)
+    ? undefined
+    : "You do not have permission to edit this pool";
 
   const formik = useFormik<StoragePoolFormValues>({
-    initialValues: {
-      ...toStoragePoolFormValues(pool, poolOnMembers),
+    initialValues: toStoragePoolFormValues(
+      pool,
+      poolOnMembers,
       editRestriction,
-    },
+    ),
     validationSchema: StoragePoolSchema,
     enableReinitialize: true,
     onSubmit: (values) => {

@@ -74,11 +74,8 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             type="text"
             label="Name"
             required
-            disabled={
-              !!formik.values.editRestriction || !formik.values.isCreating
-            }
+            disabled={!formik.values.isCreating}
             help={nameHelpText}
-            title={formik.values.editRestriction}
           />
           <AutoExpandingTextArea
             {...getFormProps("description")}
@@ -141,10 +138,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             }}
             value={formik.values.driver}
             required
-            disabled={
-              !!formik.values.editRestriction || !formik.values.isCreating
-            }
-            title={formik.values.editRestriction}
+            disabled={!formik.values.isCreating}
           />
           {isStoragePoolWithSize(formik.values.driver) &&
             (isClusteredServer(settings) ? (
@@ -177,6 +171,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   !!formik.values.editRestriction ||
                   formik.values.driver === dirDriver
                 }
+                disabledReason={formik.values.editRestriction}
               />
             ))}
           {hasSource &&

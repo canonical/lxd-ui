@@ -12,6 +12,7 @@ interface Props {
   setMemoryLimit: (val: string) => void;
   disabled?: boolean;
   classname?: string;
+  disabledReason?: string;
 }
 
 const DiskSizeSelector: FC<Props> = ({
@@ -23,6 +24,7 @@ const DiskSizeSelector: FC<Props> = ({
   setMemoryLimit,
   disabled,
   classname,
+  disabledReason,
 }) => {
   const limit = parseMemoryLimit(value) ?? {
     value: 1,
@@ -55,6 +57,7 @@ const DiskSizeSelector: FC<Props> = ({
           value={value?.match(/^\d/) ? limit.value : ""}
           disabled={disabled}
           className={classname}
+          title={disabledReason}
         />
         <Select
           id={`memUnitSelect-${id}`}
@@ -68,6 +71,7 @@ const DiskSizeSelector: FC<Props> = ({
           value={limit.unit}
           disabled={disabled}
           className={classname}
+          title={disabledReason}
         />
       </div>
       {(help || helpTotal) && (

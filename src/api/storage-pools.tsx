@@ -27,9 +27,12 @@ export const fetchStoragePool = (
   isFineGrained: boolean | null,
   target?: string,
 ): Promise<LxdStoragePool> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, storagePoolEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storagePoolEntitlements,
+  );
   return new Promise((resolve, reject) => {
-    const targetParam = `&target=${target}`;
+    const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
@@ -40,7 +43,10 @@ export const fetchStoragePool = (
 export const fetchStoragePools = (
   isFineGrained: boolean | null,
 ): Promise<LxdStoragePool[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, storagePoolEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storagePoolEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?recursion=1${entitlements}`)
       .then(handleResponse)
@@ -247,7 +253,10 @@ export const fetchStorageVolumes = (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, storageVolumeEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageVolumeEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
@@ -264,7 +273,10 @@ export const fetchAllStorageVolumes = (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, storageVolumeEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageVolumeEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
@@ -282,7 +294,10 @@ export const fetchStorageVolume = (
   volume: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume> => {
-  const entitlements = `&${withEntitlementsQuery(isFineGrained, storageVolumeEntitlements)}`;
+  const entitlements = withEntitlementsQuery(
+    isFineGrained,
+    storageVolumeEntitlements,
+  );
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1${entitlements}`,
