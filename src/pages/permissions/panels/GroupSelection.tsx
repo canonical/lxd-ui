@@ -159,8 +159,8 @@ const GroupSelection: FC<Props> = ({
           title="No groups"
         >
           <p>No groups found.</p>
-          <Link to={`/ui/permissions/groups`}>
-            Create groups
+          <Link to={`/ui/permissions/groups?panel=create-groups`}>
+            Create group
             <Icon className="external-link-icon" name="external-link" />
           </Link>
         </EmptyState>
