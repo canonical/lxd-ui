@@ -156,9 +156,12 @@ const GroupSelection: FC<Props> = ({
         <EmptyState
           className="empty-state empty-state__full-width"
           image={<Icon name="user-group" className="empty-state-icon" />}
-          title="No groups"
+          title="No groups found"
         >
-          <p>No groups found.</p>
+          <p>
+            Groups are an easy way to manage the structured assignment of
+            permissions.
+          </p>
           <Link to={`/ui/permissions/groups?panel=create-groups`}>
             Create group
             <Icon className="external-link-icon" name="external-link" />
