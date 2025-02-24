@@ -4,6 +4,7 @@ export interface LxdIdentity {
     | "Client certificate"
     | "Client certificate (pending)"
     | "Client certificate (unrestricted)"
+    | "Metrics certificate (unrestricted)"
     | "OIDC client";
   name: string;
   authentication_method: "tls" | "oidc";

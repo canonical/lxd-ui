@@ -338,7 +338,8 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
 };
 
 export const isUnrestricted = (identity: LxdIdentity) => {
-  return identity.type === "Client certificate (unrestricted)";
+  // matches both "Client certificate (unrestricted)" and "Metrics certificate (unrestricted)"
+  return identity.type.endsWith("(unrestricted)");
 };
 
 export const isFineGrainedTls = (identity: LxdIdentity) => {
