@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.66% </span>
+                <span class="strong">72% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/30</span>
+                <span class='fraction'>18/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.53% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/13</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/23</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
@@ -81,38 +81,26 @@
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">253x</span>
+<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">253x</span>
 <span class="cline-any cline-yes">253x</span>
 <span class="cline-any cline-yes">253x</span>
 <span class="cline-any cline-yes">253x</span>
-<span class="cline-any cline-yes">253x</span>
-<span class="cline-any cline-yes">253x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-yes">5202x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useQuery } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
-import { useSettings } from "./useSettings";
-import { fetchIdentity } from "api/auth-identities";
-import { queryKeys } from "util/queryKeys";
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-yes">5198x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useSettings } from "./useSettings"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
+import { useIdentity } from "./useIdentities";
 &nbsp;
 export const useLoggedInUser = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
@@ -120,11 +108,8 @@ export const useLoggedInUser = <span class="cstat-no" title="statement not cover
   const id = <span class="cstat-no" title="statement not covered" >settings?.auth_user_name || <span class="branch-1 cbranch-no" title="branch not covered" >"";</span></span>
   const authMethod = <span class="cstat-no" title="statement not covered" >settings?.auth_user_method || <span class="branch-1 cbranch-no" title="branch not covered" >"";</span></span>
 &nbsp;
-  const { data: identity } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.identities, id],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchIdentity(id, authMethod),</span>
-    enabled: !!id &amp;&amp; !!authMethod,
-  });
+  const identityQueryEnabled = <span class="cstat-no" title="statement not covered" >!!id &amp;&amp; !!authMethod;</span>
+  const { data: identity } = <span class="cstat-no" title="statement not covered" >useIdentity(id, authMethod, identityQueryEnabled);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     loggedInUserName: identity?.name,
@@ -139,7 +124,7 @@ export const useLoggedInUser = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-24T14:47:02.686Z
+                at 2025-02-24T19:14:29.261Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

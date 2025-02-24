@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.22% </span>
+                <span class="strong">82.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>315/374</span>
+                <span class='fraction'>327/396</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.27% </span>
+                <span class="strong">33.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>31/81</span>
+                <span class='fraction'>34/101</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.63% </span>
+                <span class="strong">52.38% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/19</span>
+                <span class='fraction'>11/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.3% </span>
+                <span class="strong">95.87% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>313/325</span>
+                <span class='fraction'>325/339</span>
             </div>
         
             
@@ -388,7 +388,21 @@
 <a name='L323'></a><a href='#L323'>323</a>
 <a name='L324'></a><a href='#L324'>324</a>
 <a name='L325'></a><a href='#L325'>325</a>
-<a name='L326'></a><a href='#L326'>326</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -428,12 +442,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -518,6 +526,21 @@
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
@@ -565,6 +588,11 @@
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-yes">56x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
 <span class="cline-any cline-yes">56x</span>
@@ -720,15 +748,12 @@
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchIdentities } from "api/auth-identities";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
@@ -751,23 +776,20 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted } from "util/helpers";
 import IdentityResource from "components/IdentityResource";
 import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
+import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
+import { pluralize } from "util/instanceBulkActions";
 &nbsp;
 const PermissionIdentities: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
-  const {
-    data: identities = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
-    error,
-    isLoading,
-  } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error, isLoading } = <span class="cstat-no" title="statement not covered" >useIdentities();</span>
   const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
   const docBaseLink = <span class="cstat-no" title="statement not covered" >useDocs();</span>
   const panelParams = <span class="cstat-no" title="statement not covered" >usePanelParams();</span>
   const [searchParams] = <span class="cstat-no" title="statement not covered" >useSearchParams();</span>
   const [selectedIdentityIds, setSelectedIdentityIds] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
   const { hasAccessManagementTLS } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
+  const { canEditIdentity } = <span class="cstat-no" title="statement not covered" >useIdentityEntitlements();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
     const validIdentityIds = <span class="cstat-no" title="statement not covered" >new Set(identities.map((identity) =&gt; identity.id));</span>
@@ -835,6 +857,25 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
 <span class="cstat-no" title="statement not covered" >      setSelectedIdentityIds([identity.id]);</span>
     };
 &nbsp;
+    const getGroupLink = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >      if (canEditIdentity(identity)) {</span>
+<span class="cstat-no" title="statement not covered" >        return (</span>
+          &lt;Button appearance="link" dense onClick={openGroupPanelForIdentity}&gt;
+            {identity.groups?.length || 0}
+          &lt;/Button&gt;
+        );
+<span class="branch-0 cbranch-no" title="branch not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+      const groupsText = <span class="cstat-no" title="statement not covered" >pluralize("group", identity.groups?.<span class="branch-0 cbranch-no" title="branch not covered" >length ?? <span class="branch-1 cbranch-no" title="branch not covered" >0)</span></span>;</span>
+      const groupsList = <span class="cstat-no" title="statement not covered" >identity.<span class="branch-0 cbranch-no" title="branch not covered" >groups?.join("</span>\n- ");</span>
+      const groupsTitle = <span class="cstat-no" title="statement not covered" >`Assigned ${groupsText}:\n- ${groupsList}`;</span>
+<span class="cstat-no" title="statement not covered" >      return (</span>
+        &lt;div title={identity.<span class="branch-0 cbranch-no" title="branch not covered" >groups?.<span class="branch-0 cbranch-no" title="branch not covered" >length ? <span class="branch-0 cbranch-no" title="branch not covered" >g</span>roupsTitle : "</span>"}&gt;</span>
+          {identity.<span class="branch-0 cbranch-no" title="branch not covered" >groups?.<span class="branch-0 cbranch-no" title="branch not covered" >length || 0</span>}</span>
+        &lt;/div&gt;
+      );
+    };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       key: identity.id,
       name: isUnrestricted(identity) ? "" : identity.id,
@@ -871,11 +912,7 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
           className: "u-truncate",
         },
         {
-          content: (
-            &lt;Button appearance="link" dense onClick={openGroupPanelForIdentity}&gt;
-              {identity.groups?.length || 0}
-            &lt;/Button&gt;
-          ),
+          content: getGroupLink(),
           role: "cell",
           className: "u-align--right group-count",
           "aria-label": "Groups for this identity",
@@ -891,7 +928,12 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
                 onClick={openGroupPanelForIdentity}
                 type="button"
                 aria-label="Manage groups"
-                title="Manage groups"
+                title={
+                  canEditIdentity()
+                    ? <span class="branch-0 cbranch-no" title="branch not covered" >"Manage groups"</span>
+<span class="cstat-no" title="statement not covered" >                    : "You do not have permission to modify this identity"</span>
+                }
+                disabled={!canEditIdentity(identity)}
               &gt;
                 &lt;Icon name="user-group" /&gt;
               &lt;/Button&gt;
@@ -980,7 +1022,7 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
               {!!selectedIdentityIds.length &amp;&amp; hasAccessManagementTLS &amp;&amp; (
                 &lt;BulkDeleteIdentitiesBtn
                   identities={selectedIdentities}
-                  className="u-no-margin--bottom"
+                  className="u-no-margin--bottom has-icon"
                 /&gt;
               )}
             &lt;/PageHeader.Left&gt;
@@ -1017,7 +1059,7 @@ const PermissionIdentities: FC = <span class="cstat-no" title="statement not cov
                 parentName=""
                 selectedNames={selectedIdentityIds}
                 setSelectedNames={setSelectedIdentityIds}
-                processingNames={[]}
+                disabledNames={[]}
                 filteredNames={fineGrainedIdentities.map(
 <span class="fstat-no" title="function not covered" >                  (i</span>dentity) =&gt; <span class="cstat-no" title="statement not covered" >identity.id,</span>
                 )}
@@ -1045,7 +1087,7 @@ export default PermissionIdentities;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-24T14:47:02.686Z
+                at 2025-02-24T19:14:29.261Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

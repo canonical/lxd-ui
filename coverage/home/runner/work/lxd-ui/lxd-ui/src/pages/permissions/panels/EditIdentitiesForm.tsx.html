@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.14% </span>
+                <span class="strong">64.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>157/241</span>
+                <span class='fraction'>163/254</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">41.17% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/44</span>
+                <span class='fraction'>21/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.16% </span>
+                <span class="strong">57.69% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/24</span>
+                <span class='fraction'>15/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.42% </span>
+                <span class="strong">80.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>149/183</span>
+                <span class='fraction'>153/190</span>
             </div>
         
             
@@ -246,7 +246,14 @@
 <a name='L181'></a><a href='#L181'>181</a>
 <a name='L182'></a><a href='#L182'>182</a>
 <a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
@@ -268,7 +275,7 @@
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -291,6 +298,10 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -377,6 +388,7 @@
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
@@ -390,6 +402,8 @@
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -430,15 +444,14 @@
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Icon, SearchBox, useNotify } from <span class="branch-0 cbranch-no" title="branch not covered" >"@canonical/react-components";</span>
-import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
-import { fetchIdentities } from "api/auth-identities";
 import useSortTableData from "util/useSortTableData";
 import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
+import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 &nbsp;
 export type FormIdentity = LxdIdentity &amp; {
   isRemoved?: boolean;
@@ -459,10 +472,11 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const [filter, setFilter] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
 &nbsp;
-  const { data: identities = [], error } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error } = <span class="cstat-no" title="statement not covered" >useIdentities();</span>
+  const { canEditIdentity } = <span class="cstat-no" title="statement not covered" >useIdentityEntitlements();</span>
+  const restrictedIdentityNames = <span class="cstat-no" title="statement not covered" >identities</span>
+    .filter((identity) =&gt; !canEditIdentity(identity))
+    .map((identity) =&gt; identity.id);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (error) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    notify.failure("Loading details failed", error);</span></span>
@@ -473,6 +487,10 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
   );
 &nbsp;
   const toggleRow = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>d: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (restrictedIdentityNames.includes(id)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return;</span></span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+&nbsp;
     const existing = <span class="cstat-no" title="statement not covered" >selected.find((identity) =&gt; identity.id === id);</span>
 <span class="cstat-no" title="statement not covered" >    if (existing) {</span>
       const filtered = <span class="cstat-no" title="statement not covered" >selected.filter((identity) =&gt; identity.id !== id);</span>
@@ -558,7 +576,9 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
           content: identity.name,
           role: "cell",
           "aria-label": "Identity",
-          title: identity.name,
+          title: canEditIdentity(identity)
+            ? identity.<span class="branch-0 cbranch-no" title="branch not covered" >name</span>
+<span class="cstat-no" title="statement not covered" >            : "You do not have permission to allocate this identity to the group",</span>
           onClick: clickRow,
           className: "clickable-cell",
         },
@@ -600,11 +620,12 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
             .filter((id) =&gt; !id.isRemoved)
             .map((identity) =&gt; identity.id)}
           setSelectedNames={bulkSelect}
-          processingNames={[]}
+          disabledNames={restrictedIdentityNames}
           filteredNames={fineGrainedIdentities.map((identity) =&gt; identity.id)}
           indeterminateNames={[]}
           onToggleRow={toggleRow}
           hideContextualMenu
+          disableSelectAll={!!restrictedIdentityNames.length}
         /&gt;
       &lt;/ScrollableTable&gt;
     &lt;/&gt;
@@ -619,7 +640,7 @@ export default EditIdentitiesForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-24T14:47:02.686Z
+                at 2025-02-24T19:14:29.261Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.64% </span>
+                <span class="strong">71.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>308/424</span>
+                <span class='fraction'>307/427</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.58% </span>
+                <span class="strong">37.2% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>30/82</span>
+                <span class='fraction'>32/86</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.47% </span>
+                <span class="strong">44% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/23</span>
+                <span class='fraction'>11/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.72% </span>
+                <span class="strong">88.4% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>307/346</span>
+                <span class='fraction'>305/345</span>
             </div>
         
             
@@ -408,8 +408,7 @@
 <a name='L343'></a><a href='#L343'>343</a>
 <a name='L344'></a><a href='#L344'>344</a>
 <a name='L345'></a><a href='#L345'>345</a>
-<a name='L346'></a><a href='#L346'>346</a>
-<a name='L347'></a><a href='#L347'>347</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
+<a name='L346'></a><a href='#L346'>346</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
@@ -449,10 +448,6 @@
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -644,20 +639,22 @@
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -689,15 +686,16 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -761,10 +759,8 @@
   Icon,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import usePanelParams from "util/usePanelParams";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -772,7 +768,6 @@ import { useSearchParams } from "react-router-dom";
 import useEditHistory from "util/useEditHistory";
 import ModifiedStatusAction from "../actions/ModifiedStatusAction";
 import { pluralize } from "util/instanceBulkActions";
-import { fetchIdentities } from "api/auth-identities";
 import type { LxdGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
@@ -785,6 +780,8 @@ import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
 import useSortTableData from "util/useSortTableData";
 import { isUnrestricted } from "util/helpers";
+import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 &nbsp;
 type IdentityEditHistory = {
   identitiesAdded: Set&lt;string&gt;;
@@ -801,14 +798,11 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = <span class="cstat-no" title="
   const notify = <span class="cstat-no" title="statement not covered" >useNotify();</span>
   const [confirming, setConfirming] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
 &nbsp;
-  const {
-    data: identities = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
-    error,
-    isLoading,
-  } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error, isLoading } = <span class="cstat-no" title="statement not covered" >useIdentities();</span>
+  const { canEditIdentity } = <span class="cstat-no" title="statement not covered" >useIdentityEntitlements();</span>
+  const restrictedIdentities = <span class="cstat-no" title="statement not covered" >identities.filter(</span>
+<span class="fstat-no" title="function not covered" >    (i</span>dentity) =&gt; <span class="cstat-no" title="statement not covered" >!canEditIdentity(identity),</span>
+  );
 &nbsp;
   const {
     desiredState,
@@ -988,7 +982,9 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = <span class="cstat-no" title="
           content: identity.name,
           role: "cell",
           "aria-label": "Identity",
-          title: identity.name,
+          title: canEditIdentity(identity)
+            ? identity.<span class="branch-0 cbranch-no" title="branch not covered" >name</span>
+<span class="cstat-no" title="statement not covered" >            : "You do not have permission to manage this identity",</span>
         },
         {
           content: modifiedIdentities.has(identity.id) &amp;&amp; (
@@ -1027,23 +1023,24 @@ const EditGroupIdentitiesPanel: FC&lt;Props&gt; = <span class="cstat-no" title="
         parentName="server"
         selectedNames={Array.from(selectedIdentities)}
         setSelectedNames={modifyIdentities}
-        processingNames={[]}
+        disabledNames={restrictedIdentities.map((identity) =&gt; identity.id)}
         filteredNames={fineGrainedIdentities.map((identity) =&gt; identity.id)}
         indeterminateNames={Array.from(indeterminateIdentities)}
         onToggleRow={toggleRow}
         hideContextualMenu
+        disableSelectAll={!!restrictedIdentities.length}
       /&gt;
     &lt;/ScrollableTable&gt;
   );
+&nbsp;
+  const confirmButtonText = <span class="cstat-no" title="statement not covered" >modifiedIdentities.size</span>
+    ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
+    : "Modify identities";
 &nbsp;
   const panelTitle =
 <span class="cstat-no" title="statement not covered" >    groups.length &gt; 1</span>
       ? `Change identities for ${groups.length<span class="branch-0 cbranch-no" title="branch not covered" >} groups`</span>
 <span class="cstat-no" title="statement not covered" >      : `Change identities for ${groups[0]?.name}`;</span>
-&nbsp;
-  const confirmButtonText = <span class="cstat-no" title="statement not covered" >modifiedIdentities.size</span>
-    ? `Apply ${modifiedIdentities.size} identity ${pluralize("change", modifiedIdentities.size)}`
-    : "Modify identities";
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;&gt;
@@ -1108,7 +1105,7 @@ export default EditGroupIdentitiesPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-24T14:47:02.686Z
+                at 2025-02-24T19:14:29.261Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
