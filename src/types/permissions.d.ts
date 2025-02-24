@@ -13,6 +13,7 @@ export interface LxdIdentity {
   effective_groups?: string[];
   effective_permissions?: LxdPermission[];
   fine_grained: boolean;
+  access_entitlements?: string[];
 }
 
 export interface LxdGroup {
@@ -24,6 +25,7 @@ export interface LxdGroup {
     tls?: string[];
   };
   identity_provider_groups?: string[];
+  access_entitlements?: string[];
 }
 
 export interface LxdPermission {
@@ -36,6 +38,7 @@ export interface LxdPermission {
 export interface IdpGroup {
   name: string;
   groups: string[]; // these should be names of lxd groups
+  access_entitlements?: string[];
 }
 
 export interface TlsIdentityTokenDetail {

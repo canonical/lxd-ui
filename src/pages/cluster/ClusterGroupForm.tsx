@@ -170,7 +170,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
               setSelectedNames={(newMembers: string[]) =>
                 void formik.setFieldValue("members", newMembers)
               }
-              processingNames={[]}
+              disabledNames={[]}
             />
           </Col>
         </Row>

@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import {
   ButtonProps,
   ConfirmationButton,
+  Icon,
   useNotify,
 } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
@@ -10,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
+import { useIdentityEntitlements } from "util/entitlements/identities";
 
 interface Props {
   identities: LxdIdentity[];
@@ -25,11 +27,22 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
   const toastNotify = useToastNotification();
   const buttonText = `Delete ${pluralize("identity", identities.length)}`;
   const [isLoading, setLoading] = useState(false);
-  const successMessage = `${identities.length} ${pluralize("identity", identities.length)} successfully deleted`;
+  const { canDeleteIdentity } = useIdentityEntitlements();
+
+  const restrictedIdentities: LxdIdentity[] = [];
+  const deletableIdentities: LxdIdentity[] = [];
+  identities.forEach((identity) => {
+    if (canDeleteIdentity(identity)) {
+      deletableIdentities.push(identity);
+    } else {
+      restrictedIdentities.push(identity);
+    }
+  });
 
   const handleDelete = () => {
     setLoading(true);
-    deleteIdentities(identities)
+    const successMessage = `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} successfully deleted`;
+    deleteIdentities(deletableIdentities)
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {
@@ -50,8 +63,11 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
 
   return (
     <ConfirmationButton
-      onHoverText={buttonText}
-      appearance=""
+      onHoverText={
+        deletableIdentities.length
+          ? buttonText
+          : `You do not have permission to delete the selected ${pluralize("identity", identities.length)}`
+      }
       aria-label="Delete identities"
       className={className}
       loading={isLoading}
@@ -59,23 +75,36 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
         title: "Confirm delete",
         children: (
           <p>
-            This will permanently delete the following identities:
+            This will permanently delete the following{" "}
+            {pluralize("identity", deletableIdentities.length)}:
             <ul>
-              {identities.map((identity) => (
+              {deletableIdentities.map((identity) => (
                 <li key={identity.name}>{identity.name}</li>
               ))}
             </ul>
+            {restrictedIdentities.length ? (
+              <>
+                You do not have permission to delete the following{" "}
+                {pluralize("identity", restrictedIdentities.length)}:
+                <ul>
+                  {restrictedIdentities.map((identity) => (
+                    <li key={identity.name}>{identity.name}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
             This action cannot be undone, and can result in data loss.
           </p>
         ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,
       }}
-      disabled={!identities.length}
+      disabled={!deletableIdentities.length}
       shiftClickEnabled
       showShiftClickHint
     >
-      {buttonText}
+      <Icon name="delete" />
+      <span>{buttonText}</span>
     </ConfirmationButton>
   );
 };

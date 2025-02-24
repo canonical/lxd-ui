@@ -4,6 +4,7 @@ import type { LxdGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { usePortal } from "@canonical/react-components";
+import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {
   group: LxdGroup;
@@ -12,6 +13,7 @@ interface Props {
 const GroupActions: FC<Props> = ({ group }) => {
   const panelParams = usePanelParams();
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canDeleteGroup } = useGroupEntitlements();
 
   return (
     <>
@@ -37,7 +39,12 @@ const GroupActions: FC<Props> = ({ group }) => {
             hasIcon
             onClick={openPortal}
             type="button"
-            title="Delete group"
+            title={
+              canDeleteGroup()
+                ? "Delete group"
+                : "You do not have permission to delete this group"
+            }
+            disabled={!canDeleteGroup(group)}
           >
             <Icon name="delete" />
           </Button>,

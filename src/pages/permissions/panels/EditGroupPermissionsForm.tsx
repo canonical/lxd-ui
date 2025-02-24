@@ -17,6 +17,8 @@ import {
 import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
 import type { LxdGroup, LxdPermission } from "types/permissions";
+import { useServerEntitlements } from "util/entitlements/server";
+import { useGroupEntitlements } from "util/entitlements/groups";
 
 export type FormPermission = LxdPermission & {
   id?: string;
@@ -38,6 +40,19 @@ const EditGroupPermissionsForm: FC<Props> = ({
 }) => {
   const notify = useNotify();
   const [search, setSearch] = useState("");
+  const { canViewPermissions } = useServerEntitlements();
+  const { canEditGroup } = useGroupEntitlements();
+  const getEditRestriction = () => {
+    if (!canEditGroup(group)) {
+      return "You do not have permission to edit this group";
+    }
+
+    if (!canViewPermissions()) {
+      return "You are not allowed to view permissions";
+    }
+
+    return "";
+  };
 
   const addPermission = (newPermission: FormPermission) => {
     const permissionExists = permissions.find(
@@ -170,8 +185,9 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   onClick={() => deletePermission(permission.id ?? "")}
                   type="button"
                   aria-label="Delete permission"
-                  title="Delete permission"
+                  title={getEditRestriction() ?? "Delete permission"}
                   className="u-no-margin--right"
+                  disabled={!!getEditRestriction()}
                 >
                   <Icon name="delete" className="u-no-margin--right" />
                 </Button>
@@ -212,7 +228,10 @@ const EditGroupPermissionsForm: FC<Props> = ({
           Select the appropriate resource and entitlement below and add it to
           the list of permissions for this group.
         </span>
-        <PermissionSelector onAddPermission={addPermission} />
+        <PermissionSelector
+          onAddPermission={addPermission}
+          disableReason={getEditRestriction()}
+        />
       </Card>
       <SearchBox externallyControlled value={search} onChange={setSearch} />
       {!permissions.length ? (

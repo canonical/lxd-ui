@@ -8,13 +8,11 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import usePanelParams, { panels } from "util/usePanelParams";
 import CustomLayout from "components/CustomLayout";
@@ -23,30 +21,28 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import PermissionGroupsFilter from "./PermissionGroupsFilter";
-import { fetchIdpGroups } from "api/auth-idp-groups";
 import CreateIdpGroupPanel from "./panels/CreateIdpGroupPanel";
 import BulkDeleteIdpGroupsBtn from "./actions/BulkDeleteIdpGroupsBtn";
 import EditIdpGroupPanel from "./panels/EditIdpGroupPanel";
 import DeleteIdpGroupBtn from "./actions/DeleteIdpGroupBtn";
 import { useSettings } from "context/useSettings";
 import { Link } from "react-router-dom";
+import { useIdpGroups } from "context/useIdpGroups";
+import { useServerEntitlements } from "util/entitlements/server";
+import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
+import { pluralize } from "util/instanceBulkActions";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
-  const {
-    data: groups = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.idpGroups],
-    queryFn: fetchIdpGroups,
-  });
+  const { data: groups = [], error, isLoading } = useIdpGroups();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
   const { data: settings } = useSettings();
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
+  const { canCreateIdpGroups } = useServerEntitlements();
+  const { canEditIdpGroup } = useIdpGroupEntitlements();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -86,6 +82,29 @@ const PermissionIdpGroups: FC = () => {
   );
 
   const rows = filteredGroups.map((idpGroup) => {
+    const getGroupLink = () => {
+      if (canEditIdpGroup(idpGroup)) {
+        return (
+          <Button
+            appearance="link"
+            dense
+            onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+          >
+            {idpGroup.groups.length}
+          </Button>
+        );
+      }
+
+      const groupsText = pluralize("group", idpGroup.groups?.length ?? 0);
+      const groupsList = idpGroup.groups?.join("\n- ");
+      const groupsTitle = `Assigned ${groupsText}:\n- ${groupsList}`;
+      return (
+        <div title={idpGroup.groups?.length ? groupsTitle : ""}>
+          {idpGroup.groups?.length || 0}
+        </div>
+      );
+    };
+
     return {
       key: idpGroup.name,
       name: idpGroup.name,
@@ -99,15 +118,7 @@ const PermissionIdpGroups: FC = () => {
           title: idpGroup.name,
         },
         {
-          content: (
-            <Button
-              appearance="link"
-              dense
-              onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
-            >
-              {idpGroup.groups.length}
-            </Button>
-          ),
+          content: getGroupLink(),
           role: "cell",
           className: "u-align--right",
           "aria-label": "Number of mapped groups",
@@ -127,7 +138,12 @@ const PermissionIdpGroups: FC = () => {
                   onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
                   type="button"
                   aria-label="Edit IDP group details"
-                  title="Edit details"
+                  title={
+                    canEditIdpGroup(idpGroup)
+                      ? "Edit details"
+                      : "You do not have permission to modify this IDP group"
+                  }
+                  disabled={!canEditIdpGroup(idpGroup)}
                 >
                   <Icon name="edit" />
                 </Button>,
@@ -230,7 +246,7 @@ const PermissionIdpGroups: FC = () => {
             parentName=""
             selectedNames={selectedGroupNames}
             setSelectedNames={setSelectedGroupNames}
-            processingNames={[]}
+            disabledNames={[]}
             filteredNames={filteredGroups.map((item) => item.name)}
             disableSelect={!!panelParams.panel}
           />
@@ -248,6 +264,12 @@ const PermissionIdpGroups: FC = () => {
         className="empty-state-button"
         appearance="positive"
         onClick={panelParams.openCreateIdpGroup}
+        disabled={!canCreateIdpGroups()}
+        title={
+          canCreateIdpGroups()
+            ? ""
+            : "You do not have permission to create IDP groups"
+        }
       >
         Create IDP group
       </Button>
@@ -269,7 +291,7 @@ const PermissionIdpGroups: FC = () => {
                   Identity&nbsp;provider&nbsp;groups
                 </HelpLink>
               </PageHeader.Title>
-              {!selectedGroupNames.length && hasGroups && (
+              {!selectedGroupNames.length && hasGroups ? (
                 <PageHeader.Search>
                   <PermissionGroupsFilter
                     onChange={setSearch}
@@ -277,13 +299,10 @@ const PermissionIdpGroups: FC = () => {
                     disabled={!!panelParams.idpGroup}
                   />
                 </PageHeader.Search>
-              )}
+              ) : null}
               {selectedGroupNames.length > 0 && !panelParams.panel && (
                 <>
-                  <BulkDeleteIdpGroupsBtn
-                    idpGroups={selectedGroups}
-                    className="u-no-margin--bottom"
-                  />
+                  <BulkDeleteIdpGroupsBtn idpGroups={selectedGroups} />
                 </>
               )}
             </PageHeader.Left>
@@ -294,6 +313,12 @@ const PermissionIdpGroups: FC = () => {
                     appearance="positive"
                     className="u-no-margin--bottom u-float-right"
                     onClick={panelParams.openCreateIdpGroup}
+                    disabled={!canCreateIdpGroups()}
+                    title={
+                      canCreateIdpGroups()
+                        ? ""
+                        : "You do not have permission to create IDP groups"
+                    }
                   >
                     Create IDP group
                   </Button>

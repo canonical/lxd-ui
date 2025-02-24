@@ -5,15 +5,12 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
-import { fetchIdentities } from "api/auth-identities";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
@@ -36,23 +33,20 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { isUnrestricted } from "util/helpers";
 import IdentityResource from "components/IdentityResource";
 import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
+import { useIdentities } from "context/useIdentities";
+import { useIdentityEntitlements } from "util/entitlements/identities";
+import { pluralize } from "util/instanceBulkActions";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
-  const {
-    data: identities = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.identities],
-    queryFn: fetchIdentities,
-  });
+  const { data: identities = [], error, isLoading } = useIdentities();
   const { data: settings } = useSettings();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [searchParams] = useSearchParams();
   const [selectedIdentityIds, setSelectedIdentityIds] = useState<string[]>([]);
   const { hasAccessManagementTLS } = useSupportedFeatures();
+  const { canEditIdentity } = useIdentityEntitlements();
 
   useEffect(() => {
     const validIdentityIds = new Set(identities.map((identity) => identity.id));
@@ -120,6 +114,25 @@ const PermissionIdentities: FC = () => {
       setSelectedIdentityIds([identity.id]);
     };
 
+    const getGroupLink = () => {
+      if (canEditIdentity(identity)) {
+        return (
+          <Button appearance="link" dense onClick={openGroupPanelForIdentity}>
+            {identity.groups?.length || 0}
+          </Button>
+        );
+      }
+
+      const groupsText = pluralize("group", identity.groups?.length ?? 0);
+      const groupsList = identity.groups?.join("\n- ");
+      const groupsTitle = `Assigned ${groupsText}:\n- ${groupsList}`;
+      return (
+        <div title={identity.groups?.length ? groupsTitle : ""}>
+          {identity.groups?.length || 0}
+        </div>
+      );
+    };
+
     return {
       key: identity.id,
       name: isUnrestricted(identity) ? "" : identity.id,
@@ -156,11 +169,7 @@ const PermissionIdentities: FC = () => {
           className: "u-truncate",
         },
         {
-          content: (
-            <Button appearance="link" dense onClick={openGroupPanelForIdentity}>
-              {identity.groups?.length || 0}
-            </Button>
-          ),
+          content: getGroupLink(),
           role: "cell",
           className: "u-align--right group-count",
           "aria-label": "Groups for this identity",
@@ -176,7 +185,12 @@ const PermissionIdentities: FC = () => {
                 onClick={openGroupPanelForIdentity}
                 type="button"
                 aria-label="Manage groups"
-                title="Manage groups"
+                title={
+                  canEditIdentity()
+                    ? "Manage groups"
+                    : "You do not have permission to modify this identity"
+                }
+                disabled={!canEditIdentity(identity)}
               >
                 <Icon name="user-group" />
               </Button>
@@ -265,7 +279,7 @@ const PermissionIdentities: FC = () => {
               {!!selectedIdentityIds.length && hasAccessManagementTLS && (
                 <BulkDeleteIdentitiesBtn
                   identities={selectedIdentities}
-                  className="u-no-margin--bottom"
+                  className="u-no-margin--bottom has-icon"
                 />
               )}
             </PageHeader.Left>
@@ -302,7 +316,7 @@ const PermissionIdentities: FC = () => {
                 parentName=""
                 selectedNames={selectedIdentityIds}
                 setSelectedNames={setSelectedIdentityIds}
-                processingNames={[]}
+                disabledNames={[]}
                 filteredNames={fineGrainedIdentities.map(
                   (identity) => identity.id,
                 )}

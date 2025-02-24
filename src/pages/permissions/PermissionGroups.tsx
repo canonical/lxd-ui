@@ -6,13 +6,11 @@ import {
   TablePagination,
   useNotify,
 } from "@canonical/react-components";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
 import { FC, useEffect, useState } from "react";
-import { queryKeys } from "util/queryKeys";
 import useSortTableData from "util/useSortTableData";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -21,7 +19,6 @@ import PageHeader from "components/PageHeader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
-import { fetchGroups } from "api/auth-groups";
 import GroupActions from "./actions/GroupActions";
 import CreateGroupPanel from "./panels/CreateGroupPanel";
 import EditGroupPanel from "./panels/EditGroupPanel";
@@ -29,21 +26,17 @@ import PermissionGroupsFilter from "./PermissionGroupsFilter";
 import EditGroupIdentitiesBtn from "./actions/EditGroupIdentitiesBtn";
 import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
+import { useGroups } from "context/useGroups";
+import { useServerEntitlements } from "util/entitlements/server";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
-  const {
-    data: groups = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.authGroups],
-    queryFn: fetchGroups,
-  });
+  const { data: groups = [], error, isLoading } = useGroups();
   const docBaseLink = useDocs();
   const panelParams = usePanelParams();
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
+  const { canCreateGroups } = useServerEntitlements();
 
   if (error) {
     notify.failure("Loading groups failed", error);
@@ -216,7 +209,7 @@ const PermissionGroups: FC = () => {
           parentName=""
           selectedNames={selectedGroupNames}
           setSelectedNames={setSelectedGroupNames}
-          processingNames={[]}
+          disabledNames={[]}
           filteredNames={filteredGroups.map((item) => item.name)}
           disableSelect={!!panelParams.panel}
         />
@@ -246,6 +239,10 @@ const PermissionGroups: FC = () => {
         className="empty-state-button"
         appearance="positive"
         onClick={panelParams.openCreateGroup}
+        disabled={!canCreateGroups()}
+        title={
+          canCreateGroups() ? "" : "You do not have permission to create groups"
+        }
       >
         Create group
       </Button>
@@ -278,14 +275,14 @@ const PermissionGroups: FC = () => {
               )}
               {selectedGroupNames.length > 0 && !panelParams.panel && (
                 <>
+                  <EditGroupIdentitiesBtn
+                    groups={selectedGroups}
+                    className="u-no-margin--bottom"
+                  />
                   <BulkDeleteGroupsBtn
                     groups={selectedGroups}
                     className="u-no-margin--bottom"
                     onDelete={() => setSelectedGroupNames([])}
-                  />
-                  <EditGroupIdentitiesBtn
-                    groups={selectedGroups}
-                    className="u-no-margin--bottom"
                   />
                 </>
               )}
@@ -297,6 +294,12 @@ const PermissionGroups: FC = () => {
                     appearance="positive"
                     className="u-no-margin--bottom u-float-right"
                     onClick={panelParams.openCreateGroup}
+                    disabled={!canCreateGroups()}
+                    title={
+                      canCreateGroups()
+                        ? ""
+                        : "You do not have permission to create groups"
+                    }
                   >
                     Create group
                   </Button>

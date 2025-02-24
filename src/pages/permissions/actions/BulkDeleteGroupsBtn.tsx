@@ -3,6 +3,7 @@ import { Button, Icon } from "@canonical/react-components";
 import type { LxdGroup } from "types/permissions";
 import DeleteGroupModal from "./DeleteGroupModal";
 import { pluralize } from "util/instanceBulkActions";
+import { useGroupEntitlements } from "util/entitlements/groups";
 
 interface Props {
   groups: LxdGroup[];
@@ -12,6 +13,8 @@ interface Props {
 
 const BulkDeleteGroupsBtn: FC<Props> = ({ groups, className, onDelete }) => {
   const [confirming, setConfirming] = useState(false);
+  const { canDeleteGroup } = useGroupEntitlements();
+  const deletableGroups = groups.filter(canDeleteGroup);
 
   const handleConfirmDelete = () => {
     setConfirming(true);
@@ -27,12 +30,16 @@ const BulkDeleteGroupsBtn: FC<Props> = ({ groups, className, onDelete }) => {
       <Button
         onClick={handleConfirmDelete}
         aria-label="Delete groups"
-        title="Delete groups"
+        title={
+          deletableGroups.length
+            ? "Delete groups"
+            : `You do not have permission to delete the selected ${pluralize("group", groups.length)}`
+        }
         className={className}
-        appearance="negative"
         hasIcon
+        disabled={!deletableGroups.length}
       >
-        <Icon name="delete" light />
+        <Icon name="delete" />
         <span>{`Delete ${groups.length} ${pluralize("group", groups.length)}`}</span>
       </Button>
       {confirming && (

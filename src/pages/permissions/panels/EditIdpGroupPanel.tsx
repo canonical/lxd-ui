@@ -1,5 +1,5 @@
 import { useNotify } from "@canonical/react-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import { FC, useState } from "react";
 import usePanelParams from "util/usePanelParams";
@@ -11,12 +11,12 @@ import NotificationRow from "components/NotificationRow";
 import type { IdpGroup } from "types/permissions";
 import { renameIdpGroup, updateIdpGroup } from "api/auth-idp-groups";
 import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
-import { fetchGroups } from "api/auth-groups";
 import useEditHistory from "util/useEditHistory";
 import IdpGroupForm, { IdpGroupFormValues } from "../forms/IdpGroupForm";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
+import { useGroups } from "context/useGroups";
 
 type GroupEditHistory = {
   groupsAdded: Set<string>;
@@ -35,14 +35,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const {
-    data: groups = [],
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: [queryKeys.authGroups],
-    queryFn: fetchGroups,
-  });
+  const { data: groups = [], error, isLoading } = useGroups();
 
   const {
     desiredState,

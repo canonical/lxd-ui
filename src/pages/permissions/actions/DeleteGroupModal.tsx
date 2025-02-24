@@ -2,16 +2,20 @@ import {
   ActionButton,
   Input,
   Modal,
+  Notification,
   useNotify,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteGroup, deleteGroups } from "api/auth-groups";
+import { deleteGroups } from "api/auth-groups";
 import ResourceLabel from "components/ResourceLabel";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { ChangeEvent, FC, useState } from "react";
 import type { LxdGroup } from "types/permissions";
+import { useGroupEntitlements } from "util/entitlements/groups";
 import { pluralize } from "util/instanceBulkActions";
 import { queryKeys } from "util/queryKeys";
+import LoggedInUserNotification from "../panels/LoggedInUserNotification";
+import { useSettings } from "context/useSettings";
 
 interface Props {
   groups: LxdGroup[];
@@ -25,8 +29,31 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   const [confirmInput, setConfirmInput] = useState("");
   const [disableConfirm, setDisableConfirm] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const hasOneGroup = groups.length === 1;
   const confirmText = "confirm-delete-group";
+  const { canDeleteGroup } = useGroupEntitlements();
+  const { data: settings } = useSettings();
+  const loggedInIdentityID = settings?.auth_user_name ?? "";
+
+  const restrictedGroups: LxdGroup[] = [];
+  const deletableGroups: LxdGroup[] = [];
+  let hasGroupsForLoggedInUser = false;
+  groups.forEach((group) => {
+    if (canDeleteGroup(group)) {
+      deletableGroups.push(group);
+    } else {
+      restrictedGroups.push(group);
+    }
+
+    if (group.identities?.oidc?.includes(loggedInIdentityID)) {
+      hasGroupsForLoggedInUser = true;
+    }
+
+    if (group.identities?.tls?.includes(loggedInIdentityID)) {
+      hasGroupsForLoggedInUser = true;
+    }
+  });
+
+  const hasOneGroup = deletableGroups.length === 1;
 
   const handleConfirmInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === confirmText) {
@@ -40,21 +67,19 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
 
   const handleDeleteGroups = () => {
     setSubmitting(true);
-    const hasSingleGroup = groups.length === 1;
-    const mutationPromise = hasSingleGroup
-      ? deleteGroup(groups[0].name)
-      : deleteGroups(groups.map((group) => group.name));
+    const hasSingleGroup = deletableGroups.length === 1;
 
     const successMessage = hasSingleGroup ? (
       <>
-        Group <ResourceLabel bold type="auth-group" value={groups[0].name} />{" "}
+        Group{" "}
+        <ResourceLabel bold type="auth-group" value={deletableGroups[0].name} />{" "}
         deleted.
       </>
     ) : (
-      `${groups.length} groups deleted.`
+      `${deletableGroups.length} groups deleted.`
     );
 
-    mutationPromise
+    deleteGroups(deletableGroups.map((group) => group.name))
       .then(() => {
         void queryClient.invalidateQueries({
           predicate: (query) => {
@@ -68,13 +93,61 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
       })
       .catch((e) => {
         notify.failure(
-          `${pluralize("group", groups.length)} deletion failed`,
+          `Failed deleting ${deletableGroups.length} ${pluralize("group", deletableGroups.length)}.`,
           e,
         );
       })
       .finally(() => {
         setSubmitting(false);
       });
+  };
+
+  const getModalContent = () => {
+    return (
+      <>
+        <p>
+          Are you sure you want to permanently delete{" "}
+          <strong>
+            {hasOneGroup
+              ? deletableGroups[0].name
+              : `${deletableGroups.length} groups`}
+          </strong>
+          ?
+        </p>
+        {hasGroupsForLoggedInUser && (
+          <div className="u-sv1">
+            <LoggedInUserNotification isVisible={hasGroupsForLoggedInUser} />
+          </div>
+        )}
+        {restrictedGroups.length ? (
+          <div className="u-sv1">
+            <Notification
+              severity="information"
+              title="Restricted permissions"
+              titleElement="h2"
+              className="u-no-margin--bottom"
+            >
+              <p className="u-no-margin--bottom">
+                You do not have permission to delete the following groups:
+              </p>
+              <ul className="u-no-margin--bottom">
+                {restrictedGroups.map((group) => (
+                  <li key={group.name}>{group.name}</li>
+                ))}
+              </ul>
+            </Notification>
+          </div>
+        ) : null}
+        <p>
+          This action cannot be undone and may result in users losing access to
+          LXD, including the possibility that all users lose admin access.
+        </p>
+        <p>To continue, please type the confirmation text below.</p>
+        <p>
+          <strong>{confirmText}</strong>
+        </p>
+      </>
+    );
   };
 
   return (
@@ -92,6 +165,7 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
             value={confirmInput}
             placeholder={confirmText}
             className="u-no-margin--bottom"
+            disabled={!deletableGroups.length}
           />
         </span>,
         <ActionButton
@@ -102,25 +176,11 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
           loading={submitting}
           disabled={disableConfirm}
         >
-          {`Permanently delete ${groups.length} ${pluralize("group", groups.length)}`}
+          {`Permanently delete ${deletableGroups.length} ${pluralize("group", deletableGroups.length)}`}
         </ActionButton>,
       ]}
     >
-      <p>
-        Are you sure you want to permanently delete{" "}
-        <strong>
-          {hasOneGroup ? groups[0].name : `${groups.length} groups`}
-        </strong>
-        ?
-      </p>
-      <p>
-        This action cannot be undone and may result in users losing access to
-        LXD, including the possibility that all users lose admin access.
-      </p>
-      <p>To continue, please type the confirmation text below.</p>
-      <p>
-        <strong>{confirmText}</strong>
-      </p>
+      {getModalContent()}
     </Modal>
   );
 };

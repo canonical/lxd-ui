@@ -1,5 +1,15 @@
 import { AbortControllerState, checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
+import { deleteIdpGroups } from "api/auth-idp-groups";
+import { useNotify } from "@canonical/react-components";
+import { useState } from "react";
+import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
+import ResourceLabel from "components/ResourceLabel";
+import { pluralize } from "util/instanceBulkActions";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToastNotification } from "context/toastNotificationProvider";
+import { IdpGroup } from "types/permissions";
+import { queryKeys } from "./queryKeys";
 
 export const testDuplicateIdpGroupName = (
   controllerState: AbortControllerState,
@@ -20,4 +30,62 @@ export const testDuplicateIdpGroupName = (
       );
     },
   ];
+};
+
+export const useDeleteIdpGroups = (idpGroups: IdpGroup[]) => {
+  const queryClient = useQueryClient();
+  const notify = useNotify();
+  const toastNotify = useToastNotification();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { canDeleteIdpGroup } = useIdpGroupEntitlements();
+
+  const restrictedGroups: IdpGroup[] = [];
+  const deletableGroups: IdpGroup[] = [];
+  idpGroups.forEach((group) => {
+    if (canDeleteIdpGroup(group)) {
+      deletableGroups.push(group);
+    } else {
+      restrictedGroups.push(group);
+    }
+  });
+
+  const hasOneGroup = deletableGroups.length === 1;
+
+  const handleDeleteIdpGroups = () => {
+    setIsDeleting(true);
+
+    const successMessage = hasOneGroup ? (
+      <>
+        IDP group{" "}
+        <ResourceLabel bold type="idp-group" value={deletableGroups[0].name} />{" "}
+        deleted.
+      </>
+    ) : (
+      `${deletableGroups.length} IDP groups deleted.`
+    );
+
+    deleteIdpGroups(deletableGroups.map((group) => group.name))
+      .then(() => {
+        void queryClient.invalidateQueries({
+          queryKey: [queryKeys.idpGroups],
+        });
+        toastNotify.success(successMessage);
+      })
+      .catch((e) => {
+        notify.failure(
+          `${pluralize("IDP group", deletableGroups.length)} deletion failed`,
+          e,
+        );
+      })
+      .finally(() => {
+        setIsDeleting(false);
+      });
+  };
+
+  return {
+    deleteIdpGroups: handleDeleteIdpGroups,
+    isDeleting,
+    restrictedIdpGroups: restrictedGroups,
+    deletableIdpGroups: deletableGroups,
+  };
 };
