@@ -147,7 +147,7 @@ test("bulk delete groups", async ({ page, lxdVersion }) => {
   await createGroup(page, groupOne, groupOne);
   await createGroup(page, groupTwo, groupTwo);
   await selectGroupsToModify(page, [groupOne, groupTwo]);
-  await page.getByLabel("Delete groups").click();
+  await page.getByRole("button", { name: "Delete 2 groups" }).click();
   await page.getByPlaceholder("confirm-delete-group").click();
   await page
     .getByPlaceholder("confirm-delete-group")

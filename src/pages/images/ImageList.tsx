@@ -99,6 +99,10 @@ const ImageList: FC = () => {
     .filter(canDeleteImage)
     .map((image) => image.fingerprint);
 
+  const selectedImages = images.filter((image) =>
+    selectedNames.includes(image.fingerprint),
+  );
+
   const rows = filteredImages.map((image) => {
     const actions = (
       <List
@@ -121,10 +125,7 @@ const ImageList: FC = () => {
 
     return {
       key: image.fingerprint,
-      // disable image selection if user does not have entitlement to delete
-      name: deletableImages.includes(image.fingerprint)
-        ? image.fingerprint
-        : "",
+      name: image.fingerprint,
       columns: [
         {
           content: description,
@@ -221,9 +222,9 @@ const ImageList: FC = () => {
                 />
               </PageHeader.Search>
             )}
-            {selectedNames.length > 0 && (
+            {selectedImages.length > 0 && (
               <BulkDeleteImageBtn
-                fingerprints={selectedNames}
+                images={selectedImages}
                 project={project}
                 onStart={() => setProcessingNames(selectedNames)}
                 onFinish={() => setProcessingNames([])}
@@ -290,7 +291,6 @@ const ImageList: FC = () => {
                 filteredNames={filteredImages.map((item) => item.fingerprint)}
                 disabledNames={processingNames}
                 rows={[]}
-                disableSelect={!deletableImages.length}
               />
             </TablePagination>
           </ScrollableTable>

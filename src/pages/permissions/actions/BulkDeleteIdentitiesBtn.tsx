@@ -1,10 +1,5 @@
 import { FC, useState } from "react";
-import {
-  ButtonProps,
-  ConfirmationButton,
-  Icon,
-  useNotify,
-} from "@canonical/react-components";
+import { useNotify } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,16 +7,13 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
 import { useIdentityEntitlements } from "util/entitlements/identities";
+import BulkDeleteButton from "components/BulkDeleteButton";
 
 interface Props {
   identities: LxdIdentity[];
-  className?: string;
 }
 
-const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
-  identities,
-  className,
-}) => {
+const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
   const queryClient = useQueryClient();
   const notify = useNotify();
   const toastNotify = useToastNotification();
@@ -61,51 +53,35 @@ const BulkDeleteIdentitiesBtn: FC<Props & ButtonProps> = ({
       });
   };
 
+  const getBulkDeleteBreakdown = () => {
+    if (!restrictedIdentities.length) {
+      return undefined;
+    }
+
+    return [
+      `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} will be deleted.`,
+      `${restrictedIdentities.length} ${pluralize("identity", restrictedIdentities.length)} that you do not have permission to delete will be ignored.`,
+    ];
+  };
+
   return (
-    <ConfirmationButton
-      onHoverText={
-        deletableIdentities.length
-          ? buttonText
-          : `You do not have permission to delete the selected ${pluralize("identity", identities.length)}`
+    <BulkDeleteButton
+      entities={identities}
+      deletableEntities={deletableIdentities}
+      entityType="identity"
+      onDelete={handleDelete}
+      disabledReason={
+        !deletableIdentities.length
+          ? `You do not have permission to delete the selected ${pluralize("identity", identities.length)}`
+          : undefined
       }
-      aria-label="Delete identities"
-      className={className}
-      loading={isLoading}
-      confirmationModalProps={{
-        title: "Confirm delete",
-        children: (
-          <p>
-            This will permanently delete the following{" "}
-            {pluralize("identity", deletableIdentities.length)}:
-            <ul>
-              {deletableIdentities.map((identity) => (
-                <li key={identity.name}>{identity.name}</li>
-              ))}
-            </ul>
-            {restrictedIdentities.length ? (
-              <>
-                You do not have permission to delete the following{" "}
-                {pluralize("identity", restrictedIdentities.length)}:
-                <ul>
-                  {restrictedIdentities.map((identity) => (
-                    <li key={identity.name}>{identity.name}</li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ),
-        confirmButtonLabel: "Delete",
-        onConfirm: handleDelete,
+      className="u-no-margin--bottom"
+      confirmationButtonProps={{
+        loading: isLoading,
       }}
-      disabled={!deletableIdentities.length}
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      <Icon name="delete" />
-      <span>{buttonText}</span>
-    </ConfirmationButton>
+      buttonLabel={buttonText}
+      bulkDeleteBreakdown={getBulkDeleteBreakdown()}
+    />
   );
 };
 

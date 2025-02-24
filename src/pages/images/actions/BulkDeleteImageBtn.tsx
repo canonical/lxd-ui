@@ -2,21 +2,23 @@ import { FC, useState } from "react";
 import { deleteImageBulk } from "api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { ConfirmationButton } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
 import { pluralize } from "util/instanceBulkActions";
 import { useToastNotification } from "context/toastNotificationProvider";
+import BulkDeleteButton from "components/BulkDeleteButton";
+import { useImageEntitlements } from "util/entitlements/images";
+import { LxdImage } from "types/image";
 
 interface Props {
-  fingerprints: string[];
+  images: LxdImage[];
   project: string;
   onStart: () => void;
   onFinish: () => void;
 }
 
 const BulkDeleteImageBtn: FC<Props> = ({
-  fingerprints,
+  images,
   project,
   onStart,
   onFinish,
@@ -25,8 +27,12 @@ const BulkDeleteImageBtn: FC<Props> = ({
   const toastNotify = useToastNotification();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { canDeleteImage } = useImageEntitlements();
 
-  const count = fingerprints.length;
+  const totalCount = images.length;
+  const deletableImages = images.filter((image) => canDeleteImage(image));
+  const fingerprints = deletableImages.map((image) => image.fingerprint);
+  const deleteCount = deletableImages.length;
 
   const handleDelete = () => {
     setLoading(true);
@@ -34,19 +40,20 @@ const BulkDeleteImageBtn: FC<Props> = ({
     void deleteImageBulk(fingerprints, project, eventQueue).then((results) => {
       const { fulfilledCount, rejectedCount } =
         getPromiseSettledCounts(results);
-      if (fulfilledCount === count) {
+      if (fulfilledCount === deleteCount) {
         toastNotify.success(
           <>
             <b>{fingerprints.length}</b>{" "}
             {pluralize("image", fingerprints.length)} deleted.
           </>,
         );
-      } else if (rejectedCount === count) {
+      } else if (rejectedCount === deleteCount) {
         toastNotify.failure(
           "Image bulk deletion failed",
           undefined,
           <>
-            <b>{count}</b> {pluralize("image", count)} could not be deleted.
+            <b>{deleteCount}</b> {pluralize("image", deleteCount)} could not be
+            deleted.
           </>,
         );
       } else {
@@ -70,32 +77,38 @@ const BulkDeleteImageBtn: FC<Props> = ({
     });
   };
 
+  const getBulkDeleteBreakdown = () => {
+    if (deleteCount === totalCount) {
+      return undefined;
+    }
+
+    const restrictedCount = totalCount - deleteCount;
+    return [
+      `${deleteCount} ${pluralize("image", deleteCount)} will be deleted.`,
+      `${restrictedCount} ${pluralize("image", restrictedCount)} that you do not have permission to delete will be ignored.`,
+    ];
+  };
+
   return (
-    <ConfirmationButton
-      loading={isLoading}
-      confirmationModalProps={{
-        title: "Confirm delete",
-        children: (
-          <p>
-            This will permanently delete{" "}
-            <b>
-              {fingerprints.length} {pluralize("image", fingerprints.length)}
-            </b>
-            .<br />
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ),
-        confirmButtonLabel: "Delete",
-        onConfirm: handleDelete,
+    <BulkDeleteButton
+      entities={images}
+      deletableEntities={deletableImages}
+      entityType="image"
+      onDelete={handleDelete}
+      disabledReason={
+        deleteCount === 0
+          ? `You do not have permission to delete the selected ${pluralize("image", deleteCount)}`
+          : undefined
+      }
+      buttonLabel={`Delete ${pluralize("image", totalCount)}`}
+      confirmationButtonProps={{
+        appearance: "",
+        disabled: isLoading || deleteCount === 0,
+        loading: isLoading,
       }}
-      appearance=""
+      bulkDeleteBreakdown={getBulkDeleteBreakdown()}
       className="u-no-margin--bottom"
-      disabled={isLoading}
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      Delete {pluralize("image", fingerprints.length)}
-    </ConfirmationButton>
+    />
   );
 };
 

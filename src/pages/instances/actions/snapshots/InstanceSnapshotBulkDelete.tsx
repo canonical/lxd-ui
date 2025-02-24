@@ -4,11 +4,10 @@ import { deleteInstanceSnapshotBulk } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
-import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import BulkDeleteButton from "components/BulkDeleteButton";
 
 interface Props {
   instance: LxdInstance;
@@ -80,34 +79,23 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
   };
 
   return (
-    <ConfirmationButton
-      loading={isLoading}
-      confirmationModalProps={{
-        title: "Confirm delete",
-        children: (
-          <p>
-            This will permanently delete <b>{count}</b>{" "}
-            {pluralize("snapshot", count)}
-            .<br />
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ),
-        confirmButtonLabel: "Delete",
-        onConfirm: handleDelete,
+    <BulkDeleteButton
+      confirmationButtonProps={{
+        loading: isLoading,
+        disabled: isLoading || !canManageInstanceSnapshots(instance),
+        appearance: "",
       }}
-      disabled={isLoading || !canManageInstanceSnapshots(instance)}
-      className={classnames({ "has-icon": isLoading })}
-      onHoverText={
+      onDelete={handleDelete}
+      entityType="snapshot"
+      entities={snapshotNames}
+      deletableEntities={snapshotNames}
+      disabledReason={
         canManageInstanceSnapshots(instance)
-          ? "Delete snapshots"
+          ? undefined
           : "You do not have permission to manage snapshots for this instance"
       }
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      {isLoading && <Icon name="spinner" />}
-      <span>Delete snapshots</span>
-    </ConfirmationButton>
+      buttonLabel={`Delete ${pluralize("snapshot", snapshotNames.length)}`}
+    />
   );
 };
 

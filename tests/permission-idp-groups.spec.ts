@@ -78,7 +78,7 @@ test("bulk delete idp groups", async ({ page, lxdVersion }) => {
     .getByRole("row", { name: `Select ${idpGroupTwo}` })
     .locator("span")
     .click();
-  await page.getByLabel("Delete IDP groups").click();
+  await page.getByRole("button", { name: "Delete 2 IDP groups" }).click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
   await page.waitForSelector(`text=2 IDP groups deleted.`);
   await deleteGroup(page, groupOne);

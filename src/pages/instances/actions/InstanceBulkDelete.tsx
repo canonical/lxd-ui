@@ -6,10 +6,10 @@ import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { deletableStatuses } from "util/instanceDelete";
 import { getPromiseSettledCounts } from "util/helpers";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import BulkDeleteButton from "components/BulkDeleteButton";
 
 interface Props {
   instances: LxdInstance[];
@@ -79,90 +79,53 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
     });
   };
 
-  const getStoppedInstances = () => {
-    if (!deleteCount) {
-      return null;
+  const getBulkDeleteBreakdown = () => {
+    if (ignoredCount + restrictedCount === 0) {
+      return undefined;
     }
 
-    return (
-      <Fragment key="stopped-instances">
-        - {deleteCount} stopped {pluralize("instance", deleteCount)} will be
-        deleted
-        <br />
-      </Fragment>
-    );
-  };
-
-  const getRestrictedInstances = () => {
-    if (!restrictedCount) {
-      return null;
+    const breakdown: string[] = [];
+    if (deleteCount) {
+      breakdown.push(
+        `${deleteCount} stopped ${pluralize("instance", deleteCount)} will be deleted`,
+      );
     }
 
-    return (
-      <Fragment key="restricted-instances">
-        - {restrictedCount} {pluralize("instance", deleteCount)} that you do not
-        have permission to delete will be ignored
-        <br />
-      </Fragment>
-    );
-  };
-
-  const getIgnoredInstances = () => {
-    if (!ignoredCount) {
-      return null;
+    if (restrictedCount) {
+      breakdown.push(
+        `${restrictedCount} ${pluralize("instance", deleteCount)} that you do not have permission to delete will be ignored`,
+      );
     }
 
-    return (
-      <Fragment key="ignored-instances">
-        - {ignoredCount} other {pluralize("instance", ignoredCount)} will be
-        ignored
-        <br />
-      </Fragment>
-    );
+    if (ignoredCount) {
+      breakdown.push(
+        `${ignoredCount} other ${pluralize("instance", ignoredCount)} will be ignored`,
+      );
+    }
+
+    return breakdown;
   };
 
   return (
     <div className="p-segmented-control bulk-actions">
       <div className="p-segmented-control__list bulk-action-frame">
-        <ConfirmationButton
-          onHoverText={
+        <BulkDeleteButton
+          entities={instances}
+          deletableEntities={deletableInstances}
+          entityType="instance"
+          onDelete={handleDelete}
+          disabledReason={
             restrictedCount === totalCount
               ? `You do not have permission to delete the selected ${pluralize("instance", instances.length)}`
-              : "Delete instances"
+              : undefined
           }
-          appearance="base"
-          className="u-no-margin--bottom has-icon"
-          loading={isLoading}
-          confirmationModalProps={{
-            title: "Confirm delete",
-            children: (
-              <p>
-                {ignoredCount + restrictedCount > 0 && (
-                  <>
-                    <b>{totalCount}</b> instances selected:
-                    <br />
-                    <br />
-                    {getStoppedInstances()}
-                    {getRestrictedInstances()}
-                    {getIgnoredInstances()}
-                    <br />
-                  </>
-                )}
-                This will permanently delete <b>{deleteCount}</b>{" "}
-                {pluralize("instance", deleteCount)}.{"\n"}This action cannot be
-                undone, and can result in data loss.
-              </p>
-            ),
-            confirmButtonLabel: "Delete",
-            onConfirm: handleDelete,
+          confirmationButtonProps={{
+            loading: isLoading,
+            appearance: "base",
           }}
-          disabled={deleteCount === 0}
-          shiftClickEnabled
-          showShiftClickHint
-        >
-          <Icon name="delete" />
-          <span>Delete</span>
-        </ConfirmationButton>
+          bulkDeleteBreakdown={getBulkDeleteBreakdown()}
+          className="u-no-margin--bottom"
+        />
       </div>
     </div>
   );
