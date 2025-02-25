@@ -277,10 +277,7 @@ const PermissionIdentities: FC = () => {
                 />
               )}
               {!!selectedIdentityIds.length && hasAccessManagementTLS && (
-                <BulkDeleteIdentitiesBtn
-                  identities={selectedIdentities}
-                  className="u-no-margin--bottom has-icon"
-                />
+                <BulkDeleteIdentitiesBtn identities={selectedIdentities} />
               )}
             </PageHeader.Left>
             <PageHeader.BaseActions>

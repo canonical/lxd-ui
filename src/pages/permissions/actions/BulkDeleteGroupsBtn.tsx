@@ -29,7 +29,6 @@ const BulkDeleteGroupsBtn: FC<Props> = ({ groups, className, onDelete }) => {
     <>
       <Button
         onClick={handleConfirmDelete}
-        aria-label="Delete groups"
         title={
           deletableGroups.length
             ? "Delete groups"

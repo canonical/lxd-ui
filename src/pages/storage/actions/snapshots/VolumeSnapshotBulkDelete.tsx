@@ -3,12 +3,11 @@ import { deleteVolumeSnapshotBulk } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
-import classnames from "classnames";
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
 import type { LxdStorageVolume } from "types/storage";
 import { useToastNotification } from "context/toastNotificationProvider";
+import BulkDeleteButton from "components/BulkDeleteButton";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -78,30 +77,18 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
   };
 
   return (
-    <ConfirmationButton
-      loading={isLoading}
-      confirmationModalProps={{
-        title: "Confirm delete",
-        children: (
-          <p>
-            This will permanently delete <b>{count}</b>{" "}
-            {pluralize("snapshot", count)}
-            .<br />
-            This action cannot be undone, and can result in data loss.
-          </p>
-        ),
-        confirmButtonLabel: "Delete",
-        onConfirm: handleDelete,
+    <BulkDeleteButton
+      confirmationButtonProps={{
+        loading: isLoading,
+        disabled: isLoading,
+        appearance: "",
       }}
-      disabled={isLoading}
-      className={classnames({ "has-icon": isLoading })}
-      onHoverText="Delete snapshots"
-      shiftClickEnabled
-      showShiftClickHint
-    >
-      {isLoading && <Icon name="spinner" />}
-      <span>Delete snapshots</span>
-    </ConfirmationButton>
+      onDelete={handleDelete}
+      entityType="snapshot"
+      entities={snapshotNames}
+      deletableEntities={snapshotNames}
+      buttonLabel={`Delete ${pluralize("snapshot", snapshotNames.length)}`}
+    />
   );
 };
 

@@ -2,7 +2,6 @@ import {
   ActionButton,
   Input,
   Modal,
-  Notification,
   useNotify,
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
@@ -39,17 +38,17 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   let hasGroupsForLoggedInUser = false;
   groups.forEach((group) => {
     if (canDeleteGroup(group)) {
+      if (group.identities?.oidc?.includes(loggedInIdentityID)) {
+        hasGroupsForLoggedInUser = true;
+      }
+
+      if (group.identities?.tls?.includes(loggedInIdentityID)) {
+        hasGroupsForLoggedInUser = true;
+      }
+
       deletableGroups.push(group);
     } else {
       restrictedGroups.push(group);
-    }
-
-    if (group.identities?.oidc?.includes(loggedInIdentityID)) {
-      hasGroupsForLoggedInUser = true;
-    }
-
-    if (group.identities?.tls?.includes(loggedInIdentityID)) {
-      hasGroupsForLoggedInUser = true;
     }
   });
 
@@ -103,45 +102,49 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
   };
 
   const getModalContent = () => {
+    const breakdown = restrictedGroups.length ? (
+      <>
+        <li className="p-list__item">
+          -{" "}
+          {`${deletableGroups.length} ${pluralize("group", deletableGroups.length)} will be deleted.`}
+        </li>
+        <li className="p-list__item">
+          -{" "}
+          {`${restrictedGroups.length} ${pluralize("group", restrictedGroups.length)} that you do not have permission to delete will be ignored.`}
+        </li>
+      </>
+    ) : null;
+
+    const deleteText = hasOneGroup ? (
+      <b>{deletableGroups[0].name}</b>
+    ) : (
+      <>
+        <b>{deletableGroups.length}</b>{" "}
+        {pluralize("group", deletableGroups.length)}
+      </>
+    );
+
     return (
       <>
-        <p>
-          Are you sure you want to permanently delete{" "}
-          <strong>
-            {hasOneGroup
-              ? deletableGroups[0].name
-              : `${deletableGroups.length} groups`}
-          </strong>
-          ?
+        {breakdown && (
+          <>
+            <p>
+              <b>{groups.length}</b> {pluralize("group", groups.length)}{" "}
+              selected:
+            </p>
+            <ul className="p-list">{breakdown}</ul>
+          </>
+        )}
+        <p className="u-no-padding--top">
+          This will permanently delete {deleteText}.{"\n"}This action cannot be
+          undone and may result in users losing access to LXD, including the
+          possibility that all users lose admin access.
         </p>
         {hasGroupsForLoggedInUser && (
           <div className="u-sv1">
             <LoggedInUserNotification isVisible={hasGroupsForLoggedInUser} />
           </div>
         )}
-        {restrictedGroups.length ? (
-          <div className="u-sv1">
-            <Notification
-              severity="information"
-              title="Restricted permissions"
-              titleElement="h2"
-              className="u-no-margin--bottom"
-            >
-              <p className="u-no-margin--bottom">
-                You do not have permission to delete the following groups:
-              </p>
-              <ul className="u-no-margin--bottom">
-                {restrictedGroups.map((group) => (
-                  <li key={group.name}>{group.name}</li>
-                ))}
-              </ul>
-            </Notification>
-          </div>
-        ) : null}
-        <p>
-          This action cannot be undone and may result in users losing access to
-          LXD, including the possibility that all users lose admin access.
-        </p>
         <p>To continue, please type the confirmation text below.</p>
         <p>
           <strong>{confirmText}</strong>
