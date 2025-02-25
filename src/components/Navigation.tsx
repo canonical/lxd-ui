@@ -12,7 +12,6 @@ import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import NavAccordion, { AccordionNavMenu } from "./NavAccordion";
 import useEventListener from "util/useEventListener";
-import { enablePermissionsFeature } from "util/permissions";
 import { Location, useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 
@@ -41,9 +40,8 @@ const Navigation: FC = () => {
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default",
   );
-  const { hasCustomVolumeIso } = useSupportedFeatures();
+  const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
-  const enablePermissions = enablePermissionsFeature();
   const [scroll, setScroll] = useState(false);
   const location = useLocation();
   const [openNavMenus, setOpenNavMenus] = useState<AccordionNavMenu[]>(() =>
@@ -352,7 +350,7 @@ const Navigation: FC = () => {
                           </NavLink>
                         </SideNavigationItem>
                       )}
-                      {enablePermissions && (
+                      {hasAccessManagement && (
                         <SideNavigationItem>
                           <NavAccordion
                             baseUrl="/ui/permissions"
