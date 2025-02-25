@@ -134,7 +134,7 @@ const ClusterSpecificInput: FC<Props> = ({
               </Fragment>
             );
           })}
-          {helpText && (
+          {helpText && !isReadOnly && (
             <div className="p-form-help-text cluster-specific-helptext">
               {helpText}
             </div>
@@ -145,7 +145,9 @@ const ClusterSpecificInput: FC<Props> = ({
         <div className="cluster-specific-value-wrapper">
           {isReadOnly ? (
             <>
-              <span className="cluster-specific-value">{firstValue}</span>
+              <span className="cluster-specific-value">
+                {firstValue === "" ? "-" : firstValue}
+              </span>
               {!disabled && (
                 <FormEditButton
                   disableReason={disableReason}

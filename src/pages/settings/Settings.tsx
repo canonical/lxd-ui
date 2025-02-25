@@ -71,12 +71,13 @@ const Settings: FC = () => {
 
   const getClusteredValue = (
     clusteredSettings: LXDSettingOnClusterMember[],
-    configKey: string,
+    configField: ConfigField,
   ): ClusterSpecificValues => {
     const settingPerClusterMember: ClusterSpecificValues = {};
 
     clusteredSettings?.forEach((item) => {
-      settingPerClusterMember[item.memberName] = item.config?.[configKey] ?? "";
+      settingPerClusterMember[item.memberName] =
+        item.config?.[configField.key] ?? configField.default ?? "";
     });
 
     return settingPerClusterMember;
@@ -133,10 +134,7 @@ const Settings: FC = () => {
       );
       const value = getValue(configField);
 
-      const clusteredValue = getClusteredValue(
-        clusteredSettings,
-        configField.key,
-      );
+      const clusteredValue = getClusteredValue(clusteredSettings, configField);
 
       const isNewCategory = lastCategory !== configField.category;
       lastCategory = configField.category;
