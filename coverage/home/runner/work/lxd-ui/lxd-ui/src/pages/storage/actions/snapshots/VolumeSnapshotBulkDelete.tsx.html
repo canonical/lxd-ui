@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.05% </span>
+                <span class="strong">18.1% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/129</span>
+                <span class='fraction'>21/116</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>1/7</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.37% </span>
+                <span class="strong">22.1% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/108</span>
+                <span class='fraction'>21/95</span>
             </div>
         
             
@@ -158,20 +158,7 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a>
-<a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a>
-<a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a>
-<a name='L109'></a><a href='#L109'>109</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -190,19 +177,6 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -284,12 +258,11 @@ import { deleteVolumeSnapshotBulk } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
-import { ConfirmationButton, Icon } from "@canonical/react-components";
-import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import { useEventQueue } from "context/eventQueue";
 import { getPromiseSettledCounts } from "util/helpers";
 import type { LxdStorageVolume } from "types/storage";
 import { useToastNotification } from "context/toastNotificationProvider";
+import BulkDeleteButton from "components/BulkDeleteButton";
 &nbsp;
 interface Props {
   volume: LxdStorageVolume;
@@ -359,30 +332,18 @@ const VolumeSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >  };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
-<span class="cstat-no" title="statement not covered" >    &lt;ConfirmationButton</span>
-<span class="cstat-no" title="statement not covered" >      loading={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >      confirmationModalProps={{</span>
-<span class="cstat-no" title="statement not covered" >        title: "Confirm delete",</span>
-<span class="cstat-no" title="statement not covered" >        children: (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            This will permanently delete &lt;b&gt;{count}&lt;/b&gt;{" "}</span>
-<span class="cstat-no" title="statement not covered" >            {pluralize("snapshot", count)}</span>
-<span class="cstat-no" title="statement not covered" >            .&lt;br /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            This action cannot be undone, and can result in data loss.</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >        ),</span>
-<span class="cstat-no" title="statement not covered" >        confirmButtonLabel: "Delete",</span>
-<span class="cstat-no" title="statement not covered" >        onConfirm: handleDelete,</span>
+<span class="cstat-no" title="statement not covered" >    &lt;BulkDeleteButton</span>
+<span class="cstat-no" title="statement not covered" >      confirmationButtonProps={{</span>
+<span class="cstat-no" title="statement not covered" >        loading: isLoading,</span>
+<span class="cstat-no" title="statement not covered" >        disabled: isLoading,</span>
+<span class="cstat-no" title="statement not covered" >        appearance: "",</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
-<span class="cstat-no" title="statement not covered" >      disabled={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >      className={classnames({ "has-icon": isLoading })}</span>
-<span class="cstat-no" title="statement not covered" >      onHoverText="Delete snapshots"</span>
-<span class="cstat-no" title="statement not covered" >      shiftClickEnabled</span>
-<span class="cstat-no" title="statement not covered" >      showShiftClickHint</span>
-<span class="cstat-no" title="statement not covered" >    &gt;</span>
-<span class="cstat-no" title="statement not covered" >      {isLoading &amp;&amp; &lt;Icon name="spinner" /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;span&gt;Delete snapshots&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ConfirmationButton&gt;</span>
+<span class="cstat-no" title="statement not covered" >      onDelete={handleDelete}</span>
+<span class="cstat-no" title="statement not covered" >      entityType="snapshot"</span>
+<span class="cstat-no" title="statement not covered" >      entities={snapshotNames}</span>
+<span class="cstat-no" title="statement not covered" >      deletableEntities={snapshotNames}</span>
+<span class="cstat-no" title="statement not covered" >      buttonLabel={`Delete ${pluralize("snapshot", snapshotNames.length)}`}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
@@ -394,7 +355,7 @@ export default VolumeSnapshotBulkDelete;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T12:12:06.353Z
+                at 2025-02-25T13:06:01.615Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

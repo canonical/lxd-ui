@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.33% </span>
+                <span class="strong">88.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>303/343</span>
+                <span class='fraction'>304/345</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.42% </span>
+                <span class="strong">44.11% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>29/70</span>
+                <span class='fraction'>30/68</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">63.15% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>12/18</span>
+                <span class='fraction'>12/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.34% </span>
+                <span class="strong">98.67% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>298/303</span>
+                <span class='fraction'>299/303</span>
             </div>
         
             
@@ -468,6 +468,7 @@
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
+<span class="cline-any cline-yes">64x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
@@ -492,7 +493,7 @@
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
@@ -590,11 +591,11 @@
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
 <span class="cline-any cline-yes">47x</span>
@@ -639,7 +640,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
@@ -770,6 +770,10 @@ const ImageList: FC = <span class="cstat-no" title="statement not covered" ><spa
     .filter(canDeleteImage)
     .map((image) =&gt; image.fingerprint);
 &nbsp;
+  const selectedImages = <span class="cstat-no" title="statement not covered" >images.filter(<span class="fstat-no" title="function not covered" >(i</span>mage) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    selectedNames.includes(image.fingerprint),</span>
+  );
+&nbsp;
   const rows = <span class="cstat-no" title="statement not covered" >filteredImages.map((image) =&gt; {</span>
     const actions = (
 <span class="cstat-no" title="statement not covered" >      &lt;List</span>
@@ -792,10 +796,7 @@ const ImageList: FC = <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       key: image.fingerprint,
-      // disable image selection if user does not have entitlement to delete
-      name: deletableImages.includes(image.fingerprint)
-        ? image.<span class="branch-0 cbranch-no" title="branch not covered" >fingerprint</span>
-<span class="cstat-no" title="statement not covered" >        : "",</span>
+      name: image.fingerprint,
       columns: [
         {
           content: description,
@@ -892,9 +893,9 @@ const ImageList: FC = <span class="cstat-no" title="statement not covered" ><spa
                 /&gt;
               &lt;/PageHeader.Search&gt;
             )}
-            {selectedNames.length &gt; 0 &amp;&amp; (
+            {selectedImages.length &gt; 0 &amp;&amp; (
               &lt;BulkDeleteImageBtn
-                fingerprints={selectedNames}
+                images={selectedImages}
                 project={project}
                 onStart={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etProcessingNames(selectedNames)}</span>
                 onFinish={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etProcessingNames([])}</span>
@@ -961,7 +962,6 @@ const ImageList: FC = <span class="cstat-no" title="statement not covered" ><spa
                 filteredNames={filteredImages.map((item) =&gt; item.fingerprint)}
                 disabledNames={processingNames}
                 rows={[]}
-                disableSelect={!deletableImages.length}
               /&gt;
             &lt;/TablePagination&gt;
           &lt;/ScrollableTable&gt;
@@ -979,7 +979,7 @@ export default ImageList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T12:12:06.353Z
+                at 2025-02-25T13:06:01.615Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
