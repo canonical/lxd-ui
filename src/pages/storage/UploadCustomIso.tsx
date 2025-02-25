@@ -1,22 +1,22 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
   ActionButton,
   Button,
+  failure,
   Input,
-  useNotify,
+  NotificationType,
+  Notification,
 } from "@canonical/react-components";
 import { createIsoStorageVolume } from "api/storage-pools";
 import { useCurrentProject } from "context/useCurrentProject";
 import Loader from "components/Loader";
-import NotificationRow from "components/NotificationRow";
 import ProgressBar from "components/ProgressBar";
 import type { UploadState } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
-import { useToastNotification } from "context/toastNotificationProvider";
 import StoragePoolSelector from "./StoragePoolSelector";
 import { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
@@ -30,8 +30,6 @@ interface Props {
 
 const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
   const eventQueue = useEventQueue();
-  const notify = useNotify();
-  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { project } = useCurrentProject();
   const [file, setFile] = useState<File | null>(null);
@@ -40,10 +38,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
   const [pool, setPool] = useState("");
   const [uploadState, setUploadState] = useState<UploadState | null>(null);
   const [uploadAbort, setUploadAbort] = useState<AbortController | null>(null);
-
-  useEffect(() => {
-    notify.clear();
-  }, []);
+  const [error, setError] = useState<NotificationType | null>(null);
 
   const projectName = project?.name ?? "";
 
@@ -56,7 +51,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     if (!file) {
       return;
     }
-    notify.clear();
+    setError(null);
     setLoading(true);
     const uploadController = new AbortController();
     setUploadAbort(uploadController);
@@ -73,7 +68,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           operation.metadata.id,
           () => onFinish(name, pool),
           (msg) =>
-            toastNotify.failure("Custom ISO upload failed", new Error(msg)),
+            setError(failure("Custom ISO upload failed", new Error(msg))),
           () => {
             setLoading(false);
             setUploadState(null);
@@ -90,7 +85,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       )
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);
-        toastNotify.failure("Custom ISO upload failed", error);
+        setError(failure("Custom ISO upload failed", error));
         setLoading(false);
         setUploadState(null);
       });
@@ -106,7 +101,17 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
 
   return (
     <>
-      {notify.notification ? <NotificationRow /> : <UploadCustomImageHint />}
+      {error ? (
+        <Notification
+          title={error.title}
+          severity="negative"
+          onDismiss={() => setError(null)}
+        >
+          {error.message}
+        </Notification>
+      ) : (
+        <UploadCustomImageHint />
+      )}
       <div
         className={classnames("custom-iso-form", {
           "u-hide": !!uploadState,
