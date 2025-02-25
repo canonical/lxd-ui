@@ -2,6 +2,7 @@ import {
   FC,
   Fragment,
   type OptionHTMLAttributes,
+  ReactNode,
   useEffect,
   useMemo,
   useState,
@@ -20,6 +21,7 @@ export interface ClusterSpecificSelectOption {
 
 interface Props {
   id: string;
+  classname?: string;
   isReadOnly: boolean;
   onChange: (value: ClusterSpecificValues) => void;
   toggleReadOnly: () => void;
@@ -29,10 +31,12 @@ interface Props {
   isDefaultSpecific?: boolean;
   clusterMemberLinkTarget?: (member: string) => string;
   disableReason?: string;
+  helpText?: string | ReactNode;
 }
 
 const ClusterSpecificSelect: FC<Props> = ({
   id,
+  classname = "u-sv3",
   isReadOnly,
   options,
   values,
@@ -42,6 +46,7 @@ const ClusterSpecificSelect: FC<Props> = ({
   isDefaultSpecific = false,
   clusterMemberLinkTarget = () => "/ui/cluster",
   disableReason,
+  helpText,
 }) => {
   const [isSpecific, setIsSpecific] = useState(isDefaultSpecific);
 
@@ -95,7 +100,7 @@ const ClusterSpecificSelect: FC<Props> = ({
   }, [isSpecific, values, firstOptionOnAllMembers]);
 
   return (
-    <div className="u-sv3">
+    <div className={classname}>
       {canToggleSpecific && !isReadOnly && (
         <CheckboxInput
           id={`${id}-same-for-all-toggle`}
@@ -157,13 +162,20 @@ const ClusterSpecificSelect: FC<Props> = ({
               </Fragment>
             );
           })}
+          {helpText && (
+            <div className="p-form-help-text cluster-specific-helptext">
+              {helpText}
+            </div>
+          )}
         </div>
       )}
       {!isSpecific && (
-        <div>
+        <div className="cluster-specific-value-wrapper">
           {isReadOnly ? (
             <>
-              {firstValue}
+              <span className="cluster-specific-value">
+                {firstValue === "" ? "-" : firstValue}
+              </span>
               <FormEditButton
                 toggleReadOnly={toggleReadOnly}
                 disableReason={disableReason}
@@ -176,6 +188,7 @@ const ClusterSpecificSelect: FC<Props> = ({
               options={allMemberOptions}
               onChange={(e) => setValueForAllMembers(e.target.value)}
               value={firstValue}
+              help={helpText}
             />
           )}
         </div>
