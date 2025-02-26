@@ -8,10 +8,7 @@ export const visitImages = async (page: Page, project: string) => {
   await expect(page.getByText("Upload image")).toBeVisible();
 };
 
-export const deleteAllImages = async (
-  page: Page,
-  project: string = "default",
-) => {
+export const deleteAllImages = async (page: Page, project = "default") => {
   await visitImages(page, project);
   await page
     .getByRole("columnheader", { name: "select" })

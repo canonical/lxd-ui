@@ -10,7 +10,7 @@ export const randomProfileName = (): string => {
 export const createProfile = async (
   page: Page,
   profile: string,
-  project: string = "default",
+  project = "default",
 ) => {
   await startProfileCreation(page, profile, project);
   await finishProfileCreation(page, profile);
@@ -19,7 +19,7 @@ export const createProfile = async (
 export const startProfileCreation = async (
   page: Page,
   profile: string,
-  project: string = "default",
+  project = "default",
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();
@@ -35,7 +35,7 @@ export const finishProfileCreation = async (page: Page, profile: string) => {
 export const deleteProfile = async (
   page: Page,
   profile: string,
-  project: string = "default",
+  project = "default",
 ) => {
   await visitProfile(page, profile, project);
   await page.getByRole("button", { name: "Delete" }).click();
@@ -49,7 +49,7 @@ export const deleteProfile = async (
 export const visitProfile = async (
   page: Page,
   profile: string,
-  project: string = "default",
+  project = "default",
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page.getByRole("link", { name: "Profiles" }).click();

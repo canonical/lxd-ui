@@ -68,5 +68,6 @@ export default [{
         "@typescript-eslint/consistent-type-imports": "error",
         "@typescript-eslint/no-confusing-void-expression": "error",
         "@typescript-eslint/promise-function-async": "error",
+        "@typescript-eslint/no-inferrable-types": "error",
     },
 }];

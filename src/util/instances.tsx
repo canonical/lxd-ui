@@ -53,10 +53,7 @@ export const instanceNameValidation = (
       message: "Instance name must start with a letter",
     });
 
-export const truncateInstanceName = (
-  name: string,
-  suffix: string = "",
-): string => {
+export const truncateInstanceName = (name: string, suffix = ""): string => {
   const instanceNameMaxLength = 63;
   if (name.length > instanceNameMaxLength - suffix.length) {
     name = name.slice(0, instanceNameMaxLength - suffix.length);
