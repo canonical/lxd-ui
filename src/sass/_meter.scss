@@ -1,27 +1,31 @@
-.p-meter {
-  background-color: #d3e4ed;
-  border-radius: 0.75rem;
-  display: flex;
-  height: 0.75rem;
-  margin-bottom: 0.375rem;
+.p-meter-container {
+  margin-left: 10px;
   width: 100%;
 
-  div {
-    background-color: #06c;
+  .p-meter {
+    background-color: #d3e4ed;
     border-radius: 0.75rem;
-    border-right: 1px solid #f7f7f7;
-    height: 100%;
-  }
+    display: flex;
+    height: 0.75rem;
+    margin-bottom: 0.375rem;
 
-  .has-next-sibling {
-    border-bottom-right-radius: 0;
-    border-right: 0;
-    border-top-right-radius: 0;
-  }
+    div {
+      background-color: #06c;
+      border-radius: 0.75rem;
+      border-right: 1px solid #f7f7f7;
+      height: 100%;
+    }
 
-  .has-previous-sibling {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    opacity: 0.3;
+    .has-next-sibling {
+      border-bottom-right-radius: 0;
+      border-right: 0;
+      border-top-right-radius: 0;
+    }
+
+    .has-previous-sibling {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+      opacity: 0.3;
+    }
   }
 }

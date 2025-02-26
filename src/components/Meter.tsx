@@ -15,7 +15,7 @@ const Meter: FC<Props> = ({
   hoverText,
 }: Props) => {
   return (
-    <>
+    <div className="p-meter-container">
       <div className="p-meter u-no-margin--bottom" title={hoverText}>
         <div
           style={{ width: `max(${percentage}%, 5px)` }}
@@ -33,7 +33,7 @@ const Meter: FC<Props> = ({
       <div className="p-text--small u-no-margin--bottom u-text--muted">
         {text}
       </div>
-    </>
+    </div>
   );
 };
 

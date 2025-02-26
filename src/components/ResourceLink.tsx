@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import ResourceIcon, { ResourceIconType } from "./ResourceIcon";
+import classNames from "classnames";
 
 interface Props {
   type: ResourceIconType;
@@ -11,7 +12,9 @@ interface Props {
 const ResourceLink: FC<Props> = ({ type, value, to }) => {
   return (
     <Link
-      className="p-chip is-inline is-dense resource-link"
+      className={classNames("p-chip is-inline is-dense resource-link", {
+        "storage-pool-table": true,
+      })}
       to={to}
       title={value}
     >

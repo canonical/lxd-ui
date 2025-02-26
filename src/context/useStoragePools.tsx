@@ -2,8 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
-import { LxdStoragePool, LXDStoragePoolOnClusterMember } from "types/storage";
 import {
+  LxdStoragePool,
+  LXDStoragePoolOnClusterMember,
+  LxdStoragePoolResources,
+} from "types/storage";
+import {
+  fetchClusteredStoragePoolResources,
   fetchPoolFromClusterMembers,
   fetchStoragePool,
   fetchStoragePools,
@@ -44,5 +49,16 @@ export const usePoolFromClusterMembers = (
     queryFn: () =>
       fetchPoolFromClusterMembers(pool, clusterMembers, isFineGrained),
     enabled: isFineGrained !== null && clusterMembers.length > 0,
+  });
+};
+
+export const useClusteredStoragePoolResources = (
+  pool: string,
+): UseQueryResult<LxdStoragePoolResources[]> => {
+  const { data: clusterMembers = [] } = useClusterMembers();
+  return useQuery({
+    queryKey: [queryKeys.storage, pool, queryKeys.cluster, queryKeys.resources],
+    queryFn: () => fetchClusteredStoragePoolResources(pool, clusterMembers),
+    enabled: clusterMembers.length > 0,
   });
 };
