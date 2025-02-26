@@ -41,7 +41,7 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
         values,
       ) as LxdInstance;
 
-      void updateInstance(instancePayload, project ?? "")
+      updateInstance(instancePayload, project ?? "")
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,

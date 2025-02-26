@@ -62,7 +62,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
     return new Promise((resolve, reject) => {
-      void fetch(file)
+      fetch(file)
         .then(handleResponse)
         .then((data: RemoteImageList) => {
           const images = Object.entries(data.products).map((product) => {

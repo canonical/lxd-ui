@@ -44,7 +44,7 @@ const InstanceSnapshotActions: FC<Props> = ({
 
   const handleDelete = () => {
     setDeleting(true);
-    void deleteInstanceSnapshot(instance, snapshot)
+    deleteInstanceSnapshot(instance, snapshot)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,
@@ -73,7 +73,7 @@ const InstanceSnapshotActions: FC<Props> = ({
 
   const handleRestore = () => {
     setRestoring(true);
-    void restoreInstanceSnapshot(instance, snapshot, restoreState)
+    restoreInstanceSnapshot(instance, snapshot, restoreState)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,

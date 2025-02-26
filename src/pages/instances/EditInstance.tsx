@@ -139,7 +139,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
       instancePayload.etag = instance.etag;
       const instanceLink = <InstanceLinkChip instance={instance} />;
 
-      void updateInstance(instancePayload, project)
+      updateInstance(instancePayload, project)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,

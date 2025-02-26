@@ -33,7 +33,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
     initialValues: getStorageVolumeEditValues(volume),
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, volume.project);
-      void updateStorageVolume(volume.pool, volume.project, {
+      updateStorageVolume(volume.pool, volume.project, {
         ...saveVolume,
         etag: volume.etag,
       })

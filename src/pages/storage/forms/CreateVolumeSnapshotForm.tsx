@@ -44,7 +44,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
-      void createVolumeSnapshot({
+      createVolumeSnapshot({
         volume,
         name: values.name,
         expiresAt,

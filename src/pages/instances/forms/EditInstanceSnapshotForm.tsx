@@ -58,7 +58,7 @@ const EditInstanceSnapshotForm: FC<Props> = ({
         } as LxdInstanceSnapshot)
       : snapshot;
     const instanceLink = <InstanceLinkChip instance={instance} />;
-    void updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
+    updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,
@@ -87,7 +87,7 @@ const EditInstanceSnapshotForm: FC<Props> = ({
     const snapshotLink = (
       <InstanceSnapshotLinkChip name={snapshot.name} instance={instance} />
     );
-    void renameInstanceSnapshot(instance, snapshot, newName)
+    renameInstanceSnapshot(instance, snapshot, newName)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,

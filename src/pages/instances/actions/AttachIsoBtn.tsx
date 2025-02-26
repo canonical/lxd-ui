@@ -46,7 +46,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       values,
     ) as LxdInstance;
     const instanceLink = <InstanceLinkChip instance={instance} />;
-    void updateInstance(instanceMinusIso, project ?? "")
+    updateInstance(instanceMinusIso, project ?? "")
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -89,7 +89,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
     const isoDevice = remoteImageToIsoDevice(image);
     values.devices.push(isoDevice);
     const instancePlusIso = getInstancePayload(instance, values) as LxdInstance;
-    void updateInstance(instancePlusIso, project ?? "")
+    updateInstance(instancePlusIso, project ?? "")
       .then((operation) => {
         const instanceLink = instanceLinkFromOperation({
           operation,

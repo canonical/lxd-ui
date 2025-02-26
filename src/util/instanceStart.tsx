@@ -35,7 +35,7 @@ export const useInstanceStart = (instance: LxdInstance) => {
       instance.status === "Frozen" ? unfreezeInstance : startInstance;
 
     const instanceLink = <InstanceLinkChip instance={instance} />;
-    void mutation(instance)
+    mutation(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

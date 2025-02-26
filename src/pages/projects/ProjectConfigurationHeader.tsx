@@ -57,7 +57,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           to={`/ui/project/${project.name}/configuration`}
         />
       );
-      void renameProject(project.name, values.name)
+      renameProject(project.name, values.name)
         .then((operation) =>
           eventQueue.set(
             operation.metadata.id,

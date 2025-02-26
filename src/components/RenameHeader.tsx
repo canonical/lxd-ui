@@ -22,7 +22,7 @@ interface Props {
   controls?: ReactNode;
   isLoaded: boolean;
   renameDisabledReason?: string;
-  formik?: FormikProps<RenameHeaderValues>;
+  formik: FormikProps<RenameHeaderValues>;
 }
 
 const RenameHeader: FC<Props> = ({

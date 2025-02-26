@@ -73,7 +73,7 @@ const CreateGroupPanel: FC = () => {
       return identity;
     });
 
-    void updateIdentities(identitiesWithGroup)
+    updateIdentities(identitiesWithGroup)
       .then(() => {
         handleSuccess(groupName);
       })

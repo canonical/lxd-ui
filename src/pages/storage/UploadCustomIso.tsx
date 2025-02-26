@@ -55,7 +55,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     setLoading(true);
     const uploadController = new AbortController();
     setUploadAbort(uploadController);
-    void createIsoStorageVolume(
+    createIsoStorageVolume(
       pool,
       file,
       name,

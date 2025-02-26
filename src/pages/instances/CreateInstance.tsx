@@ -247,7 +247,7 @@ const CreateInstance: FC = () => {
     // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
     if (shouldStart && !hasInstanceCreateStart) {
       notifyCreatedNowStarting(instanceLink);
-      void startInstance({
+      startInstance({
         name: instanceName,
         project: project,
       } as LxdInstance)

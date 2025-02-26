@@ -31,7 +31,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
-    void restartInstance(instance, isForce)
+    restartInstance(instance, isForce)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

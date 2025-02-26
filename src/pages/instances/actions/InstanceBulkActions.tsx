@@ -50,8 +50,8 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     const validInstances = instances.filter(canUpdateInstanceState);
     const actions = instanceActions(validInstances, desiredAction);
 
-    void updateInstanceBulkAction(actions, isForce, eventQueue).then(
-      (results) => {
+    updateInstanceBulkAction(actions, isForce, eventQueue)
+      .then((results) => {
         const action = instanceActionLabel(desiredAction);
         const count = actions.length;
         const { fulfilledCount, rejectedCount } =
@@ -90,8 +90,11 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         setForce(false);
         onFinish();
         setActiveAction(null);
-      },
-    );
+      })
+      .catch((e) => {
+        toastNotify.failure(`Instance ${desiredAction} failed`, e);
+        delayedClearCache();
+      });
   };
 
   const restrictedInstances = instances

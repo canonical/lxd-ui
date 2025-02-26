@@ -38,7 +38,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");
-    void stopInstance(instance, isForce)
+    stopInstance(instance, isForce)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

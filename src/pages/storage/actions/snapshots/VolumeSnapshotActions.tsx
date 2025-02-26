@@ -47,7 +47,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
     const snapshotLink = (
       <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
     );
-    void deleteVolumeSnapshot(volume, snapshot)
+    deleteVolumeSnapshot(volume, snapshot)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,
@@ -83,7 +83,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
 
   const handleRestore = () => {
     setRestoring(true);
-    void restoreVolumeSnapshot(volume, snapshot)
+    restoreVolumeSnapshot(volume, snapshot)
       .then(() => {
         toastNotify.success(
           <>

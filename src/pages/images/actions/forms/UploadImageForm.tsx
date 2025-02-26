@@ -106,7 +106,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
               (event) => {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 if (values.alias) {
-                  void createImageAlias(fingerprint, values.alias, projectName)
+                  createImageAlias(fingerprint, values.alias, projectName)
                     .then(clearCache)
                     .catch((e) => {
                       toastNotify.failure(

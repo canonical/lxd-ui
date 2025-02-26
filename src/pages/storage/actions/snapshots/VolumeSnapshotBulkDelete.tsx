@@ -32,8 +32,8 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    void deleteVolumeSnapshotBulk(volume, snapshotNames, eventQueue).then(
-      (results) => {
+    deleteVolumeSnapshotBulk(volume, snapshotNames, eventQueue)
+      .then((results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
@@ -72,8 +72,11 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
         });
         setLoading(false);
         onFinish();
-      },
-    );
+      })
+      .catch((e) => {
+        toastNotify.failure("Snapshot bulk deletion failed", e);
+        setLoading(false);
+      });
   };
 
   return (

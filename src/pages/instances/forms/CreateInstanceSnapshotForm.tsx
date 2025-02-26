@@ -60,7 +60,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
             )
           : UNDEFINED_DATE;
       const instanceLink = <InstanceLinkChip instance={instance} />;
-      void createInstanceSnapshot(
+      createInstanceSnapshot(
         instance,
         values.name,
         expiresAt,

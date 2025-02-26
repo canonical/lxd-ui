@@ -36,8 +36,8 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    void deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue).then(
-      (results) => {
+    deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue)
+      .then((results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
@@ -74,8 +74,11 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
         });
         setLoading(false);
         onFinish();
-      },
-    );
+      })
+      .catch((e) => {
+        onFailure("Snapshot bulk deletion failed", e);
+        setLoading(false);
+      });
   };
 
   return (

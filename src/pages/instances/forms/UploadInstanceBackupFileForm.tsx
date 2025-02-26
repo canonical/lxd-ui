@@ -96,7 +96,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
     const uploadController = new AbortController();
     setUploadAbort(uploadController);
 
-    void uploadInstance(
+    uploadInstance(
       values.instanceFile,
       values.name,
       project?.name,

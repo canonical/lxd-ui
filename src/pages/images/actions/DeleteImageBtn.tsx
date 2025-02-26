@@ -26,7 +26,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const handleDelete = () => {
     setLoading(true);
     const imageLabel = <ResourceLabel bold type="image" value={description} />;
-    void deleteImage(image, project)
+    deleteImage(image, project)
       .then((operation) =>
         eventQueue.set(
           operation.metadata.id,

@@ -36,7 +36,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleFreeze = () => {
     instanceLoading.setLoading(instance, "Freezing");
-    void freezeInstance(instance)
+    freezeInstance(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

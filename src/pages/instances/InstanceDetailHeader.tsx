@@ -54,7 +54,7 @@ const InstanceDetailHeader: FC<Props> = ({
         formik.setSubmitting(false);
         return;
       }
-      void renameInstance(name, values.name, project)
+      renameInstance(name, values.name, project)
         .then((operation) => {
           const instanceLink = (
             <InstanceLinkChip

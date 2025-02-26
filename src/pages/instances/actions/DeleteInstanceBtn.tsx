@@ -34,7 +34,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
     setLoading(true);
     const instanceLink = <InstanceLinkChip instance={instance} />;
 
-    void deleteInstance(instance)
+    deleteInstance(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
