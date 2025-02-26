@@ -14,10 +14,10 @@ import {
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
-import { updateStorageVolume } from "api/storage-pools";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
+import { updateStorageVolume } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;

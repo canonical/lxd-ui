@@ -62,6 +62,7 @@ export interface LxdStorageVolume {
     type: string;
     volume_only?: boolean;
   };
+  access_entitlements?: string[];
 }
 
 export interface LxdStorageVolumeState {
