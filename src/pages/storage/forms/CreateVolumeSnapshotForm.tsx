@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useNotify } from "@canonical/react-components";
@@ -9,7 +9,8 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
-import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import type { SnapshotFormValues } from "util/snapshots";
+import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { getVolumeSnapshotName } from "util/operations";

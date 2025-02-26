@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import {
   deleteInstanceSnapshot,

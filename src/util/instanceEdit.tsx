@@ -9,11 +9,11 @@ import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
 import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
 import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import * as Yup from "yup";
-import { EditProfileFormValues } from "pages/profiles/EditProfile";
+import type { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
-import { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
 import { bootPayload } from "components/forms/BootForm";
 
 const getEditValues = (

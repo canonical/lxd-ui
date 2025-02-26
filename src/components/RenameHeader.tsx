@@ -1,11 +1,11 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import {
   ActionButton,
   Button,
   Input,
   Tooltip,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import classnames from "classnames";
 
 export interface RenameHeaderValues {

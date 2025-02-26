@@ -1,12 +1,13 @@
-import { ChangeEvent, FC, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import type { NotificationType } from "@canonical/react-components";
 import {
   ActionButton,
   Button,
   failure,
   Input,
-  NotificationType,
   Notification,
 } from "@canonical/react-components";
 import { createIsoStorageVolume } from "api/storage-pools";
@@ -18,7 +19,7 @@ import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
 import StoragePoolSelector from "./StoragePoolSelector";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
 import classnames from "classnames";

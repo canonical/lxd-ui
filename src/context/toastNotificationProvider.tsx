@@ -1,22 +1,14 @@
-import {
+import type {
   NotificationAction,
   NotificationType,
   ValueOf,
-  failure,
-  info,
 } from "@canonical/react-components";
+import { failure, info } from "@canonical/react-components";
 import { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
 import ToastNotification from "components/ToastNotification";
 import ToastNotificationList from "components/ToastNotificationList";
-import {
-  FC,
-  PropsWithChildren,
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const HIDE_NOTIFICATION_DELAY = 5_000;
 

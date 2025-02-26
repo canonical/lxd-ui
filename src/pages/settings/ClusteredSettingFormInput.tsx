@@ -1,11 +1,12 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Button, Form, Icon } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import { useClusterMembers } from "context/useClusterMembers";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 interface Props {
   initialValue: ClusterSpecificValues;

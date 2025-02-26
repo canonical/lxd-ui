@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useContext } from "react";
+import type { FC, ReactNode } from "react";
+import { createContext, useContext } from "react";
 import type { LxdEvent } from "types/event";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

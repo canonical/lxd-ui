@@ -65,5 +65,6 @@ export default [{
         }],
         "react/react-in-jsx-scope": "off",
         "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/consistent-type-imports": "error",
     },
 }];

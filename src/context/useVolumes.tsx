@@ -1,15 +1,12 @@
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
 import { useSupportedFeatures } from "./useSupportedFeatures";
-import {
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import { RemoteImage } from "types/image";
+import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import type { RemoteImage } from "types/image";
 import { loadIsoVolumes, loadVolumes } from "./loadIsoVolumes";
 import { loadCustomVolumes } from "./loadCustomVolumes";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { fetchStorageVolume } from "api/storage-pools";
 
 export const useLoadVolumes = (

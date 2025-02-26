@@ -1,12 +1,13 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import { fetchClusterGroups } from "api/cluster";
-import { FormikProps } from "formik/dist/types";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { FormikProps } from "formik/dist/types";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { isClusteredServer } from "util/settings";
 
 interface Props {

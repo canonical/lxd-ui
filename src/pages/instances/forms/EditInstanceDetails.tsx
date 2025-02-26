@@ -1,8 +1,8 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Col, Input, Row, Select } from "@canonical/react-components";
 import ProfileSelector from "pages/profiles/ProfileSelector";
-import { FormikProps } from "formik/dist/types";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { FormikProps } from "formik/dist/types";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";

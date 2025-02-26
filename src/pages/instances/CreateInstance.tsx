@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -17,40 +18,33 @@ import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  Location,
-} from "react-router-dom";
+import type { Location } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
+import type { InstanceDetailsFormValues } from "pages/instances/forms/InstanceCreateDetailsForm";
 import InstanceCreateDetailsForm, {
   instanceDetailPayload,
-  InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceCreateDetailsForm";
-import {
-  FormDevice,
-  formDeviceToPayload,
-  FormDeviceValues,
-  remoteImageToIsoDevice,
-} from "util/formDevices";
+import type { FormDevice, FormDeviceValues } from "util/formDevices";
+import { formDeviceToPayload, remoteImageToIsoDevice } from "util/formDevices";
+import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm, {
-  SecurityPoliciesFormValues,
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
+import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm, {
-  SnapshotFormValues,
   snapshotsPayload,
 } from "components/forms/InstanceSnapshotsForm";
+import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm, {
-  CloudInitFormValues,
   cloudInitPayload,
 } from "components/forms/CloudInitForm";
+import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm, {
-  ResourceLimitsFormValues,
   resourceLimitsPayload,
 } from "components/forms/ResourceLimitsForm";
-import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
+import type { YamlFormValues } from "components/forms/YamlForm";
+import YamlForm from "components/forms/YamlForm";
 import InstanceFormMenu, {
   BOOT,
   CLOUD_INIT,
@@ -83,8 +77,8 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { instanceNameValidation } from "util/instances";
+import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
-  MigrationFormValues,
   migrationPayload,
 } from "components/forms/MigrationForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -95,11 +89,9 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "./InstanceLinkChip";
-import { InstanceIconType } from "components/ResourceIcon";
-import BootForm, {
-  BootFormValues,
-  bootPayload,
-} from "components/forms/BootForm";
+import type { InstanceIconType } from "components/ResourceIcon";
+import type { BootFormValues } from "components/forms/BootForm";
+import BootForm, { bootPayload } from "components/forms/BootForm";
 import { useProfiles } from "context/useProfiles";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &

@@ -1,8 +1,9 @@
-import { FC, Fragment, ReactNode, useEffect, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 interface Props {
   id: string;

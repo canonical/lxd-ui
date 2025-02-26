@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import Loader from "components/Loader";

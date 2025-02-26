@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useParams } from "react-router-dom";
 import EditProject from "pages/projects/EditProject";
 import Loader from "components/Loader";

@@ -1,19 +1,20 @@
-import { cloneElement, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { cloneElement } from "react";
 import { Button, Icon, Label, Tooltip } from "@canonical/react-components";
 import type { CpuLimit, MemoryLimit } from "types/limits";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "components/forms/instanceAndProfileFormValues";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
-import { ProjectFormValues } from "pages/projects/CreateProject";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { ProjectFormValues } from "pages/projects/CreateProject";
 import { getConfigRowMetadata } from "util/configInheritance";
-import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
 

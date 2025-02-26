@@ -1,6 +1,6 @@
-import { SortDirection } from "@canonical/react-components";
+import type { SortDirection } from "@canonical/react-components";
 import { useState } from "react";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 type Props = {
   rows: MainTableRow[];

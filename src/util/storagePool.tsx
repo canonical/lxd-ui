@@ -1,8 +1,9 @@
-import { AbortControllerState, checkDuplicateName } from "util/helpers";
-import { AnyObject, TestFunction } from "yup";
+import type { AbortControllerState } from "util/helpers";
+import { checkDuplicateName } from "util/helpers";
+import type { AnyObject, TestFunction } from "yup";
 import type { LxdConfigOptionsKeys } from "types/config";
-import { FormikProps } from "formik";
-import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { FormikProps } from "formik";
+import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { powerFlex, pureStorage } from "util/storageOptions";
 
 export const storagePoolFormFieldToPayloadName: Record<string, string> = {

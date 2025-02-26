@@ -7,10 +7,11 @@ import {
 import type { LxdImage } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import { EventQueue } from "context/eventQueue";
+import type { EventQueue } from "context/eventQueue";
 import type { LxdInstance } from "types/instance";
 import type { UploadState } from "types/storage";
-import axios, { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 const imageEntitlements = ["can_delete"];

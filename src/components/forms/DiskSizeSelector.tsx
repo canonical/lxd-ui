@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { BYTES_UNITS } from "types/limits";
 import { parseMemoryLimit } from "util/limits";

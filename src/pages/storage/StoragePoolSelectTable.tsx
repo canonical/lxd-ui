@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import ScrollableTable from "components/ScrollableTable";
 import StoragePoolSize from "pages/storage/StoragePoolSize";

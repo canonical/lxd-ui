@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   Icon,
@@ -6,8 +6,8 @@ import {
   Label,
   Select,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
 import type { LxdNetwork } from "types/network";
 
 export interface NetworkForwardPortFormValues {

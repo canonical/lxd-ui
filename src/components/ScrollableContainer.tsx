@@ -1,4 +1,5 @@
-import { DependencyList, FC, ReactNode, useEffect, useRef } from "react";
+import type { DependencyList, FC, ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import useEventListener from "util/useEventListener";
 import {
   getAbsoluteHeightBelowById,

@@ -7,7 +7,7 @@ import {
 import type { LxdOperationResponse } from "types/operation";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";
-import { EventQueue } from "context/eventQueue";
+import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
 
 export const createVolumeSnapshot = (args: {

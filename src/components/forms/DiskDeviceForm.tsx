@@ -1,6 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, useNotify } from "@canonical/react-components";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import Loader from "components/Loader";
 import { getInheritedDiskDevices } from "util/configInheritance";
 import DiskDeviceFormRoot from "./DiskDeviceFormRoot";

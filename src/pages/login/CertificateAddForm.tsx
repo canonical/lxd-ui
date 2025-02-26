@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Button, Form, Textarea, useNotify } from "@canonical/react-components";
 import { addCertificate } from "api/certificates";
 import { useSupportedFeatures } from "context/useSupportedFeatures";

@@ -1,6 +1,7 @@
 import { useNotify } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { getGroupsForIdentities } from "util/permissionIdentities";
 import useEditHistory from "util/useEditHistory";

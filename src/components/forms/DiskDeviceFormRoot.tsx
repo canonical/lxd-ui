@@ -1,9 +1,9 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import type { LxdDiskDevice } from "types/device";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedRootStorage } from "util/configInheritance";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";

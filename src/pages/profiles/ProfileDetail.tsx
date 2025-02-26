@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useParams } from "react-router-dom";
 import { Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";

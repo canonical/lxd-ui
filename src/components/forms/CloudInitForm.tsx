@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";

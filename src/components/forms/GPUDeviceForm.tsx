@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   Icon,
@@ -7,7 +7,7 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import type { LxdGPUDevice } from "types/device";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { getInheritedGPUs } from "util/configInheritance";
 import Loader from "components/Loader";
 import AttachGPUBtn from "components/forms/SelectGPUBtn";
@@ -15,7 +15,7 @@ import type { GpuCard } from "types/resources";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
 import {

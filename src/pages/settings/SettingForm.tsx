@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Icon, useNotify } from "@canonical/react-components";
 import { updateClusteredSettings, updateSettings } from "api/server";
 import type { ConfigField } from "types/config";
@@ -14,7 +15,7 @@ import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");

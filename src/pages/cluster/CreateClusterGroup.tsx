@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import ClusterGroupForm from "pages/cluster/ClusterGroupForm";
 
 const CreateClusterGroup: FC = () => {

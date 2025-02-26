@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
@@ -16,7 +17,7 @@ import {
 import classnames from "classnames";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { filterUsedByType } from "util/usedBy";
-import { ResourceType } from "util/resourceDetails";
+import type { ResourceType } from "util/resourceDetails";
 import ResourceLabel from "components/ResourceLabel";
 import { useProjectEntitlements } from "util/entitlements/projects";
 

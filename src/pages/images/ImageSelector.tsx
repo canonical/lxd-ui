@@ -1,4 +1,5 @@
-import { FC, OptionHTMLAttributes, useState } from "react";
+import type { FC, OptionHTMLAttributes } from "react";
+import { useState } from "react";
 import {
   Button,
   CheckboxInput,
@@ -13,7 +14,7 @@ import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
 import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   byLtsFirst,
   localLxdToRemoteImage,

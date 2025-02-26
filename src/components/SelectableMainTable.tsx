@@ -1,5 +1,6 @@
-import { FC, PointerEvent, useState } from "react";
-import {
+import type { FC, PointerEvent } from "react";
+import { useState } from "react";
+import type {
   MainTableRow,
   Props as MainTableProps,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";

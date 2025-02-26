@@ -1,11 +1,11 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Form, Input } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
-import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import FormLink from "components/FormLink";
 import { pluralize } from "util/instanceBulkActions";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 import { useGroupEntitlements } from "util/entitlements/groups";
 
 export interface GroupFormValues {

@@ -1,5 +1,6 @@
 import { Icon, SearchBox, useNotify } from "@canonical/react-components";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import useSortTableData from "util/useSortTableData";

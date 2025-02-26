@@ -1,6 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
-import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
+import type { MemoryLimit } from "types/limits";
+import { BYTES_UNITS, MEM_LIMIT_TYPE } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
 import { useCurrentProject } from "context/useCurrentProject";
 

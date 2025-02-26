@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
-import {
-  StorageVolumeFormValues,
-  volumeFormToPayload,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
 import { createStorageVolume } from "api/storage-pools";
 import { queryKeys } from "util/queryKeys";

@@ -1,10 +1,8 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Col, Input, Label, Row, Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import {
-  getFormProps,
-  StorageVolumeFormValues,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { FormikProps } from "formik/dist/types";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { getFormProps } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";

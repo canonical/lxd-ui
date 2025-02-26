@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import { deleteStorageVolume } from "api/storage-pools";
 import { useQueryClient } from "@tanstack/react-query";

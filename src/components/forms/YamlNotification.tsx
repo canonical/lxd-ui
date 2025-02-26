@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Notification } from "@canonical/react-components";
 import { pluralize } from "util/instanceBulkActions";
 

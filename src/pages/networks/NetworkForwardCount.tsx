@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdNetwork } from "types/network";

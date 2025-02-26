@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 
 export const useIdpGroupEntitlements = () => {
   const { isFineGrained } = useAuth();

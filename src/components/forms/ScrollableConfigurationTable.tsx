@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { useNotify } from "@canonical/react-components";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import ScrollableTable from "components/ScrollableTable";
 import ConfigurationTable from "components/ConfigurationTable";
 

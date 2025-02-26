@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import ItemName from "components/ItemName";
 import { postClusterMemberState } from "api/cluster";
 import { queryKeys } from "util/queryKeys";

@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   ActionButton,
   Button,
@@ -12,9 +13,9 @@ import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
 import { createClusterNetwork, createNetwork } from "api/networks";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkForm, {
   isNetworkFormInvalid,
-  NetworkFormValues,
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import NotificationRow from "components/NotificationRow";

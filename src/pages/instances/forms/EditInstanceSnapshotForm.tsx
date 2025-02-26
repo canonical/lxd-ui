@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,7 +16,8 @@ import {
 } from "util/helpers";
 import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
-import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import type { SnapshotFormValues } from "util/snapshots";
+import { getExpiresAt } from "util/snapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLinkChip from "../InstanceLinkChip";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";

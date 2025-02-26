@@ -1,6 +1,7 @@
-import { FC, ReactNode } from "react";
-import { MainTable, MainTableProps } from "@canonical/react-components";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { FC, ReactNode } from "react";
+import type { MainTableProps } from "@canonical/react-components";
+import { MainTable } from "@canonical/react-components";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   rows: MainTableRow[];

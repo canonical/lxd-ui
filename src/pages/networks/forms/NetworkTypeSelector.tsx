@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useDocs } from "context/useDocs";
 
 interface Props {

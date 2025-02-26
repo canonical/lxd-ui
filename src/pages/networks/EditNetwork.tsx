@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,9 +7,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
 import { updateNetwork, updateClusterNetwork } from "api/networks";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkForm, {
   isNetworkFormInvalid,
-  NetworkFormValues,
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import type { LxdNetwork } from "types/network";

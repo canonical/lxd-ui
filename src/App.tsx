@@ -1,4 +1,5 @@
-import { FC, Suspense } from "react";
+import type { FC } from "react";
+import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Loader from "components/Loader";
 import ProjectRedirect from "pages/projects/ProjectRedirect";

@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Button, Icon, Label } from "@canonical/react-components";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   id?: string;

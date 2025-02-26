@@ -1,8 +1,8 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Input, Label } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import UplinkSelector from "pages/networks/forms/UplinkSelector";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 import { ensureEditMode } from "util/instanceEdit";

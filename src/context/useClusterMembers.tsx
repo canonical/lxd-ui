@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 import { fetchClusterMembers } from "api/cluster";

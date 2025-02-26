@@ -1,5 +1,5 @@
 import { handleResponse } from "util/helpers";
-import {
+import type {
   LxdClusterGroup,
   LxdClusterMember,
   LxdClusterMemberAction,

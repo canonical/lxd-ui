@@ -1,13 +1,8 @@
-import { RefetchOptions, useQuery } from "@tanstack/react-query";
+import type { RefetchOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchAllOperations } from "api/operations";
-import {
-  FC,
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import type { FC, ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import type { LxdOperation } from "types/operation";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "context/auth";

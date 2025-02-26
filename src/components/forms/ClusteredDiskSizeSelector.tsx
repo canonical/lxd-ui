@@ -1,7 +1,8 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import type { FC } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
 import DiskSizeSelector from "./DiskSizeSelector";
 

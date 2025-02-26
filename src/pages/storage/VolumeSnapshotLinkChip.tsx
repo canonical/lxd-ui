@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import ResourceLink from "components/ResourceLink";
 import type { PartialWithRequired } from "types/partial";
 import type { LxdStorageVolume } from "types/storage";

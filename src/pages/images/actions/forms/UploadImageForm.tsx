@@ -1,4 +1,5 @@
-import { ChangeEvent, FC, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useState } from "react";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
@@ -18,7 +19,7 @@ import type { UploadState } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdSyncResponse } from "types/apiResponse";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 

@@ -1,4 +1,4 @@
-import { FC, KeyboardEvent } from "react";
+import type { FC, KeyboardEvent } from "react";
 import {
   ActionButton,
   Button,
@@ -9,8 +9,8 @@ import {
   Row,
 } from "@canonical/react-components";
 import { getTomorrow } from "util/helpers";
-import { SnapshotFormValues } from "util/snapshots";
-import { FormikProps } from "formik/dist/types";
+import type { SnapshotFormValues } from "util/snapshots";
+import type { FormikProps } from "formik/dist/types";
 
 interface Props {
   isEdit: boolean;

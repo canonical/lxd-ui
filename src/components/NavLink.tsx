@@ -1,4 +1,4 @@
-import { FC, LinkHTMLAttributes, ReactNode } from "react";
+import type { FC, LinkHTMLAttributes, ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import classnames from "classnames";
 

@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Row, Input, Select, Col } from "@canonical/react-components";
-import { FormikProps } from "formik";
+import type { FormikProps } from "formik";
 import {
   zfsDriver,
   dirDriver,
@@ -11,7 +11,7 @@ import {
   pureStorage,
   cephFSDriver,
 } from "util/storageOptions";
-import { StoragePoolFormValues } from "./StoragePoolForm";
+import type { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import {

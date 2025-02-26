@@ -1,6 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { RadioInput } from "@canonical/react-components";
-import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
+import type { CpuLimit } from "types/limits";
+import { CPU_LIMIT_TYPE } from "types/limits";
 import CpuLimitInput from "components/forms/CpuLimitInput";
 import { useCurrentProject } from "context/useCurrentProject";
 

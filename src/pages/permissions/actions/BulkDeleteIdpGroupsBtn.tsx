@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { IdpGroup } from "types/permissions";
 import { pluralize } from "util/instanceBulkActions";
 import { useDeleteIdpGroups } from "util/permissionIdpGroups";

@@ -1,4 +1,4 @@
-import { FC, FormEvent } from "react";
+import type { FC, FormEvent } from "react";
 import { Switch } from "@canonical/react-components";
 import YamlConfirmation from "components/forms/YamlConfirmation";
 import { slugify } from "util/slugify";
@@ -7,7 +7,7 @@ import {
   YAML_CONFIGURATION,
 } from "pages/instances/forms/InstanceFormMenu";
 import { usePortal } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import classnames from "classnames";
 
 interface Props {

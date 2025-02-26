@@ -1,4 +1,4 @@
-import {
+import type {
   LxdDevices,
   LxdDiskDevice,
   LxdGPUDevice,
@@ -8,7 +8,7 @@ import {
   LxdProxyDevice,
 } from "types/device";
 import type { RemoteImage } from "types/image";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 interface EmptyDevice {
   type: "";

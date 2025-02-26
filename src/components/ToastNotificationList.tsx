@@ -1,18 +1,13 @@
-import {
-  Button,
-  Icon,
-  Notification,
-  ValueOf,
-} from "@canonical/react-components";
-import {
-  DefaultTitles,
-  NotificationSeverity,
-} from "@canonical/react-components/dist/components/Notification/Notification";
-import {
+import type { ValueOf } from "@canonical/react-components";
+import { Button, Icon, Notification } from "@canonical/react-components";
+import type { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
+import { DefaultTitles } from "@canonical/react-components/dist/components/Notification/Notification";
+import type {
   GroupedNotificationCount,
   ToastNotificationType,
 } from "context/toastNotificationProvider";
-import { FC, useLayoutEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { iconLookup, severityOrder } from "util/notifications";
 import Animate from "./Animate";

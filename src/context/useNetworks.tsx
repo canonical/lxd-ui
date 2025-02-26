@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
 import {
   fetchNetwork,
@@ -8,7 +8,7 @@ import {
   fetchNetworks,
   fetchNetworksFromClusterMembers,
 } from "api/networks";
-import { LxdNetwork, LXDNetworkOnClusterMember } from "types/network";
+import type { LxdNetwork, LXDNetworkOnClusterMember } from "types/network";
 import { useClusterMembers } from "./useClusterMembers";
 
 export const useNetworks = (

@@ -5,7 +5,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";

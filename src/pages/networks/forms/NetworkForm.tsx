@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Form, Input, SearchBox, useNotify } from "@canonical/react-components";
-import {
+import type {
   LxdNetwork,
   LxdNetworkBridgeDriver,
   LxdNetworkConfig,
@@ -16,7 +17,7 @@ import NetworkFormMenu, {
   YAML_CONFIGURATION,
   DNS,
 } from "pages/networks/forms/NetworkFormMenu";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import YamlForm from "components/forms/YamlForm";
 import NetworkFormMain from "pages/networks/forms/NetworkFormMain";
 import NetworkFormBridge from "pages/networks/forms/NetworkFormBridge";
@@ -34,9 +35,9 @@ import { isClusteredServer } from "util/settings";
 import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
-import { LxdClusterMember } from "types/cluster";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { LxdClusterMember } from "types/cluster";
 
 export interface NetworkFormValues {
   readOnly: boolean;

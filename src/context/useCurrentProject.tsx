@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useContext } from "react";
+import type { FC, ReactNode } from "react";
+import { createContext, useContext } from "react";
 import type { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
 import { useProject } from "./useProjects";

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useNotify } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchResources } from "api/server";
@@ -6,7 +6,7 @@ import { queryKeys } from "util/queryKeys";
 import { humanFileSize } from "util/helpers";
 import Loader from "components/Loader";
 import { limitToBytes } from "util/limits";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 import { useServerEntitlements } from "util/entitlements/server";
 
 type Props = {

@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";

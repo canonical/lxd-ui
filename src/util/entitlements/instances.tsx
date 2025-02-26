@@ -1,5 +1,5 @@
 import { useAuth } from "context/auth";
-import { LxdInstance } from "types/instance";
+import type { LxdInstance } from "types/instance";
 import { hasEntitlement } from "./helpers";
 
 export const useInstanceEntitlements = () => {

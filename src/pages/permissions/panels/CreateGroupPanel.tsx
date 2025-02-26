@@ -1,25 +1,25 @@
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import GroupForm, { GroupFormValues } from "../forms/GroupForm";
+import type { GroupFormValues } from "../forms/GroupForm";
+import GroupForm from "../forms/GroupForm";
 import { createGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
 import NotificationRow from "components/NotificationRow";
 import ScrollableContainer from "components/ScrollableContainer";
-import EditIdentitiesForm, {
-  FormIdentity,
-} from "pages/permissions/panels/EditIdentitiesForm";
+import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
+import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
 import classnames from "classnames";
 import { updateIdentities } from "api/auth-identities";
-import EditGroupPermissionsForm, {
-  FormPermission,
-} from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
 import ResourceLink from "components/ResourceLink";
 

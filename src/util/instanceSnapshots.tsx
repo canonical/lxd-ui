@@ -1,5 +1,6 @@
 import type { LxdInstance } from "types/instance";
-import { AbortControllerState, checkDuplicateName } from "./helpers";
+import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
 

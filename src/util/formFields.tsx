@@ -1,6 +1,6 @@
 import type { LxdProfile } from "types/profile";
 import type { LxdInstance } from "types/instance";
-import { OptionHTMLAttributes } from "react";
+import type { OptionHTMLAttributes } from "react";
 import type { LxdConfigPair } from "types/config";
 import type { LxdProject } from "types/project";
 import type { LxdStorageVolume } from "types/storage";

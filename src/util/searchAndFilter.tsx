@@ -1,4 +1,4 @@
-import { SearchAndFilterChip } from "@canonical/react-components/dist/components/SearchAndFilter/types";
+import type { SearchAndFilterChip } from "@canonical/react-components/dist/components/SearchAndFilter/types";
 
 export const paramsFromSearchData = (
   searchData: SearchAndFilterChip[],

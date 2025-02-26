@@ -1,18 +1,17 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
+import type { FormDevice, FormDiskDevice } from "util/formDevices";
 import {
   deduplicateName,
-  FormDevice,
-  FormDiskDevice,
   isFormDiskDevice,
   removeDevice,
 } from "util/formDevices";
 import RenameDeviceInput from "./RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";

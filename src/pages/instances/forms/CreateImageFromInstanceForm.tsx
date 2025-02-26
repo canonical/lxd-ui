@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";

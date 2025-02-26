@@ -6,12 +6,14 @@ import {
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import GroupForm, { GroupFormValues } from "../forms/GroupForm";
+import type { GroupFormValues } from "../forms/GroupForm";
+import GroupForm from "../forms/GroupForm";
 import { renameGroup, updateGroup } from "api/auth-groups";
 import { queryKeys } from "util/queryKeys";
 import { testDuplicateGroupName } from "util/permissionGroups";
@@ -19,13 +21,11 @@ import NotificationRow from "components/NotificationRow";
 import type { LxdGroup, LxdIdentity } from "types/permissions";
 import ScrollableContainer from "components/ScrollableContainer";
 import classnames from "classnames";
-import EditIdentitiesForm, {
-  FormIdentity,
-} from "pages/permissions/panels/EditIdentitiesForm";
+import type { FormIdentity } from "pages/permissions/panels/EditIdentitiesForm";
+import EditIdentitiesForm from "pages/permissions/panels/EditIdentitiesForm";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
-import EditGroupPermissionsForm, {
-  FormPermission,
-} from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import EditGroupPermissionsForm from "pages/permissions/panels/EditGroupPermissionsForm";
 import {
   getIdentityNameLookup,
   getImageLookup,
@@ -37,7 +37,7 @@ import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotif
 import { useSettings } from "context/useSettings";
 import { pluralize } from "util/instanceBulkActions";
 import GroupHeaderTitle from "pages/permissions/panels/GroupHeaderTitle";
-import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import ResourceLink from "components/ResourceLink";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";

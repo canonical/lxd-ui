@@ -1,5 +1,5 @@
+import type { FC } from "react";
 import {
-  FC,
   Fragment,
   type OptionHTMLAttributes,
   useEffect,

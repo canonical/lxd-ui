@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
 import type { IdpGroup } from "types/permissions";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";

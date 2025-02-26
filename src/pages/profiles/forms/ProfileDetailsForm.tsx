@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Col, Input, Row } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import { CreateProfileFormValues } from "pages/profiles/CreateProfile";
+import type { FormikProps } from "formik/dist/types";
+import type { CreateProfileFormValues } from "pages/profiles/CreateProfile";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";

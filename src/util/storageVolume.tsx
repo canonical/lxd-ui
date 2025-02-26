@@ -1,11 +1,8 @@
-import {
-  AbortControllerState,
-  capitalizeFirstLetter,
-  checkDuplicateName,
-} from "./helpers";
-import { AnyObject, TestContext, TestFunction } from "yup";
+import type { AbortControllerState } from "./helpers";
+import { capitalizeFirstLetter, checkDuplicateName } from "./helpers";
+import type { AnyObject, TestContext, TestFunction } from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const testDuplicateStorageVolumeName = (
   project: string,

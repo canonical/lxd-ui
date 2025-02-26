@@ -1,4 +1,4 @@
-import { FC, KeyboardEvent } from "react";
+import type { FC, KeyboardEvent } from "react";
 import {
   ActionButton,
   Button,
@@ -9,10 +9,8 @@ import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdStorageVolume } from "types/storage";
-import {
-  StorageVolumeFormValues,
-  volumeFormToPayload,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { updateStorageVolume } from "api/storage-pools";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";

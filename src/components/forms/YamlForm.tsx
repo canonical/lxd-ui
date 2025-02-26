@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Editor, loader } from "@monaco-editor/react";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";

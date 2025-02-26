@@ -1,5 +1,5 @@
 import { expect } from "../fixtures/lxd-test";
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { gotoURL } from "./navigate";
 
 export const visitImages = async (page: Page, project: string) => {

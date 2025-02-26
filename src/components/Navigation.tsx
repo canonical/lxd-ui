@@ -1,4 +1,5 @@
-import { FC, MouseEvent, useEffect, useState } from "react";
+import type { FC, MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import { Button, Icon, SideNavigationItem } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
@@ -10,10 +11,12 @@ import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import NavAccordion, { AccordionNavMenu } from "./NavAccordion";
+import type { AccordionNavMenu } from "./NavAccordion";
+import NavAccordion from "./NavAccordion";
 import useEventListener from "util/useEventListener";
 import { enablePermissionsFeature } from "util/permissions";
-import { Location, useLocation } from "react-router-dom";
+import type { Location } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 
 const isSmallScreen = () => isWidthBelow(620);

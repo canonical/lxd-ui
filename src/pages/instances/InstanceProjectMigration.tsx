@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import ProjectSelectTable from "pages/projects/ProjectSelectTable";

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Icon, Notification, Row, Strip } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
@@ -12,7 +12,7 @@ import InstanceDetailHeader from "pages/instances/InstanceDetailHeader";
 import CustomLayout from "components/CustomLayout";
 import TabLinks from "components/TabLinks";
 import { useSettings } from "context/useSettings";
-import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
+import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useInstance } from "context/useInstances";
 
 const tabs: string[] = [

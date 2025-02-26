@@ -7,8 +7,8 @@ import type { LXDSettingOnClusterMember, LxdSettings } from "types/server";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdMetadata, LxdConfigPair } from "types/config";
 import type { LxdResources } from "types/resources";
-import { LxdClusterMember } from "types/cluster";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { LxdClusterMember } from "types/cluster";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const fetchSettings = (target?: string): Promise<LxdSettings> => {
   return new Promise((resolve, reject) => {

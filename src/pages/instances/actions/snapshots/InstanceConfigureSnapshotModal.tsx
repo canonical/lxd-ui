@@ -1,10 +1,10 @@
-import { FC, KeyboardEvent, ReactNode } from "react";
+import type { FC, KeyboardEvent, ReactNode } from "react";
 import { ActionButton, Button, Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
 import { useParams } from "react-router-dom";

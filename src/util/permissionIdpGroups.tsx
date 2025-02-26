@@ -1,5 +1,6 @@
-import { AbortControllerState, checkDuplicateName } from "./helpers";
-import * as Yup from "yup";
+import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName } from "./helpers";
+import type * as Yup from "yup";
 import { deleteIdpGroups } from "api/auth-idp-groups";
 import { useNotify } from "@canonical/react-components";
 import { useState } from "react";
@@ -8,7 +9,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { pluralize } from "util/instanceBulkActions";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 import { queryKeys } from "./queryKeys";
 
 export const testDuplicateIdpGroupName = (

@@ -1,6 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdStoragePool, LxdStorageVolume } from "types/storage";
-import { filterUsedByType, LxdUsedBy } from "util/usedBy";
+import type { LxdUsedBy } from "util/usedBy";
+import { filterUsedByType } from "util/usedBy";
 import ExpandableList from "components/ExpandableList";
 import UsedByItem from "components/UsedByItem";
 

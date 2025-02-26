@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
@@ -20,7 +21,7 @@ import { useEventQueue } from "context/eventQueue";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "../InstanceLinkChip";
-import { InstanceIconType } from "components/ResourceIcon";
+import type { InstanceIconType } from "components/ResourceIcon";
 import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";

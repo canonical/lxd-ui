@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useNotify } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";

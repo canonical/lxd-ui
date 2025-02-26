@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon, List } from "@canonical/react-components";
 import type { LxdGroup } from "types/permissions";
 import usePanelParams from "util/usePanelParams";

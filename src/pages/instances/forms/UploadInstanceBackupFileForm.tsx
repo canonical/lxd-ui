@@ -7,7 +7,8 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
@@ -17,14 +18,13 @@ import { useNavigate } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import { uploadInstance } from "api/instances";
 import { useFormik } from "formik";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import * as Yup from "yup";
 import classnames from "classnames";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import InstanceFileTypeSelector, {
-  InstanceFileType,
-} from "./InstanceFileTypeSelector";
+import type { InstanceFileType } from "./InstanceFileTypeSelector";
+import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 

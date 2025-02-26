@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
-import { LxdIdentity } from "types/permissions";
+import type { LxdIdentity } from "types/permissions";
 import { fetchIdentities, fetchIdentity } from "api/auth-identities";
 
 export const useIdentities = (): UseQueryResult<LxdIdentity[]> => {

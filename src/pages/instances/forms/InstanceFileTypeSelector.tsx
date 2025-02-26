@@ -1,5 +1,5 @@
 import { RadioInput } from "@canonical/react-components";
-import { FC } from "react";
+import type { FC } from "react";
 
 export type InstanceFileType = "instance-backup" | "external-format";
 

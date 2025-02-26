@@ -5,7 +5,8 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -16,9 +17,9 @@ import { pluralize } from "util/instanceBulkActions";
 import type { LxdGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
+import type { PermissionIdentitiesFilterType } from "../PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
-  PermissionIdentitiesFilterType,
   QUERY,
 } from "../PermissionIdentitiesFilter";
 import NotificationRow from "components/NotificationRow";

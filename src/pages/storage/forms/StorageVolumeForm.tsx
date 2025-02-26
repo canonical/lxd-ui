@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect } from "react";
 import { Col, Form, Input, Row, useNotify } from "@canonical/react-components";
 import { useParams } from "react-router-dom";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -13,14 +14,14 @@ import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
 import StorageVolumeFormBlock from "pages/storage/forms/StorageVolumeFormBlock";
 import StorageVolumeFormZFS from "pages/storage/forms/StorageVolumeFormZFS";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import {
   getFilesystemVolumeFormFields,
   getVolumeConfigKeys,
   getVolumeKey,
   getZfsVolumeFormFields,
 } from "util/storageVolume";
-import {
+import type {
   LxdStorageVolume,
   LxdStorageVolumeContentType,
   LxdStorageVolumeType,

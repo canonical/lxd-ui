@@ -1,5 +1,5 @@
 import { Icon } from "@canonical/react-components";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
 export type AccordionNavMenu = "permissions" | "storage";

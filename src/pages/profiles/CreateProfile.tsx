@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -15,24 +16,26 @@ import { checkDuplicateName } from "util/helpers";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
-import { formDeviceToPayload, FormDeviceValues } from "util/formDevices";
+import type { FormDeviceValues } from "util/formDevices";
+import { formDeviceToPayload } from "util/formDevices";
+import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm, {
-  SecurityPoliciesFormValues,
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
+import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm, {
-  SnapshotFormValues,
   snapshotsPayload,
 } from "components/forms/InstanceSnapshotsForm";
+import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm, {
-  CloudInitFormValues,
   cloudInitPayload,
 } from "components/forms/CloudInitForm";
+import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm, {
-  ResourceLimitsFormValues,
   resourceLimitsPayload,
 } from "components/forms/ResourceLimitsForm";
-import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
+import type { YamlFormValues } from "components/forms/YamlForm";
+import YamlForm from "components/forms/YamlForm";
 import { createProfile } from "api/profiles";
 import ProfileFormMenu, {
   BOOT,
@@ -48,9 +51,9 @@ import ProfileFormMenu, {
   GPU_DEVICES,
   OTHER_DEVICES,
 } from "pages/profiles/forms/ProfileFormMenu";
+import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm, {
   profileDetailPayload,
-  ProfileDetailsFormValues,
 } from "pages/profiles/forms/ProfileDetailsForm";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
@@ -62,8 +65,8 @@ import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
+import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
-  MigrationFormValues,
   migrationPayload,
 } from "components/forms/MigrationForm";
 import GPUDevicesForm from "components/forms/GPUDeviceForm";
@@ -73,10 +76,8 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ResourceLink from "components/ResourceLink";
-import BootForm, {
-  BootFormValues,
-  bootPayload,
-} from "components/forms/BootForm";
+import type { BootFormValues } from "components/forms/BootForm";
+import BootForm, { bootPayload } from "components/forms/BootForm";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &

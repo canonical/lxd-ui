@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   Icon,
@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdDeviceValue } from "types/device";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { toConfigFields } from "util/config";
@@ -18,7 +18,7 @@ import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import Loader from "components/Loader";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getInheritedOtherDevices } from "util/configInheritance";
 import {
   deviceKeyToLabel,
@@ -27,7 +27,7 @@ import {
 } from "util/devices";
 import classnames from "classnames";
 import ConfigurationTable from "components/ConfigurationTable";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
 import { ensureEditMode } from "util/instanceEdit";

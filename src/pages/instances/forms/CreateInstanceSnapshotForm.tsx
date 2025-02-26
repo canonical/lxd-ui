@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import type { LxdInstance } from "types/instance";
 import {
   getInstanceSnapshotSchema,
@@ -15,7 +16,8 @@ import {
 } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import type { SnapshotFormValues } from "util/snapshots";
+import { getExpiresAt } from "util/snapshots";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { createInstanceSnapshot } from "api/instance-snapshots";
 import { queryKeys } from "util/queryKeys";

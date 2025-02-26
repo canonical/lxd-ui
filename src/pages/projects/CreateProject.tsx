@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,31 +11,21 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { createProject } from "api/projects";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
+import type { ProjectDetailsFormValues } from "pages/projects/forms/ProjectDetailsForm";
 import {
   projectDetailPayload,
   projectDetailRestrictionPayload,
-  ProjectDetailsFormValues,
 } from "pages/projects/forms/ProjectDetailsForm";
-import {
-  ProjectResourceLimitsFormValues,
-  resourceLimitsPayload,
-} from "pages/projects/forms/ProjectResourceLimitsForm";
-import {
-  ClusterRestrictionFormValues,
-  clusterRestrictionPayload,
-} from "pages/projects/forms/ClusterRestrictionForm";
-import {
-  InstanceRestrictionFormValues,
-  instanceRestrictionPayload,
-} from "pages/projects/forms/InstanceRestrictionForm";
-import {
-  DeviceUsageRestrictionFormValues,
-  deviceUsageRestrictionPayload,
-} from "pages/projects/forms/DeviceUsageRestrictionForm";
-import {
-  NetworkRestrictionFormValues,
-  networkRestrictionPayload,
-} from "pages/projects/forms/NetworkRestrictionForm";
+import type { ProjectResourceLimitsFormValues } from "pages/projects/forms/ProjectResourceLimitsForm";
+import { resourceLimitsPayload } from "pages/projects/forms/ProjectResourceLimitsForm";
+import type { ClusterRestrictionFormValues } from "pages/projects/forms/ClusterRestrictionForm";
+import { clusterRestrictionPayload } from "pages/projects/forms/ClusterRestrictionForm";
+import type { InstanceRestrictionFormValues } from "pages/projects/forms/InstanceRestrictionForm";
+import { instanceRestrictionPayload } from "pages/projects/forms/InstanceRestrictionForm";
+import type { DeviceUsageRestrictionFormValues } from "pages/projects/forms/DeviceUsageRestrictionForm";
+import { deviceUsageRestrictionPayload } from "pages/projects/forms/DeviceUsageRestrictionForm";
+import type { NetworkRestrictionFormValues } from "pages/projects/forms/NetworkRestrictionForm";
+import { networkRestrictionPayload } from "pages/projects/forms/NetworkRestrictionForm";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import BaseLayout from "components/BaseLayout";
 import FormFooterLayout from "components/forms/FormFooterLayout";

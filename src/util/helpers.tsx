@@ -4,11 +4,11 @@ import type { LxdProject } from "types/project";
 import type { LxdProfile } from "types/profile";
 import type { LxdNetwork } from "types/network";
 import type { LxdStorageVolume } from "types/storage";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
 import { isDiskDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
-import { FormDevice } from "./formDevices";
+import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";

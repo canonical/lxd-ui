@@ -1,4 +1,5 @@
-import { FC, KeyboardEvent, useState } from "react";
+import type { FC, KeyboardEvent } from "react";
+import { useState } from "react";
 import { ActionButton, Button, Modal } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
 import StoragePoolSelectTable from "./StoragePoolSelectTable";

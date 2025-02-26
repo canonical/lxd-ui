@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NotificationRow from "components/NotificationRow";
 import EditNetwork from "pages/networks/EditNetwork";

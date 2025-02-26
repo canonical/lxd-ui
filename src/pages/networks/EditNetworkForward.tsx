@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
+import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
 import NetworkForwardForm, {
-  NetworkForwardFormValues,
   NetworkForwardSchema,
   toNetworkForward,
 } from "pages/networks/forms/NetworkForwardForm";

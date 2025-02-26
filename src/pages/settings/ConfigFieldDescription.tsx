@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useDocs } from "context/useDocs";
 import { configDescriptionToHtml } from "util/config";
 import { useQuery } from "@tanstack/react-query";

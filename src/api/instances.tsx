@@ -10,8 +10,9 @@ import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import { EventQueue } from "context/eventQueue";
-import axios, { AxiosResponse } from "axios";
+import type { EventQueue } from "context/eventQueue";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import type { UploadState } from "types/storage";
 import { withEntitlementsQuery } from "util/entitlements/api";
 

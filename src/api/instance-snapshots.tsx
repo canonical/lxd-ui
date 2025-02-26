@@ -6,7 +6,7 @@ import {
 } from "util/helpers";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
-import { EventQueue } from "context/eventQueue";
+import type { EventQueue } from "context/eventQueue";
 
 export const createInstanceSnapshot = (
   instance: LxdInstance,

@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";

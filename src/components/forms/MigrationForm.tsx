@@ -1,6 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Select } from "@canonical/react-components";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";
@@ -12,7 +12,7 @@ import {
   clusterEvacuationOptions,
   optionAllowDeny,
 } from "util/instanceOptions";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 
 export interface MigrationFormValues {
   migration_stateful?: string;

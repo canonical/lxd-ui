@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import ResourceLink from "components/ResourceLink";
-import { InstanceIconType } from "components/ResourceIcon";
+import type { InstanceIconType } from "components/ResourceIcon";
 
 interface Props {
   instance: Partial<Omit<LxdInstance, "type">> & {

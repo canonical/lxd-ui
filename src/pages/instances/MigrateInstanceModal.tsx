@@ -1,4 +1,5 @@
-import { FC, KeyboardEvent, useState } from "react";
+import type { FC, KeyboardEvent } from "react";
+import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useSettings } from "context/useSettings";
@@ -7,7 +8,8 @@ import FormLink from "components/FormLink";
 import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
 import BackLink from "components/BackLink";
 import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
-import { MigrationType, useInstanceMigration } from "util/instanceMigration";
+import type { MigrationType } from "util/instanceMigration";
+import { useInstanceMigration } from "util/instanceMigration";
 import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
 
 interface Props {

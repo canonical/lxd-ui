@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { Button } from "@canonical/react-components";
 

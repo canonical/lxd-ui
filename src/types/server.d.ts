@@ -1,4 +1,4 @@
-import { LxdConfigPair } from "./config";
+import type { LxdConfigPair } from "./config";
 
 type LXDAuthMethods = "tls" | "oidc" | "unix";
 

@@ -1,10 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import Navigation from "components/Navigation";
-import {
-  Application,
-  QueuedNotification,
-  SkipLink,
-} from "@canonical/react-components";
+import type { QueuedNotification } from "@canonical/react-components";
+import { Application, SkipLink } from "@canonical/react-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "context/auth";
 import { EventQueueProvider } from "context/eventQueue";

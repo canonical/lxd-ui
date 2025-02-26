@@ -1,6 +1,7 @@
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Input, Modal } from "@canonical/react-components";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import type { LxdDiskDevice } from "types/device";
 import { focusField } from "util/formFields";
 

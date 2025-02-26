@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Col,
@@ -11,16 +12,15 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import * as Yup from "yup";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { testValidIp, testValidPort } from "util/networks";
 import NotificationRow from "components/NotificationRow";
-import NetworkForwardFormPorts, {
-  NetworkForwardPortFormValues,
-} from "pages/networks/forms/NetworkForwardFormPorts";
+import type { NetworkForwardPortFormValues } from "pages/networks/forms/NetworkForwardFormPorts";
+import NetworkForwardFormPorts from "pages/networks/forms/NetworkForwardFormPorts";
 import ScrollableForm from "components/ScrollableForm";
 import { focusField } from "util/formFields";
 

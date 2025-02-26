@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,8 +6,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { updateStorageVolume } from "api/storage-pools";
 import { useNavigate, useParams } from "react-router-dom";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm, {
-  StorageVolumeFormValues,
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import type { LxdStorageVolume } from "types/storage";

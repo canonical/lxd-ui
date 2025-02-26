@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { UploadState } from "types/storage";
 import ProgressBar from "components/ProgressBar";
@@ -6,7 +7,7 @@ import { humanFileSize } from "util/helpers";
 import UploadInstanceBackupFileForm from "./UploadInstanceBackupFileForm";
 import UploadExternalFormatFileForm from "./UploadExternalFormatFileForm";
 import NotificationRow from "components/NotificationRow";
-import { InstanceFileType } from "./InstanceFileTypeSelector";
+import type { InstanceFileType } from "./InstanceFileTypeSelector";
 interface Props {
   close: () => void;
   name?: string;

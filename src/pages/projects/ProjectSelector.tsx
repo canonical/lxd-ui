@@ -1,4 +1,5 @@
-import { FC, useRef } from "react";
+import type { FC } from "react";
+import { useRef } from "react";
 import {
   Button,
   ContextualMenu,

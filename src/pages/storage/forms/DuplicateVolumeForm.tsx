@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {

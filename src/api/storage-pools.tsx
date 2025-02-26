@@ -4,7 +4,7 @@ import {
   handleResponse,
   handleSettledResult,
 } from "util/helpers";
-import {
+import type {
   LxdStoragePool,
   LXDStoragePoolOnClusterMember,
   LxdStoragePoolResources,
@@ -14,9 +14,10 @@ import {
 } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import axios, { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import type { LxdClusterMember } from "types/cluster";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 export const storagePoolEntitlements = ["can_edit", "can_delete"];

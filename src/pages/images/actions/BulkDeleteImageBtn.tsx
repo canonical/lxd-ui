@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteImageBulk } from "api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -8,7 +9,7 @@ import { pluralize } from "util/instanceBulkActions";
 import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useImageEntitlements } from "util/entitlements/images";
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 
 interface Props {
   images: LxdImage[];

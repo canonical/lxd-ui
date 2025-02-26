@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   CheckboxInput,
   Col,
@@ -8,7 +9,7 @@ import {
   Select,
   Tooltip,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
 import { isProjectEmpty } from "util/projects";
 import type { LxdProject } from "types/project";

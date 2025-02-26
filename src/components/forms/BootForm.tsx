@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { optionYesNo } from "util/instanceOptions";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   Col,
@@ -16,8 +16,8 @@ import {
   LOCAL_ISO,
 } from "util/images";
 import { instanceCreationTypes } from "util/instanceOptions";
-import { FormikProps } from "formik/dist/types";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { FormikProps } from "formik/dist/types";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import type { LxdImageType, RemoteImage } from "types/image";
 import InstanceLocationSelect from "pages/instances/forms/InstanceLocationSelect";
 import UseCustomIsoBtn from "pages/images/actions/UseCustomIsoBtn";
@@ -25,7 +25,7 @@ import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import UploadInstanceFileBtn from "../actions/UploadInstanceFileBtn";
-import { InstanceIconType } from "components/ResourceIcon";
+import type { InstanceIconType } from "components/ResourceIcon";
 
 export interface InstanceDetailsFormValues {
   name?: string;

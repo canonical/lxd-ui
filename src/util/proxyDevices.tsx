@@ -3,8 +3,8 @@ import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { LxdProxyDevice } from "types/device";
 import { ensureEditMode } from "./instanceEdit";
 import { proxyAddressTypeOptions } from "./instanceOptions";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 type ConnectionType = "listen" | "connect";
 

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";

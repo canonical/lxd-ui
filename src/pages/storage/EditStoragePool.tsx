@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { updateClusteredPool, updatePool } from "api/storage-pools";
@@ -7,10 +8,8 @@ import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
-import StoragePoolForm, {
-  toStoragePool,
-  StoragePoolFormValues,
-} from "./forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "./forms/StoragePoolForm";
+import StoragePoolForm, { toStoragePool } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";

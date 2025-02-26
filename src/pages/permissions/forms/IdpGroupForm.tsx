@@ -1,6 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Form, Input } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 
 export interface IdpGroupFormValues {
   name: string;

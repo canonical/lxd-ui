@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { fetchStoragePoolResources } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";

@@ -1,5 +1,5 @@
-import { LxdConfigPair } from "./config";
-import { LxdDevices } from "./device";
+import type { LxdConfigPair } from "./config";
+import type { LxdDevices } from "./device";
 
 interface LxdInstanceUsageProp {
   usage: number;

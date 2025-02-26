@@ -1,5 +1,6 @@
 import { ConfirmationModal, useNotify } from "@canonical/react-components";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdIdentity } from "types/permissions";
 import {
   generateGroupAllocationsForIdentities,
