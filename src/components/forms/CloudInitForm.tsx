@@ -66,13 +66,13 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             config={value ?? ""}
             setConfig={(config) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(name, config);
+              formik.setFieldValue(name, config);
             }}
           />
           <Button
             onClick={() => {
               ensureEditMode(formik);
-              void formik.setFieldValue(name, undefined);
+              formik.setFieldValue(name, undefined);
             }}
             type="button"
             appearance="base"
@@ -88,7 +88,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
         <Button
           onClick={() => {
             ensureEditMode(formik);
-            void formik.setFieldValue(name, "\n\n");
+            formik.setFieldValue(name, "\n\n");
           }}
           className="u-no-margin--bottom"
           type="button"

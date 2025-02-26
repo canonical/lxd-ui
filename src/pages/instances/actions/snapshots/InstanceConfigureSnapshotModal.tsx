@@ -82,7 +82,7 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
             <Button
               className="u-no-margin--bottom"
               type="button"
-              onClick={() => void formik.setFieldValue("readOnly", false)}
+              onClick={() => formik.setFieldValue("readOnly", false)}
             >
               Edit configuration
             </Button>

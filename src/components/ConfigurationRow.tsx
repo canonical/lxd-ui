@@ -63,12 +63,12 @@ export const getConfigurationRow = ({
   const metadata = getConfigRowMetadata(formik.values, name);
 
   const enableOverride = () => {
-    void formik.setFieldValue(name, defaultValue);
+    formik.setFieldValue(name, defaultValue);
   };
 
   const toggleDefault = () => {
     if (isOverridden) {
-      void formik.setFieldValue(name, undefined);
+      formik.setFieldValue(name, undefined);
     } else {
       enableOverride();
       focusField(name);

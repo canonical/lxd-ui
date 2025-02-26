@@ -44,7 +44,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
 
   const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      void formik.setFieldValue("fileList", e.target.files);
+      formik.setFieldValue("fileList", e.target.files);
     }
   };
 

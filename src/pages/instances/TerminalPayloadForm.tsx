@@ -43,13 +43,13 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
   const addEnvironmentRow = () => {
     const copy = [...formik.values.environment];
     copy.push({ key: "", value: "" });
-    void formik.setFieldValue("environment", copy);
+    formik.setFieldValue("environment", copy);
   };
 
   const removeEnvironmentRow = (index: number) => {
     const copy = [...formik.values.environment];
     copy.splice(index, 1);
-    void formik.setFieldValue("environment", copy);
+    formik.setFieldValue("environment", copy);
   };
 
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {

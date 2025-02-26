@@ -42,7 +42,7 @@ export const getProxyAddress = (
           onChange={(e) => {
             ensureEditMode(formik);
             const newType = e.target.value;
-            void formik.setFieldValue(
+            formik.setFieldValue(
               `devices.${index}.${connectionType}`,
               `${newType}:${deviceAddress}:${devicePort}`,
             );
@@ -54,7 +54,7 @@ export const getProxyAddress = (
               const connectPort =
                 connectParts.length > 2 ? connectParts[2] : "";
 
-              void formik.setFieldValue(
+              formik.setFieldValue(
                 `devices.${index}.connect`,
                 `${newType}:${connectAddress}:${connectPort}`,
               );
@@ -102,7 +102,7 @@ export const getProxyAddress = (
             onChange={(e) => {
               ensureEditMode(formik);
               const socketPath = e.target.value;
-              void formik.setFieldValue(
+              formik.setFieldValue(
                 `devices.${index}.${connectionType}`,
                 `unix:${socketPath}`,
               );
@@ -120,7 +120,7 @@ export const getProxyAddress = (
             onChange={(e) => {
               ensureEditMode(formik);
               const newAddress = e.target.value;
-              void formik.setFieldValue(
+              formik.setFieldValue(
                 `devices.${index}.${connectionType}`,
                 `${deviceType}:${newAddress}:${devicePort}`,
               );
@@ -153,7 +153,7 @@ export const getProxyAddress = (
             onChange={(e) => {
               ensureEditMode(formik);
               const newPort = e.target.value;
-              void formik.setFieldValue(
+              formik.setFieldValue(
                 `devices.${index}.${connectionType}`,
                 `${deviceType}:${deviceAddress}:${newPort}`,
               );

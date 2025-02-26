@@ -37,7 +37,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -51,7 +51,7 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
               <ResourceLink type="pool" value={values.name} to={url} />.
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);

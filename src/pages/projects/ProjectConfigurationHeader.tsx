@@ -46,7 +46,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (project.name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -70,7 +70,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
                   <ResourceLink type="project" value={values.name} to={url} />.
                 </>,
               );
-              void formik.setFieldValue("isRenaming", false);
+              formik.setFieldValue("isRenaming", false);
             },
             (msg) =>
               toastNotify.failure(

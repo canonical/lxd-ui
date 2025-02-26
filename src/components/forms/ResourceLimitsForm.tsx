@@ -61,7 +61,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
             <CpuLimitSelector
               cpuLimit={formik.values.limits_cpu}
               setCpuLimit={(cpuLimit) => {
-                void formik.setFieldValue("limits_cpu", cpuLimit);
+                formik.setFieldValue("limits_cpu", cpuLimit);
               }}
             />
           ),

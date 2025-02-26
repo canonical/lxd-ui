@@ -136,6 +136,6 @@ export const InstanceEditSchema: Yup.ObjectSchema<{
 
 export const ensureEditMode = (formik: ConfigurationRowFormikProps) => {
   if (formik.values.readOnly) {
-    void formik.setFieldValue("readOnly", false);
+    formik.setFieldValue("readOnly", false);
   }
 };

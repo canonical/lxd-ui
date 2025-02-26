@@ -170,7 +170,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   const updateSection = (newSection: string) => {
     if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
-      void formik.setFieldValue("yaml", undefined);
+      formik.setFieldValue("yaml", undefined);
     }
 
     const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
@@ -270,7 +270,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
                 yaml={getYaml()}
                 setYaml={(yaml) => {
                   ensureEditMode(formik);
-                  void formik.setFieldValue("yaml", yaml);
+                  formik.setFieldValue("yaml", yaml);
                 }}
                 readOnly={!!formik.values.editRestriction}
                 readOnlyMessage={formik.values.editRestriction}

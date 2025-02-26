@@ -176,7 +176,7 @@ const CreateProfile: FC = () => {
 
   const updateSection = (newItem: string) => {
     if (Boolean(formik.values.yaml) && newItem !== YAML_CONFIGURATION) {
-      void formik.setFieldValue("yaml", undefined);
+      formik.setFieldValue("yaml", undefined);
     }
     setSection(newItem);
   };

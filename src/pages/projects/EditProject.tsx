@@ -87,7 +87,7 @@ const EditProject: FC<Props> = ({ project }) => {
               updated.
             </>,
           );
-          void formik.setFieldValue("readOnly", true);
+          formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("Project update failed", e);

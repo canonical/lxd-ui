@@ -50,7 +50,7 @@ const InstanceDetailHeader: FC<Props> = ({
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -76,7 +76,7 @@ const InstanceDetailHeader: FC<Props> = ({
                   to {instanceLink}.
                 </>,
               );
-              void formik.setFieldValue("isRenaming", false);
+              formik.setFieldValue("isRenaming", false);
             },
             (msg) =>
               toastNotify.failure(

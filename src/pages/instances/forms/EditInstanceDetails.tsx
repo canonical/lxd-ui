@@ -85,7 +85,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         selected={formik.values.profiles}
         setSelected={(value) => {
           ensureEditMode(formik);
-          void formik.setFieldValue("profiles", value);
+          formik.setFieldValue("profiles", value);
         }}
         disabledReason={formik.values.editRestriction}
         initialProfiles={formik.initialValues.profiles}

@@ -46,7 +46,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -60,7 +60,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
               <ResourceLink type="network" value={values.name} to={url} />.
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);

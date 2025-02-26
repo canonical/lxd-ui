@@ -65,7 +65,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   const removeNetwork = (index: number) => {
     const copy = [...formik.values.devices];
     copy.splice(index, 1);
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
@@ -77,7 +77,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
       name: deduplicateName("eth", 1, existingDeviceNames),
       network: managedNetworks[0]?.name ?? "",
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
 
     focusNetwork(copy.length - 1);
   };

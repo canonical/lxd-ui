@@ -81,7 +81,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
       type: "usb",
       name: deduplicateName("custom-device", 1, existingDeviceNames),
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   if (isProfileLoading || isConfigOptionsLoading) {
@@ -187,7 +187,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             index={index}
             setName={(name) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.name`, name);
+              formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
           />
@@ -226,7 +226,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             onBlur={formik.handleBlur}
             onChange={(e) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}`, {
+              formik.setFieldValue(`devices.${index}`, {
                 type: e.target.value,
                 name: device.name,
               });

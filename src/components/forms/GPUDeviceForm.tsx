@@ -65,7 +65,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       id: card.pci_address === undefined ? drmId : undefined,
       name: deduplicateName("gpu", 1, existingDeviceNames),
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   const hasCustomGPU = formik.values.devices.some(
@@ -160,7 +160,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             index={index}
             setName={(name) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.name`, name);
+              formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
           />
@@ -209,8 +209,8 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             device={device}
             onChange={(pci, id) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.pci`, pci);
-              void formik.setFieldValue(`devices.${index}.id`, id);
+              formik.setFieldValue(`devices.${index}.pci`, pci);
+              formik.setFieldValue(`devices.${index}.id`, id);
             }}
             disableReason={formik.values.editRestriction}
           />

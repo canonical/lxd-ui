@@ -115,7 +115,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
                     family="IPv4"
                     address={formik.values.ipv4_address}
                     setAddress={(value) => {
-                      void formik.setFieldValue("ipv4_address", value);
+                      formik.setFieldValue("ipv4_address", value);
 
                       if (value === "none") {
                         const nullFields = [
@@ -147,7 +147,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
                     family="IPv6"
                     address={formik.values.ipv6_address}
                     setAddress={(value) => {
-                      void formik.setFieldValue("ipv6_address", value);
+                      formik.setFieldValue("ipv6_address", value);
 
                       if (value === "none") {
                         const nullFields = [

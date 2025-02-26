@@ -49,7 +49,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (volume.name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -63,7 +63,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
               <ResourceLink type="volume" value={values.name} to={url} />.
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);

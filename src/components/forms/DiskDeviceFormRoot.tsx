@@ -45,7 +45,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
       path: "/",
       pool: inheritValue ? inheritValue.pool : (pools[0]?.name ?? undefined),
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   return (

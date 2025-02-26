@@ -162,7 +162,7 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
     }
     for (const field of invalidFields) {
       if (formik.values[field] !== undefined) {
-        void formik.setFieldValue(field, undefined);
+        formik.setFieldValue(field, undefined);
       }
     }
   }

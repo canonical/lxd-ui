@@ -51,7 +51,7 @@ const ProfileDetailHeader: FC<Props> = ({
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -69,7 +69,7 @@ const ProfileDetailHeader: FC<Props> = ({
               .
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);

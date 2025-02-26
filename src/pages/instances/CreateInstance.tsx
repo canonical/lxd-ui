@@ -370,7 +370,7 @@ const CreateInstance: FC = () => {
       );
 
       if (!hasDefaultProfileAccess) {
-        void formik.setFieldValue("profiles", []);
+        formik.setFieldValue("profiles", []);
       }
     }
   }, [isProfileLoading, profiles]);
@@ -378,7 +378,7 @@ const CreateInstance: FC = () => {
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 
   const handleSelectImage = (image: RemoteImage, type?: LxdImageType) => {
-    void formik.setFieldValue("image", image);
+    formik.setFieldValue("image", image);
 
     const devices: FormDevice[] = formik.values.devices.filter(
       (item) => item.type !== "iso-volume",
@@ -387,14 +387,14 @@ const CreateInstance: FC = () => {
       const isoDevice = remoteImageToIsoDevice(image);
       devices.push(isoDevice);
     }
-    void formik.setFieldValue("devices", devices);
+    formik.setFieldValue("devices", devices);
 
     if (type) {
-      void formik.setFieldValue("instanceType", type);
+      formik.setFieldValue("instanceType", type);
     } else if (isVmOnlyImage(image)) {
-      void formik.setFieldValue("instanceType", "virtual-machine");
+      formik.setFieldValue("instanceType", "virtual-machine");
     } else if (isContainerOnlyImage(image)) {
-      void formik.setFieldValue("instanceType", "container");
+      formik.setFieldValue("instanceType", "container");
     }
   };
 
@@ -428,7 +428,7 @@ const CreateInstance: FC = () => {
 
   const updateSection = (newItem: string) => {
     if (Boolean(formik.values.yaml) && newItem !== YAML_CONFIGURATION) {
-      void formik.setFieldValue("yaml", undefined);
+      formik.setFieldValue("yaml", undefined);
     }
     setSection(newItem);
   };

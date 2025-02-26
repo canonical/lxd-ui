@@ -85,7 +85,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
   useEventListener("resize", updateFormHeight);
 
   const addPort = () => {
-    void formik.setFieldValue("ports", [
+    formik.setFieldValue("ports", [
       ...formik.values.ports,
       {
         protocol: "tcp",
@@ -139,7 +139,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                         label="Auto-assign IPv4 address"
                         checked={formik.values.listenAddress === "0.0.0.0"}
                         onChange={() => {
-                          void formik.setFieldValue("listenAddress", "0.0.0.0");
+                          formik.setFieldValue("listenAddress", "0.0.0.0");
                         }}
                       />
                     )}
@@ -148,7 +148,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                         label="Auto-assign IPv6 address"
                         checked={formik.values.listenAddress === "::"}
                         onChange={() => {
-                          void formik.setFieldValue("listenAddress", "::");
+                          formik.setFieldValue("listenAddress", "::");
                         }}
                       />
                     )}
@@ -156,7 +156,7 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
                       label="Manually enter address"
                       checked={isManualListenAddress}
                       onChange={() => {
-                        void formik.setFieldValue("listenAddress", "");
+                        formik.setFieldValue("listenAddress", "");
                       }}
                     />
                   </>
