@@ -53,7 +53,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
-              void queryClient.invalidateQueries({
+              queryClient.invalidateQueries({
                 predicate: (query) =>
                   query.queryKey[0] === queryKeys.volumes ||
                   query.queryKey[0] === queryKeys.storage,

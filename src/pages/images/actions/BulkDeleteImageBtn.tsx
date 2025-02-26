@@ -70,7 +70,7 @@ const BulkDeleteImageBtn: FC<Props> = ({
             </>,
           );
         }
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.images,
         });
         setLoading(false);

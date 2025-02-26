@@ -60,7 +60,7 @@ const MigrateVolumeBtn: FC<Props> = ({
     );
 
     if (window.location.pathname.startsWith(oldVolumeUrl)) {
-      void navigate(newVolumeUrl);
+      navigate(newVolumeUrl);
     }
   };
 
@@ -90,7 +90,7 @@ const MigrateVolumeBtn: FC<Props> = ({
   };
 
   const handleFinish = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.storage, storageVolume.name],
     });
     setVolumeLoading(false);
@@ -121,7 +121,7 @@ const MigrateVolumeBtn: FC<Props> = ({
             Migration started for volume {volume} to pool {pool}
           </>,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.storage, storageVolume.name, project],
         });
         handleClose();

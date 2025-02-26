@@ -53,7 +53,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       renameNetwork(name, values.name, project)
         .then(() => {
           const url = `/ui/project/${project}/network/${values.name}`;
-          void navigate(url);
+          navigate(url);
           toastNotify.success(
             <>
               Network <strong>{name}</strong> renamed to{" "}

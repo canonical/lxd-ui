@@ -37,7 +37,7 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
         uploaded successfully.
       </>,
     );
-    void queryClient.invalidateQueries({ queryKey: [queryKeys.isoVolumes] });
+    queryClient.invalidateQueries({ queryKey: [queryKeys.isoVolumes] });
     closePortal();
   };
 

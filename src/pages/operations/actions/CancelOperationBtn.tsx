@@ -28,7 +28,7 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
       })
       .finally(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: project
             ? [queryKeys.operations, project]
             : [queryKeys.operations],

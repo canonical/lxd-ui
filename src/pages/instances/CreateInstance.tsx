@@ -148,13 +148,13 @@ const CreateInstance: FC = () => {
   useEventListener("resize", updateFormHeight);
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.operations, project],
     });
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.projects, project],
     });
   };
@@ -297,7 +297,7 @@ const CreateInstance: FC = () => {
     }
 
     const formUrl = location.pathname + location.search;
-    void navigate(`/ui/project/${project}/instances`);
+    navigate(`/ui/project/${project}/instances`);
 
     // NOTE: for lxd version that has the instance_create_start api extension
     // we can create and start the instance in one go by setting the 'start' property to true
@@ -538,7 +538,7 @@ const CreateInstance: FC = () => {
         <Button
           appearance="base"
           onClick={() =>
-            void navigate(
+            navigate(
               location.state?.cancelLocation ??
                 `/ui/project/${project}/instances`,
             )

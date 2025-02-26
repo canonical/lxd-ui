@@ -66,7 +66,7 @@ export const useDeleteIdpGroups = (idpGroups: IdpGroup[]) => {
 
     deleteIdpGroups(deletableGroups.map((group) => group.name))
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
         toastNotify.success(successMessage);

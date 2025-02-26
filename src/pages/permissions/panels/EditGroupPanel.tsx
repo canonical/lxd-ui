@@ -199,7 +199,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       })
       .finally(() => {
         formik.setSubmitting(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.authGroups],
         });
       });

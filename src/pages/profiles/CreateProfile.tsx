@@ -131,7 +131,7 @@ const CreateProfile: FC = () => {
 
       createProfile(JSON.stringify(profilePayload), project)
         .then(() => {
-          void navigate(`/ui/project/${project}/profiles`);
+          navigate(`/ui/project/${project}/profiles`);
           toastNotify.success(
             <>
               Profile{" "}
@@ -149,10 +149,10 @@ const CreateProfile: FC = () => {
           notify.failure("Profile creation failed", e);
         })
         .finally(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project],
           });
         });

@@ -28,7 +28,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
     setDeleting(true);
     deleteIdentity(identity)
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => {
             return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,

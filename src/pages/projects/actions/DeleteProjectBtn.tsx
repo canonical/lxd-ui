@@ -104,7 +104,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     setLoading(true);
     deleteProject(project)
       .then(() => {
-        void navigate(`/ui/project/default/instances`);
+        navigate(`/ui/project/default/instances`);
         toastNotify.success(
           <>
             Project <ResourceLabel bold type="project" value={project.name} />{" "}
@@ -117,7 +117,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         notify.failure("Project deletion failed", e);
       })
       .finally(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.projects],
         });
       });

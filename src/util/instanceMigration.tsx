@@ -82,7 +82,7 @@ export const useInstanceMigration = ({
         `/project/${target}/instance/${instance.name}`,
       );
       if (oldUrl !== newUrl) {
-        void navigate(newUrl);
+        navigate(newUrl);
       }
     }
 
@@ -116,7 +116,7 @@ export const useInstanceMigration = ({
   };
 
   const handleFinish = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances, instance.name],
     });
     instanceLoading.setFinish(instance);
@@ -147,7 +147,7 @@ export const useInstanceMigration = ({
             <InstanceLinkChip instance={instance} />.
           </>,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],
         });
         onSuccess();

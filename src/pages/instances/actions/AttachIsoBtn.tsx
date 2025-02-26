@@ -69,7 +69,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               instanceLink,
             ),
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.instances, instance.name, project],
             });
             setLoading(false);
@@ -117,7 +117,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               instanceLink,
             ),
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.instances, instance.name, project],
             });
             setLoading(false);

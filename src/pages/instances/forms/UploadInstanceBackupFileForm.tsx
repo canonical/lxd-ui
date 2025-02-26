@@ -85,7 +85,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
   };
 
   const handleFinish = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => {
         return query.queryKey[0] === queryKeys.instances;
       },
@@ -120,7 +120,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
         );
 
         handleCloseModal();
-        void navigate(`/ui/project/${project?.name}/instances`);
+        navigate(`/ui/project/${project?.name}/instances`);
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);

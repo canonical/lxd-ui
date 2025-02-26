@@ -84,7 +84,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           <ResourceLabel bold type="instance" value={instanceName} />.
         </>,
       );
-      void navigate(`/ui/project/${project?.name}/instances`);
+      navigate(`/ui/project/${project?.name}/instances`);
     }
   };
 
@@ -124,7 +124,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   };
 
   const invalidateCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => {
         return query.queryKey[0] === queryKeys.instances;
       },

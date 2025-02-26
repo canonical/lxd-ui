@@ -80,14 +80,14 @@ const Events: FC = () => {
       }
       const event = JSON.parse(message.data) as LxdEvent;
       if (event.type === "operation") {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.operations, event.project],
         });
         void refetchOperations();
       }
       if (event.type === "lifecycle") {
         const rootQueryKey = getLifecycleRootQueryKey(event);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === rootQueryKey,
         });
       }

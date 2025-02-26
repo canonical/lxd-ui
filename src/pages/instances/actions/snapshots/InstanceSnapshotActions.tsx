@@ -59,7 +59,7 @@ const InstanceSnapshotActions: FC<Props> = ({
           (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
           () => {
             setDeleting(false);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.instances,
             });
           },
@@ -91,7 +91,7 @@ const InstanceSnapshotActions: FC<Props> = ({
           (msg) => onFailure("Snapshot restore failed", new Error(msg)),
           () => {
             setRestoring(false);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.instances,
             });
           },

@@ -157,7 +157,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
             updated.
           </>,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
         closePanel();

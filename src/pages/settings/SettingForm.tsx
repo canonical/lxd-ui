@@ -76,10 +76,10 @@ const SettingForm: FC<Props> = ({
         notify.failure("Setting update failed", e, settingLabel);
       })
       .finally(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.settings],
         });
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.settings, queryKeys.cluster],
         });
       });

@@ -31,7 +31,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const controllerState = useState<AbortController | null>(null);
 
   const notifyUpdateSuccess = (name: string) => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) =>
         query.queryKey[0] === queryKeys.volumes ||
         query.queryKey[0] === queryKeys.storage,

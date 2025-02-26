@@ -94,10 +94,10 @@ const CreateNetwork: FC = () => {
 
       mutation()
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
-          void navigate(`/ui/project/${project}/networks`);
+          navigate(`/ui/project/${project}/networks`);
           toastNotify.success(
             <>
               Network{" "}

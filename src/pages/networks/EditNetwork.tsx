@@ -118,7 +118,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             values: toNetworkFormValues(yamlNetwork, networkOnMembers),
           });
 
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -127,7 +127,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             ],
           });
 
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -173,9 +173,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     if (source === "click") {
       const baseUrl = `/ui/project/${project}/network/${network.name}`;
       if (newSection === GENERAL) {
-        void navigate(baseUrl);
+        navigate(baseUrl);
       } else {
-        void navigate(`${baseUrl}/#${slugify(newSection)}`);
+        navigate(`${baseUrl}/#${slugify(newSection)}`);
       }
     }
     updateSection(slugify(newSection));

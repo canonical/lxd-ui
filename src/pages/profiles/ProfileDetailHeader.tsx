@@ -57,7 +57,7 @@ const ProfileDetailHeader: FC<Props> = ({
       }
       renameProfile(name, values.name, project)
         .then(() => {
-          void navigate(`/ui/project/${project}/profile/${values.name}`);
+          navigate(`/ui/project/${project}/profile/${values.name}`);
           toastNotify.success(
             <>
               Profile <strong>{name}</strong> renamed to{" "}

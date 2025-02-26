@@ -49,7 +49,7 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
             (msg) => onFailure("Configuration update failed", new Error(msg)),
             () => {
               close();
-              void queryClient.invalidateQueries({
+              queryClient.invalidateQueries({
                 queryKey: [queryKeys.instances],
               });
             },

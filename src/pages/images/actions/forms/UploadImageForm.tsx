@@ -64,7 +64,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
   };
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.images,
     });
   };

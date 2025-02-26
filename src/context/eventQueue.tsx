@@ -41,13 +41,13 @@ export const EventQueueProvider: FC<Props> = ({ children }) => {
         get: (operationId) => eventQueue.get(operationId),
         set: (operationId, onSuccess, onFailure, onFinish) => {
           eventQueue.set(operationId, { onSuccess, onFailure, onFinish });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.operations],
           });
         },
         remove: (operationId) => {
           eventQueue.delete(operationId);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.operations],
           });
         },

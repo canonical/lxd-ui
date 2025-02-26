@@ -67,7 +67,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
             ),
           () => {
             setDeleting(false);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) =>
                 query.queryKey[0] === queryKeys.volumes ||
                 query.queryKey[0] === queryKeys.storage,
@@ -98,7 +98,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
       })
       .finally(() => {
         setRestoring(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.volumes ||
             query.queryKey[0] === queryKeys.storage,

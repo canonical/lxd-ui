@@ -81,7 +81,7 @@ const CreateIdpGroupPanel: FC = () => {
             created.
           </>,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
         closePanel();

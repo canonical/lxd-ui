@@ -203,7 +203,7 @@ const ProfileList: FC = () => {
                   appearance="positive"
                   className="u-no-margin--bottom u-float-right"
                   onClick={() =>
-                    void navigate(`/ui/project/${projectName}/profiles/create`)
+                    navigate(`/ui/project/${projectName}/profiles/create`)
                   }
                   hasIcon={!isSmallScreen}
                   disabled={!canCreateProfiles(project)}

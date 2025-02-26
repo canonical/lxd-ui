@@ -155,7 +155,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
               ),
             () => {
               formik.setSubmitting(false);
-              void queryClient.invalidateQueries({
+              queryClient.invalidateQueries({
                 queryKey: [queryKeys.instances],
               });
             },
@@ -175,9 +175,9 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
     const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

@@ -80,7 +80,7 @@ const DeleteGroupModal: FC<Props> = ({ groups, close }) => {
 
     deleteGroups(deletableGroups.map((group) => group.name))
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => {
             return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,

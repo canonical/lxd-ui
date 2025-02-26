@@ -49,7 +49,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
               .
             </>,
           );
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
             predicate: (query) =>
               query.queryKey[0] === queryKeys.volumes ||

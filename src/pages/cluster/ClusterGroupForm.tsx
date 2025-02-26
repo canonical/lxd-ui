@@ -85,7 +85,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       })
         .then(() => {
           const verb = group ? "saved" : "created";
-          void navigate(`/ui/cluster/group/${values.name}`);
+          navigate(`/ui/cluster/group/${values.name}`);
           toastNotify.success(
             <>
               Cluster group{" "}
@@ -104,7 +104,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
           notify.failure(`Cluster group ${verb} failed`, e);
         })
         .finally(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.cluster, queryKeys.groups],
           });
         });

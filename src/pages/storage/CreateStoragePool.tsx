@@ -79,10 +79,10 @@ const CreateStoragePool: FC = () => {
 
       mutation()
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void navigate(`/ui/project/${project}/storage/pools`);
+          navigate(`/ui/project/${project}/storage/pools`);
           toastNotify.success(
             <>
               Storage pool{" "}

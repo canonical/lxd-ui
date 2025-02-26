@@ -94,7 +94,7 @@ const EditProject: FC<Props> = ({ project }) => {
         })
         .finally(() => {
           formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects],
           });
         });
@@ -104,9 +104,9 @@ const EditProject: FC<Props> = ({ project }) => {
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project.name}/configuration`;
     if (newSection === PROJECT_DETAILS) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

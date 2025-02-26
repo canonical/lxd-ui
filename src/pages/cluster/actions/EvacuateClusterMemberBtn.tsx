@@ -37,7 +37,7 @@ const EvacuateClusterMemberBtn: FC<Props> = ({ member }) => {
       .catch((e) => notify.failure("Cluster member evacuation failed", e))
       .finally(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.cluster],
         });
       });

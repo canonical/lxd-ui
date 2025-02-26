@@ -9,7 +9,7 @@ const RefreshOperationsBtn: FC = () => {
   const queryClient = useQueryClient();
 
   const handleRefresh = () => {
-    void queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
+    queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
   };
 
   // force a refresh on first render

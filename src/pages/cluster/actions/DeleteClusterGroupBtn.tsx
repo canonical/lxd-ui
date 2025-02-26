@@ -23,7 +23,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     setLoading(true);
     deleteClusterGroup(group)
       .then(() => {
-        void navigate(`/ui/cluster`);
+        navigate(`/ui/cluster`);
         toastNotify.success(
           <>
             Cluster group{" "}
@@ -41,7 +41,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         notify.failure("Cluster group deletion failed", e);
       })
       .finally(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.cluster, queryKeys.groups],
         });
       });

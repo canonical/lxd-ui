@@ -618,9 +618,7 @@ const InstanceList: FC = () => {
                   appearance="positive"
                   className="u-float-right u-no-margin--bottom"
                   onClick={() =>
-                    void navigate(
-                      `/ui/project/${project.name}/instances/create`,
-                    )
+                    navigate(`/ui/project/${project.name}/instances/create`)
                   }
                   hasIcon={!isSmallScreen}
                   disabled={!canCreateInstances(project)}
@@ -748,9 +746,7 @@ const InstanceList: FC = () => {
                   className="empty-state-button"
                   appearance="positive"
                   onClick={() =>
-                    void navigate(
-                      `/ui/project/${project.name}/instances/create`,
-                    )
+                    navigate(`/ui/project/${project.name}/instances/create`)
                   }
                   disabled={!canCreateInstances(project)}
                   title={createInstanceRestriction}

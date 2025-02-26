@@ -44,7 +44,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   };
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.images,
     });
   };

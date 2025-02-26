@@ -85,7 +85,7 @@ const CreateGroupPanel: FC = () => {
       })
       .finally(() => {
         formik.setSubmitting(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.authGroups],
         });
       });
@@ -111,7 +111,7 @@ const CreateGroupPanel: FC = () => {
         })
         .finally(() => {
           formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.authGroups],
           });
         });

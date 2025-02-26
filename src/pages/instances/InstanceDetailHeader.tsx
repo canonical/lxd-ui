@@ -68,7 +68,7 @@ const InstanceDetailHeader: FC<Props> = ({
           eventQueue.set(
             operation.metadata.id,
             () => {
-              void navigate(`/ui/project/${project}/instance/${values.name}`);
+              navigate(`/ui/project/${project}/instance/${values.name}`);
               toastNotify.success(
                 <>
                   Instance{" "}

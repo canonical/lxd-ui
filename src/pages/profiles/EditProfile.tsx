@@ -152,7 +152,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
         })
         .finally(() => {
           formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.profiles],
           });
         });
@@ -162,9 +162,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

@@ -36,7 +36,7 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
     const successMessage = `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} successfully deleted`;
     deleteIdentities(deletableIdentities)
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => {
             return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,

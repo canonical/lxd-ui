@@ -44,7 +44,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
             ),
           () => {
             instanceLoading.setFinish(instance);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.instances],
             });
           },

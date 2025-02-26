@@ -23,7 +23,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
   };

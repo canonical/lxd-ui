@@ -121,7 +121,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
         })
         .finally(() => {
           formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
         });
@@ -131,9 +131,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

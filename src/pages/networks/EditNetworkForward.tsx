@@ -81,7 +81,7 @@ const EditNetworkForward: FC = () => {
 
       updateNetworkForward(networkName ?? "", forward, project ?? "")
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -90,9 +90,7 @@ const EditNetworkForward: FC = () => {
               queryKeys.forwards,
             ],
           });
-          void navigate(
-            `/ui/project/${project}/network/${networkName}/forwards`,
-          );
+          navigate(`/ui/project/${project}/network/${networkName}/forwards`);
           toastNotify.success(
             `Network forward ${forward.listen_address} updated.`,
           );

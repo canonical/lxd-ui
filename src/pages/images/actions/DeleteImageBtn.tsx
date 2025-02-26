@@ -31,10 +31,10 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.images,
             });
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, project],
             });
             toastNotify.success(<>Image {imageLabel} deleted.</>);

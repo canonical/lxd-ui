@@ -37,7 +37,7 @@ const RestoreClusterMemberBtn: FC<Props> = ({ member }) => {
       .catch((e) => notify.failure("Cluster member restore failed", e))
       .finally(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.cluster],
         });
       });

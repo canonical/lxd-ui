@@ -51,10 +51,10 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
       })
         .then(() => {
           void formik.setValues(getStorageVolumeEditValues(saveVolume));
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.storage,
               volume.pool,
@@ -85,9 +85,9 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

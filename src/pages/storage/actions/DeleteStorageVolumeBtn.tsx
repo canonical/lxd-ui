@@ -65,13 +65,13 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
       })
       .finally(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.isoVolumes],
         });
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, project],
         });
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [
             queryKeys.storage,
             volume.pool,
@@ -79,7 +79,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
             project,
           ],
         });
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.volumes,
         });
       });

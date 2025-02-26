@@ -69,10 +69,10 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
             </>,
           );
         }
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.instances],
         });
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, instances[0].project],
         });
         setLoading(false);

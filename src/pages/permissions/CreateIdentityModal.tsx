@@ -34,7 +34,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
           const encodedToken = base64EncodeObject(response);
           setToken(encodedToken);
 
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.identities],
           });
         })

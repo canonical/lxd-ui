@@ -16,7 +16,7 @@ const CreateInstanceFromImageBtn: FC<Props> = ({ image, projectName }) => {
   const { data: project } = useProject(projectName);
 
   const openLaunchFlow = () => {
-    void navigate(`/ui/project/${projectName}/instances/create`, {
+    navigate(`/ui/project/${projectName}/instances/create`, {
       state: {
         selectedImage: image,
         cancelLocation: window.location.pathname,

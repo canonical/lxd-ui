@@ -60,19 +60,19 @@ const CreateStorageVolume: FC = () => {
       const volume = volumeFormToPayload(values, project);
       createStorageVolume(values.pool, project, volume)
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.customVolumes, project],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
-          void navigate(`/ui/project/${project}/storage/volumes`);
+          navigate(`/ui/project/${project}/storage/volumes`);
           toastNotify.success(
             <>
               Storage volume{" "}

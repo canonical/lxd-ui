@@ -21,7 +21,7 @@ const StorageVolumesInPoolBtn: FC<Props> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    void navigate(`/ui/project/${project}/storage/volumes?pool=${pool}`);
+    navigate(`/ui/project/${project}/storage/volumes?pool=${pool}`);
   };
 
   return (

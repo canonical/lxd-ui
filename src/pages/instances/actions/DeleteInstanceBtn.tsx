@@ -39,10 +39,10 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, instance.project],
             });
-            void navigate(`/ui/project/${instance.project}/instances`);
+            navigate(`/ui/project/${instance.project}/instances`);
             toastNotify.success(
               <>
                 Instance{" "}

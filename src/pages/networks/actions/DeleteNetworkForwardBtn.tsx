@@ -31,7 +31,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
         toastNotify.success(
           `Network forward for ${forward.listen_address} deleted`,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.projects &&
             query.queryKey[1] === project &&
