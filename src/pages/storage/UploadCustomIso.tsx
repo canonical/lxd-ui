@@ -9,7 +9,6 @@ import {
   NotificationType,
   Notification,
 } from "@canonical/react-components";
-import { createIsoStorageVolume } from "api/storage-pools";
 import { useCurrentProject } from "context/useCurrentProject";
 import Loader from "components/Loader";
 import ProgressBar from "components/ProgressBar";
@@ -22,6 +21,7 @@ import { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
 import classnames from "classnames";
+import { createIsoStorageVolume } from "api/storage-volumes";
 
 interface Props {
   onFinish: (name: string, pool: string) => void;

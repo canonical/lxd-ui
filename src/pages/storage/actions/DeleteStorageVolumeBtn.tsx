@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import type { LxdStorageVolume } from "types/storage";
-import { deleteStorageVolume } from "api/storage-pools";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -8,6 +7,8 @@ import {
   Icon,
   useNotify,
 } from "@canonical/react-components";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import { deleteStorageVolume } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -31,6 +32,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   const notify = useNotify();
   const [isLoading, setLoading] = useState(false);
   const queryClient = useQueryClient();
+  const { canDeleteVolume } = useStorageVolumeEntitlements();
 
   const getDisabledReason = () => {
     if (volume.name.includes("/")) {
@@ -103,7 +105,12 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
       className={classname}
       shiftClickEnabled
       showShiftClickHint
-      disabled={Boolean(disabledReason)}
+      disabled={!canDeleteVolume(volume) || Boolean(disabledReason)}
+      title={
+        canDeleteVolume(volume)
+          ? ""
+          : "You do not have permission to delete storage volumes."
+      }
       onHoverText={disabledReason}
     >
       {hasIcon && <Icon name="delete" />}
