@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdProfile } from "types/profile";
 import { isDiskDevice } from "util/devices";
 import ExpandableList from "components/ExpandableList";

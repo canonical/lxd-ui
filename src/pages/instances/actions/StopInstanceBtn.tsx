@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { stopInstance } from "api/instances";
@@ -25,7 +26,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
   const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
   };
@@ -38,7 +39,7 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleStop = () => {
     instanceLoading.setLoading(instance, "Stopping");
-    void stopInstance(instance, isForce)
+    stopInstance(instance, isForce)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -90,7 +91,9 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
           <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
         ),
         onConfirm: handleStop,
-        close: () => setForce(false),
+        close: () => {
+          setForce(false);
+        },
         confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Stop"
           : "You do not have permission to stop this instance",

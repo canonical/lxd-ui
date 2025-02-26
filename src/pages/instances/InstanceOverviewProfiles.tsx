@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { MainTable } from "@canonical/react-components";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";

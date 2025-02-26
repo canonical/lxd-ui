@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { LxdUsedBy } from "util/usedBy";
+import type { FC } from "react";
+import type { LxdUsedBy } from "util/usedBy";
 import ViewProfileInstancesLink from "./actions/ViewProfileInstancesLink";
 
 interface Props {

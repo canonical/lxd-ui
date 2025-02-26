@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 
 export interface PanelHelper {
   panel: string | null;

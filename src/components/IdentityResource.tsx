@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdIdentity } from "types/permissions";
 import ResourceLabel from "./ResourceLabel";
 

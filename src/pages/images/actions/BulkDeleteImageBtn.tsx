@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteImageBulk } from "api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -8,7 +9,7 @@ import { pluralize } from "util/instanceBulkActions";
 import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useImageEntitlements } from "util/entitlements/images";
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 
 interface Props {
   images: LxdImage[];
@@ -37,44 +38,49 @@ const BulkDeleteImageBtn: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    void deleteImageBulk(fingerprints, project, eventQueue).then((results) => {
-      const { fulfilledCount, rejectedCount } =
-        getPromiseSettledCounts(results);
-      if (fulfilledCount === deleteCount) {
-        toastNotify.success(
-          <>
-            <b>{fingerprints.length}</b>{" "}
-            {pluralize("image", fingerprints.length)} deleted.
-          </>,
-        );
-      } else if (rejectedCount === deleteCount) {
-        toastNotify.failure(
-          "Image bulk deletion failed",
-          undefined,
-          <>
-            <b>{deleteCount}</b> {pluralize("image", deleteCount)} could not be
-            deleted.
-          </>,
-        );
-      } else {
-        toastNotify.failure(
-          "Image bulk deletion partially failed",
-          undefined,
-          <>
-            <b>{fulfilledCount}</b> {pluralize("image", fulfilledCount)}{" "}
-            deleted.
-            <br />
-            <b>{rejectedCount}</b> {pluralize("image", rejectedCount)} could not
-            be deleted.
-          </>,
-        );
-      }
-      void queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey[0] === queryKeys.images,
+    deleteImageBulk(fingerprints, project, eventQueue)
+      .then((results) => {
+        const { fulfilledCount, rejectedCount } =
+          getPromiseSettledCounts(results);
+        if (fulfilledCount === deleteCount) {
+          toastNotify.success(
+            <>
+              <b>{fingerprints.length}</b>{" "}
+              {pluralize("image", fingerprints.length)} deleted.
+            </>,
+          );
+        } else if (rejectedCount === deleteCount) {
+          toastNotify.failure(
+            "Image bulk deletion failed",
+            undefined,
+            <>
+              <b>{deleteCount}</b> {pluralize("image", deleteCount)} could not
+              be deleted.
+            </>,
+          );
+        } else {
+          toastNotify.failure(
+            "Image bulk deletion partially failed",
+            undefined,
+            <>
+              <b>{fulfilledCount}</b> {pluralize("image", fulfilledCount)}{" "}
+              deleted.
+              <br />
+              <b>{rejectedCount}</b> {pluralize("image", rejectedCount)} could
+              not be deleted.
+            </>,
+          );
+        }
+        queryClient.invalidateQueries({
+          predicate: (query) => query.queryKey[0] === queryKeys.images,
+        });
+        setLoading(false);
+        onFinish();
+      })
+      .catch((e) => {
+        setLoading(false);
+        toastNotify.failure("Image bulk deletion failed", e);
       });
-      setLoading(false);
-      onFinish();
-    });
   };
 
   const getBulkDeleteBreakdown = () => {

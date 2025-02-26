@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,9 +7,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { checkDuplicateName } from "util/helpers";
 import { updateNetwork, updateClusterNetwork } from "api/networks";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkForm, {
   isNetworkFormInvalid,
-  NetworkFormValues,
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import type { LxdNetwork } from "types/network";
@@ -69,7 +70,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       .test(
         "deduplicate",
         "A network with this name already exists",
-        (value) =>
+        async (value) =>
           value === network.name ||
           checkDuplicateName(value, project, controllerState, "networks"),
       )
@@ -100,7 +101,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       const yamlNetwork = yamlToObject(yaml) as LxdNetwork;
       const saveNetwork = { ...yamlNetwork, etag: network.etag };
 
-      const mutation = (values: NetworkFormValues) => {
+      const mutation = async (values: NetworkFormValues) => {
         if (values.parentPerClusterMember) {
           return updateClusterNetwork(
             saveNetwork,
@@ -118,7 +119,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             values: toNetworkFormValues(yamlNetwork, networkOnMembers),
           });
 
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -127,7 +128,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             ],
           });
 
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -152,7 +153,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         .catch((e) => {
           notify.failure("Network update failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 
@@ -173,9 +176,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     if (source === "click") {
       const baseUrl = `/ui/project/${project}/network/${network.name}`;
       if (newSection === GENERAL) {
-        void navigate(baseUrl);
+        navigate(baseUrl);
       } else {
-        void navigate(`${baseUrl}/#${slugify(newSection)}`);
+        navigate(`${baseUrl}/#${slugify(newSection)}`);
       }
     }
     updateSection(slugify(newSection));
@@ -198,14 +201,14 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         <YamlSwitch
           formik={formik}
           section={section}
-          setSection={() =>
+          setSection={() => {
             setSection(
               section === slugify(YAML_CONFIGURATION)
                 ? GENERAL
                 : YAML_CONFIGURATION,
               "click",
-            )
-          }
+            );
+          }}
           disableReason={
             formik.values.name
               ? undefined

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { CheckboxInput } from "@canonical/react-components";
 
 interface Props {
@@ -16,7 +16,9 @@ const ConfirmationForce: FC<Props> = ({ label, force }) => {
         label={label}
         tabIndex={-1}
         defaultChecked={isForce}
-        onClick={() => setForce((prev) => !prev)}
+        onClick={() => {
+          setForce((prev) => !prev);
+        }}
       />
     </span>
   );

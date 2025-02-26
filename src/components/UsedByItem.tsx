@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import ResourceLink from "./ResourceLink";
-import { LxdUsedBy } from "util/usedBy";
-import { ResourceIconType } from "./ResourceIcon";
+import type { LxdUsedBy } from "util/usedBy";
+import type { ResourceIconType } from "./ResourceIcon";
 import { useImagesInProject } from "context/useImages";
 
 interface Props {

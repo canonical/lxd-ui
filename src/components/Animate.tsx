@@ -1,10 +1,5 @@
-import {
-  FC,
-  PropsWithChildren,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import type { FC, PropsWithChildren } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "util/usePreferReducedMotion";
 
 interface Props {

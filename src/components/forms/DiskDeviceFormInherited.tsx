@@ -1,11 +1,11 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ConfigurationTable from "components/ConfigurationTable";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
-import { InheritedDiskDevice } from "util/configInheritance";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { InheritedDiskDevice } from "util/configInheritance";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
 import {
   addNoneDevice,

@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import type { LxdEvent } from "types/event";
 import { useEventQueue } from "context/eventQueue";
 import { useAuth } from "context/auth";
@@ -80,20 +81,22 @@ const Events: FC = () => {
       }
       const event = JSON.parse(message.data) as LxdEvent;
       if (event.type === "operation") {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.operations, event.project],
         });
-        void refetchOperations();
+        refetchOperations();
       }
       if (event.type === "lifecycle") {
         const rootQueryKey = getLifecycleRootQueryKey(event);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === rootQueryKey,
         });
       }
       // ensure open requests that reply with an operation and register
       // new handlers in the eventQueue are closed before handling the event
-      setTimeout(() => handleEvent(event), 250);
+      setTimeout(() => {
+        handleEvent(event);
+      }, 250);
     };
   };
 

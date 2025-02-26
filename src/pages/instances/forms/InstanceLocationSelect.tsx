@@ -1,12 +1,13 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import { fetchClusterGroups } from "api/cluster";
-import { FormikProps } from "formik/dist/types";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { FormikProps } from "formik/dist/types";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { isClusteredServer } from "util/settings";
 
 interface Props {
@@ -50,7 +51,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   }
 
   const setGroup = (group: string) => {
-    void formik.setFieldValue("target", `@${group}`);
+    formik.setFieldValue("target", `@${group}`);
     setSelectedGroup(group);
     setSelectedMember("");
   };
@@ -59,7 +60,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
     if (member === "") {
       setGroup(selectedGroup);
     } else {
-      void formik.setFieldValue("target", member);
+      formik.setFieldValue("target", member);
       setSelectedMember(member);
     }
   };
@@ -72,7 +73,9 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
       <Select
         id="clusterGroup"
         label="Cluster group"
-        onChange={(e) => setGroup(e.target.value)}
+        onChange={(e) => {
+          setGroup(e.target.value);
+        }}
         value={selectedGroup}
         options={clusterGroups.map((group) => {
           return {
@@ -91,7 +94,9 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
       <Select
         id="clusterMember"
         label="Cluster member"
-        onChange={(e) => setMember(e.target.value)}
+        onChange={(e) => {
+          setMember(e.target.value);
+        }}
         value={selectedMember}
         options={[
           ...(availableMembers.length > 1 ? [{ label: "any", value: "" }] : []),

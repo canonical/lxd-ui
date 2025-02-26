@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";
@@ -66,13 +66,13 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             config={value ?? ""}
             setConfig={(config) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(name, config);
+              formik.setFieldValue(name, config);
             }}
           />
           <Button
             onClick={() => {
               ensureEditMode(formik);
-              void formik.setFieldValue(name, undefined);
+              formik.setFieldValue(name, undefined);
             }}
             type="button"
             appearance="base"
@@ -88,7 +88,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
         <Button
           onClick={() => {
             ensureEditMode(formik);
-            void formik.setFieldValue(name, "\n\n");
+            formik.setFieldValue(name, "\n\n");
           }}
           className="u-no-margin--bottom"
           type="button"

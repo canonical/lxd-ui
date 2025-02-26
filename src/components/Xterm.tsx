@@ -32,7 +32,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { Terminal, ITerminalOptions, ITerminalAddon } from "xterm";
+import type { ITerminalOptions, ITerminalAddon } from "xterm";
+import { Terminal } from "xterm";
 import "xterm/css/xterm.css";
 
 interface Props {

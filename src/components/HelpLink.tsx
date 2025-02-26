@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Icon } from "@canonical/react-components";
 
 interface Props {

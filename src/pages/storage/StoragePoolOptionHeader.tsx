@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 const StoragePoolOptionHeader: FC = () => {
   const columns = ["name", "driver", "usage"];
 

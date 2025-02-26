@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import DuplicateVolumeForm from "../forms/DuplicateVolumeForm";
 import type { LxdStorageVolume } from "types/storage";

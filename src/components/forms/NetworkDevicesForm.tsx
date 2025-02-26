@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Icon,
@@ -8,13 +9,14 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import type { LxdNicDevice } from "types/device";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import Loader from "components/Loader";
 import { getInheritedNetworks } from "util/configInheritance";
-import { CustomNetworkDevice, deduplicateName } from "util/formDevices";
+import type { CustomNetworkDevice } from "util/formDevices";
+import { deduplicateName } from "util/formDevices";
 import { isNicDeviceNameMissing } from "util/instanceValidation";
 import { ensureEditMode } from "util/instanceEdit";
 import { getExistingDeviceNames } from "util/devices";
@@ -65,7 +67,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   const removeNetwork = (index: number) => {
     const copy = [...formik.values.devices];
     copy.splice(index, 1);
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   const existingDeviceNames = getExistingDeviceNames(formik.values, profiles);
@@ -77,7 +79,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
       name: deduplicateName("eth", 1, existingDeviceNames),
       network: managedNetworks[0]?.name ?? "",
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
 
     focusNetwork(copy.length - 1);
   };

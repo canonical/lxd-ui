@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   MainTable,
@@ -23,7 +23,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: resources, isLoading } = useQuery({
     queryKey: [queryKeys.resources],
-    queryFn: () => fetchResources(),
+    queryFn: async () => fetchResources(),
     enabled: canViewResources(),
   });
 
@@ -38,7 +38,9 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
   const rows = isLoading
     ? []
     : resources?.gpu?.cards?.map((card) => {
-        const selectCard = () => onSelect(card);
+        const selectCard = () => {
+          onSelect(card);
+        };
 
         return {
           key: card.pci_address,
@@ -127,7 +129,9 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
       <footer className="p-modal__footer" id="modal-footer">
         <Button
           className="u-no-margin--bottom"
-          onClick={() => onSelect({ pci_address: "" })}
+          onClick={() => {
+            onSelect({ pci_address: "" });
+          }}
         >
           Enter details manually
         </Button>

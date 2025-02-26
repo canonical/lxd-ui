@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, useNotify } from "@canonical/react-components";
-import { Props as InputProps } from "@canonical/react-components/dist/components/Input/Input";
-import { LxdProject } from "types/project";
+import type { Props as InputProps } from "@canonical/react-components/dist/components/Input/Input";
+import type { LxdProject } from "types/project";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchResources } from "api/server";

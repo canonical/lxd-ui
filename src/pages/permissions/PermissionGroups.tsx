@@ -10,7 +10,8 @@ import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import useSortTableData from "util/useSortTableData";
 import { getIdentityIdsForGroup } from "util/permissionIdentities";
 import usePanelParams, { panels } from "util/usePanelParams";
@@ -116,7 +117,9 @@ const PermissionGroups: FC = () => {
             <Button
               appearance="link"
               dense
-              onClick={() => panelParams.openEditGroup(group.name, "identity")}
+              onClick={() => {
+                panelParams.openEditGroup(group.name, "identity");
+              }}
             >
               {allIdentityIds.length}
             </Button>
@@ -130,9 +133,9 @@ const PermissionGroups: FC = () => {
             <Button
               appearance="link"
               dense
-              onClick={() =>
-                panelParams.openEditGroup(group.name, "permission")
-              }
+              onClick={() => {
+                panelParams.openEditGroup(group.name, "permission");
+              }}
             >
               {group.permissions?.length || 0}
             </Button>
@@ -282,7 +285,9 @@ const PermissionGroups: FC = () => {
                   <BulkDeleteGroupsBtn
                     groups={selectedGroups}
                     className="u-no-margin--bottom"
-                    onDelete={() => setSelectedGroupNames([])}
+                    onDelete={() => {
+                      setSelectedGroupNames([]);
+                    }}
                   />
                 </>
               )}
@@ -318,7 +323,9 @@ const PermissionGroups: FC = () => {
       {panelParams.panel === panels.editGroup && panelGroup && (
         <EditGroupPanel
           group={panelGroup}
-          onClose={() => setSelectedGroupNames([])}
+          onClose={() => {
+            setSelectedGroupNames([]);
+          }}
         />
       )}
 

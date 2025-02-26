@@ -5,7 +5,8 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
@@ -16,9 +17,9 @@ import { pluralize } from "util/instanceBulkActions";
 import type { LxdGroup } from "types/permissions";
 import { getCurrentIdentitiesForGroups } from "util/permissionGroups";
 import GroupIdentitiesPanelConfirmModal from "./GroupIdentitiesPanelConfirmModal";
+import type { PermissionIdentitiesFilterType } from "../PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
-  PermissionIdentitiesFilterType,
   QUERY,
 } from "../PermissionIdentitiesFilter";
 import NotificationRow from "components/NotificationRow";
@@ -28,10 +29,10 @@ import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 
-type IdentityEditHistory = {
+interface IdentityEditHistory {
   identitiesAdded: Set<string>;
   identitiesRemoved: Set<string>;
-};
+}
 
 interface Props {
   groups: LxdGroup[];
@@ -320,7 +321,9 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
           </Button>
           <ActionButton
             appearance="positive"
-            onClick={() => setConfirming(true)}
+            onClick={() => {
+              setConfirming(true);
+            }}
             className="u-no-margin--bottom"
             disabled={modifiedIdentities.size === 0}
           >

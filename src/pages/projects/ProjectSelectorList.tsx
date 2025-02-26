@@ -1,4 +1,5 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { getSubpageFromUrl } from "util/projects";

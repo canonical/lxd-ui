@@ -1,5 +1,6 @@
-import { FC } from "react";
-import ResourceIcon, { ResourceIconType } from "./ResourceIcon";
+import type { FC } from "react";
+import type { ResourceIconType } from "./ResourceIcon";
+import ResourceIcon from "./ResourceIcon";
 import classNames from "classnames";
 
 interface Props {

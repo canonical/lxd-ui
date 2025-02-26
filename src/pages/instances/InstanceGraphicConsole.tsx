@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as SpiceHtml5 from "lib/spice/src/main.js";
 import { connectInstanceVga } from "api/instances";

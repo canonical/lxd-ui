@@ -1,10 +1,10 @@
-import { FC } from "react";
+import type { FC } from "react";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import { Button, Icon, Label } from "@canonical/react-components";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
-import { FormikProps } from "formik/dist/types";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import classnames from "classnames";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { test, expect } from "./fixtures/lxd-test";
+import type { ServerSettingType } from "./helpers/server";
 import {
-  ServerSettingType,
   resetSetting,
   updateSetting,
   visitServerSettings,

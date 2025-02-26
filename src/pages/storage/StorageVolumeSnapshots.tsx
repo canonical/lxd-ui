@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
@@ -53,7 +54,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       volume.type,
       volume.name,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchStorageVolumeSnapshots({
         pool: volume.pool,
         project: volume.project,
@@ -232,8 +233,12 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
               <VolumeSnapshotBulkDelete
                 volume={volume}
                 snapshotNames={selectedNames}
-                onStart={() => setProcessingNames(selectedNames)}
-                onFinish={() => setProcessingNames([])}
+                onStart={() => {
+                  setProcessingNames(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingNames([]);
+                }}
               />
             </div>
           )}

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useSmallScreen } from "context/useSmallScreen";
@@ -24,7 +24,9 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
           ? ""
           : "You do not have permission to create storage pools"
       }
-      onClick={() => navigate(`/ui/project/${project}/storage/pools/create`)}
+      onClick={async () =>
+        navigate(`/ui/project/${project}/storage/pools/create`)
+      }
       disabled={!canCreateStoragePools()}
     >
       {!isSmallScreen && <Icon name="plus" light />}

@@ -1,5 +1,5 @@
 import { Button, Icon } from "@canonical/react-components";
-import { FC } from "react";
+import type { FC } from "react";
 import { getClientOS } from "util/helpers";
 import { pluralize } from "util/instanceBulkActions";
 

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
@@ -44,7 +44,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
   };
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.images,
     });
   };
@@ -88,7 +88,7 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
             (event) => {
               if (alias) {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
-                void createImageAlias(fingerprint, alias, instance.project)
+                createImageAlias(fingerprint, alias, instance.project)
                   .then(clearCache)
                   .then(notifySuccess)
                   .catch((e) => {

@@ -6,7 +6,7 @@ import { securityPoliciesPayload } from "components/forms/SecurityPoliciesForm";
 import { snapshotsPayload } from "components/forms/InstanceSnapshotsForm";
 import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
-import { EditProfileFormValues } from "pages/profiles/EditProfile";
+import type { EditProfileFormValues } from "pages/profiles/EditProfile";
 import type { LxdProfile } from "types/profile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import { bootPayload } from "components/forms/BootForm";

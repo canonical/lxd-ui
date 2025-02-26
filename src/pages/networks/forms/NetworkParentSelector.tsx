@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Icon,
@@ -8,13 +9,12 @@ import {
 } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { useParams } from "react-router-dom";
-import { FormikProps } from "formik/dist/types";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
-import ClusterSpecificSelect, {
-  ClusterSpecificSelectOption,
-} from "components/ClusterSpecificSelect";
+import type { ClusterSpecificSelectOption } from "components/ClusterSpecificSelect";
+import ClusterSpecificSelect from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
 import {
   useNetworks,

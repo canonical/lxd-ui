@@ -1,6 +1,6 @@
 import { Notification } from "@canonical/react-components";
-import { FC } from "react";
-import { LxdProfile } from "types/profile";
+import type { FC } from "react";
+import type { LxdProfile } from "types/profile";
 
 interface Props {
   instanceProfiles: string[];

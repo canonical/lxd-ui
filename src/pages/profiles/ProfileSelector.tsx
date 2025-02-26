@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Icon,
@@ -147,9 +148,9 @@ const ProfileSelector: FC<Props> = ({
               <Button
                 appearance="link"
                 className="profile-remove-btn"
-                onClick={() =>
-                  setSelected(selected.filter((item) => item !== value))
-                }
+                onClick={() => {
+                  setSelected(selected.filter((item) => item !== value));
+                }}
                 type="button"
                 disabled={!!disabledReason}
                 title={disabledReason}

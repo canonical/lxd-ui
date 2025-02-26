@@ -1,4 +1,5 @@
-import { extractResourceDetailsFromUrl, ResourceType } from "./resourceDetails";
+import type { ResourceType } from "./resourceDetails";
+import { extractResourceDetailsFromUrl } from "./resourceDetails";
 
 export interface LxdUsedBy {
   name: string;

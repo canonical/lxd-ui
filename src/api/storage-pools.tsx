@@ -4,7 +4,7 @@ import {
   handleResponse,
   handleSettledResult,
 } from "util/helpers";
-import {
+import type {
   LxdStoragePool,
   LXDStoragePoolOnClusterMember,
   LxdStoragePoolResources,
@@ -14,15 +14,16 @@ import {
 } from "types/storage";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import axios, { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import type { LxdClusterMember } from "types/cluster";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 export const storagePoolEntitlements = ["can_edit", "can_delete"];
 export const storageVolumeEntitlements = ["can_delete"];
 
-export const fetchStoragePool = (
+export const fetchStoragePool = async (
   pool: string,
   isFineGrained: boolean | null,
   target?: string,
@@ -35,12 +36,14 @@ export const fetchStoragePool = (
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdStoragePool>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchStoragePools = (
+export const fetchStoragePools = async (
   isFineGrained: boolean | null,
 ): Promise<LxdStoragePool[]> => {
   const entitlements = withEntitlementsQuery(
@@ -50,25 +53,27 @@ export const fetchStoragePools = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStoragePool[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdStoragePool[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchStoragePoolResources = (
+export const fetchStoragePoolResources = async (
   pool: string,
 ): Promise<LxdStoragePoolResources> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}/resources`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStoragePoolResources>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdStoragePoolResources>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const createPool = (
+export const createPool = async (
   pool: Partial<LxdStoragePool>,
   target?: string,
 ): Promise<void> => {
@@ -112,7 +117,7 @@ const getClusterAndMemberPoolPayload = (pool: Partial<LxdStoragePool>) => {
   };
 };
 
-export const createClusteredPool = (
+export const createClusteredPool = async (
   pool: LxdStoragePool,
   clusterMembers: LxdClusterMember[],
   sourcePerClusterMember?: ClusterSpecificValues,
@@ -123,7 +128,7 @@ export const createClusteredPool = (
     getClusterAndMemberPoolPayload(pool);
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map((item) => {
+      clusterMembers.map(async (item) => {
         const clusteredMemberPool = {
           ...memberPoolPayload,
           config: {
@@ -137,7 +142,7 @@ export const createClusteredPool = (
       }),
     )
       .then(handleSettledResult)
-      .then(() => {
+      .then(async () => {
         return createPool(clusterPoolPayload);
       })
       .then(resolve)
@@ -145,7 +150,7 @@ export const createClusteredPool = (
   });
 };
 
-export const updatePool = (
+export const updatePool = async (
   pool: Partial<LxdStoragePool>,
   target?: string,
 ): Promise<void> => {
@@ -161,7 +166,7 @@ export const updatePool = (
   });
 };
 
-export const updateClusteredPool = (
+export const updateClusteredPool = async (
   pool: Partial<LxdStoragePool>,
   clusterMembers: LxdClusterMember[],
   sizePerClusterMember?: ClusterSpecificValues,
@@ -182,13 +187,13 @@ export const updateClusteredPool = (
       }),
     )
       .then(handleSettledResult)
-      .then(() => updatePool(clusterPoolPayload))
+      .then(async () => updatePool(clusterPoolPayload))
       .then(resolve)
       .catch(reject);
   });
 };
 
-export const renameStoragePool = (
+export const renameStoragePool = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
@@ -205,7 +210,7 @@ export const renameStoragePool = (
   });
 };
 
-export const deleteStoragePool = (pool: string): Promise<void> => {
+export const deleteStoragePool = async (pool: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}`, {
       method: "DELETE",
@@ -216,14 +221,14 @@ export const deleteStoragePool = (pool: string): Promise<void> => {
   });
 };
 
-export const fetchPoolFromClusterMembers = (
+export const fetchPoolFromClusterMembers = async (
   poolName: string,
   clusterMembers: LxdClusterMember[],
   isFineGrained: boolean | null,
 ): Promise<LXDStoragePoolOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map((member) => {
+      clusterMembers.map(async (member) => {
         return fetchStoragePool(poolName, isFineGrained, member.server_name);
       }),
     )
@@ -248,7 +253,7 @@ export const fetchPoolFromClusterMembers = (
   });
 };
 
-export const fetchStorageVolumes = (
+export const fetchStorageVolumes = async (
   pool: string,
   project: string,
   isFineGrained: boolean | null,
@@ -262,14 +267,14 @@ export const fetchStorageVolumes = (
       `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
-        resolve(data.metadata.map((volume) => ({ ...volume, pool }))),
-      )
+      .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
+        resolve(data.metadata.map((volume) => ({ ...volume, pool })));
+      })
       .catch(reject);
   });
 };
 
-export const fetchAllStorageVolumes = (
+export const fetchAllStorageVolumes = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
@@ -280,14 +285,14 @@ export const fetchAllStorageVolumes = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchStorageVolume = (
+export const fetchStorageVolume = async (
   pool: string,
   project: string,
   type: string,
@@ -303,12 +308,14 @@ export const fetchStorageVolume = (
       `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1${entitlements}`,
     )
       .then(handleEtagResponse)
-      .then((data) => resolve({ ...data, pool } as LxdStorageVolume))
+      .then((data) => {
+        resolve({ ...data, pool } as LxdStorageVolume);
+      })
       .catch(reject);
   });
 };
 
-export const fetchStorageVolumeState = (
+export const fetchStorageVolumeState = async (
   pool: string,
   project: string,
   type: string,
@@ -319,14 +326,14 @@ export const fetchStorageVolumeState = (
       `/1.0/storage-pools/${pool}/volumes/${type}/${volume}/state?project=${project}&recursion=1`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolumeState>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdStorageVolumeState>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const renameStorageVolume = (
+export const renameStorageVolume = async (
   project: string,
   volume: LxdStorageVolume,
   newName: string,
@@ -347,7 +354,7 @@ export const renameStorageVolume = (
   });
 };
 
-export const createIsoStorageVolume = (
+export const createIsoStorageVolume = async (
   pool: string,
   isoFile: File,
   name: string,
@@ -382,7 +389,7 @@ export const createIsoStorageVolume = (
   });
 };
 
-export const createStorageVolume = (
+export const createStorageVolume = async (
   pool: string,
   project: string,
   volume: Partial<LxdStorageVolume>,
@@ -404,7 +411,7 @@ export const createStorageVolume = (
   });
 };
 
-export const updateStorageVolume = (
+export const updateStorageVolume = async (
   pool: string,
   project: string,
   volume: Partial<LxdStorageVolume>,
@@ -428,7 +435,7 @@ export const updateStorageVolume = (
   });
 };
 
-export const deleteStorageVolume = (
+export const deleteStorageVolume = async (
   volume: string,
   pool: string,
   project: string,
@@ -446,7 +453,7 @@ export const deleteStorageVolume = (
   });
 };
 
-export const migrateStorageVolume = (
+export const migrateStorageVolume = async (
   volume: Partial<LxdStorageVolume>,
   targetPool: string,
   targetProject: string,
@@ -470,7 +477,7 @@ export const migrateStorageVolume = (
 
 // Including project and target params if they did not change from source configs breaks the API call.
 // Therefore, we only include them if they are different from the source configs, that's why both project and target are optional inputs
-export const duplicateStorageVolume = (
+export const duplicateStorageVolume = async (
   volume: Partial<LxdStorageVolume>,
   pool: string,
   project?: string,

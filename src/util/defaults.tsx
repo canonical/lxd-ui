@@ -1,11 +1,6 @@
 import type { LxdDiskDevice, LxdNicDevice } from "types/device";
-import {
-  CpuLimit,
-  CPU_LIMIT_TYPE,
-  MemoryLimit,
-  MEM_LIMIT_TYPE,
-  BYTES_UNITS,
-} from "types/limits";
+import type { CpuLimit, MemoryLimit } from "types/limits";
+import { CPU_LIMIT_TYPE, MEM_LIMIT_TYPE, BYTES_UNITS } from "types/limits";
 
 export const DEFAULT_NIC_DEVICE: LxdNicDevice = {
   name: "",

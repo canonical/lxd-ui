@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { Col, Row } from "@canonical/react-components";
 import StoragePoolSize from "pages/storage/StoragePoolSize";
 import StorageUsedBy from "pages/storage/StorageUsedBy";

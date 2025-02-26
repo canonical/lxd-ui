@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   Icon,
@@ -8,13 +8,13 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import type { LxdProxyDevice } from "types/device";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { getInheritedProxies } from "util/configInheritance";
 import Loader from "components/Loader";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import classnames from "classnames";
 import {
@@ -62,7 +62,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
       type: "proxy",
       name: deduplicateName("proxy", 1, existingDeviceNames),
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   const hasCustomProxy = formik.values.devices.some(
@@ -96,7 +96,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           onBlur={formik.handleBlur}
           onChange={(e) => {
             ensureEditMode(formik);
-            void formik.setFieldValue(key, e.target.value);
+            formik.setFieldValue(key, e.target.value);
             onChange?.(e.target.value);
           }}
           value={value ?? ""}
@@ -209,7 +209,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
             index={index}
             setName={(name) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.name`, name);
+              formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
           />
@@ -250,7 +250,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
         "Whether to bind the listen address to the instance or host",
         (value) => {
           if (value === "instance") {
-            void formik.setFieldValue(`devices.${index}.nat`, undefined);
+            formik.setFieldValue(`devices.${index}.nat`, undefined);
           }
         },
       ),
@@ -266,7 +266,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
         undefined,
         (value) => {
           if (value === "true") {
-            void formik.setFieldValue(
+            formik.setFieldValue(
               `devices.${index}.connect`,
               `${listenType}:${connectAddress}:${connectPort}`,
             );

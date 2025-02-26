@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Navigate, useParams } from "react-router-dom";
 
 const ProjectRedirect: FC = () => {

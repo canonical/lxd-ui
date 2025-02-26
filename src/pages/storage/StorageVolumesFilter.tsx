@@ -1,6 +1,7 @@
-import { FC, memo } from "react";
+import type { FC } from "react";
+import { memo } from "react";
 import { SearchAndFilter } from "@canonical/react-components";
-import {
+import type {
   SearchAndFilterData,
   SearchAndFilterChip,
 } from "@canonical/react-components/dist/components/SearchAndFilter/types";

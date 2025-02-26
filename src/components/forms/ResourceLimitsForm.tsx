@@ -1,12 +1,12 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import MemoryLimitSelector from "./MemoryLimitSelector";
 import CpuLimitSelector from "./CpuLimitSelector";
 import type { CpuLimit, MemoryLimit } from "types/limits";
 import { cpuLimitToPayload, memoryLimitToPayload } from "util/limits";
 import { optionAllowDeny, diskPriorities } from "util/instanceOptions";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";
@@ -61,7 +61,7 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
             <CpuLimitSelector
               cpuLimit={formik.values.limits_cpu}
               setCpuLimit={(cpuLimit) => {
-                void formik.setFieldValue("limits_cpu", cpuLimit);
+                formik.setFieldValue("limits_cpu", cpuLimit);
               }}
             />
           ),

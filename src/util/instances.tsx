@@ -1,14 +1,11 @@
 import type { LxdOperationResponse } from "types/operation";
 import { getInstanceName } from "./operations";
-import { ReactNode } from "react";
-import {
-  AbortControllerState,
-  checkDuplicateName,
-  getFileExtension,
-} from "./helpers";
+import type { ReactNode } from "react";
+import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName, getFileExtension } from "./helpers";
 import * as Yup from "yup";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
-import { InstanceIconType } from "components/ResourceIcon";
+import type { InstanceIconType } from "components/ResourceIcon";
 
 export const instanceLinkFromOperation = (args: {
   operation?: LxdOperationResponse;
@@ -40,7 +37,7 @@ export const instanceNameValidation = (
     .test(
       "deduplicate",
       "An instance with this name already exists",
-      (value) =>
+      async (value) =>
         oldName === value ||
         checkDuplicateName(value, project, controllerState, "instances"),
     )
@@ -56,10 +53,7 @@ export const instanceNameValidation = (
       message: "Instance name must start with a letter",
     });
 
-export const truncateInstanceName = (
-  name: string,
-  suffix: string = "",
-): string => {
+export const truncateInstanceName = (name: string, suffix = ""): string => {
   const instanceNameMaxLength = 63;
   if (name.length > instanceNameMaxLength - suffix.length) {
     name = name.slice(0, instanceNameMaxLength - suffix.length);

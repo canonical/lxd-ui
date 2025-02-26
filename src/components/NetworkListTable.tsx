@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { MainTable, Notification } from "@canonical/react-components";
 import Loader from "components/Loader";
 import { isNicDevice } from "util/devices";

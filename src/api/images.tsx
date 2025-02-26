@@ -7,15 +7,16 @@ import {
 import type { LxdImage } from "types/image";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import { EventQueue } from "context/eventQueue";
+import type { EventQueue } from "context/eventQueue";
 import type { LxdInstance } from "types/instance";
 import type { UploadState } from "types/storage";
-import axios, { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
 const imageEntitlements = ["can_delete"];
 
-export const fetchImagesInProject = (
+export const fetchImagesInProject = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {
@@ -23,24 +24,28 @@ export const fetchImagesInProject = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdImage[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchImagesInAllProjects = (
+export const fetchImagesInAllProjects = async (
   isFineGrained: boolean | null,
 ): Promise<LxdImage[]> => {
   const entitlements = withEntitlementsQuery(isFineGrained, imageEntitlements);
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?recursion=1&all-projects=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdImage[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const deleteImage = (
+export const deleteImage = async (
   image: LxdImage,
   project: string,
 ): Promise<LxdOperationResponse> => {
@@ -54,7 +59,7 @@ export const deleteImage = (
   });
 };
 
-export const deleteImageBulk = (
+export const deleteImageBulk = async (
   fingerprints: string[],
   project: string,
   eventQueue: EventQueue,
@@ -62,15 +67,21 @@ export const deleteImageBulk = (
   const results: PromiseSettledResult<void>[] = [];
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      fingerprints.map((name) => {
+      fingerprints.map(async (name) => {
         const image = { fingerprint: name } as LxdImage;
         return deleteImage(image, project)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, fingerprints.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, fingerprints.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -82,7 +93,7 @@ export const deleteImageBulk = (
   });
 };
 
-export const createImageAlias = (
+export const createImageAlias = async (
   fingerprint: string,
   alias: string,
   project: string,
@@ -101,7 +112,7 @@ export const createImageAlias = (
   });
 };
 
-export const createImage = (
+export const createImage = async (
   body: string,
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
@@ -116,7 +127,7 @@ export const createImage = (
   });
 };
 
-export const uploadImage = (
+export const uploadImage = async (
   body: File | FormData,
   isPublic: boolean,
   setUploadState: (value: UploadState) => void,

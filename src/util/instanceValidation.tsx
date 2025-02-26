@@ -1,12 +1,12 @@
-import { FormDevice, FormDiskDevice } from "util/formDevices";
-import {
+import type { FormDevice, FormDiskDevice } from "util/formDevices";
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "components/forms/instanceAndProfileFormValues";
 import { getInheritedRootStorage } from "util/configInheritance";
 import type { LxdProfile } from "types/profile";
 import type { LxdNicDevice } from "types/device";
-import { FormikTouched } from "formik";
+import type { FormikTouched } from "formik";
 
 export const hasNoRootDisk = (
   values: InstanceAndProfileFormValues & { profiles?: string[] },

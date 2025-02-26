@@ -1,10 +1,10 @@
-import {
+import type {
   ConfigurationRowFormikProps,
   ConfigurationRowFormikValues,
 } from "components/ConfigurationRow";
-import { FormDevice, FormDeviceValues } from "util/formDevices";
-import { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
-import { InstanceEditDetailsFormValues } from "pages/instances/EditInstance";
+import type { FormDevice, FormDeviceValues } from "util/formDevices";
+import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
+import type { InstanceEditDetailsFormValues } from "pages/instances/EditInstance";
 import { isRootDisk } from "util/instanceValidation";
 import isEqual from "lodash.isequal";
 

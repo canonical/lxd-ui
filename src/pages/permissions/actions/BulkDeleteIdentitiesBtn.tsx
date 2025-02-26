@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useNotify } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import { deleteIdentities } from "api/auth-identities";
@@ -36,7 +37,7 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
     const successMessage = `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} successfully deleted`;
     deleteIdentities(deletableIdentities)
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => {
             return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,

@@ -1,9 +1,10 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import CustomVolumeSelectModal from "pages/storage/CustomVolumeSelectModal";
 import CustomVolumeCreateModal from "pages/storage/CustomVolumeCreateModal";
 import { Modal } from "@canonical/react-components";
 import type { LxdStorageVolume } from "types/storage";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { getInstanceLocation } from "util/instanceLocation";
 import BackLink from "components/BackLink";
 
@@ -65,7 +66,9 @@ const CustomVolumeModal: FC<Props> = ({
           instanceLocation={instanceLocation}
           onFinish={onFinish}
           onCancel={onCancel}
-          onCreate={() => setContent(CREATE_VOLUME)}
+          onCreate={() => {
+            setContent(CREATE_VOLUME);
+          }}
           hasPrevStep={!!title}
         />
       )}

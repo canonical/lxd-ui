@@ -1,5 +1,6 @@
-import { FC } from "react";
-import { Button, ButtonProps, Icon } from "@canonical/react-components";
+import type { FC } from "react";
+import type { ButtonProps } from "@canonical/react-components";
+import { Button, Icon } from "@canonical/react-components";
 import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import { useIdentityEntitlements } from "util/entitlements/identities";
@@ -36,7 +37,9 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
   return (
     <>
       <Button
-        onClick={() => panelParams.openIdentityGroups()}
+        onClick={() => {
+          panelParams.openIdentityGroups();
+        }}
         aria-label="Modify groups"
         title={
           restrictedIdentities.length ? getRestrictedWarning() : "Modify groups"

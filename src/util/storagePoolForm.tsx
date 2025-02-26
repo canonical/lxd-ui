@@ -2,8 +2,8 @@ import type {
   LxdStoragePool,
   LXDStoragePoolOnClusterMember,
 } from "types/storage";
-import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import {
   zfsDriver,
   btrfsDriver,

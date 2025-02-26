@@ -20,7 +20,7 @@ import {
 } from "./helpers/server";
 
 let network = randomNetworkName();
-let initialNorthboundNetworkValue: string = "";
+let initialNorthboundNetworkValue = "";
 
 test.describe("bridge type", () => {
   test.beforeAll(async ({ browser, browserName }) => {

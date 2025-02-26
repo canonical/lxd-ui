@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useNavigate } from "react-router-dom";
@@ -34,15 +35,15 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
     setLoading(true);
     const instanceLink = <InstanceLinkChip instance={instance} />;
 
-    void deleteInstance(instance)
+    deleteInstance(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, instance.project],
             });
-            void navigate(`/ui/project/${instance.project}/instances`);
+            navigate(`/ui/project/${instance.project}/instances`);
             toastNotify.success(
               <>
                 Instance{" "}
@@ -61,7 +62,9 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
               new Error(msg),
               instanceLink,
             ),
-          () => setLoading(false),
+          () => {
+            setLoading(false);
+          },
         );
       })
       .catch((e) => {

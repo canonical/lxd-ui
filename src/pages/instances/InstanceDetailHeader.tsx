@@ -1,7 +1,9 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
+import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader from "components/RenameHeader";
 import { renameInstance } from "api/instances";
 import InstanceStateActions from "pages/instances/actions/InstanceStateActions";
 import { useFormik } from "formik";
@@ -50,11 +52,11 @@ const InstanceDetailHeader: FC<Props> = ({
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
-      void renameInstance(name, values.name, project)
+      renameInstance(name, values.name, project)
         .then((operation) => {
           const instanceLink = (
             <InstanceLinkChip
@@ -68,7 +70,7 @@ const InstanceDetailHeader: FC<Props> = ({
           eventQueue.set(
             operation.metadata.id,
             () => {
-              void navigate(`/ui/project/${project}/instance/${values.name}`);
+              navigate(`/ui/project/${project}/instance/${values.name}`);
               toastNotify.success(
                 <>
                   Instance{" "}
@@ -76,7 +78,7 @@ const InstanceDetailHeader: FC<Props> = ({
                   to {instanceLink}.
                 </>,
               );
-              void formik.setFieldValue("isRenaming", false);
+              formik.setFieldValue("isRenaming", false);
             },
             (msg) =>
               toastNotify.failure(
@@ -88,7 +90,9 @@ const InstanceDetailHeader: FC<Props> = ({
                   instanceType: instance?.type || "instance",
                 }),
               ),
-            () => formik.setSubmitting(false),
+            () => {
+              formik.setSubmitting(false);
+            },
           );
         })
         .catch((e) => {

@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useContext } from "react";
+import type { FC, ReactNode } from "react";
+import { createContext, useContext } from "react";
 import type { LxdEvent } from "types/event";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -41,13 +42,13 @@ export const EventQueueProvider: FC<Props> = ({ children }) => {
         get: (operationId) => eventQueue.get(operationId),
         set: (operationId, onSuccess, onFailure, onFinish) => {
           eventQueue.set(operationId, { onSuccess, onFailure, onFinish });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.operations],
           });
         },
         remove: (operationId) => {
           eventQueue.delete(operationId);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.operations],
           });
         },

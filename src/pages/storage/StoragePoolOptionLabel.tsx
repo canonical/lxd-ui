@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdStoragePool } from "types/storage";
 import StoragePoolSize from "./StoragePoolSize";
 

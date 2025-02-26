@@ -1,8 +1,9 @@
-import { FC, Fragment, ReactNode, useEffect, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Input } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
 import FormEditButton from "components/FormEditButton";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 interface Props {
   id: string;
@@ -121,7 +122,9 @@ const ClusterSpecificInput: FC<Props> = ({
                       type="text"
                       className="u-no-margin--bottom"
                       value={activeValue}
-                      onChange={(e) => setValueForMember(e.target.value, item)}
+                      onChange={(e) => {
+                        setValueForMember(e.target.value, item);
+                      }}
                       disabled={!!disabledReason || disabled}
                       placeholder={placeholder}
                       title={disabledReason}
@@ -155,7 +158,9 @@ const ClusterSpecificInput: FC<Props> = ({
               id={id}
               type="text"
               value={firstValue}
-              onChange={(e) => setValueForAllMembers(e.target.value)}
+              onChange={(e) => {
+                setValueForAllMembers(e.target.value);
+              }}
               disabled={!!disabledReason || disabled}
               help={helpText}
               placeholder={placeholder}

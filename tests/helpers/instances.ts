@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import { gotoURL } from "./navigate";
 import { expect } from "../fixtures/lxd-test";
@@ -14,9 +14,9 @@ export const randomImageName = (): string => {
 export const createInstance = async (
   page: Page,
   instance: string,
-  type: string = "container",
-  project: string = "default",
-  image: string = "alpine/3.19/cloud",
+  type = "container",
+  project = "default",
+  image = "alpine/3.19/cloud",
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page
@@ -52,7 +52,7 @@ export const createInstance = async (
 export const visitInstance = async (
   page: Page,
   instance: string,
-  project: string = "default",
+  project = "default",
 ) => {
   await gotoURL(page, `/ui/project/${project}`);
   await page.getByPlaceholder("Search").click();
@@ -81,7 +81,7 @@ export const saveInstance = async (
 export const deleteInstance = async (
   page: Page,
   instance: string,
-  project: string = "default",
+  project = "default",
 ) => {
   await visitInstance(page, instance, project);
   const stopButton = page.getByRole("button", { name: "Stop", exact: true });

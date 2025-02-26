@@ -11,31 +11,35 @@ const sortOperationList = (operations: LxdOperationList) => {
   operations.running?.sort(newestFirst);
 };
 
-export const fetchOperations = (project: string): Promise<LxdOperationList> => {
+export const fetchOperations = async (
+  project: string,
+): Promise<LxdOperationList> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/operations?project=${project}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdOperationList>) => {
         sortOperationList(data.metadata);
-        return resolve(data.metadata);
+        resolve(data.metadata);
       })
       .catch(reject);
   });
 };
 
-export const fetchAllOperations = (): Promise<LxdOperationList> => {
+export const fetchAllOperations = async (): Promise<LxdOperationList> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/operations?all-projects=true&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdOperationList>) => {
         sortOperationList(data.metadata);
-        return resolve(data.metadata);
+        resolve(data.metadata);
       })
       .catch(reject);
   });
 };
 
-export const cancelOperation = (id: string): Promise<LxdOperationList> => {
+export const cancelOperation = async (
+  id: string,
+): Promise<LxdOperationList> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/operations/${id}`, {
       method: "DELETE",

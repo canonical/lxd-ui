@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { LxdNetwork } from "types/network";
+import type { LxdNetwork } from "types/network";
 
 export const useNetworkEntitlements = () => {
   const { isFineGrained } = useAuth();

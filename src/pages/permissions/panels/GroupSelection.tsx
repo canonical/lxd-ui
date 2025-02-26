@@ -1,4 +1,5 @@
-import { DependencyList, FC, useState } from "react";
+import type { DependencyList, FC } from "react";
+import { useState } from "react";
 import PermissionGroupsFilter from "../PermissionGroupsFilter";
 import ScrollableContainer from "components/ScrollableContainer";
 import type { LxdGroup } from "types/permissions";

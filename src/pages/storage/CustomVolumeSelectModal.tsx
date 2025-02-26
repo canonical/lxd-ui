@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, MainTable, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
@@ -133,7 +133,9 @@ const CustomVolumeSelectModal: FC<Props> = ({
               {
                 content: (
                   <Button
-                    onClick={() => handleSelect(volume)}
+                    onClick={() => {
+                      handleSelect(volume);
+                    }}
                     dense
                     appearance={
                       primaryVolume?.name === volume.name &&

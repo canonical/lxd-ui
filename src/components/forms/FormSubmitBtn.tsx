@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ActionButton } from "@canonical/react-components";
 import { pluralize } from "util/instanceBulkActions";
-import { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
 import { getFormChangeCount } from "util/formChangeCount";
 
 interface Props {

@@ -16,7 +16,7 @@ test("search for custom image and create an instance from it", async ({
   page,
 }) => {
   const customInstance = randomInstanceName();
-  let imageName: string = "";
+  let imageName = "";
   try {
     const instance = randomInstanceName();
     await createInstance(page, instance);

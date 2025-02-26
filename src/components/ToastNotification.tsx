@@ -1,7 +1,7 @@
 import { Notification } from "@canonical/react-components";
 import { DefaultTitles } from "@canonical/react-components/dist/components/Notification/Notification";
-import { ToastNotificationType } from "context/toastNotificationProvider";
-import { FC } from "react";
+import type { ToastNotificationType } from "context/toastNotificationProvider";
+import type { FC } from "react";
 import { createPortal } from "react-dom";
 import Animate from "./Animate";
 
@@ -39,7 +39,9 @@ const ToastNotification: FC<Props> = ({ notification, onDismiss, show }) => {
               title={notification.title ?? DefaultTitles[notification.type]}
               actions={notification.actions}
               severity={notification.type}
-              onDismiss={() => onDismiss([notification])}
+              onDismiss={() => {
+                onDismiss([notification]);
+              }}
               className="u-no-margin--bottom"
               timestamp={notification.timestamp}
               titleElement="div"

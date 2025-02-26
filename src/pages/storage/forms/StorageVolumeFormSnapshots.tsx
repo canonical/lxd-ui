@@ -1,8 +1,8 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, Notification } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import SnapshotScheduleInput from "components/SnapshotScheduleInput";
 import { useDocs } from "context/useDocs";
 import { useCurrentProject } from "context/useCurrentProject";

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";

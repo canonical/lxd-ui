@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { FormikProps } from "formik";
-import { StoragePoolFormValues } from "./StoragePoolForm";
+import type { FormikProps } from "formik";
+import type { StoragePoolFormValues } from "./StoragePoolForm";
 import {
   cephDriver,
   cephFSDriver,

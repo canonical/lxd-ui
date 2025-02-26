@@ -1,9 +1,9 @@
-import {
+import type {
   LxdInstance,
   LxdInstanceAction,
   LxdInstanceStatus,
 } from "types/instance";
-import { InstanceBulkAction } from "api/instances";
+import type { InstanceBulkAction } from "api/instances";
 
 // map desired actions to pairs of instance status and performed action
 // statuses missing will be ignored

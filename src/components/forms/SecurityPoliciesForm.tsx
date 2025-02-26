@@ -1,13 +1,13 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import classnames from "classnames";
 import {
   optionAllowDeny,
   optionTrueFalse,
   optionYesNo,
 } from "util/instanceOptions";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";

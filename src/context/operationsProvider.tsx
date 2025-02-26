@@ -1,25 +1,20 @@
-import { RefetchOptions, useQuery } from "@tanstack/react-query";
+import type { RefetchOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchAllOperations } from "api/operations";
-import {
-  FC,
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import type { FC, ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import type { LxdOperation } from "types/operation";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "context/auth";
 
-type OperationsContextType = {
+interface OperationsContextType {
   operations: LxdOperation[];
   runningOperations: LxdOperation[];
   error: Error | null;
   isLoading: boolean;
   isFetching: boolean;
   refetchOperations: (options?: RefetchOptions) => void;
-};
+}
 
 interface Props {
   children: ReactNode;
@@ -45,7 +40,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     refetch,
   } = useQuery({
     queryKey: [queryKeys.operations],
-    queryFn: () => fetchAllOperations(),
+    queryFn: async () => fetchAllOperations(),
     enabled: isAuthenticated,
   });
 

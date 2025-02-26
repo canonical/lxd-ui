@@ -5,7 +5,7 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 const profileEntitlements = ["can_delete", "can_edit"];
 
-export const fetchProfile = (
+export const fetchProfile = async (
   name: string,
   project: string,
   isFineGrained: boolean | null,
@@ -17,12 +17,14 @@ export const fetchProfile = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}&recursion=1${entitlements}`)
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdProfile))
+      .then((data) => {
+        resolve(data as LxdProfile);
+      })
       .catch(reject);
   });
 };
 
-export const fetchProfiles = (
+export const fetchProfiles = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdProfile[]> => {
@@ -33,12 +35,17 @@ export const fetchProfiles = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles?project=${project}&recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProfile[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdProfile[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const createProfile = (body: string, project: string): Promise<void> => {
+export const createProfile = async (
+  body: string,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles?project=${project}`, {
       method: "POST",
@@ -50,7 +57,7 @@ export const createProfile = (body: string, project: string): Promise<void> => {
   });
 };
 
-export const updateProfile = (
+export const updateProfile = async (
   profile: LxdProfile,
   project: string,
 ): Promise<void> => {
@@ -68,7 +75,7 @@ export const updateProfile = (
   });
 };
 
-export const renameProfile = (
+export const renameProfile = async (
   oldName: string,
   newName: string,
   project: string,
@@ -86,7 +93,10 @@ export const renameProfile = (
   });
 };
 
-export const deleteProfile = (name: string, project: string): Promise<void> => {
+export const deleteProfile = async (
+  name: string,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}`, {
       method: "DELETE",

@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { FC } from "react";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
 interface Props {
   row: MainTableRow;

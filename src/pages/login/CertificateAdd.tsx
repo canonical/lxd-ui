@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Col, Notification, Row, useNotify } from "@canonical/react-components";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";

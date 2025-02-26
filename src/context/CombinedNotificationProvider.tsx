@@ -1,8 +1,6 @@
-import {
-  NotificationProvider,
-  QueuedNotification,
-} from "@canonical/react-components";
-import { FC, PropsWithChildren } from "react";
+import type { QueuedNotification } from "@canonical/react-components";
+import { NotificationProvider } from "@canonical/react-components";
+import type { FC, PropsWithChildren } from "react";
 import ToastNotificationProvider from "./toastNotificationProvider";
 
 const CombinedNotificationProvider: FC<

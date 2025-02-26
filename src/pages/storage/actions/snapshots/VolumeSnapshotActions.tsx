@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import {
   deleteVolumeSnapshot,
@@ -47,8 +48,8 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
     const snapshotLink = (
       <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
     );
-    void deleteVolumeSnapshot(volume, snapshot)
-      .then((operation) =>
+    deleteVolumeSnapshot(volume, snapshot)
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () =>
@@ -67,14 +68,14 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
             ),
           () => {
             setDeleting(false);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) =>
                 query.queryKey[0] === queryKeys.volumes ||
                 query.queryKey[0] === queryKeys.storage,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         notify.failure("Snapshot deletion failed", e, snapshotLink);
         setDeleting(false);
@@ -83,7 +84,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
 
   const handleRestore = () => {
     setRestoring(true);
-    void restoreVolumeSnapshot(volume, snapshot)
+    restoreVolumeSnapshot(volume, snapshot)
       .then(() => {
         toastNotify.success(
           <>
@@ -98,7 +99,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
       })
       .finally(() => {
         setRestoring(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.volumes ||
             query.queryKey[0] === queryKeys.storage,

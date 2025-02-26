@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Spinner } from "@canonical/react-components";
 
 interface Props {

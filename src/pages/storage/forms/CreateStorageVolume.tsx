@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,10 +10,8 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
-import {
-  StorageVolumeFormValues,
-  volumeFormToPayload,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
@@ -60,19 +59,19 @@ const CreateStorageVolume: FC = () => {
       const volume = volumeFormToPayload(values, project);
       createStorageVolume(values.pool, project, volume)
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.customVolumes, project],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
-          void navigate(`/ui/project/${project}/storage/volumes`);
+          navigate(`/ui/project/${project}/storage/volumes`);
           toastNotify.success(
             <>
               Storage volume{" "}
@@ -98,12 +97,16 @@ const CreateStorageVolume: FC = () => {
       <StorageVolumeForm
         formik={formik}
         section={section}
-        setSection={(val) => setSection(slugify(val))}
+        setSection={(val) => {
+          setSection(slugify(val));
+        }}
       />
       <FormFooterLayout>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/storage/volumes`)}
+          onClick={async () =>
+            navigate(`/ui/project/${project}/storage/volumes`)
+          }
         >
           Cancel
         </Button>

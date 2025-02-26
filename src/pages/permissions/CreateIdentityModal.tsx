@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   ActionButton,
   Button,
@@ -34,7 +35,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
           const encodedToken = base64EncodeObject(response);
           setToken(encodedToken);
 
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.identities],
           });
         })
@@ -74,7 +75,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
                 }
                 title="Copy token"
                 className="u-no-margin--bottom"
-                onClick={() => handleCopy()}
+                onClick={async () => handleCopy()}
                 type="button"
                 hasIcon
               >

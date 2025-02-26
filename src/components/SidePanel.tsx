@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ReactNode } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 import classnames from "classnames";
 import { AppAside, Panel, Spinner } from "@canonical/react-components";
 import { createPortal } from "react-dom";

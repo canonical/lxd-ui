@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Input, Button, Icon } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
@@ -40,13 +41,20 @@ const SettingFormCheckbox: FC<Props> = ({
         wrapperClassName="input-wrapper"
         type="checkbox"
         checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
+        onChange={(e) => {
+          setChecked(e.target.checked);
+        }}
         help={<ConfigFieldDescription description={configField.longdesc} />}
       />
       <Button appearance="base" onClick={onCancel}>
         Cancel
       </Button>
-      <Button appearance="positive" onClick={() => onSubmit(checked)}>
+      <Button
+        appearance="positive"
+        onClick={() => {
+          onSubmit(checked);
+        }}
+      >
         Save
       </Button>
       {canBeReset && (

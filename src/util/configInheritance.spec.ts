@@ -1,6 +1,6 @@
 import { getConfigRowMetadata } from "util/configInheritance";
-import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 beforeEach(() => {
   vi.mock("@tanstack/react-query", () => ({

@@ -1,8 +1,10 @@
-import { Select, SelectProps } from "@canonical/react-components";
+import type { SelectProps } from "@canonical/react-components";
+import { Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchClusterMembers } from "api/cluster";
 import { useSettings } from "context/useSettings";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { queryKeys } from "util/queryKeys";
 import { isClusteredServer } from "util/settings";
 

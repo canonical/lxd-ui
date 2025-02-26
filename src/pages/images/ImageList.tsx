@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
@@ -226,8 +227,12 @@ const ImageList: FC = () => {
               <BulkDeleteImageBtn
                 images={selectedImages}
                 project={project}
-                onStart={() => setProcessingNames(selectedNames)}
-                onFinish={() => setProcessingNames([])}
+                onStart={() => {
+                  setProcessingNames(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingNames([]);
+                }}
               />
             )}
           </PageHeader.Left>

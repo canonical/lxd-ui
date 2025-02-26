@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon, Modal } from "@canonical/react-components";
 import UploadCustomIso from "pages/storage/UploadCustomIso";
 import { usePortal } from "@canonical/react-components";
@@ -23,7 +23,9 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
   const { data: project } = useProject(projectName);
   const { canCreateStorageVolumes } = useProjectEntitlements();
 
-  const handleCancel = () => closePortal();
+  const handleCancel = () => {
+    closePortal();
+  };
 
   const handleFinish = (name: string) => {
     toastNotify.success(
@@ -37,7 +39,7 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
         uploaded successfully.
       </>,
     );
-    void queryClient.invalidateQueries({ queryKey: [queryKeys.isoVolumes] });
+    queryClient.invalidateQueries({ queryKey: [queryKeys.isoVolumes] });
     closePortal();
   };
 

@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Select } from "@canonical/react-components";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
-import { FormikProps } from "formik/dist/types";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import { optionTrueFalse } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";

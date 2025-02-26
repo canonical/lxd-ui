@@ -5,7 +5,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
@@ -17,12 +17,12 @@ export type MigrationType =
   | "project"
   | "";
 
-type Props = {
+interface Props {
   instance: LxdInstance;
   type: MigrationType;
   target: string;
   onSuccess: () => void;
-};
+}
 
 export const useInstanceMigration = ({
   instance,
@@ -82,7 +82,7 @@ export const useInstanceMigration = ({
         `/project/${target}/instance/${instance.name}`,
       );
       if (oldUrl !== newUrl) {
-        void navigate(newUrl);
+        navigate(newUrl);
       }
     }
 
@@ -116,7 +116,7 @@ export const useInstanceMigration = ({
   };
 
   const handleFinish = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances, instance.name],
     });
     instanceLoading.setFinish(instance);
@@ -138,7 +138,9 @@ export const useInstanceMigration = ({
         eventQueue.set(
           operation.metadata.id,
           handleSuccess,
-          (err) => handleFailure(err),
+          (err) => {
+            handleFailure(err);
+          },
           handleFinish,
         );
         toastNotify.info(
@@ -147,7 +149,7 @@ export const useInstanceMigration = ({
             <InstanceLinkChip instance={instance} />.
           </>,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],
         });
         onSuccess();

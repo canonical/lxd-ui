@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
@@ -18,7 +18,7 @@ const InstanceLogs: FC<Props> = ({ instance }) => {
       instance.project,
       queryKeys.logs,
     ],
-    queryFn: () => fetchInstanceLogs(instance.name, instance.project),
+    queryFn: async () => fetchInstanceLogs(instance.name, instance.project),
   });
 
   return (

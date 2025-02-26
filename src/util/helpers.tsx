@@ -4,11 +4,11 @@ import type { LxdProject } from "types/project";
 import type { LxdProfile } from "types/profile";
 import type { LxdNetwork } from "types/network";
 import type { LxdStorageVolume } from "types/storage";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
 import { isDiskDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
-import { FormDevice } from "./formDevices";
+import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
 
 export const UNDEFINED_DATE = "0001-01-01T00:00:00Z";
@@ -154,7 +154,7 @@ export type AbortControllerState = [
   Dispatch<SetStateAction<AbortController | null>>,
 ];
 
-export const checkDuplicateName = (
+export const checkDuplicateName = async (
   candidate: string | undefined,
   project: string,
   controllerState: AbortControllerState,
@@ -300,7 +300,7 @@ export const getFileExtension = (filename: string): string => {
   return `.${filename.split(".").pop()}`;
 };
 
-export const delay = (ms: number): Promise<void> =>
+export const delay = async (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getUniqueResourceName = (

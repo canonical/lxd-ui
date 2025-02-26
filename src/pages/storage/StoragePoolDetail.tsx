@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useParams } from "react-router-dom";
 import { Icon, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
@@ -9,7 +9,7 @@ import CustomLayout from "components/CustomLayout";
 import EditStoragePool from "pages/storage/EditStoragePool";
 import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
-import { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
+import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
 
 const StoragePoolDetail: FC = () => {

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
 
@@ -13,7 +13,9 @@ const InstanceLink: FC<Props> = ({ instance }) => {
   return (
     <Link
       to={`/ui/project/${instance.project}/instance/${instance.name}`}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <ItemName item={instance} />
     </Link>

@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { isoTimeToString } from "util/helpers";
 import { Col, Row, useNotify } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";

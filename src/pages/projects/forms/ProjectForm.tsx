@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Col, Form, Row } from "@canonical/react-components";
 import ProjectFormMenu, {
   CLUSTERS,
@@ -9,13 +10,13 @@ import ProjectFormMenu, {
   RESOURCE_LIMITS,
 } from "pages/projects/forms/ProjectFormMenu";
 import ProjectDetailsForm from "pages/projects/forms/ProjectDetailsForm";
-import { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "pages/projects/CreateProject";
 import ProjectResourceLimitsForm from "pages/projects/forms/ProjectResourceLimitsForm";
 import ClusterRestrictionForm from "pages/projects/forms/ClusterRestrictionForm";
 import InstanceRestrictionForm from "pages/projects/forms/InstanceRestrictionForm";
 import DeviceUsageRestrictionForm from "pages/projects/forms/DeviceUsageRestrictionForm";
 import NetworkRestrictionForm from "pages/projects/forms/NetworkRestrictionForm";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import type { LxdProject } from "types/project";
 import NotificationRow from "components/NotificationRow";
 import { slugify } from "util/slugify";

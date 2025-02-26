@@ -1,4 +1,4 @@
-import { FC, KeyboardEvent } from "react";
+import type { FC, KeyboardEvent } from "react";
 import {
   ActionButton,
   Button,
@@ -9,10 +9,8 @@ import { useFormik } from "formik";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LxdStorageVolume } from "types/storage";
-import {
-  StorageVolumeFormValues,
-  volumeFormToPayload,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { getStorageVolumeEditValues } from "util/storageVolumeEdit";
 import { updateStorageVolume } from "api/storage-pools";
 import StorageVolumeFormSnapshots from "pages/storage/forms/StorageVolumeFormSnapshots";
@@ -33,7 +31,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
     initialValues: getStorageVolumeEditValues(volume),
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, volume.project);
-      void updateStorageVolume(volume.pool, volume.project, {
+      updateStorageVolume(volume.pool, volume.project, {
         ...saveVolume,
         etag: volume.etag,
       })
@@ -49,7 +47,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
               .
             </>,
           );
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
             predicate: (query) =>
               query.queryKey[0] === queryKeys.volumes ||
@@ -89,7 +87,7 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
             <Button
               className="u-no-margin--bottom"
               type="button"
-              onClick={() => void formik.setFieldValue("readOnly", false)}
+              onClick={async () => formik.setFieldValue("readOnly", false)}
             >
               Edit configuration
             </Button>

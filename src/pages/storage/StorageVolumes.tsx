@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
   EmptyState,
@@ -12,11 +13,11 @@ import Loader from "components/Loader";
 import { isoTimeToString } from "util/helpers";
 import ScrollableTable from "components/ScrollableTable";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
+import type { StorageVolumesFilterType } from "pages/storage/StorageVolumesFilter";
 import StorageVolumesFilter, {
   CONTENT_TYPE,
   POOL,
   QUERY,
-  StorageVolumesFilterType,
   VOLUME_TYPE,
 } from "pages/storage/StorageVolumesFilter";
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";

@@ -1,7 +1,7 @@
 import type { LxdClusterMember } from "types/cluster";
 import EvacuateClusterMemberBtn from "pages/cluster/actions/EvacuateClusterMemberBtn";
 import RestoreClusterMemberBtn from "pages/cluster/actions/RestoreClusterMemberBtn";
-import {
+import type {
   MainTableHeader,
   MainTableRow,
 } from "@canonical/react-components/dist/components/MainTable/MainTable";

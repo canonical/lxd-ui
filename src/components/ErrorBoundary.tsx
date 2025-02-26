@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { PropsWithChildren } from "react";
 import { Component } from "react";
 
@@ -6,10 +6,10 @@ type Props = PropsWithChildren & {
   fallback: FC<{ error?: Error }>;
 };
 
-type State = {
+interface State {
   error?: Error;
   hasError: boolean;
-};
+}
 
 export default class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {

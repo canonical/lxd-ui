@@ -1,10 +1,8 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Col, Input, Label, Row, Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import {
-  getFormProps,
-  StorageVolumeFormValues,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { FormikProps } from "formik/dist/types";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { getFormProps } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -64,7 +62,7 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
             }
             setMemoryLimit={(val?: string) => {
               ensureEditMode(formik);
-              void formik.setFieldValue("size", val);
+              formik.setFieldValue("size", val);
             }}
             disabled={formik.values.volumeType !== "custom"}
           />
@@ -88,13 +86,13 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
             }
             onChange={(e) => {
               if (e.target.value === "block") {
-                void formik.setFieldValue("block_filesystem", undefined);
-                void formik.setFieldValue("block_mount_options", undefined);
-                void formik.setFieldValue("block_type", undefined);
-                void formik.setFieldValue("security_shifted", undefined);
-                void formik.setFieldValue("security_unmapped", undefined);
+                formik.setFieldValue("block_filesystem", undefined);
+                formik.setFieldValue("block_mount_options", undefined);
+                formik.setFieldValue("block_type", undefined);
+                formik.setFieldValue("security_shifted", undefined);
+                formik.setFieldValue("security_unmapped", undefined);
               }
-              void formik.setFieldValue("content_type", e.target.value);
+              formik.setFieldValue("content_type", e.target.value);
             }}
             disabled={!formik.values.isCreating}
           />

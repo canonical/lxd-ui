@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useNotify, Button, ActionButton } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { createClusteredPool, createPool } from "api/storage-pools";
@@ -14,10 +15,8 @@ import {
   isPureStorageIncomplete,
   testDuplicateStoragePoolName,
 } from "util/storagePool";
-import StoragePoolForm, {
-  StoragePoolFormValues,
-  toStoragePool,
-} from "./forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "./forms/StoragePoolForm";
+import StoragePoolForm, { toStoragePool } from "./forms/StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { slugify } from "util/slugify";
@@ -67,7 +66,7 @@ const CreateStoragePool: FC = () => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () =>
+          ? async () =>
               createClusteredPool(
                 storagePool,
                 clusterMembers,
@@ -75,14 +74,14 @@ const CreateStoragePool: FC = () => {
                 values.zfsPoolNamePerClusterMember,
                 values.sizePerClusterMember,
               )
-          : () => createPool(storagePool);
+          : async () => createPool(storagePool);
 
       mutation()
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void navigate(`/ui/project/${project}/storage/pools`);
+          navigate(`/ui/project/${project}/storage/pools`);
           toastNotify.success(
             <>
               Storage pool{" "}
@@ -132,7 +131,7 @@ const CreateStoragePool: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/storage/pools`)}
+          onClick={async () => navigate(`/ui/project/${project}/storage/pools`)}
         >
           Cancel
         </Button>

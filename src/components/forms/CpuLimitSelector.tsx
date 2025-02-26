@@ -1,6 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { RadioInput } from "@canonical/react-components";
-import { CpuLimit, CPU_LIMIT_TYPE } from "types/limits";
+import type { CpuLimit } from "types/limits";
+import { CPU_LIMIT_TYPE } from "types/limits";
 import CpuLimitInput from "components/forms/CpuLimitInput";
 import { useCurrentProject } from "context/useCurrentProject";
 
@@ -23,12 +24,16 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
         <RadioInput
           label="number"
           checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC}
-          onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.DYNAMIC })}
+          onChange={() => {
+            setCpuLimit({ selectedType: CPU_LIMIT_TYPE.DYNAMIC });
+          }}
         />
         <RadioInput
           label="fixed"
           checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED}
-          onChange={() => setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED })}
+          onChange={() => {
+            setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED });
+          }}
         />
       </div>
       {cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC && (
@@ -39,9 +44,9 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
           min="1"
           step="1"
           placeholder="Number of exposed cores"
-          onChange={(e) =>
-            setCpuLimit({ ...cpuLimit, dynamicValue: +e.target.value })
-          }
+          onChange={(e) => {
+            setCpuLimit({ ...cpuLimit, dynamicValue: +e.target.value });
+          }}
           value={cpuLimit.dynamicValue ?? ""}
           project={project}
           help={help}
@@ -53,9 +58,9 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
           name="limits_cpu"
           type="text"
           placeholder="Comma-separated core numbers"
-          onChange={(e) =>
-            setCpuLimit({ ...cpuLimit, fixedValue: e.target.value })
-          }
+          onChange={(e) => {
+            setCpuLimit({ ...cpuLimit, fixedValue: e.target.value });
+          }}
           value={cpuLimit.fixedValue ?? ""}
           project={project}
           help={help}

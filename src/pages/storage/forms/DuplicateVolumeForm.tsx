@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
 import {
@@ -55,7 +56,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(`${volumeUrl}/configuration`),
+        onClick: async () => navigate(`${volumeUrl}/configuration`),
       },
     ];
 
@@ -142,7 +143,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
           );
           eventQueue.set(
             operation.metadata.id,
-            () => notifySuccess(values.name, values.project, values.pool),
+            () => {
+              notifySuccess(values.name, values.project, values.pool);
+            },
             (msg) =>
               toastNotify.failure(
                 "Volume duplication failed.",

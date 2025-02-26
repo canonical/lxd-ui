@@ -1,4 +1,5 @@
-import { ChangeEvent, FC, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useState } from "react";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import { useToastNotification } from "context/toastNotificationProvider";
@@ -18,7 +19,7 @@ import type { UploadState } from "types/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdSyncResponse } from "types/apiResponse";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useProject } from "context/useProjects";
 
@@ -44,7 +45,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
 
   const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      void formik.setFieldValue("fileList", e.target.files);
+      formik.setFieldValue("fileList", e.target.files);
     }
   };
 
@@ -64,7 +65,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
   };
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.images,
     });
   };
@@ -106,7 +107,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
               (event) => {
                 const fingerprint = event.metadata.metadata?.fingerprint ?? "";
                 if (values.alias) {
-                  void createImageAlias(fingerprint, values.alias, projectName)
+                  createImageAlias(fingerprint, values.alias, projectName)
                     .then(clearCache)
                     .catch((e) => {
                       toastNotify.failure(

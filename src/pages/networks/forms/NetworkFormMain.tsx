@@ -1,8 +1,8 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Input, Label } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import UplinkSelector from "pages/networks/forms/UplinkSelector";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkTypeSelector from "pages/networks/forms/NetworkTypeSelector";
 import NetworkParentSelector from "pages/networks/forms/NetworkParentSelector";
 import { ensureEditMode } from "util/instanceEdit";
@@ -115,7 +115,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
                     family="IPv4"
                     address={formik.values.ipv4_address}
                     setAddress={(value) => {
-                      void formik.setFieldValue("ipv4_address", value);
+                      formik.setFieldValue("ipv4_address", value);
 
                       if (value === "none") {
                         const nullFields = [
@@ -147,7 +147,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
                     family="IPv6"
                     address={formik.values.ipv6_address}
                     setAddress={(value) => {
-                      void formik.setFieldValue("ipv6_address", value);
+                      formik.setFieldValue("ipv6_address", value);
 
                       if (value === "none") {
                         const nullFields = [

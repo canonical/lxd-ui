@@ -1,5 +1,5 @@
 import { Button, Icon } from "@canonical/react-components";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 
 interface Props {
   linkText: string;

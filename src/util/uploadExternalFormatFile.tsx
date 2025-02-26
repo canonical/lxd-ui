@@ -139,7 +139,7 @@ export const sendFileByWebSocket = (
   return ws;
 };
 
-export const isImageTypeRaw = (file: File): Promise<boolean> => {
+export const isImageTypeRaw = async (file: File): Promise<boolean> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
 

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";

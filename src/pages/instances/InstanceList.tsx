@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -27,11 +28,12 @@ import InstanceBulkActions from "pages/instances/actions/InstanceBulkActions";
 import { getIpAddresses } from "util/networks";
 import InstanceBulkDelete from "pages/instances/actions/InstanceBulkDelete";
 import InstanceSearchFilter from "./InstanceSearchFilter";
-import { InstanceFilters, enrichStatuses } from "util/instanceFilter";
+import type { InstanceFilters } from "util/instanceFilter";
+import { enrichStatuses } from "util/instanceFilter";
 import { isWidthBelow } from "util/helpers";
 import { fetchOperations } from "api/operations";
 import CancelOperationBtn from "pages/operations/actions/CancelOperationBtn";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   ACTIONS,
   COLUMN_WIDTHS,
@@ -132,7 +134,7 @@ const InstanceList: FC = () => {
 
   const { data: operationList } = useQuery({
     queryKey: [queryKeys.operations, project],
-    queryFn: () => fetchOperations(project.name),
+    queryFn: async () => fetchOperations(project.name),
   });
 
   if (error) {
@@ -364,8 +366,9 @@ const InstanceList: FC = () => {
     });
 
     const instanceRows: MainTableRow[] = filteredInstances.map((instance) => {
-      const openSummary = () =>
+      const openSummary = () => {
         panelParams.openInstanceSummary(instance.name, project.name);
+      };
 
       const ipv4 = getIpAddresses(instance, "inet")
         .filter((val) => !val.address.startsWith("127"))
@@ -601,13 +604,19 @@ const InstanceList: FC = () => {
                 <>
                   <InstanceBulkActions
                     instances={selectedInstances}
-                    onStart={() => setProcessingNames(selectedNames)}
-                    onFinish={() => setProcessingNames([])}
+                    onStart={() => {
+                      setProcessingNames(selectedNames);
+                    }}
+                    onFinish={() => {
+                      setProcessingNames([]);
+                    }}
                   />
                   <InstanceBulkDelete
                     instances={selectedInstances}
                     onStart={setProcessingNames}
-                    onFinish={() => setProcessingNames([])}
+                    onFinish={() => {
+                      setProcessingNames([]);
+                    }}
                   />
                 </>
               )}
@@ -617,10 +626,8 @@ const InstanceList: FC = () => {
                 <Button
                   appearance="positive"
                   className="u-float-right u-no-margin--bottom"
-                  onClick={() =>
-                    void navigate(
-                      `/ui/project/${project.name}/instances/create`,
-                    )
+                  onClick={async () =>
+                    navigate(`/ui/project/${project.name}/instances/create`)
                   }
                   hasIcon={!isSmallScreen}
                   disabled={!canCreateInstances(project)}
@@ -747,10 +754,8 @@ const InstanceList: FC = () => {
                 <Button
                   className="empty-state-button"
                   appearance="positive"
-                  onClick={() =>
-                    void navigate(
-                      `/ui/project/${project.name}/instances/create`,
-                    )
+                  onClick={async () =>
+                    navigate(`/ui/project/${project.name}/instances/create`)
                   }
                   disabled={!canCreateInstances(project)}
                   title={createInstanceRestriction}

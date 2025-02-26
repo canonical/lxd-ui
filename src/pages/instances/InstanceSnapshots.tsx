@@ -1,4 +1,5 @@
-import { ReactNode, useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
@@ -232,8 +233,12 @@ const InstanceSnapshots = (props: Props) => {
               <InstanceSnapshotBulkDelete
                 instance={instance}
                 snapshotNames={selectedNames}
-                onStart={() => setProcessingNames(selectedNames)}
-                onFinish={() => setProcessingNames([])}
+                onStart={() => {
+                  setProcessingNames(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingNames([]);
+                }}
                 onSuccess={onSuccess}
                 onFailure={onFailure}
               />

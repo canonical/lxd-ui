@@ -1,6 +1,7 @@
 import { useNotify } from "@canonical/react-components";
 import SidePanel from "components/SidePanel";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import usePanelParams from "util/usePanelParams";
 import { getGroupsForIdentities } from "util/permissionIdentities";
 import useEditHistory from "util/useEditHistory";
@@ -11,10 +12,10 @@ import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import { useGroups } from "context/useGroups";
 
-type GroupEditHistory = {
+interface GroupEditHistory {
   groupsAdded: Set<string>;
   groupsRemoved: Set<string>;
-};
+}
 
 interface Props {
   identities: LxdIdentity[];
@@ -186,7 +187,9 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
             modifiedGroups={modifiedGroups}
             undoChange={undoGroupChange}
             closePanel={closePanel}
-            onSubmit={() => setConfirming(true)}
+            onSubmit={() => {
+              setConfirming(true);
+            }}
             disabled={modifiedGroups.size === 0}
           />
         </SidePanel.Footer>

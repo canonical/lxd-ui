@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const EditClusterGroupBtn: FC<Props> = ({ group }) => {
   return (
     <Button
       className="u-no-margin--bottom"
-      onClick={() => navigate(`/ui/cluster/group/${group}/edit`)}
+      onClick={async () => navigate(`/ui/cluster/group/${group}/edit`)}
     >
       Edit group
     </Button>

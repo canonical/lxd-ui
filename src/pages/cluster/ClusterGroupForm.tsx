@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -62,7 +63,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       .test(
         "deduplicate",
         "A cluster group with this name already exists",
-        (value) =>
+        async (value) =>
           group?.name === value ||
           checkDuplicateName(value, "", controllerState, "cluster/groups"),
       )
@@ -85,7 +86,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       })
         .then(() => {
           const verb = group ? "saved" : "created";
-          void navigate(`/ui/cluster/group/${values.name}`);
+          navigate(`/ui/cluster/group/${values.name}`);
           toastNotify.success(
             <>
               Cluster group{" "}
@@ -104,7 +105,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
           notify.failure(`Cluster group ${verb} failed`, e);
         })
         .finally(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.cluster, queryKeys.groups],
           });
         });
@@ -179,7 +180,10 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            <Button appearance="base" onClick={() => navigate(`/ui/cluster`)}>
+            <Button
+              appearance="base"
+              onClick={async () => navigate(`/ui/cluster`)}
+            >
               Cancel
             </Button>
             <ActionButton

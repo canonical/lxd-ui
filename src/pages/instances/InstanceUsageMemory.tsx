@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
 import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";

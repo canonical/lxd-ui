@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { LxdStoragePool } from "types/storage";
+import type { LxdStoragePool } from "types/storage";
 
 export const useStoragePoolEntitlements = () => {
   const { isFineGrained } = useAuth();

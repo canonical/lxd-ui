@@ -1,4 +1,5 @@
-import { FC, OptionHTMLAttributes, useState } from "react";
+import type { FC, OptionHTMLAttributes } from "react";
+import { useState } from "react";
 import {
   Button,
   CheckboxInput,
@@ -13,7 +14,7 @@ import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
 import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   byLtsFirst,
   localLxdToRemoteImage,
@@ -60,9 +61,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [hideRemote, setHideRemote] = useState(false);
   const { project } = useParams<{ project: string }>();
 
-  const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
+  const loadImages = async (
+    file: string,
+    server: string,
+  ): Promise<RemoteImage[]> => {
     return new Promise((resolve, reject) => {
-      void fetch(file)
+      fetch(file)
         .then(handleResponse)
         .then((data: RemoteImageList) => {
           const images = Object.entries(data.products).map((product) => {
@@ -80,20 +84,20 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
     queryKey: [queryKeys.images, canonicalServer],
-    queryFn: () => loadImages(canonicalJson, canonicalServer),
+    queryFn: async () => loadImages(canonicalJson, canonicalServer),
     retry: false, // avoid retry to ease experience in airgapped deployments
   });
 
   const { data: minimalImages = [], isLoading: isMinimalLoading } = useQuery({
     queryKey: [queryKeys.images, minimalServer],
-    queryFn: () => loadImages(minimalJson, minimalServer),
+    queryFn: async () => loadImages(minimalJson, minimalServer),
     retry: false, // avoid retry to ease experience in airgapped deployments
   });
 
   const { data: imagesLxdImages = [], isLoading: isImagesLxdLoading } =
     useQuery({
       queryKey: [queryKeys.images, imagesLxdServer],
-      queryFn: () => loadImages(imagesLxdJson, imagesLxdServer),
+      queryFn: async () => loadImages(imagesLxdJson, imagesLxdServer),
       retry: false, // avoid retry to ease experience in airgapped deployments
     });
 
@@ -202,7 +206,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
       const itemType = figureType();
 
-      const selectImage = () => onSelect(item, item.type ?? type);
+      const selectImage = () => {
+        onSelect(item, item.type ?? type);
+      };
 
       const displayRelease =
         item.os === "Ubuntu" &&
@@ -429,7 +435,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               aria-label="Only show cached images"
               checked={hideRemote}
               label="Show only cached images"
-              onChange={() => setHideRemote((prev) => !prev)}
+              onChange={() => {
+                setHideRemote((prev) => !prev);
+              }}
             />
           </div>
         </Col>

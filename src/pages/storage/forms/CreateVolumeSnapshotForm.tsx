@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdStorageVolume } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useNotify } from "@canonical/react-components";
@@ -9,7 +9,8 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { UNDEFINED_DATE, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
-import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import type { SnapshotFormValues } from "util/snapshots";
+import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { getVolumeSnapshotName } from "util/operations";
@@ -44,7 +45,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
-      void createVolumeSnapshot({
+      createVolumeSnapshot({
         volume,
         name: values.name,
         expiresAt,
@@ -53,7 +54,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
-              void queryClient.invalidateQueries({
+              queryClient.invalidateQueries({
                 predicate: (query) =>
                   query.queryKey[0] === queryKeys.volumes ||
                   query.queryKey[0] === queryKeys.storage,

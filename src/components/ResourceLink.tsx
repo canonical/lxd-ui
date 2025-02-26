@@ -1,6 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Link } from "react-router-dom";
-import ResourceIcon, { ResourceIconType } from "./ResourceIcon";
+import type { ResourceIconType } from "./ResourceIcon";
+import ResourceIcon from "./ResourceIcon";
 
 interface Props {
   type: ResourceIconType;

@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPermissions } from "api/auth-permissions";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { FC, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   generateEntitlementOptions,
   generateResourceOptions,
@@ -15,10 +16,10 @@ import {
   noneAvailableOption,
 } from "util/permissions";
 import { queryKeys } from "util/queryKeys";
-import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
 import ResourceOptionHeader from "./ResourceOptionHeader";
 import type { LxdPermission } from "types/permissions";
-import { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
+import type { SelectRef } from "@canonical/react-components/dist/components/CustomSelect/CustomSelect";
 import { useImagesInAllProjects } from "context/useImages";
 import { useIdentities } from "context/useIdentities";
 
@@ -47,7 +48,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
     error: permissionsError,
   } = useQuery({
     queryKey: [queryKeys.permissions, resourceType],
-    queryFn: () => fetchPermissions({ resourceType }),
+    queryFn: async () => fetchPermissions({ resourceType }),
     enabled: !!resourceType && !disableReason,
   });
 
@@ -60,7 +61,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
 
   const { data: metadata, isLoading: isMetadataLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
 
   const isLoading = isPermissionsLoading || isMetadataLoading;

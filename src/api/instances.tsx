@@ -10,8 +10,9 @@ import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdOperationResponse } from "types/operation";
-import { EventQueue } from "context/eventQueue";
-import axios, { AxiosResponse } from "axios";
+import type { EventQueue } from "context/eventQueue";
+import type { AxiosResponse } from "axios";
+import axios from "axios";
 import type { UploadState } from "types/storage";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
@@ -25,7 +26,7 @@ export const instanceEntitlements = [
   "can_update_state",
 ];
 
-export const fetchInstance = (
+export const fetchInstance = async (
   name: string,
   project: string,
   isFineGrained: boolean | null,
@@ -39,12 +40,14 @@ export const fetchInstance = (
       `/1.0/instances/${name}?project=${project}&recursion=2${entitlements}`,
     )
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdInstance))
+      .then((data) => {
+        resolve(data as LxdInstance);
+      })
       .catch(reject);
   });
 };
 
-export const fetchInstances = (
+export const fetchInstances = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdInstance[]> => {
@@ -55,12 +58,14 @@ export const fetchInstances = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances?project=${project}&recursion=2${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdInstance[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdInstance[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const createInstance = (
+export const createInstance = async (
   body: string,
   project: string,
   target?: string,
@@ -76,7 +81,7 @@ export const createInstance = (
   });
 };
 
-export const updateInstance = (
+export const updateInstance = async (
   instance: LxdInstance,
   project: string,
 ): Promise<LxdOperationResponse> => {
@@ -94,7 +99,7 @@ export const updateInstance = (
   });
 };
 
-export const renameInstance = (
+export const renameInstance = async (
   oldName: string,
   newName: string,
   project: string,
@@ -112,7 +117,7 @@ export const renameInstance = (
   });
 };
 
-export const migrateInstance = (
+export const migrateInstance = async (
   name: string,
   project: string,
   target?: string,
@@ -139,39 +144,39 @@ export const migrateInstance = (
   });
 };
 
-export const startInstance = (
+export const startInstance = async (
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "start");
 };
 
-export const stopInstance = (
+export const stopInstance = async (
   instance: LxdInstance,
   isForce: boolean,
 ): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "stop", isForce);
 };
 
-export const freezeInstance = (
+export const freezeInstance = async (
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "freeze");
 };
 
-export const unfreezeInstance = (
+export const unfreezeInstance = async (
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "unfreeze");
 };
 
-export const restartInstance = (
+export const restartInstance = async (
   instance: LxdInstance,
   isForce: boolean,
 ): Promise<LxdOperationResponse> => {
   return putInstanceAction(instance.name, instance.project, "restart", isForce);
 };
 
-const putInstanceAction = (
+const putInstanceAction = async (
   instance: string,
   project: string,
   action: LxdInstanceAction,
@@ -197,7 +202,7 @@ export interface InstanceBulkAction {
   action: LxdInstanceAction;
 }
 
-export const updateInstanceBulkAction = (
+export const updateInstanceBulkAction = async (
   actions: InstanceBulkAction[],
   isForce: boolean,
   eventQueue: EventQueue,
@@ -206,13 +211,19 @@ export const updateInstanceBulkAction = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
-        return await putInstanceAction(name, project, action, isForce)
+        await putInstanceAction(name, project, action, isForce)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, actions.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, actions.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -224,7 +235,7 @@ export const updateInstanceBulkAction = (
   });
 };
 
-export const deleteInstance = (
+export const deleteInstance = async (
   instance: LxdInstance,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
@@ -237,7 +248,7 @@ export const deleteInstance = (
   });
 };
 
-export const deleteInstanceBulk = (
+export const deleteInstanceBulk = async (
   instances: LxdInstance[],
   eventQueue: EventQueue,
 ): Promise<PromiseSettledResult<void>[]> => {
@@ -245,13 +256,19 @@ export const deleteInstanceBulk = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       instances.map(async (instance) => {
-        return await deleteInstance(instance)
+        await deleteInstance(instance)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, instances.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, instances.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -263,7 +280,7 @@ export const deleteInstanceBulk = (
   });
 };
 
-export const connectInstanceExec = (
+export const connectInstanceExec = async (
   name: string,
   project: string,
   payload: TerminalConnectPayload,
@@ -284,12 +301,14 @@ export const connectInstanceExec = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdTerminal) => resolve(data))
+      .then((data: LxdTerminal) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const connectInstanceVga = (
+export const connectInstanceVga = async (
   name: string,
   project: string,
 ): Promise<LxdTerminal> => {
@@ -303,12 +322,14 @@ export const connectInstanceVga = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdTerminal) => resolve(data))
+      .then((data: LxdTerminal) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const connectInstanceConsole = (
+export const connectInstanceConsole = async (
   name: string,
   project: string,
 ): Promise<LxdTerminal> => {
@@ -321,12 +342,14 @@ export const connectInstanceConsole = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdTerminal) => resolve(data))
+      .then((data: LxdTerminal) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const fetchInstanceConsoleBuffer = (
+export const fetchInstanceConsoleBuffer = async (
   name: string,
   project: string,
 ): Promise<string> => {
@@ -335,12 +358,14 @@ export const fetchInstanceConsoleBuffer = (
       method: "GET",
     })
       .then(handleTextResponse)
-      .then((data: string) => resolve(data))
+      .then((data: string) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const fetchInstanceLogs = (
+export const fetchInstanceLogs = async (
   name: string,
   project: string,
 ): Promise<string[]> => {
@@ -349,12 +374,14 @@ export const fetchInstanceLogs = (
       method: "GET",
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<string[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<string[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchInstanceLogFile = (
+export const fetchInstanceLogFile = async (
   name: string,
   project: string,
   file: string,
@@ -364,12 +391,14 @@ export const fetchInstanceLogFile = (
       method: "GET",
     })
       .then(handleTextResponse)
-      .then((data: string) => resolve(data))
+      .then((data: string) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const uploadInstance = (
+export const uploadInstance = async (
   file: File | null,
   name: string,
   project: string | undefined,
@@ -400,7 +429,7 @@ export const uploadInstance = (
   });
 };
 
-export const createInstanceBackup = (
+export const createInstanceBackup = async (
   instanceName: string,
   project: string,
   expiresAt: string,
@@ -418,7 +447,9 @@ export const createInstanceBackup = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => resolve(data))
+      .then((data: LxdOperationResponse) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };

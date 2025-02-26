@@ -1,17 +1,18 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateProject } from "api/projects";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { PROJECT_DETAILS } from "pages/projects/forms/ProjectFormMenu";
 import { useFormik } from "formik";
-import { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ProjectFormValues } from "pages/projects/CreateProject";
 import * as Yup from "yup";
 import type { LxdProject } from "types/project";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { getProjectEditValues, getProjectPayload } from "util/projectEdit";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import ProjectForm from "pages/projects/forms/ProjectForm";
 import ProjectConfigurationHeader from "pages/projects/ProjectConfigurationHeader";
 import { useAuth } from "context/auth";
@@ -87,14 +88,14 @@ const EditProject: FC<Props> = ({ project }) => {
               updated.
             </>,
           );
-          void formik.setFieldValue("readOnly", true);
+          formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
           notify.failure("Project update failed", e);
         })
         .finally(() => {
           formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects],
           });
         });
@@ -104,9 +105,9 @@ const EditProject: FC<Props> = ({ project }) => {
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project.name}/configuration`;
     if (newSection === PROJECT_DETAILS) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 
@@ -128,7 +129,7 @@ const EditProject: FC<Props> = ({ project }) => {
             <>
               <Button
                 appearance="base"
-                onClick={() => formik.setValues(initialValues)}
+                onClick={async () => formik.setValues(initialValues)}
               >
                 Cancel
               </Button>

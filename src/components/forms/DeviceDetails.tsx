@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Col, Row } from "@canonical/react-components";
 import type { LxdGPUDevice, LxdOtherDevice } from "types/device";
 import { deviceKeyToLabel } from "util/devices";

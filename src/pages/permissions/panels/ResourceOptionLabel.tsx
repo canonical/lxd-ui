@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { ResourceDetail } from "util/resourceDetails";
+import type { FC } from "react";
+import type { ResourceDetail } from "util/resourceDetails";
 import { getResourceOptionColumns } from "util/permissions";
 
 interface Props {

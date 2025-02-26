@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteProfile } from "api/profiles";
 import { useNavigate } from "react-router-dom";
 import type { LxdProfile } from "types/profile";
@@ -39,10 +40,10 @@ const DeleteProfileBtn: FC<Props> = ({
     setLoading(true);
     deleteProfile(profile.name, project)
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.projects, project],
         });
-        void navigate(`/ui/project/${project}/profiles`);
+        navigate(`/ui/project/${project}/profiles`);
         toastNotify.success(
           <>
             Profile <ResourceLabel bold type="profile" value={profile.name} />{" "}

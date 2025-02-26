@@ -1,4 +1,4 @@
-import { OptionHTMLAttributes } from "react";
+import type { OptionHTMLAttributes } from "react";
 import type { LxdSettings } from "types/server";
 
 export const dirDriver = "dir";

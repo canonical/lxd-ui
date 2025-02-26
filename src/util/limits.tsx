@@ -1,10 +1,5 @@
-import {
-  BYTES_UNITS,
-  CPU_LIMIT_TYPE,
-  CpuLimit,
-  MEM_LIMIT_TYPE,
-  MemoryLimit,
-} from "types/limits";
+import type { CpuLimit, MemoryLimit } from "types/limits";
+import { BYTES_UNITS, CPU_LIMIT_TYPE, MEM_LIMIT_TYPE } from "types/limits";
 
 export const cpuLimitToPayload = (
   cpuLimit: CpuLimit | string | undefined,

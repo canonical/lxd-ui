@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
+import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
 import NetworkForwardForm, {
-  NetworkForwardFormValues,
   NetworkForwardSchema,
   toNetworkForward,
 } from "pages/networks/forms/NetworkForwardForm";
@@ -62,7 +63,7 @@ const CreateNetworkForward: FC = () => {
       const forward = toNetworkForward(values);
       createNetworkForward(networkName ?? "", forward, project ?? "")
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -71,9 +72,7 @@ const CreateNetworkForward: FC = () => {
               queryKeys.forwards,
             ],
           });
-          void navigate(
-            `/ui/project/${project}/network/${networkName}/forwards`,
-          );
+          navigate(`/ui/project/${project}/network/${networkName}/forwards`);
           toastNotify.success(
             `Network forward ${forward.listen_address} created.`,
           );

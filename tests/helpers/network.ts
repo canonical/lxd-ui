@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { randomNameSuffix } from "./name";
 import type { LxdNetworkType } from "types/network";
 import { activateAllTableOverrides } from "./configuration";

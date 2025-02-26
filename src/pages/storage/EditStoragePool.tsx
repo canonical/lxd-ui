@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { updateClusteredPool, updatePool } from "api/storage-pools";
@@ -7,10 +8,8 @@ import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdStoragePool } from "types/storage";
 import { queryKeys } from "util/queryKeys";
-import StoragePoolForm, {
-  toStoragePool,
-  StoragePoolFormValues,
-} from "./forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "./forms/StoragePoolForm";
+import StoragePoolForm, { toStoragePool } from "./forms/StoragePoolForm";
 import { checkDuplicateName } from "util/helpers";
 import { useClusterMembers } from "context/useClusterMembers";
 import FormFooterLayout from "components/forms/FormFooterLayout";
@@ -68,7 +67,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       .test(
         "deduplicate",
         "A pool with this name already exists",
-        (value) =>
+        async (value) =>
           value === pool.name ||
           checkDuplicateName(value, project, controllerState, `storage-pools`),
       )
@@ -94,13 +93,13 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () =>
+          ? async () =>
               updateClusteredPool(
                 savedPool,
                 clusterMembers,
                 values.sizePerClusterMember,
               )
-          : () => updatePool(savedPool);
+          : async () => updatePool(savedPool);
 
       mutation()
         .then(() => {
@@ -121,7 +120,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
         })
         .finally(() => {
           formik.setSubmitting(false);
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
         });
@@ -131,9 +130,9 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
   const updateSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${pool.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 

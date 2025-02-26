@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import SelectGPUModal from "components/forms/SelectGPUModal";

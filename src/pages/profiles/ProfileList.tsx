@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   Button,
   Col,
@@ -101,8 +102,9 @@ const ProfileList: FC = () => {
   ];
 
   const rows = filteredProfiles.map((profile) => {
-    const openSummary = () =>
+    const openSummary = () => {
       panelParams.openProfileSummary(profile.name, projectName);
+    };
 
     const usedBy =
       instanceCountMap.find((item) => profile.name === item.name)?.count ?? 0;
@@ -202,8 +204,8 @@ const ProfileList: FC = () => {
                 <Button
                   appearance="positive"
                   className="u-no-margin--bottom u-float-right"
-                  onClick={() =>
-                    void navigate(`/ui/project/${projectName}/profiles/create`)
+                  onClick={async () =>
+                    navigate(`/ui/project/${projectName}/profiles/create`)
                   }
                   hasIcon={!isSmallScreen}
                   disabled={!canCreateProfiles(project)}

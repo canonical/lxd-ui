@@ -1,10 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { pluralize } from "util/instanceBulkActions";
-import {
-  ConfirmationButton,
-  ConfirmationButtonProps,
-  Icon,
-} from "@canonical/react-components";
+import type { ConfirmationButtonProps } from "@canonical/react-components";
+import { ConfirmationButton, Icon } from "@canonical/react-components";
 import classnames from "classnames";
 
 interface Props {

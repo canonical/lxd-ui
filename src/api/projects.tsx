@@ -15,7 +15,7 @@ const projectEntitlements = [
   "can_edit",
 ];
 
-export const fetchProjects = (
+export const fetchProjects = async (
   isFineGrained: boolean | null,
 ): Promise<LxdProject[]> => {
   const entitlements = withEntitlementsQuery(
@@ -25,12 +25,14 @@ export const fetchProjects = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProject[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdProject[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchProject = (
+export const fetchProject = async (
   name: string,
   isFineGrained: boolean | null,
 ): Promise<LxdProject> => {
@@ -42,12 +44,14 @@ export const fetchProject = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${name}${entitlements}`)
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdProject))
+      .then((data) => {
+        resolve(data as LxdProject);
+      })
       .catch(reject);
   });
 };
 
-export const createProject = (body: string): Promise<void> => {
+export const createProject = async (body: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects`, {
       method: "POST",
@@ -59,7 +63,7 @@ export const createProject = (body: string): Promise<void> => {
   });
 };
 
-export const updateProject = (project: LxdProject): Promise<void> => {
+export const updateProject = async (project: LxdProject): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${project.name}`, {
       method: "PUT",
@@ -74,7 +78,7 @@ export const updateProject = (project: LxdProject): Promise<void> => {
   });
 };
 
-export const renameProject = (
+export const renameProject = async (
   oldName: string,
   newName: string,
 ): Promise<LxdOperationResponse> => {
@@ -91,7 +95,7 @@ export const renameProject = (
   });
 };
 
-export const deleteProject = (project: LxdProject): Promise<void> => {
+export const deleteProject = async (project: LxdProject): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${project.name}`, {
       method: "DELETE",

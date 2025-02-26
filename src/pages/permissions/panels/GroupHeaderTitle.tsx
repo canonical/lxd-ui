@@ -1,6 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdGroup } from "types/permissions";
-import { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
 import { pluralize } from "util/instanceBulkActions";
 import BackLink from "components/BackLink";
 
@@ -21,7 +21,9 @@ const GroupHeaderTitle: FC<Props> = ({ subForm, setSubForm, group }) => {
     <BackLink
       linkText={group ? "Edit group" : "Create group"}
       title={`${verb} ${pluralize(subForm, 2)}`}
-      onClick={() => setSubForm(null)}
+      onClick={() => {
+        setSubForm(null);
+      }}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { Icon } from "@canonical/react-components";
-import { FC } from "react";
+import type { FC } from "react";
 
 export type InstanceIconType = "container" | "virtual-machine" | "instance";
 

@@ -1,5 +1,6 @@
 import { ConfirmationModal, useNotify } from "@canonical/react-components";
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdIdentity } from "types/permissions";
 import {
   generateGroupAllocationsForIdentities,
@@ -62,7 +63,7 @@ const IdentityGroupsPanelConfirmModal: FC<Props> = ({
     updateIdentities(payload)
       .then(() => {
         // modifying groups should invalidate both identities and groups api queries
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => {
             return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,

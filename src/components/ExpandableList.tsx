@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import { Button } from "@canonical/react-components";
 
 const DISPLAY_COUNT = 5;

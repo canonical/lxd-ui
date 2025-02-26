@@ -7,7 +7,8 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
@@ -17,14 +18,13 @@ import { useNavigate } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import { uploadInstance } from "api/instances";
 import { useFormik } from "formik";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import * as Yup from "yup";
 import classnames from "classnames";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import InstanceFileTypeSelector, {
-  InstanceFileType,
-} from "./InstanceFileTypeSelector";
+import type { InstanceFileType } from "./InstanceFileTypeSelector";
+import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 
@@ -73,7 +73,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(`${instanceUrl}/configuration`),
+        onClick: async () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 
@@ -85,7 +85,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
   };
 
   const handleFinish = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => {
         return query.queryKey[0] === queryKeys.instances;
       },
@@ -96,7 +96,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
     const uploadController = new AbortController();
     setUploadAbort(uploadController);
 
-    void uploadInstance(
+    uploadInstance(
       values.instanceFile,
       values.name,
       project?.name,
@@ -114,13 +114,15 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
 
         eventQueue.set(
           operation.metadata.id,
-          () => handleSuccess(values.name),
+          () => {
+            handleSuccess(values.name);
+          },
           handleFailure,
           handleFinish,
         );
 
         handleCloseModal();
-        void navigate(`/ui/project/${project?.name}/instances`);
+        navigate(`/ui/project/${project?.name}/instances`);
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);

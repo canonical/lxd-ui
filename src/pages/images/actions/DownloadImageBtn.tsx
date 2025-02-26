@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdImage } from "types/image";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { useToastNotification } from "context/toastNotificationProvider";

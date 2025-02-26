@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useCurrentProject } from "context/useCurrentProject";
 import { NavLink } from "react-router-dom";
 import { useSettings } from "context/useSettings";

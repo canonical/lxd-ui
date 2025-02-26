@@ -4,9 +4,9 @@ import type {
   LxdNetworkDnsMode,
   LXDNetworkOnClusterMember,
 } from "types/network";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { getNetworkKey } from "util/networks";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const toNetworkFormValues = (
   network: LxdNetwork,

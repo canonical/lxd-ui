@@ -1,5 +1,5 @@
-import { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
-import {
+import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type {
   LxdDeviceValue,
   LxdDiskDevice,
   LxdGPUDevice,
@@ -8,7 +8,7 @@ import {
   LxdProxyDevice,
 } from "types/device";
 import type { LxdProfile } from "types/profile";
-import { FormDevice, FormDiskDevice } from "util/formDevices";
+import type { FormDevice, FormDiskDevice } from "util/formDevices";
 import { getAppliedProfiles } from "./configInheritance";
 
 export const isNicDevice = (device: LxdDeviceValue): device is LxdNicDevice =>

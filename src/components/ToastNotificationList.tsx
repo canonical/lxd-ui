@@ -1,18 +1,13 @@
-import {
-  Button,
-  Icon,
-  Notification,
-  ValueOf,
-} from "@canonical/react-components";
-import {
-  DefaultTitles,
-  NotificationSeverity,
-} from "@canonical/react-components/dist/components/Notification/Notification";
-import {
+import type { ValueOf } from "@canonical/react-components";
+import { Button, Icon, Notification } from "@canonical/react-components";
+import type { NotificationSeverity } from "@canonical/react-components/dist/components/Notification/Notification";
+import { DefaultTitles } from "@canonical/react-components/dist/components/Notification/Notification";
+import type {
   GroupedNotificationCount,
   ToastNotificationType,
 } from "context/toastNotificationProvider";
-import { FC, useLayoutEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { iconLookup, severityOrder } from "util/notifications";
 import Animate from "./Animate";
@@ -104,7 +99,9 @@ const ToastNotificationList: FC<Props> = ({
             aria-pressed={filters.has(severity)}
             key={severity}
             className="u-no-margin u-no-border filter-button"
-            onClick={() => handleFilterSelect(severity)}
+            onClick={() => {
+              handleFilterSelect(severity);
+            }}
           >
             <Icon name={iconLookup[severity]} />
             <span>{groupedCount[severity]}</span>
@@ -120,7 +117,9 @@ const ToastNotificationList: FC<Props> = ({
         {hasFilters && (
           <button
             className="u-no-margin--bottom u-no-border"
-            onClick={() => setFilters(new Set())}
+            onClick={() => {
+              setFilters(new Set());
+            }}
           >
             Clear filters
           </button>
@@ -196,7 +195,9 @@ const ToastNotificationList: FC<Props> = ({
           title={notification.title ?? DefaultTitles[notification.type]}
           actions={notification.actions}
           severity={notification.type}
-          onDismiss={() => handleDismissNotification(notification)}
+          onDismiss={() => {
+            handleDismissNotification(notification);
+          }}
           className={`u-no-margin--bottom individual-notification`}
           timestamp={notification.timestamp}
           titleElement="div"

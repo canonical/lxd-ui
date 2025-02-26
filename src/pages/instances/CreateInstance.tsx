@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useState } from "react";
 import {
   ActionButton,
   Button,
@@ -17,40 +18,33 @@ import type { LxdImageType, RemoteImage } from "types/image";
 import { isContainerOnlyImage, isVmOnlyImage, LOCAL_ISO } from "util/images";
 import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  Location,
-} from "react-router-dom";
+import type { Location } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
+import type { InstanceDetailsFormValues } from "pages/instances/forms/InstanceCreateDetailsForm";
 import InstanceCreateDetailsForm, {
   instanceDetailPayload,
-  InstanceDetailsFormValues,
 } from "pages/instances/forms/InstanceCreateDetailsForm";
-import {
-  FormDevice,
-  formDeviceToPayload,
-  FormDeviceValues,
-  remoteImageToIsoDevice,
-} from "util/formDevices";
+import type { FormDevice, FormDeviceValues } from "util/formDevices";
+import { formDeviceToPayload, remoteImageToIsoDevice } from "util/formDevices";
+import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
 import SecurityPoliciesForm, {
-  SecurityPoliciesFormValues,
   securityPoliciesPayload,
 } from "components/forms/SecurityPoliciesForm";
+import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
 import InstanceSnapshotsForm, {
-  SnapshotFormValues,
   snapshotsPayload,
 } from "components/forms/InstanceSnapshotsForm";
+import type { CloudInitFormValues } from "components/forms/CloudInitForm";
 import CloudInitForm, {
-  CloudInitFormValues,
   cloudInitPayload,
 } from "components/forms/CloudInitForm";
+import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
 import ResourceLimitsForm, {
-  ResourceLimitsFormValues,
   resourceLimitsPayload,
 } from "components/forms/ResourceLimitsForm";
-import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
+import type { YamlFormValues } from "components/forms/YamlForm";
+import YamlForm from "components/forms/YamlForm";
 import InstanceFormMenu, {
   BOOT,
   CLOUD_INIT,
@@ -83,8 +77,8 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { instanceNameValidation } from "util/instances";
+import type { MigrationFormValues } from "components/forms/MigrationForm";
 import MigrationForm, {
-  MigrationFormValues,
   migrationPayload,
 } from "components/forms/MigrationForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -95,11 +89,9 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import ResourceLabel from "components/ResourceLabel";
 import InstanceLinkChip from "./InstanceLinkChip";
-import { InstanceIconType } from "components/ResourceIcon";
-import BootForm, {
-  BootFormValues,
-  bootPayload,
-} from "components/forms/BootForm";
+import type { InstanceIconType } from "components/ResourceIcon";
+import type { BootFormValues } from "components/forms/BootForm";
+import BootForm, { bootPayload } from "components/forms/BootForm";
 import { useProfiles } from "context/useProfiles";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
@@ -148,13 +140,13 @@ const CreateInstance: FC = () => {
   useEventListener("resize", updateFormHeight);
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.operations, project],
     });
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.projects, project],
     });
   };
@@ -247,15 +239,19 @@ const CreateInstance: FC = () => {
     // only send a second request to start the instance if the lxd version does not support the instance_create_start api extension
     if (shouldStart && !hasInstanceCreateStart) {
       notifyCreatedNowStarting(instanceLink);
-      void startInstance({
+      startInstance({
         name: instanceName,
         project: project,
       } as LxdInstance)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
-            () => notifyCreatedAndStarted(instanceLink),
-            (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg)),
+            () => {
+              notifyCreatedAndStarted(instanceLink);
+            },
+            (msg) => {
+              notifyCreatedButStartFailed(instanceLink, new Error(msg));
+            },
           );
         })
         .catch((e: Error) => {
@@ -269,7 +265,7 @@ const CreateInstance: FC = () => {
     const message = isIsoImage && (
       <>
         <p>Continue the installation process from its console.</p>
-        <Button onClick={() => navigate(consoleUrl)} hasIcon>
+        <Button onClick={async () => navigate(consoleUrl)} hasIcon>
           <Icon name="canvas" />
           <span>Open console</span>
         </Button>
@@ -297,7 +293,7 @@ const CreateInstance: FC = () => {
     }
 
     const formUrl = location.pathname + location.search;
-    void navigate(`/ui/project/${project}/instances`);
+    navigate(`/ui/project/${project}/instances`);
 
     // NOTE: for lxd version that has the instance_create_start api extension
     // we can create and start the instance in one go by setting the 'start' property to true
@@ -323,21 +319,23 @@ const CreateInstance: FC = () => {
         const isIsoImage = values.image?.server === LOCAL_ISO;
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             creationCompletedHandler(
               instanceName,
               shouldStart,
               isIsoImage,
               values.instanceType,
-            ),
-          (msg) =>
+            );
+          },
+          (msg) => {
             notifyCreationFailed(
               new Error(msg),
               formUrl,
               values,
               "toast",
               section,
-            ),
+            );
+          },
         );
       })
       .catch((e: Error) => {
@@ -370,7 +368,7 @@ const CreateInstance: FC = () => {
       );
 
       if (!hasDefaultProfileAccess) {
-        void formik.setFieldValue("profiles", []);
+        formik.setFieldValue("profiles", []);
       }
     }
   }, [isProfileLoading, profiles]);
@@ -378,7 +376,7 @@ const CreateInstance: FC = () => {
   const isLocalIsoImage = formik.values.image?.server === LOCAL_ISO;
 
   const handleSelectImage = (image: RemoteImage, type?: LxdImageType) => {
-    void formik.setFieldValue("image", image);
+    formik.setFieldValue("image", image);
 
     const devices: FormDevice[] = formik.values.devices.filter(
       (item) => item.type !== "iso-volume",
@@ -387,14 +385,14 @@ const CreateInstance: FC = () => {
       const isoDevice = remoteImageToIsoDevice(image);
       devices.push(isoDevice);
     }
-    void formik.setFieldValue("devices", devices);
+    formik.setFieldValue("devices", devices);
 
     if (type) {
-      void formik.setFieldValue("instanceType", type);
+      formik.setFieldValue("instanceType", type);
     } else if (isVmOnlyImage(image)) {
-      void formik.setFieldValue("instanceType", "virtual-machine");
+      formik.setFieldValue("instanceType", "virtual-machine");
     } else if (isContainerOnlyImage(image)) {
-      void formik.setFieldValue("instanceType", "container");
+      formik.setFieldValue("instanceType", "container");
     }
   };
 
@@ -428,7 +426,7 @@ const CreateInstance: FC = () => {
 
   const updateSection = (newItem: string) => {
     if (Boolean(formik.values.yaml) && newItem !== YAML_CONFIGURATION) {
-      void formik.setFieldValue("yaml", undefined);
+      formik.setFieldValue("yaml", undefined);
     }
     setSection(newItem);
   };
@@ -537,8 +535,8 @@ const CreateInstance: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() =>
-            void navigate(
+          onClick={async () =>
+            navigate(
               location.state?.cancelLocation ??
                 `/ui/project/${project}/instances`,
             )
@@ -550,7 +548,9 @@ const CreateInstance: FC = () => {
           loading={formik.isSubmitting}
           disabled={hasErrors}
           appearance={isLocalIsoImage ? "positive" : "default"}
-          onClick={() => submit(formik.values, false)}
+          onClick={() => {
+            submit(formik.values, false);
+          }}
         >
           Create
         </ActionButton>
@@ -559,7 +559,9 @@ const CreateInstance: FC = () => {
             appearance="positive"
             loading={formik.isSubmitting}
             disabled={hasErrors}
-            onClick={() => submit(formik.values)}
+            onClick={() => {
+              submit(formik.values);
+            }}
           >
             Create and start
           </ActionButton>

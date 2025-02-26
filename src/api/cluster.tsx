@@ -1,23 +1,23 @@
 import { handleResponse } from "util/helpers";
-import {
+import type {
   LxdClusterGroup,
   LxdClusterMember,
   LxdClusterMemberAction,
 } from "types/cluster";
 import type { LxdApiResponse } from "types/apiResponse";
 
-export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
+export const fetchClusterMembers = async (): Promise<LxdClusterMember[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/cluster/members?recursion=2")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterMember[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdClusterMember[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const postClusterMemberState = (
+export const postClusterMemberState = async (
   member: LxdClusterMember,
   action: LxdClusterMemberAction,
 ): Promise<LxdClusterMember[]> => {
@@ -30,32 +30,38 @@ export const postClusterMemberState = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterMember[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdClusterMember[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchClusterGroups = (): Promise<LxdClusterGroup[]> => {
+export const fetchClusterGroups = async (): Promise<LxdClusterGroup[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/cluster/groups?recursion=1")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterGroup[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdClusterGroup[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const fetchClusterGroup = (group: string): Promise<LxdClusterGroup> => {
+export const fetchClusterGroup = async (
+  group: string,
+): Promise<LxdClusterGroup> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterGroup>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdClusterGroup>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const updateClusterGroup = (
+export const updateClusterGroup = async (
   group: LxdClusterGroup,
 ): Promise<LxdApiResponse<null>> => {
   return new Promise((resolve, reject) => {
@@ -64,12 +70,14 @@ export const updateClusterGroup = (
       body: JSON.stringify(group),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<null>) => resolve(data))
+      .then((data: LxdApiResponse<null>) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const createClusterGroup = (
+export const createClusterGroup = async (
   group: LxdClusterGroup,
 ): Promise<LxdApiResponse<null>> => {
   return new Promise((resolve, reject) => {
@@ -78,12 +86,14 @@ export const createClusterGroup = (
       body: JSON.stringify(group),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<null>) => resolve(data))
+      .then((data: LxdApiResponse<null>) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-export const deleteClusterGroup = (group: string): Promise<void> => {
+export const deleteClusterGroup = async (group: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group}`, {
       method: "DELETE",

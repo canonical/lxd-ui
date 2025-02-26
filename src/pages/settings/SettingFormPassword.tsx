@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Button, Form, Icon, Input } from "@canonical/react-components";
 import type { ConfigField } from "types/config";
 import { getConfigId } from "./SettingForm";
@@ -39,7 +40,9 @@ const SettingFormPassword: FC<Props> = ({
               wrapperClassName="input-wrapper"
               type={showPassword ? "text" : "password"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               help={
                 <ConfigFieldDescription
                   description={configField.longdesc}
@@ -50,7 +53,9 @@ const SettingFormPassword: FC<Props> = ({
             <Button
               appearance="base"
               hasIcon
-              onClick={() => setShowPassword((prev) => !prev)}
+              onClick={() => {
+                setShowPassword((prev) => !prev);
+              }}
               aria-label="toggle password visibility"
             >
               <Icon name={showPassword ? "hide" : "show"} />
@@ -59,7 +64,12 @@ const SettingFormPassword: FC<Props> = ({
           <Button appearance="base" onClick={onCancel}>
             Cancel
           </Button>
-          <Button appearance="positive" onClick={() => onSubmit(password)}>
+          <Button
+            appearance="positive"
+            onClick={() => {
+              onSubmit(password);
+            }}
+          >
             Save
           </Button>
         </>
@@ -69,8 +79,19 @@ const SettingFormPassword: FC<Props> = ({
           <Button appearance="base" onClick={onCancel}>
             Cancel
           </Button>
-          <Button onClick={() => setShowPasswordField(true)}>Change</Button>
-          <Button appearance="negative" onClick={() => onSubmit("")}>
+          <Button
+            onClick={() => {
+              setShowPasswordField(true);
+            }}
+          >
+            Change
+          </Button>
+          <Button
+            appearance="negative"
+            onClick={() => {
+              onSubmit("");
+            }}
+          >
             Remove
           </Button>
         </>

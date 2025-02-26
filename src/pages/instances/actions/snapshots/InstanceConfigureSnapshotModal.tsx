@@ -1,10 +1,10 @@
-import { FC, KeyboardEvent, ReactNode } from "react";
+import type { FC, KeyboardEvent, ReactNode } from "react";
 import { ActionButton, Button, Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
 import { queryKeys } from "util/queryKeys";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { useQueryClient } from "@tanstack/react-query";
 import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
 import { useParams } from "react-router-dom";
@@ -41,21 +41,27 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
         values,
       ) as LxdInstance;
 
-      void updateInstance(instancePayload, project ?? "")
+      updateInstance(instancePayload, project ?? "")
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
-            () => onSuccess("Configuration updated."),
-            (msg) => onFailure("Configuration update failed", new Error(msg)),
+            () => {
+              onSuccess("Configuration updated.");
+            },
+            (msg) => {
+              onFailure("Configuration update failed", new Error(msg));
+            },
             () => {
               close();
-              void queryClient.invalidateQueries({
+              queryClient.invalidateQueries({
                 queryKey: [queryKeys.instances],
               });
             },
           );
         })
-        .catch((e) => onFailure("Configuration update failed", e));
+        .catch((e) => {
+          onFailure("Configuration update failed", e);
+        });
     },
   });
 
@@ -82,7 +88,7 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
             <Button
               className="u-no-margin--bottom"
               type="button"
-              onClick={() => void formik.setFieldValue("readOnly", false)}
+              onClick={async () => formik.setFieldValue("readOnly", false)}
             >
               Edit configuration
             </Button>

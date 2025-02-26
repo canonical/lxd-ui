@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import InstanceLink from "./InstanceLink";
 import type { LxdInstance } from "types/instance";
 import InstanceStatusIcon from "./InstanceStatusIcon";

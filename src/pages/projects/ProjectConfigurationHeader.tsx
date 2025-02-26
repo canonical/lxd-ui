@@ -1,6 +1,8 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
+import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader from "components/RenameHeader";
 import type { LxdProject } from "types/project";
 import { renameProject } from "api/projects";
 import * as Yup from "yup";
@@ -31,7 +33,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
       .test(
         "deduplicate",
         "A project with this name already exists",
-        (value) =>
+        async (value) =>
           project.name === value ||
           checkDuplicateName(value, "", controllerState, "projects"),
       )
@@ -46,7 +48,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (project.name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
@@ -57,20 +59,20 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
           to={`/ui/project/${project.name}/configuration`}
         />
       );
-      void renameProject(project.name, values.name)
-        .then((operation) =>
+      renameProject(project.name, values.name)
+        .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
               const url = `/ui/project/${values.name}/configuration`;
-              void navigate(url);
+              navigate(url);
               toastNotify.success(
                 <>
                   Project <strong>{project.name}</strong> renamed to{" "}
                   <ResourceLink type="project" value={values.name} to={url} />.
                 </>,
               );
-              void formik.setFieldValue("isRenaming", false);
+              formik.setFieldValue("isRenaming", false);
             },
             (msg) =>
               toastNotify.failure(
@@ -78,9 +80,11 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
                 new Error(msg),
                 oldProjectLink,
               ),
-            () => formik.setSubmitting(false),
-          ),
-        )
+            () => {
+              formik.setSubmitting(false);
+            },
+          );
+        })
         .catch((e) => {
           formik.setSubmitting(false);
           toastNotify.failure(

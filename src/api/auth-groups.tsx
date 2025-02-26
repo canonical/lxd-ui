@@ -5,19 +5,21 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 export const groupEntitlements = ["can_delete", "can_edit"];
 
-export const fetchGroups = (
+export const fetchGroups = async (
   isFineGrained: boolean | null,
 ): Promise<LxdGroup[]> => {
   const entitlements = withEntitlementsQuery(isFineGrained, groupEntitlements);
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/groups?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdGroup[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdGroup[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
 
-export const createGroup = (group: Partial<LxdGroup>): Promise<void> => {
+export const createGroup = async (group: Partial<LxdGroup>): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/groups`, {
       method: "POST",
@@ -29,7 +31,7 @@ export const createGroup = (group: Partial<LxdGroup>): Promise<void> => {
   });
 };
 
-export const deleteGroup = (group: string): Promise<void> => {
+export const deleteGroup = async (group: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/groups/${group}`, {
       method: "DELETE",
@@ -40,16 +42,16 @@ export const deleteGroup = (group: string): Promise<void> => {
   });
 };
 
-export const deleteGroups = (groups: string[]): Promise<void> => {
+export const deleteGroups = async (groups: string[]): Promise<void> => {
   return new Promise((resolve, reject) => {
-    Promise.allSettled(groups.map((group) => deleteGroup(group)))
+    Promise.allSettled(groups.map(async (group) => deleteGroup(group)))
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);
   });
 };
 
-export const updateGroup = (group: Partial<LxdGroup>): Promise<void> => {
+export const updateGroup = async (group: Partial<LxdGroup>): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/groups/${group.name}`, {
       method: "PUT",
@@ -61,7 +63,7 @@ export const updateGroup = (group: Partial<LxdGroup>): Promise<void> => {
   });
 };
 
-export const renameGroup = (
+export const renameGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {

@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   CodeSnippet,
   CodeSnippetBlockAppearance,
@@ -9,9 +10,9 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { UI_VERSION } from "util/version";
 
-type Props = {
+interface Props {
   error?: Error;
-};
+}
 
 const ErrorPage: FC<Props> = ({ error }) => {
   const body = encodeURIComponent(

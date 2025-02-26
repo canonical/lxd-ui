@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import type { LxdInstance } from "types/instance";
 import { deleteInstanceSnapshotBulk } from "api/instance-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
@@ -36,8 +37,8 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    void deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue).then(
-      (results) => {
+    deleteInstanceSnapshotBulk(instance, snapshotNames, eventQueue)
+      .then((results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
@@ -69,13 +70,16 @@ const InstanceSnapshotBulkDelete: FC<Props> = ({
             </>,
           );
         }
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => query.queryKey[0] === queryKeys.instances,
         });
         setLoading(false);
         onFinish();
-      },
-    );
+      })
+      .catch((e) => {
+        onFailure("Snapshot bulk deletion failed", e);
+        setLoading(false);
+      });
   };
 
   return (

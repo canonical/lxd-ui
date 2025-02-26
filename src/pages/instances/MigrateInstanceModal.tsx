@@ -1,4 +1,5 @@
-import { FC, KeyboardEvent, useState } from "react";
+import type { FC, KeyboardEvent } from "react";
+import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useSettings } from "context/useSettings";
@@ -7,7 +8,8 @@ import FormLink from "components/FormLink";
 import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
 import BackLink from "components/BackLink";
 import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
-import { MigrationType, useInstanceMigration } from "util/instanceMigration";
+import type { MigrationType } from "util/instanceMigration";
+import { useInstanceMigration } from "util/instanceMigration";
 import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
 
 interface Props {
@@ -76,18 +78,24 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
             <FormLink
               icon="cluster-host"
               title="Migrate instance to a different cluster member"
-              onClick={() => setType("cluster member")}
+              onClick={() => {
+                setType("cluster member");
+              }}
             />
           )}
           <FormLink
             icon="switcher-dashboard"
             title="Migrate instance root storage to a different pool"
-            onClick={() => setType("root storage pool")}
+            onClick={() => {
+              setType("root storage pool");
+            }}
           />
           <FormLink
             icon="folder"
             title="Migrate instance to a different project"
-            onClick={() => setType("project")}
+            onClick={() => {
+              setType("project");
+            }}
           />
         </div>
       )}

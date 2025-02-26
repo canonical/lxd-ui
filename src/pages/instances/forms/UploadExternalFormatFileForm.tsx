@@ -9,7 +9,8 @@ import {
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
@@ -21,8 +22,8 @@ import { createInstance } from "api/instances";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSettings } from "context/useSettings";
+import type { UploadExternalFormatFileFormValues } from "util/uploadExternalFormatFile";
 import {
-  UploadExternalFormatFileFormValues,
   uploadExternalFormatFilePayload,
   isImageTypeRaw,
   sendFileByWebSocket,
@@ -30,9 +31,8 @@ import {
 } from "util/uploadExternalFormatFile";
 import { getInstanceName } from "util/operations";
 import classnames from "classnames";
-import InstanceFileTypeSelector, {
-  InstanceFileType,
-} from "./InstanceFileTypeSelector";
+import type { InstanceFileType } from "./InstanceFileTypeSelector";
+import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
@@ -84,7 +84,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           <ResourceLabel bold type="instance" value={instanceName} />.
         </>,
       );
-      void navigate(`/ui/project/${project?.name}/instances`);
+      navigate(`/ui/project/${project?.name}/instances`);
     }
   };
 
@@ -112,7 +112,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(`${instanceUrl}/configuration`),
+        onClick: async () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 
@@ -124,7 +124,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   };
 
   const invalidateCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => {
         return query.queryKey[0] === queryKeys.instances;
       },
@@ -159,7 +159,9 @@ const UploadExternalFormatFileForm: FC<Props> = ({
         // set up event queue for the operation
         eventQueue.set(
           operationId,
-          () => handleSuccess(instanceName),
+          () => {
+            handleSuccess(instanceName);
+          },
           handleFailure,
           invalidateCache,
         );
