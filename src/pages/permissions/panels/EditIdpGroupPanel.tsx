@@ -20,10 +20,10 @@ import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
 import { useGroups } from "context/useGroups";
 
-type GroupEditHistory = {
+interface GroupEditHistory {
   groupsAdded: Set<string>;
   groupsRemoved: Set<string>;
-};
+}
 
 interface Props {
   idpGroup: IdpGroup;

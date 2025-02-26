@@ -2,11 +2,11 @@ import type { SortDirection } from "@canonical/react-components";
 import { useState } from "react";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 
-type Props = {
+interface Props {
   rows: MainTableRow[];
   defaultSort?: string;
   defaultSortDirection?: SortDirection;
-};
+}
 
 const useSortTableData = (props: Props) => {
   const { defaultSort, defaultSortDirection = "ascending", rows } = props;

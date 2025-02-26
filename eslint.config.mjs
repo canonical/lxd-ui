@@ -69,5 +69,6 @@ export default [{
         "@typescript-eslint/no-confusing-void-expression": "error",
         "@typescript-eslint/promise-function-async": "error",
         "@typescript-eslint/no-inferrable-types": "error",
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     },
 }];

@@ -29,10 +29,10 @@ import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 
-type IdentityEditHistory = {
+interface IdentityEditHistory {
   identitiesAdded: Set<string>;
   identitiesRemoved: Set<string>;
-};
+}
 
 interface Props {
   groups: LxdGroup[];

@@ -7,14 +7,14 @@ import type { LxdOperation } from "types/operation";
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "context/auth";
 
-type OperationsContextType = {
+interface OperationsContextType {
   operations: LxdOperation[];
   runningOperations: LxdOperation[];
   error: Error | null;
   isLoading: boolean;
   isFetching: boolean;
   refetchOperations: (options?: RefetchOptions) => void;
-};
+}
 
 interface Props {
   children: ReactNode;

@@ -17,12 +17,12 @@ export type MigrationType =
   | "project"
   | "";
 
-type Props = {
+interface Props {
   instance: LxdInstance;
   type: MigrationType;
   target: string;
   onSuccess: () => void;
-};
+}
 
 export const useInstanceMigration = ({
   instance,

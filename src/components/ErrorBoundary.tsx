@@ -6,10 +6,10 @@ type Props = PropsWithChildren & {
   fallback: FC<{ error?: Error }>;
 };
 
-type State = {
+interface State {
   error?: Error;
   hasError: boolean;
-};
+}
 
 export default class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {

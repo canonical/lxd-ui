@@ -9,9 +9,9 @@ import { limitToBytes } from "util/limits";
 import type { LxdProject } from "types/project";
 import { useServerEntitlements } from "util/entitlements/server";
 
-type Props = {
+interface Props {
   project?: LxdProject;
-};
+}
 
 const MemoryLimitAvailable: FC<Props> = ({ project }) => {
   const notify = useNotify();

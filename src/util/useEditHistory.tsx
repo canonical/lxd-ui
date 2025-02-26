@@ -1,11 +1,11 @@
 import { useEffect, useReducer } from "react";
 import useEventListener from "util/useEventListener";
 
-type EditHistoryState<T = unknown> = {
+interface EditHistoryState<T = unknown> {
   currentState: T;
   undoStack: T[];
   redoStack: T[];
-};
+}
 
 type EditHistoryAction<T> =
   | {

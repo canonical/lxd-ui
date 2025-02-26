@@ -19,9 +19,9 @@ import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
 import { useGroups } from "context/useGroups";
 
-type GroupEditHistory = {
+interface GroupEditHistory {
   groupsAdded: Set<string>;
-};
+}
 
 const CreateIdpGroupPanel: FC = () => {
   const panelParams = usePanelParams();

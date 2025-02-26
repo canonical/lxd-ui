@@ -12,10 +12,10 @@ import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import { useGroups } from "context/useGroups";
 
-type GroupEditHistory = {
+interface GroupEditHistory {
   groupsAdded: Set<string>;
   groupsRemoved: Set<string>;
-};
+}
 
 interface Props {
   identities: LxdIdentity[];

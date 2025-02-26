@@ -17,7 +17,7 @@ export type ToastNotificationType = NotificationType & {
   id: string;
 };
 
-type ToastNotificationHelper = {
+interface ToastNotificationHelper {
   notifications: ToastNotificationType[];
   success: (
     message: ReactNode,
@@ -34,7 +34,7 @@ type ToastNotificationHelper = {
   toggleListView: () => void;
   isListView: boolean;
   countBySeverity: GroupedNotificationCount;
-};
+}
 
 export type GroupedNotificationCount = {
   [key in ValueOf<typeof NotificationSeverity>]?: number;

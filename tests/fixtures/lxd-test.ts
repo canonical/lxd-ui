@@ -3,11 +3,11 @@ import { test as base } from "@playwright/test";
 import { finishCoverage, startCoverage } from "./coverage";
 
 export type LxdVersions = "5.0-edge" | "5.21-edge" | "latest-edge";
-export type TestOptions = {
+export interface TestOptions {
   lxdVersion: LxdVersions;
   hasCoverage: boolean;
   runCoverage: Page;
-};
+}
 
 export const test = base.extend<TestOptions>({
   lxdVersion: ["latest-edge", { option: true }],
