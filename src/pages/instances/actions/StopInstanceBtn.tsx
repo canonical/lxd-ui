@@ -91,7 +91,9 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
           <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
         ),
         onConfirm: handleStop,
-        close: () => setForce(false),
+        close: () => {
+          setForce(false);
+        },
         confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Stop"
           : "You do not have permission to stop this instance",

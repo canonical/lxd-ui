@@ -366,8 +366,9 @@ const InstanceList: FC = () => {
     });
 
     const instanceRows: MainTableRow[] = filteredInstances.map((instance) => {
-      const openSummary = () =>
+      const openSummary = () => {
         panelParams.openInstanceSummary(instance.name, project.name);
+      };
 
       const ipv4 = getIpAddresses(instance, "inet")
         .filter((val) => !val.address.startsWith("127"))
@@ -603,13 +604,19 @@ const InstanceList: FC = () => {
                 <>
                   <InstanceBulkActions
                     instances={selectedInstances}
-                    onStart={() => setProcessingNames(selectedNames)}
-                    onFinish={() => setProcessingNames([])}
+                    onStart={() => {
+                      setProcessingNames(selectedNames);
+                    }}
+                    onFinish={() => {
+                      setProcessingNames([]);
+                    }}
                   />
                   <InstanceBulkDelete
                     instances={selectedInstances}
                     onStart={setProcessingNames}
-                    onFinish={() => setProcessingNames([])}
+                    onFinish={() => {
+                      setProcessingNames([]);
+                    }}
                   />
                 </>
               )}

@@ -84,7 +84,7 @@ const Events: FC = () => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.operations, event.project],
         });
-        void refetchOperations();
+        refetchOperations();
       }
       if (event.type === "lifecycle") {
         const rootQueryKey = getLifecycleRootQueryKey(event);
@@ -94,7 +94,9 @@ const Events: FC = () => {
       }
       // ensure open requests that reply with an operation and register
       // new handlers in the eventQueue are closed before handling the event
-      setTimeout(() => handleEvent(event), 250);
+      setTimeout(() => {
+        handleEvent(event);
+      }, 250);
     };
   };
 

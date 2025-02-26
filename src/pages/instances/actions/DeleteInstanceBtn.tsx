@@ -62,7 +62,9 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
               new Error(msg),
               instanceLink,
             ),
-          () => setLoading(false),
+          () => {
+            setLoading(false);
+          },
         );
       })
       .catch((e) => {

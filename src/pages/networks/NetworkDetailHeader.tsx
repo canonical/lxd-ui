@@ -67,7 +67,9 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
         .catch((e) => {
           notify.failure("Renaming failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

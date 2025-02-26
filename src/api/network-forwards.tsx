@@ -9,9 +9,9 @@ export const fetchNetworkForwards = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${network}/forwards?project=${project}&recursion=1`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetworkForward[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdNetworkForward[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -26,7 +26,9 @@ export const fetchNetworkForward = (
       `/1.0/networks/${network}/forwards/${listenAddress}?project=${project}&recursion=1`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetworkForward>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdNetworkForward>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

@@ -26,7 +26,9 @@ const GroupActions: FC<Props> = ({ group }) => {
             appearance="base"
             dense
             hasIcon
-            onClick={() => panelParams.openEditGroup(group.name)}
+            onClick={() => {
+              panelParams.openEditGroup(group.name);
+            }}
             type="button"
             title="Edit group"
           >

@@ -65,14 +65,18 @@ const SnapshotScheduleInput: FC<Props> = ({ value, setValue }) => {
           help="<minute> <hour> <dom> <month> <dow>, a comma-separated list of schedule aliases (@hourly, @daily, @midnight, @weekly, @monthly, @annually, @yearly), or empty to disable automatic snapshots (the default)"
           type="text"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
         />
       ) : (
         <Select
           id="snapshots_schedule"
           name="snapshots_schedule"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
           options={snapshotOptions}
         />
       )}

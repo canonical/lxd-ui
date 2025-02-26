@@ -327,7 +327,9 @@ const PermissionIdentities: FC = () => {
       {panelParams.panel === panels.identityGroups && (
         <EditIdentityGroupsPanel
           identities={selectedIdentities}
-          onClose={() => setSelectedIdentityIds([])}
+          onClose={() => {
+            setSelectedIdentityIds([]);
+          }}
         />
       )}
     </>

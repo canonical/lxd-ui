@@ -102,8 +102,9 @@ const ProfileList: FC = () => {
   ];
 
   const rows = filteredProfiles.map((profile) => {
-    const openSummary = () =>
+    const openSummary = () => {
       panelParams.openProfileSummary(profile.name, projectName);
+    };
 
     const usedBy =
       instanceCountMap.find((item) => profile.name === item.name)?.count ?? 0;

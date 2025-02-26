@@ -16,7 +16,7 @@ export const fetchPermissions = (args: {
     fetch(url)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdPermission[]>) => {
-        return resolve(
+        resolve(
           // permission data returned from the server is not sorted, this may cause unwanted side effects in UI components
           // see issue in lxd: https://github.com/canonical/lxd/issues/14285
           // TODO: we should remove this sort once the issue is fixed in lxd

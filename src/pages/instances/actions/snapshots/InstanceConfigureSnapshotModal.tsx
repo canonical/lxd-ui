@@ -45,8 +45,12 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
-            () => onSuccess("Configuration updated."),
-            (msg) => onFailure("Configuration update failed", new Error(msg)),
+            () => {
+              onSuccess("Configuration updated.");
+            },
+            (msg) => {
+              onFailure("Configuration update failed", new Error(msg));
+            },
             () => {
               close();
               queryClient.invalidateQueries({
@@ -55,7 +59,9 @@ const InstanceConfigureSnapshotModal: FC<Props> = ({
             },
           );
         })
-        .catch((e) => onFailure("Configuration update failed", e));
+        .catch((e) => {
+          onFailure("Configuration update failed", e);
+        });
     },
   });
 

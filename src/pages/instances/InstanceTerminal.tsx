@@ -164,7 +164,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       const timeout = setTimeout(triggerRefresh, delay);
       refreshTimerRef.current = timeout;
 
-      return () => clearTimeout(timeout);
+      return () => {
+        clearTimeout(timeout);
+      };
     }
   }, [isBooting, version]);
 
@@ -175,7 +177,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       const websocketPromise = openWebsockets(payload);
       return () => {
         void websocketPromise.then((websockets) => {
-          websockets?.map((websocket) => websocket.close());
+          websockets?.map((websocket) => {
+            websocket.close();
+          });
         });
       };
     }

@@ -138,7 +138,9 @@ export const useInstanceMigration = ({
         eventQueue.set(
           operation.metadata.id,
           handleSuccess,
-          (err) => handleFailure(err),
+          (err) => {
+            handleFailure(err);
+          },
           handleFinish,
         );
         toastNotify.info(

@@ -76,7 +76,9 @@ const ProfileDetailHeader: FC<Props> = ({
         .catch((e) => {
           notify.failure("Renaming failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

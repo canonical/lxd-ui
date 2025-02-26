@@ -46,26 +46,29 @@ const InstanceSnapshotActions: FC<Props> = ({
   const handleDelete = () => {
     setDeleting(true);
     deleteInstanceSnapshot(instance, snapshot)
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             onSuccess(
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
                 deleted for instance <InstanceLinkChip instance={instance} />.
               </>,
-            ),
-          (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
+            );
+          },
+          (msg) => {
+            onFailure("Snapshot deletion failed", new Error(msg));
+          },
           () => {
             setDeleting(false);
             queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.instances,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         onFailure("Snapshot deletion failed", e);
         setDeleting(false);
@@ -75,10 +78,10 @@ const InstanceSnapshotActions: FC<Props> = ({
   const handleRestore = () => {
     setRestoring(true);
     restoreInstanceSnapshot(instance, snapshot, restoreState)
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             onSuccess(
               <>
                 Snapshot{" "}
@@ -88,16 +91,19 @@ const InstanceSnapshotActions: FC<Props> = ({
                 />{" "}
                 restored for instance <InstanceLinkChip instance={instance} />.
               </>,
-            ),
-          (msg) => onFailure("Snapshot restore failed", new Error(msg)),
+            );
+          },
+          (msg) => {
+            onFailure("Snapshot restore failed", new Error(msg));
+          },
           () => {
             setRestoring(false);
             queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.instances,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         onFailure("Snapshot restore failed", e);
         setRestoring(false);
@@ -144,7 +150,9 @@ const InstanceSnapshotActions: FC<Props> = ({
               ) : undefined,
               confirmButtonLabel: disabledReason ?? "Restore snapshot",
               confirmButtonAppearance: "positive",
-              close: () => setRestoreState(true),
+              close: () => {
+                setRestoreState(true);
+              },
               onConfirm: handleRestore,
             }}
             disabled={isDeleting || isRestoring || !!disabledReason}

@@ -50,7 +50,9 @@ const SettingFormInput: FC<Props> = ({
         wrapperClassName="input-wrapper"
         type={getInputType()}
         value={configField.type === "bool" ? undefined : String(value)}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
         help={
           <ConfigFieldDescription
             description={configField.longdesc}

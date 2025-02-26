@@ -90,7 +90,9 @@ export const fetchNetwork = (
       `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
     )
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdNetwork))
+      .then((data) => {
+        resolve(data as LxdNetwork);
+      })
       .catch(reject);
   });
 };
@@ -135,7 +137,9 @@ export const fetchNetworkState = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetworkState>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdNetworkState>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

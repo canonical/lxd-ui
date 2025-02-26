@@ -139,7 +139,9 @@ const InstanceTextConsole: FC<Props> = ({
     const websocketPromise = openWebsockets();
     return () => {
       void websocketPromise.then((websockets) => {
-        websockets?.map((websocket) => websocket.close());
+        websockets?.map((websocket) => {
+          websocket.close();
+        });
       });
     };
   }, [fitAddon, instance.status]);

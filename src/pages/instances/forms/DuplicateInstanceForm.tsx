@@ -141,12 +141,13 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
           );
           eventQueue.set(
             operation.metadata.id,
-            () =>
+            () => {
               notifySuccess(
                 values.instanceName,
                 values.targetProject,
                 instance.type,
-              ),
+              );
+            },
             (msg) =>
               toastNotify.failure(
                 "Instance duplication failed.",

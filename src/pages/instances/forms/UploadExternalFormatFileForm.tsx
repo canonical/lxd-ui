@@ -159,7 +159,9 @@ const UploadExternalFormatFileForm: FC<Props> = ({
         // set up event queue for the operation
         eventQueue.set(
           operationId,
-          () => handleSuccess(instanceName),
+          () => {
+            handleSuccess(instanceName);
+          },
           handleFailure,
           invalidateCache,
         );

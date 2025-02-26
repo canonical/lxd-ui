@@ -15,7 +15,9 @@ export const fetchIdpGroups = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<IdpGroup[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<IdpGroup[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

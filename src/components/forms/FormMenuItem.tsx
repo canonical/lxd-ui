@@ -39,7 +39,9 @@ const FormMenuItem: FC<Props> = ({
     >
       <a
         className="p-side-navigation__link"
-        onClick={() => setActive(label)}
+        onClick={() => {
+          setActive(label);
+        }}
         aria-current={slugify(label) === slugify(active) ? "page" : undefined}
       >
         {label}

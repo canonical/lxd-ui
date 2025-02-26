@@ -69,9 +69,13 @@ const TableColumnsSelect = ({
           checked={hidden.length === 0}
           indeterminate={selectedCount > 0 && selectedCount < columns.length}
           label={`${selectedCount} out of ${columns.length} columns selected`}
-          onChange={() =>
-            hidden.length > 0 ? setHidden([]) : setHidden(columns)
-          }
+          onChange={() => {
+            if (hidden.length > 0) {
+              setHidden([]);
+            } else {
+              setHidden(columns);
+            }
+          }}
         />
         <hr />
         {columns.map((column) => (
@@ -81,7 +85,9 @@ const TableColumnsSelect = ({
                 aria-label={column}
                 checked={!hidden.includes(column)}
                 label={column}
-                onChange={() => toggleHiddenColumn(column)}
+                onChange={() => {
+                  toggleHiddenColumn(column);
+                }}
                 disabled={sizeHidden.includes(column)}
               />,
               column,

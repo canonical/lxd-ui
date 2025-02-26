@@ -73,12 +73,16 @@ const AttachDiskDeviceModal: FC<Props> = ({
             <FormLink
               icon="add-logical-volume"
               title="Attach custom volume"
-              onClick={() => setType("custom volume")}
+              onClick={() => {
+                setType("custom volume");
+              }}
             />
             <FormLink
               icon="mount"
               title="Mount host path"
-              onClick={() => setType("host path")}
+              onClick={() => {
+                setType("host path");
+              }}
             />
           </div>
         </Modal>

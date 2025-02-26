@@ -97,7 +97,9 @@ const CreateStorageVolume: FC = () => {
       <StorageVolumeForm
         formik={formik}
         section={section}
-        setSection={(val) => setSection(slugify(val))}
+        setSection={(val) => {
+          setSection(slugify(val));
+        }}
       />
       <FormFooterLayout>
         <Button

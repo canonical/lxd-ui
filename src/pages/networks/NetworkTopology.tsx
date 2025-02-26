@@ -152,7 +152,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             <div className="downstream-item">
               <Button
                 appearance="link"
-                onClick={() => setNetworksCollapsed(false)}
+                onClick={() => {
+                  setNetworksCollapsed(false);
+                }}
                 small
               >
                 Show all
@@ -177,7 +179,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             <div className="downstream-item">
               <Button
                 appearance="link"
-                onClick={() => setInstancesCollapsed(false)}
+                onClick={() => {
+                  setInstancesCollapsed(false);
+                }}
                 small
               >
                 Show all

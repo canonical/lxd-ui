@@ -119,7 +119,9 @@ const EditIdentitiesForm: FC<Props> = ({
   });
 
   const rows = filteredIdentities.map((identity) => {
-    const clickRow = () => toggleRow(identity.id);
+    const clickRow = () => {
+      toggleRow(identity.id);
+    };
     const formIdentity = selected.find((id) => id.id === identity.id);
     const isModified = formIdentity?.isAdded || formIdentity?.isRemoved;
 
@@ -158,7 +160,11 @@ const EditIdentitiesForm: FC<Props> = ({
 
   return (
     <>
-      <SearchBox onChange={(value) => setFilter(value)} />
+      <SearchBox
+        onChange={(value) => {
+          setFilter(value);
+        }}
+      />
       <ScrollableTable
         dependencies={[identities, selected, notify.notification]}
         tableId="group-identities-table"

@@ -53,7 +53,9 @@ const DiskSizeSelector: FC<Props> = ({
           min="0"
           step="Any"
           placeholder="Enter value"
-          onChange={(e) => setMemoryLimit(e.target.value + limit.unit)}
+          onChange={(e) => {
+            setMemoryLimit(e.target.value + limit.unit);
+          }}
           value={value?.match(/^\d/) ? limit.value : ""}
           disabled={disabled}
           className={classname}
@@ -65,9 +67,9 @@ const DiskSizeSelector: FC<Props> = ({
           label="Select disk size unit"
           labelClassName="u-off-screen"
           options={getMemUnitOptions()}
-          onChange={(e) =>
-            setMemoryLimit(`${limit.value ?? 0}${e.target.value}`)
-          }
+          onChange={(e) => {
+            setMemoryLimit(`${limit.value ?? 0}${e.target.value}`);
+          }}
           value={limit.unit}
           disabled={disabled}
           className={classname}

@@ -52,7 +52,9 @@ const InstanceProjectMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetProject)}
+          onClick={() => {
+            migrate(targetProject);
+          }}
           disabled={!targetProject}
         >
           Migrate

@@ -148,14 +148,14 @@ const CreateNetwork: FC = () => {
           <YamlSwitch
             formik={formik}
             section={section}
-            setSection={() =>
+            setSection={() => {
               updateSection(
                 section === slugify(YAML_CONFIGURATION)
                   ? GENERAL
                   : YAML_CONFIGURATION,
                 "click",
-              )
-            }
+              );
+            }}
             disableReason={
               formik.values.name
                 ? undefined

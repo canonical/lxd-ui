@@ -23,7 +23,9 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
   const { data: project } = useProject(projectName);
   const { canCreateStorageVolumes } = useProjectEntitlements();
 
-  const handleCancel = () => closePortal();
+  const handleCancel = () => {
+    closePortal();
+  };
 
   const handleFinish = (name: string) => {
     toastNotify.success(

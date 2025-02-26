@@ -321,7 +321,9 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
           </Button>
           <ActionButton
             appearance="positive"
-            onClick={() => setConfirming(true)}
+            onClick={() => {
+              setConfirming(true);
+            }}
             className="u-no-margin--bottom"
             disabled={modifiedIdentities.size === 0}
           >

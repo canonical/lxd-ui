@@ -103,8 +103,12 @@ const MigrateVolumeBtn: FC<Props> = ({
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => handleSuccess(targetPool, storageVolume),
-          (err) => handleFailure(err, storageVolume.name, targetPool),
+          () => {
+            handleSuccess(targetPool, storageVolume);
+          },
+          (err) => {
+            handleFailure(err, storageVolume.name, targetPool);
+          },
           handleFinish,
         );
         const volume = (

@@ -25,8 +25,12 @@ const RenameDeviceInput: FC<Props> = ({
           className="u-no-margin--bottom"
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          onBlur={() => setEditing(false)}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          onBlur={() => {
+            setEditing(false);
+          }}
         />
       ) : (
         <>
@@ -37,7 +41,9 @@ const RenameDeviceInput: FC<Props> = ({
             id={`device-${index}-name`}
             hasIcon
             dense
-            onClick={() => setEditing(true)}
+            onClick={() => {
+              setEditing(true);
+            }}
             appearance="base"
             className="u-no-margin--bottom"
             aria-label={`Rename device`}

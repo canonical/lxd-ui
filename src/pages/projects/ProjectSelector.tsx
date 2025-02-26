@@ -55,7 +55,9 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
               autocomplete="off"
               name="query"
               placeholder="Search"
-              onChange={(val) => updateQuery(val)}
+              onChange={(val) => {
+                updateQuery(val);
+              }}
               ref={searchRef}
             />
           )}

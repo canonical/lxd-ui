@@ -90,7 +90,9 @@ const InstanceDetailHeader: FC<Props> = ({
                   instanceType: instance?.type || "instance",
                 }),
               ),
-            () => formik.setSubmitting(false),
+            () => {
+              formik.setSubmitting(false);
+            },
           );
         })
         .catch((e) => {

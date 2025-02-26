@@ -179,7 +179,9 @@ const CreateProject: FC = () => {
       <ProjectForm
         formik={formik}
         section={section}
-        updateSection={(newSection: string) => setSection(slugify(newSection))}
+        updateSection={(newSection: string) => {
+          setSection(slugify(newSection));
+        }}
         isEdit={false}
       />
       <FormFooterLayout>

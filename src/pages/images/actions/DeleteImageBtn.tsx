@@ -28,7 +28,7 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
     setLoading(true);
     const imageLabel = <ResourceLabel bold type="image" value={description} />;
     deleteImage(image, project)
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
@@ -46,9 +46,11 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
               new Error(msg),
               imageLabel,
             ),
-          () => setLoading(false),
-        ),
-      )
+          () => {
+            setLoading(false);
+          },
+        );
+      })
       .catch((e) => {
         toastNotify.failure(
           `Image ${description} deletion failed`,

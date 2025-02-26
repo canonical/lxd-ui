@@ -17,7 +17,9 @@ const InstanceFileTypeSelector: FC<Props> = ({ value, onChange }) => {
           <RadioInput
             label="LXD backup archive (.tar.gz)"
             checked={value === "instance-backup"}
-            onChange={() => onChange("instance-backup")}
+            onChange={() => {
+              onChange("instance-backup");
+            }}
           />
         </div>
         <div className="u-sv3">
@@ -29,7 +31,9 @@ const InstanceFileTypeSelector: FC<Props> = ({ value, onChange }) => {
               </span>
             }
             checked={value === "external-format"}
-            onChange={() => onChange("external-format")}
+            onChange={() => {
+              onChange("external-format");
+            }}
           />
         </div>
       </div>

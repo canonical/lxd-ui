@@ -78,7 +78,9 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
         .catch((e) => {
           notify.failure("Storage volume update failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

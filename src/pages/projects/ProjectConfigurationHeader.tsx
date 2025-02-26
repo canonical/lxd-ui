@@ -60,7 +60,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         />
       );
       renameProject(project.name, values.name)
-        .then((operation) =>
+        .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
@@ -80,9 +80,11 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
                 new Error(msg),
                 oldProjectLink,
               ),
-            () => formik.setSubmitting(false),
-          ),
-        )
+            () => {
+              formik.setSubmitting(false);
+            },
+          );
+        })
         .catch((e) => {
           formik.setSubmitting(false);
           toastNotify.failure(

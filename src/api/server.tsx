@@ -15,7 +15,9 @@ export const fetchSettings = (target?: string): Promise<LxdSettings> => {
     const targetQueryParam = target ? `?target=${target}` : "";
     fetch(`/1.0${targetQueryParam}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdSettings>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdSettings>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -99,7 +101,9 @@ export const fetchResources = (): Promise<LxdResources> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/resources")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdResources>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdResources>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -108,13 +112,17 @@ export const fetchConfigOptions = (
   hasMetadataConfiguration: boolean,
 ): Promise<LxdMetadata | null> => {
   if (!hasMetadataConfiguration) {
-    return new Promise((resolve) => resolve(null));
+    return new Promise((resolve) => {
+      resolve(null);
+    });
   }
 
   return new Promise((resolve, reject) => {
     fetch("/1.0/metadata/configuration")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdMetadata>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdMetadata>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -123,13 +131,17 @@ export const fetchDocObjects = (
   hasDocumentationObject: boolean,
 ): Promise<string[]> => {
   if (!hasDocumentationObject) {
-    return new Promise((resolve) => resolve([]));
+    return new Promise((resolve) => {
+      resolve([]);
+    });
   }
 
   return new Promise((resolve, reject) => {
     fetch("/documentation/objects.inv.txt")
       .then(handleTextResponse)
-      .then((data) => resolve(data.split("\n")))
+      .then((data) => {
+        resolve(data.split("\n"));
+      })
       .catch(reject);
   });
 };

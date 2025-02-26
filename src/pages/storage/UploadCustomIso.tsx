@@ -64,12 +64,15 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       setUploadState,
       uploadController,
     )
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => onFinish(name, pool),
-          (msg) =>
-            setError(failure("Custom ISO upload failed", new Error(msg))),
+          () => {
+            onFinish(name, pool);
+          },
+          (msg) => {
+            setError(failure("Custom ISO upload failed", new Error(msg)));
+          },
           () => {
             setLoading(false);
             setUploadState(null);
@@ -82,8 +85,8 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
               ],
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);
         setError(failure("Custom ISO upload failed", error));
@@ -106,7 +109,9 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <Notification
           title={error.title}
           severity="negative"
-          onDismiss={() => setError(null)}
+          onDismiss={() => {
+            setError(null);
+          }}
         >
           {error.message}
         </Notification>
@@ -132,7 +137,9 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           id="name"
           label="Alias"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
           disabled={file === null}
           error={
             name && !isValidISOAlias(name) ? (

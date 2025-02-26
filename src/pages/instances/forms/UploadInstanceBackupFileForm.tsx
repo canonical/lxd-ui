@@ -114,7 +114,9 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
 
         eventQueue.set(
           operation.metadata.id,
-          () => handleSuccess(values.name),
+          () => {
+            handleSuccess(values.name);
+          },
           handleFailure,
           handleFinish,
         );

@@ -147,9 +147,9 @@ const ClusterSpecificSelect: FC<Props> = ({
                       }
                       className="u-no-margin--bottom"
                       options={selectOptions}
-                      onChange={(e) =>
-                        setValueForMember(e.target.value, item.memberName)
-                      }
+                      onChange={(e) => {
+                        setValueForMember(e.target.value, item.memberName);
+                      }}
                       value={activeValue}
                     />
                   )}
@@ -174,7 +174,9 @@ const ClusterSpecificSelect: FC<Props> = ({
               id={id}
               className="u-no-margin--bottom"
               options={allMemberOptions}
-              onChange={(e) => setValueForAllMembers(e.target.value)}
+              onChange={(e) => {
+                setValueForAllMembers(e.target.value);
+              }}
               value={firstValue}
             />
           )}

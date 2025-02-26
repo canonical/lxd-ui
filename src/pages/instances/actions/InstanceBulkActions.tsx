@@ -109,7 +109,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="play"
           isLoading={activeAction === "start"}
           isDisabled={activeAction === "start"}
-          onClick={() => handleAction("start")}
+          onClick={() => {
+            handleAction("start");
+          }}
           confirmAppearance="positive"
           action="start"
           instances={instances}
@@ -120,7 +122,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="restart"
           isLoading={activeAction === "restart"}
           isDisabled={activeAction === "restart"}
-          onClick={() => handleAction("restart")}
+          onClick={() => {
+            handleAction("restart");
+          }}
           action="restart"
           instances={instances}
           confirmLabel="Restart"
@@ -136,7 +140,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="pause"
           isLoading={activeAction === "freeze"}
           isDisabled={activeAction === "freeze"}
-          onClick={() => handleAction("freeze")}
+          onClick={() => {
+            handleAction("freeze");
+          }}
           action="freeze"
           instances={instances}
           confirmLabel="Freeze"
@@ -146,7 +152,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="stop"
           isLoading={activeAction === "stop"}
           isDisabled={false}
-          onClick={() => handleAction("stop")}
+          onClick={() => {
+            handleAction("stop");
+          }}
           action="stop"
           instances={instances}
           confirmLabel="Stop"

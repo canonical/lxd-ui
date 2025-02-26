@@ -186,7 +186,11 @@ const Navigation: FC = () => {
                 <ul className="p-side-navigation__list sidenav-top-ul">
                   {isAuthenticated && (
                     <>
-                      <li onClick={(e) => e.stopPropagation()}>
+                      <li
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
                         <ProjectSelector
                           key={location.pathname}
                           activeProject={projectName}
@@ -238,7 +242,9 @@ const Navigation: FC = () => {
                           title={`Storage (${projectName})`}
                           iconName="switcher-dashboard"
                           label="Storage"
-                          onOpen={() => toggleAccordionNav("storage")}
+                          onOpen={() => {
+                            toggleAccordionNav("storage");
+                          }}
                           open={openNavMenus.includes("storage")}
                         >
                           {[
@@ -362,7 +368,9 @@ const Navigation: FC = () => {
                             title={`Permissions`}
                             iconName="user"
                             label="Permissions"
-                            onOpen={() => toggleAccordionNav("permissions")}
+                            onOpen={() => {
+                              toggleAccordionNav("permissions");
+                            }}
                             open={openNavMenus.includes("permissions")}
                           >
                             {[

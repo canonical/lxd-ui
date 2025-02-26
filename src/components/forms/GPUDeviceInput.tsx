@@ -22,14 +22,18 @@ const GpuDeviceInput: FC<Props> = ({ device, onChange, disableReason }) => {
           labelClassName="margin-right"
           label="ID"
           checked={!isPci}
-          onClick={() => setType("id")}
+          onClick={() => {
+            setType("id");
+          }}
           disabled={!!disableReason}
         />
         <RadioInput
           inline
           label="PCI"
           checked={isPci}
-          onClick={() => setType("pci")}
+          onClick={() => {
+            setType("pci");
+          }}
           disabled={!!disableReason}
         />
       </div>

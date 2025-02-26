@@ -323,7 +323,9 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         <ConfirmationModal
           confirmButtonLabel="Confirm changes"
           confirmButtonAppearance="positive"
-          onConfirm={() => saveGroup(formik.values)}
+          onConfirm={() => {
+            saveGroup(formik.values);
+          }}
           close={() => {
             setConfirming(false);
             formik.setSubmitting(false);

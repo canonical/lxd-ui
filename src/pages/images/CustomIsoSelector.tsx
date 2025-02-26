@@ -34,7 +34,9 @@ const CustomIsoSelector: FC<Props> = ({
   ];
 
   const rows = images.map((image) => {
-    const selectIso = () => onSelect(image, "virtual-machine");
+    const selectIso = () => {
+      onSelect(image, "virtual-machine");
+    };
 
     return {
       key: image.fingerprint,

@@ -6,7 +6,9 @@ export const fetchCertificates = (): Promise<LxdCertificate[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/certificates?recursion=1")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdCertificate[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdCertificate[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

@@ -39,7 +39,9 @@ const ToastNotification: FC<Props> = ({ notification, onDismiss, show }) => {
               title={notification.title ?? DefaultTitles[notification.type]}
               actions={notification.actions}
               severity={notification.type}
-              onDismiss={() => onDismiss([notification])}
+              onDismiss={() => {
+                onDismiss([notification]);
+              }}
               className="u-no-margin--bottom"
               timestamp={notification.timestamp}
               titleElement="div"

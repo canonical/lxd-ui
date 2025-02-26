@@ -68,7 +68,7 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
         expiresAt,
         values.stateful || false,
       )
-        .then((operation) =>
+        .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
@@ -97,8 +97,8 @@ const CreateInstanceSnapshotForm: FC<Props> = ({
               formik.setSubmitting(false);
               close();
             },
-          ),
-        )
+          );
+        })
         .catch((error: Error) => {
           notify.failure("Snapshot creation failed", error, instanceLink);
           formik.setSubmitting(false);

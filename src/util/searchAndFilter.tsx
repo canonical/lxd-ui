@@ -9,9 +9,9 @@ export const paramsFromSearchData = (
 
   queryParams.forEach((param) => {
     newParams.delete(param);
-    searchValuesByLead(searchData, param).forEach((value) =>
-      newParams.append(param, value),
-    );
+    searchValuesByLead(searchData, param).forEach((value) => {
+      newParams.append(param, value);
+    });
   });
 
   return newParams;

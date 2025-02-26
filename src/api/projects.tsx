@@ -25,7 +25,9 @@ export const fetchProjects = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProject[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdProject[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -42,7 +44,9 @@ export const fetchProject = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/projects/${name}${entitlements}`)
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdProject))
+      .then((data) => {
+        resolve(data as LxdProject);
+      })
       .catch(reject);
   });
 };

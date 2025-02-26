@@ -31,7 +31,9 @@ const CertificateAddForm: FC = () => {
         label="Paste the token from the previous step"
         placeholder="Paste your token here"
         rows={3}
-        onChange={(e) => setToken(e.target.value)}
+        onChange={(e) => {
+          setToken(e.target.value);
+        }}
       />
       <Button
         appearance="positive"

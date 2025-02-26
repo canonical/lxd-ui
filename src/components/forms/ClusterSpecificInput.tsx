@@ -122,7 +122,9 @@ const ClusterSpecificInput: FC<Props> = ({
                       type="text"
                       className="u-no-margin--bottom"
                       value={activeValue}
-                      onChange={(e) => setValueForMember(e.target.value, item)}
+                      onChange={(e) => {
+                        setValueForMember(e.target.value, item);
+                      }}
                       disabled={!!disabledReason || disabled}
                       placeholder={placeholder}
                       title={disabledReason}
@@ -156,7 +158,9 @@ const ClusterSpecificInput: FC<Props> = ({
               id={id}
               type="text"
               value={firstValue}
-              onChange={(e) => setValueForAllMembers(e.target.value)}
+              onChange={(e) => {
+                setValueForAllMembers(e.target.value);
+              }}
               disabled={!!disabledReason || disabled}
               help={helpText}
               placeholder={placeholder}

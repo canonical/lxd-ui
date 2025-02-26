@@ -195,12 +195,13 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
           );
           eventQueue.set(
             operation.metadata.id,
-            () =>
+            () => {
               notifySuccess(
                 values.instanceName,
                 values.targetProject,
                 instance.type,
-              ),
+              );
+            },
             (msg) =>
               toastNotify.failure(
                 "Instance creation failed.",

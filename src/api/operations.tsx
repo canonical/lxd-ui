@@ -17,7 +17,7 @@ export const fetchOperations = (project: string): Promise<LxdOperationList> => {
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdOperationList>) => {
         sortOperationList(data.metadata);
-        return resolve(data.metadata);
+        resolve(data.metadata);
       })
       .catch(reject);
   });
@@ -29,7 +29,7 @@ export const fetchAllOperations = (): Promise<LxdOperationList> => {
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdOperationList>) => {
         sortOperationList(data.metadata);
-        return resolve(data.metadata);
+        resolve(data.metadata);
       })
       .catch(reject);
   });

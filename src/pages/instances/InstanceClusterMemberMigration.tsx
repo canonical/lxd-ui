@@ -52,7 +52,9 @@ const InstanceClusterMemberMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetMember)}
+          onClick={() => {
+            migrate(targetMember);
+          }}
           disabled={!targetMember}
         >
           Migrate

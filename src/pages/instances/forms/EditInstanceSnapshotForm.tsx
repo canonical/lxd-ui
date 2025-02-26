@@ -61,10 +61,12 @@ const EditInstanceSnapshotForm: FC<Props> = ({
       : snapshot;
     const instanceLink = <InstanceLinkChip instance={instance} />;
     updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => notifyUpdateSuccess(newName ?? snapshot.name),
+          () => {
+            notifyUpdateSuccess(newName ?? snapshot.name);
+          },
           (msg) => {
             toastNotify.failure(
               `Snapshot update failed for instance ${instance.name}`,
@@ -73,8 +75,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
             );
             formik.setSubmitting(false);
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         toastNotify.failure(
           `Snapshot update failed for instance ${instance.name}`,
@@ -90,7 +92,7 @@ const EditInstanceSnapshotForm: FC<Props> = ({
       <InstanceSnapshotLinkChip name={snapshot.name} instance={instance} />
     );
     renameInstanceSnapshot(instance, snapshot, newName)
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
@@ -108,8 +110,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
             );
             formik.setSubmitting(false);
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         toastNotify.failure(
           `Snapshot rename failed for ${snapshot.name}`,

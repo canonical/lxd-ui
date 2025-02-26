@@ -57,7 +57,9 @@ const ClusteredSettingFormInput: FC<Props> = ({
         id={getConfigId(configField.key)}
         values={value}
         isReadOnly={readonly}
-        onChange={(value) => setValue(value)}
+        onChange={(value) => {
+          setValue(value);
+        }}
         memberNames={memberNames}
         toggleReadOnly={toggleReadOnly}
         helpText={

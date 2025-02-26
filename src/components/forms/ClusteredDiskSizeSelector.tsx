@@ -85,7 +85,9 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
                   <DiskSizeSelector
                     id={memberNames.indexOf(item) === 0 ? id : `${id}-${item}`}
                     value={activeValue}
-                    setMemoryLimit={(value) => setValueForMember(value, item)}
+                    setMemoryLimit={(value) => {
+                      setValueForMember(value, item);
+                    }}
                     disabled={!!disabledReason}
                     classname="u-no-margin--bottom"
                   />
@@ -107,7 +109,9 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
             <DiskSizeSelector
               id={id}
               value={firstValue}
-              setMemoryLimit={(value) => setValueForAllMembers(value)}
+              setMemoryLimit={(value) => {
+                setValueForAllMembers(value);
+              }}
               disabled={!!disabledReason}
               help={helpText}
             />

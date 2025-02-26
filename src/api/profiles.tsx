@@ -17,7 +17,9 @@ export const fetchProfile = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}&recursion=1${entitlements}`)
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdProfile))
+      .then((data) => {
+        resolve(data as LxdProfile);
+      })
       .catch(reject);
   });
 };
@@ -33,7 +35,9 @@ export const fetchProfiles = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles?project=${project}&recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProfile[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdProfile[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

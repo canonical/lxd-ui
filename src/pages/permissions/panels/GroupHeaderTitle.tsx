@@ -21,7 +21,9 @@ const GroupHeaderTitle: FC<Props> = ({ subForm, setSubForm, group }) => {
     <BackLink
       linkText={group ? "Edit group" : "Create group"}
       title={`${verb} ${pluralize(subForm, 2)}`}
-      onClick={() => setSubForm(null)}
+      onClick={() => {
+        setSubForm(null);
+      }}
     />
   );
 };

@@ -16,7 +16,9 @@ const ConfirmationForce: FC<Props> = ({ label, force }) => {
         label={label}
         tabIndex={-1}
         defaultChecked={isForce}
-        onClick={() => setForce((prev) => !prev)}
+        onClick={() => {
+          setForce((prev) => !prev);
+        }}
       />
     </span>
   );

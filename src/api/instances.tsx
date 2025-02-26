@@ -40,7 +40,9 @@ export const fetchInstance = (
       `/1.0/instances/${name}?project=${project}&recursion=2${entitlements}`,
     )
       .then(handleEtagResponse)
-      .then((data) => resolve(data as LxdInstance))
+      .then((data) => {
+        resolve(data as LxdInstance);
+      })
       .catch(reject);
   });
 };
@@ -56,7 +58,9 @@ export const fetchInstances = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances?project=${project}&recursion=2${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdInstance[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdInstance[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -207,13 +211,19 @@ export const updateInstanceBulkAction = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       actions.map(async ({ name, project, action }) => {
-        return await putInstanceAction(name, project, action, isForce)
+        await putInstanceAction(name, project, action, isForce)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, actions.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, actions.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -246,13 +256,19 @@ export const deleteInstanceBulk = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       instances.map(async (instance) => {
-        return await deleteInstance(instance)
+        await deleteInstance(instance)
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, instances.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, instances.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -285,7 +301,9 @@ export const connectInstanceExec = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdTerminal) => resolve(data))
+      .then((data: LxdTerminal) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
@@ -304,7 +322,9 @@ export const connectInstanceVga = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdTerminal) => resolve(data))
+      .then((data: LxdTerminal) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
@@ -322,7 +342,9 @@ export const connectInstanceConsole = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdTerminal) => resolve(data))
+      .then((data: LxdTerminal) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
@@ -336,7 +358,9 @@ export const fetchInstanceConsoleBuffer = (
       method: "GET",
     })
       .then(handleTextResponse)
-      .then((data: string) => resolve(data))
+      .then((data: string) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
@@ -350,7 +374,9 @@ export const fetchInstanceLogs = (
       method: "GET",
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<string[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<string[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -365,7 +391,9 @@ export const fetchInstanceLogFile = (
       method: "GET",
     })
       .then(handleTextResponse)
-      .then((data: string) => resolve(data))
+      .then((data: string) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
@@ -419,7 +447,9 @@ export const createInstanceBackup = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdOperationResponse) => resolve(data))
+      .then((data: LxdOperationResponse) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };

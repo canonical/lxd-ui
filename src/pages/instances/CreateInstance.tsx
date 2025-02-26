@@ -246,8 +246,12 @@ const CreateInstance: FC = () => {
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
-            () => notifyCreatedAndStarted(instanceLink),
-            (msg) => notifyCreatedButStartFailed(instanceLink, new Error(msg)),
+            () => {
+              notifyCreatedAndStarted(instanceLink);
+            },
+            (msg) => {
+              notifyCreatedButStartFailed(instanceLink, new Error(msg));
+            },
           );
         })
         .catch((e: Error) => {
@@ -315,21 +319,23 @@ const CreateInstance: FC = () => {
         const isIsoImage = values.image?.server === LOCAL_ISO;
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             creationCompletedHandler(
               instanceName,
               shouldStart,
               isIsoImage,
               values.instanceType,
-            ),
-          (msg) =>
+            );
+          },
+          (msg) => {
             notifyCreationFailed(
               new Error(msg),
               formUrl,
               values,
               "toast",
               section,
-            ),
+            );
+          },
         );
       })
       .catch((e: Error) => {
@@ -542,7 +548,9 @@ const CreateInstance: FC = () => {
           loading={formik.isSubmitting}
           disabled={hasErrors}
           appearance={isLocalIsoImage ? "positive" : "default"}
-          onClick={() => submit(formik.values, false)}
+          onClick={() => {
+            submit(formik.values, false);
+          }}
         >
           Create
         </ActionButton>
@@ -551,7 +559,9 @@ const CreateInstance: FC = () => {
             appearance="positive"
             loading={formik.isSubmitting}
             disabled={hasErrors}
-            onClick={() => submit(formik.values)}
+            onClick={() => {
+              submit(formik.values);
+            }}
           >
             Create and start
           </ActionButton>

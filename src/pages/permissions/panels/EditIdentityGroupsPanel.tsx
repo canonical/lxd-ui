@@ -187,7 +187,9 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
             modifiedGroups={modifiedGroups}
             undoChange={undoGroupChange}
             closePanel={closePanel}
-            onSubmit={() => setConfirming(true)}
+            onSubmit={() => {
+              setConfirming(true);
+            }}
             disabled={modifiedGroups.size === 0}
           />
         </SidePanel.Footer>

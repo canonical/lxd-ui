@@ -76,7 +76,9 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           </p>
         ),
         onConfirm: handleRestart,
-        close: () => setForce(false),
+        close: () => {
+          setForce(false);
+        },
         confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Restart"
           : "You do not have permission to restart this instance",

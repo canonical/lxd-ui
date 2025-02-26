@@ -10,9 +10,9 @@ export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/cluster/members?recursion=2")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterMember[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdClusterMember[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -30,9 +30,9 @@ export const postClusterMemberState = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterMember[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdClusterMember[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -41,7 +41,9 @@ export const fetchClusterGroups = (): Promise<LxdClusterGroup[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/cluster/groups?recursion=1")
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterGroup[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdClusterGroup[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -50,7 +52,9 @@ export const fetchClusterGroup = (group: string): Promise<LxdClusterGroup> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdClusterGroup>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdClusterGroup>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -64,7 +68,9 @@ export const updateClusterGroup = (
       body: JSON.stringify(group),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<null>) => resolve(data))
+      .then((data: LxdApiResponse<null>) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };
@@ -78,7 +84,9 @@ export const createClusterGroup = (
       body: JSON.stringify(group),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<null>) => resolve(data))
+      .then((data: LxdApiResponse<null>) => {
+        resolve(data);
+      })
       .catch(reject);
   });
 };

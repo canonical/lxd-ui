@@ -36,7 +36,9 @@ export const fetchStoragePool = (
     const targetParam = target ? `&target=${target}` : "";
     fetch(`/1.0/storage-pools/${pool}?recursion=1${targetParam}${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStoragePool>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdStoragePool>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -51,7 +53,9 @@ export const fetchStoragePools = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStoragePool[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdStoragePool[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -62,9 +66,9 @@ export const fetchStoragePoolResources = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-pools/${pool}/resources`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStoragePoolResources>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdStoragePoolResources>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -263,9 +267,9 @@ export const fetchStorageVolumes = (
       `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
-        resolve(data.metadata.map((volume) => ({ ...volume, pool }))),
-      )
+      .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
+        resolve(data.metadata.map((volume) => ({ ...volume, pool })));
+      })
       .catch(reject);
   });
 };
@@ -281,9 +285,9 @@ export const fetchAllStorageVolumes = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume[]>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -304,7 +308,9 @@ export const fetchStorageVolume = (
       `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}&recursion=1${entitlements}`,
     )
       .then(handleEtagResponse)
-      .then((data) => resolve({ ...data, pool } as LxdStorageVolume))
+      .then((data) => {
+        resolve({ ...data, pool } as LxdStorageVolume);
+      })
       .catch(reject);
   });
 };
@@ -320,9 +326,9 @@ export const fetchStorageVolumeState = (
       `/1.0/storage-pools/${pool}/volumes/${type}/${volume}/state?project=${project}&recursion=1`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolumeState>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<LxdStorageVolumeState>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

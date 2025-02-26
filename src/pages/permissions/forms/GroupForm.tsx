@@ -74,7 +74,9 @@ const GroupForm: FC<Props> = ({
       <FormLink
         title={(isEditing ? "Edit " : "Add ") + pluralize("identity", 2)}
         icon="user-group"
-        onClick={() => setSubForm("identity")}
+        onClick={() => {
+          setSubForm("identity");
+        }}
         isModified={identityModifyCount > 0}
         subText={
           identityCount === 0
@@ -85,7 +87,9 @@ const GroupForm: FC<Props> = ({
       <FormLink
         title={(isEditing ? "Edit " : "Add ") + pluralize("permission", 2)}
         icon="lock-locked"
-        onClick={() => setSubForm("permission")}
+        onClick={() => {
+          setSubForm("permission");
+        }}
         isModified={permissionModifyCount > 0}
         subText={
           permissionCount === 0

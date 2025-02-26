@@ -13,7 +13,9 @@ const EditGroupIdentitiesBtn: FC<Props> = ({ groups, className }) => {
   return (
     <>
       <Button
-        onClick={() => panelParams.openGroupIdentities()}
+        onClick={() => {
+          panelParams.openGroupIdentities();
+        }}
         aria-label="Manage identities"
         title="Manage identities"
         className={className}

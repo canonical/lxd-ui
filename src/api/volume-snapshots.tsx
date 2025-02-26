@@ -59,13 +59,19 @@ export const deleteVolumeSnapshotBulk = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       snapshotNames.map(async (name) => {
-        return await deleteVolumeSnapshot(volume, { name })
+        await deleteVolumeSnapshot(volume, { name })
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, snapshotNames.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, snapshotNames.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -155,14 +161,14 @@ export const fetchStorageVolumeSnapshots = (args: {
       `/1.0/storage-pools/${pool}/volumes/${type}/${volumeName}/snapshots?project=${project}&recursion=2`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) =>
+      .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) => {
         resolve(
           data.metadata.map((snapshot) => ({
             ...snapshot,
             name: splitVolumeSnapshotName(snapshot.name).snapshotName,
           })),
-        ),
-      )
+        );
+      })
       .catch(reject);
   });
 };

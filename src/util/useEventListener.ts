@@ -16,8 +16,9 @@ function useEventListener<K extends keyof EventListenerEvents>(
   useEffect(() => {
     if (!element) return;
 
-    const eventListener = (event: Event) =>
+    const eventListener = (event: Event) => {
       handler(event as EventListenerEvents[K]);
+    };
     element.addEventListener(eventName, eventListener);
 
     return () => {

@@ -89,7 +89,9 @@ const PermissionIdpGroups: FC = () => {
           <Button
             appearance="link"
             dense
-            onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+            onClick={() => {
+              panelParams.openEditIdpGroup(idpGroup.name);
+            }}
           >
             {idpGroup.groups.length}
           </Button>
@@ -136,7 +138,9 @@ const PermissionIdpGroups: FC = () => {
                   appearance="base"
                   hasIcon
                   dense
-                  onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+                  onClick={() => {
+                    panelParams.openEditIdpGroup(idpGroup.name);
+                  }}
                   type="button"
                   aria-label="Edit IDP group details"
                   title={
@@ -338,7 +342,9 @@ const PermissionIdpGroups: FC = () => {
       {panelParams.panel === panels.editIdpGroup && selectedGroups.length && (
         <EditIdpGroupPanel
           idpGroup={selectedGroups[0]}
-          onClose={() => setSelectedGroupNames([])}
+          onClose={() => {
+            setSelectedGroupNames([]);
+          }}
         />
       )}
     </>

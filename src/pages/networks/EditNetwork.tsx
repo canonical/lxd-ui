@@ -153,7 +153,9 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         .catch((e) => {
           notify.failure("Network update failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 
@@ -199,14 +201,14 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
         <YamlSwitch
           formik={formik}
           section={section}
-          setSection={() =>
+          setSection={() => {
             setSection(
               section === slugify(YAML_CONFIGURATION)
                 ? GENERAL
                 : YAML_CONFIGURATION,
               "click",
-            )
-          }
+            );
+          }}
           disableReason={
             formik.values.name
               ? undefined

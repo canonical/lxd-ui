@@ -203,7 +203,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
       };
       const itemType = figureType();
 
-      const selectImage = () => onSelect(item, item.type ?? type);
+      const selectImage = () => {
+        onSelect(item, item.type ?? type);
+      };
 
       const displayRelease =
         item.os === "Ubuntu" &&
@@ -430,7 +432,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               aria-label="Only show cached images"
               checked={hideRemote}
               label="Show only cached images"
-              onChange={() => setHideRemote((prev) => !prev)}
+              onChange={() => {
+                setHideRemote((prev) => !prev);
+              }}
             />
           </div>
         </Col>

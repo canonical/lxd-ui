@@ -58,7 +58,9 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
           links={TABS.map((tab) => ({
             label: tab,
             active: tab === activeTab,
-            onClick: () => handleTabChange(tab),
+            onClick: () => {
+              handleTabChange(tab);
+            },
           }))}
         />
 

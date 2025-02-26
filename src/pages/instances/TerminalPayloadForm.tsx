@@ -166,7 +166,9 @@ const TerminalPayloadForm: FC<Props> = ({ payload, close, reconnect }) => {
               />
               <Button
                 aria-label={`remove variable ${index}`}
-                onClick={() => removeEnvironmentRow(index)}
+                onClick={() => {
+                  removeEnvironmentRow(index);
+                }}
                 type="button"
                 hasIcon
               >

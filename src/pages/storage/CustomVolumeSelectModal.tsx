@@ -133,7 +133,9 @@ const CustomVolumeSelectModal: FC<Props> = ({
               {
                 content: (
                   <Button
-                    onClick={() => handleSelect(volume)}
+                    onClick={() => {
+                      handleSelect(volume);
+                    }}
                     dense
                     appearance={
                       primaryVolume?.name === volume.name &&

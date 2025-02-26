@@ -233,8 +233,12 @@ const InstanceSnapshots = (props: Props) => {
               <InstanceSnapshotBulkDelete
                 instance={instance}
                 snapshotNames={selectedNames}
-                onStart={() => setProcessingNames(selectedNames)}
-                onFinish={() => setProcessingNames([])}
+                onStart={() => {
+                  setProcessingNames(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingNames([]);
+                }}
                 onSuccess={onSuccess}
                 onFailure={onFailure}
               />

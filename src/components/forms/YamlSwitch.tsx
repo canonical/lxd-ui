@@ -30,7 +30,8 @@ const YamlSwitch: FC<Props> = ({
 
   const handleSwitch = (e: FormEvent<HTMLInputElement>) => {
     if (yamlFormik.values.yaml) {
-      return openPortal(e);
+      openPortal(e);
+      return;
     }
 
     const newSection = isChecked ? MAIN_CONFIGURATION : YAML_CONFIGURATION;

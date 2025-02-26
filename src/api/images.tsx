@@ -24,7 +24,9 @@ export const fetchImagesInProject = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?recursion=1&project=${project}${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdImage[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -36,7 +38,9 @@ export const fetchImagesInAllProjects = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/images?recursion=1&all-projects=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdImage[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdImage[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -69,9 +73,15 @@ export const deleteImageBulk = (
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, fingerprints.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, fingerprints.length, resolve);
+              },
             );
           })
           .catch((e) => {

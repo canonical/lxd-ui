@@ -49,7 +49,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
       <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
     );
     deleteVolumeSnapshot(volume, snapshot)
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () =>
@@ -74,8 +74,8 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
                 query.queryKey[0] === queryKeys.storage,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         notify.failure("Snapshot deletion failed", e, snapshotLink);
         setDeleting(false);

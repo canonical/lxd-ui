@@ -12,7 +12,9 @@ export const fetchGroups = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/groups?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdGroup[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdGroup[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

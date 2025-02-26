@@ -60,7 +60,9 @@ const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
           <ActionButton
             appearance="positive"
             className="u-no-margin--bottom"
-            onClick={() => migrate(selectedPool)}
+            onClick={() => {
+              migrate(selectedPool);
+            }}
             disabled={!selectedPool}
           >
             Migrate

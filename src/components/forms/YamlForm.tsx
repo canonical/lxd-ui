@@ -60,9 +60,11 @@ const YamlForm: FC<Props> = ({
           defaultValue={yaml}
           language="yaml"
           theme="hc-black"
-          onChange={(value: string | undefined) =>
-            value && setYaml && setYaml(value)
-          }
+          onChange={(value: string | undefined) => {
+            if (value && setYaml) {
+              setYaml(value);
+            }
+          }}
           options={{
             fontSize: 18,
             scrollBeyondLastLine: false,

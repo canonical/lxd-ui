@@ -41,13 +41,20 @@ const SettingFormCheckbox: FC<Props> = ({
         wrapperClassName="input-wrapper"
         type="checkbox"
         checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
+        onChange={(e) => {
+          setChecked(e.target.checked);
+        }}
         help={<ConfigFieldDescription description={configField.longdesc} />}
       />
       <Button appearance="base" onClick={onCancel}>
         Cancel
       </Button>
-      <Button appearance="positive" onClick={() => onSubmit(checked)}>
+      <Button
+        appearance="positive"
+        onClick={() => {
+          onSubmit(checked);
+        }}
+      >
         Save
       </Button>
       {canBeReset && (

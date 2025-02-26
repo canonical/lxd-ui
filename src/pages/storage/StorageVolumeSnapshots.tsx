@@ -233,8 +233,12 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
               <VolumeSnapshotBulkDelete
                 volume={volume}
                 snapshotNames={selectedNames}
-                onStart={() => setProcessingNames(selectedNames)}
-                onFinish={() => setProcessingNames([])}
+                onStart={() => {
+                  setProcessingNames(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingNames([]);
+                }}
               />
             </div>
           )}

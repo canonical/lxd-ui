@@ -13,7 +13,9 @@ const ProfileLink: FC<Props> = ({ profile }) => {
   return (
     <Link
       to={`/ui/project/${profile.project}/profile/${profile.name}`}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <ItemName item={profile} />
     </Link>

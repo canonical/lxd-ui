@@ -238,11 +238,14 @@ const NetworkForm: FC<Props> = ({
         const element = document.getElementById(candidateSlug);
         const elementOffset = element?.offsetTop ?? 0;
         if (elementOffset > scrollTop) {
-          return setSection(candidateSlug, "scroll");
+          setSection(candidateSlug, "scroll");
+          return;
         }
       }
     };
-    const scrollListener = () => debounce(activateSectionOnScroll, 20);
+    const scrollListener = () => {
+      debounce(activateSectionOnScroll, 20);
+    };
     wrapper?.addEventListener("scroll", scrollListener);
 
     return () => wrapper?.removeEventListener("scroll", scrollListener);
@@ -350,7 +353,9 @@ const NetworkForm: FC<Props> = ({
           />
           <NetworkFormMenu
             active={section}
-            setActive={(section) => setSection(section, "click")}
+            setActive={(section) => {
+              setSection(section, "click");
+            }}
             formik={formik}
             availableSections={availableSections}
           />

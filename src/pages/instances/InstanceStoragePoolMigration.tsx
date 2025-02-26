@@ -53,7 +53,9 @@ const InstanceStoragePoolMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetPool)}
+          onClick={() => {
+            migrate(targetPool);
+          }}
           disabled={!targetPool}
         >
           Migrate

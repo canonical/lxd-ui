@@ -19,7 +19,9 @@ interface Props {
 const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(isWidthBelow(1200));
 
-  useEventListener("resize", () => setIsSmallScreen(isWidthBelow(1200)));
+  useEventListener("resize", () => {
+    setIsSmallScreen(isWidthBelow(1200));
+  });
   const classname = isSmallScreen
     ? "p-contextual-menu__link"
     : "p-segmented-control__button";

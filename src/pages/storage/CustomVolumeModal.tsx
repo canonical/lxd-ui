@@ -66,7 +66,9 @@ const CustomVolumeModal: FC<Props> = ({
           instanceLocation={instanceLocation}
           onFinish={onFinish}
           onCancel={onCancel}
-          onCreate={() => setContent(CREATE_VOLUME)}
+          onCreate={() => {
+            setContent(CREATE_VOLUME);
+          }}
           hasPrevStep={!!title}
         />
       )}

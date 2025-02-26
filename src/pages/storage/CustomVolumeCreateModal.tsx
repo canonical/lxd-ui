@@ -87,7 +87,9 @@ const CustomVolumeCreateModal: FC<Props> = ({
         .catch((e) => {
           notify.failure("Storage volume creation failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

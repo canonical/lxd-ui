@@ -227,8 +227,12 @@ const ImageList: FC = () => {
               <BulkDeleteImageBtn
                 images={selectedImages}
                 project={project}
-                onStart={() => setProcessingNames(selectedNames)}
-                onFinish={() => setProcessingNames([])}
+                onStart={() => {
+                  setProcessingNames(selectedNames);
+                }}
+                onFinish={() => {
+                  setProcessingNames([]);
+                }}
               />
             )}
           </PageHeader.Left>

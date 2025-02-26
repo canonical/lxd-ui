@@ -15,7 +15,9 @@ export const fetchIdentities = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identities?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdIdentity[]>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdIdentity[]>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -24,7 +26,9 @@ export const fetchCurrentIdentity = (): Promise<LxdIdentity> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identities/current?recursion=1`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdIdentity>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdIdentity>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -41,7 +45,9 @@ export const fetchIdentity = (
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identities/${authMethod}/${id}?recursion=1${entitlements}`)
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdIdentity>) => resolve(data.metadata))
+      .then((data: LxdApiResponse<LxdIdentity>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };
@@ -107,9 +113,9 @@ export const createFineGrainedTlsIdentity = (
       }),
     })
       .then(handleResponse)
-      .then((data: LxdApiResponse<TlsIdentityTokenDetail>) =>
-        resolve(data.metadata),
-      )
+      .then((data: LxdApiResponse<TlsIdentityTokenDetail>) => {
+        resolve(data.metadata);
+      })
       .catch(reject);
   });
 };

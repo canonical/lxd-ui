@@ -77,12 +77,16 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
               labelClassName="right-margin"
               label="Graphic"
               checked={isGraphic}
-              onChange={() => setGraphicConsole(true)}
+              onChange={() => {
+                setGraphicConsole(true);
+              }}
             />
             <RadioInput
               label="Text console"
               checked={!isGraphic}
-              onChange={() => setGraphicConsole(false)}
+              onChange={() => {
+                setGraphicConsole(false);
+              }}
             />
           </div>
           {isGraphic && isRunning && (
@@ -90,7 +94,9 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
               {hasCustomVolumeIso && <AttachIsoBtn instance={instance} />}
               <Button
                 className="u-no-margin--bottom"
-                onClick={() => handleFullScreen()}
+                onClick={() => {
+                  handleFullScreen();
+                }}
               >
                 <span>Fullscreen</span>
               </Button>
@@ -101,15 +107,21 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
                 links={[
                   {
                     children: "Send Ctrl + Alt + Del",
-                    onClick: () => sendCtrlAltDel(window.spice_connection),
+                    onClick: () => {
+                      sendCtrlAltDel(window.spice_connection);
+                    },
                   },
                   {
                     children: "Send Alt + TAB",
-                    onClick: () => sendAltTab(window.spice_connection),
+                    onClick: () => {
+                      sendAltTab(window.spice_connection);
+                    },
                   },
                   {
                     children: "Send Alt + F4",
-                    onClick: () => sendAltF4(window.spice_connection),
+                    onClick: () => {
+                      sendAltF4(window.spice_connection);
+                    },
                   },
                 ]}
               />

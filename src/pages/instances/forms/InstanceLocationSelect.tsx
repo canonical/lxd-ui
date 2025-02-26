@@ -73,7 +73,9 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
       <Select
         id="clusterGroup"
         label="Cluster group"
-        onChange={(e) => setGroup(e.target.value)}
+        onChange={(e) => {
+          setGroup(e.target.value);
+        }}
         value={selectedGroup}
         options={clusterGroups.map((group) => {
           return {
@@ -92,7 +94,9 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
       <Select
         id="clusterMember"
         label="Cluster member"
-        onChange={(e) => setMember(e.target.value)}
+        onChange={(e) => {
+          setMember(e.target.value);
+        }}
         value={selectedMember}
         options={[
           ...(availableMembers.length > 1 ? [{ label: "any", value: "" }] : []),

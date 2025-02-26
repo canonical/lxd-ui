@@ -37,7 +37,9 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
   return (
     <>
       <Button
-        onClick={() => panelParams.openIdentityGroups()}
+        onClick={() => {
+          panelParams.openIdentityGroups();
+        }}
         aria-label="Modify groups"
         title={
           restrictedIdentities.length ? getRestrictedWarning() : "Modify groups"

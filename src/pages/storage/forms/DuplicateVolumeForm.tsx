@@ -143,7 +143,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
           );
           eventQueue.set(
             operation.metadata.id,
-            () => notifySuccess(values.name, values.project, values.pool),
+            () => {
+              notifySuccess(values.name, values.project, values.pool);
+            },
             (msg) =>
               toastNotify.failure(
                 "Volume duplication failed.",
