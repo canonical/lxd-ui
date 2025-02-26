@@ -42,7 +42,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
       network.name,
       queryKeys.forwards,
     ],
-    queryFn: () => fetchNetworkForwards(network.name, project),
+    queryFn: async () => fetchNetworkForwards(network.name, project),
   });
 
   if (error) {

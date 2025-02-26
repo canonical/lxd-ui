@@ -75,7 +75,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
                 }
                 title="Copy token"
                 className="u-no-margin--bottom"
-                onClick={() => handleCopy()}
+                onClick={async () => handleCopy()}
                 type="button"
                 hasIcon
               >

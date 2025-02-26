@@ -129,7 +129,7 @@ const EditProject: FC<Props> = ({ project }) => {
             <>
               <Button
                 appearance="base"
-                onClick={() => formik.setValues(initialValues)}
+                onClick={async () => formik.setValues(initialValues)}
               >
                 Cancel
               </Button>

@@ -52,7 +52,7 @@ const Login: FC = () => {
             <p className="u-sv1">Certificate selection</p>
             <Button
               appearance={"positive"}
-              onClick={() => navigate("/ui/login/certificate-generate")}
+              onClick={async () => navigate("/ui/login/certificate-generate")}
             >
               Create a new certificate
             </Button>

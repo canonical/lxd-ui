@@ -8,7 +8,7 @@ import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
 
-export const createInstanceSnapshot = (
+export const createInstanceSnapshot = async (
   instance: LxdInstance,
   name: string,
   expiresAt: string | null,
@@ -32,7 +32,7 @@ export const createInstanceSnapshot = (
   });
 };
 
-export const deleteInstanceSnapshot = (
+export const deleteInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: { name: string },
 ): Promise<LxdOperationResponse> => {
@@ -49,7 +49,7 @@ export const deleteInstanceSnapshot = (
   });
 };
 
-export const deleteInstanceSnapshotBulk = (
+export const deleteInstanceSnapshotBulk = async (
   instance: LxdInstance,
   snapshotNames: string[],
   eventQueue: EventQueue,
@@ -82,7 +82,7 @@ export const deleteInstanceSnapshotBulk = (
   });
 };
 
-export const restoreInstanceSnapshot = (
+export const restoreInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: LxdInstanceSnapshot,
   restoreState: boolean,
@@ -101,7 +101,7 @@ export const restoreInstanceSnapshot = (
   });
 };
 
-export const renameInstanceSnapshot = (
+export const renameInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: LxdInstanceSnapshot,
   newName: string,
@@ -122,7 +122,7 @@ export const renameInstanceSnapshot = (
   });
 };
 
-export const updateInstanceSnapshot = (
+export const updateInstanceSnapshot = async (
   instance: LxdInstance,
   snapshot: LxdInstanceSnapshot,
   expiresAt: string,

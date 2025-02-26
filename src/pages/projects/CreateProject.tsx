@@ -62,8 +62,11 @@ const CreateProject: FC = () => {
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string()
-      .test("deduplicate", "A project with this name already exists", (value) =>
-        checkDuplicateName(value, "", controllerState, "projects"),
+      .test(
+        "deduplicate",
+        "A project with this name already exists",
+        async (value) =>
+          checkDuplicateName(value, "", controllerState, "projects"),
       )
       .required(),
   });
@@ -185,7 +188,7 @@ const CreateProject: FC = () => {
         isEdit={false}
       />
       <FormFooterLayout>
-        <Button appearance="base" onClick={() => navigate(-1)}>
+        <Button appearance="base" onClick={async () => navigate(-1)}>
           Cancel
         </Button>
         <ActionButton

@@ -67,7 +67,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
       .test(
         "deduplicate",
         "A pool with this name already exists",
-        (value) =>
+        async (value) =>
           value === pool.name ||
           checkDuplicateName(value, project, controllerState, `storage-pools`),
       )
@@ -93,13 +93,13 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () =>
+          ? async () =>
               updateClusteredPool(
                 savedPool,
                 clusterMembers,
                 values.sizePerClusterMember,
               )
-          : () => updatePool(savedPool);
+          : async () => updatePool(savedPool);
 
       mutation()
         .then(() => {

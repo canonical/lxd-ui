@@ -9,7 +9,7 @@ export const useProfiles = (project: string): UseQueryResult<LxdProfile[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.profiles, project],
-    queryFn: () => fetchProfiles(project, isFineGrained),
+    queryFn: async () => fetchProfiles(project, isFineGrained),
     enabled: !!project && isFineGrained !== null,
   });
 };
@@ -22,7 +22,7 @@ export const useProfile = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.profiles, profile, queryKeys.projects, project],
-    queryFn: () => fetchProfile(profile, project, isFineGrained),
+    queryFn: async () => fetchProfile(profile, project, isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

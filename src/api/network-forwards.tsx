@@ -2,7 +2,7 @@ import { handleResponse } from "util/helpers";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 
-export const fetchNetworkForwards = (
+export const fetchNetworkForwards = async (
   network: string,
   project: string,
 ): Promise<LxdNetworkForward[]> => {
@@ -16,7 +16,7 @@ export const fetchNetworkForwards = (
   });
 };
 
-export const fetchNetworkForward = (
+export const fetchNetworkForward = async (
   network: string,
   listenAddress: string,
   project: string,
@@ -33,7 +33,7 @@ export const fetchNetworkForward = (
   });
 };
 
-export const createNetworkForward = (
+export const createNetworkForward = async (
   network: string,
   forward: Partial<LxdNetworkForward>,
   project: string,
@@ -49,7 +49,7 @@ export const createNetworkForward = (
   });
 };
 
-export const updateNetworkForward = (
+export const updateNetworkForward = async (
   network: string,
   forward: Partial<LxdNetworkForward>,
   project: string,
@@ -68,7 +68,7 @@ export const updateNetworkForward = (
   });
 };
 
-export const deleteNetworkForward = (
+export const deleteNetworkForward = async (
   network: LxdNetwork,
   forward: LxdNetworkForward,
   project: string,

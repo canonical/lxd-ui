@@ -9,7 +9,7 @@ export const useProjects = (): UseQueryResult<LxdProject[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.projects],
-    queryFn: () => fetchProjects(isFineGrained),
+    queryFn: async () => fetchProjects(isFineGrained),
     enabled: isFineGrained !== null,
   });
 };
@@ -22,7 +22,7 @@ export const useProject = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.projects, project],
-    queryFn: () => fetchProject(project, isFineGrained),
+    queryFn: async () => fetchProject(project, isFineGrained),
     retry: retry ?? true,
     enabled: (enabled ?? true) && isFineGrained !== null,
   });

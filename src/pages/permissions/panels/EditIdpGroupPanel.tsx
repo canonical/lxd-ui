@@ -140,7 +140,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
     const nameChanged = idpGroup.name !== values.name;
 
     if (nameChanged) {
-      mutationPromise = mutationPromise.then(() =>
+      mutationPromise = mutationPromise.then(async () =>
         renameIdpGroup(idpGroup?.name ?? "", values.name),
       );
     }

@@ -33,7 +33,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
       .test(
         "deduplicate",
         "A project with this name already exists",
-        (value) =>
+        async (value) =>
           project.name === value ||
           checkDuplicateName(value, "", controllerState, "projects"),
       )

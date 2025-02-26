@@ -10,7 +10,7 @@ import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";
 import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
 
-export const createVolumeSnapshot = (args: {
+export const createVolumeSnapshot = async (args: {
   volume: LxdStorageVolume;
   name: string;
   expiresAt: string | null;
@@ -33,7 +33,7 @@ export const createVolumeSnapshot = (args: {
   });
 };
 
-export const deleteVolumeSnapshot = (
+export const deleteVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: Pick<LxdVolumeSnapshot, "name">,
 ): Promise<LxdOperationResponse> => {
@@ -50,7 +50,7 @@ export const deleteVolumeSnapshot = (
   });
 };
 
-export const deleteVolumeSnapshotBulk = (
+export const deleteVolumeSnapshotBulk = async (
   volume: LxdStorageVolume,
   snapshotNames: string[],
   eventQueue: EventQueue,
@@ -84,7 +84,7 @@ export const deleteVolumeSnapshotBulk = (
 };
 
 // NOTE: this api endpoint results in a synchronous operation
-export const restoreVolumeSnapshot = (
+export const restoreVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
 ): Promise<LxdSyncResponse<unknown>> => {
@@ -104,7 +104,7 @@ export const restoreVolumeSnapshot = (
   });
 };
 
-export const renameVolumeSnapshot = (args: {
+export const renameVolumeSnapshot = async (args: {
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
   newName: string;
@@ -127,7 +127,7 @@ export const renameVolumeSnapshot = (args: {
 };
 
 // NOTE: this api endpoint results in a synchronous operation
-export const updateVolumeSnapshot = (args: {
+export const updateVolumeSnapshot = async (args: {
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
   expiresAt: string | null;
@@ -149,7 +149,7 @@ export const updateVolumeSnapshot = (args: {
   });
 };
 
-export const fetchStorageVolumeSnapshots = (args: {
+export const fetchStorageVolumeSnapshots = async (args: {
   pool: string;
   type: string;
   volumeName: string;

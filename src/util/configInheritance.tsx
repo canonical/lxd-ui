@@ -69,7 +69,7 @@ const getConfigOptions = () => {
   const { hasMetadataConfiguration } = useSupportedFeatures();
   const { data: configOptions } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
 
   return configOptions;

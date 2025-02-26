@@ -37,7 +37,7 @@ export const instanceNameValidation = (
     .test(
       "deduplicate",
       "An instance with this name already exists",
-      (value) =>
+      async (value) =>
         oldName === value ||
         checkDuplicateName(value, project, controllerState, "instances"),
     )

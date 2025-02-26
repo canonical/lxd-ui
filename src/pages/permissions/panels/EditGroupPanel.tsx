@@ -167,14 +167,14 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
       permissions: permissions.filter((p) => !p.isRemoved),
     };
 
-    const mutation = () => {
+    const mutation = async () => {
       if (!canEditGroup(group)) {
         return saveIdentities();
       }
 
       return isNameChanged
         ? renameGroup(group?.name ?? "", values.name)
-            .then(() => updateGroup(groupPayload))
+            .then(async () => updateGroup(groupPayload))
             .then(saveIdentities)
         : updateGroup(groupPayload).then(saveIdentities);
     };

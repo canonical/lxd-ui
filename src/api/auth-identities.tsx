@@ -5,7 +5,7 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 export const identitiesEntitlements = ["can_delete", "can_edit"];
 
-export const fetchIdentities = (
+export const fetchIdentities = async (
   isFineGrained: boolean | null,
 ): Promise<LxdIdentity[]> => {
   const entitlements = withEntitlementsQuery(
@@ -22,7 +22,7 @@ export const fetchIdentities = (
   });
 };
 
-export const fetchCurrentIdentity = (): Promise<LxdIdentity> => {
+export const fetchCurrentIdentity = async (): Promise<LxdIdentity> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identities/current?recursion=1`)
       .then(handleResponse)
@@ -33,7 +33,7 @@ export const fetchCurrentIdentity = (): Promise<LxdIdentity> => {
   });
 };
 
-export const fetchIdentity = (
+export const fetchIdentity = async (
   id: string,
   authMethod: string,
   isFineGrained: boolean | null,
@@ -52,7 +52,7 @@ export const fetchIdentity = (
   });
 };
 
-export const updateIdentity = (identity: Partial<LxdIdentity>) => {
+export const updateIdentity = async (identity: Partial<LxdIdentity>) => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
@@ -67,18 +67,20 @@ export const updateIdentity = (identity: Partial<LxdIdentity>) => {
   });
 };
 
-export const updateIdentities = (
+export const updateIdentities = async (
   identities: Partial<LxdIdentity>[],
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    Promise.allSettled(identities.map((identity) => updateIdentity(identity)))
+    Promise.allSettled(
+      identities.map(async (identity) => updateIdentity(identity)),
+    )
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);
   });
 };
 
-export const deleteIdentity = (identity: LxdIdentity) => {
+export const deleteIdentity = async (identity: LxdIdentity) => {
   return new Promise((resolve, reject) => {
     fetch(
       `/1.0/auth/identities/${identity.authentication_method}/${identity.id}`,
@@ -92,16 +94,20 @@ export const deleteIdentity = (identity: LxdIdentity) => {
   });
 };
 
-export const deleteIdentities = (identities: LxdIdentity[]): Promise<void> => {
+export const deleteIdentities = async (
+  identities: LxdIdentity[],
+): Promise<void> => {
   return new Promise((resolve, reject) => {
-    Promise.allSettled(identities.map((identity) => deleteIdentity(identity)))
+    Promise.allSettled(
+      identities.map(async (identity) => deleteIdentity(identity)),
+    )
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);
   });
 };
 
-export const createFineGrainedTlsIdentity = (
+export const createFineGrainedTlsIdentity = async (
   clientName: string,
 ): Promise<TlsIdentityTokenDetail> => {
   return new Promise((resolve, reject) => {

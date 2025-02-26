@@ -70,7 +70,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       .test(
         "deduplicate",
         "A network with this name already exists",
-        (value) =>
+        async (value) =>
           value === network.name ||
           checkDuplicateName(value, project, controllerState, "networks"),
       )
@@ -101,7 +101,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
       const yamlNetwork = yamlToObject(yaml) as LxdNetwork;
       const saveNetwork = { ...yamlNetwork, etag: network.etag };
 
-      const mutation = (values: NetworkFormValues) => {
+      const mutation = async (values: NetworkFormValues) => {
         if (values.parentPerClusterMember) {
           return updateClusterNetwork(
             saveNetwork,

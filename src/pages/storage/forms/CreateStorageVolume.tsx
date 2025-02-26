@@ -104,7 +104,9 @@ const CreateStorageVolume: FC = () => {
       <FormFooterLayout>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/storage/volumes`)}
+          onClick={async () =>
+            navigate(`/ui/project/${project}/storage/volumes`)
+          }
         >
           Cancel
         </Button>

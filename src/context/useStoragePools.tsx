@@ -21,7 +21,7 @@ export const useStoragePool = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.storage, pool, target],
-    queryFn: () => fetchStoragePool(pool, isFineGrained, target),
+    queryFn: async () => fetchStoragePool(pool, isFineGrained, target),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };
@@ -32,7 +32,7 @@ export const useStoragePools = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.storage],
-    queryFn: () => fetchStoragePools(isFineGrained),
+    queryFn: async () => fetchStoragePools(isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };
@@ -44,7 +44,7 @@ export const usePoolFromClusterMembers = (
   const { data: clusterMembers = [] } = useClusterMembers();
   return useQuery({
     queryKey: [queryKeys.storage, pool, queryKeys.cluster],
-    queryFn: () =>
+    queryFn: async () =>
       fetchPoolFromClusterMembers(pool, clusterMembers, isFineGrained),
     enabled: isFineGrained !== null && clusterMembers.length > 0,
   });

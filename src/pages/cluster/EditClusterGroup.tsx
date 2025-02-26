@@ -17,7 +17,7 @@ const EditClusterGroup: FC = () => {
 
   const { data: group, error } = useQuery({
     queryKey: [queryKeys.cluster, queryKeys.groups, groupName],
-    queryFn: () => fetchClusterGroup(groupName),
+    queryFn: async () => fetchClusterGroup(groupName),
   });
 
   if (error) {

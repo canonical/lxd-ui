@@ -154,7 +154,7 @@ export type AbortControllerState = [
   Dispatch<SetStateAction<AbortController | null>>,
 ];
 
-export const checkDuplicateName = (
+export const checkDuplicateName = async (
   candidate: string | undefined,
   project: string,
   controllerState: AbortControllerState,
@@ -300,7 +300,7 @@ export const getFileExtension = (filename: string): string => {
   return `.${filename.split(".").pop()}`;
 };
 
-export const delay = (ms: number): Promise<void> =>
+export const delay = async (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getUniqueResourceName = (

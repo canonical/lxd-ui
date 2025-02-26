@@ -12,7 +12,7 @@ export const useImagesInProject = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.images, project],
-    queryFn: () => fetchImagesInProject(project, isFineGrained),
+    queryFn: async () => fetchImagesInProject(project, isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };
@@ -23,7 +23,7 @@ export const useImagesInAllProjects = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.images],
-    queryFn: () => fetchImagesInAllProjects(isFineGrained),
+    queryFn: async () => fetchImagesInAllProjects(isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

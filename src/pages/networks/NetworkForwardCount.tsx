@@ -23,7 +23,7 @@ const NetworkForwardCount: FC<Props> = ({ network, project }) => {
       queryKeys.forwards,
       project,
     ],
-    queryFn: () => fetchNetworkForwards(network.name, project),
+    queryFn: async () => fetchNetworkForwards(network.name, project),
   });
 
   return <>{isLoading ? "" : forwards.length}</>;

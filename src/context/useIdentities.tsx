@@ -9,7 +9,7 @@ export const useIdentities = (): UseQueryResult<LxdIdentity[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.identities],
-    queryFn: () => fetchIdentities(isFineGrained),
+    queryFn: async () => fetchIdentities(isFineGrained),
     enabled: isFineGrained !== null,
   });
 };
@@ -22,7 +22,7 @@ export const useIdentity = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.identities, authMethod, id],
-    queryFn: () => fetchIdentity(id, authMethod, isFineGrained),
+    queryFn: async () => fetchIdentity(id, authMethod, isFineGrained),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };

@@ -141,7 +141,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
               </td>
               <td>
                 <Button
-                  onClick={() =>
+                  onClick={async () =>
                     formik.setFieldValue("ports", [
                       ...formik.values.ports.slice(0, index),
                       ...formik.values.ports.slice(index + 1),

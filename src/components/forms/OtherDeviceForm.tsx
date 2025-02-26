@@ -59,7 +59,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
 
   const {

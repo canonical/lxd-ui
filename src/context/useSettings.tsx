@@ -8,7 +8,7 @@ import { useClusterMembers } from "./useClusterMembers";
 export const useSettings = (): UseQueryResult<LxdSettings> => {
   return useQuery({
     queryKey: [queryKeys.settings],
-    queryFn: () => fetchSettings(),
+    queryFn: async () => fetchSettings(),
   });
 };
 
@@ -19,7 +19,7 @@ export const useClusteredSettings = (): UseQueryResult<
 
   return useQuery({
     queryKey: [queryKeys.settings, queryKeys.cluster],
-    queryFn: () => fetchSettingsFromClusterMembers(clusterMembers),
+    queryFn: async () => fetchSettingsFromClusterMembers(clusterMembers),
     enabled: clusterMembers.length > 0,
   });
 };

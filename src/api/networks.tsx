@@ -16,7 +16,7 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 const networkEntitlements = ["can_edit", "can_delete"];
 
-export const fetchNetworks = (
+export const fetchNetworks = async (
   project: string,
   isFineGrained: boolean | null,
   target?: string,
@@ -43,14 +43,14 @@ export const fetchNetworks = (
   });
 };
 
-export const fetchNetworksFromClusterMembers = (
+export const fetchNetworksFromClusterMembers = async (
   project: string,
   clusterMembers: LxdClusterMember[],
   isFineGrained: boolean | null,
 ): Promise<LXDNetworkOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map((member) => {
+      clusterMembers.map(async (member) => {
         return fetchNetworks(project, isFineGrained, member.server_name);
       }),
     )
@@ -74,7 +74,7 @@ export const fetchNetworksFromClusterMembers = (
   });
 };
 
-export const fetchNetwork = (
+export const fetchNetwork = async (
   name: string,
   project: string,
   isFineGrained: boolean | null,
@@ -97,7 +97,7 @@ export const fetchNetwork = (
   });
 };
 
-export const fetchNetworkFromClusterMembers = (
+export const fetchNetworkFromClusterMembers = async (
   name: string,
   project: string,
   clusterMembers: LxdClusterMember[],
@@ -105,7 +105,7 @@ export const fetchNetworkFromClusterMembers = (
 ): Promise<LXDNetworkOnClusterMember[]> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map((member) => {
+      clusterMembers.map(async (member) => {
         return fetchNetwork(name, project, isFineGrained, member.server_name);
       }),
     )
@@ -128,7 +128,7 @@ export const fetchNetworkFromClusterMembers = (
   });
 };
 
-export const fetchNetworkState = (
+export const fetchNetworkState = async (
   name: string,
   project: string,
   target?: string,
@@ -144,7 +144,7 @@ export const fetchNetworkState = (
   });
 };
 
-export const createClusterNetwork = (
+export const createClusterNetwork = async (
   network: Partial<LxdNetwork>,
   project: string,
   clusterMembers: LxdClusterMember[],
@@ -152,7 +152,7 @@ export const createClusterNetwork = (
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      clusterMembers.map((member) => {
+      clusterMembers.map(async (member) => {
         const memberNetwork = {
           name: network.name,
           type: network.type,
@@ -180,7 +180,7 @@ export const createClusterNetwork = (
   });
 };
 
-export const createNetwork = (
+export const createNetwork = async (
   network: Partial<LxdNetwork>,
   project: string,
   target?: string,
@@ -212,7 +212,7 @@ export const createNetwork = (
   });
 };
 
-export const updateNetwork = (
+export const updateNetwork = async (
   network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   project: string,
   target?: string,
@@ -250,14 +250,14 @@ export const updateNetwork = (
   });
 };
 
-export const updateClusterNetwork = (
+export const updateClusterNetwork = async (
   network: Partial<LxdNetwork> & Required<Pick<LxdNetwork, "config">>,
   project: string,
   parentsPerClusterMember: ClusterSpecificValues,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     Promise.allSettled(
-      Object.keys(parentsPerClusterMember).map((memberName) => {
+      Object.keys(parentsPerClusterMember).map(async (memberName) => {
         const memberNetwork = {
           name: network.name,
           type: network.type,
@@ -284,7 +284,7 @@ export const updateClusterNetwork = (
   });
 };
 
-export const renameNetwork = (
+export const renameNetwork = async (
   oldName: string,
   newName: string,
   project: string,
@@ -312,7 +312,10 @@ export const renameNetwork = (
   });
 };
 
-export const deleteNetwork = (name: string, project: string): Promise<void> => {
+export const deleteNetwork = async (
+  name: string,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${name}?project=${project}`, {
       method: "DELETE",

@@ -67,5 +67,6 @@ export default [{
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/consistent-type-imports": "error",
         "@typescript-eslint/no-confusing-void-expression": "error",
+        "@typescript-eslint/promise-function-async": "error",
     },
 }];

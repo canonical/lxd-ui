@@ -33,7 +33,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       .test(
         "deduplicate",
         "A network with this name already exists",
-        (value) =>
+        async (value) =>
           network?.name === value ||
           checkDuplicateName(value, project, controllerState, "networks"),
       )

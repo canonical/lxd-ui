@@ -13,57 +13,71 @@ import { logout } from "util/helpers";
 import NoProject from "components/NoProject";
 import lazy from "util/lazyWithRetry";
 
-const CertificateAdd = lazy(() => import("pages/login/CertificateAdd"));
+const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
-  () => import("pages/login/CertificateGenerate"),
+  async () => import("pages/login/CertificateGenerate"),
 );
-const ClusterList = lazy(() => import("pages/cluster/ClusterList"));
+const ClusterList = lazy(async () => import("pages/cluster/ClusterList"));
 const CreateClusterGroup = lazy(
-  () => import("pages/cluster/CreateClusterGroup"),
+  async () => import("pages/cluster/CreateClusterGroup"),
 );
-const CreateInstance = lazy(() => import("pages/instances/CreateInstance"));
-const CreateNetwork = lazy(() => import("pages/networks/CreateNetwork"));
+const CreateInstance = lazy(
+  async () => import("pages/instances/CreateInstance"),
+);
+const CreateNetwork = lazy(async () => import("pages/networks/CreateNetwork"));
 const CreateNetworkForward = lazy(
-  () => import("pages/networks/CreateNetworkForward"),
+  async () => import("pages/networks/CreateNetworkForward"),
 );
-const CreateProfile = lazy(() => import("pages/profiles/CreateProfile"));
-const CreateProject = lazy(() => import("pages/projects/CreateProject"));
-const CreateStoragePool = lazy(() => import("pages/storage/CreateStoragePool"));
-const EditClusterGroup = lazy(() => import("pages/cluster/EditClusterGroup"));
+const CreateProfile = lazy(async () => import("pages/profiles/CreateProfile"));
+const CreateProject = lazy(async () => import("pages/projects/CreateProject"));
+const CreateStoragePool = lazy(
+  async () => import("pages/storage/CreateStoragePool"),
+);
+const EditClusterGroup = lazy(
+  async () => import("pages/cluster/EditClusterGroup"),
+);
 const EditNetworkForward = lazy(
-  () => import("pages/networks/EditNetworkForward"),
+  async () => import("pages/networks/EditNetworkForward"),
 );
-const ImageList = lazy(() => import("pages/images/ImageList"));
-const InstanceDetail = lazy(() => import("pages/instances/InstanceDetail"));
-const InstanceList = lazy(() => import("pages/instances/InstanceList"));
-const Login = lazy(() => import("pages/login/Login"));
-const NetworkDetail = lazy(() => import("pages/networks/NetworkDetail"));
-const NetworkList = lazy(() => import("./pages/networks/NetworkList"));
-const OperationList = lazy(() => import("pages/operations/OperationList"));
-const ProfileDetail = lazy(() => import("pages/profiles/ProfileDetail"));
-const ProfileList = lazy(() => import("pages/profiles/ProfileList"));
-const ProjectConfig = lazy(() => import("pages/projects/ProjectConfiguration"));
-const ProtectedRoute = lazy(() => import("components/ProtectedRoute"));
-const Settings = lazy(() => import("pages/settings/Settings"));
-const StoragePools = lazy(() => import("pages/storage/StoragePools"));
-const StorageVolumes = lazy(() => import("pages/storage/StorageVolumes"));
-const CustomIsoList = lazy(() => import("pages/storage/CustomIsoList"));
-const StoragePoolDetail = lazy(() => import("pages/storage/StoragePoolDetail"));
+const ImageList = lazy(async () => import("pages/images/ImageList"));
+const InstanceDetail = lazy(
+  async () => import("pages/instances/InstanceDetail"),
+);
+const InstanceList = lazy(async () => import("pages/instances/InstanceList"));
+const Login = lazy(async () => import("pages/login/Login"));
+const NetworkDetail = lazy(async () => import("pages/networks/NetworkDetail"));
+const NetworkList = lazy(async () => import("./pages/networks/NetworkList"));
+const OperationList = lazy(
+  async () => import("pages/operations/OperationList"),
+);
+const ProfileDetail = lazy(async () => import("pages/profiles/ProfileDetail"));
+const ProfileList = lazy(async () => import("pages/profiles/ProfileList"));
+const ProjectConfig = lazy(
+  async () => import("pages/projects/ProjectConfiguration"),
+);
+const ProtectedRoute = lazy(async () => import("components/ProtectedRoute"));
+const Settings = lazy(async () => import("pages/settings/Settings"));
+const StoragePools = lazy(async () => import("pages/storage/StoragePools"));
+const StorageVolumes = lazy(async () => import("pages/storage/StorageVolumes"));
+const CustomIsoList = lazy(async () => import("pages/storage/CustomIsoList"));
+const StoragePoolDetail = lazy(
+  async () => import("pages/storage/StoragePoolDetail"),
+);
 const CreateStorageVolume = lazy(
-  () => import("pages/storage/forms/CreateStorageVolume"),
+  async () => import("pages/storage/forms/CreateStorageVolume"),
 );
 const StorageVolumeDetail = lazy(
-  () => import("pages/storage/StorageVolumeDetail"),
+  async () => import("pages/storage/StorageVolumeDetail"),
 );
-const WarningList = lazy(() => import("pages/warnings/WarningList"));
+const WarningList = lazy(async () => import("pages/warnings/WarningList"));
 const PermissionIdentities = lazy(
-  () => import("pages/permissions/PermissionIdentities"),
+  async () => import("pages/permissions/PermissionIdentities"),
 );
 const PermissionGroups = lazy(
-  () => import("pages/permissions/PermissionGroups"),
+  async () => import("pages/permissions/PermissionGroups"),
 );
 const PermissionIdpGroups = lazy(
-  () => import("pages/permissions/PermissionIdpGroups"),
+  async () => import("pages/permissions/PermissionIdpGroups"),
 );
 
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];

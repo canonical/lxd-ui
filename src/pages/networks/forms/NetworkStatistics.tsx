@@ -29,7 +29,7 @@ const NetworkStatistics: FC<Props> = ({ formik, project }) => {
       queryKeys.state,
     ],
     retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
-    queryFn: () =>
+    queryFn: async () =>
       fetchNetworkState(formik.values.bareNetwork?.name ?? "", project, member),
     enabled: !formik.values.isCreating,
   });

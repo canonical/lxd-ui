@@ -61,7 +61,10 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const [hideRemote, setHideRemote] = useState(false);
   const { project } = useParams<{ project: string }>();
 
-  const loadImages = (file: string, server: string): Promise<RemoteImage[]> => {
+  const loadImages = async (
+    file: string,
+    server: string,
+  ): Promise<RemoteImage[]> => {
     return new Promise((resolve, reject) => {
       fetch(file)
         .then(handleResponse)
@@ -81,20 +84,20 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: canonicalImages = [], isLoading: isCiLoading } = useQuery({
     queryKey: [queryKeys.images, canonicalServer],
-    queryFn: () => loadImages(canonicalJson, canonicalServer),
+    queryFn: async () => loadImages(canonicalJson, canonicalServer),
     retry: false, // avoid retry to ease experience in airgapped deployments
   });
 
   const { data: minimalImages = [], isLoading: isMinimalLoading } = useQuery({
     queryKey: [queryKeys.images, minimalServer],
-    queryFn: () => loadImages(minimalJson, minimalServer),
+    queryFn: async () => loadImages(minimalJson, minimalServer),
     retry: false, // avoid retry to ease experience in airgapped deployments
   });
 
   const { data: imagesLxdImages = [], isLoading: isImagesLxdLoading } =
     useQuery({
       queryKey: [queryKeys.images, imagesLxdServer],
-      queryFn: () => loadImages(imagesLxdJson, imagesLxdServer),
+      queryFn: async () => loadImages(imagesLxdJson, imagesLxdServer),
       retry: false, // avoid retry to ease experience in airgapped deployments
     });
 

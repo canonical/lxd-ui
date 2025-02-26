@@ -54,7 +54,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       volume.type,
       volume.name,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchStorageVolumeSnapshots({
         pool: volume.pool,
         project: volume.project,

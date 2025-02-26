@@ -13,7 +13,7 @@ export const testDuplicateStorageVolumeName = (
   return [
     "deduplicate",
     "A storage volume with this name already exists",
-    (value?: string, context?: TestContext) => {
+    async (value?: string, context?: TestContext) => {
       const pool = (context?.parent as StorageVolumeFormValues).pool;
       return (
         value === previousName ||

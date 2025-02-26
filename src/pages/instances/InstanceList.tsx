@@ -134,7 +134,7 @@ const InstanceList: FC = () => {
 
   const { data: operationList } = useQuery({
     queryKey: [queryKeys.operations, project],
-    queryFn: () => fetchOperations(project.name),
+    queryFn: async () => fetchOperations(project.name),
   });
 
   if (error) {
@@ -626,7 +626,7 @@ const InstanceList: FC = () => {
                 <Button
                   appearance="positive"
                   className="u-float-right u-no-margin--bottom"
-                  onClick={() =>
+                  onClick={async () =>
                     navigate(`/ui/project/${project.name}/instances/create`)
                   }
                   hasIcon={!isSmallScreen}
@@ -754,7 +754,7 @@ const InstanceList: FC = () => {
                 <Button
                   className="empty-state-button"
                   appearance="positive"
-                  onClick={() =>
+                  onClick={async () =>
                     navigate(`/ui/project/${project.name}/instances/create`)
                   }
                   disabled={!canCreateInstances(project)}

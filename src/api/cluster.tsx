@@ -6,7 +6,7 @@ import type {
 } from "types/cluster";
 import type { LxdApiResponse } from "types/apiResponse";
 
-export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
+export const fetchClusterMembers = async (): Promise<LxdClusterMember[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/cluster/members?recursion=2")
       .then(handleResponse)
@@ -17,7 +17,7 @@ export const fetchClusterMembers = (): Promise<LxdClusterMember[]> => {
   });
 };
 
-export const postClusterMemberState = (
+export const postClusterMemberState = async (
   member: LxdClusterMember,
   action: LxdClusterMemberAction,
 ): Promise<LxdClusterMember[]> => {
@@ -37,7 +37,7 @@ export const postClusterMemberState = (
   });
 };
 
-export const fetchClusterGroups = (): Promise<LxdClusterGroup[]> => {
+export const fetchClusterGroups = async (): Promise<LxdClusterGroup[]> => {
   return new Promise((resolve, reject) => {
     fetch("/1.0/cluster/groups?recursion=1")
       .then(handleResponse)
@@ -48,7 +48,9 @@ export const fetchClusterGroups = (): Promise<LxdClusterGroup[]> => {
   });
 };
 
-export const fetchClusterGroup = (group: string): Promise<LxdClusterGroup> => {
+export const fetchClusterGroup = async (
+  group: string,
+): Promise<LxdClusterGroup> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group}`)
       .then(handleResponse)
@@ -59,7 +61,7 @@ export const fetchClusterGroup = (group: string): Promise<LxdClusterGroup> => {
   });
 };
 
-export const updateClusterGroup = (
+export const updateClusterGroup = async (
   group: LxdClusterGroup,
 ): Promise<LxdApiResponse<null>> => {
   return new Promise((resolve, reject) => {
@@ -75,7 +77,7 @@ export const updateClusterGroup = (
   });
 };
 
-export const createClusterGroup = (
+export const createClusterGroup = async (
   group: LxdClusterGroup,
 ): Promise<LxdApiResponse<null>> => {
   return new Promise((resolve, reject) => {
@@ -91,7 +93,7 @@ export const createClusterGroup = (
   });
 };
 
-export const deleteClusterGroup = (group: string): Promise<void> => {
+export const deleteClusterGroup = async (group: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/cluster/groups/${group}`, {
       method: "DELETE",

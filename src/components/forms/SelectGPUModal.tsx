@@ -23,7 +23,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: resources, isLoading } = useQuery({
     queryKey: [queryKeys.resources],
-    queryFn: () => fetchResources(),
+    queryFn: async () => fetchResources(),
     enabled: canViewResources(),
   });
 

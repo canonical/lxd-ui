@@ -57,7 +57,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
     });
   };
 
-  const rename = (newName: string): Promise<void> => {
+  const rename = async (newName: string): Promise<void> => {
     const snapshotLink = (
       <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
     );

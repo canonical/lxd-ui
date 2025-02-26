@@ -64,7 +64,9 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
           <ProjectSelectorList projects={projects} onMount={onChildMount} />
           <hr className="is-dark" />
           <Button
-            onClick={() => navigate("/ui/projects/create")}
+            onClick={() => {
+              navigate("/ui/projects/create");
+            }}
             className="p-contextual-menu__link"
             hasIcon
             disabled={!canCreateProjects()}

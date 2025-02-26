@@ -112,7 +112,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(`${instanceUrl}/configuration`),
+        onClick: async () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 

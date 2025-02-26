@@ -11,7 +11,7 @@ export const useInstances = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.instances, project],
-    queryFn: () => fetchInstances(project, isFineGrained),
+    queryFn: async () => fetchInstances(project, isFineGrained),
     enabled: !!project && isFineGrained !== null,
   });
 };
@@ -24,7 +24,7 @@ export const useInstance = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.instances, name, project],
-    queryFn: () => fetchInstance(name, project, isFineGrained),
+    queryFn: async () => fetchInstance(name, project, isFineGrained),
     enabled: enabled && isFineGrained !== null,
   });
 };

@@ -40,7 +40,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     refetch,
   } = useQuery({
     queryKey: [queryKeys.operations],
-    queryFn: () => fetchAllOperations(),
+    queryFn: async () => fetchAllOperations(),
     enabled: isAuthenticated,
   });
 

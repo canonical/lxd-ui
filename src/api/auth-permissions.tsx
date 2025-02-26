@@ -2,7 +2,7 @@ import { handleResponse } from "util/helpers";
 import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdPermission } from "types/permissions";
 
-export const fetchPermissions = (args: {
+export const fetchPermissions = async (args: {
   resourceType: string;
   project?: string;
 }): Promise<LxdPermission[]> => {

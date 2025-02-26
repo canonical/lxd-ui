@@ -54,7 +54,7 @@ const EditNetworkForward: FC = () => {
       queryKeys.forwards,
       forwardAddress,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchNetworkForward(
         networkName ?? "",
         forwardAddress ?? "",

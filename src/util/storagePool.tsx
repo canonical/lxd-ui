@@ -97,7 +97,7 @@ export const testDuplicateStoragePoolName = (
   return [
     "deduplicate",
     "A storage pool with this name already exists",
-    (value?: string) => {
+    async (value?: string) => {
       return checkDuplicateName(
         value,
         project,

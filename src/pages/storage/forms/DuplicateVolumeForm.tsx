@@ -56,7 +56,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(`${volumeUrl}/configuration`),
+        onClick: async () => navigate(`${volumeUrl}/configuration`),
       },
     ];
 

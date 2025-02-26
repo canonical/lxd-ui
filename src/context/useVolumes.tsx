@@ -16,7 +16,8 @@ export const useLoadVolumes = (
   const { hasStorageVolumesAll } = useSupportedFeatures();
   return useQuery({
     queryKey: [queryKeys.volumes, project],
-    queryFn: () => loadVolumes(project, hasStorageVolumesAll, isFineGrained),
+    queryFn: async () =>
+      loadVolumes(project, hasStorageVolumesAll, isFineGrained),
   });
 };
 
@@ -27,7 +28,8 @@ export const useLoadIsoVolumes = (
   const { hasStorageVolumesAll } = useSupportedFeatures();
   return useQuery({
     queryKey: [queryKeys.isoVolumes, project],
-    queryFn: () => loadIsoVolumes(project, hasStorageVolumesAll, isFineGrained),
+    queryFn: async () =>
+      loadIsoVolumes(project, hasStorageVolumesAll, isFineGrained),
   });
 };
 
@@ -39,7 +41,7 @@ export const useLoadCustomVolumes = (
   const { hasStorageVolumesAll } = useSupportedFeatures();
   return useQuery({
     queryKey: [queryKeys.customVolumes, project],
-    queryFn: () =>
+    queryFn: async () =>
       loadCustomVolumes(project, hasStorageVolumesAll, isFineGrained),
     ...options,
   });
@@ -54,7 +56,7 @@ export const useStorageVolume = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.storage, pool, project, type, volume],
-    queryFn: () =>
+    queryFn: async () =>
       fetchStorageVolume(pool, project, type, volume, isFineGrained),
   });
 };

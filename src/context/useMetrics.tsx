@@ -14,7 +14,7 @@ export const useMetrics = (
 
   return useQuery({
     queryKey: [queryKeys.metrics, location],
-    queryFn: () => fetchMetrics(location),
+    queryFn: async () => fetchMetrics(location),
     refetchInterval: 15 * 1000, // 15 seconds
     enabled: !isRestricted && isFineGrained !== null && canViewMetrics(),
   });

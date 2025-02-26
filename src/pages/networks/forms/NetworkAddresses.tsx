@@ -30,7 +30,7 @@ const NetworkAddresses: FC<Props> = ({ formik, project }) => {
       queryKeys.state,
     ],
     retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
-    queryFn: () => fetchNetworkState(networkName, project, member),
+    queryFn: async () => fetchNetworkState(networkName, project, member),
   });
 
   useEffect(() => {

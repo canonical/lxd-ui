@@ -265,7 +265,7 @@ const CreateInstance: FC = () => {
     const message = isIsoImage && (
       <>
         <p>Continue the installation process from its console.</p>
-        <Button onClick={() => navigate(consoleUrl)} hasIcon>
+        <Button onClick={async () => navigate(consoleUrl)} hasIcon>
           <Icon name="canvas" />
           <span>Open console</span>
         </Button>
@@ -535,7 +535,7 @@ const CreateInstance: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() =>
+          onClick={async () =>
             navigate(
               location.state?.cancelLocation ??
                 `/ui/project/${project}/instances`,

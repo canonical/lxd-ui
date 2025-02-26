@@ -5,7 +5,7 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 const idpGroupEntitlements = ["can_delete", "can_edit"];
 
-export const fetchIdpGroups = (
+export const fetchIdpGroups = async (
   isFineGrained: boolean | null,
 ): Promise<IdpGroup[]> => {
   const entitlements = withEntitlementsQuery(
@@ -22,7 +22,9 @@ export const fetchIdpGroups = (
   });
 };
 
-export const createIdpGroup = (group: Partial<IdpGroup>): Promise<void> => {
+export const createIdpGroup = async (
+  group: Partial<IdpGroup>,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups`, {
       method: "POST",
@@ -34,7 +36,7 @@ export const createIdpGroup = (group: Partial<IdpGroup>): Promise<void> => {
   });
 };
 
-export const updateIdpGroup = (group: IdpGroup): Promise<void> => {
+export const updateIdpGroup = async (group: IdpGroup): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {
       method: "PUT",
@@ -46,7 +48,7 @@ export const updateIdpGroup = (group: IdpGroup): Promise<void> => {
   });
 };
 
-export const renameIdpGroup = (
+export const renameIdpGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
@@ -63,7 +65,7 @@ export const renameIdpGroup = (
   });
 };
 
-export const deleteIdpGroup = (group: string): Promise<void> => {
+export const deleteIdpGroup = async (group: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identity-provider-groups/${group}`, {
       method: "DELETE",
@@ -74,9 +76,9 @@ export const deleteIdpGroup = (group: string): Promise<void> => {
   });
 };
 
-export const deleteIdpGroups = (groups: string[]): Promise<void> => {
+export const deleteIdpGroups = async (groups: string[]): Promise<void> => {
   return new Promise((resolve, reject) => {
-    Promise.allSettled(groups.map((group) => deleteIdpGroup(group)))
+    Promise.allSettled(groups.map(async (group) => deleteIdpGroup(group)))
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);

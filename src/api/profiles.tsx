@@ -5,7 +5,7 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 
 const profileEntitlements = ["can_delete", "can_edit"];
 
-export const fetchProfile = (
+export const fetchProfile = async (
   name: string,
   project: string,
   isFineGrained: boolean | null,
@@ -24,7 +24,7 @@ export const fetchProfile = (
   });
 };
 
-export const fetchProfiles = (
+export const fetchProfiles = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdProfile[]> => {
@@ -42,7 +42,10 @@ export const fetchProfiles = (
   });
 };
 
-export const createProfile = (body: string, project: string): Promise<void> => {
+export const createProfile = async (
+  body: string,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles?project=${project}`, {
       method: "POST",
@@ -54,7 +57,7 @@ export const createProfile = (body: string, project: string): Promise<void> => {
   });
 };
 
-export const updateProfile = (
+export const updateProfile = async (
   profile: LxdProfile,
   project: string,
 ): Promise<void> => {
@@ -72,7 +75,7 @@ export const updateProfile = (
   });
 };
 
-export const renameProfile = (
+export const renameProfile = async (
   oldName: string,
   newName: string,
   project: string,
@@ -90,7 +93,10 @@ export const renameProfile = (
   });
 };
 
-export const deleteProfile = (name: string, project: string): Promise<void> => {
+export const deleteProfile = async (
+  name: string,
+  project: string,
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/profiles/${name}?project=${project}`, {
       method: "DELETE",

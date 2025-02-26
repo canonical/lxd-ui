@@ -60,8 +60,11 @@ const CreateNetwork: FC = () => {
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
-      .test("deduplicate", "A network with this name already exists", (value) =>
-        checkDuplicateName(value, project, controllerState, "networks"),
+      .test(
+        "deduplicate",
+        "A network with this name already exists",
+        async (value) =>
+          checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
   });
@@ -84,14 +87,14 @@ const CreateNetwork: FC = () => {
 
       const mutation =
         isClustered && values.networkType !== "ovn"
-          ? () =>
+          ? async () =>
               createClusterNetwork(
                 network,
                 project,
                 clusterMembers,
                 values.parentPerClusterMember,
               )
-          : () => createNetwork(network, project);
+          : async () => createNetwork(network, project);
 
       mutation()
         .then(() => {
@@ -165,7 +168,7 @@ const CreateNetwork: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/networks`)}
+          onClick={async () => navigate(`/ui/project/${project}/networks`)}
         >
           Cancel
         </Button>

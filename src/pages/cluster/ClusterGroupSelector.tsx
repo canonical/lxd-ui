@@ -48,7 +48,7 @@ const ClusterGroupSelector: FC<Props> = ({
         <ClusterGroupSelectorList clusterGroups={clusterGroups} />
         <hr />
         <Button
-          onClick={() => navigate("/ui/cluster/groups/create")}
+          onClick={async () => navigate("/ui/cluster/groups/create")}
           className="p-contextual-menu__link"
           hasIcon
         >

@@ -268,7 +268,9 @@ const NetworkList: FC = () => {
             <Button
               appearance="positive"
               className="u-no-margin--bottom"
-              onClick={() => navigate(`/ui/project/${project}/networks/create`)}
+              onClick={async () =>
+                navigate(`/ui/project/${project}/networks/create`)
+              }
               hasIcon={!isSmallScreen}
               disabled={!canCreateNetworks(currentProject)}
               title={

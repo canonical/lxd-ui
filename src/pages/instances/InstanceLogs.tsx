@@ -18,7 +18,7 @@ const InstanceLogs: FC<Props> = ({ instance }) => {
       instance.project,
       queryKeys.logs,
     ],
-    queryFn: () => fetchInstanceLogs(instance.name, instance.project),
+    queryFn: async () => fetchInstanceLogs(instance.name, instance.project),
   });
 
   return (

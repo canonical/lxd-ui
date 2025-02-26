@@ -14,7 +14,7 @@ interface Props {
 const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
   const { data: resources } = useQuery({
     queryKey: [queryKeys.storage, pool.name, queryKeys.resources],
-    queryFn: () => fetchStoragePoolResources(pool.name),
+    queryFn: async () => fetchStoragePoolResources(pool.name),
   });
 
   if (!resources) {

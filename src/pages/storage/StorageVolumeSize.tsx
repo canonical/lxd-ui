@@ -19,7 +19,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
       volume.name,
       volume.project,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchStorageVolumeState(
         volume.pool,
         volume.project,

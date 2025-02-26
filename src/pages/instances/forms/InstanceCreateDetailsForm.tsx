@@ -133,7 +133,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                 <Button
                   appearance="base"
                   type="button"
-                  onClick={() => formik.setFieldValue("image", undefined)}
+                  onClick={async () => formik.setFieldValue("image", undefined)}
                   title="Clear"
                   hasIcon
                 >

@@ -9,7 +9,7 @@ export const useGroups = (): UseQueryResult<LxdGroup[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.authGroups],
-    queryFn: () => fetchGroups(isFineGrained),
+    queryFn: async () => fetchGroups(isFineGrained),
     enabled: isFineGrained !== null,
   });
 };

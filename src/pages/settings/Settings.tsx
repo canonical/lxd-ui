@@ -42,7 +42,7 @@ const Settings: FC = () => {
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
   const { data: clusteredSettings = [] } = useClusteredSettings();
 

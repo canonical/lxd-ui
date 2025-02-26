@@ -30,7 +30,7 @@ const FileRow: FC<FileRowProps> = ({ instance, path }) => {
       queryKeys.logs,
       fileName,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchInstanceLogFile(instance.name, instance.project, fileName),
     enabled: isOpen,
   });

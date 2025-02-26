@@ -63,7 +63,7 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
       .test(
         "deduplicate",
         "A cluster group with this name already exists",
-        (value) =>
+        async (value) =>
           group?.name === value ||
           checkDuplicateName(value, "", controllerState, "cluster/groups"),
       )
@@ -180,7 +180,10 @@ const ClusterGroupForm: FC<Props> = ({ group }) => {
         <hr />
         <Row className="u-align--right">
           <Col size={12}>
-            <Button appearance="base" onClick={() => navigate(`/ui/cluster`)}>
+            <Button
+              appearance="base"
+              onClick={async () => navigate(`/ui/cluster`)}
+            >
               Cancel
             </Button>
             <ActionButton

@@ -11,7 +11,7 @@ export const testDuplicateGroupName = (
   return [
     "deduplicate",
     "A group with this name already exists",
-    (value?: string) => {
+    async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(value, "", controllerState, "auth/groups")

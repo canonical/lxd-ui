@@ -9,7 +9,7 @@ export const useIdpGroups = (): UseQueryResult<IdpGroup[]> => {
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.idpGroups],
-    queryFn: () => fetchIdpGroups(isFineGrained),
+    queryFn: async () => fetchIdpGroups(isFineGrained),
     enabled: isFineGrained !== null,
   });
 };

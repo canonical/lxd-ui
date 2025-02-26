@@ -66,7 +66,7 @@ const CreateStoragePool: FC = () => {
 
       const mutation =
         clusterMembers.length > 0
-          ? () =>
+          ? async () =>
               createClusteredPool(
                 storagePool,
                 clusterMembers,
@@ -74,7 +74,7 @@ const CreateStoragePool: FC = () => {
                 values.zfsPoolNamePerClusterMember,
                 values.sizePerClusterMember,
               )
-          : () => createPool(storagePool);
+          : async () => createPool(storagePool);
 
       mutation()
         .then(() => {
@@ -131,7 +131,7 @@ const CreateStoragePool: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/storage/pools`)}
+          onClick={async () => navigate(`/ui/project/${project}/storage/pools`)}
         >
           Cancel
         </Button>

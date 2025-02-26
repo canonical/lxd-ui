@@ -48,7 +48,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
     error: permissionsError,
   } = useQuery({
     queryKey: [queryKeys.permissions, resourceType],
-    queryFn: () => fetchPermissions({ resourceType }),
+    queryFn: async () => fetchPermissions({ resourceType }),
     enabled: !!resourceType && !disableReason,
   });
 
@@ -61,7 +61,7 @@ const PermissionSelector: FC<Props> = ({ onAddPermission, disableReason }) => {
 
   const { data: metadata, isLoading: isMetadataLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
 
   const isLoading = isPermissionsLoading || isMetadataLoading;

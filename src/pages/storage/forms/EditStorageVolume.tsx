@@ -105,7 +105,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
           <>
             <Button
               appearance="base"
-              onClick={() =>
+              onClick={async () =>
                 formik.setValues(getStorageVolumeEditValues(volume))
               }
             >

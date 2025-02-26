@@ -19,7 +19,7 @@ export const testDuplicateIdpGroupName = (
   return [
     "deduplicate",
     "A identity provider group with this name already exists",
-    (value?: string) => {
+    async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(

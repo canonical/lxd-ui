@@ -14,7 +14,7 @@ export const testDuplicateVolumeSnapshotName = (
   return [
     "deduplicate",
     "Snapshot name already in use",
-    (value?: string) => {
+    async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(

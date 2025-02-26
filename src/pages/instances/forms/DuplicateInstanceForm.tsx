@@ -77,7 +77,7 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
     const actions = [
       {
         label: "Configure",
-        onClick: () => navigate(`${instanceUrl}/configuration`),
+        onClick: async () => navigate(`${instanceUrl}/configuration`),
       },
     ];
 

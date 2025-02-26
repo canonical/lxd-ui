@@ -105,8 +105,11 @@ const CreateProfile: FC = () => {
 
   const ProfileSchema = Yup.object().shape({
     name: Yup.string()
-      .test("deduplicate", "A profile with this name already exists", (value) =>
-        checkDuplicateName(value, project, controllerState, "profiles"),
+      .test(
+        "deduplicate",
+        "A profile with this name already exists",
+        async (value) =>
+          checkDuplicateName(value, project, controllerState, "profiles"),
       )
       .required(),
   });
@@ -270,7 +273,7 @@ const CreateProfile: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/profiles`)}
+          onClick={async () => navigate(`/ui/project/${project}/profiles`)}
         >
           Cancel
         </Button>
