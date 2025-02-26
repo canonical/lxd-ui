@@ -6,7 +6,6 @@ import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import { renameStorageVolume } from "api/storage-pools";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
@@ -16,6 +15,7 @@ import DuplicateVolumeBtn from "./actions/DuplicateVolumeBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
+import { renameStorageVolume } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;

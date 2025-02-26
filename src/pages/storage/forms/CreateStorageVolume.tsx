@@ -5,7 +5,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { createStorageVolume } from "api/storage-pools";
 import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
@@ -19,6 +18,7 @@ import { POOL } from "../StorageVolumesFilter";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLink from "components/ResourceLink";
+import { createStorageVolume } from "api/storage-volumes";
 
 const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();

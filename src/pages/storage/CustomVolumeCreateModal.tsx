@@ -4,7 +4,6 @@ import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
-import { createStorageVolume } from "api/storage-pools";
 import { queryKeys } from "util/queryKeys";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,6 +14,7 @@ import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { useSettings } from "context/useSettings";
 import { useStoragePools } from "context/useStoragePools";
+import { createStorageVolume } from "api/storage-volumes";
 
 interface Props {
   project: string;

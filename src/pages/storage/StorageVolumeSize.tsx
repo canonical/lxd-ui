@@ -1,10 +1,10 @@
 import type { FC } from "react";
-import { fetchStorageVolumeState } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdStorageVolume } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import { useImagesInProject } from "context/useImages";
+import { fetchStorageVolumeState } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
