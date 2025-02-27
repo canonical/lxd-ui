@@ -1,11 +1,8 @@
-import {
-  AbortControllerState,
-  capitalizeFirstLetter,
-  checkDuplicateName,
-} from "./helpers";
-import { AnyObject, TestContext, TestFunction } from "yup";
+import type { AbortControllerState } from "./helpers";
+import { capitalizeFirstLetter, checkDuplicateName } from "./helpers";
+import type { AnyObject, TestContext, TestFunction } from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 
 export const testDuplicateStorageVolumeName = (
   project: string,
@@ -16,7 +13,7 @@ export const testDuplicateStorageVolumeName = (
   return [
     "deduplicate",
     "A storage volume with this name already exists",
-    (value?: string, context?: TestContext) => {
+    async (value?: string, context?: TestContext) => {
       const pool = (context?.parent as StorageVolumeFormValues).pool;
       return (
         value === previousName ||

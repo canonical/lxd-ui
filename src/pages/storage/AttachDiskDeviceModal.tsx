@@ -1,8 +1,9 @@
-import { FC, KeyboardEvent, useState } from "react";
+import type { FC, KeyboardEvent } from "react";
+import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import FormLink from "components/FormLink";
 import BackLink from "components/BackLink";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import CustomVolumeModal from "./CustomVolumeModal";
 import type { LxdDiskDevice } from "types/device";
 import HostPathDeviceModal from "./HostPathDeviceModal";
@@ -72,12 +73,16 @@ const AttachDiskDeviceModal: FC<Props> = ({
             <FormLink
               icon="add-logical-volume"
               title="Attach custom volume"
-              onClick={() => setType("custom volume")}
+              onClick={() => {
+                setType("custom volume");
+              }}
             />
             <FormLink
               icon="mount"
               title="Mount host path"
-              onClick={() => setType("host path")}
+              onClick={() => {
+                setType("host path");
+              }}
             />
           </div>
         </Modal>

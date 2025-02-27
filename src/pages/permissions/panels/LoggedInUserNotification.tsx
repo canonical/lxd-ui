@@ -1,6 +1,6 @@
 import { Notification } from "@canonical/react-components";
 import Tag from "components/Tag";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
   isVisible: boolean;

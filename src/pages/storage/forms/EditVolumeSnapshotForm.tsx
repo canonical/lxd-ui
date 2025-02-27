@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useNotify } from "@canonical/react-components";
@@ -12,7 +12,8 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { getBrowserFormatDate, stringToIsoTime } from "util/helpers";
 import { queryKeys } from "util/queryKeys";
-import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import type { SnapshotFormValues } from "util/snapshots";
+import { getExpiresAt } from "util/snapshots";
 import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
@@ -31,7 +32,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const controllerState = useState<AbortController | null>(null);
 
   const notifyUpdateSuccess = (name: string) => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) =>
         query.queryKey[0] === queryKeys.volumes ||
         query.queryKey[0] === queryKeys.storage,
@@ -56,20 +57,22 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
     });
   };
 
-  const rename = (newName: string): Promise<void> => {
+  const rename = async (newName: string): Promise<void> => {
     const snapshotLink = (
       <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
     );
     return new Promise((resolve) => {
-      void renameVolumeSnapshot({
+      renameVolumeSnapshot({
         volume,
         snapshot,
         newName,
       })
-        .then((operation) =>
+        .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
-            () => resolve(),
+            () => {
+              resolve();
+            },
             (msg) => {
               toastNotify.failure(
                 `Snapshot ${snapshot.name} rename failed`,
@@ -78,8 +81,8 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
               );
               formik.setSubmitting(false);
             },
-          ),
-        )
+          );
+        })
         .catch((e) => {
           notify.failure("Snapshot rename failed", e, snapshotLink);
           formik.setSubmitting(false);

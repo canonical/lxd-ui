@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { usePortal } from "@canonical/react-components";
 import InstanceConfigureSnapshotModal from "./InstanceConfigureSnapshotModal";
 import { Button } from "@canonical/react-components";

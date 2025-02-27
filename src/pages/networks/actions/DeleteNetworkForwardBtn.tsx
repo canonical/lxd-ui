@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
@@ -31,7 +32,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
         toastNotify.success(
           `Network forward for ${forward.listen_address} deleted`,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.projects &&
             query.queryKey[1] === project &&

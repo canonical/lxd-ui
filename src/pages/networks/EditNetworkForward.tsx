@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
+import type { NetworkForwardFormValues } from "pages/networks/forms/NetworkForwardForm";
 import NetworkForwardForm, {
-  NetworkForwardFormValues,
   NetworkForwardSchema,
   toNetworkForward,
 } from "pages/networks/forms/NetworkForwardForm";
@@ -53,7 +54,7 @@ const EditNetworkForward: FC = () => {
       queryKeys.forwards,
       forwardAddress,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchNetworkForward(
         networkName ?? "",
         forwardAddress ?? "",
@@ -81,7 +82,7 @@ const EditNetworkForward: FC = () => {
 
       updateNetworkForward(networkName ?? "", forward, project ?? "")
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
               project,
@@ -90,9 +91,7 @@ const EditNetworkForward: FC = () => {
               queryKeys.forwards,
             ],
           });
-          void navigate(
-            `/ui/project/${project}/network/${networkName}/forwards`,
-          );
+          navigate(`/ui/project/${project}/network/${networkName}/forwards`);
           toastNotify.success(
             `Network forward ${forward.listen_address} updated.`,
           );

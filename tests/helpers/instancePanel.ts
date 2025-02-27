@@ -1,4 +1,5 @@
-import { Page, expect } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { gotoURL } from "./navigate";
 
 export const openInstancePanel = async (page: Page, instance: string) => {

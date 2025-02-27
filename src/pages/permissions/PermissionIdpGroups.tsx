@@ -12,7 +12,8 @@ import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import useSortTableData from "util/useSortTableData";
 import usePanelParams, { panels } from "util/usePanelParams";
 import CustomLayout from "components/CustomLayout";
@@ -88,7 +89,9 @@ const PermissionIdpGroups: FC = () => {
           <Button
             appearance="link"
             dense
-            onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+            onClick={() => {
+              panelParams.openEditIdpGroup(idpGroup.name);
+            }}
           >
             {idpGroup.groups.length}
           </Button>
@@ -135,7 +138,9 @@ const PermissionIdpGroups: FC = () => {
                   appearance="base"
                   hasIcon
                   dense
-                  onClick={() => panelParams.openEditIdpGroup(idpGroup.name)}
+                  onClick={() => {
+                    panelParams.openEditIdpGroup(idpGroup.name);
+                  }}
                   type="button"
                   aria-label="Edit IDP group details"
                   title={
@@ -337,7 +342,9 @@ const PermissionIdpGroups: FC = () => {
       {panelParams.panel === panels.editIdpGroup && selectedGroups.length && (
         <EditIdpGroupPanel
           idpGroup={selectedGroups[0]}
-          onClose={() => setSelectedGroupNames([])}
+          onClose={() => {
+            setSelectedGroupNames([]);
+          }}
         />
       )}
     </>

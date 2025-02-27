@@ -1,4 +1,4 @@
-import { FC, MouseEvent, ReactNode } from "react";
+import type { FC, MouseEvent, ReactNode } from "react";
 import usePanelParams from "util/usePanelParams";
 import { Button, Icon } from "@canonical/react-components";
 

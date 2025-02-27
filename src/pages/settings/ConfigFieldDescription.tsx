@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useDocs } from "context/useDocs";
 import { configDescriptionToHtml } from "util/config";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ const ConfigFieldDescription: FC<Props> = ({ description, className }) => {
   const { hasDocumentationObject } = useSupportedFeatures();
   const objectsInvTxt = useQuery({
     queryKey: ["documentation/objects.inv.txt"],
-    queryFn: () => fetchDocObjects(hasDocumentationObject),
+    queryFn: async () => fetchDocObjects(hasDocumentationObject),
   });
 
   return description ? (

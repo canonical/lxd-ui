@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -31,7 +32,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleRestart = () => {
     instanceLoading.setLoading(instance, "Restarting");
-    void restartInstance(instance, isForce)
+    restartInstance(instance, isForce)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -44,7 +45,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
             ),
           () => {
             instanceLoading.setFinish(instance);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.instances],
             });
           },
@@ -75,7 +76,9 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
           </p>
         ),
         onConfirm: handleRestart,
-        close: () => setForce(false),
+        close: () => {
+          setForce(false);
+        },
         confirmButtonLabel: canUpdateInstanceState(instance)
           ? "Restart"
           : "You do not have permission to restart this instance",

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import ResourceLink from "components/ResourceLink";
 import {
@@ -7,7 +7,7 @@ import {
   STATE,
   TYPE,
 } from "pages/networks/NetworkSearchFilter";
-import { LXDNetworkOnClusterMember } from "types/network";
+import type { LXDNetworkOnClusterMember } from "types/network";
 
 interface Props {
   network: LXDNetworkOnClusterMember;

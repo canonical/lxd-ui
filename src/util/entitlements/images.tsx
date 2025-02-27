@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 
 export const useImageEntitlements = () => {
   const { isFineGrained } = useAuth();

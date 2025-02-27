@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Button, Form, Textarea, useNotify } from "@canonical/react-components";
 import { addCertificate } from "api/certificates";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -30,7 +31,9 @@ const CertificateAddForm: FC = () => {
         label="Paste the token from the previous step"
         placeholder="Paste your token here"
         rows={3}
-        onChange={(e) => setToken(e.target.value)}
+        onChange={(e) => {
+          setToken(e.target.value);
+        }}
       />
       <Button
         appearance="positive"

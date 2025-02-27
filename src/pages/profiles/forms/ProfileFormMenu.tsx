@@ -1,10 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { Button, useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import { hasDiskError, hasNetworkError } from "util/instanceValidation";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 export const MAIN_CONFIGURATION = "Main configuration";

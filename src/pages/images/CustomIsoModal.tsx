@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdImageType, RemoteImage } from "types/image";
 import UploadCustomIso from "pages/storage/UploadCustomIso";
@@ -34,13 +35,17 @@ const CustomIsoModal: FC<Props> = ({ onClose, onSelect }) => {
         <CustomIsoSelector
           primaryImage={primary}
           onSelect={onSelect}
-          onUpload={() => setContent(UPLOAD_ISO)}
+          onUpload={() => {
+            setContent(UPLOAD_ISO);
+          }}
           onCancel={onClose}
         />
       )}
       {content === UPLOAD_ISO && (
         <UploadCustomIso
-          onCancel={() => setContent(SELECT_ISO)}
+          onCancel={() => {
+            setContent(SELECT_ISO);
+          }}
           onFinish={(name, pool) => {
             setContent(SELECT_ISO);
             setPrimary({ name, pool });

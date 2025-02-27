@@ -1,8 +1,10 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteProfileBtn from "./actions/DeleteProfileBtn";
 import type { LxdProfile } from "types/profile";
-import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
+import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader from "components/RenameHeader";
 import { renameProfile } from "api/profiles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -36,7 +38,7 @@ const ProfileDetailHeader: FC<Props> = ({
       .test(
         "deduplicate",
         "A profile with this name already exists",
-        (value) =>
+        async (value) =>
           profile?.name === value ||
           checkDuplicateName(value, project, controllerState, "profiles"),
       )
@@ -51,13 +53,13 @@ const ProfileDetailHeader: FC<Props> = ({
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
       renameProfile(name, values.name, project)
         .then(() => {
-          void navigate(`/ui/project/${project}/profile/${values.name}`);
+          navigate(`/ui/project/${project}/profile/${values.name}`);
           toastNotify.success(
             <>
               Profile <strong>{name}</strong> renamed to{" "}
@@ -69,12 +71,14 @@ const ProfileDetailHeader: FC<Props> = ({
               .
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { test } from "./fixtures/lxd-test";
 import { randomNameSuffix } from "./helpers/name";
 import { gotoURL } from "./helpers/navigate";

@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Icon,
@@ -9,8 +10,8 @@ import {
 import Loader from "components/Loader";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
-import { FormikProps } from "formik/dist/types";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useProject } from "context/useProjects";
 import { useNetworks } from "context/useNetworks";
 

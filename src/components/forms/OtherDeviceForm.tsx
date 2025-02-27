@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import {
   Button,
   Icon,
@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdDeviceValue } from "types/device";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { toConfigFields } from "util/config";
@@ -18,7 +18,7 @@ import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import Loader from "components/Loader";
 import ScrollableForm from "components/ScrollableForm";
 import RenameDeviceInput from "components/forms/RenameDeviceInput";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import { getInheritedOtherDevices } from "util/configInheritance";
 import {
   deviceKeyToLabel,
@@ -27,7 +27,7 @@ import {
 } from "util/devices";
 import classnames from "classnames";
 import ConfigurationTable from "components/ConfigurationTable";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import { getInheritedDeviceRow } from "components/forms/InheritedDeviceRow";
 import { ensureEditMode } from "util/instanceEdit";
@@ -59,7 +59,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
 
   const {
@@ -81,7 +81,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
       type: "usb",
       name: deduplicateName("custom-device", 1, existingDeviceNames),
     });
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
   };
 
   if (isProfileLoading || isConfigOptionsLoading) {
@@ -187,7 +187,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             index={index}
             setName={(name) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.name`, name);
+              formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
           />
@@ -226,7 +226,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             onBlur={formik.handleBlur}
             onChange={(e) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}`, {
+              formik.setFieldValue(`devices.${index}`, {
                 type: e.target.value,
                 name: device.name,
               });

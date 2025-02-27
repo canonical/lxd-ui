@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import usePanelParams from "util/usePanelParams";
 import { useCurrentProject } from "context/useCurrentProject";
 import { Button, Icon, useNotify } from "@canonical/react-components";

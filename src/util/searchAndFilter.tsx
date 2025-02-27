@@ -1,4 +1,4 @@
-import { SearchAndFilterChip } from "@canonical/react-components/dist/components/SearchAndFilter/types";
+import type { SearchAndFilterChip } from "@canonical/react-components/dist/components/SearchAndFilter/types";
 
 export const paramsFromSearchData = (
   searchData: SearchAndFilterChip[],
@@ -9,9 +9,9 @@ export const paramsFromSearchData = (
 
   queryParams.forEach((param) => {
     newParams.delete(param);
-    searchValuesByLead(searchData, param).forEach((value) =>
-      newParams.append(param, value),
-    );
+    searchValuesByLead(searchData, param).forEach((value) => {
+      newParams.append(param, value);
+    });
   });
 
   return newParams;

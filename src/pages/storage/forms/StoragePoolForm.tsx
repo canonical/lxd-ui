@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Col,
   Form,
@@ -7,7 +8,7 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { FormikProps } from "formik";
+import type { FormikProps } from "formik";
 import StoragePoolFormMain from "./StoragePoolFormMain";
 import StoragePoolFormMenu, {
   CEPH_CONFIGURATION,
@@ -42,7 +43,7 @@ import StoragePoolFormZFS from "./StoragePoolFormZFS";
 import { useSettings } from "context/useSettings";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolFormCephFS from "pages/storage/forms/StoragePoolFormCephFS";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import StoragePoolFormPure from "pages/storage/forms/StoragePoolFormPure";
 
 export interface StoragePoolFormValues {
@@ -263,7 +264,7 @@ const StoragePoolForm: FC<Props> = ({
               yaml={getYaml()}
               setYaml={(yaml) => {
                 ensureEditMode(formik);
-                void formik.setFieldValue("yaml", yaml);
+                formik.setFieldValue("yaml", yaml);
               }}
               readOnly={!!formik.values.editRestriction}
               readOnlyMessage={formik.values.editRestriction}

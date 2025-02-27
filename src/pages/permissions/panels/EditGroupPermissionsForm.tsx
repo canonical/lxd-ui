@@ -7,7 +7,8 @@ import {
   SearchBox,
   useNotify,
 } from "@canonical/react-components";
-import { FC, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useMemo, useState } from "react";
 import PermissionSelector from "./PermissionSelector";
 import {
   getPermissionIds,
@@ -169,7 +170,9 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   appearance="base"
                   hasIcon
                   dense
-                  onClick={() => addPermission(permission)}
+                  onClick={() => {
+                    addPermission(permission);
+                  }}
                   type="button"
                   aria-label="Restore permission"
                   title="Restore permission"
@@ -182,7 +185,9 @@ const EditGroupPermissionsForm: FC<Props> = ({
                   appearance="base"
                   hasIcon
                   dense
-                  onClick={() => deletePermission(permission.id ?? "")}
+                  onClick={() => {
+                    deletePermission(permission.id ?? "");
+                  }}
                   type="button"
                   aria-label="Delete permission"
                   title={getEditRestriction() ?? "Delete permission"}

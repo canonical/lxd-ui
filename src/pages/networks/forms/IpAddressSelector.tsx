@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, RadioInput } from "@canonical/react-components";
 
 interface Props {
@@ -17,12 +17,16 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
         <RadioInput
           label="Auto"
           checked={address === "auto"}
-          onChange={() => setAddress("auto")}
+          onChange={() => {
+            setAddress("auto");
+          }}
         />
         <RadioInput
           label="None"
           checked={address === "none"}
-          onChange={() => setAddress("none")}
+          onChange={() => {
+            setAddress("none");
+          }}
         />
       </div>
       <div className="ip-address-selector ip-address-custom">
@@ -30,14 +34,18 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
           label="Custom"
           aria-label="custom"
           checked={isCustom}
-          onChange={() => setAddress("")}
+          onChange={() => {
+            setAddress("");
+          }}
         />
         <Input
           id={id}
           name={id}
           type="text"
           placeholder="Enter address"
-          onChange={(e) => setAddress(e.target.value)}
+          onChange={(e) => {
+            setAddress(e.target.value);
+          }}
           value={isCustom && address ? address : ""}
           disabled={!isCustom}
           help={

@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import {
   Button,
   EmptyState,
@@ -23,15 +24,15 @@ import { renderNetworkType } from "util/networks";
 import { useClusterMembers } from "context/useClusterMembers";
 import PageHeader from "components/PageHeader";
 import CustomLayout from "components/CustomLayout";
+import type { NetworkFilters } from "pages/networks/NetworkSearchFilter";
 import NetworkSearchFilter, {
   MANAGED,
-  NetworkFilters,
   MEMBER,
   STATE,
   TYPE,
   QUERY,
 } from "pages/networks/NetworkSearchFilter";
-import { LXDNetworkOnClusterMember } from "types/network";
+import type { LXDNetworkOnClusterMember } from "types/network";
 import NetworkClusterMemberChip from "pages/networks/NetworkClusterMemberChip";
 import {
   useNetworks,
@@ -267,8 +268,8 @@ const NetworkList: FC = () => {
             <Button
               appearance="positive"
               className="u-no-margin--bottom"
-              onClick={() =>
-                void navigate(`/ui/project/${project}/networks/create`)
+              onClick={async () =>
+                navigate(`/ui/project/${project}/networks/create`)
               }
               hasIcon={!isSmallScreen}
               disabled={!canCreateNetworks(currentProject)}

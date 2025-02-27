@@ -10,7 +10,9 @@ const OperationStatus = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const { runningOperations } = useOperations();
 
-  useEventListener("resize", () => setIsSmallScreen(isWidthBelow(620)));
+  useEventListener("resize", () => {
+    setIsSmallScreen(isWidthBelow(620));
+  });
 
   let operationsStatus = `${runningOperations.length} ${pluralize("operation", runningOperations.length)} in progress...`;
   if (isSmallScreen) {

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
@@ -11,7 +11,7 @@ const OpenTerminalBtn: FC<Props> = ({ instance }) => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    void navigate(
+    navigate(
       `/ui/project/${instance.project}/instance/${instance.name}/terminal`,
     );
   };

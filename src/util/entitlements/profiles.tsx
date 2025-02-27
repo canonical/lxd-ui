@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { LxdProfile } from "types/profile";
+import type { LxdProfile } from "types/profile";
 
 export const useProfileEntitlements = () => {
   const { isFineGrained } = useAuth();

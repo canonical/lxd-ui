@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, MainTable } from "@canonical/react-components";
 import { humanFileSize, isoTimeToString } from "util/helpers";
 import Loader from "components/Loader";
@@ -34,7 +34,9 @@ const CustomIsoSelector: FC<Props> = ({
   ];
 
   const rows = images.map((image) => {
-    const selectIso = () => onSelect(image, "virtual-machine");
+    const selectIso = () => {
+      onSelect(image, "virtual-machine");
+    };
 
     return {
       key: image.fingerprint,

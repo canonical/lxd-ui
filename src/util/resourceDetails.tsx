@@ -1,6 +1,6 @@
 import type { LxdImage } from "types/image";
 
-export type ResourceDetail = {
+export interface ResourceDetail {
   project?: string;
   target?: string;
   pool?: string;
@@ -13,7 +13,7 @@ export type ResourceDetail = {
   path: string;
   name: string;
   type: string;
-};
+}
 
 export type ResourceType =
   | "instance"

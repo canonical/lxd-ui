@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteVolumeSnapshotBulk } from "api/volume-snapshots";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -32,8 +33,8 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
     onStart();
-    void deleteVolumeSnapshotBulk(volume, snapshotNames, eventQueue).then(
-      (results) => {
+    deleteVolumeSnapshotBulk(volume, snapshotNames, eventQueue)
+      .then((results) => {
         const { fulfilledCount, rejectedCount } =
           getPromiseSettledCounts(results);
         if (fulfilledCount === count) {
@@ -65,15 +66,18 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
             </>,
           );
         }
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.volumes ||
             query.queryKey[0] === queryKeys.storage,
         });
         setLoading(false);
         onFinish();
-      },
-    );
+      })
+      .catch((e) => {
+        toastNotify.failure("Snapshot bulk deletion failed", e);
+        setLoading(false);
+      });
   };
 
   return (

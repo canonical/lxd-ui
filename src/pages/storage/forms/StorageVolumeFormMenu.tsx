@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { useNotify } from "@canonical/react-components";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { FormikProps } from "formik/dist/types";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { FormikProps } from "formik/dist/types";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import type { LxdStorageVolumeContentType } from "types/storage";
 import { driversWithFilesystemSupport, zfsDriver } from "util/storageOptions";
 

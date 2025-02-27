@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { LxdProject } from "types/project";
+import type { LxdProject } from "types/project";
 
 export const useProjectEntitlements = () => {
   const { isFineGrained } = useAuth();

@@ -1,4 +1,4 @@
-import { LxdConfigPair } from "./config";
+import type { LxdConfigPair } from "./config";
 
 export interface LxdStoragePool {
   config?: {

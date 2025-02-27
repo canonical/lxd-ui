@@ -1,16 +1,14 @@
 import type { LxdIdentity, LxdPermission } from "types/permissions";
 import type { LxdImage } from "types/image";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import {
-  extractResourceDetailsFromUrl,
-  ResourceDetail,
-} from "./resourceDetails";
+import type { ResourceDetail } from "./resourceDetails";
+import { extractResourceDetailsFromUrl } from "./resourceDetails";
 import type { LxdMetadata } from "types/config";
 import { capitalizeFirstLetter } from "./helpers";
-import { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
+import type { FormPermission } from "pages/permissions/panels/EditGroupPermissionsForm";
 import ResourceOptionLabel from "pages/permissions/panels/ResourceOptionLabel";
 import EntitlementOptionLabel from "pages/permissions/panels/EntitlementOptionLabel";
-import { CustomSelectOption } from "@canonical/react-components";
+import type { CustomSelectOption } from "@canonical/react-components";
 import { getOptionText } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown";
 
 export const noneAvailableOption = {

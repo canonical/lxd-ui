@@ -1,6 +1,6 @@
 import { useAuth } from "context/auth";
 import { hasEntitlement } from "./helpers";
-import { LxdGroup } from "types/permissions";
+import type { LxdGroup } from "types/permissions";
 
 export const useGroupEntitlements = () => {
   const { isFineGrained } = useAuth();

@@ -1,6 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, RadioInput, Select } from "@canonical/react-components";
-import { BYTES_UNITS, MemoryLimit, MEM_LIMIT_TYPE } from "types/limits";
+import type { MemoryLimit } from "types/limits";
+import { BYTES_UNITS, MEM_LIMIT_TYPE } from "types/limits";
 import MemoryLimitAvailable from "components/forms/MemoryLimitAvailable";
 import { useCurrentProject } from "context/useCurrentProject";
 
@@ -29,19 +30,19 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
         <RadioInput
           label="absolute"
           checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED}
-          onChange={() =>
+          onChange={() => {
             setMemoryLimit({
               unit: BYTES_UNITS.GIB,
               selectedType: MEM_LIMIT_TYPE.FIXED,
-            })
-          }
+            });
+          }}
         />
         <RadioInput
           label="percentage"
           checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT}
-          onChange={() =>
-            setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT })
-          }
+          onChange={() => {
+            setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT });
+          }}
         />
       </div>
       {memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT && (
@@ -53,9 +54,9 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           max="100"
           step="Any"
           placeholder="Enter percentage"
-          onChange={(e) =>
-            setMemoryLimit({ ...memoryLimit, value: +e.target.value })
-          }
+          onChange={(e) => {
+            setMemoryLimit({ ...memoryLimit, value: +e.target.value });
+          }}
           value={`${memoryLimit.value ? memoryLimit.value : ""}`}
           help={<MemoryLimitAvailable project={project} />}
         />
@@ -69,9 +70,9 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             min="0"
             step="Any"
             placeholder="Enter value"
-            onChange={(e) =>
-              setMemoryLimit({ ...memoryLimit, value: +e.target.value })
-            }
+            onChange={(e) => {
+              setMemoryLimit({ ...memoryLimit, value: +e.target.value });
+            }}
             value={`${memoryLimit.value ? memoryLimit.value : ""}`}
             help={<MemoryLimitAvailable project={project} />}
           />
@@ -81,12 +82,12 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             label="Select memory size unit"
             labelClassName="u-off-screen"
             options={getMemUnitOptions()}
-            onChange={(e) =>
+            onChange={(e) => {
               setMemoryLimit({
                 ...memoryLimit,
                 unit: e.target.value as BYTES_UNITS,
-              })
-            }
+              });
+            }}
             value={memoryLimit.unit}
           />
         </div>

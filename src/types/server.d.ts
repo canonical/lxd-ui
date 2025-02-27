@@ -1,12 +1,12 @@
-import { LxdConfigPair } from "./config";
+import type { LxdConfigPair } from "./config";
 
 type LXDAuthMethods = "tls" | "oidc" | "unix";
 
-type SupportedStorageDriver = {
+interface SupportedStorageDriver {
   Name: string;
   Version: string;
   Remote: boolean;
-};
+}
 
 export interface LxdSettings {
   api_status: string;

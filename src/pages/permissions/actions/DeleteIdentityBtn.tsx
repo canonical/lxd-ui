@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import {
@@ -28,7 +29,7 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
     setDeleting(true);
     deleteIdentity(identity)
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) => {
             return [queryKeys.identities, queryKeys.authGroups].includes(
               query.queryKey[0] as string,

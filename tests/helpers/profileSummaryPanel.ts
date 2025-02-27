@@ -1,4 +1,5 @@
-import { Page, expect } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 
 export const openProfileSummaryPanel = async (page: Page, profile: string) => {
   const profileRow = page.locator("css=tr[role=row]", { hasText: profile });

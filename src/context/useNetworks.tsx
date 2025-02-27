@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useAuth } from "./auth";
 import {
   fetchNetwork,
@@ -8,7 +8,7 @@ import {
   fetchNetworks,
   fetchNetworksFromClusterMembers,
 } from "api/networks";
-import { LxdNetwork, LXDNetworkOnClusterMember } from "types/network";
+import type { LxdNetwork, LXDNetworkOnClusterMember } from "types/network";
 import { useClusterMembers } from "./useClusterMembers";
 
 export const useNetworks = (
@@ -26,7 +26,7 @@ export const useNetworks = (
 
   return useQuery({
     queryKey,
-    queryFn: () => fetchNetworks(project, isFineGrained, target),
+    queryFn: async () => fetchNetworks(project, isFineGrained, target),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };
@@ -47,7 +47,7 @@ export const useNetwork = (
 
   return useQuery({
     queryKey,
-    queryFn: () => fetchNetwork(network, project, isFineGrained, target),
+    queryFn: async () => fetchNetwork(network, project, isFineGrained, target),
     enabled: (enabled ?? true) && isFineGrained !== null,
   });
 };
@@ -60,7 +60,7 @@ export const useNetworksFromClusterMembers = (
 
   return useQuery({
     queryKey: [queryKeys.networks, project, queryKeys.cluster],
-    queryFn: () =>
+    queryFn: async () =>
       fetchNetworksFromClusterMembers(project, clusterMembers, isFineGrained),
     enabled: isFineGrained !== null && clusterMembers.length > 0,
   });
@@ -82,7 +82,7 @@ export const useNetworkFromClusterMembers = (
       network,
       queryKeys.cluster,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchNetworkFromClusterMembers(
         network,
         project,

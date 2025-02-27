@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import SnapshotForm from "components/forms/SnapshotForm";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,7 +16,8 @@ import {
 } from "util/helpers";
 import { getInstanceSnapshotSchema } from "util/instanceSnapshots";
 import { queryKeys } from "util/queryKeys";
-import { SnapshotFormValues, getExpiresAt } from "util/snapshots";
+import type { SnapshotFormValues } from "util/snapshots";
+import { getExpiresAt } from "util/snapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import InstanceLinkChip from "../InstanceLinkChip";
 import InstanceSnapshotLinkChip from "../InstanceSnapshotLinkChip";
@@ -39,7 +41,7 @@ const EditInstanceSnapshotForm: FC<Props> = ({
   const controllerState = useState<AbortController | null>(null);
 
   const notifyUpdateSuccess = (name: string) => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === queryKeys.instances,
     });
     onSuccess(
@@ -58,11 +60,13 @@ const EditInstanceSnapshotForm: FC<Props> = ({
         } as LxdInstanceSnapshot)
       : snapshot;
     const instanceLink = <InstanceLinkChip instance={instance} />;
-    void updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
-      .then((operation) =>
+    updateInstanceSnapshot(instance, targetSnapshot, expiresAt)
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => notifyUpdateSuccess(newName ?? snapshot.name),
+          () => {
+            notifyUpdateSuccess(newName ?? snapshot.name);
+          },
           (msg) => {
             toastNotify.failure(
               `Snapshot update failed for instance ${instance.name}`,
@@ -71,8 +75,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
             );
             formik.setSubmitting(false);
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         toastNotify.failure(
           `Snapshot update failed for instance ${instance.name}`,
@@ -87,8 +91,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
     const snapshotLink = (
       <InstanceSnapshotLinkChip name={snapshot.name} instance={instance} />
     );
-    void renameInstanceSnapshot(instance, snapshot, newName)
-      .then((operation) =>
+    renameInstanceSnapshot(instance, snapshot, newName)
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
@@ -106,8 +110,8 @@ const EditInstanceSnapshotForm: FC<Props> = ({
             );
             formik.setSubmitting(false);
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         toastNotify.failure(
           `Snapshot rename failed for ${snapshot.name}`,

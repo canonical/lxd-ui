@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -23,7 +23,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
   const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
   };
@@ -36,7 +36,7 @@ const FreezeInstanceBtn: FC<Props> = ({ instance }) => {
 
   const handleFreeze = () => {
     instanceLoading.setLoading(instance, "Freezing");
-    void freezeInstance(instance)
+    freezeInstance(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

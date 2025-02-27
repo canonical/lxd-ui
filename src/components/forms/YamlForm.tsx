@@ -1,4 +1,5 @@
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Editor, loader } from "@monaco-editor/react";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
@@ -59,9 +60,11 @@ const YamlForm: FC<Props> = ({
           defaultValue={yaml}
           language="yaml"
           theme="hc-black"
-          onChange={(value: string | undefined) =>
-            value && setYaml && setYaml(value)
-          }
+          onChange={(value: string | undefined) => {
+            if (value && setYaml) {
+              setYaml(value);
+            }
+          }}
           options={{
             fontSize: 18,
             scrollBeyondLastLine: false,

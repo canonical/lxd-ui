@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import {
   deleteInstanceSnapshot,
@@ -44,27 +45,30 @@ const InstanceSnapshotActions: FC<Props> = ({
 
   const handleDelete = () => {
     setDeleting(true);
-    void deleteInstanceSnapshot(instance, snapshot)
-      .then((operation) =>
+    deleteInstanceSnapshot(instance, snapshot)
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             onSuccess(
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
                 deleted for instance <InstanceLinkChip instance={instance} />.
               </>,
-            ),
-          (msg) => onFailure("Snapshot deletion failed", new Error(msg)),
+            );
+          },
+          (msg) => {
+            onFailure("Snapshot deletion failed", new Error(msg));
+          },
           () => {
             setDeleting(false);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.instances,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         onFailure("Snapshot deletion failed", e);
         setDeleting(false);
@@ -73,11 +77,11 @@ const InstanceSnapshotActions: FC<Props> = ({
 
   const handleRestore = () => {
     setRestoring(true);
-    void restoreInstanceSnapshot(instance, snapshot, restoreState)
-      .then((operation) =>
+    restoreInstanceSnapshot(instance, snapshot, restoreState)
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () =>
+          () => {
             onSuccess(
               <>
                 Snapshot{" "}
@@ -87,16 +91,19 @@ const InstanceSnapshotActions: FC<Props> = ({
                 />{" "}
                 restored for instance <InstanceLinkChip instance={instance} />.
               </>,
-            ),
-          (msg) => onFailure("Snapshot restore failed", new Error(msg)),
+            );
+          },
+          (msg) => {
+            onFailure("Snapshot restore failed", new Error(msg));
+          },
           () => {
             setRestoring(false);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.instances,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) => {
         onFailure("Snapshot restore failed", e);
         setRestoring(false);
@@ -143,7 +150,9 @@ const InstanceSnapshotActions: FC<Props> = ({
               ) : undefined,
               confirmButtonLabel: disabledReason ?? "Restore snapshot",
               confirmButtonAppearance: "positive",
-              close: () => setRestoreState(true),
+              close: () => {
+                setRestoreState(true);
+              },
               onConfirm: handleRestore,
             }}
             disabled={isDeleting || isRestoring || !!disabledReason}

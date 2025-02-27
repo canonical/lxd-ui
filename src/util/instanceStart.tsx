@@ -24,7 +24,7 @@ export const useInstanceStart = (instance: LxdInstance) => {
     instanceLoading.getType(instance) === "Migrating";
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
   };
@@ -35,7 +35,7 @@ export const useInstanceStart = (instance: LxdInstance) => {
       instance.status === "Frozen" ? unfreezeInstance : startInstance;
 
     const instanceLink = <InstanceLinkChip instance={instance} />;
-    void mutation(instance)
+    mutation(instance)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,

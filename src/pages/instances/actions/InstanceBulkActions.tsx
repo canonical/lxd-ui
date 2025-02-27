@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { updateInstanceBulkAction } from "api/instances";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -32,7 +33,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
   const { canUpdateInstanceState } = useInstanceEntitlements();
 
   const clearCache = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.instances],
     });
   };
@@ -50,8 +51,8 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
     const validInstances = instances.filter(canUpdateInstanceState);
     const actions = instanceActions(validInstances, desiredAction);
 
-    void updateInstanceBulkAction(actions, isForce, eventQueue).then(
-      (results) => {
+    updateInstanceBulkAction(actions, isForce, eventQueue)
+      .then((results) => {
         const action = instanceActionLabel(desiredAction);
         const count = actions.length;
         const { fulfilledCount, rejectedCount } =
@@ -90,8 +91,11 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         setForce(false);
         onFinish();
         setActiveAction(null);
-      },
-    );
+      })
+      .catch((e) => {
+        toastNotify.failure(`Instance ${desiredAction} failed`, e);
+        delayedClearCache();
+      });
   };
 
   const restrictedInstances = instances
@@ -105,7 +109,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="play"
           isLoading={activeAction === "start"}
           isDisabled={activeAction === "start"}
-          onClick={() => handleAction("start")}
+          onClick={() => {
+            handleAction("start");
+          }}
           confirmAppearance="positive"
           action="start"
           instances={instances}
@@ -116,7 +122,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="restart"
           isLoading={activeAction === "restart"}
           isDisabled={activeAction === "restart"}
-          onClick={() => handleAction("restart")}
+          onClick={() => {
+            handleAction("restart");
+          }}
           action="restart"
           instances={instances}
           confirmLabel="Restart"
@@ -132,7 +140,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="pause"
           isLoading={activeAction === "freeze"}
           isDisabled={activeAction === "freeze"}
-          onClick={() => handleAction("freeze")}
+          onClick={() => {
+            handleAction("freeze");
+          }}
           action="freeze"
           instances={instances}
           confirmLabel="Freeze"
@@ -142,7 +152,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           icon="stop"
           isLoading={activeAction === "stop"}
           isDisabled={false}
-          onClick={() => handleAction("stop")}
+          onClick={() => {
+            handleAction("stop");
+          }}
           action="stop"
           instances={instances}
           confirmLabel="Stop"

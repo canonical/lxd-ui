@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import StartInstanceBtn from "pages/instances/actions/StartInstanceBtn";
 import StopInstanceBtn from "pages/instances/actions/StopInstanceBtn";

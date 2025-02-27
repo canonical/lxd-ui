@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   MainTable,
   Notification,
@@ -22,9 +23,9 @@ import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useServerEntitlements } from "util/entitlements/server";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useClusteredSettings } from "context/useSettings";
-import { LXDSettingOnClusterMember } from "types/server";
+import type { LXDSettingOnClusterMember } from "types/server";
 
 const Settings: FC = () => {
   const docBaseLink = useDocs();
@@ -41,7 +42,7 @@ const Settings: FC = () => {
 
   const { data: configOptions, isLoading: isConfigOptionsLoading } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
   const { data: clusteredSettings = [] } = useClusteredSettings();
 

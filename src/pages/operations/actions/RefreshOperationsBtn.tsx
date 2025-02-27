@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { ActionButton, Icon } from "@canonical/react-components";
@@ -9,7 +10,7 @@ const RefreshOperationsBtn: FC = () => {
   const queryClient = useQueryClient();
 
   const handleRefresh = () => {
-    void queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
+    queryClient.invalidateQueries({ queryKey: [queryKeys.operations] });
   };
 
   // force a refresh on first render

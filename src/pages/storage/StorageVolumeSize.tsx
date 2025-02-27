@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { fetchStorageVolumeState } from "api/storage-pools";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -19,7 +19,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
       volume.name,
       volume.project,
     ],
-    queryFn: () =>
+    queryFn: async () =>
       fetchStorageVolumeState(
         volume.pool,
         volume.project,

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import StoragePoolSelectTable from "../storage/StoragePoolSelectTable";
@@ -53,7 +53,9 @@ const InstanceStoragePoolMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetPool)}
+          onClick={() => {
+            migrate(targetPool);
+          }}
           disabled={!targetPool}
         >
           Migrate

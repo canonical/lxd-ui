@@ -1,8 +1,8 @@
 import { Label } from "@canonical/react-components";
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
-import { FormikProps } from "formik";
-import { FC } from "react";
-import { StoragePoolFormValues } from "./StoragePoolForm";
+import type { FormikProps } from "formik";
+import type { FC } from "react";
+import type { StoragePoolFormValues } from "./StoragePoolForm";
 import { useClusterMembers } from "context/useClusterMembers";
 
 interface Props {
@@ -27,7 +27,7 @@ const ClusteredSourceSelector: FC<Props> = ({
         id="sourcePerClusterMember"
         isReadOnly={false}
         onChange={(value) => {
-          void formik.setFieldValue("sourcePerClusterMember", value);
+          formik.setFieldValue("sourcePerClusterMember", value);
         }}
         canToggleSpecific={formik.values.isCreating}
         memberNames={memberNames}

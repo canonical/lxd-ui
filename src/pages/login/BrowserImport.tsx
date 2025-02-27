@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   Button,
   Col,
@@ -57,7 +58,9 @@ const BrowserImport: FC<Props> = ({ sendPfx }) => {
           links={TABS.map((tab) => ({
             label: tab,
             active: tab === activeTab,
-            onClick: () => handleTabChange(tab),
+            onClick: () => {
+              handleTabChange(tab);
+            },
           }))}
         />
 

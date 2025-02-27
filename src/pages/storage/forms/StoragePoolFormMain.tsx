@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { Row, Input, Select, Col } from "@canonical/react-components";
-import { FormikProps } from "formik";
+import type { FormikProps } from "formik";
 import {
   zfsDriver,
   dirDriver,
@@ -11,7 +11,7 @@ import {
   pureStorage,
   cephFSDriver,
 } from "util/storageOptions";
-import { StoragePoolFormValues } from "./StoragePoolForm";
+import type { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import {
@@ -104,37 +104,37 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               if (val !== cephDriver) {
                 const cephFields = getCephPoolFormFields();
                 for (const field of cephFields) {
-                  void formik.setFieldValue(field, undefined);
+                  formik.setFieldValue(field, undefined);
                 }
               }
               if (val !== powerFlex) {
                 const powerflexFields = getPowerflexPoolFormFields();
                 for (const field of powerflexFields) {
-                  void formik.setFieldValue(field, undefined);
+                  formik.setFieldValue(field, undefined);
                 }
               }
               if (val !== pureStorage) {
                 const pureFields = getPureStoragePoolFormFields();
                 for (const field of pureFields) {
-                  void formik.setFieldValue(field, undefined);
+                  formik.setFieldValue(field, undefined);
                 }
               }
               if (val !== zfsDriver) {
                 const zfsFields = getZfsStoragePoolFormFields();
                 for (const field of zfsFields) {
-                  void formik.setFieldValue(field, undefined);
+                  formik.setFieldValue(field, undefined);
                 }
-                void formik.setFieldValue("zfsPoolNamePerClusterMember", "");
+                formik.setFieldValue("zfsPoolNamePerClusterMember", "");
               }
               if (!isStoragePoolWithSize(val)) {
-                void formik.setFieldValue("size", undefined);
-                void formik.setFieldValue("sizePerClusterMember", undefined);
+                formik.setFieldValue("size", undefined);
+                formik.setFieldValue("sizePerClusterMember", undefined);
               }
               if (!isStoragePoolWithSource(val)) {
-                void formik.setFieldValue("source", undefined);
-                void formik.setFieldValue("sourcePerClusterMember", undefined);
+                formik.setFieldValue("source", undefined);
+                formik.setFieldValue("sourcePerClusterMember", undefined);
               }
-              void formik.setFieldValue("driver", val);
+              formik.setFieldValue("driver", val);
             }}
             value={formik.values.driver}
             required
@@ -147,7 +147,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 values={formik.values.sizePerClusterMember}
                 setValue={(value) => {
                   ensureEditMode(formik);
-                  void formik.setFieldValue("sizePerClusterMember", value);
+                  formik.setFieldValue("sizePerClusterMember", value);
                 }}
                 helpText={
                   "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
@@ -165,7 +165,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 }
                 setMemoryLimit={(val?: string) => {
                   ensureEditMode(formik);
-                  void formik.setFieldValue("size", val);
+                  formik.setFieldValue("size", val);
                 }}
                 disabled={
                   !!formik.values.editRestriction ||

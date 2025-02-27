@@ -1,4 +1,4 @@
-import { AnyObject, TestFunction } from "yup";
+import type { AnyObject, TestFunction } from "yup";
 import { getTomorrow } from "./helpers";
 import type { LxdProject } from "types/project";
 

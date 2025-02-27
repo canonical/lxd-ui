@@ -2,13 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchSettingsFromClusterMembers, fetchSettings } from "api/server";
 import type { LXDSettingOnClusterMember, LxdSettings } from "types/server";
-import { UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useClusterMembers } from "./useClusterMembers";
 
 export const useSettings = (): UseQueryResult<LxdSettings> => {
   return useQuery({
     queryKey: [queryKeys.settings],
-    queryFn: () => fetchSettings(),
+    queryFn: async () => fetchSettings(),
   });
 };
 
@@ -19,7 +19,7 @@ export const useClusteredSettings = (): UseQueryResult<
 
   return useQuery({
     queryKey: [queryKeys.settings, queryKeys.cluster],
-    queryFn: () => fetchSettingsFromClusterMembers(clusterMembers),
+    queryFn: async () => fetchSettingsFromClusterMembers(clusterMembers),
     enabled: clusterMembers.length > 0,
   });
 };

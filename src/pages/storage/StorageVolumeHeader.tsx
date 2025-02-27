@@ -1,6 +1,8 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
+import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
@@ -49,21 +51,21 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (volume.name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
       renameStorageVolume(project, volume, values.name)
         .then(() => {
           const url = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${values.name}`;
-          void navigate(url);
+          navigate(url);
           toastNotify.success(
             <>
               Storage volume <strong>{volume.name}</strong> renamed to{" "}
               <ResourceLink type="volume" value={values.name} to={url} />.
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);
@@ -102,7 +104,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
               appearance=""
               hasIcon={true}
               onFinish={() => {
-                void navigate(`/ui/project/${project}/storage/volumes`);
+                navigate(`/ui/project/${project}/storage/volumes`);
                 toastNotify.success(
                   <>
                     Storage volume{" "}

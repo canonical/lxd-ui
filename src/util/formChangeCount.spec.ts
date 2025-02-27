@@ -1,6 +1,6 @@
 import { getFormChangeCount } from "util/formChangeCount";
-import { ConfigurationRowFormikProps } from "components/ConfigurationRow";
-import { FormDevice } from "util/formDevices";
+import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
+import type { FormDevice } from "util/formDevices";
 
 describe("formChangeCount", () => {
   it("counts reordering of profiles", () => {

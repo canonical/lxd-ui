@@ -9,12 +9,13 @@ import Loader from "components/Loader";
 import ScrollableTable from "components/ScrollableTable";
 import SelectableMainTable from "components/SelectableMainTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useSortTableData from "util/useSortTableData";
+import type { PermissionIdentitiesFilterType } from "./PermissionIdentitiesFilter";
 import PermissionIdentitiesFilter, {
   AUTH_METHOD,
-  PermissionIdentitiesFilterType,
   QUERY,
 } from "./PermissionIdentitiesFilter";
 import { useSettings } from "context/useSettings";
@@ -326,7 +327,9 @@ const PermissionIdentities: FC = () => {
       {panelParams.panel === panels.identityGroups && (
         <EditIdentityGroupsPanel
           identities={selectedIdentities}
-          onClose={() => setSelectedIdentityIds([])}
+          onClose={() => {
+            setSelectedIdentityIds([]);
+          }}
         />
       )}
     </>

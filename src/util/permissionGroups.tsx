@@ -1,7 +1,8 @@
-import * as Yup from "yup";
-import { AbortControllerState, checkDuplicateName } from "./helpers";
+import type * as Yup from "yup";
+import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName } from "./helpers";
 import type { LxdGroup, LxdIdentity } from "types/permissions";
-import { ChangeSummary } from "./permissionIdentities";
+import type { ChangeSummary } from "./permissionIdentities";
 
 export const testDuplicateGroupName = (
   controllerState: AbortControllerState,
@@ -10,7 +11,7 @@ export const testDuplicateGroupName = (
   return [
     "deduplicate",
     "A group with this name already exists",
-    (value?: string) => {
+    async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(value, "", controllerState, "auth/groups")

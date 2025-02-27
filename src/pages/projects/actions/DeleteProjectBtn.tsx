@@ -1,4 +1,5 @@
-import { FC, ReactNode, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { deleteProject } from "api/projects";
@@ -16,7 +17,7 @@ import {
 import classnames from "classnames";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { filterUsedByType } from "util/usedBy";
-import { ResourceType } from "util/resourceDetails";
+import type { ResourceType } from "util/resourceDetails";
 import ResourceLabel from "components/ResourceLabel";
 import { useProjectEntitlements } from "util/entitlements/projects";
 
@@ -104,7 +105,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
     setLoading(true);
     deleteProject(project)
       .then(() => {
-        void navigate(`/ui/project/default/instances`);
+        navigate(`/ui/project/default/instances`);
         toastNotify.success(
           <>
             Project <ResourceLabel bold type="project" value={project.name} />{" "}
@@ -117,7 +118,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         notify.failure("Project deletion failed", e);
       })
       .finally(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.projects],
         });
       });

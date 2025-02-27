@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
-import {
-  StorageVolumeFormValues,
-  volumeFormToPayload,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import { useFormik } from "formik";
 import { createStorageVolume } from "api/storage-pools";
 import { queryKeys } from "util/queryKeys";
@@ -76,10 +75,10 @@ const CustomVolumeCreateModal: FC<Props> = ({
 
       createStorageVolume(values.pool, project, volume, target)
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.customVolumes, project],
           });
           notify.success(`Storage volume ${values.name} created.`);
@@ -88,7 +87,9 @@ const CustomVolumeCreateModal: FC<Props> = ({
         .catch((e) => {
           notify.failure("Storage volume creation failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

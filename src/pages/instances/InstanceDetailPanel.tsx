@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import OpenTerminalBtn from "./actions/OpenTerminalBtn";
 import OpenConsoleBtn from "./actions/OpenConsoleBtn";
 import { Button, Icon, List, useNotify } from "@canonical/react-components";

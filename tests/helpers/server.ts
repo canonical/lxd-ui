@@ -1,4 +1,5 @@
-import { Locator, Page, expect } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { gotoURL } from "./navigate";
 
 export type ServerSettingType = "checkbox" | "text" | "number" | "password";
@@ -83,7 +84,10 @@ export const resetSetting = async (
   await validateSettingValue(settingRow, defaultValue);
 };
 
-export const getServerSettingValue = (page: Page, settingName: string) => {
+export const getServerSettingValue = async (
+  page: Page,
+  settingName: string,
+) => {
   const settingRow = page.locator("css=tr", { hasText: settingName });
   const settingValueCell = settingRow.locator("css=.readmode-value");
   return settingValueCell.textContent();

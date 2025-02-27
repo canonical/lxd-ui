@@ -1,4 +1,5 @@
-import { FC, Fragment, useState } from "react";
+import type { FC } from "react";
+import { Fragment, useState } from "react";
 import { deleteInstanceBulk } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { pluralize } from "util/instanceBulkActions";
@@ -39,44 +40,49 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
   const handleDelete = () => {
     setLoading(true);
     onStart(deletableInstances.map((item) => item.name));
-    void deleteInstanceBulk(deletableInstances, eventQueue).then((results) => {
-      const { fulfilledCount, rejectedCount } =
-        getPromiseSettledCounts(results);
-      if (fulfilledCount === deleteCount) {
-        toastNotify.success(
-          `${deleteCount} ${pluralize("instance", deleteCount)} deleted`,
-        );
-      } else if (rejectedCount === deleteCount) {
-        toastNotify.failure(
-          "Instance bulk deletion failed",
-          undefined,
-          <>
-            <b>{deleteCount}</b> {pluralize("instance", deleteCount)} could not
-            be deleted.
-          </>,
-        );
-      } else {
-        toastNotify.failure(
-          "Instance bulk deletion partially failed",
-          undefined,
-          <>
-            <b>{fulfilledCount}</b> {pluralize("instance", fulfilledCount)}{" "}
-            deleted.
-            <br />
-            <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)} could
-            not be deleted.
-          </>,
-        );
-      }
-      void queryClient.invalidateQueries({
-        queryKey: [queryKeys.instances],
+    deleteInstanceBulk(deletableInstances, eventQueue)
+      .then((results) => {
+        const { fulfilledCount, rejectedCount } =
+          getPromiseSettledCounts(results);
+        if (fulfilledCount === deleteCount) {
+          toastNotify.success(
+            `${deleteCount} ${pluralize("instance", deleteCount)} deleted`,
+          );
+        } else if (rejectedCount === deleteCount) {
+          toastNotify.failure(
+            "Instance bulk deletion failed",
+            undefined,
+            <>
+              <b>{deleteCount}</b> {pluralize("instance", deleteCount)} could
+              not be deleted.
+            </>,
+          );
+        } else {
+          toastNotify.failure(
+            "Instance bulk deletion partially failed",
+            undefined,
+            <>
+              <b>{fulfilledCount}</b> {pluralize("instance", fulfilledCount)}{" "}
+              deleted.
+              <br />
+              <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)}{" "}
+              could not be deleted.
+            </>,
+          );
+        }
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.instances],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.projects, instances[0].project],
+        });
+        setLoading(false);
+        onFinish();
+      })
+      .catch((e) => {
+        toastNotify.failure("Instance bulk deletion failed", e);
+        setLoading(false);
       });
-      void queryClient.invalidateQueries({
-        queryKey: [queryKeys.projects, instances[0].project],
-      });
-      setLoading(false);
-      onFinish();
-    });
   };
 
   const getBulkDeleteBreakdown = () => {
@@ -93,7 +99,7 @@ const InstanceBulkDelete: FC<Props> = ({ instances, onStart, onFinish }) => {
 
     if (restrictedCount) {
       breakdown.push(
-        `${restrictedCount} ${pluralize("instance", deleteCount)} that you do not have permission to delete will be ignored`,
+        `${restrictedCount} ${pluralize("instance", restrictedCount)} that you do not have permission to delete will be ignored`,
       );
     }
 

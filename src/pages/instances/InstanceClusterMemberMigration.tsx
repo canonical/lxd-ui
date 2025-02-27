@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import ClusterMemberSelectTable from "../cluster/ClusterMemberSelectTable";
@@ -52,7 +52,9 @@ const InstanceClusterMemberMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetMember)}
+          onClick={() => {
+            migrate(targetMember);
+          }}
           disabled={!targetMember}
         >
           Migrate

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
 import classnames from "classnames";

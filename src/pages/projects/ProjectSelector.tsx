@@ -1,4 +1,5 @@
-import { FC, useRef } from "react";
+import type { FC } from "react";
+import { useRef } from "react";
 import {
   Button,
   ContextualMenu,
@@ -54,14 +55,18 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
               autocomplete="off"
               name="query"
               placeholder="Search"
-              onChange={(val) => updateQuery(val)}
+              onChange={(val) => {
+                updateQuery(val);
+              }}
               ref={searchRef}
             />
           )}
           <ProjectSelectorList projects={projects} onMount={onChildMount} />
           <hr className="is-dark" />
           <Button
-            onClick={() => navigate("/ui/projects/create")}
+            onClick={() => {
+              navigate("/ui/projects/create");
+            }}
             className="p-contextual-menu__link"
             hasIcon
             disabled={!canCreateProjects()}

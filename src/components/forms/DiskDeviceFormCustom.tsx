@@ -1,18 +1,17 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon, Input, Label } from "@canonical/react-components";
-import { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import CustomVolumeSelectBtn from "pages/storage/CustomVolumeSelectBtn";
+import type { FormDevice, FormDiskDevice } from "util/formDevices";
 import {
   deduplicateName,
-  FormDevice,
-  FormDiskDevice,
   isFormDiskDevice,
   removeDevice,
 } from "util/formDevices";
 import RenameDeviceInput from "./RenameDeviceInput";
 import ConfigurationTable from "components/ConfigurationTable";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { getConfigurationRowBase } from "components/ConfigurationRow";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
 import classnames from "classnames";
@@ -46,7 +45,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
     };
 
     copy.push(newDevice);
-    void formik.setFieldValue("devices", copy);
+    formik.setFieldValue("devices", copy);
 
     const name = `devices.${copy.length - 1}.path`;
     focusField(name);
@@ -57,19 +56,19 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
     existingVolume: FormDiskDevice,
     index: number,
   ) => {
-    void formik.setFieldValue(`devices.${index}.pool`, volume.pool);
-    void formik.setFieldValue(`devices.${index}.source`, volume.name);
+    formik.setFieldValue(`devices.${index}.pool`, volume.pool);
+    formik.setFieldValue(`devices.${index}.source`, volume.name);
 
     if (
       volume.content_type === "filesystem" &&
       existingVolume.path === undefined
     ) {
-      void formik.setFieldValue(`devices.${index}.path`, "");
+      formik.setFieldValue(`devices.${index}.path`, "");
     }
 
     // If path must not exist for the device, remote it even if it's set for the existing device
     if (volume.content_type === "block") {
-      void formik.setFieldValue(`devices.${index}.path`, undefined);
+      formik.setFieldValue(`devices.${index}.path`, undefined);
     }
   };
 
@@ -107,7 +106,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
             index={index}
             setName={(name) => {
               ensureEditMode(formik);
-              void formik.setFieldValue(`devices.${index}.name`, name);
+              formik.setFieldValue(`devices.${index}.name`, name);
             }}
             disableReason={formik.values.editRestriction}
           />
@@ -183,10 +182,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
             name={`devices.${index}.source`}
             onBlur={formik.handleBlur}
             onChange={(e) => {
-              void formik.setFieldValue(
-                `devices.${index}.source`,
-                e.target.value,
-              );
+              formik.setFieldValue(`devices.${index}.source`, e.target.value);
             }}
             value={item.source}
             type="text"
@@ -223,10 +219,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               name={`devices.${index}.path`}
               onBlur={formik.handleBlur}
               onChange={(e) => {
-                void formik.setFieldValue(
-                  `devices.${index}.path`,
-                  e.target.value,
-                );
+                formik.setFieldValue(`devices.${index}.path`, e.target.value);
               }}
               value={item.path}
               type="text"

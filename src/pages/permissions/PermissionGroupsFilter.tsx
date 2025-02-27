@@ -1,5 +1,5 @@
 import { Input } from "@canonical/react-components";
-import { ChangeEvent, FC } from "react";
+import type { ChangeEvent, FC } from "react";
 
 interface Props {
   onChange: (val: string) => void;

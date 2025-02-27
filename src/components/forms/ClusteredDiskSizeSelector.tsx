@@ -1,7 +1,8 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import type { FC } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CheckboxInput, Label } from "@canonical/react-components";
 import ResourceLink from "components/ResourceLink";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import { useClusterMembers } from "context/useClusterMembers";
 import DiskSizeSelector from "./DiskSizeSelector";
 
@@ -84,7 +85,9 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
                   <DiskSizeSelector
                     id={memberNames.indexOf(item) === 0 ? id : `${id}-${item}`}
                     value={activeValue}
-                    setMemoryLimit={(value) => setValueForMember(value, item)}
+                    setMemoryLimit={(value) => {
+                      setValueForMember(value, item);
+                    }}
                     disabled={!!disabledReason}
                     classname="u-no-margin--bottom"
                   />
@@ -106,7 +109,9 @@ const ClusteredDiskSizeSelector: FC<Props> = ({
             <DiskSizeSelector
               id={id}
               value={firstValue}
-              setMemoryLimit={(value) => setValueForAllMembers(value)}
+              setMemoryLimit={(value) => {
+                setValueForAllMembers(value);
+              }}
               disabled={!!disabledReason}
               help={helpText}
             />

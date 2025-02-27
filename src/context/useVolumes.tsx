@@ -1,15 +1,12 @@
 import { queryKeys } from "util/queryKeys";
 import { useAuth } from "./auth";
 import { useSupportedFeatures } from "./useSupportedFeatures";
-import {
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import { RemoteImage } from "types/image";
+import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import type { RemoteImage } from "types/image";
 import { loadIsoVolumes, loadVolumes } from "./loadIsoVolumes";
 import { loadCustomVolumes } from "./loadCustomVolumes";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import { fetchStorageVolume } from "api/storage-pools";
 
 export const useLoadVolumes = (
@@ -19,7 +16,8 @@ export const useLoadVolumes = (
   const { hasStorageVolumesAll } = useSupportedFeatures();
   return useQuery({
     queryKey: [queryKeys.volumes, project],
-    queryFn: () => loadVolumes(project, hasStorageVolumesAll, isFineGrained),
+    queryFn: async () =>
+      loadVolumes(project, hasStorageVolumesAll, isFineGrained),
   });
 };
 
@@ -30,7 +28,8 @@ export const useLoadIsoVolumes = (
   const { hasStorageVolumesAll } = useSupportedFeatures();
   return useQuery({
     queryKey: [queryKeys.isoVolumes, project],
-    queryFn: () => loadIsoVolumes(project, hasStorageVolumesAll, isFineGrained),
+    queryFn: async () =>
+      loadIsoVolumes(project, hasStorageVolumesAll, isFineGrained),
   });
 };
 
@@ -42,7 +41,7 @@ export const useLoadCustomVolumes = (
   const { hasStorageVolumesAll } = useSupportedFeatures();
   return useQuery({
     queryKey: [queryKeys.customVolumes, project],
-    queryFn: () =>
+    queryFn: async () =>
       loadCustomVolumes(project, hasStorageVolumesAll, isFineGrained),
     ...options,
   });
@@ -57,7 +56,7 @@ export const useStorageVolume = (
   const { isFineGrained } = useAuth();
   return useQuery({
     queryKey: [queryKeys.storage, pool, project, type, volume],
-    queryFn: () =>
+    queryFn: async () =>
       fetchStorageVolume(pool, project, type, volume, isFineGrained),
   });
 };

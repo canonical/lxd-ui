@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { expect } from "../fixtures/lxd-test";
 import { pluralize } from "util/instanceBulkActions";
 import { randomNameSuffix } from "./name";

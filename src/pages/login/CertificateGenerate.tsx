@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Button, Col, Icon, Row } from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate } from "react-router-dom";
@@ -157,7 +158,9 @@ const CertificateGenerate: FC = () => {
                         <Col size={2}>
                           <Button
                             className="download-crt"
-                            onClick={() => downloadText(crtFileName, certs.crt)}
+                            onClick={() => {
+                              downloadText(crtFileName, certs.crt);
+                            }}
                           >
                             Download&nbsp;crt
                           </Button>
@@ -185,11 +188,12 @@ const CertificateGenerate: FC = () => {
                   <BrowserImport
                     sendPfx={
                       certs
-                        ? () =>
+                        ? () => {
                             downloadBase64(
                               `lxd-ui-${location.hostname}.pfx`,
                               certs.pfx,
-                            )
+                            );
+                          }
                         : undefined
                     }
                   />

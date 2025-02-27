@@ -1,8 +1,8 @@
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import fs from "fs";
 import { fromSource, removeMapFileComments } from "convert-source-map";
 import v8ToIstanbul from "v8-to-istanbul";
-import { CoverageMapData } from "istanbul-lib-coverage";
+import type { CoverageMapData } from "istanbul-lib-coverage";
 import { generateUUID } from "util/helpers";
 
 export const startCoverage = async (page: Page): Promise<void> => {

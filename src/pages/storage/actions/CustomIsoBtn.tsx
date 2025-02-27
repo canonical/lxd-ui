@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useSmallScreen } from "context/useSmallScreen";
@@ -14,7 +14,7 @@ const CustomIsoBtn: FC<Props> = ({ project }) => {
 
   const handleClick = () => (e: MouseEvent) => {
     e.preventDefault();
-    void navigate(href);
+    navigate(href);
   };
 
   return (

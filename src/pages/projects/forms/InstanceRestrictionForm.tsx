@@ -1,9 +1,9 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Input, Select } from "@canonical/react-components";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
-import { ProjectFormValues } from "pages/projects/CreateProject";
-import { FormikProps } from "formik/dist/types";
+import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { FormikProps } from "formik/dist/types";
 import {
   optionAllowBlock,
   optionAllowIsolatedUnprivileged,

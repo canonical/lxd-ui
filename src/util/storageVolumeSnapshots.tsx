@@ -1,5 +1,6 @@
-import { AnyObject, TestFunction } from "yup";
-import { AbortControllerState, checkDuplicateName } from "./helpers";
+import type { AnyObject, TestFunction } from "yup";
+import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
@@ -13,7 +14,7 @@ export const testDuplicateVolumeSnapshotName = (
   return [
     "deduplicate",
     "Snapshot name already in use",
-    (value?: string) => {
+    async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(

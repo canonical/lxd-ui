@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import { deleteClusterGroup } from "api/cluster";
@@ -23,7 +24,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     setLoading(true);
     deleteClusterGroup(group)
       .then(() => {
-        void navigate(`/ui/cluster`);
+        navigate(`/ui/cluster`);
         toastNotify.success(
           <>
             Cluster group{" "}
@@ -41,7 +42,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
         notify.failure("Cluster group deletion failed", e);
       })
       .finally(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.cluster, queryKeys.groups],
         });
       });

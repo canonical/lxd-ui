@@ -1,6 +1,7 @@
-import { FC, useEffect } from "react";
-import { FormikProps } from "formik/dist/types";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { FC } from "react";
+import { useEffect } from "react";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchNetworkState } from "api/networks";
@@ -29,7 +30,7 @@ const NetworkAddresses: FC<Props> = ({ formik, project }) => {
       queryKeys.state,
     ],
     retry: 0, // physical managed networks can sometimes 404, show error right away and don't retry
-    queryFn: () => fetchNetworkState(networkName, project, member),
+    queryFn: async () => fetchNetworkState(networkName, project, member),
   });
 
   useEffect(() => {

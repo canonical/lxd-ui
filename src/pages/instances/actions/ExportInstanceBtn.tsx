@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
 import classNames from "classnames";
@@ -65,7 +65,9 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => startDownload(backupName),
+          () => {
+            startDownload(backupName);
+          },
           (msg) =>
             toastNotify.failure(
               `Could not download instance ${instance.name}`,

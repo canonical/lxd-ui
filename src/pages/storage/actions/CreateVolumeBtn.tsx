@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
 import { useNavigate } from "react-router-dom";
 import { useSmallScreen } from "context/useSmallScreen";
@@ -14,7 +14,7 @@ const CreateVolumeBtn: FC<Props> = ({ project, className, defaultPool }) => {
   const isSmallScreen = useSmallScreen();
 
   const handleAdd = () => {
-    void navigate(
+    navigate(
       `/ui/project/${project}/storage/volumes/create${
         defaultPool ? `?pool=${defaultPool}` : ""
       }`,

@@ -1,12 +1,13 @@
-import { ChangeEvent, FC, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
+import type { NotificationType } from "@canonical/react-components";
 import {
   ActionButton,
   Button,
   failure,
   Input,
-  NotificationType,
   Notification,
 } from "@canonical/react-components";
 import { createIsoStorageVolume } from "api/storage-pools";
@@ -18,7 +19,7 @@ import { humanFileSize } from "util/helpers";
 import UploadCustomImageHint from "pages/storage/UploadCustomImageHint";
 import { useEventQueue } from "context/eventQueue";
 import StoragePoolSelector from "./StoragePoolSelector";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import { isValidISOAlias, sanitizeISOAlias } from "util/customISO";
 import classnames from "classnames";
@@ -55,7 +56,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
     setLoading(true);
     const uploadController = new AbortController();
     setUploadAbort(uploadController);
-    void createIsoStorageVolume(
+    createIsoStorageVolume(
       pool,
       file,
       name,
@@ -63,16 +64,19 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       setUploadState,
       uploadController,
     )
-      .then((operation) =>
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => onFinish(name, pool),
-          (msg) =>
-            setError(failure("Custom ISO upload failed", new Error(msg))),
+          () => {
+            onFinish(name, pool);
+          },
+          (msg) => {
+            setError(failure("Custom ISO upload failed", new Error(msg)));
+          },
           () => {
             setLoading(false);
             setUploadState(null);
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [
                 queryKeys.storage,
                 pool,
@@ -81,8 +85,8 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
               ],
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);
         setError(failure("Custom ISO upload failed", error));
@@ -105,7 +109,9 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <Notification
           title={error.title}
           severity="negative"
-          onDismiss={() => setError(null)}
+          onDismiss={() => {
+            setError(null);
+          }}
         >
           {error.message}
         </Notification>
@@ -131,7 +137,9 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           id="name"
           label="Alias"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
           disabled={file === null}
           error={
             name && !isValidISOAlias(name) ? (

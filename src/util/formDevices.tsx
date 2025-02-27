@@ -1,4 +1,4 @@
-import {
+import type {
   LxdDevices,
   LxdDiskDevice,
   LxdGPUDevice,
@@ -8,7 +8,7 @@ import {
   LxdProxyDevice,
 } from "types/device";
 import type { RemoteImage } from "types/image";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 
 interface EmptyDevice {
   type: "";
@@ -198,7 +198,7 @@ export const addNoneDevice = (
     type: "none",
     name,
   });
-  void formik.setFieldValue("devices", copy);
+  formik.setFieldValue("devices", copy);
 };
 
 export const findNoneDeviceIndex = (
@@ -216,7 +216,7 @@ export const removeDevice = (
 ): void => {
   const copy = [...formik.values.devices];
   copy.splice(index, 1);
-  void formik.setFieldValue("devices", copy);
+  formik.setFieldValue("devices", copy);
 };
 
 export const deduplicateName = (

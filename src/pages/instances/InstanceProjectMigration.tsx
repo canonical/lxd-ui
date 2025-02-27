@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import ProjectSelectTable from "pages/projects/ProjectSelectTable";
@@ -52,7 +52,9 @@ const InstanceProjectMigration: FC<Props> = ({
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetProject)}
+          onClick={() => {
+            migrate(targetProject);
+          }}
           disabled={!targetProject}
         >
           Migrate

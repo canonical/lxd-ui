@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Row, Col } from "@canonical/react-components";
 import CustomLayout from "./CustomLayout";
 

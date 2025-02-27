@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   CheckboxInput,
   Col,
@@ -8,7 +9,7 @@ import {
   Select,
   Tooltip,
 } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import { getProjectKey } from "util/projectConfigFields";
 import { isProjectEmpty } from "util/projects";
 import type { LxdProject } from "types/project";
@@ -193,12 +194,12 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               onChange={(e) => {
                 ensureEditMode(formik);
                 setFeatures(e.target.value);
-                void formik.setFieldValue("features_images", true);
-                void formik.setFieldValue("features_profiles", true);
-                void formik.setFieldValue("features_networks", false);
-                void formik.setFieldValue("features_networks_zones", false);
-                void formik.setFieldValue("features_storage_buckets", true);
-                void formik.setFieldValue("features_storage_volumes", true);
+                formik.setFieldValue("features_images", true);
+                formik.setFieldValue("features_profiles", true);
+                formik.setFieldValue("features_networks", false);
+                formik.setFieldValue("features_networks_zones", false);
+                formik.setFieldValue("features_storage_buckets", true);
+                formik.setFieldValue("features_storage_volumes", true);
               }}
               value={features}
               options={[
@@ -228,7 +229,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   label="Images"
                   onChange={() => {
                     ensureEditMode(formik);
-                    void formik.setFieldValue(
+                    formik.setFieldValue(
                       "features_images",
                       !formik.values.features_images,
                     );
@@ -257,9 +258,9 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   onChange={() => {
                     ensureEditMode(formik);
                     const newValue = !formik.values.features_profiles;
-                    void formik.setFieldValue("features_profiles", newValue);
+                    formik.setFieldValue("features_profiles", newValue);
                     if (!newValue) {
-                      void formik.setFieldValue("restricted", false);
+                      formik.setFieldValue("restricted", false);
                     }
                   }}
                   checked={formik.values.features_profiles}
@@ -275,7 +276,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   label="Networks"
                   onChange={() => {
                     ensureEditMode(formik);
-                    void formik.setFieldValue(
+                    formik.setFieldValue(
                       "features_networks",
                       !formik.values.features_networks,
                     );
@@ -294,7 +295,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     label="Network zones"
                     onChange={() => {
                       ensureEditMode(formik);
-                      void formik.setFieldValue(
+                      formik.setFieldValue(
                         "features_networks_zones",
                         !formik.values.features_networks_zones,
                       );
@@ -314,7 +315,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                     label="Storage buckets"
                     onChange={() => {
                       ensureEditMode(formik);
-                      void formik.setFieldValue(
+                      formik.setFieldValue(
                         "features_storage_buckets",
                         !formik.values.features_storage_buckets,
                       );
@@ -333,7 +334,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   label="Storage volumes"
                   onChange={() => {
                     ensureEditMode(formik);
-                    void formik.setFieldValue(
+                    formik.setFieldValue(
                       "features_storage_volumes",
                       !formik.values.features_storage_volumes,
                     );
@@ -367,10 +368,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               }
               onChange={() => {
                 ensureEditMode(formik);
-                void formik.setFieldValue(
-                  "restricted",
-                  !formik.values.restricted,
-                );
+                formik.setFieldValue("restricted", !formik.values.restricted);
               }}
               checked={formik.values.restricted}
               disabled={

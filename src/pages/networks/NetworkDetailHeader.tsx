@@ -1,6 +1,8 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
+import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDuplicateName } from "util/helpers";
@@ -31,7 +33,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
       .test(
         "deduplicate",
         "A network with this name already exists",
-        (value) =>
+        async (value) =>
           network?.name === value ||
           checkDuplicateName(value, project, controllerState, "networks"),
       )
@@ -46,26 +48,28 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
       renameNetwork(name, values.name, project)
         .then(() => {
           const url = `/ui/project/${project}/network/${values.name}`;
-          void navigate(url);
+          navigate(url);
           toastNotify.success(
             <>
               Network <strong>{name}</strong> renamed to{" "}
               <ResourceLink type="network" value={values.name} to={url} />.
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

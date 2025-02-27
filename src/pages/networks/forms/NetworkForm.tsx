@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Form, Input, SearchBox, useNotify } from "@canonical/react-components";
-import {
+import type {
   LxdNetwork,
   LxdNetworkBridgeDriver,
   LxdNetworkConfig,
@@ -16,7 +17,7 @@ import NetworkFormMenu, {
   YAML_CONFIGURATION,
   DNS,
 } from "pages/networks/forms/NetworkFormMenu";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import YamlForm from "components/forms/YamlForm";
 import NetworkFormMain from "pages/networks/forms/NetworkFormMain";
 import NetworkFormBridge from "pages/networks/forms/NetworkFormBridge";
@@ -34,9 +35,9 @@ import { isClusteredServer } from "util/settings";
 import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
-import { ClusterSpecificValues } from "components/ClusterSpecificSelect";
-import { LxdClusterMember } from "types/cluster";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import type { LxdClusterMember } from "types/cluster";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -237,11 +238,14 @@ const NetworkForm: FC<Props> = ({
         const element = document.getElementById(candidateSlug);
         const elementOffset = element?.offsetTop ?? 0;
         if (elementOffset > scrollTop) {
-          return setSection(candidateSlug, "scroll");
+          setSection(candidateSlug, "scroll");
+          return;
         }
       }
     };
-    const scrollListener = () => debounce(activateSectionOnScroll, 20);
+    const scrollListener = () => {
+      debounce(activateSectionOnScroll, 20);
+    };
     wrapper?.addEventListener("scroll", scrollListener);
 
     return () => wrapper?.removeEventListener("scroll", scrollListener);
@@ -319,7 +323,7 @@ const NetworkForm: FC<Props> = ({
               yaml={getYaml()}
               setYaml={(yaml) => {
                 ensureEditMode(formik);
-                void formik.setFieldValue("yaml", yaml);
+                formik.setFieldValue("yaml", yaml);
               }}
               readOnly={!!formik.values.editRestriction}
               readOnlyMessage={formik.values.editRestriction}
@@ -349,7 +353,9 @@ const NetworkForm: FC<Props> = ({
           />
           <NetworkFormMenu
             active={section}
-            setActive={(section) => setSection(section, "click")}
+            setActive={(section) => {
+              setSection(section, "click");
+            }}
             formik={formik}
             availableSections={availableSections}
           />

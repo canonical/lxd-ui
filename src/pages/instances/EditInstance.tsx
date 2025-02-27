@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "@canonical/react-components";
 import { useFormik } from "formik";
 import { updateInstance } from "api/instances";
@@ -8,20 +9,17 @@ import { dump as dumpYaml } from "js-yaml";
 import { yamlToObject } from "util/yaml";
 import { useNavigate, useParams } from "react-router-dom";
 import type { LxdInstance } from "types/instance";
-import { FormDeviceValues } from "util/formDevices";
-import SecurityPoliciesForm, {
-  SecurityPoliciesFormValues,
-} from "components/forms/SecurityPoliciesForm";
-import InstanceSnapshotsForm, {
-  SnapshotFormValues,
-} from "components/forms/InstanceSnapshotsForm";
-import CloudInitForm, {
-  CloudInitFormValues,
-} from "components/forms/CloudInitForm";
-import ResourceLimitsForm, {
-  ResourceLimitsFormValues,
-} from "components/forms/ResourceLimitsForm";
-import YamlForm, { YamlFormValues } from "components/forms/YamlForm";
+import type { FormDeviceValues } from "util/formDevices";
+import type { SecurityPoliciesFormValues } from "components/forms/SecurityPoliciesForm";
+import SecurityPoliciesForm from "components/forms/SecurityPoliciesForm";
+import type { SnapshotFormValues } from "components/forms/InstanceSnapshotsForm";
+import InstanceSnapshotsForm from "components/forms/InstanceSnapshotsForm";
+import type { CloudInitFormValues } from "components/forms/CloudInitForm";
+import CloudInitForm from "components/forms/CloudInitForm";
+import type { ResourceLimitsFormValues } from "components/forms/ResourceLimitsForm";
+import ResourceLimitsForm from "components/forms/ResourceLimitsForm";
+import type { YamlFormValues } from "components/forms/YamlForm";
+import YamlForm from "components/forms/YamlForm";
 import EditInstanceDetails from "pages/instances/forms/EditInstanceDetails";
 import InstanceFormMenu, {
   BOOT,
@@ -54,9 +52,8 @@ import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
-import MigrationForm, {
-  MigrationFormValues,
-} from "components/forms/MigrationForm";
+import type { MigrationFormValues } from "components/forms/MigrationForm";
+import MigrationForm from "components/forms/MigrationForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
@@ -64,7 +61,8 @@ import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import InstanceLinkChip from "./InstanceLinkChip";
-import BootForm, { BootFormValues } from "components/forms/BootForm";
+import type { BootFormValues } from "components/forms/BootForm";
+import BootForm from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
 import { useProfiles } from "context/useProfiles";
@@ -139,7 +137,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
       instancePayload.etag = instance.etag;
       const instanceLink = <InstanceLinkChip instance={instance} />;
 
-      void updateInstance(instancePayload, project)
+      updateInstance(instancePayload, project)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
@@ -155,7 +153,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
               ),
             () => {
               formik.setSubmitting(false);
-              void queryClient.invalidateQueries({
+              queryClient.invalidateQueries({
                 queryKey: [queryKeys.instances],
               });
             },
@@ -170,14 +168,14 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   const updateSection = (newSection: string) => {
     if (Boolean(formik.values.yaml) && newSection !== YAML_CONFIGURATION) {
-      void formik.setFieldValue("yaml", undefined);
+      formik.setFieldValue("yaml", undefined);
     }
 
     const baseUrl = `/ui/project/${project}/instance/${instance.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 
@@ -270,7 +268,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
                 yaml={getYaml()}
                 setYaml={(yaml) => {
                   ensureEditMode(formik);
-                  void formik.setFieldValue("yaml", yaml);
+                  formik.setFieldValue("yaml", yaml);
                 }}
                 readOnly={!!formik.values.editRestriction}
                 readOnlyMessage={formik.values.editRestriction}

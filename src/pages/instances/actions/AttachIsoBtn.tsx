@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { updateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useParams } from "react-router-dom";
@@ -46,7 +47,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
       values,
     ) as LxdInstance;
     const instanceLink = <InstanceLinkChip instance={instance} />;
-    void updateInstance(instanceMinusIso, project ?? "")
+    updateInstance(instanceMinusIso, project ?? "")
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -69,7 +70,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               instanceLink,
             ),
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.instances, instance.name, project],
             });
             setLoading(false);
@@ -89,7 +90,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
     const isoDevice = remoteImageToIsoDevice(image);
     values.devices.push(isoDevice);
     const instancePlusIso = getInstancePayload(instance, values) as LxdInstance;
-    void updateInstance(instancePlusIso, project ?? "")
+    updateInstance(instancePlusIso, project ?? "")
       .then((operation) => {
         const instanceLink = instanceLinkFromOperation({
           operation,
@@ -117,7 +118,7 @@ const AttachIsoBtn: FC<Props> = ({ instance }) => {
               instanceLink,
             ),
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.instances, instance.name, project],
             });
             setLoading(false);

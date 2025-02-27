@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Link } from "react-router-dom";
 import ItemName from "components/ItemName";
 
@@ -13,7 +13,9 @@ const ProfileLink: FC<Props> = ({ profile }) => {
   return (
     <Link
       to={`/ui/project/${profile.project}/profile/${profile.name}`}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <ItemName item={profile} />
     </Link>

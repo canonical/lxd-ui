@@ -1,6 +1,8 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import RenameHeader, { RenameHeaderValues } from "components/RenameHeader";
+import type { RenameHeaderValues } from "components/RenameHeader";
+import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdStoragePool } from "types/storage";
@@ -37,26 +39,28 @@ const StoragePoolHeader: FC<Props> = ({ name, pool, project }) => {
     validationSchema: RenameSchema,
     onSubmit: (values) => {
       if (name === values.name) {
-        void formik.setFieldValue("isRenaming", false);
+        formik.setFieldValue("isRenaming", false);
         formik.setSubmitting(false);
         return;
       }
       renameStoragePool(name, values.name)
         .then(() => {
           const url = `/ui/project/${project}/storage/pool/${values.name}`;
-          void navigate(url);
+          navigate(url);
           toastNotify.success(
             <>
               Storage pool <strong>{name}</strong> renamed to{" "}
               <ResourceLink type="pool" value={values.name} to={url} />.
             </>,
           );
-          void formik.setFieldValue("isRenaming", false);
+          formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
           notify.failure("Renaming failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 

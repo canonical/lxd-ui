@@ -1,5 +1,6 @@
-import { AbortControllerState, checkDuplicateName } from "./helpers";
-import * as Yup from "yup";
+import type { AbortControllerState } from "./helpers";
+import { checkDuplicateName } from "./helpers";
+import type * as Yup from "yup";
 import { deleteIdpGroups } from "api/auth-idp-groups";
 import { useNotify } from "@canonical/react-components";
 import { useState } from "react";
@@ -8,7 +9,7 @@ import ResourceLabel from "components/ResourceLabel";
 import { pluralize } from "util/instanceBulkActions";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
-import { IdpGroup } from "types/permissions";
+import type { IdpGroup } from "types/permissions";
 import { queryKeys } from "./queryKeys";
 
 export const testDuplicateIdpGroupName = (
@@ -18,7 +19,7 @@ export const testDuplicateIdpGroupName = (
   return [
     "deduplicate",
     "A identity provider group with this name already exists",
-    (value?: string) => {
+    async (value?: string) => {
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(
@@ -66,7 +67,7 @@ export const useDeleteIdpGroups = (idpGroups: IdpGroup[]) => {
 
     deleteIdpGroups(deletableGroups.map((group) => group.name))
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.idpGroups],
         });
         toastNotify.success(successMessage);

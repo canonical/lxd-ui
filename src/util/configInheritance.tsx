@@ -1,7 +1,7 @@
-import { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
+import type { InstanceAndProfileFormValues } from "components/forms/instanceAndProfileFormValues";
 import type { LxdProfile } from "types/profile";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import {
   isDiskDevice,
   isGPUDevice,
@@ -11,7 +11,7 @@ import {
   isProxyDevice,
   isVolumeDevice,
 } from "util/devices";
-import {
+import type {
   LxdDeviceValue,
   LxdDiskDevice,
   LxdGPUDevice,
@@ -19,8 +19,8 @@ import {
   LxdOtherDevice,
   LxdProxyDevice,
 } from "types/device";
-import { ProjectFormValues } from "pages/projects/CreateProject";
-import { ConfigurationRowFormikValues } from "components/ConfigurationRow";
+import type { ProjectFormValues } from "pages/projects/CreateProject";
+import type { ConfigurationRowFormikValues } from "components/ConfigurationRow";
 import type { ConfigField } from "types/config";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -29,13 +29,13 @@ import { toConfigFields } from "util/config";
 import { getInstanceKey } from "util/instanceConfigFields";
 import { useParams } from "react-router-dom";
 import { getProjectKey } from "util/projectConfigFields";
-import { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { getVolumeKey } from "util/storageVolume";
 import { getNetworkKey, networkFormTypeToOptionKey } from "util/networks";
 import { getPoolKey, storagePoolFormDriverToOptionKey } from "./storagePool";
-import { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
+import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { useSettings } from "context/useSettings";
 import { useProfiles } from "context/useProfiles";
 import { useStoragePool } from "context/useStoragePools";
@@ -69,7 +69,7 @@ const getConfigOptions = () => {
   const { hasMetadataConfiguration } = useSupportedFeatures();
   const { data: configOptions } = useQuery({
     queryKey: [queryKeys.configOptions],
-    queryFn: () => fetchConfigOptions(hasMetadataConfiguration),
+    queryFn: async () => fetchConfigOptions(hasMetadataConfiguration),
   });
 
   return configOptions;

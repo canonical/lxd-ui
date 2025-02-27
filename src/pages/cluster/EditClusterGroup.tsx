@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { useParams } from "react-router-dom";
@@ -17,7 +17,7 @@ const EditClusterGroup: FC = () => {
 
   const { data: group, error } = useQuery({
     queryKey: [queryKeys.cluster, queryKeys.groups, groupName],
-    queryFn: () => fetchClusterGroup(groupName),
+    queryFn: async () => fetchClusterGroup(groupName),
   });
 
   if (error) {

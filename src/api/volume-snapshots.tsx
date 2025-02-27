@@ -7,10 +7,10 @@ import {
 import type { LxdOperationResponse } from "types/operation";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";
-import { EventQueue } from "context/eventQueue";
+import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
 
-export const createVolumeSnapshot = (args: {
+export const createVolumeSnapshot = async (args: {
   volume: LxdStorageVolume;
   name: string;
   expiresAt: string | null;
@@ -33,7 +33,7 @@ export const createVolumeSnapshot = (args: {
   });
 };
 
-export const deleteVolumeSnapshot = (
+export const deleteVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: Pick<LxdVolumeSnapshot, "name">,
 ): Promise<LxdOperationResponse> => {
@@ -50,7 +50,7 @@ export const deleteVolumeSnapshot = (
   });
 };
 
-export const deleteVolumeSnapshotBulk = (
+export const deleteVolumeSnapshotBulk = async (
   volume: LxdStorageVolume,
   snapshotNames: string[],
   eventQueue: EventQueue,
@@ -59,13 +59,19 @@ export const deleteVolumeSnapshotBulk = (
   return new Promise((resolve, reject) => {
     Promise.allSettled(
       snapshotNames.map(async (name) => {
-        return await deleteVolumeSnapshot(volume, { name })
+        await deleteVolumeSnapshot(volume, { name })
           .then((operation) => {
             eventQueue.set(
               operation.metadata.id,
-              () => pushSuccess(results),
-              (msg) => pushFailure(results, msg),
-              () => continueOrFinish(results, snapshotNames.length, resolve),
+              () => {
+                pushSuccess(results);
+              },
+              (msg) => {
+                pushFailure(results, msg);
+              },
+              () => {
+                continueOrFinish(results, snapshotNames.length, resolve);
+              },
             );
           })
           .catch((e) => {
@@ -78,7 +84,7 @@ export const deleteVolumeSnapshotBulk = (
 };
 
 // NOTE: this api endpoint results in a synchronous operation
-export const restoreVolumeSnapshot = (
+export const restoreVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
 ): Promise<LxdSyncResponse<unknown>> => {
@@ -98,7 +104,7 @@ export const restoreVolumeSnapshot = (
   });
 };
 
-export const renameVolumeSnapshot = (args: {
+export const renameVolumeSnapshot = async (args: {
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
   newName: string;
@@ -121,7 +127,7 @@ export const renameVolumeSnapshot = (args: {
 };
 
 // NOTE: this api endpoint results in a synchronous operation
-export const updateVolumeSnapshot = (args: {
+export const updateVolumeSnapshot = async (args: {
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
   expiresAt: string | null;
@@ -143,7 +149,7 @@ export const updateVolumeSnapshot = (args: {
   });
 };
 
-export const fetchStorageVolumeSnapshots = (args: {
+export const fetchStorageVolumeSnapshots = async (args: {
   pool: string;
   type: string;
   volumeName: string;
@@ -155,14 +161,14 @@ export const fetchStorageVolumeSnapshots = (args: {
       `/1.0/storage-pools/${pool}/volumes/${type}/${volumeName}/snapshots?project=${project}&recursion=2`,
     )
       .then(handleResponse)
-      .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) =>
+      .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) => {
         resolve(
           data.metadata.map((snapshot) => ({
             ...snapshot,
             name: splitVolumeSnapshotName(snapshot.name).snapshotName,
           })),
-        ),
-      )
+        );
+      })
       .catch(reject);
   });
 };

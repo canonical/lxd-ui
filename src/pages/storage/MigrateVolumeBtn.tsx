@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { ActionButton, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import { useQueryClient } from "@tanstack/react-query";
@@ -60,7 +61,7 @@ const MigrateVolumeBtn: FC<Props> = ({
     );
 
     if (window.location.pathname.startsWith(oldVolumeUrl)) {
-      void navigate(newVolumeUrl);
+      navigate(newVolumeUrl);
     }
   };
 
@@ -90,7 +91,7 @@ const MigrateVolumeBtn: FC<Props> = ({
   };
 
   const handleFinish = () => {
-    void queryClient.invalidateQueries({
+    queryClient.invalidateQueries({
       queryKey: [queryKeys.storage, storageVolume.name],
     });
     setVolumeLoading(false);
@@ -102,8 +103,12 @@ const MigrateVolumeBtn: FC<Props> = ({
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
-          () => handleSuccess(targetPool, storageVolume),
-          (err) => handleFailure(err, storageVolume.name, targetPool),
+          () => {
+            handleSuccess(targetPool, storageVolume);
+          },
+          (err) => {
+            handleFailure(err, storageVolume.name, targetPool);
+          },
           handleFinish,
         );
         const volume = (
@@ -121,7 +126,7 @@ const MigrateVolumeBtn: FC<Props> = ({
             Migration started for volume {volume} to pool {pool}
           </>,
         );
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: [queryKeys.storage, storageVolume.name, project],
         });
         handleClose();

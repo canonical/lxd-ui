@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ItemName from "components/ItemName";
 import type { LxdNetwork } from "types/network";
@@ -34,13 +35,13 @@ const DeleteNetworkBtn: FC<Props> = ({ network, project }) => {
     setLoading(true);
     deleteNetwork(network.name, project)
       .then(() => {
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           predicate: (query) =>
             query.queryKey[0] === queryKeys.projects &&
             query.queryKey[1] === project &&
             query.queryKey[2] === queryKeys.networks,
         });
-        void navigate(`/ui/project/${project}/networks`);
+        navigate(`/ui/project/${project}/networks`);
         toastNotify.success(
           <>
             Network <ResourceLabel bold type="network" value={network.name} />{" "}

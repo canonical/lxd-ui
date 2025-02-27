@@ -1,12 +1,13 @@
-import { LxdVersions } from "../fixtures/lxd-test";
+import type { LxdVersions } from "../fixtures/lxd-test";
 import { test, expect } from "../fixtures/lxd-test";
-import { Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
-export const skipIfNotSupported = (lxdVersion: LxdVersions) =>
+export const skipIfNotSupported = (lxdVersion: LxdVersions) => {
   test.skip(
     lxdVersion === "5.0-edge",
     "Fine grained authorisation is not available for lxd 5.0",
   );
+};
 
 export const assertTextVisible = async (
   page: Page,

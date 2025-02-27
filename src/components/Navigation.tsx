@@ -1,4 +1,5 @@
-import { FC, MouseEvent, useEffect, useState } from "react";
+import type { FC, MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import { Button, Icon, SideNavigationItem } from "@canonical/react-components";
 import { useAuth } from "context/auth";
 import classnames from "classnames";
@@ -10,10 +11,12 @@ import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
 import NavLink from "components/NavLink";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import NavAccordion, { AccordionNavMenu } from "./NavAccordion";
+import type { AccordionNavMenu } from "./NavAccordion";
+import NavAccordion from "./NavAccordion";
 import useEventListener from "util/useEventListener";
 import { enablePermissionsFeature } from "util/permissions";
-import { Location, useLocation } from "react-router-dom";
+import type { Location } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 
 const isSmallScreen = () => isWidthBelow(620);
@@ -183,7 +186,11 @@ const Navigation: FC = () => {
                 <ul className="p-side-navigation__list sidenav-top-ul">
                   {isAuthenticated && (
                     <>
-                      <li onClick={(e) => e.stopPropagation()}>
+                      <li
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
                         <ProjectSelector
                           key={location.pathname}
                           activeProject={projectName}
@@ -235,7 +242,9 @@ const Navigation: FC = () => {
                           title={`Storage (${projectName})`}
                           iconName="switcher-dashboard"
                           label="Storage"
-                          onOpen={() => toggleAccordionNav("storage")}
+                          onOpen={() => {
+                            toggleAccordionNav("storage");
+                          }}
                           open={openNavMenus.includes("storage")}
                         >
                           {[
@@ -359,7 +368,9 @@ const Navigation: FC = () => {
                             title={`Permissions`}
                             iconName="user"
                             label="Permissions"
-                            onOpen={() => toggleAccordionNav("permissions")}
+                            onOpen={() => {
+                              toggleAccordionNav("permissions");
+                            }}
                             open={openNavMenus.includes("permissions")}
                           >
                             {[

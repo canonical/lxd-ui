@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { slugify } from "util/slugify";
 import { Button } from "@canonical/react-components";
 import classnames from "classnames";
@@ -39,7 +39,9 @@ const FormMenuItem: FC<Props> = ({
     >
       <a
         className="p-side-navigation__link"
-        onClick={() => setActive(label)}
+        onClick={() => {
+          setActive(label);
+        }}
         aria-current={slugify(label) === slugify(active) ? "page" : undefined}
       >
         {label}

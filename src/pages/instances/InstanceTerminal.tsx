@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useRef, useState } from "react";
 import { unstable_usePrompt as usePrompt, useParams } from "react-router-dom";
 import { FitAddon } from "xterm-addon-fit";
 import { connectInstanceExec } from "api/instances";
@@ -11,7 +12,7 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import type { LxdInstance } from "types/instance";
 import { useInstanceStart } from "util/instanceStart";
 import Xterm from "components/Xterm";
-import { Terminal } from "xterm";
+import type { Terminal } from "xterm";
 import {
   ActionButton,
   EmptyState,
@@ -163,7 +164,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       const timeout = setTimeout(triggerRefresh, delay);
       refreshTimerRef.current = timeout;
 
-      return () => clearTimeout(timeout);
+      return () => {
+        clearTimeout(timeout);
+      };
     }
   }, [isBooting, version]);
 
@@ -174,7 +177,9 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
       const websocketPromise = openWebsockets(payload);
       return () => {
         void websocketPromise.then((websockets) => {
-          websockets?.map((websocket) => websocket.close());
+          websockets?.map((websocket) => {
+            websocket.close();
+          });
         });
       };
     }

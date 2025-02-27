@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { deleteImage } from "api/images";
 import type { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
@@ -26,15 +27,15 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
   const handleDelete = () => {
     setLoading(true);
     const imageLabel = <ResourceLabel bold type="image" value={description} />;
-    void deleteImage(image, project)
-      .then((operation) =>
+    deleteImage(image, project)
+      .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
           () => {
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               predicate: (query) => query.queryKey[0] === queryKeys.images,
             });
-            void queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
               queryKey: [queryKeys.projects, project],
             });
             toastNotify.success(<>Image {imageLabel} deleted.</>);
@@ -45,9 +46,11 @@ const DeleteImageBtn: FC<Props> = ({ image, project }) => {
               new Error(msg),
               imageLabel,
             ),
-          () => setLoading(false),
-        ),
-      )
+          () => {
+            setLoading(false);
+          },
+        );
+      })
       .catch((e) => {
         toastNotify.failure(
           `Image ${description} deletion failed`,

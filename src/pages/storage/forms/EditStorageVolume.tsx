@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,8 +6,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { updateStorageVolume } from "api/storage-pools";
 import { useNavigate, useParams } from "react-router-dom";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm, {
-  StorageVolumeFormValues,
   volumeFormToPayload,
 } from "pages/storage/forms/StorageVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
@@ -51,10 +51,10 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
       })
         .then(() => {
           void formik.setValues(getStorageVolumeEditValues(saveVolume));
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.storage],
           });
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [
               queryKeys.storage,
               volume.pool,
@@ -78,16 +78,18 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
         .catch((e) => {
           notify.failure("Storage volume update failed", e);
         })
-        .finally(() => formik.setSubmitting(false));
+        .finally(() => {
+          formik.setSubmitting(false);
+        });
     },
   });
 
   const setSection = (newSection: string) => {
     const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
-      void navigate(baseUrl);
+      navigate(baseUrl);
     } else {
-      void navigate(`${baseUrl}/${slugify(newSection)}`);
+      navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
 
@@ -103,7 +105,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
           <>
             <Button
               appearance="base"
-              onClick={() =>
+              onClick={async () =>
                 formik.setValues(getStorageVolumeEditValues(volume))
               }
             >

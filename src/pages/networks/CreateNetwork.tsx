@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import {
   ActionButton,
   Button,
@@ -12,9 +13,9 @@ import { queryKeys } from "util/queryKeys";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkDuplicateName } from "util/helpers";
 import { createClusterNetwork, createNetwork } from "api/networks";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import NetworkForm, {
   isNetworkFormInvalid,
-  NetworkFormValues,
   toNetwork,
 } from "pages/networks/forms/NetworkForm";
 import NotificationRow from "components/NotificationRow";
@@ -59,8 +60,11 @@ const CreateNetwork: FC = () => {
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
-      .test("deduplicate", "A network with this name already exists", (value) =>
-        checkDuplicateName(value, project, controllerState, "networks"),
+      .test(
+        "deduplicate",
+        "A network with this name already exists",
+        async (value) =>
+          checkDuplicateName(value, project, controllerState, "networks"),
       )
       .required("Network name is required"),
   });
@@ -83,21 +87,21 @@ const CreateNetwork: FC = () => {
 
       const mutation =
         isClustered && values.networkType !== "ovn"
-          ? () =>
+          ? async () =>
               createClusterNetwork(
                 network,
                 project,
                 clusterMembers,
                 values.parentPerClusterMember,
               )
-          : () => createNetwork(network, project);
+          : async () => createNetwork(network, project);
 
       mutation()
         .then(() => {
-          void queryClient.invalidateQueries({
+          queryClient.invalidateQueries({
             queryKey: [queryKeys.projects, project, queryKeys.networks],
           });
-          void navigate(`/ui/project/${project}/networks`);
+          navigate(`/ui/project/${project}/networks`);
           toastNotify.success(
             <>
               Network{" "}
@@ -147,14 +151,14 @@ const CreateNetwork: FC = () => {
           <YamlSwitch
             formik={formik}
             section={section}
-            setSection={() =>
+            setSection={() => {
               updateSection(
                 section === slugify(YAML_CONFIGURATION)
                   ? GENERAL
                   : YAML_CONFIGURATION,
                 "click",
-              )
-            }
+              );
+            }}
             disableReason={
               formik.values.name
                 ? undefined
@@ -164,7 +168,7 @@ const CreateNetwork: FC = () => {
         </div>
         <Button
           appearance="base"
-          onClick={() => navigate(`/ui/project/${project}/networks`)}
+          onClick={async () => navigate(`/ui/project/${project}/networks`)}
         >
           Cancel
         </Button>

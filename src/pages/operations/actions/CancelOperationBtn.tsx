@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { LxdOperation } from "types/operation";
 import { cancelOperation } from "api/operations";
 import { useQueryClient } from "@tanstack/react-query";
@@ -28,7 +29,7 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
       })
       .finally(() => {
         setLoading(false);
-        void queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: project
             ? [queryKeys.operations, project]
             : [queryKeys.operations],

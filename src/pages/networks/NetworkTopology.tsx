@@ -1,6 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
-import { FormikProps } from "formik/dist/types";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { FC } from "react";
+import React, { useEffect, useState } from "react";
+import type { FormikProps } from "formik/dist/types";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import { slugify } from "util/slugify";
 import { CONNECTIONS } from "pages/networks/forms/NetworkFormMenu";
 import ResourceLink from "components/ResourceLink";
@@ -151,7 +152,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             <div className="downstream-item">
               <Button
                 appearance="link"
-                onClick={() => setNetworksCollapsed(false)}
+                onClick={() => {
+                  setNetworksCollapsed(false);
+                }}
                 small
               >
                 Show all
@@ -176,7 +179,9 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             <div className="downstream-item">
               <Button
                 appearance="link"
-                onClick={() => setInstancesCollapsed(false)}
+                onClick={() => {
+                  setInstancesCollapsed(false);
+                }}
                 small
               >
                 Show all

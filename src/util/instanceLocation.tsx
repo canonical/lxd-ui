@@ -1,7 +1,7 @@
-import { FormikProps } from "formik/dist/types";
-import { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import { EditInstanceFormValues } from "pages/instances/EditInstance";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { FormikProps } from "formik/dist/types";
+import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
+import type { EditInstanceFormValues } from "pages/instances/EditInstance";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
 import { useSettings } from "context/useSettings";
 import { isClusteredServer } from "util/settings";
 
