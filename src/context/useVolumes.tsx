@@ -7,7 +7,7 @@ import type { RemoteImage } from "types/image";
 import { loadIsoVolumes, loadVolumes } from "./loadIsoVolumes";
 import { loadCustomVolumes } from "./loadCustomVolumes";
 import type { LxdStorageVolume } from "types/storage";
-import { fetchStorageVolume } from "api/storage-pools";
+import { fetchStorageVolume } from "api/storage-volumes";
 
 export const useLoadVolumes = (
   project: string,

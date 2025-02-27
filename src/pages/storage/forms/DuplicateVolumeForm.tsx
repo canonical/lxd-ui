@@ -11,7 +11,6 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { duplicateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
@@ -20,6 +19,7 @@ import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
+import { duplicateStorageVolume } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;

@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { updateStorageVolume } from "api/storage-pools";
 import { useNavigate, useParams } from "react-router-dom";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm, {
@@ -18,6 +17,7 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
+import { updateStorageVolume } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;

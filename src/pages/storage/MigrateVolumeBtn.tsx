@@ -8,10 +8,10 @@ import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import type { LxdStorageVolume } from "types/storage";
 import MigrateVolumeModal from "./MigrateVolumeModal";
-import { migrateStorageVolume } from "api/storage-pools";
 import { useNavigate } from "react-router-dom";
 import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
+import { migrateStorageVolume } from "api/storage-volumes";
 
 interface Props {
   storageVolume: LxdStorageVolume;
