@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.12% </span>
+                <span class="strong">82.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>170/207</span>
+                <span class='fraction'>171/208</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.63% </span>
+                <span class="strong">57.89% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/19</span>
+                <span class='fraction'>11/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.5% </span>
+                <span class="strong">95.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>170/178</span>
+                <span class='fraction'>171/179</span>
             </div>
         
             
@@ -241,7 +241,9 @@
 <a name='L176'></a><a href='#L176'>176</a>
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -419,7 +421,8 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { useState } from "react";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import {
   deleteVolumeSnapshot,
@@ -468,8 +471,8 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="sta
     const snapshotLink = (
 <span class="cstat-no" title="statement not covered" >      &lt;VolumeSnapshotLinkChip name={snapshot.name} volume={volume} /&gt;</span>
     );
-<span class="cstat-no" title="statement not covered" >    void deleteVolumeSnapshot(volume, snapshot)</span>
-      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt;
+<span class="cstat-no" title="statement not covered" >    deleteVolumeSnapshot(volume, snapshot)</span>
+      .then((operation) =&gt; {
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
           operation.metadata.id,
 <span class="fstat-no" title="function not covered" >          () =&gt;</span>
@@ -488,14 +491,14 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="sta
 <span class="cstat-no" title="statement not covered" >            ),</span>
 <span class="fstat-no" title="function not covered" >          () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setDeleting(false);</span>
-<span class="cstat-no" title="statement not covered" >            void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
               predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt;
 <span class="cstat-no" title="statement not covered" >                query.queryKey[0] === queryKeys.volumes ||</span>
                 query.queryKey[0] === queryKeys.storage,
             });
           },
-        ),
-      )
+        );
+      })
       .catch((e) =&gt; {
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        notify.failure("Snapshot deletion failed", e, snapshotLink);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setDeleting(false);</span></span>
@@ -504,7 +507,7 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="sta
 &nbsp;
   const handleRestore = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setRestoring(true);</span>
-<span class="cstat-no" title="statement not covered" >    void restoreVolumeSnapshot(volume, snapshot)</span>
+<span class="cstat-no" title="statement not covered" >    restoreVolumeSnapshot(volume, snapshot)</span>
       .then(() =&gt; {
 <span class="cstat-no" title="statement not covered" >        toastNotify.success(</span>
           &lt;&gt;
@@ -519,7 +522,7 @@ const VolumeSnapshotActions: FC&lt;Props&gt; = <span class="cstat-no" title="sta
       })
       .finally(() =&gt; {
 <span class="cstat-no" title="statement not covered" >        setRestoring(false);</span>
-<span class="cstat-no" title="statement not covered" >        void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
           predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt;
 <span class="cstat-no" title="statement not covered" >            query.queryKey[0] === queryKeys.volumes ||</span>
             query.queryKey[0] === queryKeys.storage,
@@ -604,7 +607,7 @@ export default VolumeSnapshotActions;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>

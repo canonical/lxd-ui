@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.38% </span>
+                <span class="strong">51.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>110/210</span>
+                <span class='fraction'>110/212</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.48% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>110/163</span>
+                <span class='fraction'>110/165</span>
             </div>
         
             
@@ -226,33 +226,35 @@
 <a name='L161'></a><a href='#L161'>161</a>
 <a name='L162'></a><a href='#L162'>162</a>
 <a name='L163'></a><a href='#L163'>163</a>
-<a name='L164'></a><a href='#L164'>164</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -367,6 +369,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -396,7 +400,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
 import { migrateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
 import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
@@ -408,12 +412,12 @@ export type MigrationType =
   | "project"
   | "";
 &nbsp;
-type Props = {
+interface Props {
   instance: LxdInstance;
   type: MigrationType;
   target: string;
   onSuccess: () =&gt; void;
-};
+}
 &nbsp;
 export const useInstanceMigration = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
   instance,
@@ -473,7 +477,7 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >        `/project/${target}/instance/${instance.name}`,</span>
 <span class="cstat-no" title="statement not covered" >      );</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      if (oldUrl !== newUrl) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        void navigate(newUrl);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        navigate(newUrl);</span></span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
@@ -507,7 +511,7 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
       queryKey: [queryKeys.instances, instance.name],
     });
 <span class="cstat-no" title="statement not covered" >    instanceLoading.setFinish(instance);</span>
@@ -529,7 +533,9 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
           operation.metadata.id,
           handleSuccess,
-<span class="fstat-no" title="function not covered" >          (e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >handleFailure(err),</span>
+<span class="fstat-no" title="function not covered" >          (e</span>rr) =&gt; {
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            handleFailure(err);</span></span>
+<span class="cstat-no" title="statement not covered" >          },</span>
           handleFinish,
         );
 <span class="cstat-no" title="statement not covered" >        toastNotify.info(</span>
@@ -538,7 +544,7 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
             &lt;InstanceLinkChip instance={instance} /&gt;.
           &lt;/&gt;,
         );
-<span class="cstat-no" title="statement not covered" >        void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
           queryKey: [queryKeys.instances, instance.name, instance.project],
         });
 <span class="cstat-no" title="statement not covered" >        onSuccess();</span>
@@ -559,7 +565,7 @@ export const useInstanceMigration = <span class="cstat-no" title="statement not 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

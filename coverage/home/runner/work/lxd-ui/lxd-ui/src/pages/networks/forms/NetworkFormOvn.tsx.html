@@ -138,58 +138,58 @@
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
-<span class="cline-any cline-yes">282x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
+<span class="cline-any cline-yes">284x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
+import type { FormikProps } from "formik/dist/types";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import { NetworkFormValues } from "pages/networks/forms/NetworkForm";
+import type { NetworkFormValues } from "pages/networks/forms/NetworkForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { OVN } from "pages/networks/forms/NetworkFormMenu";
 import { slugify } from "util/slugify";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;NetworkFormValues&gt;;
@@ -247,7 +247,7 @@ export default NetworkFormOvn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

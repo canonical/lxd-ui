@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.53% </span>
+                <span class="strong">75.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>287/375</span>
+                <span class='fraction'>288/380</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.4% </span>
+                <span class="strong">85.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>286/331</span>
+                <span class='fraction'>287/336</span>
             </div>
         
             
@@ -394,7 +394,13 @@
 <a name='L329'></a><a href='#L329'>329</a>
 <a name='L330'></a><a href='#L330'>330</a>
 <a name='L331'></a><a href='#L331'>331</a>
-<a name='L332'></a><a href='#L332'>332</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -632,6 +638,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -725,7 +735,8 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useEffect, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   EmptyState,
   Icon,
@@ -780,7 +791,7 @@ const StorageVolumeSnapshots: FC&lt;Props&gt; = <span class="cstat-no" title="st
       volume.type,
       volume.name,
     ],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt;</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span>
 <span class="cstat-no" title="statement not covered" >      fetchStorageVolumeSnapshots({</span>
         pool: volume.pool,
         project: volume.project,
@@ -959,8 +970,12 @@ const StorageVolumeSnapshots: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="cstat-no" title="statement not covered" >              &lt;VolumeSnapshotBulkDelete</span>
 <span class="cstat-no" title="statement not covered" >                volume={volume}</span>
 <span class="cstat-no" title="statement not covered" >                snapshotNames={selectedNames}</span>
-<span class="cstat-no" title="statement not covered" >                onStart={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etProcessingNames(selectedNames)}</span></span></span>
-<span class="cstat-no" title="statement not covered" >                onFinish={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etProcessingNames([])}</span></span></span>
+<span class="cstat-no" title="statement not covered" >                onStart={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  setProcessingNames(selectedNames);</span></span>
+<span class="cstat-no" title="statement not covered" >                }}</span>
+<span class="cstat-no" title="statement not covered" >                onFinish={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                  setProcessingNames([]);</span></span>
+<span class="cstat-no" title="statement not covered" >                }}</span>
 <span class="cstat-no" title="statement not covered" >              /&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
           )}
@@ -1063,7 +1078,7 @@ export default StorageVolumeSnapshots;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

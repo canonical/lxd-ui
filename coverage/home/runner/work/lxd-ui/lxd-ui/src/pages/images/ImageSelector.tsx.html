@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.03% </span>
+                <span class="strong">73.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>442/597</span>
+                <span class='fraction'>447/605</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.22% </span>
+                <span class="strong">89.97% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>434/481</span>
+                <span class='fraction'>440/489</span>
             </div>
         
             
@@ -544,7 +544,16 @@
 <a name='L479'></a><a href='#L479'>479</a>
 <a name='L480'></a><a href='#L480'>480</a>
 <a name='L481'></a><a href='#L481'>481</a>
-<a name='L482'></a><a href='#L482'>482</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
@@ -607,6 +616,9 @@
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
@@ -749,6 +761,8 @@
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
@@ -976,6 +990,8 @@
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">70x</span>
@@ -1025,7 +1041,8 @@
 <span class="cline-any cline-yes">70x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, OptionHTMLAttributes, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, OptionHTMLAttributes } from "react";
+import { useState } from "react";
 import {
   Button,
   CheckboxInput,
@@ -1040,7 +1057,7 @@ import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
 import { handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
   byLtsFirst,
   localLxdToRemoteImage,
@@ -1087,9 +1104,12 @@ const ImageSelector: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
   const [hideRemote, setHideRemote] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
   const { project } = <span class="cstat-no" title="statement not covered" >useParams&lt;{ project: string }&gt;();</span>
 &nbsp;
-  const loadImages = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: string, server: string): Promise&lt;RemoteImage[]&gt; =&gt; {</span>
+  const loadImages = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+    file: string,
+    server: string,
+  ): Promise&lt;RemoteImage[]&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >    return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      void fetch(file)</span>
+<span class="cstat-no" title="statement not covered" >      fetch(file)</span>
         .then(handleResponse)
         .then((data: RemoteImageList) =&gt; {
           const images = <span class="cstat-no" title="statement not covered" >Object.entries(data.products).map((product) =&gt; {</span>
@@ -1107,20 +1127,20 @@ const ImageSelector: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
 &nbsp;
   const { data: canonicalImages = [], isLoading: isCiLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
     queryKey: [queryKeys.images, canonicalServer],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadImages(canonicalJson, canonicalServer),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadImages(canonicalJson, canonicalServer),</span>
     retry: false, // avoid retry to ease experience in airgapped deployments
   });
 &nbsp;
   const { data: minimalImages = [], isLoading: isMinimalLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
     queryKey: [queryKeys.images, minimalServer],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadImages(minimalJson, minimalServer),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadImages(minimalJson, minimalServer),</span>
     retry: false, // avoid retry to ease experience in airgapped deployments
   });
 &nbsp;
   const { data: imagesLxdImages = [], isLoading: isImagesLxdLoading } =
 <span class="cstat-no" title="statement not covered" >    useQuery({</span>
       queryKey: [queryKeys.images, imagesLxdServer],
-      queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadImages(imagesLxdJson, imagesLxdServer),</span>
+      queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >l</span>oadImages(imagesLxdJson, imagesLxdServer),</span>
       retry: false, // avoid retry to ease experience in airgapped deployments
     });
 &nbsp;
@@ -1229,7 +1249,9 @@ const ImageSelector: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
       };
       const itemType = <span class="cstat-no" title="statement not covered" >figureType();</span>
 &nbsp;
-      const selectImage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >o</span>nSelect(item, item.type ?? <span class="branch-1 cbranch-no" title="branch not covered" >type)</span>;</span></span>
+      const selectImage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        onSelect(item, item.type ?? <span class="branch-1 cbranch-no" title="branch not covered" >type)</span>;</span>
+      };
 &nbsp;
       const displayRelease =
 <span class="cstat-no" title="statement not covered" >        item.os === <span class="branch-0 cbranch-no" title="branch not covered" >"Ubuntu" &amp;&amp;</span></span>
@@ -1456,7 +1478,9 @@ const ImageSelector: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
               aria-label="Only show cached images"
               checked={hideRemote}
               label="Show only cached images"
-              onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etHideRemote(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; !prev)}</span></span>
+              onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                setHideRemote(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; <span class="cstat-no" title="statement not covered" >!prev)</span>;</span></span>
+<span class="cstat-no" title="statement not covered" >              }}</span>
             /&gt;
           &lt;/div&gt;
         &lt;/Col&gt;
@@ -1513,7 +1537,7 @@ export default ImageSelector;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

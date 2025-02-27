@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.22% </span>
+                <span class="strong">60.64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>90/147</span>
+                <span class='fraction'>94/155</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">69.23% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/12</span>
+                <span class='fraction'>9/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.52% </span>
+                <span class="strong">76.03% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>88/115</span>
+                <span class='fraction'>92/121</span>
             </div>
         
             
@@ -178,7 +178,14 @@
 <a name='L113'></a><a href='#L113'>113</a>
 <a name='L114'></a><a href='#L114'>114</a>
 <a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -228,6 +235,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -254,6 +262,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -293,7 +305,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { useState } from "react";
 import { deleteImageBulk } from "api/images";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
@@ -303,7 +316,7 @@ import { pluralize } from "util/instanceBulkActions";
 import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
 import { useImageEntitlements } from "util/entitlements/images";
-import { LxdImage } from "types/image";
+import type { LxdImage } from "types/image";
 &nbsp;
 interface Props {
   images: LxdImage[];
@@ -332,44 +345,49 @@ const BulkDeleteImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statem
   const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
 <span class="cstat-no" title="statement not covered" >    onStart();</span>
-<span class="cstat-no" title="statement not covered" >    void deleteImageBulk(fingerprints, project, eventQueue).then((results) =&gt; {</span>
-      const { fulfilledCount, rejectedCount } =
-<span class="cstat-no" title="statement not covered" >        getPromiseSettledCounts(results);</span>
-<span class="cstat-no" title="statement not covered" >      if (fulfilledCount === deleteCount) {</span>
-<span class="cstat-no" title="statement not covered" >        toastNotify.success(</span>
-          &lt;&gt;
-            &lt;b&gt;{fingerprints.length}&lt;/b&gt;{" "}
-            {pluralize("image", fingerprints.length)} deleted.
-          &lt;/&gt;,
-        );
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >      } else if (rejectedCount === deleteCount) {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
-<span class="cstat-no" title="statement not covered" >          "Image bulk deletion failed",</span>
-<span class="cstat-no" title="statement not covered" >          undefined,</span>
-<span class="cstat-no" title="statement not covered" >          &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;b&gt;{deleteCount}&lt;/b&gt; {pluralize("image", deleteCount)} could not be</span>
-<span class="cstat-no" title="statement not covered" >            deleted.</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/&gt;,</span>
-<span class="cstat-no" title="statement not covered" >        );</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
-<span class="cstat-no" title="statement not covered" >          "Image bulk deletion partially failed",</span>
-<span class="cstat-no" title="statement not covered" >          undefined,</span>
-<span class="cstat-no" title="statement not covered" >          &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;b&gt;{fulfilledCount}&lt;/b&gt; {pluralize("image", fulfilledCount)}{" "}</span>
-<span class="cstat-no" title="statement not covered" >            deleted.</span>
-<span class="cstat-no" title="statement not covered" >            &lt;br /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;b&gt;{rejectedCount}&lt;/b&gt; {pluralize("image", rejectedCount)} could not</span>
-<span class="cstat-no" title="statement not covered" >            be deleted.</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/&gt;,</span>
-<span class="cstat-no" title="statement not covered" >        );</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      void queryClient.invalidateQueries({</span>
-        predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.images,</span>
+<span class="cstat-no" title="statement not covered" >    deleteImageBulk(fingerprints, project, eventQueue)</span>
+      .then((results) =&gt; {
+        const { fulfilledCount, rejectedCount } =
+<span class="cstat-no" title="statement not covered" >          getPromiseSettledCounts(results);</span>
+<span class="cstat-no" title="statement not covered" >        if (fulfilledCount === deleteCount) {</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
+            &lt;&gt;
+              &lt;b&gt;{fingerprints.length}&lt;/b&gt;{" "}
+              {pluralize("image", fingerprints.length)} deleted.
+            &lt;/&gt;,
+          );
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >        } else if (rejectedCount === deleteCount) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >            "Image bulk deletion failed",</span>
+<span class="cstat-no" title="statement not covered" >            undefined,</span>
+<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;b&gt;{deleteCount}&lt;/b&gt; {pluralize("image", deleteCount)} could not</span>
+<span class="cstat-no" title="statement not covered" >              be deleted.</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          );</span>
+<span class="cstat-no" title="statement not covered" >        } else {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >            "Image bulk deletion partially failed",</span>
+<span class="cstat-no" title="statement not covered" >            undefined,</span>
+<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;b&gt;{fulfilledCount}&lt;/b&gt; {pluralize("image", fulfilledCount)}{" "}</span>
+<span class="cstat-no" title="statement not covered" >              deleted.</span>
+<span class="cstat-no" title="statement not covered" >              &lt;br /&gt;</span>
+<span class="cstat-no" title="statement not covered" >              &lt;b&gt;{rejectedCount}&lt;/b&gt; {pluralize("image", rejectedCount)} could</span>
+<span class="cstat-no" title="statement not covered" >              not be deleted.</span>
+<span class="cstat-no" title="statement not covered" >            &lt;/&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          );</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span>
+          predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.images,</span>
+        });
+<span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >        onFinish();</span>
+      })
+      .catch((e) =&gt; {
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        setLoading(false);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Image bulk deletion failed", e);</span></span>
       });
-<span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >      onFinish();</span>
-    });
   };
 &nbsp;
   const getBulkDeleteBreakdown = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -415,7 +433,7 @@ export default BulkDeleteImageBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

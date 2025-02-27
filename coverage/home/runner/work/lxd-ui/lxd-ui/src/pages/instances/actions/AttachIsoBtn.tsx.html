@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.73% </span>
+                <span class="strong">13.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/212</span>
+                <span class='fraction'>28/213</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.88% </span>
+                <span class="strong">16.37% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/170</span>
+                <span class='fraction'>28/171</span>
             </div>
         
             
@@ -233,31 +233,33 @@
 <a name='L168'></a><a href='#L168'>168</a>
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -401,9 +403,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-yes">46x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useState } from "react";
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { useState } from "react";
 import { updateInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import { useParams } from "react-router-dom";
@@ -451,7 +454,7 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >      values,</span>
 <span class="cstat-no" title="statement not covered" >    ) as LxdInstance;</span>
 <span class="cstat-no" title="statement not covered" >    const instanceLink = <span class="cstat-no" title="statement not covered" >&lt;InstanceLinkChip instance={instance} /&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    void updateInstance(instanceMinusIso, project ?? "")</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateInstance(instanceMinusIso, project ?? "")</span></span>
 <span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        eventQueue.set(</span></span>
 <span class="cstat-no" title="statement not covered" >          operation.metadata.id,</span>
@@ -474,7 +477,7 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >              instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            void queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span></span>
 <span class="cstat-no" title="statement not covered" >              queryKey: [queryKeys.instances, instance.name, project],</span>
 <span class="cstat-no" title="statement not covered" >            });</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setLoading(false);</span></span>
@@ -494,7 +497,7 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >    const isoDevice = <span class="cstat-no" title="statement not covered" >remoteImageToIsoDevice(image);</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    values.devices.push(isoDevice);</span></span>
 <span class="cstat-no" title="statement not covered" >    const instancePlusIso = <span class="cstat-no" title="statement not covered" >getInstancePayload(instance, values) as LxdInstance;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    void updateInstance(instancePlusIso, project ?? "")</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    updateInstance(instancePlusIso, project ?? "")</span></span>
 <span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const instanceLink = <span class="cstat-no" title="statement not covered" >instanceLinkFromOperation({</span></span>
 <span class="cstat-no" title="statement not covered" >          operation,</span>
@@ -522,7 +525,7 @@ const AttachIsoBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement no
 <span class="cstat-no" title="statement not covered" >              instanceLink,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            void queryClient.invalidateQueries({</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span></span>
 <span class="cstat-no" title="statement not covered" >              queryKey: [queryKeys.instances, instance.name, project],</span>
 <span class="cstat-no" title="statement not covered" >            });</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            setLoading(false);</span></span>
@@ -580,7 +583,7 @@ export default AttachIsoBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

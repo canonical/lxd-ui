@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.88% </span>
+                <span class="strong">77.98% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>331/425</span>
+                <span class='fraction'>333/427</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.11% </span>
+                <span class="strong">95.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>331/348</span>
+                <span class='fraction'>333/350</span>
             </div>
         
             
@@ -411,7 +411,9 @@
 <a name='L346'></a><a href='#L346'>346</a>
 <a name='L347'></a><a href='#L347'>347</a>
 <a name='L348'></a><a href='#L348'>348</a>
-<a name='L349'></a><a href='#L349'>349</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
@@ -545,6 +547,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">302x</span>
 <span class="cline-any cline-yes">302x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -770,7 +774,8 @@
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
@@ -782,8 +787,8 @@ import { createInstance } from "api/instances";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSettings } from "context/useSettings";
+import type { UploadExternalFormatFileFormValues } from "util/uploadExternalFormatFile";
 import {
-  UploadExternalFormatFileFormValues,
   uploadExternalFormatFilePayload,
   isImageTypeRaw,
   sendFileByWebSocket,
@@ -791,9 +796,8 @@ import {
 } from "util/uploadExternalFormatFile";
 import { getInstanceName } from "util/operations";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
-import InstanceFileTypeSelector, {
-  InstanceFileType,
-} from "./InstanceFileTypeSelector";
+import type { InstanceFileType } from "./InstanceFileTypeSelector";
+import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
@@ -845,7 +849,7 @@ const UploadExternalFormatFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
           &lt;ResourceLabel bold type="instance" value={instanceName} /&gt;.
         &lt;/&gt;,
       );
-<span class="cstat-no" title="statement not covered" >      void navigate(`/ui/project/${project?.name}/instances`);</span>
+<span class="cstat-no" title="statement not covered" >      navigate(`/ui/project/${project?.name}/instances`);</span>
     }
   };
 &nbsp;
@@ -873,7 +877,7 @@ const UploadExternalFormatFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
     const actions = <span class="cstat-no" title="statement not covered" >[</span>
       {
         label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${instanceUrl}/configuration`),</span></span>
+        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${instanceUrl}/configuration`),</span></span>
       },
     ];
 &nbsp;
@@ -885,7 +889,7 @@ const UploadExternalFormatFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const invalidateCache = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
       predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {
 <span class="cstat-no" title="statement not covered" >        return query.queryKey[0] === queryKeys.instances;</span>
       },
@@ -920,7 +924,9 @@ const UploadExternalFormatFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
         // set up event queue for the operation
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
           operationId,
-<span class="fstat-no" title="function not covered" >          () =&gt; <span class="cstat-no" title="statement not covered" >h</span>andleSuccess(instanceName),</span>
+<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            handleSuccess(instanceName);</span>
+          },
           handleFailure,
           invalidateCache,
         );
@@ -1114,7 +1120,7 @@ export default UploadExternalFormatFileForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

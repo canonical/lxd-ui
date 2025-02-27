@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.8% </span>
+                <span class="strong">77.27% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>119/151</span>
+                <span class='fraction'>119/154</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.74% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>119/123</span>
+                <span class='fraction'>119/126</span>
             </div>
         
             
@@ -186,8 +186,10 @@
 <a name='L121'></a><a href='#L121'>121</a>
 <a name='L122'></a><a href='#L122'>122</a>
 <a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -287,10 +289,14 @@
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">49x</span>
@@ -309,7 +315,8 @@
 <span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { useState } from "react";
 import { ActionButton, Button, useNotify } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -320,10 +327,8 @@ import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { testDuplicateStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
-import {
-  StorageVolumeFormValues,
-  volumeFormToPayload,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
 import StorageVolumeForm from "pages/storage/forms/StorageVolumeForm";
 import { MAIN_CONFIGURATION } from "pages/storage/forms/StorageVolumeFormMenu";
 import { slugify } from "util/slugify";
@@ -371,19 +376,19 @@ const CreateStorageVolume: FC = <span class="cstat-no" title="statement not cove
       const volume = <span class="cstat-no" title="statement not covered" >volumeFormToPayload(values, project);</span>
 <span class="cstat-no" title="statement not covered" >      createStorageVolume(values.pool, project, volume)</span>
         .then(() =&gt; {
-<span class="cstat-no" title="statement not covered" >          void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
             queryKey: [queryKeys.storage],
           });
-<span class="cstat-no" title="statement not covered" >          void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
             queryKey: [queryKeys.customVolumes, project],
           });
-<span class="cstat-no" title="statement not covered" >          void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
             queryKey: [queryKeys.projects, project],
           });
-<span class="cstat-no" title="statement not covered" >          void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >          queryClient.invalidateQueries({</span>
             predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.volumes,</span>
           });
-<span class="cstat-no" title="statement not covered" >          void navigate(`/ui/project/${project}/storage/volumes`);</span>
+<span class="cstat-no" title="statement not covered" >          navigate(`/ui/project/${project}/storage/volumes`);</span>
 <span class="cstat-no" title="statement not covered" >          toastNotify.success(</span>
             &lt;&gt;
               Storage volume{" "}
@@ -409,12 +414,16 @@ const CreateStorageVolume: FC = <span class="cstat-no" title="statement not cove
       &lt;StorageVolumeForm
         formik={formik}
         section={section}
-        setSection={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >setSection(slugify(val))}</span></span>
+        setSection={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>al) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          setSection(slugify(val));</span></span>
+<span class="cstat-no" title="statement not covered" >        }}</span>
       /&gt;
       &lt;FormFooterLayout&gt;
         &lt;Button
           appearance="base"
-          onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`/ui/project/${project}/storage/volumes`)}</span></span>
+          onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt;</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            navigate(`/ui/project/${project}/storage/volumes`)</span></span>
+          }
         &gt;
           Cancel
         &lt;/Button&gt;
@@ -439,7 +448,7 @@ export default CreateStorageVolume;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

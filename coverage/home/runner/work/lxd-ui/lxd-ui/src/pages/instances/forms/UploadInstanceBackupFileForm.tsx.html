@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.36% </span>
+                <span class="strong">78.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>239/305</span>
+                <span class='fraction'>241/307</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.55% </span>
+                <span class="strong">97.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>239/245</span>
+                <span class='fraction'>241/247</span>
             </div>
         
             
@@ -308,7 +308,9 @@
 <a name='L243'></a><a href='#L243'>243</a>
 <a name='L244'></a><a href='#L244'>244</a>
 <a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
@@ -403,6 +405,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -562,7 +566,8 @@
 } from "@canonical/react-components";
 import { useCurrentProject } from "context/useCurrentProject";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import type { ChangeEvent, FC } from "react";
+import { useCallback, useState } from "react";
 import { fileToInstanceName, instanceNameValidation } from "util/instances";
 import type { UploadState } from "types/storage";
 import { useEventQueue } from "context/eventQueue";
@@ -572,14 +577,13 @@ import { useNavigate } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
 import { uploadInstance } from "api/instances";
 import { useFormik } from "formik";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import type { LxdSyncResponse } from "types/apiResponse";
 import * as Yup from "yup";
 import classnames from <span class="branch-0 cbranch-no" title="branch not covered" >"classnames";</span>
 import { useSupportedFeatures } from "context/useSupportedFeatures";
-import InstanceFileTypeSelector, {
-  InstanceFileType,
-} from "./InstanceFileTypeSelector";
+import type { InstanceFileType } from "./InstanceFileTypeSelector";
+import InstanceFileTypeSelector from "./InstanceFileTypeSelector";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 &nbsp;
@@ -628,7 +632,7 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
     const actions = <span class="cstat-no" title="statement not covered" >[</span>
       {
         label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${instanceUrl}/configuration`),</span></span>
+        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${instanceUrl}/configuration`),</span></span>
       },
     ];
 &nbsp;
@@ -640,7 +644,7 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const handleFinish = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >    queryClient.invalidateQueries({</span>
       predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; {
 <span class="cstat-no" title="statement not covered" >        return query.queryKey[0] === queryKeys.instances;</span>
       },
@@ -651,7 +655,7 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
     const uploadController = <span class="cstat-no" title="statement not covered" >new AbortController();</span>
 <span class="cstat-no" title="statement not covered" >    setUploadAbort(uploadController);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    void uploadInstance(</span>
+<span class="cstat-no" title="statement not covered" >    uploadInstance(</span>
       values.instanceFile,
       values.name,
       project?.name,
@@ -669,13 +673,15 @@ const UploadInstanceBackupFileForm: FC&lt;Props&gt; = <span class="cstat-no" tit
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
           operation.metadata.id,
-<span class="fstat-no" title="function not covered" >          () =&gt; <span class="cstat-no" title="statement not covered" >h</span>andleSuccess(values.name),</span>
+<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            handleSuccess(values.name);</span>
+          },
           handleFailure,
           handleFinish,
         );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        handleCloseModal();</span>
-<span class="cstat-no" title="statement not covered" >        void navigate(`/ui/project/${project?.name}/instances`);</span>
+<span class="cstat-no" title="statement not covered" >        navigate(`/ui/project/${project?.name}/instances`);</span>
       })
       .catch((e: AxiosError&lt;LxdSyncResponse&lt;null&gt;&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >        const error = <span class="cstat-no" title="statement not covered" >new Error(e.response?.data.error);</span></span>
@@ -805,7 +811,7 @@ export default UploadInstanceBackupFileForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

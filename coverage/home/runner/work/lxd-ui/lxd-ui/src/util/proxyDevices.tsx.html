@@ -236,17 +236,17 @@
 <a name='L171'></a><a href='#L171'>171</a>
 <a name='L172'></a><a href='#L172'>172</a>
 <a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
-<span class="cline-any cline-yes">99x</span>
+<a name='L174'></a><a href='#L174'>174</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
+<span class="cline-any cline-yes">98x</span>
 <span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-yes">66x</span>
@@ -414,8 +414,8 @@ import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { LxdProxyDevice } from "types/device";
 import { ensureEditMode } from "./instanceEdit";
 import { proxyAddressTypeOptions } from "./instanceOptions";
-import { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
-import { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
+import type { InstanceAndProfileFormikProps } from "components/forms/instanceAndProfileFormValues";
+import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 &nbsp;
 type ConnectionType = "listen" | "connect";
 &nbsp;
@@ -453,7 +453,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
           onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            ensureEditMode(formik);</span></span>
 <span class="cstat-no" title="statement not covered" >            const newType = <span class="cstat-no" title="statement not covered" >e.target.value;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            void formik.setFieldValue(</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            formik.setFieldValue(</span></span>
 <span class="cstat-no" title="statement not covered" >              `devices.${index}.${connectionType}`,</span>
 <span class="cstat-no" title="statement not covered" >              `${newType}:${deviceAddress}:${devicePort}`,</span>
 <span class="cstat-no" title="statement not covered" >            );</span>
@@ -465,7 +465,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
 <span class="cstat-no" title="statement not covered" >              const connectPort =</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                connectParts.length &gt; 2 ? connectParts[2] : "";</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              formik.setFieldValue(</span></span>
 <span class="cstat-no" title="statement not covered" >                `devices.${index}.connect`,</span>
 <span class="cstat-no" title="statement not covered" >                `${newType}:${connectAddress}:${connectPort}`,</span>
 <span class="cstat-no" title="statement not covered" >              );</span>
@@ -513,7 +513,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
 <span class="cstat-no" title="statement not covered" >            onChange={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span></span>
 <span class="cstat-no" title="statement not covered" >              const socketPath = <span class="cstat-no" title="statement not covered" >e.target.value;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              formik.setFieldValue(</span></span>
 <span class="cstat-no" title="statement not covered" >                `devices.${index}.${connectionType}`,</span>
 <span class="cstat-no" title="statement not covered" >                `unix:${socketPath}`,</span>
 <span class="cstat-no" title="statement not covered" >              );</span>
@@ -531,7 +531,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
             onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
 <span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span>
               const newAddress = <span class="cstat-no" title="statement not covered" >e.target.value;</span>
-<span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(</span>
+<span class="cstat-no" title="statement not covered" >              formik.setFieldValue(</span>
                 `devices.${index}.${connectionType}`,
                 `${deviceType}:${newAddress}:${devicePort}`,
               );
@@ -564,7 +564,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
             onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
 <span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span>
               const newPort = <span class="cstat-no" title="statement not covered" >e.target.value;</span>
-<span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(</span>
+<span class="cstat-no" title="statement not covered" >              formik.setFieldValue(</span>
                 `devices.${index}.${connectionType}`,
                 `${deviceType}:${deviceAddress}:${newPort}`,
               );
@@ -589,7 +589,7 @@ export const getProxyAddress = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

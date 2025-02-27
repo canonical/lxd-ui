@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.23% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>39/102</span>
+                <span class='fraction'>39/104</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.52% </span>
+                <span class="strong">29.41% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/17</span>
+                <span class='fraction'>5/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.88% </span>
+                <span class="strong">44.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>39/85</span>
+                <span class='fraction'>39/87</span>
             </div>
         
             
@@ -148,7 +148,9 @@
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">19x</span>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -167,6 +169,8 @@
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -237,21 +241,21 @@
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 &nbsp;
-export const fetchNetworkForwards = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const fetchNetworkForwards = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   network: string,
   project: string,
 ): Promise&lt;LxdNetworkForward[]&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(`/1.0/networks/${network}/forwards?project=${project}&amp;recursion=1`)</span>
       .then(handleResponse)
-      .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdNetworkForward[]&gt;) =&gt;
-<span class="cstat-no" title="statement not covered" >        resolve(data.metadata),</span>
-      )
+      .then((data: LxdApiResponse&lt;LxdNetworkForward[]&gt;) =&gt; {
+<span class="cstat-no" title="statement not covered" >        resolve(data.metadata);</span>
+      })
       .catch(reject);
   });
 };
 &nbsp;
-export const fetchNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const fetchNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
 <span class="cstat-no" title="statement not covered" >  network: string,</span>
 <span class="cstat-no" title="statement not covered" >  listenAddress: string,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
@@ -261,12 +265,14 @@ export const fetchNetworkForward = <span class="cstat-no" title="statement not c
 <span class="cstat-no" title="statement not covered" >      `/1.0/networks/${network}/forwards/${listenAddress}?project=${project}&amp;recursion=1`,</span>
 <span class="cstat-no" title="statement not covered" >    )</span>
 <span class="cstat-no" title="statement not covered" >      .then(handleResponse)</span>
-<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdNetworkForward&gt;) =&gt; <span class="cstat-no" title="statement not covered" >resolve(data.metadata))</span></span>
+<span class="cstat-no" title="statement not covered" >      .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdNetworkForward&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        resolve(data.metadata);</span></span>
+<span class="cstat-no" title="statement not covered" >      })</span>
 <span class="cstat-no" title="statement not covered" >      .catch(reject);</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const createNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const createNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   network: string,
   forward: Partial&lt;LxdNetworkForward&gt;,
   project: string,
@@ -282,7 +288,7 @@ export const createNetworkForward = <span class="cstat-no" title="statement not 
   });
 };
 &nbsp;
-export const updateNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const updateNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
 <span class="cstat-no" title="statement not covered" >  network: string,</span>
 <span class="cstat-no" title="statement not covered" >  forward: Partial&lt;LxdNetworkForward&gt;,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
@@ -301,7 +307,7 @@ export const updateNetworkForward = <span class="cstat-no" title="statement not 
 <span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export const deleteNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const deleteNetworkForward = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
 <span class="cstat-no" title="statement not covered" >  network: LxdNetwork,</span>
 <span class="cstat-no" title="statement not covered" >  forward: LxdNetworkForward,</span>
 <span class="cstat-no" title="statement not covered" >  project: string,</span>
@@ -325,7 +331,7 @@ export const deleteNetworkForward = <span class="cstat-no" title="statement not 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.76% </span>
+                <span class="strong">80.55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>84/104</span>
+                <span class='fraction'>87/108</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>82/82</span>
+                <span class='fraction'>86/86</span>
             </div>
         
             
@@ -145,7 +145,11 @@
 <a name='L80'></a><a href='#L80'>80</a>
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -166,8 +170,12 @@
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -234,7 +242,7 @@ import { withEntitlementsQuery } from "util/entitlements/api";
 &nbsp;
 const idpGroupEntitlements = <span class="cstat-no" title="statement not covered" >["can_delete", "can_edit"];</span>
 &nbsp;
-export const fetchIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const fetchIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   isFineGrained: boolean | null,
 ): Promise&lt;IdpGroup[]&gt; =&gt; {
   const entitlements = <span class="cstat-no" title="statement not covered" >withEntitlementsQuery(</span>
@@ -244,12 +252,16 @@ export const fetchIdpGroups = <span class="cstat-no" title="statement not covere
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)</span>
       .then(handleResponse)
-      .then((data: LxdApiResponse&lt;IdpGroup[]&gt;) =&gt; resolve(data.metadata))
+      .then((data: LxdApiResponse&lt;IdpGroup[]&gt;) =&gt; {
+<span class="cstat-no" title="statement not covered" >        resolve(data.metadata);</span>
+      })
       .catch(reject);
   });
 };
 &nbsp;
-export const createIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(g</span>roup: Partial&lt;IdpGroup&gt;): Promise&lt;void&gt; =&gt; {</span>
+export const createIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+  group: Partial&lt;IdpGroup&gt;,
+): Promise&lt;void&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(`/1.0/auth/identity-provider-groups`, {</span>
       method: "POST",
@@ -261,7 +273,7 @@ export const createIdpGroup = <span class="cstat-no" title="statement not covere
   });
 };
 &nbsp;
-export const updateIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(g</span>roup: IdpGroup): Promise&lt;void&gt; =&gt; {</span>
+export const updateIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roup: IdpGroup): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {</span>
       method: "PUT",
@@ -273,7 +285,7 @@ export const updateIdpGroup = <span class="cstat-no" title="statement not covere
   });
 };
 &nbsp;
-export const renameIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const renameIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   oldName: string,
   newName: string,
 ): Promise&lt;void&gt; =&gt; {
@@ -290,7 +302,7 @@ export const renameIdpGroup = <span class="cstat-no" title="statement not covere
   });
 };
 &nbsp;
-export const deleteIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(g</span>roup: string): Promise&lt;void&gt; =&gt; {</span>
+export const deleteIdpGroup = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roup: string): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(`/1.0/auth/identity-provider-groups/${group}`, {</span>
       method: "DELETE",
@@ -301,9 +313,9 @@ export const deleteIdpGroup = <span class="cstat-no" title="statement not covere
   });
 };
 &nbsp;
-export const deleteIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(g</span>roups: string[]): Promise&lt;void&gt; =&gt; {</span>
+export const deleteIdpGroups = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (g</span>roups: string[]): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    Promise.allSettled(groups.map((group) =&gt; deleteIdpGroup(group)))</span>
+<span class="cstat-no" title="statement not covered" >    Promise.allSettled(groups.map(async (group) =&gt; deleteIdpGroup(group)))</span>
       .then(handleSettledResult)
       .then(resolve)
       .catch(reject);
@@ -316,7 +328,7 @@ export const deleteIdpGroups = <span class="cstat-no" title="statement not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

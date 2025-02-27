@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.44% </span>
+                <span class="strong">68.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>143/203</span>
+                <span class='fraction'>143/209</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.82% </span>
+                <span class="strong">48.27% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/29</span>
+                <span class='fraction'>14/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.11% </span>
+                <span class="strong">82.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>143/168</span>
+                <span class='fraction'>143/174</span>
             </div>
         
             
@@ -231,7 +231,13 @@
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
 <a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">22x</span>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
@@ -284,6 +290,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -389,12 +401,12 @@
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -408,10 +420,10 @@
 import type { LxdOperationResponse } from "types/operation";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";
-import { EventQueue } from "context/eventQueue";
+import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
 &nbsp;
-export const createVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>rgs: {</span>
+export const createVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
   volume: LxdStorageVolume;
   name: string;
   expiresAt: string | null;
@@ -434,7 +446,7 @@ export const createVolumeSnapshot = <span class="cstat-no" title="statement not 
   });
 };
 &nbsp;
-export const deleteVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const deleteVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   volume: LxdStorageVolume,
   snapshot: Pick&lt;LxdVolumeSnapshot, "name"&gt;,
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
@@ -451,7 +463,7 @@ export const deleteVolumeSnapshot = <span class="cstat-no" title="statement not 
   });
 };
 &nbsp;
-export const deleteVolumeSnapshotBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(</span></span></span>
+export const deleteVolumeSnapshotBulk = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async (</span></span></span>
 <span class="cstat-no" title="statement not covered" >  volume: LxdStorageVolume,</span>
 <span class="cstat-no" title="statement not covered" >  snapshotNames: string[],</span>
 <span class="cstat-no" title="statement not covered" >  eventQueue: EventQueue,</span>
@@ -460,13 +472,19 @@ export const deleteVolumeSnapshotBulk = <span class="cstat-no" title="statement 
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    Promise.allSettled(</span></span>
 <span class="cstat-no" title="statement not covered" >      snapshotNames.map(<span class="fstat-no" title="function not covered" >async (n</span>ame) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        return await deleteVolumeSnapshot(volume, { name })</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        await deleteVolumeSnapshot(volume, { name })</span></span>
 <span class="cstat-no" title="statement not covered" >          .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            eventQueue.set(</span></span>
 <span class="cstat-no" title="statement not covered" >              operation.metadata.id,</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              () =&gt; <span class="cstat-no" title="statement not covered" >p</span>ushSuccess(results),</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              (m</span>sg) =&gt; <span class="cstat-no" title="statement not covered" >pushFailure(results, msg),</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              () =&gt; <span class="cstat-no" title="statement not covered" >c</span>ontinueOrFinish(results, snapshotNames.length, resolve),</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              () =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                pushSuccess(results);</span></span>
+<span class="cstat-no" title="statement not covered" >              },</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              (m</span>sg) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                pushFailure(results, msg);</span></span>
+<span class="cstat-no" title="statement not covered" >              },</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              () =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                continueOrFinish(results, snapshotNames.length, resolve);</span></span>
+<span class="cstat-no" title="statement not covered" >              },</span>
 <span class="cstat-no" title="statement not covered" >            );</span>
 <span class="cstat-no" title="statement not covered" >          })</span>
 <span class="cstat-no" title="statement not covered" >          .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
@@ -479,7 +497,7 @@ export const deleteVolumeSnapshotBulk = <span class="cstat-no" title="statement 
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 // NOTE: this api endpoint results in a synchronous operation
-export const restoreVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
+export const restoreVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
 ): Promise&lt;LxdSyncResponse&lt;unknown&gt;&gt; =&gt; {
@@ -499,7 +517,7 @@ export const restoreVolumeSnapshot = <span class="cstat-no" title="statement not
   });
 };
 &nbsp;
-export const renameVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>rgs: {</span>
+export const renameVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
   newName: string;
@@ -522,7 +540,7 @@ export const renameVolumeSnapshot = <span class="cstat-no" title="statement not 
 };
 &nbsp;
 // NOTE: this api endpoint results in a synchronous operation
-export const updateVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>rgs: {</span>
+export const updateVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
   volume: LxdStorageVolume;
   snapshot: LxdVolumeSnapshot;
   expiresAt: string | null;
@@ -544,7 +562,7 @@ export const updateVolumeSnapshot = <span class="cstat-no" title="statement not 
   });
 };
 &nbsp;
-export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>rgs: {</span>
+export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
   pool: string;
   type: string;
   volumeName: string;
@@ -556,14 +574,14 @@ export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="stateme
       `/1.0/storage-pools/${pool}/volumes/${type}/${volumeName}/snapshots?project=${project}&amp;recursion=2`,
     )
       .then(handleResponse)
-      .then(<span class="fstat-no" title="function not covered" >(d</span>ata: LxdApiResponse&lt;LxdVolumeSnapshot[]&gt;) =&gt;
+      .then((data: LxdApiResponse&lt;LxdVolumeSnapshot[]&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >        resolve(</span>
           data.metadata.map((snapshot) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
             ...snapshot,
             name: splitVolumeSnapshotName(snapshot.name).snapshotName,
           })),
-        ),
-      )
+        );
+      })
       .catch(reject);
   });
 };
@@ -574,7 +592,7 @@ export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="stateme
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

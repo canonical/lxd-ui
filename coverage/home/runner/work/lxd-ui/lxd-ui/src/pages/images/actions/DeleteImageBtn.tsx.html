@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.72% </span>
+                <span class="strong">70.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>76/109</span>
+                <span class='fraction'>79/112</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.36% </span>
+                <span class="strong">86.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>76/88</span>
+                <span class='fraction'>79/91</span>
             </div>
         
             
@@ -151,7 +151,11 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -202,6 +206,8 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -239,7 +245,8 @@
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC, useState } from "react";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
+import { useState } from "react";
 import { deleteImage } from "api/images";
 import type { LxdImage } from "types/image";
 import { useQueryClient } from "@tanstack/react-query";
@@ -267,15 +274,15 @@ const DeleteImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
   const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
     const imageLabel = <span class="cstat-no" title="statement not covered" >&lt;ResourceLabel bold type="image" value={description} /&gt;;</span>
-<span class="cstat-no" title="statement not covered" >    void deleteImage(image, project)</span>
-      .then(<span class="fstat-no" title="function not covered" >(o</span>peration) =&gt;
+<span class="cstat-no" title="statement not covered" >    deleteImage(image, project)</span>
+      .then((operation) =&gt; {
 <span class="cstat-no" title="statement not covered" >        eventQueue.set(</span>
           operation.metadata.id,
 <span class="fstat-no" title="function not covered" >          () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
               predicate: <span class="fstat-no" title="function not covered" >(q</span>uery) =&gt; <span class="cstat-no" title="statement not covered" >query.queryKey[0] === queryKeys.images,</span>
             });
-<span class="cstat-no" title="statement not covered" >            void queryClient.invalidateQueries({</span>
+<span class="cstat-no" title="statement not covered" >            queryClient.invalidateQueries({</span>
               queryKey: [queryKeys.projects, project],
             });
 <span class="cstat-no" title="statement not covered" >            toastNotify.success(&lt;&gt;Image {imageLabel} deleted.&lt;/&gt;);</span>
@@ -286,9 +293,11 @@ const DeleteImageBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
 <span class="cstat-no" title="statement not covered" >              new Error(msg),</span>
 <span class="cstat-no" title="statement not covered" >              imageLabel,</span>
 <span class="cstat-no" title="statement not covered" >            ),</span>
-<span class="fstat-no" title="function not covered" >          () =&gt; <span class="cstat-no" title="statement not covered" >s</span>etLoading(false),</span>
-        ),
-      )
+<span class="fstat-no" title="function not covered" >          () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            setLoading(false);</span>
+          },
+        );
+      })
       .catch((e) =&gt; {
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure(</span></span>
 <span class="cstat-no" title="statement not covered" >          `Image ${description} deletion failed`,</span>
@@ -334,7 +343,7 @@ export default DeleteImageBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

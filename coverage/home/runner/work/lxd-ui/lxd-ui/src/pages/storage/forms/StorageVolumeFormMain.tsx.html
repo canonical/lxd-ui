@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.78% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>134/146</span>
+                <span class='fraction'>132/144</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">99.25% </span>
+                <span class="strong">99.24% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>133/134</span>
+                <span class='fraction'>131/132</span>
             </div>
         
             
@@ -195,29 +195,25 @@
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
 <a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
+<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
 <span class="cline-any cline-yes">96x</span>
 <span class="cline-any cline-yes">96x</span>
 <span class="cline-any cline-yes">96x</span>
@@ -329,15 +325,13 @@
 <span class="cline-any cline-yes">96x</span>
 <span class="cline-any cline-yes">96x</span>
 <span class="cline-any cline-yes">96x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-yes">121x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Col, Input, Label, Row, Select } from "@canonical/react-components";
-import { FormikProps } from "formik/dist/types";
-import {
-  getFormProps,
-  StorageVolumeFormValues,
-} from "pages/storage/forms/StorageVolumeForm";
+import type { FormikProps } from "formik/dist/types";
+import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
+import { getFormProps } from "pages/storage/forms/StorageVolumeForm";
 import ConfigurationTable from "components/ConfigurationTable";
 import { getConfigurationRow } from "components/ConfigurationRow";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
@@ -397,7 +391,7 @@ const StorageVolumeFormMain: FC&lt;Props&gt; = <span class="fstat-no" title="fun
             }
             setMemoryLimit={<span class="fstat-no" title="function not covered" >(v</span>al?: string) =&gt; {
 <span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span>
-<span class="cstat-no" title="statement not covered" >              void formik.setFieldValue("size", val);</span>
+<span class="cstat-no" title="statement not covered" >              formik.setFieldValue("size", val);</span>
             }}
             disabled={formik.values.volumeType !== "custom"}
           /&gt;
@@ -421,13 +415,13 @@ const StorageVolumeFormMain: FC&lt;Props&gt; = <span class="fstat-no" title="fun
             }
             onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
 <span class="cstat-no" title="statement not covered" >              if (e.target.value === "block") {</span>
-<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("block_filesystem", undefined);</span>
-<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("block_mount_options", undefined);</span>
-<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("block_type", undefined);</span>
-<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("security_shifted", undefined);</span>
-<span class="cstat-no" title="statement not covered" >                void formik.setFieldValue("security_unmapped", undefined);</span>
+<span class="cstat-no" title="statement not covered" >                formik.setFieldValue("block_filesystem", undefined);</span>
+<span class="cstat-no" title="statement not covered" >                formik.setFieldValue("block_mount_options", undefined);</span>
+<span class="cstat-no" title="statement not covered" >                formik.setFieldValue("block_type", undefined);</span>
+<span class="cstat-no" title="statement not covered" >                formik.setFieldValue("security_shifted", undefined);</span>
+<span class="cstat-no" title="statement not covered" >                formik.setFieldValue("security_unmapped", undefined);</span>
               }
-<span class="cstat-no" title="statement not covered" >              void formik.setFieldValue("content_type", e.target.value);</span>
+<span class="cstat-no" title="statement not covered" >              formik.setFieldValue("content_type", e.target.value);</span>
             }}
             disabled={!formik.values.isCreating}
           /&gt;
@@ -472,7 +466,7 @@ export default StorageVolumeFormMain;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

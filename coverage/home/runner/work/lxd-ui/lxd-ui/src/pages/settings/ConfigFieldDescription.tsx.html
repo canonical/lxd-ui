@@ -98,42 +98,42 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">35107x</span>
-<span class="cline-any cline-yes">6587x</span>
-<span class="cline-any cline-yes">41694x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-yes">169x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">32688x</span>
+<span class="cline-any cline-yes">6378x</span>
+<span class="cline-any cline-yes">39066x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-yes">167x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useDocs } from "context/useDocs";
 import { configDescriptionToHtml } from "util/config";
 import { useQuery } from "@tanstack/react-query";
@@ -150,7 +150,7 @@ const ConfigFieldDescription: FC&lt;Props&gt; = <span class="fstat-no" title="fu
   const { hasDocumentationObject } = <span class="cstat-no" title="statement not covered" >useSupportedFeatures();</span>
   const objectsInvTxt = <span class="cstat-no" title="statement not covered" >useQuery({</span>
     queryKey: ["documentation/objects.inv.txt"],
-    queryFn: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchDocObjects(hasDocumentationObject),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchDocObjects(hasDocumentationObject),</span>
   });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return description ? (</span>
@@ -175,7 +175,7 @@ export default ConfigFieldDescription;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

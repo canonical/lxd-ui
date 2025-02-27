@@ -202,40 +202,40 @@
 <a name='L137'></a><a href='#L137'>137</a>
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">266x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
+<a name='L140'></a><a href='#L140'>140</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">269x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
 <span class="cline-any cline-yes">163x</span>
 <span class="cline-any cline-yes">489x</span>
 <span class="cline-any cline-yes">489x</span>
@@ -339,12 +339,12 @@
 <span class="cline-any cline-yes">163x</span>
 <span class="cline-any cline-yes">163x</span>
 <span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-yes">164x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { FC } from "react";
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-yes">162x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import CloudInitConfig from "components/forms/CloudInitConfig";
-import {
+import type {
   InstanceAndProfileFormikProps,
   InstanceAndProfileFormValues,
 } from "./instanceAndProfileFormValues";
@@ -409,13 +409,13 @@ const CloudInitForm: FC&lt;Props&gt; = <span class="fstat-no" title="function no
             config={<span class="branch-0 cbranch-no" title="branch not covered" >value ?? ""}</span>
             setConfig={<span class="fstat-no" title="function not covered" >(c</span>onfig) =&gt; {
 <span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span>
-<span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(name, config);</span>
+<span class="cstat-no" title="statement not covered" >              formik.setFieldValue(name, config);</span>
             }}
           /&gt;
           &lt;Button
             onClick={<span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              ensureEditMode(formik);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              void formik.setFieldValue(name, undefined);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              formik.setFieldValue(name, undefined);</span></span>
 <span class="cstat-no" title="statement not covered" >            }}</span>
             type="button"
             appearance="base"
@@ -431,7 +431,7 @@ const CloudInitForm: FC&lt;Props&gt; = <span class="fstat-no" title="function no
         &lt;Button
           onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            ensureEditMode(formik);</span>
-<span class="cstat-no" title="statement not covered" >            void formik.setFieldValue(name, "\n\n");</span>
+<span class="cstat-no" title="statement not covered" >            formik.setFieldValue(name, "\n\n");</span>
           }}
           className="u-no-margin--bottom"
           type="button"
@@ -487,7 +487,7 @@ export default CloudInitForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-25T13:06:01.615Z
+                at 2025-02-27T07:30:34.074Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
