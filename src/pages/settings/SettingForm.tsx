@@ -52,8 +52,9 @@ const SettingForm: FC<Props> = ({
   const isSecret = isTrustPassword || isLokiAuthPassword;
   const isAddress = configField.key.endsWith("_address");
   const isVolume = configField.key.endsWith("_volume");
+  const isSyslogSocket = configField.key === "core.syslog_socket";
   const isClusteredInput =
-    isClustered && (isMaasMachine || isAddress || isVolume);
+    isClustered && (isMaasMachine || isAddress || isVolume || isSyslogSocket);
 
   const settingLabel = (
     <ResourceLabel bold type="setting" value={configField.key} />
@@ -110,7 +111,7 @@ const SettingForm: FC<Props> = ({
   if (isClusteredInput) {
     return (
       <ClusteredSettingFormInput
-        key={JSON.stringify(clusteredValue)}
+        key={`${JSON.stringify(clusteredValue)}-${isEditMode}`}
         initialValue={clusteredValue ?? {}}
         disableReason={
           canEditServerConfiguration()

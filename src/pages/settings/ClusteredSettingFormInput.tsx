@@ -7,6 +7,7 @@ import ConfigFieldDescription from "pages/settings/ConfigFieldDescription";
 import ClusterSpecificInput from "components/forms/ClusterSpecificInput";
 import { useClusterMembers } from "context/useClusterMembers";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import ClusterSpecificSelect from "components/ClusterSpecificSelect";
 
 interface Props {
   initialValue: ClusterSpecificValues;
@@ -15,7 +16,7 @@ interface Props {
   onCancel: () => void;
   disableReason?: string;
   readonly?: boolean;
-  toggleReadOnly?: () => void;
+  toggleReadOnly: () => void;
 }
 
 const ClusteredSettingFormInput: FC<Props> = ({
@@ -28,9 +29,10 @@ const ClusteredSettingFormInput: FC<Props> = ({
   toggleReadOnly,
 }) => {
   const [value, setValue] = useState<ClusterSpecificValues>(initialValue);
-
   const { data: clusterMembers = [] } = useClusterMembers();
   const memberNames = clusterMembers.map((member) => member.server_name);
+
+  const isSelect = configField.key === "core.syslog_socket";
 
   const canBeReset = Object.values(value).some(
     (v) => v !== configField.default,
@@ -44,6 +46,13 @@ const ClusteredSettingFormInput: FC<Props> = ({
     setValue(defaultValues);
   };
 
+  const helpText = (
+    <ConfigFieldDescription
+      className="u-no-margin--bottom"
+      description={configField.longdesc}
+    />
+  );
+
   return (
     <Form
       onSubmit={(e) => {
@@ -51,24 +60,43 @@ const ClusteredSettingFormInput: FC<Props> = ({
         onSubmit(value);
       }}
     >
-      <ClusterSpecificInput
-        aria-label={configField.key}
-        disableReason={disableReason}
-        id={getConfigId(configField.key)}
-        values={value}
-        isReadOnly={readonly}
-        onChange={(value) => {
-          setValue(value);
-        }}
-        memberNames={memberNames}
-        toggleReadOnly={toggleReadOnly}
-        helpText={
-          <ConfigFieldDescription
-            description={configField.longdesc}
-            className="p-form-help-text"
-          />
-        }
-      />
+      {isSelect ? (
+        <ClusterSpecificSelect
+          aria-label={configField.key}
+          classname={readonly ? "read-only" : ""}
+          disableReason={disableReason}
+          id={getConfigId(configField.key)}
+          values={value}
+          isReadOnly={readonly}
+          onChange={(value) => {
+            setValue(value);
+          }}
+          toggleReadOnly={toggleReadOnly}
+          helpText={helpText}
+          options={memberNames.map((memberName) => ({
+            memberName,
+            values: ["true", "false"],
+          }))}
+          isDefaultSpecific={Object.values(value).some(
+            (item) => item !== Object.values(value)[0],
+          )}
+        />
+      ) : (
+        <ClusterSpecificInput
+          aria-label={configField.key}
+          classname={readonly ? "read-only" : ""}
+          disableReason={disableReason}
+          id={getConfigId(configField.key)}
+          values={value}
+          isReadOnly={readonly}
+          onChange={(value) => {
+            setValue(value);
+          }}
+          memberNames={memberNames}
+          toggleReadOnly={toggleReadOnly}
+          helpText={helpText}
+        />
+      )}
       {!readonly && (
         <>
           <Button appearance="base" onClick={onCancel}>
