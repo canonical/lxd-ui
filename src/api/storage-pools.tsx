@@ -54,12 +54,45 @@ export const fetchStoragePools = async (
 
 export const fetchStoragePoolResources = async (
   pool: string,
+  target?: string,
 ): Promise<LxdStoragePoolResources> => {
+  const targetParam = target ? `?target=${target}` : "";
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-pools/${pool}/resources`)
+    fetch(`/1.0/storage-pools/${pool}/resources${targetParam}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdStoragePoolResources>) => {
         resolve(data.metadata);
+      })
+      .catch(reject);
+  });
+};
+
+export const fetchClusteredStoragePoolResources = async (
+  pool: string,
+  clusterMembers: LxdClusterMember[],
+): Promise<LxdStoragePoolResources[]> => {
+  return new Promise((resolve, reject) => {
+    Promise.allSettled(
+      clusterMembers.map(async (member) => {
+        return fetchStoragePoolResources(pool, member.server_name);
+      }),
+    )
+      .then((results) => {
+        const poolsOnMembers: LxdStoragePoolResources[] = [];
+        for (let i = 0; i < clusterMembers.length; i++) {
+          const memberName = clusterMembers[i].server_name;
+          const result = results[i];
+          if (result.status === "rejected") {
+            reject(constructMemberError(result, memberName));
+          }
+          if (result.status === "fulfilled") {
+            const promise = results[
+              i
+            ] as PromiseFulfilledResult<LxdStoragePoolResources>;
+            poolsOnMembers.push({ ...promise.value, memberName: memberName });
+          }
+        }
+        resolve(poolsOnMembers);
       })
       .catch(reject);
   });

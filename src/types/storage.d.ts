@@ -81,6 +81,7 @@ export interface LxdStoragePoolResources {
     used?: number;
     total: number;
   };
+  memberName?: string;
 }
 
 export interface UploadState {
