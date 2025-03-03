@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   Button,
   Col,
+  EmptyState,
   Icon,
   MainTable,
   Notification,
@@ -169,6 +170,10 @@ const ProfileList: FC = () => {
 
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
+  if (isLoading) {
+    return <Loader text="Loading profiles..." />;
+  }
+
   return (
     <>
       <CustomLayout
@@ -185,19 +190,21 @@ const ProfileList: FC = () => {
                   Profiles
                 </HelpLink>
               </PageHeader.Title>
-              <PageHeader.Search>
-                <SearchBox
-                  className="search-box margin-right u-no-margin--bottom"
-                  name="search-profile"
-                  type="text"
-                  onChange={(value) => {
-                    setQuery(value);
-                  }}
-                  placeholder="Search"
-                  value={query}
-                  aria-label="Search"
-                />
-              </PageHeader.Search>
+              {profiles.length > 0 && (
+                <PageHeader.Search>
+                  <SearchBox
+                    className="search-box margin-right u-no-margin--bottom"
+                    name="search-profile"
+                    type="text"
+                    onChange={(value) => {
+                      setQuery(value);
+                    }}
+                    placeholder="Search"
+                    value={query}
+                    aria-label="Search"
+                  />
+                </PageHeader.Search>
+              )}
             </PageHeader.Left>
             {featuresProfiles && (
               <PageHeader.BaseActions>
@@ -226,40 +233,45 @@ const ProfileList: FC = () => {
         <NotificationRow />
         <Row className="no-grid-gap">
           <Col size={12}>
-            {!isLoading && !featuresProfiles && (
+            {!featuresProfiles && (
               <Notification severity="caution" title="Profiles disabled">
                 The feature has been disabled on a project level. All the
                 available profiles are inherited from the{" "}
                 <Link to="/ui/project/default/profiles">default project</Link>.
               </Notification>
             )}
-            <ScrollableTable
-              dependencies={[filteredProfiles, notify.notification]}
-              tableId="profile-table"
-              belowIds={["status-bar"]}
-            >
-              <TablePagination
-                id="pagination"
-                data={sortedRows}
-                itemName="profile"
-                className="u-no-margin--top"
-                aria-label="Table pagination control"
+            {profiles.length === 0 && (
+              <EmptyState
+                className="empty-state"
+                image={<Icon name="repository" className="empty-state-icon" />}
+                title="No profiles found"
               >
-                <MainTable
-                  id="profile-table"
-                  headers={headers}
-                  sortable
-                  emptyStateMsg={
-                    isLoading ? (
-                      <Loader text="Loading profiles..." />
-                    ) : (
-                      <>No profile found matching this search</>
-                    )
-                  }
-                  onUpdateSort={updateSort}
-                />
-              </TablePagination>
-            </ScrollableTable>
+                <p>There are no profiles in this project.</p>
+              </EmptyState>
+            )}
+            {profiles.length > 0 && (
+              <ScrollableTable
+                dependencies={[filteredProfiles, notify.notification]}
+                tableId="profile-table"
+                belowIds={["status-bar"]}
+              >
+                <TablePagination
+                  id="pagination"
+                  data={sortedRows}
+                  itemName="profile"
+                  className="u-no-margin--top"
+                  aria-label="Table pagination control"
+                >
+                  <MainTable
+                    id="profile-table"
+                    headers={headers}
+                    sortable
+                    emptyStateMsg="No profile found matching this search"
+                    onUpdateSort={updateSort}
+                  />
+                </TablePagination>
+              </ScrollableTable>
+            )}
           </Col>
         </Row>
       </CustomLayout>

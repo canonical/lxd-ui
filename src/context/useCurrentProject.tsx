@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import type { LxdProject } from "types/project";
 import { useLocation } from "react-router-dom";
 import { useProject } from "./useProjects";
+import { useAuth } from "context/auth";
 
 interface ContextProps {
   project?: LxdProject;
@@ -11,7 +12,7 @@ interface ContextProps {
 
 const initialState: ContextProps = {
   project: undefined,
-  isLoading: false,
+  isLoading: true,
 };
 
 export const ProjectContext = createContext<ContextProps>(initialState);
@@ -21,9 +22,12 @@ interface ProviderProps {
 }
 
 export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
+  const { defaultProject, isAuthLoading } = useAuth();
   const location = useLocation();
   const url = location.pathname;
-  const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
+  const project = url.startsWith("/ui/project/")
+    ? url.split("/")[3]
+    : defaultProject;
 
   const enabled = project.length > 0;
   const retry = false;
@@ -33,7 +37,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
     <ProjectContext.Provider
       value={{
         project: data,
-        isLoading,
+        isLoading: isAuthLoading || isLoading,
       }}
     >
       {children}

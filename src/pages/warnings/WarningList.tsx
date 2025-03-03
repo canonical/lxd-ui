@@ -21,6 +21,7 @@ const WarningList: FC = () => {
   } = useQuery({
     queryKey: [queryKeys.warnings],
     queryFn: fetchWarnings,
+    retry: false, // the api returns a 403 for users with limited permissions, surface the error right away
   });
 
   if (error) {

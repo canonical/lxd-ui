@@ -18,6 +18,7 @@ import { enablePermissionsFeature } from "util/permissions";
 import type { Location } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
+import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
 
 const isSmallScreen = () => isWidthBelow(620);
 
@@ -473,6 +474,7 @@ const Navigation: FC = () => {
                           <></>
                         )}
                         <div className="u-truncate">{loggedInUserName}</div>
+                        <ProjectPermissionWarning />
                       </div>
                     </SideNavigationItem>
                   )}
