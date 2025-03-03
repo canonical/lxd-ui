@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
 import { useEventQueue } from "context/eventQueue";
-import { getPromiseSettledCounts } from "util/helpers";
+import { getPromiseSettledCounts } from "util/promises";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import BulkDeleteButton from "components/BulkDeleteButton";
 

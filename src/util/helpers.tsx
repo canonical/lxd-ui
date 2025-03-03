@@ -200,45 +200,6 @@ export const getParentsBottomSpacing = (element: Element): number => {
   return sum;
 };
 
-export const getPromiseSettledCounts = (
-  results: PromiseSettledResult<void>[],
-): { fulfilledCount: number; rejectedCount: number } => {
-  const fulfilledCount = results.filter(
-    (result) => result.status === "fulfilled",
-  ).length;
-  const rejectedCount = results.filter(
-    (result) => result.status === "rejected",
-  ).length;
-  return { fulfilledCount, rejectedCount };
-};
-
-export const pushSuccess = (results: PromiseSettledResult<void>[]): void => {
-  results.push({
-    status: "fulfilled",
-    value: undefined,
-  });
-};
-
-export const pushFailure = (
-  results: PromiseSettledResult<void>[],
-  msg: string,
-): void => {
-  results.push({
-    status: "rejected",
-    reason: msg,
-  });
-};
-
-export const continueOrFinish = (
-  results: PromiseSettledResult<void>[],
-  totalLength: number,
-  resolve: (value: PromiseSettledResult<void>[]) => void,
-): void => {
-  if (totalLength === results.length) {
-    resolve(results);
-  }
-};
-
 export const logout = (): void =>
   void fetch("/oidc/logout").then(() => {
     if (!window.location.href.includes("/ui/login")) {

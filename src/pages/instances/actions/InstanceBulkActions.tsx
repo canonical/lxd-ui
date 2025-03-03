@@ -11,7 +11,7 @@ import {
   pluralize,
 } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
-import { getPromiseSettledCounts } from "util/helpers";
+import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useInstanceEntitlements } from "util/entitlements/instances";

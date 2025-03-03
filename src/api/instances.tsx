@@ -1,11 +1,9 @@
 import {
-  continueOrFinish,
   handleEtagResponse,
   handleResponse,
   handleTextResponse,
-  pushFailure,
-  pushSuccess,
 } from "util/helpers";
+import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
 import type { LxdTerminal, TerminalConnectPayload } from "types/terminal";
 import type { LxdApiResponse } from "types/apiResponse";
