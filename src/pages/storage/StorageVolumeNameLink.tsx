@@ -8,6 +8,7 @@ import {
   hasVolumeDetailPage,
 } from "util/storageVolume";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useInstances } from "context/useInstances";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -24,6 +25,12 @@ const StorageVolumeNameLink: FC<Props> = ({
   const { project } = useCurrentProject();
   const isExternalLink = !hasVolumeDetailPage(volume);
   const caption = overrideName ? overrideName : volume.name;
+  const isInstance =
+    volume.type === "container" || volume.type === "virtual-machine";
+  const { data: instances = [] } = useInstances(volume.project);
+  const instance = isInstance
+    ? instances.find((instance) => instance.name === volume.name)
+    : true;
 
   return (
     <div className={classnames("u-flex", className)}>
@@ -31,13 +38,17 @@ const StorageVolumeNameLink: FC<Props> = ({
         className={classnames("u-truncate", "volume-name-link")}
         title={caption}
       >
-        <Link
-          to={generateLinkForVolumeDetail(volume, project?.name ?? "")}
-          className={isExternalLink ? "has-icon" : undefined}
-        >
-          {caption}
-          {isExternalLink && <Icon name={ICONS.externalLink} />}
-        </Link>
+        {instance ? (
+          <Link
+            to={generateLinkForVolumeDetail(volume, project?.name ?? "")}
+            className={isExternalLink ? "has-icon" : undefined}
+          >
+            {caption}
+            {isExternalLink && <Icon name={ICONS.externalLink} />}
+          </Link>
+        ) : (
+          caption
+        )}
       </div>
     </div>
   );
