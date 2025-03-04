@@ -9,6 +9,7 @@ import {
 } from "util/storageVolume";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useInstances } from "context/useInstances";
+import { useImagesInProject } from "context/useImages";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -24,13 +25,26 @@ const StorageVolumeNameLink: FC<Props> = ({
 }) => {
   const { project } = useCurrentProject();
   const isExternalLink = !hasVolumeDetailPage(volume);
-  const caption = overrideName ? overrideName : volume.name;
+
   const isInstance =
     volume.type === "container" || volume.type === "virtual-machine";
   const { data: instances = [] } = useInstances(volume.project);
-  const instance = isInstance
-    ? instances.find((instance) => instance.name === volume.name)
-    : true;
+  const instance =
+    isInstance && instances.find((instance) => instance.name === volume.name);
+
+  const isImage = volume.type === "image";
+  const { data: images = [] } = useImagesInProject(volume.project);
+  const image =
+    isImage && images.find((image) => image.fingerprint === volume.name);
+
+  const isCustomISO = volume.content_type === "iso";
+  const displayLink = instance || image || isCustomISO;
+
+  const caption = overrideName
+    ? displayLink
+      ? overrideName
+      : ""
+    : volume.name;
 
   return (
     <div className={classnames("u-flex", className)}>
@@ -38,7 +52,7 @@ const StorageVolumeNameLink: FC<Props> = ({
         className={classnames("u-truncate", "volume-name-link")}
         title={caption}
       >
-        {instance ? (
+        {displayLink ? (
           <Link
             to={generateLinkForVolumeDetail(volume, project?.name ?? "")}
             className={isExternalLink ? "has-icon" : undefined}
