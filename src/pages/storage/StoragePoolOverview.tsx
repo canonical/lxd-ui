@@ -6,6 +6,10 @@ import StorageUsedBy from "pages/storage/StorageUsedBy";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import type { LxdStoragePool } from "types/storage";
+import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
+import { isClusteredServer } from "util/settings";
+import { useSettings } from "context/useSettings";
+import { hasPoolMemberSpecificSize } from "util/storagePool";
 
 interface Props {
   pool: LxdStoragePool;
@@ -18,6 +22,9 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
   };
   useEffect(updateContentHeight, [project, pool]);
   useEventListener("resize", updateContentHeight);
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
+  const hasMemberSpecificSize = hasPoolMemberSpecificSize(pool.driver);
 
   return (
     <div className="storage-overview-tab">
@@ -38,7 +45,10 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">Size</th>
-                <td>
+                <td className="cluster-member-with-meters">
+                  {hasMemberSpecificSize && isClustered && (
+                    <StoragePoolClusterMember pool={pool} />
+                  )}
                   <StoragePoolSize pool={pool} hasMeterBar />
                 </td>
               </tr>

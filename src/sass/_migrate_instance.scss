@@ -22,6 +22,10 @@
       .p-meter {
         margin-top: $spv--x-small;
       }
+
+      .clustered-resource-link {
+        height: 2.25rem;
+      }
     }
 
     @include large {

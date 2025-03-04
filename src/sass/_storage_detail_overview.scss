@@ -44,4 +44,17 @@
       padding-top: $spv--small;
     }
   }
+
+  .cluster-member-with-meters {
+    display: flex;
+
+    .p-meter {
+      margin-top: 0.4rem;
+    }
+  }
+
+  .clustered-resource-link {
+    height: 2.4rem;
+    margin-right: 1rem;
+  }
 }

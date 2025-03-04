@@ -19,11 +19,17 @@ import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useStoragePools } from "context/useStoragePools";
+import classNames from "classnames";
+import { useSettings } from "context/useSettings";
+import { isClusteredServer } from "util/settings";
+import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
 
 const StoragePools: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
+  const { data: settings } = useSettings();
+  const isClustered = isClusteredServer(settings);
 
   if (!project) {
     return <>Missing project</>;
@@ -40,7 +46,13 @@ const StoragePools: FC = () => {
   const headers = [
     { content: "Name", sortKey: "name" },
     { content: "Driver", sortKey: "driver" },
-    { content: "Size", className: "size" },
+    ...(isClustered
+      ? [{ content: "Cluster member", className: "cluster-member" }]
+      : []),
+    {
+      content: "Size",
+      className: classNames("size", { clustered: isClustered }),
+    },
     {
       content: (
         <>
@@ -86,19 +98,29 @@ const StoragePools: FC = () => {
               {pool.name}
             </Link>
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Name",
         },
         {
           content: pool.driver,
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Driver",
         },
+        ...(isClustered
+          ? [
+              {
+                content: <StoragePoolClusterMember pool={pool} />,
+                role: "cell",
+                "aria-label": "Cluster member",
+                className: "cluster-member",
+              },
+            ]
+          : []),
         {
           content: <StoragePoolSize pool={pool} hasMeterBar />,
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Size",
-          className: "size",
+          className: classNames("size", { clustered: isClustered }),
         },
         {
           content: (
@@ -111,19 +133,19 @@ const StoragePools: FC = () => {
               {currentProjectVolumeCount}
             </StorageVolumesInPoolBtn>
           ),
-          role: "rowheader",
+          role: "cell",
           className: "u-align--right",
           "aria-label": "Volumes in this projects",
         },
         {
           content: totalVolumeCount,
-          role: "rowheader",
+          role: "cell",
           className: "u-align--right",
           "aria-label": "Volumes in all projects",
         },
         {
           content: pool.status,
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Status",
         },
         {
@@ -134,7 +156,7 @@ const StoragePools: FC = () => {
               project={project}
             />
           ),
-          role: "rowheader",
+          role: "cell",
           className: "u-align--right actions",
           "aria-label": "Actions",
         },
