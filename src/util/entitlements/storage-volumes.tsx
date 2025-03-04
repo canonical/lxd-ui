@@ -11,8 +11,16 @@ export const useStorageVolumeEntitlements = () => {
   const canEditVolume = (volume?: LxdStorageVolume) =>
     hasEntitlement(isFineGrained, "can_edit", volume?.access_entitlements);
 
+  const canManageStorageVolumeSnapshots = (volume?: LxdStorageVolume) =>
+    hasEntitlement(
+      isFineGrained,
+      "can_manage_snapshots",
+      volume?.access_entitlements,
+    );
+
   return {
     canDeleteVolume,
     canEditVolume,
+    canManageStorageVolumeSnapshots,
   };
 };

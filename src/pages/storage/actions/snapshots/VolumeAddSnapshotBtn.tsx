@@ -3,6 +3,7 @@ import type { LxdStorageVolume } from "types/storage";
 import { Button, Icon, Tooltip } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import CreateVolumeSnapshotForm from "pages/storage/forms/CreateVolumeSnapshotForm";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -18,6 +19,7 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
   className,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
 
   return (
     <>
@@ -37,9 +39,11 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
           title={
             isDisabled
               ? `Snapshot creation is blocked for project ${volume.project}`
-              : "Add Snapshot"
+              : !canManageStorageVolumeSnapshots(volume)
+                ? "You do not have permission to create or delete snapshots of this volume."
+                : "Add Snapshot"
           }
-          disabled={isDisabled}
+          disabled={isDisabled || !canManageStorageVolumeSnapshots(volume)}
           className={className}
         >
           <Icon name="add-canvas" />

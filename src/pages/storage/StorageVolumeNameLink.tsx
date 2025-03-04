@@ -37,8 +37,8 @@ const StorageVolumeNameLink: FC<Props> = ({
   const image =
     isImage && images.find((image) => image.fingerprint === volume.name);
 
-  const isCustomISO = volume.content_type === "iso";
-  const displayLink = instance || image || isCustomISO;
+  const isCustom = volume.type === "custom";
+  const displayLink = instance || image || isCustom;
 
   const caption = overrideName
     ? displayLink
@@ -50,7 +50,7 @@ const StorageVolumeNameLink: FC<Props> = ({
     <div className={classnames("u-flex", className)}>
       <div
         className={classnames("u-truncate", "volume-name-link")}
-        title={caption}
+        title={volume.name}
       >
         {displayLink ? (
           <Link
