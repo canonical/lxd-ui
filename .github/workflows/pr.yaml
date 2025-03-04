@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check if CLA signed
-      uses: canonical/has-signed-canonical-cla@v1
+      uses: canonical/has-signed-canonical-cla@5d1443b94417bd150ad234a82fe21f7340a25e4d # v2
     - name: Get PR Commits
       id: 'get-pr-commits'
       uses: tim-actions/get-pr-commits@master
