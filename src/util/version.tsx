@@ -1,2 +1,2 @@
 export const RECENT_MAJOR_SERVER_VERSION = 5;
-export const UI_VERSION = "0.15";
+export const UI_VERSION = "0.16";
