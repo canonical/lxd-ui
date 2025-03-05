@@ -31,6 +31,16 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
   const { canEditVolume } = useStorageVolumeEntitlements();
 
+  const getDisabledReason = (volume: LxdStorageVolume) => {
+    if ((volume.used_by?.length ?? 0) > 0) {
+      return "Can not rename, volume is currently in use.";
+    }
+    if (!canEditVolume(volume)) {
+      return "You do not have permission to rename this volume";
+    }
+    return undefined;
+  };
+
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
       .test(
@@ -122,13 +132,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       }
       isLoaded={true}
       formik={formik}
-      renameDisabledReason={
-        (volume.used_by?.length ?? 0) > 0
-          ? "Can not rename, volume is currently in use."
-          : !canEditVolume(volume)
-            ? "You do not have permission to rename this volume"
-            : undefined
-      }
+      renameDisabledReason={getDisabledReason(volume)}
     />
   );
 };

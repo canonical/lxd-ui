@@ -32,7 +32,11 @@ const DuplicateVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
         aria-label="Duplicate volume"
         className={className}
         onClick={openPortal}
-        title="Duplicate volume"
+        title={
+          !canCreateStorageVolumes(volume)
+            ? "You do not have permission to duplicate this volume"
+            : "Duplicate volume"
+        }
         disabled={!canCreateStorageVolumes(volume)}
       >
         <Icon name="canvas" />

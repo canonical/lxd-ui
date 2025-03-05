@@ -21,6 +21,16 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
 
+  const getDisabledReason = () => {
+    if (isDisabled) {
+      return `Snapshot creation is blocked for project ${volume.project}`;
+    }
+    if (!canManageStorageVolumeSnapshots(volume)) {
+      return "You do not have permission to create or delete snapshots of this volume.";
+    }
+    return "Add Snapshot";
+  };
+
   return (
     <>
       {isOpen ? (
@@ -36,13 +46,7 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
           onClick={openPortal}
           type="button"
           aria-label="Add Snapshot"
-          title={
-            isDisabled
-              ? `Snapshot creation is blocked for project ${volume.project}`
-              : !canManageStorageVolumeSnapshots(volume)
-                ? "You do not have permission to create or delete snapshots of this volume."
-                : "Add Snapshot"
-          }
+          title={getDisabledReason()}
           disabled={isDisabled || !canManageStorageVolumeSnapshots(volume)}
           className={className}
         >

@@ -39,18 +39,17 @@ const StorageVolumeNameLink: FC<Props> = ({
 
   const isCustom = volume.type === "custom";
   const displayLink = instance || image || isCustom;
+  const caption = overrideName ? overrideName : volume.name;
 
-  const caption = overrideName
-    ? displayLink
-      ? overrideName
-      : ""
-    : volume.name;
+  if (overrideName && !displayLink) {
+    return null;
+  }
 
   return (
     <div className={classnames("u-flex", className)}>
       <div
         className={classnames("u-truncate", "volume-name-link")}
-        title={volume.name}
+        title={caption}
       >
         {displayLink ? (
           <Link
