@@ -15,6 +15,8 @@ import type { EditProfileFormValues } from "pages/profiles/EditProfile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import type { ConfigurationRowFormikProps } from "components/ConfigurationRow";
 import { bootPayload } from "components/forms/BootForm";
+import type { SshKey } from "components/forms/SshKeyForm";
+import { sshKeyPayload } from "components/forms/SshKeyForm";
 
 const getEditValues = (
   item: LxdProfile | LxdInstance,
@@ -65,7 +67,25 @@ const getEditValues = (
     cloud_init_network_config: item.config["cloud-init.network-config"],
     cloud_init_user_data: item.config["cloud-init.user-data"],
     cloud_init_vendor_data: item.config["cloud-init.vendor-data"],
+    cloud_init_ssh_keys: parseSshKeys(item),
   };
+};
+
+export const parseSshKeys = (item: LxdProfile | LxdInstance): SshKey[] => {
+  const sshConfigKeys = Object.keys(item.config).filter((item) =>
+    item.startsWith("cloud-init.ssh-keys."),
+  );
+
+  return sshConfigKeys.map((key) => {
+    const [user, fingerprint] = (item.config[key] as string).split(/:(.*)/s); // split on first occurrence of ":"
+    const name = key.split(".")[2];
+    return {
+      id: name,
+      name: name,
+      user: user,
+      fingerprint: fingerprint,
+    };
+  });
 };
 
 export const getInstanceEditValues = (
@@ -120,6 +140,7 @@ export const getInstancePayload = (
       ...migrationPayload(values),
       ...bootPayload(values),
       ...cloudInitPayload(values),
+      ...sshKeyPayload(values),
       ...getUnhandledKeyValues(instance.config, handledConfigKeys),
     },
     ...getUnhandledKeyValues(instance, handledKeys),

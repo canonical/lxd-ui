@@ -64,4 +64,35 @@ describe("conversion to form values and back with getInstanceEditValues and getI
 
     expect(payload.devices.grafananat.connect).toBe("tcp:1.2.3.4:3000");
   });
+
+  it("converts ssh keys to form values and back", () => {
+    const instance = {
+      config: {
+        "cloud-init.ssh-keys.ssh-key-1": "root:ssh-rsa ABAB",
+        "cloud-init.ssh-keys.ssh-key-2": "ubuntu:gh:username",
+      },
+      devices: {},
+    } as unknown as LxdInstance;
+    const formValues = getInstanceEditValues(instance);
+
+    expect(formValues.cloud_init_ssh_keys[0].fingerprint).toBe("ssh-rsa ABAB");
+    expect(formValues.cloud_init_ssh_keys[0].user).toBe("root");
+    expect(formValues.cloud_init_ssh_keys[0].name).toBe("ssh-key-1");
+    expect(formValues.cloud_init_ssh_keys[0].id).toBe("ssh-key-1");
+
+    expect(formValues.cloud_init_ssh_keys[1].fingerprint).toBe("gh:username");
+    expect(formValues.cloud_init_ssh_keys[1].user).toBe("ubuntu");
+    expect(formValues.cloud_init_ssh_keys[1].name).toBe("ssh-key-2");
+    expect(formValues.cloud_init_ssh_keys[1].id).toBe("ssh-key-2");
+
+    const payload = getInstancePayload(instance, formValues);
+
+    expect(payload.config["cloud-init.ssh-keys.ssh-key-1"]).toBe(
+      "root:ssh-rsa ABAB",
+    );
+
+    expect(payload.config["cloud-init.ssh-keys.ssh-key-2"]).toBe(
+      "ubuntu:gh:username",
+    );
+  });
 });
