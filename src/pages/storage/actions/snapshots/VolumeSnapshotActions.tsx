@@ -21,6 +21,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
 import ResourceLink from "components/ResourceLink";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -34,6 +35,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   const [isDeleting, setDeleting] = useState(false);
   const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
+  const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
 
   const volumeLink = (
     <ResourceLink
@@ -42,6 +44,12 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
       to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
     />
   );
+
+  const getTitle = (action: string) => {
+    return !canManageStorageVolumeSnapshots(volume)
+      ? `You do not have permission to ${action} this snapshot`
+      : `Confirm ${action}`;
+  };
 
   const handleDelete = () => {
     setDeleting(true);
@@ -129,7 +137,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
             className="has-icon is-dense"
             title="Confirm restore"
             confirmationModalProps={{
-              title: "Confirm restore",
+              title: getTitle("restore"),
               children: (
                 <p>
                   This will restore snapshot <ItemName item={snapshot} bold />.
@@ -141,7 +149,11 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
               confirmButtonAppearance: "positive",
               onConfirm: handleRestore,
             }}
-            disabled={isDeleting || isRestoring}
+            disabled={
+              !canManageStorageVolumeSnapshots(volume) ||
+              isDeleting ||
+              isRestoring
+            }
             shiftClickEnabled
             showShiftClickHint
           >
