@@ -95,9 +95,9 @@ const VolumeSnapshotBulkDelete: FC<Props> = ({
       deletableEntities={snapshotNames}
       buttonLabel={`Delete ${pluralize("snapshot", snapshotNames.length)}`}
       disabledReason={
-        !canManageStorageVolumeSnapshots(volume)
-          ? "You do not have permission to delete these volumes"
-          : undefined
+        canManageStorageVolumeSnapshots(volume)
+          ? undefined
+          : "You do not have permission to manage snapshots for this volume"
       }
     />
   );

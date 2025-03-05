@@ -161,9 +161,9 @@ const MigrateVolumeBtn: FC<Props> = ({
         loading={isVolumeLoading}
         disabled={!canEditVolume(storageVolume) || isVolumeLoading}
         title={
-          !canEditVolume(storageVolume)
-            ? "You do not have permission to migrate this volume"
-            : "Migrate volume"
+          canEditVolume(storageVolume)
+            ? "Migrate volume"
+            : "You do not have permission to migrate this volume"
         }
       >
         <Icon name="machines" />

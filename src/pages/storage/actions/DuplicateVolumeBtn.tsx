@@ -4,6 +4,7 @@ import DuplicateVolumeForm from "../forms/DuplicateVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
 import { usePortal } from "@canonical/react-components";
 import { useProjectEntitlements } from "util/entitlements/projects";
+import { useProject } from "context/useProjects";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -14,6 +15,7 @@ interface Props {
 const DuplicateVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canCreateStorageVolumes } = useProjectEntitlements();
+  const { data: project } = useProject(volume.project);
 
   const handleClose = () => {
     closePortal();
@@ -33,11 +35,11 @@ const DuplicateVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
         className={className}
         onClick={openPortal}
         title={
-          !canCreateStorageVolumes(volume)
-            ? "You do not have permission to duplicate this volume"
-            : "Duplicate volume"
+          canCreateStorageVolumes(project)
+            ? "Duplicate volume"
+            : "You do not have permission to duplicate this volume"
         }
-        disabled={!canCreateStorageVolumes(volume)}
+        disabled={!canCreateStorageVolumes(project)}
       >
         <Icon name="canvas" />
         <span>Duplicate</span>

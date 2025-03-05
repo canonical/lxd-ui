@@ -33,9 +33,9 @@ const VolumeConfigureSnapshotBtn: FC<Props> = ({
         className={className}
         disabled={!canEditVolume(volume) || isDisabled}
         title={
-          !canEditVolume(volume)
-            ? "You do not have permission to configure this volume"
-            : "Configure snapshot"
+          canEditVolume(volume)
+            ? "Configure snapshot"
+            : "You do not have permission to configure this volume"
         }
       >
         See configuration

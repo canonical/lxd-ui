@@ -43,9 +43,9 @@ const VolumeEditSnapshotBtn: FC<Props> = ({
         type="button"
         aria-label="Edit snapshot"
         title={
-          !canManageStorageVolumeSnapshots(volume)
-            ? "You do not have permission to edit this snapshot"
-            : "Edit"
+          canManageStorageVolumeSnapshots(volume)
+            ? "Edit"
+            : "You do not have permission to edit this snapshot"
         }
       >
         <Icon name="edit" />

@@ -46,9 +46,9 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   );
 
   const getTitle = (action: string) => {
-    return !canManageStorageVolumeSnapshots(volume)
-      ? `You do not have permission to ${action.toLowerCase()} this snapshot`
-      : `${action} snapshot`;
+    return canManageStorageVolumeSnapshots(volume)
+      ? `${action} snapshot`
+      : `You do not have permission to ${action.toLowerCase()} this snapshot`;
   };
 
   const handleDelete = () => {

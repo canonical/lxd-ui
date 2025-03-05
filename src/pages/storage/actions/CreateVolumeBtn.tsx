@@ -37,9 +37,9 @@ const CreateVolumeBtn: FC<Props> = ({
       className={className}
       disabled={!canCreateStorageVolumes(project)}
       title={
-        !canCreateStorageVolumes(project)
-          ? "You do not have permission to duplicate this volume"
-          : "Create volume"
+        canCreateStorageVolumes(project)
+          ? "Create volume"
+          : "You do not have permission to create volumes in this project"
       }
     >
       {!isSmallScreen && <Icon name="plus" light />}
