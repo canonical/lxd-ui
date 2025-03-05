@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
 import { migrateStorageVolume } from "api/storage-volumes";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   storageVolume: LxdStorageVolume;
@@ -32,6 +33,7 @@ const MigrateVolumeBtn: FC<Props> = ({
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isVolumeLoading, setVolumeLoading] = useState(false);
+  const { canEditVolume } = useStorageVolumeEntitlements();
 
   const handleSuccess = (
     newTarget: string,
@@ -157,7 +159,7 @@ const MigrateVolumeBtn: FC<Props> = ({
         type="button"
         className={classname}
         loading={isVolumeLoading}
-        disabled={isVolumeLoading}
+        disabled={!canEditVolume(storageVolume) || isVolumeLoading}
         title="Migrate volume"
       >
         <Icon name="machines" />
