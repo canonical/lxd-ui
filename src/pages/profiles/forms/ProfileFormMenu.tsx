@@ -20,6 +20,7 @@ export const SNAPSHOTS = "Snapshots";
 export const MIGRATION = "Migration";
 export const BOOT = "Boot";
 export const CLOUD_INIT = "Cloud init";
+export const SSH_KEYS = "SSH keys";
 export const YAML_CONFIGURATION = "YAML configuration";
 
 interface Props {
@@ -102,6 +103,7 @@ const ProfileFormMenu: FC<Props> = ({
           <MenuItem label={MIGRATION} {...menuItemProps} />
           <MenuItem label={BOOT} {...menuItemProps} />
           <MenuItem label={CLOUD_INIT} {...menuItemProps} />
+          <MenuItem label={SSH_KEYS} {...menuItemProps} />
         </ul>
       </nav>
     </div>

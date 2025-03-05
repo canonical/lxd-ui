@@ -59,6 +59,7 @@ import InstanceFormMenu, {
   GPU_DEVICES,
   OTHER_DEVICES,
   PROXY_DEVICES,
+  SSH_KEYS,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -93,6 +94,8 @@ import type { InstanceIconType } from "components/ResourceIcon";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
 import { useProfiles } from "context/useProfiles";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import SshKeyForm, { sshKeyPayload } from "components/forms/SshKeyForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -102,6 +105,7 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 interface PresetFormState {
@@ -351,6 +355,7 @@ const CreateInstance: FC = () => {
       instanceType: "container",
       profiles: ["default"],
       devices: [],
+      cloud_init_ssh_keys: [],
       readOnly: false,
       entityType: "instance",
       isCreating: true,
@@ -420,6 +425,7 @@ const CreateInstance: FC = () => {
         ...migrationPayload(values),
         ...bootPayload(values),
         ...cloudInitPayload(values),
+        ...sshKeyPayload(values),
       },
     };
   };
@@ -505,6 +511,10 @@ const CreateInstance: FC = () => {
             {section === BOOT && <BootForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+
+            {section === SSH_KEYS && (
+              <SshKeyForm formik={formik} project={project} />
+            )}
 
             {section === YAML_CONFIGURATION && (
               <YamlForm
