@@ -18,6 +18,7 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import { updateStorageVolume } from "api/storage-volumes";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -30,6 +31,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
   const queryClient = useQueryClient();
   const { section } = useParams<{ section: string }>();
   const { project } = useParams<{ project: string }>();
+  const { canEditVolume } = useStorageVolumeEntitlements();
 
   if (!project) {
     return <>Missing project</>;
@@ -39,8 +41,12 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     name: Yup.string().required("This field is required"),
   });
 
+  const editRestriction = canEditVolume(volume)
+    ? undefined
+    : "You do not have permission to edit this volume";
+
   const formik = useFormik<StorageVolumeFormValues>({
-    initialValues: getStorageVolumeEditValues(volume),
+    initialValues: getStorageVolumeEditValues(volume, editRestriction),
     validationSchema: StorageVolumeSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
