@@ -47,8 +47,8 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
 
   const getTitle = (action: string) => {
     return !canManageStorageVolumeSnapshots(volume)
-      ? `You do not have permission to ${action} this snapshot`
-      : `Confirm ${action}`;
+      ? `You do not have permission to ${action.toLowerCase()} this snapshot`
+      : `${action} snapshot`;
   };
 
   const handleDelete = () => {
@@ -137,7 +137,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
             className="has-icon is-dense"
             title="Confirm restore"
             confirmationModalProps={{
-              title: getTitle("restore"),
+              title: "Confirm restore",
               children: (
                 <p>
                   This will restore snapshot <ItemName item={snapshot} bold />.
@@ -145,7 +145,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Restore",
+              confirmButtonLabel: getTitle("Restore"),
               confirmButtonAppearance: "positive",
               onConfirm: handleRestore,
             }}
@@ -173,10 +173,14 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: "Delete snapshot",
+              confirmButtonLabel: getTitle("Delete"),
               onConfirm: handleDelete,
             }}
-            disabled={isDeleting || isRestoring}
+            disabled={
+              !canManageStorageVolumeSnapshots(volume) ||
+              isDeleting ||
+              isRestoring
+            }
             shiftClickEnabled
             showShiftClickHint
           >
