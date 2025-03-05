@@ -1,9 +1,5 @@
-import {
-  continueOrFinish,
-  handleResponse,
-  pushFailure,
-  pushSuccess,
-} from "util/helpers";
+import { handleResponse } from "util/helpers";
+import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdOperationResponse } from "types/operation";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";

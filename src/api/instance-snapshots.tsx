@@ -1,9 +1,5 @@
-import {
-  continueOrFinish,
-  handleResponse,
-  pushFailure,
-  pushSuccess,
-} from "util/helpers";
+import { handleResponse } from "util/helpers";
+import { continueOrFinish, pushFailure, pushSuccess } from "util/promises";
 import type { LxdInstance, LxdInstanceSnapshot } from "types/instance";
 import type { LxdOperationResponse } from "types/operation";
 import type { EventQueue } from "context/eventQueue";
