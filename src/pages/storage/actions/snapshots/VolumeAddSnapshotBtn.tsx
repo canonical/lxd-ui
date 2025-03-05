@@ -26,7 +26,7 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
       return `Snapshot creation is blocked for project ${volume.project}`;
     }
     if (!canManageStorageVolumeSnapshots(volume)) {
-      return "You do not have permission to create or delete snapshots of this volume.";
+      return "You do not have permission to create snapshots of this volume.";
     }
     return "Add Snapshot";
   };
@@ -57,7 +57,8 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
           appearance="positive"
           className={className}
           onClick={openPortal}
-          disabled={isDisabled}
+          disabled={isDisabled || !canManageStorageVolumeSnapshots(volume)}
+          title={getDisabledReason()}
         >
           {isDisabled ? (
             <Tooltip
