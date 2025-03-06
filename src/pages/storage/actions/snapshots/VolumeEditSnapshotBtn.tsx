@@ -3,6 +3,7 @@ import { usePortal } from "@canonical/react-components";
 import { Button, Icon } from "@canonical/react-components";
 import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import EditVolumeSnapshotForm from "pages/storage/forms/EditVolumeSnapshotForm";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -18,6 +19,7 @@ const VolumeEditSnapshotBtn: FC<Props> = ({
   isRestoring,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
 
   return (
     <>
@@ -34,11 +36,17 @@ const VolumeEditSnapshotBtn: FC<Props> = ({
         appearance="base"
         hasIcon
         dense={true}
-        disabled={isDeleting || isRestoring}
+        disabled={
+          !canManageStorageVolumeSnapshots(volume) || isDeleting || isRestoring
+        }
         onClick={openPortal}
         type="button"
         aria-label="Edit snapshot"
-        title="Edit"
+        title={
+          canManageStorageVolumeSnapshots(volume)
+            ? "Edit"
+            : "You do not have permission to edit this snapshot"
+        }
       >
         <Icon name="edit" />
       </Button>

@@ -3,6 +3,7 @@ import { usePortal } from "@canonical/react-components";
 import { Button } from "@canonical/react-components";
 import VolumeConfigureSnapshotModal from "./VolumeConfigureSnapshotModal";
 import type { LxdStorageVolume } from "types/storage";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -16,6 +17,7 @@ const VolumeConfigureSnapshotBtn: FC<Props> = ({
   className,
 }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
+  const { canEditVolume } = useStorageVolumeEntitlements();
 
   return (
     <>
@@ -26,7 +28,16 @@ const VolumeConfigureSnapshotBtn: FC<Props> = ({
           </div>
         </Portal>
       )}
-      <Button onClick={openPortal} className={className} disabled={isDisabled}>
+      <Button
+        onClick={openPortal}
+        className={className}
+        disabled={!canEditVolume(volume) || isDisabled}
+        title={
+          canEditVolume(volume)
+            ? "Configure snapshot"
+            : "You do not have permission to configure this volume"
+        }
+      >
         See configuration
       </Button>
     </>

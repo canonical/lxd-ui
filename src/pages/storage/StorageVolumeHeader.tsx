@@ -16,6 +16,7 @@ import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { renameStorageVolume } from "api/storage-volumes";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -28,6 +29,17 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const { hasClusterInternalCustomVolumeCopy } = useSupportedFeatures();
+  const { canEditVolume } = useStorageVolumeEntitlements();
+
+  const getDisabledReason = (volume: LxdStorageVolume) => {
+    if ((volume.used_by?.length ?? 0) > 0) {
+      return "Can not rename, volume is currently in use.";
+    }
+    if (!canEditVolume(volume)) {
+      return "You do not have permission to rename this volume";
+    }
+    return undefined;
+  };
 
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
@@ -120,11 +132,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       }
       isLoaded={true}
       formik={formik}
-      renameDisabledReason={
-        (volume.used_by?.length ?? 0) > 0
-          ? "Can not rename, volume is currently in use."
-          : undefined
-      }
+      renameDisabledReason={getDisabledReason(volume)}
     />
   );
 };

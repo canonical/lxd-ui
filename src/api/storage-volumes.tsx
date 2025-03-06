@@ -10,7 +10,11 @@ import axios from "axios";
 import type { LxdApiResponse } from "types/apiResponse";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const storageVolumeEntitlements = ["can_delete", "can_edit"];
+export const storageVolumeEntitlements = [
+  "can_delete",
+  "can_edit",
+  "can_manage_snapshots",
+];
 
 export const fetchStorageVolumes = async (
   pool: string,

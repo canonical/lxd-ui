@@ -64,7 +64,10 @@ const StorageVolumeFormMain: FC<Props> = ({ formik, poolError }) => {
               ensureEditMode(formik);
               formik.setFieldValue("size", val);
             }}
-            disabled={formik.values.volumeType !== "custom"}
+            disabled={
+              !!formik.values.editRestriction ||
+              formik.values.volumeType !== "custom"
+            }
           />
           <Select
             {...getFormProps(formik, "content_type")}

@@ -8,6 +8,8 @@ import {
   hasVolumeDetailPage,
 } from "util/storageVolume";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useInstances } from "context/useInstances";
+import { useImagesInProject } from "context/useImages";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -23,7 +25,25 @@ const StorageVolumeNameLink: FC<Props> = ({
 }) => {
   const { project } = useCurrentProject();
   const isExternalLink = !hasVolumeDetailPage(volume);
+
+  const isInstance =
+    volume.type === "container" || volume.type === "virtual-machine";
+  const { data: instances = [] } = useInstances(volume.project);
+  const instance =
+    isInstance && instances.find((instance) => instance.name === volume.name);
+
+  const isImage = volume.type === "image";
+  const { data: images = [] } = useImagesInProject(volume.project);
+  const image =
+    isImage && images.find((image) => image.fingerprint === volume.name);
+
+  const isCustom = volume.type === "custom";
+  const displayLink = instance || image || isCustom;
   const caption = overrideName ? overrideName : volume.name;
+
+  if (overrideName && !displayLink) {
+    return null;
+  }
 
   return (
     <div className={classnames("u-flex", className)}>
@@ -31,13 +51,17 @@ const StorageVolumeNameLink: FC<Props> = ({
         className={classnames("u-truncate", "volume-name-link")}
         title={caption}
       >
-        <Link
-          to={generateLinkForVolumeDetail(volume, project?.name ?? "")}
-          className={isExternalLink ? "has-icon" : undefined}
-        >
-          {caption}
-          {isExternalLink && <Icon name={ICONS.externalLink} />}
-        </Link>
+        {displayLink ? (
+          <Link
+            to={generateLinkForVolumeDetail(volume, project?.name ?? "")}
+            className={isExternalLink ? "has-icon" : undefined}
+          >
+            {caption}
+            {isExternalLink && <Icon name={ICONS.externalLink} />}
+          </Link>
+        ) : (
+          caption
+        )}
       </div>
     </div>
   );

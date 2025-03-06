@@ -373,7 +373,7 @@ const StorageVolumes: FC = () => {
           <Icon className="external-link-icon" name="external-link" />
         </a>
       </p>
-      <CreateVolumeBtn project={project} className="empty-state-button" />
+      <CreateVolumeBtn projectName={project} className="empty-state-button" />
     </EmptyState>
   ) : (
     <div className="storage-volumes">
@@ -425,7 +425,7 @@ const StorageVolumes: FC = () => {
           {hasVolumes && (
             <PageHeader.BaseActions>
               <CreateVolumeBtn
-                project={project}
+                projectName={project}
                 defaultPool={defaultPoolForVolumeCreate}
                 className="u-float-right u-no-margin--bottom"
               />
