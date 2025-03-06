@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68% </span>
+                <span class="strong">74.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/25</span>
+                <span class='fraction'>26/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/7</span>
+                <span class='fraction'>4/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.44% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/18</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -81,24 +81,40 @@
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">24x</span>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">442x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
-<span class="cline-any cline-yes">221x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">510x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">354x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
+<span class="cline-any cline-yes">617x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useAuth } from "context/auth"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
 import { hasEntitlement } from "./helpers";
 import type { LxdStorageVolume } from "types/storage";
@@ -109,12 +125,20 @@ export const useStorageVolumeEntitlements = <span class="cstat-no" title="statem
   const canDeleteVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_delete", volume?.access_entitlements);</span>
 &nbsp;
-  const canEditVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_edit", volume?.access_entitlements);</span></span>
+  const canEditVolume = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    hasEntitlement(isFineGrained, "can_edit", volume?.access_entitlements);</span>
+&nbsp;
+  const canManageStorageVolumeSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume?: LxdStorageVolume) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    hasEntitlement(</span>
+      isFineGrained,
+      "can_manage_snapshots",
+      volume?.access_entitlements,
+    );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     canDeleteVolume,
     canEditVolume,
+    canManageStorageVolumeSnapshots,
   };
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -124,7 +148,7 @@ export const useStorageVolumeEntitlements = <span class="cstat-no" title="statem
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-06T16:23:54.316Z
+                at 2025-03-06T17:47:28.451Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

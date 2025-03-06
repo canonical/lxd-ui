@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.03% </span>
+                <span class="strong">17.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/122</span>
+                <span class='fraction'>23/130</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">9.09% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>1/11</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">21.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/99</span>
+                <span class='fraction'>23/106</span>
             </div>
         
             
@@ -162,7 +162,14 @@
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -182,6 +189,13 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -272,6 +286,7 @@ import { getPromiseSettledCounts } from "util/promises";
 import type { LxdStorageVolume } from "types/storage";
 import { useToastNotification } from "context/toastNotificationProvider";
 import BulkDeleteButton from "components/BulkDeleteButton";
+import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 &nbsp;
 interface Props {
   volume: LxdStorageVolume;
@@ -290,6 +305,7 @@ const VolumeSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
 <span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
 <span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
+<span class="cstat-no" title="statement not covered" >  const { canManageStorageVolumeSnapshots } = <span class="cstat-no" title="statement not covered" >useStorageVolumeEntitlements();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const count = <span class="cstat-no" title="statement not covered" >snapshotNames.length;</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -347,7 +363,7 @@ const VolumeSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >    &lt;BulkDeleteButton</span>
 <span class="cstat-no" title="statement not covered" >      confirmationButtonProps={{</span>
 <span class="cstat-no" title="statement not covered" >        loading: isLoading,</span>
-<span class="cstat-no" title="statement not covered" >        disabled: isLoading,</span>
+<span class="cstat-no" title="statement not covered" >        disabled: !canManageStorageVolumeSnapshots(volume) || isLoading,</span>
 <span class="cstat-no" title="statement not covered" >        appearance: "",</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
 <span class="cstat-no" title="statement not covered" >      onDelete={handleDelete}</span>
@@ -355,6 +371,11 @@ const VolumeSnapshotBulkDelete: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >      entities={snapshotNames}</span>
 <span class="cstat-no" title="statement not covered" >      deletableEntities={snapshotNames}</span>
 <span class="cstat-no" title="statement not covered" >      buttonLabel={`Delete ${pluralize("snapshot", snapshotNames.length)}`}</span>
+<span class="cstat-no" title="statement not covered" >      disabledReason={</span>
+<span class="cstat-no" title="statement not covered" >        canManageStorageVolumeSnapshots(volume)</span>
+<span class="cstat-no" title="statement not covered" >          ? undefined</span>
+<span class="cstat-no" title="statement not covered" >          : "You do not have permission to manage snapshots for this volume"</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
@@ -367,7 +388,7 @@ export default VolumeSnapshotBulkDelete;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-06T16:23:54.316Z
+                at 2025-03-06T17:47:28.451Z
             </div>
         <script src="../../../../../../../../../../prettify.js"></script>
         <script>
