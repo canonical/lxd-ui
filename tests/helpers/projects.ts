@@ -46,6 +46,7 @@ export const renameProject = async (
 
 export const deleteProject = async (page: Page, project: string) => {
   await gotoURL(page, "/ui/");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "default" }).click();
   await page.getByRole("link", { name: project }).click();
   await page.getByRole("link", { name: "Configuration" }).click();
