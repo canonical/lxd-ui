@@ -50,6 +50,8 @@ import ProfileFormMenu, {
   NETWORK_DEVICES,
   GPU_DEVICES,
   OTHER_DEVICES,
+  PROXY_DEVICES,
+  SSH_KEYS,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { ProfileDetailsFormValues } from "pages/profiles/forms/ProfileDetailsForm";
 import ProfileDetailsForm, {
@@ -74,10 +76,11 @@ import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
-import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ResourceLink from "components/ResourceLink";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import SshKeyForm, { sshKeyPayload } from "components/forms/SshKeyForm";
 
 export type CreateProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -87,6 +90,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 const CreateProfile: FC = () => {
@@ -124,6 +128,7 @@ const CreateProfile: FC = () => {
     initialValues: {
       name: "",
       devices: [],
+      cloud_init_ssh_keys: [],
       readOnly: false,
       entityType: "profile",
     },
@@ -174,6 +179,7 @@ const CreateProfile: FC = () => {
         ...migrationPayload(values),
         ...bootPayload(values),
         ...cloudInitPayload(values),
+        ...sshKeyPayload(values),
       },
     };
   };
@@ -243,6 +249,10 @@ const CreateProfile: FC = () => {
             {section === BOOT && <BootForm formik={formik} />}
 
             {section === CLOUD_INIT && <CloudInitForm formik={formik} />}
+
+            {section === SSH_KEYS && (
+              <SshKeyForm formik={formik} project={project} />
+            )}
 
             {section === YAML_CONFIGURATION && (
               <YamlForm

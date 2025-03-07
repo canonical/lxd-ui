@@ -230,6 +230,26 @@
     }
   }
 
+  .ssh-key-form {
+    .ssh-key {
+      align-items: flex-end;
+      display: flex;
+      gap: $sp-medium;
+
+      .fingerprint {
+        flex-grow: 1;
+      }
+
+      .name {
+        max-width: 4rem;
+      }
+
+      .user {
+        max-width: 4rem;
+      }
+    }
+  }
+
   .device-form {
     .configuration {
       padding-left: 0;

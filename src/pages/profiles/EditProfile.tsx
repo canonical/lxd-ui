@@ -40,6 +40,8 @@ import ProfileFormMenu, {
   YAML_CONFIGURATION,
   GPU_DEVICES,
   OTHER_DEVICES,
+  PROXY_DEVICES,
+  SSH_KEYS,
 } from "pages/profiles/forms/ProfileFormMenu";
 import type { LxdProfile } from "types/profile";
 import useEventListener from "util/useEventListener";
@@ -61,13 +63,14 @@ import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
 import YamlNotification from "components/forms/YamlNotification";
-import { PROXY_DEVICES } from "pages/instances/forms/InstanceFormMenu";
 import ProxyDeviceForm from "components/forms/ProxyDeviceForm";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
 import ResourceLink from "components/ResourceLink";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm from "components/forms/BootForm";
 import { useProfileEntitlements } from "util/entitlements/profiles";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import SshKeyForm from "components/forms/SshKeyForm";
 
 export type EditProfileFormValues = ProfileDetailsFormValues &
   FormDeviceValues &
@@ -77,6 +80,7 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 interface Props {
@@ -244,6 +248,10 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
 
             {section === slugify(CLOUD_INIT) && (
               <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
+            )}
+
+            {section === slugify(SSH_KEYS) && (
+              <SshKeyForm formik={formik} project={project} />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (

@@ -15,7 +15,10 @@ export const getUnhandledKeyValues = (
   handledKeys: Set<string>,
 ) => {
   return Object.fromEntries(
-    Object.entries(item).filter(([key]) => !handledKeys.has(key)),
+    Object.entries(item).filter(
+      ([key]) =>
+        !handledKeys.has(key) && !key.startsWith("cloud-init.ssh-keys."),
+    ),
   );
 };
 

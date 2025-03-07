@@ -35,6 +35,7 @@ import InstanceFormMenu, {
   GPU_DEVICES,
   OTHER_DEVICES,
   PROXY_DEVICES,
+  SSH_KEYS,
 } from "pages/instances/forms/InstanceFormMenu";
 import useEventListener from "util/useEventListener";
 import { updateMaxHeight } from "util/updateMaxHeight";
@@ -66,6 +67,8 @@ import BootForm from "components/forms/BootForm";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 import InstanceProfilesWarning from "./InstanceProfilesWarning";
 import { useProfiles } from "context/useProfiles";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import SshKeyForm from "components/forms/SshKeyForm";
 
 export interface InstanceEditDetailsFormValues {
   name: string;
@@ -87,6 +90,7 @@ export type EditInstanceFormValues = InstanceEditDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 interface Props {
@@ -260,6 +264,10 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
             {section === slugify(CLOUD_INIT) && (
               <CloudInitForm key={`yaml-form-${version}`} formik={formik} />
+            )}
+
+            {section === slugify(SSH_KEYS) && (
+              <SshKeyForm formik={formik} project={project} />
             )}
 
             {section === slugify(YAML_CONFIGURATION) && (
