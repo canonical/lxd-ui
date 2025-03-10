@@ -28,6 +28,7 @@ import useSortTableData from "util/useSortTableData";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
+import { getIdentityName } from "util/permissionIdentities";
 
 interface IdentityEditHistory {
   identitiesAdded: Set<string>;
@@ -193,7 +194,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
     if (
       !filters.queries.every(
         (q) =>
-          identity.name.toLowerCase().includes(q) ||
+          getIdentityName(identity).toLowerCase().includes(q) ||
           identity.id.toLowerCase().includes(q),
       )
     ) {
@@ -218,6 +219,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
       : desiredState.identitiesRemoved.has(identity.id)
         ? `Identity will be removed from ${selectedGroupText}`
         : "";
+    const name = getIdentityName(identity);
 
     return {
       key: identity.id,
@@ -225,11 +227,11 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
       className: "u-row",
       columns: [
         {
-          content: identity.name,
+          content: name,
           role: "cell",
           "aria-label": "Identity",
           title: canEditIdentity(identity)
-            ? identity.name
+            ? name
             : "You do not have permission to manage this identity",
         },
         {
@@ -243,7 +245,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         },
       ],
       sortData: {
-        name: identity.name.toLowerCase(),
+        name: name.toLowerCase(),
       },
     };
   });

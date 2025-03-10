@@ -3,6 +3,7 @@ import type { AbortControllerState } from "./helpers";
 import { checkDuplicateName } from "./helpers";
 import type { LxdGroup, LxdIdentity } from "types/permissions";
 import type { ChangeSummary } from "./permissionIdentities";
+import { getIdentityName } from "./permissionIdentities";
 
 export const testDuplicateGroupName = (
   controllerState: AbortControllerState,
@@ -171,7 +172,7 @@ export const getChangesInGroupsForIdentities = (
       identityGroupsChangeSummary[identity.id] = {
         added: groupsAddedForIdentity,
         removed: groupsRemovedForIdentity,
-        name: identity.name,
+        name: getIdentityName(identity),
       };
     }
   }

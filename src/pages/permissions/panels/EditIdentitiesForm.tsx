@@ -8,6 +8,7 @@ import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
+import { getIdentityName } from "util/permissionIdentities";
 
 export type FormIdentity = LxdIdentity & {
   isRemoved?: boolean;
@@ -112,7 +113,8 @@ const EditIdentitiesForm: FC<Props> = ({
 
   const filteredIdentities = fineGrainedIdentities.filter((identity) => {
     if (filter) {
-      return identity.name.toLowerCase().includes(filter.toLowerCase());
+      const name = getIdentityName(identity);
+      return name.toLowerCase().includes(filter.toLowerCase());
     }
 
     return true;
@@ -124,6 +126,7 @@ const EditIdentitiesForm: FC<Props> = ({
     };
     const formIdentity = selected.find((id) => id.id === identity.id);
     const isModified = formIdentity?.isAdded || formIdentity?.isRemoved;
+    const name = getIdentityName(identity);
 
     return {
       key: identity.id,
@@ -131,11 +134,11 @@ const EditIdentitiesForm: FC<Props> = ({
       className: "u-row",
       columns: [
         {
-          content: identity.name,
+          content: name,
           role: "cell",
           "aria-label": "Identity",
           title: canEditIdentity(identity)
-            ? identity.name
+            ? name
             : "You do not have permission to allocate this identity to the group",
           onClick: clickRow,
           className: "clickable-cell",
@@ -148,7 +151,7 @@ const EditIdentitiesForm: FC<Props> = ({
         },
       ],
       sortData: {
-        name: identity.name.toLowerCase(),
+        name: name.toLowerCase(),
       },
     };
   });

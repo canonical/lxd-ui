@@ -10,6 +10,7 @@ import ResourceOptionLabel from "pages/permissions/panels/ResourceOptionLabel";
 import EntitlementOptionLabel from "pages/permissions/panels/EntitlementOptionLabel";
 import type { CustomSelectOption } from "@canonical/react-components";
 import { getOptionText } from "@canonical/react-components/dist/components/CustomSelect/CustomSelectDropdown";
+import { getIdentityName } from "util/permissionIdentities";
 
 export const noneAvailableOption = {
   disabled: true,
@@ -324,7 +325,7 @@ export const getIdentityNameLookup = (
 ): Record<string, string> => {
   const nameLookup: Record<string, string> = {};
   for (const identity of identities) {
-    nameLookup[identity.id] = identity.name;
+    nameLookup[identity.id] = getIdentityName(identity);
   }
 
   return nameLookup;

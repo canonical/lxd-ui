@@ -1,5 +1,6 @@
 import { useSettings } from "./useSettings";
 import { useIdentity } from "./useIdentities";
+import { getIdentityName } from "util/permissionIdentities";
 
 export const useLoggedInUser = () => {
   const { data: settings } = useSettings();
@@ -11,7 +12,7 @@ export const useLoggedInUser = () => {
   const { data: identity } = useIdentity(id, authMethod, identityQueryEnabled);
 
   return {
-    loggedInUserName: identity?.name,
+    loggedInUserName: getIdentityName(identity),
     loggedInUserID: id,
     authMethod,
   };
