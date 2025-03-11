@@ -14,6 +14,10 @@
     left: 47px;
     position: absolute;
     top: $spv--x-small;
+
+    &.is-light {
+      color: #444;
+    }
   }
 
   @include mobile {
@@ -58,8 +62,16 @@
   text-align: right;
   width: 100%;
 
+  &.is-light {
+    background: $colors--light-theme--background-default;
+  }
+
   .sidenav-toggle {
     background-color: #444 !important;
+
+    &.is-light {
+      background-color: #fff !important;
+    }
   }
 }
 

@@ -17,3 +17,34 @@
     }
   }
 }
+
+.login-navigation {
+  &.is-collapsed {
+    .step-content {
+      display: none;
+    }
+
+    .stepper-icon {
+      color: black !important;
+      z-index: 999;
+    }
+  }
+
+  .p-list__item {
+    align-items: center;
+    width: 100%;
+  }
+
+  .sso-login-button {
+    margin-left: 1rem;
+    margin-right: 0;
+  }
+
+  .stepper-vertical {
+    .step {
+      border: none;
+      padding: 0.5rem 1rem !important;
+      width: 100%;
+    }
+  }
+}
