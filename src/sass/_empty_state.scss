@@ -8,6 +8,12 @@
     width: 2.5rem;
   }
 
+  .login-ui-icon {
+    height: 5rem;
+    opacity: 1;
+    width: 5rem;
+  }
+
   @include large {
     width: 67%;
   }

@@ -1,5 +1,19 @@
 .login {
-  padding-left: $sph--large;
-  padding-right: $sph--large;
-  width: fit-content;
+  height: 100vh;
+
+  .login-page {
+    align-content: center;
+    height: 100%;
+    margin-top: 0;
+    text-align: center;
+    width: fit-content;
+
+    .auth-container {
+      a {
+        display: block;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+    }
+  }
 }
