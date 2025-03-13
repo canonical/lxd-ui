@@ -26,7 +26,7 @@ const Login: FC = () => {
   return (
     <CustomLayout contentClassName="login">
       <div className="empty-state login-page">
-        <Icon name="pods" className="login-ui-icon lxd-icon" />
+        <Icon name="pods" className="lxd-icon" />
         <h1 className="p-heading--4 u-sv-2">Login</h1>
         {hasOidc && (
           <>

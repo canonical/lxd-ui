@@ -28,9 +28,9 @@ const CertificateAddForm: FC = () => {
       <Textarea
         id="token"
         name="token"
-        label="Paste the token from the previous step"
-        placeholder="Paste your token here"
-        rows={3}
+        label="Paste the trust token below:"
+        placeholder="Paste trust token here"
+        rows={5}
         onChange={(e) => {
           setToken(e.target.value);
         }}
@@ -41,7 +41,7 @@ const CertificateAddForm: FC = () => {
         type="button"
         onClick={useToken}
       >
-        Import
+        Conect
       </Button>
     </Form>
   );

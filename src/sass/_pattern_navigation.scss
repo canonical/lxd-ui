@@ -10,13 +10,13 @@
   }
 
   .logo-text {
-    color: #fff;
+    color: $colors--light-theme--background-default;
     left: 47px;
     position: absolute;
     top: $spv--x-small;
 
     &.is-light {
-      color: #444;
+      color: $colors--dark-theme--background-default;
     }
   }
 
@@ -67,10 +67,10 @@
   }
 
   .sidenav-toggle {
-    background-color: #444 !important;
+    background-color: $colors--dark-theme--background-default !important;
 
     &.is-light {
-      background-color: #fff !important;
+      background-color: $colors--light-theme--background-default !important;
     }
   }
 }

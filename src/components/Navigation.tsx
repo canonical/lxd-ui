@@ -61,7 +61,7 @@ const Navigation: FC = () => {
     initialiseOpenNavMenus(location),
   );
   const onGenerate = location.pathname.includes("certificate-generate");
-  const onTrustToken = location.pathname.includes("trust-token");
+  const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes("oidc");
   const navigate = useNavigate();
@@ -448,8 +448,7 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
                     </>
                   )}
-                  {!isAuthenticated && <></>}
-                  {(onGenerate || onTrustToken) && (
+                  {!isAuthenticated && (onGenerate || onTrustToken) && (
                     <div
                       className={classnames("login-navigation", {
                         "is-collapsed": menuCollapsed,
@@ -482,7 +481,7 @@ const Navigation: FC = () => {
                           <Step
                             key="Step 2"
                             handleClick={() => {
-                              navigate("/ui/login/trust-token");
+                              navigate("/ui/login/certificate-add");
                             }}
                             index={2}
                             title="Trust token"
