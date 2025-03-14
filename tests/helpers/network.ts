@@ -93,7 +93,9 @@ export const createNetworkForward = async (page: Page, network: string) => {
   await addressInput.fill(targetAddress);
   await page.getByRole("button", { name: "Create" }).click();
 
-  await page.getByText(`Network forward ${listenAddress} created.`).click();
+  await page
+    .getByText(`Network forward with listen address ${listenAddress} created.`)
+    .click();
   await page.getByText(`:80 → ${targetAddress}:80 (tcp)`).click();
   await page
     .getByText(`:23,443-455 → ${targetAddress}:23,443-455 (tcp)`)

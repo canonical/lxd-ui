@@ -1,4 +1,4 @@
-import { handleResponse } from "util/helpers";
+import { handleRawResponse, handleResponse } from "util/helpers";
 import type { LxdNetwork, LxdNetworkForward } from "types/network";
 import type { LxdApiResponse } from "types/apiResponse";
 
@@ -37,14 +37,18 @@ export const createNetworkForward = async (
   network: string,
   forward: Partial<LxdNetworkForward>,
   project: string,
-): Promise<void> => {
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/networks/${network}/forwards?project=${project}`, {
       method: "POST",
       body: JSON.stringify(forward),
     })
-      .then(handleResponse)
-      .then(resolve)
+      .then(handleRawResponse)
+      .then((response) => {
+        const locationHeader = response.headers.get("Location");
+        const listenAddress = locationHeader?.split("/").pop() ?? "";
+        resolve(listenAddress);
+      })
       .catch(reject);
   });
 };
