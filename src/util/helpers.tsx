@@ -100,6 +100,16 @@ export const handleTextResponse = async (
   return response.text();
 };
 
+export const handleRawResponse = async (
+  response: Response,
+): Promise<Response> => {
+  if (!response.ok) {
+    const result = (await response.json()) as ErrorResponse;
+    throw Error(result.error);
+  }
+  return response;
+};
+
 export const humanFileSize = (bytes: number): string => {
   if (Math.abs(bytes) < 1000) {
     return `${bytes} B`;

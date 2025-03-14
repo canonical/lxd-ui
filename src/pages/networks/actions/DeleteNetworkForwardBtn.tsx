@@ -30,7 +30,7 @@ const DeleteNetworkForwardBtn: FC<Props> = ({ network, forward, project }) => {
     deleteNetworkForward(network, forward, project)
       .then(() => {
         toastNotify.success(
-          `Network forward for ${forward.listen_address} deleted`,
+          `Network forward with listen address ${forward.listen_address} deleted.`,
         );
         queryClient.invalidateQueries({
           predicate: (query) =>
