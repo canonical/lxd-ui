@@ -4,6 +4,7 @@ import {
   Button,
   Input,
   Modal,
+  Notification,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -40,11 +41,11 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
   return (
     <Modal
       close={onClose}
-      title="Add a password"
+      title="Create TLS user"
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" onClick={handleSkip}>
-            Skip
+            Generate without password
           </Button>
           <ActionButton
             appearance="positive"
@@ -55,12 +56,15 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
               formik.values.password.length === 0
             }
           >
-            Generate certificate
+            Generate with password
           </ActionButton>
         </>
       }
     >
-      <p>Protect your certificate by adding a password.</p>
+      <Notification severity="caution" className="u-no-margin--bottom">
+        Passwords are required for client certificates on macOS. On other
+        platforms, this step can be skipped.
+      </Notification>
       <Input
         id="password"
         type="password"
@@ -69,12 +73,11 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
         onChange={formik.handleChange}
         value={formik.values.password}
         error={formik.touched.password ? formik.errors.password : null}
-        help="For macOS an empty password is not allowed. On other systems this step can be skipped."
       />
       <Input
         id="passwordConfirm"
         type="password"
-        label="Password confirmation"
+        label="Confirm password"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         value={formik.values.passwordConfirm}
