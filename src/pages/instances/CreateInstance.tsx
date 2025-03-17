@@ -394,6 +394,15 @@ const CreateInstance: FC = () => {
     } else if (isContainerOnlyImage(image)) {
       formik.setFieldValue("instanceType", "container");
     }
+
+    if (image.volume?.location && image.volume.location !== "none") {
+      // custom ISOs can only run locally to the instance
+      // preselect the target by the location of its volume
+      formik.setFieldValue("target", image.volume?.location);
+      formik.setFieldValue("targetSelectedByVolume", true);
+    } else {
+      formik.setFieldValue("targetSelectedByVolume", undefined);
+    }
   };
 
   useEffect(() => {
