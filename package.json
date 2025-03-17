@@ -33,7 +33,7 @@
     "@canonical/react-components": "2.1.0",
     "@monaco-editor/react": "4.6.0",
     "@tanstack/react-query": "5.63.0",
-    "axios": "1.7.9",
+    "axios": "1.8.2",
     "formik": "2.4.6",
     "js-yaml": "4.1.0",
     "lodash.isequal": "4.5.0",
