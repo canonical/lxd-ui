@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.14% </span>
+                <span class="strong">26.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/70</span>
+                <span class='fraction'>18/69</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.27% </span>
+                <span class="strong">26.15% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/66</span>
+                <span class='fraction'>17/65</span>
             </div>
         
             
@@ -128,9 +128,7 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -203,15 +201,14 @@ import { Input, Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import ClusteredZfsNameSelector from "./ClusteredZfsNameSelector";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
+import { useIsClustered } from "context/useIsClustered";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;StoragePoolFormValues&gt;;
 }
 &nbsp;
 const StoragePoolFormZFS: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span></span>
+<span class="cstat-no" title="statement not covered" >  const isClustered = <span class="cstat-no" title="statement not covered" >useIsClustered();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;ScrollableConfigurationTable</span>
@@ -221,7 +218,7 @@ const StoragePoolFormZFS: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >          label: "ZFS pool name",</span>
 <span class="cstat-no" title="statement not covered" >          name: "zfs_pool_name",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: isClusteredServer(settings) ? (</span>
+<span class="cstat-no" title="statement not covered" >          children: isClustered ? (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;ClusteredZfsNameSelector</span>
 <span class="cstat-no" title="statement not covered" >              formik={formik}</span>
 <span class="cstat-no" title="statement not covered" >              placeholder="Enter ZFS pool name"</span>
@@ -230,7 +227,7 @@ const StoragePoolFormZFS: FC&lt;Props&gt; = <span class="fstat-no" title="functi
 <span class="cstat-no" title="statement not covered" >            &lt;Input type="text" placeholder="Enter ZFS pool name" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >          ),</span>
 <span class="cstat-no" title="statement not covered" >          readOnlyRenderer: <span class="fstat-no" title="function not covered" >(v</span>alue) =&gt;</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            isClusteredServer(settings) &amp;&amp; value !== "-" ? (</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            isClustered &amp;&amp; value !== "-" ? (</span></span>
 <span class="cstat-no" title="statement not covered" >              &lt;ClusteredZfsNameSelector</span>
 <span class="cstat-no" title="statement not covered" >                formik={formik}</span>
 <span class="cstat-no" title="statement not covered" >                placeholder="Enter ZFS pool name"</span>
@@ -268,7 +265,7 @@ export default StoragePoolFormZFS;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-17T23:48:58.211Z
+                at 2025-03-18T17:13:35.505Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
