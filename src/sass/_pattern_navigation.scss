@@ -10,13 +10,13 @@
   }
 
   .logo-text {
-    color: $colors--light-theme--background-default;
+    color: $colors--dark-theme--text-default;
     left: 47px;
     position: absolute;
     top: $spv--x-small;
 
     &.is-light {
-      color: $colors--dark-theme--background-default;
+      color: $colors--light-theme--text-default;
     }
   }
 

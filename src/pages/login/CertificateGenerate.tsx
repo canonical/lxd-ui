@@ -27,8 +27,8 @@ const CertificateGenerate: FC = () => {
         <Col size={1} />
         <Col size={10}>
           <Notification
-            actions={[
-              ...(hasCertificate
+            actions={
+              hasCertificate
                 ? []
                 : [
                     {
@@ -37,8 +37,8 @@ const CertificateGenerate: FC = () => {
                         navigate("/ui/login/certificate-add");
                       },
                     },
-                  ]),
-            ]}
+                  ]
+            }
             title="TLS login"
             severity="information"
           >

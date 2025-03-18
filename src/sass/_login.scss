@@ -1,10 +1,10 @@
 .login {
-  height: calc(100vh - 3.5rem);
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   .login-page {
-    align-content: center;
-    height: 100%;
-    margin-top: 0;
     text-align: center;
     width: fit-content;
 
