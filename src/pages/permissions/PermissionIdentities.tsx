@@ -37,6 +37,7 @@ import CreateTlsIdentityBtn from "./CreateTlsIdentityBtn";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/instanceBulkActions";
+import { getIdentityName } from "util/permissionIdentities";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -87,7 +88,7 @@ const PermissionIdentities: FC = () => {
     if (
       !filters.queries.every(
         (q) =>
-          identity.name.toLowerCase().includes(q) ||
+          getIdentityName(identity).toLowerCase().includes(q) ||
           identity.id.toLowerCase().includes(q),
       )
     ) {
@@ -133,6 +134,7 @@ const PermissionIdentities: FC = () => {
         </div>
       );
     };
+    const name = getIdentityName(identity);
 
     return {
       key: identity.id,
@@ -142,13 +144,13 @@ const PermissionIdentities: FC = () => {
         {
           content: (
             <>
-              {identity.name} <Tag isVisible={isLoggedInIdentity}>You</Tag>
+              {name} <Tag isVisible={isLoggedInIdentity}>You</Tag>
             </>
           ),
           role: "cell",
           "aria-label": "Name",
           className: "u-truncate",
-          title: identity.name,
+          title: name,
         },
         {
           content: identity.id,
@@ -207,7 +209,7 @@ const PermissionIdentities: FC = () => {
       ],
       sortData: {
         id: identity.id,
-        name: identity.name.toLowerCase(),
+        name: name.toLowerCase(),
         authentication_method: identity.authentication_method,
         type: identity.type,
         groups: identity.groups?.length || 0,

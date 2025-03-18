@@ -2,6 +2,7 @@ import { Button, Icon } from "@canonical/react-components";
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { ChangeSummary } from "util/permissionIdentities";
+import { getIdentityName } from "util/permissionIdentities";
 import Tag from "components/Tag";
 import type { LxdIdentity } from "types/permissions";
 import LoggedInUserNotification from "./LoggedInUserNotification";
@@ -73,7 +74,7 @@ const generateRowsFromGroupIdentityChanges = (
   const groups = Object.keys(groupIdentitiesChangeSummary);
   const identityNameLookup: Record<string, string> = {};
   identities.forEach(
-    (identity) => (identityNameLookup[identity.id] = identity.name),
+    (identity) => (identityNameLookup[identity.id] = getIdentityName(identity)),
   );
 
   const rows: React.JSX.Element[] = [];

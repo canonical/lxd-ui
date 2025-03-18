@@ -5,6 +5,7 @@ import type { LxdIdentity } from "types/permissions";
 import usePanelParams from "util/usePanelParams";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/instanceBulkActions";
+import { getIdentityName } from "util/permissionIdentities";
 
 interface Props {
   identities: LxdIdentity[];
@@ -29,7 +30,7 @@ const EditIdentityGroupsBtn: FC<Props & ButtonProps> = ({
 
   const getRestrictedWarning = () => {
     const restrictedList = restrictedIdentities
-      .map((identity) => `\n- ${identity.name}`)
+      .map((identity) => `\n- ${getIdentityName(identity)}`)
       .join("");
     return `You do not have permission to modify ${restrictedIdentities.length > 1 ? "some of the selected" : "the selected"} ${pluralize("identity", restrictedIdentities.length)}:${restrictedList}`;
   };

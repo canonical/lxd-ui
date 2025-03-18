@@ -129,7 +129,7 @@ export const getChangesInGroupsForIdentities = (
       identityGroupsChangeSummary[identity.id] = {
         added: groupsAddedForIdentity,
         removed: groupsRemovedForIdentity,
-        name: identity.name,
+        name: getIdentityName(identity),
       };
     }
   }
@@ -173,4 +173,11 @@ export const pivotIdentityGroupsChangeSummary = (
   }
 
   return groupIdentitiesChangeSummary;
+};
+
+export const getIdentityName = (identity?: LxdIdentity): string => {
+  if (!identity) {
+    return "";
+  }
+  return identity.name.length > 0 ? identity.name : identity.id;
 };
