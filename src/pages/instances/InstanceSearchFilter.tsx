@@ -12,8 +12,7 @@ import {
   paramsFromSearchData,
   searchParamsToChips,
 } from "util/searchAndFilter";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
+import { useIsClustered } from "context/useIsClustered";
 
 export const QUERY = "query";
 export const STATUS = "status";
@@ -29,8 +28,7 @@ interface Props {
 
 const InstanceSearchFilter: FC<Props> = ({ instances }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   const profileSet = [
     ...new Set(instances.flatMap((instance) => instance.profiles)),

@@ -1,14 +1,13 @@
-import { Fragment, type FC } from "react";
+import { type FC } from "react";
 import type { LxdStoragePool } from "types/storage";
 import { humanFileSize } from "util/helpers";
 import Meter from "components/Meter";
 import { useClusteredStoragePoolResources } from "context/useStoragePools";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import { fetchStoragePoolResources } from "api/storage-pools";
 import { hasPoolMemberSpecificSize } from "util/storagePool";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   pool: LxdStoragePool;
@@ -18,8 +17,7 @@ interface Props {
 const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
   const { data: clusteredPoolResources = [] } =
     useClusteredStoragePoolResources(pool.name);
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const hasMemberSpecificSize =
     hasPoolMemberSpecificSize(pool.driver) && isClustered;
 

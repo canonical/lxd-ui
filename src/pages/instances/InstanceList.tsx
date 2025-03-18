@@ -62,13 +62,12 @@ import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
 import InstanceUsageDisk from "pages/instances/InstanceDisk";
 import { useInstances } from "context/useInstances";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
+import { useIsClustered } from "context/useIsClustered";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -91,8 +90,7 @@ const InstanceList: FC = () => {
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
   const [searchParams] = useSearchParams();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const { canCreateInstances } = useProjectEntitlements();
 
   const filters: InstanceFilters = {

@@ -30,14 +30,13 @@ import { getHandledNetworkConfigKeys, getNetworkKey } from "util/networks";
 import NetworkFormOvn from "pages/networks/forms/NetworkFormOvn";
 import YamlNotification from "components/forms/YamlNotification";
 import { ensureEditMode } from "util/instanceEdit";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import ScrollableContainer from "components/ScrollableContainer";
 import NetworkTopology from "pages/networks/NetworkTopology";
 import { debounce } from "util/debounce";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 import type { LxdClusterMember } from "types/cluster";
+import { useIsClustered } from "context/useIsClustered";
 
 export interface NetworkFormValues {
   readOnly: boolean;
@@ -189,8 +188,7 @@ const NetworkForm: FC<Props> = ({
 }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const [query, setQuery] = useState("");
   const [hasEmptySearchResult, setEmptySearchResult] = useState(false);
 

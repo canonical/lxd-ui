@@ -20,16 +20,14 @@ import CustomLayout from "components/CustomLayout";
 import PageHeader from "components/PageHeader";
 import { useStoragePools } from "context/useStoragePools";
 import classNames from "classnames";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
+import { useIsClustered } from "context/useIsClustered";
 
 const StoragePools: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { project } = useParams<{ project: string }>();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   if (!project) {
     return <>Missing project</>;

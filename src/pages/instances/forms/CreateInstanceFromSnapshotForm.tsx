@@ -13,8 +13,6 @@ import {
 } from "@canonical/react-components";
 import * as Yup from "yup";
 import { createInstance } from "api/instances";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
 import { instanceNameValidation, truncateInstanceName } from "util/instances";
 import type { LxdDiskDevice } from "types/device";
 import { useEventQueue } from "context/eventQueue";
@@ -26,6 +24,7 @@ import { useInstances } from "context/useInstances";
 import { useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useStoragePools } from "context/useStoragePools";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   instance: LxdInstance;
@@ -86,8 +85,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
   close,
 }) => {
   const toastNotify = useToastNotification();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const controllerState = useState<AbortController | null>(null);
   const eventQueue = useEventQueue();
 

@@ -13,9 +13,8 @@ import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import { useServerEntitlements } from "util/entitlements/server";
 import ClusteredSettingFormInput from "./ClusteredSettingFormInput";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
+import { useIsClustered } from "context/useIsClustered";
 
 export const getConfigId = (key: string) => {
   return key.replace(".", "___");
@@ -40,8 +39,7 @@ const SettingForm: FC<Props> = ({
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const { canEditServerConfiguration } = useServerEntitlements();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   const editRef = useRef<HTMLDivElement | null>(null);
 

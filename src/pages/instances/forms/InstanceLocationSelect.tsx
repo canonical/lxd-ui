@@ -4,11 +4,10 @@ import { Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
-import { useSettings } from "context/useSettings";
 import { fetchClusterGroups } from "api/cluster";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
-import { isClusteredServer } from "util/settings";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -29,8 +28,7 @@ const figureDefaultMember = (target?: string) => {
 };
 
 const InstanceLocationSelect: FC<Props> = ({ formik }) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   if (!isClustered) {
     return <></>;
