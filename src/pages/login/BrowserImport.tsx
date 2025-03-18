@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { Col, Icon, Row, Tabs } from "@canonical/react-components";
+import { Col, Row, Tabs } from "@canonical/react-components";
 import CertificateGenerateBtn from "./CertificateGenerateBtn";
 
 const FIREFOX = "Firefox";
@@ -57,12 +57,9 @@ const BrowserImport: FC = () => {
               {downloadPfx}
               <li className="p-list__item">
                 Go to Firefox’s privacy settings:
-                <div>
-                  <a href={"url"} rel="noopener noreferrer" target="_blank">
-                    about:preferences#privacy
-                    <Icon className="external-link-icon" name="external-link" />
-                  </a>
-                </div>
+                <pre className="p-code-snippet__block u-no-margin--bottom">
+                  <code>about:preferences#privacy</code>
+                </pre>
               </li>
               <li className="p-list__item">
                 Scroll down to the certificates section and click{" "}
@@ -89,12 +86,9 @@ const BrowserImport: FC = () => {
               {downloadPfx}
               <li className="p-list__item">
                 Go to Chrome&apos;s certificate settings:
-                <div>
-                  <a href={"url"} rel="noopener noreferrer" target="_blank">
-                    chrome://settings/certificates
-                    <Icon className="external-link-icon" name="external-link" />
-                  </a>
-                </div>
+                <pre className="p-code-snippet__block u-no-margin--bottom">
+                  <code>chrome://settings/certificates</code>
+                </pre>
               </li>
               <li className="p-list__item">
                 Click <b>Import</b>
@@ -116,12 +110,9 @@ const BrowserImport: FC = () => {
               {downloadPfx}
               <li className="p-list__item">
                 Go to Chrome&apos;s certificate settings:
-                <div>
-                  <a href={"url"} rel="noopener noreferrer" target="_blank">
-                    chrome://settings/certificates
-                    <Icon className="external-link-icon" name="external-link" />
-                  </a>
-                </div>
+                <pre className="p-code-snippet__block u-no-margin--bottom">
+                  <code>chrome://settings/certificates</code>
+                </pre>
               </li>
               <li className="p-list__item">
                 Near the bottom of the page, click <b>Manage certificates</b>
@@ -145,12 +136,9 @@ const BrowserImport: FC = () => {
               {downloadPfx}
               <li className="p-list__item">
                 Go to Edge&apos;s certificate settings:
-                <div>
-                  <a href={"url"} rel="noopener noreferrer" target="_blank">
-                    edge://settings/privacy
-                    <Icon className="external-link-icon" name="external-link" />
-                  </a>
-                </div>
+                <pre className="p-code-snippet__block u-no-margin--bottom">
+                  <code>edge://settings/privacy</code>
+                </pre>
               </li>
               <li className="p-list__item">
                 Under <b>Security</b>, click <b>Manage certificates</b>

@@ -2,12 +2,10 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Button, Form, Textarea, useNotify } from "@canonical/react-components";
 import { addCertificate } from "api/certificates";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 
 const CertificateAddForm: FC = () => {
   const notify = useNotify();
   const [token, setToken] = useState("");
-  const { hasExplicitTrustToken } = useSupportedFeatures();
 
   const useToken = () => {
     const sanitisedToken =
@@ -16,7 +14,7 @@ const CertificateAddForm: FC = () => {
         .split(/\r?\n|\r|\n/g)
         .at(-1) ?? "";
 
-    addCertificate(sanitisedToken, hasExplicitTrustToken)
+    addCertificate(sanitisedToken)
       .then(() => {
         location.reload();
       })
@@ -41,7 +39,7 @@ const CertificateAddForm: FC = () => {
         type="button"
         onClick={useToken}
       >
-        Conect
+        Connect
       </Button>
     </Form>
   );

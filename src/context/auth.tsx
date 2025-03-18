@@ -43,6 +43,7 @@ export const AuthProvider: FC<ProviderProps> = ({ children }) => {
     queryKey: [queryKeys.currentIdentity],
     queryFn: fetchCurrentIdentity,
     retry: false, // avoid retry for older versions of lxd less than 5.21 due to missing endpoint
+    enabled: !isSettingsLoading && settings && settings.auth !== "untrusted",
   });
 
   const isFineGrained = () => {

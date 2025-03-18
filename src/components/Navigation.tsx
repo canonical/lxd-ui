@@ -64,6 +64,7 @@ const Navigation: FC = () => {
   const onTrustToken = location.pathname.includes("certificate-add");
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasCertificate = settings?.client_certificate;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -155,9 +156,14 @@ const Navigation: FC = () => {
   return (
     <>
       <header className="l-navigation-bar">
-        <div className="p-panel is-dark">
+        <div
+          className={classnames("p-panel", {
+            "is-light": !isAuthenticated,
+            "is-dark": isAuthenticated,
+          })}
+        >
           <div className="p-panel__header">
-            <Logo />
+            <Logo light={!isAuthenticated} />
             <div className="p-panel__controls">
               <Button
                 dense
@@ -180,7 +186,10 @@ const Navigation: FC = () => {
       >
         <div className="l-navigation__drawer">
           <div
-            className={classnames("p-panel", { "is-light": !isAuthenticated })}
+            className={classnames("p-panel", {
+              "is-light": !isAuthenticated,
+              "is-dark": isAuthenticated,
+            })}
           >
             <div className="p-panel__header is-sticky">
               <Logo light={!isAuthenticated} />
@@ -596,7 +605,8 @@ const Navigation: FC = () => {
                         className="p-side-navigation__link"
                         title="Log out"
                         onClick={() => {
-                          logout();
+                          logout(hasOidc, hasCertificate);
+
                           softToggleMenu();
                         }}
                       >

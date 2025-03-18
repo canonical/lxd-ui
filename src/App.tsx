@@ -12,6 +12,7 @@ import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
 import NoProject from "components/NoProject";
 import lazy from "util/lazyWithRetry";
+import { useSettings } from "context/useSettings";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -85,14 +86,21 @@ const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 const App: FC = () => {
   const { defaultProject, hasNoProjects, isAuthLoading, isAuthenticated } =
     useAuth();
+  const { data: settings } = useSettings();
+  const hasOidc = settings?.auth_methods?.includes("oidc");
+  const hasCertificate = settings?.client_certificate;
   setTitle();
 
   if (isAuthLoading) {
     return <Loader />;
   }
 
-  if (!isAuthenticated) {
-    logout();
+  if (!isAuthenticated && hasOidc != undefined && hasCertificate != undefined) {
+    logout(hasOidc, hasCertificate);
+  }
+
+  if (!isAuthenticated && !window.location.href.includes("/ui/login")) {
+    return null;
   }
 
   return (

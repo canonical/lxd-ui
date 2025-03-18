@@ -5,6 +5,7 @@ import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import CustomLayout from "components/CustomLayout";
+import classnames from "classnames";
 
 const Login: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
@@ -19,33 +20,38 @@ const Login: FC = () => {
     return <Navigate to="/ui" replace={true} />;
   }
 
-  if (!hasOidc) {
-    return <Navigate to="/ui/login/certificate-generate" replace={true} />;
-  }
-
   return (
     <CustomLayout contentClassName="login">
       <div className="empty-state login-page">
         <Icon name="pods" className="lxd-icon" />
         <h1 className="p-heading--4 u-sv-2">Login</h1>
-        {hasOidc && (
-          <>
-            <p className="u-sv1">Choose your login method</p>
-            <div className="auth-container">
+
+        <>
+          <p className="u-sv1">Choose your login method</p>
+          <div className="auth-container">
+            {hasOidc && (
               <a className="p-button--positive has-icon" href="/oidc/login">
                 <Icon name="security" light />
                 <span>Login with SSO</span>
               </a>
-              <a
-                className="p-button has-icon"
-                href="/ui/login/certificate-generate"
-              >
-                <Icon name="certificate" className="auth-button-icon" />
-                <span>Login with TLS</span>
-              </a>
-            </div>
-          </>
-        )}
+            )}
+            <a
+              className={classnames(" has-icon", {
+                "p-button--positive": !hasOidc,
+                "p-button": hasOidc,
+              })}
+              href="/ui/login/certificate-generate"
+            >
+              <Icon
+                name="certificate"
+                className={classnames("auth-button-icon", {
+                  "is-light": !hasOidc,
+                })}
+              />
+              <span>Login with TLS</span>
+            </a>
+          </div>
+        </>
       </div>
     </CustomLayout>
   );

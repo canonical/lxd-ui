@@ -41,7 +41,7 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
   return (
     <Modal
       close={onClose}
-      title="Create TLS user"
+      title="Create Certificate"
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" onClick={handleSkip}>

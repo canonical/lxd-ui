@@ -80,7 +80,7 @@ const CertificateGenerateBtn: FC = () => {
           aria-label={`${isGenerating ? "Generating" : "Generate"} certificate`}
         >
           {isGenerating ? (
-            <Icon className="is-light u-animation--spin" name="spinner" />
+            <Icon className="u-animation--spin" name="spinner" />
           ) : (
             <Icon name="begin-downloading" alt="download" />
           )}

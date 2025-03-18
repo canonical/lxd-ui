@@ -6,16 +6,20 @@ import {
   Row,
   useNotify,
 } from "@canonical/react-components";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
+import { useSettings } from "context/useSettings";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
   const notify = useNotify();
+  const { data: settings } = useSettings();
+  const hasCertificate = settings?.client_certificate;
+  const navigate = useNavigate();
 
   if (isAuthLoading) {
     return <Loader />;
@@ -27,9 +31,9 @@ const CertificateAdd: FC = () => {
 
   return (
     <CustomLayout mainClassName="certificate-generate">
-      <Row className="u-no-margin--left">
+      <Row>
         <Col size={2} />
-        <Col size={10}>
+        <Col size={8}>
           {notify.notification ? (
             <NotificationRow />
           ) : (
@@ -39,6 +43,23 @@ const CertificateAdd: FC = () => {
                 server’s trust store, you must present a trust token generated
                 by the server.
               </Notification>
+              {hasCertificate === false && (
+                <Notification
+                  severity="caution"
+                  title="Missing client certificate"
+                  actions={[
+                    {
+                      label: "Go back to step 1",
+                      onClick: () => {
+                        navigate("/ui/login/certificate-generate");
+                      },
+                    },
+                  ]}
+                >
+                  You are missing an installed client certificate. You may not
+                  be able to authenticate.
+                </Notification>
+              )}
             </Row>
           )}
           <div className="p-stepped-list__content">
