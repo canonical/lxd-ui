@@ -7,9 +7,8 @@ import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
 import type { LxdStoragePool } from "types/storage";
 import { StoragePoolClusterMember } from "./StoragePoolClusterMember";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
 import { hasPoolMemberSpecificSize } from "util/storagePool";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   pool: LxdStoragePool;
@@ -22,8 +21,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
   };
   useEffect(updateContentHeight, [project, pool]);
   useEventListener("resize", updateContentHeight);
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const hasMemberSpecificSize = hasPoolMemberSpecificSize(pool.driver);
 
   return (

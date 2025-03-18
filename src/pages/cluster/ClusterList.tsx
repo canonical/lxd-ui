@@ -21,20 +21,18 @@ import {
   getClusterHeaders,
   getClusterRows,
 } from "util/clusterGroups";
-import { useSettings } from "context/useSettings";
 import NotificationRow from "components/NotificationRow";
-import { isClusteredServer } from "util/settings";
 import BaseLayout from "components/BaseLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import useSortTableData from "util/useSortTableData";
+import { useIsClustered } from "context/useIsClustered";
 
 const ClusterList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { group: activeGroup } = useParams<{ group: string }>();
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
 
   const {
     data: members = [],

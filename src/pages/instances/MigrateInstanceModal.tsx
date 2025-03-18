@@ -2,8 +2,6 @@ import type { FC, KeyboardEvent } from "react";
 import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
-import { useSettings } from "context/useSettings";
-import { isClusteredServer } from "util/settings";
 import FormLink from "components/FormLink";
 import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
 import BackLink from "components/BackLink";
@@ -11,6 +9,7 @@ import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
 import type { MigrationType } from "util/instanceMigration";
 import { useInstanceMigration } from "util/instanceMigration";
 import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   close: () => void;
@@ -18,8 +17,7 @@ interface Props {
 }
 
 const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const [type, setType] = useState<MigrationType>("");
   const [target, setTarget] = useState("");
   const { handleMigrate } = useInstanceMigration({

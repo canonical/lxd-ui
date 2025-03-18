@@ -6,15 +6,14 @@ import { Input, Select } from "@canonical/react-components";
 import { optionTrueFalse } from "util/instanceOptions";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 import ClusteredZfsNameSelector from "./ClusteredZfsNameSelector";
-import { isClusteredServer } from "util/settings";
-import { useSettings } from "context/useSettings";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   formik: FormikProps<StoragePoolFormValues>;
 }
 
 const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
-  const { data: settings } = useSettings();
+  const isClustered = useIsClustered();
 
   return (
     <ScrollableConfigurationTable
@@ -24,7 +23,7 @@ const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
           label: "ZFS pool name",
           name: "zfs_pool_name",
           defaultValue: "",
-          children: isClusteredServer(settings) ? (
+          children: isClustered ? (
             <ClusteredZfsNameSelector
               formik={formik}
               placeholder="Enter ZFS pool name"
@@ -33,7 +32,7 @@ const StoragePoolFormZFS: FC<Props> = ({ formik }) => {
             <Input type="text" placeholder="Enter ZFS pool name" />
           ),
           readOnlyRenderer: (value) =>
-            isClusteredServer(settings) && value !== "-" ? (
+            isClustered && value !== "-" ? (
               <ClusteredZfsNameSelector
                 formik={formik}
                 placeholder="Enter ZFS pool name"

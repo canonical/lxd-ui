@@ -2,11 +2,10 @@ import type { SelectProps } from "@canonical/react-components";
 import { Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchClusterMembers } from "api/cluster";
-import { useSettings } from "context/useSettings";
 import type { FC } from "react";
 import { useEffect } from "react";
 import { queryKeys } from "util/queryKeys";
-import { isClusteredServer } from "util/settings";
+import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
   setMember?: (member: string) => void;
@@ -20,8 +19,7 @@ const ClusterMemberSelector: FC<SelectProps & Props> = ({
   disableReason,
   ...props
 }) => {
-  const { data: settings } = useSettings();
-  const isClustered = isClusteredServer(settings);
+  const isClustered = useIsClustered();
   const { data: clusterMembers = [], isLoading: clusterMembersLoading } =
     useQuery({
       queryKey: [queryKeys.cluster],
