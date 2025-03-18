@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.21% </span>
+                <span class="strong">62.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>165/261</span>
+                <span class='fraction'>167/266</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.18% </span>
+                <span class="strong">79% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>156/197</span>
+                <span class='fraction'>158/200</span>
             </div>
         
             
@@ -260,7 +260,11 @@
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
 <a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">43x</span>
@@ -376,6 +380,7 @@
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -384,6 +389,7 @@
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">32x</span>
@@ -467,6 +473,7 @@ import type { LxdIdentity } from "types/permissions";
 import { isUnrestricted } from "util/helpers";
 import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
+import { getIdentityName } from "util/permissionIdentities";
 &nbsp;
 export type FormIdentity = LxdIdentity &amp; {
   isRemoved?: boolean;
@@ -571,7 +578,8 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 &nbsp;
   const filteredIdentities = <span class="cstat-no" title="statement not covered" >fineGrainedIdentities.filter((identity) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (filter) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return identity.name.toLowerCase().includes(filter.toLowerCase());</span></span>
+<span class="cstat-no" title="statement not covered" >      const name = <span class="cstat-no" title="statement not covered" >getIdentityName(identity);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >      return name.toLowerCase().includes(filter.toLowerCase());</span></span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return true;</span>
@@ -583,6 +591,7 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
 <span class="cstat-no" title="statement not covered" >    };</span>
     const formIdentity = <span class="cstat-no" title="statement not covered" >selected.find((id) =&gt; id.id === identity.id);</span>
     const isModified = <span class="cstat-no" title="statement not covered" >formIdentity?.isAdded || <span class="branch-1 cbranch-no" title="branch not covered" >formIdentity?.isRemoved;</span></span>
+    const name = <span class="cstat-no" title="statement not covered" >getIdentityName(identity);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       key: identity.id,
@@ -590,11 +599,11 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
       className: "u-row",
       columns: [
         {
-          content: identity.name,
+          content: name,
           role: "cell",
           "aria-label": "Identity",
           title: canEditIdentity(identity)
-            ? identity.<span class="branch-0 cbranch-no" title="branch not covered" >name</span>
+            ? <span class="branch-0 cbranch-no" title="branch not covered" >name</span>
 <span class="cstat-no" title="statement not covered" >            : "You do not have permission to allocate this identity to the group",</span>
           onClick: clickRow,
           className: "clickable-cell",
@@ -607,7 +616,7 @@ const EditIdentitiesForm: FC&lt;Props&gt; = <span class="cstat-no" title="statem
         },
       ],
       sortData: {
-        name: identity.name.toLowerCase(),
+        name: name.toLowerCase(),
       },
     };
   });
@@ -661,7 +670,7 @@ export default EditIdentitiesForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-18T17:13:59.101Z
+                at 2025-03-18T22:23:06.224Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
