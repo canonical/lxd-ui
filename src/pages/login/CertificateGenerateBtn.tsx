@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PasswordModal from "./PasswordModal";
 import { Button, Icon } from "@canonical/react-components";
 
@@ -8,7 +8,11 @@ interface Certs {
   pfx: string;
 }
 
-const CertificateGenerateBtn: FC = () => {
+interface Props {
+  isPasswordRequired?: boolean;
+}
+
+const CertificateGenerateBtn: FC<Props> = ({ isPasswordRequired }) => {
   const [isGenerating, setGenerating] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [certs, setCerts] = useState<Certs | null>(null);
@@ -20,18 +24,6 @@ const CertificateGenerateBtn: FC = () => {
   const openModal = () => {
     setModalOpen(true);
   };
-
-  const sendPfx = () => {
-    if (certs) {
-      downloadBase64(`lxd-ui-${location.hostname}.pfx`, certs.pfx);
-    }
-  };
-
-  useEffect(() => {
-    if (certs) {
-      sendPfx();
-    }
-  }, [certs]);
 
   const createCert = (password: string) => {
     closeModal();
@@ -45,6 +37,7 @@ const CertificateGenerateBtn: FC = () => {
     worker.onmessage = (event: MessageEvent<Certs>) => {
       setCerts(event.data);
       setGenerating(false);
+      downloadBase64(`lxd-ui-${location.hostname}.pfx`, event.data.pfx);
       worker.terminate();
     };
 
@@ -69,7 +62,11 @@ const CertificateGenerateBtn: FC = () => {
   return (
     <>
       {isModalOpen && (
-        <PasswordModal onClose={closeModal} onConfirm={createCert} />
+        <PasswordModal
+          onClose={closeModal}
+          onConfirm={createCert}
+          isPasswordRequired={isPasswordRequired}
+        />
       )}
       <div>
         <Button

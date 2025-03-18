@@ -34,7 +34,7 @@ const BrowserImport: FC = () => {
   const downloadPfx = (
     <li className="p-list__item u-clearfix">
       Create and download a client certificate:
-      <CertificateGenerateBtn />
+      <CertificateGenerateBtn isPasswordRequired={activeTab === MACOS} />
     </li>
   );
 
