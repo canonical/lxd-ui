@@ -13,6 +13,9 @@ import ItemName from "components/ItemName";
 import { deleteIdentity } from "api/auth-identities";
 import IdentityResource from "components/IdentityResource";
 import { useIdentityEntitlements } from "util/entitlements/identities";
+import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
+import { useSettings } from "context/useSettings";
+import { logout } from "util/helpers";
 
 interface Props {
   identity: LxdIdentity;
@@ -24,16 +27,27 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
   const toastNotify = useToastNotification();
   const [isDeleting, setDeleting] = useState(false);
   const { canDeleteIdentity } = useIdentityEntitlements();
+  const { data: settings } = useSettings();
+  const loggedInIdentityID = settings?.auth_user_name ?? "";
+  const isSelf = identity.id === loggedInIdentityID;
 
   const handleDelete = () => {
     setDeleting(true);
     deleteIdentity(identity)
       .then(() => {
+        if (isSelf && settings?.auth_user_method === "oidc") {
+          // special case for OIDC users, as they would be recreated via the api on the next request
+          // force a logout to prevent re-creation
+          logout();
+          return;
+        }
         queryClient.invalidateQueries({
           predicate: (query) => {
-            return [queryKeys.identities, queryKeys.authGroups].includes(
-              query.queryKey[0] as string,
-            );
+            return [
+              queryKeys.identities,
+              queryKeys.authGroups,
+              queryKeys.settings,
+            ].includes(query.queryKey[0] as string);
           },
         });
         toastNotify.success(
@@ -63,15 +77,18 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
       }
       appearance="base"
       aria-label="Delete identity"
-      className="has-icon u-no-margin--bottom"
+      className="has-icon u-no-margin--bottom is-dense"
       confirmationModalProps={{
         title: "Confirm delete",
         children: (
-          <p>
-            This will permanently delete <ItemName item={identity} bold />.
-            <br />
-            This action cannot be undone, and can result in data loss.
-          </p>
+          <>
+            <LoggedInUserNotification isVisible={isSelf} />
+            <p>
+              This will permanently delete <ItemName item={identity} bold />.
+              <br />
+              This action cannot be undone, and can result in data loss.
+            </p>
+          </>
         ),
         confirmButtonLabel: "Delete",
         onConfirm: handleDelete,

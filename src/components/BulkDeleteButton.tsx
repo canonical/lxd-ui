@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { pluralize } from "util/instanceBulkActions";
 import type { ConfirmationButtonProps } from "@canonical/react-components";
 import { ConfirmationButton, Icon } from "@canonical/react-components";
@@ -12,8 +12,9 @@ interface Props {
   disabledReason?: string;
   bulkDeleteBreakdown?: string[];
   confirmationButtonProps?: Partial<ConfirmationButtonProps>;
-  buttonLabel?: React.ReactNode;
+  buttonLabel?: ReactNode;
   className?: string;
+  modalContentPrefix?: ReactNode;
 }
 
 const BulkDeleteButton: FC<Props> = ({
@@ -26,6 +27,7 @@ const BulkDeleteButton: FC<Props> = ({
   onDelete,
   buttonLabel = "Delete",
   className,
+  modalContentPrefix,
 }) => {
   const totalCount = entities.length;
   const deleteCount = deletableEntities.length;
@@ -41,6 +43,7 @@ const BulkDeleteButton: FC<Props> = ({
 
   const modalContent = (
     <>
+      {modalContentPrefix}
       {breakdown.length > 0 && (
         <>
           <p>
@@ -50,7 +53,7 @@ const BulkDeleteButton: FC<Props> = ({
           <ul className="p-list">{breakdown}</ul>
         </>
       )}
-      <p className="u-no-padding--top">
+      <p className={breakdown.length > 0 ? "u-no-padding--top" : ""}>
         This will permanently delete <b>{deleteCount}</b>{" "}
         {pluralize(entityType, deleteCount)}.{"\n"}This action cannot be undone,
         and can result in data loss.
