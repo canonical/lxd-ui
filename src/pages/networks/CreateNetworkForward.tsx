@@ -62,7 +62,7 @@ const CreateNetworkForward: FC = () => {
     onSubmit: (values) => {
       const forward = toNetworkForward(values);
       createNetworkForward(networkName ?? "", forward, project ?? "")
-        .then(() => {
+        .then((listenAddress) => {
           queryClient.invalidateQueries({
             queryKey: [
               queryKeys.projects,
@@ -74,7 +74,7 @@ const CreateNetworkForward: FC = () => {
           });
           navigate(`/ui/project/${project}/network/${networkName}/forwards`);
           toastNotify.success(
-            `Network forward ${forward.listen_address} created.`,
+            `Network forward with listen address ${listenAddress} created.`,
           );
         })
         .catch((e) => {
