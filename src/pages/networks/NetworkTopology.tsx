@@ -165,8 +165,20 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
             .slice(0, isInstancesCollapsed ? 5 : instances.length)
             .map((item) => {
               const instanceUrl = `/ui/project/${item.project}/instance/${item.name}`;
+              const projectUrl = `/ui/project/${item.project}`;
+              const isExternalProject = item.project !== project;
               return (
                 <div key={instanceUrl} className="downstream-item">
+                  {isExternalProject && (
+                    <>
+                      <ResourceLink
+                        type="project"
+                        value={item.project}
+                        to={projectUrl}
+                      />{" "}
+                      /{" "}
+                    </>
+                  )}
                   <ResourceLink
                     type="instance"
                     value={item.name}
