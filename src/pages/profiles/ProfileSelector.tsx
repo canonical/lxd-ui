@@ -110,7 +110,7 @@ const ProfileSelector: FC<Props> = ({
             {!readOnly && (index > 0 || selected.length > 1) && (
               <div>
                 <Button
-                  appearance="link"
+                  appearance="base"
                   className="profile-action-btn"
                   onClick={() => {
                     const newSelection = [...selected];
@@ -122,11 +122,12 @@ const ProfileSelector: FC<Props> = ({
                   aria-label="move profile up"
                   title={disabledReason ?? "move profile up"}
                   disabled={!!disabledReason || index === 0}
+                  hasIcon
                 >
                   <Icon name="chevron-up" />
                 </Button>
                 <Button
-                  appearance="link"
+                  appearance="base"
                   className="profile-action-btn"
                   onClick={() => {
                     const newSelection = [...selected];
@@ -138,6 +139,7 @@ const ProfileSelector: FC<Props> = ({
                   aria-label="move profile down"
                   title={disabledReason ?? "move profile down"}
                   disabled={!!disabledReason || index === selected.length - 1}
+                  hasIcon
                 >
                   <Icon name="chevron-down" />
                 </Button>
@@ -146,7 +148,7 @@ const ProfileSelector: FC<Props> = ({
 
             {!readOnly && (
               <Button
-                appearance="link"
+                appearance="base"
                 className="profile-remove-btn"
                 onClick={() => {
                   setSelected(selected.filter((item) => item !== value));
@@ -154,8 +156,10 @@ const ProfileSelector: FC<Props> = ({
                 type="button"
                 disabled={!!disabledReason}
                 title={disabledReason}
+                hasIcon
               >
-                Remove
+                <Icon name="delete" />
+                <span>Remove</span>
               </Button>
             )}
           </div>
@@ -169,8 +173,10 @@ const ProfileSelector: FC<Props> = ({
           onClick={addProfile}
           type="button"
           title={disabledReason}
+          hasIcon
         >
-          Add profile
+          <Icon name="plus" />
+          <span>Add profile</span>
         </Button>
       )}
     </>

@@ -93,6 +93,8 @@ import type { InstanceIconType } from "components/ResourceIcon";
 import type { BootFormValues } from "components/forms/BootForm";
 import BootForm, { bootPayload } from "components/forms/BootForm";
 import { useProfiles } from "context/useProfiles";
+import type { SshKeyFormValues } from "components/forms/SshKeyForm";
+import { sshKeyPayload } from "components/forms/SshKeyForm";
 
 export type CreateInstanceFormValues = InstanceDetailsFormValues &
   FormDeviceValues &
@@ -102,6 +104,7 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
   MigrationFormValues &
   BootFormValues &
   CloudInitFormValues &
+  SshKeyFormValues &
   YamlFormValues;
 
 interface PresetFormState {
@@ -351,6 +354,7 @@ const CreateInstance: FC = () => {
       instanceType: "container",
       profiles: ["default"],
       devices: [],
+      cloud_init_ssh_keys: [],
       readOnly: false,
       entityType: "instance",
       isCreating: true,
@@ -420,6 +424,7 @@ const CreateInstance: FC = () => {
         ...migrationPayload(values),
         ...bootPayload(values),
         ...cloudInitPayload(values),
+        ...sshKeyPayload(values),
       },
     };
   };

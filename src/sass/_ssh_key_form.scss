@@ -1,0 +1,27 @@
+.ssh-key-form {
+  .ssh-key-table {
+    .name {
+      width: 8rem;
+    }
+
+    .user {
+      width: 6rem;
+    }
+
+    .actions {
+      width: 9rem;
+    }
+  }
+}
+
+.ssh-key-add-modal {
+  .p-modal__dialog {
+    @include large {
+      width: 40rem;
+    }
+  }
+
+  .source-input {
+    min-height: 6rem;
+  }
+}

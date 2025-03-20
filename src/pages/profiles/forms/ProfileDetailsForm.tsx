@@ -5,6 +5,7 @@ import type { CreateProfileFormValues } from "pages/profiles/CreateProfile";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
+import SshKeyForm from "components/forms/SshKeyForm";
 
 export interface ProfileDetailsFormValues {
   name: string;
@@ -67,6 +68,7 @@ const ProfileDetailsForm: FC<Props> = ({ formik, isEdit }) => {
             disabled={!!formik.values.editRestriction}
             title={formik.values.editRestriction}
           />
+          <SshKeyForm formik={formik} />
         </Col>
       </Row>
     </ScrollableForm>
