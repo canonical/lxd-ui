@@ -1,16 +1,25 @@
 import type { FC } from "react";
-import { Col, Notification, Row, useNotify } from "@canonical/react-components";
-import { Navigate } from "react-router-dom";
+import {
+  CodeSnippet,
+  Col,
+  Notification,
+  Row,
+  useNotify,
+} from "@canonical/react-components";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import CertificateAddForm from "pages/login/CertificateAddForm";
 import NotificationRow from "components/NotificationRow";
 import CustomLayout from "components/CustomLayout";
-import HelpLink from "components/HelpLink";
+import { useSettings } from "context/useSettings";
 
 const CertificateAdd: FC = () => {
   const { isAuthenticated, isAuthLoading } = useAuth();
   const notify = useNotify();
+  const { data: settings } = useSettings();
+  const hasCertificate = settings?.client_certificate;
+  const navigate = useNavigate();
 
   if (isAuthLoading) {
     return <Loader />;
@@ -21,86 +30,64 @@ const CertificateAdd: FC = () => {
   }
 
   return (
-    <CustomLayout
-      mainClassName="certificate-generate"
-      header={
-        <div className="p-panel__header is-sticky">
-          <h1 className="p-panel__title">
-            <HelpLink
-              href="https://github.com/canonical/lxd-ui/wiki/Authentication-Setup-FAQ"
-              title="Authentication Setup FAQ"
-            >
-              Add existing certificate
-            </HelpLink>
-          </h1>
-        </div>
-      }
-    >
-      {notify.notification ? (
-        <NotificationRow />
-      ) : (
-        <Row>
-          <Notification severity="caution">
-            A client certificate must be present and selected in your browser.
-            <br />
-            Learn more in the{" "}
-            <a
-              href="https://github.com/canonical/lxd-ui/wiki/Authentication-Setup-FAQ#reusing-certificates"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Authentication Setup FAQ
-            </a>
-          </Notification>
-        </Row>
-      )}
-      <Row className="u-no-margin--left">
-        <Col size={12}>
-          <ol className="p-stepped-list--detailed">
-            <li className="p-stepped-list__item">
-              <Row>
-                <Col size={3}>
-                  <h2 className="p-stepped-list__title p-heading--5">
-                    Create token
-                  </h2>
-                </Col>
-                <Col size={6}>
-                  <div className="p-stepped-list__content">
-                    <p>Generate a token on the command line</p>
-                    <div className="p-code-snippet">
-                      <pre className="p-code-snippet__block--icon">
-                        <code>lxc config trust add --name lxd-ui</code>
-                      </pre>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </li>
-            <li className="p-stepped-list__item">
-              <Row>
-                <Col size={3}>
-                  <h2 className="p-stepped-list__title p-heading--5">Import</h2>
-                </Col>
-                <Col size={6}>
-                  <div className="p-stepped-list__content">
-                    <CertificateAddForm />
-                  </div>
-                </Col>
-              </Row>
-            </li>
-            <li className="p-stepped-list__item u-no-margin--bottom">
-              <Row>
-                <Col size={3}>
-                  <h2 className="p-stepped-list__title p-heading--5">Done</h2>
-                </Col>
-                <Col size={6}>
-                  <div className="p-stepped-list__content">
-                    <p>Enjoy LXD UI.</p>
-                  </div>
-                </Col>
-              </Row>
-            </li>
-          </ol>
+    <CustomLayout mainClassName="certificate-generate">
+      <Row>
+        <Col size={2} />
+        <Col size={8}>
+          {notify.notification ? (
+            <NotificationRow />
+          ) : (
+            <Row>
+              <Notification title="Trust token" severity="information">
+                In order for your browser certificate to be added to the
+                server’s trust store, you must present a trust token generated
+                by the server.
+              </Notification>
+              {hasCertificate === false && (
+                <Notification
+                  severity="caution"
+                  title="Missing client certificate"
+                  actions={[
+                    {
+                      label: "Go back to step 1",
+                      onClick: () => {
+                        navigate("/ui/login/certificate-generate");
+                      },
+                    },
+                  ]}
+                >
+                  You are missing an installed client certificate. You may not
+                  be able to authenticate.
+                </Notification>
+              )}
+            </Row>
+          )}
+          <div className="p-stepped-list__content">
+            <div>
+              Run the following commands on the LXD server to create a new
+              identity and generate a trust token:
+            </div>
+            <CodeSnippet
+              blocks={[
+                {
+                  code: `# Create a group called admin. \n# You can replace admin with the name you want to give to the group. \nlxc auth group create admin`,
+                  wrapLines: true,
+                },
+                {
+                  code: `# Assign admin permissions to the admin group.\nlxc auth group permission add admin server admin`,
+                  wrapLines: true,
+                },
+                {
+                  code: `# Create the new user with the admin group. \n# You can replace lxd-ui with the name you want to give to the identity. \nlxc auth identity create tls/lxd-ui --group admin`,
+                  wrapLines: true,
+                },
+              ]}
+            />
+          </div>
+
+          <div className="p-stepped-list__content">
+            <CertificateAddForm />
+          </div>
         </Col>
       </Row>
     </CustomLayout>

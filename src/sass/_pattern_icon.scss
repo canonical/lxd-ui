@@ -2,10 +2,18 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' width='16px' height='16px' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 7.743 L 6.742 14.485 L 7.899 13.329 L 2.311 7.743 L 7.899 2.157 L 6.742 1 L 0 7.743 Z M 7.899 7.743 L 14.642 14.485 L 15.797 13.329 L 10.21 7.743 L 15.797 2.157 L 14.642 1 L 7.899 7.743 Z' fill='%23FFF' style=''/%3E%3C/svg%3E");
 }
 
+@mixin lxdui-icon-sidebar-collapse-dark() {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' width='16px' height='16px' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 7.743 L 6.742 14.485 L 7.899 13.329 L 2.311 7.743 L 7.899 2.157 L 6.742 1 L 0 7.743 Z M 7.899 7.743 L 14.642 14.485 L 15.797 13.329 L 10.21 7.743 L 15.797 2.157 L 14.642 1 L 7.899 7.743 Z' fill='%23444' style=''/%3E%3C/svg%3E");
+}
+
 @mixin lxdui-p-icon {
   .p-icon--sidebar-toggle {
     @extend %icon;
     @include lxdui-icon-sidebar-collapse;
+
+    &.is-light {
+      @include lxdui-icon-sidebar-collapse-dark;
+    }
   }
 }
 

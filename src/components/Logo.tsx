@@ -2,8 +2,13 @@ import type { FC } from "react";
 import { useCurrentProject } from "context/useCurrentProject";
 import { NavLink } from "react-router-dom";
 import { useSettings } from "context/useSettings";
+import classNames from "classnames";
 
-const Logo: FC = () => {
+interface Props {
+  light?: boolean;
+}
+
+const Logo: FC<Props> = ({ light }) => {
   const { project, isLoading } = useCurrentProject();
   const { data: settings } = useSettings();
 
@@ -23,7 +28,11 @@ const Logo: FC = () => {
   return (
     <NavLink className="p-panel__logo" to={getLogoLink()}>
       <img src={src} alt="LXD-UI logo" className="p-panel__logo-image" />
-      <div className="logo-text p-heading--4">{heading}</div>
+      <div
+        className={classNames("logo-text p-heading--4", { "is-light": light })}
+      >
+        {heading}
+      </div>
     </NavLink>
   );
 };

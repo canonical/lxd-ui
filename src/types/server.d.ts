@@ -10,6 +10,12 @@ interface SupportedStorageDriver {
 
 export interface LxdSettings {
   api_status: string;
+  api_extensions?: string[];
+  auth?: "trusted" | "untrusted";
+  auth_methods?: LXDAuthMethods;
+  auth_user_method?: LXDAuthMethods;
+  auth_user_name?: string;
+  client_certificate?: boolean;
   config?: LxdConfigPair;
   environment?: {
     architectures: string[];
@@ -18,11 +24,6 @@ export interface LxdSettings {
     server_clustered: boolean;
     storage_supported_drivers: SupportedStorageDriver[];
   };
-  auth?: "trusted" | "untrusted";
-  auth_methods?: LXDAuthMethods;
-  auth_user_method?: LXDAuthMethods;
-  auth_user_name?: string;
-  api_extensions?: string[];
 }
 
 export type LXDSettingOnClusterMember = LxdSettings & {
