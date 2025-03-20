@@ -47,6 +47,7 @@ const getEditValues = (
     security_devlxd: item.config["security.devlxd"],
     security_devlxd_images: item.config["security.devlxd.images"],
     security_secureboot: item.config["security.secureboot"],
+    security_csm: item.config["security.csm"],
 
     snapshots_pattern: item.config["snapshots.pattern"],
     snapshots_expiry: item.config["snapshots.expiry"],

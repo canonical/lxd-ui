@@ -15,6 +15,7 @@ const instanceConfigFormFieldsToPayload: Record<string, string> = {
   security_devlxd: "security.devlxd",
   security_devlxd_images: "security.devlxd.images",
   security_secureboot: "security.secureboot",
+  security_csm: "security.csm",
   snapshots_pattern: "snapshots.pattern",
   snapshots_expiry: "snapshots.expiry",
   snapshots_schedule: "snapshots.schedule",
