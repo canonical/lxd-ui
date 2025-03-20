@@ -24,7 +24,11 @@ export const getInstanceMetrics = (
   const memValue = (metricKey: string) =>
     metrics
       .find((item) => item.name === metricKey)
-      ?.metrics.find((item) => item.labels.name === instance.name)?.value;
+      ?.metrics.find(
+        (item) =>
+          item.labels.name === instance.name &&
+          item.labels.project === instance.project,
+      )?.value;
 
   const memFree = memValue("lxd_memory_MemFree_bytes");
   const memCached = memValue("lxd_memory_Cached_bytes");
