@@ -24,7 +24,11 @@ export const getInstanceMetrics = (
   const memValue = (metricKey: string) =>
     metrics
       .find((item) => item.name === metricKey)
-      ?.metrics.find((item) => item.labels.name === instance.name)?.value;
+      ?.metrics.find(
+        (item) =>
+          item.labels.name === instance.name &&
+          item.labels.project === instance.project,
+      )?.value;
 
   const memFree = memValue("lxd_memory_MemFree_bytes");
   const memCached = memValue("lxd_memory_Cached_bytes");
@@ -43,7 +47,9 @@ export const getInstanceMetrics = (
       .find((item) => item.name === metricKey)
       ?.metrics.find(
         (item) =>
-          item.labels.name === instance.name && item.labels.mountpoint === "/",
+          item.labels.name === instance.name &&
+          item.labels.project === instance.project &&
+          item.labels.mountpoint === "/",
       )?.value;
 
   const diskFree = diskValue("lxd_filesystem_free_bytes");
