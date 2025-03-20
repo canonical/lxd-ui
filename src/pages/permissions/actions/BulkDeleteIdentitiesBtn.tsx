@@ -9,6 +9,9 @@ import { queryKeys } from "util/queryKeys";
 import { pluralize } from "util/instanceBulkActions";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import BulkDeleteButton from "components/BulkDeleteButton";
+import LoggedInUserNotification from "pages/permissions/panels/LoggedInUserNotification";
+import { useSettings } from "context/useSettings";
+import { logout } from "util/helpers";
 
 interface Props {
   identities: LxdIdentity[];
@@ -21,6 +24,12 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
   const buttonText = `Delete ${pluralize("identity", identities.length)}`;
   const [isLoading, setLoading] = useState(false);
   const { canDeleteIdentity } = useIdentityEntitlements();
+  const { data: settings } = useSettings();
+  const loggedInIdentityID = settings?.auth_user_name ?? "";
+
+  const isSelf = identities.some(
+    (identity) => identity.id === loggedInIdentityID,
+  );
 
   const restrictedIdentities: LxdIdentity[] = [];
   const deletableIdentities: LxdIdentity[] = [];
@@ -37,11 +46,19 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
     const successMessage = `${deletableIdentities.length} ${pluralize("identity", deletableIdentities.length)} successfully deleted`;
     deleteIdentities(deletableIdentities)
       .then(() => {
+        if (isSelf && settings?.auth_user_method === "oidc") {
+          // special case for OIDC users, as they would be recreated via the api on the next request
+          // force a logout to prevent re-creation
+          logout();
+          return;
+        }
         queryClient.invalidateQueries({
           predicate: (query) => {
-            return [queryKeys.identities, queryKeys.authGroups].includes(
-              query.queryKey[0] as string,
-            );
+            return [
+              queryKeys.identities,
+              queryKeys.authGroups,
+              queryKeys.settings,
+            ].includes(query.queryKey[0] as string);
           },
         });
         toastNotify.success(successMessage);
@@ -82,6 +99,7 @@ const BulkDeleteIdentitiesBtn: FC<Props> = ({ identities }) => {
       }}
       buttonLabel={buttonText}
       bulkDeleteBreakdown={getBulkDeleteBreakdown()}
+      modalContentPrefix={<LoggedInUserNotification isVisible={isSelf} />}
     />
   );
 };
