@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -123,20 +123,7 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,7 +131,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -178,19 +165,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,16 +184,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { Button, Icon } from "@canonical/react-components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Icon } from "@canonical/react-components";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
 import CustomLayout from "components/CustomLayout";
+import classnames from "classnames";
 &nbsp;
 const Login: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const { isAuthenticated, isAuthLoading } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
   const { data: settings } = <span class="cstat-no" title="statement not covered" >useSettings();</span>
   const hasOidc = <span class="cstat-no" title="statement not covered" >settings?.auth_methods?.includes("oidc");</span>
 &nbsp;
@@ -232,50 +206,37 @@ const Login: FC = <span class="cstat-no" title="statement not covered" ><span cl
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;CustomLayout&gt;
-      &lt;div className="empty-state login"&gt;
-        &lt;Icon name="pods" className="empty-state-icon lxd-icon" /&gt;
+    &lt;CustomLayout contentClassName="login"&gt;
+      &lt;div className="empty-state login-page"&gt;
+        &lt;Icon name="pods" className="lxd-icon" /&gt;
         &lt;h1 className="p-heading--4 u-sv-2"&gt;Login&lt;/h1&gt;
-        {hasOidc &amp;&amp; (
-          &lt;&gt;
-            &lt;p className="u-sv1"&gt;Choose your login method&lt;/p&gt;
-            &lt;a className="p-button--positive" href="/oidc/login"&gt;
-              Login with SSO
-            &lt;/a&gt;
-            &lt;h2 className="p-heading--5 u-sv-2"&gt;Other methods&lt;/h2&gt;
-            &lt;div&gt;
-              Either{" "}
-              &lt;Link to="/ui/login/certificate-generate"&gt;
-                create a new certificate
-              &lt;/Link&gt;
-            &lt;/div&gt;
-            &lt;div&gt;
-              Or{" "}
-              &lt;Link to="/ui/login/certificate-add"&gt;
-                use an existing certificate
-              &lt;/Link&gt;{" "}
-              already added to your browser
-            &lt;/div&gt;
-          &lt;/&gt;
-        )}
-        {!hasOidc &amp;&amp; (
-          &lt;&gt;
-            &lt;p className="u-sv1"&gt;Certificate selection&lt;/p&gt;
-            &lt;Button
-              appearance={"positive"}
-              onClick={<span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate("/ui/login/certificate-generate")}</span>
+&nbsp;
+        &lt;&gt;
+          &lt;p className="u-sv1"&gt;Choose your login method&lt;/p&gt;
+          &lt;div className="auth-container"&gt;
+            {hasOidc &amp;&amp; (
+              &lt;a className="p-button--positive has-icon" href="/oidc/login"&gt;
+                &lt;Icon name="security" light /&gt;
+                &lt;span&gt;Login with SSO&lt;/span&gt;
+              &lt;/a&gt;
+            )}
+            &lt;a
+              className={classnames(" has-icon", {
+                "p-button--positive": !hasOidc,
+                "p-button": hasOidc,
+              })}
+              href="/ui/login/certificate-generate"
             &gt;
-              Create a new certificate
-            &lt;/Button&gt;
-            &lt;p&gt;
-              Or{" "}
-              &lt;Link to="/ui/login/certificate-add"&gt;
-                use an existing certificate
-              &lt;/Link&gt;{" "}
-              already added to your browser
-            &lt;/p&gt;
-          &lt;/&gt;
-        )}
+              &lt;Icon
+                name="certificate"
+                className={classnames("auth-button-icon", {
+                  "is-light": !hasOidc,
+                })}
+              /&gt;
+              &lt;span&gt;Login with TLS&lt;/span&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/&gt;
       &lt;/div&gt;
     &lt;/CustomLayout&gt;
   );
@@ -289,7 +250,7 @@ export default Login;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-24T10:02:44.254Z
+                at 2025-03-24T15:05:26.056Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>

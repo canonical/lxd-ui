@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -242,36 +242,7 @@
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a>
-<a name='L186'></a><a href='#L186'>186</a>
-<a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a>
-<a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a>
-<a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a>
-<a name='L199'></a><a href='#L199'>199</a>
-<a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a>
-<a name='L202'></a><a href='#L202'>202</a>
-<a name='L203'></a><a href='#L203'>203</a>
-<a name='L204'></a><a href='#L204'>204</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,10 +253,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -315,10 +282,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -328,17 +291,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -471,60 +423,47 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useState } from "react";
-import {
-  Button,
-  Col,
-  Notification,
-  Row,
-  Tabs,
-} from "@canonical/react-components";
+import { Col, Row, Tabs } from "@canonical/react-components";
+import CertificateGenerateBtn from "./CertificateGenerateBtn";
 &nbsp;
 const FIREFOX = <span class="cstat-no" title="statement not covered" >"Firefox";</span>
-const CHROME_LINUX = <span class="cstat-no" title="statement not covered" >"Chrome (Linux)";</span>
-const CHROME_WINDOWS = <span class="cstat-no" title="statement not covered" >"Chrome (Windows)";</span>
-const EDGE = <span class="cstat-no" title="statement not covered" >"Edge";</span>
+const CHROME_LINUX = <span class="cstat-no" title="statement not covered" >"Chrome on Linux";</span>
+const CHROME_WINDOWS = <span class="cstat-no" title="statement not covered" >"Chrome on Windows";</span>
+const EDGE = <span class="cstat-no" title="statement not covered" >"Microsoft Edge";</span>
 const MACOS = <span class="cstat-no" title="statement not covered" >"macOS";</span>
 const TABS: string[] = <span class="cstat-no" title="statement not covered" >[FIREFOX, CHROME_LINUX, CHROME_WINDOWS, EDGE, MACOS];</span>
 &nbsp;
-interface Props {
-  sendPfx?: () =&gt; void;
-}
-&nbsp;
-const BrowserImport: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> sendPfx }) =&gt; {</span>
+const BrowserImport: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const [activeTab, handleTabChange] = <span class="cstat-no" title="statement not covered" >useState(FIREFOX);</span>
 &nbsp;
   const windowsDialogSteps = (
 <span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
       &lt;li className="p-list__item"&gt;
-        This opens a certificate management dialog. Click &lt;code&gt;Import...&lt;/code&gt;
-        then &lt;code&gt;Next&lt;/code&gt; and select the &lt;code&gt;lxd-ui.pfx&lt;/code&gt; file you
-        just downloaded. Enter your password, or leave the field empty if you
-        have not set one. Click &lt;code&gt;Next&lt;/code&gt;.
+        In the modal that appears, click &lt;b&gt;Import...&lt;/b&gt;
       &lt;/li&gt;
       &lt;li className="p-list__item"&gt;
-        Select &lt;code&gt;Automatically select the certificate store&lt;/code&gt; and click{" "}
-        &lt;code&gt;Next&lt;/code&gt;, then click &lt;code&gt;Finish&lt;/code&gt;.
+        Follow the instructions in the Certificate Import Wizard. When prompted
+        with &lt;b&gt;File to Import&lt;/b&gt;, click &lt;b&gt;Browse&lt;/b&gt; and choose the
+        certificate you downloaded. In order to see the certificate file, ensure
+        that the file type picker is set to{" "}
+        &lt;b&gt;Personal Information Exchange (*.pfx;*.p12)&lt;/b&gt;.
       &lt;/li&gt;
       &lt;li className="p-list__item"&gt;
-        Restart the browser and open LXD-UI. Select the LXD-UI certificate.
+        &lt;b&gt;Restart the browser.&lt;/b&gt;
       &lt;/li&gt;
     &lt;/&gt;
   );
 &nbsp;
   const downloadPfx = (
 <span class="cstat-no" title="statement not covered" >    &lt;li className="p-list__item u-clearfix"&gt;</span>
-      Download the &lt;code&gt;.pfx&lt;/code&gt; file for importing to your browser.
-      {sendPfx &amp;&amp; (
-        &lt;div className="u-float-right--large"&gt;
-          &lt;Button onClick={sendPfx}&gt;Download pfx&lt;/Button&gt;
-        &lt;/div&gt;
-      )}
+      Create and download a client certificate:
+      &lt;CertificateGenerateBtn isPasswordRequired={activeTab === MACOS} /&gt;
     &lt;/li&gt;
   );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Row&gt;
-      &lt;Col size={8}&gt;
+      &lt;Col size={10}&gt;
         &lt;Tabs
           links={TABS.map(<span class="fstat-no" title="function not covered" >(t</span>ab) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
             label: tab,
@@ -540,28 +479,25 @@ const BrowserImport: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
             &lt;ul className="p-list--divided u-no-margin--bottom"&gt;
               {downloadPfx}
               &lt;li className="p-list__item"&gt;
-                Paste this link into the address bar:
-                &lt;div className="p-code-snippet u-no-margin--bottom"&gt;
-                  &lt;pre className="p-code-snippet__block"&gt;
-                    &lt;code&gt;about:preferences#privacy&lt;/code&gt;
-                  &lt;/pre&gt;
-                &lt;/div&gt;
+                Go to Firefox’s privacy settings:
+                &lt;pre className="p-code-snippet__block u-no-margin--bottom"&gt;
+                  &lt;code&gt;about:preferences#privacy&lt;/code&gt;
+                &lt;/pre&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Scroll down to the certificates section and click the{" "}
-                &lt;code&gt;View Certificates&lt;/code&gt; button.
+                Scroll down to the certificates section and click{" "}
+                &lt;b&gt;View Certificates&lt;/b&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                In the popup click &lt;code&gt;Your certificates&lt;/code&gt; and then{" "}
-                &lt;code&gt;Import&lt;/code&gt;.
+                In the modal that appears, go to Your &lt;b&gt;certificates&lt;/b&gt; and
+                click Import
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Select the &lt;code&gt;.pfx&lt;/code&gt; file you just downloaded. Enter
-                your password, or leave the field empty if you have not set one.
+                Select the file you just downloaded (ending in .pfx). If you
+                created a password for the certificate, type it in now.
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Restart the browser and open LXD-UI. Select the LXD-UI
-                certificate.
+                &lt;b&gt;Restart the browser.&lt;/b&gt;
               &lt;/li&gt;
             &lt;/ul&gt;
           &lt;/div&gt;
@@ -572,21 +508,20 @@ const BrowserImport: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
             &lt;ul className="p-list--divided u-no-margin--bottom"&gt;
               {downloadPfx}
               &lt;li className="p-list__item"&gt;
-                Paste into the address bar:
-                &lt;div className="p-code-snippet u-no-margin--bottom"&gt;
-                  &lt;pre className="p-code-snippet__block"&gt;
-                    &lt;code&gt;chrome://settings/certificates&lt;/code&gt;
-                  &lt;/pre&gt;
-                &lt;/div&gt;
+                Go to Chrome&amp;apos;s certificate settings:
+                &lt;pre className="p-code-snippet__block u-no-margin--bottom"&gt;
+                  &lt;code&gt;chrome://settings/certificates&lt;/code&gt;
+                &lt;/pre&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Click the &lt;code&gt;Import&lt;/code&gt; button and select the{" "}
-                &lt;code&gt;lxd-ui.pfx&lt;/code&gt; file you just downloaded. Enter your
-                password, or leave the field empty if you have not set one.
+                Click &lt;b&gt;Import&lt;/b&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Restart the browser and open LXD-UI. Select the LXD-UI
-                certificate.
+                Select the file you just downloaded (ending in .pfx). If you
+                created a password for the certificate, type it in now.
+              &lt;/li&gt;
+              &lt;li className="p-list__item"&gt;
+                &lt;b&gt;Restart the browser.&lt;/b&gt;
               &lt;/li&gt;
             &lt;/ul&gt;
           &lt;/div&gt;
@@ -597,16 +532,21 @@ const BrowserImport: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
             &lt;ul className="p-list--divided u-no-margin--bottom"&gt;
               {downloadPfx}
               &lt;li className="p-list__item"&gt;
-                Paste into the address bar:
-                &lt;div className="p-code-snippet u-no-margin--bottom"&gt;
-                  &lt;pre className="p-code-snippet__block"&gt;
-                    &lt;code&gt;chrome://settings/security&lt;/code&gt;
-                  &lt;/pre&gt;
-                &lt;/div&gt;
+                Go to Chrome&amp;apos;s certificate settings:
+                &lt;pre className="p-code-snippet__block u-no-margin--bottom"&gt;
+                  &lt;code&gt;chrome://settings/certificates&lt;/code&gt;
+                &lt;/pre&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Scroll down to the &lt;code&gt;Advanced settings&lt;/code&gt; and click{" "}
-                &lt;code&gt;Manage device certificates&lt;/code&gt;
+                Near the bottom of the page, click &lt;b&gt;Manage certificates&lt;/b&gt;
+              &lt;/li&gt;
+              &lt;li className="p-list__item"&gt;
+                Make sure{" "}
+                &lt;b&gt;
+                  Use imported local certificates from your operating system
+                &lt;/b&gt;{" "}
+                is toggled on, and click{" "}
+                &lt;b&gt;Manage imported certificates from Windows&lt;/b&gt;{" "}
               &lt;/li&gt;
               {windowsDialogSteps}
             &lt;/ul&gt;
@@ -618,16 +558,13 @@ const BrowserImport: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
             &lt;ul className="p-list--divided u-no-margin--bottom"&gt;
               {downloadPfx}
               &lt;li className="p-list__item"&gt;
-                Paste into the address bar:
-                &lt;div className="p-code-snippet u-no-margin--bottom"&gt;
-                  &lt;pre className="p-code-snippet__block"&gt;
-                    &lt;code&gt;edge://settings/privacy&lt;/code&gt;
-                  &lt;/pre&gt;
-                &lt;/div&gt;
+                Go to Edge&amp;apos;s certificate settings:
+                &lt;pre className="p-code-snippet__block u-no-margin--bottom"&gt;
+                  &lt;code&gt;edge://settings/privacy&lt;/code&gt;
+                &lt;/pre&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Scroll to the &lt;code&gt;Security&lt;/code&gt; section and click{" "}
-                &lt;code&gt;Manage Certificates&lt;/code&gt;
+                Under &lt;b&gt;Security&lt;/b&gt;, click &lt;b&gt;Manage certificates&lt;/b&gt;
               &lt;/li&gt;
               {windowsDialogSteps}
             &lt;/ul&gt;
@@ -637,31 +574,22 @@ const BrowserImport: FC&lt;Props&gt; = <span class="cstat-no" title="statement n
         {activeTab === MACOS &amp;&amp; (
           &lt;div role="tabpanel" aria-label="safari macos"&gt;
             &lt;ul className="p-list--divided u-no-margin--bottom"&gt;
-              &lt;li className="p-list__item"&gt;
-                &lt;Notification
-                  severity="caution"
-                  className="u-no-margin--bottom"
-                &gt;
-                  The certificate must be protected by password. An empty
-                  password will fail to be imported on macOS.
-                &lt;/Notification&gt;
-              &lt;/li&gt;
               {downloadPfx}
               &lt;li className="p-list__item"&gt;
-                Start the Keychain Access app on your Mac, select the login
-                keychain.
+                Launch the &lt;b&gt;Keychain Access app&lt;/b&gt; (you will need to
+                authenticate using your mac’s login credentials)
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Drag the &lt;code&gt;lxd-ui.pfx&lt;/code&gt; file onto the Keychain Access
-                app.
+                Import the certificate file that was created earlier. This can
+                be done either by dragging the file from Finder onto Keychain
+                Access, or with &lt;b&gt; File &amp;gt; Import Items...&lt;/b&gt;
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                If you are asked to provide a name and password, type the name
-                and password for an administrator user on this computer.
+                Unlock the certificate by typing in the password used to create
+                it.
               &lt;/li&gt;
               &lt;li className="p-list__item"&gt;
-                Restart the browser and open LXD-UI. Select the LXD-UI
-                certificate.
+                &lt;b&gt;Restart the browser.&lt;/b&gt;
               &lt;/li&gt;
             &lt;/ul&gt;
           &lt;/div&gt;
@@ -679,7 +607,7 @@ export default BrowserImport;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-24T10:02:44.254Z
+                at 2025-03-24T15:05:26.056Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
