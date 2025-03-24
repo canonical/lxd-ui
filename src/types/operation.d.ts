@@ -14,6 +14,7 @@ export interface LxdOperation {
   metadata?: Record<string, string>;
   may_cancel: boolean;
   resources?: {
+    images?: string[];
     instances?: string[];
     instances_snapshots?: string[];
     storage_volume_snapshots?: string[];
