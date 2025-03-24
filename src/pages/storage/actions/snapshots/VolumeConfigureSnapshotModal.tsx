@@ -77,21 +77,12 @@ const VolumeConfigureSnapshotModal: FC<Props> = ({ volume, close }) => {
       title="Snapshot configuration"
       buttonRow={
         formik.values.readOnly ? (
-          <div className="u-space-between u-flex-row-reverse">
-            <Button
-              className="u-no-margin--bottom u-no-margin--right"
-              onClick={close}
-            >
-              Close
-            </Button>
-            <Button
-              className="u-no-margin--bottom"
-              type="button"
-              onClick={async () => formik.setFieldValue("readOnly", false)}
-            >
-              Edit configuration
-            </Button>
-          </div>
+          <Button
+            className="u-no-margin--bottom u-no-margin--right"
+            onClick={close}
+          >
+            Close
+          </Button>
         ) : (
           <>
             <Button
