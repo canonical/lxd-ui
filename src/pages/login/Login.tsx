@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Icon } from "@canonical/react-components";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import Loader from "components/Loader";
 import { useSettings } from "context/useSettings";
@@ -35,12 +35,12 @@ const Login: FC = () => {
                 <span>Login with SSO</span>
               </a>
             )}
-            <a
+            <Link
               className={classnames(" has-icon", {
                 "p-button--positive": !hasOidc,
                 "p-button": hasOidc,
               })}
-              href="/ui/login/certificate-generate"
+              to="/ui/login/certificate-generate"
             >
               <Icon
                 name="certificate"
@@ -49,7 +49,7 @@ const Login: FC = () => {
                 })}
               />
               <span>Login with TLS</span>
-            </a>
+            </Link>
           </div>
         </>
       </div>
