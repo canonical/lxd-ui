@@ -64,7 +64,7 @@ const SnapshotForm: FC<Props> = (props) => {
           onBlur={formik.handleBlur}
           value={formik.values.name}
           error={
-            formik.touched.name || isEdit ? (
+            (formik.touched.name || isEdit) && formik.errors.name ? (
               <div className="name-error">{formik.errors.name}</div>
             ) : null
           }
