@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Icon, Row, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import StoragePoolHeader from "pages/storage/StoragePoolHeader";
@@ -47,12 +47,12 @@ const StoragePoolDetail: FC = () => {
     "Configuration",
     {
       component: () => (
-        <a
-          href={`/ui/project/${project}/storage/volumes?pool=${pool.name}`}
+        <Link
+          to={`/ui/project/${project}/storage/volumes?pool=${pool.name}`}
           className="p-tabs__link"
         >
           Volumes <Icon name="external-link" />
-        </a>
+        </Link>
       ),
       label: "Volumes",
     },
