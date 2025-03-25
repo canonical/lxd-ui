@@ -89,10 +89,10 @@
     "stylelint-scss": "6.10.0",
     "typescript": "5.7.3",
     "v8-to-istanbul": "9.3.0",
-    "vite": "6.1.1",
+    "vite": "6.2.2",
     "vite-plugin-istanbul": "6.0.2",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "2.1.9"
+    "vitest": "3.0.9"
   },
   "lint-staged": {
     "src/**/*.{json,jsx,ts,tsx}": [
