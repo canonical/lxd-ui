@@ -6,6 +6,7 @@ import type { EditInstanceFormValues } from "pages/instances/EditInstance";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import ScrollableForm from "components/ScrollableForm";
 import { ensureEditMode } from "util/instanceEdit";
+import SshKeyForm from "components/forms/SshKeyForm";
 import { useIsClustered } from "context/useIsClustered";
 
 export const instanceEditDetailPayload = (values: EditInstanceFormValues) => {
@@ -88,6 +89,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         disabledReason={formik.values.editRestriction}
         initialProfiles={formik.initialValues.profiles}
       />
+      <SshKeyForm formik={formik} />
     </ScrollableForm>
   );
 };

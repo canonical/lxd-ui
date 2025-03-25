@@ -10,6 +10,7 @@ import type { EditProfileFormValues } from "pages/profiles/EditProfile";
 import type { LxdProfile } from "types/profile";
 import { migrationPayload } from "components/forms/MigrationForm";
 import { bootPayload } from "components/forms/BootForm";
+import { sshKeyPayload } from "components/forms/SshKeyForm";
 
 export const getProfilePayload = (
   profile: LxdProfile,
@@ -28,6 +29,7 @@ export const getProfilePayload = (
       ...migrationPayload(values),
       ...bootPayload(values),
       ...cloudInitPayload(values),
+      ...sshKeyPayload(values),
       ...getUnhandledKeyValues(profile.config, handledConfigKeys),
     },
     ...getUnhandledKeyValues(profile, handledKeys),
