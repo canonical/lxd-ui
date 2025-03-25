@@ -27,6 +27,7 @@ export interface SecurityPoliciesFormValues {
   security_devlxd?: string;
   security_devlxd_images?: string;
   security_secureboot?: string;
+  security_csm?: string;
 }
 
 export const securityPoliciesPayload = (
@@ -46,6 +47,7 @@ export const securityPoliciesPayload = (
     [getInstanceKey("security_devlxd")]: values.security_devlxd,
     [getInstanceKey("security_devlxd_images")]: values.security_devlxd_images,
     [getInstanceKey("security_secureboot")]: values.security_secureboot,
+    [getInstanceKey("security_csm")]: values.security_csm,
   };
 };
 
@@ -219,6 +221,21 @@ const SecurityPoliciesForm: FC<Props> = ({ formik }) => {
           formik,
           label: "Enable secureboot (VMs only)",
           name: "security_secureboot",
+          defaultValue: "",
+          disabled: isVmOnlyDisabled,
+          disabledReason: isVmOnlyDisabled
+            ? "Only available for virtual machines"
+            : undefined,
+          readOnlyRenderer: (val) => optionRenderer(val, optionTrueFalse),
+          children: (
+            <Select options={optionTrueFalse} disabled={isVmOnlyDisabled} />
+          ),
+        }),
+
+        getConfigurationRow({
+          formik,
+          label: "Enable CSM (VMs only)",
+          name: "security_csm",
           defaultValue: "",
           disabled: isVmOnlyDisabled,
           disabledReason: isVmOnlyDisabled
