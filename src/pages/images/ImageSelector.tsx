@@ -128,7 +128,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     .sort();
   const variantAll = [...new Set(images.map((item) => item.variant))].sort();
 
-  if (!isLoading && !archAll.includes(arch)) {
+  if (!isLoading && !archAll.includes(arch) && archAll.length > 0) {
     setArch(archAll[0]);
   }
 
