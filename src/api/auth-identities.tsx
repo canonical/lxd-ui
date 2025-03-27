@@ -108,13 +108,15 @@ export const deleteIdentities = async (
 };
 
 export const createFineGrainedTlsIdentity = async (
-  clientName: string,
+  name: string,
+  groups: string[],
 ): Promise<TlsIdentityTokenDetail> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/auth/identities/tls`, {
       method: "POST",
       body: JSON.stringify({
-        name: clientName,
+        name: name,
+        groups: groups,
         token: true,
       }),
     })

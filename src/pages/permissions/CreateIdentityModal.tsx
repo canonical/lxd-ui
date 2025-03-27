@@ -1,49 +1,15 @@
 import type { FC } from "react";
 import { useState } from "react";
-import {
-  ActionButton,
-  Button,
-  Icon,
-  Input,
-  Modal,
-  Notification,
-} from "@canonical/react-components";
-import { useFormik } from "formik";
-import { createFineGrainedTlsIdentity } from "api/auth-identities";
-import { base64EncodeObject } from "util/helpers";
-import { useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "util/queryKeys";
+import { Button, Icon, Modal } from "@canonical/react-components";
 
 interface Props {
   onClose: () => void;
+  token: string;
+  identityName: string;
 }
 
-const CreateIdentityModal: FC<Props> = ({ onClose }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [error, setError] = useState(false);
+const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
   const [copied, setCopied] = useState(false);
-  const queryClient = useQueryClient();
-
-  const formik = useFormik({
-    initialValues: {
-      identityName: "",
-    },
-    onSubmit: (values) => {
-      setError(false);
-      createFineGrainedTlsIdentity(values.identityName)
-        .then((response) => {
-          const encodedToken = base64EncodeObject(response);
-          setToken(encodedToken);
-
-          queryClient.invalidateQueries({
-            queryKey: [queryKeys.identities],
-          });
-        })
-        .catch(() => {
-          setError(true);
-        });
-    },
-  });
 
   const handleCopy = async () => {
     if (token) {
@@ -64,7 +30,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
     <Modal
       close={onClose}
       className="create-tls-identity"
-      title={token ? "Identity has been created" : "Generate trust token"}
+      title={`Identity ${identityName} created`}
       buttonRow={
         <>
           {token && (
@@ -80,6 +46,7 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
                 hasIcon
               >
                 <Icon name={copied ? "task-outstanding" : "copy"} />
+                <span>Copy trust token</span>
               </Button>
 
               <Button
@@ -92,47 +59,19 @@ const CreateIdentityModal: FC<Props> = ({ onClose }) => {
               </Button>
             </>
           )}
-          {!token && (
-            <ActionButton
-              aria-label="Generate token"
-              appearance="positive"
-              className="u-no-margin--bottom"
-              onClick={() => void formik.submitForm()}
-              disabled={
-                formik.values.identityName.length === 0 || formik.isSubmitting
-              }
-              loading={formik.isSubmitting}
-            >
-              Generate token
-            </ActionButton>
-          )}
         </>
       }
     >
-      {error && (
-        <Notification
-          severity="negative"
-          title="Token creation failed"
-        ></Notification>
-      )}
-      {!token && (
-        <Input
-          id="identityName"
-          type="text"
-          label="Identity Name"
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.identityName}
-        />
-      )}
       {token && (
         <>
-          <p>The token below can be used to log in as the new identity.</p>
-
-          <Notification
-            severity="caution"
-            title="Make sure to copy the token now as it will not be shown again."
-          ></Notification>
+          <p>
+            The trust token below can be used to log in with the newly created
+            identity.{" "}
+            <b>
+              Once this modal is closed, the trust token can’t be generated
+              again.
+            </b>
+          </p>
 
           <div className="token-code-block">
             <code>{token}</code>

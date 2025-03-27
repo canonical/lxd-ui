@@ -1,34 +1,33 @@
 import { useNotify } from "@canonical/react-components";
-import { useQueryClient } from "@tanstack/react-query";
 import SidePanel from "components/SidePanel";
 import type { FC } from "react";
-import { useState } from "react";
 import usePanelParams from "util/usePanelParams";
-import { useToastNotification } from "context/toastNotificationProvider";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
-import { createIdpGroup } from "api/auth-idp-groups";
-import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
-import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
+import type { TLSIdentityFormValues } from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import useEditHistory from "util/useEditHistory";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
-import ResourceLink from "components/ResourceLink";
 import { useGroups } from "context/useGroups";
+import { createFineGrainedTlsIdentity } from "api/auth-identities";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
+import { base64EncodeObject } from "util/helpers";
 import NameWithGroupForm from "../forms/NameWithGroupForm";
 
 interface GroupEditHistory {
   groupsAdded: Set<string>;
 }
 
-const CreateIdpGroupPanel: FC = () => {
+interface Props {
+  onSuccess: (identityName: string, token: string) => void;
+}
+
+const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
   const panelParams = usePanelParams();
   const notify = useNotify();
-  const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
-  const controllerState = useState<AbortController | null>(null);
 
   const { data: groups = [], error, isLoading } = useGroups();
 
@@ -63,62 +62,47 @@ const CreateIdpGroupPanel: FC = () => {
     notify.clear();
   };
 
-  const saveIdpGroup = (values: IdpGroupFormValues) => {
-    const newGroup = {
-      name: values.name,
-      groups: Array.from(desiredState.groupsAdded),
-    };
+  const handleSubmit = (values: TLSIdentityFormValues) => {
+    createFineGrainedTlsIdentity(
+      values.name,
+      Array.from(desiredState.groupsAdded),
+    )
+      .then((response) => {
+        const encodedToken = base64EncodeObject(response);
+        onSuccess(values.name, encodedToken);
 
-    formik.setSubmitting(true);
-    createIdpGroup(newGroup)
-      .then(() => {
-        toastNotify.success(
-          <>
-            IDP group{" "}
-            <ResourceLink
-              type="idp-group"
-              value={values.name}
-              to="/ui/permissions/idp-groups"
-            />{" "}
-            created.
-          </>,
-        );
         queryClient.invalidateQueries({
-          queryKey: [queryKeys.idpGroups],
+          queryKey: [queryKeys.identities],
         });
         closePanel();
       })
       .catch((e) => {
-        notify.failure(`IDP group creation failed`, e);
-      })
-      .finally(() => {
-        formik.setSubmitting(false);
+        notify.failure("TLS Identity failed to be created", e);
       });
   };
 
   const groupSchema = Yup.object().shape({
-    name: Yup.string()
-      .test(...testDuplicateIdpGroupName(controllerState))
-      .required("IDP group name is required"),
+    name: Yup.string().required("Identity name is required"),
   });
 
-  const formik = useFormik<IdpGroupFormValues>({
+  const formik = useFormik<TLSIdentityFormValues>({
     initialValues: {
       name: "",
+      groups: [],
     },
     validationSchema: groupSchema,
-    onSubmit: saveIdpGroup,
+    onSubmit: handleSubmit,
   });
 
   return (
     <>
       <SidePanel isOverlay loading={isLoading} hasError={!groups}>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create IDP group</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>Create identity</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <NameWithGroupForm formik={formik} />
-        <p>Map groups to this idp group</p>
+        <p>Select groups to add to the Identity.</p>
         <SidePanel.Content className="u-no-padding">
           <GroupSelection
             groups={groups}
@@ -164,4 +148,4 @@ const CreateIdpGroupPanel: FC = () => {
   );
 };
 
-export default CreateIdpGroupPanel;
+export default CreateTLSIdentityPanel;

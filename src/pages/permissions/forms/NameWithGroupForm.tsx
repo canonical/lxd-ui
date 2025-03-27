@@ -5,12 +5,16 @@ import type { FormikProps } from "formik/dist/types";
 export interface IdpGroupFormValues {
   name: string;
 }
-
-interface Props {
-  formik: FormikProps<IdpGroupFormValues>;
+export interface TLSIdentityFormValues {
+  name: string;
+  groups?: string[];
 }
 
-const IdpGroupForm: FC<Props> = ({ formik }) => {
+interface Props {
+  formik: FormikProps<IdpGroupFormValues | TLSIdentityFormValues>;
+}
+
+const NameWithGroupForm: FC<Props> = ({ formik }) => {
   return (
     <Form onSubmit={formik.handleSubmit}>
       {/* hidden submit to enable enter key in inputs */}
@@ -32,4 +36,4 @@ const IdpGroupForm: FC<Props> = ({ formik }) => {
   );
 };
 
-export default IdpGroupForm;
+export default NameWithGroupForm;
