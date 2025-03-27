@@ -7,6 +7,7 @@ import {
 import type { LxdOperation } from "types/operation";
 
 const craftOperation = (...url: string[]) => {
+  const images: string[] = [];
   const instances: string[] = [];
   const instances_snapshots: string[] = [];
   const storage_volume_snapshots: string[] = [];
@@ -22,6 +23,11 @@ const craftOperation = (...url: string[]) => {
       continue;
     }
 
+    if (u.includes("/1.0/images")) {
+      images.push(u);
+      continue;
+    }
+
     if (segments.length > 4) {
       instances_snapshots.push(u);
     } else {
@@ -31,6 +37,7 @@ const craftOperation = (...url: string[]) => {
 
   return {
     resources: {
+      images,
       instances,
       instances_snapshots,
       storage_volume_snapshots,
@@ -89,6 +96,15 @@ describe("getProjectName", () => {
     const name = getProjectName(operation);
 
     expect(name).toBe("barProject");
+  });
+
+  it("identifies project name from an image operation in a custom project", () => {
+    const operation = craftOperation(
+      "/1.0/images/333449f566531c586d405772afaf9ced7eb9c2ca2f191d487c63b170f62b3172?project=imageProject",
+    );
+    const name = getProjectName(operation);
+
+    expect(name).toBe("imageProject");
   });
 });
 
