@@ -361,8 +361,7 @@ body {
 
 .create-instance-from-snapshot-modal,
 .duplicate-instances-modal,
-.create-image-from-instance-modal,
-.create-tls-identity {
+.create-image-from-instance-modal {
   .p-modal__dialog {
     @include large {
       width: 35rem;
@@ -370,7 +369,8 @@ body {
   }
 }
 
-.host-path-device-modal {
+.host-path-device-modal,
+.create-tls-identity {
   .p-modal__dialog {
     @include large {
       width: 40rem;
