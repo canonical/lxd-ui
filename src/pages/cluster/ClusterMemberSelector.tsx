@@ -44,7 +44,7 @@ const ClusterMemberSelector: FC<SelectProps & Props> = ({
         };
       })}
       disabled={disabled || clusterMembersLoading || !!disableReason}
-      help={disableReason}
+      help={disableReason ?? props.help}
     />
   ) : null;
 };
