@@ -15,18 +15,23 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
   const [name, setName] = useState(initialName);
   const [user, setUser] = useState("root");
   const [sourceType, setSourceType] = useState<SourceType>("clipboard");
-  const [source, setSource] = useState("");
+  const [source, setSource] = useState({
+    github: "",
+    launchpad: "",
+    fileUpload: "",
+    clipboard: "",
+  });
 
   const getFingerprint = () => {
     switch (sourceType) {
       case "github":
-        return `gh:${source}`;
+        return `gh:${source.github}`;
       case "launchpad":
-        return `lp:${source}`;
+        return `lp:${source.launchpad}`;
       case "fileUpload":
-        return source;
+        return source.fileUpload;
       case "clipboard":
-        return source;
+        return source.clipboard;
     }
   };
 
@@ -48,7 +53,9 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
         id={id}
         onClick={() => {
           setSourceType(id);
-          setSource("");
+          if (id === "fileUpload") {
+            setTimeout(openFilePicker, 0);
+          }
         }}
       >
         {label}
@@ -66,6 +73,10 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
         {children}
       </div>
     );
+  };
+
+  const openFilePicker = () => {
+    document.getElementById("ssh-file-upload")?.click();
   };
 
   return (
@@ -113,37 +124,51 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             <AutoExpandingTextArea
               placeholder="ssh-rsa ..."
               help="Paste the contents of the public key file (.pub)"
+              className="u-break-all"
               autoFocus
               cols={50}
-              value={source}
+              value={source.clipboard}
               onChange={(e) => {
-                setSource(e.target.value);
+                setSource({ ...source, clipboard: e.target.value });
               }}
             />,
           )}
 
           {segmentContent(
             "fileUpload",
-            <Input
-              type="file"
-              accept=".pub"
-              autoFocus
-              onChange={(e) => {
-                if (!e.target.files) {
-                  return;
-                }
-                const file = e.target.files[0];
-
-                // get file content as text
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                  if (e.target?.result) {
-                    setSource(e.target.result as string);
+            <div className="u-flex">
+              <Button type="button" onClick={openFilePicker}>
+                Choose file
+              </Button>
+              <Input
+                id="ssh-file-upload"
+                className="ssh-file-upload"
+                type="file"
+                accept=".pub"
+                autoFocus
+                onChange={(e) => {
+                  if (!e.target.files) {
+                    setSource({ ...source, fileUpload: "" });
+                    return;
                   }
-                };
-                reader.readAsText(file);
-              }}
-            />,
+                  const file = e.target.files[0];
+                  if (!file) {
+                    setSource({ ...source, fileUpload: "" });
+                    return;
+                  }
+
+                  // get file content as text
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                    const body = e.target?.result;
+                    if (body) {
+                      setSource({ ...source, fileUpload: body as string });
+                    }
+                  };
+                  reader.readAsText(file);
+                }}
+              />
+            </div>,
           )}
 
           {segmentContent(
@@ -153,9 +178,9 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
               placeholder="Enter github username"
               help="Instance must have internet access to import SSH keys from Github."
               autoFocus
-              value={source}
+              value={source.github}
               onChange={(e) => {
-                setSource(e.target.value);
+                setSource({ ...source, github: e.target.value });
               }}
             />,
           )}
@@ -167,9 +192,9 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
               placeholder="Enter launchpad username"
               help="Instance must have internet access to import SSH keys from Launchpad."
               autoFocus
-              value={source}
+              value={source.launchpad}
               onChange={(e) => {
-                setSource(e.target.value);
+                setSource({ ...source, launchpad: e.target.value });
               }}
             />,
           )}
@@ -185,7 +210,9 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
           className="u-no-margin--bottom"
           onClick={handleAdd}
           disabled={
-            name.length === 0 || user.length === 0 || source.length === 0
+            name.length === 0 ||
+            user.length === 0 ||
+            source[sourceType].length === 0
           }
         >
           Add key
