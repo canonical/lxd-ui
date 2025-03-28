@@ -944,6 +944,21 @@ SpiceMsgCursorSet.prototype =
     },
 }
 
+function getScaleFactor(sc) {
+    const screen = document.getElementById(sc.screen_id);
+    const screenWidth = screen?.clientWidth;
+    const canvasWidth = screen?.firstChild.width;
+
+    if (!canvasWidth || !screenWidth) {
+        return 1;
+    }
+
+    if (screenWidth > 0 && canvasWidth > screenWidth) {
+        return canvasWidth / screenWidth;
+    }
+
+    return 1;
+}
 
 function SpiceMsgcMousePosition(sc, e)
 {
@@ -952,11 +967,13 @@ function SpiceMsgcMousePosition(sc, e)
     this.buttons_state = sc.buttons_state;
     if (e)
     {
-        this.x = e.offsetX;
-        this.y = e.offsetY;
+        const scaleFactor = getScaleFactor(sc);
 
-        sc.mousex = e.offsetX;
-        sc.mousey = e.offsetY;
+        this.x = e.offsetX * scaleFactor;
+        this.y = e.offsetY * scaleFactor;
+
+        sc.mousex = e.offsetX * scaleFactor;
+        sc.mousey = e.offsetY * scaleFactor;
     }
     else
     {
@@ -989,16 +1006,18 @@ function SpiceMsgcMouseMotion(sc, e)
     this.buttons_state = sc.buttons_state;
     if (e)
     {
-        this.x = e.offsetX;
-        this.y = e.offsetY;
+        const scaleFactor = getScaleFactor(sc);
+
+        this.x = e.offsetX * scaleFactor;
+        this.y = e.offsetY * scaleFactor;
 
         if (sc.mousex !== undefined)
         {
-            this.x -= sc.mousex;
-            this.y -= sc.mousey;
+            this.x -= sc.mousex * scaleFactor;
+            this.y -= sc.mousey * scaleFactor;
         }
-        sc.mousex = e.offsetX;
-        sc.mousey = e.offsetY;
+        sc.mousex = e.offsetX * scaleFactor;
+        sc.mousey = e.offsetY * scaleFactor;
     }
     else
     {
