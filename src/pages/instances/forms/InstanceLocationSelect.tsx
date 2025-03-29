@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { Select } from "@canonical/react-components";
+import { Input, Select } from "@canonical/react-components";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import Loader from "components/Loader";
@@ -65,6 +65,22 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
 
   const availableMembers =
     clusterGroups.find((group) => group.name === selectedGroup)?.members ?? [];
+
+  const isPreselected = (formik.values as { targetSelectedByVolume?: boolean })
+    .targetSelectedByVolume;
+
+  if (isPreselected) {
+    return (
+      <Input
+        id="clusterMember"
+        label="Cluster member"
+        value={formik.values.target}
+        disabled
+        help="Member is determined by the selected ISO volume and can't be changed."
+        type="text"
+      />
+    );
+  }
 
   return (
     <>
