@@ -31,10 +31,12 @@ const EditNetworkForward: FC = () => {
     network: networkName,
     project,
     forwardAddress,
+    memberName,
   } = useParams<{
     network: string;
     project: string;
     forwardAddress: string;
+    memberName?: string;
   }>();
 
   const { data: network, error } = useNetwork(networkName ?? "", project ?? "");
@@ -53,12 +55,15 @@ const EditNetworkForward: FC = () => {
       networkName,
       queryKeys.forwards,
       forwardAddress,
+      queryKeys.members,
+      memberName,
     ],
     queryFn: async () =>
       fetchNetworkForward(
         networkName ?? "",
         forwardAddress ?? "",
         project ?? "",
+        memberName ?? "",
       ),
   });
 
@@ -74,6 +79,7 @@ const EditNetworkForward: FC = () => {
           targetAddress: port.target_address,
           targetPort: port.target_port,
         })) ?? [],
+      location: forward?.location,
     },
     enableReinitialize: true,
     validationSchema: NetworkForwardSchema,
@@ -89,6 +95,18 @@ const EditNetworkForward: FC = () => {
               queryKeys.networks,
               networkName,
               queryKeys.forwards,
+            ],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [
+              queryKeys.projects,
+              project,
+              queryKeys.networks,
+              networkName,
+              queryKeys.forwards,
+              forwardAddress,
+              queryKeys.members,
+              memberName,
             ],
           });
           navigate(`/ui/project/${project}/network/${networkName}/forwards`);

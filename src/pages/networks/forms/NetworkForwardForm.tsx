@@ -23,6 +23,8 @@ import type { NetworkForwardPortFormValues } from "pages/networks/forms/NetworkF
 import NetworkForwardFormPorts from "pages/networks/forms/NetworkForwardFormPorts";
 import ScrollableForm from "components/ScrollableForm";
 import { focusField } from "util/formFields";
+import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import { useClusterMembers } from "context/useClusterMembers";
 
 export const toNetworkForward = (
   values: NetworkForwardFormValues,
@@ -39,6 +41,7 @@ export const toNetworkForward = (
       target_address: port.targetAddress?.toString(),
       target_port: port.targetPort?.toString(),
     })),
+    location: values.location,
   };
 };
 
@@ -67,6 +70,7 @@ export interface NetworkForwardFormValues {
   defaultTargetAddress?: string;
   description?: string;
   ports: NetworkForwardPortFormValues[];
+  location?: string;
 }
 
 interface Props {
@@ -77,6 +81,15 @@ interface Props {
 
 const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
   const notify = useNotify();
+  const { data: members = [] } = useClusterMembers();
+  const isClusterMemberSpecific =
+    members.length > 0 && network?.type === "bridge";
+
+  useEffect(() => {
+    if (isClusterMemberSpecific && !formik.values.location) {
+      formik.setFieldValue("location", members[0].server_name);
+    }
+  }, [members]);
 
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
@@ -194,6 +207,16 @@ const NetworkForwardForm: FC<Props> = ({ formik, isEdit, network }) => {
               placeholder="Enter IP address"
               stacked
             />
+            {isClusterMemberSpecific && (
+              <ClusterMemberSelector
+                {...formik.getFieldProps("location")}
+                id="location"
+                label="Location"
+                help="Cluster member to create the forward on."
+                disabled={isEdit}
+                stacked
+              />
+            )}
             <Input
               {...formik.getFieldProps("description")}
               id="description"

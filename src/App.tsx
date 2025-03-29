@@ -281,6 +281,14 @@ const App: FC = () => {
           }
         />
         <Route
+          path="/ui/project/:project/network/:network/member/:memberName/forwards/:forwardAddress/edit"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
+            />
+          }
+        />
+        <Route
           path="/ui/project/:project/configuration"
           element={
             <ProtectedRoute

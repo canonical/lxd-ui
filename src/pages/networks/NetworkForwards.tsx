@@ -19,6 +19,8 @@ import ExpandableList from "components/ExpandableList";
 import NetworkForwardPort from "pages/networks/NetworkForwardPort";
 import ScrollableTable from "components/ScrollableTable";
 import { useNetworkEntitlements } from "util/entitlements/networks";
+import { useIsClustered } from "context/useIsClustered";
+import ResourceLink from "components/ResourceLink";
 
 interface Props {
   network: LxdNetwork;
@@ -29,6 +31,8 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   const docBaseLink = useDocs();
   const notify = useNotify();
   const { canEditNetwork } = useNetworkEntitlements();
+  const isClustered = useIsClustered();
+  const isClusterMemberSpecific = isClustered && network?.type === "bridge";
 
   const {
     data: forwards = [],
@@ -56,6 +60,14 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
     { content: "Description", sortKey: "description" },
     { content: "Default target address", sortKey: "defaultTarget" },
     { content: "Ports" },
+    ...(isClusterMemberSpecific
+      ? [
+          {
+            content: "Location",
+            sortKey: "location",
+          },
+        ]
+      : []),
     { "aria-label": "Actions", className: "u-align--right actions" },
   ];
 
@@ -89,13 +101,30 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           role: "cell",
           "aria-label": "Forwarded ports",
         },
+        ...(isClusterMemberSpecific
+          ? [
+              {
+                content: (
+                  <ResourceLink
+                    type="cluster-member"
+                    value={forward.location ?? ""}
+                    to={`/ui/cluster`}
+                  />
+                ),
+              },
+            ]
+          : []),
         {
           content: (
             <>
               {canEditNetwork(network) && (
                 <Link
                   className="p-button--base u-no-margin--bottom has-icon"
-                  to={`/ui/project/${project}/network/${network.name}/forwards/${forward.listen_address}/edit`}
+                  to={
+                    isClusterMemberSpecific
+                      ? `/ui/project/${project}/network/${network.name}/member/${forward.location}/forwards/${forward.listen_address}/edit`
+                      : `/ui/project/${project}/network/${network.name}/forwards/${forward.listen_address}/edit`
+                  }
                   title="Edit network forward"
                 >
                   <Icon name="edit" />
@@ -116,7 +145,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                 </Button>
               )}
               <DeleteNetworkForwardBtn
-                key={forward.listen_address}
+                key={forward.listen_address + forward.location}
                 network={network}
                 forward={forward}
                 project={project}
@@ -132,6 +161,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
         listenAddress: forward.listen_address,
         description: forward.description,
         defaultTarget: forward.config.target_address ?? "",
+        location: forward.location,
       },
     };
   });
