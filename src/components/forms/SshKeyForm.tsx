@@ -19,6 +19,7 @@ import ResourceLink from "components/ResourceLink";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useParams } from "react-router-dom";
+import { scrollToElement } from "util/scroll";
 
 export interface SshKey {
   id: string;
@@ -109,6 +110,9 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
       },
     ]);
     closePortal();
+    setTimeout(() => {
+      scrollToElement("add-ssh-key-btn");
+    }, 100);
   };
 
   const headers = [
@@ -292,7 +296,7 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
       <p className="p-form__label u-sv-1">
         SSH keys{" "}
         <Tooltip
-          message={`Additional keys get applied on instance creation or restart.\nSSH Keys are not removed automatically.`}
+          message={`Cloud init must be enabled on the instance to apply the keys.\nAdditional keys get applied on instance creation or restart.\nSSH Keys are not removed automatically.`}
         >
           <Icon name="information" />
         </Tooltip>
@@ -308,10 +312,11 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
         />
       )}
       <Button
+        id="add-ssh-key-btn"
         type="button"
-        onClick={() => {
+        onClick={(e) => {
           ensureEditMode(formik);
-          openPortal();
+          openPortal(e);
         }}
         hasIcon
         disabled={readOnly}
