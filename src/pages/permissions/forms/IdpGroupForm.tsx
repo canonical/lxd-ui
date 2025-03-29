@@ -5,9 +5,13 @@ import type { FormikProps } from "formik/dist/types";
 export interface IdpGroupFormValues {
   name: string;
 }
+export interface TLSIdentityFormValues {
+  name: string;
+  groups?: string[];
+}
 
 interface Props {
-  formik: FormikProps<IdpGroupFormValues>;
+  formik: FormikProps<IdpGroupFormValues | TLSIdentityFormValues>;
 }
 
 const IdpGroupForm: FC<Props> = ({ formik }) => {

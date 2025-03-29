@@ -38,6 +38,7 @@ import { useIdentities } from "context/useIdentities";
 import { useIdentityEntitlements } from "util/entitlements/identities";
 import { pluralize } from "util/instanceBulkActions";
 import { getIdentityName } from "util/permissionIdentities";
+import CreateTLSIdentity from "./CreateTLSIdentity";
 
 const PermissionIdentities: FC = () => {
   const notify = useNotify();
@@ -284,7 +285,9 @@ const PermissionIdentities: FC = () => {
               )}
             </PageHeader.Left>
             <PageHeader.BaseActions>
-              <CreateTlsIdentityBtn />
+              <CreateTlsIdentityBtn
+                openPanel={panelParams.openCreateTLSIdentity}
+              />
             </PageHeader.BaseActions>
           </PageHeader>
         }
@@ -326,6 +329,8 @@ const PermissionIdentities: FC = () => {
           </ScrollableTable>
         </Row>
       </CustomLayout>
+      <CreateTLSIdentity />
+
       {panelParams.panel === panels.identityGroups && (
         <EditIdentityGroupsPanel
           identities={selectedIdentities}
