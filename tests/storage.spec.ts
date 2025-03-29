@@ -84,7 +84,7 @@ test("storage volume edit snapshot configuration", async ({
   await visitVolume(page, volume);
   await page.getByTestId("tab-link-Snapshots").click();
   await page.getByText("See configuration").click();
-  await page.getByText("Edit configuration").click();
+  await page.getByRole("button", { name: "Create override" }).first().click();
 
   await setInput(
     page,
