@@ -9,6 +9,7 @@ const projectEntitlements = [
   "can_create_images",
   "can_create_instances",
   "can_create_networks",
+  "can_create_network_acls",
   "can_create_profiles",
   "can_create_storage_volumes",
   "can_delete",

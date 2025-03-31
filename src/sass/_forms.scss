@@ -1,9 +1,11 @@
 .create-instance,
 .edit-instance,
 .create-network,
+.create-network-acl,
 .create-storage-pool,
 .edit-storage-pool,
 .edit-network,
+.edit-network-acl,
 .create-profile,
 .edit-profile,
 .create-project,
@@ -290,6 +292,10 @@
   .yaml-switch {
     margin-left: $sph--x-large;
   }
+
+  .bare-inputs {
+    max-width: 35rem;
+  }
 }
 
 .p-panel__content:has(.edit-instance),
@@ -409,6 +415,7 @@
 
 .create-instance,
 .create-network,
+.create-network-acl,
 .create-profile,
 .create-project,
 .edit-project,
@@ -432,6 +439,7 @@
 
 .edit-instance,
 .edit-network,
+.edit-network-acl,
 .edit-profile,
 .edit-storage-pool,
 .edit-storage-volume {

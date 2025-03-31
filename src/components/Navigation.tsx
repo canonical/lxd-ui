@@ -32,6 +32,7 @@ const isSmallScreen = () => isWidthBelow(620);
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("permissions");
   const openStorage = location.pathname.includes("storage");
+  const openNetwork = location.pathname.includes("network");
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
     initialOpenMenus.push("permissions");
@@ -39,6 +40,10 @@ const initialiseOpenNavMenus = (location: Location) => {
 
   if (openStorage) {
     initialOpenMenus.push("storage");
+  }
+
+  if (openNetwork) {
+    initialOpenMenus.push("networking");
   }
 
   return initialOpenMenus;
@@ -253,17 +258,47 @@ const Navigation: FC = () => {
                       </SideNavigationItem>
 
                       <SideNavigationItem>
-                        <NavLink
-                          to={`/ui/project/${projectName}/networks`}
-                          title={`Networks (${projectName})`}
-                          onClick={softToggleMenu}
+                        <NavAccordion
+                          baseUrl={`/ui/project/${projectName}/network`}
+                          title={`Networking (${projectName})`}
+                          iconName="exposed"
+                          label="Networking"
+                          onOpen={() => {
+                            toggleAccordionNav("networking");
+                          }}
+                          open={openNavMenus.includes("networking")}
                         >
-                          <Icon
-                            className="is-light p-side-navigation__icon"
-                            name="exposed"
-                          />{" "}
-                          Networks
-                        </NavLink>
+                          {[
+                            <SideNavigationItem
+                              key={`/ui/project/${projectName}/networks`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/networks`}
+                                title={`Networks (${projectName})`}
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                                ignoreUrlMatches={[
+                                  "network-acl",
+                                  "network-acls",
+                                ]}
+                              >
+                                Networks
+                              </NavLink>
+                            </SideNavigationItem>,
+                            <SideNavigationItem
+                              key={`/ui/project/${projectName}/network-acls`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/network-acls`}
+                                title={`ACLs (${projectName})`}
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                              >
+                                ACLs
+                              </NavLink>
+                            </SideNavigationItem>,
+                          ]}
+                        </NavAccordion>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavAccordion

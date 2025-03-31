@@ -126,3 +126,27 @@ export interface LxdNetworkForward {
   location?: string;
   ports: LxdNetworkForwardPort[];
 }
+
+export interface LxdNetworkAclRule {
+  action: "allow" | "reject" | "drop";
+  description?: string;
+  destination?: string;
+  destination_port?: string;
+  icmp_code?: string;
+  icmp_type?: string;
+  protocol?: "icmp4" | "icmp6" | "tcp" | "udp";
+  source?: string;
+  source_port?: string;
+  state?: "enabled" | "disabled" | "logged";
+}
+
+export interface LxdNetworkAcl {
+  config?: Record<string, string>;
+  description?: string;
+  egress: LxdNetworkAclRule[];
+  etag?: string;
+  ingress: LxdNetworkAclRule[];
+  name: string;
+  used_by?: string[];
+  access_entitlements?: string[];
+}

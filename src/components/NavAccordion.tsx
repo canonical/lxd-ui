@@ -2,7 +2,7 @@ import { Icon } from "@canonical/react-components";
 import type { FC, ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
-export type AccordionNavMenu = "permissions" | "storage";
+export type AccordionNavMenu = "permissions" | "storage" | "networking";
 
 interface Props {
   baseUrl: string;

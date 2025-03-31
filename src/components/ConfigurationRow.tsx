@@ -17,16 +17,19 @@ import { getConfigRowMetadata } from "util/configInheritance";
 import type { StoragePoolFormValues } from "pages/storage/forms/StoragePoolForm";
 import { ensureEditMode } from "util/instanceEdit";
 import { focusField } from "util/formFields";
+import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
 
 export type ConfigurationRowFormikValues =
   | InstanceAndProfileFormValues
   | StorageVolumeFormValues
+  | NetworkAclFormValues
   | NetworkFormValues
   | ProjectFormValues
   | StoragePoolFormValues;
 
 export type ConfigurationRowFormikProps =
   | InstanceAndProfileFormikProps
+  | FormikProps<NetworkAclFormValues>
   | FormikProps<NetworkFormValues>
   | FormikProps<ProjectFormValues>
   | FormikProps<StorageVolumeFormValues>
