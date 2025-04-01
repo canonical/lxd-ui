@@ -20,6 +20,7 @@ export interface PanelHelper {
   openGroupIdentities: (group?: string) => void;
   openCreateIdpGroup: () => void;
   openEditIdpGroup: (group: string) => void;
+  openCreateTLSIdentity: () => void;
 }
 
 export const panels = {
@@ -32,6 +33,7 @@ export const panels = {
   groupIdentities: "group-identities",
   createIdpGroup: "create-idp-groups",
   editIdpGroup: "edit-idp-groups",
+  createTLSIdentity: "create-tls-identity",
 };
 
 type ParamMap = Record<string, string>;
@@ -127,6 +129,10 @@ const usePanelParams = (): PanelHelper => {
       setPanelParams(panels.editIdpGroup, {
         "idp-group": idpGroup || "",
       });
+    },
+
+    openCreateTLSIdentity: () => {
+      setPanelParams(panels.createTLSIdentity);
     },
   };
 };

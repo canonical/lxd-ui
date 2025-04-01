@@ -13,8 +13,8 @@ import type { IdpGroup } from "types/permissions";
 import { renameIdpGroup, updateIdpGroup } from "api/auth-idp-groups";
 import { testDuplicateIdpGroupName } from "util/permissionIdpGroups";
 import useEditHistory from "util/useEditHistory";
-import type { IdpGroupFormValues } from "../forms/IdpGroupForm";
-import IdpGroupForm from "../forms/IdpGroupForm";
+import type { IdpGroupFormValues } from "../forms/NameWithGroupForm";
+import NameWithGroupForm from "../forms/NameWithGroupForm";
 import GroupSelection from "./GroupSelection";
 import GroupSelectionActions from "../actions/GroupSelectionActions";
 import ResourceLink from "components/ResourceLink";
@@ -211,7 +211,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
           <SidePanel.HeaderTitle>{`Edit IDP group ${idpGroup?.name}`}</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
-        <IdpGroupForm formik={formik} />
+        <NameWithGroupForm formik={formik} />
         <p>Map groups to this idp group</p>
         <SidePanel.Content className="u-no-padding">
           <GroupSelection
