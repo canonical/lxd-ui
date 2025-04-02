@@ -55,6 +55,7 @@ export const networkFormFieldToPayloadName: Record<
   network: "network",
   ovn_ingress_mode: "ovn.ingress_mode",
   parent: "parent",
+  security_acls: "security.acls",
 };
 
 export const getHandledNetworkConfigKeys = () => {

@@ -54,6 +54,7 @@ export interface LxdNetworkConfig {
   "ipv6.routes.anycast"?: string;
   "ipv6.routing"?: string;
   "ovn.ingress_mode"?: string;
+  "security.acls"?: string;
   network?: string;
   parent?: string;
   [key: `user.${string}`]: string;

@@ -53,10 +53,10 @@ const NetworkAclDetail = lazy(
   async () => import("pages/networks/NetworkAclDetail"),
 );
 const NetworkAclList = lazy(
-  async () => import("./pages/networks/NetworkAclList"),
+  async () => import("pages/networks/NetworkAclList"),
 );
 const NetworkDetail = lazy(async () => import("pages/networks/NetworkDetail"));
-const NetworkList = lazy(async () => import("./pages/networks/NetworkList"));
+const NetworkList = lazy(async () => import("pages/networks/NetworkList"));
 const OperationList = lazy(
   async () => import("pages/operations/OperationList"),
 );

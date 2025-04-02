@@ -24,7 +24,7 @@ import NetworkAclUsedBy from "pages/networks/NetworkAclUsedBy";
 export const toNetworkAcl = (
   values: NetworkAclFormValues,
   networkAcl?: LxdNetworkAcl,
-): Partial<LxdNetworkAcl> => {
+): LxdNetworkAcl => {
   const result: LxdNetworkAcl = {
     name: values.name,
     description: values.description,
@@ -70,22 +70,17 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
       : formik.values.egress;
   };
 
-  const getField = (direction: RuleDirection) => {
-    return direction === "ingress" ? "ingress" : "egress";
-  };
-
   const handleSaveRule = ({ index: editIndex, ...rule }: AclRuleFormValues) => {
-    const field = getField(ruleDirection);
     const rules = getRules(ruleDirection);
 
     if (editIndex === undefined) {
       // Add new rule
-      formik.setFieldValue(field, [...rules, rule]);
+      formik.setFieldValue(ruleDirection, [...rules, rule]);
     } else {
       // Update existing rule
       const copy = [...rules];
       copy[editIndex] = rule;
-      formik.setFieldValue(field, copy);
+      formik.setFieldValue(ruleDirection, copy);
     }
 
     ensureEditMode(formik);
@@ -99,12 +94,11 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
   };
 
   const handleRemoveRule = (direction: RuleDirection, index: number) => {
-    const field = getField(direction);
     const rules = getRules(direction);
     const copy = [...rules];
     copy.splice(index, 1);
 
-    formik.setFieldValue(field, copy);
+    formik.setFieldValue(direction, copy);
     ensureEditMode(formik);
   };
 
@@ -120,6 +114,8 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
     closePortal();
     setEditRule(null);
   };
+
+  const isLackingEditPermission = !!formik.values.editRestriction;
 
   return (
     <>
@@ -145,14 +141,13 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                 <Input type="submit" hidden value="Hidden input" />
                 <Input
                   id="name"
-                  name="name"
                   type="text"
                   label="Name"
                   placeholder="Enter name"
                   required
                   autoFocus
                   disabled={
-                    !formik.values.isCreating || !!formik.values.editRestriction
+                    !formik.values.isCreating || isLackingEditPermission
                   }
                   title={formik.values.editRestriction}
                   help={
@@ -160,9 +155,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                       ? "Click the ACL name in the header to rename the ACL"
                       : ""
                   }
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
+                  {...formik.getFieldProps("name")}
                   error={formik.touched.name ? formik.errors.name : null}
                 />
                 <AutoExpandingTextArea
@@ -176,7 +169,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                     formik.handleChange(e);
                   }}
                   value={formik.values.description}
-                  disabled={!!formik.values.editRestriction}
+                  disabled={isLackingEditPermission}
                   title={formik.values.editRestriction}
                 />
               </div>
@@ -201,7 +194,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                     openAddRuleModal("ingress");
                   }}
                   type="button"
-                  disabled={!!formik.values.editRestriction}
+                  disabled={isLackingEditPermission}
                   title={formik.values.editRestriction}
                 >
                   <Icon name="plus" />
@@ -230,7 +223,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                     openAddRuleModal("egress");
                   }}
                   type="button"
-                  disabled={!!formik.values.editRestriction}
+                  disabled={isLackingEditPermission}
                   title={formik.values.editRestriction}
                 >
                   <Icon name="plus" />
@@ -252,7 +245,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                 ensureEditMode(formik);
                 formik.setFieldValue("yaml", yaml);
               }}
-              readOnly={!!formik.values.editRestriction}
+              readOnly={isLackingEditPermission}
               readOnlyMessage={formik.values.editRestriction}
             />
           )}

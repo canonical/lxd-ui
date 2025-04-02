@@ -57,7 +57,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       const saveObject = values.yaml
-        ? yamlToObject(values.yaml)
+        ? (yamlToObject(values.yaml) as LxdNetworkAcl)
         : toNetworkAcl(formik.values, networkAcl);
 
       updateNetworkAcl(saveObject, project)
@@ -73,7 +73,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
 
           toastNotify.success(
             <>
-              Network ACL{""}
+              Network ACL{" "}
               <ResourceLink
                 type="network-acl"
                 value={networkAcl.name}

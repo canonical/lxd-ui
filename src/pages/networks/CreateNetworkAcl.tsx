@@ -29,6 +29,7 @@ import type { NetworkAclFormValues } from "pages/networks/forms/NetworkAclForm";
 import { toNetworkAcl } from "pages/networks/forms/NetworkAclForm";
 import NetworkAclForm from "pages/networks/forms/NetworkAclForm";
 import { createNetworkAcl } from "api/network-acls";
+import type { LxdNetworkAcl } from "types/network";
 
 const CreateNetworkAcl: FC = () => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const CreateNetworkAcl: FC = () => {
     validationSchema: NetworkAclSchema,
     onSubmit: (values) => {
       const networkAcl = values.yaml
-        ? yamlToObject(values.yaml)
+        ? (yamlToObject(values.yaml) as LxdNetworkAcl)
         : toNetworkAcl(formik.values);
 
       createNetworkAcl(networkAcl, project)

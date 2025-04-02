@@ -30,9 +30,9 @@ import { useSettings } from "context/useSettings";
 const isSmallScreen = () => isWidthBelow(620);
 
 const initialiseOpenNavMenus = (location: Location) => {
-  const openPermissions = location.pathname.includes("permissions");
-  const openStorage = location.pathname.includes("storage");
-  const openNetwork = location.pathname.includes("network");
+  const openPermissions = location.pathname.includes("/permissions/");
+  const openStorage = location.pathname.includes("/storage/");
+  const openNetwork = location.pathname.includes("/network");
   const initialOpenMenus: AccordionNavMenu[] = [];
   if (openPermissions) {
     initialOpenMenus.push("permissions");

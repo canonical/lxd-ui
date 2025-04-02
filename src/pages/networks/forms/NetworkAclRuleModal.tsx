@@ -7,7 +7,6 @@ import {
   Select,
 } from "@canonical/react-components";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import type { RuleDirection } from "pages/networks/forms/NetworkAclForm";
 
 export interface AclRuleFormValues {
@@ -37,10 +36,6 @@ const NetworkAclRuleModal: FC<Props> = ({
   onAdd,
   editRule,
 }) => {
-  const AclRuleSchema = Yup.object().shape({
-    password: Yup.string(),
-  });
-
   const formik = useFormik<AclRuleFormValues>({
     initialValues: editRule
       ? editRule
@@ -50,7 +45,6 @@ const NetworkAclRuleModal: FC<Props> = ({
           state: "enabled",
         },
     enableReinitialize: true,
-    validationSchema: AclRuleSchema,
     onSubmit: (values) => {
       onAdd(values);
     },
@@ -86,9 +80,7 @@ const NetworkAclRuleModal: FC<Props> = ({
             { label: "Reject", value: "reject" },
             { label: "Drop", value: "drop" },
           ]}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.action}
+          {...formik.getFieldProps("action")}
         />
         <Select
           id="state"
@@ -99,18 +91,14 @@ const NetworkAclRuleModal: FC<Props> = ({
             { label: "Logged", value: "logged" },
           ]}
           help="Possible values are enabled, disabled, and logged."
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.state}
+          {...formik.getFieldProps("state")}
         />
         <Input
           id="description"
           label="Description"
           type="text"
           placeholder="Enter description"
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.description}
+          {...formik.getFieldProps("description")}
         />
         <Select
           id="protocol"
@@ -142,9 +130,7 @@ const NetworkAclRuleModal: FC<Props> = ({
           placeholder="Enter source"
           type="text"
           help="Sources can be specified as CIDR or IP ranges, source subject name selectors (for ingress rules), or be left empty for any."
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.source}
+          {...formik.getFieldProps("source")}
         />
         {["tcp", "udp"].includes(formik.values.protocol ?? "") && (
           <Input
@@ -153,9 +139,7 @@ const NetworkAclRuleModal: FC<Props> = ({
             placeholder="Enter source port"
             type="text"
             help="Specify a comma-separated list of ports or port ranges (start-end inclusive), or leave the value empty for any."
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.source_port}
+            {...formik.getFieldProps("source_port")}
           />
         )}
         <Input
@@ -164,9 +148,7 @@ const NetworkAclRuleModal: FC<Props> = ({
           placeholder="Enter destination"
           type="text"
           help="Destinations can be specified as CIDR or IP ranges, destination subject name selectors (for egress rules), or be left empty for any."
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.destination}
+          {...formik.getFieldProps("destination")}
         />
         {["tcp", "udp"].includes(formik.values.protocol ?? "") && (
           <Input
@@ -175,9 +157,7 @@ const NetworkAclRuleModal: FC<Props> = ({
             placeholder="Enter destination port"
             type="text"
             help="Specify a comma-separated list of ports or port ranges (start-end inclusive), or leave the value empty for any."
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.destination_port}
+            {...formik.getFieldProps("destination_port")}
           />
         )}
         {["icmp4", "icmp6"].includes(formik.values.protocol ?? "") && (
@@ -188,9 +168,7 @@ const NetworkAclRuleModal: FC<Props> = ({
               placeholder="Enter ICMP code"
               type="text"
               help="Specify the ICMP code number, or leave the value empty for any."
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.icmp_code}
+              {...formik.getFieldProps("icmp_code")}
             />
             <Input
               id="icmp_type"
@@ -198,9 +176,7 @@ const NetworkAclRuleModal: FC<Props> = ({
               placeholder="Enter ICMP type"
               type="text"
               help="Specify the ICMP type number, or leave the value empty for any."
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.icmp_type}
+              {...formik.getFieldProps("icmp_type")}
             />
           </>
         )}

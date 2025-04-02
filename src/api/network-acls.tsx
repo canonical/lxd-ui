@@ -45,7 +45,7 @@ export const fetchNetworkAcl = async (
 };
 
 export const createNetworkAcl = async (
-  networkAcl: Partial<LxdNetworkAcl>,
+  networkAcl: LxdNetworkAcl,
   project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -78,11 +78,11 @@ export const renameNetworkAcl = async (
 };
 
 export const updateNetworkAcl = async (
-  networkAcl: Partial<LxdNetworkAcl>,
+  networkAcl: LxdNetworkAcl,
   project: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/network-acls/${networkAcl.name ?? ""}?project=${project}`, {
+    fetch(`/1.0/network-acls/${networkAcl.name}?project=${project}`, {
       method: "PUT",
       body: JSON.stringify(networkAcl),
       headers: {

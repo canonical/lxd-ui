@@ -16,6 +16,10 @@ const NetworkAclRuleTable: FC<Props> = ({
   onRemove,
   rules,
 }) => {
+  const getPeer = (address?: string, port?: string) => {
+    return port ? `${address ?? "*"}:${port}` : `${address ?? "*"}`;
+  };
+
   return (
     <MainTable
       sortable
@@ -29,12 +33,8 @@ const NetworkAclRuleTable: FC<Props> = ({
         { content: "" },
       ]}
       rows={rules.map((rule, index) => {
-        const source = rule.source_port
-          ? `${rule.source ?? "*"}:${rule.source_port}`
-          : `${rule.source ?? "*"}`;
-        const destination = rule.destination_port
-          ? `${rule.destination ?? "*"}:${rule.destination_port}`
-          : `${rule.destination ?? "*"}`;
+        const source = getPeer(rule.source, rule.source_port);
+        const destination = getPeer(rule.destination, rule.destination_port);
 
         return {
           columns: [
