@@ -136,8 +136,10 @@ jobs:
 
 
   tics-report:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, amd64, tiobe, jammy]
     needs: publish-coverage-report
+    env:
+      DEBIAN_FRONTEND: noninteractive
     steps:
       - uses: actions/checkout@v4
 
@@ -156,6 +158,4 @@ jobs:
         run: |
           set -x
           export TICSAUTHTOKEN=${{ secrets.TICS_AUTH_TOKEN }}
-          curl --silent --show-error "https://canonical.tiobe.com/tiobeweb/TICS/api/public/v1/fapi/installtics/Script?cfg=default&platform=linux&url=https://canonical.tiobe.com/tiobeweb/TICS/" > install_tics.sh
-          . ./install_tics.sh
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
