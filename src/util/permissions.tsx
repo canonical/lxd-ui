@@ -1,6 +1,5 @@
 import type { LxdIdentity, LxdPermission } from "types/permissions";
 import type { LxdImage } from "types/image";
-import { useSupportedFeatures } from "context/useSupportedFeatures";
 import type { ResourceDetail } from "./resourceDetails";
 import { extractResourceDetailsFromUrl } from "./resourceDetails";
 import type { LxdMetadata } from "types/config";
@@ -360,19 +359,6 @@ export const permissionSort = (
   return (
     resourceTypeComparison || resourceNameComparison || entitlementComparison
   );
-};
-
-export const enablePermissionsFeature = (): boolean => {
-  const { hasAccessManagement, settings } = useSupportedFeatures();
-
-  const userShowPermissions =
-    (settings?.config?.["user.show_permissions"] ?? "false") === "true";
-
-  const hasOIDCSettings =
-    !!settings?.config?.["oidc.client.id"] &&
-    !!settings?.config?.["oidc.issuer"];
-
-  return hasAccessManagement && (hasOIDCSettings || userShowPermissions);
 };
 
 // each resource type has specific columns to display, which should uniquely identify the resource
