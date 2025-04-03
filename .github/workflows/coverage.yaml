@@ -157,7 +157,7 @@ jobs:
         shell: bash
         run: |
           set -x
-          export TICSAUTHTOKEN=${{ secrets.TICS_AUTH_TOKEN }}
+          export TICSAUTHTOKEN=${{ secrets.TICSAUTHTOKEN }}
           # need to source .profile, or TICSQServer command won't be found
           source ~/.profile
           TICSQServer -project lxd-ui -tmpdir /tmp/tics -branchdir .
