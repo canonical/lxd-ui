@@ -1,6 +1,6 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
-import { TestOptions } from "./tests/fixtures/lxd-test";
+import type { TestOptions } from "./tests/fixtures/lxd-test";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -57,12 +57,14 @@ const config: PlaywrightTestConfig<TestOptions> = {
     // ensure login tests run first since we need to remove the tls certificate from lxd trust store
     {
       name: "login-chromium",
-      use: { ...devices["Desktop Chrome"] },
+      // disable tracing, to be sure no password will be on the trace
+      use: { ...devices["Desktop Chrome"], trace: "off" },
       testMatch: "login.spec.ts",
     },
     {
       name: "login-firefox",
-      use: { ...devices["Desktop Firefox"] },
+      // disable tracing, to be sure no password will be on the trace
+      use: { ...devices["Desktop Firefox"], trace: "off" },
       testMatch: "login.spec.ts",
     },
     {
