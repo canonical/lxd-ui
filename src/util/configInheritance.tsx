@@ -62,6 +62,8 @@ export const getConfigRowMetadata = (
       return getNetworkRowMetadata(values, name);
     case "storagePool":
       return getStoragePoolRowMetadata(values, name);
+    case "network-acl":
+      throw new Error("Network ACLs do not have row metadata");
   }
 };
 

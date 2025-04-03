@@ -2,7 +2,7 @@ import type { LxdApiResponse } from "types/apiResponse";
 import type { LxdInstance } from "types/instance";
 import type { LxdProject } from "types/project";
 import type { LxdProfile } from "types/profile";
-import type { LxdNetwork } from "types/network";
+import type { LxdNetwork, LxdNetworkAcl } from "types/network";
 import type { LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
@@ -83,7 +83,12 @@ export const handleSettledResult = (
 
 export const handleEtagResponse = async (response: Response) => {
   const data = (await handleResponse(response)) as LxdApiResponse<
-    LxdInstance | LxdProject | LxdProfile | LxdNetwork | LxdStorageVolume
+    | LxdInstance
+    | LxdProject
+    | LxdProfile
+    | LxdNetwork
+    | LxdNetworkAcl
+    | LxdStorageVolume
   >;
   const result = data.metadata;
   result.etag = response.headers.get("etag")?.replace("W/", "") ?? undefined;

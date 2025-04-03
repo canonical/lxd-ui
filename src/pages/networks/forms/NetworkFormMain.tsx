@@ -16,6 +16,7 @@ import NetworkStatistics from "pages/networks/forms/NetworkStatistics";
 import NetworkDescriptionField from "pages/networks/forms/NetworkDescriptionField";
 import { renderNetworkType } from "util/networks";
 import NetworkAddresses from "pages/networks/forms/NetworkAddresses";
+import NetworkAcls from "pages/networks/forms/NetworkAcls";
 
 interface Props {
   formik: FormikProps<NetworkFormValues>;
@@ -170,6 +171,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
             />
           </>
         )}
+        <NetworkAcls project={project} formik={formik} />
         {!formik.values.isCreating && (
           <NetworkStatistics formik={formik} project={project} />
         )}

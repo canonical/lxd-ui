@@ -20,6 +20,7 @@ export type ResourceType =
   | "profile"
   | "snapshot"
   | "image"
+  | "network"
   | "volume";
 
 // refer to api spec to see how the names can be extracted from resource url

@@ -26,6 +26,9 @@ const CreateInstance = lazy(
   async () => import("pages/instances/CreateInstance"),
 );
 const CreateNetwork = lazy(async () => import("pages/networks/CreateNetwork"));
+const CreateNetworkAcl = lazy(
+  async () => import("pages/networks/CreateNetworkAcl"),
+);
 const CreateNetworkForward = lazy(
   async () => import("pages/networks/CreateNetworkForward"),
 );
@@ -46,8 +49,14 @@ const InstanceDetail = lazy(
 );
 const InstanceList = lazy(async () => import("pages/instances/InstanceList"));
 const Login = lazy(async () => import("pages/login/Login"));
+const NetworkAclDetail = lazy(
+  async () => import("pages/networks/NetworkAclDetail"),
+);
+const NetworkAclList = lazy(
+  async () => import("pages/networks/NetworkAclList"),
+);
 const NetworkDetail = lazy(async () => import("pages/networks/NetworkDetail"));
-const NetworkList = lazy(async () => import("./pages/networks/NetworkList"));
+const NetworkList = lazy(async () => import("pages/networks/NetworkList"));
 const OperationList = lazy(
   async () => import("pages/operations/OperationList"),
 );
@@ -285,6 +294,30 @@ const App: FC = () => {
           element={
             <ProtectedRoute
               outlet={<ProjectLoader outlet={<EditNetworkForward />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-acls"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkAclList />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-acls/create"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<CreateNetworkAcl />} />}
+            />
+          }
+        />
+        <Route
+          path="/ui/project/:project/network-acl/:name"
+          element={
+            <ProtectedRoute
+              outlet={<ProjectLoader outlet={<NetworkAclDetail />} />}
             />
           }
         />

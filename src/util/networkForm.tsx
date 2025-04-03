@@ -60,6 +60,7 @@ export const toNetworkFormValues = (
     ovn_ingress_mode: network.config[getNetworkKey("ovn_ingress_mode")],
     network: network.config.network,
     parent: network.config.parent,
+    security_acls: network.config["security.acls"]?.split(",") ?? [],
     parentPerClusterMember,
     entityType: "network",
     bareNetwork: network,

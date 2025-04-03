@@ -78,6 +78,7 @@ export interface NetworkFormValues {
   ovn_ingress_mode?: string;
   parent?: string;
   parentPerClusterMember?: ClusterSpecificValues;
+  security_acls: string[];
   yaml?: string;
   entityType: "network";
   bareNetwork?: LxdNetwork;
@@ -149,6 +150,7 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("network")]: values.network,
       [getNetworkKey("ovn_ingress_mode")]: values.ovn_ingress_mode,
       [getNetworkKey("parent")]: values.parent,
+      [getNetworkKey("security_acls")]: values.security_acls.join(","),
     },
   };
 };
