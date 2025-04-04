@@ -53,7 +53,7 @@ const StorageVolumeDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader text="Loading storage volume..." />;
+    return <Loader isMainComponent />;
   } else if (!volume) {
     return <>Loading storage volume failed</>;
   }

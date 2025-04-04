@@ -85,10 +85,6 @@ const Navigation: FC = () => {
     if (scroll && !menuCollapsed) {
       setScroll(false);
     }
-
-    if (openNavMenus.length) {
-      setOpenNavMenus([]);
-    }
   }, [menuCollapsed, scroll, openNavMenus]);
 
   const { isAuthenticated } = useAuth();

@@ -98,7 +98,7 @@ const NetworkAclList: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   return (

@@ -69,7 +69,7 @@ const PermissionIdpGroups: FC = () => {
     {
       content: "Mapped groups",
       sortKey: "groups",
-      className: "u-align--right",
+      className: "u-align--right mapped-groups",
     },
     { "aria-label": "Actions", className: "u-align--right actions" },
   ];
@@ -123,7 +123,7 @@ const PermissionIdpGroups: FC = () => {
         {
           content: getGroupLink(),
           role: "cell",
-          className: "u-align--right",
+          className: "u-align--right mapped-groups",
           "aria-label": "Number of mapped groups",
         },
         {
@@ -173,7 +173,7 @@ const PermissionIdpGroups: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader text="Loading identity provider groups" />;
+    return <Loader isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -242,6 +242,7 @@ const PermissionIdpGroups: FC = () => {
         >
           <SelectableMainTable
             id="idp-groups-table"
+            className="permission-idp-group-table"
             headers={headers}
             rows={sortedRows}
             sortable
@@ -284,6 +285,7 @@ const PermissionIdpGroups: FC = () => {
   return (
     <>
       <CustomLayout
+        mainClassName="permission-idp-groups-list"
         contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>
@@ -293,7 +295,7 @@ const PermissionIdpGroups: FC = () => {
                   href={`${docBaseLink}/explanation/authorization`}
                   title="Learn more about permissions"
                 >
-                  Identity&nbsp;provider&nbsp;groups
+                  IDP&nbsp;groups
                 </HelpLink>
               </PageHeader.Title>
               {!selectedGroupNames.length && hasGroups ? (

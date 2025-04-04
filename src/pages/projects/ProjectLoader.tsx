@@ -10,7 +10,7 @@ const ProjectLoader = ({ outlet }: Props) => {
   const { project, isLoading } = useCurrentProject();
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (!project) {

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Col, Row, Notification } from "@canonical/react-components";
+import { Col, Notification, Row } from "@canonical/react-components";
 import BrowserImport from "pages/login/BrowserImport";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "context/auth";
@@ -14,7 +14,7 @@ const CertificateGenerate: FC = () => {
   const hasCertificate = settings?.client_certificate;
 
   if (isAuthLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (isAuthenticated) {

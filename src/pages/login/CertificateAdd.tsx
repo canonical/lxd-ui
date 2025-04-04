@@ -22,7 +22,7 @@ const CertificateAdd: FC = () => {
   const navigate = useNavigate();
 
   if (isAuthLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (isAuthenticated) {

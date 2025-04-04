@@ -1,33 +1,55 @@
 @import "./helpers";
 
-.permission-groups {
-  .groups-table {
-    .name {
-      width: 15%;
-    }
+.permission-groups-list {
+  .permission-groups {
+    .groups-table {
+      .name {
+        width: 30%;
+      }
 
-    .description {
-      width: 45%;
+      .description {
+        width: 30%;
 
-      span {
-        @include u-line-clamp-truncate(2);
+        span {
+          @include u-line-clamp-truncate(2);
+        }
+      }
+
+      .identities,
+      .permissions {
+        width: 7rem;
+      }
+
+      .actions {
+        width: 8.5rem;
+      }
+
+      @media screen and (width < 1000px) {
+        .description {
+          display: none;
+        }
+      }
+
+      @media screen and (width < 900px) {
+        .identities,
+        .permissions {
+          display: none;
+        }
+      }
+
+      @media screen and (width < 600px) {
+        .select {
+          display: none;
+        }
       }
     }
+  }
 
-    .identities,
-    .permissions {
-      width: 10%;
-    }
-
-    .actions {
-      width: 8.5rem;
+  @media screen and (width < 500px) {
+    .page-header__search {
+      display: none;
     }
   }
-}
-
-.permission-groups-filter {
-  margin-bottom: -0.3rem; // needed to align button with search filter
-  width: 100%;
 }
 
 .show-menu-above {

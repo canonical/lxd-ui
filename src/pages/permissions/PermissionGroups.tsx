@@ -166,7 +166,7 @@ const PermissionGroups: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading groups" />;
+    return <Loader isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -255,6 +255,7 @@ const PermissionGroups: FC = () => {
   return (
     <>
       <CustomLayout
+        mainClassName="permission-groups-list"
         contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>

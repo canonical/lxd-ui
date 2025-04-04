@@ -7,7 +7,6 @@ import ProjectLoader from "pages/projects/ProjectLoader";
 import ClusterGroupLoader from "pages/cluster/ClusterGroupLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
-import CustomLayout from "components/CustomLayout";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
 import NoProject from "components/NoProject";
@@ -101,7 +100,7 @@ const App: FC = () => {
   setTitle();
 
   if (isAuthLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (!isAuthenticated && hasOidc != undefined && hasCertificate != undefined) {
@@ -113,13 +112,7 @@ const App: FC = () => {
   }
 
   return (
-    <Suspense
-      fallback={
-        <CustomLayout>
-          <Loader />
-        </CustomLayout>
-      }
-    >
+    <Suspense fallback={<Loader isMainComponent />}>
       <Routes>
         {HOME_REDIRECT_PATHS.map((path) => (
           <Route
