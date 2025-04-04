@@ -13,7 +13,7 @@ const Login: FC = () => {
   const hasOidc = settings?.auth_methods?.includes("oidc");
 
   if (isAuthLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (isAuthenticated) {

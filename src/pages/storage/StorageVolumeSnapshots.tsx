@@ -194,7 +194,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   }
 
   if (isSnapshotsLoading || isProjectLoading) {
-    return <Loader text="Loading storage volume snapshots..." />;
+    return <Loader isMainComponent />;
   } else if (!volumeSnapshots) {
     return <>Loading storage volume snapshots failed</>;
   }

@@ -23,12 +23,12 @@ import StorageVolumesFilter, {
 import StorageVolumeSize from "pages/storage/StorageVolumeSize";
 import { useDocs } from "context/useDocs";
 import {
-  renderContentType,
   figureCollapsedScreen,
   getSnapshotsPerVolume,
-  isSnapshot,
-  renderVolumeType,
   hasVolumeDetailPage,
+  isSnapshot,
+  renderContentType,
+  renderVolumeType,
 } from "util/storageVolume";
 import {
   ACTIONS_COL,
@@ -102,6 +102,7 @@ const StorageVolumes: FC = () => {
       content: POOL_COL,
       sortKey: "pool",
       style: { width: COLUMN_WIDTHS[POOL_COL] },
+      className: "pool",
     },
     {
       content: isSmallScreen ? (
@@ -138,7 +139,7 @@ const StorageVolumes: FC = () => {
         ]),
     {
       content: SIZE_COL,
-      className: "u-align--right",
+      className: "u-align--right size",
       style: { width: COLUMN_WIDTHS[SIZE_COL] },
     },
     {
@@ -232,6 +233,7 @@ const StorageVolumes: FC = () => {
             </Link>
           ),
           role: "cell",
+          className: "pool",
           style: { width: COLUMN_WIDTHS[POOL_COL] },
           "aria-label": POOL_COL,
         },
@@ -274,7 +276,7 @@ const StorageVolumes: FC = () => {
           content: <StorageVolumeSize volume={volume} />,
           role: "cell",
           "aria-label": SIZE_COL,
-          className: "u-align--right",
+          className: "u-align--right size",
           style: { width: COLUMN_WIDTHS[SIZE_COL] },
         },
         {
@@ -348,7 +350,7 @@ const StorageVolumes: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading storage volumes..." />;
+    return <Loader isMainComponent />;
   }
 
   const defaultPoolForVolumeCreate =
@@ -404,7 +406,7 @@ const StorageVolumes: FC = () => {
 
   return (
     <CustomLayout
-      contentClassName="detail-page"
+      mainClassName="storage-volume-list"
       header={
         <PageHeader>
           <PageHeader.Left>

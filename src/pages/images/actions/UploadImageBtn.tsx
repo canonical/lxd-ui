@@ -35,7 +35,7 @@ const UploadImageBtn: FC<Props> = ({ projectName }) => {
         }
       >
         {!isSmallScreen && <Icon name="upload" />}
-        <span>Upload image</span>
+        <span>{isSmallScreen ? "Upload" : "Upload image"}</span>
       </Button>
     </>
   );

@@ -46,7 +46,7 @@ const Settings: FC = () => {
   const { data: clusteredSettings = [] } = useClusteredSettings();
 
   if (isConfigOptionsLoading || isSettingsLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   if (settingsError) {

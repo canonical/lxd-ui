@@ -37,7 +37,7 @@ const StoragePoolDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader text="Loading storage details..." />;
+    return <Loader isMainComponent />;
   } else if (!pool) {
     return <>Loading storage details failed</>;
   }

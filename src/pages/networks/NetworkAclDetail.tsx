@@ -34,7 +34,7 @@ const NetworkAclDetail: FC = () => {
   }, [error]);
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   return (

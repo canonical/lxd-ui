@@ -171,7 +171,7 @@ const ProfileList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Loader text="Loading profiles..." />;
+    return <Loader isMainComponent />;
   }
 
   return (

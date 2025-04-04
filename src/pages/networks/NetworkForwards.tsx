@@ -167,7 +167,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   });
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   return (
