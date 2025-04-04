@@ -51,7 +51,6 @@ jobs:
           sudo lxc config trust add keys/lxd-ui.crt
           sudo lxc config set cluster.https_address "127.0.0.1"
           sudo lxc cluster enable local
-          sudo lxc config set user.show_permissions=true
 
       - uses: actions/setup-node@v4
         with:
