@@ -38,7 +38,7 @@ const NetworkDetail: FC = () => {
   }, [error]);
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   const isManagedNetwork = network?.managed;

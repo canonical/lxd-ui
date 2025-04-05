@@ -27,4 +27,10 @@
   .p-panel {
     min-height: auto;
   }
+
+  @media screen and (width < 500px) {
+    .page-header__search {
+      display: none;
+    }
+  }
 }

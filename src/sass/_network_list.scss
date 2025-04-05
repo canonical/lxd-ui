@@ -1,21 +1,29 @@
 .network-list {
-  .type {
-    width: 5rem;
+  .network-list-table {
+    .type {
+      width: 5rem;
+    }
+
+    .managed {
+      width: 5rem;
+    }
+
+    .forwards {
+      width: 6rem;
+    }
+
+    .used-by {
+      width: 5rem;
+    }
+
+    .state {
+      width: 5rem;
+    }
   }
 
-  .managed {
-    width: 5rem;
-  }
-
-  .forwards {
-    width: 6rem;
-  }
-
-  .used-by {
-    width: 5rem;
-  }
-
-  .state {
-    width: 5rem;
+  @media screen and (width < 500px) {
+    .page-header__search {
+      display: none;
+    }
   }
 }

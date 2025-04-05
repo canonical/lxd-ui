@@ -244,11 +244,12 @@ const NetworkList: FC = () => {
     });
 
   if (isLoading || isClusterNetworksLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   return (
     <CustomLayout
+      mainClassName="network-list"
       header={
         <PageHeader>
           <PageHeader.Left>
@@ -295,7 +296,7 @@ const NetworkList: FC = () => {
             paginate={30}
             responsive
             sortable
-            className="network-list"
+            className="network-list-table"
             emptyStateMsg="No data to display"
           />
         )}
