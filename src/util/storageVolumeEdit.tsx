@@ -30,5 +30,6 @@ export const getStorageVolumeEditValues = (
     isCreating: false,
     entityType: "storageVolume",
     editRestriction,
+    clusterMember: volume.location,
   };
 };

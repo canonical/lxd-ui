@@ -30,6 +30,8 @@ import { slugify } from "util/slugify";
 import { driversWithFilesystemSupport } from "util/storageOptions";
 import { getUnhandledKeyValues } from "util/formFields";
 import { useStoragePools } from "context/useStoragePools";
+import { useSettings } from "context/useSettings";
+import { useClusterMembers } from "context/useClusterMembers";
 
 export interface StorageVolumeFormValues {
   name: string;
@@ -56,6 +58,7 @@ export interface StorageVolumeFormValues {
   isCreating: boolean;
   entityType: "storageVolume";
   editRestriction?: string;
+  clusterMember?: string;
 }
 
 export const volumeFormToPayload = (
@@ -138,7 +141,9 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
     return <>Missing project</>;
   }
 
+  const { data: clusterMembers = [] } = useClusterMembers();
   const { data: pools = [], error } = useStoragePools();
+  const { data: settings } = useSettings();
 
   if (error) {
     notify.failure("Loading storage pools failed", error);
@@ -182,7 +187,12 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
       <Row className="form-contents">
         <Col size={12}>
           {section === slugify(MAIN_CONFIGURATION) && (
-            <StorageVolumeFormMain formik={formik} />
+            <StorageVolumeFormMain
+              formik={formik}
+              clusterMembers={clusterMembers}
+              pools={pools}
+              settings={settings}
+            />
           )}
           {section === slugify(SNAPSHOTS) && (
             <StorageVolumeFormSnapshots formik={formik} />

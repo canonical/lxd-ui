@@ -15,6 +15,7 @@ import type { LxdStorageVolume } from "types/storage";
 import { useSettings } from "context/useSettings";
 import { useStoragePools } from "context/useStoragePools";
 import { createStorageVolume } from "api/storage-volumes";
+import { hasMemberLocalVolumes } from "util/hasMemberLocalVolumes";
 
 interface Props {
   project: string;
@@ -34,7 +35,6 @@ const CustomVolumeCreateModal: FC<Props> = ({
   const controllerState = useState<AbortController | null>(null);
 
   const { data: settings } = useSettings();
-
   const { data: pools = [] } = useStoragePools();
 
   const StorageVolumeSchema = Yup.object().shape({
@@ -44,17 +44,6 @@ const CustomVolumeCreateModal: FC<Props> = ({
       )
       .required("This field is required"),
   });
-
-  const isLocalPool = (poolName: string) => {
-    const pool = pools.find((pool) => pool.name === poolName);
-    const driverDetails = settings?.environment?.storage_supported_drivers.find(
-      (driver) => driver.Name === pool?.driver,
-    );
-    if (!driverDetails) {
-      return false;
-    }
-    return !driverDetails.Remote;
-  };
 
   const formik = useFormik<StorageVolumeFormValues>({
     initialValues: {
@@ -71,7 +60,9 @@ const CustomVolumeCreateModal: FC<Props> = ({
     validationSchema: StorageVolumeSchema,
     onSubmit: (values) => {
       const volume = volumeFormToPayload(values, project);
-      const target = isLocalPool(values.pool) ? instanceLocation : undefined;
+      const target = hasMemberLocalVolumes(values.pool, pools, settings)
+        ? instanceLocation
+        : undefined;
 
       createStorageVolume(values.pool, project, volume, target)
         .then(() => {
@@ -94,7 +85,8 @@ const CustomVolumeCreateModal: FC<Props> = ({
   });
 
   const validPool =
-    !isLocalPool(formik.values.pool) || instanceLocation !== "any";
+    !hasMemberLocalVolumes(formik.values.pool, pools, settings) ||
+    instanceLocation !== "any";
   const poolError = validPool
     ? undefined
     : "Please select a remote storage pool, or set a cluster member for the instance";
