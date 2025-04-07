@@ -55,7 +55,7 @@ const CreateNetwork: FC = () => {
   }
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader isMainComponent />;
   }
 
   const NetworkSchema = Yup.object().shape({

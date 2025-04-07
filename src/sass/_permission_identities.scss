@@ -1,13 +1,46 @@
-.permission-identities {
-  .auth-method {
-    width: 8rem;
+.permission-identities-list {
+  .permission-identities-table {
+    .auth-method {
+      width: 8rem;
+    }
+
+    .group-count {
+      width: 6rem;
+    }
+
+    .actions {
+      width: 8.5rem;
+    }
+
+    @media screen and (width < 1300px) {
+      .auth-method {
+        display: none;
+      }
+    }
+
+    @media screen and (width < 1000px) {
+      .group-count {
+        display: none;
+      }
+    }
+
+    @media screen and (width < 900px) {
+      .select,
+      .identity-type {
+        display: none;
+      }
+    }
+
+    @media screen and (width < 600px) {
+      .identity-id {
+        display: none;
+      }
+    }
   }
 
-  .group-count {
-    width: 6rem;
-  }
-
-  .actions {
-    width: 8.5rem;
+  @media screen and (width < 500px) {
+    .page-header__search {
+      display: none;
+    }
   }
 }

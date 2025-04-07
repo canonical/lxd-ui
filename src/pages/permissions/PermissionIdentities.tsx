@@ -69,9 +69,9 @@ const PermissionIdentities: FC = () => {
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
-    { content: "ID", sortKey: "id" },
+    { content: "ID", sortKey: "id", className: "identity-id" },
     { content: "Auth method", sortKey: "authmethod", className: "auth-method" },
-    { content: "Type", sortKey: "type" },
+    { content: "Type", sortKey: "type", className: "identity-type" },
     {
       content: "Groups",
       sortKey: "groups",
@@ -157,7 +157,7 @@ const PermissionIdentities: FC = () => {
           content: identity.id,
           role: "cell",
           "aria-label": "ID",
-          className: "u-truncate",
+          className: "u-truncate identity-id",
           title: identity.id,
         },
         {
@@ -170,7 +170,7 @@ const PermissionIdentities: FC = () => {
           content: <IdentityResource identity={identity} truncate={false} />,
           role: "cell",
           "aria-label": "Type",
-          className: "u-truncate",
+          className: "u-truncate identity-type",
         },
         {
           content: getGroupLink(),
@@ -228,7 +228,7 @@ const PermissionIdentities: FC = () => {
   });
 
   if (isLoading) {
-    return <Loader text="Loading identities" />;
+    return <Loader isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -257,6 +257,7 @@ const PermissionIdentities: FC = () => {
   return (
     <>
       <CustomLayout
+        mainClassName="permission-identities-list"
         contentClassName="u-no-padding--bottom"
         header={
           <PageHeader>
@@ -309,7 +310,7 @@ const PermissionIdentities: FC = () => {
             >
               <SelectableMainTable
                 id="identities-table"
-                className="permission-identities"
+                className="permission-identities-table"
                 headers={headers}
                 rows={sortedRows}
                 sortable
