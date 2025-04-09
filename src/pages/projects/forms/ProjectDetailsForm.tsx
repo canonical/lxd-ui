@@ -20,6 +20,7 @@ import type { LxdConfigPair } from "types/config";
 import { ensureEditMode } from "util/instanceEdit";
 import StoragePoolSelector from "pages/storage/StoragePoolSelector";
 import ResourceLink from "components/ResourceLink";
+import NetworkSelector from "./NetworkSelector";
 
 export interface ProjectDetailsFormValues {
   name: string;
@@ -35,6 +36,7 @@ export interface ProjectDetailsFormValues {
   readOnly: boolean;
   entityType: "project";
   editRestriction?: string;
+  default_project_network: string;
 }
 
 export const projectDetailPayload = (
@@ -117,6 +119,10 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
   const hadFeaturesNetwork = project?.config["features.networks"] === "true";
   const hadFeaturesNetworkZones =
     project?.config["features.networks.zones"] === "true";
+  const hasNoProfiles =
+    features === "customised" && !formik.values.features_profiles;
+  const hasIsolatedNetworks =
+    features === "customised" && formik.values.features_networks;
 
   return (
     <ScrollableForm>
@@ -134,6 +140,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             error={formik.touched.name ? formik.errors.name : null}
             disabled={formik.values.name === "default" || isEdit}
             help={
+              isEdit &&
               formik.values.name !== "default" &&
               "Click the name in the header to rename the project"
             }
@@ -178,6 +185,31 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 ""
               ),
             }}
+          />
+          <NetworkSelector
+            value={formik.values.default_project_network}
+            project="default"
+            setValue={(value) =>
+              void formik.setFieldValue("default_project_network", value)
+            }
+            hasNoneOption
+            label="Default profile network"
+            disabled={hasNoProfiles || hasIsolatedNetworks || isEdit}
+            help={
+              isEdit ? (
+                <>
+                  Configure networks in the{" "}
+                  <ResourceLink
+                    type="profile"
+                    value="default"
+                    to={`/ui/project/${project?.name}/profile/default`}
+                  />{" "}
+                  profile
+                </>
+              ) : (
+                ""
+              )
+            }
           />
           <div
             title={
@@ -280,6 +312,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                       "features_networks",
                       !formik.values.features_networks,
                     );
+                    const featuresNetworks = !formik.values.features_networks;
+                    formik.setFieldValue("features_networks", featuresNetworks);
+                    if (featuresNetworks && !isEdit) {
+                      formik.setFieldValue("default_project_network", "none");
+                    }
                   }}
                   checked={formik.values.features_networks}
                   disabled={

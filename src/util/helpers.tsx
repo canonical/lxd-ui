@@ -6,7 +6,7 @@ import type { LxdNetwork, LxdNetworkAcl } from "types/network";
 import type { LxdStorageVolume } from "types/storage";
 import type { Dispatch, SetStateAction } from "react";
 import crypto from "crypto";
-import { isDiskDevice } from "./devices";
+import { isDiskDevice, isNicDevice } from "./devices";
 import { isRootDisk } from "./instanceValidation";
 import type { FormDevice } from "./formDevices";
 import type { LxdIdentity } from "types/permissions";
@@ -321,6 +321,11 @@ export const getDefaultStoragePool = (profile: LxdProfile) => {
       return isRootDisk(device as FormDevice);
     });
   return rootStorage?.pool ?? "";
+};
+
+export const getDefaultNetwork = (profile: LxdProfile) => {
+  const networks = Object.values(profile.devices ?? {}).filter(isNicDevice);
+  return networks[0]?.network ?? "none";
 };
 
 export const isUnrestricted = (identity: LxdIdentity) => {
