@@ -238,6 +238,7 @@ const EditIdpGroupPanel: FC<Props> = ({ idpGroup, onClose }) => {
             onSubmit={() => void formik.submitForm()}
             loading={formik.isSubmitting}
             disabled={!enableSubmission}
+            isEdit
           />
         </SidePanel.Footer>
       </SidePanel>
