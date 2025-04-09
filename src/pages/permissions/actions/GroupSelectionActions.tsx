@@ -11,6 +11,7 @@ interface Props {
   loading?: boolean;
   disabled?: boolean;
   actionText?: string;
+  isEdit?: boolean;
 }
 
 const GroupSelectionActions: FC<Props> = ({
@@ -21,6 +22,7 @@ const GroupSelectionActions: FC<Props> = ({
   loading,
   disabled,
   actionText,
+  isEdit = false,
 }) => {
   const confirmButtonText = modifiedGroups.size
     ? `Apply ${modifiedGroups.size} group ${pluralize("change", modifiedGroups.size)}`
@@ -28,7 +30,7 @@ const GroupSelectionActions: FC<Props> = ({
 
   return (
     <>
-      {modifiedGroups.size ? (
+      {isEdit && modifiedGroups.size ? (
         <ModifiedStatusAction
           modifiedCount={modifiedGroups.size}
           onUndoChange={undoChange}
