@@ -22,12 +22,10 @@ interface ProviderProps {
 }
 
 export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
-  const { defaultProject, isAuthLoading } = useAuth();
+  const { isAuthLoading } = useAuth();
   const location = useLocation();
   const url = location.pathname;
-  const project = url.startsWith("/ui/project/")
-    ? url.split("/")[3]
-    : defaultProject;
+  const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
 
   const enabled = project.length > 0;
   const retry = false;

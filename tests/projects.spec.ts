@@ -159,3 +159,15 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
 
   await deleteProject(page, project);
 });
+
+test("retain custom project selection on browsing pages for all projects", async ({
+  page,
+}) => {
+  const project = randomProjectName();
+  await createProject(page, project);
+  await page.getByRole("link", { name: "Operations" }).click();
+  await page.getByRole("button", { name: "Refresh" }).click();
+  await page.waitForLoadState("networkidle");
+
+  expect(page.getByText("Project" + project)).toBeVisible();
+});

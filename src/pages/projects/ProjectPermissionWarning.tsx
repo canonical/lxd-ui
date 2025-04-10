@@ -3,17 +3,24 @@ import { useCurrentProject } from "context/useCurrentProject";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useEffect } from "react";
 import { useSettings } from "context/useSettings";
+import { useProject } from "context/useProjects";
 
 const ProjectPermissionWarning = () => {
   const { isLoading: isSettingsLoading } = useSettings();
   const { project, isLoading: isProjectLoading } = useCurrentProject();
+  const { data: defaultProject, isLoading: isDefaultProjectLoading } =
+    useProject("default", !project);
+
   const { canViewEvents, canViewOperations } = useProjectEntitlements();
   const { openPortal, closePortal, isOpen, Portal } = usePortal({
     programmaticallyOpen: true,
   });
 
-  const isLoading = isProjectLoading || isSettingsLoading;
-  const hasPermissions = canViewEvents(project) && canViewOperations(project);
+  const currentProject = project ?? defaultProject;
+  const isLoading =
+    isProjectLoading || isSettingsLoading || isDefaultProjectLoading;
+  const hasPermissions =
+    canViewEvents(currentProject) && canViewOperations(currentProject);
   const hasWarning = !isLoading && !hasPermissions;
 
   useEffect(() => {
