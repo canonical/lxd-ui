@@ -42,7 +42,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             onClick={openPortal}
             type="button"
             title={
-              canDeleteGroup()
+              canDeleteGroup(group)
                 ? "Delete group"
                 : "You do not have permission to delete this group"
             }

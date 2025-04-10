@@ -191,6 +191,7 @@ const EditIdentityGroupsPanel: FC<Props> = ({ identities, onClose }) => {
               setConfirming(true);
             }}
             disabled={modifiedGroups.size === 0}
+            isEdit
           />
         </SidePanel.Footer>
       </SidePanel>

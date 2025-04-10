@@ -118,7 +118,7 @@ const CreateIdpGroupPanel: FC = () => {
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <NameWithGroupForm formik={formik} />
-        <p>Map groups to this idp group</p>
+        <p>Groups</p>
         <SidePanel.Content className="u-no-padding">
           <GroupSelection
             groups={groups}

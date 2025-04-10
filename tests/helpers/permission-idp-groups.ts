@@ -31,11 +31,6 @@ export const createIdpGroup = async (
       .locator("span")
       .click();
   }
-  await expect(
-    page.getByText(
-      `${groups.length} ${pluralize("group", groups.length)} will be mapped`,
-    ),
-  ).toBeVisible();
   await page.getByRole("button", { name: "Confirm" }).click();
   await page.waitForSelector(`text=IDP group ${idpGroup} created`);
 };

@@ -22,7 +22,6 @@ const PermissionGroupsFilter: FC<Props> = ({ onChange, value, disabled }) => {
         value={value}
         placeholder="Search groups"
         disabled={disabled}
-        className="u-no-margin--bottom"
       />
     </div>
   );
