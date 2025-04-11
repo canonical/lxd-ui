@@ -52,10 +52,15 @@ const Navigation: FC = () => {
   const { isRestricted, isOidc } = useAuth();
   const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
-  const { project, isLoading } = useCurrentProject();
+  const {
+    project,
+    isAllProjects: isAllProjectsFromUrl,
+    isLoading,
+  } = useCurrentProject();
   const [projectName, setProjectName] = useState(
     project && !isLoading ? project.name : "default",
   );
+  const [isAllProjects, setIsAllProjects] = useState(isAllProjectsFromUrl);
   const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
@@ -71,10 +76,18 @@ const Navigation: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isAllProjectsFromUrl && projectName !== "all-projects") {
+      setProjectName("all-projects");
+      setIsAllProjects(true);
+      setOpenNavMenus([]);
+      return;
+    }
+
     if (project && project.name !== projectName) {
       setProjectName(project.name);
+      setIsAllProjects(false);
     }
-  }, [project?.name]);
+  }, [project?.name, isAllProjectsFromUrl]);
 
   useEffect(() => {
     if (!menuCollapsed) {
@@ -226,7 +239,11 @@ const Navigation: FC = () => {
                       </li>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${projectName}/instances`}
+                          to={
+                            isAllProjects
+                              ? "/ui/all-projects/instances"
+                              : `/ui/project/${projectName}/instances`
+                          }
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
                         >
@@ -240,7 +257,12 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/profiles`}
-                          title={`Profiles (${projectName})`}
+                          title={
+                            isAllProjects
+                              ? "Select a project to explore profiles"
+                              : `Profiles (${projectName})`
+                          }
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -254,7 +276,12 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/network`}
-                          title={`Networking (${projectName})`}
+                          title={
+                            isAllProjects
+                              ? "Select a project to explore networks"
+                              : `Networking (${projectName})`
+                          }
+                          disabled={isAllProjects}
                           iconName="exposed"
                           label="Networking"
                           onOpen={() => {
@@ -297,7 +324,12 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/storage`}
-                          title={`Storage (${projectName})`}
+                          title={
+                            isAllProjects
+                              ? "Select a project to explore storage"
+                              : `Storage (${projectName})`
+                          }
+                          disabled={isAllProjects}
                           iconName="switcher-dashboard"
                           label="Storage"
                           onOpen={() => {
@@ -354,7 +386,12 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/images`}
-                          title={`Images (${projectName})`}
+                          title={
+                            isAllProjects
+                              ? "Select a project to explore images"
+                              : `Images (${projectName})`
+                          }
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -367,7 +404,12 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/configuration`}
-                          title={`Configuration (${projectName})`}
+                          title={
+                            isAllProjects
+                              ? "Select a project to explore configuration"
+                              : `Configuration (${projectName})`
+                          }
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon

@@ -131,6 +131,10 @@ const App: FC = () => {
           />
         ))}
         <Route
+          path="/ui/all-projects/instances"
+          element={<ProtectedRoute outlet={<InstanceList />} />}
+        />
+        <Route
           path="/ui/project/:project"
           element={
             <ProtectedRoute

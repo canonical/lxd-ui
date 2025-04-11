@@ -46,15 +46,16 @@ export const fetchInstance = async (
 };
 
 export const fetchInstances = async (
-  project: string,
+  project: string | null,
   isFineGrained: boolean | null,
 ): Promise<LxdInstance[]> => {
   const entitlements = withEntitlementsQuery(
     isFineGrained,
     instanceEntitlements,
   );
+  const projectParam = project ? `project=${project}` : "all-projects=true";
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/instances?project=${project}&recursion=2${entitlements}`)
+    fetch(`/1.0/instances?${projectParam}&recursion=2${entitlements}`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdInstance[]>) => {
         resolve(data.metadata);
