@@ -1,6 +1,6 @@
 import Loader from "components/Loader";
 import { useCurrentProject } from "context/useCurrentProject";
-import NoProject from "components/NoProject";
+import ProjectNotFound from "components/ProjectNotFound";
 
 interface Props {
   outlet: React.JSX.Element;
@@ -14,7 +14,7 @@ const ProjectLoader = ({ outlet }: Props) => {
   }
 
   if (!project) {
-    return <NoProject />;
+    return <ProjectNotFound />;
   }
 
   return outlet;

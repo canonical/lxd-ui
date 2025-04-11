@@ -6,13 +6,17 @@ import { useProject } from "./useProjects";
 import { useAuth } from "context/auth";
 
 interface ContextProps {
-  project?: LxdProject;
+  canViewProject: boolean;
+  isAllProjects: boolean;
   isLoading: boolean;
+  project?: LxdProject;
 }
 
 const initialState: ContextProps = {
-  project: undefined,
+  canViewProject: true,
+  isAllProjects: false,
   isLoading: true,
+  project: undefined,
 };
 
 export const ProjectContext = createContext<ContextProps>(initialState);
@@ -26,16 +30,18 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const location = useLocation();
   const url = location.pathname;
   const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
+  const isAllProjects = url.startsWith("/ui/all-projects/");
 
-  const enabled = project.length > 0;
-  const retry = false;
-  const { data, isLoading } = useProject(project, enabled, retry);
+  const enabled = project.length > 0 && !isAllProjects;
+  const { data, isLoading } = useProject(project, enabled);
 
   return (
     <ProjectContext.Provider
       value={{
-        project: data,
+        canViewProject: isLoading || project === "" || data !== undefined,
+        isAllProjects,
         isLoading: isAuthLoading || isLoading,
+        project: data,
       }}
     >
       {children}

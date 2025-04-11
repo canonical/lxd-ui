@@ -11,7 +11,7 @@ import {
   Select,
 } from "@canonical/react-components";
 import type { LxdImageType, RemoteImage, RemoteImageList } from "types/image";
-import { handleResponse } from "util/helpers";
+import { capitalizeFirstLetter, handleResponse } from "util/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
@@ -71,7 +71,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         .then((data: RemoteImageList) => {
           const images = Object.entries(data.products).map((product) => {
             const { os, ...image } = product[1];
-            const formattedOs = os.charAt(0).toUpperCase() + os.slice(1);
+            const formattedOs = capitalizeFirstLetter(os);
             return { ...image, os: formattedOs, server: server };
           });
           resolve(images);

@@ -1,6 +1,7 @@
 import { Icon } from "@canonical/react-components";
 import type { FC, ReactNode } from "react";
 import { useLocation } from "react-router-dom";
+import classnames from "classnames";
 
 export type AccordionNavMenu = "permissions" | "storage" | "networking";
 
@@ -12,6 +13,7 @@ interface Props {
   label: string;
   open: boolean;
   onOpen: () => void;
+  disabled?: boolean;
 }
 
 const NavAccordion: FC<Props> = ({
@@ -22,6 +24,7 @@ const NavAccordion: FC<Props> = ({
   label,
   open,
   onOpen,
+  disabled,
 }) => {
   const location = useLocation();
   const isActive = location.pathname.includes(baseUrl);
@@ -31,8 +34,10 @@ const NavAccordion: FC<Props> = ({
       <div
         title={title}
         aria-current={isActive && !open ? "page" : undefined}
-        className="p-side-navigation__link accordion-nav-menu"
-        onClick={onOpen}
+        className={classnames("p-side-navigation__link accordion-nav-menu", {
+          "is-disabled": disabled,
+        })}
+        onClick={disabled ? () => {} : onOpen}
         role="button"
       >
         <Icon className="is-light p-side-navigation__icon" name={iconName} />{" "}

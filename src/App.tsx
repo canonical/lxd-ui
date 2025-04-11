@@ -9,7 +9,6 @@ import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import NoMatch from "components/NoMatch";
 import { logout } from "util/helpers";
-import NoProject from "components/NoProject";
 import lazy from "util/lazyWithRetry";
 import { useSettings } from "context/useSettings";
 
@@ -122,7 +121,7 @@ const App: FC = () => {
               <Navigate
                 to={
                   hasNoProjects
-                    ? "/ui/no-project"
+                    ? "/ui/all-projects/instances"
                     : `/ui/project/${defaultProject}/instances`
                 }
                 replace={true}
@@ -130,6 +129,10 @@ const App: FC = () => {
             }
           />
         ))}
+        <Route
+          path="/ui/all-projects/instances"
+          element={<ProtectedRoute outlet={<InstanceList />} />}
+        />
         <Route
           path="/ui/project/:project"
           element={
@@ -156,27 +159,15 @@ const App: FC = () => {
         />
         <Route
           path="/ui/project/:project/instance/:name"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
-            />
-          }
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
           path="/ui/project/:project/instance/:name/:activeTab"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
-            />
-          }
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
           path="/ui/project/:project/instance/:name/:activeTab/:section"
-          element={
-            <ProtectedRoute
-              outlet={<ProjectLoader outlet={<InstanceDetail />} />}
-            />
-          }
+          element={<ProtectedRoute outlet={<InstanceDetail />} />}
         />
         <Route
           path="/ui/project/:project/profiles"
@@ -460,7 +451,6 @@ const App: FC = () => {
           element={<CertificateGenerate />}
         />
         <Route path="/ui/login/certificate-add" element={<CertificateAdd />} />
-        <Route path="ui/no-project" element={<NoProject />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </Suspense>

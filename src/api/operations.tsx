@@ -12,22 +12,11 @@ const sortOperationList = (operations: LxdOperationList) => {
 };
 
 export const fetchOperations = async (
-  project: string,
+  project: string | null,
 ): Promise<LxdOperationList> => {
+  const projectParam = project ? `project=${project}` : "all-projects=true";
   return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations?project=${project}&recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdOperationList>) => {
-        sortOperationList(data.metadata);
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
-};
-
-export const fetchAllOperations = async (): Promise<LxdOperationList> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations?all-projects=true&recursion=1`)
+    fetch(`/1.0/operations?${projectParam}&recursion=1`)
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdOperationList>) => {
         sortOperationList(data.metadata);

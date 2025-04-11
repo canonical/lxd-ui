@@ -8,6 +8,7 @@ export const DISK = "Disk";
 export const IPV4 = "IPv4";
 export const IPV6 = "IPv6";
 export const SNAPSHOTS = "Snapshots";
+export const PROJECT = "Project";
 export const ACTIONS = "Actions";
 
 export const COLUMN_WIDTHS: Record<string, number> = {
@@ -20,6 +21,7 @@ export const COLUMN_WIDTHS: Record<string, number> = {
   [IPV4]: 150,
   [IPV6]: 330,
   [SNAPSHOTS]: 110,
+  [PROJECT]: 160,
   [STATUS]: 160,
   [ACTIONS]: 210,
 };

@@ -1,6 +1,6 @@
 import type { RefetchOptions } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllOperations } from "api/operations";
+import { fetchOperations } from "api/operations";
 import type { FC, ReactNode } from "react";
 import { createContext, useContext, useEffect, useRef } from "react";
 import type { LxdOperation } from "types/operation";
@@ -40,7 +40,7 @@ const OperationsProvider: FC<Props> = ({ children }) => {
     refetch,
   } = useQuery({
     queryKey: [queryKeys.operations],
-    queryFn: async () => fetchAllOperations(),
+    queryFn: async () => fetchOperations(null),
     enabled: isAuthenticated,
   });
 

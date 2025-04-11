@@ -18,6 +18,7 @@ import { getInstanceName } from "util/operations";
 import InstanceDetailActions from "./InstanceDetailActions";
 import InstanceLinkChip from "./InstanceLinkChip";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   name: string;
@@ -37,6 +38,7 @@ const InstanceDetailHeader: FC<Props> = ({
   const toastNotify = useToastNotification();
   const { canEditInstance } = useInstanceEntitlements();
   const controllerState = useState<AbortController | null>(null);
+  const { canViewProject } = useCurrentProject();
 
   const RenameSchema = Yup.object().shape({
     name: instanceNameValidation(project, controllerState, name).required(
@@ -128,7 +130,14 @@ const InstanceDetailHeader: FC<Props> = ({
         name={name}
         titleClassName="instance-detail-title"
         parentItems={[
-          <Link to={`/ui/project/${project}/instances`} key={1}>
+          <Link
+            to={
+              canViewProject
+                ? `/ui/project/${project}/instances`
+                : "/ui/all-projects/instances"
+            }
+            key={1}
+          >
             Instances
           </Link>,
         ]}
