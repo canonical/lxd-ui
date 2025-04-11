@@ -168,7 +168,6 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
       instanceName: instanceNameValidation(
         instance.project,
         controllerState,
-        instance.name,
       ).required(),
     }),
 
