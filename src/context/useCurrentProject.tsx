@@ -7,11 +7,13 @@ import { useAuth } from "context/auth";
 
 interface ContextProps {
   project?: LxdProject;
+  isAllProjects: boolean;
   isLoading: boolean;
 }
 
 const initialState: ContextProps = {
   project: undefined,
+  isAllProjects: false,
   isLoading: true,
 };
 
@@ -26,8 +28,9 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
   const location = useLocation();
   const url = location.pathname;
   const project = url.startsWith("/ui/project/") ? url.split("/")[3] : "";
+  const isAllProjects = url.startsWith("/ui/all-projects/");
 
-  const enabled = project.length > 0;
+  const enabled = project.length > 0 && !isAllProjects;
   const retry = false;
   const { data, isLoading } = useProject(project, enabled, retry);
 
@@ -35,6 +38,7 @@ export const ProjectProvider: FC<ProviderProps> = ({ children }) => {
     <ProjectContext.Provider
       value={{
         project: data,
+        isAllProjects,
         isLoading: isAuthLoading || isLoading,
       }}
     >

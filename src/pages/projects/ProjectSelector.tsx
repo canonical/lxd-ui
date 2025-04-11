@@ -65,6 +65,16 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
           <hr className="is-dark" />
           <Button
             onClick={() => {
+              navigate("/ui/all-projects/instances");
+            }}
+            className="p-contextual-menu__link"
+            hasIcon
+          >
+            <Icon name="pods" light />
+            <span>All projects</span>
+          </Button>
+          <Button
+            onClick={() => {
               navigate("/ui/projects/create");
             }}
             className="p-contextual-menu__link"

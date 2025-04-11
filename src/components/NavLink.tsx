@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   activeUrlMatches?: string[];
   ignoreUrlMatches?: string[];
+  disabled?: boolean;
 }
 
 const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
@@ -18,6 +19,7 @@ const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
   className,
   activeUrlMatches = [],
   ignoreUrlMatches = [],
+  disabled,
   ...linkProps
 }) => {
   const location = useLocation();
@@ -42,10 +44,13 @@ const NavLink: FC<Props & LinkHTMLAttributes<HTMLElement>> = ({
   return (
     <Link
       title={title}
-      to={to}
+      to={disabled ? "#" : to}
       aria-current={isActive ? "page" : undefined}
-      className={classnames("p-side-navigation__link", className)}
+      className={classnames("p-side-navigation__link", className, {
+        "is-disabled": disabled,
+      })}
       {...linkProps}
+      aria-disabled={disabled}
     >
       {children}
     </Link>
