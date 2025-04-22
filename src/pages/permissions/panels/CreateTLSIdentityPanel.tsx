@@ -102,7 +102,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <NameWithGroupForm formik={formik} />
-        <p>Select groups to add to the Identity.</p>
+        <p>Groups</p>
         <SidePanel.Content className="u-no-padding">
           <GroupSelection
             groups={groups}
