@@ -41,7 +41,6 @@ export interface LxdInstanceDuplicate {
   targetStoragePool: string;
   allowInconsistent: boolean;
   instanceOnly: boolean;
-  stateful: boolean;
 }
 
 const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
@@ -93,7 +92,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
       targetProject: instance.project,
       allowInconsistent: false,
       instanceOnly: false,
-      stateful: false,
       targetClusterMember: isClustered ? instance.location : "",
       targetStoragePool:
         (instance.devices["root"] as LxdDiskDevice)?.pool ??
@@ -120,7 +118,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
             type: "copy",
             project: instance.project,
           },
-          stateful: values.stateful,
           devices: {
             ...instance.devices,
             root: {
@@ -242,12 +239,6 @@ const DuplicateInstanceForm: FC<Props> = ({ instance, close }) => {
           error={
             formik.touched.instanceOnly ? formik.errors.instanceOnly : null
           }
-        />
-        <Input
-          {...formik.getFieldProps("stateful")}
-          type="checkbox"
-          label="Copy stateful"
-          error={formik.touched.stateful ? formik.errors.stateful : null}
         />
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />

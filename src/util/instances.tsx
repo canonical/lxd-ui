@@ -37,9 +37,19 @@ export const instanceNameValidation = (
     .test(
       "deduplicate",
       "An instance with this name already exists",
-      async (value) =>
-        oldName === value ||
-        checkDuplicateName(value, project, controllerState, "instances"),
+      async (value, context) => {
+        // in some cases like duplicate instance or create instance from snapshot
+        // we let the user choose a target project in the form. We should use
+        // the target project instead of the current project in those cases.
+        const targetProject =
+          (context.parent as { targetProject?: string }).targetProject ??
+          project;
+
+        return (
+          oldName === value ||
+          checkDuplicateName(value, targetProject, controllerState, "instances")
+        );
+      },
     )
     .test(
       "size",
