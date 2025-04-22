@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.94% </span>
+                <span class="strong">86.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>253/291</span>
+                <span class='fraction'>244/282</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.53% </span>
+                <span class="strong">59.45% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>24/41</span>
+                <span class='fraction'>22/37</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.68% </span>
+                <span class="strong">97.6% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>253/259</span>
+                <span class='fraction'>244/250</span>
             </div>
         
             
@@ -313,17 +313,7 @@
 <a name='L248'></a><a href='#L248'>248</a>
 <a name='L249'></a><a href='#L249'>249</a>
 <a name='L250'></a><a href='#L250'>250</a>
-<a name='L251'></a><a href='#L251'>251</a>
-<a name='L252'></a><a href='#L252'>252</a>
-<a name='L253'></a><a href='#L253'>253</a>
-<a name='L254'></a><a href='#L254'>254</a>
-<a name='L255'></a><a href='#L255'>255</a>
-<a name='L256'></a><a href='#L256'>256</a>
-<a name='L257'></a><a href='#L257'>257</a>
-<a name='L258'></a><a href='#L258'>258</a>
-<a name='L259'></a><a href='#L259'>259</a>
-<a name='L260'></a><a href='#L260'>260</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
+<a name='L251'></a><a href='#L251'>251</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -430,8 +420,6 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -573,12 +561,6 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
@@ -624,7 +606,6 @@ export interface LxdInstanceDuplicate {
   targetStoragePool: string;
   allowInconsistent: boolean;
   instanceOnly: boolean;
-  stateful: boolean;
 }
 &nbsp;
 const DuplicateInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> instance, close }) =&gt; {</span>
@@ -676,7 +657,6 @@ const DuplicateInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="sta
       targetProject: instance.project,
       allowInconsistent: false,
       instanceOnly: false,
-      stateful: false,
       targetClusterMember: isClustered ? instance.<span class="branch-0 cbranch-no" title="branch not covered" >location : "",</span>
       targetStoragePool:
         (instance.devices["root"<span class="branch-0 cbranch-no" title="branch not covered" >] as LxdDiskDevice)?.pool ??</span>
@@ -703,7 +683,6 @@ const DuplicateInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="sta
             type: "copy",
             project: instance.project,
           },
-          stateful: values.stateful,
           devices: {
             ...instance.devices,
             root: {
@@ -826,12 +805,6 @@ const DuplicateInstanceForm: FC&lt;Props&gt; = <span class="cstat-no" title="sta
             formik.touched.instanceOnly ? formik.errors.instanceOnly : null
           }
         /&gt;
-        &lt;Input
-          {...formik.getFieldProps("stateful")}
-          type="checkbox"
-          label="Copy stateful"
-          error={formik.touched.stateful ? formik.errors.stateful : null}
-        /&gt;
         {/* hidden submit to enable enter key in inputs */}
         &lt;Input type="submit" hidden value="Hidden input" /&gt;
       &lt;/Form&gt;
@@ -847,7 +820,7 @@ export default DuplicateInstanceForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-22T17:05:24.703Z
+                at 2025-04-22T17:34:01.390Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
