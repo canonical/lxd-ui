@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import {
+  Accordion,
   CodeSnippet,
   Col,
   Notification,
@@ -64,30 +65,65 @@ const CertificateAdd: FC = () => {
           )}
           <div className="p-stepped-list__content">
             <div>
-              Run the following commands on the LXD server to create a new
-              identity and generate a trust token:
+              Run the following command on the LXD server to create a new
+              identity and generate a trust token.
             </div>
             <CodeSnippet
+              className="u-no-margin--bottom"
               blocks={[
                 {
-                  code: `# Create a group called admin. \n# You can replace admin with the name you want to give to the group. \nlxc auth group create admin`,
-                  wrapLines: true,
-                },
-                {
-                  code: `# Assign admin permissions to the admin group.\nlxc auth group permission add admin server admin`,
-                  wrapLines: true,
-                },
-                {
-                  code: `# Create the new user with the admin group. \n# You can replace lxd-ui with the name you want to give to the identity. \nlxc auth identity create tls/lxd-ui --group admin`,
+                  code: `lxc auth identity create tls/lxd-ui --group admin`,
                   wrapLines: true,
                 },
               ]}
             />
+            <div>
+              You can replace <code>lxd-ui</code> with the name you want to give
+              to the identity.
+            </div>
           </div>
 
           <div className="p-stepped-list__content">
+            <br />
             <CertificateAddForm />
           </div>
+
+          <Accordion
+            sections={[
+              {
+                title: (
+                  <>
+                    If you encounter:{" "}
+                    <code>
+                      Failed to create pending TLS identity: One or more groups
+                      were not found: &apos;admin&apos;.
+                    </code>
+                  </>
+                ),
+                content: (
+                  <>
+                    <div>
+                      Older versions of LXD are not pre-configured with an admin
+                      group. To create one, run the following commands. Then,
+                      try the first step again.
+                    </div>
+                    <CodeSnippet
+                      blocks={[
+                        {
+                          code: `# Create a group called admin. \nlxc auth group create admin`,
+                          wrapLines: true,
+                        },
+                        {
+                          code: `# Assign admin permissions to the admin group.\nlxc auth group permission add admin server admin`,
+                          wrapLines: true,
+                        },
+                      ]}
+                    />
+                  </>
+                ),
+              },
+            ]}
+          />
         </Col>
       </Row>
     </CustomLayout>
