@@ -59,7 +59,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await setInput(page, "Max sum of processes", "Enter number", "8");
 
   await page.getByText("Clusters").click();
-  await setInput(page, "Cluster groups targeting", "Enter value", "9");
+  await setInput(page, "Cluster groups targeting", "Enter value", "default");
   await setOption(page, "Direct cluster targeting", "allow");
 
   await page
@@ -121,7 +121,7 @@ test("project edit configuration", async ({ page, lxdVersion }) => {
   await assertReadMode(page, "Max sum of processes", "8");
 
   await page.getByText("Clusters").click();
-  await assertReadMode(page, "Cluster groups targeting", "9");
+  await assertReadMode(page, "Cluster groups targeting", "default");
   await assertReadMode(page, "Direct cluster targeting", "Allow");
 
   await page
