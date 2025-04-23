@@ -1,20 +1,15 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
-import { getInstanceMetrics } from "util/metricSelectors";
 import Meter from "components/Meter";
-import type { LxdInstance } from "types/instance";
-import { useMetrics } from "context/useMetrics";
 
 interface Props {
-  instance: LxdInstance;
+  disk?: {
+    free: number;
+    total: number;
+  };
 }
 
-const InstanceUsageDisk: FC<Props> = ({ instance }) => {
-  const { data: metrics = [] } = useMetrics(instance.location);
-
-  const instanceMetrics = getInstanceMetrics(metrics, instance);
-  const disk = instanceMetrics.disk;
-
+const InstanceUsageDisk: FC<Props> = ({ disk }) => {
   if (!disk) {
     return "";
   }

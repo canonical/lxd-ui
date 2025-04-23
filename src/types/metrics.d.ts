@@ -9,6 +9,7 @@ export interface LxdMetric {
   value: number;
   labels: {
     name: string;
+    device?: string;
     mountpoint?: string;
     project: string;
     type: string;

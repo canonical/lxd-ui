@@ -64,7 +64,7 @@ import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
-import InstanceUsageDisk from "pages/instances/InstanceDisk";
+import InstanceUsageRootDisk from "pages/instances/InstanceUsageRootDisk";
 import { useInstances } from "context/useInstances";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -461,7 +461,7 @@ const InstanceList: FC = () => {
             style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
           },
           {
-            content: <InstanceUsageDisk instance={instance} />,
+            content: <InstanceUsageRootDisk instance={instance} />,
             role: "cell",
             "aria-label": DISK,
             onClick: openSummary,

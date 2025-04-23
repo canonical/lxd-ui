@@ -1,6 +1,12 @@
 import type { LxdMetricGroup } from "types/metrics";
 import type { LxdInstance } from "types/instance";
 
+interface DiskDeviceUsage {
+  device: string;
+  free: number;
+  total: number;
+}
+
 interface MemoryReport {
   memory:
     | {
@@ -9,12 +15,13 @@ interface MemoryReport {
         cached: number;
       }
     | undefined;
-  disk:
+  rootDisk:
     | {
         free: number;
         total: number;
       }
     | undefined;
+  otherDisks: DiskDeviceUsage[];
 }
 
 export const getInstanceMetrics = (
@@ -42,28 +49,52 @@ export const getInstanceMetrics = (
         }
       : undefined;
 
-  const diskValue = (metricKey: string) =>
+  const diskMetrics = (metricKey: string) =>
     metrics
       .find((item) => item.name === metricKey)
-      ?.metrics.find(
+      ?.metrics.filter(
         (item) =>
           item.labels.name === instance.name &&
-          item.labels.project === instance.project &&
-          item.labels.mountpoint === "/",
-      )?.value;
+          item.labels.project === instance.project,
+      );
 
-  const diskFree = diskValue("lxd_filesystem_free_bytes");
-  const diskTotal = diskValue("lxd_filesystem_size_bytes");
-  const disk =
-    diskFree && diskTotal
-      ? {
-          free: diskFree,
-          total: diskTotal,
-        }
-      : undefined;
+  const diskFree = diskMetrics("lxd_filesystem_free_bytes");
+  const diskTotal = diskMetrics("lxd_filesystem_size_bytes");
+
+  let rootDisk: DiskDeviceUsage | undefined = undefined;
+  const otherDisks: DiskDeviceUsage[] = [];
+
+  diskFree?.forEach((metric) => {
+    const device = metric.labels.device;
+    const free = metric.value;
+    const total = diskTotal?.find(
+      (item) => item.labels.device === device,
+    )?.value;
+
+    if (!free || !total || !device || total == 0) {
+      return;
+    }
+
+    if (metric.labels.mountpoint === "/") {
+      rootDisk = {
+        device,
+        free,
+        total,
+      };
+    } else {
+      otherDisks.push({
+        device,
+        free,
+        total,
+      });
+    }
+  });
+
+  otherDisks.sort((a, b) => a.device.localeCompare(b.device));
 
   return {
     memory,
-    disk,
+    rootDisk,
+    otherDisks,
   };
 };
