@@ -158,8 +158,9 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
+
   const updateSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/profile/${profile.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
     } else {
@@ -287,6 +288,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
+              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={hasDiskError(formik) || hasNetworkError(formik)}
             />

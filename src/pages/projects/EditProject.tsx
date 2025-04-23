@@ -102,8 +102,9 @@ const EditProject: FC<Props> = ({ project }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project.name}/configuration`;
+
   const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project.name}/configuration`;
     if (newSection === PROJECT_DETAILS) {
       navigate(baseUrl);
     } else {
@@ -133,7 +134,11 @@ const EditProject: FC<Props> = ({ project }) => {
               >
                 Cancel
               </Button>
-              <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
+              <FormSubmitBtn
+                formik={formik}
+                baseUrl={baseUrl}
+                disabled={!formik.values.name}
+              />
             </>
           )}
         </FormFooterLayout>
