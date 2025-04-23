@@ -87,6 +87,7 @@ const GroupSelection: FC<Props> = ({
       columns: [
         {
           content: group.name,
+          title: group.name,
           onClick: toggleRow,
           role: "cell",
           className: "name u-truncate clickable-cell",
