@@ -69,7 +69,7 @@ const GroupSelection: FC<Props> = ({
     const selectedParentsText =
       (parentItems?.length || 0) > 1
         ? `all selected ${pluralize(parentItemName, 2)}`
-        : `${parentItemName} ${parentItems?.[0].name}`;
+        : `${parentItemName} ${parentItems?.[0]?.name}`;
     const modifiedTitle = groupAdded
       ? `Group will be added to ${selectedParentsText}`
       : groupRemoved
