@@ -149,26 +149,26 @@ const InstanceSnapshots = (props: Props) => {
           : [
               {
                 content: isoTimeToString(snapshot.created_at),
-                role: "rowheader",
+                role: "cell",
                 "aria-label": "Created at",
                 className: "created",
               },
             ]),
         {
           content: isoTimeToString(snapshot.expires_at),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Expires at",
           className: "expiration",
         },
         {
           content: snapshot.stateful ? "Yes" : "No",
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Stateful",
           className: "stateful",
         },
         {
           content: actions,
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Actions",
           className: "u-align--right actions",
         },

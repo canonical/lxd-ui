@@ -92,7 +92,7 @@ const CustomIsoList: FC = () => {
       columns: [
         {
           content: image.aliases,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {

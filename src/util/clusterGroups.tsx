@@ -62,7 +62,7 @@ export const getClusterRows = (
               <div className="u-text--muted">{member.url}</div>
             </>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name and url",
           className: "name",
         },

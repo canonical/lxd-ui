@@ -248,7 +248,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         columns: [
           {
             content: item.os,
-            role: "cell",
+            role: "rowheader",
             "aria-label": "Distribution",
             onClick: selectImage,
           },

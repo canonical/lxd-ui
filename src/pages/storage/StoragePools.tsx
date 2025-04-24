@@ -96,7 +96,7 @@ const StoragePools: FC = () => {
               {pool.name}
             </Link>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {

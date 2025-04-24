@@ -57,7 +57,7 @@ const NetworkAddresses: FC<Props> = ({ formik, project }) => {
               columns: [
                 {
                   content: item.address,
-                  role: "cell",
+                  role: "rowheader",
                   "aria-label": "Address",
                 },
                 {

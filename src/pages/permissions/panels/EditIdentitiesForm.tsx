@@ -102,10 +102,9 @@ const EditIdentitiesForm: FC<Props> = ({
   };
 
   const headers = [
-    { content: "Identity", sortKey: "name", role: "rowheader" },
+    { content: "Identity", sortKey: "name" },
     {
       content: "",
-      role: "rowheader",
       "aria-label": "Modified status",
       className: "modified-status",
     },
@@ -135,7 +134,7 @@ const EditIdentitiesForm: FC<Props> = ({
       columns: [
         {
           content: name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Identity",
           title: canEditIdentity(identity)
             ? name

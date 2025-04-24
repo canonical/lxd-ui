@@ -130,7 +130,7 @@ const ImageList: FC = () => {
       columns: [
         {
           content: description,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {

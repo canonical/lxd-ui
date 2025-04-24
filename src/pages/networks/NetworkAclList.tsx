@@ -60,7 +60,7 @@ const NetworkAclList: FC = () => {
               {acl.name}
             </Link>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
         },
         {

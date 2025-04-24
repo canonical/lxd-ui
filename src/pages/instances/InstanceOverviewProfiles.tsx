@@ -53,7 +53,7 @@ const InstanceOverviewProfiles: FC<Props> = ({ instance, onFailure }) => {
         },
         {
           content: description,
-          role: "rowheader",
+          role: "cell",
           title: `Description ${description}`,
           "aria-label": "Description",
         },

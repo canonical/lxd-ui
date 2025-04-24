@@ -304,7 +304,7 @@ const InstanceList: FC = () => {
             content: getInstanceName(operation),
             className: "u-truncate",
             title: getInstanceName(operation),
-            role: "cell",
+            role: "rowheader",
             "aria-label": NAME,
             style: { width: `${COLUMN_WIDTHS[NAME]}px` },
           },

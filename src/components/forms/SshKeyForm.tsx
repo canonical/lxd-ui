@@ -157,7 +157,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
       columns: [
         {
           content: inheritedKey.sshKey.name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "name",
         },
