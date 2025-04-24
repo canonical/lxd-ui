@@ -67,10 +67,10 @@ export const getInheritedSshKeys = (
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
-  readOnly?: boolean;
+  disabledReason?: string;
 }
 
-const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
+const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
   const { project } = useParams<{ project: string }>();
   const { hasCloudInitSshKeys } = useSupportedFeatures();
   const { data: profiles = [] } = useProfiles(project ?? "");
@@ -199,6 +199,8 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
               type="button"
               hasIcon
               appearance="base"
+              disabled={!!disabledReason}
+              title={disabledReason}
             >
               <Icon name="connected" />
               <span>Reattach</span>
@@ -210,6 +212,8 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
               type="button"
               hasIcon
               appearance="base"
+              disabled={!!disabledReason}
+              title={disabledReason}
             >
               <Icon name="disconnect" />
               <span>Detach</span>
@@ -276,6 +280,8 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
                 type="button"
                 hasIcon
                 appearance="base"
+                disabled={!!disabledReason}
+                title={disabledReason}
               >
                 <Icon name="delete" />
                 <span>Delete</span>
@@ -319,7 +325,8 @@ const SshKeyForm: FC<Props> = ({ formik, readOnly = false }) => {
           openPortal(e);
         }}
         hasIcon
-        disabled={readOnly}
+        disabled={!!disabledReason}
+        title={disabledReason}
       >
         <Icon name="plus" />
         <span>New SSH key</span>

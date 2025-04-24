@@ -184,7 +184,14 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             : ""
         }
       />
-      <SshKeyForm formik={formik} readOnly={!formik.values.image} />
+      <SshKeyForm
+        formik={formik}
+        disabledReason={
+          !formik.values.image
+            ? "Please select an image before adding SSH Keys"
+            : ""
+        }
+      />
     </ScrollableForm>
   );
 };

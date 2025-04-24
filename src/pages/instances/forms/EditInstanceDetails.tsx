@@ -89,7 +89,10 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
         disabledReason={formik.values.editRestriction}
         initialProfiles={formik.initialValues.profiles}
       />
-      <SshKeyForm formik={formik} />
+      <SshKeyForm
+        formik={formik}
+        disabledReason={formik.values.editRestriction}
+      />
     </ScrollableForm>
   );
 };
