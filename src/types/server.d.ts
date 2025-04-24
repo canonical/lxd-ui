@@ -23,6 +23,7 @@ export interface LxdSettings {
     server_version?: string;
     server_clustered: boolean;
     storage_supported_drivers: SupportedStorageDriver[];
+    backup_metadata_version_range?: number[];
   };
 }
 
