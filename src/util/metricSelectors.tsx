@@ -1,100 +1,177 @@
-import type { LxdMetricGroup } from "types/metrics";
+import type { LxdMetric, LxdMetricGroup } from "types/metrics";
 import type { LxdInstance } from "types/instance";
+import type { MetricHistoryEntry } from "context/metricHistory";
 
-interface DiskDeviceUsage {
+export interface CpuUsage {
+  coreCount: number;
+  cpuSecondsIdle: number;
+  cpuSecondsTotal: number;
+  time: number;
+}
+
+export interface FilesystemUsage {
   device: string;
   free: number;
   total: number;
 }
 
-interface MemoryReport {
-  memory:
-    | {
-        free: number;
-        total: number;
-        cached: number;
-      }
-    | undefined;
-  rootDisk:
-    | {
-        free: number;
-        total: number;
-      }
-    | undefined;
-  otherDisks: DiskDeviceUsage[];
+export interface MemoryUsage {
+  cached: number;
+  free: number;
+  total: number;
 }
 
-export const getInstanceMetrics = (
+interface InstanceMetricReport {
+  memory: MemoryUsage | undefined;
+  otherFilesystems: FilesystemUsage[];
+  rootFilesystem: FilesystemUsage | undefined;
+}
+
+export const getInstanceMetricReport = (
   metrics: LxdMetricGroup[],
   instance: LxdInstance,
-): MemoryReport => {
-  const memValue = (metricKey: string) =>
-    metrics
-      .find((item) => item.name === metricKey)
-      ?.metrics.find(
-        (item) =>
-          item.labels.name === instance.name &&
-          item.labels.project === instance.project,
-      )?.value;
+): InstanceMetricReport => {
+  const memory = getMemoryUsage(metrics, instance);
+  const [rootFilesystem, otherFilesystems] = getFilesystemUsage(
+    metrics,
+    instance,
+  );
 
-  const memFree = memValue("lxd_memory_MemFree_bytes");
-  const memCached = memValue("lxd_memory_Cached_bytes");
-  const memTotal = memValue("lxd_memory_MemTotal_bytes");
-  const memory =
-    memFree && memTotal && memCached
-      ? {
-          free: memFree,
-          total: memTotal,
-          cached: memCached,
-        }
-      : undefined;
+  return {
+    memory,
+    rootFilesystem,
+    otherFilesystems,
+  };
+};
 
-  const diskMetrics = (metricKey: string) =>
-    metrics
-      .find((item) => item.name === metricKey)
-      ?.metrics.filter(
-        (item) =>
-          item.labels.name === instance.name &&
-          item.labels.project === instance.project,
-      );
+export const getMemoryUsage = (
+  metrics: LxdMetricGroup[],
+  instance: LxdInstance,
+): MemoryUsage | undefined => {
+  const memFree = findMetric("lxd_memory_MemFree_bytes", metrics, instance);
+  const memCached = findMetric("lxd_memory_Cached_bytes", metrics, instance);
+  const memTotal = findMetric("lxd_memory_MemTotal_bytes", metrics, instance);
 
-  const diskFree = diskMetrics("lxd_filesystem_free_bytes");
-  const diskTotal = diskMetrics("lxd_filesystem_size_bytes");
+  if (!memFree.length || !memTotal.length || !memCached.length) {
+    return undefined;
+  }
 
-  let rootDisk: DiskDeviceUsage | undefined = undefined;
-  const otherDisks: DiskDeviceUsage[] = [];
+  return {
+    free: Number.parseFloat(memFree[0].value),
+    total: Number.parseFloat(memTotal[0].value),
+    cached: Number.parseFloat(memCached[0].value),
+  };
+};
 
-  diskFree?.forEach((metric) => {
+export const getFilesystemUsage = (
+  metrics: LxdMetricGroup[],
+  instance: LxdInstance,
+): [FilesystemUsage | undefined, FilesystemUsage[]] => {
+  const freeMetrics = findMetric(
+    "lxd_filesystem_free_bytes",
+    metrics,
+    instance,
+  );
+  const totalMetrics = findMetric(
+    "lxd_filesystem_size_bytes",
+    metrics,
+    instance,
+  );
+
+  let root: FilesystemUsage | undefined = undefined;
+  const other: FilesystemUsage[] = [];
+
+  freeMetrics?.forEach((metric) => {
     const device = metric.labels.device;
     const free = metric.value;
-    const total = diskTotal?.find(
+    const total = totalMetrics?.find(
       (item) => item.labels.device === device,
     )?.value;
 
-    if (!free || !total || !device || total == 0) {
+    if (!free || !total || total === "0") {
       return;
     }
 
     if (metric.labels.mountpoint === "/") {
-      rootDisk = {
-        device,
-        free,
-        total,
+      root = {
+        device: "/",
+        free: Number.parseFloat(free),
+        total: Number.parseFloat(total),
       };
     } else {
-      otherDisks.push({
-        device,
-        free,
-        total,
+      other.push({
+        device: device ?? "",
+        free: Number.parseFloat(free),
+        total: Number.parseFloat(total),
       });
     }
   });
 
-  otherDisks.sort((a, b) => a.device.localeCompare(b.device));
+  other.sort((a, b) => a.device.localeCompare(b.device));
+
+  return [root, other];
+};
+
+export const getCpuUsage = (
+  metrics: MetricHistoryEntry,
+  instance: LxdInstance,
+): CpuUsage | undefined => {
+  const cpuMetric = findMetric(
+    "lxd_cpu_seconds_total",
+    metrics.metric,
+    instance,
+  );
+  const cpuCoreCount = findMetric(
+    "lxd_cpu_effective_total",
+    metrics.metric,
+    instance,
+  );
+
+  let cpuSecondsTotal = 0;
+  let cpuSecondsIdle = 0;
+  cpuMetric?.forEach((metric) => {
+    const cpu = metric.labels.cpu;
+    const value = metric.value as unknown as string;
+    const mode = metric.labels.mode;
+
+    if (!cpu || !value || !mode) {
+      return;
+    }
+
+    // sum values for each core
+    cpuSecondsTotal += parseFloat(value);
+    if (mode === "idle" || mode === "iowait") {
+      cpuSecondsIdle += parseFloat(value);
+    }
+  });
+
+  if (!cpuSecondsTotal) {
+    return undefined;
+  }
+
+  const coreCount =
+    cpuCoreCount.length > 0 ? Number.parseInt(cpuCoreCount[0].value) : 1;
 
   return {
-    memory,
-    rootDisk,
-    otherDisks,
+    coreCount,
+    cpuSecondsIdle,
+    cpuSecondsTotal,
+    time: metrics.time,
   };
+};
+
+const findMetric = (
+  name: string,
+  metrics: LxdMetricGroup[],
+  instance: LxdInstance,
+): LxdMetric[] => {
+  return (
+    metrics
+      .find((item) => item.name === name)
+      ?.metrics.filter(
+        (item) =>
+          item.labels.name === instance.name &&
+          item.labels.project === instance.project,
+      ) ?? []
+  );
 };

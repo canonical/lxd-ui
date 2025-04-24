@@ -48,7 +48,7 @@ import {
   STATUS,
   TYPE,
   MEMORY,
-  DISK,
+  FILESYSTEM,
   PROJECT,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
@@ -63,8 +63,8 @@ import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
 import { useSmallScreen } from "context/useSmallScreen";
-import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
-import InstanceUsageRootDisk from "pages/instances/InstanceUsageRootDisk";
+import InstanceUsageMainMemory from "pages/instances/InstanceUsageMainMemory";
+import InstanceUsageRootFilesystem from "pages/instances/InstanceUsageRootFilesystem";
 import { useInstances } from "context/useInstances";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
@@ -75,7 +75,7 @@ import InstanceProjectChip from "pages/instances/InstanceProjectChip";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
-  return saved ? (JSON.parse(saved) as string[]) : [MEMORY, DISK];
+  return saved ? (JSON.parse(saved) as string[]) : [MEMORY, FILESYSTEM];
 };
 
 const saveHidden = (columns: string[]) => {
@@ -271,8 +271,8 @@ const InstanceList: FC = () => {
         style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
       },
       {
-        content: DISK,
-        style: { width: `${COLUMN_WIDTHS[DISK]}px` },
+        content: FILESYSTEM,
+        style: { width: `${COLUMN_WIDTHS[FILESYSTEM]}px` },
       },
       {
         content: DESCRIPTION,
@@ -453,7 +453,7 @@ const InstanceList: FC = () => {
               ]
             : []),
           {
-            content: <InstanceUsageMemory instance={instance} />,
+            content: <InstanceUsageMainMemory instance={instance} />,
             role: "cell",
             "aria-label": MEMORY,
             onClick: openSummary,
@@ -461,12 +461,12 @@ const InstanceList: FC = () => {
             style: { width: `${COLUMN_WIDTHS[MEMORY]}px` },
           },
           {
-            content: <InstanceUsageRootDisk instance={instance} />,
+            content: <InstanceUsageRootFilesystem instance={instance} />,
             role: "cell",
-            "aria-label": DISK,
+            "aria-label": FILESYSTEM,
             onClick: openSummary,
             className: "clickable-cell",
-            style: { width: `${COLUMN_WIDTHS[DISK]}px` },
+            style: { width: `${COLUMN_WIDTHS[FILESYSTEM]}px` },
           },
           {
             content: (
@@ -715,7 +715,7 @@ const InstanceList: FC = () => {
                       columns={[
                         TYPE,
                         MEMORY,
-                        DISK,
+                        FILESYSTEM,
                         CLUSTER_MEMBER,
                         DESCRIPTION,
                         IPV4,
