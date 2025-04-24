@@ -168,13 +168,14 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
     updateSection(initialSection);
   }, [initialSection]);
 
+  const baseUrl = `/ui/project/${project}/network/${network.name}`;
+
   const setSection = (newSection: string, source: "click" | "scroll") => {
     if (source === "scroll" && section === slugify(YAML_CONFIGURATION)) {
       return;
     }
 
     if (source === "click") {
-      const baseUrl = `/ui/project/${project}/network/${network.name}`;
       if (newSection === GENERAL) {
         navigate(baseUrl);
       } else {
@@ -230,6 +231,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
+              baseUrl={baseUrl}
               isYaml={section === slugify(YAML_CONFIGURATION)}
               disabled={isNetworkFormInvalid(formik, clusterMembers)}
             />

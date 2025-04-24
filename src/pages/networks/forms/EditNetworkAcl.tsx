@@ -92,8 +92,9 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project}/network-acl/${networkAcl.name}`;
+
   const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/network-acl/${networkAcl.name}`;
     if (newSection === GENERAL) {
       navigate(baseUrl);
     } else {
@@ -136,6 +137,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
             </Button>
             <FormSubmitBtn
               formik={formik}
+              baseUrl={baseUrl}
               disabled={false}
               isYaml={section === slugify(YAML_CONFIGURATION)}
             />

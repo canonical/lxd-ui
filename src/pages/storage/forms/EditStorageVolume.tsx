@@ -90,8 +90,9 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     },
   });
 
+  const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
+
   const setSection = (newSection: string) => {
-    const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
     if (newSection === MAIN_CONFIGURATION) {
       navigate(baseUrl);
     } else {
@@ -117,7 +118,11 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
             >
               Cancel
             </Button>
-            <FormSubmitBtn formik={formik} disabled={!formik.values.name} />
+            <FormSubmitBtn
+              formik={formik}
+              baseUrl={baseUrl}
+              disabled={!formik.values.name}
+            />
           </>
         )}
       </FormFooterLayout>
