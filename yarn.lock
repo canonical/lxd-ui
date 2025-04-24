@@ -5857,10 +5857,10 @@ v8-to-istanbul@9.3.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-vanilla-framework@4.23.1:
-  version "4.23.1"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.23.1.tgz#39e64f812405b62903fc3f84a86c0eb1b739aa40"
-  integrity sha512-4wnii77p1ysaRaUe7S/E+mRNm5t19ykGdhmrvAJk6W6GW4GeHlcq7VIY8ZpCfC8nb32FWDNn3lVNRrt0+N/McQ==
+vanilla-framework@4.23.2:
+  version "4.23.2"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-4.23.2.tgz#41e1055502b70707c3e86a7eb8c2fd03fd15624a"
+  integrity sha512-+tPWTMjmzaH0M0AratJQO5iXnieIzzbwx1HLEDpEh9dA+SrLdzDd1MrNSBhKsnFlHMjDrhCzKSP4zID2DrVM+w==
 
 vary@~1.1.2:
   version "1.1.2"
