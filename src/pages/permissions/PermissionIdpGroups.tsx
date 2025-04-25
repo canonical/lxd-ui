@@ -62,7 +62,7 @@ const PermissionIdpGroups: FC = () => {
     if (panelParams.idpGroup) {
       setSelectedGroupNames([panelParams.idpGroup]);
     }
-  }, [panelParams.idpGroup]);
+  }, [panelParams.idpGroup, groups]);
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },
@@ -341,14 +341,15 @@ const PermissionIdpGroups: FC = () => {
 
       {panelParams.panel === panels.createIdpGroup && <CreateIdpGroupPanel />}
 
-      {panelParams.panel === panels.editIdpGroup && selectedGroups.length && (
-        <EditIdpGroupPanel
-          idpGroup={selectedGroups[0]}
-          onClose={() => {
-            setSelectedGroupNames([]);
-          }}
-        />
-      )}
+      {panelParams.panel === panels.editIdpGroup &&
+        selectedGroups.length > 0 && (
+          <EditIdpGroupPanel
+            idpGroup={selectedGroups[0]}
+            onClose={() => {
+              setSelectedGroupNames([]);
+            }}
+          />
+        )}
     </>
   );
 };

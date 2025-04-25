@@ -56,7 +56,7 @@ const PermissionGroups: FC = () => {
     if (panelParams.group) {
       setSelectedGroupNames([panelParams.group]);
     }
-  }, [panelParams.group]);
+  }, [panelParams.group, groups]);
 
   const headers = [
     { content: "Name", className: "name", sortKey: "name" },

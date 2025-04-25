@@ -111,56 +111,54 @@ const CreateIdpGroupPanel: FC = () => {
   });
 
   return (
-    <>
-      <SidePanel isOverlay loading={isLoading} hasError={!groups}>
-        <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create IDP group</SidePanel.HeaderTitle>
-        </SidePanel.Header>
-        <NotificationRow className="u-no-padding" />
-        <NameWithGroupForm formik={formik} />
-        <p>Groups</p>
-        <SidePanel.Content className="u-no-padding">
-          <GroupSelection
-            groups={groups}
-            modifiedGroups={desiredState.groupsAdded}
-            parentItemName=""
-            selectedGroups={desiredState.groupsAdded}
-            setSelectedGroups={modifyGroups}
-            toggleGroup={(group: string) => {
-              const newGroups = new Set([...desiredState.groupsAdded]);
-              if (newGroups.has(group)) {
-                newGroups.delete(group);
-              } else {
-                newGroups.add(group);
-              }
-              modifyGroups([...newGroups], newGroups.size === 0);
-            }}
-            scrollDependencies={[
-              groups,
-              desiredState.groupsAdded.size,
-              notify.notification,
-              formik,
-            ]}
-          />
-        </SidePanel.Content>
-        <SidePanel.Footer className="u-align--right">
-          <GroupSelectionActions
-            modifiedGroups={desiredState.groupsAdded}
-            undoChange={undoMappingChanges}
-            closePanel={closePanel}
-            onSubmit={() => void formik.submitForm()}
-            actionText="mapped"
-            loading={formik.isSubmitting}
-            disabled={
-              !formik.isValid ||
-              (!formik.values.name &&
-                !desiredState.groupsAdded.size &&
-                !formik.touched.name)
+    <SidePanel isOverlay loading={isLoading} hasError={!groups}>
+      <SidePanel.Header>
+        <SidePanel.HeaderTitle>Create IDP group</SidePanel.HeaderTitle>
+      </SidePanel.Header>
+      <NotificationRow className="u-no-padding" />
+      <NameWithGroupForm formik={formik} />
+      <p>Groups</p>
+      <SidePanel.Content className="u-no-padding">
+        <GroupSelection
+          groups={groups}
+          modifiedGroups={desiredState.groupsAdded}
+          parentItemName=""
+          selectedGroups={desiredState.groupsAdded}
+          setSelectedGroups={modifyGroups}
+          toggleGroup={(group: string) => {
+            const newGroups = new Set([...desiredState.groupsAdded]);
+            if (newGroups.has(group)) {
+              newGroups.delete(group);
+            } else {
+              newGroups.add(group);
             }
-          />
-        </SidePanel.Footer>
-      </SidePanel>
-    </>
+            modifyGroups([...newGroups], newGroups.size === 0);
+          }}
+          scrollDependencies={[
+            groups,
+            desiredState.groupsAdded.size,
+            notify.notification,
+            formik,
+          ]}
+        />
+      </SidePanel.Content>
+      <SidePanel.Footer className="u-align--right">
+        <GroupSelectionActions
+          modifiedGroups={desiredState.groupsAdded}
+          undoChange={undoMappingChanges}
+          closePanel={closePanel}
+          onSubmit={() => void formik.submitForm()}
+          actionText="mapped"
+          loading={formik.isSubmitting}
+          disabled={
+            !formik.isValid ||
+            (!formik.values.name &&
+              !desiredState.groupsAdded.size &&
+              !formik.touched.name)
+          }
+        />
+      </SidePanel.Footer>
+    </SidePanel>
   );
 };
 
