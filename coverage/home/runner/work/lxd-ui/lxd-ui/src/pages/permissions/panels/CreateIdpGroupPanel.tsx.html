@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.2% </span>
+                <span class="strong">79% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>160/202</span>
+                <span class='fraction'>158/200</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.8% </span>
+                <span class="strong">95.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>160/167</span>
+                <span class='fraction'>158/165</span>
             </div>
         
             
@@ -228,9 +228,7 @@
 <a name='L163'></a><a href='#L163'>163</a>
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
-<a name='L166'></a><a href='#L166'>166</a>
-<a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -327,7 +325,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -388,7 +385,6 @@
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
 <span class="cline-any cline-yes">48x</span>
@@ -510,56 +506,54 @@ const CreateIdpGroupPanel: FC = <span class="cstat-no" title="statement not cove
   });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;&gt;
-      &lt;SidePanel isOverlay loading={isLoading} hasError={!groups}&gt;
-        &lt;SidePanel.Header&gt;
-          &lt;SidePanel.HeaderTitle&gt;Create IDP group&lt;/SidePanel.HeaderTitle&gt;
-        &lt;/SidePanel.Header&gt;
-        &lt;NotificationRow className="u-no-padding" /&gt;
-        &lt;NameWithGroupForm formik={formik} /&gt;
-        &lt;p&gt;Groups&lt;/p&gt;
-        &lt;SidePanel.Content className="u-no-padding"&gt;
-          &lt;GroupSelection
-            groups={groups}
-            modifiedGroups={desiredState.groupsAdded}
-            parentItemName=""
-            selectedGroups={desiredState.groupsAdded}
-            setSelectedGroups={modifyGroups}
-            toggleGroup={<span class="fstat-no" title="function not covered" >(g</span>roup: string) =&gt; {
-              const newGroups = <span class="cstat-no" title="statement not covered" >new Set([...desiredState.groupsAdded]);</span>
-<span class="cstat-no" title="statement not covered" >              if (newGroups.has(group)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >                newGroups.delete(group);</span></span>
-              } else {
-<span class="cstat-no" title="statement not covered" >                newGroups.add(group);</span>
-              }
-<span class="cstat-no" title="statement not covered" >              modifyGroups([...newGroups], newGroups.size === 0);</span>
-            }}
-            scrollDependencies={[
-              groups,
-              desiredState.groupsAdded.size,
-              notify.notification,
-              formik,
-            ]}
-          /&gt;
-        &lt;/SidePanel.Content&gt;
-        &lt;SidePanel.Footer className="u-align--right"&gt;
-          &lt;GroupSelectionActions
-            modifiedGroups={desiredState.groupsAdded}
-            undoChange={undoMappingChanges}
-            closePanel={closePanel}
-            onSubmit={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
-            actionText="mapped"
-            loading={formik.isSubmitting}
-            disabled={
-              !formik.isValid ||
-              (!formik.values.name &amp;&amp;
-                !desiredState.groupsAdded.size &amp;&amp;
-                !formik.touched.name)
+    &lt;SidePanel isOverlay loading={isLoading} hasError={!groups}&gt;
+      &lt;SidePanel.Header&gt;
+        &lt;SidePanel.HeaderTitle&gt;Create IDP group&lt;/SidePanel.HeaderTitle&gt;
+      &lt;/SidePanel.Header&gt;
+      &lt;NotificationRow className="u-no-padding" /&gt;
+      &lt;NameWithGroupForm formik={formik} /&gt;
+      &lt;p&gt;Groups&lt;/p&gt;
+      &lt;SidePanel.Content className="u-no-padding"&gt;
+        &lt;GroupSelection
+          groups={groups}
+          modifiedGroups={desiredState.groupsAdded}
+          parentItemName=""
+          selectedGroups={desiredState.groupsAdded}
+          setSelectedGroups={modifyGroups}
+          toggleGroup={<span class="fstat-no" title="function not covered" >(g</span>roup: string) =&gt; {
+            const newGroups = <span class="cstat-no" title="statement not covered" >new Set([...desiredState.groupsAdded]);</span>
+<span class="cstat-no" title="statement not covered" >            if (newGroups.has(group)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              newGroups.delete(group);</span></span>
+            } else {
+<span class="cstat-no" title="statement not covered" >              newGroups.add(group);</span>
             }
-          /&gt;
-        &lt;/SidePanel.Footer&gt;
-      &lt;/SidePanel&gt;
-    &lt;/&gt;
+<span class="cstat-no" title="statement not covered" >            modifyGroups([...newGroups], newGroups.size === 0);</span>
+          }}
+          scrollDependencies={[
+            groups,
+            desiredState.groupsAdded.size,
+            notify.notification,
+            formik,
+          ]}
+        /&gt;
+      &lt;/SidePanel.Content&gt;
+      &lt;SidePanel.Footer className="u-align--right"&gt;
+        &lt;GroupSelectionActions
+          modifiedGroups={desiredState.groupsAdded}
+          undoChange={undoMappingChanges}
+          closePanel={closePanel}
+          onSubmit={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >v</span>oid formik.submitForm()}</span>
+          actionText="mapped"
+          loading={formik.isSubmitting}
+          disabled={
+            !formik.isValid ||
+            (!formik.values.name &amp;&amp;
+              !desiredState.groupsAdded.size &amp;&amp;
+              !formik.touched.name)
+          }
+        /&gt;
+      &lt;/SidePanel.Footer&gt;
+    &lt;/SidePanel&gt;
   );
 };
 &nbsp;
@@ -571,7 +565,7 @@ export default CreateIdpGroupPanel;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-25T17:53:04.344Z
+                at 2025-04-25T19:50:15.982Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
