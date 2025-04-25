@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import type { LxdProject } from "types/project";
 import { getSubpageFromUrl } from "util/projects";
 import { filterUsedByType } from "util/usedBy";
+import { pluralize } from "util/instanceBulkActions";
 
 interface Props {
   projects: LxdProject[];
@@ -21,10 +22,10 @@ const ProjectSelectorList: FC<Props> = ({
 
   const targetSection = getSubpageFromUrl(location.pathname) ?? "instances";
 
-  function getInstanceCount(project: LxdProject) {
+  const getInstanceCount = (project: LxdProject) => {
     const count = filterUsedByType("instance", project.used_by).length;
-    return count === 1 ? "1 instance" : `${count} instances`;
-  }
+    return `${count} ${pluralize("instance", count)}`;
+  };
 
   return (
     <div className="projects">

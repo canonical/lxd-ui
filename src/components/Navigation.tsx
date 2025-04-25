@@ -11,7 +11,12 @@ import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
-import { getElementAbsoluteHeight, isWidthBelow, logout } from "util/helpers";
+import {
+  capitalizeFirstLetter,
+  getElementAbsoluteHeight,
+  isWidthBelow,
+  logout,
+} from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import { useDocs } from "context/useDocs";
@@ -25,6 +30,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useLoggedInUser } from "context/useLoggedInUser";
 import ProjectPermissionWarning from "pages/projects/ProjectPermissionWarning";
 import { useSettings } from "context/useSettings";
+import type { LxdProject } from "types/project";
 
 const isSmallScreen = () => isWidthBelow(620);
 
@@ -48,14 +54,38 @@ const initialiseOpenNavMenus = (location: Location) => {
   return initialOpenMenus;
 };
 
+const ALL_PROJECTS = "All projects";
+
+const initializeProjectName = (
+  isAllProjectsFromUrl: boolean,
+  isLoading: boolean,
+  project: LxdProject | undefined,
+) => {
+  if (isAllProjectsFromUrl) {
+    return ALL_PROJECTS;
+  }
+
+  if (project && !isLoading) {
+    return project.name;
+  }
+
+  return "default";
+};
+
 const Navigation: FC = () => {
   const { isRestricted, isOidc } = useAuth();
   const docBaseLink = useDocs();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
-  const { project, isLoading } = useCurrentProject();
+  const {
+    project,
+    isAllProjects: isAllProjectsFromUrl,
+    canViewProject,
+    isLoading,
+  } = useCurrentProject();
   const [projectName, setProjectName] = useState(
-    project && !isLoading ? project.name : "default",
+    initializeProjectName(isAllProjectsFromUrl, isLoading, project),
   );
+  const isAllProjects = projectName === ALL_PROJECTS;
   const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
@@ -71,10 +101,17 @@ const Navigation: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const isAllProjects = isAllProjectsFromUrl || !canViewProject;
+    if (isAllProjects && projectName !== ALL_PROJECTS) {
+      setProjectName(ALL_PROJECTS);
+      setOpenNavMenus([]);
+      return;
+    }
+
     if (project && project.name !== projectName) {
       setProjectName(project.name);
     }
-  }, [project?.name]);
+  }, [project?.name, isAllProjectsFromUrl, projectName]);
 
   useEffect(() => {
     if (!menuCollapsed) {
@@ -152,6 +189,14 @@ const Navigation: FC = () => {
 
   useEventListener("resize", adjustNavigationScrollForOverflow);
 
+  const getNavTitle = (title: string) => {
+    if (isAllProjects) {
+      return `Select a project to explore ${title}`;
+    }
+
+    return `${capitalizeFirstLetter(title)} (${projectName})`;
+  };
+
   return (
     <>
       <header className="l-navigation-bar">
@@ -226,7 +271,11 @@ const Navigation: FC = () => {
                       </li>
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/project/${projectName}/instances`}
+                          to={
+                            isAllProjects
+                              ? "/ui/all-projects/instances"
+                              : `/ui/project/${projectName}/instances`
+                          }
                           title={`Instances (${projectName})`}
                           onClick={softToggleMenu}
                         >
@@ -240,7 +289,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/profiles`}
-                          title={`Profiles (${projectName})`}
+                          title={getNavTitle("profiles")}
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -254,7 +304,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/network`}
-                          title={`Networking (${projectName})`}
+                          title={getNavTitle("networking")}
+                          disabled={isAllProjects}
                           iconName="exposed"
                           label="Networking"
                           onOpen={() => {
@@ -297,7 +348,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${projectName}/storage`}
-                          title={`Storage (${projectName})`}
+                          title={getNavTitle("storage")}
+                          disabled={isAllProjects}
                           iconName="switcher-dashboard"
                           label="Storage"
                           onOpen={() => {
@@ -354,7 +406,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/images`}
-                          title={`Images (${projectName})`}
+                          title={getNavTitle("images")}
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon
@@ -367,7 +420,8 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${projectName}/configuration`}
-                          title={`Configuration (${projectName})`}
+                          title={getNavTitle("configuration")}
+                          disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
                           <Icon

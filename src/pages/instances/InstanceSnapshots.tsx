@@ -14,7 +14,6 @@ import useEventListener from "util/useEventListener";
 import ItemName from "components/ItemName";
 import SelectableMainTable from "components/SelectableMainTable";
 import InstanceSnapshotBulkDelete from "pages/instances/actions/snapshots/InstanceSnapshotBulkDelete";
-import Loader from "components/Loader";
 import { useCurrentProject } from "context/useCurrentProject";
 import ScrollableTable from "components/ScrollableTable";
 import SelectedTableNotification from "components/SelectedTableNotification";
@@ -43,6 +42,8 @@ const InstanceSnapshots = (props: Props) => {
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
+  const { project } = useCurrentProject();
+  const snapshotsDisabled = isSnapshotsDisabled(project);
 
   const onSuccess = (message: ReactNode) => {
     toastNotify.success(message);
@@ -51,10 +52,6 @@ const InstanceSnapshots = (props: Props) => {
   const onFailure = (title: string, e: unknown, message?: ReactNode) => {
     notify.failure(title, e, message);
   };
-
-  const { project, isLoading } = useCurrentProject();
-
-  const snapshotsDisabled = isSnapshotsDisabled(project);
 
   useEffect(() => {
     const validNames = new Set(
@@ -193,9 +190,7 @@ const InstanceSnapshots = (props: Props) => {
   };
   useEventListener("resize", resize);
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return (
     <div className="snapshot-list">
       {hasSnapshots && (
         <div className="upper-controls-bar">

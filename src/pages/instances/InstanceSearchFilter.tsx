@@ -19,14 +19,16 @@ export const STATUS = "status";
 export const TYPE = "type";
 export const PROFILE = "profile";
 export const CLUSTER_MEMBER = "member";
+export const PROJECT = "project";
 
-const QUERY_PARAMS = [QUERY, STATUS, TYPE, PROFILE, CLUSTER_MEMBER];
+const QUERY_PARAMS = [QUERY, STATUS, TYPE, PROFILE, CLUSTER_MEMBER, PROJECT];
 
 interface Props {
   instances: LxdInstance[];
+  hasProjectFilter: boolean;
 }
 
-const InstanceSearchFilter: FC<Props> = ({ instances }) => {
+const InstanceSearchFilter: FC<Props> = ({ instances, hasProjectFilter }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isClustered = useIsClustered();
 
@@ -36,6 +38,10 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
 
   const locationSet = [
     ...new Set(instances.flatMap((instance) => instance.location)),
+  ];
+
+  const projectSet = [
+    ...new Set(instances.flatMap((instance) => instance.project)),
   ];
 
   const searchAndFilterData: SearchAndFilterData[] = [
@@ -67,6 +73,17 @@ const InstanceSearchFilter: FC<Props> = ({ instances }) => {
             heading: "Cluster member",
             chips: locationSet.map((location) => {
               return { lead: CLUSTER_MEMBER, value: location };
+            }),
+          },
+        ]
+      : []),
+    ...(hasProjectFilter
+      ? [
+          {
+            id: 5,
+            heading: "Project",
+            chips: projectSet.map((project) => {
+              return { lead: "project", value: project };
             }),
           },
         ]

@@ -7,7 +7,11 @@ import { useProject } from "context/useProjects";
 
 const ProjectPermissionWarning = () => {
   const { isLoading: isSettingsLoading } = useSettings();
-  const { project, isLoading: isProjectLoading } = useCurrentProject();
+  const {
+    project,
+    isAllProjects,
+    isLoading: isProjectLoading,
+  } = useCurrentProject();
   const { data: defaultProject, isLoading: isDefaultProjectLoading } =
     useProject("default", !project);
 
@@ -50,8 +54,8 @@ const ProjectPermissionWarning = () => {
         <Portal>
           <Modal title="Missing viewer permission" close={closePortal}>
             <p>
-              You do not have the <code>viewer</code> permission for the
-              selected project.
+              You do not have the <code>viewer</code> permission for{" "}
+              {isAllProjects ? "any" : "the selected"} project.
             </p>
             <p>
               Changes made in the UI will not be visible without manual reload

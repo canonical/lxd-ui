@@ -49,6 +49,7 @@ import {
   TYPE,
   MEMORY,
   DISK,
+  PROJECT,
 } from "util/instanceTable";
 import { getInstanceName } from "util/operations";
 import ScrollableTable from "components/ScrollableTable";
@@ -68,6 +69,9 @@ import { useInstances } from "context/useInstances";
 import { useProjectEntitlements } from "util/entitlements/projects";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useIsClustered } from "context/useIsClustered";
+import { useProject } from "context/useProjects";
+import InstanceClusterMemberChip from "pages/instances/InstanceClusterMemberChip";
+import InstanceProjectChip from "pages/instances/InstanceProjectChip";
 
 const loadHidden = () => {
   const saved = localStorage.getItem("instanceListHiddenColumns");
@@ -86,7 +90,8 @@ const InstanceList: FC = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const panelParams = usePanelParams();
-  const { project } = useCurrentProject();
+  const { project, isAllProjects } = useCurrentProject();
+  const { data: defaultProject } = useProject("default", isAllProjects);
   const [createButtonLabel, _setCreateButtonLabel] =
     useState<string>("Create instance");
   const [searchParams] = useSearchParams();
@@ -103,6 +108,7 @@ const InstanceList: FC = () => {
       .map((value) => (value === "VM" ? "virtual-machine" : "container")),
     profiles: searchParams.getAll("profile"),
     clusterMembers: searchParams.getAll("member"),
+    projects: searchParams.getAll("project"),
   };
   const [userHidden, setUserHidden] = useState<string[]>(loadHidden());
   const [sizeHidden, setSizeHidden] = useState<string[]>([]);
@@ -110,11 +116,15 @@ const InstanceList: FC = () => {
   const [processingNames, setProcessingNames] = useState<string[]>([]);
   const isSmallScreen = useSmallScreen();
 
-  if (!project) {
+  if (!project && !isAllProjects) {
     return <>Missing project</>;
   }
 
-  const { data: instances = [], error, isLoading } = useInstances(project.name);
+  const {
+    data: instances = [],
+    error,
+    isLoading,
+  } = useInstances(project?.name ?? null);
 
   if (error) {
     notify.failure("Loading instances failed", error);
@@ -131,8 +141,8 @@ const InstanceList: FC = () => {
   };
 
   const { data: operationList } = useQuery({
-    queryKey: [queryKeys.operations, project],
-    queryFn: async () => fetchOperations(project.name),
+    queryKey: [queryKeys.operations, project?.name],
+    queryFn: async () => fetchOperations(project?.name ?? null),
   });
 
   if (error) {
@@ -195,6 +205,12 @@ const InstanceList: FC = () => {
     ) {
       return false;
     }
+    if (
+      filters.projects.length > 0 &&
+      !filters.projects.includes(item.project)
+    ) {
+      return false;
+    }
     return true;
   });
 
@@ -232,6 +248,15 @@ const InstanceList: FC = () => {
         sortKey: "type",
         style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
       },
+      ...(isAllProjects
+        ? [
+            {
+              content: PROJECT,
+              sortKey: "project",
+              style: { width: `${COLUMN_WIDTHS[PROJECT]}px` },
+            },
+          ]
+        : []),
       ...(isClustered
         ? [
             {
@@ -291,6 +316,7 @@ const InstanceList: FC = () => {
       (col) => !hiddenCols.includes(col),
     )
       .concat(...(isClustered ? [CLUSTER_MEMBER] : []))
+      .concat(...(isAllProjects ? [PROJECT] : []))
       .reduce((partialSum, col) => partialSum + COLUMN_WIDTHS[col], 0);
 
     const totalColumnCount = getHeaders(userHidden.concat(sizeHidden)).length;
@@ -346,7 +372,7 @@ const InstanceList: FC = () => {
             content: (
               <CancelOperationBtn
                 operation={operation}
-                project={project.name}
+                project={project?.name}
               />
             ),
             role: "cell",
@@ -365,7 +391,7 @@ const InstanceList: FC = () => {
 
     const instanceRows: MainTableRow[] = filteredInstances.map((instance) => {
       const openSummary = () => {
-        panelParams.openInstanceSummary(instance.name, project.name);
+        panelParams.openInstanceSummary(instance.name, instance.project);
       };
 
       const ipv4 = getIpAddresses(instance, "inet")
@@ -406,15 +432,22 @@ const InstanceList: FC = () => {
             className: "clickable-cell",
             style: { width: `${COLUMN_WIDTHS[TYPE]}px` },
           },
+          ...(isAllProjects
+            ? [
+                {
+                  content: <InstanceProjectChip instance={instance} />,
+                  role: "cell",
+                  "aria-label": PROJECT,
+                  style: { width: `${COLUMN_WIDTHS[PROJECT]}px` },
+                },
+              ]
+            : []),
           ...(isClustered
             ? [
                 {
-                  content: instance.location,
+                  content: <InstanceClusterMemberChip instance={instance} />,
                   role: "cell",
                   "aria-label": CLUSTER_MEMBER,
-                  onClick: openSummary,
-                  className: "clickable-cell u-truncate",
-                  title: instance.location,
                   style: { width: `${COLUMN_WIDTHS[CLUSTER_MEMBER]}px` },
                 },
               ]
@@ -507,6 +540,7 @@ const InstanceList: FC = () => {
           status: instance.status,
           type: instance.type,
           snapshots: instance.snapshots?.length ?? 0,
+          project: instance.project,
         },
       };
     });
@@ -568,9 +602,11 @@ const InstanceList: FC = () => {
     instances.filter((item) => !creationNames.includes(item.name)).length +
     creationOperations.length;
 
-  const createInstanceRestriction = canCreateInstances(project)
+  const projectForCreation = isAllProjects ? defaultProject : project;
+  const projectForCreationName = projectForCreation?.name ?? "default";
+  const createInstanceRestriction = canCreateInstances(projectForCreation)
     ? ""
-    : `You do not have permission to create instances in project ${project.name}`;
+    : `You do not have permission to create instances in project ${projectForCreationName}`;
 
   return (
     <>
@@ -593,8 +629,9 @@ const InstanceList: FC = () => {
               {hasInstances && selectedNames.length === 0 && (
                 <PageHeader.Search>
                   <InstanceSearchFilter
-                    key={project.name}
+                    key={`${project?.name ?? ""}-${searchParams.get("search")}`}
                     instances={instances}
+                    hasProjectFilter={isAllProjects}
                   />
                 </PageHeader.Search>
               )}
@@ -625,10 +662,12 @@ const InstanceList: FC = () => {
                   appearance="positive"
                   className="u-float-right u-no-margin--bottom"
                   onClick={async () =>
-                    navigate(`/ui/project/${project.name}/instances/create`)
+                    navigate(
+                      `/ui/project/${projectForCreationName}/instances/create`,
+                    )
                   }
                   hasIcon={!isSmallScreen}
-                  disabled={!canCreateInstances(project)}
+                  disabled={!!createInstanceRestriction}
                   title={createInstanceRestriction}
                 >
                   {!isSmallScreen && <Icon name="plus" light />}
@@ -660,7 +699,9 @@ const InstanceList: FC = () => {
                         <SelectedTableNotification
                           totalCount={totalInstanceCount}
                           itemName="instance"
-                          parentName={`project: ${project.name}`}
+                          parentName={
+                            project ? `project: ${project?.name}` : undefined
+                          }
                           selectedNames={selectedNames}
                           setSelectedNames={setSelectedNames}
                           filteredNames={filteredInstances.map(
@@ -736,8 +777,10 @@ const InstanceList: FC = () => {
                 title="No instances found"
               >
                 <p>
-                  There are no instances in this project. Spin up your first
-                  instance!
+                  There are no instances in {project ? "this" : "any"} project.
+                  {canCreateInstances(project)
+                    ? " Spin up your first instance!"
+                    : ""}
                 </p>
                 <p>
                   <a
@@ -753,9 +796,11 @@ const InstanceList: FC = () => {
                   className="empty-state-button"
                   appearance="positive"
                   onClick={async () =>
-                    navigate(`/ui/project/${project.name}/instances/create`)
+                    navigate(
+                      `/ui/project/${projectForCreationName}/instances/create`,
+                    )
                   }
-                  disabled={!canCreateInstances(project)}
+                  disabled={!!createInstanceRestriction}
                   title={createInstanceRestriction}
                 >
                   Create instance
