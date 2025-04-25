@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/pages/instances/actions/OpenConsoleBtn.tsx</title>
+    <title>Code coverage report for src/pages/networks/NetworkForwardCount.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../sort-arrow-sprite.png);
+            background-image: url(../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/pages/instances/actions</a> OpenConsoleBtn.tsx</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/pages/networks</a> NetworkForwardCount.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.78% </span>
+                <span class="strong">77.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/33</span>
+                <span class='fraction'>24/31</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.78% </span>
+                <span class="strong">77.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/33</span>
+                <span class='fraction'>24/31</span>
             </div>
         
             
@@ -94,9 +94,7 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -115,53 +113,49 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
-import { useNavigate } from "react-router-dom";
-import type { LxdInstance } from "types/instance";
-import { Button, Icon } from "@canonical/react-components";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "util/queryKeys";
+import type { LxdNetwork } from "types/network";
+import { fetchNetworkForwards } from "api/network-forwards";
 &nbsp;
 interface Props {
-  instance: LxdInstance;
+  network: LxdNetwork;
+  project: string;
 }
 &nbsp;
-const OpenConsoleBtn: FC&lt;Props&gt; = ({ instance }) =&gt; {
-  const navigate = useNavigate();
+const NetworkForwardCount: FC&lt;Props&gt; = ({ network, project }) =&gt; {
+  if (network.managed === false || network.type === "physical") {
+    return &lt;&gt;-&lt;/&gt;;
+  }
 &nbsp;
-  const handleOpen = () =&gt; {
-    navigate(
-      `/ui/project/${instance.project}/instance/${instance.name}/console`,
-    );
-  };
-&nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >  return (</span></span>
-<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
-      aria-label="Open console"
-      appearance="base"
-      dense
-      hasIcon
-      onClick={handleOpen}
-      title="Console"
-    &gt;
-      &lt;Icon <span class="branch-0 cbranch-no" title="branch not covered" >name="canvas" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+  const { data: forwards = [], isLoading } = useQuery({
+    query<span class="branch-0 cbranch-no" title="branch not covered" >Key: [</span>
+<span class="cstat-no" title="statement not covered" >      queryKeys.projects,</span>
+      project,
+      queryKeys.networks,
+      network,
+      queryKeys.forwards,
+    ],
+    queryFn: async () =&gt; fetchNetworkForwards(netwo<span class="branch-0 cbranch-no" title="branch not covered" >rk.name, project),</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  return &lt;&gt;{isLoading ? "" : forwards.length}&lt;/&gt;;</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default OpenConsoleBtn;</span>
+<span class="cstat-no" title="statement not covered" >export default NetworkForwardCount;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -169,16 +163,16 @@ const OpenConsoleBtn: FC&lt;Props&gt; = ({ instance }) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-24T19:35:47.085Z
+                at 2025-04-25T12:53:32.005Z
             </div>
-        <script src="../../../../prettify.js"></script>
+        <script src="../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../sorter.js"></script>
-        <script src="../../../../block-navigation.js"></script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
     </body>
 </html>
     
