@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85% </span>
+                <span class="strong">86.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/60</span>
+                <span class='fraction'>57/66</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>9/18</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>48/48</span>
+                <span class='fraction'>54/54</span>
             </div>
         
             
@@ -111,7 +111,13 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">260x</span>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
@@ -135,30 +141,36 @@
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
-<span class="cline-any cline-yes">5333x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-yes">27927x</span>
-<span class="cline-any cline-yes">27927x</span>
+<span class="cline-any cline-yes">260x</span>
+<span class="cline-any cline-yes">260x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">5367x</span>
+<span class="cline-any cline-yes">260x</span>
+<span class="cline-any cline-yes">260x</span>
+<span class="cline-any cline-yes">28688x</span>
+<span class="cline-any cline-yes">28688x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC, ReactNode } from "react";
 import { createContext, useContext } from "react";
 import type { LxdProject } from "types/project";
@@ -167,13 +179,17 @@ import { useProject } from "./useProjects";
 import { useAuth } from "context/auth";
 &nbsp;
 interface ContextProps {
-  project?: LxdProject;
+  canViewProject: boolean;
+  isAllProjects: boolean;
   isLoading: boolean;
+  project?: LxdProject;
 }
 &nbsp;
 const initialState: ContextProps = {
-  project: undefined,
+  canViewProject: true,
+  isAllProjects: false,
   isLoading: true,
+  project: undefined,
 };
 &nbsp;
 export const ProjectContext = createContext&lt;ContextProps&gt;(initialState);
@@ -187,16 +203,18 @@ export const ProjectProvider: FC&lt;ProviderProps&gt; = <span class="fstat-no" t
   const location = <span class="cstat-no" title="statement not covered" >useLocation();</span>
   const url = <span class="cstat-no" title="statement not covered" >location.pathname;</span>
   const project = <span class="cstat-no" title="statement not covered" >url.startsWith("/ui/project/") ? url.split("/")[3] : "";</span>
+  const isAllProjects = <span class="cstat-no" title="statement not covered" >url.startsWith("/ui/all-projects/");</span>
 &nbsp;
-  const enabled = <span class="cstat-no" title="statement not covered" >project.length &gt; 0;</span>
-  const retry = <span class="cstat-no" title="statement not covered" >false;</span>
-  const { data, isLoading } = <span class="cstat-no" title="statement not covered" >useProject(project, enabled, retry);</span>
+  const enabled = <span class="cstat-no" title="statement not covered" >project.length &gt; 0 &amp;&amp; !isAllProjects;</span>
+  const { data, isLoading } = <span class="cstat-no" title="statement not covered" >useProject(project, enabled);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ProjectContext.Provider
       value={{
-        project: data,
+        canViewProject: isLoading || project === "" || data !== undefined,
+        isAllProjects,
         isLoading: isAuthLoading || isLoading,
+        project: data,
       }}
     &gt;
       {children}
@@ -214,7 +232,7 @@ export function <span class="fstat-no" title="function not covered" >useCurrentP
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-25T13:33:27.172Z
+                at 2025-04-25T13:52:07.814Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

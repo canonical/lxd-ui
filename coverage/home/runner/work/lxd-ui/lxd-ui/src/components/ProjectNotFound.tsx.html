@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/NoProject.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/components/ProjectNotFound.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> NoProject.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/components</a> ProjectNotFound.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.07% </span>
+                <span class="strong">23.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/41</span>
+                <span class='fraction'>7/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.44% </span>
+                <span class="strong">28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/36</span>
+                <span class='fraction'>7/25</span>
             </div>
         
             
@@ -88,33 +88,11 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">260x</span>
+<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
 <span class="cline-any cline-yes">260x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -139,7 +117,7 @@
 import { Row, Col } from "@canonical/react-components";
 import CustomLayout from "./CustomLayout";
 &nbsp;
-const NoProject: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
+const ProjectNotFound: FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" >  const url = <span class="cstat-no" title="statement not covered" >location.pathname;</span></span>
 <span class="cstat-no" title="statement not covered" >  const hasProjectInUrl = <span class="cstat-no" title="statement not covered" >url.startsWith("/ui/project/");</span></span>
 <span class="cstat-no" title="statement not covered" >  const project = <span class="cstat-no" title="statement not covered" >hasProjectInUrl ? url.split("/")[3] : "default";</span></span>
@@ -148,29 +126,18 @@ const NoProject: FC = <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >    &lt;CustomLayout mainClassName="no-match"&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;Row&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;Col size={6} className="col-start-large-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          {hasProjectInUrl ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h1 className="p-heading--4"&gt;Project not found&lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                The project &lt;code&gt;{project}&lt;/code&gt; is missing or you do not have</span>
-<span class="cstat-no" title="statement not covered" >                the &lt;code&gt;viewer&lt;/code&gt; permission for it.</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/&gt;</span>
-<span class="cstat-no" title="statement not covered" >          ) : (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h1 className="p-heading--4"&gt;Permission denied&lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                You do not have permission to view any project on this server.</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/&gt;</span>
-<span class="cstat-no" title="statement not covered" >          )}</span>
+<span class="cstat-no" title="statement not covered" >          &lt;h1 className="p-heading--4"&gt;Project not found&lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p&gt;</span>
+<span class="cstat-no" title="statement not covered" >            The project &lt;code&gt;{project}&lt;/code&gt; is missing or you do not have the{" "}</span>
+<span class="cstat-no" title="statement not covered" >            &lt;code&gt;viewer&lt;/code&gt; permission for it.</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/Col&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/Row&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/CustomLayout&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default NoProject;
+export default ProjectNotFound;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -178,7 +145,7 @@ export default NoProject;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-25T13:33:27.172Z
+                at 2025-04-25T13:52:07.814Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
