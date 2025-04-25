@@ -115,7 +115,7 @@ const PermissionIdpGroups: FC = () => {
       columns: [
         {
           content: idpGroup.name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "u-truncate",
           title: idpGroup.name,

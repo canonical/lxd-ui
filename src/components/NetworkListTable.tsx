@@ -68,7 +68,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices }) => {
                 to={`/ui/project/${project}/network/${network.name}`}
               />
             ),
-            role: "cell",
+            role: "rowheader",
             "aria-label": "Name",
           },
           {

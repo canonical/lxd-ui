@@ -100,7 +100,7 @@ const PermissionGroups: FC = () => {
       columns: [
         {
           content: group.name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "u-truncate name",
           title: group.name,

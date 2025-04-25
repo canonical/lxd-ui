@@ -176,10 +176,9 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
   const modifiedIdentities = calculatedModifiedIdentities();
 
   const headers = [
-    { content: "Identity", sortKey: "name", role: "rowheader" },
+    { content: "Identity", sortKey: "name" },
     {
       content: "",
-      role: "rowheader",
       "aria-label": "Modified status",
       className: "modified-status",
     },
@@ -228,7 +227,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
       columns: [
         {
           content: name,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Identity",
           title: canEditIdentity(identity)
             ? name

@@ -148,7 +148,7 @@ const PermissionIdentities: FC = () => {
               {name} <Tag isVisible={isLoggedInIdentity}>You</Tag>
             </>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           className: "u-truncate",
           title: name,

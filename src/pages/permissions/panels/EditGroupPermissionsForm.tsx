@@ -145,7 +145,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
         {
           content: permission.entity_type,
           title: permission.entity_type,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Resource type",
           className: "resource-type",
         },

@@ -48,7 +48,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
           columns: [
             {
               content: card.vendor,
-              role: "cell",
+              role: "rowheader",
               "aria-label": "Vendor",
               onClick: selectCard,
             },

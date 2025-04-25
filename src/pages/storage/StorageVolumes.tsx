@@ -222,7 +222,7 @@ const StorageVolumes: FC = () => {
               )}
             </>
           ),
-          role: "cell",
+          role: "rowheader",
           style: { width: COLUMN_WIDTHS[NAME_COL] },
           "aria-label": NAME_COL,
         },

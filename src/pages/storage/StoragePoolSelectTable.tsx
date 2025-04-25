@@ -51,7 +51,7 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
               {pool.name}
             </div>
           ),
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Name",
           onClick: selectPool,
         },

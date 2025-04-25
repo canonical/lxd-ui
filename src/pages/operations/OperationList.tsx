@@ -72,7 +72,7 @@ const OperationList: FC = () => {
               </div>
             </>
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Action",
           className: "action",
         },
@@ -89,7 +89,7 @@ const OperationList: FC = () => {
               )}
             </>
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Info",
           className: "info",
         },
@@ -103,13 +103,13 @@ const OperationList: FC = () => {
               {operation.status}
             </>
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Status",
           className: "status",
         },
         {
           content: <CancelOperationBtn operation={operation} />,
-          role: "rowheader",
+          role: "cell",
           className: "u-align--right cancel",
           "aria-label": "Actions",
         },

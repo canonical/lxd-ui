@@ -171,13 +171,13 @@ const NetworkList: FC = () => {
           },
           {
             content: renderNetworkType(network.type),
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Type",
             className: "type",
           },
           {
             content: network.managed ? "Yes" : "No",
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Managed",
             className: "managed",
           },
@@ -185,7 +185,7 @@ const NetworkList: FC = () => {
             ? [
                 {
                   content: <NetworkClusterMemberChip network={network} />,
-                  role: "rowheader",
+                  role: "cell",
                   "aria-label": "Cluster member",
                 },
               ]
@@ -193,12 +193,12 @@ const NetworkList: FC = () => {
           {
             content: network.config["ipv4.address"],
             className: "u-align--right",
-            role: "rowheader",
+            role: "cell",
             "aria-label": "IPV4",
           },
           {
             content: network.config["ipv6.address"],
-            role: "rowheader",
+            role: "cell",
             "aria-label": "IPV6",
           },
           {
@@ -207,26 +207,26 @@ const NetworkList: FC = () => {
                 {network.description}
               </div>
             ),
-            role: "rowheader",
+            role: "cell",
             "aria-label": "Description",
           },
           {
             content: (
               <NetworkForwardCount network={network} project={project} />
             ),
-            role: "rowheader",
+            role: "cell",
             className: "u-align--right forwards",
             "aria-label": "Forwards",
           },
           {
             content: network.used_by?.length ?? "0",
-            role: "rowheader",
+            role: "cell",
             className: "u-align--right used-by",
             "aria-label": "Used by",
           },
           {
             content: network.status,
-            role: "rowheader",
+            role: "cell",
             "aria-label": "State",
             className: "state",
           },

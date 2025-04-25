@@ -58,7 +58,10 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   const headers = [
     { content: "Listen address", sortKey: "listenAddress" },
     { content: "Description", sortKey: "description" },
-    { content: "Default target address", sortKey: "defaultTarget" },
+    {
+      content: "Default target address",
+      sortKey: "defaultTarget",
+    },
     { content: "Ports" },
     ...(isClusterMemberSpecific
       ? [
@@ -68,7 +71,10 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           },
         ]
       : []),
-    { "aria-label": "Actions", className: "u-align--right actions" },
+    {
+      "aria-label": "Actions",
+      className: "u-align--right actions",
+    },
   ];
 
   const rows = forwards.map((forward) => {
@@ -77,7 +83,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
       columns: [
         {
           content: forward.listen_address,
-          role: "cell",
+          role: "rowheader",
           "aria-label": "Listen address",
         },
         {
@@ -111,6 +117,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
                     to={`/ui/cluster`}
                   />
                 ),
+                role: "cell",
               },
             ]
           : []),
@@ -152,7 +159,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
               />
             </>
           ),
-          role: "rowheader",
+          role: "cell",
           className: "u-align--right actions",
           "aria-label": "Actions",
         },

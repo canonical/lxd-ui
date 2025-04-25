@@ -138,7 +138,7 @@ const ProfileList: FC = () => {
               {profile.description}
             </div>
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Description",
           onClick: openSummary,
           className: "clickable-cell",
@@ -154,7 +154,7 @@ const ProfileList: FC = () => {
               )}
             </>
           ),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Used by",
           onClick: openSummary,
           className: "clickable-cell",

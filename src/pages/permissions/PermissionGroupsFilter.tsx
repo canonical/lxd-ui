@@ -16,6 +16,8 @@ const PermissionGroupsFilter: FC<Props> = ({ onChange, value, disabled }) => {
     <div className="permission-groups-filter">
       <Input
         id="search-groups"
+        label="Search groups"
+        labelClassName="u-off-screen"
         name="search-groups"
         type="text"
         onChange={handleSearchChange}

@@ -152,20 +152,20 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
           : [
               {
                 content: isoTimeToString(snapshot.created_at),
-                role: "rowheader",
+                role: "cell",
                 "aria-label": "Created at",
                 className: "created",
               },
             ]),
         {
           content: isoTimeToString(snapshot.expires_at ?? ""),
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Expires at",
           className: "expiration",
         },
         {
           content: actions,
-          role: "rowheader",
+          role: "cell",
           "aria-label": "Actions",
           className: "u-align--right actions",
         },

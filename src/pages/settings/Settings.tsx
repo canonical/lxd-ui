@@ -134,7 +134,7 @@ const Settings: FC = () => {
             content: isNewCategory && (
               <h2 className="p-heading--5">{configField.category}</h2>
             ),
-            role: "cell",
+            role: "rowheader",
             className: "group",
             "aria-label": "Group",
           },

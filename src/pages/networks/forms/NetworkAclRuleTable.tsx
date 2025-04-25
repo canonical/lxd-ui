@@ -40,7 +40,7 @@ const NetworkAclRuleTable: FC<Props> = ({
           columns: [
             {
               content: capitalizeFirstLetter(rule.action ?? ""),
-              role: "cell",
+              role: "rowheader",
               "aria-label": "Action",
             },
             {
