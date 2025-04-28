@@ -431,19 +431,12 @@ export const uploadInstance = async (
 export const createInstanceBackup = async (
   instanceName: string,
   project: string,
-  expiresAt: string,
-  backupName: string,
+  payload: string,
 ): Promise<LxdOperationResponse> => {
   return new Promise((resolve, reject) => {
     fetch(`/1.0/instances/${instanceName}/backups?project=${project}`, {
       method: "POST",
-      body: JSON.stringify({
-        compression_algorithm: "gzip",
-        expires_at: expiresAt,
-        instance_only: false,
-        name: backupName,
-        optimized_storage: true,
-      }),
+      body: payload,
     })
       .then(handleResponse)
       .then((data: LxdOperationResponse) => {

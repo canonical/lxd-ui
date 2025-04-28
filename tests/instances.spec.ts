@@ -342,6 +342,7 @@ test("Export and Upload an instance backup", async ({ page }) => {
   const downloadPromise = page.waitForEvent("download");
 
   await page.getByRole("button", { name: "Export" }).click();
+  await page.getByRole("button", { name: "Export instance" }).click();
   const download = await downloadPromise;
   await page.waitForSelector(`text=Instance ${instance} download started`);
   const INSTANCE_FILE = "tests/fixtures/instance.tar.gz";
