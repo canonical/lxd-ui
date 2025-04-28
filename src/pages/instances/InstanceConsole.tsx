@@ -19,6 +19,7 @@ import AttachIsoBtn from "pages/instances/actions/AttachIsoBtn";
 import NotificationRow from "components/NotificationRow";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { isInstanceRunning } from "util/instanceStatus";
 
 interface Props {
   instance: LxdInstance;
@@ -32,7 +33,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
   const { canUpdateInstanceState, canAccessInstanceConsole } =
     useInstanceEntitlements();
 
-  const isRunning = instance.status === "Running";
+  const isRunning = isInstanceRunning(instance);
 
   const onFailure = (title: string, e: unknown, message?: string) => {
     notify.failure(title, e, message);
