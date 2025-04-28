@@ -70,3 +70,7 @@ export const driversWithFilesystemSupport = [
   cephDriver,
   pureStorage,
 ];
+
+export const isRemoteStorage = (driver: string) => {
+  return [cephDriver, cephFSDriver, powerFlex].includes(driver);
+};

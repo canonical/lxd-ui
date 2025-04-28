@@ -20,6 +20,9 @@ import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
 import { duplicateStorageVolume } from "api/storage-volumes";
+import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import { useStoragePool } from "context/useStoragePools";
+import { isRemoteStorage } from "util/storageOptions";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -31,6 +34,7 @@ export interface StorageVolumeDuplicate {
   project: string;
   pool: string;
   copySnapshots: boolean;
+  location: string;
 }
 
 const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
@@ -40,7 +44,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   const eventQueue = useEventQueue();
 
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
-
+  const { data: pool } = useStoragePool(volume.pool);
   const { data: volumes = [], isLoading: volumesLoading } =
     useLoadCustomVolumes(volume.project);
 
@@ -102,6 +106,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
       project: volume.project,
       copySnapshots: true,
       pool: volume.pool,
+      location: isRemoteStorage(pool?.driver ?? "") ? "" : volume.location,
     },
     enableReinitialize: true,
     validationSchema,
@@ -133,10 +138,12 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
         />
       );
 
-      const targetProject =
-        values.project === formik.initialValues.project ? "" : values.project;
-
-      duplicateStorageVolume(payload, values.pool, targetProject)
+      duplicateStorageVolume(
+        payload,
+        values.pool,
+        values.project,
+        values.location,
+      )
         .then((operation) => {
           toastNotify.info(
             <>Duplication of volume {existingVolumeLink} started.</>,
@@ -207,6 +214,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
             label: "Storage pool",
           }}
         />
+        {!isRemoteStorage(pool?.driver ?? "") && (
+          <ClusterMemberSelector {...formik.getFieldProps("location")} />
+        )}
         <Select
           {...formik.getFieldProps("project")}
           id="project"
