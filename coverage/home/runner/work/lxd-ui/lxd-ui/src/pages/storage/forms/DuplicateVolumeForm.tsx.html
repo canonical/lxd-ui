@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.65% </span>
+                <span class="strong">81.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>221/274</span>
+                <span class='fraction'>231/284</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.41% </span>
+                <span class="strong">52.17% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/39</span>
+                <span class='fraction'>24/46</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.24% </span>
+                <span class="strong">93.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>221/237</span>
+                <span class='fraction'>231/247</span>
             </div>
         
             
@@ -300,7 +300,21 @@
 <a name='L235'></a><a href='#L235'>235</a>
 <a name='L236'></a><a href='#L236'>236</a>
 <a name='L237'></a><a href='#L237'>237</a>
-<a name='L238'></a><a href='#L238'>238</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -408,6 +422,7 @@
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -447,13 +462,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -465,6 +473,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -559,6 +579,9 @@ import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
 import { duplicateStorageVolume } from "api/storage-volumes";
+import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
+import { useStoragePool } from "context/useStoragePools";
+import { isRemoteStorage } from "util/storageOptions";
 &nbsp;
 interface Props {
   volume: LxdStorageVolume;
@@ -570,6 +593,7 @@ export interface StorageVolumeDuplicate {
   project: string;
   pool: string;
   copySnapshots: boolean;
+  location: string;
 }
 &nbsp;
 const DuplicateVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> volume, close }) =&gt; {</span>
@@ -579,7 +603,7 @@ const DuplicateVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="state
   const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
 &nbsp;
   const { data: projects = [], isLoading: projectsLoading } = <span class="cstat-no" title="statement not covered" >useProjects();</span>
-&nbsp;
+  const { data: pool } = <span class="cstat-no" title="statement not covered" >useStoragePool(volume.pool);</span>
   const { data: volumes = [], isLoading: volumesLoading } =
 <span class="cstat-no" title="statement not covered" >    useLoadCustomVolumes(volume.project);</span>
 &nbsp;
@@ -641,6 +665,7 @@ const DuplicateVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="state
       project: volume.project,
       copySnapshots: true,
       pool: volume.pool,
+      location: isRemoteStorage(pool?.driver ?? <span class="branch-1 cbranch-no" title="branch not covered" >""<span class="branch-0 cbranch-no" title="branch not covered" >)</span> ? "" : v</span>olume.location,
     },
     enableReinitialize: true,
     validationSchema,
@@ -672,10 +697,12 @@ const DuplicateVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="state
         /&gt;
       );
 &nbsp;
-      const targetProject =
-<span class="cstat-no" title="statement not covered" >        values.project === formik.initialValues.project ? "" : values.project;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      duplicateStorageVolume(payload, values.pool, targetProject)</span>
+<span class="cstat-no" title="statement not covered" >      duplicateStorageVolume(</span>
+        payload,
+        values.pool,
+        values.project,
+        values.location,
+      )
         .then((operation) =&gt; {
 <span class="cstat-no" title="statement not covered" >          toastNotify.info(</span>
             &lt;&gt;Duplication of volume {existingVolumeLink} started.&lt;/&gt;,
@@ -746,6 +773,9 @@ const DuplicateVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="state
             label: "Storage pool",
           }}
         /&gt;
+        {!isRemoteStorage(pool?.driver ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span> &amp;&amp; (
+          &lt;ClusterMemberSelector {...formik.getFieldProps("location")} /&gt;
+        )}
         &lt;Select
           {...formik.getFieldProps("project")}
           id="project"
@@ -781,7 +811,7 @@ export default DuplicateVolumeForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-28T12:36:26.553Z
+                at 2025-04-28T17:56:18.357Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
