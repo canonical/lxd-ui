@@ -38,7 +38,7 @@ export const instanceNameValidation = (
       "deduplicate",
       "An instance with this name already exists",
       async (value, context) => {
-        // in some cases like duplicate instance or create instance from snapshot
+        // in some cases like copy instance or create instance from snapshot
         // we let the user choose a target project in the form. We should use
         // the target project instead of the current project in those cases.
         const targetProject =

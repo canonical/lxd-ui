@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type { LxdInstance } from "types/instance";
 import { Button, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
-import DuplicateInstanceForm from "../forms/DuplicateInstanceForm";
+import CopyInstanceForm from "../forms/CopyInstanceForm";
 import classNames from "classnames";
 import { useProject, useProjects } from "context/useProjects";
 import { useProjectEntitlements } from "util/entitlements/projects";
@@ -14,7 +14,7 @@ interface Props {
   onClose?: () => void;
 }
 
-const DuplicateInstanceBtn: FC<Props> = ({
+const CopyInstanceBtn: FC<Props> = ({
   instance,
   isLoading,
   classname,
@@ -32,10 +32,10 @@ const DuplicateInstanceBtn: FC<Props> = ({
 
   const getDisableReason = () => {
     const validTargetProjects = allProjects?.filter(canCreateInstances);
-    // when duplicating an instance, the user must always have permission to create instances in the source project
+    // when copying an instance, the user must always have permission to create instances in the source project
     // LXD internally creates a new instance in the source project and then copies it to the target project
     if (!canCreateInstances(currentProject) || !validTargetProjects?.length) {
-      return "You do not have permission to duplicate instances";
+      return "You do not have permission to copy instances";
     }
 
     if (isLoading) {
@@ -49,22 +49,22 @@ const DuplicateInstanceBtn: FC<Props> = ({
     <>
       {isOpen && (
         <Portal>
-          <DuplicateInstanceForm close={handleClose} instance={instance} />
+          <CopyInstanceForm close={handleClose} instance={instance} />
         </Portal>
       )}
       <Button
         appearance="default"
-        aria-label="Duplicate instance"
+        aria-label="Copy instance"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         disabled={Boolean(getDisableReason())}
         onClick={openPortal}
-        title={getDisableReason() || "Duplicate instance"}
+        title={getDisableReason() || "Copy instance"}
       >
         <Icon name="canvas" />
-        <span>Duplicate</span>
+        <span>Copy</span>
       </Button>
     </>
   );
 };
 
-export default DuplicateInstanceBtn;
+export default CopyInstanceBtn;
