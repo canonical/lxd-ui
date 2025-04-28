@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import NotificationRow from "components/NotificationRow";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { testDuplicateStorageVolumeName } from "util/storageVolume";
+import { testCopyStorageVolumeName } from "util/storageVolume";
 import BaseLayout from "components/BaseLayout";
 import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeForm";
 import { volumeFormToPayload } from "pages/storage/forms/StorageVolumeForm";
@@ -36,9 +36,7 @@ const CreateStorageVolume: FC = () => {
 
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
-      .test(
-        ...testDuplicateStorageVolumeName(project, "custom", controllerState),
-      )
+      .test(...testCopyStorageVolumeName(project, "custom", controllerState))
       .required("This field is required"),
   });
 

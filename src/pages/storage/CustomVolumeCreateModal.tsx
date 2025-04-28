@@ -10,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import StorageVolumeFormMain from "pages/storage/forms/StorageVolumeFormMain";
 import { updateMaxHeight } from "util/updateMaxHeight";
 import useEventListener from "util/useEventListener";
-import { testDuplicateStorageVolumeName } from "util/storageVolume";
+import { testCopyStorageVolumeName } from "util/storageVolume";
 import type { LxdStorageVolume } from "types/storage";
 import { useSettings } from "context/useSettings";
 import { useStoragePools } from "context/useStoragePools";
@@ -39,9 +39,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
 
   const StorageVolumeSchema = Yup.object().shape({
     name: Yup.string()
-      .test(
-        ...testDuplicateStorageVolumeName(project, "custom", controllerState),
-      )
+      .test(...testCopyStorageVolumeName(project, "custom", controllerState))
       .required("This field is required"),
   });
 

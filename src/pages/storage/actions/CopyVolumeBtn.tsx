@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import DuplicateVolumeForm from "../forms/DuplicateVolumeForm";
+import CopyVolumeForm from "../forms/CopyVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
 import { usePortal } from "@canonical/react-components";
 import { useProjectEntitlements } from "util/entitlements/projects";
@@ -12,7 +12,7 @@ interface Props {
   className?: string;
 }
 
-const DuplicateVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
+const CopyVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canCreateStorageVolumes } = useProjectEntitlements();
   const { data: project } = useProject(volume.project);
@@ -26,26 +26,26 @@ const DuplicateVolumeBtn: FC<Props> = ({ volume, className, onClose }) => {
     <>
       {isOpen && (
         <Portal>
-          <DuplicateVolumeForm close={handleClose} volume={volume} />
+          <CopyVolumeForm close={handleClose} volume={volume} />
         </Portal>
       )}
       <Button
         appearance="default"
-        aria-label="Duplicate volume"
+        aria-label="Copy volume"
         className={className}
         onClick={openPortal}
         title={
           canCreateStorageVolumes(project)
-            ? "Duplicate volume"
-            : "You do not have permission to duplicate this volume"
+            ? "Copy volume"
+            : "You do not have permission to copy this volume"
         }
         disabled={!canCreateStorageVolumes(project)}
       >
         <Icon name="canvas" />
-        <span>Duplicate</span>
+        <span>Copy</span>
       </Button>
     </>
   );
 };
 
-export default DuplicateVolumeBtn;
+export default CopyVolumeBtn;

@@ -240,7 +240,7 @@ export const migrateStorageVolume = async (
 
 // Including project and target params if they did not change from source configs breaks the API call.
 // Therefore, we only include them if they are different from the source configs, that's why both project and target are optional inputs
-export const duplicateStorageVolume = async (
+export const copyStorageVolume = async (
   volume: Partial<LxdStorageVolume>,
   pool: string,
   project?: string,

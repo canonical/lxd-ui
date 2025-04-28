@@ -94,7 +94,7 @@ export const migrateVolume = async (
   );
 };
 
-export const duplicateStorageVolume = async (
+export const copyStorageVolume = async (
   page: Page,
   volume: string,
   targetPool?: string,
@@ -102,7 +102,7 @@ export const duplicateStorageVolume = async (
 ) => {
   const newVolumeName = randomVolumeName();
   await visitVolume(page, volume);
-  await page.getByLabel("Duplicate volume").click();
+  await page.getByLabel("Copy volume").click();
   await page.getByLabel("New volume name").click();
   await page.getByLabel("New volume name").fill(newVolumeName);
   if (targetPool) {
@@ -112,8 +112,8 @@ export const duplicateStorageVolume = async (
   if (targetProject) {
     await page.getByLabel("Target project").selectOption(targetProject);
   }
-  await page.getByRole("button", { name: "Duplicate", exact: true }).click();
-  await page.waitForSelector(`text=Duplication of volume ${volume} started.`);
+  await page.getByRole("button", { name: "Copy", exact: true }).click();
+  await page.waitForSelector(`text=Copy of volume ${volume} started.`);
   await page.waitForSelector(`text=Created volume ${newVolumeName}.`);
   return newVolumeName;
 };

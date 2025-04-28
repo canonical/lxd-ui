@@ -6,12 +6,12 @@ import RenameHeader from "components/RenameHeader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
-import { testDuplicateStorageVolumeName } from "util/storageVolume";
+import { testCopyStorageVolumeName } from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import MigrateVolumeBtn from "./MigrateVolumeBtn";
-import DuplicateVolumeBtn from "./actions/DuplicateVolumeBtn";
+import CopyVolumeBtn from "./actions/CopyVolumeBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
@@ -44,7 +44,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
   const RenameSchema = Yup.object().shape({
     name: Yup.string()
       .test(
-        ...testDuplicateStorageVolumeName(
+        ...testCopyStorageVolumeName(
           project,
           volume.type,
           controllerState,
@@ -107,7 +107,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
               classname={classname}
             />
             {hasClusterInternalCustomVolumeCopy && (
-              <DuplicateVolumeBtn volume={volume} className={classname} />
+              <CopyVolumeBtn volume={volume} className={classname} />
             )}
             <DeleteStorageVolumeBtn
               label="Delete"
