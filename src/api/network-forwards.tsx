@@ -6,22 +6,17 @@ export const fetchNetworkForwards = async (
   network: string,
   project: string,
 ): Promise<LxdNetworkForward[]> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${network}/forwards?project=${project}&recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetworkForward[]>) => {
-        resolve(
-          data.metadata.sort(
-            (a, b) =>
-              a.listen_address.localeCompare(b.listen_address) * 10 +
-              (a.location && b.location
-                ? a.location.localeCompare(b.location)
-                : 0),
-          ),
-        );
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/networks/${network}/forwards?project=${project}&recursion=1`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdNetworkForward[]>) => {
+      return data.metadata.sort(
+        (a, b) =>
+          a.listen_address.localeCompare(b.listen_address) * 10 +
+          (a.location && b.location ? a.location.localeCompare(b.location) : 0),
+      );
+    });
 };
 
 export const fetchNetworkForward = async (
@@ -31,16 +26,13 @@ export const fetchNetworkForward = async (
   location?: string,
 ): Promise<LxdNetworkForward> => {
   const target = location ? `&target=${location}` : "";
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/networks/${network}/forwards/${listenAddress}?project=${project}&recursion=1${target}`,
-    )
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetworkForward>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/networks/${network}/forwards/${listenAddress}?project=${project}&recursion=1${target}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdNetworkForward>) => {
+      return data.metadata;
+    });
 };
 
 export const createNetworkForward = async (
@@ -49,19 +41,19 @@ export const createNetworkForward = async (
   project: string,
 ): Promise<string> => {
   const target = forward.location ? `&target=${forward.location}` : "";
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${network}/forwards?project=${project}${target}`, {
+  return fetch(
+    `/1.0/networks/${network}/forwards?project=${project}${target}`,
+    {
       method: "POST",
       body: JSON.stringify(forward),
-    })
-      .then(handleRawResponse)
-      .then((response) => {
-        const locationHeader = response.headers.get("Location");
-        const listenAddress = locationHeader?.split("/").pop() ?? "";
-        resolve(listenAddress);
-      })
-      .catch(reject);
-  });
+    },
+  )
+    .then(handleRawResponse)
+    .then((response) => {
+      const locationHeader = response.headers.get("Location");
+      const listenAddress = locationHeader?.split("/").pop() ?? "";
+      return listenAddress;
+    });
 };
 
 export const updateNetworkForward = async (
@@ -70,18 +62,13 @@ export const updateNetworkForward = async (
   project: string,
 ): Promise<void> => {
   const target = forward.location ? `&target=${forward.location}` : "";
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/networks/${network}/forwards/${forward.listen_address}?project=${project}${target}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(forward),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(
+    `/1.0/networks/${network}/forwards/${forward.listen_address}?project=${project}${target}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(forward),
+    },
+  ).then(handleResponse);
 };
 
 export const deleteNetworkForward = async (
@@ -90,15 +77,10 @@ export const deleteNetworkForward = async (
   project: string,
 ): Promise<void> => {
   const target = forward.location ? `&target=${forward.location}` : "";
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/networks/${network.name}/forwards/${forward.listen_address}?project=${project}${target}`,
-      {
-        method: "DELETE",
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(
+    `/1.0/networks/${network.name}/forwards/${forward.listen_address}?project=${project}${target}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };

@@ -10,7 +10,7 @@ import axios from "axios";
 import type { LxdApiResponse } from "types/apiResponse";
 import { withEntitlementsQuery } from "util/entitlements/api";
 
-export const storageVolumeEntitlements = [
+export const volumeEntitlements = [
   "can_delete",
   "can_edit",
   "can_manage_snapshots",
@@ -21,38 +21,28 @@ export const fetchStorageVolumes = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    storageVolumeEntitlements,
-  );
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
-    )
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
-        resolve(data.metadata.map((volume) => ({ ...volume, pool })));
-      })
-      .catch(reject);
-  });
+  const entitlements = withEntitlementsQuery(isFineGrained, volumeEntitlements);
+  return fetch(
+    `/1.0/storage-pools/${pool}/volumes?project=${project}&recursion=1${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
+      return data.metadata.map((volume) => ({ ...volume, pool }));
+    });
 };
 
 export const fetchAllStorageVolumes = async (
   project: string,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume[]> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    storageVolumeEntitlements,
-  );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  const entitlements = withEntitlementsQuery(isFineGrained, volumeEntitlements);
+  return fetch(
+    `/1.0/storage-volumes?recursion=1&project=${project}${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageVolume[]>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchStorageVolume = async (
@@ -63,21 +53,15 @@ export const fetchStorageVolume = async (
   target: string | null,
   isFineGrained: boolean | null,
 ): Promise<LxdStorageVolume> => {
-  const entitlements = withEntitlementsQuery(
-    isFineGrained,
-    storageVolumeEntitlements,
-  );
+  const entitlements = withEntitlementsQuery(isFineGrained, volumeEntitlements);
   const targetParam = getTargetParam(target);
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}${targetParam}&recursion=1${entitlements}`,
-    )
-      .then(handleEtagResponse)
-      .then((data) => {
-        resolve({ ...data, pool } as LxdStorageVolume);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/storage-pools/${pool}/volumes/${type}/${volume}?project=${project}${targetParam}&recursion=1${entitlements}`,
+  )
+    .then(handleEtagResponse)
+    .then((data) => {
+      return { ...data, pool } as LxdStorageVolume;
+    });
 };
 
 export const fetchStorageVolumeState = async (
@@ -88,16 +72,13 @@ export const fetchStorageVolumeState = async (
   target?: string,
 ): Promise<LxdStorageVolumeState> => {
   const targetParam = getTargetParam(target);
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volume}/state?project=${project}${targetParam}&recursion=1`,
-    )
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdStorageVolumeState>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/storage-pools/${pool}/volumes/${type}/${volume}/state?project=${project}${targetParam}&recursion=1`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdStorageVolumeState>) => {
+      return data.metadata;
+    });
 };
 
 export const renameStorageVolume = async (
@@ -107,20 +88,15 @@ export const renameStorageVolume = async (
   target: string | null = null,
 ): Promise<void> => {
   const targetParam = getTargetParam(target);
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: newName,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(
+    `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: newName,
+      }),
+    },
+  ).then(handleResponse);
 };
 
 export const createIsoStorageVolume = async (
@@ -131,31 +107,27 @@ export const createIsoStorageVolume = async (
   setUploadState: (value: UploadState) => void,
   uploadController: AbortController,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(
-        `/1.0/storage-pools/${pool}/volumes/custom?project=${project}`,
-        isoFile,
-        {
-          headers: {
-            "Content-Type": "application/octet-stream",
-            "X-LXD-name": name,
-            "X-LXD-type": "iso",
-          },
-          onUploadProgress: (event) => {
-            setUploadState({
-              percentage: event.progress ? Math.floor(event.progress * 100) : 0,
-              loaded: event.loaded,
-              total: event.total,
-            });
-          },
-          signal: uploadController.signal,
+  return axios
+    .post(
+      `/1.0/storage-pools/${pool}/volumes/custom?project=${project}`,
+      isoFile,
+      {
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "X-LXD-name": name,
+          "X-LXD-type": "iso",
         },
-      )
-      .then((response: AxiosResponse<LxdOperationResponse>) => response.data)
-      .then(resolve)
-      .catch(reject);
-  });
+        onUploadProgress: (event) => {
+          setUploadState({
+            percentage: event.progress ? Math.floor(event.progress * 100) : 0,
+            loaded: event.loaded,
+            total: event.total,
+          });
+        },
+        signal: uploadController.signal,
+      },
+    )
+    .then((response: AxiosResponse<LxdOperationResponse>) => response.data);
 };
 
 export const createStorageVolume = async (
@@ -165,19 +137,13 @@ export const createStorageVolume = async (
   target?: string,
 ): Promise<void> => {
   const targetParam = target ? `&target=${target}` : "";
-
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${pool}/volumes?project=${project}${targetParam}`,
-      {
-        method: "POST",
-        body: JSON.stringify(volume),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(
+    `/1.0/storage-pools/${pool}/volumes?project=${project}${targetParam}`,
+    {
+      method: "POST",
+      body: JSON.stringify(volume),
+    },
+  ).then(handleResponse);
 };
 
 export const updateStorageVolume = async (
@@ -187,21 +153,16 @@ export const updateStorageVolume = async (
   target?: string,
 ): Promise<void> => {
   const targetParam = getTargetParam(target);
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(volume),
-        headers: {
-          "If-Match": volume.etag ?? "invalid-etag",
-        },
+  await fetch(
+    `/1.0/storage-pools/${pool}/volumes/${volume.type}/${volume.name}?project=${project}${targetParam}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(volume),
+      headers: {
+        "If-Match": volume.etag ?? "invalid-etag",
       },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+    },
+  ).then(handleResponse);
 };
 
 export const deleteStorageVolume = async (
@@ -211,17 +172,12 @@ export const deleteStorageVolume = async (
   target?: string,
 ): Promise<void> => {
   const targetParam = getTargetParam(target);
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${pool}/volumes/custom/${volume}?project=${project}${targetParam}`,
-      {
-        method: "DELETE",
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(
+    `/1.0/storage-pools/${pool}/volumes/custom/${volume}?project=${project}${targetParam}`,
+    {
+      method: "DELETE",
+    },
+  ).then(handleResponse);
 };
 
 export const migrateStorageVolume = async (
@@ -231,21 +187,20 @@ export const migrateStorageVolume = async (
   target?: string,
 ): Promise<LxdOperationResponse> => {
   const targetParam = getTargetParam(target);
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}?project=${targetProject}${targetParam}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: volume.name,
-          pool: targetPool,
-        }),
-      },
-    )
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}?project=${targetProject}${targetParam}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name: volume.name,
+        pool: targetPool,
+      }),
+    },
+  )
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 // Including project and target params if they did not change from source configs breaks the API call.
@@ -256,31 +211,22 @@ export const copyStorageVolume = async (
   project?: string,
   target?: string,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    const url = new URL(
-      `/1.0/storage-pools/${pool}/volumes/custom`,
-      window.location.origin,
-    );
-    const params = new URLSearchParams();
-
-    if (project) {
-      params.append("project", project);
-    }
-
-    if (target) {
-      params.append("target", target);
-    }
-
-    url.search = params.toString();
-
-    fetch(url.toString(), {
-      method: "POST",
-      body: JSON.stringify(volume),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  const params = new URLSearchParams();
+  if (project) {
+    params.append("project", project);
+  }
+  if (target) {
+    params.append("target", target);
+  }
+  const queryString = params.toString();
+  return fetch(`/1.0/storage-pools/${pool}/volumes/custom?${queryString}`, {
+    method: "POST",
+    body: JSON.stringify(volume),
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const getTargetParam = (target?: string | null) => {

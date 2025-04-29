@@ -8,15 +8,11 @@ export const fetchMetrics = async (
   // with instance.location as "none". Handle it, to avoid sending an invalid target
   const params = target === "none" ? "" : `?target=${target}`;
 
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/metrics${params}`)
-      .then(async (response) => {
-        return response.text();
-      })
-      .then((text) => {
-        const json = parsePrometheusTextFormat(text);
-        resolve(json);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/metrics${params}`)
+    .then(async (response) => {
+      return response.text();
+    })
+    .then((text) => {
+      return parsePrometheusTextFormat(text);
+    });
 };
