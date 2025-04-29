@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/actions/DuplicateVolumeBtn.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/actions/CopyVolumeBtn.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/actions</a> DuplicateVolumeBtn.tsx</h1>
+        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/actions</a> CopyVolumeBtn.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -129,45 +129,45 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-yes">121x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { Button, Icon } from "@canonical/react-components";
-import DuplicateVolumeForm from "../forms/DuplicateVolumeForm";
+import CopyVolumeForm from "../forms/CopyVolumeForm";
 import type { LxdStorageVolume } from "types/storage";
 import { usePortal } from "@canonical/react-components";
 import { useProjectEntitlements } from "util/entitlements/projects";
@@ -179,7 +179,7 @@ interface Props {
   className?: string;
 }
 &nbsp;
-const DuplicateVolumeBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> volume, className, onClose }) =&gt; {</span>
+const CopyVolumeBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> volume, className, onClose }) =&gt; {</span>
   const { openPortal, closePortal, isOpen, Portal } = <span class="cstat-no" title="statement not covered" >usePortal();</span>
   const { canCreateStorageVolumes } = <span class="cstat-no" title="statement not covered" >useProjectEntitlements();</span>
   const { data: project } = <span class="cstat-no" title="statement not covered" >useProject(volume.project);</span>
@@ -193,29 +193,29 @@ const DuplicateVolumeBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statem
     &lt;&gt;
       {isOpen &amp;&amp; (
         &lt;Portal&gt;
-          &lt;DuplicateVolumeForm close={handleClose} volume={volume} /&gt;
+          &lt;CopyVolumeForm close={handleClose} volume={volume} /&gt;
         &lt;/Portal&gt;
       )}
       &lt;Button
         appearance="default"
-        aria-label="Duplicate volume"
+        aria-label="Copy volume"
         className={className}
         onClick={openPortal}
         title={
           canCreateStorageVolumes(project)
-            ? <span class="branch-0 cbranch-no" title="branch not covered" >"Duplicate volume"</span>
-<span class="cstat-no" title="statement not covered" >            : "You do not have permission to duplicate this volume"</span>
+            ? <span class="branch-0 cbranch-no" title="branch not covered" >"Copy volume"</span>
+<span class="cstat-no" title="statement not covered" >            : "You do not have permission to copy this volume"</span>
         }
         disabled={!canCreateStorageVolumes(project)}
       &gt;
         &lt;Icon name="canvas" /&gt;
-        &lt;span&gt;Duplicate&lt;/span&gt;
+        &lt;span&gt;Copy&lt;/span&gt;
       &lt;/Button&gt;
     &lt;/&gt;
   );
 };
 &nbsp;
-export default DuplicateVolumeBtn;
+export default CopyVolumeBtn;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -223,7 +223,7 @@ export default DuplicateVolumeBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-28T17:56:18.357Z
+                at 2025-04-29T12:19:55.171Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
