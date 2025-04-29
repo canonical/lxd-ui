@@ -18,6 +18,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
       volume.type,
       volume.name,
       volume.project,
+      volume.location,
     ],
     queryFn: async () =>
       fetchStorageVolumeState(
@@ -25,6 +26,7 @@ const StorageVolumeSize: FC<Props> = ({ volume }) => {
         volume.project,
         volume.type,
         volume.name,
+        volume.location,
       ),
     enabled: volume.type !== "image",
   });

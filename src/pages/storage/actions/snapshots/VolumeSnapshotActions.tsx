@@ -20,8 +20,8 @@ import VolumeEditSnapshotBtn from "./VolumeEditSnapshotBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
 import ResourceLabel from "components/ResourceLabel";
 import VolumeSnapshotLinkChip from "pages/storage/VolumeSnapshotLinkChip";
-import ResourceLink from "components/ResourceLink";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -36,14 +36,6 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
   const [isRestoring, setRestoring] = useState(false);
   const queryClient = useQueryClient();
   const { canManageStorageVolumeSnapshots } = useStorageVolumeEntitlements();
-
-  const volumeLink = (
-    <ResourceLink
-      type="volume"
-      value={volume.name}
-      to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-    />
-  );
 
   const getTitle = (action: string) => {
     return canManageStorageVolumeSnapshots(volume)
@@ -65,7 +57,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
               <>
                 Snapshot{" "}
                 <ResourceLabel bold type="snapshot" value={snapshot.name} />{" "}
-                deleted for volume {volumeLink}.
+                deleted for volume <VolumeLinkChip volume={volume} />.
               </>,
             ),
           (msg) =>
@@ -98,7 +90,7 @@ const VolumeSnapshotActions: FC<Props> = ({ volume, snapshot }) => {
           <>
             Snapshot{" "}
             <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />{" "}
-            restored for volume {volumeLink}.
+            restored for volume <VolumeLinkChip volume={volume} />.
           </>,
         );
       })

@@ -61,7 +61,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
   const handleDelete = () => {
     setLoading(true);
 
-    deleteStorageVolume(volume.name, volume.pool, project)
+    deleteStorageVolume(volume.name, volume.pool, project, volume.location)
       .then(onFinish)
       .catch((e) => {
         notify.failure("Storage volume deletion failed", e);
@@ -80,6 +80,7 @@ const DeleteStorageVolumeBtn: FC<Props> = ({
             volume.pool,
             queryKeys.volumes,
             project,
+            volume.location,
           ],
         });
         queryClient.invalidateQueries({

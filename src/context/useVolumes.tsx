@@ -52,11 +52,19 @@ export const useStorageVolume = (
   project: string,
   type: string,
   volume: string,
+  target?: string,
 ): UseQueryResult<LxdStorageVolume> => {
   const { isFineGrained } = useAuth();
   return useQuery({
-    queryKey: [queryKeys.storage, pool, project, type, volume],
+    queryKey: [queryKeys.storage, pool, project, type, volume, target],
     queryFn: async () =>
-      fetchStorageVolume(pool, project, type, volume, isFineGrained),
+      fetchStorageVolume(
+        pool,
+        project,
+        type,
+        volume,
+        target ?? null,
+        isFineGrained,
+      ),
   });
 };

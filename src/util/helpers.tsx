@@ -173,7 +173,8 @@ export const checkDuplicateName = async (
   candidate: string | undefined,
   project: string,
   controllerState: AbortControllerState,
-  target: string,
+  basePath: string,
+  params = "",
 ) => {
   if (!candidate) {
     return true;
@@ -183,7 +184,7 @@ export const checkDuplicateName = async (
   const deduplicateController = new AbortController();
   setController(deduplicateController);
   const signal = deduplicateController.signal;
-  return fetch(`/1.0/${target}/${candidate}?project=${project}`, {
+  return fetch(`/1.0/${basePath}/${candidate}?project=${project}${params}`, {
     signal,
   }).then((response) => response.status === 404);
 };
