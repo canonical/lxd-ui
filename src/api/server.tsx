@@ -11,15 +11,12 @@ import type { LxdClusterMember } from "types/cluster";
 import type { ClusterSpecificValues } from "components/ClusterSpecificSelect";
 
 export const fetchSettings = async (target?: string): Promise<LxdSettings> => {
-  return new Promise((resolve, reject) => {
-    const targetQueryParam = target ? `?target=${target}` : "";
-    fetch(`/1.0${targetQueryParam}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdSettings>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  const targetQueryParam = target ? `?target=${target}` : "";
+  return fetch(`/1.0${targetQueryParam}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdSettings>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchSettingsFromClusterMembers = async (
@@ -57,17 +54,12 @@ export const updateSettings = async (
   target?: string,
 ): Promise<void> => {
   const targetQueryParam = target ? `?target=${target}` : "";
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0${targetQueryParam}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        config,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0${targetQueryParam}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      config,
+    }),
+  }).then(handleResponse);
 };
 
 export const updateClusteredSettings = async (
@@ -98,50 +90,37 @@ export const updateClusteredSettings = async (
 };
 
 export const fetchResources = async (): Promise<LxdResources> => {
-  return new Promise((resolve, reject) => {
-    fetch("/1.0/resources")
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdResources>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch("/1.0/resources")
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdResources>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchConfigOptions = async (
   hasMetadataConfiguration: boolean,
 ): Promise<LxdMetadata | null> => {
   if (!hasMetadataConfiguration) {
-    return new Promise((resolve) => {
-      resolve(null);
-    });
+    return null;
   }
 
-  return new Promise((resolve, reject) => {
-    fetch("/1.0/metadata/configuration")
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdMetadata>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch("/1.0/metadata/configuration")
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdMetadata>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchDocObjects = async (
   hasDocumentationObject: boolean,
 ): Promise<string[]> => {
   if (!hasDocumentationObject) {
-    return new Promise((resolve) => {
-      resolve([]);
-    });
+    return [];
   }
 
-  return new Promise((resolve, reject) => {
-    fetch("/documentation/objects.inv.txt")
-      .then(handleTextResponse)
-      .then((data) => {
-        resolve(data.split("\n"));
-      })
-      .catch(reject);
-  });
+  return fetch("/documentation/objects.inv.txt")
+    .then(handleTextResponse)
+    .then((data) => {
+      return data.split("\n");
+    });
 };
