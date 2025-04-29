@@ -362,7 +362,8 @@ body {
 }
 
 .create-instance-from-snapshot-modal,
-.duplicate-instances-modal,
+.copy-instances-modal,
+.copy-volumes-modal,
 .create-image-from-instance-modal,
 .export-instance-modal {
   .p-modal__dialog {

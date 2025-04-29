@@ -19,17 +19,17 @@ import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
 import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
-import { duplicateStorageVolume } from "api/storage-volumes";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useStoragePool } from "context/useStoragePools";
 import { isRemoteStorage } from "util/storageOptions";
+import { copyStorageVolume } from "api/storage-volumes";
 
 interface Props {
   volume: LxdStorageVolume;
   close: () => void;
 }
 
-export interface StorageVolumeDuplicate {
+export interface StorageVolumeCopy {
   name: string;
   project: string;
   pool: string;
@@ -37,7 +37,7 @@ export interface StorageVolumeDuplicate {
   location: string;
 }
 
-const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
+const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
   const navigate = useNavigate();
@@ -67,8 +67,8 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
     toastNotify.success(message, actions);
   };
 
-  const getDuplicatedVolumeName = (volume: LxdStorageVolume): string => {
-    const newVolumeName = volume.name + "-duplicate";
+  const getCopiedVolumeName = (volume: LxdStorageVolume): string => {
+    const newVolumeName = volume.name + "-copy";
     return getUniqueResourceName(newVolumeName, volumes);
   };
 
@@ -100,9 +100,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
       });
     });
 
-  const formik = useFormik<StorageVolumeDuplicate>({
+  const formik = useFormik<StorageVolumeCopy>({
     initialValues: {
-      name: getDuplicatedVolumeName(volume),
+      name: getCopiedVolumeName(volume),
       project: volume.project,
       copySnapshots: true,
       pool: volume.pool,
@@ -138,16 +138,9 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
         />
       );
 
-      duplicateStorageVolume(
-        payload,
-        values.pool,
-        values.project,
-        values.location,
-      )
+      copyStorageVolume(payload, values.pool, values.project, values.location)
         .then((operation) => {
-          toastNotify.info(
-            <>Duplication of volume {existingVolumeLink} started.</>,
-          );
+          toastNotify.info(<>Copy of volume {existingVolumeLink} started.</>);
           eventQueue.set(
             operation.metadata.id,
             () => {
@@ -155,7 +148,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
             },
             (msg) =>
               toastNotify.failure(
-                "Volume duplication failed.",
+                "Volume copy failed.",
                 new Error(msg),
                 existingVolumeLink,
               ),
@@ -163,11 +156,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
           close();
         })
         .catch((e) => {
-          toastNotify.failure(
-            "Volume duplication failed.",
-            e,
-            existingVolumeLink,
-          );
+          toastNotify.failure("Volume copy failed.", e, existingVolumeLink);
         });
     },
   });
@@ -175,8 +164,8 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   return (
     <Modal
       close={close}
-      className="duplicate-instances-modal"
-      title="Duplicate volume"
+      className="copy-volumes-modal"
+      title="Copy volume"
       buttonRow={
         <>
           <Button
@@ -194,7 +183,7 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
             disabled={!formik.isValid || projectsLoading || volumesLoading}
             onClick={() => void formik.submitForm()}
           >
-            Duplicate
+            Copy
           </ActionButton>
         </>
       }
@@ -244,4 +233,4 @@ const DuplicateVolumeForm: FC<Props> = ({ volume, close }) => {
   );
 };
 
-export default DuplicateVolumeForm;
+export default CopyVolumeForm;
