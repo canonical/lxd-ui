@@ -17,8 +17,8 @@ import { slugify } from "util/slugify";
 import { POOL } from "../StorageVolumesFilter";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
-import ResourceLink from "components/ResourceLink";
 import { createStorageVolume } from "api/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 const CreateStorageVolume: FC = () => {
   const navigate = useNavigate();
@@ -71,14 +71,13 @@ const CreateStorageVolume: FC = () => {
             predicate: (query) => query.queryKey[0] === queryKeys.volumes,
           });
           navigate(`/ui/project/${project}/storage/volumes`);
+          const volumeWithLocation = {
+            ...volume,
+            location: values.clusterMember ?? "none",
+          };
           toastNotify.success(
             <>
-              Storage volume{" "}
-              <ResourceLink
-                type="volume"
-                value={values.name}
-                to={`/ui/project/${project}/storage/pool/${values.pool}/volumes/custom/${values.name}`}
-              />{" "}
+              Storage volume <VolumeLinkChip volume={volumeWithLocation} />{" "}
               created.
             </>,
           );

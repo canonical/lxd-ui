@@ -16,9 +16,10 @@ import { slugify } from "util/slugify";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import FormSubmitBtn from "components/forms/FormSubmitBtn";
-import ResourceLink from "components/ResourceLink";
 import { updateStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
+import { linkForVolumeDetail } from "util/storageVolume";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
@@ -51,10 +52,15 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       const saveVolume = volumeFormToPayload(values, project, volume);
-      updateStorageVolume(values.pool, project, {
-        ...saveVolume,
-        etag: volume.etag,
-      })
+      updateStorageVolume(
+        values.pool,
+        project,
+        {
+          ...saveVolume,
+          etag: volume.etag,
+        },
+        volume.location,
+      )
         .then(() => {
           void formik.setValues(getStorageVolumeEditValues(saveVolume));
           queryClient.invalidateQueries({
@@ -71,13 +77,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
           });
           toastNotify.success(
             <>
-              Storage volume{" "}
-              <ResourceLink
-                type="volume"
-                value={saveVolume.name}
-                to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${saveVolume.name}`}
-              />{" "}
-              updated.
+              Storage volume <VolumeLinkChip volume={volume} /> updated.
             </>,
           );
         })
@@ -90,7 +90,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
     },
   });
 
-  const baseUrl = `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}/configuration`;
+  const baseUrl = `${linkForVolumeDetail(volume)}/configuration`;
 
   const setSection = (newSection: string) => {
     if (newSection === MAIN_CONFIGURATION) {

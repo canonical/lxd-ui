@@ -202,13 +202,16 @@ const StorageVolumes: FC = () => {
     return true;
   });
 
-  const snapshotPerVolumeLookup = getSnapshotsPerVolume(volumes);
+  const snapshotsPerVolume = getSnapshotsPerVolume(volumes);
   const rows = filteredVolumes.map((volume) => {
     const volumeType = renderVolumeType(volume);
     const contentType = renderContentType(volume);
 
+    const key = `${volume.name}-${volume.location}`;
+    const snapshotCount = snapshotsPerVolume[key]?.length ?? 0;
+
     return {
-      key: volume.name,
+      key,
       className: "u-row",
       columns: [
         {
@@ -285,9 +288,7 @@ const StorageVolumes: FC = () => {
             <>
               {volume.used_by?.length ?? 0}
               {isSmallScreen && (
-                <div className="u-text--muted">
-                  {snapshotPerVolumeLookup[volume.name]?.length ?? 0}
-                </div>
+                <div className="u-text--muted">{snapshotCount}</div>
               )}
             </>
           ),
@@ -302,7 +303,7 @@ const StorageVolumes: FC = () => {
           : [
               {
                 className: "u-align--right",
-                content: snapshotPerVolumeLookup[volume.name]?.length ?? 0,
+                content: snapshotCount,
                 role: "cell",
                 "aria-label": SNAPSHOTS_COL,
                 style: { width: COLUMN_WIDTHS[SNAPSHOTS_COL] },
@@ -340,7 +341,7 @@ const StorageVolumes: FC = () => {
         type: volumeType,
         createdAt: volume.created_at,
         usedBy: volume.used_by?.length ?? 0,
-        snapshots: snapshotPerVolumeLookup[volume.name]?.length ?? 0,
+        snapshots: snapshotCount,
       },
     };
   });
