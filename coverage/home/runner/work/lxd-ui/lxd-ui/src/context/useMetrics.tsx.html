@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.76% </span>
+                <span class="strong">77.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/26</span>
+                <span class='fraction'>27/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>3/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/21</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -84,27 +84,39 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">206x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
-<span class="cline-any cline-yes">189x</span>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">207x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">47x</span>
+<span class="cline-any cline-yes">47x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-yes">171x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { UseQueryResult } from "@tanstack/react-query"<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >;</span></span>
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./auth";
@@ -112,16 +124,22 @@ import { queryKeys } from "util/queryKeys";
 import { fetchMetrics } from "api/metrics";
 import type { LxdMetricGroup } from "types/metrics";
 import { useServerEntitlements } from "util/entitlements/server";
+import { useMetricHistory } from "context/metricHistory";
 &nbsp;
 export const useMetrics = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span></span>
   location: string,
 ): UseQueryResult&lt;LxdMetricGroup[]&gt; =&gt; {
   const { isRestricted, isFineGrained } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { canViewMetrics } = <span class="cstat-no" title="statement not covered" >useServerEntitlements();</span>
+  const { setMetricEntry } = <span class="cstat-no" title="statement not covered" >useMetricHistory();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return useQuery({</span>
     queryKey: [queryKeys.metrics, location],
-    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >f</span>etchMetrics(location),</span>
+    queryFn: <span class="fstat-no" title="function not covered" >async () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      fetchMetrics(location).then((metric) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setMetricEntry({ time: Date.now() / 1000, metric });</span>
+<span class="cstat-no" title="statement not covered" >        return metric;</span>
+      }),
     refetchInterval: 15 * 1000, // 15 seconds
     enabled: !isRestricted &amp;&amp; isFineGrained !== null &amp;&amp; canViewMetrics(),
   });
@@ -133,7 +151,7 @@ export const useMetrics = <span class="cstat-no" title="statement not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-29T12:19:55.171Z
+                at 2025-04-30T14:28:30.943Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>
