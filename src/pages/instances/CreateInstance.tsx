@@ -77,10 +77,8 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { instanceNameValidation } from "util/instances";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
-import MigrationForm, {
-  migrationPayload,
-} from "components/forms/MigrationForm";
+import type { MoveFormValues } from "components/forms/MoveForm";
+import MoveForm, { migrationPayload } from "components/forms/MoveForm";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import GPUDevicesForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
@@ -101,7 +99,7 @@ export type CreateInstanceFormValues = InstanceDetailsFormValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
-  MigrationFormValues &
+  MoveFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
@@ -514,7 +512,7 @@ const CreateInstance: FC = () => {
 
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
 
-            {section === MIGRATION && <MigrationForm formik={formik} />}
+            {section === MIGRATION && <MoveForm formik={formik} />}
 
             {section === BOOT && <BootForm formik={formik} />}
 

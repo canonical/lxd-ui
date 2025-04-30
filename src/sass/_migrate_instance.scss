@@ -1,4 +1,4 @@
-.migrate-instance-modal {
+.move-instance-modal {
   .choose-migration-type {
     display: flex;
     flex-direction: column;
@@ -12,7 +12,7 @@
     }
   }
 
-  .migrate-instance-table {
+  .move-instance-table {
     .storage-pools {
       .size {
         padding-right: 5%;
@@ -33,7 +33,7 @@
     }
   }
 
-  .migrate-instance-summary {
+  .move-instance-summary {
     align-items: center;
     display: flex;
 
@@ -42,7 +42,7 @@
     }
   }
 
-  .migrate-instance-name {
+  .move-instance-name {
     display: inline;
     max-width: 20rem;
   }

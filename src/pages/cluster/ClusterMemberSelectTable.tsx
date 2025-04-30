@@ -48,7 +48,7 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
         {
           content: (
             <div
-              className="u-truncate migrate-instance-name"
+              className="u-truncate move-instance-name"
               title={member.server_name}
             >
               {member.server_name}
@@ -103,14 +103,14 @@ const ClusterMemberSelectTable: FC<Props> = ({ onSelect, disableMember }) => {
   });
 
   return (
-    <div className="migrate-instance-table u-selectable-table-rows">
+    <div className="move-instance-table u-selectable-table-rows">
       <ScrollableTable
         dependencies={[members]}
-        tableId="migrate-instance-table"
-        belowIds={["status-bar", "migrate-instance-actions"]}
+        tableId="move-instance-table"
+        belowIds={["status-bar", "move-instance-actions"]}
       >
         <MainTable
-          id="migrate-instance-table"
+          id="move-instance-table"
           headers={headers}
           rows={rows}
           sortable

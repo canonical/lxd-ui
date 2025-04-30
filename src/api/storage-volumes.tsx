@@ -216,7 +216,7 @@ export const deleteStorageVolume = async (
   });
 };
 
-export const migrateStorageVolume = async (
+export const moveStorageVolume = async (
   volume: Partial<LxdStorageVolume>,
   targetPool: string,
   targetProject: string,

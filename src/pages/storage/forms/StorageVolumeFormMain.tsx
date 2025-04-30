@@ -63,7 +63,7 @@ const StorageVolumeFormMain: FC<Props> = ({
               error: poolError,
               help: formik.values.isCreating
                 ? undefined
-                : "Use the migrate button in the header to move the volume to a different storage pool.",
+                : "Use the move button in the header to move the volume to a different storage pool.",
             }}
           />
           {formik.values.clusterMember !== undefined && (

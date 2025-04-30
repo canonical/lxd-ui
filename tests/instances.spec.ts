@@ -4,7 +4,7 @@ import {
   createInstance,
   deleteInstance,
   editInstance,
-  migrateInstanceRootStorage,
+  moveInstanceRootStorage,
   randomImageName,
   randomInstanceName,
   renameInstance,
@@ -399,15 +399,15 @@ test("Create instance from external instance file", async ({
   await deleteInstance(page, instanceName);
 });
 
-test("Migrate instance root storage volume to a different pool", async ({
+test("Move instance root storage volume to a different pool", async ({
   page,
 }) => {
   const targetPool = randomPoolName();
   await createPool(page, targetPool);
   const serverClustered = await isServerClustered(page);
-  await migrateInstanceRootStorage(page, instance, targetPool, serverClustered);
-  // Migrate back to default so that the Pool can be deleted
-  await migrateInstanceRootStorage(page, instance, "default", serverClustered);
+  await moveInstanceRootStorage(page, instance, targetPool, serverClustered);
+  // Move back to default so that the Pool can be deleted
+  await moveInstanceRootStorage(page, instance, "default", serverClustered);
   await deletePool(page, targetPool);
 });
 

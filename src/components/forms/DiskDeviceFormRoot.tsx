@@ -136,7 +136,7 @@ const DiskDeviceFormRoot: FC<Props> = ({ formik, pools, profiles }) => {
                     className: isEditingInstance ? "" : "u-no-margin--bottom",
                     disabled: isEditingInstance,
                     help: isEditingInstance
-                      ? "Use the migrate button in the header to change root storage."
+                      ? "Use the move button in the header to change root storage."
                       : "",
                   }}
                 />

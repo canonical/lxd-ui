@@ -10,7 +10,7 @@ import { testCopyStorageVolumeName } from "util/storageVolume";
 import { useNotify } from "@canonical/react-components";
 import DeleteStorageVolumeBtn from "pages/storage/actions/DeleteStorageVolumeBtn";
 import { useToastNotification } from "context/toastNotificationProvider";
-import MigrateVolumeBtn from "./MigrateVolumeBtn";
+import MoveVolumeBtn from "./MoveVolumeBtn";
 import CopyVolumeBtn from "./actions/CopyVolumeBtn";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
 import ResourceLink from "components/ResourceLink";
@@ -101,7 +101,7 @@ const StorageVolumeHeader: FC<Props> = ({ volume, project }) => {
       controls={
         <div className="p-segmented-control">
           <div className="p-segmented-control__list">
-            <MigrateVolumeBtn
+            <MoveVolumeBtn
               storageVolume={volume}
               project={project}
               classname={classname}

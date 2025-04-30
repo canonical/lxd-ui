@@ -8,7 +8,7 @@ import { cloudInitPayload } from "components/forms/CloudInitForm";
 import { getUnhandledKeyValues } from "util/formFields";
 import type { EditProfileFormValues } from "pages/profiles/EditProfile";
 import type { LxdProfile } from "types/profile";
-import { migrationPayload } from "components/forms/MigrationForm";
+import { migrationPayload } from "components/forms/MoveForm";
 import { bootPayload } from "components/forms/BootForm";
 import { sshKeyPayload } from "components/forms/SshKeyForm";
 

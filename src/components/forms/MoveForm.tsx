@@ -14,7 +14,7 @@ import {
 } from "util/instanceOptions";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 
-export interface MigrationFormValues {
+export interface MoveFormValues {
   migration_stateful?: string;
   cluster_evacuate?: string;
 }
@@ -30,7 +30,7 @@ interface Props {
   formik: InstanceAndProfileFormikProps;
 }
 
-const MigrationForm: FC<Props> = ({ formik }) => {
+const MoveForm: FC<Props> = ({ formik }) => {
   const isInstance = formik.values.entityType === "instance";
   const isVmOnlyDisabled =
     isInstance &&
@@ -68,4 +68,4 @@ const MigrationForm: FC<Props> = ({ formik }) => {
   );
 };
 
-export default MigrationForm;
+export default MoveForm;

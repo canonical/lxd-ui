@@ -6,11 +6,11 @@ import StoragePoolSelectTable from "./StoragePoolSelectTable";
 
 interface Props {
   close: () => void;
-  migrate: (target: string) => void;
+  move: (target: string) => void;
   storageVolume: LxdStorageVolume;
 }
 
-const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
+const MoveVolumeModal: FC<Props> = ({ close, move, storageVolume }) => {
   const [selectedPool, setSelectedPool] = useState("");
 
   const handleEscKey = (e: KeyboardEvent<HTMLElement>) => {
@@ -29,14 +29,14 @@ const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
   };
 
   const modalTitle = selectedPool
-    ? "Confirm migration"
+    ? "Confirm move"
     : `Choose storage pool for volume ${storageVolume.name}`;
 
   const summary = (
-    <div className="migrate-instance-summary">
+    <div className="move-instance-summary">
       <p>
-        This will migrate volume <strong>{storageVolume.name}</strong> to
-        storage pool <b>{selectedPool}</b>.
+        This will move volume <strong>{storageVolume.name}</strong> to storage
+        pool <b>{selectedPool}</b>.
       </p>
     </div>
   );
@@ -44,14 +44,14 @@ const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
   return (
     <Modal
       close={close}
-      className="migrate-instance-modal"
+      className="move-instance-modal"
       title={modalTitle}
       buttonRow={
-        <div id="migrate-instance-actions">
+        <div id="move-instance-actions">
           <Button
             className="u-no-margin--bottom"
             type="button"
-            aria-label="cancel migrate"
+            aria-label="cancel move"
             appearance="base"
             onClick={handleCancel}
           >
@@ -61,11 +61,11 @@ const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             onClick={() => {
-              migrate(selectedPool);
+              move(selectedPool);
             }}
             disabled={!selectedPool}
           >
-            Migrate
+            Move
           </ActionButton>
         </div>
       }
@@ -86,4 +86,4 @@ const MigrateVolumeModal: FC<Props> = ({ close, migrate, storageVolume }) => {
   );
 };
 
-export default MigrateVolumeModal;
+export default MoveVolumeModal;

@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import FormLink from "components/FormLink";
-import InstanceClusterMemberMigration from "./InstanceClusterMemberMigration";
+import InstanceClusterMemberMove from "./InstanceClusterMemberMove";
 import BackLink from "components/BackLink";
-import InstanceStoragePoolMigration from "./InstanceStoragePoolMigration";
-import type { MigrationType } from "util/instanceMigration";
+import InstanceStoragePoolMove from "./InstanceStoragePoolMove";
+import type { MoveType } from "util/instanceMigration";
 import { useInstanceMigration } from "util/instanceMigration";
-import InstanceProjectMigration from "pages/instances/InstanceProjectMigration";
+import InstanceProjectMove from "pages/instances/InstanceProjectMove";
 import { useIsClustered } from "context/useIsClustered";
 
 interface Props {
@@ -16,11 +16,11 @@ interface Props {
   instance: LxdInstance;
 }
 
-const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
+const MoveInstanceModal: FC<Props> = ({ close, instance }) => {
   const isClustered = useIsClustered();
-  const [type, setType] = useState<MigrationType>("");
+  const [type, setType] = useState<MoveType>("");
   const [target, setTarget] = useState("");
-  const { handleMigrate } = useInstanceMigration({
+  const { handleMove } = useInstanceMigration({
     close,
     instance,
     type,
@@ -57,7 +57,7 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
     "Choose migration method"
   ) : (
     <BackLink
-      title={target ? "Confirm migration" : selectStepTitle}
+      title={target ? "Confirm move" : selectStepTitle}
       onClick={handleGoBack}
       linkText={target ? `Choose ${type}` : "Choose migration method"}
     />
@@ -66,7 +66,7 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
   return (
     <Modal
       close={close}
-      className="migrate-instance-modal"
+      className="move-instance-modal"
       title={modalTitle}
       onKeyDown={handleEscKey}
     >
@@ -83,14 +83,14 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
           )}
           <FormLink
             icon="switcher-dashboard"
-            title="Migrate instance root storage to a different pool"
+            title="Move instance root storage to a different pool"
             onClick={() => {
               setType("root storage pool");
             }}
           />
           <FormLink
             icon="folder"
-            title="Migrate instance to a different project"
+            title="Move instance to a different project"
             onClick={() => {
               setType("project");
             }}
@@ -99,36 +99,36 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
       )}
 
       {type === "cluster member" && (
-        <InstanceClusterMemberMigration
+        <InstanceClusterMemberMove
           instance={instance}
           onSelect={setTarget}
           targetMember={target}
           onCancel={handleGoBack}
-          migrate={handleMigrate}
+          move={handleMove}
         />
       )}
 
       {type === "root storage pool" && (
-        <InstanceStoragePoolMigration
+        <InstanceStoragePoolMove
           instance={instance}
           onSelect={setTarget}
           targetPool={target}
           onCancel={handleGoBack}
-          migrate={handleMigrate}
+          move={handleMove}
         />
       )}
 
       {type === "project" && (
-        <InstanceProjectMigration
+        <InstanceProjectMove
           instance={instance}
           onSelect={setTarget}
           targetProject={target}
           onCancel={handleGoBack}
-          migrate={handleMigrate}
+          move={handleMove}
         />
       )}
     </Modal>
   );
 };
 
-export default MigrateInstanceModal;
+export default MoveInstanceModal;

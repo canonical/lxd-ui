@@ -7,11 +7,11 @@ import { queryKeys } from "util/queryKeys";
 import { useEventQueue } from "context/eventQueue";
 import { useToastNotification } from "context/toastNotificationProvider";
 import type { LxdStorageVolume } from "types/storage";
-import MigrateVolumeModal from "./MigrateVolumeModal";
+import MoveVolumeModal from "./MoveVolumeModal";
 import { useNavigate } from "react-router-dom";
 import ResourceLabel from "components/ResourceLabel";
 import ResourceLink from "components/ResourceLink";
-import { migrateStorageVolume } from "api/storage-volumes";
+import { moveStorageVolume } from "api/storage-volumes";
 import { useStorageVolumeEntitlements } from "util/entitlements/storage-volumes";
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
   onClose?: () => void;
 }
 
-const MigrateVolumeBtn: FC<Props> = ({
+const MoveVolumeBtn: FC<Props> = ({
   storageVolume,
   project,
   classname,
@@ -58,7 +58,7 @@ const MigrateVolumeBtn: FC<Props> = ({
     );
     toastNotify.success(
       <>
-        Volume {volume} successfully migrated to pool {pool}
+        Volume {volume} successfully moved to pool {pool}
       </>,
     );
 
@@ -74,7 +74,7 @@ const MigrateVolumeBtn: FC<Props> = ({
   ) => {
     setVolumeLoading(false);
     toastNotify.failure(
-      `Migration failed for volume ${volumeName} to pool ${targetPool}`,
+      `Move failed for volume ${volumeName} to pool ${targetPool}`,
       e,
       <ResourceLink
         type="volume"
@@ -99,9 +99,9 @@ const MigrateVolumeBtn: FC<Props> = ({
     setVolumeLoading(false);
   };
 
-  const handleMigrate = (targetPool: string) => {
+  const handleMove = (targetPool: string) => {
     setVolumeLoading(true);
-    migrateStorageVolume(storageVolume, targetPool, storageVolume.project)
+    moveStorageVolume(storageVolume, targetPool, storageVolume.project)
       .then((operation) => {
         eventQueue.set(
           operation.metadata.id,
@@ -125,7 +125,7 @@ const MigrateVolumeBtn: FC<Props> = ({
         );
         toastNotify.info(
           <>
-            Migration started for volume {volume} to pool {pool}
+            Move started for volume {volume} to pool {pool}
           </>,
         );
         queryClient.invalidateQueries({
@@ -149,9 +149,9 @@ const MigrateVolumeBtn: FC<Props> = ({
     <>
       {isOpen && (
         <Portal>
-          <MigrateVolumeModal
+          <MoveVolumeModal
             close={handleClose}
-            migrate={handleMigrate}
+            move={handleMove}
             storageVolume={storageVolume}
           />
         </Portal>
@@ -164,15 +164,15 @@ const MigrateVolumeBtn: FC<Props> = ({
         disabled={!canEditVolume(storageVolume) || isVolumeLoading}
         title={
           canEditVolume(storageVolume)
-            ? "Migrate volume"
-            : "You do not have permission to migrate this volume"
+            ? "Move volume"
+            : "You do not have permission to move this volume"
         }
       >
         <Icon name="machines" />
-        <span>Migrate</span>
+        <span>Move</span>
       </ActionButton>
     </>
   );
 };
 
-export default MigrateVolumeBtn;
+export default MoveVolumeBtn;

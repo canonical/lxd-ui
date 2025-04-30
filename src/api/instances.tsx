@@ -116,7 +116,7 @@ export const renameInstance = async (
   });
 };
 
-export const migrateInstance = async (
+export const moveInstance = async (
   name: string,
   project: string,
   target?: string,

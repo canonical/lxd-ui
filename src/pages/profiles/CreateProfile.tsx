@@ -66,10 +66,8 @@ import { hasDiskError, hasNetworkError } from "util/instanceValidation";
 import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
-import MigrationForm, {
-  migrationPayload,
-} from "components/forms/MigrationForm";
+import type { MoveFormValues } from "components/forms/MoveForm";
+import MoveForm, { migrationPayload } from "components/forms/MoveForm";
 import GPUDevicesForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
@@ -86,7 +84,7 @@ export type CreateProfileFormValues = ProfileDetailsFormValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
-  MigrationFormValues &
+  MoveFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
@@ -243,7 +241,7 @@ const CreateProfile: FC = () => {
 
             {section === SNAPSHOTS && <InstanceSnapshotsForm formik={formik} />}
 
-            {section === MIGRATION && <MigrationForm formik={formik} />}
+            {section === MIGRATION && <MoveForm formik={formik} />}
 
             {section === BOOT && <BootForm formik={formik} />}
 

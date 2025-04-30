@@ -8,20 +8,20 @@ interface Props {
   onSelect: (member: string) => void;
   targetMember: string;
   onCancel: () => void;
-  migrate: (member: string) => void;
+  move: (member: string) => void;
 }
 
-const InstanceClusterMemberMigration: FC<Props> = ({
+const InstanceClusterMemberMove: FC<Props> = ({
   instance,
   onSelect,
   targetMember,
   onCancel,
-  migrate,
+  move,
 }) => {
   const summary = (
-    <div className="migrate-instance-summary">
+    <div className="move-instance-summary">
       <p>
-        This will migrate instance <strong>{instance.name}</strong> to cluster
+        This will move instance <strong>{instance.name}</strong> to cluster
         member <b>{targetMember}</b>.
       </p>
     </div>
@@ -39,11 +39,11 @@ const InstanceClusterMemberMigration: FC<Props> = ({
           }}
         />
       )}
-      <footer id="migrate-instance-actions" className="p-modal__footer">
+      <footer id="move-instance-actions" className="p-modal__footer">
         <Button
           className="u-no-margin--bottom"
           type="button"
-          aria-label="cancel migrate"
+          aria-label="cancel move"
           appearance="base"
           onClick={onCancel}
         >
@@ -53,15 +53,15 @@ const InstanceClusterMemberMigration: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           onClick={() => {
-            migrate(targetMember);
+            move(targetMember);
           }}
           disabled={!targetMember}
         >
-          Migrate
+          Move
         </ActionButton>
       </footer>
     </>
   );
 };
 
-export default InstanceClusterMemberMigration;
+export default InstanceClusterMemberMove;

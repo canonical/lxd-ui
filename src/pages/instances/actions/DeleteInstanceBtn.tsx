@@ -77,7 +77,7 @@ const DeleteInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
   const isDisabled =
     isLoading ||
     !isDeletableStatus ||
-    instanceLoading.getType(instance) === "Migrating" ||
+    instanceLoading.getType(instance) === "Moving" ||
     !canDeleteInstance(instance);
   const getHoverText = () => {
     if (!canDeleteInstance(instance)) {

@@ -69,11 +69,11 @@ const StopInstanceBtn: FC<Props> = ({ instance }) => {
       });
   };
 
-  const disabledStatuses = ["Stopped", "Migrating"];
+  const disabledStatuses = ["Stopped", "Moving"];
   const isDisabled =
     isLoading ||
     disabledStatuses.includes(instance.status) ||
-    instanceLoading.getType(instance) === "Migrating";
+    instanceLoading.getType(instance) === "Moving";
 
   return (
     <ConfirmationButton

@@ -3,7 +3,7 @@ import { useEventQueue } from "context/eventQueue";
 import { useInstanceLoading } from "context/instanceLoading";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { queryKeys } from "./queryKeys";
-import { migrateInstance } from "api/instances";
+import { moveInstance } from "api/instances";
 import type { LxdInstance } from "types/instance";
 import type { ReactNode } from "react";
 import { capitalizeFirstLetter } from "./helpers";
@@ -11,15 +11,11 @@ import ResourceLink from "components/ResourceLink";
 import InstanceLinkChip from "pages/instances/InstanceLinkChip";
 import { useNavigate } from "react-router-dom";
 
-export type MigrationType =
-  | "cluster member"
-  | "root storage pool"
-  | "project"
-  | "";
+export type MoveType = "cluster member" | "root storage pool" | "project" | "";
 
 interface Props {
   instance: LxdInstance;
-  type: MigrationType;
+  type: MoveType;
   target: string;
   close: () => void;
 }
@@ -41,8 +37,8 @@ export const useInstanceMigration = ({
     if (type === "cluster member") {
       successMessage = (
         <>
-          Instance <InstanceLinkChip instance={instance} /> successfully
-          migrated to cluster member{" "}
+          Instance <InstanceLinkChip instance={instance} /> successfully moved
+          to cluster member{" "}
           <ResourceLink type="cluster-member" value={target} to="/ui/cluster" />
         </>
       );
@@ -52,7 +48,7 @@ export const useInstanceMigration = ({
       successMessage = (
         <>
           Instance <InstanceLinkChip instance={instance} /> root storage
-          successfully migrated to pool{" "}
+          successfully moved to pool{" "}
           <ResourceLink
             type="pool"
             value={target}
@@ -67,7 +63,7 @@ export const useInstanceMigration = ({
         <>
           Instance{" "}
           <InstanceLinkChip instance={{ ...instance, project: target }} />
-          successfully migrated to project{" "}
+          successfully moved to project{" "}
           <ResourceLink
             type="project"
             value={target}
@@ -92,15 +88,15 @@ export const useInstanceMigration = ({
   const notifyFailure = (e: unknown) => {
     let failureMessage = "";
     if (type === "cluster member") {
-      failureMessage = `Cluster member migration failed for instance ${instance.name}`;
+      failureMessage = `Cluster member move failed for instance ${instance.name}`;
     }
 
     if (type === "root storage pool") {
-      failureMessage = `Root storage migration failed for instance ${instance.name}`;
+      failureMessage = `Root storage move failed for instance ${instance.name}`;
     }
 
     if (type === "project") {
-      failureMessage = `Project migration failed for instance ${instance.name}`;
+      failureMessage = `Project move failed for instance ${instance.name}`;
     }
 
     instanceLoading.setFinish(instance);
@@ -122,12 +118,12 @@ export const useInstanceMigration = ({
     instanceLoading.setFinish(instance);
   };
 
-  const handleMigrate = () => {
-    instanceLoading.setLoading(instance, "Migrating");
+  const handleMove = () => {
+    instanceLoading.setLoading(instance, "Moving");
     const targetMember = type === "cluster member" ? target : undefined;
     const targetPool = type === "root storage pool" ? target : undefined;
     const targetProject = type === "project" ? target : undefined;
-    migrateInstance(
+    moveInstance(
       instance.name,
       instance.project,
       targetMember,
@@ -145,7 +141,7 @@ export const useInstanceMigration = ({
         );
         toastNotify.info(
           <>
-            {capitalizeFirstLetter(type)} migration started for{" "}
+            {capitalizeFirstLetter(type)} move started for{" "}
             <InstanceLinkChip instance={instance} />.
           </>,
         );
@@ -162,6 +158,6 @@ export const useInstanceMigration = ({
   };
 
   return {
-    handleMigrate,
+    handleMove,
   };
 };
