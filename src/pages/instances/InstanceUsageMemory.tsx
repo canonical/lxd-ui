@@ -1,20 +1,13 @@
 import type { FC } from "react";
 import { humanFileSize } from "util/helpers";
-import { getInstanceMetrics } from "util/metricSelectors";
+import type { MemoryUsage } from "util/metricSelectors";
 import Meter from "components/Meter";
-import type { LxdInstance } from "types/instance";
-import { useMetrics } from "context/useMetrics";
 
 interface Props {
-  instance: LxdInstance;
+  memory?: MemoryUsage;
 }
 
-const InstanceUsageMemory: FC<Props> = ({ instance }) => {
-  const { data: metrics = [] } = useMetrics(instance.location);
-
-  const instanceMetrics = getInstanceMetrics(metrics, instance);
-
-  const memory = instanceMetrics.memory;
+const InstanceUsageMemory: FC<Props> = ({ memory }) => {
   if (!memory) {
     return "";
   }

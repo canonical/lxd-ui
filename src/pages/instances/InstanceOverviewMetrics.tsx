@@ -1,11 +1,14 @@
 import type { FC } from "react";
-import { getInstanceMetrics } from "util/metricSelectors";
+import { useState } from "react";
+import { getInstanceMetricReport } from "util/metricSelectors";
 import Loader from "components/Loader";
 import type { LxdInstance } from "types/instance";
 import { useAuth } from "context/auth";
 import InstanceUsageMemory from "pages/instances/InstanceUsageMemory";
-import InstanceUsageDisk from "pages/instances/InstanceDisk";
+import InstanceUsageFilesystem from "pages/instances/InstanceUsageFilesystem";
 import { useMetrics } from "context/useMetrics";
+import { Button } from "@canonical/react-components";
+import InstanceUsageCpu from "pages/instances/InstanceUsageCpu";
 
 interface Props {
   instance: LxdInstance;
@@ -14,9 +17,10 @@ interface Props {
 
 const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   const { isRestricted } = useAuth();
+  const [isShowAllFilesystems, setShowAllFilesystems] = useState(false);
 
   const {
-    data: metrics = [],
+    data: serverMetrics = [],
     error,
     isLoading,
   } = useMetrics(instance.location);
@@ -25,7 +29,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
     onFailure("Loading metrics failed", error);
   }
 
-  const instanceMetrics = getInstanceMetrics(metrics, instance);
+  const instanceMetrics = getInstanceMetricReport(serverMetrics, instance);
 
   if (isRestricted) {
     return (
@@ -34,6 +38,8 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
       </div>
     );
   }
+
+  const hasOtherFilesystems = instanceMetrics.otherFilesystems.length > 0;
 
   return (
     <>
@@ -46,17 +52,56 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
               <th className="u-text--muted">Memory</th>
               <td>
                 {instanceMetrics.memory ? (
-                  <InstanceUsageMemory instance={instance} />
+                  <InstanceUsageMemory memory={instanceMetrics.memory} />
                 ) : (
                   "-"
                 )}
               </td>
             </tr>
             <tr className="metric-row">
-              <th className="u-text--muted">Disk</th>
+              <th className="u-text--muted">Root filesystem</th>
               <td>
-                {instanceMetrics.disk ? (
-                  <InstanceUsageDisk instance={instance} />
+                {instanceMetrics.rootFilesystem ? (
+                  <InstanceUsageFilesystem
+                    filesystem={instanceMetrics.rootFilesystem}
+                  />
+                ) : (
+                  "-"
+                )}
+              </td>
+            </tr>
+            {isShowAllFilesystems &&
+              instanceMetrics.otherFilesystems.map((item) => (
+                <tr className="metric-row" key={item.device}>
+                  <th className="u-text--muted">{item.device}</th>
+                  <td>
+                    <InstanceUsageFilesystem filesystem={item} />
+                  </td>
+                </tr>
+              ))}
+            {hasOtherFilesystems && (
+              <tr className="metric-row">
+                <th></th>
+                <td>
+                  <Button
+                    appearance="link"
+                    className="u-no-margin--bottom"
+                    onClick={() => {
+                      setShowAllFilesystems(!isShowAllFilesystems);
+                    }}
+                  >
+                    {isShowAllFilesystems
+                      ? "Hide other filesystems"
+                      : "Show other filesystems"}
+                  </Button>
+                </td>
+              </tr>
+            )}
+            <tr className="metric-row">
+              <th className="u-text--muted">CPU</th>
+              <td>
+                {instanceMetrics.memory ? (
+                  <InstanceUsageCpu instance={instance} />
                 ) : (
                   "-"
                 )}
