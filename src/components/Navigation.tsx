@@ -400,6 +400,19 @@ const Navigation: FC = () => {
                                   </SideNavigationItem>,
                                 ]
                               : []),
+                            <SideNavigationItem
+                              key={`/ui/project/${projectName}/storage/buckets`}
+                            >
+                              <NavLink
+                                to={`/ui/project/${projectName}/storage/buckets`}
+                                title="Buckets"
+                                onClick={softToggleMenu}
+                                className="accordion-nav-secondary"
+                                ignoreUrlMatches={["volumes/custom"]}
+                              >
+                                Buckets
+                              </NavLink>
+                            </SideNavigationItem>,
                           ]}
                         </NavAccordion>
                       </SideNavigationItem>
