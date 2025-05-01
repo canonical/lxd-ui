@@ -1,7 +1,12 @@
 import type { LxdProject } from "types/project";
 import { slugify } from "./slugify";
 
-export const storageTabs: string[] = ["Pools", "Volumes", "Custom ISOs"];
+export const storageTabs: string[] = [
+  "Pools",
+  "Volumes",
+  "Custom ISOs",
+  "Buckets",
+];
 export const storageTabToName: Record<string, string> = {
   pools: "Pools",
   volumes: "Volumes",

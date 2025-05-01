@@ -114,12 +114,9 @@ export const migrateInstance = async (
   pool?: string,
   targetProject?: string,
 ): Promise<LxdOperationResponse> => {
-  let url = `/1.0/instances/${name}?project=${project}`;
-  if (target) {
-    url += `&target=${target}`;
-  }
+  const targetParam = target ? `&target=${target}` : "";
 
-  return fetch(url, {
+  return fetch(`/1.0/instances/${name}?project=${project}${targetParam}`, {
     method: "POST",
     body: JSON.stringify({
       migration: true,

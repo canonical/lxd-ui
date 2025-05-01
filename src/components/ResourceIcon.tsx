@@ -4,6 +4,7 @@ import type { FC } from "react";
 export type InstanceIconType = "container" | "virtual-machine" | "instance";
 
 export type ResourceIconType =
+  | "bucket"
   | "container"
   | "virtual-machine"
   | "instance"
@@ -46,6 +47,7 @@ const resourceIcons: Record<ResourceIconType, string> = {
   "idp-group": "user-group",
   device: "units",
   setting: "settings",
+  bucket: "status-queued-small",
 };
 
 interface Props {

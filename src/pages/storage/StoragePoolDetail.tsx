@@ -12,7 +12,7 @@ import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
 import classnames from "classnames";
-import { cephObject } from "util/storageOptions";
+import { cephObject, isBucketCompatibleDriver } from "util/storageOptions";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -33,6 +33,7 @@ const StoragePoolDetail: FC = () => {
   const member = clusterMembers[0]?.server_name ?? undefined;
   const { data: pool, error, isLoading } = useStoragePool(name, member);
   const isVolumeCompatible = pool?.driver !== cephObject;
+  const isBucketCompatible = isBucketCompatibleDriver(pool?.driver || "");
 
   if (error) {
     notify.failure("Loading storage details failed", error);
@@ -70,6 +71,28 @@ const StoragePoolDetail: FC = () => {
         );
       },
       label: "Volumes",
+    },
+    {
+      component: () => (
+        <Link
+          to={
+            isBucketCompatible
+              ? `/ui/project/${project}/storage/buckets?pool=${pool.name}`
+              : "#"
+          }
+          className={classnames("p-tabs__link", {
+            "is-disabled": !isBucketCompatible,
+          })}
+          title={
+            isBucketCompatible
+              ? "Buckets"
+              : "Buckets are not supported on this pool"
+          }
+        >
+          Buckets <Icon name="external-link" />
+        </Link>
+      ),
+      label: "Buckets",
     },
   ];
 
