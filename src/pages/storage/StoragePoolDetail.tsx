@@ -13,6 +13,7 @@ import type { TabLink } from "@canonical/react-components/dist/components/Tabs/T
 import { useStoragePool } from "context/useStoragePools";
 import classnames from "classnames";
 import { cephObject } from "util/storageOptions";
+import { isBucketCompatibleDriver } from "api/storage-buckets";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -71,6 +72,21 @@ const StoragePoolDetail: FC = () => {
       },
       label: "Volumes",
     },
+    ...(isBucketCompatibleDriver(pool.driver)
+      ? [
+          {
+            component: () => (
+              <Link
+                to={`/ui/project/${project}/storage/buckets?pool=${pool.name}`}
+                className="p-tabs__link"
+              >
+                Buckets <Icon name="external-link" />
+              </Link>
+            ),
+            label: "Buckets",
+          },
+        ]
+      : []),
   ];
 
   return (
