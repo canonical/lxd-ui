@@ -1,5 +1,5 @@
-.migrate-instance-modal {
-  .choose-migration-type {
+.disk-device-modal {
+  .choose-type {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -12,7 +12,7 @@
     }
   }
 
-  .migrate-instance-table {
+  .pool-table {
     .storage-pools {
       .size {
         padding-right: 5%;
@@ -33,16 +33,7 @@
     }
   }
 
-  .migrate-instance-summary {
-    align-items: center;
-    display: flex;
-
-    @include large {
-      min-width: 45rem;
-    }
-  }
-
-  .migrate-instance-name {
+  .pool-name {
     display: inline;
     max-width: 20rem;
   }

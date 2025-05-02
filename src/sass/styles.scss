@@ -81,6 +81,7 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "detail_panels";
 @import "disk_device_form";
 @import "device_detail_list";
+@import "disk_device_modal";
 @import "empty_state";
 @import "error_page";
 @import "file_row";
@@ -97,7 +98,6 @@ $border-thin: 1px solid $colors--theme--border-low-contrast !default;
 @import "ip_address";
 @import "login";
 @import "meter";
-@import "migrate_instance";
 @import "modified_actions";
 @import "network_detail_list";
 @import "network_form";
@@ -368,7 +368,7 @@ body {
 .copy-volumes-modal,
 .create-image-from-instance-modal,
 .export-instance-modal,
-.export-volume-modal {
+.migrate-instance-modal {
   .p-modal__dialog {
     @include large {
       width: 35rem;
