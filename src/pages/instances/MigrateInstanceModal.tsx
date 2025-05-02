@@ -21,7 +21,7 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
   const [type, setType] = useState<MigrationType>("");
   const [target, setTarget] = useState("");
   const { handleMigrate } = useInstanceMigration({
-    onSuccess: close,
+    close,
     instance,
     type,
     target,

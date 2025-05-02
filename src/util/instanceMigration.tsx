@@ -21,12 +21,12 @@ interface Props {
   instance: LxdInstance;
   type: MigrationType;
   target: string;
-  onSuccess: () => void;
+  close: () => void;
 }
 
 export const useInstanceMigration = ({
   instance,
-  onSuccess,
+  close,
   type,
   target,
 }: Props) => {
@@ -152,10 +152,12 @@ export const useInstanceMigration = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.instances, instance.name, instance.project],
         });
-        onSuccess();
       })
       .catch((e) => {
         notifyFailure(e);
+      })
+      .finally(() => {
+        close();
       });
   };
 
