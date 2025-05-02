@@ -65,11 +65,11 @@ const AttachDiskDeviceModal: FC<Props> = ({
       {type === "choose type" && (
         <Modal
           close={close}
-          className="migrate-instance-modal"
+          className="disk-device-modal"
           title={modalTitle}
           onKeyDown={handleEscKey}
         >
-          <div className="choose-migration-type">
+          <div className="choose-type">
             <FormLink
               icon="add-logical-volume"
               title="Attach custom volume"
