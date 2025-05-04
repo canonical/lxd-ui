@@ -9,10 +9,13 @@ import Loader from "components/Loader";
 import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
+import DeleteWarningBtn from "pages/warnings/actions/DeleteWarningBtn";
+import { useAuth } from "context/auth";
 
 const WarningList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
+  const { isFineGrained } = useAuth();
 
   const {
     data: warnings = [],
@@ -20,7 +23,7 @@ const WarningList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.warnings],
-    queryFn: fetchWarnings,
+    queryFn: async () => fetchWarnings(isFineGrained),
     retry: false, // the api returns a 403 for users with limited permissions, surface the error right away
   });
 
@@ -37,6 +40,7 @@ const WarningList: FC = () => {
     { content: "Project", sortKey: "project" },
     { content: "First seen", sortKey: "firstSeen" },
     { content: "Last seen", sortKey: "lastSeen" },
+    { "aria-label": "Actions", className: "u-align--right actions" },
   ];
 
   const rows = warnings.map((warning) => {
@@ -84,6 +88,16 @@ const WarningList: FC = () => {
           content: isoTimeToString(warning.last_seen_at),
           role: "cell",
           "aria-label": "Last seen",
+        },
+        {
+          content: (
+            <div>
+              <DeleteWarningBtn warning={warning} />
+            </div>
+          ),
+          role: "cell",
+          className: "u-align--right actions",
+          "aria-label": "Actions",
         },
       ],
       sortData: {
