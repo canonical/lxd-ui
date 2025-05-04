@@ -166,7 +166,9 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid || !formik.values.fileList}
+            disabled={
+              !formik.isValid || formik.isSubmitting || !formik.values.fileList
+            }
             onClick={() => void formik.submitForm()}
           >
             Upload image

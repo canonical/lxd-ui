@@ -339,7 +339,12 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           loading={formik.isSubmitting || !!uploadState}
-          disabled={!formik.isValid || isLoading || !formik.values.file}
+          disabled={
+            !formik.isValid ||
+            formik.isSubmitting ||
+            isLoading ||
+            !formik.values.file
+          }
           onClick={() => void formik.submitForm()}
         >
           Upload and create

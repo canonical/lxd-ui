@@ -137,6 +137,7 @@ const CreateTLSIdentityPanel: FC<Props> = ({ onSuccess }) => {
             loading={formik.isSubmitting}
             disabled={
               !formik.isValid ||
+              formik.isSubmitting ||
               (!formik.values.name &&
                 !desiredState.groupsAdded.size &&
                 !formik.touched.name)

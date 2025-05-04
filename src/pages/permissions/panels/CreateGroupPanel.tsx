@@ -178,7 +178,9 @@ const CreateGroupPanel: FC = () => {
             loading={formik.isSubmitting}
             onClick={() => void formik.submitForm()}
             className="u-no-margin--bottom"
-            disabled={!formik.isValid || !formik.values.name}
+            disabled={
+              !formik.isValid || formik.isSubmitting || !formik.values.name
+            }
           >
             Create group
           </ActionButton>

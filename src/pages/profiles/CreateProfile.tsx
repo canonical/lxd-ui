@@ -287,6 +287,7 @@ const CreateProfile: FC = () => {
           loading={formik.isSubmitting}
           disabled={
             !formik.isValid ||
+            formik.isSubmitting ||
             !formik.values.name ||
             hasDiskError(formik) ||
             hasNetworkError(formik)

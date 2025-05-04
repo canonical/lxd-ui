@@ -310,7 +310,10 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
             onClick={() => void formik.submitForm()}
             className="u-no-margin--bottom"
             disabled={
-              !formik.isValid || !formik.values.name || changeCount === 0
+              !formik.isValid ||
+              formik.isSubmitting ||
+              !formik.values.name ||
+              changeCount === 0
             }
           >
             {changeCount === 0

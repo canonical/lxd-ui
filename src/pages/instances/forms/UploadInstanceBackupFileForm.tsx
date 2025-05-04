@@ -234,7 +234,12 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           loading={formik.isSubmitting || !!uploadState}
-          disabled={!formik.isValid || isLoading || !formik.values.instanceFile}
+          disabled={
+            !formik.isValid ||
+            formik.isSubmitting ||
+            isLoading ||
+            !formik.values.instanceFile
+          }
           onClick={() => void formik.submitForm()}
         >
           Upload and create

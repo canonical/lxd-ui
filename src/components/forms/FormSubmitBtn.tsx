@@ -39,7 +39,9 @@ const FormSubmitBtn: FC<Props> = ({
     <ActionButton
       appearance="positive"
       loading={formik.isSubmitting}
-      disabled={!formik.isValid || disabled || changeCount === 0}
+      disabled={
+        !formik.isValid || formik.isSubmitting || disabled || changeCount === 0
+      }
       onClick={() => void formik.submitForm()}
     >
       {changeCount === 0 || isYaml
