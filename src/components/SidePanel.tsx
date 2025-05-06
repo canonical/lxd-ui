@@ -7,6 +7,7 @@ import useEventListener from "util/useEventListener";
 
 interface CommonProps {
   className?: string;
+  key?: string;
 }
 
 // Header components
@@ -22,9 +23,12 @@ const HeaderControls: FC<PropsWithChildren & CommonProps> = ({
 const HeaderTitle: FC<PropsWithChildren & CommonProps> = ({
   children,
   className,
+  key,
 }) => {
   return (
-    <h2 className={classnames("p-panel__title", className)}>{children}</h2>
+    <h2 className={classnames("p-panel__title", className)} key={key}>
+      {children}
+    </h2>
   );
 };
 
