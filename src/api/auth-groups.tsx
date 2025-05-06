@@ -9,73 +9,47 @@ export const fetchGroups = async (
   isFineGrained: boolean | null,
 ): Promise<LxdGroup[]> => {
   const entitlements = withEntitlementsQuery(isFineGrained, groupEntitlements);
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/groups?recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdGroup[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/auth/groups?recursion=1${entitlements}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdGroup[]>) => {
+      return data.metadata;
+    });
 };
 
 export const createGroup = async (group: Partial<LxdGroup>): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/groups`, {
-      method: "POST",
-      body: JSON.stringify(group),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/groups`, {
+    method: "POST",
+    body: JSON.stringify(group),
+  }).then(handleResponse);
 };
 
 export const deleteGroup = async (group: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/groups/${group}`, {
-      method: "DELETE",
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/groups/${group}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 };
 
 export const deleteGroups = async (groups: string[]): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(groups.map(async (group) => deleteGroup(group)))
-      .then(handleSettledResult)
-      .then(resolve)
-      .catch(reject);
-  });
+  return Promise.allSettled(
+    groups.map(async (group) => deleteGroup(group)),
+  ).then(handleSettledResult);
 };
 
 export const updateGroup = async (group: Partial<LxdGroup>): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/groups/${group.name}`, {
-      method: "PUT",
-      body: JSON.stringify(group),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/groups/${group.name}`, {
+    method: "PUT",
+    body: JSON.stringify(group),
+  }).then(handleResponse);
 };
 
 export const renameGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/groups/${oldName}`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: newName,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/groups/${oldName}`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: newName,
+    }),
+  }).then(handleResponse);
 };

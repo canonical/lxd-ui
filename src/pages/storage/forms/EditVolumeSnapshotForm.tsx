@@ -47,14 +47,12 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   };
 
   const updateExpirationTime = async (expiresAt: string | null) => {
-    await updateVolumeSnapshot({
-      volume,
-      snapshot,
-      expiresAt,
-    }).catch((error: Error) => {
-      notify.failure("Snapshot update failed", error);
-      formik.setSubmitting(false);
-    });
+    await updateVolumeSnapshot(volume, snapshot, expiresAt).catch(
+      (error: Error) => {
+        notify.failure("Snapshot update failed", error);
+        formik.setSubmitting(false);
+      },
+    );
   };
 
   const rename = async (newName: string): Promise<void> => {
@@ -62,11 +60,7 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
       <VolumeSnapshotLinkChip name={snapshot.name} volume={volume} />
     );
     return new Promise((resolve) => {
-      renameVolumeSnapshot({
-        volume,
-        snapshot,
-        newName,
-      })
+      renameVolumeSnapshot(volume, snapshot, newName)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,

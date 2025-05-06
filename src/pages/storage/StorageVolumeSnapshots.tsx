@@ -53,14 +53,9 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
       volume.project,
       volume.type,
       volume.name,
+      volume.location,
     ],
-    queryFn: async () =>
-      fetchStorageVolumeSnapshots({
-        pool: volume.pool,
-        project: volume.project,
-        type: volume.type,
-        volumeName: volume.name,
-      }),
+    queryFn: async () => fetchStorageVolumeSnapshots(volume),
   });
 
   const snapshotsDisabled = isSnapshotsDisabled(project);

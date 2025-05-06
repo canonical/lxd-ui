@@ -15,26 +15,16 @@ export const fetchOperations = async (
   project: string | null,
 ): Promise<LxdOperationList> => {
   const projectParam = project ? `project=${project}` : "all-projects=true";
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations?${projectParam}&recursion=1`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdOperationList>) => {
-        sortOperationList(data.metadata);
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/operations?${projectParam}&recursion=1`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdOperationList>) => {
+      sortOperationList(data.metadata);
+      return data.metadata;
+    });
 };
 
-export const cancelOperation = async (
-  id: string,
-): Promise<LxdOperationList> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/operations/${id}`, {
-      method: "DELETE",
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+export const cancelOperation = async (id: string): Promise<void> => {
+  await fetch(`/1.0/operations/${id}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 };

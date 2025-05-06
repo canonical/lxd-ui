@@ -90,7 +90,7 @@ export const migrateVolume = async (
   );
 
   await expect(page).toHaveURL(
-    `/ui/project/default/storage/pool/${targetPool}/volumes/custom/${volume}`,
+    `/ui/project/default/storage/pool/${targetPool}/member/local/volumes/custom/${volume}`,
   );
 };
 

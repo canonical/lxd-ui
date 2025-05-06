@@ -12,75 +12,49 @@ export const fetchIdpGroups = async (
     isFineGrained,
     idpGroupEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<IdpGroup[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/auth/identity-provider-groups?recursion=1${entitlements}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<IdpGroup[]>) => {
+      return data.metadata;
+    });
 };
 
 export const createIdpGroup = async (
   group: Partial<IdpGroup>,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups`, {
-      method: "POST",
-      body: JSON.stringify({ name: group.name, groups: group.groups }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/identity-provider-groups`, {
+    method: "POST",
+    body: JSON.stringify({ name: group.name, groups: group.groups }),
+  }).then(handleResponse);
 };
 
 export const updateIdpGroup = async (group: IdpGroup): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {
-      method: "PUT",
-      body: JSON.stringify(group),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/identity-provider-groups/${group.name}`, {
+    method: "PUT",
+    body: JSON.stringify(group),
+  }).then(handleResponse);
 };
 
 export const renameIdpGroup = async (
   oldName: string,
   newName: string,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups/${oldName}`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: newName,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/identity-provider-groups/${oldName}`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: newName,
+    }),
+  }).then(handleResponse);
 };
 
 export const deleteIdpGroup = async (group: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/auth/identity-provider-groups/${group}`, {
-      method: "DELETE",
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/auth/identity-provider-groups/${group}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 };
 
 export const deleteIdpGroups = async (groups: string[]): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    Promise.allSettled(groups.map(async (group) => deleteIdpGroup(group)))
-      .then(handleSettledResult)
-      .then(resolve)
-      .catch(reject);
-  });
+  return Promise.allSettled(
+    groups.map(async (group) => deleteIdpGroup(group)),
+  ).then(handleSettledResult);
 };

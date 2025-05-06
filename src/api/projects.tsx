@@ -25,14 +25,11 @@ export const fetchProjects = async (
     isFineGrained,
     projectEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects?recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProject[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/projects?recursion=1${entitlements}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdProject[]>) => {
+      return data.metadata;
+    });
 };
 
 export const fetchProject = async (
@@ -44,67 +41,48 @@ export const fetchProject = async (
     projectEntitlements,
     "?",
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects/${name}${entitlements}`)
-      .then(handleEtagResponse)
-      .then((data) => {
-        resolve(data as LxdProject);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/projects/${name}${entitlements}`)
+    .then(handleEtagResponse)
+    .then((data) => {
+      return data as LxdProject;
+    });
 };
 
 export const createProject = async (body: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects`, {
-      method: "POST",
-      body: body,
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/projects`, {
+    method: "POST",
+    body: body,
+  }).then(handleResponse);
 };
 
 export const updateProject = async (project: LxdProject): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects/${project.name}`, {
-      method: "PUT",
-      body: JSON.stringify(project),
-      headers: {
-        "If-Match": project.etag ?? "invalid-etag",
-      },
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/projects/${project.name}`, {
+    method: "PUT",
+    body: JSON.stringify(project),
+    headers: {
+      "If-Match": project.etag ?? "invalid-etag",
+    },
+  }).then(handleResponse);
 };
 
 export const renameProject = async (
   oldName: string,
   newName: string,
 ): Promise<LxdOperationResponse> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects/${oldName}`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: newName,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  return fetch(`/1.0/projects/${oldName}`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: newName,
+    }),
+  })
+    .then(handleResponse)
+    .then((data: LxdOperationResponse) => {
+      return data;
+    });
 };
 
 export const deleteProject = async (project: LxdProject): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/projects/${project.name}`, {
-      method: "DELETE",
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/projects/${project.name}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 };

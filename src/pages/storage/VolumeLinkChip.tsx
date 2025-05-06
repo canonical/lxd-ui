@@ -4,16 +4,17 @@ import type { LxdStorageVolume } from "types/storage";
 import { linkForVolumeDetail } from "util/storageVolume";
 
 interface Props {
-  name: string;
   volume: LxdStorageVolume;
 }
 
-const VolumeSnapshotLinkChip: FC<Props> = ({ name, volume }) => {
-  const baseUrl = linkForVolumeDetail(volume);
-
+const VolumeLinkChip: FC<Props> = ({ volume }) => {
   return (
-    <ResourceLink type="snapshot" value={name} to={`${baseUrl}/snapshots`} />
+    <ResourceLink
+      type="volume"
+      value={volume.name}
+      to={linkForVolumeDetail(volume)}
+    />
   );
 };
 
-export default VolumeSnapshotLinkChip;
+export default VolumeLinkChip;

@@ -4,8 +4,8 @@ import { checkDuplicateName } from "./helpers";
 import * as Yup from "yup";
 import type { LxdStorageVolume } from "types/storage";
 import { testFutureDate, testValidDate, testValidTime } from "./snapshots";
+import { hasLocation } from "util/storageVolume";
 
-/*** Volume snapshot utils ***/
 export const testDuplicateVolumeSnapshotName = (
   volume: LxdStorageVolume,
   controllerState: AbortControllerState,
@@ -15,6 +15,7 @@ export const testDuplicateVolumeSnapshotName = (
     "deduplicate",
     "Snapshot name already in use",
     async (value?: string) => {
+      const params = hasLocation(volume) ? `&target=${volume.location}` : "";
       return (
         (excludeName && value === excludeName) ||
         checkDuplicateName(
@@ -22,6 +23,7 @@ export const testDuplicateVolumeSnapshotName = (
           volume.project,
           controllerState,
           `storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots`,
+          params,
         )
       );
     },

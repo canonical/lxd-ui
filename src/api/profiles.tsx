@@ -14,14 +14,13 @@ export const fetchProfile = async (
     isFineGrained,
     profileEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${name}?project=${project}&recursion=1${entitlements}`)
-      .then(handleEtagResponse)
-      .then((data) => {
-        resolve(data as LxdProfile);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/profiles/${name}?project=${project}&recursion=1${entitlements}`,
+  )
+    .then(handleEtagResponse)
+    .then((data) => {
+      return data as LxdProfile;
+    });
 };
 
 export const fetchProfiles = async (
@@ -32,47 +31,34 @@ export const fetchProfiles = async (
     isFineGrained,
     profileEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles?project=${project}&recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdProfile[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/profiles?project=${project}&recursion=1${entitlements}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdProfile[]>) => {
+      return data.metadata;
+    });
 };
 
 export const createProfile = async (
   body: string,
   project: string,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles?project=${project}`, {
-      method: "POST",
-      body: body,
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/profiles?project=${project}`, {
+    method: "POST",
+    body: body,
+  }).then(handleResponse);
 };
 
 export const updateProfile = async (
   profile: LxdProfile,
   project: string,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
-      method: "PUT",
-      body: JSON.stringify(profile),
-      headers: {
-        "If-Match": profile.etag ?? "invalid-etag",
-      },
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/profiles/${profile.name}?project=${project}`, {
+    method: "PUT",
+    body: JSON.stringify(profile),
+    headers: {
+      "If-Match": profile.etag ?? "invalid-etag",
+    },
+  }).then(handleResponse);
 };
 
 export const renameProfile = async (
@@ -80,29 +66,19 @@ export const renameProfile = async (
   newName: string,
   project: string,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${oldName}?project=${project}`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: newName,
-      }),
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/profiles/${oldName}?project=${project}`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: newName,
+    }),
+  }).then(handleResponse);
 };
 
 export const deleteProfile = async (
   name: string,
   project: string,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/profiles/${name}?project=${project}`, {
-      method: "DELETE",
-    })
-      .then(handleResponse)
-      .then(resolve)
-      .catch(reject);
-  });
+  await fetch(`/1.0/profiles/${name}?project=${project}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 };
