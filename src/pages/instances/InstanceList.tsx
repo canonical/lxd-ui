@@ -338,7 +338,7 @@ const InstanceList: FC = () => {
             ? [
                 {
                   content: (
-                    <i>
+                    <i key={JSON.stringify(operation.metadata ?? {})}>
                       {Object.entries(operation.metadata ?? {})
                         .slice(0, 1)
                         .map(([key, value], index) => (
@@ -400,6 +400,8 @@ const InstanceList: FC = () => {
       const ipv6 = getIpAddresses(instance, "inet6")
         .filter((val) => !val.address.startsWith("fe80"))
         .map((val) => val.address);
+
+      const loadingType = instanceLoading.getType(instance);
 
       return {
         key: instance.name,
@@ -481,6 +483,7 @@ const InstanceList: FC = () => {
             style: { width: `${COLUMN_WIDTHS[DESCRIPTION]}px` },
           },
           {
+            key: `ipv4-${ipv4.length}`,
             content: ipv4.length > 1 ? `${ipv4.length} addresses` : ipv4,
             role: "cell",
             className: "u-align--right clickable-cell",
@@ -489,6 +492,7 @@ const InstanceList: FC = () => {
             style: { width: `${COLUMN_WIDTHS[IPV4]}px` },
           },
           {
+            key: `ipv6-${ipv6.length}`,
             content: ipv6.length > 1 ? `${ipv6.length} addresses` : ipv6,
             role: "cell",
             "aria-label": IPV6,
@@ -505,6 +509,7 @@ const InstanceList: FC = () => {
             style: { width: `${COLUMN_WIDTHS[SNAPSHOTS]}px` },
           },
           {
+            key: instance.status + loadingType,
             content: <InstanceStatusIcon instance={instance} />,
             role: "cell",
             className: "clickable-cell",

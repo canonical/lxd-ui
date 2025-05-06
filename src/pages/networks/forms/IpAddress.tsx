@@ -11,7 +11,9 @@ const IpAddress: FC<Props> = ({ row }) => {
       <div className="general-field-label can-edit">
         {row.columns?.[0].content}
       </div>
-      <div className="general-field-content">{row.columns?.[2].content}</div>
+      <div className="general-field-content" key={row.columns?.[2].key}>
+        {row.columns?.[2].content}
+      </div>
     </div>
   );
 };

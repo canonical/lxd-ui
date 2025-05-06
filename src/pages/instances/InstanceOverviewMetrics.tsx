@@ -99,7 +99,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
             )}
             <tr className="metric-row">
               <th className="u-text--muted">CPU</th>
-              <td>
+              <td key={instanceMetrics.memory?.free}>
                 {instanceMetrics.memory ? (
                   <InstanceUsageCpu instance={instance} />
                 ) : (
