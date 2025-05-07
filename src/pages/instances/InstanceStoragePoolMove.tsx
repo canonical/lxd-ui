@@ -9,20 +9,20 @@ interface Props {
   onSelect: (pool: string) => void;
   targetPool: string;
   onCancel: () => void;
-  migrate: (pool: string) => void;
+  move: (pool: string) => void;
 }
 
-const InstanceStoragePoolMigration: FC<Props> = ({
+const InstanceStoragePoolMove: FC<Props> = ({
   instance,
   onSelect,
   targetPool,
   onCancel,
-  migrate,
+  move,
 }) => {
   const summary = (
-    <div className="migrate-instance-summary">
+    <div className="move-instance-summary">
       <p>
-        This will migrate the instance <strong>{instance.name}</strong> root
+        This will move the instance <strong>{instance.name}</strong> root
         storage to pool <b>{targetPool}</b>.
       </p>
     </div>
@@ -40,11 +40,11 @@ const InstanceStoragePoolMigration: FC<Props> = ({
           }}
         />
       )}
-      <footer id="migrate-instance-actions" className="p-modal__footer">
+      <footer id="move-instance-actions" className="p-modal__footer">
         <Button
           className="u-no-margin--bottom"
           type="button"
-          aria-label="cancel migrate"
+          aria-label="cancel move"
           appearance="base"
           onClick={onCancel}
         >
@@ -54,15 +54,15 @@ const InstanceStoragePoolMigration: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           onClick={() => {
-            migrate(targetPool);
+            move(targetPool);
           }}
           disabled={!targetPool}
         >
-          Migrate
+          Move
         </ActionButton>
       </footer>
     </>
   );
 };
 
-export default InstanceStoragePoolMigration;
+export default InstanceStoragePoolMove;

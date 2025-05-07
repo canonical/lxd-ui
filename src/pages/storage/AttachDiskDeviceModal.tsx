@@ -65,7 +65,7 @@ const AttachDiskDeviceModal: FC<Props> = ({
       {type === "choose type" && (
         <Modal
           close={close}
-          className="migrate-instance-modal"
+          className="move-instance-modal"
           title={modalTitle}
           onKeyDown={handleEscKey}
         >

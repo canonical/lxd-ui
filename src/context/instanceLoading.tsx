@@ -7,7 +7,7 @@ type LoadingTypes =
   | "Stopping"
   | "Restarting"
   | "Freezing"
-  | "Migrating";
+  | "Moving";
 
 export interface InstanceLoadingType {
   getType: (instance: LxdInstance) => LoadingTypes | undefined;

@@ -47,7 +47,7 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
       columns: [
         {
           content: (
-            <div className="u-truncate migrate-instance-name" title={pool.name}>
+            <div className="u-truncate move-instance-name" title={pool.name}>
               {pool.name}
             </div>
           ),
@@ -109,14 +109,14 @@ const StoragePoolSelectTable: FC<Props> = ({ onSelect, disablePool }) => {
   });
 
   return (
-    <div className="migrate-instance-table u-selectable-table-rows">
+    <div className="move-instance-table u-selectable-table-rows">
       <ScrollableTable
         dependencies={[pools]}
-        tableId="migrate-instance-table"
-        belowIds={["status-bar", "migrate-instance-actions"]}
+        tableId="move-instance-table"
+        belowIds={["status-bar", "move-instance-actions"]}
       >
         <MainTable
-          id="migrate-instance-table"
+          id="move-instance-table"
           headers={headers}
           rows={rows}
           sortable

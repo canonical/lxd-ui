@@ -3,7 +3,7 @@ import { ActionButton, Icon } from "@canonical/react-components";
 import { usePortal } from "@canonical/react-components";
 import type { LxdInstance } from "types/instance";
 import { useInstanceLoading } from "context/instanceLoading";
-import MigrateInstanceModal from "../MigrateInstanceModal";
+import MoveInstanceModal from "../MoveInstanceModal";
 import classNames from "classnames";
 import { useInstanceEntitlements } from "util/entitlements/instances";
 
@@ -14,13 +14,13 @@ interface Props {
   onClose?: () => void;
 }
 
-const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
+const MoveInstanceBtn: FC<Props> = ({ instance, classname }) => {
   const { openPortal, closePortal, isOpen, Portal } = usePortal();
   const { canEditInstance } = useInstanceEntitlements();
   const instanceLoading = useInstanceLoading();
   const isLoading =
-    instanceLoading.getType(instance) === "Migrating" ||
-    instance.status === "Migrating";
+    instanceLoading.getType(instance) === "Moving" ||
+    instance.status === "Moving";
 
   const isDisabled = isLoading || !!instanceLoading.getType(instance);
 
@@ -28,7 +28,7 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
     <>
       {isOpen && (
         <Portal>
-          <MigrateInstanceModal close={closePortal} instance={instance} />
+          <MoveInstanceModal close={closePortal} instance={instance} />
         </Portal>
       )}
       <ActionButton
@@ -40,7 +40,7 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
         title={
           canEditInstance()
             ? "Migrate instance"
-            : "You do not have permission to migrate this instance"
+            : "You do not have permission to move this instance"
         }
       >
         <Icon name="machines" />
@@ -50,4 +50,4 @@ const MigrateInstanceBtn: FC<Props> = ({ instance, classname }) => {
   );
 };
 
-export default MigrateInstanceBtn;
+export default MoveInstanceBtn;

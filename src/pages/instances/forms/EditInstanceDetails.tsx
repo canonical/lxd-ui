@@ -74,7 +74,7 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
               label="Cluster member"
               value={formik.values.location}
               disabled={true}
-              help="Use the migrate button in the header to move the instance to another cluster member"
+              help="Use the move button in the header to move the instance to another cluster member"
             />
           </Col>
         </Row>

@@ -11,7 +11,7 @@ import {
   deleteVolume,
   copyStorageVolume,
   editVolume,
-  migrateVolume,
+  moveVolume,
   randomVolumeName,
   saveVolume,
   visitVolume,
@@ -65,15 +65,15 @@ test("storage volume create, edit and remove", async ({ page }) => {
   await assertTextVisible(page, "size2GiB");
 });
 
-test("storage volume migrate", async ({ page }) => {
+test("storage volume move", async ({ page }) => {
   const pool2 = randomPoolName();
   await createPool(page, pool2);
 
-  await migrateVolume(page, volume, pool2);
+  await moveVolume(page, volume, pool2);
   await expect(page.getByRole("cell", { name: pool2 })).toBeVisible();
 
-  //Migrate back to default so that the Pool can be deleted
-  await migrateVolume(page, volume, "default");
+  //Move back to default so that the Pool can be deleted
+  await moveVolume(page, volume, "default");
   await deletePool(page, pool2);
 });
 

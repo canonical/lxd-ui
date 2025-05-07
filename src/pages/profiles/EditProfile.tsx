@@ -56,8 +56,8 @@ import FormFooterLayout from "components/forms/FormFooterLayout";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { useDocs } from "context/useDocs";
 import { getProfilePayload } from "util/profileEdit";
-import type { MigrationFormValues } from "components/forms/MigrationForm";
-import MigrationForm from "components/forms/MigrationForm";
+import type { MoveFormValues } from "components/forms/MoveForm";
+import MoveForm from "components/forms/MoveForm";
 import GPUDeviceForm from "components/forms/GPUDeviceForm";
 import OtherDeviceForm from "components/forms/OtherDeviceForm";
 import YamlSwitch from "components/forms/YamlSwitch";
@@ -75,7 +75,7 @@ export type EditProfileFormValues = ProfileDetailsFormValues &
   ResourceLimitsFormValues &
   SecurityPoliciesFormValues &
   SnapshotFormValues &
-  MigrationFormValues &
+  MoveFormValues &
   BootFormValues &
   CloudInitFormValues &
   SshKeyFormValues &
@@ -239,9 +239,7 @@ const EditProfile: FC<Props> = ({ profile, featuresProfiles }) => {
               <InstanceSnapshotsForm formik={formik} />
             )}
 
-            {section === slugify(MIGRATION) && (
-              <MigrationForm formik={formik} />
-            )}
+            {section === slugify(MIGRATION) && <MoveForm formik={formik} />}
 
             {section === slugify(BOOT) && <BootForm formik={formik} />}
 

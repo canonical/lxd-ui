@@ -49,10 +49,7 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
       columns: [
         {
           content: (
-            <div
-              className="u-truncate migrate-instance-name"
-              title={project.name}
-            >
+            <div className="u-truncate move-instance-name" title={project.name}>
               {project.name}
             </div>
           ),
@@ -84,14 +81,14 @@ const ProjectSelectTable: FC<Props> = ({ onSelect, disableProject }) => {
   });
 
   return (
-    <div className="migrate-instance-table u-selectable-table-rows">
+    <div className="move-instance-table u-selectable-table-rows">
       <ScrollableTable
         dependencies={[projects]}
-        tableId="migrate-instance-table"
-        belowIds={["status-bar", "migrate-instance-actions"]}
+        tableId="move-instance-table"
+        belowIds={["status-bar", "move-instance-actions"]}
       >
         <MainTable
-          id="migrate-instance-table"
+          id="move-instance-table"
           headers={headers}
           rows={rows}
           sortable

@@ -61,7 +61,7 @@ const RestartInstanceBtn: FC<Props> = ({ instance }) => {
   const isDisabled =
     isLoading ||
     disabledStatuses.includes(instance.status) ||
-    instanceLoading.getType(instance) === "Migrating";
+    instanceLoading.getType(instance) === "Moving";
 
   return (
     <ConfirmationButton

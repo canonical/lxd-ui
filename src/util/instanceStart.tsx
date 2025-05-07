@@ -21,7 +21,7 @@ export const useInstanceStart = (instance: LxdInstance) => {
   const isDisabled =
     isLoading ||
     !enabledStatuses.includes(instance.status) ||
-    instanceLoading.getType(instance) === "Migrating";
+    instanceLoading.getType(instance) === "Moving";
 
   const clearCache = () => {
     queryClient.invalidateQueries({

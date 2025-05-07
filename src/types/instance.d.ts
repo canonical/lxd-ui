@@ -79,7 +79,7 @@ export type LxdInstanceStatus =
   | "Starting"
   | "Stopped"
   | "Stopping"
-  | "Migrating";
+  | "Moving";
 
 export interface LxdInstance {
   architecture: string;
