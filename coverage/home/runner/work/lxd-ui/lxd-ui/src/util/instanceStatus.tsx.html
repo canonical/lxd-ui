@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/debounce.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/util/instanceStatus.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> debounce.tsx</h1>
+        <h1><a href="../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/util</a> instanceStatus.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/12</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -68,24 +68,15 @@
 <a name='L3'></a><a href='#L3'>3</a>
 <a name='L4'></a><a href='#L4'>4</a>
 <a name='L5'></a><a href='#L5'>5</a>
-<a name='L6'></a><a href='#L6'>6</a>
-<a name='L7'></a><a href='#L7'>7</a>
-<a name='L8'></a><a href='#L8'>8</a>
-<a name='L9'></a><a href='#L9'>9</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-yes">149x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const debounce = <span class="fstat-no" title="function not covered" >(m</span>ethod: () =&gt; void, delay: number) =&gt; {
-  interface DebouncedCallback {
-    _timeoutId: NodeJS.Timeout;
-  }
-  const debouncedMethod = <span class="cstat-no" title="statement not covered" >method as unknown as DebouncedCallback;</span>
-<span class="cstat-no" title="statement not covered" >  clearTimeout(debouncedMethod._timeoutId);</span>
-<span class="cstat-no" title="statement not covered" >  debouncedMethod._timeoutId = setTimeout(method, delay);</span>
+<a name='L6'></a><a href='#L6'>6</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">215x</span>
+<span class="cline-any cline-yes">215x</span>
+<span class="cline-any cline-yes">215x</span>
+<span class="cline-any cline-yes">1566x</span>
+<span class="cline-any cline-yes">1566x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { LxdInstance } from "types/instance";
+&nbsp;
+export const isInstanceRunning = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>nstance: LxdInstance) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return ["Ready", "Running"].includes(instance.status);</span>
 };
 &nbsp;</pre></td></tr></table></pre>
 
