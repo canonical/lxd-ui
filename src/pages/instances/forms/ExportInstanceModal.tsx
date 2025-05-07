@@ -157,6 +157,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
           {...formik.getFieldProps("compression")}
           id="project"
           label="Compression"
+          help="No compression will be faster, but larger"
           options={[
             { value: "gzip", label: "Gzip" },
             { value: "none", label: "None" },
