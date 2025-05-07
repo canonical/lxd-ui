@@ -313,10 +313,10 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
-"@canonical/react-components@2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-2.2.4.tgz#aaaa93a7a6ac67a61a5c821767d66e260c8af93b"
-  integrity sha512-66nFc/0hlRx/XpvJj4twGvCqmnnYswMb7bLarDbieWTJ0M8uIyQDdFl6cpw0sNAuccHfTtXS3c77CAc9tBgrJQ==
+"@canonical/react-components@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@canonical/react-components/-/react-components-2.3.0.tgz#57d7b8b3eb37649de4f72542e6da11f1825e970d"
+  integrity sha512-WwQ9/eTFhZ2GpgWiWoNXU0uIdOv9z5ql/VxxLKZfR4xZBgGVkOBEFEkKENOvrFYilJnOYhc4SCz2H/DQe/KvgA==
   dependencies:
     "@types/jest" "29.5.14"
     "@types/node" "20.17.19"
