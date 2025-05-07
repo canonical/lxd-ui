@@ -201,13 +201,13 @@ describe("getSnapshotsPerVolume", () => {
 
     const actual = getSnapshotsPerVolume(volumes);
     const expected = {
-      "instance-1": [
+      "instance-1-none": [
         "instance-1-snapshot-1",
         "instance-1-snapshot-2",
         "instance-1-snapshot-3",
       ],
-      "instance-2": ["snapshot-1", "snapshot-2"],
-      "vm-1": ["snapshot-1"],
+      "instance-2-none": ["snapshot-1", "snapshot-2"],
+      "vm-1-none": ["snapshot-1"],
     };
 
     expect(actual).toEqual(expected);

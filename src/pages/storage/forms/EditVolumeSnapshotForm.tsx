@@ -29,21 +29,9 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
   const queryClient = useQueryClient();
   const controllerState = useState<AbortController | null>(null);
 
-  const updateExpirationTime = async (expiresAt: string | null) => {
-    return updateVolumeSnapshot({
-      volume,
-      snapshot,
-      expiresAt,
-    });
-  };
-
   const rename = async (newName: string): Promise<void> => {
     return new Promise((resolve, reject) => {
-      renameVolumeSnapshot({
-        volume,
-        snapshot,
-        newName,
-      })
+      renameVolumeSnapshot(volume, snapshot, newName)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
@@ -88,10 +76,12 @@ const EditVolumeSnapshotForm: FC<Props> = ({ volume, snapshot, close }) => {
             )
           : null;
       if (expiresAt !== snapshot.expires_at) {
-        await updateExpirationTime(expiresAt).catch((error: Error) => {
-          toastNotify.failure("Snapshot update failed", error);
-          shouldShowSuccess = false;
-        });
+        await updateVolumeSnapshot(volume, snapshot, expiresAt).catch(
+          (error: Error) => {
+            toastNotify.failure("Snapshot update failed", error);
+            shouldShowSuccess = false;
+          },
+        );
       }
       if (values.name !== snapshot.name) {
         await rename(values.name).catch((error: Error) => {

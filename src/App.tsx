@@ -394,6 +394,18 @@ const App: FC = () => {
           element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
         />
         <Route
+          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
+          path="/ui/project/:project/storage/pool/:pool/member/:member/volumes/:type/:volume/:activeTab/:section"
+          element={<ProtectedRoute outlet={<StorageVolumeDetail />} />}
+        />
+        <Route
           path="/ui/project/:project/images"
           element={<ProtectedRoute outlet={<ImageList />} />}
         />

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
   EmptyState,
   Icon,
@@ -10,10 +10,10 @@ import {
   useNotify,
 } from "@canonical/react-components";
 import Loader from "components/Loader";
-import { isoTimeToString } from "util/helpers";
 import ScrollableTable from "components/ScrollableTable";
 import CreateVolumeBtn from "pages/storage/actions/CreateVolumeBtn";
 import type { StorageVolumesFilterType } from "pages/storage/StorageVolumesFilter";
+import { CLUSTER_MEMBER } from "pages/storage/StorageVolumesFilter";
 import StorageVolumesFilter, {
   CONTENT_TYPE,
   POOL,
@@ -33,8 +33,8 @@ import {
 import {
   ACTIONS_COL,
   COLUMN_WIDTHS,
+  CLUSTER_MEMBER_COL,
   CONTENT_TYPE_COL,
-  CREATED_AT_COL,
   NAME_COL,
   POOL_COL,
   SIZE_COL,
@@ -51,6 +51,8 @@ import PageHeader from "components/PageHeader";
 import HelpLink from "components/HelpLink";
 import NotificationRow from "components/NotificationRow";
 import { useLoadVolumes } from "context/useVolumes";
+import { useIsClustered } from "context/useIsClustered";
+import ResourceLink from "components/ResourceLink";
 
 const StorageVolumes: FC = () => {
   const docBaseLink = useDocs();
@@ -58,6 +60,7 @@ const StorageVolumes: FC = () => {
   const { project } = useParams<{ project: string }>();
   const [searchParams] = useSearchParams();
   const [isSmallScreen, setSmallScreen] = useState(figureCollapsedScreen());
+  const isClustered = useIsClustered();
   const resize = () => {
     setSmallScreen(figureCollapsedScreen());
   };
@@ -72,6 +75,9 @@ const StorageVolumes: FC = () => {
     contentTypes: searchParams
       .getAll(CONTENT_TYPE)
       .map((type) => type.toLowerCase()),
+    clusterMembers: searchParams
+      .getAll(CLUSTER_MEMBER)
+      .map((member) => member.toLowerCase()),
   };
 
   if (!project) {
@@ -86,16 +92,8 @@ const StorageVolumes: FC = () => {
 
   const headers = [
     {
-      content: isSmallScreen ? (
-        <>
-          {NAME_COL}
-          <br />
-          <div className="header-second-row">{CREATED_AT_COL}</div>
-        </>
-      ) : (
-        NAME_COL
-      ),
-      sortKey: isSmallScreen ? "createdAt" : "name",
+      content: NAME_COL,
+      sortKey: "name",
       style: { width: COLUMN_WIDTHS[NAME_COL] },
     },
     {
@@ -104,6 +102,15 @@ const StorageVolumes: FC = () => {
       style: { width: COLUMN_WIDTHS[POOL_COL] },
       className: "pool",
     },
+    ...(isClustered
+      ? [
+          {
+            content: CLUSTER_MEMBER_COL,
+            sortKey: "clusterMember",
+            style: { width: COLUMN_WIDTHS[CLUSTER_MEMBER_COL] },
+          },
+        ]
+      : []),
     {
       content: isSmallScreen ? (
         <>
@@ -126,15 +133,6 @@ const StorageVolumes: FC = () => {
             content: CONTENT_TYPE_COL,
             sortKey: "contentType",
             style: { width: COLUMN_WIDTHS[CONTENT_TYPE_COL] },
-          },
-        ]),
-    ...(isSmallScreen
-      ? []
-      : [
-          {
-            content: CREATED_AT_COL,
-            sortKey: "createdAt",
-            style: { width: COLUMN_WIDTHS[CREATED_AT_COL] },
           },
         ]),
     {
@@ -199,44 +197,70 @@ const StorageVolumes: FC = () => {
     ) {
       return false;
     }
+    if (
+      filters.clusterMembers.length > 0 &&
+      !filters.clusterMembers.includes(
+        item.location.length === 0 ? "cluster-wide" : item.location,
+      )
+    ) {
+      return false;
+    }
     return true;
   });
 
-  const snapshotPerVolumeLookup = getSnapshotsPerVolume(volumes);
+  const snapshotsPerVolume = getSnapshotsPerVolume(volumes);
   const rows = filteredVolumes.map((volume) => {
     const volumeType = renderVolumeType(volume);
     const contentType = renderContentType(volume);
 
+    const key = `${volume.name}-${volume.location}`;
+    const snapshotCount = snapshotsPerVolume[key]?.length ?? 0;
+
     return {
-      key: volume.name,
+      key,
       className: "u-row",
       columns: [
         {
-          content: (
-            <>
-              <StorageVolumeNameLink volume={volume} />
-              {isSmallScreen && (
-                <div className="u-text--muted">
-                  {isoTimeToString(volume.created_at)}
-                </div>
-              )}
-            </>
-          ),
+          content: <StorageVolumeNameLink volume={volume} />,
           role: "rowheader",
           style: { width: COLUMN_WIDTHS[NAME_COL] },
           "aria-label": NAME_COL,
         },
         {
           content: (
-            <Link to={`/ui/project/${project}/storage/pool/${volume.pool}`}>
-              {volume.pool}
-            </Link>
+            <ResourceLink
+              type="pool"
+              value={volume.pool}
+              to={`/ui/project/${project}/storage/pool/${volume.pool}`}
+            />
           ),
           role: "cell",
           className: "pool",
           style: { width: COLUMN_WIDTHS[POOL_COL] },
           "aria-label": POOL_COL,
         },
+        ...(isClustered
+          ? [
+              {
+                content: volume.location ? (
+                  <ResourceLink
+                    type="cluster-member"
+                    to="/ui/cluster"
+                    value={volume.location}
+                  />
+                ) : (
+                  <ResourceLink
+                    type="cluster-group"
+                    value="Cluster wide"
+                    to="/ui/cluster"
+                  />
+                ),
+                role: "cell",
+                style: { width: COLUMN_WIDTHS[CLUSTER_MEMBER_COL] },
+                "aria-label": CLUSTER_MEMBER_COL,
+              },
+            ]
+          : []),
         {
           content: (
             <>
@@ -262,16 +286,6 @@ const StorageVolumes: FC = () => {
                 style: { width: COLUMN_WIDTHS[CONTENT_TYPE_COL] },
               },
             ]),
-        ...(isSmallScreen
-          ? []
-          : [
-              {
-                content: isoTimeToString(volume.created_at),
-                role: "cell",
-                "aria-label": CREATED_AT_COL,
-                style: { width: COLUMN_WIDTHS[CREATED_AT_COL] },
-              },
-            ]),
         {
           content: <StorageVolumeSize volume={volume} />,
           role: "cell",
@@ -285,9 +299,7 @@ const StorageVolumes: FC = () => {
             <>
               {volume.used_by?.length ?? 0}
               {isSmallScreen && (
-                <div className="u-text--muted">
-                  {snapshotPerVolumeLookup[volume.name]?.length ?? 0}
-                </div>
+                <div className="u-text--muted">{snapshotCount}</div>
               )}
             </>
           ),
@@ -302,7 +314,7 @@ const StorageVolumes: FC = () => {
           : [
               {
                 className: "u-align--right",
-                content: snapshotPerVolumeLookup[volume.name]?.length ?? 0,
+                content: snapshotCount,
                 role: "cell",
                 "aria-label": SNAPSHOTS_COL,
                 style: { width: COLUMN_WIDTHS[SNAPSHOTS_COL] },
@@ -336,11 +348,11 @@ const StorageVolumes: FC = () => {
       sortData: {
         name: volume.name,
         pool: volume.pool,
+        clusterMember: volume.location,
         contentType: contentType,
         type: volumeType,
-        createdAt: volume.created_at,
         usedBy: volume.used_by?.length ?? 0,
-        snapshots: snapshotPerVolumeLookup[volume.name]?.length ?? 0,
+        snapshots: snapshotCount,
       },
     };
   });

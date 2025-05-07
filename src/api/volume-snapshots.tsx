@@ -5,16 +5,17 @@ import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";
 import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
+import { getTargetParam } from "api/storage-volumes";
 
-export const createVolumeSnapshot = async (args: {
-  volume: LxdStorageVolume;
-  name: string;
-  expiresAt: string | null;
-}): Promise<LxdOperationResponse> => {
-  const { volume, name, expiresAt } = args;
+export const createVolumeSnapshot = async (
+  volume: LxdStorageVolume,
+  name: string,
+  expiresAt: string | null,
+): Promise<LxdOperationResponse> => {
+  const targetParam = getTargetParam(volume.location);
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots?project=${volume.project}${targetParam}`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -33,9 +34,10 @@ export const deleteVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: Pick<LxdVolumeSnapshot, "name">,
 ): Promise<LxdOperationResponse> => {
+  const targetParam = getTargetParam(volume.location);
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}&${targetParam}`,
       {
         method: "DELETE",
       },
@@ -84,9 +86,10 @@ export const restoreVolumeSnapshot = async (
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
 ): Promise<LxdSyncResponse<unknown>> => {
+  const targetParam = getTargetParam(volume.location);
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${volume.project}${targetParam}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -100,15 +103,15 @@ export const restoreVolumeSnapshot = async (
   });
 };
 
-export const renameVolumeSnapshot = async (args: {
-  volume: LxdStorageVolume;
-  snapshot: LxdVolumeSnapshot;
-  newName: string;
-}): Promise<LxdOperationResponse> => {
-  const { volume, snapshot, newName } = args;
+export const renameVolumeSnapshot = async (
+  volume: LxdStorageVolume,
+  snapshot: LxdVolumeSnapshot,
+  newName: string,
+): Promise<LxdOperationResponse> => {
+  const targetParam = getTargetParam(volume.location);
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -123,15 +126,15 @@ export const renameVolumeSnapshot = async (args: {
 };
 
 // NOTE: this api endpoint results in a synchronous operation
-export const updateVolumeSnapshot = async (args: {
-  volume: LxdStorageVolume;
-  snapshot: LxdVolumeSnapshot;
-  expiresAt: string | null;
-}): Promise<LxdSyncResponse<unknown>> => {
-  const { volume, snapshot, expiresAt } = args;
+export const updateVolumeSnapshot = async (
+  volume: LxdStorageVolume,
+  snapshot: LxdVolumeSnapshot,
+  expiresAt: string | null,
+): Promise<LxdSyncResponse<unknown>> => {
+  const targetParam = getTargetParam(volume.location);
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -145,16 +148,13 @@ export const updateVolumeSnapshot = async (args: {
   });
 };
 
-export const fetchStorageVolumeSnapshots = async (args: {
-  pool: string;
-  type: string;
-  volumeName: string;
-  project: string;
-}): Promise<LxdVolumeSnapshot[]> => {
-  const { pool, type, volumeName, project } = args;
+export const fetchStorageVolumeSnapshots = async (
+  volume: LxdStorageVolume,
+): Promise<LxdVolumeSnapshot[]> => {
+  const targetParam = getTargetParam(volume.location);
   return new Promise((resolve, reject) => {
     fetch(
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volumeName}/snapshots?project=${project}&recursion=2`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots?project=${volume.project}${targetParam}&recursion=2`,
     )
       .then(handleResponse)
       .then((data: LxdApiResponse<LxdVolumeSnapshot[]>) => {
