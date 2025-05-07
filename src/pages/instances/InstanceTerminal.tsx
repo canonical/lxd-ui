@@ -22,6 +22,7 @@ import {
 } from "@canonical/react-components";
 import NotificationRow from "components/NotificationRow";
 import { useInstanceEntitlements } from "util/entitlements/instances";
+import { isInstanceRunning } from "util/instanceStatus";
 
 const XTERM_OPTIONS = {
   theme: {
@@ -148,7 +149,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     return [data, control];
   };
 
-  const isRunning = instance.status === "Running";
+  const isRunning = isInstanceRunning(instance);
   const isBooting = isRunning && (instance.state?.processes ?? 0) < 1;
   const canConnect = isRunning && !isBooting;
   const canExec = canExecInstance(instance);
