@@ -182,7 +182,12 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid || projectsLoading || volumesLoading}
+            disabled={
+              !formik.isValid ||
+              formik.isSubmitting ||
+              projectsLoading ||
+              volumesLoading
+            }
             onClick={() => void formik.submitForm()}
           >
             Copy

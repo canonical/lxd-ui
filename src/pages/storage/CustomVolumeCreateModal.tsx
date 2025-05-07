@@ -112,7 +112,7 @@ const CustomVolumeCreateModal: FC<Props> = ({
           appearance="positive"
           className="u-no-margin--bottom"
           onClick={() => void formik.submitForm()}
-          disabled={!formik.isValid || !validPool}
+          disabled={!formik.isValid || formik.isSubmitting || !validPool}
           loading={formik.isSubmitting}
         >
           Create volume

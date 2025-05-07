@@ -106,7 +106,11 @@ const CreateNetworkForward: FC = () => {
         </Link>
         <ActionButton
           loading={formik.isSubmitting}
-          disabled={!formik.isValid || !formik.values.listenAddress}
+          disabled={
+            !formik.isValid ||
+            formik.isSubmitting ||
+            !formik.values.listenAddress
+          }
           onClick={() => void formik.submitForm()}
         >
           Create

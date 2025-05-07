@@ -95,7 +95,11 @@ const RenameHeader: FC<Props> = ({
                   <ActionButton
                     appearance="positive"
                     loading={formik.isSubmitting}
-                    disabled={!formik.isValid || name === formik.values.name}
+                    disabled={
+                      !formik.isValid ||
+                      formik.isSubmitting ||
+                      name === formik.values.name
+                    }
                     onClick={() => void formik.submitForm()}
                   >
                     Save

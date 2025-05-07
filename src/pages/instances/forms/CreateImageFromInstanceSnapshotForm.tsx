@@ -150,7 +150,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid}
+            disabled={!formik.isValid || formik.isSubmitting}
             onClick={() => void formik.submitForm()}
           >
             Create image

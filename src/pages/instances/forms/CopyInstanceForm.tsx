@@ -177,7 +177,12 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
             appearance="positive"
             className="u-no-margin--bottom"
             loading={formik.isSubmitting}
-            disabled={!formik.isValid || storagePoolsLoading || projectsLoading}
+            disabled={
+              !formik.isValid ||
+              formik.isSubmitting ||
+              storagePoolsLoading ||
+              projectsLoading
+            }
             onClick={() => void formik.submitForm()}
           >
             Copy
