@@ -153,10 +153,12 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
                 existingVolumeLink,
               ),
           );
-          close();
         })
         .catch((e) => {
           toastNotify.failure("Volume copy failed.", e, existingVolumeLink);
+        })
+        .finally(() => {
+          close();
         });
     },
   });

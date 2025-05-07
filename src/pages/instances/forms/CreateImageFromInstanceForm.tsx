@@ -82,7 +82,6 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
           toastNotify.info(
             <>Creation of image from instance {instanceLink} started.</>,
           );
-          close();
           eventQueue.set(
             operation.metadata.id,
             (event) => {
@@ -117,6 +116,9 @@ const CreateImageFromInstanceForm: FC<Props> = ({ instance, close }) => {
             e,
             instanceLink,
           );
+        })
+        .finally(() => {
+          close();
         });
     },
   });

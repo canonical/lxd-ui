@@ -69,13 +69,6 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
       .split(".")[0];
     const backupName = `${instance.name}-${currentTime}.tar${values.compression === "gzip" ? ".gz" : ""}`;
 
-    toastNotify.info(
-      <>
-        Backing up instance {instanceLink}.<br />
-        Download will start, when the export is ready.
-      </>,
-    );
-
     const payload = JSON.stringify({
       name: backupName,
       expires_at: getNowInHours(values.expirationHours).toISOString(),
@@ -89,6 +82,12 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
 
     createInstanceBackup(instance.name, instance.project, payload)
       .then((operation) => {
+        toastNotify.info(
+          <>
+            Backing up instance {instanceLink}.<br />
+            Download will start, when the export is ready.
+          </>,
+        );
         eventQueue.set(
           operation.metadata.id,
           () => {
@@ -101,7 +100,6 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
               instanceLink,
             ),
         );
-        close();
       })
       .catch((e) =>
         toastNotify.failure(
@@ -111,7 +109,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
         ),
       )
       .finally(() => {
-        formik.setSubmitting(false);
+        close();
       });
   };
 

@@ -75,7 +75,6 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
                   .
                 </>,
               );
-              close();
               resetForm();
             },
             (msg) => {
@@ -90,6 +89,8 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
         .catch((error: Error) => {
           notify.failure("Snapshot creation failed", error);
           formik.setSubmitting(false);
+        })
+        .finally(() => {
           close();
         });
     },

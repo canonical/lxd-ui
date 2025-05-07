@@ -131,10 +131,12 @@ const MigrateVolumeBtn: FC<Props> = ({
         queryClient.invalidateQueries({
           queryKey: [queryKeys.storage, storageVolume.name, project],
         });
-        handleClose();
       })
       .catch((e) => {
         notifyFailure(e, storageVolume.name, targetPool);
+      })
+      .finally(() => {
+        handleClose();
       });
   };
 
