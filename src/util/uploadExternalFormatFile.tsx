@@ -40,6 +40,7 @@ export const uploadExternalFormatFilePayload = (
       type: "conversion",
       mode: "push",
       conversion_options: conversionOptions,
+      source_disk_size: fileSize,
     },
     devices: {
       root: {
@@ -50,7 +51,6 @@ export const uploadExternalFormatFilePayload = (
     },
     type: "virtual-machine",
     name: values.name,
-    source_disk_size: fileSize,
     architecture: values.architecture,
   };
 
