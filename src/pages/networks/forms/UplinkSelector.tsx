@@ -81,7 +81,10 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
           Uplink
         </Label>
       </div>
-      <div className="general-field-content">
+      <div
+        className="general-field-content"
+        key={formik.values.readOnly ? "read" : "edit"}
+      >
         {formik.values.readOnly ? (
           <>
             {formik.values.network}

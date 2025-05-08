@@ -131,6 +131,8 @@ or remove the originating item"
             | CustomNetworkDevice;
 
           return getConfigurationRowBase({
+            name: `devices.${index}.name`,
+            edit: readOnly ? "read" : "edit",
             configuration: (
               <>
                 {readOnly || device.type === "custom-nic" ? (
