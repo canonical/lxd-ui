@@ -23,6 +23,7 @@ import { focusField } from "util/formFields";
 import { useNetworks } from "context/useNetworks";
 import { useProfiles } from "context/useProfiles";
 import NetworkSelector from "pages/projects/forms/NetworkSelector";
+import NetworkDeviceOptions from "components/forms/NetworkDevicesOptions";
 
 interface Props {
   formik: InstanceAndProfileFormikProps;
@@ -130,6 +131,12 @@ or remove the originating item"
             | LxdNicDevice
             | CustomNetworkDevice;
 
+          const isManaged = !!(device as LxdNicDevice).network;
+
+          const networkName = isManaged
+            ? (formik.values.devices[index] as LxdNicDevice).network
+            : (formik.values.devices[index] as CustomNetworkDevice).bare.parent;
+
           return getConfigurationRowBase({
             configuration: (
               <>
@@ -156,76 +163,87 @@ or remove the originating item"
               </>
             ),
             inherited: "",
-            override:
-              device.type === "custom-nic" ? (
-                <>
-                  custom network{" "}
-                  <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
-                    <Icon name="information" />
-                  </Tooltip>{" "}
-                </>
-              ) : (
-                <div className="network-device" key={index}>
-                  <div>
-                    {readOnly ? (
-                      <div>
-                        {(formik.values.devices[index] as LxdNicDevice).network}
-                      </div>
-                    ) : (
+            override: (
+              <div className="network-device" key={index}>
+                <div>
+                  {readOnly ? (
+                    <div>{networkName}</div>
+                  ) : (
+                    <>
                       <NetworkSelector
-                        value={
-                          (formik.values.devices[index] as LxdNicDevice).network
-                        }
+                        value={networkName ?? ""}
                         project={project}
                         onBlur={formik.handleBlur}
-                        setValue={(value) =>
-                          void formik.setFieldValue(
-                            `devices.${index}.network`,
-                            value,
-                          )
-                        }
+                        setValue={(value) => {
+                          const network = networks.find(
+                            (item) => item.name === value,
+                          );
+                          if (network?.managed) {
+                            formik.setFieldValue(`devices.${index}`, {
+                              type: "nic",
+                              name: device.name,
+                              network: value,
+                            });
+                          } else {
+                            formik.setFieldValue(`devices.${index}`, {
+                              type: "nic",
+                              name: device.name,
+                              bare: {
+                                parent: value,
+                                nictype:
+                                  network?.type === "bridge"
+                                    ? "bridged"
+                                    : network?.type,
+                              },
+                            });
+                          }
+                        }}
                         id={`devices.${index}.network`}
                         name={`devices.${index}.network`}
                       />
-                    )}
-                  </div>
-                  <div>
-                    {readOnly && (
-                      <Button
-                        onClick={() => {
-                          ensureEditMode(formik);
-                          focusNetwork(index);
-                        }}
-                        type="button"
-                        appearance="base"
-                        title={formik.values.editRestriction ?? "Edit network"}
-                        className="u-no-margin--top"
-                        hasIcon
-                        dense
-                        disabled={!!formik.values.editRestriction}
-                      >
-                        <Icon name="edit" />
-                      </Button>
-                    )}
+                      {!isManaged && (
+                        <NetworkDeviceOptions formik={formik} index={index} />
+                      )}
+                    </>
+                  )}
+                </div>
+                <div>
+                  {readOnly && (
                     <Button
-                      className="delete-device u-no-margin--top"
                       onClick={() => {
                         ensureEditMode(formik);
-                        removeNetwork(index);
+                        focusNetwork(index);
                       }}
                       type="button"
                       appearance="base"
+                      title={formik.values.editRestriction ?? "Edit network"}
+                      className="u-no-margin--top"
                       hasIcon
                       dense
-                      title={formik.values.editRestriction ?? "Detach network"}
                       disabled={!!formik.values.editRestriction}
                     >
-                      <Icon name="disconnect" />
-                      <span>Detach</span>
+                      <Icon name="edit" />
                     </Button>
-                  </div>
+                  )}
+                  <Button
+                    className="delete-device u-no-margin--top"
+                    onClick={() => {
+                      ensureEditMode(formik);
+                      removeNetwork(index);
+                    }}
+                    type="button"
+                    appearance="base"
+                    hasIcon
+                    dense
+                    title={formik.values.editRestriction ?? "Detach network"}
+                    disabled={!!formik.values.editRestriction}
+                  >
+                    <Icon name="disconnect" />
+                    <span>Detach</span>
+                  </Button>
                 </div>
-              ),
+              </div>
+            ),
           });
         }),
 
