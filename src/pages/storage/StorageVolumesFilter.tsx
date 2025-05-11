@@ -11,12 +11,14 @@ import {
   paramsFromSearchData,
   searchParamsToChips,
 } from "util/searchAndFilter";
+import { useIsClustered } from "context/useIsClustered";
 
 export interface StorageVolumesFilterType {
   queries: string[];
   pools: string[];
   volumeTypes: string[];
   contentTypes: string[];
+  clusterMembers: string[];
 }
 
 interface Props {
@@ -29,15 +31,25 @@ export const QUERY = "query";
 export const POOL = "pool";
 export const VOLUME_TYPE = "volume-type";
 export const CONTENT_TYPE = "content-type";
+export const CLUSTER_MEMBER = "member";
 
-const QUERY_PARAMS = [QUERY, POOL, VOLUME_TYPE, CONTENT_TYPE];
+const QUERY_PARAMS = [QUERY, POOL, VOLUME_TYPE, CONTENT_TYPE, CLUSTER_MEMBER];
 
 const contentTypes: string[] = ["Block", "Filesystem", "ISO"];
 
 const StorageVolumesFilter: FC<Props> = ({ volumes }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const isClustered = useIsClustered();
 
   const pools = [...new Set(volumes.map((volume) => volume.pool))];
+
+  const locationSet = [
+    ...new Set(
+      volumes
+        .flatMap((volume) => volume.location)
+        .filter((item) => item.length > 0 && item !== "none"),
+    ),
+  ];
 
   const searchAndFilterData: SearchAndFilterData[] = [
     {
@@ -61,6 +73,17 @@ const StorageVolumesFilter: FC<Props> = ({ volumes }) => {
         return { lead: CONTENT_TYPE, value: contentType };
       }),
     },
+    ...(isClustered
+      ? [
+          {
+            id: 4,
+            heading: "Cluster member",
+            chips: ["Cluster-wide"].concat(locationSet).map((location) => {
+              return { lead: CLUSTER_MEMBER, value: location };
+            }),
+          },
+        ]
+      : []),
   ];
 
   const onSearchDataChange = (searchData: SearchAndFilterChip[]) => {

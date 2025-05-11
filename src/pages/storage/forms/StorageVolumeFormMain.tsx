@@ -78,6 +78,7 @@ const StorageVolumeFormMain: FC<Props> = ({
                 return { label: member.server_name, value: member.server_name };
               })}
               disabled={!formik.values.isCreating}
+              required={formik.values.isCreating}
               help={
                 formik.values.isCreating
                   ? undefined
