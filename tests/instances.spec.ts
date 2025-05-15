@@ -399,7 +399,7 @@ test("Create instance from external instance file", async ({
   await deleteInstance(page, instanceName);
 });
 
-test("Migrate instance root storage volume to a different pool", async ({
+test("Move instance root storage volume to a different pool", async ({
   page,
 }) => {
   const targetPool = randomPoolName();
