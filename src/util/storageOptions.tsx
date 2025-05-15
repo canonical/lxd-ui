@@ -7,10 +7,11 @@ export const lvmDriver = "lvm";
 export const zfsDriver = "zfs";
 export const cephDriver = "ceph";
 export const cephFSDriver = "cephfs";
+export const cephObject = "cephobject";
 export const powerFlex = "powerflex";
 export const pureStorage = "pure";
 
-const storageDriverLabels: { [key: string]: string } = {
+export const storageDriverLabels: { [key: string]: string } = {
   [dirDriver]: "Directory",
   [btrfsDriver]: "Btrfs",
   [lvmDriver]: "LVM",
@@ -19,6 +20,7 @@ const storageDriverLabels: { [key: string]: string } = {
   [cephFSDriver]: "CephFS",
   [powerFlex]: "Dell PowerFlex",
   [pureStorage]: "Pure Storage",
+  [cephObject]: "Ceph Object",
 };
 
 export const getStorageDriverOptions = (
@@ -69,8 +71,9 @@ export const driversWithFilesystemSupport = [
   lvmDriver,
   cephDriver,
   pureStorage,
+  cephObject,
 ];
 
 export const isRemoteStorage = (driver: string) => {
-  return [cephDriver, cephFSDriver, powerFlex].includes(driver);
+  return [cephDriver, cephFSDriver, powerFlex, cephObject].includes(driver);
 };

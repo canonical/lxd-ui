@@ -10,11 +10,13 @@ import {
   powerFlex,
   pureStorage,
   cephFSDriver,
+  cephObject,
 } from "util/storageOptions";
 import type { StoragePoolFormValues } from "./StoragePoolForm";
 import DiskSizeSelector from "components/forms/DiskSizeSelector";
 import AutoExpandingTextArea from "components/AutoExpandingTextArea";
 import {
+  getCephObjectPoolFormFields,
   getCephPoolFormFields,
   getPowerflexPoolFormFields,
   getPureStoragePoolFormFields,
@@ -52,11 +54,12 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
 
   const isCephDriver = formik.values.driver === cephDriver;
   const isCephFSDriver = formik.values.driver === cephFSDriver;
+  const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const storageDriverOptions = getStorageDriverOptions(settings);
   const hasClusterWideSource = isCephDriver || isCephFSDriver;
-  const hasSource = !isPureDriver && !isPowerFlexDriver;
+  const hasSource = !isPureDriver && !isPowerFlexDriver && !isCephObjectDriver;
 
   const sourceHelpText = formik.values.isCreating
     ? getSourceHelpForDriver(formik.values.driver)
@@ -104,6 +107,12 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
               if (val !== cephDriver) {
                 const cephFields = getCephPoolFormFields();
                 for (const field of cephFields) {
+                  formik.setFieldValue(field, undefined);
+                }
+              }
+              if (val !== cephObject) {
+                const cephobjectFields = getCephObjectPoolFormFields();
+                for (const field of cephobjectFields) {
                   formik.setFieldValue(field, undefined);
                 }
               }
@@ -193,6 +202,22 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                 disabledReason={formik.values.editRestriction}
               />
             ))}
+          {isCephObjectDriver && (
+            <>
+              <Input
+                {...formik.getFieldProps("cephobject_radosgw_endpoint")}
+                type="text"
+                label="Rados gateway endpoint"
+                placeholder="Enter rados gateway endpoint"
+                help="URL of the rados gateway process"
+                onChange={(e) => {
+                  ensureEditMode(formik);
+                  formik.handleChange(e);
+                }}
+                required
+              />
+            </>
+          )}
           {isPowerFlexDriver && (
             <>
               <Input
