@@ -1,5 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import type { GroupSubForm } from "pages/permissions/panels/CreateGroupPanel";
+import { useCurrentProject } from "context/useCurrentProject";
 
 export interface PanelHelper {
   panel: string | null;
@@ -39,6 +40,7 @@ export const panels = {
 type ParamMap = Record<string, string>;
 
 const usePanelParams = (): PanelHelper => {
+  const { project } = useCurrentProject();
   const [params, setParams] = useSearchParams();
 
   const craftResizeEvent = () => {
@@ -67,7 +69,7 @@ const usePanelParams = (): PanelHelper => {
     newParams.delete("instance");
     newParams.delete("panel");
     newParams.delete("profile");
-    newParams.delete("project");
+    newParams.delete("panel-project");
     newParams.delete("sub-form");
     setParams(newParams);
     craftResizeEvent();
@@ -77,7 +79,7 @@ const usePanelParams = (): PanelHelper => {
     panel: params.get("panel"),
     instance: params.get("instance"),
     profile: params.get("profile"),
-    project: params.get("project") ?? "default",
+    project: params.get("panel-project") ?? project?.name ?? "default",
     identity: params.get("identity"),
     group: params.get("group"),
     idpGroup: params.get("idp-group"),
@@ -88,7 +90,10 @@ const usePanelParams = (): PanelHelper => {
     },
 
     openInstanceSummary: (instance, project) => {
-      setPanelParams(panels.instanceSummary, { instance, project });
+      setPanelParams(panels.instanceSummary, {
+        instance,
+        "panel-project": project,
+      });
     },
 
     openImageImport: () => {
@@ -96,7 +101,10 @@ const usePanelParams = (): PanelHelper => {
     },
 
     openProfileSummary: (profile, project) => {
-      setPanelParams(panels.profileSummary, { profile, project });
+      setPanelParams(panels.profileSummary, {
+        profile,
+        "panel-project": project,
+      });
     },
 
     openIdentityGroups: (identity) => {
