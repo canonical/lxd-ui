@@ -9,6 +9,7 @@ interface Props {
   setValue: (value: string) => void;
   onBlur?: (e: React.FocusEvent) => void;
   hasNoneOption?: boolean;
+  isManaged?: boolean;
 }
 
 const NetworkSelector: FC<Props & SelectProps> = ({
@@ -17,14 +18,17 @@ const NetworkSelector: FC<Props & SelectProps> = ({
   setValue,
   onBlur,
   hasNoneOption = false,
+  isManaged,
   ...selectProps
 }) => {
   const { data: networks = [] } = useNetworks(project);
 
-  const managedNetworks = networks.filter((network) => network.managed);
+  const filteredNetworks = networks.filter((network) => {
+    return isManaged === undefined || network.managed === isManaged;
+  });
 
   const getNetworkOptions = () => {
-    const options = managedNetworks.map((network) => {
+    const options = filteredNetworks.map((network) => {
       return {
         label: network.name,
         value: network.name,
