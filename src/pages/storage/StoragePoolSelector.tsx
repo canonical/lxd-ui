@@ -4,8 +4,7 @@ import type { CustomSelectOption } from "@canonical/react-components";
 import { CustomSelect, useNotify } from "@canonical/react-components";
 import Loader from "components/Loader";
 import type { Props as SelectProps } from "@canonical/react-components/dist/components/Select/Select";
-import { useSettings } from "context/useSettings";
-import { getSupportedStorageDrivers } from "util/storageOptions";
+import { cephObject } from "util/storageOptions";
 import StoragePoolOptionLabel from "./StoragePoolOptionLabel";
 import StoragePoolOptionHeader from "./StoragePoolOptionHeader";
 import { useStoragePools } from "context/useStoragePools";
@@ -14,27 +13,21 @@ interface Props {
   value: string;
   setValue: (value: string) => void;
   selectProps?: SelectProps;
-  hidePoolsWithUnsupportedDrivers?: boolean;
+  invalidDrivers?: string[];
 }
 
 const StoragePoolSelector: FC<Props> = ({
   value,
   setValue,
   selectProps,
-  hidePoolsWithUnsupportedDrivers = false,
+  invalidDrivers = [cephObject],
 }) => {
   const notify = useNotify();
-  const { data: settings } = useSettings();
   const { data: pools = [], error, isLoading } = useStoragePools();
 
-  const supportedStorageDrivers = getSupportedStorageDrivers(settings);
-  const poolsWithSupportedDriver = pools.filter((pool) =>
-    supportedStorageDrivers.has(pool.driver),
-  );
-
-  const poolsToUse = hidePoolsWithUnsupportedDrivers
-    ? poolsWithSupportedDriver
-    : pools;
+  const poolsToUse = pools.filter((pool) => {
+    return !invalidDrivers.includes(pool.driver);
+  });
 
   useEffect(() => {
     if (!value && poolsToUse.length > 0) {

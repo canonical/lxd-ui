@@ -9,6 +9,7 @@ import type { StoragePoolFormValues } from "./StoragePoolForm";
 import {
   cephDriver,
   cephFSDriver,
+  cephObject,
   powerFlex,
   pureStorage,
   zfsDriver,
@@ -21,6 +22,7 @@ import {
 export const MAIN_CONFIGURATION = "Main configuration";
 export const CEPH_CONFIGURATION = "Ceph";
 export const CEPHFS_CONFIGURATION = "CephFS";
+export const CEPHOBJECT_CONFIGURATION = "Ceph Object";
 export const POWERFLEX = "Powerflex";
 export const ZFS_CONFIGURATION = "ZFS";
 export const YAML_CONFIGURATION = "YAML configuration";
@@ -47,6 +49,7 @@ const StoragePoolFormMenu: FC<Props> = ({
 
   const isCephDriver = formik.values.driver === cephDriver;
   const isCephFSDriver = formik.values.driver === cephFSDriver;
+  const isCephObjectDriver = formik.values.driver === cephObject;
   const isPowerFlexDriver = formik.values.driver === powerFlex;
   const isPureDriver = formik.values.driver === pureStorage;
   const isZfsDriver = formik.values.driver === zfsDriver;
@@ -88,6 +91,13 @@ const StoragePoolFormMenu: FC<Props> = ({
           {isCephFSDriver && (
             <MenuItem
               label={CEPHFS_CONFIGURATION}
+              {...menuItemProps}
+              disableReason={disableReason}
+            />
+          )}
+          {isCephObjectDriver && (
+            <MenuItem
+              label={CEPHOBJECT_CONFIGURATION}
               {...menuItemProps}
               disableReason={disableReason}
             />

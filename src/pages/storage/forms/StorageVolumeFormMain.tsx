@@ -56,7 +56,6 @@ const StorageVolumeFormMain: FC<Props> = ({
                 formik.setFieldValue("clusterMember", undefined);
               }
             }}
-            hidePoolsWithUnsupportedDrivers
             selectProps={{
               id: "storage-pool-selector-volume",
               disabled: !formik.values.isCreating,
