@@ -104,12 +104,12 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
   const { data: localImages = [], isLoading: isLocalImageLoading } =
     useImagesInProject(project ?? "default");
 
+  const isRemoteImagesLoading =
+    !hideRemote && (isCiLoading || isMinimalLoading || isImagesLxdLoading);
+
   const isLoading =
-    isCiLoading ||
-    isMinimalLoading ||
-    isImagesLxdLoading ||
-    isLocalImageLoading ||
-    isSettingsLoading;
+    isRemoteImagesLoading || isLocalImageLoading || isSettingsLoading;
+
   const archSupported = getArchitectureAliases(
     settings?.environment?.architectures ?? [],
   );
