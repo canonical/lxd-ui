@@ -4,23 +4,30 @@ import { ConfirmationButton, Icon } from "@canonical/react-components";
 import { queryKeys } from "util/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
-import type { LxdWarning } from "types/warning";
-import { deleteWarning } from "api/warnings";
-import { useWarningEntitlements } from "util/entitlements/warnings";
+import { deleteWarningBulk } from "api/warnings";
+import { pluralize } from "util/instanceBulkActions";
 
 interface Props {
-  warning: LxdWarning;
+  warningIds: string[];
+  canDeleteWarnings: boolean;
+  onStart?: () => void;
+  onFinish?: () => void;
 }
 
-const DeleteWarningBtn: FC<Props> = ({ warning }) => {
+const BulkDeleteWarningBtn: FC<Props> = ({
+  warningIds,
+  canDeleteWarnings,
+  onStart,
+  onFinish,
+}) => {
   const toastNotify = useToastNotification();
   const queryClient = useQueryClient();
   const [isLoading, setLoading] = useState(false);
-  const { canDeleteWarning } = useWarningEntitlements();
 
   const handleDelete = () => {
     setLoading(true);
-    deleteWarning(warning)
+    onStart?.();
+    deleteWarningBulk(warningIds)
       .then(() => {
         queryClient.invalidateQueries({
           queryKey: [queryKeys.warnings],
@@ -32,12 +39,13 @@ const DeleteWarningBtn: FC<Props> = ({ warning }) => {
       })
       .finally(() => {
         setLoading(false);
+        onFinish?.();
       });
   };
 
   const getHoverText = () => {
-    if (!canDeleteWarning(warning)) {
-      return "You do not have permission to delete this warning";
+    if (!canDeleteWarnings) {
+      return "You do not have permission to delete warnings";
     }
     return "Delete Warning";
   };
@@ -60,14 +68,15 @@ const DeleteWarningBtn: FC<Props> = ({ warning }) => {
         onConfirm: handleDelete,
         confirmButtonLabel: "Delete",
       }}
-      disabled={!canDeleteWarning(warning)}
+      disabled={!canDeleteWarnings}
       shiftClickEnabled
       showShiftClickHint
       aria-label="delete"
     >
       <Icon name="delete" />
+      <span>Delete {pluralize("warning", warningIds.length)}</span>
     </ConfirmationButton>
   );
 };
 
-export default DeleteWarningBtn;
+export default BulkDeleteWarningBtn;
