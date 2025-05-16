@@ -16,7 +16,10 @@ const NetworkAcls: FC<Props> = ({ formik, project }) => {
   return (
     <div className="general-field">
       <div className="general-field-label">ACLs</div>
-      <div className="general-field-content">
+      <div
+        className="general-field-content"
+        key={formik.values.readOnly ? "read" : "edit"}
+      >
         {formik.values.readOnly && (
           <>
             {formik.values.security_acls.length === 0 ? (

@@ -22,6 +22,7 @@ const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
         className={classnames("general-field-content", {
           "description-readonly": formik.values.readOnly,
         })}
+        key={formik.values.readOnly ? "read" : "edit"}
       >
         {formik.values.readOnly ? (
           <>

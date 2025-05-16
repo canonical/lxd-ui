@@ -129,7 +129,7 @@ const CreateGroupPanel: FC = () => {
         })}
       >
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle key={subForm ?? "start"}>
             <GroupHeaderTitle subForm={subForm} setSubForm={setSubForm} />
           </SidePanel.HeaderTitle>
         </SidePanel.Header>

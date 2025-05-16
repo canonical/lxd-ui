@@ -67,9 +67,25 @@ const MigrateInstanceModal: FC<Props> = ({ close, instance }) => {
     <Modal
       close={close}
       className="migrate-instance-modal"
-      title={modalTitle}
       onKeyDown={handleEscKey}
+      aria-labelledby="migrate-title"
     >
+      <header className="p-modal__header">
+        <h2
+          className="p-modal__title"
+          key={type ? (target ? "confirm" : "select") : "start"}
+          id="migrate-title"
+        >
+          {modalTitle}
+        </h2>
+        <button
+          className="p-modal__close"
+          aria-label="Close active modal"
+          onClick={close}
+        >
+          Close
+        </button>
+      </header>
       {!type && (
         <div className="choose-migration-type">
           {isClustered && (
