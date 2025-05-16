@@ -8,6 +8,7 @@ import { fetchClusterGroups } from "api/cluster";
 import type { FormikProps } from "formik/dist/types";
 import type { CreateInstanceFormValues } from "pages/instances/CreateInstance";
 import { useIsClustered } from "context/useIsClustered";
+import { useCurrentProject } from "context/useCurrentProject";
 
 interface Props {
   formik: FormikProps<CreateInstanceFormValues>;
@@ -38,6 +39,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const [selectedGroup, setSelectedGroup] = useState(defaultGroup);
   const defaultMember = figureDefaultMember(formik.values.target);
   const [selectedMember, setSelectedMember] = useState(defaultMember);
+  const { project } = useCurrentProject();
 
   const { data: clusterGroups = [], isLoading } = useQuery({
     queryKey: [queryKeys.cluster, queryKeys.groups],
@@ -66,6 +68,12 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   const availableMembers =
     clusterGroups.find((group) => group.name === selectedGroup)?.members ?? [];
 
+  const isProjectRestricted = project?.config["restricted"] === "true";
+  const clusterTarget = project?.config["restricted.cluster.target"];
+  const isProjectBlockingClusterMemberTargeting =
+    isProjectRestricted &&
+    (clusterTarget === "block" || clusterTarget === undefined); // the default on restricted projects is to block, so we also check for clusterTarget as undefined
+
   const isPreselected = (formik.values as { targetSelectedByVolume?: boolean })
     .targetSelectedByVolume;
 
@@ -91,13 +99,23 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
           setGroup(e.target.value);
         }}
         value={selectedGroup}
-        options={clusterGroups.map((group) => {
-          return {
-            label: group.name,
-            value: group.name,
-            disabled: group.members.length < 1,
-          };
-        })}
+        options={clusterGroups
+          .filter((group) => {
+            const restrictedGroups =
+              project?.config["restricted.cluster.groups"];
+            if (isProjectRestricted && restrictedGroups) {
+              return restrictedGroups.includes(group.name);
+            } else {
+              return true;
+            }
+          })
+          .map((group) => {
+            return {
+              label: group.name,
+              value: group.name,
+              disabled: group.members.length < 1,
+            };
+          })}
         disabled={!formik.values.image}
         title={
           formik.values.image
@@ -118,11 +136,15 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
             return { label: member, value: member };
           }),
         ]}
-        disabled={!formik.values.image}
+        disabled={
+          !formik.values.image || isProjectBlockingClusterMemberTargeting
+        }
         title={
-          formik.values.image
-            ? ""
-            : "Please select an image before adding a location member"
+          isProjectBlockingClusterMemberTargeting
+            ? "Cluster member targeting is blocked by project policy"
+            : formik.values.image
+              ? ""
+              : "Please select an image before adding a location member"
         }
       />
     </>
