@@ -1,0 +1,67 @@
+.warnings-table {
+  .type {
+    width: 12rem;
+  }
+
+  .last_message {
+    width: 24rem;
+  }
+
+  .status {
+    width: 6rem;
+  }
+
+  .severity {
+    width: 6rem;
+  }
+
+  .count {
+    width: 4rem;
+  }
+
+  .project {
+    width: 6rem;
+  }
+
+  .first_seen_at {
+    width: 12rem;
+  }
+
+  .last_seen_at {
+    width: 12rem;
+  }
+
+  @media screen and (width < 1900px) {
+    .first_seen_at,
+    .last_seen_at {
+      width: 8rem;
+    }
+  }
+
+  @media screen and (width < 1740px) {
+    .type {
+      width: 8rem;
+    }
+  }
+
+  @media screen and (width < 1470px) {
+    .first_seen_at {
+      display: none !important;
+    }
+  }
+
+  @media screen and (width < 1360px) {
+    .project {
+      display: none !important;
+    }
+
+    .type,
+    .status,
+    .severity,
+    .count,
+    .last_seen_at,
+    .last_message {
+      width: inherit;
+    }
+  }
+}
