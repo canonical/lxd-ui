@@ -150,7 +150,10 @@ export const toNetwork = (values: NetworkFormValues): Partial<LxdNetwork> => {
       [getNetworkKey("network")]: values.network,
       [getNetworkKey("ovn_ingress_mode")]: values.ovn_ingress_mode,
       [getNetworkKey("parent")]: values.parent,
-      [getNetworkKey("security_acls")]: values.security_acls.join(","),
+      [getNetworkKey("security_acls")]:
+        values.security_acls.length > 0
+          ? values.security_acls.join(",")
+          : undefined,
     },
   };
 };
