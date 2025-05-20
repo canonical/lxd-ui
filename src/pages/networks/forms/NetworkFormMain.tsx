@@ -108,7 +108,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
               row={getConfigurationRow({
                 formik,
                 name: "ipv4_address",
-                label: "IPv4 address range",
+                label: "IPv4 address",
                 defaultValue: "auto",
                 children: (
                   <IpAddressSelector
@@ -140,7 +140,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
               row={getConfigurationRow({
                 formik,
                 name: "ipv6_address",
-                label: "IPv6 address range",
+                label: "IPv6 address",
                 defaultValue: "auto",
                 children: (
                   <IpAddressSelector
