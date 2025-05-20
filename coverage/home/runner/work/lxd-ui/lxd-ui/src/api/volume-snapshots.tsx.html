@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.8% </span>
+                <span class="strong">67.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>139/205</span>
+                <span class='fraction'>139/207</span>
             </div>
         
             
@@ -242,6 +242,7 @@
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -280,6 +281,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -314,26 +316,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -355,8 +337,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -381,9 +361,29 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
@@ -410,16 +410,17 @@ import type { LxdStorageVolume, LxdVolumeSnapshot } from "types/storage";
 import type { LxdApiResponse, LxdSyncResponse } from "types/apiResponse";
 import type { EventQueue } from "context/eventQueue";
 import { splitVolumeSnapshotName } from "util/storageVolume";
+import { getTargetParam } from "api/storage-volumes";
 &nbsp;
-export const createVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
-  volume: LxdStorageVolume;
-  name: string;
-  expiresAt: string | null;
-}): Promise&lt;LxdOperationResponse&gt; =&gt; {
-  const { volume, name, expiresAt } = <span class="cstat-no" title="statement not covered" >args;</span>
+export const createVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+  volume: LxdStorageVolume,
+  name: string,
+  expiresAt: string | null,
+): Promise&lt;LxdOperationResponse&gt; =&gt; {
+  const targetParam = <span class="cstat-no" title="statement not covered" >getTargetParam(volume.location);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/custom/${volume.name}/snapshots?project=${volume.project}${targetParam}`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -438,9 +439,10 @@ export const deleteVolumeSnapshot = <span class="cstat-no" title="statement not 
   volume: LxdStorageVolume,
   snapshot: Pick&lt;LxdVolumeSnapshot, "name"&gt;,
 ): Promise&lt;LxdOperationResponse&gt; =&gt; {
+  const targetParam = <span class="cstat-no" title="statement not covered" >getTargetParam(volume.location);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}&amp;${targetParam}`,
       {
         method: "DELETE",
       },
@@ -489,9 +491,10 @@ export const restoreVolumeSnapshot = <span class="cstat-no" title="statement not
   volume: LxdStorageVolume,
   snapshot: LxdVolumeSnapshot,
 ): Promise&lt;LxdSyncResponse&lt;unknown&gt;&gt; =&gt; {
+  const targetParam = <span class="cstat-no" title="statement not covered" >getTargetParam(volume.location);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}?project=${volume.project}${targetParam}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -505,15 +508,15 @@ export const restoreVolumeSnapshot = <span class="cstat-no" title="statement not
   });
 };
 &nbsp;
-export const renameVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
-  volume: LxdStorageVolume;
-  snapshot: LxdVolumeSnapshot;
-  newName: string;
-}): Promise&lt;LxdOperationResponse&gt; =&gt; {
-  const { volume, snapshot, newName } = <span class="cstat-no" title="statement not covered" >args;</span>
+export const renameVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+  volume: LxdStorageVolume,
+  snapshot: LxdVolumeSnapshot,
+  newName: string,
+): Promise&lt;LxdOperationResponse&gt; =&gt; {
+  const targetParam = <span class="cstat-no" title="statement not covered" >getTargetParam(volume.location);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -528,15 +531,15 @@ export const renameVolumeSnapshot = <span class="cstat-no" title="statement not 
 };
 &nbsp;
 // NOTE: this api endpoint results in a synchronous operation
-export const updateVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
-  volume: LxdStorageVolume;
-  snapshot: LxdVolumeSnapshot;
-  expiresAt: string | null;
-}): Promise&lt;LxdSyncResponse&lt;unknown&gt;&gt; =&gt; {
-  const { volume, snapshot, expiresAt } = <span class="cstat-no" title="statement not covered" >args;</span>
+export const updateVolumeSnapshot = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+  volume: LxdStorageVolume,
+  snapshot: LxdVolumeSnapshot,
+  expiresAt: string | null,
+): Promise&lt;LxdSyncResponse&lt;unknown&gt;&gt; =&gt; {
+  const targetParam = <span class="cstat-no" title="statement not covered" >getTargetParam(volume.location);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots/${snapshot.name}?project=${volume.project}${targetParam}`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -550,16 +553,13 @@ export const updateVolumeSnapshot = <span class="cstat-no" title="statement not 
   });
 };
 &nbsp;
-export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (a</span>rgs: {</span>
-  pool: string;
-  type: string;
-  volumeName: string;
-  project: string;
-}): Promise&lt;LxdVolumeSnapshot[]&gt; =&gt; {
-  const { pool, type, volumeName, project } = <span class="cstat-no" title="statement not covered" >args;</span>
+export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (</span></span>
+  volume: LxdStorageVolume,
+): Promise&lt;LxdVolumeSnapshot[]&gt; =&gt; {
+  const targetParam = <span class="cstat-no" title="statement not covered" >getTargetParam(volume.location);</span>
 <span class="cstat-no" title="statement not covered" >  return new Promise((resolve, reject) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    fetch(</span>
-      `/1.0/storage-pools/${pool}/volumes/${type}/${volumeName}/snapshots?project=${project}&amp;recursion=2`,
+      `/1.0/storage-pools/${volume.pool}/volumes/${volume.type}/${volume.name}/snapshots?project=${volume.project}${targetParam}&amp;recursion=2`,
     )
       .then(handleResponse)
       .then((data: LxdApiResponse&lt;LxdVolumeSnapshot[]&gt;) =&gt; {
@@ -580,7 +580,7 @@ export const fetchStorageVolumeSnapshots = <span class="cstat-no" title="stateme
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-19T17:30:09.867Z
+                at 2025-05-20T08:40:11.759Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

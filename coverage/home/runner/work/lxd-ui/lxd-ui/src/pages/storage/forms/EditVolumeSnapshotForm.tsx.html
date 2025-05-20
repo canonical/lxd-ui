@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.07% </span>
+                <span class="strong">71.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>114/156</span>
+                <span class='fraction'>103/144</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.46% </span>
+                <span class="strong">36% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/26</span>
+                <span class='fraction'>9/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.11% </span>
+                <span class="strong">56.25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/18</span>
+                <span class='fraction'>9/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.68% </span>
+                <span class="strong">91.15% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>114/123</span>
+                <span class='fraction'>103/113</span>
             </div>
         
             
@@ -176,17 +176,7 @@
 <a name='L111'></a><a href='#L111'>111</a>
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a>
-<a name='L119'></a><a href='#L119'>119</a>
-<a name='L120'></a><a href='#L120'>120</a>
-<a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -218,18 +208,6 @@
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -277,6 +255,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -340,21 +320,9 @@ const EditVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="st
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
   const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
 &nbsp;
-  const updateExpirationTime = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>xpiresAt: string | null) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return updateVolumeSnapshot({</span>
-      volume,
-      snapshot,
-      expiresAt,
-    });
-  };
-&nbsp;
   const rename = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (n</span>ewName: string): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return new Promise((resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      renameVolumeSnapshot({</span>
-        volume,
-        snapshot,
-        newName,
-      })
+<span class="cstat-no" title="statement not covered" >      renameVolumeSnapshot(volume, snapshot, newName)</span>
         .then((operation) =&gt; {
 <span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
             operation.metadata.id,
@@ -399,10 +367,12 @@ const EditVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="st
 <span class="branch-0 cbranch-no" title="branch not covered" >            )</span>
 <span class="cstat-no" title="statement not covered" >          : null;</span>
 <span class="cstat-no" title="statement not covered" >      if (expiresAt !== snapshot.expires_at) {</span>
-<span class="cstat-no" title="statement not covered" >        await updateExpirationTime(expiresAt).catch((error: Error) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Snapshot update failed", error);</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          shouldShowSuccess = false;</span></span>
-        });
+<span class="cstat-no" title="statement not covered" >        await updateVolumeSnapshot(volume, snapshot, expiresAt).catch(</span>
+<span class="fstat-no" title="function not covered" >          (e</span>rror: Error) =&gt; {
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            toastNotify.failure("Snapshot update failed", error);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >            shouldShowSuccess = false;</span></span>
+<span class="cstat-no" title="statement not covered" >          },</span>
+        );
       }
 <span class="cstat-no" title="statement not covered" >      if (values.name !== snapshot.name) {</span>
 <span class="cstat-no" title="statement not covered" >        await rename(values.name).catch((error: Error) =&gt; {</span>
@@ -439,7 +409,7 @@ export default EditVolumeSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-19T17:30:09.867Z
+                at 2025-05-20T08:40:11.759Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

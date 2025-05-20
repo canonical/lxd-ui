@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.98% </span>
+                <span class="strong">71.68% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>91/123</span>
+                <span class='fraction'>81/113</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.21% </span>
+                <span class="strong">88.04% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>91/102</span>
+                <span class='fraction'>81/92</span>
             </div>
         
             
@@ -155,17 +155,7 @@
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a>
-<a name='L101'></a><a href='#L101'>101</a>
-<a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">22x</span>
+<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
@@ -211,10 +201,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -225,12 +211,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">64x</span>
 <span class="cline-any cline-yes">61x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -284,7 +264,7 @@ import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { getVolumeSnapshotName } from "util/operations";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
-import ResourceLink from "components/ResourceLink";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 &nbsp;
 interface Props {
   close: () =&gt; void;
@@ -314,11 +294,7 @@ const CreateVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
 <span class="cstat-no" title="statement not covered" >              getExpiresAt(values.expirationDate, values.expirationTime),</span>
 <span class="cstat-no" title="statement not covered" >            )</span>
           : UNDEFINED_DATE;
-<span class="cstat-no" title="statement not covered" >      createVolumeSnapshot({</span>
-        volume,
-        name: values.name,
-        expiresAt,
-      })
+<span class="cstat-no" title="statement not covered" >      createVolumeSnapshot(volume, values.name, expiresAt)</span>
         .then((operation) =&gt; {
 <span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
             operation.metadata.id,
@@ -335,13 +311,7 @@ const CreateVolumeSnapshotForm: FC&lt;Props&gt; = <span class="cstat-no" title="
                     name={getVolumeSnapshotName(operation.metadata)}
                     volume={volume}
                   /&gt;{" "}
-                  created for volume{" "}
-                  &lt;ResourceLink
-                    type="volume"
-                    value={volume.name}
-                    to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-                  /&gt;
-                  .
+                  created for volume &lt;VolumeLinkChip volume={volume} /&gt;.
                 &lt;/&gt;,
               );
 <span class="cstat-no" title="statement not covered" >              resetForm();</span>
@@ -376,7 +346,7 @@ export default CreateVolumeSnapshotForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-19T17:30:09.867Z
+                at 2025-05-20T08:40:11.759Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>

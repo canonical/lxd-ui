@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.5% </span>
+                <span class="strong">81.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>231/280</span>
+                <span class='fraction'>226/276</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54% </span>
+                <span class="strong">50.94% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>27/50</span>
+                <span class='fraction'>27/53</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.06% </span>
+                <span class="strong">93.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>231/243</span>
+                <span class='fraction'>226/241</span>
             </div>
         
             
@@ -304,9 +304,7 @@
 <a name='L239'></a><a href='#L239'>239</a>
 <a name='L240'></a><a href='#L240'>240</a>
 <a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a>
-<a name='L243'></a><a href='#L243'>243</a>
-<a name='L244'></a><a href='#L244'>244</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
+<a name='L242'></a><a href='#L242'>242</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -345,8 +343,6 @@
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -370,10 +366,14 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
@@ -389,6 +389,9 @@
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -451,13 +454,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
@@ -562,25 +558,24 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
 import StoragePoolSelector from "../StoragePoolSelector";
 import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
-import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useStoragePool } from "context/useStoragePools";
 import { isRemoteStorage } from "util/storageOptions";
 import { copyStorageVolume } from "api/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 &nbsp;
 interface Props {
   volume: LxdStorageVolume;
   close: () =&gt; void;
 }
 &nbsp;
-export interface StorageVolumeCopy {
+export interface StorageVolumeCopyFormValues {
   name: string;
   project: string;
   pool: string;
@@ -591,7 +586,6 @@ export interface StorageVolumeCopy {
 const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> volume, close }) =&gt; {</span>
   const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span>
   const controllerState = <span class="cstat-no" title="statement not covered" >useState&lt;AbortController | null&gt;(null);</span>
-  const navigate = <span class="cstat-no" title="statement not covered" >useNavigate();</span>
   const eventQueue = <span class="cstat-no" title="statement not covered" >useEventQueue();</span>
 &nbsp;
   const { data: projects = [], isLoading: projectsLoading } = <span class="cstat-no" title="statement not covered" >useProjects();</span>
@@ -599,24 +593,28 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
   const { data: volumes = [], isLoading: volumesLoading } =
 <span class="cstat-no" title="statement not covered" >    useLoadCustomVolumes(volume.project);</span>
 &nbsp;
-  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olumeName: string, project: string, pool: string) =&gt; {</span>
-    const volumeUrl = <span class="cstat-no" title="statement not covered" >`/ui/project/${project}/storage/pool/${pool}/volumes/custom/${volumeName}`;</span>
-    const message = (
-<span class="cstat-no" title="statement not covered" >      &lt;&gt;</span>
-        Created volume{" "}
-        &lt;ResourceLink type="volume" value={volumeName} to={volumeUrl} /&gt;.
-      &lt;/&gt;
+  const notifySuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alues: StorageVolumeCopyFormValues) =&gt; {</span>
+    const newVolume = <span class="cstat-no" title="statement not covered" >{</span>
+      ...volume,
+      name: values.name,
+      project: values.project,
+      pool: values.pool,
+      location: values.location,
+    };
+<span class="cstat-no" title="statement not covered" >    toastNotify.success(</span>
+      &lt;&gt;
+        Created volume &lt;VolumeLinkChip volume={newVolume} /&gt;.
+      &lt;/&gt;,
     );
-&nbsp;
-    const actions = <span class="cstat-no" title="statement not covered" >[</span>
-      {
-        label: "Configure",
-        onClick: <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate(`${volumeUrl}/configuration`),</span></span>
-      },
-    ];
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    toastNotify.success(message, actions);</span>
   };
+&nbsp;
+  const notifyError = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >(e</span>rror: Error) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    toastNotify.failure(</span></span>
+<span class="cstat-no" title="statement not covered" >      "Volume copy failed.",</span>
+<span class="cstat-no" title="statement not covered" >      error,</span>
+<span class="cstat-no" title="statement not covered" >      &lt;VolumeLinkChip volume={volume} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >    );</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const getCopiedVolumeName = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>olume: LxdStorageVolume): string =&gt; {</span>
     const newVolumeName = <span class="cstat-no" title="statement not covered" >volume.name + "-copy";</span>
@@ -630,14 +628,17 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
       name: Yup.string().required("Volume name is required"),
       project: Yup.string().required(),
       pool: Yup.string().required(),
+      location: Yup.string().optional(),
     })
     .test("deduplicate", "", async function (values) {
-      const { name, project, pool } = <span class="cstat-no" title="statement not covered" >values;</span>
+      const { name, project, pool, location } = <span class="cstat-no" title="statement not covered" >values;</span>
+      const params = <span class="cstat-no" title="statement not covered" >location ? `&amp;target=${location<span class="branch-0 cbranch-no" title="branch not covered" >}` : "";</span></span>
       const notFound = <span class="cstat-no" title="statement not covered" >await checkDuplicateName(</span>
         name,
 <span class="branch-0 cbranch-no" title="branch not covered" >        project || "default",</span>
         controllerState,
         `storage-pools/${pool}/volumes/custom`,
+        params,
       );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (notFound) {</span>
@@ -651,7 +652,7 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
 <span class="cstat-no" title="statement not covered" >      });</span>
     });
 &nbsp;
-  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;StorageVolumeCopy&gt;({</span>
+  const formik = <span class="cstat-no" title="statement not covered" >useFormik&lt;StorageVolumeCopyFormValues&gt;({</span>
     initialValues: {
       name: getCopiedVolumeName(volume),
       project: volume.project,
@@ -681,32 +682,25 @@ const CopyVolumeForm: FC&lt;Props&gt; = <span class="cstat-no" title="statement 
         },
       };
 &nbsp;
-      const existingVolumeLink = (
-<span class="cstat-no" title="statement not covered" >        &lt;ResourceLink</span>
-          type="volume"
-          value={volume.name}
-          to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-        /&gt;
-      );
-&nbsp;
 <span class="cstat-no" title="statement not covered" >      copyStorageVolume(payload, values.pool, values.project, values.location)</span>
         .then((operation) =&gt; {
-<span class="cstat-no" title="statement not covered" >          toastNotify.info(&lt;&gt;Copy of volume {existingVolumeLink} started.&lt;/&gt;);</span>
+<span class="cstat-no" title="statement not covered" >          toastNotify.info(</span>
+            &lt;&gt;
+              Copy of volume &lt;VolumeLinkChip volume={volume} /&gt; started.
+            &lt;/&gt;,
+          );
 <span class="cstat-no" title="statement not covered" >          eventQueue.set(</span>
             operation.metadata.id,
 <span class="fstat-no" title="function not covered" >            () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              notifySuccess(values.name, values.project, values.pool);</span>
+<span class="cstat-no" title="statement not covered" >              notifySuccess(values);</span>
             },
-<span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt;
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              toastNotify.failure(</span></span>
-<span class="cstat-no" title="statement not covered" >                "Volume copy failed.",</span>
-<span class="cstat-no" title="statement not covered" >                new Error(msg),</span>
-<span class="cstat-no" title="statement not covered" >                existingVolumeLink,</span>
-<span class="cstat-no" title="statement not covered" >              ),</span>
+<span class="fstat-no" title="function not covered" >            (m</span>sg) =&gt; {
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >              notifyError(new Error(msg));</span></span>
+<span class="cstat-no" title="statement not covered" >            },</span>
           );
         })
         .catch((e) =&gt; {
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Volume copy failed.", e, existingVolumeLink);</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          toastNotify.failure("Volume copy failed.", e);</span></span>
         })
         .finally(() =&gt; {
 <span class="cstat-no" title="statement not covered" >          close();</span>
@@ -799,7 +793,7 @@ export default CopyVolumeForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-19T17:30:09.867Z
+                at 2025-05-20T08:40:11.759Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
