@@ -56,7 +56,7 @@ const BrowserImport: FC = () => {
             <ul className="p-list--divided u-no-margin--bottom">
               {downloadPfx}
               <li className="p-list__item">
-                Go to Firefox’s privacy settings:
+                Go to Firefox&rsquo;s privacy settings:
                 <pre className="p-code-snippet__block u-no-margin--bottom">
                   <code>about:preferences#privacy</code>
                 </pre>
@@ -154,7 +154,7 @@ const BrowserImport: FC = () => {
               {downloadPfx}
               <li className="p-list__item">
                 Launch the <b>Keychain Access app</b> (you will need to
-                authenticate using your mac’s login credentials)
+                authenticate using your mac&rsquo;s login credentials)
               </li>
               <li className="p-list__item">
                 Import the certificate file that was created earlier. This can

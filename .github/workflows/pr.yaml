@@ -55,6 +55,30 @@ jobs:
           reporter: github-pr-review
           fail-on-error: true
 
+  check-unicode-characters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Find disallowed Unicode characters (excluding .git and binary files)
+        run: |
+          echo "Scanning for disallowed Unicode characters..."
+          # Match non-ASCII characters except — ü and →
+          NON_ASCII_FILES=$(grep --color=always -P -n "[^\x00-\x7F—ü→]" -r . \
+            --exclude-dir=.git \
+            --exclude=*.png \
+            --exclude=*.woff2 \
+            --exclude=*.tar.gz || true)
+
+          if [ -n "$NON_ASCII_FILES" ]; then
+            echo "Disallowed Unicode characters found:"
+            echo "$NON_ASCII_FILES"
+            exit 1
+          else
+            echo "No disallowed Unicode characters found."
+          fi
+
   browser-e2e-test:
     name: e2e-tests
     runs-on: ubuntu-latest
