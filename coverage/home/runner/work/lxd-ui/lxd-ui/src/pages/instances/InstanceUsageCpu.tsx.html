@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.92% </span>
+                <span class="strong">47.32% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>61/130</span>
+                <span class='fraction'>62/131</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.87% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/32</span>
+                <span class='fraction'>7/35</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.13% </span>
+                <span class="strong">64.51% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>59/92</span>
+                <span class='fraction'>60/93</span>
             </div>
         
             
@@ -155,21 +155,22 @@
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -230,11 +231,12 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -245,8 +247,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { FC } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -317,14 +319,15 @@ const InstanceUsageCpu: FC&lt;Props&gt; = <span class="cstat-no" title="statemen
   const cpuUsage = <span class="cstat-no" title="statement not covered" >calculateCpuUsage();</span>
 <span class="cstat-no" title="statement not covered" >  if (cpuUsage === null) {</span>
 <span class="cstat-no" title="statement not covered" >    return (</span>
-      &lt;&gt;
-        &lt;div className="u-text--muted p-text--small"&gt;
-          loading
-          {loadingSeconds &gt; 0
-            ? `, ${loadingSeconds<span class="branch-0 cbranch-no" title="branch not covered" >} seconds remaining to first CPU snapshot`</span>
-<span class="cstat-no" title="statement not covered" >            : " takes longer than expected"}</span>
-        &lt;/div&gt;
-      &lt;/&gt;
+      &lt;div
+        className="u-text--muted p-text--small"
+        key={loadingSeconds &gt; 0 ? loadingSeconds : "long"}
+      &gt;
+        loading
+        {loadingSeconds &gt; 0
+          ? `, ${loadingSeconds<span class="branch-0 cbranch-no" title="branch not covered" >} seconds remaining to first CPU snapshot`</span>
+<span class="cstat-no" title="statement not covered" >          : <span class="branch-0 cbranch-no" title="branch not covered" >" takes longer than expected"}</span></span>
+      &lt;/div&gt;
     );
 <span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -346,7 +349,7 @@ export default InstanceUsageCpu;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-20T15:45:08.788Z
+                at 2025-05-20T15:55:42.507Z
             </div>
         <script src="../../../../../../../../prettify.js"></script>
         <script>
