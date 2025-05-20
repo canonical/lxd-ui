@@ -137,7 +137,10 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
           Parent
         </Label>
       </div>
-      <div className="general-field-content">
+      <div
+        className="general-field-content"
+        key={formik.values.readOnly ? "read" : "edit"}
+      >
         {formik.values.readOnly ? (
           <>
             {formik.values.parent}

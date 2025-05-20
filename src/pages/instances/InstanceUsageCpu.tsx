@@ -68,14 +68,15 @@ const InstanceUsageCpu: FC<Props> = ({ instance }) => {
   const cpuUsage = calculateCpuUsage();
   if (cpuUsage === null) {
     return (
-      <>
-        <div className="u-text--muted p-text--small">
-          loading
-          {loadingSeconds > 0
-            ? `, ${loadingSeconds} seconds remaining to first CPU snapshot`
-            : " takes longer than expected"}
-        </div>
-      </>
+      <div
+        className="u-text--muted p-text--small"
+        key={loadingSeconds > 0 ? loadingSeconds : "long"}
+      >
+        loading
+        {loadingSeconds > 0
+          ? `, ${loadingSeconds} seconds remaining to first CPU snapshot`
+          : " takes longer than expected"}
+      </div>
     );
   }
 

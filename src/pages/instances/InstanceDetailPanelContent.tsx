@@ -10,6 +10,8 @@ import { List } from "@canonical/react-components";
 import ItemName from "components/ItemName";
 import { useSettings } from "context/useSettings";
 import { isNicDevice } from "util/devices";
+import { getIpAddresses } from "util/networks";
+import { useInstanceLoading } from "context/instanceLoading";
 
 const RECENT_SNAPSHOT_LIMIT = 5;
 
@@ -22,6 +24,9 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
   const networkDevices = Object.values(instance?.expanded_devices ?? {}).filter(
     isNicDevice,
   );
+
+  const instanceLoading = useInstanceLoading();
+  const loadingType = instanceLoading.getType(instance);
 
   const pid =
     !instance.state || instance.state.pid === 0 ? "-" : instance.state.pid;
@@ -49,7 +54,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         </tr>
         <tr>
           <th className="u-text--muted">Status</th>
-          <td>
+          <td key={instance.status + loadingType}>
             <InstanceStatusIcon instance={instance} />
           </td>
         </tr>
@@ -69,13 +74,13 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         </tr>
         <tr>
           <th className="u-text--muted">IPv4</th>
-          <td>
+          <td key={getIpAddresses(instance, "inet").length}>
             <InstanceIps instance={instance} family="inet" />
           </td>
         </tr>
         <tr>
           <th className="u-text--muted">IPv6</th>
-          <td>
+          <td key={getIpAddresses(instance, "inet6").length}>
             <InstanceIps instance={instance} family="inet6" />
           </td>
         </tr>

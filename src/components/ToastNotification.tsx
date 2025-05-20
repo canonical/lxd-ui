@@ -46,6 +46,7 @@ const ToastNotification: FC<Props> = ({ notification, onDismiss, show }) => {
               timestamp={notification.timestamp}
               titleElement="div"
               role="alert"
+              key={notification.id}
             >
               {notification.message}
             </Notification>

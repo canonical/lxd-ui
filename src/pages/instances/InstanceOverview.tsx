@@ -17,6 +17,7 @@ import type { LxdDevices } from "types/device";
 import ResourceLink from "components/ResourceLink";
 import ResourceLabel from "components/ResourceLabel";
 import { useImagesInProject } from "context/useImages";
+import { getIpAddresses } from "util/networks";
 
 interface Props {
   instance: LxdInstance;
@@ -93,13 +94,13 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
               </tr>
               <tr>
                 <th className="u-text--muted">IPv4</th>
-                <td>
+                <td key={getIpAddresses(instance, "inet").length}>
                   <InstanceIps instance={instance} family="inet" />
                 </td>
               </tr>
               <tr>
                 <th className="u-text--muted">IPv6</th>
-                <td>
+                <td key={getIpAddresses(instance, "inet6").length}>
                   <InstanceIps instance={instance} family="inet6" />
                 </td>
               </tr>

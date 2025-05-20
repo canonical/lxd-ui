@@ -230,6 +230,7 @@ export const getConfigurationRow = ({
     ),
     override: renderOverride(),
     name: `${label as string}-${name ?? ""}-${metadata.value}-${metadata.configField?.shortdesc}`,
+    edit: formik.values.readOnly ? "read" : "edit",
   });
 };
 
@@ -239,6 +240,7 @@ interface BaseProps {
   override: ReactNode;
   className?: string;
   name?: string;
+  edit?: string;
 }
 
 export const getConfigurationRowBase = ({
@@ -247,6 +249,7 @@ export const getConfigurationRowBase = ({
   override,
   className,
   name,
+  edit,
 }: BaseProps): MainTableRow => {
   return {
     name,
@@ -254,14 +257,17 @@ export const getConfigurationRowBase = ({
     className,
     columns: [
       {
+        key: `configuration-${name}-${edit}`,
         content: configuration,
         className: "configuration",
       },
       {
+        key: `inherited-${name}-${edit}`,
         content: inherited,
         className: "inherited",
       },
       {
+        key: `override-${name}-${edit}`,
         content: override,
         className: "override",
       },

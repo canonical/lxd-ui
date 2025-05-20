@@ -251,7 +251,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
         onClose={closePanel}
       >
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle key={subForm ?? "start"}>
             <GroupHeaderTitle
               subForm={subForm}
               setSubForm={setSubForm}
