@@ -4,6 +4,13 @@
 
   .multiselect-checkbox {
     display: inline-block;
+
+    // fix for alignment of the select all checkbox in safari
+    // @see https://github.com/canonical/lxd-ui/issues/1246
+    // @see https://warthogs.atlassian.net/browse/WD-7486
+    .p-checkbox__label {
+      display: contents;
+    }
   }
 
   &.no-menu {
