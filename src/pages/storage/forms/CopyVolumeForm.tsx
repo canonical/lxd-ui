@@ -11,25 +11,24 @@ import {
   Select,
 } from "@canonical/react-components";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { useEventQueue } from "context/eventQueue";
 import type { LxdStorageVolume } from "types/storage";
 import StoragePoolSelector from "../StoragePoolSelector";
 import { checkDuplicateName, getUniqueResourceName } from "util/helpers";
-import ResourceLink from "components/ResourceLink";
 import { useProjects } from "context/useProjects";
 import { useLoadCustomVolumes } from "context/useVolumes";
 import ClusterMemberSelector from "pages/cluster/ClusterMemberSelector";
 import { useStoragePool } from "context/useStoragePools";
 import { isRemoteStorage } from "util/storageOptions";
 import { copyStorageVolume } from "api/storage-volumes";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   volume: LxdStorageVolume;
   close: () => void;
 }
 
-export interface StorageVolumeCopy {
+export interface StorageVolumeCopyFormValues {
   name: string;
   project: string;
   pool: string;
@@ -40,7 +39,6 @@ export interface StorageVolumeCopy {
 const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
   const toastNotify = useToastNotification();
   const controllerState = useState<AbortController | null>(null);
-  const navigate = useNavigate();
   const eventQueue = useEventQueue();
 
   const { data: projects = [], isLoading: projectsLoading } = useProjects();
@@ -48,23 +46,27 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
   const { data: volumes = [], isLoading: volumesLoading } =
     useLoadCustomVolumes(volume.project);
 
-  const notifySuccess = (volumeName: string, project: string, pool: string) => {
-    const volumeUrl = `/ui/project/${project}/storage/pool/${pool}/volumes/custom/${volumeName}`;
-    const message = (
+  const notifySuccess = (values: StorageVolumeCopyFormValues) => {
+    const newVolume = {
+      ...volume,
+      name: values.name,
+      project: values.project,
+      pool: values.pool,
+      location: values.location,
+    };
+    toastNotify.success(
       <>
-        Created volume{" "}
-        <ResourceLink type="volume" value={volumeName} to={volumeUrl} />.
-      </>
+        Created volume <VolumeLinkChip volume={newVolume} />.
+      </>,
     );
+  };
 
-    const actions = [
-      {
-        label: "Configure",
-        onClick: async () => navigate(`${volumeUrl}/configuration`),
-      },
-    ];
-
-    toastNotify.success(message, actions);
+  const notifyError = (error: Error) => {
+    toastNotify.failure(
+      "Volume copy failed.",
+      error,
+      <VolumeLinkChip volume={volume} />,
+    );
   };
 
   const getCopiedVolumeName = (volume: LxdStorageVolume): string => {
@@ -79,14 +81,17 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
       name: Yup.string().required("Volume name is required"),
       project: Yup.string().required(),
       pool: Yup.string().required(),
+      location: Yup.string().optional(),
     })
     .test("deduplicate", "", async function (values) {
-      const { name, project, pool } = values;
+      const { name, project, pool, location } = values;
+      const params = location ? `&target=${location}` : "";
       const notFound = await checkDuplicateName(
         name,
         project || "default",
         controllerState,
         `storage-pools/${pool}/volumes/custom`,
+        params,
       );
 
       if (notFound) {
@@ -100,7 +105,7 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
       });
     });
 
-  const formik = useFormik<StorageVolumeCopy>({
+  const formik = useFormik<StorageVolumeCopyFormValues>({
     initialValues: {
       name: getCopiedVolumeName(volume),
       project: volume.project,
@@ -130,32 +135,25 @@ const CopyVolumeForm: FC<Props> = ({ volume, close }) => {
         },
       };
 
-      const existingVolumeLink = (
-        <ResourceLink
-          type="volume"
-          value={volume.name}
-          to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-        />
-      );
-
       copyStorageVolume(payload, values.pool, values.project, values.location)
         .then((operation) => {
-          toastNotify.info(<>Copy of volume {existingVolumeLink} started.</>);
+          toastNotify.info(
+            <>
+              Copy of volume <VolumeLinkChip volume={volume} /> started.
+            </>,
+          );
           eventQueue.set(
             operation.metadata.id,
             () => {
-              notifySuccess(values.name, values.project, values.pool);
+              notifySuccess(values);
             },
-            (msg) =>
-              toastNotify.failure(
-                "Volume copy failed.",
-                new Error(msg),
-                existingVolumeLink,
-              ),
+            (msg) => {
+              notifyError(new Error(msg));
+            },
           );
         })
         .catch((e) => {
-          toastNotify.failure("Volume copy failed.", e, existingVolumeLink);
+          toastNotify.failure("Volume copy failed.", e);
         })
         .finally(() => {
           close();

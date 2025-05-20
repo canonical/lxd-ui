@@ -8,20 +8,29 @@ export const testCopyStorageVolumeName = (
   project: string,
   volumeType: string,
   controllerState: AbortControllerState,
-  previousName?: string,
+  volume?: LxdStorageVolume,
 ): [string, string, TestFunction<string | undefined, AnyObject>] => {
   return [
     "deduplicate",
     "A storage volume with this name already exists",
     async (value?: string, context?: TestContext) => {
-      const pool = (context?.parent as StorageVolumeFormValues).pool;
+      const originalName = volume?.name;
+
+      const parent = context?.parent as StorageVolumeFormValues;
+      const pool = parent.pool;
+
+      const location = parent.clusterMember ?? volume?.location ?? "none";
+      const params =
+        location !== "none" && location.length > 0 ? `&target=${location}` : "";
+
       return (
-        value === previousName ||
+        value === originalName ||
         checkDuplicateName(
           value,
           project,
           controllerState,
           `storage-pools/${pool}/volumes/${volumeType}`,
+          params,
         )
       );
     },
@@ -103,11 +112,12 @@ export const getSnapshotsPerVolume = (volumes: LxdStorageVolume[]) => {
   for (const volume of volumes) {
     if (isSnapshot(volume)) {
       const { volumeName, snapshotName } = splitVolumeSnapshotName(volume.name);
-      if (!snapshotPerVolumeLookup[volumeName]) {
-        snapshotPerVolumeLookup[volumeName] = [];
+      const key = `${volumeName}-${volume.location}`;
+      if (!snapshotPerVolumeLookup[key]) {
+        snapshotPerVolumeLookup[key] = [];
       }
 
-      snapshotPerVolumeLookup[volumeName].push(snapshotName);
+      snapshotPerVolumeLookup[key].push(snapshotName);
     }
   }
 
@@ -118,26 +128,34 @@ const collapsedViewMaxWidth = 1250;
 export const figureCollapsedScreen = (): boolean =>
   window.innerWidth <= collapsedViewMaxWidth;
 
-export const generateLinkForVolumeDetail = (
-  volume: LxdStorageVolume,
-  project: string,
-): string => {
+export const linkForVolumeDetail = (volume: LxdStorageVolume): string => {
   // NOTE: name of a volume created from an instance is exactly the same as the instance name
   if (volume.type === "container" || volume.type === "virtual-machine") {
-    return `/ui/project/${project}/instance/${volume.name}`;
+    return `/ui/project/${volume.project}/instance/${volume.name}`;
   }
 
   if (volume.type === "image") {
-    return `/ui/project/${project}/images`;
+    return `/ui/project/${volume.project}/images`;
   }
 
   if (volume.type === "custom" && volume.content_type === "iso") {
-    return `/ui/project/${project}/storage/custom-isos`;
+    return `/ui/project/${volume.project}/storage/custom-isos`;
   }
 
-  return `/ui/project/${project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}`;
+  if (hasLocation(volume)) {
+    return `/ui/project/${volume.project}/storage/pool/${volume.pool}/member/${volume.location}/volumes/${volume.type}/${volume.name}`;
+  }
+
+  return `/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/${volume.type}/${volume.name}`;
+};
+
+export const hasLocation = (volume?: LxdStorageVolume): boolean => {
+  if (!volume) {
+    return false;
+  }
+  return volume.location.length > 0 && volume.location !== "none";
 };
 
 export const hasVolumeDetailPage = (volume: LxdStorageVolume): boolean => {
-  return generateLinkForVolumeDetail(volume, "").includes("/storage/pool/");
+  return linkForVolumeDetail(volume).includes("/storage/pool/");
 };

@@ -15,7 +15,7 @@ import { getVolumeSnapshotSchema } from "util/storageVolumeSnapshots";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { getVolumeSnapshotName } from "util/operations";
 import VolumeSnapshotLinkChip from "../VolumeSnapshotLinkChip";
-import ResourceLink from "components/ResourceLink";
+import VolumeLinkChip from "pages/storage/VolumeLinkChip";
 
 interface Props {
   close: () => void;
@@ -45,11 +45,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
               getExpiresAt(values.expirationDate, values.expirationTime),
             )
           : UNDEFINED_DATE;
-      createVolumeSnapshot({
-        volume,
-        name: values.name,
-        expiresAt,
-      })
+      createVolumeSnapshot(volume, values.name, expiresAt)
         .then((operation) => {
           eventQueue.set(
             operation.metadata.id,
@@ -66,13 +62,7 @@ const CreateVolumeSnapshotForm: FC<Props> = ({ close, volume }) => {
                     name={getVolumeSnapshotName(operation.metadata)}
                     volume={volume}
                   />{" "}
-                  created for volume{" "}
-                  <ResourceLink
-                    type="volume"
-                    value={volume.name}
-                    to={`/ui/project/${volume.project}/storage/pool/${volume.pool}/volumes/custom/${volume.name}`}
-                  />
-                  .
+                  created for volume <VolumeLinkChip volume={volume} />.
                 </>,
               );
               resetForm();
