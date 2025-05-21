@@ -11,6 +11,8 @@ import { useClusterMembers } from "context/useClusterMembers";
 import TabLinks from "components/TabLinks";
 import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import { useStoragePool } from "context/useStoragePools";
+import classnames from "classnames";
+import { cephObject } from "util/storageOptions";
 
 const StoragePoolDetail: FC = () => {
   const notify = useNotify();
@@ -29,8 +31,8 @@ const StoragePoolDetail: FC = () => {
   }
 
   const member = clusterMembers[0]?.server_name ?? undefined;
-
   const { data: pool, error, isLoading } = useStoragePool(name, member);
+  const isVolumeCompatible = pool?.driver !== cephObject;
 
   if (error) {
     notify.failure("Loading storage details failed", error);
@@ -46,14 +48,27 @@ const StoragePoolDetail: FC = () => {
     "Overview",
     "Configuration",
     {
-      component: () => (
-        <Link
-          to={`/ui/project/${project}/storage/volumes?pool=${pool.name}`}
-          className="p-tabs__link"
-        >
-          Volumes <Icon name="external-link" />
-        </Link>
-      ),
+      component: () => {
+        return (
+          <Link
+            to={
+              isVolumeCompatible
+                ? `/ui/project/${project}/storage/volumes?pool=${pool.name}`
+                : "#"
+            }
+            className={classnames("p-tabs__link", {
+              "is-disabled": !isVolumeCompatible,
+            })}
+            title={
+              isVolumeCompatible
+                ? "Volumes"
+                : "Volumes are not supported on this pool"
+            }
+          >
+            Volumes <Icon name="external-link" />
+          </Link>
+        );
+      },
       label: "Volumes",
     },
   ];
