@@ -68,8 +68,8 @@ const CreateIdentityModal: FC<Props> = ({ onClose, token, identityName }) => {
             The trust token below can be used to log in with the newly created
             identity.{" "}
             <b>
-              Once this modal is closed, the trust token can’t be generated
-              again.
+              Once this modal is closed, the trust token can&rsquo;t be
+              generated again.
             </b>
           </p>
 

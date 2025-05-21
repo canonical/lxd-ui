@@ -26,7 +26,7 @@ const LoggedInUserNotification: FC<Props> = ({ isVisible }) => {
         <Tag className="u-no-margin--left" isVisible={isVisible}>
           You
         </Tag>{" "}
-        might not be able to reverse this change once you’ve made it.
+        might not be able to reverse this change once you&rsquo;ve made it.
       </p>
     </Notification>
   );
