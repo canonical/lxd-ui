@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.81% </span>
+                <span class="strong">19% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/101</span>
+                <span class='fraction'>19/100</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.45% </span>
+                <span class="strong">23.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/81</span>
+                <span class='fraction'>19/82</span>
             </div>
         
             
@@ -144,7 +144,8 @@
 <a name='L79'></a><a href='#L79'>79</a>
 <a name='L80'></a><a href='#L80'>80</a>
 <a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -161,6 +162,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -233,20 +235,23 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToastNotification } from "context/toastNotificationProvider";
 import { deleteWarningBulk } from "api/warnings";
 import { pluralize } from "util/instanceBulkActions";
-import { useServerEntitlements } from "util/entitlements/server";
 &nbsp;
 interface Props {
   warningIds: string[];
+  canDeleteWarnings: boolean;
   onStart?: () =&gt; void;
   onFinish?: () =&gt; void;
 }
 &nbsp;
-const BulkDeleteWarningBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> warningIds, onStart, onFinish }) =&gt; {</span></span>
+const BulkDeleteWarningBtn: FC&lt;Props&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span></span></span>
+<span class="cstat-no" title="statement not covered" >  warningIds,</span>
+<span class="cstat-no" title="statement not covered" >  canDeleteWarnings,</span>
+<span class="cstat-no" title="statement not covered" >  onStart,</span>
+<span class="cstat-no" title="statement not covered" >  onFinish,</span>
+<span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const toastNotify = <span class="cstat-no" title="statement not covered" >useToastNotification();</span></span>
 <span class="cstat-no" title="statement not covered" >  const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span></span>
 <span class="cstat-no" title="statement not covered" >  const [isLoading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span></span>
-<span class="cstat-no" title="statement not covered" >  const { canEditServerConfiguration } = <span class="cstat-no" title="statement not covered" >useServerEntitlements();</span></span>
-<span class="cstat-no" title="statement not covered" >  const canDeleteWarnings = <span class="cstat-no" title="statement not covered" >canEditServerConfiguration();</span></span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const handleDelete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >    setLoading(true);</span></span>
@@ -256,9 +261,7 @@ const BulkDeleteWarningBtn: FC&lt;Props&gt; = <span class="cstat-no" title="stat
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({</span></span>
 <span class="cstat-no" title="statement not covered" >          queryKey: [queryKeys.warnings],</span>
 <span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.success(</span></span>
-<span class="cstat-no" title="statement not covered" >          &lt;&gt;{pluralize("Warning", warningIds.length)} deleted.&lt;/&gt;,</span>
-<span class="cstat-no" title="statement not covered" >        );</span>
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.success(&lt;&gt;Warning deleted.&lt;/&gt;);</span></span>
 <span class="cstat-no" title="statement not covered" >      })</span>
 <span class="cstat-no" title="statement not covered" >      .catch(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >        toastNotify.failure("Warning deletion failed", e);</span></span>
@@ -313,7 +316,7 @@ export default BulkDeleteWarningBtn;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-21T22:45:38.232Z
+                at 2025-05-21T22:47:06.644Z
             </div>
         <script src="../../../../../../../../../prettify.js"></script>
         <script>
