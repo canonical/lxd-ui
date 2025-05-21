@@ -58,7 +58,7 @@ import SelectedTableNotification from "components/SelectedTableNotification";
 import CustomLayout from "components/CustomLayout";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
-import type { LxdInstanceStatus } from "types/instance";
+import type { LxdInstance, LxdInstanceStatus } from "types/instance";
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 import InstanceDetailPanel from "./InstanceDetailPanel";
@@ -214,13 +214,13 @@ const InstanceList: FC = () => {
     return true;
   });
 
+  const getInstanceKey = (instance: LxdInstance) => {
+    return `${instance.name} ${instance.project}`;
+  };
+
   useEffect(() => {
-    const validNames = new Set(
-      filteredInstances.map((instance) => instance.name),
-    );
-    const validSelections = selectedNames.filter((name) =>
-      validNames.has(name),
-    );
+    const validKeys = new Set(filteredInstances.map(getInstanceKey));
+    const validSelections = selectedNames.filter((name) => validKeys.has(name));
     if (validSelections.length !== selectedNames.length) {
       setSelectedNames(validSelections);
     }
@@ -403,11 +403,14 @@ const InstanceList: FC = () => {
 
       const loadingType = instanceLoading.getType(instance);
 
+      const hasActivePanel =
+        panelParams.instance === instance.name &&
+        panelParams.project === instance.project;
+
       return {
-        key: instance.name,
-        className:
-          panelParams.instance === instance.name ? "u-row-selected" : "u-row",
-        name: instance.name,
+        key: getInstanceKey(instance),
+        className: hasActivePanel ? "u-row-selected" : "u-row",
+        name: getInstanceKey(instance),
         columns: [
           {
             content: <InstanceLink instance={instance} />,
@@ -601,7 +604,7 @@ const InstanceList: FC = () => {
   const hasInstances =
     isLoading || instances.length > 0 || creationOperations.length > 0;
   const selectedInstances = instances.filter((instance) =>
-    selectedNames.includes(instance.name),
+    selectedNames.includes(getInstanceKey(instance)),
   );
   const totalInstanceCount =
     instances.filter((item) => !creationNames.includes(item.name)).length +
@@ -709,9 +712,7 @@ const InstanceList: FC = () => {
                           }
                           selectedNames={selectedNames}
                           setSelectedNames={setSelectedNames}
-                          filteredNames={filteredInstances.map(
-                            (instance) => instance.name,
-                          )}
+                          filteredNames={filteredInstances.map(getInstanceKey)}
                         />
                       )
                     }
@@ -751,9 +752,7 @@ const InstanceList: FC = () => {
                       selectedNames={selectedNames}
                       setSelectedNames={setSelectedNames}
                       disabledNames={processingNames}
-                      filteredNames={filteredInstances.map(
-                        (instance) => instance.name,
-                      )}
+                      filteredNames={filteredInstances.map(getInstanceKey)}
                       onUpdateSort={updateSort}
                     />
                   </TablePagination>
@@ -768,9 +767,7 @@ const InstanceList: FC = () => {
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
                     disabledNames={processingNames}
-                    filteredNames={filteredInstances.map(
-                      (instance) => instance.name,
-                    )}
+                    filteredNames={filteredInstances.map(getInstanceKey)}
                   />
                 </div>
               </>
