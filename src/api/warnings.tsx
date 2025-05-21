@@ -14,14 +14,11 @@ export const fetchWarnings = async (
     warningEntitlements,
   );
 
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/warnings?recursion=1${entitlements}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdWarning[]>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/warnings?recursion=1${entitlements}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdWarning[]>) => {
+      return data.metadata;
+    });
 };
 
 export const deleteWarning = async (warningId: string): Promise<unknown> => {

@@ -26,21 +26,18 @@ export const fetchNetworks = async (
     isFineGrained,
     networkEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/networks?project=${project}&recursion=1${targetParam}${entitlements}`,
-    )
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetwork[]>) => {
-        const filteredNetworks = data.metadata.filter(
-          // Filter out loopback and unknown networks, both are not useful for the user.
-          // this is in line with the filtering done in the LXD CLI
-          (network) => !["loopback", "unknown"].includes(network.type),
-        );
-        resolve(filteredNetworks);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/networks?project=${project}&recursion=1${targetParam}${entitlements}`,
+  )
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdNetwork[]>) => {
+      const filteredNetworks = data.metadata.filter(
+        // Filter out loopback and unknown networks, both are not useful for the user.
+        // this is in line with the filtering done in the LXD CLI
+        (network) => !["loopback", "unknown"].includes(network.type),
+      );
+      return filteredNetworks;
+    });
 };
 
 export const fetchNetworksFromClusterMembers = async (
@@ -85,16 +82,13 @@ export const fetchNetwork = async (
     isFineGrained,
     networkEntitlements,
   );
-  return new Promise((resolve, reject) => {
-    fetch(
-      `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
-    )
-      .then(handleEtagResponse)
-      .then((data) => {
-        resolve(data as LxdNetwork);
-      })
-      .catch(reject);
-  });
+  return fetch(
+    `/1.0/networks/${name}?project=${project}${targetParam}${entitlements}`,
+  )
+    .then(handleEtagResponse)
+    .then((data) => {
+      return data as LxdNetwork;
+    });
 };
 
 export const fetchNetworkFromClusterMembers = async (
@@ -134,14 +128,11 @@ export const fetchNetworkState = async (
   target?: string,
 ): Promise<LxdNetworkState> => {
   const targetParam = target ? `&target=${target}` : "";
-  return new Promise((resolve, reject) => {
-    fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)
-      .then(handleResponse)
-      .then((data: LxdApiResponse<LxdNetworkState>) => {
-        resolve(data.metadata);
-      })
-      .catch(reject);
-  });
+  return fetch(`/1.0/networks/${name}/state?project=${project}${targetParam}`)
+    .then(handleResponse)
+    .then((data: LxdApiResponse<LxdNetworkState>) => {
+      return data.metadata;
+    });
 };
 
 export const createClusterNetwork = async (
