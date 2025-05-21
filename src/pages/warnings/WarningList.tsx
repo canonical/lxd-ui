@@ -10,20 +10,16 @@ import NotificationRow from "components/NotificationRow";
 import HelpLink from "components/HelpLink";
 import { useDocs } from "context/useDocs";
 import BulkDeleteWarningBtn from "pages/warnings/actions/BulkDeleteWarningBtn";
-import { useAuth } from "context/auth";
 import SelectableMainTable from "components/SelectableMainTable";
 import ScrollableTable from "components/ScrollableTable";
 import PageHeader from "components/PageHeader";
 import CustomLayout from "components/CustomLayout";
-import { useWarningEntitlements } from "util/entitlements/warnings";
 
 const WarningList: FC = () => {
   const docBaseLink = useDocs();
   const notify = useNotify();
-  const { isFineGrained } = useAuth();
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [processingNames, setProcessingNames] = useState<string[]>([]);
-  const { canDeleteWarning } = useWarningEntitlements();
 
   const {
     data: warnings = [],
@@ -31,7 +27,7 @@ const WarningList: FC = () => {
     isLoading,
   } = useQuery({
     queryKey: [queryKeys.warnings],
-    queryFn: async () => fetchWarnings(isFineGrained),
+    queryFn: async () => fetchWarnings(),
     retry: false, // the api returns a 403 for users with limited permissions, surface the error right away
   });
 
@@ -149,7 +145,6 @@ const WarningList: FC = () => {
             {selectedNames.length > 0 && (
               <BulkDeleteWarningBtn
                 warningIds={selectedNames}
-                canDeleteWarnings={canDeleteWarning(warnings[0])}
                 onStart={() => {
                   setProcessingNames(selectedNames);
                 }}
