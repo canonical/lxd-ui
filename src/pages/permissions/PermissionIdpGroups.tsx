@@ -32,6 +32,7 @@ import { useIdpGroups } from "context/useIdpGroups";
 import { useServerEntitlements } from "util/entitlements/server";
 import { useIdpGroupEntitlements } from "util/entitlements/idp-groups";
 import { pluralize } from "util/instanceBulkActions";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const PermissionIdpGroups: FC = () => {
   const notify = useNotify();
@@ -44,6 +45,7 @@ const PermissionIdpGroups: FC = () => {
   const hasCustomClaim = settings?.config?.["oidc.groups.claim"];
   const { canCreateIdpGroups } = useServerEntitlements();
   const { canEditIdpGroup } = useIdpGroupEntitlements();
+  const isSmallScreen = useSmallScreen();
 
   if (error) {
     notify.failure("Loading provider groups failed", error);
@@ -276,8 +278,10 @@ const PermissionIdpGroups: FC = () => {
             ? ""
             : "You do not have permission to create IDP groups"
         }
+        hasIcon={!isSmallScreen}
       >
-        Create IDP group
+        {!isSmallScreen && <Icon name="plus" light />}
+        <span>Create IDP group</span>
       </Button>
     </EmptyState>
   );
@@ -326,8 +330,10 @@ const PermissionIdpGroups: FC = () => {
                         ? ""
                         : "You do not have permission to create IDP groups"
                     }
+                    hasIcon={!isSmallScreen}
                   >
-                    Create IDP group
+                    {!isSmallScreen && <Icon name="plus" light />}
+                    <span>Create IDP group</span>
                   </Button>
                 )}
               </PageHeader.BaseActions>

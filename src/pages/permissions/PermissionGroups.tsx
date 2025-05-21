@@ -29,6 +29,7 @@ import EditGroupIdentitiesPanel from "./panels/EditGroupIdentitiesPanel";
 import BulkDeleteGroupsBtn from "./actions/BulkDeleteGroupsBtn";
 import { useGroups } from "context/useGroups";
 import { useServerEntitlements } from "util/entitlements/server";
+import { useSmallScreen } from "context/useSmallScreen";
 
 const PermissionGroups: FC = () => {
   const notify = useNotify();
@@ -38,6 +39,7 @@ const PermissionGroups: FC = () => {
   const [search, setSearch] = useState("");
   const [selectedGroupNames, setSelectedGroupNames] = useState<string[]>([]);
   const { canCreateGroups } = useServerEntitlements();
+  const isSmallScreen = useSmallScreen();
 
   if (error) {
     notify.failure("Loading groups failed", error);
@@ -246,8 +248,10 @@ const PermissionGroups: FC = () => {
         title={
           canCreateGroups() ? "" : "You do not have permission to create groups"
         }
+        hasIcon={!isSmallScreen}
       >
-        Create group
+        {!isSmallScreen && <Icon name="plus" light />}
+        <span>Create group</span>
       </Button>
     </EmptyState>
   );
@@ -306,8 +310,10 @@ const PermissionGroups: FC = () => {
                         ? ""
                         : "You do not have permission to create groups"
                     }
+                    hasIcon={!isSmallScreen}
                   >
-                    Create group
+                    {!isSmallScreen && <Icon name="plus" light />}
+                    <span>Create group</span>
                   </Button>
                 )}
               </PageHeader.BaseActions>
