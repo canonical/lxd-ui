@@ -72,7 +72,7 @@ const CertificateAdd: FC = () => {
               className="u-no-margin--bottom"
               blocks={[
                 {
-                  code: `lxc auth identity create tls/lxd-ui --group admin`,
+                  code: `lxc auth identity create tls/lxd-ui --group admins`,
                   wrapLines: true,
                 },
               ]}
@@ -96,7 +96,7 @@ const CertificateAdd: FC = () => {
                     If you encounter:{" "}
                     <code>
                       Failed to create pending TLS identity: One or more groups
-                      were not found: &apos;admin&apos;.
+                      were not found: &apos;admins&apos;.
                     </code>
                   </>
                 ),
@@ -110,11 +110,11 @@ const CertificateAdd: FC = () => {
                     <CodeSnippet
                       blocks={[
                         {
-                          code: `# Create a group called admin. \nlxc auth group create admin`,
+                          code: `# Create a group called admins. \nlxc auth group create admins`,
                           wrapLines: true,
                         },
                         {
-                          code: `# Assign admin permissions to the admin group.\nlxc auth group permission add admin server admin`,
+                          code: `# Assign admin permissions to the admins group.\nlxc auth group permission add admins server admin`,
                           wrapLines: true,
                         },
                       ]}
