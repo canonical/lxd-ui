@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms/StoragePoolFormPure.tsx</title>
+    <title>Code coverage report for home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms/StoragePoolFormCephObject.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../../../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../../../../../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms</a> StoragePoolFormPure.tsx</h1>
+        <h1><a href="../../../../../../../../../index.html">All files</a> / <a href="index.html">home/runner/work/lxd-ui/lxd-ui/src/pages/storage/forms</a> StoragePoolFormCephObject.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.78% </span>
+                <span class="strong">32.6% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/46</span>
+                <span class='fraction'>15/46</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">34.09% </span>
+                <span class="strong">31.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/44</span>
+                <span class='fraction'>14/44</span>
             </div>
         
             
@@ -119,7 +119,7 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -155,46 +155,46 @@
 import type { FC } from "react";
 import type { StoragePoolFormValues } from "./StoragePoolForm";
 import { getConfigurationRow } from "components/ConfigurationRow";
-import { Input, Select } from "@canonical/react-components";
-import { optionIscsiNvme, optionTrueFalse } from "util/instanceOptions";
+import { Input } from "@canonical/react-components";
 import ScrollableConfigurationTable from "components/forms/ScrollableConfigurationTable";
 &nbsp;
 interface Props {
   formik: FormikProps&lt;StoragePoolFormValues&gt;;
 }
 &nbsp;
-const StoragePoolFormPure: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
+const StoragePoolFormCephObject: FC&lt;Props&gt; = <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >({</span> formik }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >  return (</span></span>
 <span class="cstat-no" title="statement not covered" >    &lt;ScrollableConfigurationTable</span>
 <span class="cstat-no" title="statement not covered" >      rows={[</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "Gateway verify",</span>
-<span class="cstat-no" title="statement not covered" >          name: "pure_gateway_verify",</span>
+<span class="cstat-no" title="statement not covered" >          label: "Bucket name prefix",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephobject_bucket_name_prefix",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionTrueFalse} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          children: (</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Input type="text" placeholder="Enter bucket name prefix" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          ),</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "Mode",</span>
-<span class="cstat-no" title="statement not covered" >          name: "pure_mode",</span>
+<span class="cstat-no" title="statement not covered" >          label: "Cluster name",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephobject_cluster_name",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          disabled: !formik.values.isCreating,</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Select options={optionIscsiNvme} /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter cluster name" /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >        getConfigurationRow({</span>
 <span class="cstat-no" title="statement not covered" >          formik,</span>
-<span class="cstat-no" title="statement not covered" >          label: "Target",</span>
-<span class="cstat-no" title="statement not covered" >          name: "pure_target",</span>
+<span class="cstat-no" title="statement not covered" >          label: "Ceph user name",</span>
+<span class="cstat-no" title="statement not covered" >          name: "cephobject_user_name",</span>
 <span class="cstat-no" title="statement not covered" >          defaultValue: "",</span>
-<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" /&gt;,</span>
+<span class="cstat-no" title="statement not covered" >          children: &lt;Input type="text" placeholder="Enter pool name" /&gt;,</span>
 <span class="cstat-no" title="statement not covered" >        }),</span>
 <span class="cstat-no" title="statement not covered" >      ]}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
 <span class="cstat-no" title="statement not covered" >  );</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-export default StoragePoolFormPure;
+export default StoragePoolFormCephObject;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
