@@ -167,7 +167,7 @@ const ExportInstanceModal: FC<Props> = ({ instance, close }) => {
           {...formik.getFieldProps("expirationHours")}
           id="project"
           label="Expiration"
-          help="Time until the backup stays on the server"
+          help="Duration that the backup remains on the server"
           options={[
             { value: 1, label: "1 hour" },
             { value: 6, label: "6 hours" },
